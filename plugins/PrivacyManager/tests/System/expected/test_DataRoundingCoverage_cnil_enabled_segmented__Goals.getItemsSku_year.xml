@@ -10,7 +10,7 @@
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>1500</avg_price>
 		<avg_quantity>10</avg_quantity>
-		<conversion_rate>50%</conversion_rate>
+		<conversion_rate>100%</conversion_rate>
 		<segment>productSku==SKU2</segment>
 	</row>
 	<row>
@@ -23,7 +23,7 @@
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>255.61</avg_price>
 		<avg_quantity>10</avg_quantity>
-		<conversion_rate>50%</conversion_rate>
+		<conversion_rate>100%</conversion_rate>
 		<segment>productSku==SKU+VERY+nice+indeed</segment>
 	</row>
 	<row>

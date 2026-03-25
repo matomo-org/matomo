@@ -487,7 +487,7 @@
 		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
-		<bounce_rate>71%</bounce_rate>
+		<bounce_rate>67%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fgrue</segment>
 		<subtable>
@@ -555,7 +555,7 @@
 				<sum_daily_entry_nb_uniq_visitors>30</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>30</sum_daily_exit_nb_uniq_visitors>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>71%</bounce_rate>
+				<bounce_rate>67%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/grue/lair</url>
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fgrue%252Flair</segment>
@@ -678,8 +678,8 @@
 		<avg_time_on_load>0.335</avg_time_on_load>
 		<avg_page_load_time>2.379</avg_page_load_time>
 		<avg_time_on_page>123</avg_time_on_page>
-		<bounce_rate>45%</bounce_rate>
-		<exit_rate>70%</exit_rate>
+		<bounce_rate>50%</bounce_rate>
+		<exit_rate>67%</exit_rate>
 		<url>http://example.org/index.htm</url>
 		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 	</row>
@@ -1006,7 +1006,7 @@
 		<avg_page_load_time>0.443</avg_page_load_time>
 		<avg_time_on_page>2</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>85%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fblog</segment>
 		<subtable>
 			<row>
@@ -1071,7 +1071,7 @@
 				</goals>
 				<avg_time_on_page>2</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>83%</exit_rate>
+				<exit_rate>100%</exit_rate>
 				<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fblog%252Fcategory</segment>
 				<subtable>
 					<row>
@@ -1136,7 +1136,7 @@
 						</goals>
 						<avg_time_on_page>2</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
-						<exit_rate>90%</exit_rate>
+						<exit_rate>100%</exit_rate>
 						<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fblog%252Fcategory%252Fmeta</segment>
 						<subtable>
 							<row>
@@ -1204,7 +1204,7 @@
 								<sum_daily_exit_nb_uniq_visitors>10</sum_daily_exit_nb_uniq_visitors>
 								<avg_time_on_page>2</avg_time_on_page>
 								<bounce_rate>0%</bounce_rate>
-								<exit_rate>90%</exit_rate>
+								<exit_rate>100%</exit_rate>
 								<url>http://www.included2.com/blog/category/meta/</url>
 								<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
@@ -1272,7 +1272,7 @@
 						</goals>
 						<avg_time_on_page>1</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
-						<exit_rate>50%</exit_rate>
+						<exit_rate>100%</exit_rate>
 						<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fblog%252Fcategory%252Fcommunity</segment>
 						<subtable>
 							<row>
@@ -1340,7 +1340,7 @@
 								<sum_daily_exit_nb_uniq_visitors>10</sum_daily_exit_nb_uniq_visitors>
 								<avg_time_on_page>1</avg_time_on_page>
 								<bounce_rate>0%</bounce_rate>
-								<exit_rate>50%</exit_rate>
+								<exit_rate>100%</exit_rate>
 								<url>http://piwik.net/blog/category/community/</url>
 								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 							</row>
@@ -1690,7 +1690,7 @@
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>309</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>17%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fpage_A</segment>
 		<subtable>
 			<row>
@@ -1758,7 +1758,7 @@
 				<sum_daily_exit_nb_uniq_visitors>10</sum_daily_exit_nb_uniq_visitors>
 				<avg_time_on_page>320</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>14%</exit_rate>
+				<exit_rate>100%</exit_rate>
 				<url>http://example.org/page_A/index.html</url>
 				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage_A%252Findex.html</segment>
 			</row>
@@ -1794,7 +1794,7 @@
 				<sum_daily_exit_nb_uniq_visitors>10</sum_daily_exit_nb_uniq_visitors>
 				<avg_time_on_page>240</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>33%</exit_rate>
+				<exit_rate>100%</exit_rate>
 				<url>http://example.org/page_A/Z</url>
 				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage_A%252FZ</segment>
 			</row>
@@ -1940,7 +1940,7 @@
 		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>55</avg_time_on_page>
-		<bounce_rate>82%</bounce_rate>
+		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/index.html</url>
 		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.html</segment>
@@ -2015,8 +2015,8 @@
 		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>258</avg_time_on_page>
-		<bounce_rate>60%</bounce_rate>
-		<exit_rate>45%</exit_rate>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fpage</segment>
 		<subtable>
 			<row>
@@ -2084,8 +2084,8 @@
 				<sum_daily_entry_nb_uniq_visitors>10</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>10</sum_daily_exit_nb_uniq_visitors>
 				<avg_time_on_page>260</avg_time_on_page>
-				<bounce_rate>60%</bounce_rate>
-				<exit_rate>63%</exit_rate>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<url>http://example.org/page/one.html</url>
 				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage%252Fone.html</segment>
 			</row>
@@ -2373,7 +2373,7 @@
 		<avg_page_load_time>1.353</avg_page_load_time>
 		<avg_time_on_page>5</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>25%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdir2</segment>
 		<subtable>
 			<row>
@@ -2438,7 +2438,7 @@
 				<exit_nb_visits>10</exit_nb_visits>
 				<avg_time_on_page>5</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>29%</exit_rate>
+				<exit_rate>100%</exit_rate>
 				<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdir2%252Fsub</segment>
 				<subtable>
 					<row>
@@ -2503,7 +2503,7 @@
 						<exit_nb_visits>10</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
-						<exit_rate>33%</exit_rate>
+						<exit_rate>100%</exit_rate>
 						<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdir2%252Fsub%252Fdir</segment>
 						<subtable>
 							<row>
@@ -3055,8 +3055,8 @@
 		<avg_time_on_load>0.152</avg_time_on_load>
 		<avg_page_load_time>2.446</avg_page_load_time>
 		<avg_time_on_page>225</avg_time_on_page>
-		<bounce_rate>50%</bounce_rate>
-		<exit_rate>67%</exit_rate>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
 		<url>http://example.org/</url>
 		<segment>pageUrl==http%253A%252F%252Fexample.org%252F</segment>
 	</row>
@@ -3130,7 +3130,7 @@
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>33%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdir1</segment>
 		<subtable>
 			<row>
@@ -3195,7 +3195,7 @@
 				<exit_nb_visits>10</exit_nb_visits>
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>33%</exit_rate>
+				<exit_rate>100%</exit_rate>
 				<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdir1%252Fsub</segment>
 				<subtable>
 					<row>
@@ -3260,7 +3260,7 @@
 						<exit_nb_visits>10</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
-						<exit_rate>33%</exit_rate>
+						<exit_rate>100%</exit_rate>
 						<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdir1%252Fsub%252Fdir</segment>
 						<subtable>
 							<row>
@@ -3516,7 +3516,7 @@
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>33%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdir3</segment>
 		<subtable>
 			<row>
@@ -3581,7 +3581,7 @@
 				<exit_nb_visits>10</exit_nb_visits>
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>33%</exit_rate>
+				<exit_rate>100%</exit_rate>
 				<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdir3%252Fsub</segment>
 				<subtable>
 					<row>
@@ -3646,7 +3646,7 @@
 						<exit_nb_visits>10</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
-						<exit_rate>33%</exit_rate>
+						<exit_rate>100%</exit_rate>
 						<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdir3%252Fsub%252Fdir</segment>
 						<subtable>
 							<row>
@@ -6002,7 +6002,7 @@
 		<avg_page_load_time>0.443</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>80%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdocs</segment>
 		<subtable>
 			<row>
@@ -6067,7 +6067,7 @@
 				</goals>
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>67%</exit_rate>
+				<exit_rate>100%</exit_rate>
 				<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdocs%252Fmanage-websites</segment>
 				<subtable>
 					<row>
@@ -6135,7 +6135,7 @@
 						<sum_daily_exit_nb_uniq_visitors>10</sum_daily_exit_nb_uniq_visitors>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
-						<exit_rate>67%</exit_rate>
+						<exit_rate>100%</exit_rate>
 						<url>http://piwik.net/docs/manage-websites/</url>
 						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 					</row>
@@ -6839,8 +6839,8 @@
 		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>360</avg_time_on_page>
-		<bounce_rate>50%</bounce_rate>
-		<exit_rate>40%</exit_rate>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Ffoo</segment>
 		<subtable>
 			<row>
@@ -8088,7 +8088,7 @@
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>225</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>25%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fthe</segment>
 		<subtable>
 			<row>
@@ -8179,7 +8179,7 @@
 				<sum_daily_exit_nb_uniq_visitors>10</sum_daily_exit_nb_uniq_visitors>
 				<avg_time_on_page>180</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>50%</exit_rate>
+				<exit_rate>100%</exit_rate>
 				<url>http://www.example.org/the/third_page.html?foo=baz</url>
 				<segment>pageUrl==http%253A%252F%252Fwww.example.org%252Fthe%252Fthird_page.html%253Ffoo%253Dbaz</segment>
 			</row>
@@ -8353,7 +8353,7 @@
 		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>120</avg_time_on_page>
-		<bounce_rate>50%</bounce_rate>
+		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/home</url>
 		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fhome</segment>
@@ -8430,8 +8430,8 @@
 		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>180</avg_time_on_page>
-		<bounce_rate>50%</bounce_rate>
-		<exit_rate>50%</exit_rate>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
 		<url>http://example.org/homepage</url>
 		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fhomepage</segment>
 	</row>

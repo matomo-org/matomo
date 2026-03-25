@@ -20,7 +20,7 @@
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>255.61</avg_price>
 		<avg_quantity>10</avg_quantity>
-		<conversion_rate>66.67%</conversion_rate>
+		<conversion_rate>100%</conversion_rate>
 		<segment>productName==PRODUCT+name</segment>
 	</row>
 	<row>

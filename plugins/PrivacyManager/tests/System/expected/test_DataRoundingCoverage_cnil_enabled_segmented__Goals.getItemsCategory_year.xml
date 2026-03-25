@@ -10,7 +10,7 @@
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>1000</avg_price>
 		<avg_quantity>10</avg_quantity>
-		<conversion_rate>50%</conversion_rate>
+		<conversion_rate>100%</conversion_rate>
 		<segment>productCategory==Electronics+%26+Cameras</segment>
 	</row>
 	<row>
@@ -85,7 +85,7 @@
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<avg_price>55.61</avg_price>
 		<avg_quantity>10</avg_quantity>
-		<conversion_rate>50%</conversion_rate>
+		<conversion_rate>100%</conversion_rate>
 		<segment>productCategory==Product+Category+not+defined</segment>
 	</row>
 	<row>

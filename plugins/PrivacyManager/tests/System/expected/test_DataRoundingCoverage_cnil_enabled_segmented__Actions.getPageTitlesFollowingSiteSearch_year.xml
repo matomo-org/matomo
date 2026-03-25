@@ -75,8 +75,8 @@
 		<avg_time_server>0</avg_time_server>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>273</avg_time_on_page>
-		<bounce_rate>50%</bounce_rate>
-		<exit_rate>57%</exit_rate>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
 	</row>
 	<row>
 		<label> page title</label>

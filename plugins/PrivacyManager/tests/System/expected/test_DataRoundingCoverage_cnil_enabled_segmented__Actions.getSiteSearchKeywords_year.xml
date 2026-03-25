@@ -48,7 +48,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_page>90</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>50%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>siteSearchKeyword==anotherkwd</segment>
 	</row>
 	<row>

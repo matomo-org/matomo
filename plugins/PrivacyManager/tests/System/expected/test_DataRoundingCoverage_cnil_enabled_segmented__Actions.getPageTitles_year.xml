@@ -190,7 +190,7 @@
 		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
-		<bounce_rate>69%</bounce_rate>
+		<bounce_rate>67%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==It%2526%2523039%253Bs%2B%2526lt%253Bscript%2526gt%253B%2Bpitch%2Bblack...</segment>
 	</row>
@@ -280,7 +280,7 @@
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>784</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>31%</exit_rate>
+		<exit_rate>33%</exit_rate>
 		<segment>pageTitle==Space%2BQuest%2BXII</segment>
 	</row>
 	<row>
@@ -355,8 +355,8 @@
 		<avg_time_on_load>0.222</avg_time_on_load>
 		<avg_page_load_time>2.28</avg_page_load_time>
 		<avg_time_on_page>79</avg_time_on_page>
-		<bounce_rate>62%</bounce_rate>
-		<exit_rate>71%</exit_rate>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==incredible%2Btitle%2521</segment>
 	</row>
 	<row>
@@ -713,8 +713,8 @@
 		<avg_time_on_load>0.335</avg_time_on_load>
 		<avg_page_load_time>2.307</avg_page_load_time>
 		<avg_time_on_page>180</avg_time_on_page>
-		<bounce_rate>50%</bounce_rate>
-		<exit_rate>50%</exit_rate>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fa%2Bnew%2Bvisit</segment>
 	</row>
 	<row>
@@ -864,7 +864,7 @@
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>320</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>14%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==Page%2BA%2B-%2Bindex.html</segment>
 	</row>
 	<row>
@@ -940,8 +940,8 @@
 		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>273</avg_time_on_page>
-		<bounce_rate>50%</bounce_rate>
-		<exit_rate>57%</exit_rate>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==page%2Btitle%2B-%2Bpage%252Fone.html</segment>
 	</row>
 	<row>
@@ -1017,7 +1017,7 @@
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>86%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==title</segment>
 	</row>
 	<row>
@@ -1252,8 +1252,8 @@
 		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>42</avg_time_on_page>
-		<bounce_rate>33%</bounce_rate>
-		<exit_rate>50%</exit_rate>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==Site%2BSearch%2Bresults</segment>
 	</row>
 	<row>
@@ -1368,7 +1368,7 @@
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>240</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>33%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==Page%2BA%2B-%2BZ</segment>
 	</row>
 	<row>
@@ -1752,7 +1752,7 @@
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>180</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>50%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==Homepage</segment>
 	</row>
 	<row>
@@ -2066,7 +2066,7 @@
 		<avg_page_load_time>0</avg_page_load_time>
 		<avg_time_on_page>120</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>50%</exit_rate>
+		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==page%2Btitle%2B-%2Bthe%252Fthird_page.html%253Ffoo%253Dbaz%2523anchor1</segment>
 	</row>
 	<row>

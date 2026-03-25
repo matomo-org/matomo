@@ -18,6 +18,7 @@ use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Plugin\Metric;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
@@ -96,6 +97,7 @@ class DataRounding
         self::roundTotalsMetadataIfPresent($table, $metricTypes);
         self::reconcileTotalsFromRoundedRowsForConstantRowsReport($table, $columnsToRound, $report);
         self::clearStaleRatioMetadata($table, $columnsToRound);
+        self::recomputeProcessedPercentMetrics($table, $report);
     }
 
     /**
@@ -198,6 +200,53 @@ class DataRounding
             if ($row->getMetadata($metadataName) !== false) {
                 $row->deleteMetadata($metadataName);
             }
+        }
+    }
+
+    private static function recomputeProcessedPercentMetrics(DataTable $table, ?Report $report): void
+    {
+        $processedMetrics = Report::getProcessedMetricsForTable($table, $report);
+        if (empty($processedMetrics)) {
+            return;
+        }
+
+        foreach ($processedMetrics as $metricName => $processedMetric) {
+            if (!self::shouldRecomputeProcessedPercentMetric($processedMetric)) {
+                continue;
+            }
+
+            if (!$processedMetric->beforeCompute($report, $table)) {
+                continue;
+            }
+
+            foreach ($table->getRows() as $row) {
+                self::recomputeProcessedMetricForRow($row, $metricName, $processedMetric);
+            }
+
+            $totalsRow = $table->getTotalsRow();
+            if (!empty($totalsRow)) {
+                self::recomputeProcessedMetricForRow($totalsRow, $metricName, $processedMetric);
+            }
+        }
+    }
+
+    private static function shouldRecomputeProcessedPercentMetric(ProcessedMetric $processedMetric): bool
+    {
+        return $processedMetric->getSemanticType() === Dimension::TYPE_PERCENT;
+    }
+
+    private static function recomputeProcessedMetricForRow(
+        Row $row,
+        string $metricName,
+        ProcessedMetric $processedMetric
+    ): void {
+        if (!$row->hasColumn($metricName)) {
+            return;
+        }
+
+        $computedValue = $processedMetric->compute($row);
+        if ($computedValue !== false) {
+            $row->setColumn($metricName, $computedValue);
         }
     }
 

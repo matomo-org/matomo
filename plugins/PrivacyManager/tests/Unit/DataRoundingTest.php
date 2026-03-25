@@ -11,10 +11,12 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\PrivacyManager\tests\Unit;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\Contents\Columns\Metrics\InteractionRate;
 use Piwik\Plugins\PrivacyManager\DataRounding;
 
 /**
@@ -480,6 +482,49 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(17.55, $actual->getColumn('revenue'));
         $this->assertSame(0.42, $actual->getColumn('bounce_rate'));
         $this->assertSame(99, $actual->getColumn('avg_time_on_page'));
+    }
+
+    public function testRoundCountMetricsRecomputesProcessedPercentMetricsFromRoundedValues(): void
+    {
+        $table = new DataTable();
+        $row = new Row();
+        $row->addColumn('nb_impressions', 4);
+        $row->addColumn('nb_interactions', 1);
+        $row->addColumn('interaction_rate', 0.25);
+        $table->addRow($row);
+
+        $totalsRow = new Row();
+        $totalsRow->addColumn('label', 'Totals');
+        $totalsRow->addColumn('nb_impressions', 4);
+        $totalsRow->addColumn('nb_interactions', 1);
+        $totalsRow->addColumn('interaction_rate', 0.25);
+        $table->setTotalsRow($totalsRow);
+
+        $report = new class extends Report {
+            protected function init()
+            {
+                $this->metrics = ['nb_impressions', 'nb_interactions'];
+                $this->processedMetrics = [new InteractionRate()];
+                $this->metricSemanticTypes = [
+                    'nb_impressions' => Dimension::TYPE_NUMBER,
+                    'nb_interactions' => Dimension::TYPE_NUMBER,
+                    'interaction_rate' => Dimension::TYPE_PERCENT,
+                ];
+            }
+        };
+
+        DataRounding::roundCountMetrics($table, $report);
+
+        $actual = $table->getFirstRow();
+        $this->assertSame(10, $actual->getColumn('nb_impressions'));
+        $this->assertSame(10, $actual->getColumn('nb_interactions'));
+        $this->assertSame(1.0, $actual->getColumn('interaction_rate'));
+
+        $actualTotalsRow = $table->getTotalsRow();
+        $this->assertNotNull($actualTotalsRow);
+        $this->assertSame(10, $actualTotalsRow->getColumn('nb_impressions'));
+        $this->assertSame(10, $actualTotalsRow->getColumn('nb_interactions'));
+        $this->assertSame(1.0, $actualTotalsRow->getColumn('interaction_rate'));
     }
 
     public function testRoundCountArrayValuesUsesReducedNameFallbackOnlyForCountLikeMetrics(): void

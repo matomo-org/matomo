@@ -6,7 +6,7 @@
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<interaction_rate>25%</interaction_rate>
+		<interaction_rate>100%</interaction_rate>
 		<segment>contentName==ImageAd</segment>
 	</row>
 	<row>
@@ -15,7 +15,7 @@
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<interaction_rate>66.67%</interaction_rate>
+		<interaction_rate>100%</interaction_rate>
 		<segment>contentName==Text+Ad</segment>
 	</row>
 	<row>

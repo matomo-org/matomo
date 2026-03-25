@@ -90,8 +90,8 @@
 		</goals>
 		<sum_daily_entry_nb_uniq_visitors>20</sum_daily_entry_nb_uniq_visitors>
 		<avg_time_on_page>123</avg_time_on_page>
-		<bounce_rate>45%</bounce_rate>
-		<exit_rate>70%</exit_rate>
+		<bounce_rate>50%</bounce_rate>
+		<exit_rate>67%</exit_rate>
 		<avg_bandwidth>40</avg_bandwidth>
 		<url>http://example.org/index.htm</url>
 	</row>
