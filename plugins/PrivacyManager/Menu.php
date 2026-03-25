@@ -35,6 +35,12 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addItem($category, 'PrivacyManager_UsersOptOut', $this->urlForAction('usersOptOut'), 10);
             $menu->addItem($category, 'PrivacyManager_AskingForConsent', $this->urlForAction('consent'), 15);
             $menu->addItem($category, 'PrivacyManager_GdprOverview', $this->urlForAction('gdprOverview'), 20);
+            $menu->addItem(
+                $category,
+                'PrivacyManager_UnderstandingYourLegalObligations',
+                $this->urlForAction('understandingYourLegalObligations'),
+                22
+            );
             $menu->addItem($category, 'PrivacyManager_GdprTools', $this->urlForAction('gdprTools'), 25);
         }
     }

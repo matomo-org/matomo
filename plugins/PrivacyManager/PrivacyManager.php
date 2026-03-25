@@ -440,6 +440,17 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_TeaserHeader';
         $translationKeys[] = 'PrivacyManager_TrackingOptOut';
         $translationKeys[] = 'PrivacyManager_ShowIntro';
+        $translationKeys[] = 'PrivacyManager_UnderstandingYourLegalObligations';
+        $translationKeys[] = 'PrivacyManager_UnderstandingYourLegalObligationsBulletExemptions';
+        $translationKeys[] = 'PrivacyManager_UnderstandingYourLegalObligationsBulletNoComplianceRequirements';
+        $translationKeys[] = 'PrivacyManager_UnderstandingYourLegalObligationsBulletPersonalDataOnly';
+        $translationKeys[] = 'PrivacyManager_UnderstandingYourLegalObligationsBulletStrictConsent';
+        $translationKeys[] = 'PrivacyManager_UnderstandingYourLegalObligationsBulletTransparencyOptOut';
+        $translationKeys[] = 'PrivacyManager_UnderstandingYourLegalObligationsIntro1';
+        $translationKeys[] = 'PrivacyManager_UnderstandingYourLegalObligationsIntro2';
+        $translationKeys[] = 'PrivacyManager_UnderstandingYourLegalObligationsIntro3';
+        $translationKeys[] = 'PrivacyManager_UnderstandingYourLegalObligationsIntro4';
+        $translationKeys[] = 'PrivacyManager_UnderstandingYourLegalObligationsIntro5';
         $translationKeys[] = 'PrivacyManager_UnsetActionColumns';
         $translationKeys[] = 'PrivacyManager_UnsetActionColumnsHelp';
         $translationKeys[] = 'PrivacyManager_UnsetVisitColumns';
