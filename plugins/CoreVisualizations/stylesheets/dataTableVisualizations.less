@@ -1,5 +1,6 @@
 .jqplot-target {
   filter: @theme-filter-on-illustration;
+  z-index: 1010; /* filter will create a stacking context, and the seriespicker-popover must be above ui dialog */
 }
 
 .piwik-graph {
