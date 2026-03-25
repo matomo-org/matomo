@@ -1,8 +1,22 @@
 .jqplot-target {
-    filter: @theme-filter-on-illustration;
-    /* filter will create a new stacking context */
-    /* z-index is here for the seriespicker-popover. It must be above ui dialog but under le mobile menu */
-    z-index: 990;
+    color: @theme-color-text;
+}
+
+.jqplot-loading {
+    background-color: @theme-color-background-contrast;
+}
+
+a.rowevolution-startmulti {
+    color: @theme-color-link !important;
+}
+
+.rowevolution table.metrics td.text {
+    color: @theme-color-text-light;
+}
+
+.rowevolution table.metrics td.text span.details,
+.rowevolution .metric-selectbox select {
+    color: @theme-color-text;
 }
 
 .piwik-graph {
