@@ -20,6 +20,10 @@
     color: @theme-color-brand !important;
     cursor: pointer;
 
+    .inDarkMode({
+      background-color: @theme-color-background-tinyContrast;
+    });
+
     input.select-dropdown,
     span.caret {
       color: @theme-color-brand !important;
@@ -125,4 +129,3 @@ body > .widget {
 .limitSelection > ul > li:hover {
   background-color: @theme-color-background-tinyContrast;
 }
-
