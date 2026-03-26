@@ -106,7 +106,7 @@ class ControllerTest extends IntegrationTestCase
         $continueResponse = $this->decodeJsonResponse($this->controller->downloadMissingGeoIpDb());
 
         $this->assertArrayHasKey('error', $continueResponse);
-        $this->assertFileNotExists($locDownloadChunk);
+        $this->assertFileDoesNotExistCompat($locDownloadChunk);
         $this->assertFileExists($ispDownloadChunk);
         $this->assertFalse(Option::get($locDownloadChunk . '_expectedDownloadSize'));
         $this->assertSame('12', Option::get($ispDownloadChunk . '_expectedDownloadSize'));
@@ -130,5 +130,15 @@ class ControllerTest extends IntegrationTestCase
     private function decodeJsonResponse($response): array
     {
         return (array) json_decode((string) $response, true);
+    }
+
+    private function assertFileDoesNotExistCompat(string $path): void
+    {
+        if (method_exists($this, 'assertFileDoesNotExist')) {
+            $this->assertFileDoesNotExist($path);
+            return;
+        }
+
+        $this->assertFileNotExists($path);
     }
 }

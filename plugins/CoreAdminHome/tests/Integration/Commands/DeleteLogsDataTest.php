@@ -106,7 +106,10 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertEquals(1, $result, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertNotRegExp("/Successfully deleted [0-9]+ rows from all log tables/", $this->applicationTester->getDisplay());
+        $this->assertDoesNotMatchRegularExpressionCompat(
+            "/Successfully deleted [0-9]+ rows from all log tables/",
+            $this->applicationTester->getDisplay()
+        );
     }
 
     public function testCommandCorrectlyDeletesRequestedLogFiles()
@@ -134,6 +137,16 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         /** @var RawLogDao $dao */
         $dao = StaticContainer::get('Piwik\DataAccess\RawLogDao');
         $this->assertNotEmpty($dao->countVisitsWithDatesLimit($from, $to));
+    }
+
+    private function assertDoesNotMatchRegularExpressionCompat(string $pattern, string $value): void
+    {
+        if (method_exists($this, 'assertDoesNotMatchRegularExpression')) {
+            $this->assertDoesNotMatchRegularExpression($pattern, $value);
+            return;
+        }
+
+        $this->assertNotRegExp($pattern, $value);
     }
 }
 

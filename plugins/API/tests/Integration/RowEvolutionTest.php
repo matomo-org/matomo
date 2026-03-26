@@ -29,7 +29,7 @@ class RowEvolutionTest extends IntegrationTestCase
     public function testGetRowEvolutionShouldTriggerAnExceptionIfReportHasNoDimension()
     {
         $this->expectException(\Exception::class);
-        $this->expectDeprecationMessage("Reports like VisitsSummary.get which do not have a dimension are not supported by row evolution");
+        $this->expectExceptionMessage("Reports like VisitsSummary.get which do not have a dimension are not supported by row evolution");
         $rowEvolution = new RowEvolution();
         $rowEvolution->getRowEvolution(1, 'day', 'last7', 'VisitsSummary', 'get');
     }

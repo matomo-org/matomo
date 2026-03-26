@@ -88,7 +88,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         if (self::METHOD_CURL === $method) {
             self::assertStringContainsString('Execute HTTP API request:', $processOutput);
         } else {
-            self::assertRegExp('/Running command.*\[method = ' . $method . ']/', $processOutput);
+            $this->assertMatchesRegularExpressionCompat('/Running command.*\[method = ' . $method . ']/', $processOutput);
         }
     }
 
@@ -358,7 +358,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         if (self::METHOD_CURL === $method) {
             self::assertStringContainsString('Execute HTTP API request:', $processOutput);
         } else {
-            self::assertRegExp('/Running command.*\[method = ' . $method . ']/', $processOutput);
+            $this->assertMatchesRegularExpressionCompat('/Running command.*\[method = ' . $method . ']/', $processOutput);
         }
 
         self::assertStringContainsString('Starting archiving for', $processOutput);
@@ -386,9 +386,19 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
         }
 
         if (\SIGTERM === $signalOutput) {
-            self::assertRegExp('/Aborting command.*\[method = ' . $method . ']/', $processOutput);
+            $this->assertMatchesRegularExpressionCompat('/Aborting command.*\[method = ' . $method . ']/', $processOutput);
             self::assertStringContainsString('Archiving process killed, reset invalidation', $processOutput);
         }
+    }
+
+    private function assertMatchesRegularExpressionCompat(string $pattern, string $value): void
+    {
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression($pattern, $value);
+            return;
+        }
+
+        $this->assertRegExp($pattern, $value);
     }
 
     private function sendSignalToProcess(
