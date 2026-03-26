@@ -192,6 +192,12 @@ describe("PrivacyManager", function () {
         await capturePage('gdpr_overview_no_retention');
     });
 
+    it('should load understanding your legal obligations page', async function() {
+        await loadActionPage('understandingYourLegalObligations');
+
+        await capturePage('understanding_your_legal_obligations');
+    });
+
     it('should load privacy settings page', async function() {
         await loadActionPage('privacySettings');
         await page.waitForNetworkIdle();
