@@ -33,25 +33,6 @@ class DataRounding
 
     private const IDENTIFIER_COLUMN_NAMES = ['idsite', 'idgoal', 'idsubdatatable'];
 
-    private const EXCLUDED_SEMANTIC_TYPES = [
-        Dimension::TYPE_PERCENT,
-        Dimension::TYPE_DURATION_MS,
-        Dimension::TYPE_DURATION_S,
-        Dimension::TYPE_MONEY,
-        Dimension::TYPE_FLOAT,
-        Dimension::TYPE_TIME,
-        Dimension::TYPE_DATE,
-        Dimension::TYPE_DATETIME,
-        Dimension::TYPE_TIMESTAMP,
-        Dimension::TYPE_URL,
-        Dimension::TYPE_TEXT,
-        Dimension::TYPE_ENUM,
-        Dimension::TYPE_BOOL,
-        Dimension::TYPE_BINARY,
-        Dimension::TYPE_BYTE,
-        Dimension::TYPE_DIMENSION,
-    ];
-
     private const CHANGE_COLUMN_PATTERN = '/_change$/i';
 
     private const EXCLUDED_BY_NAME_PATTERN = '/(rate|percent|percentage|evolution|duration|visit_length|bandwidth|byte)/';
@@ -603,13 +584,7 @@ class DataRounding
         }
 
         if (!empty($semanticType)) {
-            if ($semanticType === Dimension::TYPE_NUMBER) {
-                return true;
-            }
-
-            if (in_array($semanticType, self::EXCLUDED_SEMANTIC_TYPES, true)) {
-                return false;
-            }
+            return $semanticType === Dimension::TYPE_NUMBER;
         }
 
         return (bool) preg_match(self::INCLUDED_COUNT_BY_NAME_PATTERN, $columnName);
