@@ -277,6 +277,116 @@ class DataRoundingCoverageTest extends SystemTestCase
         }
     }
 
+    public function testMultiSitesSegmentedApiUsesActualSiteListForMixedPolicy(): void
+    {
+        try {
+            CnilPolicy::setActiveStatus(null, false);
+            CnilPolicy::setActiveStatus(1, true);
+            CnilPolicy::setActiveStatus(2, false);
+
+            [$api, $params] = $this->getMultiSitesApiMixedPolicyScenario();
+            $this->runApiTests($api, $params);
+
+            $requestWithSiteOne = [
+                'module' => 'API',
+                'method' => 'MultiSites.getAll',
+                'format' => 'xml',
+                'idSite' => 1,
+                'period' => 'month',
+                'date' => '2012-08-09',
+                'language' => 'en',
+                'segment' => self::DEFAULT_SEGMENT,
+                'filter_limit' => '-1',
+            ];
+            $requestWithSiteTwo = $requestWithSiteOne;
+            $requestWithSiteTwo['idSite'] = 2;
+
+            $siteOneRequestResponse = $this->loadApiResponse($requestWithSiteOne);
+            $siteTwoRequestResponse = $this->loadApiResponse($requestWithSiteTwo);
+
+            $this->assertSame(
+                $siteOneRequestResponse,
+                $siteTwoRequestResponse,
+                'Expected MultiSites.getAll segmented output to depend on the actual site list, not the ambient idSite request value.'
+            );
+
+            $siteOneRowPayload = $this->getSingleTableRowXmlBySiteId($siteOneRequestResponse, 1);
+            $siteTwoRowPayload = $this->getSingleTableRowXmlBySiteId($siteOneRequestResponse, 2);
+
+            $this->assertNotSame('', $siteOneRowPayload, 'Expected a MultiSites XML row for site 1.');
+            $this->assertNotSame('', $siteTwoRowPayload, 'Expected a MultiSites XML row for site 2.');
+
+            $siteOneViolations = $this->findUnroundedCountFieldValues($siteOneRowPayload);
+            $this->assertSame(
+                [],
+                $siteOneViolations,
+                sprintf('Expected rounded count metrics for site 1, found: %s', implode(', ', $siteOneViolations))
+            );
+        } finally {
+            CnilPolicy::setActiveStatus(1, false);
+            CnilPolicy::setActiveStatus(2, false);
+            CnilPolicy::setActiveStatus(null, true);
+        }
+    }
+
+    public function testMultiSitesGetAllWithGroupsIgnoresAmbientRequestIdSiteForRounding(): void
+    {
+        try {
+            CnilPolicy::setActiveStatus(null, false);
+            CnilPolicy::setActiveStatus(1, true);
+            CnilPolicy::setActiveStatus(2, false);
+
+            $requestWithSiteOne = [
+                'module' => 'API',
+                'method' => 'MultiSites.getAllWithGroups',
+                'format' => 'json',
+                'idSite' => 1,
+                'period' => 'month',
+                'date' => '2012-08-09',
+                'language' => 'en',
+                'segment' => self::DEFAULT_SEGMENT,
+                'filter_limit' => '50',
+                'filter_offset' => '0',
+                'filter_sort_column' => 'nb_visits',
+                'filter_sort_order' => 'desc',
+                'format_metrics' => '0',
+            ];
+            $requestWithSiteTwo = $requestWithSiteOne;
+            $requestWithSiteTwo['idSite'] = 2;
+
+            $responseWithSiteOne = $this->loadApiResponse($requestWithSiteOne);
+            $responseWithSiteTwo = $this->loadApiResponse($requestWithSiteTwo);
+
+            $this->assertSame(
+                $responseWithSiteOne,
+                $responseWithSiteTwo,
+                'Expected MultiSites.getAllWithGroups segmented output to ignore the ambient idSite request value.'
+            );
+
+            $payload = json_decode($responseWithSiteOne, true);
+            $this->assertIsArray($payload);
+            $this->assertArrayHasKey('sites', $payload);
+            $this->assertArrayHasKey('totals', $payload);
+
+            $siteOneRow = $this->findSiteRowInArrayPayload($payload['sites'], 1);
+            $siteTwoRow = $this->findSiteRowInArrayPayload($payload['sites'], 2);
+
+            $this->assertNotEmpty($siteOneRow, 'Expected MultiSites.getAllWithGroups payload to include site 1.');
+            $this->assertNotEmpty($siteTwoRow, 'Expected MultiSites.getAllWithGroups payload to include site 2.');
+
+            $siteOneViolations = $this->findUnroundedCountValuesInArray($siteOneRow);
+            $this->assertSame(
+                [],
+                $siteOneViolations,
+                sprintf('Expected rounded site 1 values in getAllWithGroups, found: %s', implode(', ', $siteOneViolations))
+            );
+        } finally {
+            CnilPolicy::setActiveStatus(1, false);
+            CnilPolicy::setActiveStatus(2, false);
+            CnilPolicy::setActiveStatus(null, true);
+        }
+    }
+
     public function testActionsPageReportsAreRoundedWithoutSnapshotComparison(): void
     {
         foreach ($this->getActionsPageReportRequests() as $requestId => $requestUrl) {
@@ -375,6 +485,39 @@ class DataRoundingCoverageTest extends SystemTestCase
         return $document->saveXML($nodes->item(0)) ?: '';
     }
 
+    private function getSingleTableRowXmlBySiteId(string $xml, int $siteId): string
+    {
+        $document = new \DOMDocument();
+        $document->loadXML($xml);
+
+        $xpath = new \DOMXPath($document);
+        $nodes = $xpath->query(sprintf('/result/row[idsite="%d"]', $siteId));
+        if ($nodes === false || $nodes->length === 0) {
+            return '';
+        }
+
+        return $document->saveXML($nodes->item(0)) ?: '';
+    }
+
+    /**
+     * @param mixed[] $rows
+     * @return array<string, mixed>
+     */
+    private function findSiteRowInArrayPayload(array $rows, int $siteId): array
+    {
+        foreach ($rows as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+
+            if (isset($row['idsite']) && (int) $row['idsite'] === $siteId) {
+                return $row;
+            }
+        }
+
+        return [];
+    }
+
     /**
      * @return string[]
      */
@@ -404,6 +547,34 @@ class DataRoundingCoverageTest extends SystemTestCase
             $expectedRounded = $this->roundToNearestTen($intValue);
             if ($intValue !== $expectedRounded) {
                 $violations[] = sprintf('%s=%s', $tag, $value);
+            }
+        }
+
+        return $violations;
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     * @return string[]
+     */
+    private function findUnroundedCountValuesInArray(array $values): array
+    {
+        $violations = [];
+
+        foreach ($values as $key => $value) {
+            $tag = (string) $key;
+            if (!$this->shouldAuditTagAsCountMetric($tag) || !is_numeric($value)) {
+                continue;
+            }
+
+            $intValue = (int) $value;
+            if ($intValue === 0) {
+                continue;
+            }
+
+            $expectedRounded = $this->roundToNearestTen($intValue);
+            if ($intValue !== $expectedRounded) {
+                $violations[] = sprintf('%s=%s', $tag, (string) $value);
             }
         }
 
@@ -595,6 +766,33 @@ class DataRoundingCoverageTest extends SystemTestCase
                     'keep_totals_row_label' => 'Totals',
                 ],
                 'testSuffix' => '_cnil_enabled_segmented_multi_site_mixed_policy',
+            ],
+        ];
+    }
+
+    /**
+     * MultiSites is API-only for this coverage. The request may still carry an ambient idSite,
+     * but the payload must be rounded from the actual site list returned by MultiSites.getAll.
+     *
+     * @return array{0: string[], 1: array<string, mixed>}
+     */
+    private function getMultiSitesApiMixedPolicyScenario(): array
+    {
+        return [
+            [
+                'MultiSites.getAll',
+            ],
+            [
+                'idSite' => 1,
+                'date' => '2012-08-09',
+                'periods' => ['month'],
+                'format' => 'xml',
+                'language' => 'en',
+                'segment' => self::DEFAULT_SEGMENT,
+                'otherRequestParameters' => [
+                    'filter_limit' => '-1',
+                ],
+                'testSuffix' => '_cnil_enabled_segmented_multi_sites_api_mixed_policy',
             ],
         ];
     }

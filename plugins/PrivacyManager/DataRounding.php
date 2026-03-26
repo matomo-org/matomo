@@ -69,6 +69,14 @@ class DataRounding
         return self::isDataRoundingEnabledForAnyRequestedSite(self::extractRequestedSiteIds($request));
     }
 
+    /**
+     * @param int[] $siteIds
+     */
+    public static function isDataRoundingEnabledForAnySites(array $siteIds): bool
+    {
+        return self::isDataRoundingEnabledForAnyRequestedSite($siteIds);
+    }
+
     public static function roundCountMetricsForRequest(
         DataTableInterface $dataTable,
         array $request,

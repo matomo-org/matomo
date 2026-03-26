@@ -209,7 +209,7 @@ class ResponseBuilder
 
     private function handleArray($array)
     {
-        if (DataRounding::shouldApplyForRequest($this->request)) {
+        if (!$this->shouldSkipRequestBasedArrayRounding() && DataRounding::shouldApplyForRequest($this->request)) {
             $array = DataRounding::roundCountArrayValuesForRequest($array, $this->request);
         }
 
@@ -252,6 +252,11 @@ class ResponseBuilder
         }
 
         return $this->apiRenderer->renderArray($array);
+    }
+
+    private function shouldSkipRequestBasedArrayRounding(): bool
+    {
+        return $this->apiModule === 'MultiSites' && $this->apiMethod === 'getAllWithGroups';
     }
 
     private function sendHeaderIfEnabled()

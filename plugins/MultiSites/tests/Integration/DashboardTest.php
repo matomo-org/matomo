@@ -590,6 +590,22 @@ class DashboardTest extends IntegrationTestCase
         $this->assertSame('', $this->dashboard->getLastDate());
     }
 
+    public function testGetReturnedSiteIdsCollectsIdsRecursivelyFromGroupedSites()
+    {
+        $sites = $this->setSitesTable(4);
+        foreach ([1, 2, 3, 4] as $siteId) {
+            $sites->getRowFromLabel('Site' . $siteId)->setMetadata('idsite', $siteId);
+        }
+
+        $this->setGroupForSiteId($sites, 1, 'group1');
+        $this->setGroupForSiteId($sites, 3, 'group1');
+        $this->dashboard->setSitesTable($sites);
+
+        $actual = $this->invokeDashboardMethod($this->dashboard, 'getReturnedSiteIds');
+
+        $this->assertSame([1, 3, 2, 4], $actual);
+    }
+
     private function setGroupForSiteId(DataTable $table, $siteId, $groupName)
     {
         $table->getRowFromLabel('Site' . $siteId)->setMetadata('group', $groupName);
@@ -615,5 +631,17 @@ class DashboardTest extends IntegrationTestCase
         }
 
         return $sites;
+    }
+
+    /**
+     * @param mixed[] $arguments
+     * @return mixed
+     */
+    private function invokeDashboardMethod(Dashboard $dashboard, string $methodName, array $arguments = [])
+    {
+        $reflectionMethod = new \ReflectionMethod(Dashboard::class, $methodName);
+        $reflectionMethod->setAccessible(true);
+
+        return $reflectionMethod->invokeArgs($dashboard, $arguments);
     }
 }

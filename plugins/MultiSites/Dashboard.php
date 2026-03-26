@@ -32,6 +32,9 @@ class Dashboard
     /** @var int */
     private $numSites = 0;
 
+    /** @var bool */
+    private $isSegmented = false;
+
     /**
      * Array of metrics that will be displayed and will be number formatted
      * @var array<string>
@@ -49,6 +52,8 @@ class Dashboard
             // so throw a proper exception instead of running into PHP errors
             throw new \Exception('Multiple periods are not supported');
         }
+
+        $this->isSegmented = true; //!empty($segment);
 
         /** @var DataTable $sites */
         $sites = Request::processRequest('MultiSites.getAll', [
@@ -111,7 +116,11 @@ class Dashboard
 
         $this->makeSitesFlatAndApplyGenericFilters($this->sitesByGroup, $request);
         $sites = $this->convertDataTableToArrayAndApplyQueuedFilters($this->sitesByGroup, $request);
-        $sites = DataRounding::roundCountArrayValuesForRequest($sites, $this->getRoundingRequest($request));
+
+        if ($this->isSegmented) {
+            $sites = $this->roundReturnedSites($sites);
+        }
+
         $sites = $this->enrichValues($sites);
 
         return $sites;
@@ -134,12 +143,7 @@ class Dashboard
             'previous_ai_chatbots_requests' => $this->sitesByGroup->getMetadata('previous_total_ai_chatbots_requests') ?? 0,
         ];
 
-        $request = \Piwik\Request::fromRequest();
-        $roundingRequest = $this->getRoundingRequest([
-            'idSite' => $request->getStringParameter('idSite', $request->getStringParameter('idsite', '')),
-            'segment' => $request->getStringParameter('segment', ''),
-        ]);
-        if (DataRounding::shouldApplyForRequest($roundingRequest)) {
+        if ($this->isSegmented && DataRounding::isDataRoundingEnabledForAnySites($this->getReturnedSiteIds())) {
             $totals = DataRounding::roundCountArrayValues($totals, $this->getTotalsMetricSemanticTypes($totals));
         }
 
@@ -201,37 +205,6 @@ class Dashboard
     private function rememberNumberOfSites(): void
     {
         $this->numSites = $this->sitesByGroup->getRowsCountRecursive();
-    }
-
-    /**
-     * @param array<string, mixed> $request
-     * @return array<string, string>
-     */
-    private function getRoundingRequest(array $request): array
-    {
-        $idSite = '';
-        if (!empty($request['idSite']) && is_scalar($request['idSite'])) {
-            $idSite = (string) $request['idSite'];
-        } elseif (!empty($request['idsite']) && is_scalar($request['idsite'])) {
-            $idSite = (string) $request['idsite'];
-        }
-
-        if ($idSite === '') {
-            $siteIds = [];
-            foreach ($this->sitesByGroup->getRows() as $row) {
-                $siteId = $row->getMetadata('idsite');
-                if (is_numeric($siteId)) {
-                    $siteIds[] = (string) (int) $siteId;
-                }
-            }
-
-            $idSite = implode(',', array_unique($siteIds));
-        }
-
-        return [
-            'idSite' => $idSite,
-            'segment' => isset($request['segment']) && is_scalar($request['segment']) ? (string) $request['segment'] : '',
-        ];
     }
 
     private function nestedSearch(DataTable $sitesByGroup, ?string $pattern): void
@@ -407,5 +380,75 @@ class Dashboard
         }
 
         return $sites;
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $sites
+     * @return array<int, array<string, mixed>>
+     */
+    private function roundReturnedSites(array $sites): array
+    {
+        $groupSiteIds = [];
+        foreach ($sites as $site) {
+            if (empty($site['group']) || empty($site['idsite']) || !is_numeric($site['idsite'])) {
+                continue;
+            }
+
+            $groupLabel = (string) $site['group'];
+            $groupSiteIds[$groupLabel][] = (int) $site['idsite'];
+        }
+
+        foreach ($sites as &$site) {
+            if (!is_array($site)) {
+                continue;
+            }
+
+            if (!empty($site['idsite']) && is_numeric($site['idsite'])) {
+                if (DataRounding::isDataRoundingEnabledForAnySites([(int) $site['idsite']])) {
+                    $site = DataRounding::roundCountArrayValues($site);
+                }
+
+                continue;
+            }
+
+            if (!empty($site['isGroup']) && !empty($site['label'])) {
+                $siteIds = $groupSiteIds[(string) $site['label']] ?? [];
+                if (DataRounding::isDataRoundingEnabledForAnySites($siteIds)) {
+                    $site = DataRounding::roundCountArrayValues($site);
+                }
+            }
+        }
+
+        return $sites;
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getReturnedSiteIds(): array
+    {
+        return $this->collectSiteIdsRecursively($this->sitesByGroup);
+    }
+
+    /**
+     * @return int[]
+     */
+    private function collectSiteIdsRecursively(DataTable $table): array
+    {
+        $siteIds = [];
+
+        foreach ($table->getRows() as $row) {
+            $siteId = $row->getMetadata('idsite');
+            if (is_numeric($siteId)) {
+                $siteIds[] = (int) $siteId;
+            }
+
+            $subtable = $row->getSubtable();
+            if ($subtable instanceof DataTable) {
+                $siteIds = array_merge($siteIds, $this->collectSiteIdsRecursively($subtable));
+            }
+        }
+
+        return array_values(array_unique($siteIds));
     }
 }
