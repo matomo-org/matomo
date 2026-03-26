@@ -343,17 +343,14 @@ abstract class RecordBuilder
         $flatColumnToSortByBeforeTruncation = $flatRecord->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
         $flatMaxRowsInTable = $flatRecord->getMaxRowsInTable() ?? $this->maxRowsInTable;
 
-        $periodsWithFlatRecord = $this->getPeriodsWithRootBlob($archiveProcessor, $flatRecordName);
-        $allSubperiodKeys = $this->getAllSubperiodKeys($archiveProcessor);
-        $periodsWithoutFlatRecord = array_diff_key($allSubperiodKeys, $periodsWithFlatRecord);
-
-        [$flatTable, $hasFlatSourceData] = $this->aggregateDataTableFromBlobs(
+        [$flatTable, $hasFlatSourceData, $periodsWithFlatRecord] = $this->aggregateRootDataTableFromBlobs(
             $archiveProcessor,
             $flatRecordName,
             $flatColumnAggregationOps,
-            $flatColumnToRenameAfterAggregation,
-            $periodsWithFlatRecord
+            $flatColumnToRenameAfterAggregation
         );
+        $allSubperiodKeys = $this->getAllSubperiodKeys($archiveProcessor);
+        $periodsWithoutFlatRecord = array_diff_key($allSubperiodKeys, $periodsWithFlatRecord);
 
         $hasLegacyFallbackData = false;
         $legacyReducerCallback = $hierarchicalRecord->getLegacyHierarchyToFlatReducerCallback();
@@ -530,6 +527,40 @@ abstract class RecordBuilder
         );
 
         return [$result, $hasRows];
+    }
+
+    /**
+     * Aggregates a root blob record while discovering periods that contain the root record in a single pass.
+     *
+     * @return array{0: DataTable, 1: bool, 2: array<string, bool>}
+     */
+    protected function aggregateRootDataTableFromBlobs(
+        ArchiveProcessor $archiveProcessor,
+        string $recordName,
+        ?array $columnsAggregationOperation,
+        ?array $columnsToRenameAfterAggregation
+    ): array {
+        $periodsWithRootRecord = [];
+
+        [$result, $hasRows] = BlobTableAggregator::aggregateBlobRows(
+            $this->querySingleBlobRows($archiveProcessor, $recordName),
+            $recordName,
+            $columnsAggregationOperation,
+            function (DataTable $table) use ($archiveProcessor, $columnsToRenameAfterAggregation): void {
+                $archiveProcessor->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+            },
+            function (array $archiveDataRow) use (&$periodsWithRootRecord, $recordName): bool {
+                $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+                if ($archiveDataRow['name'] === $recordName) {
+                    $periodsWithRootRecord[$period] = true;
+                    return true;
+                }
+
+                return isset($periodsWithRootRecord[$period]);
+            }
+        );
+
+        return [$result, $hasRows, $periodsWithRootRecord];
     }
 
     protected function getPeriodsWithRootBlob(ArchiveProcessor $archiveProcessor, string $recordName): array
