@@ -144,7 +144,7 @@ class Dashboard
         ];
 
         if ($this->isSegmented && DataRounding::isDataRoundingEnabledForAnySites($this->getReturnedSiteIds())) {
-            $totals = DataRounding::roundCountArrayValues($totals, $this->getTotalsMetricSemanticTypes($totals));
+            $totals = DataRounding::roundCountArrayValues($totals, $this->getDisplayedMetricSemanticTypes($totals));
         }
 
         $this->formatMetrics($totals);
@@ -155,10 +155,10 @@ class Dashboard
      * @param array<string, mixed> $totals
      * @return array<string, string>
      */
-    private function getTotalsMetricSemanticTypes(array $totals): array
+    private function getDisplayedMetricSemanticTypes(array $metrics): array
     {
         $metricTypes = [];
-        foreach (array_keys($totals) as $metricName) {
+        foreach (array_keys($metrics) as $metricName) {
             if (!in_array($metricName, $this->displayedMetricColumns, true)) {
                 continue;
             }
@@ -405,7 +405,7 @@ class Dashboard
 
             if (!empty($site['idsite']) && is_numeric($site['idsite'])) {
                 if (DataRounding::isDataRoundingEnabledForAnySites([(int) $site['idsite']])) {
-                    $site = DataRounding::roundCountArrayValues($site);
+                    $site = DataRounding::roundCountArrayValues($site, $this->getDisplayedMetricSemanticTypes($site));
                 }
 
                 continue;
@@ -414,7 +414,7 @@ class Dashboard
             if (!empty($site['isGroup']) && !empty($site['label'])) {
                 $siteIds = $groupSiteIds[(string) $site['label']] ?? [];
                 if (DataRounding::isDataRoundingEnabledForAnySites($siteIds)) {
-                    $site = DataRounding::roundCountArrayValues($site);
+                    $site = DataRounding::roundCountArrayValues($site, $this->getDisplayedMetricSemanticTypes($site));
                 }
             }
         }

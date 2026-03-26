@@ -380,6 +380,14 @@ class DataRoundingCoverageTest extends SystemTestCase
                 $siteOneViolations,
                 sprintf('Expected rounded site 1 values in getAllWithGroups, found: %s', implode(', ', $siteOneViolations))
             );
+
+            $siteOneHits = $this->getArrayIntValue($siteOneRow, 'hits');
+            $siteOnePreviousHits = $this->getArrayIntValue($siteOneRow, 'previous_hits');
+            $this->assertSame($this->roundToNearestTen($siteOneHits), $siteOneHits);
+            $this->assertSame($this->roundToNearestTen($siteOnePreviousHits), $siteOnePreviousHits);
+
+            $this->getArrayIntValue($siteTwoRow, 'hits');
+            $this->getArrayIntValue($siteTwoRow, 'previous_hits');
         } finally {
             CnilPolicy::setActiveStatus(1, false);
             CnilPolicy::setActiveStatus(2, false);
@@ -516,6 +524,17 @@ class DataRoundingCoverageTest extends SystemTestCase
         }
 
         return [];
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     */
+    private function getArrayIntValue(array $row, string $fieldName): int
+    {
+        $this->assertArrayHasKey($fieldName, $row, sprintf('Expected field "%s" in array payload row.', $fieldName));
+        $this->assertIsNumeric($row[$fieldName], sprintf('Expected field "%s" to be numeric.', $fieldName));
+
+        return (int) $row[$fieldName];
     }
 
     /**
