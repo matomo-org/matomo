@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\UsersManager;
 
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\DbHelper;
 use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -59,6 +61,10 @@ class UserPreferences
      */
     public function getThemeMode(): string
     {
+        if (!DbHelper::tableExists(Common::prefixTable('plugin_setting'))) {
+            return APIUsersManager::PREFERENCE_DEFAULT_THEME_MODE;
+        }
+
         return $this->api->getUserPreference(
             APIUsersManager::PREFERENCE_THEME_MODE,
             Piwik::getCurrentUserLogin()
