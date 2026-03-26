@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>CAT</label>
+		
 		<nb_visits>20</nb_visits>
 		<nb_actions>20</nb_actions>
 		<sum_daily_nb_uniq_visitors>20</sum_daily_nb_uniq_visitors>
@@ -9,7 +9,7 @@
 		<segment>siteSearchCategory==CAT</segment>
 	</row>
 	<row>
-		<label>mysearchcat</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -17,7 +17,7 @@
 		<segment>siteSearchCategory==mysearchcat</segment>
 	</row>
 	<row>
-		<label>Bad No Result Category :(</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -25,7 +25,7 @@
 		<segment>siteSearchCategory==Bad+No+Result+Category+%3A%28</segment>
 	</row>
 	<row>
-		<label>Category</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>

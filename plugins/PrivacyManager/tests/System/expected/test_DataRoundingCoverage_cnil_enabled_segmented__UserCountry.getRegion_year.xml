@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Unknown</label>
+		
 		<nb_visits>230</nb_visits>
 		<nb_actions>540</nb_actions>
 		<max_actions>20</max_actions>
@@ -62,7 +62,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 	</row>
 	<row>
-		<label>Ontario, Canada</label>
+		
 		<nb_visits>40</nb_visits>
 		<nb_actions>40</nb_actions>
 		<max_actions>2</max_actions>
@@ -93,7 +93,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
-		<label>Kanagawa, Japan</label>
+		
 		<nb_visits>30</nb_visits>
 		<nb_actions>40</nb_actions>
 		<max_actions>2</max_actions>
@@ -124,7 +124,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/jp.png</logo>
 	</row>
 	<row>
-		<label>Provence-Alpes-Côte-d’Azur, France</label>
+		
 		<nb_visits>30</nb_visits>
 		<nb_actions>40</nb_actions>
 		<max_actions>2</max_actions>
@@ -155,7 +155,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
-		<label>Victoria, Australia</label>
+		
 		<nb_visits>30</nb_visits>
 		<nb_actions>40</nb_actions>
 		<max_actions>2</max_actions>
@@ -186,7 +186,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/au.png</logo>
 	</row>
 	<row>
-		<label>Warwickshire, United Kingdom</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>50</nb_actions>
 		<max_actions>11</max_actions>
@@ -227,7 +227,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
-		<label>British Columbia, Canada</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>50</nb_actions>
 		<max_actions>11</max_actions>
@@ -268,7 +268,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
-		<label>New Jersey, United States</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>30</nb_actions>
 		<max_actions>12</max_actions>
@@ -299,7 +299,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>
-		<label>Virginia, United States</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>
@@ -330,7 +330,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>
-		<label>Kent, United Kingdom</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>6</max_actions>
@@ -361,7 +361,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
-		<label>London, City of, United Kingdom</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>20</nb_actions>
 		<max_actions>11</max_actions>
@@ -392,7 +392,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
-		<label>Sankt-Peterburg, Russia</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>20</nb_actions>
 		<max_actions>11</max_actions>
@@ -423,7 +423,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
 	</row>
 	<row>
-		<label>Xizang Zizhiqu, China</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>20</nb_actions>
 		<max_actions>11</max_actions>
@@ -464,7 +464,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
 	</row>
 	<row>
-		<label>Bourgogne-Franche-Comté, France</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>6</max_actions>
@@ -495,7 +495,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
-		<label>California, United States</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -526,7 +526,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>
-		<label>Gevgelija, North Macedonia</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>11</max_actions>
@@ -567,7 +567,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
 	</row>
 	<row>
-		<label>Unknown, Unknown</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -598,7 +598,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 	</row>
 	<row>
-		<label>Unknown, Unknown</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -629,7 +629,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 	</row>
 	<row>
-		<label>Seoul-teukbyeolsi, South Korea</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>
@@ -660,7 +660,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/kr.png</logo>
 	</row>
 	<row>
-		<label>Utah, United States</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>

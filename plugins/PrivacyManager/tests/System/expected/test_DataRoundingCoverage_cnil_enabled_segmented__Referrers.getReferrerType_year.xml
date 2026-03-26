@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Direct Entry</label>
+		
 		<nb_visits>240</nb_visits>
 		<nb_actions>630</nb_actions>
 		<max_actions>20</max_actions>
@@ -59,7 +59,7 @@
 		<referrer_type>1</referrer_type>
 	</row>
 	<row>
-		<label>Websites</label>
+		
 		<nb_visits>70</nb_visits>
 		<nb_actions>130</nb_actions>
 		<max_actions>7</max_actions>
@@ -86,7 +86,7 @@
 		<referrer_type>3</referrer_type>
 		<subtable>
 			<row>
-				<label>anothersite.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>5</max_actions>
@@ -112,7 +112,7 @@
 				<segment>referrerName==anothersite.com</segment>
 			</row>
 			<row>
-				<label>apocalypsenow.org</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -124,7 +124,7 @@
 				<segment>referrerName==apocalypsenow.org</segment>
 			</row>
 			<row>
-				<label>mutantregistration.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -150,7 +150,7 @@
 				<segment>referrerName==mutantregistration.com</segment>
 			</row>
 			<row>
-				<label>mutantrights.org</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -162,7 +162,7 @@
 				<segment>referrerName==mutantrights.org</segment>
 			</row>
 			<row>
-				<label>myotherreferrerwebsite.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>2</max_actions>
@@ -188,7 +188,7 @@
 				<segment>referrerName==myotherreferrerwebsite.com</segment>
 			</row>
 			<row>
-				<label>myreferrerwebsite.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -214,7 +214,7 @@
 				<segment>referrerName==myreferrerwebsite.com</segment>
 			</row>
 			<row>
-				<label>piwik.org</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>2</max_actions>
@@ -240,7 +240,7 @@
 				<segment>referrerName==piwik.org</segment>
 			</row>
 			<row>
-				<label>referrer.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>50</nb_actions>
 				<max_actions>7</max_actions>
@@ -266,7 +266,7 @@
 				<segment>referrerName==referrer.com</segment>
 			</row>
 			<row>
-				<label>sn110w.snt110.mail.live.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>2</max_actions>
@@ -292,7 +292,7 @@
 				<segment>referrerName==sn110w.snt110.mail.live.com</segment>
 			</row>
 			<row>
-				<label>whatever.com1</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -318,7 +318,7 @@
 				<segment>referrerName==whatever.com1</segment>
 			</row>
 			<row>
-				<label>whatever0.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -344,7 +344,7 @@
 				<segment>referrerName==whatever0.com</segment>
 			</row>
 			<row>
-				<label>whatever1.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -370,7 +370,7 @@
 				<segment>referrerName==whatever1.com</segment>
 			</row>
 			<row>
-				<label>whatever3.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -396,7 +396,7 @@
 				<segment>referrerName==whatever3.com</segment>
 			</row>
 			<row>
-				<label>www.external.com.vn</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>4</max_actions>
@@ -422,7 +422,7 @@
 				<segment>referrerName==www.external.com.vn</segment>
 			</row>
 			<row>
-				<label>www.referrer0.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -448,7 +448,7 @@
 				<segment>referrerName==www.referrer0.com</segment>
 			</row>
 			<row>
-				<label>www.referrer1.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>3</max_actions>
@@ -474,7 +474,7 @@
 				<segment>referrerName==www.referrer1.com</segment>
 			</row>
 			<row>
-				<label>www.referrer2.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>3</max_actions>
@@ -500,7 +500,7 @@
 				<segment>referrerName==www.referrer2.com</segment>
 			</row>
 			<row>
-				<label>www.referrer3.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>3</max_actions>
@@ -526,7 +526,7 @@
 				<segment>referrerName==www.referrer3.com</segment>
 			</row>
 			<row>
-				<label>www.referrer4.com</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -552,7 +552,7 @@
 				<segment>referrerName==www.referrer4.com</segment>
 			</row>
 			<row>
-				<label>xavierinstitute.org</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -566,7 +566,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Search Engines</label>
+		
 		<nb_visits>60</nb_visits>
 		<nb_actions>110</nb_actions>
 		<max_actions>16</max_actions>
@@ -599,7 +599,7 @@
 		<referrer_type>2</referrer_type>
 		<subtable>
 			<row>
-				<label>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>30</nb_actions>
 				<max_actions>16</max_actions>
@@ -625,7 +625,7 @@
 				<segment>referrerType==search;referrerKeyword==%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</segment>
 			</row>
 			<row>
-				<label>&lt;script&gt;_x(9)&lt;/script&gt;</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -651,7 +651,7 @@
 				<segment>referrerType==search;referrerKeyword==%3Cscript%3E_x%289%29%3C%2Fscript%3E</segment>
 			</row>
 			<row>
-				<label>free &gt; proprietary</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -677,7 +677,7 @@
 				<segment>referrerType==search;referrerKeyword==free+%3E+proprietary</segment>
 			</row>
 			<row>
-				<label>hello world</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>13</max_actions>
@@ -703,7 +703,7 @@
 				<segment>referrerType==search;referrerKeyword==hello+world</segment>
 			</row>
 			<row>
-				<label>justice )(&amp;^#%$ not '&quot; corruption!</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -729,7 +729,7 @@
 				<segment>referrerType==search;referrerKeyword==justice+%29%28%26%5E%23%25%24+not+%27%22+corruption%21</segment>
 			</row>
 			<row>
-				<label>Keyword not defined</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -755,7 +755,7 @@
 				<segment>referrerType==search;referrerKeyword==</segment>
 			</row>
 			<row>
-				<label>kia ora</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -781,7 +781,7 @@
 				<segment>referrerType==search;referrerKeyword==kia+ora</segment>
 			</row>
 			<row>
-				<label>peace &quot;,&quot; not war</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -807,7 +807,7 @@
 				<segment>referrerType==search;referrerKeyword==peace+%22%2C%22+not+war</segment>
 			</row>
 			<row>
-				<label>piwik</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>8</max_actions>
@@ -833,7 +833,7 @@
 				<segment>referrerType==search;referrerKeyword==piwik</segment>
 			</row>
 			<row>
-				<label>purchase</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -859,7 +859,7 @@
 				<segment>referrerType==search;referrerKeyword==purchase</segment>
 			</row>
 			<row>
-				<label>salut</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -885,7 +885,7 @@
 				<segment>referrerType==search;referrerKeyword==salut</segment>
 			</row>
 			<row>
-				<label>search term 1</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -911,7 +911,7 @@
 				<segment>referrerType==search;referrerKeyword==search+term+1</segment>
 			</row>
 			<row>
-				<label>search term 2</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -937,7 +937,7 @@
 				<segment>referrerType==search;referrerKeyword==search+term+2</segment>
 			</row>
 			<row>
-				<label>search term 3</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -963,7 +963,7 @@
 				<segment>referrerType==search;referrerKeyword==search+term+3</segment>
 			</row>
 			<row>
-				<label>search term 4</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -989,7 +989,7 @@
 				<segment>referrerType==search;referrerKeyword==search+term+4</segment>
 			</row>
 			<row>
-				<label>that search term</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1015,7 +1015,7 @@
 				<segment>referrerType==search;referrerKeyword==that+search+term</segment>
 			</row>
 			<row>
-				<label>this keyword should be ranked</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>4</max_actions>
@@ -1027,7 +1027,7 @@
 				<segment>referrerType==search;referrerKeyword==this+keyword+should+be+ranked</segment>
 			</row>
 			<row>
-				<label>this search term</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1053,7 +1053,7 @@
 				<segment>referrerType==search;referrerKeyword==this+search+term</segment>
 			</row>
 			<row>
-				<label>wikileaks ftw</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1079,7 +1079,7 @@
 				<segment>referrerType==search;referrerKeyword==wikileaks+ftw</segment>
 			</row>
 			<row>
-				<label>{{_vue.h.constructor`_x(21)`()}}</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1105,7 +1105,7 @@
 				<segment>referrerType==search;referrerKeyword==%7B%7B_vue.h.constructor%60_x%2821%29%60%28%29%7D%7D</segment>
 			</row>
 			<row>
-				<label>😡</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1139,7 +1139,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>AI Assistants</label>
+		
 		<nb_visits>30</nb_visits>
 		<nb_actions>30</nb_actions>
 		<max_actions>1</max_actions>
@@ -1166,7 +1166,7 @@
 		<referrer_type>8</referrer_type>
 		<subtable>
 			<row>
-				<label>ChatGPT</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1194,7 +1194,7 @@
 				<segment>referrerType==ai;referrerName==ChatGPT</segment>
 			</row>
 			<row>
-				<label>Claude</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1222,7 +1222,7 @@
 				<segment>referrerType==ai;referrerName==Claude</segment>
 			</row>
 			<row>
-				<label>Gemini</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1250,7 +1250,7 @@
 				<segment>referrerType==ai;referrerName==Gemini</segment>
 			</row>
 			<row>
-				<label>Le Chat</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1278,7 +1278,7 @@
 				<segment>referrerType==ai;referrerName==Le+Chat</segment>
 			</row>
 			<row>
-				<label>Perplexity</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1308,7 +1308,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Campaigns</label>
+		
 		<nb_visits>20</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>
@@ -1345,7 +1345,7 @@
 		<referrer_type>6</referrer_type>
 		<subtable>
 			<row>
-				<label>adwords (text)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1371,7 +1371,7 @@
 				<segment>referrerType==campaign;referrerName==adwords+%28text%29</segment>
 			</row>
 			<row>
-				<label>adwords (text_image)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1397,7 +1397,7 @@
 				<segment>referrerType==campaign;referrerName==adwords+%28text_image%29</segment>
 			</row>
 			<row>
-				<label>adwords campaign</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1423,7 +1423,7 @@
 				<segment>referrerType==campaign;referrerName==adwords+campaign</segment>
 			</row>
 			<row>
-				<label>campaign name - yeah!</label>
+				
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>10</nb_conversions>
@@ -1442,7 +1442,7 @@
 				<segment>referrerType==campaign;referrerName==campaign+name+-+yeah%21</segment>
 			</row>
 			<row>
-				<label>credited to another goal</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>0</nb_actions>
 				<max_actions>0</max_actions>
@@ -1463,7 +1463,7 @@
 				<segment>referrerType==campaign;referrerName==credited+to+another+goal</segment>
 			</row>
 			<row>
-				<label>credited to goal please</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>0</nb_actions>
 				<max_actions>0</max_actions>
@@ -1484,7 +1484,7 @@
 				<segment>referrerType==campaign;referrerName==credited+to+goal+please</segment>
 			</row>
 			<row>
-				<label>ga campaign</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>2</max_actions>
@@ -1520,7 +1520,7 @@
 				<segment>referrerType==campaign;referrerName==ga+campaign</segment>
 			</row>
 			<row>
-				<label>gifted search</label>
+				
 				<goals>
 					<row idgoal='ecommerceOrder'>
 						<nb_conversions>10</nb_conversions>
@@ -1549,7 +1549,7 @@
 				<segment>referrerType==campaign;referrerName==gifted+search</segment>
 			</row>
 			<row>
-				<label>goal-matching-url-parameter</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -1575,7 +1575,7 @@
 				<segment>referrerType==campaign;referrerName==goal-matching-url-parameter</segment>
 			</row>
 			<row>
-				<label>recruiting drive</label>
+				
 				<goals>
 					<row idgoal='ecommerceOrder'>
 						<nb_conversions>10</nb_conversions>
@@ -1604,7 +1604,7 @@
 				<segment>referrerType==campaign;referrerName==recruiting+drive</segment>
 			</row>
 			<row>
-				<label>testcampaign</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>

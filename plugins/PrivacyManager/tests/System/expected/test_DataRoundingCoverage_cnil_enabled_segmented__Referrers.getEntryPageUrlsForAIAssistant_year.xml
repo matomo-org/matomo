@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>example.org/my/dir/page0?foo=bar&amp;baz=bar</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -14,7 +14,7 @@
 		<url>example.org/my/dir/page0?foo=bar&amp;baz=bar</url>
 	</row>
 	<row>
-		<label>example.org/my/dir/page0?foo=bar&amp;baz=bar</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -27,7 +27,7 @@
 		<url>example.org/my/dir/page0?foo=bar&amp;baz=bar</url>
 	</row>
 	<row>
-		<label>example.org/my/dir/page1?foo=bar&amp;baz=bar</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -40,7 +40,7 @@
 		<url>example.org/my/dir/page1?foo=bar&amp;baz=bar</url>
 	</row>
 	<row>
-		<label>example.org/my/dir/page1?foo=bar&amp;baz=bar</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -53,7 +53,7 @@
 		<url>example.org/my/dir/page1?foo=bar&amp;baz=bar</url>
 	</row>
 	<row>
-		<label>example.org/my/dir/page2?foo=bar&amp;baz=bar</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -66,7 +66,7 @@
 		<url>example.org/my/dir/page2?foo=bar&amp;baz=bar</url>
 	</row>
 	<row>
-		<label>example.org/my/dir/page2?foo=bar&amp;baz=bar</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -79,7 +79,7 @@
 		<url>example.org/my/dir/page2?foo=bar&amp;baz=bar</url>
 	</row>
 	<row>
-		<label>example.org/my/dir/page3?foo=bar&amp;baz=bar</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -92,7 +92,7 @@
 		<url>example.org/my/dir/page3?foo=bar&amp;baz=bar</url>
 	</row>
 	<row>
-		<label>example.org/my/dir/page3?foo=bar&amp;baz=bar</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>

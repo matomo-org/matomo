@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Electronics &amp; Cameras</label>
+		
 		<revenue>2500</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -14,7 +14,7 @@
 		<segment>productCategory==Electronics+%26+Cameras</segment>
 	</row>
 	<row>
-		<label>Multiple Category 1</label>
+		
 		<revenue>1000</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -27,7 +27,7 @@
 		<segment>productCategory==Multiple+Category+1</segment>
 	</row>
 	<row>
-		<label>Multiple Category 2</label>
+		
 		<revenue>1000</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -40,7 +40,7 @@
 		<segment>productCategory==Multiple+Category+2</segment>
 	</row>
 	<row>
-		<label>Multiple Category 4</label>
+		
 		<revenue>1000</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -53,7 +53,7 @@
 		<segment>productCategory==Multiple+Category+4</segment>
 	</row>
 	<row>
-		<label>Multiple Category 5</label>
+		
 		<revenue>1000</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -66,7 +66,7 @@
 		<segment>productCategory==Multiple+Category+5</segment>
 	</row>
 	<row>
-		<label>My Category</label>
+		
 		<revenue>700</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -76,7 +76,7 @@
 		<segment>productCategory==My+Category</segment>
 	</row>
 	<row>
-		<label>Product Category not defined</label>
+		
 		<revenue>611.22</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -89,7 +89,7 @@
 		<segment>productCategory==Product+Category+not+defined</segment>
 	</row>
 	<row>
-		<label>Tools</label>
+		
 		<revenue>200</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -99,7 +99,7 @@
 		<segment>productCategory==Tools</segment>
 	</row>
 	<row>
-		<label>Category1</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -109,7 +109,7 @@
 		<segment>productCategory==Category1</segment>
 	</row>
 	<row>
-		<label>Category2</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -119,7 +119,7 @@
 		<segment>productCategory==Category2</segment>
 	</row>
 	<row>
-		<label>Category3</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -129,7 +129,7 @@
 		<segment>productCategory==Category3</segment>
 	</row>
 	<row>
-		<label>Category4</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -139,7 +139,7 @@
 		<segment>productCategory==Category4</segment>
 	</row>
 	<row>
-		<label>Category7</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -149,7 +149,7 @@
 		<segment>productCategory==Category7</segment>
 	</row>
 	<row>
-		<label>Category TWO LEFT in cart</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -159,7 +159,7 @@
 		<segment>productCategory==Category+TWO+LEFT+in+cart</segment>
 	</row>
 	<row>
-		<label>second category</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>

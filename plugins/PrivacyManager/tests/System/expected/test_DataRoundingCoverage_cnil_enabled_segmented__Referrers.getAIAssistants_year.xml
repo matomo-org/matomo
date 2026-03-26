@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>ChatGPT</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -29,7 +29,7 @@
 		<segment>referrerType==ai;referrerName==ChatGPT</segment>
 		<subtable>
 			<row>
-				<label>example.org/my/dir/page0?foo=bar&amp;baz=bar</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -40,7 +40,7 @@
 				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
 			<row>
-				<label>example.org/my/dir/page1?foo=bar&amp;baz=bar</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -51,7 +51,7 @@
 				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
 			<row>
-				<label>example.org/my/dir/page2?foo=bar&amp;baz=bar</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -64,7 +64,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Perplexity</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -92,7 +92,7 @@
 		<segment>referrerType==ai;referrerName==Perplexity</segment>
 		<subtable>
 			<row>
-				<label>example.org/my/dir/page0?foo=bar&amp;baz=bar</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -103,7 +103,7 @@
 				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
 			<row>
-				<label>example.org/my/dir/page3?foo=bar&amp;baz=bar</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -116,7 +116,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Claude</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -144,7 +144,7 @@
 		<segment>referrerType==ai;referrerName==Claude</segment>
 		<subtable>
 			<row>
-				<label>example.org/my/dir/page1?foo=bar&amp;baz=bar</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -157,7 +157,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Gemini</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -185,7 +185,7 @@
 		<segment>referrerType==ai;referrerName==Gemini</segment>
 		<subtable>
 			<row>
-				<label>example.org/my/dir/page2?foo=bar&amp;baz=bar</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>
@@ -198,7 +198,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Le Chat</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -226,7 +226,7 @@
 		<segment>referrerType==ai;referrerName==Le+Chat</segment>
 		<subtable>
 			<row>
-				<label>example.org/my/dir/page3?foo=bar&amp;baz=bar</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<max_actions>1</max_actions>

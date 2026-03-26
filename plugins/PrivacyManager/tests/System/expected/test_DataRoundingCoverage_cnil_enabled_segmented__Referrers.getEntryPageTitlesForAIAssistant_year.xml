@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>not an incredible title</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -13,7 +13,7 @@
 		<segment>referrerName==;referrerType==ai;entryPageTitle==not+an+incredible+title</segment>
 	</row>
 	<row>
-		<label>not an incredible title</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -25,7 +25,7 @@
 		<segment>referrerName==;referrerType==ai;entryPageTitle==not+an+incredible+title</segment>
 	</row>
 	<row>
-		<label>not an incredible title</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -37,7 +37,7 @@
 		<segment>referrerName==;referrerType==ai;entryPageTitle==not+an+incredible+title</segment>
 	</row>
 	<row>
-		<label>not an incredible title</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -49,7 +49,7 @@
 		<segment>referrerName==;referrerType==ai;entryPageTitle==not+an+incredible+title</segment>
 	</row>
 	<row>
-		<label>not an incredible title</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>

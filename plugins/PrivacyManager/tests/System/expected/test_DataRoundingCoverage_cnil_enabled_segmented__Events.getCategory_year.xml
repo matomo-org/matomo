@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Movie</label>
+		
 		<nb_visits>40</nb_visits>
 		<nb_events>40</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -13,7 +13,7 @@
 		<segment>eventCategory==Movie</segment>
 		<subtable>
 			<row>
-				<label>playTrailer</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -24,7 +24,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>Search</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -35,7 +35,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>clickBuyNow</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -46,7 +46,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>play25%</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -57,7 +57,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>play50%</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -68,7 +68,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>play75%</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -79,7 +79,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>playEnd</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -90,7 +90,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>playStart</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -101,7 +101,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>Purchase</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -112,7 +112,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>rating</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -125,7 +125,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Music</label>
+		
 		<nb_visits>20</nb_visits>
 		<nb_events>20</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -137,7 +137,7 @@
 		<segment>eventCategory==Music</segment>
 		<subtable>
 			<row>
-				<label>play</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -148,7 +148,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>play25%</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -159,7 +159,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>play50%</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -170,7 +170,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>play75%</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -181,7 +181,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>playEnd</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -192,7 +192,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>rating</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -203,7 +203,7 @@
 				<avg_event_value>10</avg_event_value>
 			</row>
 			<row>
-				<label>event name</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -216,7 +216,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Cat0</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -228,7 +228,7 @@
 		<segment>eventCategory==Cat0</segment>
 		<subtable>
 			<row>
-				<label>Action0</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -241,7 +241,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Cat1</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -253,7 +253,7 @@
 		<segment>eventCategory==Cat1</segment>
 		<subtable>
 			<row>
-				<label>Action1</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -266,7 +266,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>category</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -278,7 +278,7 @@
 		<segment>eventCategory==category</segment>
 		<subtable>
 			<row>
-				<label>click_action</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -289,7 +289,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>press_action</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -302,7 +302,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event category 0</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -314,7 +314,7 @@
 		<segment>eventCategory==event+category+0</segment>
 		<subtable>
 			<row>
-				<label>event action 4</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -327,7 +327,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event category 1</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -339,7 +339,7 @@
 		<segment>eventCategory==event+category+1</segment>
 		<subtable>
 			<row>
-				<label>event action 5</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -352,7 +352,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event category 3</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -364,7 +364,7 @@
 		<segment>eventCategory==event+category+3</segment>
 		<subtable>
 			<row>
-				<label>event action 1</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -377,7 +377,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event category 4</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -389,7 +389,7 @@
 		<segment>eventCategory==event+category+4</segment>
 		<subtable>
 			<row>
-				<label>event action 2</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -402,7 +402,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event category 5</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -414,7 +414,7 @@
 		<segment>eventCategory==event+category+5</segment>
 		<subtable>
 			<row>
-				<label>event action 3</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -427,7 +427,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Cat2</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -439,7 +439,7 @@
 		<segment>eventCategory==Cat2</segment>
 		<subtable>
 			<row>
-				<label>Action2</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -452,7 +452,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Cat3</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -464,7 +464,7 @@
 		<segment>eventCategory==Cat3</segment>
 		<subtable>
 			<row>
-				<label>Action3</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -477,7 +477,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -489,7 +489,7 @@
 		<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
 		<subtable>
 			<row>
-				<label>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -502,7 +502,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Cat4</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -514,7 +514,7 @@
 		<segment>eventCategory==Cat4</segment>
 		<subtable>
 			<row>
-				<label>Action4</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -527,7 +527,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Cat5</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -539,7 +539,7 @@
 		<segment>eventCategory==Cat5</segment>
 		<subtable>
 			<row>
-				<label>Action5</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -552,7 +552,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Cat6</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -564,7 +564,7 @@
 		<segment>eventCategory==Cat6</segment>
 		<subtable>
 			<row>
-				<label>Action6</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -577,7 +577,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Cat7</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -589,7 +589,7 @@
 		<segment>eventCategory==Cat7</segment>
 		<subtable>
 			<row>
-				<label>Action7</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -602,7 +602,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Cat8</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -614,7 +614,7 @@
 		<segment>eventCategory==Cat8</segment>
 		<subtable>
 			<row>
-				<label>Action8</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -627,7 +627,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Event CAT</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -639,7 +639,7 @@
 		<segment>eventCategory==Event+CAT</segment>
 		<subtable>
 			<row>
-				<label>Event ACTION</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -652,7 +652,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Category</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -664,7 +664,7 @@
 		<segment>eventCategory==Category</segment>
 		<subtable>
 			<row>
-				<label>Action</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -677,7 +677,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>CategoryTriggersGoal here</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -689,7 +689,7 @@
 		<segment>eventCategory==CategoryTriggersGoal+here</segment>
 		<subtable>
 			<row>
-				<label>This is an event without a URL</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -702,7 +702,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>other_category</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -714,7 +714,7 @@
 		<segment>eventCategory==other_category</segment>
 		<subtable>
 			<row>
-				<label>other_action</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -727,7 +727,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>The_Category</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -739,7 +739,7 @@
 		<segment>eventCategory==The_Category</segment>
 		<subtable>
 			<row>
-				<label>click_action</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -752,7 +752,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>the_category</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -764,7 +764,7 @@
 		<segment>eventCategory==the_category</segment>
 		<subtable>
 			<row>
-				<label>click_action</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>

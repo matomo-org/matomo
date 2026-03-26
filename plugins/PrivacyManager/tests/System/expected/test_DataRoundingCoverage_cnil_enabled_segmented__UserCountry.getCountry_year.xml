@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Unknown</label>
+		
 		<nb_visits>120</nb_visits>
 		<nb_actions>180</nb_actions>
 		<max_actions>12</max_actions>
@@ -30,7 +30,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>France</label>
+		
 		<nb_visits>110</nb_visits>
 		<nb_actions>280</nb_actions>
 		<max_actions>18</max_actions>
@@ -90,7 +90,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>Japan</label>
+		
 		<nb_visits>50</nb_visits>
 		<nb_actions>90</nb_actions>
 		<max_actions>20</max_actions>
@@ -119,7 +119,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>Canada</label>
+		
 		<nb_visits>50</nb_visits>
 		<nb_actions>80</nb_actions>
 		<max_actions>11</max_actions>
@@ -158,7 +158,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>Australia</label>
+		
 		<nb_visits>30</nb_visits>
 		<nb_actions>40</nb_actions>
 		<max_actions>2</max_actions>
@@ -187,7 +187,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>United Kingdom</label>
+		
 		<nb_visits>20</nb_visits>
 		<nb_actions>80</nb_actions>
 		<max_actions>11</max_actions>
@@ -226,7 +226,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>United States</label>
+		
 		<nb_visits>20</nb_visits>
 		<nb_actions>50</nb_actions>
 		<max_actions>12</max_actions>
@@ -261,7 +261,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>China</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>20</nb_actions>
 		<max_actions>11</max_actions>
@@ -300,7 +300,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>Indonesia</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>20</nb_actions>
 		<max_actions>11</max_actions>
@@ -339,7 +339,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>Poland</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>6</max_actions>
@@ -384,7 +384,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>Russia</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>20</nb_actions>
 		<max_actions>11</max_actions>
@@ -413,7 +413,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>Brazil</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>
@@ -442,7 +442,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>Singapore</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>
@@ -471,7 +471,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>Italy</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>6</max_actions>
@@ -500,7 +500,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>North Macedonia</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>11</max_actions>
@@ -539,7 +539,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>Unknown</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -568,7 +568,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>Unknown</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -597,7 +597,7 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
-		<label>South Korea</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>

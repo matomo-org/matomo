@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>playTrailer</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -13,7 +13,7 @@
 		<segment>eventAction==playTrailer</segment>
 		<subtable>
 			<row>
-				<label>Ponyo (崖の上のポニョ)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -24,7 +24,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>Princess Mononoke (もののけ姫)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -35,7 +35,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>Spirited Away (千と千尋の神隠し)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -48,7 +48,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Search</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -60,7 +60,7 @@
 		<segment>eventAction==Search</segment>
 		<subtable>
 			<row>
-				<label>Search query here</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -73,7 +73,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Action0</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -85,7 +85,7 @@
 		<segment>eventAction==Action0</segment>
 		<subtable>
 			<row>
-				<label>Name0</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -98,7 +98,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Action1</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -110,7 +110,7 @@
 		<segment>eventAction==Action1</segment>
 		<subtable>
 			<row>
-				<label>Name1</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -123,7 +123,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>click_action</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -135,7 +135,7 @@
 		<segment>eventAction==click_action</segment>
 		<subtable>
 			<row>
-				<label>name</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -148,7 +148,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>play25%</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -160,7 +160,7 @@
 		<segment>eventAction==play25%25</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l'eau</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -171,7 +171,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>Spirited Away (千と千尋の神隠し)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -184,7 +184,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>play50%</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -196,7 +196,7 @@
 		<segment>eventAction==play50%25</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l'eau</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -207,7 +207,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>Spirited Away (千と千尋の神隠し)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -220,7 +220,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>play75%</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -232,7 +232,7 @@
 		<segment>eventAction==play75%25</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l'eau</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -243,7 +243,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>Spirited Away (千と千尋の神隠し)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -256,7 +256,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>playEnd</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -268,7 +268,7 @@
 		<segment>eventAction==playEnd</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l'eau</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -279,7 +279,7 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 			<row>
-				<label>Spirited Away (千と千尋の神隠し)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -292,7 +292,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>rating</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -304,7 +304,7 @@
 		<segment>eventAction==rating</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l'eau</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -315,7 +315,7 @@
 				<avg_event_value>10</avg_event_value>
 			</row>
 			<row>
-				<label>Spirited Away (千と千尋の神隠し)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -328,7 +328,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event action 1</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -340,7 +340,7 @@
 		<segment>eventAction==event+action+1</segment>
 		<subtable>
 			<row>
-				<label>event name0</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -353,7 +353,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event action 2</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -365,7 +365,7 @@
 		<segment>eventAction==event+action+2</segment>
 		<subtable>
 			<row>
-				<label>event name1</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -378,7 +378,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event action 3</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -390,7 +390,7 @@
 		<segment>eventAction==event+action+3</segment>
 		<subtable>
 			<row>
-				<label>event name2</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -403,7 +403,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event action 4</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -415,7 +415,7 @@
 		<segment>eventAction==event+action+4</segment>
 		<subtable>
 			<row>
-				<label>event name3</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -428,7 +428,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event action 5</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -440,7 +440,7 @@
 		<segment>eventAction==event+action+5</segment>
 		<subtable>
 			<row>
-				<label>event name4</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -453,7 +453,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Action2</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -465,7 +465,7 @@
 		<segment>eventAction==Action2</segment>
 		<subtable>
 			<row>
-				<label>Name2</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -478,7 +478,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Action3</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -490,7 +490,7 @@
 		<segment>eventAction==Action3</segment>
 		<subtable>
 			<row>
-				<label>Name3</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -503,7 +503,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>clickBuyNow</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -515,7 +515,7 @@
 		<segment>eventAction==clickBuyNow</segment>
 		<subtable>
 			<row>
-				<label>Spirited Away (千と千尋の神隠し)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -528,7 +528,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -540,7 +540,7 @@
 		<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
 		<subtable>
 			<row>
-				<label>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -553,7 +553,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>play</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -565,7 +565,7 @@
 		<segment>eventAction==play</segment>
 		<subtable>
 			<row>
-				<label>La fiancée de l'eau</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -578,7 +578,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>playStart</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -590,7 +590,7 @@
 		<segment>eventAction==playStart</segment>
 		<subtable>
 			<row>
-				<label>Spirited Away (千と千尋の神隠し)</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -603,7 +603,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>press_action</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -615,7 +615,7 @@
 		<segment>eventAction==press_action</segment>
 		<subtable>
 			<row>
-				<label>name</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -628,7 +628,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Purchase</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -640,7 +640,7 @@
 		<segment>eventAction==Purchase</segment>
 	</row>
 	<row>
-		<label>Action4</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -652,7 +652,7 @@
 		<segment>eventAction==Action4</segment>
 		<subtable>
 			<row>
-				<label>Name4</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -665,7 +665,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Action5</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -677,7 +677,7 @@
 		<segment>eventAction==Action5</segment>
 		<subtable>
 			<row>
-				<label>Name5</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -690,7 +690,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Action6</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -702,7 +702,7 @@
 		<segment>eventAction==Action6</segment>
 		<subtable>
 			<row>
-				<label>Name6</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -715,7 +715,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Action7</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -727,7 +727,7 @@
 		<segment>eventAction==Action7</segment>
 		<subtable>
 			<row>
-				<label>Name7</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -740,7 +740,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Action8</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -752,7 +752,7 @@
 		<segment>eventAction==Action8</segment>
 		<subtable>
 			<row>
-				<label>Name8</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -765,7 +765,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Event ACTION</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -777,7 +777,7 @@
 		<segment>eventAction==Event+ACTION</segment>
 		<subtable>
 			<row>
-				<label>Event NAME</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -790,7 +790,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event name</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -802,7 +802,7 @@
 		<segment>eventAction==event+name</segment>
 		<subtable>
 			<row>
-				<label>Song name here</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -815,7 +815,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Action</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>
@@ -827,7 +827,7 @@
 		<segment>eventAction==Action</segment>
 		<subtable>
 			<row>
-				<label>Name</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>10</nb_events_with_value>
@@ -840,7 +840,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>other_action</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -852,7 +852,7 @@
 		<segment>eventAction==other_action</segment>
 		<subtable>
 			<row>
-				<label>&lt;the_'&quot;name&gt;</label>
+				
 				<nb_visits>10</nb_visits>
 				<nb_events>10</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>
@@ -865,7 +865,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>This is an event without a URL</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_events>10</nb_events>
 		<nb_events_with_value>10</nb_events_with_value>

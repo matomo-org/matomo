@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Bring on the party</label>
+		
 		<nb_visits>20</nb_visits>
 		<nb_hits>20</nb_hits>
 		<sum_time_spent>10800</sum_time_spent>
@@ -18,7 +18,7 @@
 		<segment>siteSearchKeyword==Bring+on+the+party</segment>
 	</row>
 	<row>
-		<label>keyword</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -35,7 +35,7 @@
 		<segment>siteSearchKeyword==keyword</segment>
 	</row>
 	<row>
-		<label>anotherkwd</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>180</sum_time_spent>
@@ -52,7 +52,7 @@
 		<segment>siteSearchKeyword==anotherkwd</segment>
 	</row>
 	<row>
-		<label>Keyword - Tracking API</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>54</sum_time_spent>
@@ -82,7 +82,7 @@
 		<segment>siteSearchKeyword==Keyword+-+Tracking+API</segment>
 	</row>
 	<row>
-		<label>keyword20</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -99,7 +99,7 @@
 		<segment>siteSearchKeyword==keyword20</segment>
 	</row>
 	<row>
-		<label>keyword21</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -116,7 +116,7 @@
 		<segment>siteSearchKeyword==keyword21</segment>
 	</row>
 	<row>
-		<label>keyword22</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -133,7 +133,7 @@
 		<segment>siteSearchKeyword==keyword22</segment>
 	</row>
 	<row>
-		<label>keyword23</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -150,7 +150,7 @@
 		<segment>siteSearchKeyword==keyword23</segment>
 	</row>
 	<row>
-		<label>keyword24</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -167,7 +167,7 @@
 		<segment>siteSearchKeyword==keyword24</segment>
 	</row>
 	<row>
-		<label>keyword25</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -184,7 +184,7 @@
 		<segment>siteSearchKeyword==keyword25</segment>
 	</row>
 	<row>
-		<label>keyword26</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -201,7 +201,7 @@
 		<segment>siteSearchKeyword==keyword26</segment>
 	</row>
 	<row>
-		<label>keyword27</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -218,7 +218,7 @@
 		<segment>siteSearchKeyword==keyword27</segment>
 	</row>
 	<row>
-		<label>keyword28</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -235,7 +235,7 @@
 		<segment>siteSearchKeyword==keyword28</segment>
 	</row>
 	<row>
-		<label>keyword29</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -252,7 +252,7 @@
 		<segment>siteSearchKeyword==keyword29</segment>
 	</row>
 	<row>
-		<label>keyword30</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -269,7 +269,7 @@
 		<segment>siteSearchKeyword==keyword30</segment>
 	</row>
 	<row>
-		<label>keyword31</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -286,7 +286,7 @@
 		<segment>siteSearchKeyword==keyword31</segment>
 	</row>
 	<row>
-		<label>keyword32</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -303,7 +303,7 @@
 		<segment>siteSearchKeyword==keyword32</segment>
 	</row>
 	<row>
-		<label>keyword33</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -320,7 +320,7 @@
 		<segment>siteSearchKeyword==keyword33</segment>
 	</row>
 	<row>
-		<label>keyword34</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -337,7 +337,7 @@
 		<segment>siteSearchKeyword==keyword34</segment>
 	</row>
 	<row>
-		<label>keyword35</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -354,7 +354,7 @@
 		<segment>siteSearchKeyword==keyword35</segment>
 	</row>
 	<row>
-		<label>keyword36</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -371,7 +371,7 @@
 		<segment>siteSearchKeyword==keyword36</segment>
 	</row>
 	<row>
-		<label>keyword37</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -388,7 +388,7 @@
 		<segment>siteSearchKeyword==keyword37</segment>
 	</row>
 	<row>
-		<label>keyword38</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -405,7 +405,7 @@
 		<segment>siteSearchKeyword==keyword38</segment>
 	</row>
 	<row>
-		<label>keyword39</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -422,7 +422,7 @@
 		<segment>siteSearchKeyword==keyword39</segment>
 	</row>
 	<row>
-		<label>keyword40</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -439,7 +439,7 @@
 		<segment>siteSearchKeyword==keyword40</segment>
 	</row>
 	<row>
-		<label>keyword41</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -456,7 +456,7 @@
 		<segment>siteSearchKeyword==keyword41</segment>
 	</row>
 	<row>
-		<label>keyword42</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -473,7 +473,7 @@
 		<segment>siteSearchKeyword==keyword42</segment>
 	</row>
 	<row>
-		<label>keyword43</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -490,7 +490,7 @@
 		<segment>siteSearchKeyword==keyword43</segment>
 	</row>
 	<row>
-		<label>keyword44</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -507,7 +507,7 @@
 		<segment>siteSearchKeyword==keyword44</segment>
 	</row>
 	<row>
-		<label>keyword45</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -524,7 +524,7 @@
 		<segment>siteSearchKeyword==keyword45</segment>
 	</row>
 	<row>
-		<label>keyword46</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -541,7 +541,7 @@
 		<segment>siteSearchKeyword==keyword46</segment>
 	</row>
 	<row>
-		<label>keyword47</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -558,7 +558,7 @@
 		<segment>siteSearchKeyword==keyword47</segment>
 	</row>
 	<row>
-		<label>keyword48</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -575,7 +575,7 @@
 		<segment>siteSearchKeyword==keyword48</segment>
 	</row>
 	<row>
-		<label>keyword49</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -592,7 +592,7 @@
 		<segment>siteSearchKeyword==keyword49</segment>
 	</row>
 	<row>
-		<label>keyword50</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -609,7 +609,7 @@
 		<segment>siteSearchKeyword==keyword50</segment>
 	</row>
 	<row>
-		<label>keyword51</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -626,7 +626,7 @@
 		<segment>siteSearchKeyword==keyword51</segment>
 	</row>
 	<row>
-		<label>keyword52</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -643,7 +643,7 @@
 		<segment>siteSearchKeyword==keyword52</segment>
 	</row>
 	<row>
-		<label>keyword53</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -660,7 +660,7 @@
 		<segment>siteSearchKeyword==keyword53</segment>
 	</row>
 	<row>
-		<label>keyword54</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -677,7 +677,7 @@
 		<segment>siteSearchKeyword==keyword54</segment>
 	</row>
 	<row>
-		<label>keyword55</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -694,7 +694,7 @@
 		<segment>siteSearchKeyword==keyword55</segment>
 	</row>
 	<row>
-		<label>keyword56</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -711,7 +711,7 @@
 		<segment>siteSearchKeyword==keyword56</segment>
 	</row>
 	<row>
-		<label>keyword57</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -728,7 +728,7 @@
 		<segment>siteSearchKeyword==keyword57</segment>
 	</row>
 	<row>
-		<label>keyword58</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -745,7 +745,7 @@
 		<segment>siteSearchKeyword==keyword58</segment>
 	</row>
 	<row>
-		<label>keyword59</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -762,7 +762,7 @@
 		<segment>siteSearchKeyword==keyword59</segment>
 	</row>
 	<row>
-		<label>mykwd</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>360</sum_time_spent>
@@ -792,7 +792,7 @@
 		<segment>siteSearchKeyword==mykwd</segment>
 	</row>
 	<row>
-		<label>No Result Keyword!</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>252</sum_time_spent>
@@ -808,7 +808,7 @@
 		<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
 	</row>
 	<row>
-		<label>SHOULD be a PageView, NOT a search</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -825,7 +825,7 @@
 		<segment>siteSearchKeyword==SHOULD+be+a+PageView%2C+NOT+a+search</segment>
 	</row>
 	<row>
-		<label>thirdkwd</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>360</sum_time_spent>
@@ -855,7 +855,7 @@
 		<segment>siteSearchKeyword==thirdkwd</segment>
 	</row>
 	<row>
-		<label>title:&quot;test&quot; AND body:&quot;test&quot; AND spaceCategory:ALL AND startIndex:0 AND pageSize:10</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>

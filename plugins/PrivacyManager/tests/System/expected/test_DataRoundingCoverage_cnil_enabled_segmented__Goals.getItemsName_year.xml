@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Canon SLR</label>
+		
 		<revenue>1500</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -11,7 +11,7 @@
 		<segment>productName==Canon+SLR</segment>
 	</row>
 	<row>
-		<label>PRODUCT name</label>
+		
 		<revenue>1011.22</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -24,7 +24,7 @@
 		<segment>productName==PRODUCT+name</segment>
 	</row>
 	<row>
-		<label>My Product</label>
+		
 		<revenue>700</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -34,7 +34,7 @@
 		<segment>productName==My+Product</segment>
 	</row>
 	<row>
-		<label>PRODUCT name BIS</label>
+		
 		<revenue>600</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -44,7 +44,7 @@
 		<segment>productName==PRODUCT+name+BIS</segment>
 	</row>
 	<row>
-		<label>TRIPOD - bought day after</label>
+		
 		<revenue>200</revenue>
 		<quantity>10</quantity>
 		<orders>10</orders>
@@ -54,7 +54,7 @@
 		<segment>productName==TRIPOD+-+bought+day+after</segment>
 	</row>
 	<row>
-		<label>MyName</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -64,7 +64,7 @@
 		<segment>productName==MyName</segment>
 	</row>
 	<row>
-		<label>PRODUCT THREE LEFT in cart</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -74,7 +74,7 @@
 		<segment>productName==PRODUCT+THREE+LEFT+in+cart</segment>
 	</row>
 	<row>
-		<label>PRODUCT TWO LEFT in cart</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>

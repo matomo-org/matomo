@@ -707,16 +707,19 @@ class DataRoundingCoverageTest extends SystemTestCase
                 'format' => 'xml',
                 'language' => 'en',
                 'segment' => self::DEFAULT_SEGMENT,
+                'xmlFieldsToRemove' => [
+                    'label',
+                ],
                 'otherRequestParameters' => [
                     'filter_limit' => '-1',
                     'keep_totals_row' => '1',
                     'keep_totals_row_label' => 'Totals',
                 ],
                 'apiNotToCall' => [
-                    // These Actions page reports include unstable translated labels and
-                    // PagePerformance averages that can drift slightly across PHP/DB runtimes.
-                    // Cover them separately with xmlFieldsToRemove so this test still validates
-                    // counts/totals/percentages without asserting those environment-sensitive fields.
+                    // These Actions page reports include PagePerformance averages that can drift
+                    // slightly across PHP/DB runtimes. Cover them separately with direct assertions
+                    // so this test still validates counts/totals/percentages without asserting
+                    // those environment-sensitive fields.
                     'Actions.getEntryPageTitles',
                     'Actions.getEntryPageUrls',
                     'Actions.getExitPageTitles',
@@ -755,6 +758,9 @@ class DataRoundingCoverageTest extends SystemTestCase
                 'format' => 'xml',
                 'language' => 'en',
                 'segment' => self::DEFAULT_SEGMENT,
+                'xmlFieldsToRemove' => [
+                    'label',
+                ],
                 'otherRequestParameters' => [
                     'filter_limit' => '-1',
                     'keep_totals_row' => '1',
@@ -785,6 +791,9 @@ class DataRoundingCoverageTest extends SystemTestCase
                 'format' => 'xml',
                 'language' => 'en',
                 'segment' => self::DEFAULT_SEGMENT,
+                'xmlFieldsToRemove' => [
+                    'label',
+                ],
                 'otherRequestParameters' => [
                     'filter_limit' => '-1',
                     'keep_totals_row' => '1',
@@ -814,6 +823,9 @@ class DataRoundingCoverageTest extends SystemTestCase
                 'format' => 'xml',
                 'language' => 'en',
                 'segment' => self::DEFAULT_SEGMENT,
+                'xmlFieldsToRemove' => [
+                    'label',
+                ],
                 'otherRequestParameters' => [
                     'filter_limit' => '-1',
                 ],

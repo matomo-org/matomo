@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Unknown</label>
+		
 		<nb_visits>230</nb_visits>
 		<nb_actions>530</nb_actions>
 		<max_actions>20</max_actions>
@@ -64,7 +64,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 	</row>
 	<row>
-		<label>Toronto, Ontario, Canada</label>
+		
 		<nb_visits>40</nb_visits>
 		<nb_actions>40</nb_actions>
 		<max_actions>2</max_actions>
@@ -96,7 +96,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
-		<label>Melbourne, Victoria, Australia</label>
+		
 		<nb_visits>30</nb_visits>
 		<nb_actions>40</nb_actions>
 		<max_actions>2</max_actions>
@@ -128,7 +128,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/au.png</logo>
 	</row>
 	<row>
-		<label>Nice, Provence-Alpes-Côte-d’Azur, France</label>
+		
 		<nb_visits>30</nb_visits>
 		<nb_actions>40</nb_actions>
 		<max_actions>2</max_actions>
@@ -160,7 +160,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
-		<label>Yokohama, Kanagawa, Japan</label>
+		
 		<nb_visits>30</nb_visits>
 		<nb_actions>40</nb_actions>
 		<max_actions>2</max_actions>
@@ -192,7 +192,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/jp.png</logo>
 	</row>
 	<row>
-		<label>Vancouver, British Columbia, Canada</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>50</nb_actions>
 		<max_actions>11</max_actions>
@@ -236,7 +236,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
-		<label>Englewood Cliffs, New Jersey, United States</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>30</nb_actions>
 		<max_actions>12</max_actions>
@@ -270,7 +270,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>
-		<label>Stratford-upon-Avon, Warwickshire, United Kingdom</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>30</nb_actions>
 		<max_actions>6</max_actions>
@@ -304,7 +304,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
-		<label>Ashburn, Virginia, United States</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>
@@ -338,7 +338,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>
-		<label>Lhasa, Xizang Zizhiqu, China</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>20</nb_actions>
 		<max_actions>11</max_actions>
@@ -382,7 +382,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
 	</row>
 	<row>
-		<label>London, London, City of, United Kingdom</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>20</nb_actions>
 		<max_actions>11</max_actions>
@@ -414,7 +414,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
-		<label>Nuneaton and Bedworth, Warwickshire, United Kingdom</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>20</nb_actions>
 		<max_actions>11</max_actions>
@@ -456,7 +456,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
-		<label>Stratford-upon-Avon, Kent, United Kingdom</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>6</max_actions>
@@ -488,7 +488,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
-		<label>Singapore, Singapore</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>
@@ -522,7 +522,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/sg.png</logo>
 	</row>
 	<row>
-		<label>&lt;script&gt;_x(15)&lt;/script&gt;, Unknown, Unknown</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -556,7 +556,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 	</row>
 	<row>
-		<label>Besançon, Bourgogne-Franche-Comté, France</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>6</max_actions>
@@ -590,7 +590,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
-		<label>Hluboká nad Vltavou, Sankt-Peterburg, Russia</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>6</max_actions>
@@ -622,7 +622,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
 	</row>
 	<row>
-		<label>not a city, California, United States</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -656,7 +656,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>
-		<label>Stratford-upon-Avon, Gevgelija, North Macedonia</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>11</max_actions>
@@ -698,7 +698,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
 	</row>
 	<row>
-		<label>Stratford-upon-Avon, Sankt-Peterburg, Russia</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>11</max_actions>
@@ -730,7 +730,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
 	</row>
 	<row>
-		<label>{{_Vue.h.constructor`_x(27)`()}}, Unknown, Unknown</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
@@ -764,7 +764,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 	</row>
 	<row>
-		<label>Ogden, Utah, United States</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>
@@ -804,7 +804,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>
-		<label>Seoul, Seoul-teukbyeolsi, South Korea</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>

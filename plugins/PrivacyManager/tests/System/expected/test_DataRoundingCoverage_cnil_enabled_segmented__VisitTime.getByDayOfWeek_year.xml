@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Monday</label>
+		
 		<nb_visits>170</nb_visits>
 		<nb_uniq_visitors>50</nb_uniq_visitors>
 		<nb_actions>250</nb_actions>
@@ -12,7 +12,7 @@
 		<day_of_week>1</day_of_week>
 	</row>
 	<row>
-		<label>Tuesday</label>
+		
 		<nb_visits>60</nb_visits>
 		<nb_uniq_visitors>30</nb_uniq_visitors>
 		<nb_actions>150</nb_actions>
@@ -23,7 +23,7 @@
 		<day_of_week>2</day_of_week>
 	</row>
 	<row>
-		<label>Wednesday</label>
+		
 		<nb_visits>40</nb_visits>
 		<nb_uniq_visitors>20</nb_uniq_visitors>
 		<nb_actions>130</nb_actions>
@@ -34,7 +34,7 @@
 		<day_of_week>3</day_of_week>
 	</row>
 	<row>
-		<label>Thursday</label>
+		
 		<nb_visits>40</nb_visits>
 		<nb_uniq_visitors>20</nb_uniq_visitors>
 		<nb_actions>90</nb_actions>
@@ -45,7 +45,7 @@
 		<day_of_week>4</day_of_week>
 	</row>
 	<row>
-		<label>Friday</label>
+		
 		<nb_visits>30</nb_visits>
 		<nb_uniq_visitors>20</nb_uniq_visitors>
 		<nb_actions>60</nb_actions>
@@ -56,7 +56,7 @@
 		<day_of_week>5</day_of_week>
 	</row>
 	<row>
-		<label>Saturday</label>
+		
 		<nb_visits>40</nb_visits>
 		<nb_uniq_visitors>20</nb_uniq_visitors>
 		<nb_actions>100</nb_actions>
@@ -67,7 +67,7 @@
 		<day_of_week>6</day_of_week>
 	</row>
 	<row>
-		<label>Sunday</label>
+		
 		<nb_visits>40</nb_visits>
 		<nb_uniq_visitors>20</nb_uniq_visitors>
 		<nb_actions>150</nb_actions>

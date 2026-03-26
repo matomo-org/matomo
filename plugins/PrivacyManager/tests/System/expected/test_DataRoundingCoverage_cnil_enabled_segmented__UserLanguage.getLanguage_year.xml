@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>French</label>
+		
 		<nb_visits>260</nb_visits>
 		<nb_actions>600</nb_actions>
 		<max_actions>18</max_actions>
@@ -13,7 +13,7 @@
 		<segment>languageCode==fr,languageCode=@fr-</segment>
 	</row>
 	<row>
-		<label>Unknown</label>
+		
 		<nb_visits>160</nb_visits>
 		<nb_actions>310</nb_actions>
 		<max_actions>20</max_actions>
@@ -25,7 +25,7 @@
 		<segment>languageCode==xx</segment>
 	</row>
 	<row>
-		<label>Polish</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<max_actions>6</max_actions>

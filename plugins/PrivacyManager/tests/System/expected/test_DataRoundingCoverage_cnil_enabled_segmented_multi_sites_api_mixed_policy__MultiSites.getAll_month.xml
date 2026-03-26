@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>&lt;script&gt;_x(0)&lt;/script&gt;</label>
+		
 		<nb_visits>30</nb_visits>
 		<nb_actions>70</nb_actions>
 		<nb_pageviews>60</nb_pageviews>
@@ -31,7 +31,7 @@
 		<main_url>http://site.com</main_url>
 	</row>
 	<row>
-		<label>{{_Vue.h.constructor`_x(3)`()}}</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<nb_pageviews>10</nb_pageviews>
@@ -61,7 +61,7 @@
 		<main_url>http://example-site-two.com</main_url>
 	</row>
 	<row>
-		<label>Piwik test three</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_actions>10</nb_actions>
 		<nb_pageviews>10</nb_pageviews>

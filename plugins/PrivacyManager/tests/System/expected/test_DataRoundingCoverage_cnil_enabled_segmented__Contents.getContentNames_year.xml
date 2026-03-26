@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>ImageAd</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
@@ -10,7 +10,7 @@
 		<segment>contentName==ImageAd</segment>
 	</row>
 	<row>
-		<label>Text Ad</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
@@ -19,7 +19,7 @@
 		<segment>contentName==Text+Ad</segment>
 	</row>
 	<row>
-		<label>content name 20</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
@@ -28,7 +28,7 @@
 		<segment>contentName==content+name+20</segment>
 	</row>
 	<row>
-		<label>content name 21</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>0</nb_interactions>
@@ -37,7 +37,7 @@
 		<segment>contentName==content+name+21</segment>
 	</row>
 	<row>
-		<label>content name 22</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
@@ -46,7 +46,7 @@
 		<segment>contentName==content+name+22</segment>
 	</row>
 	<row>
-		<label>content name 23</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>0</nb_interactions>
@@ -55,7 +55,7 @@
 		<segment>contentName==content+name+23</segment>
 	</row>
 	<row>
-		<label>content name 24</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>10</nb_interactions>
@@ -64,7 +64,7 @@
 		<segment>contentName==content+name+24</segment>
 	</row>
 	<row>
-		<label>Video Ad</label>
+		
 		<nb_visits>10</nb_visits>
 		<nb_impressions>10</nb_impressions>
 		<nb_interactions>0</nb_interactions>
