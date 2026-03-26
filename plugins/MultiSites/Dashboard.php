@@ -152,7 +152,7 @@ class Dashboard
     }
 
     /**
-     * @param array<string, mixed> $totals
+     * @param array<string, mixed> $metrics
      * @return array<string, string>
      */
     private function getDisplayedMetricSemanticTypes(array $metrics): array
