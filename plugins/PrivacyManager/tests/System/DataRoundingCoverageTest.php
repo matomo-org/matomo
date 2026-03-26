@@ -587,7 +587,13 @@ class DataRoundingCoverageTest extends SystemTestCase
             return false;
         }
 
-        if (strpos($tag, '_rate') !== false || strpos($tag, '_percentage') !== false || strpos($tag, '_per_') !== false) {
+        if (
+            strpos($tag, '_rate') !== false
+            || strpos($tag, '_percentage') !== false
+            || strpos($tag, '_per_') !== false
+            || strpos($tag, 'evolution') !== false
+            || strpos($tag, '_trend') !== false
+        ) {
             return false;
         }
 

@@ -433,6 +433,38 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(18.75, $rounded['revenue']);
     }
 
+    public function testRoundCountArrayValuesExcludesSpecificMaxMetricsButStillRoundsMaxEventValue(): void
+    {
+        $rounded = DataRounding::roundCountArrayValues([
+            'max_actions' => 21,
+            'max_actions_returning' => 17,
+            'max_actions_human' => 19,
+            'max_time_network' => 33,
+            'max_time_generation' => 27,
+            'max_bandwidth' => 41,
+            'max_event_value' => 21,
+            'nb_actions' => 21,
+        ], [
+            'max_actions' => \Piwik\Columns\Dimension::TYPE_NUMBER,
+            'max_actions_returning' => \Piwik\Columns\Dimension::TYPE_NUMBER,
+            'max_actions_human' => \Piwik\Columns\Dimension::TYPE_NUMBER,
+            'max_time_network' => \Piwik\Columns\Dimension::TYPE_NUMBER,
+            'max_time_generation' => \Piwik\Columns\Dimension::TYPE_NUMBER,
+            'max_bandwidth' => \Piwik\Columns\Dimension::TYPE_NUMBER,
+            'max_event_value' => \Piwik\Columns\Dimension::TYPE_NUMBER,
+            'nb_actions' => \Piwik\Columns\Dimension::TYPE_NUMBER,
+        ]);
+
+        $this->assertSame(21, $rounded['max_actions']);
+        $this->assertSame(17, $rounded['max_actions_returning']);
+        $this->assertSame(19, $rounded['max_actions_human']);
+        $this->assertSame(33, $rounded['max_time_network']);
+        $this->assertSame(27, $rounded['max_time_generation']);
+        $this->assertSame(41, $rounded['max_bandwidth']);
+        $this->assertSame(20, $rounded['max_event_value']);
+        $this->assertSame(20, $rounded['nb_actions']);
+    }
+
     public function testRoundCountArrayValuesRoundsNestedCountValues(): void
     {
         $rounded = DataRounding::roundCountArrayValues([
@@ -470,6 +502,10 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $table = new DataTable();
         $row = new Row();
         $row->addColumn('hits', 16);
+        $row->addColumn('max_actions', 21);
+        $row->addColumn('max_time_generation', 27);
+        $row->addColumn('max_bandwidth', 41);
+        $row->addColumn('max_event_value', 21);
         $row->addColumn('revenue', 17.55);
         $row->addColumn('bounce_rate', 0.42);
         $row->addColumn('avg_time_on_page', 99);
@@ -479,6 +515,10 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
 
         $actual = $table->getFirstRow();
         $this->assertSame(20, $actual->getColumn('hits'));
+        $this->assertSame(21, $actual->getColumn('max_actions'));
+        $this->assertSame(27, $actual->getColumn('max_time_generation'));
+        $this->assertSame(41, $actual->getColumn('max_bandwidth'));
+        $this->assertSame(21, $actual->getColumn('max_event_value'));
         $this->assertSame(17.55, $actual->getColumn('revenue'));
         $this->assertSame(0.42, $actual->getColumn('bounce_rate'));
         $this->assertSame(99, $actual->getColumn('avg_time_on_page'));

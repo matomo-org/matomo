@@ -56,6 +56,9 @@ class DataRounding
 
     private const EXCLUDED_BY_NAME_PATTERN = '/(rate|percent|percentage|evolution|duration|visit_length|bandwidth|byte)/';
 
+    private const EXCLUDED_SPECIFIC_MAX_METRIC_PATTERN =
+        '/^(max_actions(?:_(?:returning|new|ai_agent|human))?|max_time_(?:network|server|transfer|dom_processing|dom_completion|on_load|generation)|max_bandwidth)$/';
+
     private const INCLUDED_COUNT_BY_NAME_PATTERN = '/(^nb_|_nb_|_count$|^count_|^items$|^orders$|^quantity$)/';
 
     private const IDENTIFIER_BY_NAME_PATTERN = '/(^id_|_id$)/';
@@ -592,6 +595,10 @@ class DataRounding
 
         $columnName = strtolower($columnName);
         if (preg_match(self::EXCLUDED_BY_NAME_PATTERN, $columnName)) {
+            return false;
+        }
+
+        if (preg_match(self::EXCLUDED_SPECIFIC_MAX_METRIC_PATTERN, $columnName)) {
             return false;
         }
 
