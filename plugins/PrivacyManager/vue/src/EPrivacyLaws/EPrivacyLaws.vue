@@ -47,7 +47,7 @@
       <ul>
         <li>
           <a
-            href="https://matomo.org/faq/general/faq_38168/"
+            href="https://matomo.org/faq/general/eprivacy-directive-national-implementations-and-website-analytics/"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -56,7 +56,7 @@
         </li>
         <li>
           <a
-            href="https://matomo.org/faq/how-to/faq_33413/"
+            href="https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -65,7 +65,7 @@
         </li>
         <li>
           <a
-            href="https://matomo.org/faq/new-to-piwik/how-do-i-configure-matomo-analytics-for-tdddg-ttdsg-compliance/"
+            href="https://matomo.org/faq/new-to-piwik/configure-matomo-analytics-for-tdddg-ttdsg-compliance/"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -74,7 +74,7 @@
         </li>
         <li>
           <a
-            href="https://matomo.org/faq/general/faq_157/"
+            href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-without-consent-or-cookie-banner/"
             target="_blank"
             rel="noreferrer noopener"
           >
