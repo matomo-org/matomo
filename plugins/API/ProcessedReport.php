@@ -475,9 +475,11 @@ class ProcessedReport
          * This event can be used to directly modify the report data returned
          * by API.getProcessedReport, before the data is processed.
          *
+         * @param array &$parameters The request parameters used to fetch report
+         *                           data.
          * @param DataTableInterface $dataTable
          */
-        Piwik::postEvent('API.getProcessedReport.inner.after', [$dataTable]);
+        Piwik::postEvent('API.getProcessedReport.inner.after', [$parameters, $dataTable]);
 
         [$newReport, $columns, $rowsMetadata, $totals] = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
 
