@@ -53,7 +53,7 @@ class Dashboard
             throw new \Exception('Multiple periods are not supported');
         }
 
-        $this->isSegmented = true; //!empty($segment);
+        $this->isSegmented = !empty($segment);
 
         /** @var DataTable $sites */
         $sites = Request::processRequest('MultiSites.getAll', [
