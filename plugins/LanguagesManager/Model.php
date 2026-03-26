@@ -76,14 +76,14 @@ class Model
      * Sets whether the given user wants to use 12-hour clock
      *
      * @param string $login
-     * @param string $use12HourClock
+     * @param bool $use12HourClock
      * @return bool
      */
     public function set12HourClock($login, $use12HourClock)
     {
         $query = 'INSERT INTO ' . $this->table .
             ' (login, use_12_hour_clock) VALUES (?,?) ON DUPLICATE KEY UPDATE use_12_hour_clock=?';
-        $bind  = array($login, $use12HourClock, $use12HourClock);
+        $bind = [$login, (int)$use12HourClock, (int)$use12HourClock];
         Db::query($query, $bind);
 
         return true;

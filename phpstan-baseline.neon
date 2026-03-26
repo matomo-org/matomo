@@ -3724,21 +3724,6 @@ parameters:
 			path: plugins/Installation/Onboarding.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\LanguagesManager\\\\API\\:\\:getLanguageForUser\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: plugins/LanguagesManager/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\LanguagesManager\\\\API\\:\\:set12HourClockForUser\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: plugins/LanguagesManager/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\LanguagesManager\\\\API\\:\\:uses12HourClockForUser\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: plugins/LanguagesManager/API.php
-
-		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(mixed\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
 			count: 1
 			path: plugins/LanguagesManager/API.php
