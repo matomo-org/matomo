@@ -66,6 +66,7 @@
           @update:model-value="theThemeMode = $event;"
           :title="''"
           :introduction="'Theme'"
+          :description="translate('UsersManager_ThemeModeHelp')"
           :options="themeModeOptions"
         />
       </div>

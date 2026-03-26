@@ -257,9 +257,8 @@ class Controller extends ControllerAdmin
 
         $view->themeMode = $userPreferences->getThemeMode();
         $view->themeModeOptions = array(
-            array('key' => ThemeStyles::LIGHT_MODE, 'value' => 'Default'), // TODO: translate
-            array('key' => ThemeStyles::AUTO_MODE, 'value' => 'Automatic'), // TODO: remove
-            array('key' => ThemeStyles::DARK_MODE, 'value' => 'Dark'),
+            array('key' => ThemeStyles::LIGHT_MODE, 'value' => Piwik::translate('UsersManager_ThemeModeLightDefault')),
+            array('key' => ThemeStyles::DARK_MODE, 'value' => Piwik::translate('UsersManager_ThemeModeDark')),
         );
 
         $defaultReport   = $userPreferences->getDefaultReport();
