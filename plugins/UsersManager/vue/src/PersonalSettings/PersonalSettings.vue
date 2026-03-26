@@ -65,7 +65,7 @@
           v-model="theThemeMode"
           @update:model-value="theThemeMode = $event;"
           :title="''"
-          :introduction="'Theme'"
+          :introduction="translate('CorePluginsAdmin_Theme')"
           :description="translate('UsersManager_ThemeModeHelp')"
           :options="themeModeOptions"
         />

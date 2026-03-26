@@ -76,11 +76,12 @@ foo("bar");
 
     public function testAddStylesheetsPrependsModeAgnosticThemeStyles()
     {
-        $content = '.existing { color: red; }';
+        $originalContent = '.existing { color: red; }';
+        $content = $originalContent;
 
         $this->coreHome->addStylesheets($content);
 
-        $this->assertSame(ThemeStyles::get()->toLessCode() . "\n" . '.existing { color: red; }', $content);
+        $this->assertSame(ThemeStyles::get()->toLessCode() . "\n" . $originalContent, $content);
     }
 
     public function getJavaScriptsContainingNoSourceMapDefinition()

@@ -615,7 +615,7 @@ class Controller extends ControllerAdmin
         try {
             $this->checkTokenInUrl();
 
-            $themeMode = Common::getRequestVar('themeMode');
+            $themeMode = $this->getValidatedThemeMode(Common::getRequestVar('themeMode'));
             $defaultReport = Common::getRequestVar('defaultReport');
             $defaultDate = Common::getRequestVar('defaultDate');
             $language = Common::getRequestVar('language');
@@ -662,6 +662,21 @@ class Controller extends ControllerAdmin
         }
 
         return $toReturn;
+    }
+
+    private function getValidatedThemeMode(string $themeMode): string
+    {
+        $allowedThemeModes = [
+            ThemeStyles::AUTO_MODE,
+            ThemeStyles::LIGHT_MODE,
+            ThemeStyles::DARK_MODE,
+        ];
+
+        if (!in_array($themeMode, $allowedThemeModes, true)) {
+            throw new Exception('Invalid theme mode');
+        }
+
+        return $themeMode;
     }
 
 
