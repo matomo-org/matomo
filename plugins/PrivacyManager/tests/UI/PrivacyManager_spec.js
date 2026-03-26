@@ -196,11 +196,7 @@ describe("PrivacyManager", function () {
         await loadActionPage('ePrivacyLaws');
         await page.waitForSelector('.eprivacyLaws');
 
-        const bodyText = await page.evaluate(() => document.body.innerText);
-        expect(bodyText).to.contain('ePrivacy Laws');
-        expect(bodyText).to.contain('Article 5(3) of the ePrivacy Directive is particularly important');
-        expect(bodyText).to.contain('Personalising user interface use');
-        expect(bodyText).to.contain('As a result, even anonymous tracking may require consent in some jurisdictions.');
+        await capturePage('eprivacy_laws');
     });
 
     it('should load privacy settings page', async function() {
