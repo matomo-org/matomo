@@ -146,7 +146,7 @@ class Proxy
         $isSkipping = false;
 
         foreach ($lines as $line) {
-            if (!$isSkipping && preg_match('/^\s*\*\s*@' . preg_quote($annotationPrefix, '/') . '\S*/', $line)) {
+            if (preg_match('/^\s*\*\s*@' . preg_quote($annotationPrefix, '/') . '\S*/', $line)) {
                 $isSkipping = true;
                 continue;
             }
