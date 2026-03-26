@@ -59,7 +59,9 @@ class ControllerTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
 
         $identity = FakeAccess::$identity;
-        UsersManagerAPI::getInstance()->addUser($identity, 'Password111!', 'controller-test@example.com');
+        if (!(new Model())->userExists($identity)) {
+            UsersManagerAPI::getInstance()->addUser($identity, 'Password111!', 'controller-test@example.com');
+        }
     }
 
     public function tearDown(): void
