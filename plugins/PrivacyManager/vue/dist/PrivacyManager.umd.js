@@ -147,6 +147,7 @@ __webpack_require__.d(__webpack_exports__, "PreviousAnonymizations", function() 
 __webpack_require__.d(__webpack_exports__, "PrivacySettings", function() { return /* reexport */ PrivacySettings; });
 __webpack_require__.d(__webpack_exports__, "Compliance", function() { return /* reexport */ Compliance; });
 __webpack_require__.d(__webpack_exports__, "UsersOptOut", function() { return /* reexport */ UsersOptOut; });
+__webpack_require__.d(__webpack_exports__, "UnderstandingYourLegalObligations", function() { return /* reexport */ UnderstandingYourLegalObligations; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -3403,6 +3404,71 @@ function UsersOptOutvue_type_template_id_bdf073f4_render(_ctx, _cache, $props, $
 UsersOptOutvue_type_script_lang_ts.render = UsersOptOutvue_type_template_id_bdf073f4_render
 
 /* harmony default export */ var UsersOptOut = (UsersOptOutvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/UnderstandingYourLegalObligations/UnderstandingYourLegalObligations.vue?vue&type=template&id=0d7a38b2
+
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_1 = {
+  class: "understandingYourLegalObligations"
+};
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_8 = {
+  class: "browser-default"
+};
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_9 = ["innerHTML"];
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_10 = ["innerHTML"];
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_11 = ["innerHTML"];
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_12 = ["innerHTML"];
+const UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_13 = ["innerHTML"];
+function UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('PrivacyManager_UnderstandingYourLegalObligations')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_UnderstandingYourLegalObligationsIntro1')) + " ", 1), UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_2, UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_UnderstandingYourLegalObligationsIntro2')) + " ", 1), UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_4, UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_UnderstandingYourLegalObligationsIntro3')) + " ", 1), UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_6, UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_UnderstandingYourLegalObligationsIntro4')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_UnderstandingYourLegalObligationsIntro5')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_UnderstandingYourLegalObligationsBulletStrictConsent'))
+    }, null, 8, UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.exemptionsBullet)
+    }, null, 8, UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_UnderstandingYourLegalObligationsBulletPersonalDataOnly'))
+    }, null, 8, UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_11), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_UnderstandingYourLegalObligationsBulletTransparencyOptOut'))
+    }, null, 8, UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_12), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_UnderstandingYourLegalObligationsBulletNoComplianceRequirements'))
+    }, null, 8, UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_hoisted_13)])]),
+    _: 1
+  }, 8, ["content-title"])]);
+}
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/UnderstandingYourLegalObligations/UnderstandingYourLegalObligations.vue?vue&type=template&id=0d7a38b2
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/UnderstandingYourLegalObligations/UnderstandingYourLegalObligations.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var UnderstandingYourLegalObligationsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"]
+  },
+  computed: {
+    exemptionsBullet() {
+      return Object(external_CoreHome_["translate"])('PrivacyManager_UnderstandingYourLegalObligationsBulletExemptions', Object(external_CoreHome_["externalLink"])('https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/'), '</a>');
+    }
+  },
+  methods: {
+    translate: external_CoreHome_["translate"]
+  }
+}));
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/UnderstandingYourLegalObligations/UnderstandingYourLegalObligations.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/UnderstandingYourLegalObligations/UnderstandingYourLegalObligations.vue
+
+
+
+UnderstandingYourLegalObligationsvue_type_script_lang_ts.render = UnderstandingYourLegalObligationsvue_type_template_id_0d7a38b2_render
+
+/* harmony default export */ var UnderstandingYourLegalObligations = (UnderstandingYourLegalObligationsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -3410,6 +3476,7 @@ UsersOptOutvue_type_script_lang_ts.render = UsersOptOutvue_type_template_id_bdf0
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

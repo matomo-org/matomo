@@ -646,11 +646,6 @@ parameters:
 			path: core/CronArchive.php
 
 		-
-			message: "#^Parameter \\#1 \\$_restrictSitesToLogin of method Piwik\\\\Plugins\\\\SitesManager\\\\API\\:\\:getSitesIdWithAtLeastViewAccess\\(\\) expects bool, \\(int\\|string\\) given\\.$#"
-			count: 1
-			path: core/CronArchive.php
-
-		-
 			message: "#^Parameter \\#1 \\$number of function round expects float, string given\\.$#"
 			count: 1
 			path: core/CronArchive.php
@@ -4119,21 +4114,6 @@ parameters:
 			path: plugins/SEO/Metric/ProviderCache.php
 
 		-
-			message: "#^Empty array passed to foreach\\.$#"
-			count: 1
-			path: plugins/ScheduledReports/API.php
-
-		-
-			message: "#^Static method Piwik\\\\Plugins\\\\ScheduledReports\\\\API\\:\\:getReportSubjectAndReportTitle\\(\\) is unused\\.$#"
-			count: 1
-			path: plugins/ScheduledReports/API.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: plugins/ScheduledReports/API.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\ScheduledReports\\\\ReportEmailGenerator\\\\AttachedFileReportEmailGenerator\\:\\:\\$piwikUrl is never read, only written\\.$#"
 			count: 1
 			path: plugins/ScheduledReports/ReportEmailGenerator/AttachedFileReportEmailGenerator.php
@@ -4175,16 +4155,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 229$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$theUser of static method Piwik\\\\Piwik\\:\\:hasTheUserSuperUserAccess\\(\\) expects string, true given\\.$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$theUser of static method Piwik\\\\Piwik\\:\\:hasUserSuperUserAccessOrIsTheUser\\(\\) expects string, true given\\.$#"
 			count: 1
 			path: plugins/SitesManager/API.php
 
