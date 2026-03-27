@@ -699,8 +699,8 @@ class Piwik
      * array[]=value1&array[]=value2 in the URL.
      * This function will handle both cases and return the array.
      *
-     * @param array|string $columns
-     * @return array
+     * @param array<string>|string|null|false $columns
+     * @return array<string>
      */
     public static function getArrayFromApiParameter($columns, $unique = true)
     {

@@ -2574,26 +2574,6 @@ parameters:
 			path: plugins/API/WidgetMetadata.php
 
 		-
-			message: "#^Parameter \\#2 \\$isPageTitleType of method Piwik\\\\Plugins\\\\Actions\\\\API\\:\\:filterActionsDataTable\\(\\) expects bool, int given\\.$#"
-			count: 9
-			path: plugins/Actions/API.php
-
-		-
-			message: "#^Parameter \\#2 \\$parameters of method Piwik\\\\DataTable\\:\\:queueFilter\\(\\) expects array, string given\\.$#"
-			count: 1
-			path: plugins/Actions/API.php
-
-		-
-			message: "#^Parameter \\#5 \\$segment of static method Piwik\\\\Archive\\:\\:createDataTableFromArchive\\(\\) expects string, bool given\\.$#"
-			count: 2
-			path: plugins/Actions/API.php
-
-		-
-			message: "#^Variable \\$period in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: plugins/Actions/API.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: plugins/Actions/Actions/ActionSiteSearch.php
@@ -3142,11 +3122,6 @@ parameters:
 			message: "#^Parameter \\#5 \\$segment of static method Piwik\\\\Archive\\:\\:createDataTableFromArchive\\(\\) expects string, bool given\\.$#"
 			count: 2
 			path: plugins/CustomDimensions/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\:\\:deleteColumn\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/CustomDimensions/DataTable/Filter/RemoveUserIfNeeded.php
 
 		-
 			message: "#^Variable \\$action in empty\\(\\) always exists and is not falsy\\.$#"
