@@ -462,7 +462,7 @@ class ProcessedReport
 
         $request = new Request($parameters);
         try {
-            /** @var DataTableInterface $dataTable */
+            /** @var DataTable|DataTable\Map $dataTable */
             $dataTable = $request->process();
         } catch (Exception $e) {
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
