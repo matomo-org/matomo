@@ -27,6 +27,14 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @param string $name
+     * @param int|string|int[] $idSite
+     * @param string $period
+     * @param string $date
+     * @param string|null|false $segment
+     * @return DataTable|DataTable\Map
+     */
     protected function getDataTable($name, $idSite, $period, $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
@@ -39,6 +47,20 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns visit counts grouped by each visitor's local hour.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Visit counts grouped by local time.
+     */
     public function getVisitInformationPerLocalTime($idSite, $period, $date, $segment = false)
     {
         $table = $this->getDataTable(Archiver::LOCAL_TIME_RECORD_NAME, $idSite, $period, $date, $segment);
@@ -47,6 +69,22 @@ class API extends \Piwik\Plugin\API
         return $table;
     }
 
+    /**
+     * Returns visit counts grouped by the website's server hour.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $hideFutureHoursWhenToday Whether to omit hours later than the current site-local hour for
+     *                                       today.
+     * @return DataTable|DataTable\Map Visit counts grouped by server time.
+     */
     public function getVisitInformationPerServerTime($idSite, $period, $date, $segment = false, $hideFutureHoursWhenToday = false)
     {
         $table = $this->getDataTable(Archiver::SERVER_TIME_RECORD_NAME, $idSite, $period, $date, $segment);
@@ -68,14 +106,18 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns datatable describing the number of visits for each day of the week.
+     * Returns visit counts grouped by day of the week.
      *
-     * @param string $idSite The site ID. Cannot refer to multiple sites.
-     * @param string $period The period type: day, week, year, range...
-     * @param string $date The start date of the period. Cannot refer to multiple dates.
-     * @param bool|string $segment The segment.
-     * @throws Exception
-     * @return DataTable
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable Visit counts grouped by day of the week.
      */
     public function getByDayOfWeek($idSite, $period, $date, $segment = false)
     {
@@ -138,7 +180,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite
      * @param string $period
      * @param string $date
-     * @return mixed
+     * @return DataTable
      */
     protected function removeHoursInFuture($table, $idSite, $period, $date)
     {
