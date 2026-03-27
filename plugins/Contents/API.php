@@ -21,16 +21,62 @@ use Piwik\Plugins\Contents\Archiver;
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * Returns metrics for content names tracked on the requested site.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @return DataTable|DataTable\Map Content name metrics for the requested site and period.
+     */
     public function getContentNames($idSite, $period, $date, $segment = false, $idSubtable = false)
     {
         return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
     }
 
+    /**
+     * Returns metrics for content pieces tracked on the requested site.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @return DataTable|DataTable\Map Content piece metrics for the requested site and period.
+     */
     public function getContentPieces($idSite, $period, $date, $segment = false, $idSubtable = false)
     {
         return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
     }
 
+    /**
+     * @param string $name
+     * @param int|string|int[] $idSite
+     * @param string $period
+     * @param string $date
+     * @param string|null|false $segment
+     * @param bool $expanded
+     * @param int|null|false $idSubtable
+     * @return DataTable|DataTable\Map
+     */
     private function getDataTable($name, $idSite, $period, $date, $segment, $expanded, $idSubtable)
     {
         Piwik::checkUserHasViewAccess($idSite);
