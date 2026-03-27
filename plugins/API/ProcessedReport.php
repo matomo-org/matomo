@@ -475,7 +475,7 @@ class ProcessedReport
          * This event can be used to directly modify the report data returned
          * by API.getProcessedReport, before the data is processed.
          *
-         * @param array &$parameters The request parameters used to fetch report
+         * @param array $parameters The request parameters used to fetch report
          *                           data.
          * @param DataTableInterface $dataTable
          */
