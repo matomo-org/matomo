@@ -32,6 +32,9 @@ use Piwik\Translation\Translator;
  */
 class ControllerTest extends IntegrationTestCase
 {
+    private const CURRENT_USER_LOGIN = 'usersManagerControllerTestLogin';
+    private const CURRENT_USER_EMAIL = 'controller-test@example.com';
+
     /**
      * @var Controller
      */
@@ -40,6 +43,9 @@ class ControllerTest extends IntegrationTestCase
     private $get;
     private $request;
     private $enableUsersAdmin;
+    private $superUser;
+    private $identity;
+    private $superUserLogin;
 
     public function setUp(): void
     {
@@ -55,13 +61,19 @@ class ControllerTest extends IntegrationTestCase
         $this->get = $_GET;
         $this->request = $_REQUEST;
         $this->enableUsersAdmin = Config::getInstance()->General['enable_users_admin'];
+        $this->superUser = FakeAccess::$superUser;
+        $this->identity = FakeAccess::$identity;
+        $this->superUserLogin = FakeAccess::$superUserLogin;
 
         FakeAccess::$superUser = true;
-
-        $identity = FakeAccess::$identity;
-        if (!(new Model())->userExists($identity)) {
-            UsersManagerAPI::getInstance()->addUser($identity, 'Password111!', 'controller-test@example.com');
-        }
+        $userModel->deleteUser(self::CURRENT_USER_LOGIN);
+        UsersManagerAPI::getInstance()->addUser(
+            self::CURRENT_USER_LOGIN,
+            'Password111!',
+            self::CURRENT_USER_EMAIL
+        );
+        FakeAccess::$identity = self::CURRENT_USER_LOGIN;
+        FakeAccess::$superUserLogin = self::CURRENT_USER_LOGIN;
     }
 
     public function tearDown(): void
@@ -71,6 +83,9 @@ class ControllerTest extends IntegrationTestCase
         $_GET = $this->get;
         $_REQUEST = $this->request;
         Config::getInstance()->General['enable_users_admin'] = $this->enableUsersAdmin;
+        FakeAccess::$superUser = $this->superUser;
+        FakeAccess::$identity = $this->identity;
+        FakeAccess::$superUserLogin = $this->superUserLogin;
     }
 
     public function testRecordPasswordChangePasswordStrengthCheckWeakPassword()
