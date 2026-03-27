@@ -496,6 +496,7 @@ describe("UsersManager", function () {
 
         expect(roles.hunter12).to.equal('string:view');
         expect(roles.hunter32).to.equal('string:view');
+        expect(roles.hunter82).to.equal('string:view');
         expect(roles.hunter2).to.equal('string:write');
         expect(roles.hunter22).to.equal('string:write');
     });
