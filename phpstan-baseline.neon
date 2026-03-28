@@ -4224,16 +4224,6 @@ parameters:
 			path: plugins/Transitions/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$segmentCondition of class Piwik\\\\Segment constructor expects string, bool given\\.$#"
-			count: 1
-			path: plugins/Transitions/API.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: plugins/Transitions/API.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\TwoFactorAuth\\\\Controller\\:\\:setupTwoFactorAuth\\(\\) should return string but empty return statement found\\.$#"
 			count: 1
 			path: plugins/TwoFactorAuth/Controller.php

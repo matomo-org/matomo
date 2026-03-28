@@ -32,32 +32,74 @@ use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\TableLogAction;
 
 /**
+ * Provides API methods for transition reports around a specific page action.
+ *
  * @method static \Piwik\Plugins\Transitions\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * Returns transition data for the specified page title.
+     *
+     * @param string $pageTitle The page title to analyze.
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the
+     *                                                    period containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param int|string $limitBeforeGrouping Maximum number of transition rows to keep before grouping the
+     *                                        remainder.
+     * @return array Transition metrics and related referrer/action tables for the requested page title.
+     */
     public function getTransitionsForPageTitle(string $pageTitle, int $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
     {
         return $this->getTransitionsForAction($pageTitle, 'title', $idSite, $period, $date, $segment, $limitBeforeGrouping);
     }
 
+    /**
+     * Returns transition data for the specified page URL.
+     *
+     * @param string $pageUrl The page URL to analyze.
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the
+     *                                                    period containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param int|string $limitBeforeGrouping Maximum number of transition rows to keep before grouping the
+     *                                        remainder.
+     * @return array Transition metrics and related referrer/action tables for the requested page URL.
+     */
     public function getTransitionsForPageUrl(string $pageUrl, int $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
     {
         return $this->getTransitionsForAction($pageUrl, 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping);
     }
 
     /**
-     * General method to get transitions for an action
+     * Returns transition data for the specified page action.
      *
-     * @param string $actionType "url"|"title"
-     * @param $idSite
-     * @param $period
-     * @param $date
-     * @param bool $segment
-     * @param int $limitBeforeGrouping
-     * @param string $parts
-     * @return array
-     * @throws Exception
+     * @param string $actionName The page URL or title to analyze.
+     * @param 'url'|'title' $actionType Whether the action name is a URL or title.
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the
+     *                                                    period containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param int|string $limitBeforeGrouping Maximum number of transition rows to keep before grouping the
+     *                                        remainder.
+     * @param string $parts Comma-separated list of transition report parts to include, or `all`.
+     * @return array Transition metrics and related referrer/action tables for the requested action.
      */
     public function getTransitionsForAction(
         string $actionName,
