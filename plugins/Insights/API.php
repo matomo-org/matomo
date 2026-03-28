@@ -14,7 +14,7 @@ use Piwik\DataTable;
 use Piwik\Piwik;
 
 /**
- * API for plugin Insights
+ * Provides API methods for insight and mover/shaker comparisons between report periods.
  *
  * @method static \Piwik\Plugins\Insights\API getInstance()
  */
@@ -72,10 +72,13 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Detects whether insights can be generated for this date/period combination or not.
-     * @param string $date     eg 'today', '2012-12-12'
-     * @param string $period   eg 'day' or 'week'
      *
-     * @return bool
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @return bool Whether a previous comparison period exists for the requested date/period combination.
      */
     public function canGenerateInsights($date, $period)
     {
@@ -98,13 +101,16 @@ class API extends \Piwik\Plugin\API
      * Generates insights for a set of reports. Plugins can add their own reports to be included in the insights
      * overview by listening to the {@hook Insights.addReportToOverview} event.
      *
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     *
-     * @return DataTable\Map   A map containing a dataTable for each insight report. See {@link getInsights()} for more
-     *                         information
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable\Map Insight tables for every report included in the overview.
      */
     public function getInsightsOverview($idSite, $period, $date, $segment = false)
     {
@@ -126,13 +132,16 @@ class API extends \Piwik\Plugin\API
      * Detects the movers and shakers for a set of reports. Plugins can add their own reports to be included in this
      * overview by listening to the {@hook Insights.addReportToOverview} event.
      *
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     *
-     * @return DataTable\Map   A map containing a dataTable for each movers and shakers report. See
-     *                         {@link getMoversAndShakers()} for more information
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable\Map Movers-and-shakers tables for every report included in the overview.
      */
     public function getMoversAndShakersOverview($idSite, $period, $date, $segment = false)
     {
@@ -185,19 +194,20 @@ class API extends \Piwik\Plugin\API
      * than other rows on average. For instance if a sites pageviews increase by 10% a page that increased by 40% at the
      * same time contributed significantly more to the success than the average of 10%.
      *
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param string $reportUniqueId   eg 'Actions_getPageUrls'. An id like 'Goals_getVisitsUntilConversion_idGoal--4' works as well.
-     * @param bool|string $segment
-     * @param int $comparedToXPeriods
-     * @param int $limitIncreaser      Value '0' ignores all increasers
-     * @param int $limitDecreaser      Value '0' ignores all decreasers
-     *
-     * @return DataTable
-     *
-     * @throws \Exception In case a report having the given ID does not exist
-     * @throws \Exception In case the report exists but does not return a dataTable
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string $reportUniqueId Report identifier, for example `Actions_getPageUrls`.
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param int $comparedToXPeriods Number of past periods to compare against.
+     * @param int $limitIncreaser Maximum number of positive movers to include. `0` excludes them.
+     * @param int $limitDecreaser Maximum number of negative movers to include. `0` excludes them.
+     * @return DataTable Movers-and-shakers rows for the requested report.
      */
     public function getMoversAndShakers(
         $idSite,
@@ -237,27 +247,24 @@ class API extends \Piwik\Plugin\API
      * Generates insights by comparing the report for a given date/period with a different date and calculating the
      * difference. The API can exclude rows which growth is not good enough or did not have enough impact.
      *
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param string $reportUniqueId   eg 'Actions_getPageUrls'. An id like 'Goals_getVisitsUntilConversion_idGoal--4' works as well.
-     * @param bool|string $segment
-     * @param int $limitIncreaser      Value '0' ignores all increasers
-     * @param int $limitDecreaser      Value '0' ignores all decreasers
-     * @param string $filterBy         By default all rows will be ignored. If given only 'movers', 'new' or 'disappeared' will be returned.
-     * @param int $minImpactPercent    The minimum impact in percent. Eg '2%' of 1000 visits means the change /
-     *                                 increase / decrease has to be at least 20 visits. Usually the '2%' are based on the total
-     *                                 amount of visits but for reports having way less visits the metric total is used. Eg A page
-     *                                 has 1000 visits but only 100 visits having keywords. In this case a minimum impact of '2%' evaluates to 2 and not 20.
-     * @param int $minGrowthPercent    The amount of percent a row has to increase or decrease at least compared to the previous period.
-     *                                 If value is '20' the growth has to be either at least '+20%' or '-20%' and lower.
-     * @param int $comparedToXPeriods  The report will be compared to X periods before.
-     * @param string $orderBy          Orders the rows by 'absolute', 'relative' or 'importance'.
-     *
-     * @return DataTable
-     *
-     * @throws \Exception In case a report having the given ID does not exist
-     * @throws \Exception In case the report exists but does not return a dataTable
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string $reportUniqueId Report identifier, for example `Actions_getPageUrls`.
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param int $limitIncreaser Maximum number of positive movers to include. `0` excludes them.
+     * @param int $limitDecreaser Maximum number of negative movers to include. `0` excludes them.
+     * @param ''|'movers'|'new'|'disappeared' $filterBy Optional filter for mover type.
+     * @param int $minImpactPercent Minimum impact threshold in percent.
+     * @param int $minGrowthPercent Minimum growth threshold in percent compared to the previous period.
+     * @param int $comparedToXPeriods Number of past periods to compare against.
+     * @param 'absolute'|'relative'|'importance' $orderBy Row ordering mode.
+     * @return DataTable Insight rows for the requested report.
      */
     public function getInsights(
         $idSite,
