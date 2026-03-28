@@ -21,20 +21,20 @@ use Piwik\Url;
 use Piwik\Version;
 
 /**
- * API for plugin Feedback
+ * Provides API methods for submitting product feedback and managing feedback reminders.
  *
  * @method static \Piwik\Plugins\Feedback\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Sends feedback for a specific feature to the Matomo team or alternatively to the email address configured in the
-     * config: "feedback_email_address".
+     * Sends a survey response to the Matomo team or to the configured feedback email address.
      *
-     * @param string|null $featureName  The name of a feature you want to give feedback to.
-     * @param string|null $like         Whether you like the feature or not
-     * @param string|null $choice       Multiple choice option chosen
-     * @param string|null $message      A message containing the actual feedback
+     * @param string|null $featureName Name of the feature the feedback is about.
+     * @param string|null $like Whether the user likes the feature.
+     * @param string|null $choice Optional selected multiple-choice answer.
+     * @param string|null $message Feedback message entered by the user.
+     * @return string Translation key text when validation fails, or `success` when the feedback email is sent.
      */
     public function sendFeedbackForFeature($featureName, $like = null, $choice = null, $message = null)
     {
@@ -85,10 +85,9 @@ class API extends \Piwik\Plugin\API
      * Sends feedback for a specific feature to the Matomo team or alternatively to the email address configured in the
      * config: "feedback_email_address".
      *
-     * @param $question
-     * @param string|bool $message A message containing the actual feedback
-     * @throws \Piwik\NoAccessException
-     * @throws \Exception
+     * @param string $question Survey question or feature label the answer belongs to.
+     * @param string|false $message Survey answer entered by the user.
+     * @return string Translation key text when validation fails, or `success` when the feedback email is sent.
      */
     public function sendFeedbackForSurvey($question, $message = false)
     {
@@ -103,7 +102,7 @@ class API extends \Piwik\Plugin\API
         $body = sprintf("Question: %s\n", $featureName);
         $feedbackMessage = "";
 
-        if (!empty($message) && $message !== 'undefined') {
+        if ($message !== 'undefined') {
             $feedbackMessage = sprintf("Answer:\n%s\n", trim($message));
         }
 
@@ -126,6 +125,11 @@ class API extends \Piwik\Plugin\API
         return 'success';
     }
 
+    /**
+     * Postpones the feedback reminder for the current user by six months.
+     *
+     * @return string JSON-encoded array containing the next reminder date.
+     */
     public function updateFeedbackReminderDate()
     {
         Piwik::checkUserIsNotAnonymous();
@@ -139,6 +143,10 @@ class API extends \Piwik\Plugin\API
         return json_encode(['Next reminder date: ' . $nextReminder]);
     }
 
+    /**
+     * @param string $subject
+     * @param string $body
+     */
     private function sendMail($subject, $body)
     {
         $feedbackEmailAddress = Config::getInstance()->General['feedback_email_address'];
@@ -157,6 +165,10 @@ class API extends \Piwik\Plugin\API
         @$mail->send();
     }
 
+    /**
+     * @param string|null $featureName
+     * @return string|null
+     */
     private function getEnglishTranslationForFeatureName($featureName)
     {
         $translator = StaticContainer::get('Piwik\Translation\Translator');
