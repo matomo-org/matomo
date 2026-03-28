@@ -33,6 +33,23 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * Returns visit information grouped by country.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Country rows with translated labels and flag metadata.
+     */
     public function getCountry($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
@@ -68,6 +85,23 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns visit information grouped by continent.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Continent rows with translated labels and continent codes.
+     */
     public function getContinent($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
@@ -84,11 +118,19 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns visit information for every region with at least one visit.
      *
-     * @param int|string $idSite
-     * @param string $period
-     * @param string $date
-     * @param string|bool $segment
-     * @return DataTable
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Region rows with country, region, and flag metadata.
      */
     public function getRegion($idSite, $period, $date, $segment = false)
     {
@@ -180,11 +222,19 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns visit information for every city with at least one visit.
      *
-     * @param int|string $idSite
-     * @param string $period
-     * @param string $date
-     * @param string|bool $segment
-     * @return DataTable
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map City rows with city, region, country, and flag metadata.
      */
     public function getCity($idSite, $period, $date, $segment = false)
     {
@@ -347,9 +397,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns a simple mapping from country code to country name
+     * Returns a mapping from ISO country code to translated country name.
      *
-     * @return string[]
+     * @return array<string, string> Country names keyed by lowercase ISO country code.
      */
     public function getCountryCodeMapping()
     {
@@ -370,11 +420,9 @@ class API extends \Piwik\Plugin\API
      * See LocationProvider::getLocation to see the details
      * of the result of this function.
      *
-     * @param string $ip The IP address.
-     * @param bool|string $provider The ID of the provider to use or false to use the
-     *                               currently configured one.
-     * @throws Exception
-     * @return array|false
+     * @param string|false $ip The IP address to geolocate, or `false` to use the current request IP.
+     * @param string|false $provider The provider ID to use, or `false` to use the currently configured provider.
+     * @return array Location data returned by the selected provider.
      */
     public function getLocationFromIP($ip = false, $provider = false)
     {
@@ -403,10 +451,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Set the location provider
+     * Sets the active geolocation provider.
      *
-     * @param string $providerId  The ID of the provider to use  eg 'default', 'geoip2_php', ...
-     * @throws Exception if ID is invalid
+     * @param string $providerId The provider ID to activate, for example `default` or `geoip2_php`.
+     * @return void
      */
     public function setLocationProvider($providerId)
     {
@@ -431,6 +479,23 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns the number of distinct countries in the requested period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Numeric archive result containing the number of distinct countries.
+     */
     public function getNumberOfDistinctCountries($idSite, $period, $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);

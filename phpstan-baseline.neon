@@ -4204,11 +4204,6 @@ parameters:
 			path: plugins/TwoFactorAuth/Dao/RecoveryCodeStaticGenerator.php
 
 		-
-			message: "#^Default value of the parameter \\#1 \\$ip \\(false\\) of method Piwik\\\\Plugins\\\\UserCountry\\\\API\\:\\:getLocationFromIP\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: plugins/UserCountry/API.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between Piwik\\\\Plugins\\\\UserCountry\\\\LocationProvider and false will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/UserCountry/API.php
