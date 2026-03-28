@@ -3379,11 +3379,6 @@ parameters:
 			path: plugins/Goals/API.php
 
 		-
-			message: "#^Parameter \\#6 \\$columns of method Piwik\\\\Plugins\\\\Goals\\\\API\\:\\:get\\(\\) expects array, string given\\.$#"
-			count: 1
-			path: plugins/Goals/API.php
-
-		-
 			message: "#^Variable \\$table in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: plugins/Goals/API.php
