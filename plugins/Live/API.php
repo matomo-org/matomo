@@ -60,14 +60,16 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * This will return simple counters, for a given website ID, for visits over the last N minutes
+     * Returns simple live counters for visits over the last N minutes.
      *
-     * @param int $idSite Id Site
-     * @param int $lastMinutes Number of minutes to look back at (between 1 and 2880)
-     * @param bool|string $segment
-     * @param array $showColumns The columns to show / not to request. Eg 'visits', 'actions', ...
-     * @param array $hideColumns The columns to hide / not to request. Eg 'visits', 'actions', ...
-     * @return array( visits => N, actions => M, visitsConverted => P )
+     * @param int $idSite The numeric ID of the website to query.
+     * @param int $lastMinutes Number of minutes to look back at, between 1 and 2880.
+     * @param string|null|false $segment Custom segment to filter the counters.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param string|string[] $showColumns Optional columns to include, for example `visits` or `actions`.
+     * @param string|string[] $hideColumns Optional columns to omit from the response.
+     * @return array<int, array<string, int>> A single-row array containing the requested counters.
      */
     public function getCounters($idSite, int $lastMinutes, $segment = false, $showColumns = array(), $hideColumns = array())
     {
@@ -129,11 +131,11 @@ class API extends \Piwik\Plugin\API
         return $show && !$hide;
     }
 
-    /*
-     * Returns if the visitor profile is enabled for the given site(s)
+    /**
+     * Returns whether the visitor profile is enabled for the given site selection.
      *
-     * @param string|int|array $idSite
-     * @return bool
+     * @param int|string|int[] $idSite Website ID or site selection to query.
+     * @return bool Whether visitor profiles are enabled.
      */
     public function isVisitorProfileEnabled($idSite): bool
     {
@@ -141,19 +143,23 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the last visits tracked in the specified website
-     * You can define any number of filters: none, one, many or all parameters can be defined
+     * Returns the most recent visit details for one or more websites.
      *
-     * @param int $idSite Site ID
-     * @param bool|string $period Period to restrict to when looking at the logs
-     * @param bool|string $date Date to restrict to
-     * @param bool|int $segment (optional) Number of visits rows to return
-     * @param bool|int $countVisitorsToFetch DEPRECATED (optional) Only return the last X visits. Please use the API paramaeter 'filter_offset' and 'filter_limit' instead.
-     * @param bool|int $minTimestamp (optional) Minimum timestamp to restrict the query to (useful when paginating or refreshing visits)
-     * @param bool $flat
-     * @param bool $doNotFetchActions
-     * @param bool $enhanced for plugins that want to expose additional information
-     * @return DataTable
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range'|false $period Optional period restriction.
+     * @param string|false $date Optional date or date range restriction.
+     * @param string|null|false $segment Custom segment to filter the visits.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param int|false $countVisitorsToFetch Deprecated explicit row limit. Prefer `filter_offset` and `filter_limit`.
+     * @param int|false $minTimestamp Optional minimum timestamp for incremental refreshes or pagination.
+     * @param bool $flat Whether to flatten action details into the visit rows.
+     * @param bool $doNotFetchActions Whether to skip fetching action details for better performance.
+     * @param bool $enhanced Whether plugins should enrich the returned visit details.
+     * @return DataTable Recent visit details.
      */
     public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false, $enhanced = false)
     {
@@ -213,13 +219,15 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns an array describing a visitor using their last visits (uses a maximum of 100).
+     * Returns a visitor profile built from the visitor's recent visits.
      *
-     * @param int $idSite Site ID
-     * @param bool|false|string $visitorId The ID of the visitor whose profile to retrieve.
-     * @param bool|false|string $segment
-     * @param bool|false|int $limitVisits
-     * @return array
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string|false $visitorId Optional visitor ID. If omitted, the most recent visitor is used.
+     * @param string|null|false $segment Custom segment to filter the profile lookup.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param int|false $limitVisits Optional maximum number of visits to include in the profile.
+     * @return array<string, mixed> Visitor profile data, or an empty array if no visitor is found.
      */
     public function getVisitorProfile($idSite, $visitorId = false, $segment = false, $limitVisits = false)
     {
@@ -264,9 +272,11 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the visitor ID of the most recent visit.
      *
-     * @param int $idSite
-     * @param bool|string $segment
-     * @return string
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string|null|false $segment Custom segment to filter the lookup.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return string|false Visitor ID of the most recent matching visit, or `false` if none is found.
      */
     public function getMostRecentVisitorId($idSite, $segment = false)
     {
@@ -323,13 +333,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the very first visit for the given visitorId
+     * Returns the very first visit for the given visitor ID.
      *
      * @internal
      *
-     * @param $idSite
-     * @param $visitorId
-     *
+     * @param int|string|int[] $idSite
+     * @param string|false $visitorId
      * @return DataTable
      */
     public function getFirstVisitForVisitorId($idSite, $visitorId)
@@ -350,12 +359,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the most recent date time (in UTC) an action was performed for the given idSite
-     * If period and date is given the most recent visit in that period is returned
-     * If no action was performed in this timeframe an empty string is returned
+     * Returns the most recent UTC datetime when an action was performed for the given site selection.
      *
-     * @param int|string $idSite
-     * @throws Exception
+     * @param int|string $idSite Website ID or site selection to query.
+     * @param string|null $period Optional period restriction.
+     * @param string|null $date Optional date or date range restriction.
+     * @return string Most recent visit datetime in UTC, or an empty string if none exists.
      */
     public function getMostRecentVisitsDateTime($idSite, ?string $period = null, ?string $date = null): string
     {
@@ -366,11 +375,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * For an array of visits, query the list of pages for this visit
-     * as well as make the data human readable
-     * @param bool $flat whether to flatten the array (eg. 'customVariables' names/values will appear in the root array rather than in 'customVariables' key
-     * @param bool $doNotFetchActions If set to true, we only fetch visit info and not actions (much faster)
-     * @param bool $filterNow If true, the visitors will be cleaned immediately
+     * @param bool $flat
+     * @param bool $doNotFetchActions
+     * @param bool $filterNow
      */
     private function addFilterToCleanVisitors(
         DataTable $dataTable,
