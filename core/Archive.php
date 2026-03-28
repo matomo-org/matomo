@@ -496,7 +496,7 @@ class Archive implements ArchiveQuery
      * @param int|string|array $idSite @see {@link build()}
      * @param string $period @see {@link build()}
      * @param string $date @see {@link build()}
-     * @param string $segment @see {@link build()}
+     * @param string|null $segment @see {@link build()}
      * @param bool $expanded If true, loads all subtables. See {@link getDataTableExpanded()}
      * @param bool $flat If true, loads all subtables and disabled all recursive filters.
      * @param int|string|null|false $idSubtable See {@link getDataTableExpanded()}
