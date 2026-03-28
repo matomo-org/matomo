@@ -189,9 +189,11 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The ID to generate tracking code for.
      * @param string $piwikUrl The domain and URL path to the Matomo installation.
-     * @param int $idGoal An ID for a goal to trigger a conversion for.
-     * @param int $revenue The revenue of the goal conversion. Only used if $idGoal is supplied.
-     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
+     * @param string|false $actionName Action name to include in the image tracking request, or `false` to omit it.
+     * @param int|false $idGoal Goal ID to trigger a conversion for, or `false` to omit goal tracking.
+     * @param int|float|false $revenue Revenue for the goal conversion. Only used when `$idGoal` is supplied.
+     * @param bool|false $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed
+     *                                        prior to 3.7.0.
      * @return string The HTML tracking code.
      */
     public function getImageTrackingCode(
@@ -696,9 +698,9 @@ class API extends \Piwik\Plugin\API
      * @param null|string $excludedUserAgents
      * @param int $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
      *                              will be removed. If 0, the default global behavior will be used.
-     * @param array|null $settingValues JSON serialized settings eg {settingName: settingValue, ...}
-     * @see getKeepURLFragmentsGlobal.
      * @param string $type The website type, defaults to "website" if not set.
+     * @param array|null $settingValues Measurable settings keyed by setting name.
+     * @see getKeepURLFragmentsGlobal.
      * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
      * @param string|null $excludedReferrers Comma separated list of hosts/urls to exclude from referrer detection
      *
@@ -856,6 +858,12 @@ class API extends \Piwik\Plugin\API
         return $coreProperties;
     }
 
+    /**
+     * Returns the editable settings metadata for a website.
+     *
+     * @param int $idSite The numeric ID of the website to inspect.
+     * @return array Formatted measurable settings for the requested website.
+     */
     public function getSiteSettings(int $idSite)
     {
         Piwik::checkUserHasAdminAccess($idSite);
@@ -898,8 +906,9 @@ class API extends \Piwik\Plugin\API
      *
      * Requires Super User access.
      *
+     * @param int $idSite The numeric ID of the website to delete.
      * @param string|null $passwordConfirmation the current user's password, only required when the request is authenticated with session token auth
-     * @throws Exception
+     * @return void
      */
     public function deleteSite(
         int $idSite,
@@ -1052,6 +1061,8 @@ class API extends \Piwik\Plugin\API
      * Completely overwrites the current list of URLs with the provided list.
      * The 'main_url' of the website won't be affected by this method.
      *
+     * @param int $idSite The numeric ID of the website to update.
+     * @param array $urls Alias URLs to persist for the website.
      * @return int the number of inserted URLs
      */
     public function setSiteAliasUrls(int $idSite, $urls = [])
@@ -1108,9 +1119,9 @@ class API extends \Piwik\Plugin\API
      * Sets Site Search keyword/category parameter names, to be used on websites which have not specified these values
      * Expects Comma separated list of query params names
      *
-     * @param string
-     * @param string
-     * @return bool
+     * @param string $searchKeywordParameters Comma-separated site search keyword parameter names.
+     * @param string $searchCategoryParameters Comma-separated site search category parameter names.
+     * @return bool `true` after the global site search parameters have been saved.
      */
     public function setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters)
     {
@@ -1122,7 +1133,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @return string Comma separated list of URL parameters
+     * @return string|false Comma separated list of URL parameters.
      */
     public function getSearchKeywordParametersGlobal()
     {
@@ -1151,6 +1162,9 @@ class API extends \Piwik\Plugin\API
      * Returns the list of URL query parameters that are excluded for the given website
      *
      * Globally excluded parameters are included in this list
+     *
+     * @param int $idSite The numeric ID of the website to inspect.
+     * @return array List of excluded query parameter names for the requested website.
      */
     public function getExcludedQueryParameters(int $idSite): array
     {
@@ -1189,7 +1203,7 @@ class API extends \Piwik\Plugin\API
      * all websites. If a visitor's user agent string contains one of these substrings,
      * their visits will not be included.
      *
-     * @return string Comma separated list of strings.
+     * @return string|false Comma separated list of strings.
      */
     public function getExcludedUserAgentsGlobal()
     {
@@ -1342,7 +1356,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the list of IPs that are excluded from all websites
      *
-     * @return string Comma separated list of IPs
+     * @return string|false Comma separated list of IPs
      */
     public function getExcludedIpsGlobal()
     {
@@ -1450,6 +1464,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Gets the exclusion type, if the option is not present in the store then it infers the type based on if there are
      * custom exclusions already defined.
+     *
+     * @param int|null $idSite Specific site ID when site-specific filtering is active, or `null` for global settings.
+     * @return string Query parameter exclusion type name.
      */
     public function getExclusionTypeForQueryParams(?int $idSite = null): string
     {
@@ -1852,6 +1869,13 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+    /**
+     * Renames a website group across all sites that currently use it.
+     *
+     * @param string $oldGroupName Existing group name to replace.
+     * @param string $newGroupName New group name to assign.
+     * @return bool `true` if the rename completed or no change was needed.
+     */
     public function renameGroup($oldGroupName, $newGroupName)
     {
         Piwik::checkUserHasSuperUserAccess();

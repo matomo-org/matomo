@@ -3954,27 +3954,7 @@ parameters:
 			path: plugins/SegmentEditor/SegmentEditor.php
 
 		-
-			message: "#^Default value of the parameter \\#4 \\$idGoal \\(false\\) of method Piwik\\\\Plugins\\\\SitesManager\\\\API\\:\\:getImageTrackingCode\\(\\) is incompatible with type int\\.$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^Default value of the parameter \\#5 \\$revenue \\(false\\) of method Piwik\\\\Plugins\\\\SitesManager\\\\API\\:\\:getImageTrackingCode\\(\\) is incompatible with type int\\.$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\[\\]\\|int\\[\\] \\$sitesToExclude optional array of Integer IDs of sites to exclude from the result\\.\\)\\: Unexpected token \"\\[\", expected type at offset 282$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 208$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 229$#"
 			count: 1
 			path: plugins/SitesManager/API.php
 
