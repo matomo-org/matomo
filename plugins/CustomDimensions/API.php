@@ -34,18 +34,22 @@ use Piwik\Tracker\Cache;
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Fetch a report for the given idDimension. Only reports for active dimensions can be fetched. Requires at least
-     * view access.
+     * Returns the report for a configured custom dimension.
      *
-     * @param int $idDimension
-     * @param string $period
-     * @param string $date
-     * @param bool|false $segment
-     * @param bool|false $expanded
-     * @param bool|false $flat
-     * @param int|false $idSubtable
+     * @param int $idDimension Custom dimension ID to load the report for.
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false $segment Custom segment to filter the report.
+     *                              Example: "referrerName==example.com"
+     *                              Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether subtables should be expanded in the response.
+     * @param bool $flat Whether subtable rows should be flattened into a single table.
+     * @param int|false $idSubtable Optional subtable ID to load.
      * @return DataTable|DataTable\Map
-     * @throws \Exception
      */
     public function getCustomDimension($idDimension, int $idSite, $period, $date, $segment = false, $expanded = false, $flat = false, $idSubtable = false)
     {
@@ -75,25 +79,16 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Configures a new Custom Dimension. Note that Custom Dimensions cannot be deleted, be careful when creating one
-     * as you might run quickly out of available Custom Dimension slots. Requires at least Admin access for the
-     * specified website. A current list of available `$scopes` can be fetched via the API method
-     * `CustomDimensions.getAvailableScopes()`. This method will also contain information whether actually Custom
-     * Dimension slots are available or whether they are all already in use.
+     * Configures a new custom dimension for a site.
      *
-     * @param int $idSite    The idSite the dimension shall belong to
-     * @param string $name   The name of the dimension
-     * @param string $scope  Either 'visit' or 'action'. To get an up to date list of availabe scopes fetch the
-     *                       API method `CustomDimensions.getAvailableScopes`
-     * @param int $active  '0' if dimension should be inactive, '1' if dimension should be active
-     * @param array $extractions    Either an empty array or if extractions shall be used one or multiple extractions
-     *                              the format array(array('dimension' => 'url', 'pattern' => 'index_(.+).html'), array('dimension' => 'urlparam', 'pattern' => '...'))
-     *                              Supported dimensions are  eg 'url', 'urlparam' and 'action_name'. To get an up to date list of
-     *                              supported dimensions request the API method `CustomDimensions.getAvailableExtractionDimensions`.
-     *                              Note: Extractions can be only set for dimensions in scope 'action'.
-     * @param int|bool $caseSensitive  '0' if extractions should be applied case insensitive, '1' if extractions should be applied case sensitive
-     * @return int Returns the ID of the configured dimension. Note that the same idDimension will be used for different websites.
-     * @throws \Exception
+     * @param int $idSite The numeric ID of the website to configure the dimension for.
+     * @param string $name The custom dimension name.
+     * @param 'visit'|'action' $scope The dimension scope.
+     * @param int|bool $active Whether the custom dimension should be active.
+     * @param array<int, array{dimension:string, pattern:string}> $extractions Optional extraction rules.
+     *                                                                         Extractions are supported only for the `action` scope.
+     * @param int|bool $caseSensitive Whether extraction matching should be case-sensitive.
+     * @return int ID of the configured custom dimension.
      */
     public function configureNewCustomDimension(int $idSite, $name, $scope, $active, $extractions = array(), $caseSensitive = true)
     {
@@ -120,6 +115,10 @@ class API extends \Piwik\Plugin\API
         return $idDimension;
     }
 
+    /**
+     * @param array<int, array{dimension?:mixed, pattern?:mixed}> $extractions
+     * @return array<int, array{dimension?:mixed, pattern?:mixed}>
+     */
     private function unsanitizeExtractions($extractions)
     {
         if (!empty($extractions) && is_array($extractions)) {
@@ -134,20 +133,17 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Updates an existing Custom Dimension. This method updates all values, you need to pass existing values of the
-     * dimension if you do not want to reset any value. Requires at least Admin access for the specified website.
+     * Updates an existing custom dimension.
      *
-     * @param int $idDimension  The id of a Custom Dimension.
-     * @param int $idSite       The idSite the dimension belongs to
-     * @param string $name      The name of the dimension
-     * @param int $active       '0' if dimension should be inactive, '1' if dimension should be active
-     * @param array $extractions    Either an empty array or if extractions shall be used one or multiple extractions
-     *                              the format array(array('dimension' => 'url', 'pattern' => 'index_(.+).html'), array('dimension' => 'urlparam', 'pattern' => '...'))
-     *                              Supported dimensions are  eg 'url', 'urlparam' and 'action_name'. To get an up to date list of
-     *                              supported dimensions request the API method `CustomDimensions.getAvailableExtractionDimensions`.
-     *                              Note: Extractions can be only set for dimensions in scope 'action'.
-     * @param int|bool|null $caseSensitive  '0' if extractions should be applied case insensitive, '1' if extractions should be applied case sensitive, null to keep case sensitive unchanged
-     * @throws \Exception
+     * @param int $idDimension Custom dimension ID to update.
+     * @param int $idSite The numeric ID of the website the dimension belongs to.
+     * @param string $name The custom dimension name.
+     * @param int|bool $active Whether the custom dimension should be active.
+     * @param array<int, array{dimension:string, pattern:string}> $extractions Optional extraction rules.
+     *                                                                         Extractions are supported only for the `action` scope.
+     * @param int|bool|null $caseSensitive Whether extraction matching should be case-sensitive.
+     *                                     Use `null` to keep the current setting.
+     * @return void
      */
     public function configureExistingCustomDimension($idDimension, int $idSite, $name, $active, $extractions = array(), $caseSensitive = null)
     {
@@ -170,6 +166,10 @@ class API extends \Piwik\Plugin\API
         Cache::clearCacheGeneral();
     }
 
+    /**
+     * @param string $scope
+     * @param array<int, array{dimension:string, pattern:string}> $extractions
+     */
     private function checkExtractionsAreSupportedForScope($scope, $extractions)
     {
         if (!CustomDimensions::doesScopeSupportExtractions($scope) && !empty($extractions)) {
@@ -178,10 +178,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get a list of all configured CustomDimensions for a given website. Requires at least Admin access for the
-     * specified website.
+     * Returns all configured custom dimensions for a site.
      *
-     * @return array
+     * @param int $idSite The numeric ID of the website to query.
+     * @return array<int, array<string, mixed>>
      */
     public function getConfiguredCustomDimensions(int $idSite)
     {
@@ -194,6 +194,10 @@ class API extends \Piwik\Plugin\API
 
     /**
      * For convenience. Hidden to reduce API surface area.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $scope Scope to filter configured dimensions by.
+     * @return array<int, array<string, mixed>>
      * @hide
      */
     public function getConfiguredCustomDimensionsHavingScope(int $idSite, $scope)
@@ -206,6 +210,12 @@ class API extends \Piwik\Plugin\API
         return $result;
     }
 
+    /**
+     * @param string $name
+     * @param int|bool $active
+     * @param array<int, array{dimension:string, pattern:string}> $extractions
+     * @param int|bool|null $caseSensitive
+     */
     private function checkCustomDimensionConfig($name, $active, $extractions, $caseSensitive)
     {
         // ideally we would work with these objects a bit more instead of arrays but we'd have a lot of
@@ -227,11 +237,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get a list of all supported scopes that can be used in the API method
-     * `CustomDimensions.configureNewCustomDimension`. The response also contains information whether more Custom
-     * Dimensions can be created or not. Requires at least Admin access for the specified website.
+     * Returns the supported custom-dimension scopes for a site.
      *
-     * @return array
+     * @param int $idSite The numeric ID of the website to query.
+     * @return array<int, array{value:string, name:string, numSlotsAvailable:int, numSlotsUsed:int, numSlotsLeft:int, supportsExtractions:bool}>
      */
     public function getAvailableScopes(int $idSite)
     {
@@ -256,10 +265,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get a list of all available dimensions that can be used in an extraction. Requires at least Admin access
-     * to one website.
+     * Returns the dimensions that can be used in extraction rules.
      *
-     * @return array
+     * @return array<int, array{value:string, name:string}>
      */
     public function getAvailableExtractionDimensions()
     {
