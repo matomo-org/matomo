@@ -102,6 +102,40 @@ class API extends \Piwik\Plugin\API
     public const DEFAULT_NB_ROW_EVOLUTIONS = 5;
     public const MAX_NB_ROW_LABELS = 10;
 
+    /**
+     * Generates a static graph image for a Matomo report.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string $apiModule API module name of the source report.
+     * @param string $apiAction API method name of the source report.
+     * @param 'evolution'|'verticalBar'|'horizontalBar'|'pie'|'3dPie'|false $graphType Optional graph type.
+     * @param int $outputType Output mode: inline image, saved file, or raw PHP graph object.
+     * @param string|false $columns Optional comma-separated metric names to plot.
+     * @param string|false $labels Optional comma-separated row labels to include for evolution graphs.
+     * @param bool $showLegend Whether the graph legend should be displayed.
+     * @param int|false $width Optional graph width in pixels.
+     * @param int|false $height Optional graph height in pixels.
+     * @param int $fontSize Base font size used in the graph.
+     * @param int|false $legendFontSize Optional legend font size.
+     * @param bool $aliasedGraph Whether anti-aliasing should be enabled.
+     * @param int|string|false $idGoal Optional goal ID for report methods that support goals.
+     * @param string|false $colors Optional comma-separated list of hex colors to use in the graph.
+     * @param string $textColor Hex color used for text.
+     * @param string $backgroundColor Hex color used for the background.
+     * @param string $gridColor Hex color used for grid lines.
+     * @param int|false $idSubtable Optional subtable ID for source reports that use subtables.
+     * @param bool $legendAppendMetric Whether the metric name should be appended to legend labels.
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param int|string|false $idDimension Optional dimension ID for reports that support dimensions.
+     * @return mixed Generated graph output, depending on the selected output type.
+     */
     public function get(
         $idSite,
         $period,
