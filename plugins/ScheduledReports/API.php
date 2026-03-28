@@ -741,7 +741,8 @@ class API extends \Piwik\Plugin\API
          *                                 report. Entries includes report data and metadata for each report.
          * @param string $reportType A string ID describing how the scheduled report will be sent, eg,
          *                           `'sms'` or `'email'`.
-         * @param string $outputType The output format of the report, eg, `'html'`, `'pdf'`, etc.
+         * @param int $outputType The scheduled report output mode. One of `OUTPUT_DOWNLOAD`,
+         *                        `OUTPUT_SAVE_ON_DISK`, `OUTPUT_INLINE`, or `OUTPUT_RETURN`.
          * @param array $report An array describing the scheduled report that is being
          *                      generated.
          */
@@ -764,7 +765,8 @@ class API extends \Piwik\Plugin\API
          *                                        subscribers.
          * @param string $reportType A string ID describing how the report is sent, eg,
          *                           `'sms'` or `'email'`.
-         * @param string $outputType The output format of the report, eg, `'html'`, `'pdf'`, etc.
+         * @param int $outputType The scheduled report output mode. One of `OUTPUT_DOWNLOAD`,
+         *                        `OUTPUT_SAVE_ON_DISK`, `OUTPUT_INLINE`, or `OUTPUT_RETURN`.
          * @param array $report An array describing the scheduled report that is being
          *                      generated.
          */
