@@ -29,14 +29,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get each dashboard that belongs to a user including the containing widgets that are placed within each dashboard.
-     * If the user has not created any dashboard yet, the default dashboard will be returned unless
-     * $returnDefaultIfEmpty is set to `false`
+     * Returns the dashboards available to a user, including the widgets in each dashboard.
      *
-     * @param string $login Login of the user [defaults to current user]
-     * @param bool $returnDefaultIfEmpty  disable return of default dashboard
-     *
-     * @return array[]
+     * @param string $login Login of the user to load dashboards for. Defaults to the current user.
+     * @param bool $returnDefaultIfEmpty Whether to return the default dashboard when the user has none.
+     * @return array<int, array{name:string, id:int, widgets:array<int, array{module:string, action:string}>}> Dashboards for the requested user.
      */
     public function getDashboards($login = '', $returnDefaultIfEmpty = true)
     {
@@ -58,14 +55,12 @@ class API extends \Piwik\Plugin\API
 
 
     /**
-     * Creates a new dashboard for the given login
+     * Creates a new dashboard for a user.
      *
-     * Note: Only a super user is able to create dashboards for other users
-     *
-     * @param string $login login of the user that dashboard should be created for
-     * @param string $dashboardName name of the new dashboard
-     * @param bool $addDefaultWidgets  whether to add the current default widget collection or not
-     * @return int|string
+     * @param string $login Login of the user the dashboard should be created for.
+     * @param string $dashboardName Name of the new dashboard.
+     * @param bool $addDefaultWidgets Whether to populate the dashboard with the default widget layout.
+     * @return int|string ID of the newly created dashboard.
      */
     public function createNewDashboardForUser($login, $dashboardName = '', $addDefaultWidgets = true)
     {
@@ -82,17 +77,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Removes a dashboard according to given dashboard id and login
+     * Removes a dashboard for a user.
      *
-     * Note: Only a super user is able to remove dashboards for other users
-     *
-     * Also note: It is allowed to delete the first dashboard for a user, BUT
-     * that will cause buggy behavior if a new dashboard is not immediately added.
-     * Deleting the first dashboard (with ID = 1) should only be done for automation
-     * purposes.
-     *
-     * @param int $idDashboard id of the dashboard to be removed
-     * @param string $login  Login of the dashboard user [defaults to current user]
+     * @param int $idDashboard ID of the dashboard to remove.
+     * @param string $login Login of the dashboard owner. Defaults to the current user.
+     * @return void
      */
     public function removeDashboard($idDashboard, $login = '')
     {
@@ -105,15 +94,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Copy a dashboard of current user to another user
+     * Copies one of the current user's dashboards to another user.
      *
-     * Note: current user needs super user access
-     *
-     * @param int $idDashboard Id of the dashboard that should be copied
-     * @param string $copyToUser User the dashboard should be copied to
-     * @param string $dashboardName Name of the new dashboard (defaults to 'Dashboard of {user}')
-     * @return int id of the new dashboard
-     * @throws \Exception if an error occurs, or dashboard can't be found
+     * @param int $idDashboard ID of the dashboard to copy.
+     * @param string $copyToUser Login of the user that should receive the dashboard copy.
+     * @param string $dashboardName Name of the copied dashboard.
+     * @return int|string ID of the new dashboard.
      */
     public function copyDashboardToUser($idDashboard, $copyToUser, $dashboardName = '')
     {
@@ -144,12 +130,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Resets a dashboard to the default widget configuration
+     * Resets a dashboard to the default widget layout.
      *
-     * Note: Only a super user is able to reset dashboards for other users
-
-     * @param int $idDashboard dashboard id
-     * @param string $login user the dashboard belongs
+     * @param int $idDashboard ID of the dashboard to reset.
+     * @param string $login Login of the dashboard owner. Defaults to the current user.
+     * @return void
      */
     public function resetDashboardLayout($idDashboard, $login = '')
     {
@@ -164,8 +149,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get the default dashboard.
-     * @return \array[]
+     * @return array{name:string, id:int, widgets:array<int, array{module:string, action:string}>}
      */
     private function getDefaultDashboard()
     {
@@ -179,10 +163,8 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get all dashboards which a user has created.
-     *
-     * @param string $userLogin login of the user
-     * @return \array[]
+     * @param string $userLogin
+     * @return array<int, array{name:string, id:int, widgets:array<int, array{module:string, action:string}>}>
      */
     private function getUserDashboards($userLogin)
     {
@@ -198,6 +180,10 @@ class API extends \Piwik\Plugin\API
         return $dashboards;
     }
 
+    /**
+     * @param array<string, mixed> $dashboard
+     * @return array<int, array{module:string, action:string}>
+     */
     private function getVisibleWidgetsWithinDashboard($dashboard)
     {
         $columns = $this->getColumnsFromDashboard($dashboard);
@@ -219,6 +205,9 @@ class API extends \Piwik\Plugin\API
         return $widgets;
     }
 
+    /**
+     * @param string $login
+     */
     private function checkLoginIsNotAnonymous($login)
     {
         Piwik::checkUserIsNotAnonymous();
@@ -228,6 +217,10 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+    /**
+     * @param array<string, mixed> $dashboard
+     * @return array<int, mixed>
+     */
     private function getColumnsFromDashboard($dashboard)
     {
         if (empty($dashboard['layout'])) {
@@ -245,11 +238,19 @@ class API extends \Piwik\Plugin\API
         return array();
     }
 
+    /**
+     * @param array<string, mixed> $dashboard
+     * @param array<int, array{module:string, action:string}> $widgets
+     * @return array{name:string, id:int, widgets:array<int, array{module:string, action:string}>}
+     */
     private function buildDashboard($dashboard, $widgets)
     {
         return array('name' => $dashboard['name'], 'id' => $dashboard['iddashboard'], 'widgets' => $widgets);
     }
 
+    /**
+     * @param object $widget
+     */
     private function widgetIsNotHidden($widget)
     {
         return empty($widget->isHidden);
