@@ -36,6 +36,8 @@ use Piwik\Url;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 /**
+ * Provides administrative API methods for scheduling, archiving, tracking failures, and opt-out code generation.
+ *
  * @method static \Piwik\Plugins\CoreAdminHome\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -75,7 +77,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Will run all scheduled tasks due to run at this time.
      *
-     * @return array
+     * @return array<int, array{task:string, output:string}> Results for each executed scheduled task.
      * @hideExceptForSuperUser
      */
     public function runScheduledTasks()
@@ -158,19 +160,17 @@ class API extends \Piwik\Plugin\API
      *
      * Note: This is done automatically when tracking or importing visits in the past.
      *
-     * @param string $idSites Comma separated list of site IDs to invalidate reports for.
-     * @param string|string[] $dates Comma separated list of dates of periods to invalidate reports for or array of strings
-     *                               (needed if period = range).
-     * @param string|bool $period The type of period to invalidate: either 'day', 'week', 'month', 'year', 'range'.
-     *                            The command will automatically cascade up, invalidating reports for parent periods as
-     *                            well. So invalidating a day will invalidate the week it's in, the month it's in and the
-     *                            year it's in, since those periods will need to be recomputed too.
-     * @param string|bool $segment Optional. The segment to invalidate reports for.
+     * @param string $idSites Comma-separated list of site IDs to invalidate reports for.
+     * @param string|string[] $dates Comma-separated list of dates or date ranges to invalidate.
+     *                               Use an array of strings when `$period` is `range`.
+     * @param 'day'|'week'|'month'|'year'|'range'|false $period The period type to invalidate.
+     *                                                          Invalidating one period also invalidates its parent periods.
+     * @param string|false $segment Optional segment to invalidate reports for.
      * @param bool $cascadeDown If true, child periods will be invalidated as well. So if it is requested to invalidate
      *                          a month, then all the weeks and days within that month will also be invalidated. But only
      *                          if this parameter is set.
-     * @throws Exception
-     * @return array
+     * @param bool $_forceInvalidateNonexistent Whether to also invalidate archives that do not currently exist.
+     * @return string[] Log messages describing the invalidation work that was scheduled.
      * @hideExceptForSuperUser
      */
     public function invalidateArchivedReports(
@@ -211,6 +211,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Initiates cron archiving via web request.
      *
+     * @return void
      * @hideExceptForSuperUser
      */
     public function runCronArchiving()
@@ -231,6 +232,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Deletes all tracking failures this user has at least admin access to.
      * A super user will also delete tracking failures for sites that don't exist.
+     *
+     * @return void
      */
     public function deleteAllTrackingFailures()
     {
@@ -245,8 +248,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Deletes a specific tracking failure
-     * @param int $idFailure
+     * Deletes a specific tracking failure.
+     *
+     * @param int $idSite Site ID that owns the tracking failure.
+     * @param int|string $idFailure Tracking failure ID to delete.
+     * @return void
      */
     public function deleteTrackingFailure(int $idSite, $idFailure)
     {
@@ -258,7 +264,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Get all tracking failures. A user retrieves only tracking failures for sites with at least admin access.
      * A super user will also retrieve failed requests for sites that don't exist.
-     * @return array
+     *
+     * @return array<int, array<string, mixed>> Tracking failures visible to the current user.
      */
     public function getTrackingFailures()
     {
@@ -276,12 +283,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param string $period
+     * @param 'day'|'week'|'month'|'year'|'range' $period
      * @param string $date
      * @param string|null|false $segment
      * @param string|null|false $plugin
      * @param string|string[]|null|false $report
-     * @return array
+     * @return array<string, mixed>
      * @internal
      */
     public function archiveReports(int $idSite, $period, $date, $segment = false, $plugin = false, $report = false)
@@ -402,11 +409,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Ensure the specified dates are valid.
-     * Store invalid date so we can log them
-     * @param array|string  $dates
-     *
-     * @return array
+     * @param array<int, string>|string $dates
+     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @return array{0: array<int, Date|string>, 1: string[]}
      */
     private function getDatesToInvalidateFromString($dates, string $period): array
     {
@@ -459,8 +464,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Show the JavaScript opt out code
-     *
      * @internal
      */
     public function getOptOutJSEmbedCode(
@@ -487,8 +490,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Show the self-contained JavaScript opt out code
-     *
      * @internal
      */
     public function getOptOutSelfContainedEmbedCode(
@@ -504,8 +505,6 @@ class API extends \Piwik\Plugin\API
 
 
     /**
-     * Mark all "what's new" changes as having been read by the user
-     *
      * @internal
      */
     public function whatIsNewMarkAllChangesReadForCurrentUser()
