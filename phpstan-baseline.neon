@@ -2414,26 +2414,6 @@ parameters:
 			path: core/dispatch.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with non\\-falsy\\-string will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/API/API.php
-
-		-
-			message: "#^Default value of the parameter \\#14 \\$labelSeries \\(false\\) of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getRowEvolution\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: plugins/API/API.php
-
-		-
-			message: "#^Default value of the parameter \\#15 \\$showGoalMetricsForGoal \\(false\\) of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getRowEvolution\\(\\) is incompatible with type int\\|string\\.$#"
-			count: 1
-			path: plugins/API/API.php
-
-		-
-			message: "#^Default value of the parameter \\#6 \\$idSite \\(false\\) of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getReportMetadata\\(\\) is incompatible with type int\\.$#"
-			count: 1
-			path: plugins/API/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$request of static method Piwik\\\\API\\\\Request\\:\\:getMethodIfApiRequest\\(\\) expects array, null given\\.$#"
 			count: 1
 			path: plugins/API/API.php
