@@ -358,11 +358,13 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns all users with their role for $idSite.
      *
+     * @param int $idSite The numeric ID of the website to inspect.
      * @param int|null $limit
      * @param int|null $offset
      * @param string|null $filter_search text to search for in the user's login and email (if any)
      * @param string|null $filter_access only select users with this access to $idSite. can be 'noaccess', 'some', 'view', 'admin', 'superuser'
      *                                   Filtering by 'superuser' is only allowed for other superusers.
+     * @param string|null $filter_status Filter users by invite status.
      * @return array
      */
     public function getUsersPlusRole(int $idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null, $filter_status = null)
@@ -572,6 +574,13 @@ class API extends \Piwik\Plugin\API
         return $usersAccess;
     }
 
+    /**
+     * Returns users who have the requested access entries for a website.
+     *
+     * @param int $idSite The numeric ID of the website to inspect.
+     * @param string|array $access Access entries to match, using one role plus optional capabilities.
+     * @return array Matching users enriched with user metadata.
+     */
     public function getUsersWithSiteAccess(int $idSite, $access)
     {
         Piwik::checkUserHasAdminAccess($idSite);
@@ -597,13 +606,8 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $userLogin User that has to be valid
      *
-     * @return array    The returned array has the format
-     *                    array(
-     *                        idsite1 => 'view',
-     *                        idsite2 => 'admin',
-     *                        idsite3 => 'view',
-     *                        ...
-     *                    )
+     * @return array Website access rows for the requested user. Super users receive a list of sites with `site` and
+     *               `access` keys.
      */
     public function getSitesAccessFromUser($userLogin)
     {
@@ -637,12 +641,7 @@ class API extends \Piwik\Plugin\API
      * @param int|null $offset
      * @param string|null $filter_search text to search for in site name, URLs, or group.
      * @param string|null $filter_access access level to select for, can be 'some', 'view' or 'admin' (by default 'some')
-     * @return array    The returned array has the format
-     *                    array(
-     *                        ['idsite' => 1, 'site_name' => 'the site', 'access' => 'admin'],
-     *                        ['idsite' => 2, 'site_name' => 'the other site', 'access' => 'view'],
-     *                        ...
-     *                    )
+     * @return array Site access rows including `role` and `capabilities` for each returned site.
      * @throws Exception
      */
     public function getSitesAccessForUser(
@@ -738,18 +737,15 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Add a user in the database.
-     * A user is defined by
-     * - a login that has to be unique and valid
-     * - a password that has to be valid
-     * - an email that has to be in a correct format
+     * Creates a new user account.
      *
-     * @throws Exception in case of an invalid parameter
-     * @see isValidLoginString()
-     * @see isValidPasswordString()
-     * @see isValidEmailString()
-     *
-     * @see userExists()
+     * @param string $userLogin Login name for the new user.
+     * @param string $password Password for the new user.
+     * @param string $email Email address for the new user.
+     * @param bool $_isPasswordHashed `true` if `$password` is already hashed.
+     * @param int|null $initialIdSite Initial site to grant access to. Required for non-superusers.
+     * @param string|null $passwordConfirmation Current user's password confirmation when required by session auth.
+     * @return void
      */
     public function addUser(
         $userLogin,
@@ -800,7 +796,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @throws Exception
+     * Invites a new user by email and grants initial access to a website.
+     *
+     * @param string $userLogin Login name for the invited user.
+     * @param string $email Email address for the invited user.
+     * @param int|null $initialIdSite Initial site to grant access to.
+     * @param int|null $expiryInDays Number of days before the invite expires.
+     * @param string|null $passwordConfirmation Current user's password confirmation when required by session auth.
+     * @return void
      */
     public function inviteUser(
         $userLogin,
@@ -922,7 +925,12 @@ class API extends \Piwik\Plugin\API
      * If password or email changes, it is required to also specify the password of the current user needs to be specified
      * to confirm this change.
      *
-     * @see addUser() for all the parameters
+     * @param string $userLogin Login name of the user to update.
+     * @param string|false $password New password to set, or `false` to keep the current password.
+     * @param string|false $email New email address to set, or `false` to keep the current email.
+     * @param bool $_isPasswordHashed `true` if `$password` is already hashed.
+     * @param string|false $passwordConfirmation Current user's password confirmation when required.
+     * @return void
      */
     public function updateUser(
         $userLogin,
@@ -1133,8 +1141,8 @@ class API extends \Piwik\Plugin\API
      * Returns the first login name of an existing user that has the given email address. If no user can be found for
      * this user an error will be returned.
      *
-     * @param string $userEmail
-     * @return bool true if the user is known
+     * @param string $userEmail Email address to look up.
+     * @return string Login name of the matched user.
      */
     public function getUserLoginFromUserEmail($userEmail)
     {
@@ -1151,20 +1159,21 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Set an access level to a given user for a list of websites ID.
+     * Sets access entries for a user across one or more websites.
      *
      * If access = 'noaccess' the current access (if any) will be deleted.
-     * If access = 'view' or 'admin' the current access level is deleted and updated with the new value.
+     * Otherwise the current access level is deleted and updated with the supplied role and capabilities.
      *
      * @param string $userLogin The user login
-     * @param string|array $access Access to grant. Must have one of the following value : noaccess, view, write, admin.
-     *                              May also be an array to sent additional capabilities
-     * @param int|array $idSites The array of idSites on which to apply the access level for the user.
-     *       If the value is "all" then we apply the access level to all the websites ID for which the current authentificated user has an 'admin' access.
-     * @param string $passwordConfirmation password confirmation. only required when setting view access for anonymous user through session auth
-     * @throws Exception if the user doesn't exist
-     * @throws Exception if the access parameter doesn't have a correct value
-     * @throws Exception if any of the given website ID doesn't exist
+     * @param string|array $access Access entries to grant. Use `noaccess` to remove access, or provide one role plus
+     *                             optional capabilities.
+     * @param string|int|int[] $idSites Website ID(s) to update.
+     *                                  - Single site ID (e.g. 1)
+     *                                  - Multiple site IDs (e.g. [1, 4, 5])
+     *                                  - Comma-separated list ("1,4,5") or "all"
+     * @param string|null $passwordConfirmation Password confirmation. Only required when setting anonymous view access
+     *                                           through session auth.
+     * @return void
      */
     public function setUserAccess(
         $userLogin,
@@ -1499,21 +1508,16 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Generates an app specific API token every time you call this method. You should ideally store this token securely
-     * in your app and not generate a new token every time.
+     * Generates a new app-specific API token for a user.
      *
-     * If the username/password combination is incorrect an invalid token will be returned.
-     *
-     * @param string $userLogin Login or Email address
-     * @param string $passwordConfirmation the current user's password. For security purposes, this value should be
-     *                                     sent as a POST parameter.
-     * @param string $description The description for this app specific password, for example your app name. Max 100 characters are allowed
-     * @param string $expireDate Optionally a date when the token should expire
-     * @param string $expireHours Optionally number of hours for how long the token should be valid before it expires.
-     *                            If expireDate is set and expireHours, then expireDate will be used.
-     *                            If expireDate is set and expireHours, then expireDate will be used.
-     * @param bool $secureOnly Defines if the token can be used securely only (if true, token can't be provided as param in GET requests)
-     * @return string
+     * @param string $userLogin Login name or email address for the user.
+     * @param string $passwordConfirmation The user's current password.
+     * @param string $description Description for the app-specific token, for example an app name.
+     * @param string|null $expireDate Optional expiry date for the token.
+     * @param int|string $expireHours Optional number of hours before the token expires. Ignored when `$expireDate` is
+     *                                set.
+     * @param bool $secureOnly `true` if the token must not be accepted in GET requests.
+     * @return string Newly generated app-specific token.
      */
     public function createAppSpecificTokenAuth(
         string $userLogin,
@@ -1556,6 +1560,11 @@ class API extends \Piwik\Plugin\API
         return $generatedToken;
     }
 
+    /**
+     * Signs the current user up for the Matomo newsletter.
+     *
+     * @return array{success?: true, error?: true} Signup result payload.
+     */
     public function newsletterSignup()
     {
         Piwik::checkUserIsNotAnonymous();
@@ -1667,12 +1676,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * resend the invite email to user
+     * Resends an existing user invitation email.
      *
-     * @param string $userLogin
-     * @param int $expiryInDays
-     * @param string | null $passwordConfirmation
-     * @throws NoAccessException
+     * @param string $userLogin Login name of the invited user.
+     * @param int $expiryInDays Number of days before the regenerated invite expires.
+     * @param string|null $passwordConfirmation Current user's password confirmation when required by session auth.
+     * @return string Regenerated invite token.
      */
     public function resendInvite(
         $userLogin,
@@ -1713,11 +1722,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param $userLogin
-     * @param int $expiryInDays
-     * @param string | null $passwordConfirmation
-     * @return string
-     * @throws NoAccessException
+     * Generates a fresh invitation link for an existing pending user.
+     *
+     * @param string $userLogin Login name of the invited user.
+     * @param int $expiryInDays Number of days before the generated invite expires.
+     * @param string|null $passwordConfirmation Current user's password confirmation when required by session auth.
+     * @return string Generated invitation link token.
      */
     public function generateInviteLink(
         $userLogin,

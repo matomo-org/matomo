@@ -4184,17 +4184,7 @@ parameters:
 			path: plugins/UserLanguage/RecordBuilders/Languages.php
 
 		-
-			message: "#^Default value of the parameter \\#5 \\$expireHours \\(int\\) of method Piwik\\\\Plugins\\\\UsersManager\\\\API\\:\\:createAppSpecificTokenAuth\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: plugins/UsersManager/API.php
-
-		-
 			message: "#^PHPDoc tag @param has invalid value \\(string Access can have the following values \\: 'view' or 'admin'\\)\\: Unexpected token \"Access\", expected variable at offset 252$#"
-			count: 1
-			path: plugins/UsersManager/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$n of method Piwik\\\\Date\\:\\:addHour\\(\\) expects float\\|int, string given\\.$#"
 			count: 1
 			path: plugins/UsersManager/API.php
 
