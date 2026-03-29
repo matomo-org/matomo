@@ -18,6 +18,8 @@ use Piwik\Site;
 /**
  * Provides API methods to create, update, delete, and query annotations.
  *
+ * @phpstan-type Annotation array{id:int, idNote:int, idsite:int, date:string, note:string, starred:int, user:string, canEditOrDelete:bool}
+ *
  * @method static \Piwik\Plugins\Annotations\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -32,7 +34,7 @@ class API extends \Piwik\Plugin\API
      * @param string $date The date the annotation is attached to.
      * @param string $note The text of the annotation (max 255 chars).
      * @param bool $starred Whether the annotation should be starred.
-     * @return array{id:int, idNote:int, idsite:int, date:string, note:string, starred:int, user:string, canEditOrDelete:bool}
+     * @return Annotation
      */
     public function add(int $idSite, string $date, string $note, bool $starred = false): array
     {
@@ -74,7 +76,7 @@ class API extends \Piwik\Plugin\API
      *                          If null, the annotation's text is not modified.
      * @param bool|null $starred Whether the annotation should be starred.
      *                           If null, the annotation is not starred/un-starred, so the current state won't change.
-     * @return array{id:int, idNote:int, idsite:int, date:string, note:string, starred:int, user:string, canEditOrDelete:bool}
+     * @return Annotation
      */
     public function save(int $idSite, int $idNote, ?string $date = null, ?string $note = null, ?bool $starred = null): array
     {
@@ -160,7 +162,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The site ID the annotation is linked to.
      * @param int $idNote The ID of the annotation to get.
-     * @return array{id:int, idNote:int, idsite:int, date:string, note:string, starred:int, user:string, canEditOrDelete:bool}
+     * @return Annotation
      */
     public function get(int $idSite, int $idNote): array
     {
@@ -185,7 +187,7 @@ class API extends \Piwik\Plugin\API
      * @param string|null $date The date of the period.
      * @param 'day'|'week'|'month'|'year'|'range' $period The period type.
      * @param int|null $lastN Whether to include the last N periods in the date range.
-     * @return array<int, array<int, array{id:int, idNote:int, idsite:int, date:string, note:string, starred:int, user:string, canEditOrDelete:bool}>>
+     * @return array<int, array<int, Annotation>>
      */
     public function getAll(string $idSite, ?string $date = null, string $period = 'day', ?int $lastN = null): array
     {
@@ -277,7 +279,7 @@ class API extends \Piwik\Plugin\API
                 if ($getAnnotationText && $totalCount === 1) {
                     [$annotation] = $model->getAllAnnotationsForSiteInRange($siteId, $strDate, $strNextDate, 1);
                     // 1 for the second array to add the note to
-                    $result[$siteId][$i][1]['note'] = $annotation['note'];
+                    $result[$siteId][$i][1]['note'] = (string)$annotation['note'];
                 }
             }
         }
@@ -286,12 +288,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param array{idSite?:int, idsite?:int, user?:string} $annotation
+     * @param array{id:int, idsite:int, date:string, note:string, starred:int, user:string} $annotation
      */
     private function checkUserCanModifyOrDelete(array $annotation): void
     {
         if (!Annotations::canUserModifyOrDelete($annotation)) {
-            throw new Exception("The current user is not allowed to modify or delete notes for site #{$annotation['idSite']}");
+            throw new Exception("The current user is not allowed to modify or delete notes for site #{$annotation['idsite']}");
         }
     }
 
@@ -307,11 +309,7 @@ class API extends \Piwik\Plugin\API
         new Site($idSite);
     }
 
-    /**
-     * @param string|null $date
-     * @param bool $canBeNull
-     */
-    private function checkDateIsValid($date, $canBeNull = false): void
+    private function checkDateIsValid(?string $date, bool $canBeNull = false): void
     {
         if (
             $date === null
@@ -337,6 +335,9 @@ class API extends \Piwik\Plugin\API
         return $note;
     }
 
+    /**
+     * @param array{id:int, idsite:int, date:string, note:string, starred:int, user:string} $annotation
+     */
     private function decorateAnnotation(array &$annotation): void
     {
         $annotation['date'] = substr($annotation['date'], 0, 10);
