@@ -112,7 +112,7 @@ describe("Marketplace", function () {
         testEnvironment.save();
     }
 
-    ['superuser'].forEach(function (mode) {
+    ['superuser', 'user', 'multiUserEnvironment'].forEach(function (mode) {
 
         if (mode !== 'user') {
             it('should show available updates in plugins page', async function() {
