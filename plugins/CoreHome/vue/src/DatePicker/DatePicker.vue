@@ -27,11 +27,14 @@ export default defineComponent({
   props: {
     selectedDateStart: Date,
     selectedDateEnd: Date,
+    persistentHighlightedDateStart: Date,
+    persistentHighlightedDateEnd: Date,
     highlightedDateStart: Date,
     highlightedDateEnd: Date,
     viewDate: [String, Date],
     stepMonths: Number,
     disableMonthDropdown: Boolean,
+    disabled: Boolean,
     options: Object,
   },
   emits: ['cellHover', 'cellHoverLeave', 'dateSelect'],
@@ -40,12 +43,28 @@ export default defineComponent({
 
     function setDateCellColor($dateCell: JQuery, dateValue: Date): void {
       const $dateCellLink = $dateCell.children('a');
+      const { selectedDateStart, selectedDateEnd } = props;
+      const dateValueTime = dateValue.getTime();
+      const isPersistentlyHighlightedDate = !!(
+        props.persistentHighlightedDateStart
+        && props.persistentHighlightedDateEnd
+        && dateValue >= props.persistentHighlightedDateStart
+        && dateValue <= props.persistentHighlightedDateEnd
+      );
 
-      if (props.selectedDateStart
-        && props.selectedDateEnd
-        && dateValue >= props.selectedDateStart
-        && dateValue <= props.selectedDateEnd
-      ) {
+      // Intentional UX: in custom range mode we only persistently style the boundary dates.
+      // Keeping the whole span highlighted can make the currently visible month look fully
+      // selected when navigating, which is misleading for an arbitrary custom range.
+      const isBoundarySelectedDate = !!(
+        selectedDateStart
+        && selectedDateEnd
+        && (
+          dateValueTime === selectedDateStart.getTime()
+          || dateValueTime === selectedDateEnd.getTime()
+        )
+      );
+
+      if (isBoundarySelectedDate) {
         $dateCell.addClass('ui-datepicker-current-period');
       } else {
         $dateCell.removeClass('ui-datepicker-current-period');
@@ -56,12 +75,25 @@ export default defineComponent({
         && dateValue >= props.highlightedDateStart
         && dateValue <= props.highlightedDateEnd
       ) {
-        // other-month cells don't have links, so the <td> must have the ui-state-hover class
-        const elementToAddClassTo = $dateCellLink.length ? $dateCellLink : $dateCell;
-        elementToAddClassTo.addClass('ui-state-hover');
+        // Always mark the td so hover can fill full cell area (including horizontal padding).
+        $dateCell.addClass('ui-state-hover');
+        // Keep anchor class too for existing link-focused hover styling.
+        if ($dateCellLink.length) {
+          $dateCellLink.addClass('ui-state-hover');
+        }
       } else {
         $dateCell.removeClass('ui-state-hover');
         $dateCellLink.removeClass('ui-state-hover');
+      }
+
+      if (isPersistentlyHighlightedDate) {
+        $dateCell.addClass('ui-datepicker-persistent-highlight');
+        if ($dateCellLink.length) {
+          $dateCellLink.addClass('ui-datepicker-persistent-highlight');
+        }
+      } else {
+        $dateCell.removeClass('ui-datepicker-persistent-highlight');
+        $dateCellLink.removeClass('ui-datepicker-persistent-highlight');
       }
     }
 
@@ -157,6 +189,33 @@ export default defineComponent({
       return false;
     }
 
+    function enableDisableMonthDropdown(): void {
+      const element = $(root.value!);
+      const monthPicker = element.find('.ui-datepicker-month')[0] as HTMLInputElement;
+      if (monthPicker) {
+        monthPicker.disabled = props.disableMonthDropdown || !!props.disabled;
+      }
+
+      const yearPicker = element.find('.ui-datepicker-year')[0] as HTMLInputElement;
+      if (yearPicker) {
+        yearPicker.disabled = !!props.disabled;
+      }
+    }
+
+    function updateKeyboardAccessibility(): void {
+      const element = $(root.value!);
+      const tabIndex = props.disabled ? -1 : 0;
+
+      element.find('a, select').attr('tabindex', tabIndex);
+      element.attr('aria-disabled', props.disabled ? 'true' : 'false');
+
+      if (props.disabled) {
+        element.find('a').attr('aria-disabled', 'true');
+      } else {
+        element.find('a').removeAttr('aria-disabled');
+      }
+    }
+
     // remove the ui-state-active class & click handlers for every cell. we bypass
     // the datepicker's date selection logic for smoother browser rendering.
     function onJqueryUiRenderedPicker(): void {
@@ -168,6 +227,16 @@ export default defineComponent({
 
       // add href to left/right nav in calendar so they can be accessed via keyboard
       element.find('.ui-datepicker-prev,.ui-datepicker-next').attr('href', '');
+
+      // Use explicit chevron classes so scoped styles can render modern nav icons.
+      element.find('.ui-datepicker-prev .ui-icon')
+        .removeClass('ui-icon-circle-triangle-w')
+        .addClass('icon-chevron-left');
+      element.find('.ui-datepicker-next .ui-icon')
+        .removeClass('ui-icon-circle-triangle-e')
+        .addClass('icon-chevron-right');
+
+      updateKeyboardAccessibility();
     }
 
     function stepMonthsChanged(): boolean {
@@ -192,14 +261,6 @@ export default defineComponent({
       return true;
     }
 
-    function enableDisableMonthDropdown(): void {
-      const element = $(root.value!);
-      const monthPicker = element.find('.ui-datepicker-month')[0] as HTMLInputElement;
-      if (monthPicker) {
-        monthPicker.disabled = props.disableMonthDropdown;
-      }
-    }
-
     function handleOtherMonthClick(this: HTMLElement) {
       if (!$(this).hasClass('ui-state-hover')) {
         return;
@@ -220,6 +281,7 @@ export default defineComponent({
     function onCalendarViewChange() {
       // clicking left/right re-enables the month dropdown, so we disable it again
       enableDisableMonthDropdown();
+      updateKeyboardAccessibility();
 
       setDatePickerCellColors();
     }
@@ -235,6 +297,8 @@ export default defineComponent({
       [
         (x: typeof props): Date|undefined => x.selectedDateStart,
         (x: typeof props): Date|undefined => x.selectedDateEnd,
+        (x: typeof props): Date|undefined => x.persistentHighlightedDateStart,
+        (x: typeof props): Date|undefined => x.persistentHighlightedDateEnd,
         (x: typeof props): Date|undefined => x.highlightedDateStart,
         (x: typeof props): Date|undefined => x.highlightedDateEnd,
       ].forEach((selector) => {
@@ -273,7 +337,12 @@ export default defineComponent({
         enableDisableMonthDropdown();
       }
 
-      // redraw when selected/highlighted dates change
+      if (newProps.disabled !== oldProps.disabled) {
+        enableDisableMonthDropdown();
+        updateKeyboardAccessibility();
+      }
+
+      // redraw when selected or highlighted date props change
       if (redraw) {
         setDatePickerCellColors();
       }
@@ -361,6 +430,7 @@ export default defineComponent({
         onJqueryUiRenderedPicker();
       }
 
+      updateKeyboardAccessibility();
       setDatePickerCellColors();
     });
 

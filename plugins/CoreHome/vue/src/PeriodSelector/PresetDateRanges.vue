@@ -25,12 +25,13 @@
         >
           <input
             type="radio"
-            name="presetDateRange"
+            class="preset-option-input"
+            :name="presetInputName"
             :id="`preset_date_${preset.id}`"
             :checked="checkedPresetId === preset.id"
             @change="handlePresetSelected(preset.id)"
           />
-          <span>{{ translate(preset.labelKey) }}</span>
+          <span class="preset-option-text">{{ translate(preset.labelKey) }}</span>
         </label>
       </p>
     </div>
@@ -62,6 +63,8 @@ const PRESET_DATE_RANGE_GROUPS: PresetDateRangeId[][] = [
   ['thisWeekMonToday', 'thisMonth', 'thisQuarter', 'thisYear'],
 ];
 
+let nextPresetDateRangeGroupId = 0;
+
 export default defineComponent({
   props: {
     modelValue: {
@@ -88,6 +91,14 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: true,
     },
+  },
+  data() {
+    const presetInputName = `preset-date-range-${nextPresetDateRangeGroupId}`;
+    nextPresetDateRangeGroupId += 1;
+
+    return {
+      presetInputName,
+    };
   },
   emits: ['update:modelValue', 'select'],
   computed: {

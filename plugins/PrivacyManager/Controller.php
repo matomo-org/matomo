@@ -197,6 +197,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $this->renderTemplate('gdprTools');
     }
 
+    public function ePrivacyLaws()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        return $this->renderTemplate('ePrivacyLaws');
+    }
+
     public function understandingYourLegalObligations()
     {
         Piwik::checkUserHasSomeAdminAccess();

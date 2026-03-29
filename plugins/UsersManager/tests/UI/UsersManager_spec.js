@@ -12,6 +12,26 @@ describe("UsersManager", function () {
 
     var url = "?module=UsersManager&action=index";
 
+    async function getVisibleSiteRoles() {
+        await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
+        await page.waitForSelector('#sitesForPermission tbody tr:not(.select-all-row)', { visible: true });
+
+        return page.evaluate(() => {
+            const roles = {};
+
+            $('#sitesForPermission tbody tr').not('.select-all-row').each(function () {
+                const siteName = $(this).find('td:eq(1) span').text().trim();
+                const role = $(this).find('.role-select select').val();
+
+                if (siteName) {
+                    roles[siteName] = role;
+                }
+            });
+
+            return roles;
+        });
+    }
+
     before(async function() {
         await page.webpage.setViewport({
             width: 1250,
@@ -470,13 +490,15 @@ describe("UsersManager", function () {
             $('.access-filter select').val('string:some').change();
         });
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(250); // animation
-        await page.evaluate(() => window.scrollTo(0, 0));
+        await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
 
-        expect(await page.screenshotSelector('.user-permissions')).to.matchImage({
-            imageName: 'permissions_bulk_access_set_all',
-            comparisonThreshold: 0.0015
-        });
+        const roles = await getVisibleSiteRoles();
+
+        expect(roles.hunter12).to.equal('string:view');
+        expect(roles.hunter32).to.equal('string:view');
+        expect(roles.hunter82).to.equal('string:view');
+        expect(roles.hunter2).to.equal('string:write');
+        expect(roles.hunter22).to.equal('string:write');
     });
 
     it('should set access to single site when select in table is used', async function () {

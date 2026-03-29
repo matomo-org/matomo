@@ -39,9 +39,10 @@ class Menu extends \Piwik\Plugin\Menu
                 $category,
                 'PrivacyManager_UnderstandingYourLegalObligations',
                 $this->urlForAction('understandingYourLegalObligations'),
-                22
+                25
             );
-            $menu->addItem($category, 'PrivacyManager_GdprTools', $this->urlForAction('gdprTools'), 25);
+            $menu->addItem($category, 'PrivacyManager_EPrivacyLaws', $this->urlForAction('ePrivacyLaws'), 30);
+            $menu->addItem($category, 'PrivacyManager_GdprTools', $this->urlForAction('gdprTools'), 35);
         }
     }
 }

@@ -192,10 +192,19 @@ describe("PrivacyManager", function () {
         await capturePage('gdpr_overview_no_retention');
     });
 
+
+    it('should load ePrivacy Laws page', async function() {
+        await loadActionPage('ePrivacyLaws');
+        await page.waitForSelector('.eprivacyLaws');
+
+        await capturePage('eprivacy_laws');
+    });
+  
     it('should load understanding your legal obligations page', async function() {
         await loadActionPage('understandingYourLegalObligations');
 
         await capturePage('understanding_your_legal_obligations');
+
     });
 
     it('should load privacy settings page', async function() {
