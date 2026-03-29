@@ -189,8 +189,8 @@ class ProcessedReport
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *
      * @param int $idSite
-     * @param bool|string $period
-     * @param bool|Date $date
+     * @param string|null|false $period
+     * @param Date|string|null|false $date
      * @param bool $hideMetricsDoc
      * @param bool $showSubtableReports
      * @return array

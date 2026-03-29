@@ -2414,11 +2414,6 @@ parameters:
 			path: core/dispatch.php
 
 		-
-			message: "#^Parameter \\#1 \\$request of static method Piwik\\\\API\\\\Request\\:\\:getMethodIfApiRequest\\(\\) expects array, null given\\.$#"
-			count: 1
-			path: plugins/API/API.php
-
-		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(mixed\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
 			count: 1
 			path: plugins/API/API.php
