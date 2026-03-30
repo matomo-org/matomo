@@ -71,6 +71,7 @@
         "ColumnPageviewsDocumentation": "Hányszor látogatták meg ezt a weblapot.",
         "ColumnPercentageVisits": "%% megtekintés",
         "ColumnRevenue": "Bevétel",
+        "ColumnSegment": "szegmens",
         "ColumnSumTimeOnSite": "A weboldalon eltöltött teljes idő",
         "ColumnSumVisitLength": "Látogatók által eltöltött összes idő (másodpercben)",
         "ColumnTotalPageviews": "Összes oldalnézet",
