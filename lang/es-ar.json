@@ -78,6 +78,7 @@
         "ColumnPageviewsDocumentation": "El número de veces que esta página fue visitada.",
         "ColumnPercentageVisits": "%% visitas",
         "ColumnRevenue": "Ingresos",
+        "ColumnSegment": "Segmento",
         "ColumnSumTimeOnSite": "Tiempo total en el sitio web",
         "ColumnSumVisitLength": "Tiempo total de los visitantes en el sitio (en segundos)",
         "ColumnTotalPageviews": "Vista de páginas totales",
