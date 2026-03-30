@@ -46,6 +46,7 @@
         "BuildYourOwn": "自分で構築する",
         "ClickHereSettings": "%s設定にアクセスするには、ここをクリックしてください。",
         "ComplianceTableSettingStatus": "ステータス",
+        "ConsentManagementPlatformsOutro": "上記の同意マネージャを使用しない場合、Matomo JavaScript API%2$s を使用して、同意による %1$s ストラッキングを実装することができます。",
         "ConsentManager": "同意マネージャー",
         "ConsentManagerConnected": "%1$s は既に Matomoで動作するように構成されているようです。",
         "ConsentManagerDetected": "Web サイトで %1$s 同意マネージャーが検出されました。 Matomo を %1$s で動作するように設定する方法については、%2$sこのガイド%3$sをお読みください",
