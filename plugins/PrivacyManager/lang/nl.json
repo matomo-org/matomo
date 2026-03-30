@@ -47,6 +47,7 @@
         "ClickHereSettings": "Klik hier om naar de %s-instellingen te gaan.",
         "Compliance": "Naleving",
         "ComplianceTableSettingStatus": "Status",
+        "ConsentManagementPlatformsOutro": "Indien u geen van de bovenstaande toestemmingsbeheerders gebruikt, kunt u %1$stracking met toestemming implementeren met behulp van de Matomo JavaScript API%2$s.",
         "ConsentManager": "Toestemmingsbeheer",
         "ConsentManagerConnected": "%1$s lijkt reeds geconfigureerd te zijn om te werken met Matomo.",
         "ConsentManagerDetected": "%1$s toestemmingsbeheer is gedetecteerd op uw website. Voor meer informatie over het configureren van Matomo om te werken met %1$s leest u %2$sin deze gids%3$s",
