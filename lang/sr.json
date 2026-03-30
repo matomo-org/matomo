@@ -77,6 +77,7 @@
         "ColumnPageviewsDocumentation": "Koliko puta je ova stranica posećena.",
         "ColumnPercentageVisits": "%% Posete",
         "ColumnRevenue": "Prihod",
+        "ColumnSegment": "Segment",
         "ColumnSumTimeOnSite": "Ukupno vreme na Vebsajtu",
         "ColumnSumVisitLength": "Ukupno vreme provedeno od strane posetilaca (u sekundama)",
         "ColumnTotalPageviews": "Ukupan broj pregleda stranica",
