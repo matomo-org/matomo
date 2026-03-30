@@ -4,6 +4,15 @@
         "NoDataHttpTrackingApi": "API de suivi HTTP",
         "SiteWithoutDataBackToMatomo": "Retourner à Matomo",
         "SiteWithoutDataInstallWithX": "Installer avec %1$s",
-        "SiteWithoutDataStepByStepGuide": "Guide étape par étape"
+        "SiteWithoutDataStepByStepGuide": "Guide étape par étape",
+        "AIChatbotsOverview": "Vue d'ensemble des chatbots IA",
+        "AIChatbotsOverviewHelp1": "La page Vue d'ensemble des chatbots IA fournit des informations sur le trafic du site web provenant des chatbots IA tels que ChatGPT et d'autres assistants basés sur des grands modèles de langage. Ces rapports suivent des métriques clés, notamment le nombre de requêtes effectuées par ces robots, les pages et documents auxquels ils accèdent, ainsi que les erreurs rencontrées. Ils offrent également des ventilations détaillées montrant quels robots visitent des URLs de pages spécifiques, vous aidant à comprendre comment les chatbots IA interagissent avec votre contenu et à identifier des opportunités pour améliorer la visibilité et l'accessibilité auprès des utilisateurs pilotés par l'IA.",
+        "AIChatbotsOverviewHelp2": "Il est important de noter qu'aucune de ces pages n'a été réellement consultée par des humains de manière traditionnelle — toutes les requêtes proviennent de chatbots IA récupérant le contenu automatiquement.",
+        "AIChatbotsOverviewHelp3": "Actuellement, ces rapports incluent exclusivement les requêtes des chatbots IA qui n'exécutent pas JavaScript. Ils n'incluent pas le trafic provenant des robots d'exploration IA utilisés pour l'entraînement de modèles IA ni des agents IA capables d'exécuter JavaScript.",
+        "AIChatbotsReportDocumentation": "Découvrez quels chatbots IA explorent votre site et combien de requêtes chacun génère. Développez un chatbot pour consulter les pages ou documents les plus fréquemment demandés.",
+        "AIChatbotsReportTitle": "Chatbots AI",
+        "ChatbotsOverTimeReportDocumentation": "Ce rapport représente l'évolution de l'activité des chatbots IA. Cliquez sur une métrique pour agrandir son graphique et examiner la tendance sous-jacente.",
+        "ColumnAIChatbotName": "Nom du Chatbot IA",
+        "ColumnAcquiredVisits": "Visites acquises"
     }
 }

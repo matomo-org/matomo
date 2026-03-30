@@ -1,5 +1,7 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "Requêtes des chatbots IA",
+        "AiChatbotsSegmentationTooltip": "La segmentation n'est pas disponible pour cette métrique car les requêtes des chatbots IA (comme celles de ChatGPT) ne sont pas liées aux visites ou visiteurs habituels.",
         "AllWebsitesDashboardDocumentation": "Ce rapport vous donne un aperçu informatif de chacun de vos sites Web, contenant les métriques les plus générales sur vos visiteurs.",
         "AllWebsitesDashboardErrorMessage": "Les données sont actuellement indisponibles. Cela pourrait être dû à un problème temporaire du serveur ou à un rapport contenant trop de données. Veuillez réessayer plus tard. Si le problème persiste, contactez votre administrateur Matomo pour obtenir de l’aide.",
         "AllWebsitesDashboardTitle": "Tous les sites web",
