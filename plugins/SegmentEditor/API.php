@@ -190,6 +190,12 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+    /**
+     * Returns whether the current user can create a new stored segment.
+     *
+     * @param int|null $idSite If supplied, checks permissions for this site; otherwise checks whether the user can create an all-websites segment.
+     * @return bool `true` if the current user can add a segment for the requested scope, `false` otherwise.
+     */
     public function isUserCanAddNewSegment(?int $idSite): bool
     {
         if (Piwik::isUserIsAnonymous()) {
@@ -237,6 +243,8 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Deletes a stored segment.
+     *
+     * @param int $idSegment The ID of the stored segment to delete.
      */
     public function delete(int $idSegment): void
     {
@@ -269,7 +277,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSegment The ID of the stored segment to modify.
      * @param string $name The new name of the segment.
      * @param string $definition The new definition of the segment.
-     * @param int|null $idSite If supplied, associates the stored segment with as single site.
+     * @param int|null $idSite If supplied, associates the stored segment with a single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
      */
@@ -339,10 +347,10 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $name The new name of the segment.
      * @param string $definition The new definition of the segment.
-     * @param null|int $idSite If supplied, associates the stored segment with as single site.
+     * @param int|null $idSite If supplied, associates the stored segment with a single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
-     * @return int The newly created segment Id
+     * @return int The newly created segment ID.
      */
     public function add(
         string $name,
@@ -392,7 +400,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Stars a stored segment.
      *
-     * @return array{result: boolean, starred_by: string}
+     * @param int $idSegment The ID of the stored segment to star.
+     * @return array{result: bool, starred: 1, starred_by: string} The update result and new starred state.
      */
     public function star(int $idSegment): array
     {
@@ -416,7 +425,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Unstars a stored segment.
      *
-     * @return array{result: boolean}
+     * @param int $idSegment The ID of the stored segment to unstar.
+     * @return array{result: bool, starred: 0} The update result and new starred state.
      */
     public function unstar(int $idSegment): array
     {
@@ -436,9 +446,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns a stored segment by ID
+     * Returns a stored segment by ID.
      *
-     * @return StoredSegment|null
+     * @param int $idSegment The ID of the stored segment to fetch.
+     * @return StoredSegment|null The stored segment, or `null` if it does not exist.
      */
     public function get(int $idSegment): ?array
     {
@@ -469,8 +480,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns all stored segments.
      *
-     * @param null|int $idSite Whether to return stored segments for a specific idSite, or all of them. If supplied, must be a valid site ID.
-     * @return list<StoredSegment>
+     * @param int|null $idSite If supplied, returns stored segments for one site only; otherwise returns all visible stored segments.
+     * @return list<StoredSegment> Stored segments visible to the current user.
      */
     public function getAll(?int $idSite = null): array
     {
@@ -595,13 +606,24 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns visit and action totals for a pre-processed segment together with visit evolution.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string $segment Custom segment to filter the report.
+     *                        Example: "referrerName==example.com"
+     *                        Supports AND (;) and OR (,) operators.
      * @return array{
      *     nb_visits:int,
      *     nb_actions:int,
      *     evolution_visits_direction:string,
      *     evolution_visits_icon:string,
      *     evolution_visits:string
-     * }
+     * } Visit totals, action totals, and visit evolution metadata for the segment.
      */
     public function getSegmentData(int $idSite, string $period, string $date, string $segment): array
     {

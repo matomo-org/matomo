@@ -113,6 +113,8 @@ abstract class ReportRenderer extends BaseFactory
 
     /**
      * Get rendered report
+     *
+     * @return string
      */
     abstract public function getRenderedReport();
 

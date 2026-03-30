@@ -8,11 +8,12 @@
 import { mount } from '@vue/test-utils';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import { Periods, format } from '../Periods';
+import PeriodSelector from './PeriodSelector.vue';
 import {
   getContextKeyFromParsed,
   resolveSyncedUiSelection,
   shouldSkipHashSync,
-} from './PeriodSelectorHashSync';
+} from './PeriodSelector.hashSync';
 
 window.piwik.minDateYear = 2011;
 window.piwik.minDateMonth = 11;
@@ -21,11 +22,20 @@ window.piwik.maxDateYear = 2014;
 window.piwik.maxDateMonth = 3;
 window.piwik.maxDateDay = 29;
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const PeriodSelector = require('./PeriodSelector.vue').default;
-
 function createContextKey(parsed: Record<string, unknown>): string {
   return getContextKeyFromParsed(parsed);
+}
+
+function createBaseContext(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  return {
+    module: 'CoreHome',
+    action: 'index',
+    category: 'General_Actions',
+    subcategory: 'General_Pages',
+    date: 'today',
+    period: 'day',
+    ...overrides,
+  };
 }
 
 describe('PeriodSelector hash sync', () => {
@@ -33,14 +43,7 @@ describe('PeriodSelector hash sync', () => {
     methods: Record<string, (...args: unknown[]) => unknown>;
   };
   const { methods } = component;
-  const baseContextKey = createContextKey({
-    module: 'CoreHome',
-    action: 'index',
-    category: 'General_Actions',
-    subcategory: 'General_Pages',
-    date: 'today',
-    period: 'day',
-  });
+  const baseContextKey = createContextKey(createBaseContext());
 
   it('does not skip hash sync when context changes with same period/date', () => {
     const vm: any = {
@@ -51,14 +54,10 @@ describe('PeriodSelector hash sync', () => {
 
     expect(shouldSkipHashSync(
       'day|today',
-      createContextKey({
-        module: 'CoreHome',
-        action: 'index',
+      createContextKey(createBaseContext({
         category: 'General_Visitors',
         subcategory: 'General_Overview',
-        date: 'today',
-        period: 'day',
-      }),
+      })),
       vm.nextHashUiSelection,
       vm.lastKnownHashSelectionKey,
       vm.lastKnownHashContextKey,
@@ -94,55 +93,27 @@ describe('PeriodSelector hash sync', () => {
     const vm: any = {
       nextHashUiSelection: null,
       lastKnownHashSelectionKey: 'day|today',
-      lastKnownHashContextKey: createContextKey({
-        module: 'CoreHome',
-        action: 'index',
-        category: 'General_Actions',
-        subcategory: 'General_Pages',
-        idSite: '1',
-        date: 'today',
-        period: 'day',
-      }),
+      lastKnownHashContextKey: createContextKey(createBaseContext({ idSite: '1' })),
     };
 
     expect(shouldSkipHashSync(
       'day|today',
-      createContextKey({
-        module: 'CoreHome',
-        action: 'index',
-        category: 'General_Actions',
-        subcategory: 'General_Pages',
-        idSite: '2',
-        date: 'today',
-        period: 'day',
-      }),
+      createContextKey(createBaseContext({ idSite: '2' })),
       vm.nextHashUiSelection,
       vm.lastKnownHashSelectionKey,
       vm.lastKnownHashContextKey,
     )).toBe(false);
 
-    vm.lastKnownHashContextKey = createContextKey({
-      module: 'CoreHome',
-      action: 'index',
-      category: 'General_Actions',
-      subcategory: 'General_Pages',
+    vm.lastKnownHashContextKey = createContextKey(createBaseContext({
       idSite: '1',
       segment: 'countryCode==US',
-      date: 'today',
-      period: 'day',
-    });
+    }));
     expect(shouldSkipHashSync(
       'day|today',
-      createContextKey({
-        module: 'CoreHome',
-        action: 'index',
-        category: 'General_Actions',
-        subcategory: 'General_Pages',
+      createContextKey(createBaseContext({
         idSite: '1',
         segment: 'countryCode==NZ',
-        date: 'today',
-        period: 'day',
-      }),
+      })),
       vm.nextHashUiSelection,
       vm.lastKnownHashSelectionKey,
       vm.lastKnownHashContextKey,
@@ -150,98 +121,49 @@ describe('PeriodSelector hash sync', () => {
   });
 
   it('changes context key when non-ignored params change', () => {
-    const contextA = getContextKeyFromParsed({
-      module: 'CoreHome',
-      action: 'index',
-      category: 'General_Actions',
-      subcategory: 'General_Pages',
-      idGoal: '1',
-      date: 'today',
-      period: 'day',
-    });
-    const contextB = getContextKeyFromParsed({
-      module: 'CoreHome',
-      action: 'index',
-      category: 'General_Actions',
-      subcategory: 'General_Pages',
-      idGoal: '2',
-      date: 'today',
-      period: 'day',
-    });
+    const contextA = getContextKeyFromParsed(createBaseContext({ idGoal: '1' }));
+    const contextB = getContextKeyFromParsed(createBaseContext({ idGoal: '2' }));
 
     expect(contextA).not.toBe(contextB);
   });
 
   it('keeps context key unchanged for compare-only param changes', () => {
-    const contextA = getContextKeyFromParsed({
-      module: 'CoreHome',
-      action: 'index',
-      category: 'General_Actions',
-      subcategory: 'General_Pages',
+    const contextA = getContextKeyFromParsed(createBaseContext({
       compareSegments: ['countryCode==US'],
       comparePeriods: ['day'],
       comparePeriodType: 'previousPeriod',
       compareDates: ['2026-02-01'],
-      date: 'today',
-      period: 'day',
-    });
-    const contextB = getContextKeyFromParsed({
-      module: 'CoreHome',
-      action: 'index',
-      category: 'General_Actions',
-      subcategory: 'General_Pages',
+    }));
+    const contextB = getContextKeyFromParsed(createBaseContext({
       compareSegments: ['deviceType==desktop'],
       comparePeriods: ['range'],
       comparePeriodType: 'custom',
       compareDates: ['2026-02-01,2026-02-07'],
-      date: 'today',
-      period: 'day',
-    });
+    }));
 
     expect(contextA).toBe(contextB);
   });
 
   it('keeps context key unchanged when only compareSegments changes', () => {
-    const contextA = getContextKeyFromParsed({
-      module: 'CoreHome',
-      action: 'index',
-      category: 'General_Actions',
-      subcategory: 'General_Pages',
-      compareSegments: ['countryCode==US'],
-      date: 'today',
-      period: 'day',
-    });
-    const contextB = getContextKeyFromParsed({
-      module: 'CoreHome',
-      action: 'index',
-      category: 'General_Actions',
-      subcategory: 'General_Pages',
-      compareSegments: ['deviceType==desktop'],
-      date: 'today',
-      period: 'day',
-    });
+    const contextA = getContextKeyFromParsed(createBaseContext({ compareSegments: ['countryCode==US'] }));
+    const contextB = getContextKeyFromParsed(createBaseContext({ compareSegments: ['deviceType==desktop'] }));
 
     expect(contextA).toBe(contextB);
   });
 
   it('builds deterministic context keys regardless of object key order', () => {
-    const contextA = getContextKeyFromParsed({
-      module: 'CoreHome',
-      action: 'index',
-      category: 'General_Actions',
-      subcategory: 'General_Pages',
-      segment: 'countryCode==US',
-      date: 'today',
-      period: 'day',
-    });
+    const parsed = createBaseContext({ segment: 'countryCode==US', });
+
+    const contextA = getContextKeyFromParsed(parsed);
+    // Reorder the keys
     const contextB = getContextKeyFromParsed({
-      period: 'day',
-      date: 'today',
-      segment: 'countryCode==US',
-      subcategory: 'General_Pages',
-      category: 'General_Actions',
-      action: 'index',
-      module: 'CoreHome',
+      period: parsed.period,
+      date: parsed.date,
+      segment: parsed.segment,
+      subcategory: parsed.subcategory,
+      category: parsed.category,
+      action: parsed.action,
+      module: parsed.module,
     });
 
     expect(contextA).toBe(contextB);
@@ -286,6 +208,7 @@ describe('PeriodSelector hash sync', () => {
       clearPresetSelection: methods.clearPresetSelection,
       resetSelectedDateValues: methods.resetSelectedDateValues,
       applyDateValuesFromHash: methods.applyDateValuesFromHash,
+      setRangeStartEndFromPeriod: methods.setRangeStartEndFromPeriod,
     };
 
     (MatomoUrl as any).url.value = new URL(
@@ -299,6 +222,47 @@ describe('PeriodSelector hash sync', () => {
     expect(vm.isRangeValid).toBe(true);
     expect(vm.appliedRangeStartDate).toBe(format(expectedStartDate));
     expect(vm.appliedRangeEndDate).toBe(format(expectedEndDate));
+    expect(vm.calendarViewport).toBe('range');
+
+    (MatomoUrl as any).url.value = originalUrl;
+  });
+
+  it('sets single calendar viewport when hash sync hydrates a valid non-range period', () => {
+    const originalUrl = (MatomoUrl as any).url.value;
+    const vm: any = {
+      nextHashUiSelection: null,
+      nextHashSelectionKey: null,
+      lastKnownHashSelectionKey: null,
+      lastKnownHashContextKey: null,
+      periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
+      uiSelection: { type: 'period', id: 'range' },
+      committedPeriod: 'range',
+      selectedPeriod: 'range',
+      committedAnchorDate: null,
+      appliedRangeStartDate: null,
+      appliedRangeEndDate: null,
+      pendingPresetSelection: { id: 'last30days' },
+      calendarViewport: 'range',
+      compareAppliedSignature: '',
+      compareCurrentSignature: '{}',
+      isRangeValid: null,
+      getCurrentContextKey: jest.fn(() => baseContextKey),
+      applyUiSelectionFromHash: methods.applyUiSelectionFromHash,
+      setUiSelection: methods.setUiSelection,
+      clearPresetSelection: methods.clearPresetSelection,
+      resetSelectedDateValues: methods.resetSelectedDateValues,
+      applyDateValuesFromHash: methods.applyDateValuesFromHash,
+      setRangeStartEndFromPeriod: methods.setRangeStartEndFromPeriod,
+    };
+
+    (MatomoUrl as any).url.value = new URL(
+      'https://matomo.test/index.php?module=CoreHome&action=index&period=day&date=today'
+      + '#?period=day&date=today&category=General_Actions&subcategory=General_Pages',
+    );
+
+    expect(() => methods.updateSelectedValuesFromHash.call(vm)).not.toThrow();
+    expect(vm.isRangeValid).toBeNull();
+    expect(vm.calendarViewport).toBe('single');
 
     (MatomoUrl as any).url.value = originalUrl;
   });
@@ -352,14 +316,7 @@ describe('PeriodSelector hash sync', () => {
     expect((wrapper.vm as any).activePresetId).toBe('today');
     expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'today' });
     expect((wrapper.vm as any).lastKnownHashContextKey).toBe(
-      createContextKey({
-        module: 'CoreHome',
-        action: 'index',
-        category: 'General_Visitors',
-        subcategory: 'General_Overview',
-        date: 'today',
-        period: 'day',
-      }),
+      createContextKey(createBaseContext({ category: 'General_Visitors', subcategory: 'General_Overview' })),
     );
 
     wrapper.unmount();

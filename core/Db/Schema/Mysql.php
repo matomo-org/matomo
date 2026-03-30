@@ -328,7 +328,7 @@ class Mysql implements SchemaInterface
                                       date2 DATE NULL,
                                       period TINYINT UNSIGNED NULL,
                                       ts_archived DATETIME NULL,
-                                      value MEDIUMBLOB NULL,
+                                      value LONGBLOB NULL,
                                         PRIMARY KEY(idarchive, name),
                                         INDEX index_period_archived(period, ts_archived)
                                       ) $tableOptions

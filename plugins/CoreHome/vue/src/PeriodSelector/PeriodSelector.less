@@ -1,8 +1,29 @@
+@color-period-selector:                             @theme-color-text-lighter;
+@color-period-selector-input-radio:                 @theme-color-border;
+@color-period-selector-options-hover-background:    @theme-color-code;
+@color-period-selector-calendar-hover-background:   @theme-color-background-lowContrast;
+
 .periodSelector {
   display: inline-block;
-  [type=radio]:not(:checked) + span,
-  [type=radio]:checked + span {
-    padding-left: 30px;
+
+  .preset-option-text {
+    padding-left: 30px !important;
+  }
+
+  .preset-option-text:not(.lever):before,
+  .preset-option-text:not(.lever):after,
+  .compare-checkbox-text:not(.lever):before,
+  .compare-checkbox-text:not(.lever):after {
+    border: 2px solid @color-period-selector-input-radio;
+  }
+  .preset-option-input:checked + .preset-option-text:not(.lever):before,
+  .preset-option-input:checked + .preset-option-text:not(.lever):after {
+    border-color: @theme-color-brand;
+  }
+
+  .compare-checkbox-input:checked + .compare-checkbox-text:not(.lever):before {
+    border-top: 2px solid rgba(0, 0, 0, 0);
+    border-left: 2px solid rgba(0, 0, 0, 0);
   }
 
   &.compare-dropdown-open {
@@ -33,12 +54,11 @@
 
   .compare-checkbox {
     margin-bottom: 20px;
-    label {
-        span {
-            padding-left:25px;
-            font-size: 14px;
-            margin-right: 3px;
-        }
+
+    .compare-checkbox-text {
+      padding-left: 25px;
+      font-size: 14px;
+      margin-right: 3px;
     }
   }
 
@@ -112,7 +132,7 @@
     height: 0.5px;
     margin-left: 11px;
     margin-right: 11px;
-    background-color: @color-silver-l14;
+    background-color: @color-silver-l95;
     width: 16px;
     display: inline-block;
     vertical-align: top;
@@ -125,10 +145,26 @@
 
   .apply-button-container {
     text-align: right;
+    margin-top: auto;
   }
 
   .flex {
     display: flex;
+  }
+
+  #periodMore {
+    box-sizing: border-box;
+    left: 0;
+    max-width: calc(~'100vw - 16px');
+    right: auto;
+  }
+
+  @media (max-width: 600px) {
+    #periodMore {
+      max-width: 90%;
+      left: 25px;
+      right: auto;
+    }
   }
 
   .period-type {
@@ -140,34 +176,46 @@
       p:first-child {
         margin-top: 5px;
       }
-      button {
-        padding: 5px 0 5px 0;
+
+      .period-option-label {
         background: transparent;
         border: 0;
         border-radius: 5px;
-        color: @color-silver;
+        color: @color-period-selector;
         cursor: pointer;
         display: block;
         font: inherit;
         margin: 0;
         outline: none;
         padding-left: 8px;
+        position: relative;
         text-align: left;
         width: 100%;
         font-size: 13px;
 
         &:hover {
-          background-color: @color-silver-l95;
-        }
-
-        &:focus-visible {
-          background-color: @color-silver-l95;
-          outline: 2px solid @theme-color-focus-ring;
-          outline-offset: 0;
+          background-color: @color-period-selector-options-hover-background;
         }
       }
 
-      button.selected-period-label {
+      .period-option-label:has(.period-option-input:focus-visible) {
+        background-color: @color-period-selector-options-hover-background;
+        border-radius: 5px;
+        outline: 2px solid @theme-color-focus-ring;
+        outline-offset: 0;
+      }
+
+      // Period options are visually button-like; hide radio-marker pseudo elements.
+      .period-option-text {
+        padding-left: 0;
+      }
+
+      .period-option-text:before,
+      .period-option-text:after {
+        display: none !important;
+      }
+
+      .selected-period-label {
         color: @theme-color-text;
         font-weight: 600;
       }
@@ -180,11 +228,15 @@
 
       label,
       label span {
-        color: @color-silver;
+        color: @color-period-selector;
       }
 
-      label.selected-period-label,
-      label.selected-period-label span {
+      .preset-option-input:focus-visible:checked + .preset-option-text:not(.lever):before,
+      .preset-option-input:focus-visible:checked + .preset-option-text:not(.lever):after {
+        border-color: @theme-color-focus-ring;
+      }
+
+      .selected-period-label {
         color: @theme-color-text;
       }
     }
@@ -200,18 +252,150 @@
     display: flex;
     flex-direction: column;
     margin-left: 16px;
+    min-width: 220px;
     padding-left: 16px;
-
-    .apply-button-container {
-      margin-top: auto;
-    }
+    width: 100%;
 
     .calendar-disabled {
-      opacity: 0.75;
+      opacity: 0.65;
       pointer-events: none;
     }
   }
+  .period-date{
+    min-width: 220px;
+  }
+  .period-date,
+  .period-range {
+    padding-right: 0 !important;
+  }
 
+  .dateRangePicker {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 16px;
+
+    #calendarRangeFrom,
+    #calendarRangeTo {
+      flex: 1 1 0;
+      min-width: 220px;
+    }
+
+    #calendarRangeFrom {
+      float: none;
+    }
+
+    #calendarRangeTo {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .flex {
+      flex-direction: column;
+      overflow-x: auto;
+    }
+
+    .period-selector-calendar-column {
+      margin-left: 0;
+      padding-left: 0;
+      border-left: none;
+    }
+
+    .dateRangePicker {
+      flex-wrap: wrap;
+    }
+
+    #periodMore.dual-calendar .dateRangePicker {
+      flex-direction: column;
+      width: 100%;
+
+      #calendarRangeFrom,
+      #calendarRangeTo {
+        width: 100%;
+      }
+    }
+  }
+
+  .ui-datepicker {
+    border: none !important;
+    font-size: 13px !important;
+    width: 100% !important;
+
+    .ui-datepicker-month {
+      width: 46%;
+    }
+    .ui-datepicker-year {
+      width: 46%;
+    }
+    .ui-datepicker-prev .ui-icon,
+    .ui-datepicker-next .ui-icon {
+      top: 20%;
+    }
+    .ui-datepicker-prev .ui-icon {
+      left: 0%;
+    }
+
+    .ui-datepicker-header .ui-icon.icon-chevron-left,
+    .ui-datepicker-header .ui-icon.icon-chevron-right {
+      background-image: none !important;
+      text-indent: 0 !important;
+      overflow: visible !important;
+      width: auto !important;
+      height: auto !important;
+      margin: 0 !important;
+      font-size: 12px;
+      line-height: 1;
+      display: inline-block;
+
+      &::before {
+        display: inline-block;
+        line-height: 1;
+      }
+    }
+
+    .ui-datepicker-month, .ui-datepicker-year {
+      font-size: 13px;
+    }
+
+    .ui-datepicker-calendar, .ui-datepicker-header {
+      font-size: 13px !important;
+      border: none !important;
+
+      thead {
+        border: none !important;
+      }
+    }
+    .ui-datepicker-calendar {
+      table-layout: fixed;
+
+      tbody td {
+        padding: 0 !important;
+        width: 14.2857%;
+      }
+
+      tbody td > a,
+      tbody td > span {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+      }
+
+      // Apply hover/persistent highlight to the square inner day box.
+      .ui-datepicker-persistent-highlight:not(.ui-datepicker-current-period),
+      .ui-datepicker-persistent-highlight:not(.ui-datepicker-current-period) > .ui-datepicker-persistent-highlight {
+        background: @color-period-selector-calendar-hover-background !important;
+        opacity: 1;
+      }
+
+      .ui-datepicker-current-period > a,
+      .ui-datepicker-current-period > span {
+        background: @theme-color-text !important;
+      }
+    }
+  }
 }
 
 .periodSelector-withPrevNext {

@@ -46,6 +46,7 @@
         "BuildYourOwn": "Izveidojiet savu",
         "ClickHereSettings": "Klikšķiniet šeit lai piekļūtu %s iestatījumiem.",
         "ComplianceTableSettingStatus": "Statuss",
+        "ConsentManagementPlatformsOutro": "Ja neizmantojat kādu no iepriekš minētajiem piekrišanas pārvaldniekiem, varat implementēt %1$ssekošanu ar piekrišanu, izmantojot Matomo JavaScript API%2$s.",
         "ConsentManager": "Piekrīšanas pārvaldnieks",
         "ConsentManagerConnected": "Šķiet, ka %1$s jau ir konfigurēts darbam ar Matomo.",
         "ConsentManagerDetected": "Jūsu vietnē tika konstatēts %1$s piekrišanas pārvaldnieks. Lai uzzinātu, kā konfigurēt Matomo, lai tas strādātu ar %1$s, lūdzu, izlasiet %2$sšo rokasgrāmatu%3$s",

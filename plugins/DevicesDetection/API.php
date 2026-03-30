@@ -12,27 +12,26 @@ namespace Piwik\Plugins\DevicesDetection;
 use DeviceDetector\Parser\Device\AbstractDeviceParser;
 use Exception;
 use Piwik\Archive;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use DeviceDetector\Parser\Client\Browser as BrowserParser;
+use Piwik\Site;
 
 /**
- * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.
+ * The DevicesDetection API lets you access reports about your visitors' device types, brands, models,
+ * operating systems, and browsers.
+ *
  * @method static \Piwik\Plugins\DevicesDetection\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
     /**
-     * @param string $name
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param string $segment
-     * @return DataTable
+     * @param int|string|int[] $idSite
+     * @param string|null|false $segment
+     * @return DataTable|DataTable\Map
      */
-    protected function getDataTable($name, $idSite, $period, $date, $segment)
+    protected function getDataTable(string $name, $idSite, string $period, string $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
@@ -43,14 +42,25 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets datatable displaying number of visits by device type (eg. desktop, smartphone, tablet)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * Returns visit information grouped by device type.
+     *
+     * This report always includes every device type Matomo can detect, even if a type has zero visits.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map The device type report with segment metadata for each device type.
      */
-    public function getType($idSite, $period, $date, $segment = false)
+    public function getType($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_types', $idSite, $period, $date, $segment);
         // ensure all device types are in the list
@@ -63,38 +73,48 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    protected function ensureDefaultRowsInTable($dataTable)
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     */
+    protected function ensureDefaultRowsInTable($dataTable): void
     {
         $requiredRows = array_fill(0, count(AbstractDeviceParser::getAvailableDeviceTypes()), Metrics::INDEX_NB_VISITS);
 
-        $dataTables = [$dataTable];
-
-        if (!($dataTable instanceof DataTable\Map)) {
-            foreach ($dataTables as $table) {
-                if ($table->getRowsCount() == 0) {
-                    continue;
-                }
-                foreach ($requiredRows as $requiredRow => $key) {
-                    $row = $table->getRowFromLabel($requiredRow);
-                    if (empty($row)) {
-                        $table->addRowsFromSimpleArray([
-                            ['label' => $requiredRow, $key => 0],
-                        ]);
-                    }
+        $dataTable->filter(function (DataTable $table) use ($requiredRows) {
+            if ($table->getRowsCount() == 0) {
+                return;
+            }
+            foreach ($requiredRows as $requiredRow => $key) {
+                $row = $table->getRowFromLabel((string)$requiredRow);
+                if (empty($row)) {
+                    $table->addRowsFromSimpleArray([
+                        ['label' => $requiredRow, $key => 0],
+                    ]);
                 }
             }
-        }
+        });
     }
 
     /**
-     * Gets datatable displaying number of visits by device manufacturer name
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * Returns visit information grouped by device brand.
+     *
+     * Most device brand information is only available for non-desktop devices.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map The device brand report with segment metadata for each detected brand.
      */
-    public function getBrand($idSite, $period, $date, $segment = false)
+    public function getBrand($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_brands', $idSite, $period, $date, $segment);
         $dataTable->filter('GroupBy', ['label', __NAMESPACE__ . '\getDeviceBrandLabel']);
@@ -104,28 +124,48 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets datatable displaying number of visits by device model
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * Returns visit information grouped by device model.
+     *
+     * This report is unavailable when device model detection is disabled by compliance policy.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map The device model report with segment metadata for each brand/model pair.
      */
-    public function getModel($idSite, $period, $date, $segment = false)
+    public function getModel($idSite, string $period, string $date, $segment = false)
     {
-        $translator = StaticContainer::get('Piwik\Translation\Translator');
-        if (DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy($idSite)) {
-            throw new Exception($translator->translate('DevicesDetection_DeviceModelReportDisabledByCompliancePolicy'));
+        Piwik::checkUserHasViewAccess($idSite);
+        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+
+        // filter sites where model report disabled by compliance
+        $idSitesFiltered = array_filter($idSites, function ($idSite) {
+            return !DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy((int)$idSite);
+        });
+
+        // show an error only if none of the requested sites is left
+        if (count($idSitesFiltered) === 0 && count($idSites) !== count($idSitesFiltered)) {
+            throw new Exception(Piwik::translate('DevicesDetection_DeviceModelReportDisabledByCompliancePolicy'));
         }
 
-        $dataTable = $this->getDataTable('DevicesDetection_models', $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable('DevicesDetection_models', $idSitesFiltered, $period, $date, $segment);
 
         $dataTable->filter(function (DataTable $table) {
             foreach ($table->getRowsWithoutSummaryRow() as $row) {
+                /** @var string $label */
                 $label = $row->getColumn('label');
 
                 if (strpos($label, ';') !== false) {
-                    list($brand, $model) = explode(';', $label, 2);
+                    [$brand, $model] = explode(';', $label, 2);
                     $brand = getDeviceBrandLabel($brand);
                 } else {
                     $brand = '';
@@ -143,14 +183,25 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets datatable displaying number of visits by OS family (eg. Windows, Android, Linux)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * Returns visit information grouped by operating system family.
+     *
+     * For legacy archives, this report falls back to operating system version data when needed.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map The operating system family report with grouped family labels and logos.
      */
-    public function getOsFamilies($idSite, $period, $date, $segment = false)
+    public function getOsFamilies($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_os', $idSite, $period, $date, $segment);
 
@@ -176,11 +227,15 @@ class API extends \Piwik\Plugin\API
      * For data archived before DevicesDetection plugin was enabled, those archives do not exist, so we try to calculate
      * them here from the "version-containing" reports if possible.
      *
-     * @return DataTable\DataTableInterface
+     * @template T of DataTable|DataTable\Map
+     *
+     * @param T $dataTable
+     * @param T $dataTable2
+     * @return T
      */
     protected function mergeDataTables(DataTable\DataTableInterface $dataTable, DataTable\DataTableInterface $dataTable2)
     {
-        if ($dataTable instanceof DataTable\Map) {
+        if ($dataTable instanceof DataTable\Map && $dataTable2 instanceof DataTable\Map) {
             $dataTables = $dataTable->getDataTables();
 
             foreach ($dataTables as $label => $table) {
@@ -209,14 +264,25 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets datatable displaying number of visits by OS version (eg. Android 4.0, Windows 7)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * Returns visit information grouped by operating system version.
+     *
+     * Each row includes segment metadata for the operating system code and version.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map The operating system version report with segment metadata and logos.
      */
-    public function getOsVersions($idSite, $period, $date, $segment = false)
+    public function getOsVersions($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
 
@@ -229,14 +295,25 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets datatable displaying number of visits by Browser (Without version)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * Returns visit information grouped by browser family without version numbers.
+     *
+     * For legacy archives, this report falls back to browser version data when needed.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map The browser family report with grouped browser names and logos.
      */
-    public function getBrowsers($idSite, $period, $date, $segment = false)
+    public function getBrowsers($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_browsers', $idSite, $period, $date, $segment);
         $availableBrowsers = BrowserParser::getAvailableBrowsers();
@@ -259,14 +336,25 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets datatable displaying number of visits by Browser version (eg. Firefox 20, Safari 6.0)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * Returns visit information grouped by browser version.
+     *
+     * Each row includes segment metadata for the browser code and detected version.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map The browser version report with rewritten labels and logos.
      */
-    public function getBrowserVersions($idSite, $period, $date, $segment = false)
+    public function getBrowserVersions($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
 
@@ -278,14 +366,25 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Gets datatable displaying number of visits by Browser engine (eg. Trident, Gecko, Blink,...)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * Returns visit information grouped by browser engine.
+     *
+     * Row labels are normalized to the detected browser engine names.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map The browser engine report with grouped engine names.
      */
-    public function getBrowserEngines($idSite, $period, $date, $segment = false)
+    public function getBrowserEngines($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_browserEngines', $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');

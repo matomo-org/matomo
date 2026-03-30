@@ -1,22 +1,5 @@
-<div class='simple-realtime-visitor-widget' data-refreshAfterXSecs="{{ refreshAfterXSecs }}" data-last-minutes="{{ lastMinutes }}" data-translations="{{ translations|json_encode }}">
-    <div class='simple-realtime-visitor-counter' title="{% if visitors == 1 %}{{ 'Live_NbVisitor'|translate }}{% else %}{{ 'Live_NbVisitors'|translate(visitors) }}{% endif %}">
-        <div>{{ visitors }}</div>
-    </div>
-    <br/>
-    {% if error is not empty %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
-
-    <div class='simple-realtime-elaboration'>
-        {% set visitsMessage %}
-            <span class="simple-realtime-metric" data-metric="visits">{% if visits == 1 %}{{ 'General_OneVisit'|translate }}{% else %}{{ 'General_NVisits'|translate(visits) }}{% endif %}</span>
-        {% endset %}
-        {% set actionsMessage %}
-            <span class="simple-realtime-metric" data-metric="actions">{% if actions == 1 %}{{ 'General_OneAction'|translate }}{% else %}{{ 'VisitsSummary_NbActionsDescription'|translate(actions) }}{% endif %}</span>
-        {% endset %}
-        {% set minutesMessage %}
-            <span class="simple-realtime-metric" data-metric="minutes">{% if lastMinutes == 1 %}{{ 'Intl_OneMinute'|translate }}{% else %}{{ 'Intl_NMinutes'|translate(lastMinutes) }}{% endif %}</span>
-        {% endset %}
-
-        {{ 'Live_SimpleRealTimeWidget_Message'|translate(visitsMessage,actionsMessage,minutesMessage) | raw }}
-    </div>
-</div>
-<script type="text/javascript">$(document).ready(function () {require('piwik/Live').initSimpleRealtimeVisitorWidget();});</script>
+<div
+    vue-entry="Live.SimpleRealtimeVisitorWidget"
+    refresh-after-x-secs="{{ refreshAfterXSecs|default(null)|json_encode }}"
+    last-minutes="{{ lastMinutes|default(null)|json_encode }}"
+></div>
