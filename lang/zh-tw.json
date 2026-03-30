@@ -79,6 +79,7 @@
         "ColumnPageviewsDocumentation": "這個網頁被訪問的次數。",
         "ColumnPercentageVisits": "%% 訪問數",
         "ColumnRevenue": "收益",
+        "ColumnSegment": "分割",
         "ColumnSumTimeOnSite": "網站上總計時間",
         "ColumnSumVisitLength": "訪客停留時間總計（秒）",
         "ColumnTotalPageviews": "總瀏覽數",
