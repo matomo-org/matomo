@@ -46,6 +46,7 @@
         "BuildYourOwn": "Costruisci il tuo",
         "ClickHereSettings": "Accedi alle impostazioni %s.",
         "ComplianceTableSettingStatus": "Stato",
+        "ConsentManagementPlatformsOutro": "Se non utilizzi uno dei gestori del consenso sopra indicati, puoi implementare il %1$smonitoraggio con consenso utilizzando l'API JavaScript Matomo%2$s.",
         "ConsentManager": "Gestione dei Consensi",
         "ConsentManagerConnected": "Sembra che %1$s sia già configurato per funzionare con Matomo.",
         "ConsentManagerDetected": "È stato rilevato sul tuo sito web il gestore dei consensi %1$s. Per sapere come configurare Matomo per funzionare con %1$s leggi %2$squesta guida%3$s",
