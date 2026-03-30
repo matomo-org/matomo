@@ -46,6 +46,7 @@
         "BuildYourOwn": "તમારું પોતાનું બનાવો",
         "ClickHereSettings": "%s સેટિંગ્સને ઍક્સેસ કરવા માટે અહીં ક્લિક કરો.",
         "ComplianceTableSettingStatus": "સ્થિતિ",
+        "ConsentManagementPlatformsOutro": "જો તમે ઉપરોક્ત સંમતિ સંચાલકોમાંથી એકનો ઉપયોગ કરતા નથી, તો તમે Matomo JavaScript API%2$s નો ઉપયોગ કરીને સંમતિ સાથે %1$sટ્રેકિંગનો અમલ કરી શકો છો.",
         "ConsentManager": "સંમતિ મેનેજર",
         "ConsentManagerConnected": "Matomo સાથે કામ કરવા માટે %1$s પહેલેથી કન્ફિગર્ડ હોય તેવું લાગે છે.",
         "ConsentManagerDetected": "તમારી વેબસાઇટ પર %1$s સંમતિ મેનેજર મળી આવ્યો હતો. %1$s સાથે કામ કરવા માટે Matomo ને કન્ફિગર કરવા વિશે જાણવા માટે કૃપા કરીને %2$s આ માર્ગદર્શિકા%3$s વાંચો",

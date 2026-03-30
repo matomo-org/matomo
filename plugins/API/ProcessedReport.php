@@ -18,6 +18,7 @@ use Piwik\Category\CategoryList;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
@@ -446,13 +447,39 @@ class ProcessedReport
             return $value !== null && $value !== false;
         });
 
+        /**
+         * Triggered before the API.getProcessedReport API method fetches
+         * report data.
+         *
+         * This event can be used to modify the parameters of the API request
+         * used to get report data, allowing plugins to modify the output of
+         * API.getProcessedReport.
+         *
+         * @param array &$parameters The request parameters used to fetch report
+         *                           data.
+         */
+        Piwik::postEvent('API.getProcessedReport.inner.before', [&$parameters]);
+
         $request = new Request($parameters);
         try {
-            /** @var DataTable $dataTable */
+            /** @var DataTable|DataTable\Map $dataTable */
             $dataTable = $request->process();
         } catch (Exception $e) {
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
         }
+
+        /**
+         * Triggered before the API.getProcessedReport API method fetches
+         * report data.
+         *
+         * This event can be used to directly modify the report data returned
+         * by API.getProcessedReport, before the data is processed.
+         *
+         * @param array $parameters The request parameters used to fetch report
+         *                           data.
+         * @param DataTableInterface $dataTable
+         */
+        Piwik::postEvent('API.getProcessedReport.inner.after', [$parameters, $dataTable]);
 
         [$newReport, $columns, $rowsMetadata, $totals] = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
 

@@ -7,6 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import PeriodSelector from './PeriodSelector.vue';
 
 window.piwik.minDateYear = 2011;
 window.piwik.minDateMonth = 11;
@@ -14,9 +15,6 @@ window.piwik.minDateDay = 15;
 window.piwik.maxDateYear = 2014;
 window.piwik.maxDateMonth = 3;
 window.piwik.maxDateDay = 29;
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const PeriodSelector = require('./PeriodSelector.vue').default;
 
 describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions', () => {
   const originalInitTopControls = window.initTopControls;
@@ -35,6 +33,10 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
       global: {
         mocks: {
           translate: (key: string) => key,
+        },
+        stubs: {
+          PeriodSelectorOptionsColumn: false,
+          PeriodSelectorCalendarColumn: false,
         },
       },
     });
@@ -68,6 +70,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     });
 
     expect(wrapper.find('.period-date').classes()).toContain('calendar-disabled');
+    expect(wrapper.findComponent({ name: 'PeriodDatePicker' }).props('disabled')).toBe(true);
 
     wrapper.findComponent({ name: 'PeriodDatePicker' }).vm.$emit('select', {
       date: new Date('2026-02-18'),
@@ -107,6 +110,8 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
       appliedRangeStartDate: '2026-01-01',
       appliedRangeEndDate: '2026-01-31',
     });
+
+    expect(wrapper.findComponent({ name: 'DateRangePicker' }).props('disabled')).toBe(true);
 
     wrapper.findComponent({ name: 'DateRangePicker' }).vm.$emit('range-change', {
       start: '2026-02-01',

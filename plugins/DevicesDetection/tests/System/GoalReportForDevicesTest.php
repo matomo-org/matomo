@@ -9,7 +9,10 @@
 
 namespace Piwik\Plugins\DevicesDetection\tests\System;
 
+use Exception;
+use Piwik\API\Request;
 use Piwik\Config;
+use Piwik\DataTable;
 use Piwik\Plugins\DevicesDetection\tests\Fixtures\MultiDeviceGoalConversions;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Policy\CnilPolicy;
@@ -47,6 +50,27 @@ class GoalReportForDevicesTest extends SystemTestCase
         }
     }
 
+    private function setSiteCompliancePolicy(int $idSite, bool $isActive): void
+    {
+        CnilPolicy::setActiveStatus($idSite, $isActive);
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function getModelLabelsForSiteRequest(string $idSite): array
+    {
+        /** @var DataTable|DataTable\Map $report */
+        $report = Request::processRequest('DevicesDetection.getModel', [
+            'idSite' => $idSite,
+            'period' => 'day',
+            'date' => self::$fixture->dateTime,
+            'flat' => '1',
+        ]);
+
+        return array_values($report->getColumn('label'));
+    }
+
     public function getApiForTesting()
     {
         $idSite   = self::$fixture->idSite;
@@ -81,6 +105,51 @@ class GoalReportForDevicesTest extends SystemTestCase
 
         CnilPolicy::setActiveStatus(null, false);
         $this->setComplianceFeatureFlag(false);
+    }
+
+    public function testGetModelReturnsOnlyAllowedSitesForSpecificSiteList(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+
+        try {
+            $this->assertSame(
+                ['Samsung - Galaxy S5'],
+                $this->getModelLabelsForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2)
+            );
+        } finally {
+            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+            $this->setComplianceFeatureFlag(false);
+        }
+    }
+
+    public function testGetModelReturnsOnlyAllowedSitesForAll(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+
+        try {
+            $this->assertSame(['Samsung - Galaxy S5'], $this->getModelLabelsForSiteRequest('all'));
+        } finally {
+            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+            $this->setComplianceFeatureFlag(false);
+        }
+    }
+
+    public function testGetModelReturnsErrorWhenSingleRequestedSiteIsDisallowed(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+
+        try {
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage('Device model report is disabled by compliance policy.');
+
+            $this->getModelLabelsForSiteRequest((string) self::$fixture->idSite);
+        } finally {
+            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+            $this->setComplianceFeatureFlag(false);
+        }
     }
 }
 
