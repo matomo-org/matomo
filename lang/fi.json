@@ -80,6 +80,7 @@
         "ColumnPageviewsDocumentation": "Käyntien määrä tällä sivulla.",
         "ColumnPercentageVisits": "%% käyntiä",
         "ColumnRevenue": "Tulot",
+        "ColumnSegment": "Segmentti",
         "ColumnSumTimeOnSite": "Kokonaisaika sivustolla",
         "ColumnSumVisitLength": "Kaikkien kävijöiden aika yhteensä (sekunteja)",
         "ColumnTotalPageviews": "Sivulatauksia yhteensä",
