@@ -101,8 +101,8 @@
             </tbody>
           </table>
 
-          <div class="tableActionBar" v-if="userCanEditGoals && !onlyShowAddNewGoal">
-            <button id="add-goal" @click="createGoal()">
+          <div class="entityTable_ActionBar" v-if="userCanEditGoals && !onlyShowAddNewGoal">
+            <button id="add-goal" class="entityTable_ActionBarItem btn" @click="createGoal()">
               <span class="icon-add"></span>
               {{ translate('Goals_AddNewGoal') }}
             </button>

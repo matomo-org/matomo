@@ -135,6 +135,20 @@ table.entityTable tbody tr .entityTable_ActionCell-3 {
   font-style: italic;
 }
 
+.entityTable_ActionBar {
+  .entityTable_ActionBarItem {
+    display: inline-block;
+    margin-left: 16px;
+    vertical-align: middle;
+  }
+
+  form.entityTable_ActionBarItem {
+    margin: 0;
+  }
+}
+
+// Deprecated: use .entityTable_ActionBar with .entityTable_ActionBarItem and
+// generic .btn / .btn-outline classes for entity table actions.
 .tableActionBar {
   a,
   button {

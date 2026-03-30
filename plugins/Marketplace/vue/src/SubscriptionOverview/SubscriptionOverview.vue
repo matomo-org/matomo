@@ -89,8 +89,8 @@
         </tbody>
       </table>
 
-      <div class="tableActionBar">
-        <a :href="marketplaceOverviewLink" class="">
+      <div class="entityTable_ActionBar">
+        <a :href="marketplaceOverviewLink" class="entityTable_ActionBarItem btn">
           <span class="icon-table"></span>
           {{ translate('Marketplace_BrowseMarketplace') }}
         </a>

@@ -240,16 +240,18 @@
       </tbody>
     </table>
 
-    <div class="tableActionBar" v-if="displayAdminLinks">
+    <div class="entityTable_ActionBar" v-if="displayAdminLinks">
       <a
         v-if="isTheme"
         :href="themeOverviewLink"
+        class="entityTable_ActionBarItem btn"
       >
         <span class="icon-add"></span> {{ translate('CorePluginsAdmin_InstallNewThemes') }}
       </a>
       <a
         v-else
         :href="overviewLink"
+        class="entityTable_ActionBarItem btn"
       >
         <span class="icon-add"></span> {{ translate('CorePluginsAdmin_InstallNewPlugins') }}
       </a>

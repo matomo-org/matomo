@@ -158,8 +158,9 @@
         </tr>
       </tbody>
     </table>
-    <div class="tableActionBar">
+    <div class="entityTable_ActionBar">
       <button
+        class="entityTable_ActionBarItem btn"
         id="add-report"
         @click="$emit('create')"
         v-if="userLogin !== 'anonymous'"

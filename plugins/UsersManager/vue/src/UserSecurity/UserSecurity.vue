@@ -142,13 +142,14 @@
         </tbody>
       </table>
 
-      <div class="tableActionBar">
-        <a :href="addNewTokenLink" class="addNewToken">
+      <div class="entityTable_ActionBar">
+        <a :href="addNewTokenLink" class="addNewToken entityTable_ActionBarItem btn">
           <span class="icon-add"></span>
           {{ translate('UsersManager_CreateNewToken') }}
         </a>
 
         <form
+          class="entityTable_ActionBarItem"
           v-if="tokens?.length"
           method="post"
           :action="deleteTokenAction"
@@ -156,7 +157,7 @@
         >
           <input name="nonce" type="hidden" :value="deleteTokenNonce">
           <input name="idtokenauth" type="hidden" value="all">
-          <button type="submit" class="table-action delete-all-tokens">
+          <button type="submit" class="btn btn-outline delete-all-tokens">
             <span class="icon-delete"></span> {{ translate('UsersManager_DeleteAllTokens') }}
           </button>
         </form>

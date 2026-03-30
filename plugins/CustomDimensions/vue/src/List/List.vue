@@ -73,9 +73,9 @@
             </tr>
           </tbody>
         </table>
-        <div class="tableActionBar">
+        <div class="entityTable_ActionBar">
           <button
-            class="btn"
+            class="entityTable_ActionBarItem btn"
             :disabled="!scope.numSlotsLeft"
             v-show="!isLoading"
             @click="addDimension(scope.value)"
