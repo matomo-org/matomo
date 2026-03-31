@@ -12,10 +12,11 @@ namespace Piwik\Plugins\MobileMessaging;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Piwik;
-use Piwik\Plugins\MobileMessaging\SMSProvider;
 
 /**
  * The MobileMessaging API lets you manage SMS credentials, phone number verification, and SMS account settings.
+ *
+ * @phpstan-import-type PhoneNumbers from Model
  *
  * @method static \Piwik\Plugins\MobileMessaging\API getInstance()
  */
@@ -50,7 +51,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return string|null The configured SMS provider identifier, or `null` if none is configured.
      */
-    public function getSMSProvider()
+    public function getSMSProvider(): ?string
     {
         $this->checkCredentialManagementRights();
         $credential = $this->model->getSMSAPICredential();
@@ -61,7 +62,7 @@ class API extends \Piwik\Plugin\API
      * Stores the SMS API credentials for the selected provider.
      *
      * @param string $provider SMS provider identifier to configure.
-     * @param array $credentials Provider credentials such as an API key or username.
+     * @param array<string, string|int|null> $credentials Provider credentials such as an API key or username.
      */
     public function setSMSAPICredential(string $provider, array $credentials = []): void
     {
@@ -184,9 +185,9 @@ class API extends \Piwik\Plugin\API
         $this->checkCredentialManagementRights();
 
         $credential = $this->model->getSMSAPICredential();
-        $SMSProvider = SMSProvider::factory($credential[MobileMessaging::PROVIDER_OPTION]);
+        $SMSProvider = SMSProvider::factory($credential[MobileMessaging::PROVIDER_OPTION] ?? '');
         return $SMSProvider->getCreditLeft(
-            $credential[MobileMessaging::API_KEY_OPTION]
+            $credential[MobileMessaging::API_KEY_OPTION] ?? []
         );
     }
 
@@ -194,8 +195,9 @@ class API extends \Piwik\Plugin\API
      * Returns the phone numbers configured for the current user.
      *
      * @return array Phone numbers keyed by phone number, including verification metadata.
+     * @phpstan-return PhoneNumbers
      */
-    public function getPhoneNumbers()
+    public function getPhoneNumbers(): array
     {
         Piwik::checkUserIsNotAnonymous();
 
@@ -213,7 +215,7 @@ class API extends \Piwik\Plugin\API
 
         $phoneNumber = $this->sanitizePhoneNumber($phoneNumber);
 
-        $phoneNumbers = $this->model->removePhoneNumber(Piwik::getCurrentUserLogin(), $phoneNumber);
+        $this->model->removePhoneNumber(Piwik::getCurrentUserLogin(), $phoneNumber);
 
         /**
          * Triggered after a phone number has been deleted. This event should be used to clean up any data that is
@@ -239,7 +241,7 @@ class API extends \Piwik\Plugin\API
      * @param string $verificationCode Verification code received by SMS.
      * @return bool `true` if the phone number was verified successfully, `false` otherwise.
      */
-    public function validatePhoneNumber(string $phoneNumber, string $verificationCode)
+    public function validatePhoneNumber(string $phoneNumber, string $verificationCode): bool
     {
         Piwik::checkUserIsNotAnonymous();
 
