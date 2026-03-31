@@ -165,14 +165,6 @@ class WidgetTest extends SystemTestCase
                         'action' => 'getEcommerceLog',
                     ),
             ),array (
-                'name' => 'SEO Rankings',
-                'uniqueId' => 'widgetSEOgetRank',
-                'parameters' =>
-                    array (
-                        'module' => 'SEO',
-                        'action' => 'getRank',
-                    ),
-            ),array (
                 'name' => 'Matomo Changelog',
                 'uniqueId' => 'widgetRssWidgetrssChangelog',
                 'parameters' =>
@@ -1311,15 +1303,6 @@ class WidgetTest extends SystemTestCase
                         array (
                             'module' => 'Insights',
                             'action' => 'getOverallMoversAndShakers',
-                        ),
-                ),
-                array (
-                    'name' => 'SEO Rankings',
-                    'uniqueId' => 'widgetSEOgetRank',
-                    'parameters' =>
-                        array (
-                            'module' => 'SEO',
-                            'action' => 'getRank',
                         ),
                 ),
                 array (
