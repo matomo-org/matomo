@@ -322,6 +322,13 @@ class DataRoundingCoverageTest extends SystemTestCase
                 $siteOneViolations,
                 sprintf('Expected rounded count metrics for site 1, found: %s', implode(', ', $siteOneViolations))
             );
+
+            $siteTwoViolations = $this->findUnroundedCountFieldValues($siteTwoRowPayload);
+            $this->assertNotSame(
+                [],
+                $siteTwoViolations,
+                'Expected at least one non-rounded count metric for site 2 when CNIL rounding is disabled.'
+            );
         } finally {
             CnilPolicy::setActiveStatus(1, false);
             CnilPolicy::setActiveStatus(2, false);

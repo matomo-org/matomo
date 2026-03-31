@@ -32,10 +32,10 @@
 	</row>
 	<row>
 		
-		<nb_visits>10</nb_visits>
-		<nb_actions>10</nb_actions>
-		<nb_pageviews>10</nb_pageviews>
-		<hits>10</hits>
+		<nb_visits>5</nb_visits>
+		<nb_actions>6</nb_actions>
+		<nb_pageviews>6</nb_pageviews>
+		<hits>6</hits>
 		<revenue>0</revenue>
 		<visits_evolution>100%</visits_evolution>
 		<visits_evolution_trend>1</visits_evolution_trend>
@@ -62,7 +62,7 @@
 	</row>
 	<row>
 		
-		<nb_visits>10</nb_visits>
+		<nb_visits>3</nb_visits>
 		<nb_actions>10</nb_actions>
 		<nb_pageviews>10</nb_pageviews>
 		<hits>10</hits>

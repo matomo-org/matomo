@@ -690,6 +690,34 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(13, $table->getRows()[1]->getColumn('nb_visits'));
     }
 
+    public function testRoundCountMetricsForRequestRoundsOnlyEnabledRowsWithinMergedMultiSiteTableWhenIdSiteIsMetadata(): void
+    {
+        $table = new DataTable();
+
+        $siteOneRow = new Row();
+        $siteOneRow->setMetadata('idsite', 1);
+        $siteOneRow->addColumn('nb_visits', 13);
+        $table->addRow($siteOneRow);
+
+        $siteTwoRow = new Row();
+        $siteTwoRow->setMetadata('idsite', 2);
+        $siteTwoRow->addColumn('nb_visits', 13);
+        $table->addRow($siteTwoRow);
+
+        $this->invokeDataRoundingMethod('roundCountMetricsForRequestedSites', [
+            $table,
+            [1, 2],
+            null,
+            null,
+            function (int $siteId): bool {
+                return $siteId === 1;
+            },
+        ]);
+
+        $this->assertSame(10, $table->getRows()[0]->getColumn('nb_visits'));
+        $this->assertSame(13, $table->getRows()[1]->getColumn('nb_visits'));
+    }
+
     public function testRoundCountArrayValuesForRequestRoundsOnlyEnabledSitesWithinMultiSiteArrayPayload(): void
     {
         $rounded = $this->invokeDataRoundingMethod('roundArrayValuesForRequestedSites', [[

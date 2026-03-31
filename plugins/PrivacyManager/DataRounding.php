@@ -851,6 +851,11 @@ class DataRounding
             if (is_numeric($siteId)) {
                 return (int) $siteId;
             }
+
+            $siteId = $row->getMetadata($siteColumn);
+            if (is_numeric($siteId)) {
+                return (int) $siteId;
+            }
         }
 
         return null;
