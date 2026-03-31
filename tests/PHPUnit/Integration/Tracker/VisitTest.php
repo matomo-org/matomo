@@ -427,6 +427,44 @@ class VisitTest extends IntegrationTestCase
         }
     }
 
+    public function getPrefetchDetectionData()
+    {
+        return [
+            // existing checks
+            ['HTTP_X_PURPOSE', 'preview', true],
+            ['HTTP_X_PURPOSE', 'instant', true],
+            ['HTTP_X_PURPOSE', 'something', false],
+            ['HTTP_X_MOZ', 'prefetch', true],
+            ['HTTP_X_MOZ', 'something', false],
+            // Speculation Rules API headers
+            ['HTTP_SEC_PURPOSE', 'prefetch', true],
+            ['HTTP_SEC_PURPOSE', 'prefetch;prerender', true],
+            ['HTTP_SEC_PURPOSE', 'prerender', true],
+            ['HTTP_SEC_PURPOSE', 'Prefetch', true],
+            ['HTTP_SEC_PURPOSE', 'Prefetch;Prerender', true],
+            ['HTTP_SEC_PURPOSE', 'something', false],
+            ['HTTP_PURPOSE', 'prefetch', true],
+            ['HTTP_PURPOSE', 'Prefetch', true],
+            ['HTTP_PURPOSE', 'something', false],
+        ];
+    }
+
+    /**
+     * @dataProvider getPrefetchDetectionData
+     */
+    public function testIsPrefetchDetected($header, $value, $expected)
+    {
+        $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
+        $request = new Request(array('idsite' => $idsite, 'rec' => 1));
+
+        $_SERVER[$header] = $value;
+        $excluded = new VisitExcludedPublic($request);
+        $result = $excluded->publicIsPrefetchDetected();
+        unset($_SERVER[$header]);
+
+        $this->assertSame($expected, $result, "Header $header=$value should " . ($expected ? '' : 'not ') . "be detected as prefetch");
+    }
+
     public function testMarkArchivedReportsAsInvalidIfArchiveAlreadyFinishedShouldRememberIfRequestWasDoneLongAgo()
     {
         $currentActionTime = '2012-01-02 08:12:45';
@@ -611,6 +649,10 @@ class VisitExcludedPublic extends VisitExcluded
     public function publicIsNonHumanBot()
     {
         return $this->isNonHumanBot();
+    }
+    public function publicIsPrefetchDetected()
+    {
+        return $this->isPrefetchDetected();
     }
 }
 
