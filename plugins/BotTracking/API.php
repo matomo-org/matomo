@@ -17,13 +17,30 @@ use Piwik\DataTable\DataTableInterface;
 use Piwik\Piwik;
 use Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotReports;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\BotTracking\Reports\Get;
 use Piwik\Plugins\Referrers\AIAssistant;
 
+/**
+ * Provides API methods for bot and AI chatbot reporting.
+ *
+ * @method static \Piwik\Plugins\BotTracking\API getInstance()
+ */
 class API extends \Piwik\Plugin\API
 {
     /**
-     * @param string|int|int[] $idSite
-     * @param null|string|string[] $columns
+     * Returns the main bot tracking report.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|string[]|null $columns Optional metric names to include in the report.
+     * @return DataTable|DataTable\Map Bot tracking metrics for the requested site selection and period.
      */
     public function get($idSite, string $period, string $date, $columns = null): DataTableInterface
     {
@@ -41,6 +58,7 @@ class API extends \Piwik\Plugin\API
 
         $requestedColumns = Piwik::getArrayFromApiParameter($columns);
 
+        /** @var Get $report */
         $report  = ReportsProvider::factory('BotTracking', 'get');
         $columns = $report->getMetricsRequiredForReport($metrics, $requestedColumns);
 
@@ -54,12 +72,23 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns a report about AI chatbots crawling your site and how many hits each one generates. Depending on the provided secondary dimension
-     * the subtable will either contain all requested page urls or document urls.
+     * Returns a report about AI chatbot requests.
+     * Depending on the provided secondary dimension the subtables will either contain all requested page urls or document urls.
      *
-     * @param string|int|int[] $idSite
-     * @param null|'pages'|'documents' $secondaryDimension can be either `pages` (default) or `documents`
-     * @return DataTable|DataTable\Map
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param bool $expanded Whether subtables should be expanded in the response.
+     * @param bool $flat Whether subtable rows should be flattened into a single table.
+     * @param 'pages'|'documents'|null $secondaryDimension Optional secondary dimension for subtable rows.
+     *                                                     Use `pages` for page URLs or `documents` for document URLs.
+     * @return DataTable|DataTable\Map Requests per AI chatbot for the selected secondary dimension.
      */
     public function getAIChatbotRequests($idSite, string $period, string $date, bool $expanded = false, bool $flat = false, ?string $secondaryDimension = null): DataTableInterface
     {
@@ -113,8 +142,19 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param string|int|int[] $idSite
-     * @return DataTable|DataTable\Map
+     * Returns page URLs requested by a specific AI chatbot.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param int $idSubtable Subtable ID for the AI chatbot row to expand.
+     * @return DataTable|DataTable\Map Page URLs requested by the selected AI chatbot.
      */
     public function getPageUrlsForAIChatbot($idSite, string $period, string $date, int $idSubtable): DataTableInterface
     {
@@ -124,8 +164,19 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param string|int|int[] $idSite
-     * @return DataTable|DataTable\Map
+     * Returns document URLs requested by a specific AI chatbot.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param int $idSubtable Subtable ID for the AI chatbot row to expand.
+     * @return DataTable|DataTable\Map Document URLs requested by the selected AI chatbot.
      */
     public function getDocumentUrlsForAIChatbot($idSite, string $period, string $date, int $idSubtable): DataTableInterface
     {
