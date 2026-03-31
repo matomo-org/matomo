@@ -140,6 +140,7 @@
                 name="goal_name"
                 v-model="goal.name"
                 :maxlength="50"
+                autocomplete="off"
                 :title="translate('Goals_GoalName')"
                 @change="goalNameChanged">
               </Field>
@@ -151,6 +152,7 @@
                 name="goal_description"
                 v-model="goal.description"
                 :maxlength="255"
+                autocomplete="off"
                 :title="translate('General_Description')"
               />
             </div>
@@ -254,6 +256,7 @@
                     uicontrol="text" name="pattern"
                     v-model="goal.pattern"
                     :maxlength="255"
+                    autocomplete="off"
                     :title="patternFieldLabel"
                     :full-width="true"
                   />
