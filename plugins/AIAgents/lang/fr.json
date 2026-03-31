@@ -32,6 +32,7 @@
         "SparklineHumanVisits": "visites humaines",
         "WidgetGraphAIAgents": "Agents IA dans le temps",
         "WidgetOverviewAIAgents": "Vue d'ensemble des agents IA",
-        "AIAgentsOverview": "Récapitulatif des agents IA"
+        "AIAgentsOverview": "Récapitulatif des agents IA",
+        "AIAgentsOverviewSubcategoryDescription": "Visualisez en un coup d'œil comment les agents IA et les visiteurs humains interagissent avec votre site. Cette vue d'ensemble présente des métriques et tendances combinées afin que vous puissiez rapidement repérer les changements avant d'explorer les rapports détaillés."
     }
 }

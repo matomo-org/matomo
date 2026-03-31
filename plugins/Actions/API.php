@@ -13,9 +13,9 @@ use Exception;
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Date;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
@@ -41,19 +41,29 @@ use Piwik\Tracker\PageUrl;
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Returns the list of metrics (pages, downloads, outlinks)
+     * Returns aggregated action metrics for the requested site and period.
      *
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @param bool|array $columns
-     * @return DataTable
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param list<string>|string|false $columns Metrics to include in the response.
+     *                                    Accepts a comma-separated list or array of metric names.
+     * @return DataTable|DataTable\Map Action metrics for the selected site, period, and segment.
      */
-    public function get($idSite, $period, $date, $segment = false, $columns = false)
+    public function get($idSite, string $period, string $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
+        /** @var Reports\Get $report */
         $report = ReportsProvider::factory("Actions", "get");
         $archive = Archive::build($idSite, $period, $date, $segment);
 
@@ -77,26 +87,35 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param int $idSite
-     * @param string $period
-     * @param Date $date
-     * @param bool $segment
-     * @param bool $expanded
-     * @param bool|int $idSubtable
-     * @param bool|int $depth
-     * @param bool|int $flat
+     * Returns page URL metrics for the requested site and period.
      *
-     * @return DataTable|DataTable\Map
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether to expand all rows and include their subtables.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @param int|null|false $depth Maximum depth of subtables to include when expanding results.
+     * @param bool $flat Whether to flatten the hierarchical URL report into a single table.
+     * @return DataTable|DataTable\Map Page URL metrics for the requested action rows.
      */
     public function getPageUrls(
         $idSite,
-        $period,
-        $date,
+        string $period,
+        string $date,
         $segment = false,
-        $expanded = false,
+        bool $expanded = false,
         $idSubtable = false,
         $depth = false,
-        $flat = false
+        bool $flat = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -107,7 +126,7 @@ class API extends \Piwik\Plugin\API
         if ($flat) {
             $dataTable->filter(function (DataTable $dataTable) {
                 foreach ($dataTable->getRows() as $row) {
-                    $label = $row->getColumn('label');
+                    $label = (string)$row->getColumn('label');
                     if (substr($label, 0, 1) !== '/' && $label != Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'))) {
                         $row->setColumn('label', '/' . $label);
                     }
@@ -119,16 +138,25 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param int $idSite
-     * @param string $period
-     * @param Date $date
-     * @param bool $segment
-     * @param bool $expanded
-     * @param bool $idSubtable
+     * Returns page URL metrics for pages viewed immediately after an internal site search.
      *
-     * @return DataTable|DataTable\Map
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether to expand all rows and include their subtables.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @return DataTable|DataTable\Map Page URLs that followed an internal search.
      */
-    public function getPageUrlsFollowingSiteSearch($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
+    public function getPageUrlsFollowingSiteSearch($idSite, string $period, string $date, $segment = false, bool $expanded = false, $idSubtable = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -138,16 +166,25 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param int $idSite
-     * @param string $period
-     * @param Date $date
-     * @param bool $segment
-     * @param bool $expanded
-     * @param bool $idSubtable
+     * Returns page title metrics for pages viewed immediately after an internal site search.
      *
-     * @return DataTable|DataTable\Map
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether to expand all rows and include their subtables.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @return DataTable|DataTable\Map Page titles that followed an internal search.
      */
-    public function getPageTitlesFollowingSiteSearch($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
+    public function getPageTitlesFollowingSiteSearch($idSite, string $period, string $date, $segment = false, bool $expanded = false, $idSubtable = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -157,9 +194,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param DataTable $dataTable
+     * @param DataTable|DataTable\Map $dataTable
      */
-    protected function keepPagesFollowingSearch($dataTable)
+    protected function keepPagesFollowingSearch($dataTable): void
     {
         // Keep only pages which are following site search
         $dataTable->filter('ColumnCallbackDeleteRow', [
@@ -173,15 +210,32 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a DataTable with analytics information for every unique entry page URL, for
      * the specified site, period & segment.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether to expand all rows and include their subtables.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @param bool $flat Whether to flatten the hierarchical URL report into a single table.
+     * @return DataTable|DataTable\Map Entry page URL metrics for the requested site.
      */
     public function getEntryPageUrls(
         $idSite,
-        $period,
-        $date,
+        string $period,
+        string $date,
         $segment = false,
-        $expanded = false,
+        bool $expanded = false,
         $idSubtable = false,
-        $flat = false
+        bool $flat = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -193,15 +247,32 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a DataTable with analytics information for every unique exit page URL, for
      * the specified site, period & segment.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether to expand all rows and include their subtables.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @param bool $flat Whether to flatten the hierarchical URL report into a single table.
+     * @return DataTable|DataTable\Map Exit page URL metrics for the requested site.
      */
     public function getExitPageUrls(
         $idSite,
-        $period,
-        $date,
+        string $period,
+        string $date,
         $segment = false,
-        $expanded = false,
+        bool $expanded = false,
         $idSubtable = false,
-        $flat = false
+        bool $flat = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -210,7 +281,25 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getPageUrl($pageUrl, $idSite, $period, $date, $segment = false)
+    /**
+     * Returns metrics for a specific page URL.
+     *
+     * @param string $pageUrl The URL-encoded page URL to look up.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Metrics for the requested page URL, or an empty table if it is not found.
+     */
+    public function getPageUrl($pageUrl, $idSite, string $period, string $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -221,7 +310,27 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getPageTitles($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
+    /**
+     * Returns page title metrics for the requested site and period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether to expand all rows and include their subtables.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @param bool $flat Whether to flatten the hierarchical title report into a single table.
+     * @return DataTable|DataTable\Map Page title metrics for the requested action rows.
+     */
+    public function getPageTitles($idSite, string $period, string $date, $segment = false, bool $expanded = false, $idSubtable = false, bool $flat = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -235,15 +344,32 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a DataTable with analytics information for every unique entry page title
      * for the given site, time period & segment.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether to expand all rows and include their subtables.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @param bool $flat Whether to flatten the hierarchical title report into a single table.
+     * @return DataTable|DataTable\Map Entry page title metrics for the requested site.
      */
     public function getEntryPageTitles(
         $idSite,
-        $period,
-        $date,
+        string $period,
+        string $date,
         $segment = false,
-        $expanded = false,
+        bool $expanded = false,
         $idSubtable = false,
-        $flat = false
+        bool $flat = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -255,15 +381,32 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a DataTable with analytics information for every unique exit page title
      * for the given site, time period & segment.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether to expand all rows and include their subtables.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @param bool $flat Whether to flatten the hierarchical title report into a single table.
+     * @return DataTable|DataTable\Map Exit page title metrics for the requested site.
      */
     public function getExitPageTitles(
         $idSite,
-        $period,
-        $date,
+        string $period,
+        string $date,
         $segment = false,
-        $expanded = false,
+        bool $expanded = false,
         $idSubtable = false,
-        $flat = false
+        bool $flat = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -272,7 +415,25 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getPageTitle($pageName, $idSite, $period, $date, $segment = false)
+    /**
+     * Returns metrics for a specific page title.
+     *
+     * @param string $pageName The URL-encoded page title to look up.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Metrics for the requested page title, or an empty table if it is not found.
+     */
+    public function getPageTitle($pageName, $idSite, string $period, string $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -283,7 +444,27 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getDownloads($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
+    /**
+     * Returns download metrics for the requested site and period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether to expand all rows and include their subtables.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @param bool $flat Whether to flatten the hierarchical download report into a single table.
+     * @return DataTable|DataTable\Map Download metrics for the requested action rows.
+     */
+    public function getDownloads($idSite, string $period, string $date, $segment = false, bool $expanded = false, $idSubtable = false, bool $flat = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -292,7 +473,25 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getDownload($downloadUrl, $idSite, $period, $date, $segment = false)
+    /**
+     * Returns metrics for a specific download URL.
+     *
+     * @param string $downloadUrl The URL-encoded download URL to look up.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Metrics for the requested download URL, or an empty table if it is not found.
+     */
+    public function getDownload($downloadUrl, $idSite, string $period, string $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -302,7 +501,27 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getOutlinks($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
+    /**
+     * Returns outlink metrics for the requested site and period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether to expand all rows and include their subtables.
+     * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
+     * @param bool $flat Whether to flatten the hierarchical outlink report into a single table.
+     * @return DataTable|DataTable\Map Outlink metrics for the requested action rows.
+     */
+    public function getOutlinks($idSite, string $period, string $date, $segment = false, bool $expanded = false, $idSubtable = false, bool $flat = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -311,7 +530,25 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getOutlink($outlinkUrl, $idSite, $period, $date, $segment = false)
+    /**
+     * Returns metrics for a specific outlink URL.
+     *
+     * @param string $outlinkUrl The URL-encoded outlink URL to look up.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Metrics for the requested outlink URL, or an empty table if it is not found.
+     */
+    public function getOutlink($outlinkUrl, $idSite, string $period, string $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -321,7 +558,24 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getSiteSearchKeywords($idSite, $period, $date, $segment = false)
+    /**
+     * Returns internal search keywords that produced search results.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Site search keywords that returned at least one result.
+     */
+    public function getSiteSearchKeywords($idSite, string $period, string $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -340,18 +594,41 @@ class API extends \Piwik\Plugin\API
      * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
      * @param string $columnToRead
      */
-    protected function addPagesPerSearchColumn($dataTable, $columnToRead = 'nb_hits')
+    protected function addPagesPerSearchColumn($dataTable, $columnToRead = 'nb_hits'): void
     {
         $dataTable->filter('ColumnCallbackAddColumnQuotient', ['nb_pages_per_search', $columnToRead, 'nb_visits', $precision = 1]);
     }
 
-    protected function getSiteSearchKeywordsRaw($idSite, $period, $date, $segment)
+    /**
+     * Returns the raw internal site search keyword report before post-processing.
+     *
+     * @param int|string|int[] $idSite
+     * @param string|null|false $segment
+     * @return DataTable|DataTable\Map
+     */
+    protected function getSiteSearchKeywordsRaw($idSite, string $period, string $date, $segment)
     {
-        $dataTable = Archive::createDataTableFromArchive('Actions_sitesearch', $idSite, $period, $date, $segment, $expanded = false);
-        return $dataTable;
+        return Archive::createDataTableFromArchive('Actions_sitesearch', $idSite, $period, $date, $segment, $expanded = false);
     }
 
-    public function getSiteSearchNoResultKeywords($idSite, $period, $date, $segment = false)
+    /**
+     * Returns internal search keywords that produced no results.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Site search keywords that returned no results.
+     */
+    public function getSiteSearchNoResultKeywords($idSite, string $period, string $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -376,20 +653,29 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param int $idSite
-     * @param string $period
-     * @param Date $date
-     * @param bool $segment
+     * Returns internal search categories used by visitors on the site.
      *
-     * @return DataTable|DataTable\Map
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Site search categories and their metrics.
      */
-    public function getSiteSearchCategories($idSite, $period, $date, $segment = false)
+    public function getSiteSearchCategories($idSite, string $period, string $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
         $dataTable = Archive::createDataTableFromArchive('Actions_SiteSearchCategories', $idSite, $period, $date, $segment);
 
-        $dataTable->queueFilter('ColumnDelete', 'nb_uniq_visitors');
+        $dataTable->queueFilter('ColumnDelete', ['nb_uniq_visitors']);
         $this->filterActionsDataTable($dataTable, $isPageTitleType = false);
         $dataTable->filter('ReplaceColumnNames');
         $dataTable->filter('AddSegmentValue');
@@ -399,8 +685,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Will search in the DataTable for a Label matching the searched string
-     * and return only the matching row, or an empty datatable
+     * Searches an actions report for the first row whose label matches the requested value.
+     *
+     * @param list<mixed> $callBackParameters
+     * @param string $search
+     * @param int $actionType
+     * @return DataTable|DataTable\Map
      */
     protected function getFilterPageDatatableSearch($callBackParameters, $search, $actionType)
     {
@@ -418,7 +708,7 @@ class API extends \Piwik\Plugin\API
         ArchivingHelper::reloadConfig();
         $searchTree = ArchivingHelper::getActionExplodedNames($searchedString, $actionType);
 
-        // fetch the data table
+        /** @var DataTable|DataTable\Map $table */
         $table = call_user_func_array('\Piwik\Archive::createDataTableFromArchive', $callBackParameters);
 
         if ($table instanceof DataTable\Map) {
@@ -440,7 +730,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * This looks very similar to LabelFilter.php should it be refactored somehow? FIXME
+     * Traverses an actions report tree and returns the first matching row as a table.
+     *
+     * @FIXME This looks very similar to LabelFilter.php should it be refactored somehow?
+     *
+     * @param list<mixed> $callBackParameters
+     * @param DataTable|DataTable\Map $table
+     * @param list<string> $searchTree
+     * @return DataTable
      */
     protected function doFilterPageDatatableSearch($callBackParameters, $table, $searchTree)
     {
@@ -491,7 +788,7 @@ class API extends \Piwik\Plugin\API
             $callBackParameters[7] = $idSubTable;
 
             /**
-             * @var \Piwik\Period $period
+             * @var \Piwik\Period|false $period
              */
             $period = $table->getMetadata('period');
             if (!empty($period)) {
@@ -501,24 +798,25 @@ class API extends \Piwik\Plugin\API
             $table = call_user_func_array('\Piwik\Archive::createDataTableFromArchive', $callBackParameters);
             return $this->doFilterPageDatatableSearch($callBackParameters, $table, $searchTree);
         }
-
-        throw new Exception("For this API function, DataTable " . get_class($table) . " is not supported");
     }
 
     /**
-     * Common filters for all Actions API
+     * Applies the shared post-processing filters used by Actions API reports.
      *
-     * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
-     * @param bool $isPageTitleType Whether we are handling page title or regular URL
+     * @template T of DataTable|DataTable\Map
+     *
+     * @param T $dataTable
+     * @param int|false $actionType Action type constant used to normalize labels and metadata.
+     * @return T
      */
-    private function filterActionsDataTable($dataTable, $isPageTitleType)
+    private function filterActionsDataTable($dataTable, $actionType)
     {
         $dataTable->filter(function ($dataTable) {
             $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
         });
         // Must be applied before Sort in this case, since the DataTable can contain both int and strings indexes
         // (in the transition period between pre 1.2 and post 1.2 datatable structure)
-        $dataTable->filter('Piwik\Plugins\Actions\DataTable\Filter\Actions', [$isPageTitleType]);
+        $dataTable->filter('Piwik\Plugins\Actions\DataTable\Filter\Actions', [$actionType]);
         $dataTable->filter('Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate');
         return $dataTable;
     }
@@ -526,9 +824,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Removes DataTable rows referencing actions that were never the first action of a visit.
      *
-     * @param DataTable $dataTable
+     * @param DataTable|DataTable\Map $dataTable
      */
-    private function filterNonEntryActions($dataTable)
+    private function filterNonEntryActions($dataTable): void
     {
         $dataTable->filter(
             'ColumnCallbackDeleteRow',
@@ -544,9 +842,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Removes DataTable rows referencing actions that were never the last action of a visit.
      *
-     * @param DataTable $dataTable
+     * @param DataTable|DataTable\Map $dataTable
      */
-    private function filterNonExitActions($dataTable)
+    private function filterNonExitActions($dataTable): void
     {
         $dataTable->filter(
             'ColumnCallbackDeleteRow',
@@ -559,9 +857,10 @@ class API extends \Piwik\Plugin\API
         );
     }
 
-    private function addPageProcessedMetrics(DataTable\DataTableInterface $dataTable)
+    private function addPageProcessedMetrics(DataTable\DataTableInterface $dataTable): void
     {
         $dataTable->filter(function (DataTable $table) {
+            /** @var ProcessedMetric[] $extraProcessedMetrics */
             $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
             $extraProcessedMetrics[] = new AverageTimeOnPage();
             $extraProcessedMetrics[] = new BounceRate();

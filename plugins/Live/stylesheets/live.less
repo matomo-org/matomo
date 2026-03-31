@@ -636,6 +636,11 @@ a.visitor-log-visitor-profile-link {
     display: none;
 }
 
+.live-widget-loading {
+    padding: 20px 0;
+    text-align: center;
+}
+
 @media only screen and (min-width: 800px) {
     .card #visitsLive .visitorLogIcons:before {
         content: none;
@@ -668,3 +673,15 @@ a.visitor-log-visitor-profile-link {
     }
 }
 
+@keyframes liveWidgetFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.live-widget-fade-in {
+    animation: liveWidgetFadeIn 0.6s ease-out;
+}

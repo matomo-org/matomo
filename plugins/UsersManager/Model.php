@@ -22,6 +22,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
+use Piwik\Session\SessionFingerprint;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 use Piwik\SettingsPiwik;
 use Piwik\Validators\BaseValidator;
@@ -771,6 +772,41 @@ class Model
         PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
         $this->deleteUserOptions($userLogin);
         $this->deleteUserAccess($userLogin);
+    }
+
+    /**
+     * Deletes all active sessions for the given user from the session table.
+     * This effectively signs the user out of all devices. It does not delete any token_auths.
+     */
+    public function deleteUserSessions(string $userLogin): void
+    {
+        $userMarker = strlen(SessionFingerprint::USER_NAME_SESSION_VAR_NAME) . ':"';
+        $userMarker .= SessionFingerprint::USER_NAME_SESSION_VAR_NAME . '";s:' . strlen($userLogin);
+        $userMarker .= ':"' . $userLogin . '"';
+
+        $numCharactersToAdd = strlen($userMarker) % 3;
+
+        // ensure we work with a string length divisible by 3
+        if ($numCharactersToAdd === 1) {
+            $userMarker = 's:' . $userMarker;
+        } elseif ($numCharactersToAdd === 2) {
+            $userMarker = ':' . $userMarker;
+        }
+
+        // base64 encodes 3 input bytes → 4 characters. Test for different combinations as we don't know which
+        // 3 bytes were included originally. See also Zend_Session::buildSessionData()
+        $variations = [
+            '%' .  base64_encode($userMarker) . '%',
+            '%' .  base64_encode(substr($userMarker, 1) . ';') . '%',
+            '%' .  base64_encode(substr($userMarker, 2) . ';s') . '%', // in case string follows
+            '%' .  base64_encode(substr($userMarker, 2) . ';i') . '%', // in case integer follows
+        ];
+
+        $db = $this->getDb();
+        $sessionTable = Common::prefixTable('session');
+        $sql = 'DELETE FROM `' . $sessionTable . '`' . ' WHERE `data` LIKE ? or `data` LIKE ? or `data` LIKE ? or `data` LIKE ?';
+
+        $db->query($sql, $variations);
     }
 
     /**

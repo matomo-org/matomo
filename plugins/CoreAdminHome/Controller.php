@@ -355,10 +355,27 @@ class Controller extends ControllerAdmin
         $user = $model->getUser(Piwik::getCurrentUserLogin());
         if (!empty($user)) {
             $userChanges = new UserChanges($user);
-            $changes = $userChanges->getChanges();
+            $changes = $this->enrichChangesForWhatIsNew($userChanges->getChanges());
             return $this->renderTemplate('whatIsNew', ['changes' => $changes]);
         } else {
             throw new \Exception('Unable to getUser() when attempting to show whatIsNew');
         }
+    }
+
+    /**
+     * Adds metadata used for rendering entries in the What's New popup.
+     */
+    private function enrichChangesForWhatIsNew(array $changes): array
+    {
+        $pluginManager = Plugin\Manager::getInstance();
+
+        foreach ($changes as &$change) {
+            $pluginName = $change['plugin_name'] ?? '';
+            $change['showPluginPrefix'] = !empty($pluginName)
+                && !$pluginManager->isPluginBundledWithCore($pluginName);
+        }
+        unset($change);
+
+        return $changes;
     }
 }

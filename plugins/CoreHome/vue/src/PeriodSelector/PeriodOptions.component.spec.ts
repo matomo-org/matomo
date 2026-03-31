@@ -41,23 +41,15 @@ describe('PeriodOptions', () => {
   it('should render all provided period options', () => {
     const wrapper = mountComponent();
 
-    expect(wrapper.findAll('.periodOptions button').length).toBe(5);
-    expect(wrapper.findAll('.periodOptions button')[0].attributes('id')).toBe('period_id_range');
-  });
-
-  it('should expose group semantics for period options', () => {
-    const wrapper = mountComponent();
-    const optionsGroup = wrapper.find('.periodOptions');
-
-    expect(optionsGroup.attributes('role')).toBe('group');
-    expect(optionsGroup.attributes('aria-label')).toBe('Choose period');
+    expect(wrapper.findAll('.periodOptions input[type="radio"]').length).toBe(5);
+    expect(wrapper.findAll('.periodOptions input[type="radio"]')[0].attributes('id')).toBe('period_id_range');
   });
 
   it('should capitalize period labels and show custom date range for range', () => {
     const wrapper = mountComponent();
 
-    const dayText = wrapper.find('#period_id_day').text().trim();
-    const rangeText = wrapper.find('#period_id_range').text().trim();
+    const dayText = wrapper.find('#period_id_day + span').text().trim();
+    const rangeText = wrapper.find('#period_id_range + span').text().trim();
 
     expect(dayText?.charAt(0)).toBe(dayText?.charAt(0)?.toUpperCase());
     expect(rangeText).toBe('Custom date range');
@@ -66,7 +58,7 @@ describe('PeriodOptions', () => {
   it('should emit update:modelValue and select when period is selected', async () => {
     const wrapper = mountComponent();
 
-    await wrapper.find('#period_id_month').trigger('click');
+    await wrapper.find('#period_id_month').setValue(true);
 
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['month']);
     expect(wrapper.emitted('select')?.[0]).toEqual([{ period: 'month' }]);
@@ -80,28 +72,18 @@ describe('PeriodOptions', () => {
     expect(wrapper.emitted('dblclick')?.[0]).toEqual([{ period: 'week' }]);
   });
 
-  it('should render native button options', () => {
-    const wrapper = mountComponent();
-
-    const options = wrapper.findAll('.periodOptions button');
-    expect(options.length).toBe(5);
-    options.forEach((option) => {
-      expect(option.attributes('type')).toBe('button');
-    });
-  });
-
-  it('should expose selected state with aria-pressed', async () => {
+  it('should expose selected state through checked radio input', async () => {
     const wrapper = mountComponent({
       checkedPeriodId: 'day',
     });
 
-    expect(wrapper.find('#period_id_day').attributes('aria-pressed')).toBe('true');
-    expect(wrapper.find('#period_id_week').attributes('aria-pressed')).toBe('false');
+    expect((wrapper.find('#period_id_day').element as HTMLInputElement).checked).toBe(true);
+    expect((wrapper.find('#period_id_week').element as HTMLInputElement).checked).toBe(false);
 
     await wrapper.setProps({ checkedPeriodId: 'week' });
 
-    expect(wrapper.find('#period_id_day').attributes('aria-pressed')).toBe('false');
-    expect(wrapper.find('#period_id_week').attributes('aria-pressed')).toBe('true');
+    expect((wrapper.find('#period_id_day').element as HTMLInputElement).checked).toBe(false);
+    expect((wrapper.find('#period_id_week').element as HTMLInputElement).checked).toBe(true);
   });
 
   it('should check only when owner is active', async () => {
@@ -114,7 +96,8 @@ describe('PeriodOptions', () => {
 
     await wrapper.setProps({ checkedPeriodId: 'month' });
 
-    expect(wrapper.find('#period_id_month').classes()).toContain('selected-period-label');
+    expect(wrapper.find('#period_id_month').element.parentElement?.classList.contains('selected-period-label'))
+      .toBe(true);
   });
 
   it('should set empty tooltip for active date period and non-empty for others', () => {
@@ -123,8 +106,8 @@ describe('PeriodOptions', () => {
       activeDatePeriod: 'day',
     });
 
-    const dayLabel = wrapper.find('#period_id_day').element as HTMLButtonElement;
-    const weekLabel = wrapper.find('#period_id_week').element as HTMLButtonElement;
+    const dayLabel = wrapper.find('#period_id_day').element.parentElement as HTMLLabelElement;
+    const weekLabel = wrapper.find('#period_id_week').element.parentElement as HTMLLabelElement;
 
     expect(dayLabel.title).toBe('');
     expect(weekLabel.title).not.toBe('');

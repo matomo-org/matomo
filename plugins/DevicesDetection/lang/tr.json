@@ -43,7 +43,7 @@
         "MediaPlayer": "Ortam oynatıcı",
         "MobileApp": "Mobil uygulama",
         "MobileDevice": "Mobil aygıt",
-        "OnlyMajorVersionsSettingRequirementNote": "Yalnızca büyük işletim sistemi ve tarayıcı sürümleri kaydedilir.",
+        "OnlyMajorVersionsSettingRequirementNote": "Yalnızca büyük işletim sistemi ve tarayıcı sürümleri tutulur.",
         "OnlyMajorVersionsSettingTitle": "Yalnızca büyük sürümler",
         "OperatingSystemCode": "İşletim sistemi kodu",
         "OperatingSystemFamilies": "İşletim sistemi aileleri",

@@ -38,6 +38,7 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Url;
 use Piwik\Validators\BaseValidator;
+use Piwik\Validators\NotEmpty;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -1064,6 +1065,32 @@ class API extends \Piwik\Plugin\API
         $email->safeSend();
 
         Cache::deleteTrackerCache();
+    }
+
+    /**
+     * Signs a user out of all active sessions. Requires super user access.
+     * Use this for security purposes, e.g., if a device was lost or compromised.
+     *
+     * @param string $userLogin The login of the user to sign out
+     * @param string | null $passwordConfirmation the current user's password, only required when request is authenticated with session token auth
+     * @throws Exception if the user does not exist or is the anonymous user
+     */
+    public function logoutUser(
+        string $userLogin,
+        #[\SensitiveParameter]
+        ?string $passwordConfirmation = null
+    ): void {
+        Piwik::checkUserHasSuperUserAccess();
+
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
+
+        BaseValidator::check('userlogin', $userLogin, [new NotEmpty()]);
+        $this->checkUserIsNotAnonymous($userLogin);
+        $this->checkUserExist($userLogin);
+
+        $this->model->deleteUserSessions($userLogin);
     }
 
     /**

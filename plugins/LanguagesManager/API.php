@@ -30,37 +30,57 @@ use Piwik\Translation\Loader\DevelopmentLoader;
  * You can also request the default language to load for a user via "getLanguageForUser",
  * or update it via "setLanguageForUser".
  *
+ * @phpstan-type AvailableLanguage array{code: string, name: string, english_name: string}
+ * @phpstan-type AvailableLanguageInfo array{
+ *     code: string,
+ *     name: string,
+ *     english_name: string,
+ *     translators: string,
+ *     percentage_complete: string
+ * }
+ * @phpstan-type TranslationEntry array{label: string, value: string}
+ * @phpstan-type Translations array<string, array<string, string>>
+ *
  * @method static \Piwik\Plugins\LanguagesManager\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @var array<int, list<AvailableLanguage>>
+     */
     protected $availableLanguageNames = [];
+
+    /**
+     * @var array<int, list<string>>
+     */
     protected $languageNames = [];
 
     /**
-     * Returns true if specified language is available
+     * Returns whether a language code can be used in the current Matomo instance.
      *
-     * @param string $languageCode
-     * @param bool $_ignoreConfig
-     * @return bool true if language available; false otherwise
+     * @param string $languageCode The ISO language code to validate.
+     * @param bool $_ignoreConfig Whether to ignore the configured language allowlist.
+     * @return bool True if the language is available, `false` otherwise.
      */
-    public function isLanguageAvailable($languageCode, $_ignoreConfig = false)
+    public function isLanguageAvailable(string $languageCode, bool $_ignoreConfig = false)
     {
-        return $languageCode !== false
+        return $languageCode !== ''
         && Filesystem::isValidFilename($languageCode)
         && in_array($languageCode, $this->getAvailableLanguages($_ignoreConfig));
     }
 
     /**
-     * Return array of available languages
+     * Returns the available Matomo language codes.
      *
-     * @param bool $_ignoreConfig
-     * @return array Array of strings, each containing its ISO language code
+     * @param bool $_ignoreConfig Whether to ignore the configured language allowlist.
+     * @return list<string> Available ISO language codes.
      */
-    public function getAvailableLanguages($_ignoreConfig = false)
+    public function getAvailableLanguages(bool $_ignoreConfig = false)
     {
-        if (!empty($this->languageNames[$_ignoreConfig])) {
-            return $this->languageNames[$_ignoreConfig];
+        $cacheKey = (int)$_ignoreConfig;
+
+        if (!empty($this->languageNames[$cacheKey])) {
+            return $this->languageNames[$cacheKey];
         }
         $path = PIWIK_INCLUDE_PATH . "/lang/";
         $languagesPath = _glob($path . "*.json");
@@ -92,21 +112,22 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('LanguagesManager.getAvailableLanguages', array(&$languages));
 
-        $this->languageNames[$_ignoreConfig] = $languages;
+        $this->languageNames[$cacheKey] = $languages;
         return $languages;
     }
 
     /**
-     * Return information on translations (code, language, % translated, etc)
+     * Returns translation coverage information for each available language.
      *
-     * @param bool $excludeNonCorePlugins excludes non core plugin from percentage calculation
-     * @param bool $_ignoreConfig
-     *
-     * @return array Array of arrays
+     * @param bool $excludeNonCorePlugins Whether to exclude non-core plugins from the translation percentage calculation.
+     * @param bool $_ignoreConfig Whether to ignore the configured language allowlist.
+     * @return list<AvailableLanguageInfo> Translation metadata for each available language, including code, names,
+     *                                     translators, and completion percentage.
      */
-    public function getAvailableLanguagesInfo($excludeNonCorePlugins = true, $_ignoreConfig = false)
+    public function getAvailableLanguagesInfo(bool $excludeNonCorePlugins = true, bool $_ignoreConfig = false)
     {
         $data = file_get_contents(PIWIK_INCLUDE_PATH . '/lang/en.json');
+        /** @var Translations $englishTranslation */
         $englishTranslation = json_decode($data, true);
 
         $pluginDirectories = Manager::getPluginsDirectories();
@@ -125,6 +146,7 @@ class API extends \Piwik\Plugin\API
 
             if (!$excludeNonCorePlugins || Manager::getInstance()->isPluginBundledWithCore($plugin)) {
                 $data = file_get_contents($file);
+                /** @var Translations $pluginTranslations */
                 $pluginTranslations = json_decode($data, true);
                 $englishTranslation = array_merge_recursive($englishTranslation, $pluginTranslations);
             }
@@ -134,6 +156,7 @@ class API extends \Piwik\Plugin\API
         $languagesInfo = array();
         foreach ($filenames as $filename) {
             $data = file_get_contents(sprintf('%s/lang/%s.json', PIWIK_INCLUDE_PATH, $filename));
+            /** @var Translations $translations */
             $translations = json_decode($data, true);
 
             // merge with plugin translations if any
@@ -150,6 +173,7 @@ class API extends \Piwik\Plugin\API
 
                 if (!$excludeNonCorePlugins || Manager::getInstance()->isPluginBundledWithCore($plugin)) {
                     $data = file_get_contents($file);
+                    /** @var Translations $pluginTranslations */
                     $pluginTranslations = json_decode($data, true);
                     $translations = array_merge_recursive($translations, $pluginTranslations);
                 }
@@ -187,35 +211,37 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Return array of available languages
+     * Returns the available languages with their localized and English names.
      *
-     * @param bool $_ignoreConfig
-     * @return array Array of array, each containing its ISO language code and name of the language
+     * @param bool $_ignoreConfig Whether to ignore the configured language allowlist.
+     * @return list<AvailableLanguage> Available languages with `code`, `name`, and `english_name` fields.
      */
-    public function getAvailableLanguageNames($_ignoreConfig = false)
+    public function getAvailableLanguageNames(bool $_ignoreConfig = false)
     {
         $this->loadAvailableLanguages($_ignoreConfig);
-        return $this->availableLanguageNames[$_ignoreConfig];
+        return $this->availableLanguageNames[(int)$_ignoreConfig];
     }
 
     /**
-     * Returns translation strings by language
+     * Returns translation strings for a specific language across core and loaded plugins.
      *
-     * @param string $languageCode ISO language code
-     * @return array|false Array of arrays, each containing 'label' (translation index)  and 'value' (translated string); false if language unavailable
+     * @param string $languageCode The ISO language code to load.
+     * @return list<TranslationEntry>|false Translation entries with `label` and `value` keys, or `false` if the
+     *                                      language is unavailable.
      */
-    public function getTranslationsForLanguage($languageCode)
+    public function getTranslationsForLanguage(string $languageCode)
     {
         if (!$this->isLanguageAvailable($languageCode)) {
             return false;
         }
-        $data = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$languageCode.json");
+        $data         = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$languageCode.json");
+        /** @var Translations $translations */
         $translations = json_decode($data, true);
-        $languageInfo = array();
+        $languageInfo = [];
         foreach ($translations as $module => $keys) {
             foreach ($keys as $key => $value) {
                 $languageInfo[] = array(
-                    'label' => sprintf("%s_%s", $module, $key),
+                    'label' => sprintf('%s_%s', $module, $key),
                     'value' => $value,
                 );
             }
@@ -235,15 +261,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns translation strings by language for given plugin
-     *
-     * @param string $pluginName name of plugin
-     * @param string $languageCode ISO language code
-     * @return array|false Array of arrays, each containing 'label' (translation index)  and 'value' (translated string); false if language unavailable
-     *
+     * @return list<TranslationEntry>|false
      * @ignore
      */
-    public function getPluginTranslationsForLanguage($pluginName, $languageCode)
+    public function getPluginTranslationsForLanguage(string $pluginName, string $languageCode)
     {
         if (!$this->isLanguageAvailable($languageCode)) {
             return false;
@@ -256,26 +277,27 @@ class API extends \Piwik\Plugin\API
         }
 
         $data = file_get_contents($languageFile);
+        /** @var Translations $translations */
         $translations = json_decode($data, true);
-        $languageInfo = array();
+        $languageInfo = [];
         foreach ($translations as $module => $keys) {
             foreach ($keys as $key => $value) {
-                $languageInfo[] = array(
+                $languageInfo[] = [
                     'label' => sprintf("%s_%s", $module, $key),
                     'value' => $value,
-                );
+                ];
             }
         }
         return $languageInfo;
     }
 
     /**
-     * Returns the language for the user
+     * Returns the saved language preference for a user.
      *
-     * @param string $login
-     * @return string
+     * @param string $login The user login to read the language for.
+     * @return string|false The saved language code, or `false` for the anonymous user.
      */
-    public function getLanguageForUser($login)
+    public function getLanguageForUser(string $login)
     {
         if ($login == 'anonymous') {
             return false;
@@ -288,19 +310,19 @@ class API extends \Piwik\Plugin\API
         return $lang;
     }
 
-    private function getModel()
+    private function getModel(): Model
     {
         return new Model();
     }
 
     /**
-     * Sets the language for the user
+     * Stores the language preference for a user.
      *
-     * @param string $login
-     * @param string $languageCode
-     * @return bool
+     * @param string $login The user login to update.
+     * @param string $languageCode The ISO language code to store.
+     * @return bool `true` if the language was stored, `false` if the language code is unavailable.
      */
-    public function setLanguageForUser($login, $languageCode)
+    public function setLanguageForUser(string $login, string $languageCode): bool
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
         Piwik::checkUserIsNotAnonymous();
@@ -315,47 +337,45 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns whether the user uses 12 hour clock
+     * Returns whether a user prefers 12-hour time formatting.
      *
-     * @param string $login
-     * @return string
+     * @param string $login The user login to query.
+     * @return bool `true` if the user uses a 12-hour clock, `false` otherwise or for the anonymous user.
      */
-    public function uses12HourClockForUser($login)
+    public function uses12HourClockForUser(string $login): bool
     {
-        if ($login == 'anonymous') {
+        if ($login === 'anonymous') {
             return false;
         }
 
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
 
-        $lang = $this->getModel()->uses12HourClock($login);
-
-        return $lang;
+        return $this->getModel()->uses12HourClock($login);
     }
 
     /**
-     * Returns whether the user uses 12 hour clock
+     * Stores whether a user prefers 12-hour time formatting.
      *
-     * @param string $login
-     * @param bool $use12HourClock
-     * @return string
+     * @param string $login The user login to update.
+     * @param bool $use12HourClock Whether to enable 12-hour clock formatting.
+     * @return bool `true` if the preference was stored, `false` for the anonymous user.
      */
-    public function set12HourClockForUser($login, $use12HourClock)
+    public function set12HourClockForUser(string $login, bool $use12HourClock): bool
     {
-        if ($login == 'anonymous') {
+        if ($login === 'anonymous') {
             return false;
         }
 
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
 
-        $lang = $this->getModel()->set12HourClock($login, $use12HourClock);
-
-        return $lang;
+        return $this->getModel()->set12HourClock($login, $use12HourClock);
     }
 
-    private function loadAvailableLanguages($_ignoreConfig = false)
+    private function loadAvailableLanguages(bool $_ignoreConfig = false): void
     {
-        if (!empty($this->availableLanguageNames[$_ignoreConfig])) {
+        $cacheKey                = (int)$_ignoreConfig;
+
+        if (!empty($this->availableLanguageNames[$cacheKey])) {
             return;
         }
 
@@ -363,10 +383,11 @@ class API extends \Piwik\Plugin\API
         $cache = PiwikCache::getEagerCache();
 
         if ($cache->contains($cacheId)) {
+            /** @var list<AvailableLanguage> $languagesInfo */
             $languagesInfo = $cache->fetch($cacheId);
         } else {
             $languages = $this->getAvailableLanguages($_ignoreConfig);
-            $languagesInfo = array();
+            $languagesInfo       = [];
             foreach ($languages as $languageCode) {
                 $data = @file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Intl/lang/$languageCode.json");
 
@@ -375,21 +396,25 @@ class API extends \Piwik\Plugin\API
                     continue;
                 }
 
+                /** @var Translations $translations */
                 $translations = json_decode($data, true);
-                $languagesInfo[] = array(
+                $languagesInfo[] = [
                     'code'         => $languageCode,
-                    'name'         => $translations['Intl']['OriginalLanguageName'],
-                    'english_name' => $translations['Intl']['EnglishLanguageName'],
-                );
+                    'name'         => (string)$translations['Intl']['OriginalLanguageName'],
+                    'english_name' => (string)$translations['Intl']['EnglishLanguageName'],
+                ];
             }
 
             $cache->save($cacheId, $languagesInfo);
         }
 
-        $this->availableLanguageNames[$_ignoreConfig] = $languagesInfo;
+        $this->availableLanguageNames[$cacheKey] = $languagesInfo;
     }
 
-    private function enableDevelopmentLanguageInDevEnvironment(&$languages)
+    /**
+     * @param list<string> $languages
+     */
+    private function enableDevelopmentLanguageInDevEnvironment(array &$languages): void
     {
         $key = array_search(DevelopmentLoader::LANGUAGE_ID, $languages);
         if (!Development::isEnabled() && $key) {

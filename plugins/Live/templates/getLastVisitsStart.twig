@@ -4,33 +4,35 @@
 {% if error is not empty %}
 <div vue-entry="CoreHome.Alert" severity="danger">{{ error }}</div>
 {% else %}
-<ul id="visitsLive" vue-directive="Live.LastVisits">
+<ul id="visitsLive">
     {% for visitor in visitors.getRows() %}
-        <li id="{{ visitor.getColumn('idVisit') }}" class="visit">
+        <li id="vid{{ visitor.getColumn('idVisit') }}" class="visit" data-hash="{{ visitor|json_encode|md5 }}">
             <div style="display:none;" class="idvisit">{{ visitor.idVisit }}</div>
-            <div title="{{ visitor.getColumn('actionDetails')|length }} {{ 'General_Actions'|translate }}" class="datetime">
+            <div class="datetime">
                 <span style="display:none;" class="serverTimestamp">{{ visitor.getColumn('serverTimestamp')|raw }}</span>
                 {{ postEvent('Live.visitorLogWidgetViewBeforeVisitInfo', visitor) }}
                 {% set year = visitor.getColumn('serverTimestamp')|date('Y') %}
                 <span class="realTimeWidget_datetime">{{ visitor.getColumn('serverDatePretty')|replace({(year): ' '}) }} - {{ visitor.getColumn('serverTimePretty') }} {% if visitor.getColumn('visitDuration') > 0 %}({{ visitor.getColumn('visitDurationPretty')|raw }}){% endif %}</span>
-                {% if visitor.getColumn('userId')|default(false) is not empty %}
-                  &nbsp;  <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.getColumn('userId') is not empty %}{{ visitor.getColumn('userId') }}{% endif %}" data-visitor-id="{{ visitor.getColumn('visitorId') }}">
-                        <span>{{ visitor.getColumn('userId')|rawSafeDecoded}}</span>
-                    </a>
-                {% endif %}
 
                 {{ postEvent('Live.renderVisitorIcons', visitor) }}
                 {% if isProfileEnabled and not userIsAnonymous %}
-                <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.getColumn('userId') is not empty %}{{ visitor.getColumn('userId') }}{% endif %}" data-visitor-id="{{ visitor.getColumn('visitorId') }}">
-                    <span class="icon-visitor-profile"></span>
-                </a>
+                    <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.getColumn('userId') is not empty %}{{ visitor.getColumn('userId') }}{% endif %}" data-visitor-id="{{ visitor.getColumn('visitorId') }}">
+                        <span class="icon-visitor-profile"></span>
+                    </a>
                 {% endif %}
 
                 <span class="referrer">
                     {% include "@Referrers/_visitorDetails.twig" with {'visitInfo': visitor} %}
                  </span>
+
+                {% if visitor.getColumn('userId')|default(false) is not empty %}
+                    <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.getColumn('userId') is not empty %}{{ visitor.getColumn('userId') }}{% endif %}" data-visitor-id="{{ visitor.getColumn('visitorId') }}">
+                        <span>{{ visitor.getColumn('userId')|rawSafeDecoded}}</span>
+                    </a>
+                {% endif %}
+
             </div>
-            <div id="{{ visitor.getColumn('idVisit') }}_actions" class="settings">
+            <div id="actions_{{ visitor.getColumn('idVisit') }}" class="settings">
                 <span class="pagesTitle"
                       title="{{ visitor.getColumn('actionDetails')|length }} {{ 'General_Actions'|translate }}"
                       >{{ 'General_Actions'|translate }}:</span>&nbsp;
@@ -64,7 +66,7 @@
                                 {%- endif %}
                             {% endset %}
                             <span title="{{- title -}}">
-						        <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"/>
+                                <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"/>
                                 {% if action.type == 'ecommerceOrder' %}
                                     {{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }}
                                 {% endif %}

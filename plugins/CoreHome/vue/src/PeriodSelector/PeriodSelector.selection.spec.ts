@@ -5,6 +5,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import PeriodSelector from './PeriodSelector.vue';
+import { Periods, format } from '../Periods';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
 window.piwik.minDateYear = 2011;
@@ -13,9 +15,6 @@ window.piwik.minDateDay = 15;
 window.piwik.maxDateYear = 2014;
 window.piwik.maxDateMonth = 3;
 window.piwik.maxDateDay = 29;
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const PeriodSelector = require('./PeriodSelector.vue').default;
 
 describe('PeriodSelector', () => {
   const component = PeriodSelector as unknown as {
@@ -41,7 +40,7 @@ describe('PeriodSelector', () => {
       committedAnchorDate: new Date('2026-02-18'),
       appliedRangeStartDate: '2026-02-01',
       appliedRangeEndDate: '2026-02-18',
-      selectedDateParam: '2026-02-01,2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
       isCompareDirty: true,
       hasPendingNonRangePeriodChange: false,
       getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
@@ -362,20 +361,6 @@ describe('PeriodSelector', () => {
     expect(computed.hasPendingNonRangePeriodChange.call(changedPeriodVm)).toBe(true);
   });
 
-  it('allows compare apply path after same-period radio click', () => {
-    const selectedDate = new Date('2026-02-18');
-    const vm: any = createApplyVm({
-      uiSelection: { type: 'period', id: 'day' },
-      selectedPeriod: 'day',
-      committedPeriod: 'day',
-      committedAnchorDate: selectedDate,
-    });
-
-    callOnApplyClicked(vm);
-
-    expectCommitSelection(vm, '2026-02-18', 'day');
-  });
-
   it('rehydrates preset ownership from tokenized hash values', () => {
     const vm: any = {
       periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
@@ -457,6 +442,19 @@ describe('PeriodSelector', () => {
     expectCommitSelection(vm, 'today', 'week');
   });
 
+  it('commits explicit non-range date on compare-only apply when selection is already committed', () => {
+    const vm: any = createApplyVm({
+      selectedPeriod: 'week',
+      committedPeriod: 'week',
+      committedAnchorDate: new Date('2026-02-18'),
+      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
+    });
+
+    callOnApplyClicked(vm);
+
+    expectCommitSelection(vm, '2026-02-18', 'week');
+  });
+
   it('closes selector for non-range preset no-op apply when compare is unchanged', () => {
     const vm: any = createApplyVm({
       uiSelection: { type: 'preset', id: 'today' },
@@ -486,6 +484,21 @@ describe('PeriodSelector', () => {
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
   });
 
+  it('enables apply for a valid period-owned range selection', () => {
+    const vm: any = {
+      uiSelection: { type: 'period', id: 'range' },
+      selectedPeriod: 'range',
+      hasPendingNonRangePeriodChange: false,
+      pendingPresetSelection: null,
+      isRangeValid: true,
+      isComparing: false,
+      comparePeriodType: 'previousPeriod',
+      isCompareRangeValid: jest.fn(() => true),
+    };
+
+    expect(methods.isApplyEnabled.call(vm)).toBe(true);
+  });
+
   it('disables apply when opening with non-range period option selected and no compare changes', () => {
     const vm: any = {
       uiSelection: { type: 'period', id: 'day' },
@@ -502,7 +515,7 @@ describe('PeriodSelector', () => {
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
   });
 
-  it('keeps Apply disabled for period-owned non-range selection even when compare is dirty', () => {
+  it('intentional: keeps Apply disabled for period-owned non-range selection even when compare is dirty', () => {
     const vm: any = {
       uiSelection: { type: 'period', id: 'day' },
       selectedPeriod: 'day',
@@ -518,7 +531,7 @@ describe('PeriodSelector', () => {
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
   });
 
-  it('allows compare edits but requires calendar click to commit period-owned non-range changes', () => {
+  it('intentional: compare edits in period-owned non-range mode require calendar click to commit', () => {
     const originalInitTopControls = window.initTopControls;
     window.initTopControls = jest.fn();
     const updateLocationSpy = jest.spyOn(MatomoUrl, 'updateLocation');
@@ -623,7 +636,7 @@ describe('PeriodSelector', () => {
       selectedPeriod: 'day',
       calendarViewport: 'single',
       commitSelectionToUrl: jest.fn(),
-      selectedDateParam: '2026-02-01,2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
       getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
@@ -658,7 +671,7 @@ describe('PeriodSelector', () => {
       },
       appliedRangeStartDate: '2026-02-01',
       appliedRangeEndDate: '2026-02-18',
-      selectedDateParam: '2026-02-01,2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
       getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
       commitSelectionToUrl: jest.fn(),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
@@ -827,6 +840,12 @@ describe('PeriodSelector', () => {
     const vm: any = {
       committedPeriod: 'day',
       committedAnchorDate: new Date(maxDate.getTime()),
+      minAllowedDate: new Date(
+        window.piwik.minDateYear,
+        window.piwik.minDateMonth - 1,
+        window.piwik.minDateDay,
+      ),
+      maxAllowedDate: maxDate,
       canMovePeriod: jest.fn(() => true),
       setPiwikPeriodAndDate: jest.fn(),
     };

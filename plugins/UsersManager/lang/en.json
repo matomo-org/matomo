@@ -281,6 +281,9 @@
         "CannotRevokeOwnSuperuserAccess": "You cannot revoke your own superuser access.",
         "TokenDescription": "Token description",
         "TokenExpirationDate": "Token expiration date",
-        "TokenCreationDate": "Token creation date"
+        "TokenCreationDate": "Token creation date",
+        "SignOutUser": "Sign out of all sessions",
+        "SignOutUserConfirm": "Are you sure you want to sign %1$s out of all active sessions?",
+        "SignOutUserSuccess": "%1$s has been signed out of all active sessions."
     }
 }

@@ -1173,7 +1173,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * Delete a column by name in every row. This change is NOT applied recursively to all
      * subtables.
      *
-     * @param string $name Column name to delete.
+     * @param string|int $name Column name to delete.
      * @return void
      */
     public function deleteColumn($name)
@@ -1214,7 +1214,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * Deletes several columns by name in every row.
      *
-     * @param array $names List of column names to delete.
+     * @param list<string|int> $names List of column names to delete.
      * @param bool $deleteRecursiveInSubtables Whether to apply this change to all subtables or not.
      * @return void
      */
