@@ -4784,6 +4784,15 @@ if (typeof window.Matomo !== 'object') {
                     prefix;
 
                 if (!configCountPreRendered) {
+                    // Speculation Rules API (Chrome 109+): document.prerendering
+                    if (documentAlias.prerendering) {
+                        addEventListener(documentAlias, 'prerenderingchange', function ready() {
+                            documentAlias.removeEventListener('prerenderingchange', ready, false);
+                            callback();
+                        });
+                        return;
+                    }
+
                     for (i = 0; i < prefixes.length; i++) {
                         prefix = prefixes[i];
 
