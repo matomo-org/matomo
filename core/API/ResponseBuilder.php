@@ -256,6 +256,8 @@ class ResponseBuilder
 
     private function shouldSkipRequestBasedArrayRounding(): bool
     {
+        // MultiSites.getAllWithGroups applies per-row site-aware rounding later, so request-level array
+        // rounding here would double-round mixed-policy payloads based on the ambient request site list.
         return $this->apiModule === 'MultiSites' && $this->apiMethod === 'getAllWithGroups';
     }
 
