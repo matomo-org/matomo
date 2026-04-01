@@ -16,11 +16,11 @@
         <li>{{ translate('PrivacyManager_GdprOverviewIntro4') }}</li>
       </ul>
       <p>{{ translate('PrivacyManager_GdprOverviewMatomoPersonalData') }}</p>
-      <p>{{ translate('PrivacyManager_GdprOverviewApplicabilityIntroNew') }}</p>
+      <p>{{ translate('PrivacyManager_GdprOverviewApplicabilityIntro') }}</p>
       <ul>
-        <li>{{ translate('PrivacyManager_GdprOverviewApplicabilityCondition1New') }}</li>
+        <li>{{ translate('PrivacyManager_GdprOverviewApplicabilityCondition1') }}</li>
         <li>
-          {{ translate('PrivacyManager_GdprOverviewApplicabilityCondition2New') }}
+          {{ translate('PrivacyManager_GdprOverviewApplicabilityCondition2') }}
           <ul>
             <li>{{ translate('PrivacyManager_GdprOverviewApplicabilityCondition2Detail1') }}</li>
             <li>{{ translate('PrivacyManager_GdprOverviewApplicabilityCondition2Detail2') }}</li>
@@ -33,15 +33,15 @@
     <VueEntryContainer :html="afterGDPROverviewIntroContent"/>
 
     <ContentBlock :content-title="translate('PrivacyManager_DataProcessingAgreement')">
-      <p><span v-html="$sanitize(dataProcessingAgreementIntro1New)"></span></p>
-      <p><span v-html="$sanitize(dataProcessingAgreementIntro2New)"></span></p>
+      <p><span v-html="$sanitize(dataProcessingAgreementIntro1)"></span></p>
+      <p>{{ translate('PrivacyManager_DataProcessingAgreementIntro2') }}</p>
     </ContentBlock>
 
     <ContentBlock :content-title="translate('PrivacyManager_GdprChecklists')">
       <p>
-        {{ translate('PrivacyManager_GdprChecklistDesc1New') }}
+        {{ translate('PrivacyManager_GdprChecklistDesc1') }}
         <br /><br />
-        <span v-html="$sanitize(gdprChecklistDesc2New)"></span>
+        <span v-html="$sanitize(gdprChecklistDesc2)"></span>
       </p>
     </ContentBlock>
 
@@ -83,21 +83,25 @@
       <ul>
         <li
           v-if="deleteLogsEnable"
-          v-html="$sanitize(dataRetentionRawDataDeletedAfter)"
+          v-html="$sanitize(translate(
+            'PrivacyManager_RawDataRemovedAfter',
+            `<strong>${rawDataRetention}</strong>`,
+          ))"
         ></li>
         <li
           v-else
-        >
-          {{ translate('PrivacyManager_DataRetentionRawDataNeverDeleted') }}
-        </li>
+          v-html="$sanitize(translate('PrivacyManager_RawDataNeverRemoved'))"
+        ></li>
         <li
           v-if="deleteReportsEnable"
-        >
-          {{ translate('PrivacyManager_DataRetentionReportsDeletedAfter', reportRetention) }}
-        </li>
+          v-html="$sanitize(translate(
+            'PrivacyManager_ReportsRemovedAfter',
+            `<strong>${reportRetention}</strong>`,
+          ))"
+        ></li>
         <li
           v-else
-          v-html="$sanitize(dataRetentionReportsNeverDeleted)"
+          v-html="$sanitize(translate('PrivacyManager_ReportsNeverRemoved'))"
         ></li>
       </ul>
       <p>
@@ -143,37 +147,16 @@ export default defineComponent({
     ContentIntro,
   },
   computed: {
-    dataProcessingAgreementIntro1New() {
+    dataProcessingAgreementIntro1() {
       return translate(
         'PrivacyManager_DataProcessingAgreementIntro1Linked',
         externalLink('https://matomo.org/matomo-cloud-dpa/'),
         '</a>',
       );
     },
-    dataProcessingAgreementIntro2New() {
-      return translate(
-        'PrivacyManager_DataProcessingAgreementIntro2Linked',
-        externalLink('https://matomo.org/matomo-cloud-dpa/'),
-        '</a>',
-        externalLink('https://matomo.org/matomo-cloud-terms-of-service/'),
-        '</a>',
-      );
-    },
-    dataRetentionRawDataDeletedAfter() {
-      return translate(
-        'PrivacyManager_DataRetentionRawDataDeletedAfterBold',
-        `<b>${this.rawDataRetention}</b>`,
-      );
-    },
-    dataRetentionReportsNeverDeleted() {
-      return translate(
-        'PrivacyManager_DataRetentionReportsNeverDeletedBold',
-        '<b>never</b>',
-      );
-    },
-    gdprChecklistDesc2New() {
+    gdprChecklistDesc2() {
       return externalLinkTranslate(
-        'GdprChecklistDesc2New',
+        'GdprChecklistDesc2',
         'https://matomo.org/guide/manage-matomo/privacy/',
       );
     },
@@ -204,7 +187,7 @@ export default defineComponent({
     securityProceduresDesc3() {
       return externalLinkTranslate(
         'SecurityProceduresDesc3',
-        'https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/personal-data-breaches/',
+        'https://ico.org.uk/for-organisations/report-a-breach/personal-data-breach/personal-data-breaches-a-guide/',
       );
     },
     securityProceduresDesc4() {
