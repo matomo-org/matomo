@@ -35,6 +35,17 @@ use Piwik\Tests\Framework\TestRequest\Response;
  */
 class DataRoundingCoverageTest extends SystemTestCase
 {
+    private const CHANGE_COLUMN_PATTERN = '/_change$/i';
+
+    private const EXCLUDED_BY_NAME_PATTERN = '/(rate|percent|percentage|evolution|duration|visit_length|bandwidth|byte)/';
+
+    private const EXCLUDED_SPECIFIC_MAX_METRIC_PATTERN =
+        '/^(max_actions(?:_(?:returning|new|ai_agent|human))?|max_time_(?:network|server|transfer|dom_processing|dom_completion|on_load|generation)|max_bandwidth)$/';
+
+    private const INCLUDED_COUNT_BY_NAME_PATTERN = '/(^nb_|_nb_|_count$|^count_|^items$|^orders$|^quantity$|^hits$)/';
+
+    private const IDENTIFIER_BY_NAME_PATTERN = '/(^id_|_id$)/';
+
     /**
      * Intentionally high hitting segment so we mostly get data from the APIs so we can test the rounding.
      */
@@ -609,27 +620,28 @@ class DataRoundingCoverageTest extends SystemTestCase
 
     private function shouldAuditTagAsCountMetric(string $tag): bool
     {
-        if (strpos($tag, 'nb_') !== 0) {
-            return false;
-        }
-
+        $tag = strtolower($tag);
         if (
-            strpos($tag, '_rate') !== false
-            || strpos($tag, '_percentage') !== false
-            || strpos($tag, '_per_') !== false
-            || strpos($tag, 'evolution') !== false
-            || strpos($tag, '_trend') !== false
+            $tag === ''
+            || $tag === 'label'
+            || $tag === 'idsite'
+            || $tag === 'idgoal'
+            || $tag === 'idsubdatatable'
+            || preg_match(self::IDENTIFIER_BY_NAME_PATTERN, $tag)
+            || preg_match(self::CHANGE_COLUMN_PATTERN, $tag)
         ) {
             return false;
         }
 
-        // Bandwidth/byte metrics may use an nb_* prefix, but they represent sizes, not
-        // privacy-rounded counts. Keep the system audit aligned with DataRounding.
-        if (strpos($tag, 'bandwidth') !== false || strpos($tag, 'byte') !== false) {
+        if (preg_match(self::EXCLUDED_BY_NAME_PATTERN, $tag)) {
             return false;
         }
 
-        return true;
+        if (preg_match(self::EXCLUDED_SPECIFIC_MAX_METRIC_PATTERN, $tag)) {
+            return false;
+        }
+
+        return (bool) preg_match(self::INCLUDED_COUNT_BY_NAME_PATTERN, $tag);
     }
 
     private function roundToNearestTen(int $value): int
