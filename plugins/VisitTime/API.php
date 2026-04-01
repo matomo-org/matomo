@@ -28,14 +28,11 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 class API extends \Piwik\Plugin\API
 {
     /**
-     * @param string $name
      * @param int|string|int[] $idSite
-     * @param string $period
-     * @param string $date
      * @param string|null|false $segment
      * @return DataTable|DataTable\Map
      */
-    protected function getDataTable($name, $idSite, $period, $date, $segment)
+    protected function getDataTable(string $name, $idSite, string $period, string $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
@@ -48,9 +45,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns visit counts grouped by each visitor's local hour.
+     * Returns visit counts grouped by each visitor's local hour at the start of the visit.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
      *                                                   containing the specified date.
      * @param string $date The date or date range to process.
@@ -59,9 +59,9 @@ class API extends \Piwik\Plugin\API
      * @param string|null|false $segment Custom segment to filter the report.
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
-     * @return DataTable|DataTable\Map Visit counts grouped by local time.
+     * @return DataTable|DataTable\Map Visit counts grouped by each visitor's local hour.
      */
-    public function getVisitInformationPerLocalTime($idSite, $period, $date, $segment = false)
+    public function getVisitInformationPerLocalTime($idSite, string $period, string $date, $segment = false)
     {
         $table = $this->getDataTable(Archiver::LOCAL_TIME_RECORD_NAME, $idSite, $period, $date, $segment);
         $table->filter('AddSegmentValue');
@@ -70,9 +70,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns visit counts grouped by the website's server hour.
+     * Returns visit counts grouped by the queried site's hour at the start of the visit.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
      *                                                   containing the specified date.
      * @param string $date The date or date range to process.
@@ -81,24 +84,34 @@ class API extends \Piwik\Plugin\API
      * @param string|null|false $segment Custom segment to filter the report.
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
-     * @param bool $hideFutureHoursWhenToday Whether to omit hours later than the current site-local hour for
-     *                                       today.
-     * @return DataTable|DataTable\Map Visit counts grouped by server time.
+     * @param bool $hideFutureHoursWhenToday Whether to omit hours later than the current hour in the site's
+     *                                       timezone when querying today.
+     * @return DataTable|DataTable\Map Visit counts grouped by hour in the queried site's timezone.
      */
-    public function getVisitInformationPerServerTime($idSite, $period, $date, $segment = false, $hideFutureHoursWhenToday = false)
+    public function getVisitInformationPerServerTime($idSite, string $period, string $date, $segment = false, bool $hideFutureHoursWhenToday = false)
     {
         $table = $this->getDataTable(Archiver::SERVER_TIME_RECORD_NAME, $idSite, $period, $date, $segment);
 
-        $timezone = Site::getTimezoneFor($idSite);
-        $table->filter('Piwik\Plugins\VisitTime\DataTable\Filter\AddSegmentByLabelInUTC', array($timezone, $period, $date));
+        if ($table instanceof DataTable\Map && $table->getKeyName() === 'idSite') {
+            foreach ($table->getDataTables() as $siteId => $dataTable) {
+                $timezone = Site::getTimezoneFor($siteId);
+                $dataTable->filter('Piwik\Plugins\VisitTime\DataTable\Filter\AddSegmentByLabelInUTC', [$timezone, $period, $date]);
 
-        if ($hideFutureHoursWhenToday) {
-            if ($table instanceof DataTable\Map) {
-                foreach ($table->getDataTables() as &$dataTable) {
-                    $dataTable = $this->removeHoursInFuture($dataTable, $idSite, $period, $date);
+                if ($hideFutureHoursWhenToday) {
+                    $dataTable->filter(function (DataTable $dataTable) use ($siteId, $period, $date) {
+                        $this->removeHoursInFuture($dataTable, $siteId, $period, $date);
+                    });
                 }
-            } else {
-                $table = $this->removeHoursInFuture($table, $idSite, $period, $date);
+            }
+        } else {
+            $idSite = (int)$idSite;
+            $timezone = Site::getTimezoneFor($idSite);
+            $table->filter('Piwik\Plugins\VisitTime\DataTable\Filter\AddSegmentByLabelInUTC', [$timezone, $period, $date]);
+
+            if ($hideFutureHoursWhenToday) {
+                $table->filter(function (DataTable $dataTable) use ($idSite, $period, $date) {
+                    $this->removeHoursInFuture($dataTable, $idSite, $period, $date);
+                });
             }
         }
 
@@ -108,20 +121,20 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns visit counts grouped by day of the week.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int $idSite The numeric ID of the website to query. This endpoint does not support multiple sites.
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
      *                                                   containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX). Multiple dates are
+     *                     not supported unless $period is 'range'.
      * @param string|null|false $segment Custom segment to filter the report.
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
-     * @return DataTable Visit counts grouped by day of the week.
+     * @return DataTable Visit counts grouped into day-of-week rows for the requested period.
      */
-    public function getByDayOfWeek($idSite, $period, $date, $segment = false)
+    public function getByDayOfWeek($idSite, string $period, string $date, $segment = false)
     {
-
         Piwik::checkUserHasViewAccess($idSite);
 
         // metrics to query
@@ -143,7 +156,11 @@ class API extends \Piwik\Plugin\API
             throw new Exception("VisitTime.getByDayOfWeek does not support multiple sites.");
         }
 
-        $dataTable = $archive->getDataTableFromNumeric($metrics)->mergeChildren();
+        /** @var DataTable\Map $numericTable */
+        $numericTable = $archive->getDataTableFromNumeric($metrics);
+
+        /** @var DataTable $dataTable */
+        $dataTable = $numericTable->mergeChildren();
 
         // if there's no data for this report, don't bother w/ anything else
         if ($dataTable->getRowsCount() == 0) {
@@ -175,14 +192,7 @@ class API extends \Piwik\Plugin\API
         return $result;
     }
 
-    /**
-     * @param DataTable $table
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @return DataTable
-     */
-    protected function removeHoursInFuture($table, $idSite, $period, $date)
+    protected function removeHoursInFuture(DataTable $table, int $idSite, string $period, string $date): DataTable
     {
         $site = new Site($idSite);
 
