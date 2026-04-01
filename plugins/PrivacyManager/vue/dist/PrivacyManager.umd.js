@@ -2517,109 +2517,108 @@ function AskingForConsentvue_type_template_id_15fb0052_render(_ctx, _cache, $pro
 AskingForConsentvue_type_script_lang_ts.render = AskingForConsentvue_type_template_id_15fb0052_render
 
 /* harmony default export */ var AskingForConsent = (AskingForConsentvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/GdprOverview/GdprOverview.vue?vue&type=template&id=f6b95214
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/GdprOverview/GdprOverview.vue?vue&type=template&id=baa24f9e
 
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_1 = {
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_1 = {
   class: "gdprOverview"
 };
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_2 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_3 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_6 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_7 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_8 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_9 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_10 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_11 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_12 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_13 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_14 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_15 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_16 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_17 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_18 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_19 = {
-  key: 1
-};
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_20 = {
-  key: 2
-};
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_21 = ["innerHTML"];
-const GdprOverviewvue_type_template_id_f6b95214_hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-function GdprOverviewvue_type_template_id_f6b95214_render(_ctx, _cache, $props, $setup, $data, $options) {
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_2 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_5 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_6 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_7 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_8 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_9 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_10 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_11 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_12 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_13 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_14 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_15 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_16 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_17 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_18 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_19 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_20 = ["innerHTML"];
+const GdprOverviewvue_type_template_id_baa24f9e_hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+function GdprOverviewvue_type_template_id_baa24f9e_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_VueEntryContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("VueEntryContainer");
   const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
   const _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", GdprOverviewvue_type_template_id_f6b95214_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverview')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewIntro1')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewKeyPoint1')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewIntro3')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewIntro4')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewMatomoPersonalData')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewApplicabilityIntroNew')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewApplicabilityCondition1New')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewApplicabilityCondition2New')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewApplicabilityCondition2Detail1')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewApplicabilityCondition2Detail2')), 1)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewIntro2')), 1)])), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_VueEntryContainer, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", GdprOverviewvue_type_template_id_baa24f9e_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverview')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewIntro1')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewKeyPoint1')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewIntro3')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewIntro4')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewMatomoPersonalData')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewApplicabilityIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewApplicabilityCondition1')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewApplicabilityCondition2')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewApplicabilityCondition2Detail1')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewApplicabilityCondition2Detail2')), 1)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprOverviewIntro2')), 1)])), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_VueEntryContainer, {
     html: _ctx.afterGDPROverviewIntroContent
   }, null, 8, ["html"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('PrivacyManager_DataProcessingAgreement')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-      innerHTML: _ctx.$sanitize(_ctx.dataProcessingAgreementIntro1New)
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_2)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-      innerHTML: _ctx.$sanitize(_ctx.dataProcessingAgreementIntro2New)
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_3)])]),
+      innerHTML: _ctx.$sanitize(_ctx.dataProcessingAgreementIntro1)
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_2)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DataProcessingAgreementIntro2')), 1)]),
     _: 1
   }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('PrivacyManager_GdprChecklists')
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprChecklistDesc1New')) + " ", 1), GdprOverviewvue_type_template_id_f6b95214_hoisted_4, GdprOverviewvue_type_template_id_f6b95214_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-      innerHTML: _ctx.$sanitize(_ctx.gdprChecklistDesc2New)
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_6)])]),
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_GdprChecklistDesc1')) + " ", 1), GdprOverviewvue_type_template_id_baa24f9e_hoisted_3, GdprOverviewvue_type_template_id_baa24f9e_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      innerHTML: _ctx.$sanitize(_ctx.gdprChecklistDesc2)
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_5)])]),
     _: 1
   }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('PrivacyManager_IndividualsRights')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_IndividualsRightsIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ol", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_IndividualsRightsInform')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
       innerHTML: _ctx.$sanitize(_ctx.rightsLinkText('IndividualsRightsAccess'))
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_6), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
       innerHTML: _ctx.$sanitize(_ctx.rightsLinkText('IndividualsRightsErasure'))
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_8), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
       innerHTML: _ctx.$sanitize(_ctx.rightsLinkText('IndividualsRightsRectification'))
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_8), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
       innerHTML: _ctx.$sanitize(_ctx.rightsLinkText('IndividualsRightsPortability'))
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
       innerHTML: _ctx.$sanitize(_ctx.rightsLinkText('IndividualsRightsObject', 'usersOptOut'))
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_11), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_IndividualsRightsChildren')), 1)])]),
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_10), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_IndividualsRightsChildren')), 1)])]),
     _: 1
   }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('PrivacyManager_AwarenessDocumentation')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_AwarenessDocumentationIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ol", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_AwarenessDocumentationDesc1')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_AwarenessDocumentationDesc2')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
       innerHTML: _ctx.$sanitize(_ctx.awarenessDocumentationDesc3)
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_12), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_11), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
       innerHTML: _ctx.$sanitize(_ctx.awarenessDocumentationDesc4)
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_13)])]),
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_12)])]),
     _: 1
   }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('PrivacyManager_SecurityProcedures')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_SecurityProceduresIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ol", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
       innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc1)
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_14), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_13), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
       innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc2)
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_15), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_14), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
       innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc3)
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_16), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_15), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
       innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc4)
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_17)])]),
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_16)])]),
     _: 1
   }, 8, ["content-title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('PrivacyManager_DataRetention')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DataRetentionInMatomo')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [_ctx.deleteLogsEnable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: 0,
-      innerHTML: _ctx.$sanitize(_ctx.dataRetentionRawDataDeletedAfter)
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_18)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", GdprOverviewvue_type_template_id_f6b95214_hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DataRetentionRawDataNeverDeleted')), 1)), _ctx.deleteReportsEnable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", GdprOverviewvue_type_template_id_f6b95214_hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DataRetentionReportsDeletedAfter', _ctx.reportRetention)), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+      innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_RawDataRemovedAfter', `<strong>${_ctx.rawDataRetention}</strong>`))
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_17)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+      key: 1,
+      innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_RawDataNeverRemoved'))
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_18)), _ctx.deleteReportsEnable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+      key: 2,
+      innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_ReportsRemovedAfter', `<strong>${_ctx.reportRetention}</strong>`))
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_19)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: 3,
-      innerHTML: _ctx.$sanitize(_ctx.dataRetentionReportsNeverDeleted)
-    }, null, 8, GdprOverviewvue_type_template_id_f6b95214_hoisted_21))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [GdprOverviewvue_type_template_id_f6b95214_hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DataRetentionOverall')), 1)])]),
+      innerHTML: _ctx.$sanitize(_ctx.translate('PrivacyManager_ReportsNeverRemoved'))
+    }, null, 8, GdprOverviewvue_type_template_id_baa24f9e_hoisted_20))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [GdprOverviewvue_type_template_id_baa24f9e_hoisted_21, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DataRetentionOverall')), 1)])]),
     _: 1
   }, 8, ["content-title"])]);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/GdprOverview/GdprOverview.vue?vue&type=template&id=f6b95214
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/GdprOverview/GdprOverview.vue?vue&type=template&id=baa24f9e
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/GdprOverview/GdprOverview.vue?vue&type=script&lang=ts
 
@@ -2643,20 +2642,11 @@ function externalLinkTranslate(tokenSuffix, url) {
     ContentIntro: external_CoreHome_["ContentIntro"]
   },
   computed: {
-    dataProcessingAgreementIntro1New() {
+    dataProcessingAgreementIntro1() {
       return Object(external_CoreHome_["translate"])('PrivacyManager_DataProcessingAgreementIntro1Linked', Object(external_CoreHome_["externalLink"])('https://matomo.org/matomo-cloud-dpa/'), '</a>');
     },
-    dataProcessingAgreementIntro2New() {
-      return Object(external_CoreHome_["translate"])('PrivacyManager_DataProcessingAgreementIntro2Linked', Object(external_CoreHome_["externalLink"])('https://matomo.org/matomo-cloud-dpa/'), '</a>', Object(external_CoreHome_["externalLink"])('https://matomo.org/matomo-cloud-terms-of-service/'), '</a>');
-    },
-    dataRetentionRawDataDeletedAfter() {
-      return Object(external_CoreHome_["translate"])('PrivacyManager_DataRetentionRawDataDeletedAfterBold', `<b>${this.rawDataRetention}</b>`);
-    },
-    dataRetentionReportsNeverDeleted() {
-      return Object(external_CoreHome_["translate"])('PrivacyManager_DataRetentionReportsNeverDeletedBold', '<b>never</b>');
-    },
-    gdprChecklistDesc2New() {
-      return externalLinkTranslate('GdprChecklistDesc2New', 'https://matomo.org/guide/manage-matomo/privacy/');
+    gdprChecklistDesc2() {
+      return externalLinkTranslate('GdprChecklistDesc2', 'https://matomo.org/guide/manage-matomo/privacy/');
     },
     awarenessDocumentationDesc3() {
       return externalLinkTranslate('AwarenessDocumentationDesc3', 'https://matomo.org/faq/general/faq_18254/');
@@ -2671,7 +2661,7 @@ function externalLinkTranslate(tokenSuffix, url) {
       return externalLinkTranslate('SecurityProceduresDesc2', 'https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/international-transfers/a-guide-to-international-transfers/');
     },
     securityProceduresDesc3() {
-      return externalLinkTranslate('SecurityProceduresDesc3', 'https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/personal-data-breaches/');
+      return externalLinkTranslate('SecurityProceduresDesc3', 'https://ico.org.uk/for-organisations/report-a-breach/personal-data-breach/personal-data-breaches-a-guide/');
     },
     securityProceduresDesc4() {
       return externalLinkTranslate('SecurityProceduresDesc4', 'https://www.cnil.fr/en/guidelines-dpia');
@@ -2693,7 +2683,7 @@ function externalLinkTranslate(tokenSuffix, url) {
 
 
 
-GdprOverviewvue_type_script_lang_ts.render = GdprOverviewvue_type_template_id_f6b95214_render
+GdprOverviewvue_type_script_lang_ts.render = GdprOverviewvue_type_template_id_baa24f9e_render
 
 /* harmony default export */ var GdprOverview = (GdprOverviewvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/EPrivacyLaws/EPrivacyLaws.vue?vue&type=template&id=2cf75c1d
