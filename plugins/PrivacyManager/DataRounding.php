@@ -329,13 +329,7 @@ class DataRounding
 
     private static function isConstantRowsCountReport(Report $report): bool
     {
-        try {
-            $property = new \ReflectionProperty(\Piwik\Plugin\Report::class, 'constantRowsCount');
-            $property->setAccessible(true);
-            return $property->getValue($report) === true;
-        } catch (\Throwable $e) {
-            return false;
-        }
+        return $report->hasConstantRowsCount();
     }
 
     /**
