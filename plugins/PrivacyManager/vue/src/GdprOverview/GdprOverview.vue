@@ -198,7 +198,7 @@ export default defineComponent({
     securityProceduresDesc2() {
       return externalLinkTranslate(
         'SecurityProceduresDesc2',
-        'https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/international-transfers/',
+        'https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/international-transfers/a-guide-to-international-transfers/',
       );
     },
     securityProceduresDesc3() {

@@ -162,7 +162,7 @@
         "GdprOverviewApplicabilityIntro": "If your Matomo configuration processes personal data, GDPR will apply to your organisation if it:",
         "GdprOverviewApplicabilityIntroNew": "If your Matomo configuration processes personal data, GDPR will apply to your organisation, if it:",
         "GdprOverviewApplicabilityOutro": "If no personal data is collected in Matomo, GDPR may not apply to Matomo use, but ePrivacy laws still will.",
-        "GdprOverviewIntro2": "If you take steps to ensure no personal data is collected in Matomo, then you may not be concerned by the GDPR for Matomo (if you track no IP addresses, no user IDs, no geolocation data, etc.).",
+        "GdprOverviewIntro2": "If you take steps to ensure no personal data is collected in Matomo, then you may not be concerned by the GDPR for Matomo (if you track no IP addresses, no user IDs, no geolocation data, etc.), but ePrivacy laws will still apply.",
         "GdprOverviewIntro3": "GDPR defines personal data broadly, covering any information that can directly or indirectly identify a person.",
         "GdprOverviewIntro4": "GDPR does not apply to anonymised personal data, but anonymisation threshold is high.",
         "GdprOverviewKeyPoint1": "The GDPR doesn't just apply to businesses in the EU - it can also affect companies outside the EU in some cases.",
