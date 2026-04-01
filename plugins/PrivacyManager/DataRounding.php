@@ -560,6 +560,7 @@ class DataRounding
             return 0;
         }
 
+        // Keep any non-zero count at a minimum of 10 so segmented responses do not expose near-single-user volumes.
         return max(10, (int) (floor(($value + 5) / 10) * 10));
     }
 
