@@ -3839,11 +3839,6 @@ parameters:
 			path: plugins/Marketplace/config/config.php
 
 		-
-			message: "#^Result of method Piwik\\\\Plugins\\\\MobileMessaging\\\\Model\\:\\:removePhoneNumber\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: plugins/MobileMessaging/API.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\MobileMessaging\\\\Diagnostic\\\\MobileMessagingInformational\\:\\:\\$translator is never read, only written\\.$#"
 			count: 1
 			path: plugins/MobileMessaging/Diagnostic/MobileMessagingInformational.php
