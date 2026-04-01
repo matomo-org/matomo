@@ -599,7 +599,6 @@ class Report
     }
 
     /**
-     * @return bool
      * @ignore
      */
     public function hasConstantRowsCount(): bool
