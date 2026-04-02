@@ -4304,11 +4304,6 @@ parameters:
 			path: plugins/UserCountry/functions.php
 
 		-
-			message: "#^Parameter \\#3 \\$strDate of static method Piwik\\\\Archive\\:\\:build\\(\\) expects Piwik\\\\Date\\|string, int given\\.$#"
-			count: 1
-			path: plugins/UserId/API.php
-
-		-
 			message: "#^Argument of an invalid type Zend_Db_Statement supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: plugins/UserId/RecordBuilders/Users.php
