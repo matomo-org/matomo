@@ -1526,21 +1526,6 @@ parameters:
 			path: core/QuickForm2.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: core/RankingQuery.php
-
-		-
-			message: "#^Property Piwik\\\\RankingQuery\\:\\:\\$columnToMarkExcludedRows \\(string\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: core/RankingQuery.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: core/RankingQuery.php
-
-		-
 			message: "#^Parameter \\#1 \\$viewDataTableId of method Piwik\\\\Report\\\\ReportWidgetConfig\\:\\:setDefaultViewDataTable\\(\\) expects string, null given\\.$#"
 			count: 1
 			path: core/Report/ReportWidgetFactory.php
@@ -4187,26 +4172,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugins\\\\Tour\\\\Widgets\\\\GetEngagement\\:\\:\\$levels is never read, only written\\.$#"
 			count: 1
 			path: plugins/Tour/Widgets/GetEngagement.php
-
-		-
-			message: "#^Comparison operation \"\\<\" between array\\|int\\|string and 0 results in an error\\.$#"
-			count: 3
-			path: plugins/Transitions/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$label of function Piwik\\\\Plugins\\\\Referrers\\\\getReferrerTypeLabel expects string, int given\\.$#"
-			count: 1
-			path: plugins/Transitions/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$segmentCondition of class Piwik\\\\Segment constructor expects string, bool given\\.$#"
-			count: 1
-			path: plugins/Transitions/API.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: plugins/Transitions/API.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\TwoFactorAuth\\\\Controller\\:\\:setupTwoFactorAuth\\(\\) should return string but empty return statement found\\.$#"
