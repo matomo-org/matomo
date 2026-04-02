@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Live;
 
+use Piwik\Piwik;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled as VisitorLogDisabledSetting;

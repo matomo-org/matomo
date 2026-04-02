@@ -14,6 +14,7 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\IP;
 use Piwik\Menu\MenuAdmin;

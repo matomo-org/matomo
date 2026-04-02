@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Matomo\Network\IPUtils;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;

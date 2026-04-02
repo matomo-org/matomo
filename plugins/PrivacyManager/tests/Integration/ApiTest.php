@@ -11,6 +11,7 @@ namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Container\StaticContainer;
 use Piwik\NoAccessException;
 use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Tests\Framework\Fixture;

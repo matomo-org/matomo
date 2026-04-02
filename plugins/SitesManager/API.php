@@ -17,6 +17,7 @@ use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\Model as CoreModel;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
