@@ -73,7 +73,7 @@ class API extends \Piwik\Plugin\API
         }
 
         foreach ($visitTypes as $columnSuffix => $visitorTypeSegment) {
-            $modifiedSegment = Segment::combine($segment, SegmentExpression::AND_DELIMITER, $visitorTypeSegment);
+            $modifiedSegment = Segment::combine($segment ?? '', SegmentExpression::AND_DELIMITER, $visitorTypeSegment);
 
             $columnsForVisitType = empty($columns) ? array() : $this->unprefixColumns($columns, $columnSuffix);
 
