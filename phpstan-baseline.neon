@@ -3529,11 +3529,6 @@ parameters:
 			path: plugins/Goals/Tracker/GoalsRequestProcessor.php
 
 		-
-			message: "#^Binary operation \"\\+\" between float\\|int and non\\-empty\\-string results in an error\\.$#"
-			count: 1
-			path: plugins/ImageGraph/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$idSites of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getReportMetadata\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/ImageGraph/Controller.php
