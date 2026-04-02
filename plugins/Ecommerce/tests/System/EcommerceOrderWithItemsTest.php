@@ -159,6 +159,19 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                     ],
                 ],
 
+                [
+                    'API.getMetadata',
+                    [
+                        'idSite'     => $idSite,
+                        'date'       => $dateTime,
+                        'periods'    => ['day'],
+                        'apiModule'  => 'Goals',
+                        'apiAction'  => 'get',
+                        'idGoal'     => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
+                        'testSuffix' => '_MetadataOnly_Goals.Get_Order',
+                    ],
+                ],
+
                 // test metadata products
                 [
                     $processedReportApi,

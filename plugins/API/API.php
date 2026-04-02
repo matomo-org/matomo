@@ -239,7 +239,8 @@ class API extends \Piwik\Plugin\API
         $period = false,
         $date = false,
         $hideMetricsDoc = false,
-        $showSubtableReports = false
+        $showSubtableReports = false,
+        $idGoal = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -247,6 +248,14 @@ class API extends \Piwik\Plugin\API
             /** @var Translator $translator */
             $translator = StaticContainer::get('Piwik\Translation\Translator');
             $translator->setCurrentLanguage($language);
+        }
+
+        // mirror the logic in ProcessedReport::getProcessedReport()
+        if (
+            !empty($idGoal)
+            && empty($apiParameters['idGoal'])
+        ) {
+            $apiParameters['idGoal'] = $idGoal;
         }
 
         $metadata = $this->processedReport->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
