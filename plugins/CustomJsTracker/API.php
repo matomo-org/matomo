@@ -21,7 +21,7 @@ use Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException;
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Returns whether plugin tracker files will be included automatically in `piwik.js`.
+     * Returns whether plugin tracker files will be included automatically in `matomo.js`.
      *
      * @return bool Whether plugin tracker files are included automatically.
      */
