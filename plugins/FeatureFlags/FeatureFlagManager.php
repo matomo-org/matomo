@@ -42,6 +42,10 @@ class FeatureFlagManager
             return false;
         }
 
+        if ($featureFlagObj instanceof ForcedFeatureFlagStateInterface) {
+            return $featureFlagObj->getForcedFeatureFlagState();
+        }
+
         $featureActive = false;
 
         foreach ($this->storages as $storage) {
