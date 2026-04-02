@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Feedback;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
@@ -30,13 +31,13 @@ class API extends \Piwik\Plugin\API
     /**
      * Sends a survey response to the Matomo team or to the configured feedback email address.
      *
-     * @param string|null $featureName Name of the feature the feedback is about.
-     * @param string|null $like Whether the user likes the feature.
+     * @param string $featureName Name of the feature the feedback is about.
+     * @param bool|null $like Whether the user likes the feature.
      * @param string|null $choice Optional selected multiple-choice answer.
      * @param string|null $message Feedback message entered by the user.
      * @return string Translation key text when validation fails, or `success` when the feedback email is sent.
      */
-    public function sendFeedbackForFeature($featureName, $like = null, $choice = null, $message = null)
+    public function sendFeedbackForFeature(string $featureName, ?bool $like = null, ?string $choice = null, ?string $message = null)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
@@ -89,7 +90,7 @@ class API extends \Piwik\Plugin\API
      * @param string|false $message Survey answer entered by the user.
      * @return string Translation key text when validation fails, or `success` when the feedback email is sent.
      */
-    public function sendFeedbackForSurvey($question, $message = false)
+    public function sendFeedbackForSurvey(string $question, $message = false): string
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
@@ -106,11 +107,10 @@ class API extends \Piwik\Plugin\API
             $feedbackMessage = sprintf("Answer:\n%s\n", trim($message));
         }
 
-        $body .= $feedbackMessage ? $feedbackMessage : " \n";
+        $body .= $feedbackMessage ?: " \n";
 
         $subject = sprintf(
-            "%s for %s %s",
-            empty($like) ? "-1" : "+1",
+            "-1 for %s %s",
             $featureName,
             empty($feedbackMessage) ? "" : "(w/ feedback Survey)"
         );
@@ -130,7 +130,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return string JSON-encoded array containing the next reminder date.
      */
-    public function updateFeedbackReminderDate()
+    public function updateFeedbackReminderDate(): string
     {
         Piwik::checkUserIsNotAnonymous();
 
@@ -140,16 +140,13 @@ class API extends \Piwik\Plugin\API
         $feedbackReminder->setUserOption($nextReminder);
 
         Json::sendHeaderJSON();
-        return json_encode(['Next reminder date: ' . $nextReminder]);
+        return json_encode(['Next reminder date: ' . $nextReminder]) ?: '';
     }
 
-    /**
-     * @param string $subject
-     * @param string $body
-     */
-    private function sendMail($subject, $body)
+    private function sendMail(string $subject, string $body): void
     {
-        $feedbackEmailAddress = Config::getInstance()->General['feedback_email_address'];
+        /** @var string $feedbackEmailAddress */
+        $feedbackEmailAddress = GeneralConfig::getConfigValue('feedback_email_address');
 
         $subject = '[ Feedback Feature - Matomo ] ' . $subject;
         $body    = Common::unsanitizeInputValue($body) . "\n"
@@ -165,20 +162,16 @@ class API extends \Piwik\Plugin\API
         @$mail->send();
     }
 
-    /**
-     * @param string|null $featureName
-     * @return string|null
-     */
-    private function getEnglishTranslationForFeatureName($featureName)
+    private function getEnglishTranslationForFeatureName(string $featureName): string
     {
         $translator = StaticContainer::get('Piwik\Translation\Translator');
 
-        if ($translator->getCurrentLanguage() == 'en') {
+        if ($translator->getCurrentLanguage() === 'en') {
             return $featureName;
         }
 
         $translationKeyForFeature = $translator->findTranslationKeyForTranslation($featureName);
 
-        return Piwik::translate($translationKeyForFeature, array(), 'en');
+        return Piwik::translate($translationKeyForFeature ?? '', [], 'en');
     }
 }
