@@ -39,9 +39,9 @@ class API extends \Piwik\Plugin\API
      * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
      * @return DataTable|DataTable\Map Content name metrics for the requested site and period.
      */
-    public function getContentNames($idSite, $period, $date, $segment = false, $idSubtable = false)
+    public function getContentNames($idSite, string $period, string $date, $segment = false, $idSubtable = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $idSubtable);
     }
 
     /**
@@ -62,26 +62,22 @@ class API extends \Piwik\Plugin\API
      * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
      * @return DataTable|DataTable\Map Content piece metrics for the requested site and period.
      */
-    public function getContentPieces($idSite, $period, $date, $segment = false, $idSubtable = false)
+    public function getContentPieces($idSite, string $period, string $date, $segment = false, $idSubtable = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $idSubtable);
     }
 
     /**
-     * @param string $name
      * @param int|string|int[] $idSite
-     * @param string $period
-     * @param string $date
      * @param string|null|false $segment
-     * @param bool $expanded
      * @param int|null|false $idSubtable
      * @return DataTable|DataTable\Map
      */
-    private function getDataTable($name, $idSite, $period, $date, $segment, $expanded, $idSubtable)
+    private function getDataTable(string $name, $idSite, string $period, string $date, $segment, $idSubtable)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $recordName = Dimensions::getRecordNameForAction($name);
-        $dataTable  = Archive::createDataTableFromArchive($recordName, $idSite, $period, $date, $segment, $expanded, $flat = false, $idSubtable);
+        $dataTable = Archive::createDataTableFromArchive($recordName, $idSite, $period, $date, $segment, false, false, $idSubtable);
 
         if (empty($idSubtable)) {
             $dataTable->filter('AddSegmentValue', array(function ($label) {
@@ -98,9 +94,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param DataTable $dataTable
+     * @param DataTable|DataTable\Map $dataTable
      */
-    private function filterDataTable($dataTable)
+    private function filterDataTable($dataTable): void
     {
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
