@@ -4414,11 +4414,6 @@ parameters:
 			path: plugins/VisitTime/functions.php
 
 		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: plugins/VisitsSummary/API.php
-
-		-
 			message: "#^Comparison operation \"\\=\\=\" between \\(array\\|float\\|int\\) and 0 results in an error\\.$#"
 			count: 1
 			path: plugins/VisitsSummary/Reports/Get.php
