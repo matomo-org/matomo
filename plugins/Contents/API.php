@@ -15,14 +15,14 @@ use Piwik\Piwik;
 use Piwik\Plugins\Contents\Archiver;
 
 /**
- * API for plugin Contents
+ * The Contents API exposes content tracking reports grouped by content name and content piece.
  *
  * @method static \Piwik\Plugins\Contents\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Returns metrics for content names tracked on the requested site.
+     * Returns content tracking metrics grouped by content name.
      *
      * @param int|string|int[] $idSite Website ID(s) to query.
      *                                 - Single site ID (e.g. 1)
@@ -37,7 +37,9 @@ class API extends \Piwik\Plugin\API
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
      * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
-     * @return DataTable|DataTable\Map Content name metrics for the requested site and period.
+     *                                   When provided, returns the content pieces for the selected content name row.
+     * @return DataTable|DataTable\Map Content name rows with impressions, interactions, and interaction rate for the
+     *                                 requested site and period.
      */
     public function getContentNames($idSite, string $period, string $date, $segment = false, $idSubtable = false)
     {
@@ -45,7 +47,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns metrics for content pieces tracked on the requested site.
+     * Returns content tracking metrics grouped by content piece.
      *
      * @param int|string|int[] $idSite Website ID(s) to query.
      *                                 - Single site ID (e.g. 1)
@@ -60,7 +62,9 @@ class API extends \Piwik\Plugin\API
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
      * @param int|null|false $idSubtable Subtable ID to fetch instead of the top-level report.
-     * @return DataTable|DataTable\Map Content piece metrics for the requested site and period.
+     *                                   When provided, returns the content names for the selected content piece row.
+     * @return DataTable|DataTable\Map Content piece rows with impressions, interactions, and interaction rate for the
+     *                                 requested site and period.
      */
     public function getContentPieces($idSite, string $period, string $date, $segment = false, $idSubtable = false)
     {
