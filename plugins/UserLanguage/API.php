@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\UserLanguage;
 
 use Piwik\Archive;
+use Piwik\DataTable;
 use Piwik\Piwik;
 
 /**
@@ -25,14 +26,11 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserLanguage/functions.php';
 class API extends \Piwik\Plugin\API
 {
     /**
-     * @param string $name
      * @param int|string|int[] $idSite
-     * @param string $period
-     * @param string $date
      * @param string|null|false $segment
-     * @return \Piwik\DataTable|\Piwik\DataTable\Map
+     * @return DataTable|DataTable\Map
      */
-    protected function getDataTable($name, $idSite, $period, $date, $segment)
+    protected function getDataTable(string $name, $idSite, string $period, string $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
@@ -57,9 +55,9 @@ class API extends \Piwik\Plugin\API
      * @param string|null|false $segment Custom segment to filter the report.
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
-     * @return \Piwik\DataTable|\Piwik\DataTable\Map Visitor language metrics grouped by language code.
+     * @return DataTable|DataTable\Map Visitor language metrics grouped by language code.
      */
-    public function getLanguage($idSite, $period, $date, $segment = false)
+    public function getLanguage($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\groupByLangCallback'));
@@ -89,9 +87,9 @@ class API extends \Piwik\Plugin\API
      * @param string|null|false $segment Custom segment to filter the report.
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
-     * @return \Piwik\DataTable|\Piwik\DataTable\Map Visitor language metrics grouped by locale code.
+     * @return DataTable|DataTable\Map Visitor language metrics grouped by locale code.
      */
-    public function getLanguageCode($idSite, $period, $date, $segment = false)
+    public function getLanguageCode($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
