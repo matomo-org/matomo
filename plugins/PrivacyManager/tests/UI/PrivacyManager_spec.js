@@ -199,7 +199,7 @@ describe("PrivacyManager", function () {
 
         await capturePage('eprivacy_laws');
     });
-  
+
     it('should load understanding your legal obligations page', async function() {
         await loadActionPage('understandingYourLegalObligations');
 
@@ -452,8 +452,6 @@ describe("PrivacyManager", function () {
     });
 
     it('should load a new compliance page when site selector is changed', async function() {
-      // feature flag enabled from previous test
-
       await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
       await page.waitForNetworkIdle();
       await (await page.jQuery('#complianceSite a')).click();
@@ -465,8 +463,6 @@ describe("PrivacyManager", function () {
     });
 
     it('should select All Websites when idSite is not provided', async function() {
-      // feature flag enabled from previous test
-
       await page.goto('?module=PrivacyManager&action=compliance');
       await page.waitForNetworkIdle();
 
@@ -478,8 +474,6 @@ describe("PrivacyManager", function () {
     });
 
     it('should select All Websites when idSite equals all', async function() {
-      // feature flag enabled from previous test
-
       await page.goto('?module=PrivacyManager&action=compliance&idSite=all');
       await page.waitForNetworkIdle();
 
