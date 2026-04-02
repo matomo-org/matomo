@@ -14,8 +14,8 @@ use Piwik\DataTable;
 use Piwik\Piwik;
 
 /**
- * VisitorInterest API lets you access two Visitor Engagement reports: number of visits per number of pages,
- * and number of visits per visit duration.
+ * VisitorInterest API lets you access visitor engagement distribution reports, including visits by pages viewed,
+ * visit duration, days since last visit, and visit count.
  *
  * @method static \Piwik\Plugins\VisitorInterest\API getInstance()
  */
