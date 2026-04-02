@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Plugins\DevicesDetection\Settings\OnlyMajorVersions;
 use Piwik\Plugins\DevicesDetection\Settings\DeviceModelDetectionDisabled;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;

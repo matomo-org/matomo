@@ -857,19 +857,21 @@ class Request
 
     public function getForcedUserId()
     {
-        $idSite = $this->getIdSite();
-        $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-        $cacheKey = UserIdDisabled::class;
-        if (($cache[$cacheKey] ?? false) === true) {
+        $userId = $this->getParam('uid');
+        if (strlen($userId) === 0) {
             return false;
         }
 
-        $userId = $this->getParam('uid');
-        if (strlen($userId) > 0) {
-            return $userId;
+        if (!empty($this->params['idsite'])) {
+            $idSite = $this->getIdSite();
+            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+            $cacheKey = UserIdDisabled::class;
+            if (($cache[$cacheKey] ?? false) === true) {
+                return false;
+            }
         }
 
-        return false;
+        return $userId;
     }
 
     public function getForcedVisitorId()

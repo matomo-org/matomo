@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Columns\Dimension;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Row;

@@ -1455,7 +1455,17 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        return FilterPIIParameters::getInstance($idSite)->getValue();
+        $result = FilterPIIParameters::getInstance($idSite)->getValue();
+        if (!empty($result)) {
+            return $result;
+        }
+
+        $excludedQueryParamsGlobal = Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
+        if (empty($excludedQueryParamsGlobal)) {
+            return SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS;
+        }
+
+        return SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM;
     }
 
     /**

@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Piwik\Plugins\PrivacyManager\tests\System;
 
 use Piwik\API\Request;
-use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Policy\CnilPolicy;
