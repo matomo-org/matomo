@@ -3304,11 +3304,6 @@ parameters:
 			path: plugins/Ecommerce/Controller.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\API\\:\\:getSecondaryDimensions\\(\\) should return array but returns false\\.$#"
-			count: 1
-			path: plugins/Events/API.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\Columns\\\\TotalEvents\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
 			count: 1
 			path: plugins/Events/Columns/TotalEvents.php
