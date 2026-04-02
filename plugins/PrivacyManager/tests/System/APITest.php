@@ -35,13 +35,10 @@ class APITest extends SystemTestCase
      */
     private $api;
 
-    private $testEnvironment;
-
     public function setUp(): void
     {
         parent::setUp();
         $this->api = API::getInstance();
-        $this->testEnvironment = static::$fixture->getTestEnvironment();
     }
 
     public function tearDown(): void
@@ -188,7 +185,7 @@ class APITest extends SystemTestCase
 
     public function testGetComplianceStatusReturnsErrorIfNotSuperAdmin(): void
     {
-            $access = Access::getInstance();
+        $access = Access::getInstance();
         $originalAccess = $access->hasSuperUserAccess();
 
         try {

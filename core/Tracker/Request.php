@@ -862,13 +862,17 @@ class Request
             return false;
         }
 
-        if (!empty($this->params['idsite'])) {
+        try {
             $idSite = $this->getIdSite();
-            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            $cacheKey = UserIdDisabled::class;
-            if (($cache[$cacheKey] ?? false) === true) {
-                return false;
+            if (!empty($idSite) && $idSite > 0) {
+                $cache    = TrackerCache::getCacheWebsiteAttributes($idSite);
+                $cacheKey = UserIdDisabled::class;
+                if (($cache[$cacheKey] ?? false) === true) {
+                    return false;
+                }
             }
+        } catch (\Exception $e) {
+            // Might fail for e.g. not existing sites, but we do not want to throw an exception at this stage
         }
 
         return $userId;
