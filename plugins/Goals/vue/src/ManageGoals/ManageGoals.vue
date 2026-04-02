@@ -87,17 +87,17 @@
                   v-if="userCanEditGoals"
                   class="entityTable_ActionCell entityTable_ActionCell-3"
                 >
-                  <button
-                    @click="editGoal(goal.idgoal)"
-                    class="table-action icon-edit"
-                    :title="translate('General_Edit')"
-                  ></button>
                   <a
                     class="table-action icon-show"
                     :href="getGoalReportUrl(goal.idgoal)"
                     :title="translate('Goals_ViewGoalReport')"
                     :aria-label="translate('Goals_ViewGoalReport')"
                   ></a>
+                  <button
+                    @click="editGoal(goal.idgoal)"
+                    class="table-action icon-edit"
+                    :title="translate('General_Edit')"
+                  ></button>
                   <button
                     @click="deleteGoal(goal.idgoal)"
                     class="table-action icon-delete"
