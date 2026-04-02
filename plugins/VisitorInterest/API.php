@@ -11,7 +11,6 @@ namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\Archive;
 use Piwik\DataTable;
-use Piwik\Metrics;
 use Piwik\Piwik;
 
 /**
@@ -23,15 +22,11 @@ use Piwik\Piwik;
 class API extends \Piwik\Plugin\API
 {
     /**
-     * @param string $name
      * @param int|string|int[] $idSite
-     * @param string $period
-     * @param string $date
      * @param string|null|false $segment
-     * @param int $column
      * @return DataTable|DataTable\Map
      */
-    protected function getDataTable($name, $idSite, $period, $date, $segment, $column = Metrics::INDEX_NB_VISITS)
+    protected function getDataTable(string $name, $idSite, string $period, string $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
@@ -57,15 +52,16 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Visit counts grouped by visit duration ranges.
      */
-    public function getNumberOfVisitsPerVisitDuration($idSite, $period, $date, $segment = false)
+    public function getNumberOfVisitsPerVisitDuration($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::TIME_SPENT_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
-        $dataTable->queueFilter('AddSegmentByRangeLabel', array('visitDuration'));
-        $dataTable->queueFilter('BeautifyTimeRangeLabels', array(
-                                                                Piwik::translate('VisitorInterest_BetweenXYSeconds'),
-                                                                Piwik::translate('Intl_OneMinuteShort'),
-                                                                Piwik::translate('Intl_NMinutesShort')));
+        $dataTable->queueFilter('Sort', ['label', 'asc', true, false]);
+        $dataTable->queueFilter('AddSegmentByRangeLabel', ['visitDuration']);
+        $dataTable->queueFilter('BeautifyTimeRangeLabels', [
+            Piwik::translate('VisitorInterest_BetweenXYSeconds'),
+            Piwik::translate('Intl_OneMinuteShort'),
+            Piwik::translate('Intl_NMinutesShort'),
+        ]);
         return $dataTable;
     }
 
@@ -86,14 +82,15 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Visit counts grouped by pages-per-visit ranges.
      */
-    public function getNumberOfVisitsPerPage($idSite, $period, $date, $segment = false)
+    public function getNumberOfVisitsPerPage($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::PAGES_VIEWED_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
-        $dataTable->queueFilter('AddSegmentByRangeLabel', array('actions'));
-        $dataTable->queueFilter('BeautifyRangeLabels', array(
-                                                            Piwik::translate('VisitorInterest_OnePage'),
-                                                            Piwik::translate('VisitorInterest_NPages')));
+        $dataTable->queueFilter('Sort', ['label', 'asc', true, false]);
+        $dataTable->queueFilter('AddSegmentByRangeLabel', ['actions']);
+        $dataTable->queueFilter('BeautifyRangeLabels', [
+            Piwik::translate('VisitorInterest_OnePage'),
+            Piwik::translate('VisitorInterest_NPages'),
+        ]);
         return $dataTable;
     }
 
@@ -114,18 +111,20 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Visit counts grouped by days since the last visit.
      */
-    public function getNumberOfVisitsByDaysSinceLast($idSite, $period, $date, $segment = false)
+    public function getNumberOfVisitsByDaysSinceLast($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(
             Archiver::DAYS_SINCE_LAST_RECORD_NAME,
             $idSite,
             $period,
             $date,
-            $segment,
-            Metrics::INDEX_NB_VISITS
+            $segment
         );
-        $dataTable->queueFilter('AddSegmentByRangeLabel', array('daysSinceLastVisit'));
-        $dataTable->queueFilter('BeautifyRangeLabels', array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays')));
+        $dataTable->queueFilter('AddSegmentByRangeLabel', ['daysSinceLastVisit']);
+        $dataTable->queueFilter('BeautifyRangeLabels', [
+            Piwik::translate('Intl_OneDay'),
+            Piwik::translate('Intl_NDays'),
+        ]);
         return $dataTable;
     }
 
@@ -146,20 +145,21 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Visit counts grouped by visit count ranges.
      */
-    public function getNumberOfVisitsByVisitCount($idSite, $period, $date, $segment = false)
+    public function getNumberOfVisitsByVisitCount($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(
             Archiver::VISITS_COUNT_RECORD_NAME,
             $idSite,
             $period,
             $date,
-            $segment,
-            Metrics::INDEX_NB_VISITS
+            $segment
         );
 
-        $dataTable->queueFilter('AddSegmentByRangeLabel', array('visitCount'));
-        $dataTable->queueFilter('BeautifyRangeLabels', array(
-                                                            Piwik::translate('General_OneVisit'), Piwik::translate('General_NVisits')));
+        $dataTable->queueFilter('AddSegmentByRangeLabel', ['visitCount']);
+        $dataTable->queueFilter('BeautifyRangeLabels', [
+            Piwik::translate('General_OneVisit'),
+            Piwik::translate('General_NVisits'),
+        ]);
 
         return $dataTable;
     }
