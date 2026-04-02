@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\MultiSites\tests\Integration;
 
-use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Plugins\MultiSites\Dashboard;
@@ -51,7 +50,6 @@ class DashboardTest extends IntegrationTestCase
         CnilPolicy::setActiveStatus(1, false);
         CnilPolicy::setActiveStatus(2, false);
         CnilPolicy::setActiveStatus(null, false);
-        Config::getInstance()->FeatureFlags = ['PrivacyCompliance_feature' => 'disabled'];
 
         parent::tearDown();
     }
@@ -620,7 +618,6 @@ class DashboardTest extends IntegrationTestCase
 
     public function testRoundReturnedSitesRoundsHitsOnlyForEnabledSiteRowsAndGroups(): void
     {
-        Config::getInstance()->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
         CnilPolicy::setActiveStatus(null, false);
         CnilPolicy::setActiveStatus(1, true);
         CnilPolicy::setActiveStatus(2, false);

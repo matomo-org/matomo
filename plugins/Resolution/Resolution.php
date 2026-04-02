@@ -9,9 +9,6 @@
 
 namespace Piwik\Plugins\Resolution;
 
-use Piwik\Container\StaticContainer;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\Resolution\Settings\ScreenResolutionDetectionDisabled;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
@@ -34,32 +31,23 @@ class Resolution extends \Piwik\Plugin
      */
     public static function isScreenResolutionDetectionDisabledByCompliancePolicy(?int $idSite = null): bool
     {
-        // in privacy compliance mode, we can only detect/return generic device type, but not the model
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            $cacheKey = ScreenResolutionDetectionDisabled::class;
-            return (($cache[$cacheKey] ?? false) === true);
-        }
-
-        return false;
+        $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+        $cacheKey = ScreenResolutionDetectionDisabled::class;
+        return (($cache[$cacheKey] ?? false) === true);
     }
 
     public function filterSegments(SegmentsList &$list, array $idSites)
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $limitSegmentsSettingEnabled = false;
-            if (empty($idSites)) {
-                $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
-            } else {
-                foreach ($idSites as $idsite) {
-                    $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
-                }
+        $limitSegmentsSettingEnabled = false;
+        if (empty($idSites)) {
+            $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
+        } else {
+            foreach ($idSites as $idsite) {
+                $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
             }
-            if ($limitSegmentsSettingEnabled) {
-                $list->remove('General_Visitors', 'resolution');
-            }
+        }
+        if ($limitSegmentsSettingEnabled) {
+            $list->remove('General_Visitors', 'resolution');
         }
     }
 }

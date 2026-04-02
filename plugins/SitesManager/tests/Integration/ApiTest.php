@@ -30,7 +30,6 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Exception;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
 
@@ -1722,14 +1721,8 @@ class ApiTest extends IntegrationTestCase
      */
     public function testGetExclusionTypeForQueryParamsReturnsCorrectTypeWithCnilPolicy(bool $featureFlagEnabled, string $policy, bool $policyEnabled, string $exclusionTypeToSet, string $expectedExclusionType)
     {
-        $config = Config::getInstance();
-        $featureFlag = new PrivacyCompliance();
-        $featureFlagConfig = $featureFlag->getName() . '_feature';
-
-        if ($featureFlagEnabled) {
-            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
-        } else {
-            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
+        if (!$featureFlagEnabled) {
+            $this->markTestSkipped('Privacy compliance is always available.');
         }
 
         Option::set(API::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL, $exclusionTypeToSet);
@@ -1740,8 +1733,6 @@ class ApiTest extends IntegrationTestCase
             $expectedExclusionType,
             API::getInstance()->getExclusionTypeForQueryParams()
         );
-
-        $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
     }
 
     public function getExclusionTypesWithPolicyStatuses()

@@ -10,8 +10,6 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
-use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\Fixture;
@@ -38,9 +36,6 @@ class CommonTest extends IntegrationTestCase
      */
     public function testGetCampaignParameters(string $policyClass, bool $policyEnabled, bool $skipCompliancePolicyCheck, array $expectedCampaignParameters)
     {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
         $idSite = 1;
         PolicyManager::setPolicyActiveStatus($policyClass, $policyEnabled, $idSite);
         $this->assertSame($expectedCampaignParameters, Common::getCampaignParameters($idSite, $skipCompliancePolicyCheck));

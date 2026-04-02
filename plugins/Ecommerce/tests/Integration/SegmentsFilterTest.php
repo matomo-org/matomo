@@ -10,8 +10,6 @@
 namespace Piwik\Plugins\Ecommerce\tests\Integration;
 
 use Piwik\Cache;
-use Piwik\Config;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tests\Framework\Fixture;
@@ -36,16 +34,16 @@ class SegmentsFilterTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
-        $this->disablePrivacyCompliance();
+        CnilPolicy::setActiveStatus(null, false);
         unset($_GET['idSite'], $_POST['idSite']);
         Cache::getTransientCache()->flushAll();
 
         parent::tearDown();
     }
 
-    public function testSegmentsNotFilteredWhenComplianceDisabled(): void
+    public function testSegmentsNotFilteredWhenPolicyDisabled(): void
     {
-        $this->disablePrivacyCompliance();
+        CnilPolicy::setActiveStatus(null, false);
 
         $segmentsList = $this->getSegmentsListForSite();
 
@@ -56,9 +54,9 @@ class SegmentsFilterTest extends IntegrationTestCase
         $this->assertNotNull($segmentsList->getSegment('productSku'));
     }
 
-    public function testSegmentsFilteredWhenComplianceEnabled(): void
+    public function testSegmentsFilteredWhenPolicyEnabled(): void
     {
-        $this->enablePrivacyCompliance();
+        CnilPolicy::setActiveStatus(null, true);
 
         $segmentsList = $this->getSegmentsListForSite();
 
@@ -76,19 +74,5 @@ class SegmentsFilterTest extends IntegrationTestCase
         $_GET['idSite'] = $this->idSite;
 
         return SegmentsList::get();
-    }
-
-    private function enablePrivacyCompliance(): void
-    {
-        $featureFlag = new PrivacyCompliance();
-        Config::getInstance()->FeatureFlags = [$featureFlag->getName() . '_feature' => 'enabled'];
-        CnilPolicy::setActiveStatus(null, true);
-    }
-
-    private function disablePrivacyCompliance(): void
-    {
-        $featureFlag = new PrivacyCompliance();
-        Config::getInstance()->FeatureFlags = [$featureFlag->getName() . '_feature' => 'disabled'];
-        CnilPolicy::setActiveStatus(null, false);
     }
 }

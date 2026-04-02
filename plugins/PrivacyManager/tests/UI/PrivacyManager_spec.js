@@ -415,12 +415,7 @@ describe("PrivacyManager", function () {
         expect(await page.screenshotSelector('.manageGdpr')).to.matchImage('gdpr_tools_userid');
     });
 
-    it('should load compliance page when feature flag enabled', async function() {
-        testEnvironment.overrideConfig('FeatureFlags', {
-          PrivacyCompliance_feature: 'enabled',
-        });
-        testEnvironment.save();
-
+    it('should load compliance page', async function() {
         await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
         await page.waitForNetworkIdle();
 
@@ -442,37 +437,7 @@ describe("PrivacyManager", function () {
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
     });
 
-    it('should not be able to navigate to compliance page with feature flag disabled', async function() {
-      testEnvironment.overrideConfig('FeatureFlags', {
-        PrivacyCompliance_feature: 'disabled',
-      });
-      testEnvironment.save();
-
-      await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
-      await page.waitForNetworkIdle();
-
-      await (await page.jQuery('li.menuTab:contains(Privacy) > a')).click();
-
-      // Not in menu
-      const complianceMenuItem = await page.$('li.menuTab.active li a[href*="compliance"]');
-      expect(complianceMenuItem).to.be.null;
-
-      // Not accessible directly - empty body
-      await loadActionPage('compliance');
-      const isBodyEmpty = await page.evaluate(() => {
-        const body = document.body;
-        return body && body.children.length === 0 && body.innerText.trim() === '';
-      });
-
-      expect(isBodyEmpty).to.be.true;
-    });
-
     it('should show compliance is enforced when checkbox is selected', async function() {
-      testEnvironment.overrideConfig('FeatureFlags', {
-        PrivacyCompliance_feature: 'enabled',
-      });
-      testEnvironment.save();
-
       await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
       await page.waitForNetworkIdle();
 
@@ -528,9 +493,6 @@ describe("PrivacyManager", function () {
     it('should hide the policy controls when policy is enabled via config', async function() {
       testEnvironment.overrideConfig('CnilPolicy', {
         cnil_v1_policy_enabled: '1',
-      });
-      testEnvironment.overrideConfig('FeatureFlags', {
-        PrivacyCompliance_feature: 'enabled',
       });
       testEnvironment.save();
 

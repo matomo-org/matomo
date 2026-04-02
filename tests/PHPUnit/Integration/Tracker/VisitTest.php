@@ -9,7 +9,6 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugin\Manager;
@@ -513,8 +512,6 @@ class VisitTest extends IntegrationTestCase
     {
         $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
 
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
         PolicyManager::setPolicyActiveStatus($policy, $policyEnabled, $idsite);
 
         $visitProperties = $this->createVisitGetProperties($idsite);
