@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\PagePerformance;
 
 use Piwik\Archive;
+use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AveragePageLoadTime;
@@ -42,15 +43,15 @@ class API extends \Piwik\Plugin\API
      * @param string|null|false $segment Custom segment to filter the report.
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
-     * @return \Piwik\DataTable Metrics for network, server, transfer, DOM, and page load timings.
+     * @return DataTable|DataTable\Map Metrics for network, server, transfer, DOM, and page load timings.
      */
-    public function get($idSite, $period, $date, $segment = false)
+    public function get($idSite, string $period, string $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
         $archive = Archive::build($idSite, $period, $date, $segment);
 
-        $columns = array(
+        $columns = [
             Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_HITS,
             Archiver::PAGEPERFORMANCE_TOTAL_SERVER_TIME,
@@ -65,7 +66,7 @@ class API extends \Piwik\Plugin\API
             Archiver::PAGEPERFORMANCE_TOTAL_ONLOAD_HITS,
             Archiver::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_HITS,
-        );
+        ];
 
         $dataTable = $archive->getDataTableFromNumeric($columns);
 
@@ -86,56 +87,56 @@ class API extends \Piwik\Plugin\API
             },
         ]);
 
-        $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
+        $dataTable->filter('ColumnCallbackAddColumnQuotient', [
             $this->getMetricColumn(AverageTimeNetwork::class),
             Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_HITS,
             $precision,
-        ));
+        ]);
 
-        $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
+        $dataTable->filter('ColumnCallbackAddColumnQuotient', [
             $this->getMetricColumn(AverageTimeServer::class),
             Archiver::PAGEPERFORMANCE_TOTAL_SERVER_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_SERVER_HITS,
             $precision,
-        ));
+        ]);
 
-        $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
+        $dataTable->filter('ColumnCallbackAddColumnQuotient', [
             $this->getMetricColumn(AverageTimeTransfer::class),
             Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_HITS,
             $precision,
-        ));
+        ]);
 
-        $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
+        $dataTable->filter('ColumnCallbackAddColumnQuotient', [
             $this->getMetricColumn(AverageTimeDomProcessing::class),
             Archiver::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_HITS,
             $precision,
-        ));
+        ]);
 
-        $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
+        $dataTable->filter('ColumnCallbackAddColumnQuotient', [
             $this->getMetricColumn(AverageTimeDomCompletion::class),
             Archiver::PAGEPERFORMANCE_TOTAL_DOMCOMPLETION_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_DOMCOMPLETION_HITS,
             $precision,
-        ));
+        ]);
 
-        $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
+        $dataTable->filter('ColumnCallbackAddColumnQuotient', [
             $this->getMetricColumn(AverageTimeOnLoad::class),
             Archiver::PAGEPERFORMANCE_TOTAL_ONLOAD_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_ONLOAD_HITS,
             $precision,
-        ));
+        ]);
 
-        $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
+        $dataTable->filter('ColumnCallbackAddColumnQuotient', [
             $this->getMetricColumn(AveragePageLoadTime::class),
             Archiver::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_HITS,
             $precision,
-        ));
+        ]);
 
-        $dataTable->queueFilter('ColumnDelete', array($columns));
+        $dataTable->queueFilter('ColumnDelete', [$columns]);
 
         return $dataTable;
     }
