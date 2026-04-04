@@ -42,7 +42,7 @@ class API extends \Piwik\Plugin\API
      *                                 - Multiple site IDs (e.g. [1, 4, 5])
      *                                 - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
-     *                                                   containing the specified date.
+     *                                                    containing the specified date.
      * @param string $date The date or date range to process.
      *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
