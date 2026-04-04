@@ -3349,11 +3349,6 @@ parameters:
 			path: plugins/FeatureFlags/Storage/ConfigFeatureFlagStorage.php
 
 		-
-			message: "#^Variable \\$like in empty\\(\\) is never defined\\.$#"
-			count: 1
-			path: plugins/Feedback/API.php
-
-		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: plugins/Feedback/Feedback.php
