@@ -103,7 +103,7 @@ class API extends \Piwik\Plugin\API
         $body = sprintf("Question: %s\n", $featureName);
         $feedbackMessage = "";
 
-        if ($message !== 'undefined') {
+        if (!empty($message) && $message !== 'undefined') {
             $feedbackMessage = sprintf("Answer:\n%s\n", trim($message));
         }
 
