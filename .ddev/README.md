@@ -84,6 +84,22 @@ The command `ddev matomo:console` provides access to all Matomo console commands
 - `cache:clear` - Remove all caches, including CSS and JavaScript
 - `vue:build` - Builds vue modules for one or more plugins
 
+To mount local plugin repositories into Matomo without symlinks, use the host commands:
+
+```
+ddev matomo:plugins:mount
+ddev matomo:plugins:mount ../plugin-FormAnalytics ../plugin-HeatmapSessionRecording
+ddev matomo:plugins:mount ../ '^.*/plugin-(FormAnalytics|Funnels)$'
+ddev matomo:plugins:unmount FormAnalytics
+ddev matomo:plugins:unmount
+```
+
+`ddev matomo:plugins:mount` creates a local-only `.ddev/docker-compose.local-plugins.yaml`, adds bind mounts for discovered `plugin-*` directories, and restarts DDEV automatically. If you pass a plugin directory path directly, the command reads the plugin name from `plugin.json` when present and otherwise infers it from directory names like `plugin-FormAnalytics`.
+
+When a plugin declares `require.php` in `plugin.json`, the mount command compares it with the PHP version currently used by DDEV. Simple constraints such as `>=7.2.0` are enforced and incompatible plugins are skipped. More complex Composer-style expressions are only warned about and the plugin is mounted anyway.
+
+`ddev matomo:plugins:unmount` removes one or more managed plugin mounts by plugin name. If all managed mounts are removed, the generated compose override is deleted automatically.
+
 For more information about Matomo development, check out the official [Matomo Developer Documentation](https://developer.matomo.org/).
 
 ## Update PHP or MySQL version
