@@ -13,20 +13,20 @@
         .grid-demo [class^=col-] {
             padding-top: 10px;
             padding-bottom: 10px;
-            background-color: #eee;
-            border: 1px solid #ddd;
+            background-color: var(--theme-color-background-lowContrast);
+            border: 1px solid var(--theme-color-border);
         }
         .demo {
             margin: 0 0 15px 0;
-            background-color: #fff;
-            border: solid 1px #ddd;
+            background-color: var(--theme-color-background-contrast);
+            border: solid 1px var(--theme-color-border);
             border-radius: 4px 4px 0 0;
             padding: 25px;
         }
         .demo-code {
             padding: 9px 14px;
-            background-color: #f7f7f9;
-            border: 1px solid #e1e1e8;
+            background-color: var(--theme-color-background-tinyContrast);
+            border: 1px solid var(--theme-color-border);
             margin: -16px 0 15px;
             border-bottom-right-radius: 4px;
             border-bottom-left-radius: 4px;
@@ -44,8 +44,8 @@
             margin-left: auto;
             min-height: 20px;
             padding: 19px;
-            background-color: #f5f5f5;
-            border: 1px solid #e3e3e3;
+            background-color: var(--theme-color-background-tinyContrast);
+            border: 1px solid var(--theme-color-border);
             border-radius: 4px;
         }
         .demo .form-group > h3 {
@@ -62,6 +62,35 @@
             font-family: monospace, monospace;
             padding-top: 5px;
             padding-bottom: 5px;
+        }
+        .button-grid {
+            display: grid;
+            gap: 12px;
+        }
+        .button-grid-header,
+        .button-grid-row {
+            display: grid;
+            grid-template-columns: 120px repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            align-items: center;
+        }
+        .button-grid-header {
+            font-weight: bold;
+        }
+        .button-grid-label {
+            font-weight: bold;
+        }
+        .button-grid-cell {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .button-grid-cell.block-cell {
+            display: block;
+        }
+        .button-grid-cell.block-cell > * + * {
+            margin-top: 8px;
         }
     </style>
 {% endblock %}
@@ -172,81 +201,227 @@
 
     <h2>Buttons</h2>
 
-    <h3>Standard buttons</h3>
+    <h3>Button styles</h3>
+
+    <h4>Standard buttons</h4>
 
     <div class="demo">
         <a class="btn" href="#">Link</a>
+        <a class="btn" href="#"><span class="icon-add">&nbsp;</span>Link with an icon</a>
+        <a class="btn" href="#"><span class="icon-add">&nbsp;</span></a>
         <input type="button" class="btn" value="Input">
         <input type="submit" class="btn" value="Submit">
     </div>
     <div class="demo-code">
         <pre>&lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;Link&lt;/a&gt;
+&lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Link with an icon&lt;/a&gt;
+&lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/a&gt;
 &lt;input type=&quot;button&quot; class=&quot;btn&quot; value=&quot;Input&quot;&gt;
 &lt;input type=&quot;submit&quot; class=&quot;btn&quot; value=&quot;Submit&quot;&gt;</pre>
     </div>
 
-    <h3>Large buttons</h3>
-
-    <div class="demo">
-        <button class="btn btn-large">Large button</button>
-        <a class="btn btn-large" href="#">Large link button</a>
-    </div>
-    <div class="demo-code">
-        <pre>&lt;button class=&quot;btn btn-large&quot;&gt;Large button&lt;/button&gt;
-&lt;a class=&quot;btn btn-large&quot; href=&quot;#&quot;&gt;Large button&lt;/a&gt;</pre>
-    </div>
-
-    <h3>Block buttons</h3>
-
-    <div class="demo">
-        <div class="div-block">
-            <a class="btn btn-block" href="#">Block button</a>
-            <a class="btn btn-large btn-block" href="#">Large block button</a>
-        </div>
-    </div>
-    <div class="demo-code">
-        <pre>&lt;a class=&quot;btn btn-block&quot; href=&quot;#&quot;&gt;Block button&lt;/a&gt;
-&lt;a class=&quot;btn btn-large btn-block&quot; href=&quot;#&quot;&gt;Large block button&lt;/a&gt;</pre>
-    </div>
-
-    <h3>Icon buttons</h3>
-
-    <div class="demo">
-        <a class="btn" href="#"><span class="icon-add">&nbsp;</span>Link with an icon</a>
-        <button class="btn"><span class="icon-play">&nbsp;</span>Button with an icon</button>
-        <button type="submit" class="btn"><span class="icon-heart">&nbsp;</span>Submit with an icon</button>
-    </div>
-    <div class="demo-code">
-        <pre>&lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Link with an icon&lt;/a&gt;
-&lt;button class=&quot;btn&quot;&gt;&lt;span class=&quot;icon-play&quot;&gt;&nbsp;&lt;/span&gt;Button with an icon&lt;/button&gt;
-&lt;button type=&quot;submit&quot; class=&quot;btn&quot;&gt;&lt;span class=&quot;icon-heart&quot;&gt;&nbsp;&lt;/span&gt;Submit with an icon&lt;/button&gt;</pre>
-    </div>
-
-    <h3>Outline buttons</h3>
+    <h4>Outline buttons</h4>
 
     <div class="demo">
         <a class="btn btn-outline" href="#">Outline link button</a>
         <a class="btn btn-outline" href="#"><span class="icon-add">&nbsp;</span>Outline link with an icon</a>
+        <a class="btn btn-outline" href="#"><span class="icon-add">&nbsp;</span></a>
     </div>
     <div class="demo-code">
-        <pre>&lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Link with an icon&lt;/a&gt;
-
-&lt;button class=&quot;btn&quot;&gt;&lt;span class=&quot;icon-play&quot;&gt;&nbsp;&lt;/span&gt;Button with an icon&lt;/button&gt;
+        <pre>&lt;a class=&quot;btn btn-outline&quot; href=&quot;#&quot;&gt;Outline link button&lt;/a&gt;
+&lt;a class=&quot;btn btn-outline&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Outline link with an icon&lt;/a&gt;
+&lt;a class=&quot;btn btn-outline&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/a&gt;</pre>
     </div>
 
-    <h3>Flat buttons</h3>
+    <h4>Flat buttons</h4>
 
     <div class="demo">
         <a class="btn-flat" href="#">Flat button</a>
+        <a class="btn-flat" href="#"><span class="icon-add">&nbsp;</span>Flat button with an icon</a>
         <a class="btn-flat" href="#"><span class="icon-add"></span></a>
-        <a class="btn-flat btn-large" href="#">Flat button</a>
-        <a class="btn-flat btn-large" href="#"><span class="icon-add"></span></a>
     </div>
     <div class="demo-code">
-              <pre>&lt;a class=&quot;btn-flat&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
-&lt;a class=&quot;btn-flat&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;
-&lt;a class=&quot;btn-flat btn-large&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
-&lt;a class=&quot;btn-flat btn-large&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;</pre>
+        <pre>&lt;a class=&quot;btn-flat&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
+&lt;a class=&quot;btn-flat&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Flat button with an icon&lt;/a&gt;
+&lt;a class=&quot;btn-flat&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;</pre>
+    </div>
+
+    <h3>Button sizes</h3>
+
+    <h4>Large buttons</h4>
+
+    <div class="demo">
+        <div class="button-grid">
+            <div class="button-grid-header">
+                <div></div>
+                <div>Text</div>
+                <div>Icon + text</div>
+                <div>Icon only</div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Standard</div>
+                <div class="button-grid-cell"><button class="btn btn-large">Large</button></div>
+                <div class="button-grid-cell"><button class="btn btn-large"><span class="icon-add">&nbsp;</span>Large</button></div>
+                <div class="button-grid-cell"><button class="btn btn-large"><span class="icon-add">&nbsp;</span></button></div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Outline</div>
+                <div class="button-grid-cell"><a class="btn btn-outline btn-large" href="#">Large</a></div>
+                <div class="button-grid-cell"><a class="btn btn-outline btn-large" href="#"><span class="icon-add">&nbsp;</span>Large</a></div>
+                <div class="button-grid-cell"><a class="btn btn-outline btn-large" href="#"><span class="icon-add">&nbsp;</span></a></div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Flat</div>
+                <div class="button-grid-cell"><a class="btn-flat btn-large" href="#">Large</a></div>
+                <div class="button-grid-cell"><a class="btn-flat btn-large" href="#"><span class="icon-add">&nbsp;</span>Large</a></div>
+                <div class="button-grid-cell"><a class="btn-flat btn-large" href="#"><span class="icon-add">&nbsp;</span></a></div>
+            </div>
+        </div>
+    </div>
+    <div class="demo-code">
+        <pre>Standard: &lt;button class=&quot;btn btn-large&quot;&gt;Large&lt;/button&gt;
+Standard with icon: &lt;button class=&quot;btn btn-large&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Large&lt;/button&gt;
+Standard icon only: &lt;button class=&quot;btn btn-large&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/button&gt;
+
+Outline: &lt;a class=&quot;btn btn-outline btn-large&quot; href=&quot;#&quot;&gt;Large&lt;/a&gt;
+Outline with icon: &lt;a class=&quot;btn btn-outline btn-large&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Large&lt;/a&gt;
+Outline icon only: &lt;a class=&quot;btn btn-outline btn-large&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/a&gt;
+
+Flat: &lt;a class=&quot;btn-flat btn-large&quot; href=&quot;#&quot;&gt;Large&lt;/a&gt;
+Flat with icon: &lt;a class=&quot;btn-flat btn-large&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Large&lt;/a&gt;
+Flat icon only: &lt;a class=&quot;btn-flat btn-large&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/a&gt;</pre>
+    </div>
+
+    <h4>Small buttons</h4>
+
+    <div class="demo">
+        <div class="button-grid">
+            <div class="button-grid-header">
+                <div></div>
+                <div>Text</div>
+                <div>Icon + text</div>
+                <div>Icon only</div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Standard</div>
+                <div class="button-grid-cell"><button class="btn btn-small">Small</button></div>
+                <div class="button-grid-cell"><button class="btn btn-small"><span class="icon-add">&nbsp;</span>Small</button></div>
+                <div class="button-grid-cell"><button class="btn btn-small"><span class="icon-add">&nbsp;</span></button></div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Outline</div>
+                <div class="button-grid-cell"><a class="btn btn-outline btn-small" href="#">Small</a></div>
+                <div class="button-grid-cell"><a class="btn btn-outline btn-small" href="#"><span class="icon-add">&nbsp;</span>Small</a></div>
+                <div class="button-grid-cell"><a class="btn btn-outline btn-small" href="#"><span class="icon-add">&nbsp;</span></a></div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Flat</div>
+                <div class="button-grid-cell"><a class="btn-flat btn-small" href="#">Small</a></div>
+                <div class="button-grid-cell"><a class="btn-flat btn-small" href="#"><span class="icon-add">&nbsp;</span>Small</a></div>
+                <div class="button-grid-cell"><a class="btn-flat btn-small" href="#"><span class="icon-add">&nbsp;</span></a></div>
+            </div>
+        </div>
+    </div>
+    <div class="demo-code">
+        <pre>Standard: &lt;button class=&quot;btn btn-small&quot;&gt;Small&lt;/button&gt;
+Standard with icon: &lt;button class=&quot;btn btn-small&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Small&lt;/button&gt;
+Standard icon only: &lt;button class=&quot;btn btn-small&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/button&gt;
+
+Outline: &lt;a class=&quot;btn btn-outline btn-small&quot; href=&quot;#&quot;&gt;Small&lt;/a&gt;
+Outline with icon: &lt;a class=&quot;btn btn-outline btn-small&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Small&lt;/a&gt;
+Outline icon only: &lt;a class=&quot;btn btn-outline btn-small&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/a&gt;
+
+Flat: &lt;a class=&quot;btn-flat btn-small&quot; href=&quot;#&quot;&gt;Small&lt;/a&gt;
+Flat with icon: &lt;a class=&quot;btn-flat btn-small&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Small&lt;/a&gt;
+Flat icon only: &lt;a class=&quot;btn-flat btn-small&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/a&gt;</pre>
+    </div>
+
+    <h4>Block buttons</h4>
+
+    <div class="demo">
+        <div class="button-grid">
+            <div class="button-grid-header">
+                <div></div>
+                <div>Text</div>
+                <div>Icon + text</div>
+                <div>Icon only</div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Standard</div>
+                <div class="button-grid-cell block-cell"><a class="btn btn-block" href="#">Block</a></div>
+                <div class="button-grid-cell block-cell"><a class="btn btn-block" href="#"><span class="icon-add">&nbsp;</span>Block</a></div>
+                <div class="button-grid-cell block-cell"><a class="btn btn-block" href="#"><span class="icon-add">&nbsp;</span></a></div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Outline</div>
+                <div class="button-grid-cell block-cell"><a class="btn btn-outline btn-block" href="#">Block</a></div>
+                <div class="button-grid-cell block-cell"><a class="btn btn-outline btn-block" href="#"><span class="icon-add">&nbsp;</span>Block</a></div>
+                <div class="button-grid-cell block-cell"><a class="btn btn-outline btn-block" href="#"><span class="icon-add">&nbsp;</span></a></div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Flat</div>
+                <div class="button-grid-cell block-cell"><a class="btn-flat btn-block" href="#">Block</a></div>
+                <div class="button-grid-cell block-cell"><a class="btn-flat btn-block" href="#"><span class="icon-add">&nbsp;</span>Block</a></div>
+                <div class="button-grid-cell block-cell"><a class="btn-flat btn-block" href="#"><span class="icon-add">&nbsp;</span></a></div>
+            </div>
+        </div>
+    </div>
+    <div class="demo-code">
+        <pre>Standard: &lt;a class=&quot;btn btn-block&quot; href=&quot;#&quot;&gt;Block&lt;/a&gt;
+Standard with icon: &lt;a class=&quot;btn btn-block&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Block&lt;/a&gt;
+Standard icon only: &lt;a class=&quot;btn btn-block&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/a&gt;
+
+Outline: &lt;a class=&quot;btn btn-outline btn-block&quot; href=&quot;#&quot;&gt;Block&lt;/a&gt;
+Outline with icon: &lt;a class=&quot;btn btn-outline btn-block&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Block&lt;/a&gt;
+Outline icon only: &lt;a class=&quot;btn btn-outline btn-block&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/a&gt;
+
+Flat: &lt;a class=&quot;btn-flat btn-block&quot; href=&quot;#&quot;&gt;Block&lt;/a&gt;
+Flat with icon: &lt;a class=&quot;btn-flat btn-block&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Block&lt;/a&gt;
+Flat icon only: &lt;a class=&quot;btn-flat btn-block&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/a&gt;</pre>
+    </div>
+
+    <h4>Disabled buttons</h4>
+
+    <div class="demo">
+        <div class="button-grid">
+            <div class="button-grid-header">
+                <div></div>
+                <div>Text</div>
+                <div>Icon + text</div>
+                <div>Icon only</div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Standard</div>
+                <div class="button-grid-cell"><button class="btn disabled">Disabled</button></div>
+                <div class="button-grid-cell"><button class="btn disabled"><span class="icon-add">&nbsp;</span>Disabled</button></div>
+                <div class="button-grid-cell"><button class="btn disabled"><span class="icon-add">&nbsp;</span></button></div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Outline</div>
+                <div class="button-grid-cell"><button class="btn btn-outline" disabled>Disabled</button></div>
+                <div class="button-grid-cell"><button class="btn btn-outline" disabled><span class="icon-add">&nbsp;</span>Disabled</button></div>
+                <div class="button-grid-cell"><button class="btn btn-outline" disabled><span class="icon-add">&nbsp;</span></button></div>
+            </div>
+            <div class="button-grid-row">
+                <div class="button-grid-label">Flat</div>
+                <div class="button-grid-cell"><button class="btn-flat" disabled>Disabled</button></div>
+                <div class="button-grid-cell"><button class="btn-flat" disabled><span class="icon-add">&nbsp;</span>Disabled</button></div>
+                <div class="button-grid-cell"><button class="btn-flat" disabled><span class="icon-add">&nbsp;</span></button></div>
+            </div>
+        </div>
+    </div>
+    <div class="demo-code">
+        <pre>Standard: &lt;button class=&quot;btn disabled&quot;&gt;Disabled&lt;/button&gt;
+Standard with icon: &lt;button class=&quot;btn disabled&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Disabled&lt;/button&gt;
+Standard icon only: &lt;button class=&quot;btn disabled&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/button&gt;
+
+Outline: &lt;button class=&quot;btn btn-outline&quot; disabled&gt;Disabled&lt;/button&gt;
+Outline with icon: &lt;button class=&quot;btn btn-outline&quot; disabled&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Disabled&lt;/button&gt;
+Outline icon only: &lt;button class=&quot;btn btn-outline&quot; disabled&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/button&gt;
+
+Flat: &lt;button class=&quot;btn-flat&quot; disabled&gt;Disabled&lt;/button&gt;
+Flat with icon: &lt;button class=&quot;btn-flat&quot; disabled&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;Disabled&lt;/button&gt;
+Flat icon only: &lt;button class=&quot;btn-flat&quot; disabled&gt;&lt;span class=&quot;icon-add&quot;&gt;&nbsp;&lt;/span&gt;&lt;/button&gt;</pre>
     </div>
 
     <h2>Vue Components</h2>

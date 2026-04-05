@@ -20,7 +20,7 @@
         <img
           id="pauseImage"
           border="0"
-          src="plugins/Live/images/pause.png"
+          src="plugins/Live/images/pause.svg"
           role="presentation"
           v-show="isStarted"
         />
@@ -32,7 +32,7 @@
         <img
           id="playImage"
           border="0"
-          src="plugins/Live/images/play.png"
+          src="plugins/Live/images/play.svg"
           role="presentation"
           v-show="!isStarted"
         />

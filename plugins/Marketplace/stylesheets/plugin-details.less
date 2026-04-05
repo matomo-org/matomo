@@ -14,7 +14,7 @@
 
     h3, h4, h5, h6 {
         margin: 20px 0 10px 0;
-        color: #000000;
+        color: @theme-color-text-contrast;
     }
 
     iframe{
@@ -43,7 +43,7 @@
     }
 
     #pluginDetailsTabs {
-        border-right: 1px solid silver;
+        border-right: 1px solid @theme-color-border;
         margin-top: 25px;
     }
 
@@ -75,7 +75,7 @@
 
         // -1px to force overlapping border overlapping with content
         margin-left: calc(~"0.75rem - 1px");
-        border-left: 1px solid silver;
+        border-left: 1px solid @theme-color-border;
 
         // prevent text overflow
         word-break: break-word;
@@ -135,7 +135,7 @@
 // plugin details modal
 #pluginDetailsModal {
     max-height: 80vh;
-    color: #000;
+    color: @theme-color-text-contrast;
 
     width: 60%;
 
@@ -216,7 +216,7 @@
             font-size: 32px;
             line-height: 48px;
             font-weight: 700;
-            color: black;
+            color: @theme-color-text-contrast;
             padding-top: 0;
 
             @media (max-width: 600px) {
@@ -285,7 +285,7 @@
             }
 
             a {
-                color: #000;
+                color: @theme-color-text-contrast;
 
                 &:hover {
                     color: @theme-color-link;
@@ -300,8 +300,8 @@
         padding: 0 24px 24px;
 
         overflow-y: scroll;
-        .vertical-scroll-shadows(white);
-        color: #000;
+        .vertical-scroll-shadows(@theme-color-background-contrast);
+        color: @theme-color-text-contrast;
 
         @media (max-width: 992px) {
             max-height: calc(~"90vh - 250px");
@@ -323,7 +323,7 @@
 
         h2, h3, h4, h5, h6 {
             margin: 20px 0 10px 0;
-            color: #000000;
+          color: @theme-color-text-contrast;
         }
 
         // h2 should not appear in the content but at it does for some plugins
@@ -436,7 +436,7 @@
 
                 figure {
                     margin: 24px auto;
-                    background: #f7f7f7;
+                    background: @theme-color-background-tinyContrast;
                     border: 24px solid #f7f7f7;
                     border-bottom-width: 16px;
                 }
@@ -467,7 +467,7 @@
     .modal-content__footer {
         padding: 24px;
         height: 90px;
-        border-top: 1px solid #aaa;
+        border-top: 1px solid @theme-color-border-light;
         margin-top: 1px; // to prevent images overflowing the border
         box-sizing: border-box;
         display: flex;

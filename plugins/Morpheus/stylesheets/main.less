@@ -16,14 +16,22 @@ body {
 }
 
 button,
- input,
- optgroup,
- select,
- textarea {
+input,
+optgroup,
+select:not(.browser-default),
+textarea:not(.materialize-textarea) {
   color: @theme-color-text;
+  background: @theme-color-background-contrast;
+  border: 1px solid @theme-color-border;
+
+  &:focus {
+    outline: 1px solid @theme-color-focus-ring;
+  }
 }
 
-select {
+select:not(.browser-default) {
+  border-color: @theme-color-border-light;
+
   // opacity is set to 0 by materialize css
   opacity: 1;
 
@@ -157,7 +165,7 @@ p {
       content: '';
       border-left: 4px solid transparent;
       border-right: 4px solid transparent;
-      border-top: 5px solid @color-silver-l20;
+      border-top: 5px solid @theme-color-text-light;
       position: absolute;
       top: 3px;
       right: 7px;
@@ -178,12 +186,12 @@ p {
       }
 
       text-transform: none;
-      color: @color-silver-l20;
+      color: @theme-color-text-light;
 
       &.widgetpreview-choosen {
         color: @theme-color-text;
         font-weight: normal;
-        background: @color-silver-l95;
+        background: @theme-color-background-tinyContrast;
         position: relative;
 
         &::after {
@@ -410,8 +418,8 @@ table.dataTable {
 
   tr:not(.subDataTableContainer) {
     td {
-      border-bottom: 1px solid @color-silver-l95 !important;
-      border-color: @color-silver-l95 !important;
+      border-bottom: 1px solid @theme-color-background-tinyContrast !important;
+      border-color: @theme-color-background-tinyContrast !important;
       color: @theme-color-text;
       background: @theme-color-background-contrast;
 
@@ -442,7 +450,7 @@ table.dataTable {
 
       &:hover {
         td:not(.cellSubDataTable):not(.parentComparisonRow) {
-          background-color: @color-silver-l95;
+          background-color: @theme-color-background-tinyContrast;
         }
       }
 
@@ -485,7 +493,7 @@ table.dataTable {
 
     &:hover {
       td:not(.cellSubDataTable) {
-        background-color: @color-silver-l95;
+        background-color: @theme-color-background-tinyContrast;
       }
 
       // for third level tables
@@ -500,7 +508,7 @@ table.dataTable {
               background: @theme-color-background-contrast !important;
 
               &:not(.cellSubDataTable) {
-                background-color: @color-silver-l95 !important;
+                background-color: @theme-color-background-tinyContrast !important;
               }
             }
           }
@@ -622,6 +630,7 @@ div.sparkline img {
   -moz-flex-shrink: 0;
   -ms-flex-shrink: 0;
   flex-shrink: 0;
+  filter: @theme-filter-on-illustration;
 }
 
 div.sparkline script + div {
@@ -630,7 +639,7 @@ div.sparkline script + div {
 }
 
 .widgetpreview-base li.widgetpreview-choosen {
-  background: @color-silver-l95;
+  background: @theme-color-background-tinyContrast;
   position: relative;
   color: @theme-color-text;
   font-weight: normal;
@@ -679,7 +688,7 @@ div.sparkline script + div {
 }
 
 #visitsLive .datetime {
-  background: @color-silver-l95;
+  background: @theme-color-background-tinyContrast;
   border-top: 0;
 }
 
@@ -712,6 +721,11 @@ tr:hover #token_auth {
 }
 
 /** Materialize color overwrites */
+.dropdown-content {
+  background: @theme-color-background-contrast;
+  color: @theme-color-text;
+}
+
 .dropdown-content li > a,
  .dropdown-content li > span {
   color: @theme-color-link !important;
@@ -722,6 +736,10 @@ tr:hover #token_auth {
  .dropdown-content li.active,
  .dropdown-content li.selected {
   background-color: @theme-color-background-tinyContrast;
+}
+
+.divider {
+  background: @theme-color-border;
 }
 
 #root .side-nav .collapsible-body li a {

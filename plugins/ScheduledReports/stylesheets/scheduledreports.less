@@ -41,7 +41,7 @@
 
   .selectedReportsHelp {
     margin-top: 0;
-    color: @color-silver;
+    color: @theme-color-text-lighter;
   }
 
   .selectedReportsList {
@@ -53,16 +53,17 @@
       display: flex;
       align-items: center;
       padding: 0.6rem 0.9rem;
-      border: 1px solid @color-silver-l85;
+      border: 1px solid @theme-color-border;
       border-radius: 4px;
-      background: @color-white;
+      background: @theme-color-background-tinyContrast;
+      color: @theme-color-text;
       cursor: move;
       margin-bottom: 0.6rem;
 
         span.drag-icon {
           padding-right: 15px;
           font-size: 13px;
-          color: @color-silver-l60;
+          color: @theme-color-text-light;
         }
     }
 
@@ -71,9 +72,9 @@
     }
 
     .selectedReportPlaceholder {
-      border: 1px dashed @color-silver;
+      border: 1px dashed @theme-color-border;
       border-radius: 4px;
-      background: @color-silver-l95;
+      background: @theme-color-background-base;
       height: 2.6rem;
       margin-bottom: 0.6rem;
     }

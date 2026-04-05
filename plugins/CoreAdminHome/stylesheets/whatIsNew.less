@@ -2,11 +2,30 @@
     color: #1976d2 !important;
 }
 
-.ui-dialog.what-is-new-popup {
+.ui-dialog.ui-widget-content.what-is-new-popup {
   width: 80%;
   background: @theme-color-background-tinyContrast;
 
   @media (max-width: 992px) {
     width: auto;
   }
+}
+
+.whatisnew .card {
+  .inDarkMode({
+    background: @theme-color-background-tinyContrast;
+  });
+}
+
+.whatisnew-changelist {
+  overflow-y: scroll;
+  max-height: 500px;
+  margin-bottom: 10px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.whatisnew-btn {
+  float:right;
+  margin-left: 10px;
 }
