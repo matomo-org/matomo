@@ -33,6 +33,8 @@
         "NoSuchPage": "Táto stránka neexistuje",
         "PeriodRange": "Rozsah",
         "PivotBySubtable": "Tento report nebol pivotovaný %1$s Pivotovať podľa %2$s",
+        "PresetDateToday": "Dnes",
+        "PresetDateYesterday": "Včera",
         "ReportGeneratedOn": "Report vygenerovaný %s",
         "ReportGeneratedXAgo": "Report vygenerovaný pred %s",
         "SharePiwikShort": "Matomo! Voľne dostupný analytický nástroj. Vlastnite svoje dáta.",
