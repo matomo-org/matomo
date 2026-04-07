@@ -57,6 +57,8 @@
         "ExclusionTypeOptionMatomoRecommendedPII": "PII recommandé par Matomo",
         "ExclusionViewListLink": "Voir la liste des exclusions",
         "ExtraInformationNeeded": "Vous pouvez avoir besoin des informations suivantes pour configurer Matomo sur votre système :",
+        "FilterPIIParametersSettingTitle": "Données personnelles filtrées",
+        "FilterPiiParametersSettingRequirementNote": "Les données à caractère personnel (DCP) doivent être filtrées par la liste d'exclusion recommandée par Matomo.",
         "Format_Utc": "UTC%s",
         "GADetected": "%1$s a été détecté sur votre site web. Saviez-vous que vous pouvez facilement migrer vos données analytiques historiques et vos paramètres de %2$s vers Matomo ? %3$s%4$s%5$sEn savoir plus dans ce guide%6$s",
         "GADetectedEmail": "%1$s a été détecté sur votre site web. Saviez-vous que vous pouvez facilement migrer vos données analytiques historiques et vos paramètres de %2$s vers Matomo ? En savoir plus ici : %3$s",
