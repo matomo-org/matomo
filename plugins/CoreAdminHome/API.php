@@ -80,7 +80,7 @@ class API extends \Piwik\Plugin\API
      * @return array<int, array{task:string, output:string}> Results for each executed scheduled task.
      * @hideExceptForSuperUser
      */
-    public function runScheduledTasks()
+    public function runScheduledTasks(): array
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -88,9 +88,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @param bool|string $enableBrowserTriggerArchiving
+     * @param int|string $todayArchiveTimeToLive
+     * @return true
      * @internal
      */
-    public function setArchiveSettings($enableBrowserTriggerArchiving, $todayArchiveTimeToLive)
+    public function setArchiveSettings($enableBrowserTriggerArchiving, $todayArchiveTimeToLive): bool
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -105,9 +108,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @param string[] $trustedHosts
+     * @return true
      * @internal
      */
-    public function setTrustedHosts($trustedHosts)
+    public function setTrustedHosts($trustedHosts): bool
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -124,15 +129,19 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @param bool|string $useCustomLogo
+     * @param bool|string $hasCustomLogo
+     * @param bool|string $hasCustomFavicon
+     * @return array<string, mixed>
      * @internal
      */
-    public function setBrandingSettings($useCustomLogo, $hasCustomLogo, $hasCustomFavicon)
+    public function setBrandingSettings($useCustomLogo, $hasCustomLogo, $hasCustomFavicon): array
     {
         Piwik::checkUserHasSuperUserAccess();
         $customLogo = new CustomLogo();
         $response = [];
 
-        if (!$useCustomLogo || ($useCustomLogo && !$hasCustomLogo && !$hasCustomFavicon)) {
+        if (!$useCustomLogo || (!$hasCustomLogo && !$hasCustomFavicon)) {
             $customLogo->removeLogos();
             $customLogo->disable();
 
@@ -166,6 +175,8 @@ class API extends \Piwik\Plugin\API
      * @param 'day'|'week'|'month'|'year'|'range'|false $period The period type to invalidate.
      *                                                          Invalidating one period also invalidates its parent periods.
      * @param string|false $segment Optional segment to invalidate reports for.
+     *                               Example: "referrerName==example.com"
+     *                               Supports AND (;) and OR (,) operators.
      * @param bool $cascadeDown If true, child periods will be invalidated as well. So if it is requested to invalidate
      *                          a month, then all the weeks and days within that month will also be invalidated. But only
      *                          if this parameter is set.
@@ -180,7 +191,7 @@ class API extends \Piwik\Plugin\API
         $segment = false,
         $cascadeDown = false,
         $_forceInvalidateNonexistent = false
-    ) {
+    ): array {
         $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
         if (empty($idSites)) {
             throw new Exception("Specify a value for &idSites= as a comma separated list of website IDs, for which your token_auth has 'admin' permission");
@@ -195,7 +206,7 @@ class API extends \Piwik\Plugin\API
         }
 
         /** Date[]|string[] $dates */
-        [$dates, $invalidDates] = $this->getDatesToInvalidateFromString($dates, $period);
+        [$dates, $invalidDates] = $this->getDatesToInvalidateFromString($dates, $period ?: null);
 
         $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, (bool)$cascadeDown, (bool)$_forceInvalidateNonexistent);
 
@@ -211,10 +222,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Initiates cron archiving via web request.
      *
-     * @return void
      * @hideExceptForSuperUser
      */
-    public function runCronArchiving()
+    public function runCronArchiving(): void
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -233,9 +243,8 @@ class API extends \Piwik\Plugin\API
      * Deletes all tracking failures this user has at least admin access to.
      * A super user will also delete tracking failures for sites that don't exist.
      *
-     * @return void
      */
-    public function deleteAllTrackingFailures()
+    public function deleteAllTrackingFailures(): void
     {
         if (Piwik::hasUserSuperUserAccess()) {
             $this->trackingFailures->deleteAllTrackingFailures();
@@ -252,9 +261,8 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite Site ID that owns the tracking failure.
      * @param int|string $idFailure Tracking failure ID to delete.
-     * @return void
      */
-    public function deleteTrackingFailure(int $idSite, $idFailure)
+    public function deleteTrackingFailure(int $idSite, $idFailure): void
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -263,11 +271,11 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get all tracking failures. A user retrieves only tracking failures for sites with at least admin access.
-     * A super user will also retrieve failed requests for sites that don't exist.
+     * A superuser will also retrieve failed requests for sites that don't exist.
      *
      * @return array<int, array<string, mixed>> Tracking failures visible to the current user.
      */
-    public function getTrackingFailures()
+    public function getTrackingFailures(): array
     {
         if (Piwik::hasUserSuperUserAccess()) {
             $failures = $this->trackingFailures->getAllFailures();
@@ -284,14 +292,13 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param 'day'|'week'|'month'|'year'|'range' $period
-     * @param string $date
      * @param string|null|false $segment
      * @param string|null|false $plugin
      * @param string|string[]|null|false $report
      * @return array<string, mixed>
      * @internal
      */
-    public function archiveReports(int $idSite, $period, $date, $segment = false, $plugin = false, $report = false)
+    public function archiveReports(int $idSite, string $period, string $date, $segment = false, $plugin = false, $report = false)
     {
         if ($this->shouldRequireSuperUserForArchiveReports()) {
             Piwik::checkUserHasSuperUserAccess();
@@ -410,10 +417,10 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param array<int, string>|string $dates
-     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param 'day'|'week'|'month'|'year'|'range'|null $period
      * @return array{0: array<int, Date|string>, 1: string[]}
      */
-    private function getDatesToInvalidateFromString($dates, string $period): array
+    private function getDatesToInvalidateFromString($dates, ?string $period): array
     {
         $toInvalidate = [];
         $invalidDates = [];
@@ -507,7 +514,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function whatIsNewMarkAllChangesReadForCurrentUser()
+    public function whatIsNewMarkAllChangesReadForCurrentUser(): bool
     {
         Piwik::checkUserHasSomeViewAccess();
         Piwik::checkUserIsNotAnonymous();

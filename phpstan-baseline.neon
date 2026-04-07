@@ -2699,11 +2699,6 @@ parameters:
 			path: plugins/Contents/RecordBuilders/ContentRecords.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: plugins/CoreAdminHome/API.php
-
-		-
 			message: "#^Expression in empty\\(\\) is not falsy\\.$#"
 			count: 1
 			path: plugins/CoreAdminHome/Commands/ConfigDelete.php
