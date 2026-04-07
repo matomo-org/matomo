@@ -24,6 +24,7 @@ use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Translation\Loader\DevelopmentLoader;
 use Piwik\Translation\Loader\JsonFileLoader;
 use Piwik\Translation\Translator;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * @group UsersManager
@@ -87,6 +88,23 @@ class ControllerTest extends IntegrationTestCase
         FakeAccess::$identity = $this->identity;
         FakeAccess::$superUserLogin = $this->superUserLogin;
     }
+    public function createSiteWithUser()
+    {
+        $idSite = SitesManagerAPI::getInstance()->addSite(
+            'Test site',
+            ['https://example.test']
+        );
+        UsersManagerAPI::getInstance()->setUserAccess(
+            self::CURRENT_USER_LOGIN,
+            'view',
+            [$idSite]
+        );
+        UsersManagerAPI::getInstance()->setUserPreference(
+            self::CURRENT_USER_LOGIN,
+            UsersManagerAPI::PREFERENCE_DEFAULT_REPORT,
+            $idSite
+        );
+    }
 
     public function testRecordPasswordChangePasswordStrengthCheckWeakPassword()
     {
@@ -131,6 +149,21 @@ class ControllerTest extends IntegrationTestCase
         $response = $this->controller->recordUserSettings();
 
         $this->assertStringContainsString('Invalid theme mode', $response);
+        $this->assertSame(ThemeStyles::LIGHT_MODE, (new UserPreferences())->getThemeMode());
+    }
+
+    public function testUserSettingsShouldExposeMatchBrowserThemeModeOption()
+    {
+        $this->createSiteWithUser();
+        $response = $this->controller->userSettings();
+
+        $this->assertStringContainsString('theme-mode="&quot;light&quot;"', $response);
+        $this->assertStringContainsString('UsersManager_ThemeModeMatchBrowser', $response);
+        $this->assertStringContainsString('&quot;key&quot;:&quot;auto&quot;', $response);
+    }
+
+    public function testThemeModeShouldDefaultToLightForNewUsers()
+    {
         $this->assertSame(ThemeStyles::LIGHT_MODE, (new UserPreferences())->getThemeMode());
     }
 
