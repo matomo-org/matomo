@@ -4204,11 +4204,6 @@ parameters:
 			path: plugins/TwoFactorAuth/Dao/RecoveryCodeStaticGenerator.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between Piwik\\\\Plugins\\\\UserCountry\\\\LocationProvider and false will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/UserCountry/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$sqlFilterValue of method Piwik\\\\Plugin\\\\Segment\\:\\:setSqlFilterValue\\(\\) expects array\\|string, Closure given\\.$#"
 			count: 1
 			path: plugins/UserCountry/Columns/Country.php

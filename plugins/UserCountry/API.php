@@ -50,7 +50,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Country rows with translated labels and flag metadata.
      */
-    public function getCountry($idSite, $period, $date, $segment = false)
+    public function getCountry($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
 
@@ -102,7 +102,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Continent rows with translated labels and continent codes.
      */
-    public function getContinent($idSite, $period, $date, $segment = false)
+    public function getContinent($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
 
@@ -132,7 +132,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Region rows with country, region, and flag metadata.
      */
-    public function getRegion($idSite, $period, $date, $segment = false)
+    public function getRegion($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::REGION_RECORD_NAME, $idSite, $period, $date, $segment);
 
@@ -140,6 +140,7 @@ class API extends \Piwik\Plugin\API
         $unk = Visit::UNKNOWN_CODE;
 
         $dataTable->filter(function (DataTable $dt) use ($period, $date, $separator) {
+            /** @var string $archiveDate */
             $archiveDate = $dt->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
 
             // convert fips region codes to iso if required
@@ -147,8 +148,8 @@ class API extends \Piwik\Plugin\API
                 $dt->filter('GroupBy', array(
                     'label',
                     function ($label) use ($separator) {
-                        $regionCode = getElementFromStringArray($label, $separator, 0, '');
-                        $countryCode = getElementFromStringArray($label, $separator, 1, '');
+                        $regionCode  = (string)getElementFromStringArray($label, $separator, 0, '');
+                        $countryCode = (string)getElementFromStringArray($label, $separator, 1, '');
 
                         list($countryCode, $regionCode) = GeoIp2::convertRegionCodeToIso(
                             $countryCode,
@@ -236,7 +237,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map City rows with city, region, country, and flag metadata.
      */
-    public function getCity($idSite, $period, $date, $segment = false)
+    public function getCity($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CITY_RECORD_NAME, $idSite, $period, $date, $segment);
 
@@ -244,6 +245,7 @@ class API extends \Piwik\Plugin\API
         $unk = Visit::UNKNOWN_CODE;
 
         $dataTable->filter(function (DataTable $dt) use ($period, $date, $separator) {
+            /** @var string $archiveDate */
             $archiveDate = $dt->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
 
             // convert fips region codes to iso if required
@@ -251,8 +253,8 @@ class API extends \Piwik\Plugin\API
                 $dt->filter('GroupBy', array(
                     'label',
                     function ($label) use ($separator) {
-                        $regionCode = getElementFromStringArray($label, $separator, 1, '');
-                        $countryCode = getElementFromStringArray($label, $separator, 2, '');
+                        $regionCode  = (string)getElementFromStringArray($label, $separator, 1, '');
+                        $countryCode = (string)getElementFromStringArray($label, $separator, 2, '');
 
                         list($countryCode, $regionCode) = GeoIp2::convertRegionCodeToIso(
                             $countryCode,
@@ -353,11 +355,10 @@ class API extends \Piwik\Plugin\API
      * - if the start date of the period is after the date we switched to ISO: no conversion needed
      * - if not we need to convert the codes to ISO, if the code is mappable
      * Note: as all old codes are mapped, not mappable codes need to be iso codes already, so we leave them
-     * @param $date
-     * @param $period
-     * @return bool
+     *
+     * @param string $archiveDate
      */
-    private function shouldRegionCodesBeConvertedToIso($archiveDate, $date, $period)
+    private function shouldRegionCodesBeConvertedToIso($archiveDate, string $date, string $period): bool
     {
         $timeOfSwitch = Option::get(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME);
 
@@ -401,7 +402,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return array<string, string> Country names keyed by lowercase ISO country code.
      */
-    public function getCountryCodeMapping()
+    public function getCountryCodeMapping(): array
     {
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
 
@@ -424,7 +425,7 @@ class API extends \Piwik\Plugin\API
      * @param string|false $provider The provider ID to use, or `false` to use the currently configured provider.
      * @return array Location data returned by the selected provider.
      */
-    public function getLocationFromIP($ip = false, $provider = false)
+    public function getLocationFromIP($ip = false, $provider = false): array
     {
         Piwik::checkUserHasSomeViewAccess();
 
@@ -464,13 +465,15 @@ class API extends \Piwik\Plugin\API
             throw new \Exception('Setting geo location has been disabled in config.');
         }
 
-        $provider = LocationProvider::setCurrentProvider($providerId);
-        if ($provider === false) {
-            throw new Exception("Invalid provider ID: '$providerId'.");
-        }
+        LocationProvider::setCurrentProvider($providerId);
     }
 
-    protected function getDataTable($name, $idSite, $period, $date, $segment)
+    /**
+     * @param int|string|int[] $idSite
+     * @param string|false|null $segment
+     * @return DataTable|DataTable\Map
+     */
+    protected function getDataTable(string $name, $idSite, string $period, string $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
@@ -496,7 +499,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing the number of distinct countries.
      */
-    public function getNumberOfDistinctCountries($idSite, $period, $date, $segment = false)
+    public function getNumberOfDistinctCountries($idSite, string $period, string $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
