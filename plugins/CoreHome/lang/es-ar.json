@@ -71,6 +71,8 @@
         "PeriodHasOnlyRawData": "Parece que todavía no se procesaron informes para este período. ¿Querés saber lo que está pasando ahora? Revisá el %1$sregistro de visitas%2$s o elegí un período de fechas diferentes hasta que se generen los informes.",
         "PeriodRange": "Rango",
         "PivotBySubtable": "Este informe no fue pivotado %1$s Pivote por %2$s",
+        "PresetDateToday": "Hoy",
+        "PresetDateYesterday": "Ayer",
         "Profilable": "Perfilable",
         "QuickAccessTitle": "Buscar %s. Usá las teclas de flechas para navegar entre los resultados de la búsqueda. Atajo: presioná \"f\" para buscar.",
         "QuickLinks": "Enlaces rápidos",
