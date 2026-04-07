@@ -15,6 +15,7 @@ use Piwik\Plugins\Resolution\Resolution as ResolutionPlugin;
 use Piwik\Plugins\Resolution\Columns\Resolution;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Request;
+use Piwik\Site;
 
 class GetResolution extends Base
 {
@@ -43,7 +44,15 @@ class GetResolution extends Base
 
     public function isEnabled()
     {
-        $idSite = Request::fromRequest()->getIntegerParameter('idSite', 0);
-        return false === ResolutionPlugin::isScreenResolutionDetectionDisabledByCompliancePolicy($idSite);
+        $idSite = Request::fromRequest()->getParameter('idSite', '0');
+        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+
+        foreach ($idSites as $siteId) {
+            if (ResolutionPlugin::isScreenResolutionDetectionDisabledByCompliancePolicy((int) $siteId)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
