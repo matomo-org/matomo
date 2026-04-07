@@ -45,9 +45,12 @@ class API extends \Piwik\Plugin\API
         $this->model = $model;
     }
 
-    private function getOverviewReports()
+    /**
+     * @return array<string, array<string, scalar>>
+     */
+    private function getOverviewReports(): array
     {
-        $reports = array();
+        $reports = [];
 
         /**
          * Triggered to gather all reports to be displayed in the "Insight" and "Movers And Shakers" overview reports.
@@ -80,7 +83,7 @@ class API extends \Piwik\Plugin\API
      *                                                    containing the specified date.
      * @return bool Whether a previous comparison period exists for the requested date/period combination.
      */
-    public function canGenerateInsights($date, $period)
+    public function canGenerateInsights(string $date, string $period): bool
     {
         Piwik::checkUserHasSomeViewAccess();
 
@@ -112,7 +115,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable\Map Insight tables for every report included in the overview.
      */
-    public function getInsightsOverview($idSite, $period, $date, $segment = false)
+    public function getInsightsOverview(int $idSite, string $period, string $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -123,9 +126,7 @@ class API extends \Piwik\Plugin\API
             'minGrowthPercent' => 25,
         );
 
-        $map = $this->generateOverviewReport('getInsights', $idSite, $period, $date, $segment, $defaultParams);
-
-        return $map;
+        return $this->generateOverviewReport('getInsights', $idSite, $period, $date, $segment, $defaultParams);
     }
 
     /**
@@ -143,7 +144,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable\Map Movers-and-shakers tables for every report included in the overview.
      */
-    public function getMoversAndShakersOverview($idSite, $period, $date, $segment = false)
+    public function getMoversAndShakersOverview(int $idSite, string $period, string $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -152,17 +153,19 @@ class API extends \Piwik\Plugin\API
             'limitDecreaser' => 4,
         );
 
-        $map = $this->generateOverviewReport('getMoversAndShakers', $idSite, $period, $date, $segment, $defaultParams);
-
-        return $map;
+        return $this->generateOverviewReport('getMoversAndShakers', $idSite, $period, $date, $segment, $defaultParams);
     }
 
-    private function generateOverviewReport($method, $idSite, $period, $date, $segment, array $defaultParams)
+    /**
+     * @param string|null|false $segment
+     * @param array<string, scalar> $defaultParams
+     */
+    private function generateOverviewReport(string $method, int $idSite, string $period, string $date, $segment, array $defaultParams): DataTable\Map
     {
         $tableManager = DataTable\Manager::getInstance();
 
-        /** @var DataTable[] $tables */
-        $tables = array();
+        $map = new DataTable\Map();
+
         foreach ($this->getOverviewReports() as $reportId => $reportParams) {
             if (!empty($reportParams)) {
                 foreach ($defaultParams as $key => $defaultParam) {
@@ -173,16 +176,11 @@ class API extends \Piwik\Plugin\API
             }
 
             $firstTableId     = $tableManager->getMostRecentTableId();
+            /** @var DataTable $table */
             $table            = $this->requestApiMethod($method, $idSite, $period, $date, $reportId, $segment, $reportParams);
             $reportTableIds[] = $table->getId();
             $tableManager->deleteTablesExceptIgnored($reportTableIds, $firstTableId);
 
-            $tables[] = $table;
-        }
-
-        $map = new DataTable\Map();
-
-        foreach ($tables as $table) {
             $map->addTable($table, $table->getMetadata('reportName'));
         }
 
@@ -210,16 +208,16 @@ class API extends \Piwik\Plugin\API
      * @return DataTable Movers-and-shakers rows for the requested report.
      */
     public function getMoversAndShakers(
-        $idSite,
-        $period,
-        $date,
-        $reportUniqueId,
+        int $idSite,
+        string $period,
+        string $date,
+        string $reportUniqueId,
         $segment = false,
         $comparedToXPeriods = 1,
         $limitIncreaser = 4,
         $limitDecreaser = 4
     ) {
-        Piwik::checkUserHasViewAccess(array($idSite));
+        Piwik::checkUserHasViewAccess([$idSite]);
 
         $metric  = 'nb_visits';
         $orderBy = InsightReport::ORDER_BY_ABSOLUTE;
@@ -267,18 +265,18 @@ class API extends \Piwik\Plugin\API
      * @return DataTable Insight rows for the requested report.
      */
     public function getInsights(
-        $idSite,
-        $period,
-        $date,
-        $reportUniqueId,
+        int $idSite,
+        string $period,
+        string $date,
+        string $reportUniqueId,
         $segment = false,
         $limitIncreaser = 5,
         $limitDecreaser = 5,
-        $filterBy = '',
+        string $filterBy = '',
         $minImpactPercent = 2,
         $minGrowthPercent = 20,
         $comparedToXPeriods = 1,
-        $orderBy = 'absolute'
+        string $orderBy = 'absolute'
     ) {
         Piwik::checkUserHasViewAccess(array($idSite));
 
@@ -331,14 +329,22 @@ class API extends \Piwik\Plugin\API
         return $table;
     }
 
-    private function checkReportIsValid($report)
+    /**
+     * @param mixed $report
+     */
+    private function checkReportIsValid($report): void
     {
         if (!($report instanceof DataTable)) {
             throw new \Exception('Insight can be only generated for reports returning a dataTable');
         }
     }
 
-    private function requestApiMethod($method, $idSite, $period, $date, $reportId, $segment, $additionalParams)
+    /**
+     * @param string|null|false $segment
+     * @param array<string, scalar> $additionalParams
+     * @return DataTable|DataTable\Map
+     */
+    private function requestApiMethod(string $method, int $idSite, string $period, string $date, string $reportId, $segment, $additionalParams)
     {
         $params = array(
             'idSite' => $idSite,
