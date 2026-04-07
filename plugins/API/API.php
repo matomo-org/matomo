@@ -98,14 +98,14 @@ class API extends \Piwik\Plugin\API
     public function getPhpVersion(): array
     {
         Piwik::checkUserHasSuperUserAccess();
-        return array(
+        return [
             'version' => PHP_VERSION,
             'major' => PHP_MAJOR_VERSION,
             'minor' => PHP_MINOR_VERSION,
             'release' => PHP_RELEASE_VERSION,
             'versionId' => PHP_VERSION_ID,
             'extra' => PHP_EXTRA_VERSION,
-        );
+        ];
     }
 
     /**
@@ -114,7 +114,7 @@ class API extends \Piwik\Plugin\API
      * @return string Matomo's version string.
      * @deprecated Deprecated but we keep it for historical reasons to not break BC
      */
-    public function getPiwikVersion()
+    public function getPiwikVersion(): string
     {
         return $this->getMatomoVersion();
     }
@@ -125,7 +125,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return string IP address in presentation format.
      */
-    public function getIpFromHeader()
+    public function getIpFromHeader(): string
     {
         Piwik::checkUserHasSomeViewAccess();
         return IP::getIpFromHeader();
@@ -273,8 +273,7 @@ class API extends \Piwik\Plugin\API
             $translator->setCurrentLanguage($language);
         }
 
-        $metadata = $this->processedReport->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
-        return $metadata;
+        return $this->processedReport->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
     }
 
     /**
@@ -440,7 +439,7 @@ class API extends \Piwik\Plugin\API
                 && !empty($reportMeta['metrics'])
             ) {
                 $plugin = $reportMeta['module'];
-                $allMetrics = array_merge($reportMeta['metrics'], ($reportMeta['processedMetrics'] ?: []));
+                $allMetrics = array_merge($reportMeta['metrics'], (@$reportMeta['processedMetrics'] ?: []));
                 foreach ($allMetrics as $column => $columnTranslation) {
                     // a metric from this report has been requested
                     if (
@@ -643,7 +642,7 @@ class API extends \Piwik\Plugin\API
             $period = 'year';
             $date = $now->toString();
             if ($now->toString('m') == '01') {
-                if (Rules::isArchivingDisabledFor(array($idSite), new Segment('', array($idSite)), 'range')) {
+                if (Rules::isArchivingDisabledFor([$idSite], new Segment('', [$idSite]), 'range')) {
                     $date = $now->subYear(1)->toString(); // use previous year data to avoid using range
                 } else {
                     $period = 'range';
@@ -655,7 +654,7 @@ class API extends \Piwik\Plugin\API
             $meta = $this->getMetadata($idSite, $apiParts[0], $apiParts[1]);
             $flat = !empty($meta[0]['actionToLoadSubTables']) && $meta[0]['actionToLoadSubTables'] == $apiParts[1];
 
-            $table = Request::processRequest($segment['suggestedValuesApi'], array(
+            $table          = Request::processRequest($segment['suggestedValuesApi'], [
                 'idSite' => $idSite,
                 'period' => $period,
                 'date' => $date,
@@ -663,16 +662,17 @@ class API extends \Piwik\Plugin\API
                 'filter_offset' => 0,
                 'flat' => (int) $flat,
                 'filter_limit' => $maxSuggestionsToReturn,
-            ));
+            ]);
 
             if ($table && $table instanceof DataTable && $table->getRowsCount()) {
                 $values = [];
                 foreach ($table->getRowsWithoutSummaryRow() as $row) {
+                    /** @var string|null|false $segment */
                     $segment = $row->getMetadata('segment');
-                    $remove = array(
+                    $remove = [
                         $segmentName . Segment\SegmentExpression::MATCH_EQUAL,
                         $segmentName . Segment\SegmentExpression::MATCH_STARTS_WITH,
-                    );
+                    ];
                     // we don't look at row columns since this could include rows that won't work eg Other summary rows. etc
                     // and it is generally not reliable.
                     if (!empty($segment) && preg_match('/^' . implode('|', $remove) . '/', $segment)) {
@@ -681,7 +681,7 @@ class API extends \Piwik\Plugin\API
                 }
 
                 $values = array_slice($values, 0, $maxSuggestionsToReturn);
-                $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
+                $values     = array_map(['Piwik\Common', 'unsanitizeInputValue'], $values);
                 return $values;
             }
         }
@@ -698,11 +698,11 @@ class API extends \Piwik\Plugin\API
 
         // if period=range is disabled, do not proceed
         if (!Period\Factory::isPeriodEnabledForAPI('range')) {
-            return array();
+            return [];
         }
 
         if (!empty($segment['unionOfSegments'])) {
-            $values = array();
+            $values = [];
             foreach ($segment['unionOfSegments'] as $unionSegmentName) {
                 $unionSegment = $this->findSegment($unionSegmentName, $idSite, $_showAllSegments = true);
 
@@ -727,7 +727,7 @@ class API extends \Piwik\Plugin\API
             $values = $this->getMostFrequentValues($values);
         }
         $values = array_slice($values, 0, $maxSuggestionsToReturn);
-        $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
+        $values = array_map(['Piwik\Common', 'unsanitizeInputValue'], $values);
 
         return $values;
     }
@@ -782,7 +782,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param int $idSite
+     * @param int|string $idSite
      * @param array $segment
      * @param int $maxSuggestionsToReturn
      */
