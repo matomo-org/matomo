@@ -88,7 +88,7 @@
         "CurrentDBSize": "Current database size",
         "DataProcessingAgreement": "Data Processing Agreement",
         "DataProcessingAgreementIntro1Linked": "The %1$sMatomo Cloud Data Processing Agreement (DPA)%2$s is important for businesses established in the territory of a member state of the European Economic Area, the UK or Switzerland or you are otherwise subject to the territorial scope of the General Data Protection Regulation (GDPR).",
-        "DataProcessingAgreementIntro2": "We do not act as processors for self-hosted Matomo On-Premise instances and for this reason the DPA does not apply.",
+        "DataProcessingAgreementIntro2": "The Matomo Cloud Data Processing Agreement (DPA) is incorporated into the Matomo Cloud Terms and Conditions and applies automatically to Matomo Cloud. We do not act as processors for self-hosted Matomo On-Premise instances and for this reason the DPA does not apply.",
         "DataRetention": "Data retention",
         "DataRetentionInMatomo": "Data retention for data stored in Matomo:",
         "DataRetentionOverall": "The overall data retention rate for your privacy policy is the raw data retention rate. Please note that aggregated reports may contain personal data as well. If you are using features like User ID, Custom Variables, Custom Dimension, or track personal data in other ways such as events, page URLs or page titles, etc, then the overall data retention rate for your privacy policy is the higher of the two.",
