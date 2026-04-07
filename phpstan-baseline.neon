@@ -131,11 +131,6 @@ parameters:
 			path: core/API/Proxy.php
 
 		-
-			message: "#^Method Piwik\\\\API\\\\Request\\:\\:process\\(\\) has invalid return type Piwik\\\\API\\\\Map\\.$#"
-			count: 1
-			path: core/API/Request.php
-
-		-
 			message: "#^Negated boolean expression is always true\\.$#"
 			count: 1
 			path: core/API/Request.php
@@ -1551,16 +1546,6 @@ parameters:
 			path: core/Report/ReportWidgetFactory.php
 
 		-
-			message: "#^Parameter \\#1 \\$im of function imagedestroy expects resource, Piwik\\\\API\\\\Map\\|Piwik\\\\DataTable\\|string given\\.$#"
-			count: 1
-			path: core/ReportRenderer.php
-
-		-
-			message: "#^Parameter \\#1 \\$im of function imagepng expects resource, Piwik\\\\API\\\\Map\\|Piwik\\\\DataTable\\|string given\\.$#"
-			count: 1
-			path: core/ReportRenderer.php
-
-		-
 			message: "#^Method Piwik\\\\DataTable\\\\Renderer\\\\Csv\\:\\:render\\(\\) invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: core/ReportRenderer/Csv.php
@@ -2457,11 +2442,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(mixed\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
 			count: 1
 			path: plugins/API/API.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with Piwik\\\\API\\\\Map\\|Piwik\\\\DataTable\\|string will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/API/Controller.php
 
 		-
 			message: "#^Cannot access offset mixed on int\\.$#"
