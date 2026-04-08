@@ -214,6 +214,12 @@ function rowEvolutionGetMetricNameFromRow(tr)
             this.$element.closest('.widgetContent').on('widget:resize', function () {
                 self._resizeGraph();
             });
+
+            this._themeModeChangeListener = function () {
+                console.log('theme mode changed')
+                self.refreshTheme();
+            };
+            window.addEventListener('themeModeChange', this._themeModeChangeListener);
         },
 
         _resizeGraph: function () {
@@ -283,6 +289,18 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 target.data('oldHeight', 0);
                 target.innerHTML = '';
             }
+        },
+
+        _destroy: function () {
+            if (this._themeModeChangeListener) {
+                window.removeEventListener('themeModeChange', this._themeModeChangeListener);
+            }
+
+            if (this._plot) {
+                this.destroyPlot();
+            }
+
+            dataTablePrototype._destroy.call(this);
         },
 
         showLoading: function () {
@@ -653,6 +671,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
          * Sets the colors used to render this graph.
          */
         _setColors: function () {
+            console.log('setting colors');
             var colorManager = piwik.ColorManager;
 
             var viewDataTable = $('#' + this.workingDivId).data('uiControlObject').param['viewDataTable'];
@@ -673,7 +692,17 @@ function rowEvolutionGetMetricNameFromRow(tr)
             this.jqplotParams.grid.background = colorManager.getColor(namespace, 'grid-background');
             this.jqplotParams.grid.borderColor = colorManager.getColor(namespace, 'grid-border');
             this.tickColor = colorManager.getColor(namespace, 'ticks');
-            this.singleMetricColor = colorManager.getColor(namespace, 'single-metric-label')
+            this.singleMetricColor = colorManager.getColor(namespace, 'single-metric-label');
+
+            if (this.jqplotParams.pieLegend) {
+                this.jqplotParams.pieLegend.labelColor = this.singleMetricColor;
+            }
+
+            if (this.jqplotParams.canvasLegend
+                && this.jqplotParams.canvasLegend.singleMetric
+            ) {
+                this.jqplotParams.canvasLegend.singleMetricColor = this.singleMetricColor;
+            }
         },
 
         _setSeriesColors: function (namespace) {
@@ -693,6 +722,16 @@ function rowEvolutionGetMetricNameFromRow(tr)
             }
 
             this.jqplotParams.seriesColors = colorManager.getColors(namespace, seriesColorNames, true);
+        },
+
+        refreshTheme: function () {
+            console.log('refreshing theme');
+            if (!this.data || !this.data.length) {
+                return;
+            }
+
+            this._setColors();
+            this.render();
         }
     });
 
