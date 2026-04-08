@@ -318,12 +318,11 @@ class ThemeStyles
 
     public function getPropertyValue(string $name): string
     {
-        $value = $this->$name;
-        if (!is_array($value)) {
-            return $value;
+        if (!property_exists($this, $name)) {
+            return '';
         }
 
-        return $this->getIsDarkMode() ? $value[1] : $value[0];
+        return $this->resolvePropertyValue($this->$name, $this->getIsDarkMode() ? 1 : 0);
     }
 
     public function toLessCode()
@@ -334,18 +333,18 @@ class ThemeStyles
         foreach (get_object_vars($this) as $name => $value) {
             $varName = isset(self::$propertyNamesToLessVariableNames[$name]) ? self::$propertyNamesToLessVariableNames[$name] : $this->getGenericThemeVarName($name);
             if (is_array($value)) {
-                $rootCssVars[] = "    --$varName: $value[0];\n";
-                $darkCssVars[] = "    --$varName: $value[1];\n";
+                $rootCssVars[] = "    --$varName: " . $this->resolvePropertyValue($value, 0) . ";\n";
+                $darkCssVars[] = "    --$varName: " . $this->resolvePropertyValue($value, 1) . ";\n";
             } else {
-                $rootCssVars[] = "    --$varName: $value;\n";
+                $rootCssVars[] = "    --$varName: " . $this->resolvePropertyValue($value, 0) . ";\n";
             }
         }
 
-        $result = ":root {\n" . implode('', $rootCssVars) . "}\n\n";
+        $result = ":root {\n    color-scheme: light;\n" . implode('', $rootCssVars) . "}\n\n";
         if (!empty($darkCssVars)) {
-            $result .= "[data-theme-mode=\"dark\"] {\n" . implode('', $darkCssVars) . "}\n\n";
+            $result .= "[data-theme-mode=\"dark\"] {\n    color-scheme: dark;\n" . implode('', $darkCssVars) . "}\n\n";
             $result .= "@media (prefers-color-scheme: dark) {\n";
-            $result .= "    [data-theme-mode=\"auto\"] {\n" . implode('', $darkCssVars) . "    }\n";
+            $result .= "    [data-theme-mode=\"auto\"] {\n        color-scheme: dark;\n" . implode('', $darkCssVars) . "    }\n";
             $result .= "}\n\n";
         }
 
@@ -359,5 +358,27 @@ class ThemeStyles
     private function getGenericThemeVarName($propertyName)
     {
         return 'theme-' . $propertyName;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private function resolvePropertyValue($value, int $preferredIndex): string
+    {
+        if (!is_array($value)) {
+            return is_string($value) ? $value : '';
+        }
+
+        $fallbackIndex = $preferredIndex === 1 ? 0 : 1;
+
+        if (isset($value[$preferredIndex]) && is_string($value[$preferredIndex])) {
+            return $value[$preferredIndex];
+        }
+
+        if (isset($value[$fallbackIndex]) && is_string($value[$fallbackIndex])) {
+            return $value[$fallbackIndex];
+        }
+
+        return '';
     }
 }
