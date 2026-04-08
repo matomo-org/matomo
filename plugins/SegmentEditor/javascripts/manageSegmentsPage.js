@@ -12,6 +12,7 @@ function initManageSegmentsPage() {
     return;
   }
   const tbody = root.querySelector('tbody');
+  const searchForm = root.querySelector('form[name="manageSegmentSearchFilter"]');
   const rowList = Array.from(tbody.children).reverse();
   const noResultElement = root.querySelector('.tableFooterLabel');
   let filterTimerId = null;
@@ -173,6 +174,27 @@ function initManageSegmentsPage() {
         filterTimerId = setTimeout(clearFilterSegmentList, 500);
       }
     }));
+
+    removeDelegatedListeners.push(delegate('keydown', '#manageSegmentSearch', function (e) {
+      if (e.key !== 'Enter') {
+        return;
+      }
+
+      e.stopPropagation();
+      e.preventDefault();
+    }));
+
+    if (searchForm) {
+      const onSearchFormSubmit = function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      };
+
+      searchForm.addEventListener('submit', onSearchFormSubmit);
+      removeDelegatedListeners.push(function unsubscribe() {
+        searchForm.removeEventListener('submit', onSearchFormSubmit);
+      });
+    }
 
     return function removeListeners() {
       removeDelegatedListeners.forEach(function (unsubscribe) {
