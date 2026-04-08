@@ -57,7 +57,7 @@ class Live extends \Piwik\Plugin
     /**
      * Throws an exception if visits log is disabled
      *
-     * @param null|int|array $idSite
+     * @param int|string|int[]|null $idSite
      * @throws \Exception
      */
     public static function checkIsVisitorLogEnabled($idSite = null): void
@@ -99,7 +99,7 @@ class Live extends \Piwik\Plugin
     /**
      * Returns whether visits log is enabled (for the given site)
      *
-     * @param null|int|array $idSite
+     * @param int|string|int[]|null $idSite
      */
     public static function isVisitorLogEnabled($idSite = null): bool
     {
@@ -114,7 +114,7 @@ class Live extends \Piwik\Plugin
     /**
      * Throws an exception if visitor profile is disabled
      *
-     * @param null|int|array $idSite
+     * @param int|string|int[]|null $idSite
      * @throws \Exception
      */
     public static function checkIsVisitorProfileEnabled($idSite = null): void
@@ -147,7 +147,7 @@ class Live extends \Piwik\Plugin
     /**
      * Returns whether visitor profile is enabled (for the given site)
      *
-     * @param null|int|array $idSite
+     * @param int|string|int[]|null $idSite
      */
     public static function isVisitorProfileEnabled($idSite = null): bool
     {
