@@ -19,6 +19,6 @@
   },
   "overrides": {
     "shell-quote": "^1.8.3",
-    "axios": "^1.12.2"
+    "axios": "^1.15.0"
   }
 }
