@@ -13,6 +13,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\Date;
@@ -68,6 +69,8 @@ use Piwik\Log\LoggerInterface;
  *     evolution_graph_period_n: int|string
  * }
  * @phpstan-type OutputMode self::OUTPUT_DOWNLOAD|self::OUTPUT_SAVE_ON_DISK|self::OUTPUT_INLINE|self::OUTPUT_RETURN
+ * @phpstan-import-type StoredSegment from \Piwik\Plugins\SegmentEditor\API
+ * @phpstan-import-type ProcessedReportData from \Piwik\Plugins\API\ProcessedReport
  *
  * @method static \Piwik\Plugins\ScheduledReports\API getInstance()
  */
@@ -239,13 +242,13 @@ class API extends \Piwik\Plugin\API
         string $evolutionPeriodFor = 'prev',
         $evolutionPeriodN = null,
         ?string $periodParam = null
-    ) {
+    ): void {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
 
         $scheduledReports = $this->getReports($idSite, $periodSearch = false, $idReport);
         $report   = reset($scheduledReports);
-        /** @var ScheduledReport $report */
+        /** @phpstan-var ScheduledReport $report */
         $idReport = $report['idreport'];
 
         $currentUser = Piwik::getCurrentUserLogin();
@@ -290,7 +293,7 @@ class API extends \Piwik\Plugin\API
     {
         $APIScheduledReports = $this->getReports($idSite = false, $periodSearch = false, $idReport);
         $report = reset($APIScheduledReports);
-        /** @var ScheduledReport $report */
+        /** @phpstan-var ScheduledReport $report */
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($report['login']);
 
         $this->getModel()->updateReport($idReport, [
@@ -527,10 +530,10 @@ class API extends \Piwik\Plugin\API
      *                     or date range (e.g. `'YYYY-MM-DD,YYYY-MM-DD'`, `lastX`, `previousX`).
      * @param string|false $language The ISO language code to render the report in (e.g. `'en'`, `'de'`),
      *                               or `false` to use the default language.
-     * @param OutputMode|false $outputType The output mode controlling how the generated report is delivered.
-     *                                     Use `OUTPUT_DOWNLOAD` (browser download), `OUTPUT_SAVE_ON_DISK` (temp file for
-     *                                     sending), `OUTPUT_INLINE` (browser inline display), or `OUTPUT_RETURN` (return
-     *                                     contents as string). Defaults to `OUTPUT_DOWNLOAD`.
+     * @param int|false $outputType The output mode controlling how the generated report is delivered.
+     *                              Use `OUTPUT_DOWNLOAD` (browser download), `OUTPUT_SAVE_ON_DISK` (temp file for
+     *                              sending), `OUTPUT_INLINE` (browser inline display), or `OUTPUT_RETURN` (return
+     *                              contents as string). Defaults to `OUTPUT_DOWNLOAD`.
      * @param 'day'|'week'|'month'|'year'|'range'|false $period The data period to generate, or `false` to use
      *                                                        the report's stored period.
      * @param string|false $reportFormat The output format identifier (e.g. `'pdf'`, `'html'`), or `false` to use
@@ -541,6 +544,10 @@ class API extends \Piwik\Plugin\API
      *         Returns a 5-element array `[$outputFilename, $prettyDate, $reportSubject, $reportTitle,
      *         $additionalFiles]` when using `OUTPUT_SAVE_ON_DISK`, the rendered report string when using
      *         `OUTPUT_RETURN`, or void when streaming to the browser (`OUTPUT_DOWNLOAD` / `OUTPUT_INLINE`).
+     * @phpstan-param OutputMode|false $outputType
+     * @phpstan-return ($outputType is self::OUTPUT_SAVE_ON_DISK
+     *     ? array{0: string, 1: string, 2: string, 3: string, 4: list<mixed>}
+     *     : ($outputType is self::OUTPUT_RETURN ? string : void))
      */
     public function generateReport(
         $idReport,
@@ -569,7 +576,7 @@ class API extends \Piwik\Plugin\API
 
         $reports = $this->getReports($idSite = false, $_period = false, $idReport);
         $report = reset($reports);
-        /** @var ScheduledReport $report */
+        /** @phpstan-var ScheduledReport $report */
 
         $idReport = $report['idreport'];
         $idSite = $report['idsite'];
@@ -580,7 +587,7 @@ class API extends \Piwik\Plugin\API
 
         // override report period
         if (empty($period)) {
-            $period = $report['period_param'];
+            $period = $report['period_param'] ?? $report['period'];
         }
 
         $this->checkDateAndPeriodCombination($date, $period);
@@ -607,8 +614,8 @@ class API extends \Piwik\Plugin\API
         $enforceCustomOrder   = array_key_exists(self::ENFORCE_ORDER_PARAMETER, $parameters)
             && !empty($parameters[self::ENFORCE_ORDER_PARAMETER]);
 
-        $originalShowEvolutionWithinSelectedPeriod = Config::getInstance()->General['graphs_show_evolution_within_selected_period'];
-        $originalDefaultEvolutionGraphLastPeriodsAmount = Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
+        $originalShowEvolutionWithinSelectedPeriod      = GeneralConfig::getConfigValue('graphs_show_evolution_within_selected_period');
+        $originalDefaultEvolutionGraphLastPeriodsAmount = GeneralConfig::getConfigValue('graphs_default_evolution_graph_last_days_amount');
         $initialFilterTruncate = Common::getRequestVar('filter_truncate', false);
         try {
             Config::setSetting('General', 'graphs_show_evolution_within_selected_period', (bool)$report['evolution_graph_within_period']);
@@ -642,9 +649,9 @@ class API extends \Piwik\Plugin\API
 
             // the report will be rendered with the first 23 rows and will aggregate other rows in a summary row
             // 23 rows table fits in one portrait page
-            $_GET['filter_truncate'] = Config::getInstance()->General['scheduled_reports_truncate'];
+            $_GET['filter_truncate'] = GeneralConfig::getConfigValue('scheduled_reports_truncate');
 
-            $prettyDate = null;
+            $prettyDate = '';
             $processedReports = [];
             $segment = self::getSegment($report['idsegment']);
             foreach ($reportMetadata as $action) {
@@ -699,6 +706,7 @@ class API extends \Piwik\Plugin\API
                 }
 
                 try {
+                    /** @phpstan-var ProcessedReportData $processedReport */
                     $processedReport = Request::processRequest('API.getProcessedReport', $params);
                 } catch (\Exception $ex) {
                     // NOTE: can't use warning or error because the log message will appear in the UI as a notification
@@ -715,7 +723,7 @@ class API extends \Piwik\Plugin\API
                 $processedReport['segment'] = $segment;
 
                 // TODO add static method getPrettyDate($period, $date) in Period
-                $prettyDate = (string)$processedReport['prettyDate'];
+                $prettyDate = $processedReport['prettyDate'];
 
                 if ($mustRestoreGET) {
                     $_GET = $mustRestoreGET;
@@ -787,14 +795,14 @@ class API extends \Piwik\Plugin\API
         }
 
         // init report renderer
-        $reportRenderer->setIdSite($idSite);
+        $reportRenderer->setIdSite((int)$idSite);
         $reportRenderer->setLocale($language);
         $reportRenderer->setReport($report);
 
         // render report
         $description = str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue($report['description']));
 
-        [$reportSubject, $reportTitle] = self::getReportSubjectAndReportTitle(Common::unsanitizeInputValue(Site::getNameFor($idSite)), $report['reports']);
+        [$reportSubject, $reportTitle] = self::getReportSubjectAndReportTitle(Common::unsanitizeInputValue(Site::getNameFor((int)$idSite)), $report['reports']);
 
         // if reporting for a segment, use the segment's name in the title
         if (is_array($segment) && strlen($segment['name'])) {
@@ -802,7 +810,7 @@ class API extends \Piwik\Plugin\API
         }
         $filename = "$reportTitle - $prettyDate - $description";
 
-        $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment);
+        $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment ?? []);
         array_walk($processedReports, [$reportRenderer, 'renderReport']);
 
         switch ($outputType) {
@@ -854,7 +862,7 @@ class API extends \Piwik\Plugin\API
 
         $reports = $this->getReports($idSite = false, false, $idReport);
         $report = reset($reports);
-        /** @var ScheduledReport $report */
+        /** @phpstan-var ScheduledReport $report */
 
         if (!empty($period)) {
             self::validatePeriodParam($period);
@@ -878,7 +886,7 @@ class API extends \Piwik\Plugin\API
                         $date,
                         $language,
                         self::OUTPUT_SAVE_ON_DISK,
-                        $report['period_param']
+                        $report['period_param'] ?? false
                     );
             } catch (NoAccessException $e) {
                 // This might occur if for some reason a report exists where the user does no longer have access to the
@@ -940,7 +948,7 @@ class API extends \Piwik\Plugin\API
                         $reportSubject,
                         $reportTitle,
                         $additionalFiles,
-                        \Piwik\Period\Factory::build($report['period_param'], $date),
+                        \Piwik\Period\Factory::build($report['period_param'] ?? $report['period'], $date),
                         $force,
                     ]
                 );
@@ -1031,7 +1039,7 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent(self::VALIDATE_PARAMETERS_EVENT, [&$parameters, $reportType]);
 
-        return json_encode($parameters);
+        return (string)json_encode($parameters);
     }
 
     /**
@@ -1067,7 +1075,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        return json_encode($requestedReports);
+        return (string)json_encode($requestedReports);
     }
 
     /**
@@ -1328,12 +1336,13 @@ class API extends \Piwik\Plugin\API
     /**
      * @param int|string|false|null $idSegment
      * @return array<string, mixed>|null
+     * @phpstan-return StoredSegment|null
      * @ignore
      */
     public static function getSegment($idSegment)
     {
         if (self::isSegmentEditorActivated() && !empty($idSegment)) {
-            $segment = APISegmentEditor::getInstance()->get($idSegment);
+            $segment = APISegmentEditor::getInstance()->get((int)$idSegment);
 
             if ($segment) {
                 // segment name is returned sanitized
