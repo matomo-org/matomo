@@ -43,10 +43,6 @@ describe("Theme", function () {
         }, {}, themeMode);
         await page.waitForNetworkIdle();
     }
-    async function recreatePage() {
-      await page.createPage();
-      await setColorSchemePreference('light');
-    }
 
     before(function () {
         testEnvironment.pluginsToLoad = ['ExampleTheme'];
@@ -137,86 +133,28 @@ describe("Theme", function () {
     });
 
     it("should update the resolved theme when the browser theme changes in match browser mode", async function () {
-        await recreatePage();
-        try {
-          await page.evaluateOnNewDocument(() => {
-            const originalMatchMedia = window.matchMedia ? window.matchMedia.bind(window) : null;
-            const listeners = [];
-            const fakeMediaQueryList = {
-              matches: false,
-              media: '(prefers-color-scheme: dark)',
-              addEventListener (eventName, listener) {
-                if (eventName === 'change') {
-                  listeners.push(listener);
-                }
-              },
-              removeEventListener (eventName, listener) {
-                if (eventName !== 'change') {
-                  return;
-                }
+        await page.goto("?module=UsersManager&action=userSettings&idSite=1&period=day&date=yesterday");
+        await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'light' }]);
+        await page.waitForSelector('input[name="themeMode"][value="auto"]');
+        await page.click('input[name="themeMode"][value="auto"]');
+        await page.click('.matomo-save-button input.btn');
+        await page.waitForNetworkIdle();
 
-                const index = listeners.indexOf(listener);
-                if (index !== -1) {
-                  listeners.splice(index, 1);
-                }
-              },
-            };
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09");
+        await page.waitForFunction(() => window.piwik.getThemeMode() === 'light');
 
-            window.__setFakeBrowserThemePreference = (matches) => {
-              fakeMediaQueryList.matches = matches;
-              listeners.slice()
-                .forEach((listener) => listener({
-                  matches: fakeMediaQueryList.matches,
-                  media: fakeMediaQueryList.media,
-                }));
-            };
-
-            window.matchMedia = (query) => {
-              if (query === fakeMediaQueryList.media) {
-                return fakeMediaQueryList;
-              }
-
-              if (originalMatchMedia) {
-                return originalMatchMedia(query);
-              }
-
-              return {
-                matches: false,
-                media: query,
-                addEventListener () {},
-                removeEventListener () {},
-              };
-            };
-          });
-
-          await saveThemeMode('auto');
-          await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09");
-          await page.waitForSelector('.widget');
-          await page.waitForFunction(() => window.piwik.getThemeMode() === 'light');
-
-          await page.evaluate(() => {
-            window.__setFakeBrowserThemePreference(true);
-          });
-
-          await page.waitForFunction(() => window.piwik.getThemeMode() === 'dark');
-        } finally {
-          await recreatePage();
-        }
+        await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'dark' }]);
+        await page.waitForFunction(() => window.piwik.getThemeMode() === 'dark');
     });
 
     it("should fall back to light styling when matchMedia is unavailable", async function () {
-        await setColorSchemePreference('dark');
+        await page.evaluateOnNewDocument(() => {
+          delete window.matchMedia;
+        });
         await saveThemeMode('auto');
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09");
+        const result = await page.evaluate(() => window.piwik.getThemeMode());
 
-        const result = await page.evaluate(() => {
-            const originalMatchMedia = window.matchMedia;
-            delete window.matchMedia;
-            const themeMode = window.piwik.refreshThemeMode(false);
-            window.matchMedia = originalMatchMedia;
-            return themeMode;
-        });
-
-        expect(result.resolvedThemeMode).to.equal('light');
+        expect(result).to.equal('light');
     });
 });

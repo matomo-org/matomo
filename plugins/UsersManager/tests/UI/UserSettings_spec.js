@@ -123,7 +123,7 @@ describe("UserSettings", function () {
         }).get());
         expect(themeModes).to.include.members(['light', 'dark', 'auto']);
 
-        const themeModeHelp = await page.evaluate(() => $('#userSettingsTable').text());
+        const themeModeHelp = await page.evaluate(() => $('#themeModeHelp').text());
         expect(themeModeHelp).to.contain('Match browser');
         expect(themeModeHelp).to.contain('Custom theme');
     });

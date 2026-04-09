@@ -189,16 +189,7 @@ declare global {
     getSparklineColors(): SparklineColors;
     getBaseDatePickerOptions(defaultDate: Date|null): any;
     getThemeMode(): string;
-    refreshThemeMode(emitChangeEvent?: boolean): {
-      preferredThemeMode: string;
-      resolvedThemeMode: string;
-      previousResolvedThemeMode: string;
-    };
-    setThemeMode(preferredThemeMode: string): {
-      preferredThemeMode: string;
-      resolvedThemeMode: string;
-      previousResolvedThemeMode: string;
-    };
+    setThemeMode(preferredThemeMode: string): void;
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
