@@ -151,11 +151,6 @@ parameters:
 			path: core/API/ResponseBuilder.php
 
 		-
-			message: "#^Parameter \\#1 \\$request of static method Piwik\\\\API\\\\Request\\:\\:getMethodIfApiRequest\\(\\) expects array, null given\\.$#"
-			count: 1
-			path: core/Access.php
-
-		-
 			message: "#^Property Piwik\\\\Access\\:\\:\\$auth \\(Piwik\\\\Auth\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: core/Access.php
@@ -946,6 +941,11 @@ parameters:
 			path: core/DataTable/Renderer.php
 
 		-
+			message: "#^Right side of && is always true\\.$#"
+			count: 1
+			path: core/DataTable/Renderer.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between array\\|null and false will always evaluate to false\\.$#"
 			count: 1
 			path: core/DataTable/Renderer.php
@@ -1317,11 +1317,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$action of method Piwik\\\\FrontController\\:\\:dispatch\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: "#^Parameter \\#3 \\$date of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getReportMetadata\\(\\) expects bool\\|Piwik\\\\Date, string given\\.$#"
 			count: 1
 			path: core/Plugin/Controller.php
 
@@ -2399,31 +2394,6 @@ parameters:
 			path: core/dispatch.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with non\\-falsy\\-string will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/API/API.php
-
-		-
-			message: "#^Default value of the parameter \\#14 \\$labelSeries \\(false\\) of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getRowEvolution\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: plugins/API/API.php
-
-		-
-			message: "#^Default value of the parameter \\#15 \\$showGoalMetricsForGoal \\(false\\) of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getRowEvolution\\(\\) is incompatible with type int\\|string\\.$#"
-			count: 1
-			path: plugins/API/API.php
-
-		-
-			message: "#^Default value of the parameter \\#6 \\$idSite \\(false\\) of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getReportMetadata\\(\\) is incompatible with type int\\.$#"
-			count: 1
-			path: plugins/API/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$request of static method Piwik\\\\API\\\\Request\\:\\:getMethodIfApiRequest\\(\\) expects array, null given\\.$#"
-			count: 1
-			path: plugins/API/API.php
-
-		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(mixed\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
 			count: 1
 			path: plugins/API/API.php
@@ -3497,21 +3467,6 @@ parameters:
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: plugins/Goals/Tracker/GoalsRequestProcessor.php
-
-		-
-			message: "#^Parameter \\#1 \\$idSites of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getReportMetadata\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/ImageGraph/Controller.php
-
-		-
-			message: "#^Parameter \\#1 \\$idSites of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getReportMetadata\\(\\) expects string, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
-			count: 1
-			path: plugins/ImageGraph/Controller.php
-
-		-
-			message: "#^Parameter \\#3 \\$date of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getReportMetadata\\(\\) expects bool\\|Piwik\\\\Date, string given\\.$#"
-			count: 2
-			path: plugins/ImageGraph/Controller.php
 
 		-
 			message: "#^Parameter \\#2 \\$lastN of static method Piwik\\\\Period\\\\Range\\:\\:getRelativeToEndDate\\(\\) expects int, string given\\.$#"
