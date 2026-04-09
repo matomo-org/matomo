@@ -42,11 +42,11 @@ class GetModel extends Base
         $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
         foreach ($idSites as $siteId) {
-            if (DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy((int) $siteId)) {
-                return false;
+            if (!DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy((int) $siteId)) {
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 }

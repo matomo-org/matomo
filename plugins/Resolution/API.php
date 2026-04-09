@@ -13,7 +13,6 @@ use Exception;
 use Piwik\Archive;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Site;
 
 /**
  * @see plugins/Resolution/functions.php
@@ -37,19 +36,12 @@ class API extends \Piwik\Plugin\API
 
     public function getResolution($idSite, $period, $date, $segment = false)
     {
-        Piwik::checkUserHasViewAccess($idSite);
-        $idSites = Site::getIdSitesFromIdSitesString($idSite);
-
-        $idSitesFiltered = array_filter($idSites, function ($idSite) {
-            return !Resolution::isScreenResolutionDetectionDisabledByCompliancePolicy((int) $idSite);
-        });
-
-        if (count($idSites) > 0 && count($idSitesFiltered) === 0) {
-            $translator = StaticContainer::get('Piwik\Translation\Translator');
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        if (Resolution::isScreenResolutionDetectionDisabledByCompliancePolicy($idSite)) {
             throw new Exception($translator->translate('Resolution_ScreenResolutionReportDisabledByCompliancePolicy'));
         }
 
-        $dataTable = $this->getDataTable(Archiver::RESOLUTION_RECORD_NAME, $idSitesFiltered, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::RESOLUTION_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
         return $dataTable;
     }
