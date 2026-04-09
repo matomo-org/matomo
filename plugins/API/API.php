@@ -182,7 +182,7 @@ class API extends \Piwik\Plugin\API
      * @param bool $_showAllSegments Whether to include segments that are normally hidden.
      * @return array<int, array<string, mixed>>
      */
-    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $_showAllSegments = false)
+    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $_showAllSegments = false): array
     {
         if (empty($idSites)) {
             Piwik::checkUserHasSomeViewAccess();
