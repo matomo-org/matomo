@@ -362,6 +362,7 @@ class Controller extends \Piwik\Plugin\Controller
 
             $request = new Request($requestParams);
 
+            /** @var DataTable $datatable */
             $datatable = $request->process();
             $formatter = new Formatter();
             $topDimension = array();
@@ -399,6 +400,7 @@ class Controller extends \Piwik\Plugin\Controller
                 'format' => 'original',
                 'idGoal' => $idGoal,
             ]);
+            /** @var DataTable $datatable */
             $datatable = $request->process();
             $dataRow = $datatable->getFirstRow();
         }

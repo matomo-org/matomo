@@ -4,6 +4,9 @@
         "NoDataHttpTrackingApi": "HTTP Spårnings-API",
         "SiteWithoutDataBackToMatomo": "Tillbaka till Matomo",
         "SiteWithoutDataInstallWithX": "Installera med %1$s",
-        "SiteWithoutDataStepByStepGuide": "Steg-för-steg-guide"
+        "SiteWithoutDataStepByStepGuide": "Steg-för-steg-guide",
+        "AIChatbotsOverview": "Översikt över AI-chattbottar",
+        "ColumnUniqueAiChatbots": "Unika AI-chattbottar",
+        "ColumnClickThroughRate": "Klickfrekvens"
     }
 }

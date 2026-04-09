@@ -1,6 +1,6 @@
 {
     "PagePerformance": {
-        "ColumnAveragePageLoadTime": "Genomsnitt sidladdningstid",
+        "ColumnAveragePageLoadTime": "Genomsnittlig sidladdningstid",
         "ColumnAveragePageLoadTimeDocumentation": "Genomsnittlig tid (i sekunder) det tar från att begära en sida tills sidan återges helt i webbläsaren",
         "ColumnAverageTimeDomCompletion": "Genomsnittlig DOM completion-tid",
         "ColumnAverageTimeDomCompletionDocumentation": "Genomsnittlig tid (i sekunder) som det tar för webbläsaren att ladda media och köra Javascript-kod som lyssnar på DOMContentLoaded-eventet efter att webbsidan laddats och användaren redan kan interagera med den.",

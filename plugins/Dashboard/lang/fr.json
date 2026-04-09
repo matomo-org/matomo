@@ -14,6 +14,7 @@
         "DefaultDashboard": "Tableau de bord par défaut - Utilisant la sélection de gadgets par défaut et la disposition des colonnes",
         "DeleteWidgetConfirm": "Êtes-vous sûr(e) de vouloir supprimer ce widget du tableau de bord ?",
         "EmptyDashboard": "Tableau de bord vide - Sélectionnez vos gadgets favoris",
+        "ExportThisDashboard": "Exporter ce tableau de bord",
         "LoadingWidget": "Chargement du widget, patientez svp…",
         "ManageDashboard": "Gérer ce tableau de bord",
         "Maximise": "Maximiser",

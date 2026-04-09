@@ -1,6 +1,6 @@
 {
     "Tour": {
-        "AddAnnotation": "Lägg till anteckning",
+        "AddAnnotation": "Lägg till en anteckning",
         "AddAnotherWebsite": "Lägg till en webbplats",
         "AddReport": "Lägg till en schemalagd rapport",
         "AddSegment": "Lägg till segment",
@@ -36,12 +36,12 @@
         "Part2Title": "Fortsätt så %1$s. Du är på god väg att bli Matomo-expert.",
         "Part3Title": "Du är på god väg %1$s! Fortsätt och bli en Matomo-expert.",
         "Part4Title": "Stora framsteg %1$s. Bara några fler utmaningar att slutföra.",
-        "PluginDescription": "Bli en expert genom att klara av utmaningar och lära känna Matomo.",
+        "PluginDescription": "Bli en expert genom att klara utmaningar och lära känna Matomo.",
         "PreviousChallenges": "Tidigare utmaningar",
         "RowEvolution": "Radutveckling",
         "SelectDateRange": "Välj datumintervall",
-        "SelectDateRangeDescription": "Välj ett tidsintervall i kalendern.",
-        "SetupX": "Uppsättning %s",
+        "SelectDateRangeDescription": "Välj en tidsperiod i kalendern.",
+        "SetupX": "Inställningar %s",
         "ShareAllChallengesCompleted": "%1$s-utmärkelsen upplåst genom att slutföra alla Matomo-utmaningar.",
         "ShareYourAchievementOn": "Dela din prestation på %1$s.",
         "SkipThisChallenge": "Hoppa över den här utmaningen",

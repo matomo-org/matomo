@@ -47,6 +47,8 @@
         "PageUpShortcutDescription": "برای رفتن به ابتدای صفحه",
         "PeriodRange": "بازه",
         "PivotBySubtable": "این گزارش نچرخیده است %1$s انجام دهید %2$s",
+        "PresetDateToday": "امروز",
+        "PresetDateYesterday": "دیروز",
         "RemoveTotalsRowDataTable": "این گزارش مجموع ردیف‌ها را نمایش می‌دهد %s حذف کنید",
         "ReportGeneratedOn": "گزارش تولید شده است در %s",
         "ReportGeneratedXAgo": "گزارش %s قبل تولید شده است",

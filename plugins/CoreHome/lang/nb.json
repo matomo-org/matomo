@@ -71,6 +71,8 @@
         "PeriodHasOnlyRawData": "Det ser ut til at rapporter for denne perioden ikke har blitt behandlet enda. Ønsker du å finne ut hva som skjer nå? Sjekk ut %1$sbesøksloggen%2$s eller velg et annet datofølge til rapportene er generert.",
         "PeriodRange": "Periode",
         "PivotBySubtable": "Denne rapporten er ikke pivotert %1$s Pivot etter %2$s",
+        "PresetDateToday": "I dag",
+        "PresetDateYesterday": "I går",
         "Profilable": "Profilerbar",
         "QuickAccessTitle": "Søk etter %s. Bruk piltastene for å navigere i søkeresultatene. Snarvei: trykk «f» for å søke.",
         "QuickLinks": "Hurtiglenker",

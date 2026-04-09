@@ -28,6 +28,8 @@
         "ExitZenMode": "Zapustite način Zen (prikažite menije)",
         "NoPrivilegesAskPiwikAdmin": "Vpisani ste kot '%1$s', vendar v Matomo-u nimate nastavljenih nobenih pooblastil. %2$s Poprosite vašega Matomo administratorja (klik za email)%3$s naj vam da pooblastila za ogled določene(ih) strani.",
         "PeriodRange": "Razpon",
+        "PresetDateToday": "Danes",
+        "PresetDateYesterday": "Včeraj",
         "ReportGeneratedOn": "Poročilo ustvarjano na %s",
         "ReportGeneratedXAgo": "Poročilo ustvarjano pred %s",
         "ShowJSCode": "Prikaži JavaScript kodo za vstavljanje",

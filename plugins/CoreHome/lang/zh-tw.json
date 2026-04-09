@@ -72,6 +72,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "此期間的報表似乎還沒處理好，但將會在數小時內就完成。在報表生成前，可以先選擇其他日期期間的報表。",
         "PeriodRange": "範圍",
         "PivotBySubtable": "此報表尚未圖形化 %1$s 以 %2$s 圖形化",
+        "PresetDateToday": "今天",
+        "PresetDateYesterday": "昨天",
         "Profilable": "可紀錄的",
         "QuickAccessTitle": "搜尋 %s。使用方向鍵來切換搜尋結果。快捷鍵：按「F」以搜尋。",
         "QuickLinks": "快速連結",
