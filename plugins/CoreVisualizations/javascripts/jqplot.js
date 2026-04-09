@@ -216,7 +216,6 @@ function rowEvolutionGetMetricNameFromRow(tr)
             });
 
             this._themeModeChangeListener = function () {
-                console.log('theme mode changed')
                 self.refreshTheme();
             };
             window.addEventListener('themeModeChange', this._themeModeChangeListener);
@@ -671,7 +670,6 @@ function rowEvolutionGetMetricNameFromRow(tr)
          * Sets the colors used to render this graph.
          */
         _setColors: function () {
-            console.log('setting colors');
             var colorManager = piwik.ColorManager;
 
             var viewDataTable = $('#' + this.workingDivId).data('uiControlObject').param['viewDataTable'];
@@ -725,11 +723,10 @@ function rowEvolutionGetMetricNameFromRow(tr)
         },
 
         refreshTheme: function () {
-            console.log('refreshing theme');
-            if (!this.data || !this.data.length) {
+            if (!this.data || !this.data.length || !this.$element
+              || !$.contains(document.documentElement, this.$element[0])) {
                 return;
             }
-
             this._setColors();
             this.render();
         }
