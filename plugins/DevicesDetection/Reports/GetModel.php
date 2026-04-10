@@ -37,6 +37,6 @@ class GetModel extends Base
     public function isEnabled()
     {
         // only hide report if the compliance policy is enabled globally
-        return DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy($idSite = null);
+        return !DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy($idSite = null);
     }
 }

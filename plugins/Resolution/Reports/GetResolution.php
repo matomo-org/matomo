@@ -14,8 +14,6 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Resolution\Resolution as ResolutionPlugin;
 use Piwik\Plugins\Resolution\Columns\Resolution;
 use Piwik\Plugin\ReportsProvider;
-use Piwik\Request;
-use Piwik\Site;
 
 class GetResolution extends Base
 {
@@ -45,6 +43,6 @@ class GetResolution extends Base
     public function isEnabled()
     {
         // only hide report if the compliance policy is enabled globally
-        return ResolutionPlugin::isScreenResolutionDetectionDisabledByCompliancePolicy($idSite = null);
+        return !ResolutionPlugin::isScreenResolutionDetectionDisabledByCompliancePolicy($idSite = null);
     }
 }
