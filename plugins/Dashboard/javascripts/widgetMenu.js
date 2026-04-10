@@ -20,6 +20,16 @@ widgetsHelper.firstGetAvailableWidgetsCall = null;
  */
 widgetsHelper.getAvailableWidgets = function (callback) {
 
+    if (!widgetsHelper.availableWidgets && widgetsHelper.firstGetAvailableWidgetsCall) {
+        widgetsHelper.firstGetAvailableWidgetsCall.then(function () {
+            if (callback) {
+                callback(widgetsHelper.availableWidgets);
+            }
+        });
+
+        return widgetsHelper.firstGetAvailableWidgetsCall;
+    }
+
     function mergeCategoriesAndSubCategories(availableWidgets)
     {
         var categorized = {};
@@ -113,6 +123,8 @@ widgetsHelper.getAvailableWidgets = function (callback) {
         callback(widgetsHelper.availableWidgets);
       }
     });
+
+    return promise;
 };
 
 /**
@@ -121,6 +133,7 @@ widgetsHelper.getAvailableWidgets = function (callback) {
  */
 widgetsHelper.clearAvailableWidgets = function () {
     delete widgetsHelper.availableWidgets;
+    widgetsHelper.firstGetAvailableWidgetsCall = null;
 };
 
 /**
@@ -131,17 +144,25 @@ widgetsHelper.clearAvailableWidgets = function () {
  */
 widgetsHelper.getWidgetObjectFromUniqueId = function (uniqueId, callback) {
     widgetsHelper.getAvailableWidgets(function(widgets){
-        for (var widgetCategory in widgets) {
-            var widgetInCategory = widgets[widgetCategory];
-            for (var i in widgetInCategory) {
-                if (widgetInCategory[i]["uniqueId"] == uniqueId) {
-                    callback(widgetInCategory[i]);
-                    return;
-                }
+        callback(widgetsHelper.findWidgetObjectFromUniqueId(uniqueId, widgets));
+    });
+};
+
+widgetsHelper.findWidgetObjectFromUniqueId = function (uniqueId, widgets) {
+    if (!widgets) {
+        return false;
+    }
+
+    for (var widgetCategory in widgets) {
+        var widgetInCategory = widgets[widgetCategory];
+        for (var i in widgetInCategory) {
+            if (widgetInCategory[i]["uniqueId"] == uniqueId) {
+                return widgetInCategory[i];
             }
         }
-        callback(false);
-    });
+    }
+
+    return false;
 };
 
 /**
@@ -174,51 +195,76 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
     widgetParameters['widget'] = 1;
 
-    var clientWidgetRequest = {
-        abort: function () {}
-    };
-
-    var clientWidget = null;
-    if (widgetsHelper.availableWidgets) {
-        for (var widgetCategory in widgetsHelper.availableWidgets) {
-            if (!widgetsHelper.availableWidgets.hasOwnProperty(widgetCategory)) {
-                continue;
-            }
-
-            var widgets = widgetsHelper.availableWidgets[widgetCategory];
-            for (var index in widgets) {
-                if (widgets.hasOwnProperty(index) && widgets[index]["uniqueId"] == widgetUniqueId) {
-                    clientWidget = widgets[index];
-                    break;
-                }
-            }
-
-            if (clientWidget) {
-                break;
+    var widgetRequest = {
+        aborted: false,
+        ajaxRequest: null,
+        abort: function () {
+            this.aborted = true;
+            if (this.ajaxRequest) {
+                this.ajaxRequest.abort();
             }
         }
+    };
+
+    function loadLegacyWidget() {
+        if (widgetRequest.aborted) {
+            return;
+        }
+
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.addParams(widgetParameters, 'get');
+        ajaxRequest.setCallback(function () {
+            if (widgetRequest.aborted) {
+                return;
+            }
+
+            onWidgetLoadedCallback.apply(this, arguments);
+        });
+        if (onWidgetErrorCallback) {
+            ajaxRequest.setErrorCallback(function () {
+                if (widgetRequest.aborted) {
+                    return;
+                }
+
+                onWidgetErrorCallback.apply(this, arguments);
+            });
+        }
+        ajaxRequest.setFormat('html');
+        ajaxRequest.send();
+        widgetRequest.ajaxRequest = ajaxRequest;
     }
 
-    if (clientWidget && clientWidget.clientComponent) {
-        clientWidget = $.extend(true, {}, clientWidget);
-        clientWidget.parameters = $.extend({}, clientWidget.parameters, widgetParameters);
+    var metadataReady = widgetsHelper.availableWidgets
+        ? Promise.resolve()
+        : widgetsHelper.getAvailableWidgets();
 
-        var html = '<div vue-entry="CoreHome.Widget"'
-            + ' widget="' + piwikHelper.htmlEntities(JSON.stringify(clientWidget)) + '"'
-            + ' widgetized="true"></div>';
-        onWidgetLoadedCallback(html);
-        return clientWidgetRequest;
-    }
+    metadataReady.then(function () {
+        if (widgetRequest.aborted) {
+            return;
+        }
 
-    var ajaxRequest = new ajaxHelper();
-    ajaxRequest.addParams(widgetParameters, 'get');
-    ajaxRequest.setCallback(onWidgetLoadedCallback);
-    if (onWidgetErrorCallback) {
-        ajaxRequest.setErrorCallback(onWidgetErrorCallback);
-    }
-    ajaxRequest.setFormat('html');
-    ajaxRequest.send();
-    return ajaxRequest;
+        var clientWidget = widgetsHelper.findWidgetObjectFromUniqueId(
+            widgetUniqueId,
+            widgetsHelper.availableWidgets
+        );
+
+        if (clientWidget && clientWidget.clientComponent) {
+            clientWidget = $.extend(true, {}, clientWidget);
+            clientWidget.parameters = $.extend({}, clientWidget.parameters, widgetParameters);
+
+            var html = '<div vue-entry="CoreHome.Widget"'
+                + ' widget="' + piwikHelper.htmlEntities(JSON.stringify(clientWidget)) + '"'
+                + ' widgetized="true"></div>';
+            onWidgetLoadedCallback(html);
+            return;
+        }
+
+        loadLegacyWidget();
+    }).catch(function () {
+        loadLegacyWidget();
+    });
+
+    return widgetRequest;
 };
 
 (function ($, require) {

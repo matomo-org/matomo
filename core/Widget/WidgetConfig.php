@@ -126,6 +126,10 @@ class WidgetConfig
      * Sets (overwrites) the parameters of the widget. These parameters will be added to the URL when rendering the
      * widget. You can access these parameters via `Piwik\Common::getRequestVar(...)`.
      *
+     * This applies to widgets rendered through their controller/action request. Client-rendered widgets do not receive
+     * these parameters automatically and should instead derive request state from the browser context or load data via
+     * API requests.
+     *
      * @param array $parameters eg. ('urlparam' => 'urlvalue')
      * @return static
      */
@@ -138,6 +142,9 @@ class WidgetConfig
 
     /**
      * Add new parameters and only overwrite parameters that have the same name. See {@link setParameters()}
+     *
+     * Like {@link setParameters()}, these parameters are only used for widgets rendered through their
+     * controller/action request and are not forwarded automatically to client-rendered widgets.
      *
      * @param  array $parameters eg. ('urlparam' => 'urlvalue')
      * @return static
@@ -357,9 +364,13 @@ class WidgetConfig
     /**
      * Marks this widget as client-rendered by a Vue component exported by the given plugin bundle.
      *
+     * Client-rendered widgets do not execute the widget controller/action in a separate request before rendering.
+     * They should derive dynamic state from the current browser request or load data through API requests instead.
+     *
      * @param string $plugin eg 'Transitions'
      * @param string $component eg 'TransitionsPage'
      * @return static
+     * @since 5.10.0
      */
     public function setClientSideComponent(string $plugin, string $component)
     {
@@ -373,6 +384,8 @@ class WidgetConfig
 
     /**
      * Returns the configured client-rendered component definition.
+     * @return array{}|array{plugin: string, name: string}
+     * @since 5.10.0
      */
     public function getClientSideComponent(): array
     {
@@ -380,10 +393,14 @@ class WidgetConfig
     }
 
     /**
-     * Sets props that should be passed to the client-rendered Vue widget.
+     * Sets static props that should be passed to the client-rendered Vue widget.
+     *
+     * Use this for configuration known when the widget is registered. Request-specific widget parameters are not
+     * forwarded to client-rendered widgets through this mechanism.
      *
      * @param array $props
      * @return static
+     * @since 5.10.0
      */
     public function setClientSideProps(array $props)
     {
@@ -394,6 +411,8 @@ class WidgetConfig
 
     /**
      * Returns props configured for the client-rendered Vue widget.
+     * @return array
+     * @since 5.10.0
      */
     public function getClientSideProps(): array
     {

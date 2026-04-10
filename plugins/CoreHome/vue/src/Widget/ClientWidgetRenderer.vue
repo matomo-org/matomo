@@ -107,6 +107,7 @@ export default defineComponent({
 
         this.componentToRender = markRaw(component as Component);
       } catch (e) {
+        console.error(e);
         this.loadingFailed = true;
       } finally {
         this.loading = false;
