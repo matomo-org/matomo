@@ -3049,16 +3049,6 @@ parameters:
 			path: plugins/Dashboard/API.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Dashboard\\\\API\\:\\:getDefaultDashboard\\(\\) has invalid return type array\\.$#"
-			count: 1
-			path: plugins/Dashboard/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Dashboard\\\\API\\:\\:getUserDashboards\\(\\) has invalid return type array\\.$#"
-			count: 1
-			path: plugins/Dashboard/API.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Dashboard\\\\Model\\:\\:getLayoutForUser\\(\\) should return bool\\|string but returns array\\.$#"
 			count: 1
 			path: plugins/Dashboard/Model.php
