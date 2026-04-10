@@ -44,15 +44,7 @@ class GetResolution extends Base
 
     public function isEnabled()
     {
-        $idSite = Request::fromRequest()->getParameter('idSite', '0');
-        $idSites = Site::getIdSitesFromIdSitesString($idSite);
-
-        foreach ($idSites as $siteId) {
-            if (ResolutionPlugin::isScreenResolutionDetectionDisabledByCompliancePolicy((int) $siteId)) {
-                return false;
-            }
-        }
-
-        return true;
+        // only hide report if the compliance policy is enabled globally
+        return ResolutionPlugin::isScreenResolutionDetectionDisabledByCompliancePolicy($idSite = null);
     }
 }

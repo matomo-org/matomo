@@ -13,8 +13,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\DevicesDetection\Columns\DeviceModel;
 use Piwik\Plugins\DevicesDetection\DevicesDetection;
-use Piwik\Request;
-use Piwik\Site;
 
 class GetModel extends Base
 {
@@ -38,15 +36,7 @@ class GetModel extends Base
 
     public function isEnabled()
     {
-        $idSite = Request::fromRequest()->getParameter('idSite', '0');
-        $idSites = Site::getIdSitesFromIdSitesString($idSite);
-
-        foreach ($idSites as $siteId) {
-            if (!DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy((int) $siteId)) {
-                return true;
-            }
-        }
-
-        return false;
+        // only hide report if the compliance policy is enabled globally
+        return DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy($idSite = null);
     }
 }
