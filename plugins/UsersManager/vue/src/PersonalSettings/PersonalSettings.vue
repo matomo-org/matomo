@@ -64,9 +64,9 @@
           name="themeMode"
           v-model="theThemeMode"
           @update:model-value="theThemeMode = $event;"
+          inlineHelp="#themeModeHelp"
           :title="''"
           :introduction="translate('CorePluginsAdmin_Theme')"
-          :description="translate('UsersManager_ThemeModeHelp')"
           :options="themeModeOptions"
         />
       </div>
@@ -113,6 +113,13 @@
       />
     </form>
   </ContentBlock>
+  <div id="themeModeHelp" class="inline-help-node">
+    <strong>{{translate('UsersManager_ThemeModeHelp1')}}</strong><br/>
+    <span v-html="$sanitize(translate('UsersManager_ThemeModeHelp2',
+      `<em>${translate('UsersManager_ThemeModeMatchBrowser')}</em>`))"/>
+    <br/><br/>
+    {{translate('UsersManager_ThemeModeHelp3')}}
+  </div>
 </template>
 
 <script lang="ts">
@@ -148,6 +155,7 @@ interface PersonalSettingsState {
 }
 
 export default defineComponent({
+  name: 'PersonalSettings',
   props: {
     isUsersAdminEnabled: {
       type: Boolean,
@@ -280,7 +288,7 @@ export default defineComponent({
           withTokenInUrl: true,
         },
       ).then(() => {
-        document.documentElement.setAttribute('data-theme-mode', this.theThemeMode);
+        Matomo.setThemeMode(this.theThemeMode);
         const id = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
           id: 'PersonalSettingsSuccess',
