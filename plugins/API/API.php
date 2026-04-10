@@ -53,6 +53,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  * The Metadata API is for example used by the Matomo Mobile App to automatically display all Matomo reports, with translated report & columns names and nicely formatted values.
  * More information on the <a href='https://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API documentation page</a>
  *
+ * @phpstan-import-type ProcessedReportData from ProcessedReport
+ *
  * @method static \Piwik\Plugins\API\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -330,6 +332,7 @@ class API extends \Piwik\Plugin\API
      * @param string|null $format_metrics Optional metrics formatting mode.
      * @param int|string|false $idDimension Optional dimension ID.
      * @return array<string, mixed>
+     * @phpstan-return ProcessedReportData
      */
     public function getProcessedReport(
         $idSite,
