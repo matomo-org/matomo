@@ -12,7 +12,6 @@ namespace Piwik\Plugins\DevicesDetection\tests\System;
 use Exception;
 use Piwik\API\Request;
 use Piwik\DataTable;
-use Piwik\Plugins\DevicesDetection\Reports\GetModel;
 use Piwik\Plugins\DevicesDetection\tests\Fixtures\MultiDeviceGoalConversions;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -57,11 +56,20 @@ class GoalReportForDevicesTest extends SystemTestCase
         return array_values($report->getColumn('label'));
     }
 
-    private function isModelReportEnabledForSiteRequest(string $idSite): bool
+    /**
+     * @return list<string>
+     */
+    private function getAvailableReportsForSiteRequest(string $idSite): array
     {
-        $_GET['idSite'] = $idSite;
+        $reports = Request::processRequest('API.getReportMetadata', [
+            'idSite' => $idSite,
+            'period' => 'day',
+            'date' => self::$fixture->dateTime,
+        ]);
 
-        return (new GetModel())->isEnabled();
+        return array_map(static function (array $report): string {
+            return $report['module'] . '.' . $report['action'];
+        }, $reports);
     }
 
     public function getApiForTesting()
@@ -98,63 +106,19 @@ class GoalReportForDevicesTest extends SystemTestCase
         CnilPolicy::setActiveStatus(null, false);
     }
 
-    public function testGetModelReportIsEnabledForSingleSiteWhenNoneDisabled(): void
+    public function testGetModelReportMetadataHidesOnlyRelevantReportWhenPolicyEnabledGlobally(): void
     {
-        $this->assertTrue($this->isModelReportEnabledForSiteRequest((string) self::$fixture->idSite));
-    }
-
-    public function testGetModelReportIsDisabledForSingleSiteWhenRequestedSiteDisabled(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+        CnilPolicy::setActiveStatus(null, true);
 
         try {
-            $this->assertFalse($this->isModelReportEnabledForSiteRequest((string) self::$fixture->idSite));
+            $availableReports = $this->getAvailableReportsForSiteRequest((string) self::$fixture->idSite);
+
+            $this->assertContains('DevicesDetection.getType', $availableReports);
+            $this->assertContains('DevicesDetection.getBrand', $availableReports);
+            $this->assertContains('DevicesDetection.getOsVersions', $availableReports);
+            $this->assertNotContains('DevicesDetection.getModel', $availableReports);
         } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-        }
-    }
-
-    public function testGetModelReportIsEnabledForSpecificSiteListWhenNoneDisabled(): void
-    {
-        $this->assertTrue(
-            $this->isModelReportEnabledForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2)
-        );
-    }
-
-    public function testGetModelReportIsDisabledForSpecificSiteListWhenOneSiteDisabled(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
-
-        try {
-            $this->assertFalse(
-                $this->isModelReportEnabledForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2)
-            );
-        } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-        }
-    }
-
-    public function testGetModelReportIsDisabledForAllWhenOneSiteDisabled(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
-
-        try {
-            $this->assertFalse($this->isModelReportEnabledForSiteRequest('all'));
-        } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-        }
-    }
-
-    public function testGetModelReportIsDisabledForAllWhenAllSitesDisabled(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
-        $this->setSiteCompliancePolicy(self::$fixture->idSite2, true);
-
-        try {
-            $this->assertFalse($this->isModelReportEnabledForSiteRequest('all'));
-        } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-            $this->setSiteCompliancePolicy(self::$fixture->idSite2, false);
+            CnilPolicy::setActiveStatus(null, false);
         }
     }
 

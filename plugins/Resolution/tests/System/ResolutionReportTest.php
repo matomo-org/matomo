@@ -12,7 +12,6 @@ namespace Piwik\Plugins\Resolution\tests\System;
 use Exception;
 use Piwik\API\Request;
 use Piwik\DataTable;
-use Piwik\Plugins\Resolution\Reports\GetResolution;
 use Piwik\Plugins\Resolution\tests\Fixtures\MultiSiteResolutionReport;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -56,11 +55,20 @@ class ResolutionReportTest extends SystemTestCase
         return array_values($report->getColumn('label'));
     }
 
-    private function isResolutionReportEnabledForSiteRequest(string $idSite): bool
+    /**
+     * @return list<string>
+     */
+    private function getAvailableReportsForSiteRequest(string $idSite): array
     {
-        $_GET['idSite'] = $idSite;
+        $reports = Request::processRequest('API.getReportMetadata', [
+            'idSite' => $idSite,
+            'period' => 'day',
+            'date' => self::$fixture->dateTime,
+        ]);
 
-        return (new GetResolution())->isEnabled();
+        return array_map(static function (array $report): string {
+            return $report['module'] . '.' . $report['action'];
+        }, $reports);
     }
 
     public function testGetResolutionReturnsDataForSingleSiteWhenNoneDisabled(): void
@@ -68,88 +76,17 @@ class ResolutionReportTest extends SystemTestCase
         $this->assertSame(['100x100'], $this->getResolutionLabelsForSiteRequest((string) self::$fixture->idSite));
     }
 
-    public function testGetResolutionReportIsEnabledForSingleSiteWhenNoneDisabled(): void
+    public function testGetResolutionReportMetadataHidesOnlyRelevantReportWhenPolicyEnabledGlobally(): void
     {
-        $this->assertTrue($this->isResolutionReportEnabledForSiteRequest((string) self::$fixture->idSite));
-    }
-
-    public function testGetResolutionReportIsDisabledForSingleSiteWhenRequestedSiteDisabled(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+        CnilPolicy::setActiveStatus(null, true);
 
         try {
-            $this->assertFalse($this->isResolutionReportEnabledForSiteRequest((string) self::$fixture->idSite));
+            $availableReports = $this->getAvailableReportsForSiteRequest((string) self::$fixture->idSite);
+
+            $this->assertContains('Resolution.getConfiguration', $availableReports);
+            $this->assertNotContains('Resolution.getResolution', $availableReports);
         } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-        }
-    }
-
-    public function testGetResolutionReportIsEnabledForSpecificSiteListWhenNoneDisabled(): void
-    {
-        $this->assertTrue(
-            $this->isResolutionReportEnabledForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2)
-        );
-    }
-
-    public function testGetResolutionReportIsDisabledForSpecificSiteListWhenOneSiteDisabled(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
-
-        try {
-            $this->assertFalse(
-                $this->isResolutionReportEnabledForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2)
-            );
-        } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-        }
-    }
-
-    public function testGetResolutionReportIsDisabledForAllWhenOneSiteDisabled(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
-
-        try {
-            $this->assertFalse($this->isResolutionReportEnabledForSiteRequest('all'));
-        } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-        }
-    }
-
-    public function testGetResolutionReportIsDisabledForAllWhenAllSitesDisabled(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
-        $this->setSiteCompliancePolicy(self::$fixture->idSite2, true);
-
-        try {
-            $this->assertFalse($this->isResolutionReportEnabledForSiteRequest('all'));
-        } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-            $this->setSiteCompliancePolicy(self::$fixture->idSite2, false);
-        }
-    }
-
-    public function testGetResolutionReturnsOnlyAllowedSitesForSpecificSiteList(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
-
-        try {
-            $this->assertSame(
-                ['200x200'],
-                $this->getResolutionLabelsForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2)
-            );
-        } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-        }
-    }
-
-    public function testGetResolutionReturnsOnlyAllowedSitesForAll(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
-
-        try {
-            $this->assertSame(['200x200'], $this->getResolutionLabelsForSiteRequest('all'));
-        } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+            CnilPolicy::setActiveStatus(null, false);
         }
     }
 
@@ -164,38 +101,6 @@ class ResolutionReportTest extends SystemTestCase
             $this->getResolutionLabelsForSiteRequest((string) self::$fixture->idSite);
         } finally {
             $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-        }
-    }
-
-    public function testGetResolutionReturnsErrorWhenAllRequestedSitesAreDisallowedForSpecificSiteList(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
-        $this->setSiteCompliancePolicy(self::$fixture->idSite2, true);
-
-        try {
-            $this->expectException(Exception::class);
-            $this->expectExceptionMessage('Screen resolution report is disabled by compliance policy.');
-
-            $this->getResolutionLabelsForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2);
-        } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-            $this->setSiteCompliancePolicy(self::$fixture->idSite2, false);
-        }
-    }
-
-    public function testGetResolutionReturnsErrorWhenAllRequestedSitesAreDisallowedForAll(): void
-    {
-        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
-        $this->setSiteCompliancePolicy(self::$fixture->idSite2, true);
-
-        try {
-            $this->expectException(Exception::class);
-            $this->expectExceptionMessage('Screen resolution report is disabled by compliance policy.');
-
-            $this->getResolutionLabelsForSiteRequest('all');
-        } finally {
-            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
-            $this->setSiteCompliancePolicy(self::$fixture->idSite2, false);
         }
     }
 }
