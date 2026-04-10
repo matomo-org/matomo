@@ -174,6 +174,42 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
     widgetParameters['widget'] = 1;
 
+    var clientWidgetRequest = {
+        abort: function () {}
+    };
+
+    var clientWidget = null;
+    if (widgetsHelper.availableWidgets) {
+        for (var widgetCategory in widgetsHelper.availableWidgets) {
+            if (!widgetsHelper.availableWidgets.hasOwnProperty(widgetCategory)) {
+                continue;
+            }
+
+            var widgets = widgetsHelper.availableWidgets[widgetCategory];
+            for (var index in widgets) {
+                if (widgets.hasOwnProperty(index) && widgets[index]["uniqueId"] == widgetUniqueId) {
+                    clientWidget = widgets[index];
+                    break;
+                }
+            }
+
+            if (clientWidget) {
+                break;
+            }
+        }
+    }
+
+    if (clientWidget && clientWidget.clientComponent) {
+        clientWidget = $.extend(true, {}, clientWidget);
+        clientWidget.parameters = $.extend({}, clientWidget.parameters, widgetParameters);
+
+        var html = '<div vue-entry="CoreHome.Widget"'
+            + ' widget="' + piwikHelper.htmlEntities(JSON.stringify(clientWidget)) + '"'
+            + ' widgetized="true"></div>';
+        onWidgetLoadedCallback(html);
+        return clientWidgetRequest;
+    }
+
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams(widgetParameters, 'get');
     ajaxRequest.setCallback(onWidgetLoadedCallback);

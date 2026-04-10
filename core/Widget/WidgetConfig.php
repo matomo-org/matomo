@@ -27,6 +27,8 @@ class WidgetConfig
     protected $action = '';
     protected $parameters = array();
     protected $middlewareParameters = array();
+    protected $clientSideComponent = array();
+    protected $clientSideProps = array();
     protected $name   = '';
     protected $order  = 99;
     protected $isEnabled = true;
@@ -350,6 +352,52 @@ class WidgetConfig
     public function getMiddlewareParameters()
     {
         return $this->middlewareParameters;
+    }
+
+    /**
+     * Marks this widget as client-rendered by a Vue component exported by the given plugin bundle.
+     *
+     * @param string $plugin eg 'Transitions'
+     * @param string $component eg 'TransitionsPage'
+     * @return static
+     */
+    public function setClientSideComponent(string $plugin, string $component)
+    {
+        $this->clientSideComponent = array(
+            'plugin' => $plugin,
+            'name'   => $component,
+        );
+
+        return $this;
+    }
+
+    /**
+     * Returns the configured client-rendered component definition.
+     */
+    public function getClientSideComponent(): array
+    {
+        return $this->clientSideComponent;
+    }
+
+    /**
+     * Sets props that should be passed to the client-rendered Vue widget.
+     *
+     * @param array $props
+     * @return static
+     */
+    public function setClientSideProps(array $props)
+    {
+        $this->clientSideProps = $props;
+
+        return $this;
+    }
+
+    /**
+     * Returns props configured for the client-rendered Vue widget.
+     */
+    public function getClientSideProps(): array
+    {
+        return $this->clientSideProps;
     }
 
     /**
