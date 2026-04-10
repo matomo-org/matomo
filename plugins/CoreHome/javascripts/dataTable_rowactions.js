@@ -281,7 +281,7 @@ function DataTable_RowActions_RowEvolution(dataTable) {
     this.multiEvolutionRowsSeries = [];
     this.currentPopoverRequest = null;
     this._themeModeChangeListener = null;
-    this._isRefreshingPopoverTheme = false;
+    this._skipCloseOnThemeRefresh = false;
 }
 
 /** Static helper method to launch row evolution from anywhere */
@@ -550,7 +550,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         }
 
         Piwik_Popover.onClose(function () {
-            if (!self._isRefreshingPopoverTheme) {
+            if (!self._skipCloseOnThemeRefresh) {
                 // reset rows marked for multi row evolution on close
                 self.multiEvolutionRows = [];
                 self.multiEvolutionRowsPretty = [];
@@ -563,7 +563,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
                 }
             }
 
-            self._isRefreshingPopoverTheme = false;
+            self._skipCloseOnThemeRefresh = false;
         });
 
         if (self.dataTable !== null) {
@@ -621,11 +621,9 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         if (!self.currentPopoverRequest) {
             return;
         }
-
-        var refreshedRequest = $.extend(true, {}, self.currentPopoverRequest);
-        refreshedRequest.colors = JSON.stringify(piwik.getSparklineColors());
-        self._isRefreshingPopoverTheme = true;
-        self.loadRowEvolutionPopover(refreshedRequest, callback);
+        self.currentPopoverRequest.colors = JSON.stringify(piwik.getSparklineColors());
+        self._skipCloseOnThemeRefresh = true;
+        self.loadRowEvolutionPopover(self.currentPopoverRequest, callback);
     };
 
     window.addEventListener('themeModeChange', this._themeModeChangeListener);

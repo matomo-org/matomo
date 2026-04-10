@@ -410,7 +410,9 @@ Piwik_Transitions.prototype.renderPopover = function () {
 };
 
 Piwik_Transitions.prototype.refreshTheme = function () {
-    if (!this.popover || !this.popover.length || typeof Piwik_Transitions.popoverHtml == 'undefined') {
+    if (!this.popover || !this.popover.length
+        || !$.contains(document.documentElement, this.popover[0])
+        || typeof Piwik_Transitions.popoverHtml == 'undefined') {
         return;
     }
 
