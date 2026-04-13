@@ -181,11 +181,6 @@ parameters:
 			path: core/Application/Environment.php
 
 		-
-			message: "#^Method Piwik\\\\Application\\\\Kernel\\\\PluginList\\:\\:sortPlugins\\(\\) has invalid return type string\\.$#"
-			count: 1
-			path: core/Application/Kernel/PluginList.php
-
-		-
 			message: "#^Method Piwik\\\\Application\\\\Kernel\\\\PluginList\\:\\:sortPluginsAndRespectDependencies\\(\\) has invalid return type string\\.$#"
 			count: 1
 			path: core/Application/Kernel/PluginList.php
@@ -512,11 +507,6 @@ parameters:
 
 		-
 			message: "#^Property Piwik\\\\Columns\\\\Updater\\:\\:\\$actionDimensions \\(array\\<Piwik\\\\Plugin\\\\Dimension\\\\ActionDimension\\>\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: core/Columns/Updater.php
-
-		-
-			message: "#^Property Piwik\\\\Columns\\\\Updater\\:\\:\\$conversionDimensions \\(array\\<Piwik\\\\Plugin\\\\Dimension\\\\ConversionDimension\\>\\) does not accept array\\<Piwik\\\\Columns\\\\Dimension\\>\\.$#"
 			count: 1
 			path: core/Columns/Updater.php
 
@@ -1376,27 +1366,12 @@ parameters:
 			path: core/Plugin/LogTablesProvider.php
 
 		-
-			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 55$#"
-			count: 1
-			path: core/Plugin/Manager.php
-
-		-
-			message: "#^Parameter \\#1 \\$piwikVersion of method Piwik\\\\Plugin\\:\\:hasMissingDependencies\\(\\) expects null, string given\\.$#"
-			count: 1
-			path: core/Plugin/Manager.php
-
-		-
-			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\<1, max\\> given\\.$#"
-			count: 1
-			path: core/Plugin/Manager.php
-
-		-
-			message: "#^Parameter \\#3 \\$allDimensions of method Piwik\\\\Plugin\\\\Manager\\:\\:uninstallDimension\\(\\) expects array\\<Piwik\\\\Plugin\\\\Dimension\\\\ActionDimension\\|Piwik\\\\Plugin\\\\Dimension\\\\ConversionDimension\\|Piwik\\\\Plugin\\\\Dimension\\\\VisitDimension\\>, array\\<Piwik\\\\Columns\\\\Dimension\\> given\\.$#"
-			count: 1
-			path: core/Plugin/Manager.php
-
-		-
 			message: "#^Right side of \\|\\| is always false\\.$#"
+			count: 1
+			path: core/Plugin/Manager.php
+
+		-
+			message: "#^Variable \\$plugin in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: core/Plugin/Manager.php
 
@@ -2051,11 +2026,6 @@ parameters:
 		-
 			message: "#^Method Piwik\\\\Tracker\\\\GoalManager\\:\\:getRevenue\\(\\) should return float\\|int but returns string\\.$#"
 			count: 1
-			path: core/Tracker/GoalManager.php
-
-		-
-			message: "#^Parameter \\#2 \\$dimensions of method Piwik\\\\Tracker\\\\GoalManager\\:\\:triggerHookOnDimensions\\(\\) expects array\\<Piwik\\\\Plugin\\\\Dimension\\\\ConversionDimension\\>, array\\<Piwik\\\\Columns\\\\Dimension\\> given\\.$#"
-			count: 3
 			path: core/Tracker/GoalManager.php
 
 		-
@@ -3857,6 +3827,11 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: plugins/Marketplace/Environment.php
+
+		-
+			message: "#^Left side of && is always true\\.$#"
+			count: 1
+			path: plugins/Marketplace/Plugins/InvalidLicenses.php
 
 		-
 			message: "#^Variable \\$previous in PHPDoc tag @var does not match assigned variable \\$domain\\.$#"

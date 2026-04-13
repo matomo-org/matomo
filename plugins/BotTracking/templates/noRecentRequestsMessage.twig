@@ -1,3 +1,3 @@
 <div class="alert alert-warning bot-tracking-no-recent-requests-message">
-    {{ 'BotTracking_NoRecentAIBotRequests'|translate('<strong>', '</strong>', '<a href="' ~ noDataUrl ~ '">', '</a>')|raw }}
+    {{ 'BotTracking_NoRecentAIBotRequests'|translate('<strong>', '</strong>', '<a href="' ~ noDataUrl|e('html_attr') ~ '">', '</a>')|raw }}
 </div>
