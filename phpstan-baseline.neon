@@ -4229,11 +4229,6 @@ parameters:
 			path: plugins/VisitTime/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$idsite of static method Piwik\\\\Site\\:\\:getTimezoneFor\\(\\) expects int, string given\\.$#"
-			count: 1
-			path: plugins/VisitTime/API.php
-
-		-
 			message: "#^Parameter \\#3 \\$pad_string of function str_pad expects string, int given\\.$#"
 			count: 1
 			path: plugins/VisitTime/DataTable/Filter/AddSegmentByLabelInUTC.php
