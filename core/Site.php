@@ -53,7 +53,7 @@ class Site
     ];
 
     /**
-     * @var int|null
+     * @var int
      */
     protected $id = null;
 
