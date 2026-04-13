@@ -4139,21 +4139,6 @@ parameters:
 			path: plugins/UserLanguage/RecordBuilders/Languages.php
 
 		-
-			message: "#^Default value of the parameter \\#5 \\$expireHours \\(int\\) of method Piwik\\\\Plugins\\\\UsersManager\\\\API\\:\\:createAppSpecificTokenAuth\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: plugins/UsersManager/API.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string Access can have the following values \\: 'view' or 'admin'\\)\\: Unexpected token \"Access\", expected variable at offset 252$#"
-			count: 1
-			path: plugins/UsersManager/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$n of method Piwik\\\\Date\\:\\:addHour\\(\\) expects float\\|int, string given\\.$#"
-			count: 1
-			path: plugins/UsersManager/API.php
-
-		-
 			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: plugins/UsersManager/Controller.php
@@ -4177,11 +4162,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\Emails\\\\UserInviteEmail\\:\\:\\$invitedUser \\(object\\) does not accept array\\.$#"
 			count: 1
 			path: plugins/UsersManager/Emails/UserInviteEmail.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\Model\\:\\:\\$passwordHelper is never read, only written\\.$#"
-			count: 1
-			path: plugins/UsersManager/Model.php
 
 		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int given\\.$#"
@@ -4229,24 +4209,14 @@ parameters:
 			path: plugins/UsersManager/TokenNotifications/TokenNotifierTask.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\UsersManager\\\\UserAccessFilter\\:\\:filterUser\\(\\) should return array\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/UsersManager/UserAccessFilter.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\UserAccessFilter\\:\\:\\$idSitesWithAdmin \\(array\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: plugins/UsersManager/UserAccessFilter.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\UsersManager\\\\UserPreferences\\:\\:getDefaultReport\\(\\) should return bool\\|int but returns string\\.$#"
+			message: "#^Right side of && is always true\\.$#"
 			count: 1
-			path: plugins/UsersManager/UserPreferences.php
-
-		-
-			message: "#^Parameter \\#1 \\$idSites of static method Piwik\\\\Piwik\\:\\:isUserHasViewAccess\\(\\) expects array\\|int, string given\\.$#"
-			count: 1
-			path: plugins/UsersManager/UserPreferences.php
+			path: plugins/UsersManager/UserLoginHelper.php
 
 		-
 			message: "#^Parameter \\#1 \\$view of method Piwik\\\\Plugins\\\\VisitFrequency\\\\Reports\\\\Get\\:\\:addSparklineColumns\\(\\) expects Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines, Piwik\\\\Plugin\\\\ViewDataTable given\\.$#"
