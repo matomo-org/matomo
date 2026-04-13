@@ -87,7 +87,7 @@
         "DBPurged": "DB íonaithe.",
         "DataProcessingAgreement": "Comhaontú Próiseála Sonraí",
         "DataProcessingAgreementIntro1Linked": "Tá an %1$sComhaontú Próiseála Sonraí (DPA) Matomo Cloud%2$s tábhachtach do ghnólachtaí atá bunaithe i gcríoch ballstáit den Limistéar Eorpach Eacnamaíoch, an Ríocht Aontaithe nó an Eilvéis nó má tá tú faoi réir raon feidhme críochach an Rialacháin Ghinearálta maidir le Cosaint Sonraí (GDPR) ar shlí eile.",
-        "DataProcessingAgreementIntro2": "Ní ghníomhaímid mar phróiseálaithe do chásanna Matomo On-Premise féinóstáilte agus ar an gcúis seo níl feidhm ag an DPA.",
+        "DataProcessingAgreementIntro2": "Tá Comhaontú Próiseála Sonraí (DPA) Matomo Cloud ionchorpraithe i dTéarmaí agus Coinníollacha Matomo Cloud agus baineann sé go huathoibríoch le Matomo Cloud. Ní ghníomhaímid mar phróiseálaithe do chásanna féinóstáilte Matomo On-Premise agus ar an gcúis seo níl feidhm ag an DPA.",
         "DataRetention": "Coinneáil sonraí",
         "DataRetentionInMatomo": "Coinneáil sonraí le haghaidh sonraí atá stóráilte i Matomo:",
         "DataRetentionOverall": "Is é an ráta coinneála sonraí foriomlán le do pholasaí príobháideachais an ráta coinneála sonraí amh. Tabhair faoi deara le do thoil go bhféadfadh sonraí pearsanta a bheith i dtuarascálacha comhiomlánaithe chomh maith. Má tá tú ag baint úsáide as gnéithe cosúil le ID Úsáideora, Athróga Saincheaptha, Toise Saincheaptha, nó sonraí pearsanta a rianú ar bhealaí eile cosúil le himeachtaí, URLanna leathanach nó teidil leathanaigh, srl, ansin is é an ráta coinneála sonraí foriomlán le do pholasaí príobháideachta an ceann is airde den dá cheann.",
