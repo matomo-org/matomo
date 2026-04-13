@@ -3929,31 +3929,6 @@ parameters:
 			path: plugins/SegmentEditor/SegmentEditor.php
 
 		-
-			message: "#^Default value of the parameter \\#4 \\$idGoal \\(false\\) of method Piwik\\\\Plugins\\\\SitesManager\\\\API\\:\\:getImageTrackingCode\\(\\) is incompatible with type int\\.$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^Default value of the parameter \\#5 \\$revenue \\(false\\) of method Piwik\\\\Plugins\\\\SitesManager\\\\API\\:\\:getImageTrackingCode\\(\\) is incompatible with type int\\.$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\[\\]\\|int\\[\\] \\$sitesToExclude optional array of Integer IDs of sites to exclude from the result\\.\\)\\: Unexpected token \"\\[\", expected type at offset 282$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 208$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 229$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
 			message: "#^Parameter \\#14 \\$excludedQueryParams of method Piwik\\\\Tracker\\\\TrackerCodeGenerator\\:\\:generate\\(\\) expects bool, string given\\.$#"
 			count: 1
 			path: plugins/SitesManager/API.php
@@ -3961,21 +3936,6 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
 			count: 2
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^Parameter \\#2 \\$limit of method Piwik\\\\Plugins\\\\SitesManager\\\\API\\:\\:getSitesFromIds\\(\\) expects bool, int\\|null given\\.$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^Result of && is always true\\.$#"
-			count: 2
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^Variable \\$excludedQueryParameters on left side of \\?\\? always exists and is always null\\.$#"
-			count: 1
 			path: plugins/SitesManager/API.php
 
 		-
