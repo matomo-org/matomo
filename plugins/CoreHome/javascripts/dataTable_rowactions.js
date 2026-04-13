@@ -279,6 +279,10 @@ function DataTable_RowActions_RowEvolution(dataTable) {
     this.multiEvolutionRows = [];
     this.multiEvolutionRowsPretty = [];
     this.multiEvolutionRowsSeries = [];
+    this.popoverRequestParams = null;
+    this._popoverRequest = null;
+    this._themeModeChangeListener = null;
+    this._popoverRequestSequence = 0;
 }
 
 /** Static helper method to launch row evolution from anywhere */
@@ -511,6 +515,40 @@ DataTable_RowActions_RowEvolution.prototype.doOpenPopover = function (urlParam) 
     this.showRowEvolution(apiMethod, label, extraParams);
 };
 
+DataTable_RowActions_RowEvolution.prototype.fetchRowEvolution = function (requestParams, callback) {
+    var ajaxRequest = new ajaxHelper();
+    ajaxRequest.addParams(requestParams, 'get');
+    ajaxRequest.withTokenInUrl();
+    ajaxRequest.setCallback(callback);
+    ajaxRequest.setFormat('html');
+    ajaxRequest.send();
+    return ajaxRequest;
+};
+
+DataTable_RowActions_RowEvolution.prototype.abortPopoverRequest = function () {
+    if (this._popoverRequest) {
+        this._popoverRequest.abort();
+        this._popoverRequest = null;
+    }
+};
+
+DataTable_RowActions_RowEvolution.prototype.loadLatestPopover = function (requestParams, callback) {
+    var self = this;
+    var requestSequence;
+
+    this.abortPopoverRequest();
+    requestSequence = ++this._popoverRequestSequence;
+    this._popoverRequest = this.fetchRowEvolution(requestParams, function (html) {
+        self._popoverRequest = null;
+
+        if (!Piwik_Popover.isOpen() || requestSequence !== self._popoverRequestSequence) {
+            return;
+        }
+
+        callback(html);
+    });
+};
+
 /** Open the row evolution popover */
 DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMethod, label, extraParams) {
 
@@ -538,10 +576,20 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         }
 
         Piwik_Popover.onClose(function () {
-            // reset rows marked for multi row evolution on close
-            self.multiEvolutionRows = [];
-            self.multiEvolutionRowsPretty = [];
-            self.multiEvolutionRowsSeries = [];
+            if (!Piwik_Popover.isOpen()) {
+                // reset rows marked for multi row evolution on close
+                self.multiEvolutionRows = [];
+                self.multiEvolutionRowsPretty = [];
+                self.multiEvolutionRowsSeries = [];
+                self.popoverRequestParams = null;
+                self._popoverRequestSequence++;
+                self.abortPopoverRequest();
+
+                if (self._themeModeChangeListener) {
+                    window.removeEventListener('themeModeChange', self._themeModeChangeListener);
+                    self._themeModeChangeListener = null;
+                }
+            }
         });
 
         if (self.dataTable !== null) {
@@ -589,11 +637,22 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
     }
 
     $.extend(requestParams, extraParams);
+    this.popoverRequestParams = $.extend(true, {}, requestParams);
 
-    var ajaxRequest = new ajaxHelper();
-    ajaxRequest.addParams(requestParams, 'get');
-    ajaxRequest.withTokenInUrl();
-    ajaxRequest.setCallback(callback);
-    ajaxRequest.setFormat('html');
-    ajaxRequest.send();
+    if (this._themeModeChangeListener) {
+        window.removeEventListener('themeModeChange', this._themeModeChangeListener);
+    }
+
+    this._themeModeChangeListener = function () {
+        if (!self.popoverRequestParams) {
+            return;
+        }
+
+        self.popoverRequestParams.colors = JSON.stringify(piwik.getSparklineColors());
+        self.loadLatestPopover(self.popoverRequestParams, callback);
+    };
+
+    window.addEventListener('themeModeChange', this._themeModeChangeListener);
+
+    this.loadLatestPopover(requestParams, callback);
 };
