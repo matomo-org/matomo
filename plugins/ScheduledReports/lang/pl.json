@@ -38,6 +38,7 @@
         "ThereIsNoReportToManage": "Brak raportu dla strony %s",
         "TopLinkTooltip": "Skonfiguruj Raport E-mail aby statystyki Matomo'a były dostarczane automatycznie do Twojej skrzynki odbiorczej lub skrzynki Twojego Klienta!",
         "TopOfReport": "Powrót na górę strony",
+        "Unsubscribe": "Zrezygnuj z subskrypcji",
         "UpdateReport": "Aktualizuj raport",
         "WeeklyScheduleHelp": "Harmonogram tygodniowy: raport będzie wysyłany w każdy pierwszy poniedziałek każdego tygodnia."
     }
