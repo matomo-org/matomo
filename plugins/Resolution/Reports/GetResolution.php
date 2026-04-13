@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Resolution\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\Resolution\Resolution as ResolutionPlugin;
+use Piwik\Policy\CnilPolicy;
 use Piwik\Plugins\Resolution\Columns\Resolution;
 use Piwik\Plugin\ReportsProvider;
 
@@ -42,7 +42,7 @@ class GetResolution extends Base
 
     public function isEnabled()
     {
-        // only hide report if the compliance policy is enabled globally
-        return !ResolutionPlugin::isScreenResolutionDetectionDisabledByCompliancePolicy($idSite = null);
+        // Metadata visibility is global-only here, so check the policy state directly.
+        return !CnilPolicy::isActive($idSite = null);
     }
 }
