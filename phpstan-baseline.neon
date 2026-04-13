@@ -3444,11 +3444,6 @@ parameters:
 			path: plugins/Goals/Pages.php
 
 		-
-			message: "#^Parameter \\#1 \\$idSite of method Piwik\\\\Plugins\\\\Goals\\\\API\\:\\:getGoals\\(\\) expects array\\|string, int\\|null given\\.$#"
-			count: 1
-			path: plugins/Goals/RecordBuilders/GeneralGoalsRecords.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between array\\|Zend_Db_Statement and false will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/Goals/RecordBuilders/GeneralGoalsRecords.php
