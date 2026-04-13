@@ -128,6 +128,6 @@ What makes Matomo unique from the competition:
   * Advanced Web Analytics capabilities such as E-commerce Tracking, Goal tracking, Campaign tracking,
     Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real-time visits and maps, [and a lot more!](https://matomo.org/feature-overview/)
 
-Documentation and more info on https://matomo.org.
+Documentation and more info: https://matomo.org.
 
 We are together creating the best open analytics platform in the world!
