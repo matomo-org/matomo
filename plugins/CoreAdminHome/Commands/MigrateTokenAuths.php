@@ -57,6 +57,7 @@ class MigrateTokenAuths extends ConsoleCommand
 
         $userModel = new Model();
         foreach ($userModel->getUsers(array()) as $user) {
+            /** @var array{login:string, token_auth:string} $user */
             if (!empty($user['token_auth'])) {
                 $migrations[] = $migration->db->insert('user_token_auth', array(
                     'login' => $user['login'],

@@ -175,7 +175,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         $tokenAuth
     ) {
         $model = new Model();
-        $user = $model->getUserByTokenAuth($tokenAuth);
+        $user = $model->getUserByTokenAuth($tokenAuth, true);
         return !empty($user);
     }
 
