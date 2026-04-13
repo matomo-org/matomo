@@ -13,6 +13,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Plugins\DevicesDetection\Columns\DeviceModel;
+use Piwik\Policy\PolicyManager;
 
 class GetModel extends Base
 {
@@ -37,6 +38,6 @@ class GetModel extends Base
     public function isEnabled()
     {
         // Metadata visibility is global-only here, so check the policy state directly.
-        return !CnilPolicy::isActive($idSite = null);
+        return !PolicyManager::isPolicyActive(CnilPolicy::class, $idSite = null);
     }
 }
