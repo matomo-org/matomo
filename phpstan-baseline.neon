@@ -3329,11 +3329,6 @@ parameters:
 			path: plugins/Goals/API.php
 
 		-
-			message: "#^Parameter \\#6 \\$columns of method Piwik\\\\Plugins\\\\Goals\\\\API\\:\\:get\\(\\) expects array, string given\\.$#"
-			count: 1
-			path: plugins/Goals/API.php
-
-		-
 			message: "#^Variable \\$table in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: plugins/Goals/API.php
@@ -3397,11 +3392,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugins\\\\Goals\\\\Pages\\:\\:\\$conversions is never read, only written\\.$#"
 			count: 1
 			path: plugins/Goals/Pages.php
-
-		-
-			message: "#^Parameter \\#1 \\$idSite of method Piwik\\\\Plugins\\\\Goals\\\\API\\:\\:getGoals\\(\\) expects array\\|string, int\\|null given\\.$#"
-			count: 1
-			path: plugins/Goals/RecordBuilders/GeneralGoalsRecords.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between array\\|Zend_Db_Statement and false will always evaluate to false\\.$#"
