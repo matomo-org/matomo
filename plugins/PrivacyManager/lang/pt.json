@@ -43,6 +43,7 @@
         "BuildYourOwn": "Construa o seu próprio",
         "ClickHereSettings": "Clique aqui para aceder às definições %s.",
         "ComplianceTableSettingStatus": "Status",
+        "ConsentManagementPlatformsOutro": "Se você não usar um dos gerenciadores de consentimento acima, poderá implementar o %1$srastreamento com consentimento usando a API JavaScript do Matomo %2$s.",
         "ConsentManager": "Gerenciador de consentimento",
         "ConsentManagerConnected": "%1$s parece já estar configurado para funcionar com Matomo.",
         "ConsentManagerDetected": "%1$s gerente de consentimento foi detectado em seu site. Para saber como configurar o Matomo para funcionar com %1$s, leia %2$seste guia%3$s",

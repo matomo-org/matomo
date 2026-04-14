@@ -39,6 +39,11 @@
 			<notes>All campaign tracking parameters must be discarded.</notes>
 		</row>
 		<row>
+			<name>Segmented data rounding enabled</name>
+			<value>non_compliant</value>
+			<notes>Segmented data for count based metrics (such as visits or pageviews) must be rounded to the nearest 10. Note: This rounding applies to reports, exports and API responses.</notes>
+		</row>
+		<row>
 			<name>IP Anonymisation Enabled</name>
 			<value>non_compliant</value>
 			<notes>Anonymisation of Visitor's IP addresses must be enabled.</notes>

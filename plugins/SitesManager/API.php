@@ -28,8 +28,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\Settings\FilterPIIParameters;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
@@ -1457,22 +1455,16 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            return FilterPIIParameters::getInstance($idSite)->getValue();
-        }
-
-        $result = Option::get(self::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL);
-
+        $result = FilterPIIParameters::getInstance($idSite)->getValue();
         if (!empty($result)) {
             return $result;
         }
 
         $excludedQueryParamsGlobal = Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
-
         if (empty($excludedQueryParamsGlobal)) {
             return SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS;
         }
+
         return SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM;
     }
 

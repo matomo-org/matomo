@@ -506,6 +506,35 @@ describe("SegmentManagementPageTest", function () {
     expect(alertCount).to.equal(0);
   });
 
+  it("should keep the manage segments search term when pressing Enter", async function() {
+    await openPage();
+
+    await page.type('#manageSegmentSearch', 'site');
+    await page.waitForTimeout(600);
+
+    const urlBeforeEnter = await page.url();
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(300);
+
+    const searchState = await page.evaluate(() => {
+      const input = document.querySelector('#manageSegmentSearch');
+      const visibleRows = Array.from(document.querySelectorAll('tr[data-segment-name]')).filter((row) => {
+        return $(row).is(':visible');
+      });
+
+      return {
+        value: input ? input.value : '',
+        visibleRowNames: visibleRows.map((row) => row.getAttribute('data-segment-name') || ''),
+        url: window.location.href,
+      };
+    });
+
+    expect(searchState.url).to.equal(urlBeforeEnter);
+    expect(searchState.value).to.equal('site');
+    expect(searchState.visibleRowNames).to.include(siteSegment.name);
+    expect(searchState.visibleRowNames).to.not.include(globalSegment.name);
+  });
+
   function assignSegmentIdsFromApiResponse(response) {
     const segments = normalizeSegmentsResponse(response);
 

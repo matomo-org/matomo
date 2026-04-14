@@ -81,6 +81,7 @@
         "ColumnPercentageVisits": "%% bezoeken",
         "ColumnPercentageVisitsDocumentation": "Het percentage van het totaal aantal bezoeken.",
         "ColumnRevenue": "Inkomsten",
+        "ColumnSegment": "Segment",
         "ColumnSumTimeOnSite": "Totale tijd op website",
         "ColumnSumVisitLength": "Totale bestede tijd door bezoekers (in seconden)",
         "ColumnTotalPageviews": "Totale paginaweergaven",

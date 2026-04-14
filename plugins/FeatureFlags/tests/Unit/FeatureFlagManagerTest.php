@@ -14,6 +14,7 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\FeatureFlagStorageInterface;
+use Piwik\Plugins\FeatureFlags\ForcedFeatureFlagStateInterface;
 
 class FeatureFlagManagerTest extends TestCase
 {
@@ -61,6 +62,29 @@ class FeatureFlagManagerTest extends TestCase
         );
 
         $this->assertEquals($expectedOutcome, $sut->isFeatureActive(get_class($mockFeature)));
+    }
+
+    public function testIsFeatureActiveReturnsForcedStateWithoutConsultingStorages(): void
+    {
+        $storage = $this->createMock(FeatureFlagStorageInterface::class);
+        $storage->expects($this->never())->method('isFeatureActive');
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $sut = new FeatureFlagManager([$storage], $logger);
+
+        $featureFlag = new class () implements FeatureFlagInterface, ForcedFeatureFlagStateInterface {
+            public function getName(): string
+            {
+                return 'ForcedEnabledFeature';
+            }
+
+            public function getForcedFeatureFlagState(): bool
+            {
+                return true;
+            }
+        };
+
+        $this->assertTrue($sut->isFeatureActive(get_class($featureFlag)));
     }
 
     public function listOfStorages(): \Generator

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>220</nb_visits>
+		<segment>actions==1</segment>
+	</row>
+	<row>
+		
+		<nb_visits>100</nb_visits>
+		<segment>actions==2</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<segment>actions==3</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<segment>actions==4</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<segment>actions==5</segment>
+	</row>
+	<row>
+		
+		<nb_visits>20</nb_visits>
+		<segment>actions&gt;=6;actions&lt;=7</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<segment>actions&gt;=8;actions&lt;=10</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<segment>actions&gt;=11;actions&lt;=14</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<segment>actions&gt;=15;actions&lt;=20</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>actions&gt;=21</segment>
+	</row>
+</result>

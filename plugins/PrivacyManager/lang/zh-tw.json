@@ -46,6 +46,7 @@
         "BuildYourOwn": "建立您自己的",
         "ClickHereSettings": "點擊這裡查看 %s 設定。",
         "ComplianceTableSettingStatus": "狀態",
+        "ConsentManagementPlatformsOutro": "如果您沒有使用這些同意管理工具，您也可以自行%1$s利用 Matomo JavaScript API 同意追蹤%2$s完成實作。",
         "ConsentManager": "同意管理工具",
         "ConsentManagerConnected": "%1$s似乎已經配置好配合 Matomo 使用。",
         "ConsentManagerDetected": "%1$s在您的網站上偵測到同意管理工具。要瞭解如何配置 Matomo 以與其配合使用%1$s，請查閱%2$s這份指南%3$s",

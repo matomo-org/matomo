@@ -34,10 +34,14 @@ input[type="submit"].btn,
   }
 }
 
-.btn-flat:hover {
-  background-color: @theme-color-background-base;
-  text-decoration: none !important;
-  box-shadow: 0 0;
+.btn-flat {
+  color: @theme-color-text;
+
+  &:hover {
+    background-color: @theme-color-background-base;
+    text-decoration: none !important;
+    box-shadow: 0 0;
+  }
 }
 
 .btn.btn-small {
@@ -58,14 +62,18 @@ input[type="submit"].btn,
   margin-top: 5px;
 }
 
+button.btn.disabled,
+button.btn[disabled],
+input[type="submit"].btn.disabled,
+input[type="submit"].btn[disabled],
 .btn.disabled,
 .btn[disabled],
 fieldset[disabled] .btn {
   pointer-events: none;
   cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  color: white !important;
+  opacity: 1;
+  background: @theme-color-background-disabled !important;
+  color: @theme-color-text-on-disabled !important;
 }
 
 // See http://getbootstrap.com/css/#buttons-options
@@ -93,4 +101,3 @@ fieldset[disabled] .btn {
     text-decoration: none;
   }
 }
-

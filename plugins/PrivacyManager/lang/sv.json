@@ -59,6 +59,7 @@
         "ComplianceSelectSite": "Välj en webbplats nedan för att få en indikation om webbplatsen är kompatibel med den angivna integritetslagen",
         "ComplianceTableSettingNotes": "Anteckningar",
         "ComplianceTableSettingStatus": "Status",
+        "ConsentManagementPlatformsOutro": "Om du inte använder någon av ovanstående samtyckeshanterarna kan du implementera %1$sspårning med samtycke genom att använda Matomos JavaScript API%2$s.",
         "ConsentManager": "Samtyckeshanterare",
         "ConsentManagerConnected": "%1$s tycks redan vara konfigurerad för att fungera tillsammans med Matomo.",
         "ConsentManagerDetected": "Samtyckeshanteraren %1$s hittades på din webbplats. För att lära dig med om konfiguration av Matomo så det fungerar med %1$s, vänligen läs %2$sdenna guide%3$s",

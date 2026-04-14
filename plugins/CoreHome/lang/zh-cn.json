@@ -73,6 +73,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "看起来这段时间的报告尚未处理，但几个小时后即可获得。您可以选择不同的日期段，直到生成报告。",
         "PeriodRange": "时间段",
         "PivotBySubtable": "这个报表尚未 pivot %1$s 以 %2$s 的身份 pivot",
+        "PresetDateToday": "今天",
+        "PresetDateYesterday": "昨天",
         "Profilable": "可剖析",
         "QuickAccessTitle": "搜索 %s，使用上下键在搜索结果中导航。快捷键：按“F”进行搜索。",
         "QuickLinks": "快速链接",

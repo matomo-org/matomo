@@ -67,6 +67,7 @@
         "ConfirmConfigRandomisationEnabled": "Esteu segur que voleu habilitar l'aleatorització de config_ID?",
         "ConfirmConfigRandomisationEnabledPerSite": "Esteu segur que voleu desar la configuració del lloc i habilitar l'aleatorització de config_ID?",
         "ConfirmConfigRandomisationExplanation": "Aleatoritzant el config_ID per a cada sol·licitud es desactiven els mecanismes que es basen en dades d'agent d'usuari, galetes o altres identificadors que requereixen consentiment explícit, cosa que permet el seguiment anonimitzat respectant la privadesa de l'usuari. Cada acció es farà un seguiment com una nova visita.",
+        "ConsentManagementPlatformsOutro": "Si no feu servir cap dels gestors de consentiment anteriors, podeu implementar %1$sseguiment amb consentiment mitjançant l'API de JavaScript de Matomo%2$s.",
         "ConsentManager": "Gestor de consentiment",
         "ConsentManagerConnected": "Sembla que %1$s ja està configurat per funcionar amb Matomo.",
         "ConsentManagerDetected": "S'ha detectat %1$s gestor de consentiments al vostre lloc web. Per obtenir més informació sobre com es configura Matomo perquè funcioni amb %1$s, llegiu %2$saquesta guia%3$s",

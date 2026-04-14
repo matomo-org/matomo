@@ -25,6 +25,7 @@ import RangePeriod from '../Periods/Range';
 import { format } from '../Periods';
 
 export default defineComponent({
+  name: 'Sparkline',
   props: {
     seriesIndices: Array,
     params: [Object, String],
@@ -34,14 +35,19 @@ export default defineComponent({
   data() {
     return {
       isWidget: false,
+      themeMode: Matomo.getThemeMode(),
     };
   },
   mounted() {
     this.isWidget = !!this.$el.closest('[widgetId]');
+    window.addEventListener('themeModeChange', this.onThemeModeChange);
+  },
+  beforeUnmount() {
+    window.removeEventListener('themeModeChange', this.onThemeModeChange);
   },
   computed: {
     sparklineUrl() {
-      const { seriesIndices, params } = this;
+      const { seriesIndices, params, themeMode } = this;
 
       const sparklineColors = Matomo.getSparklineColors();
 
@@ -80,6 +86,7 @@ export default defineComponent({
         urlParams.token_auth = token_auth;
       }
 
+      urlParams.themeMode = themeMode;
       return `?${MatomoUrl.stringify(urlParams)}`;
     },
     defaultDate() {
@@ -102,6 +109,11 @@ export default defineComponent({
       const endDateStr = format(dateRange[1]);
 
       return `${startDateStr},${endDateStr}`;
+    },
+  },
+  methods: {
+    onThemeModeChange() {
+      this.themeMode = Matomo.getThemeMode();
     },
   },
 });

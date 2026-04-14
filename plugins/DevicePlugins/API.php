@@ -46,56 +46,64 @@ class API extends \Piwik\Plugin\API
         $archive = Archive::build($idSite, $period, $date, $segment);
         $visitsSums = $archive->getDataTableFromNumeric('nb_visits');
 
-        // check whether given tables are arrays
         if ($dataTable instanceof DataTable\Map) {
-            $dataTableMap = $dataTable->getDataTables();
-            $browserVersionsArray = $browserVersions->getDataTables();
-            $visitSumsArray = $visitsSums->getDataTables();
-        } else {
-            $dataTableMap = array($dataTable);
-            $browserVersionsArray = array($browserVersions);
-            $visitSumsArray = array($visitsSums);
-        }
-
-        // walk through the results and calculate the percentage
-        foreach ($dataTableMap as $key => $table) {
-            // Calculate percentage, but ignore IE users because plugin detection doesn't work on IE
-            $ieVisits = 0;
-
-            $browserVersionsToExclude = array(
-                'IE;10.0',
-                'IE;9.0',
-                'IE;8.0',
-                'IE;7.0',
-                'IE;6.0',
-            );
-            foreach ($browserVersionsToExclude as $browserVersionToExclude) {
-                $ieStats = $browserVersionsArray[$key]->getRowFromLabel($browserVersionToExclude);
-                if ($ieStats !== false) {
-                    $ieVisits += $ieStats->getColumn(Metrics::INDEX_NB_VISITS);
+            $dataTable->multiFilter(
+                [
+                    $browserVersions instanceof DataTable\Map ? $browserVersions : null,
+                    $visitsSums instanceof DataTable\Map ? $visitsSums : null,
+                ],
+                function (DataTable $pluginTable, ?DataTable $browserVersionsTable, ?DataTable $visitsTable): void {
+                    $this->addVisitsPercentProcessedMetric($pluginTable, $browserVersionsTable, $visitsTable);
                 }
-            }
-
-            // get according visitsSum
-            $visits = $visitSumsArray[$key];
-            if ($visits->getRowsCount() == 0) {
-                $visitsSumTotal = 0;
-            } else {
-                $visitsSumTotal = (float) $visits->getFirstRow()->getColumn('nb_visits');
-            }
-
-            $visitsSum = $visitsSumTotal - $ieVisits;
-
-            $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
-            $extraProcessedMetrics = is_array($extraProcessedMetrics) ? $extraProcessedMetrics : [];
-            $extraProcessedMetrics[] = new VisitsPercent($visitsSum);
-            $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+            );
+        } else {
+            $this->addVisitsPercentProcessedMetric(
+                $dataTable,
+                $browserVersions instanceof DataTable ? $browserVersions : null,
+                $visitsSums instanceof DataTable ? $visitsSums : null
+            );
         }
 
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getPluginsLogo'));
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
-        $dataTable->queueFilter('RangeCheck', array('nb_visits_percentage', 0, 1));
+        $dataTable->queueFilter('ColumnCallbackAddMetadata', ['label', 'logo', __NAMESPACE__ . '\getPluginsLogo']);
+        $dataTable->queueFilter('ColumnCallbackReplace', ['label', 'ucfirst']);
+        $dataTable->queueFilter('RangeCheck', ['nb_visits_percentage', 0, 1]);
 
         return $dataTable;
+    }
+
+    private function addVisitsPercentProcessedMetric(
+        DataTable $table,
+        ?DataTable $browserVersions,
+        ?DataTable $visits
+    ): void {
+        // Calculate percentage, but ignore IE users because plugin detection doesn't work on IE
+        $ieVisits = 0;
+
+        $browserVersionsToExclude = [
+            'IE;10.0',
+            'IE;9.0',
+            'IE;8.0',
+            'IE;7.0',
+            'IE;6.0',
+        ];
+        foreach ($browserVersionsToExclude as $browserVersionToExclude) {
+            $ieStats = $browserVersions ? $browserVersions->getRowFromLabel($browserVersionToExclude) : false;
+            if ($ieStats !== false) {
+                $ieVisits += $ieStats->getColumn(Metrics::INDEX_NB_VISITS);
+            }
+        }
+
+        if (!$visits || $visits->getRowsCount() == 0) {
+            $visitsSumTotal = 0;
+        } else {
+            $visitsSumTotal = (float)$visits->getFirstRow()->getColumn('nb_visits');
+        }
+
+        $visitsSum = $visitsSumTotal - $ieVisits;
+
+        $extraProcessedMetrics   = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+        $extraProcessedMetrics   = is_array($extraProcessedMetrics) ? $extraProcessedMetrics : [];
+        $extraProcessedMetrics[] = new VisitsPercent($visitsSum);
+        $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
     }
 }

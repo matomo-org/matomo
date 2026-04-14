@@ -30,7 +30,6 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Exception;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
 
@@ -344,7 +343,7 @@ class ApiTest extends IntegrationTestCase
 
     private function updateSiteSettings($idSite, $newSiteName, $settings)
     {
-        return API::getInstance()->updateSite(
+        API::getInstance()->updateSite(
             $idSite,
             $newSiteName,
             $urls = null,
@@ -1720,18 +1719,8 @@ class ApiTest extends IntegrationTestCase
     /**
      * @dataProvider getExclusionTypesWithPolicyStatuses
      */
-    public function testGetExclusionTypeForQueryParamsReturnsCorrectTypeWithCnilPolicy(bool $featureFlagEnabled, string $policy, bool $policyEnabled, string $exclusionTypeToSet, string $expectedExclusionType)
+    public function testGetExclusionTypeForQueryParamsReturnsCorrectTypeWithCnilPolicy(string $policy, bool $policyEnabled, string $exclusionTypeToSet, string $expectedExclusionType)
     {
-        $config = Config::getInstance();
-        $featureFlag = new PrivacyCompliance();
-        $featureFlagConfig = $featureFlag->getName() . '_feature';
-
-        if ($featureFlagEnabled) {
-            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
-        } else {
-            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
-        }
-
         Option::set(API::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL, $exclusionTypeToSet);
 
         PolicyManager::setPolicyActiveStatus($policy, $policyEnabled);
@@ -1740,33 +1729,24 @@ class ApiTest extends IntegrationTestCase
             $expectedExclusionType,
             API::getInstance()->getExclusionTypeForQueryParams()
         );
-
-        $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
     }
 
     public function getExclusionTypesWithPolicyStatuses()
     {
         /*
          *  [
-         *      $featureFlagEnabled,
          *      $policy,
          *      $policyEnabled,
          *      $exclusionTypeToSet,
          *      $expectedExclusionType
          *  ]
          */
-        yield [false, CnilPolicy::class, false, 'common_session_parameters', 'common_session_parameters'];
-        yield [false, CnilPolicy::class, false, 'matomo_recommended_pii',  'matomo_recommended_pii'];
-        yield [false, CnilPolicy::class, false, 'custom', 'custom'];
-        yield [false, CnilPolicy::class, true, 'common_session_parameters', 'common_session_parameters'];
-        yield [false, CnilPolicy::class, true, 'matomo_recommended_pii',  'matomo_recommended_pii'];
-        yield [false, CnilPolicy::class, true, 'custom', 'custom'];
-        yield [true, CnilPolicy::class, false, 'common_session_parameters', 'common_session_parameters'];
-        yield [true, CnilPolicy::class, false, 'matomo_recommended_pii',  'matomo_recommended_pii'];
-        yield [true, CnilPolicy::class, false, 'custom', 'custom'];
-        yield [true, CnilPolicy::class, true, 'common_session_parameters', 'matomo_recommended_pii'];
-        yield [true, CnilPolicy::class, true, 'matomo_recommended_pii',  'matomo_recommended_pii'];
-        yield [true, CnilPolicy::class, true, 'custom', 'matomo_recommended_pii'];
+        yield [CnilPolicy::class, false, 'common_session_parameters', 'common_session_parameters'];
+        yield [CnilPolicy::class, false, 'matomo_recommended_pii', 'matomo_recommended_pii'];
+        yield [CnilPolicy::class, false, 'custom', 'custom'];
+        yield [CnilPolicy::class, true, 'common_session_parameters', 'matomo_recommended_pii'];
+        yield [CnilPolicy::class, true, 'matomo_recommended_pii', 'matomo_recommended_pii'];
+        yield [CnilPolicy::class, true, 'custom', 'matomo_recommended_pii'];
     }
 
     public function testSetGlobalQueryParamExclusionThrowsExceptionWhenInvalidExclusionTypeProvided(): void

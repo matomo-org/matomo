@@ -37,6 +37,7 @@
         "AwarenessDocumentationIntro": "Jasně a transparentně informujte uživatele a seznamte své kolegy se shromažďovanými údaji a způsobem jejich využití:",
         "ClickHereSettings": "Pro přístup k nastavení %s klikněte zde.",
         "ComplianceTableSettingStatus": "Stav",
+        "ConsentManagementPlatformsOutro": "Pokud nepoužíváte žádný z výše uvedených správců souhlasů, můžete implementovat %1$ssledování se souhlasem pomocí rozhraní API Matomo JavaScript%2$s.",
         "ConsentManagerConnected": "Zdá se, že %1$s je již nakonfigurován pro práci se systémem Matomo.",
         "CurrentDBSize": "Aktuální velikost databáze",
         "DBPurged": "Databáze vyprázdněna.",

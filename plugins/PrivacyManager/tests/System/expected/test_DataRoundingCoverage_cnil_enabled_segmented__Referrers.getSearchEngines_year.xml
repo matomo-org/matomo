@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>50</nb_visits>
+		<nb_actions>90</nb_actions>
+		<max_actions>16</max_actions>
+		<sum_visit_length>7977</sum_visit_length>
+		<bounce_count>50</bounce_count>
+		<nb_visits_converted>50</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>100</revenue>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>70</nb_conversions>
+				<nb_visits_converted>50</nb_visits_converted>
+				<revenue>377</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>50</nb_conversions>
+				<nb_visits_converted>50</nb_visits_converted>
+				<revenue>240</revenue>
+			</row>
+		</goals>
+		<nb_conversions>120</nb_conversions>
+		<revenue>617</revenue>
+		<sum_daily_nb_uniq_visitors>50</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>referrerType==search;referrerName==Google</segment>
+		<url>http://google.com</url>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/google.com.png</logo>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>11</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>10</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>10</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>30</nb_actions>
+				<max_actions>16</max_actions>
+				<sum_visit_length>4325</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1084</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>2</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>8</max_actions>
+				<sum_visit_length>2162</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>4</max_actions>
+				<sum_visit_length>365</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>6</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>30</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>30</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>60</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>referrerType==search;referrerName==Yahoo%21</segment>
+		<url>http://search.yahoo.com</url>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/search.yahoo.com.png</logo>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>2</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>20</nb_actions>
+		<max_actions>13</max_actions>
+		<sum_visit_length>16</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>75</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+		</goals>
+		<nb_conversions>20</nb_conversions>
+		<revenue>90</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>referrerType==search;referrerName==Bing</segment>
+		<url>http://bing.com</url>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/bing.com.png</logo>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>13</max_actions>
+				<sum_visit_length>14</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>2</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>referrerType==search;referrerName==Ask</segment>
+		<url>http://ask.com</url>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/ask.com.png</logo>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>10</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>referrerType==search;referrerName==Alexa</segment>
+		<url>http://alexa.com</url>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/alexa.com.png</logo>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>10</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>referrerType==search;referrerName==Babylon</segment>
+		<url>http://search.babylon.com</url>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/search.babylon.com.png</logo>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>10</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerType==search;referrerName==Bing+Images</segment>
+		<url>http://bing.com/images/search</url>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/bing.com.png</logo>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>10</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerType==search;referrerName==Yahoo%21+Images</segment>
+		<url>http://images.search.yahoo.com</url>
+		<logo>plugins/Morpheus/icons/dist/searchEngines/images.search.yahoo.com.png</logo>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+</result>

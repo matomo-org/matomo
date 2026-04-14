@@ -79,6 +79,7 @@
         "ColumnPageviewsDocumentation": "تعداد دفعاتی که از این صفحه بازدید شده",
         "ColumnPercentageVisits": "%%بازدید",
         "ColumnRevenue": "درآمد",
+        "ColumnSegment": "سگمنت",
         "ColumnSumTimeOnSite": "مجموع زمان سپری شده روی وبسایت",
         "ColumnSumVisitLength": "کل زمان سپری شده به وسیله بازدید کننده ها (بر اساس ثانیه)",
         "ColumnTotalPageviews": "تمام بازدیدصفحه ها",

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>150</nb_visits>
+		<nb_visits_percentage>35%</nb_visits_percentage>
+		<segment>visitCount==1</segment>
+	</row>
+	<row>
+		
+		<nb_visits>90</nb_visits>
+		<nb_visits_percentage>21%</nb_visits_percentage>
+		<segment>visitCount==2</segment>
+	</row>
+	<row>
+		
+		<nb_visits>70</nb_visits>
+		<nb_visits_percentage>16%</nb_visits_percentage>
+		<segment>visitCount==3</segment>
+	</row>
+	<row>
+		
+		<nb_visits>40</nb_visits>
+		<nb_visits_percentage>9%</nb_visits_percentage>
+		<segment>visitCount==4</segment>
+	</row>
+	<row>
+		
+		<nb_visits>40</nb_visits>
+		<nb_visits_percentage>9%</nb_visits_percentage>
+		<segment>visitCount==5</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_visits_percentage>2%</nb_visits_percentage>
+		<segment>visitCount==6</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_visits_percentage>2%</nb_visits_percentage>
+		<segment>visitCount==7</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_visits_percentage>2%</nb_visits_percentage>
+		<segment>visitCount==8</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_visits_percentage>2%</nb_visits_percentage>
+		<segment>visitCount&gt;=9;visitCount&lt;=14</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount&gt;=15;visitCount&lt;=25</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount&gt;=26;visitCount&lt;=50</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount&gt;=51;visitCount&lt;=100</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount&gt;=101;visitCount&lt;=200</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<nb_visits_percentage>0%</nb_visits_percentage>
+		<segment>visitCount&gt;=201</segment>
+	</row>
+</result>

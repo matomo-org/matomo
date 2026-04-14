@@ -26,8 +26,6 @@ use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tracker\Cache as TrackerCache;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 
 /**
@@ -859,22 +857,25 @@ class Request
 
     public function getForcedUserId()
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $idSite = $this->getIdSite();
-            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            $cacheKey = UserIdDisabled::class;
-            if (($cache[$cacheKey] ?? false) === true) {
-                return false;
-            }
-        }
-
         $userId = $this->getParam('uid');
-        if (strlen($userId) > 0) {
-            return $userId;
+        if (strlen($userId) === 0) {
+            return false;
         }
 
-        return false;
+        try {
+            $idSite = $this->getIdSite();
+            if (!empty($idSite) && $idSite > 0) {
+                $cache    = TrackerCache::getCacheWebsiteAttributes($idSite);
+                $cacheKey = UserIdDisabled::class;
+                if (($cache[$cacheKey] ?? false) === true) {
+                    return false;
+                }
+            }
+        } catch (\Exception $e) {
+            // Might fail for e.g. not existing sites, but we do not want to throw an exception at this stage
+        }
+
+        return $userId;
     }
 
     public function getForcedVisitorId()

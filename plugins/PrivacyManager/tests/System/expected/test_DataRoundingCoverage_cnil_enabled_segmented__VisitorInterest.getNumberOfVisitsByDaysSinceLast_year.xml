@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>150</nb_visits>
+		<segment>visitorType==new</segment>
+	</row>
+	<row>
+		
+		<nb_visits>250</nb_visits>
+		<segment>daysSinceLastVisit==0</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<segment>daysSinceLastVisit==1</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>daysSinceLastVisit==2</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>daysSinceLastVisit==3</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>daysSinceLastVisit==4</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>daysSinceLastVisit==5</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>daysSinceLastVisit==6</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<segment>daysSinceLastVisit==7</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<segment>daysSinceLastVisit&gt;=8;daysSinceLastVisit&lt;=14</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>daysSinceLastVisit&gt;=15;daysSinceLastVisit&lt;=30</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>daysSinceLastVisit&gt;=31;daysSinceLastVisit&lt;=60</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>daysSinceLastVisit&gt;=61;daysSinceLastVisit&lt;=120</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>daysSinceLastVisit&gt;=121;daysSinceLastVisit&lt;=364</segment>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>daysSinceLastVisit&gt;=365</segment>
+	</row>
+</result>

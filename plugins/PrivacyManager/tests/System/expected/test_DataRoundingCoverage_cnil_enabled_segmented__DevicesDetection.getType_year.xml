@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>270</nb_visits>
+		<nb_actions>640</nb_actions>
+		<max_actions>18</max_actions>
+		<sum_visit_length>100160</sum_visit_length>
+		<bounce_count>160</bounce_count>
+		<nb_visits_converted>210</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10000007630.33</revenue>
+				<items>10</items>
+			</row>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>13952.29</revenue>
+				<revenue_subtotal>3200</revenue_subtotal>
+				<revenue_tax>586</revenue_tax>
+				<revenue_shipping>120.11</revenue_shipping>
+				<revenue_discount>686</revenue_discount>
+				<items>20</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>300</nb_conversions>
+				<nb_visits_converted>200</nb_visits_converted>
+				<revenue>3224.26</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>200</nb_conversions>
+				<nb_visits_converted>200</nb_visits_converted>
+				<revenue>1000</revenue>
+			</row>
+			<row idgoal='3'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>42.26</revenue>
+			</row>
+			<row idgoal='4'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+			<row idgoal='5'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>520</nb_conversions>
+		<revenue>18218.81</revenue>
+		<sum_daily_nb_uniq_visitors>150</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>20</sum_daily_nb_users>
+		<segment>deviceType==desktop</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/desktop.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>90</nb_visits>
+		<nb_actions>160</nb_actions>
+		<max_actions>20</max_actions>
+		<sum_visit_length>12210</sum_visit_length>
+		<bounce_count>70</bounce_count>
+		<nb_visits_converted>90</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>110</nb_conversions>
+				<nb_visits_converted>90</nb_visits_converted>
+				<revenue>587</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>90</nb_conversions>
+				<nb_visits_converted>90</nb_visits_converted>
+				<revenue>430</revenue>
+			</row>
+		</goals>
+		<nb_conversions>200</nb_conversions>
+		<revenue>1017</revenue>
+		<sum_daily_nb_uniq_visitors>50</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<logo>plugins/Morpheus/icons/dist/devices/unknown.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>30</nb_visits>
+		<nb_actions>60</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>4892</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>111.11</revenue>
+				<revenue_subtotal>100</revenue_subtotal>
+				<revenue_tax>11</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>40</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>40</revenue>
+			</row>
+		</goals>
+		<nb_conversions>20</nb_conversions>
+		<revenue>191.11</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>deviceType==smartphone</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/smartphone.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>20</nb_visits>
+		<nb_actions>40</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>3262</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>111.11</revenue>
+				<revenue_subtotal>100</revenue_subtotal>
+				<revenue_tax>11</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>151.11</revenue>
+		<segment>deviceType==tablet</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/tablet.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>5</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>deviceType==portable+media+player</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/portable_media_player.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>6</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>deviceType==phablet</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/phablet.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==camera</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/camera.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==car+browser</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/car_browser.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==console</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/console.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==feature+phone</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/feature_phone.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==peripheral</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/peripheral.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==smart+display</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/smart_display.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==smart+speaker</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/smart_speaker.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==tv</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/tv.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==wearable</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/wearable.png</logo>
+	</row>
+</result>

@@ -164,7 +164,13 @@ table.entityTable tbody tr .entityTable_ActionCell-3 {
     }
   }
 
-  button:first-child,
+  button:disabled,
+  button[disabled] {
+    background-color: @theme-color-background-disabled !important;
+    color: @theme-color-text-lighter !important;
+  }
+
+  button:first-child:not(:disabled):not([disabled]),
   a:first-child {
     background-color: @theme-color-brand !important;
     color: @color-white;

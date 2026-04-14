@@ -9,11 +9,8 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Plugins\DevicesDetection\Settings\OnlyMajorVersions;
 use Piwik\Plugins\DevicesDetection\Settings\DeviceModelDetectionDisabled;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Cache as TrackerCache;
@@ -60,13 +57,9 @@ class DevicesDetection extends \Piwik\Plugin
 
     public static function shouldOnlyStoreMajorVersions(?int $idsite = null): bool
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $cache = TrackerCache::getCacheWebsiteAttributes($idsite);
-            $cacheKey = OnlyMajorVersions::class;
-            return (($cache[$cacheKey] ?? false) === true);
-        }
-        return false;
+        $cache = TrackerCache::getCacheWebsiteAttributes($idsite);
+        $cacheKey = OnlyMajorVersions::class;
+        return (($cache[$cacheKey] ?? false) === true);
     }
 
     /**
@@ -77,32 +70,23 @@ class DevicesDetection extends \Piwik\Plugin
      */
     public static function isDeviceModelDetectionDisabledByCompliancePolicy(?int $idSite = null): bool
     {
-        // in privacy compliance mode, we can only detect/return generic device type, but not the model
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            $cacheKey = DeviceModelDetectionDisabled::class;
-            return (($cache[$cacheKey] ?? false) === true);
-        }
-
-        return false;
+        $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+        $cacheKey = DeviceModelDetectionDisabled::class;
+        return (($cache[$cacheKey] ?? false) === true);
     }
 
     public function filterSegments(SegmentsList &$list, array $idSites)
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $limitSegmentsSettingEnabled = false;
-            if (empty($idSites)) {
-                $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
-            } else {
-                foreach ($idSites as $idsite) {
-                    $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
-                }
+        $limitSegmentsSettingEnabled = false;
+        if (empty($idSites)) {
+            $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
+        } else {
+            foreach ($idSites as $idsite) {
+                $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
             }
-            if ($limitSegmentsSettingEnabled) {
-                $list->remove('General_Visitors', 'deviceModel');
-            }
+        }
+        if ($limitSegmentsSettingEnabled) {
+            $list->remove('General_Visitors', 'deviceModel');
         }
     }
 }

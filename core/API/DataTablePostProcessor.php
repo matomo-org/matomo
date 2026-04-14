@@ -24,6 +24,7 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
+use Piwik\Plugins\PrivacyManager\DataRounding;
 use Piwik\Request;
 
 /**
@@ -134,6 +135,9 @@ class DataTablePostProcessor
         $dataTable = $this->applyQueuedFilters($dataTable);
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
+
+        DataRounding::roundCountMetricsForRequest($dataTable, $this->request, $this->report);
+
         $dataTable = $this->applyMetricsFormatting($dataTable);
         return $dataTable;
     }

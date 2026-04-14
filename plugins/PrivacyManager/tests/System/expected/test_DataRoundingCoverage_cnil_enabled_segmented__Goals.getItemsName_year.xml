@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<revenue>1500</revenue>
+		<quantity>10</quantity>
+		<orders>10</orders>
+		<avg_price>1500</avg_price>
+		<avg_quantity>10</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Canon+SLR</segment>
+	</row>
+	<row>
+		
+		<revenue>1011.22</revenue>
+		<quantity>10</quantity>
+		<orders>10</orders>
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_price>255.61</avg_price>
+		<avg_quantity>10</avg_quantity>
+		<conversion_rate>100%</conversion_rate>
+		<segment>productName==PRODUCT+name</segment>
+	</row>
+	<row>
+		
+		<revenue>700</revenue>
+		<quantity>10</quantity>
+		<orders>10</orders>
+		<avg_price>100</avg_price>
+		<avg_quantity>10</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==My+Product</segment>
+	</row>
+	<row>
+		
+		<revenue>600</revenue>
+		<quantity>10</quantity>
+		<orders>10</orders>
+		<avg_price>100</avg_price>
+		<avg_quantity>10</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==PRODUCT+name+BIS</segment>
+	</row>
+	<row>
+		
+		<revenue>200</revenue>
+		<quantity>10</quantity>
+		<orders>10</orders>
+		<avg_price>100</avg_price>
+		<avg_quantity>10</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==TRIPOD+-+bought+day+after</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_price>52.2</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==MyName</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_price>1332</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==PRODUCT+THREE+LEFT+in+cart</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_price>0</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==PRODUCT+TWO+LEFT+in+cart</segment>
+	</row>
+</result>

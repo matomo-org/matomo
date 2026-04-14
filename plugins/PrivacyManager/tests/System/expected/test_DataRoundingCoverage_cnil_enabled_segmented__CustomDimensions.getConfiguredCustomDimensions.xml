@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idcustomdimension>1</idcustomdimension>
+		<idsite>1</idsite>
+		<name>test dim</name>
+		<index>1</index>
+		<scope>visit</scope>
+		<active>1</active>
+		<extractions>
+		</extractions>
+		<case_sensitive>1</case_sensitive>
+	</row>
+	<row>
+		<idcustomdimension>2</idcustomdimension>
+		<idsite>1</idsite>
+		<name>testdim</name>
+		<index>2</index>
+		<scope>visit</scope>
+		<active>1</active>
+		<extractions>
+		</extractions>
+		<case_sensitive>1</case_sensitive>
+	</row>
+	<row>
+		<idcustomdimension>3</idcustomdimension>
+		<idsite>1</idsite>
+		<name>testdim2</name>
+		<index>1</index>
+		<scope>action</scope>
+		<active>1</active>
+		<extractions>
+		</extractions>
+		<case_sensitive>1</case_sensitive>
+	</row>
+</result>

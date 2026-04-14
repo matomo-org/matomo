@@ -79,6 +79,7 @@
         "ColumnPageviewsDocumentation": "Antallet ganger denne siden har vært besøkt.",
         "ColumnPercentageVisits": "%% besøk",
         "ColumnRevenue": "Omsetning",
+        "ColumnSegment": "Segment",
         "ColumnSumTimeOnSite": "Total Tid på Nettsiden",
         "ColumnSumVisitLength": "Total tid brukt av besøkere (i sekunder)",
         "ColumnTotalPageviews": "Sidevisninger totalt",

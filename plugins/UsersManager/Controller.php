@@ -23,6 +23,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -253,6 +254,14 @@ class Controller extends ControllerAdmin
                                     && SettingsPiwik::isInternetEnabled();
 
         $userPreferences = new UserPreferences();
+
+        $view->themeMode = $userPreferences->getThemeMode();
+        $view->themeModeOptions = array(
+            array('key' => ThemeStyles::LIGHT_MODE, 'value' => Piwik::translate('UsersManager_ThemeModeLightDefault')),
+            array('key' => ThemeStyles::DARK_MODE, 'value' => Piwik::translate('UsersManager_ThemeModeDark')),
+            array('key' => ThemeStyles::AUTO_MODE, 'value' => Piwik::translate('UsersManager_ThemeModeMatchBrowser')),
+        );
+
         $defaultReport   = $userPreferences->getDefaultReport();
 
         if ($defaultReport === false) {
@@ -607,6 +616,7 @@ class Controller extends ControllerAdmin
         try {
             $this->checkTokenInUrl();
 
+            $themeMode = $this->getValidatedThemeMode(Common::getRequestVar('themeMode'));
             $defaultReport = Common::getRequestVar('defaultReport');
             $defaultDate = Common::getRequestVar('defaultDate');
             $language = Common::getRequestVar('language');
@@ -628,6 +638,15 @@ class Controller extends ControllerAdmin
                 'use12HourClock' => $timeFormat,
             ]);
 
+            $currentThemeMode = (new UserPreferences())->getThemeMode();
+            if ($currentThemeMode !== $themeMode) {
+                APIUsersManager::getInstance()->setUserPreference(
+                    $userLogin,
+                    APIUsersManager::PREFERENCE_THEME_MODE,
+                    $themeMode
+                );
+            }
+
             APIUsersManager::getInstance()->setUserPreference(
                 $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
@@ -644,6 +663,21 @@ class Controller extends ControllerAdmin
         }
 
         return $toReturn;
+    }
+
+    private function getValidatedThemeMode(string $themeMode): string
+    {
+        $allowedThemeModes = [
+            ThemeStyles::AUTO_MODE,
+            ThemeStyles::LIGHT_MODE,
+            ThemeStyles::DARK_MODE,
+        ];
+
+        if (!in_array($themeMode, $allowedThemeModes, true)) {
+            throw new Exception('Invalid theme mode');
+        }
+
+        return $themeMode;
     }
 
 

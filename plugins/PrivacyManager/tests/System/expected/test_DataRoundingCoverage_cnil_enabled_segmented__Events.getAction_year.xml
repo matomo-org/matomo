@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==playTrailer</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==Search</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>2770</sum_event_value>
+		<min_event_value>350</min_event_value>
+		<max_event_value>350</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>350</avg_event_value>
+		<segment>eventAction==Action0</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>2770</sum_event_value>
+				<min_event_value>350</min_event_value>
+				<max_event_value>350</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>350</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>2770</sum_event_value>
+		<min_event_value>350</min_event_value>
+		<max_event_value>350</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>350</avg_event_value>
+		<segment>eventAction==Action1</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>2770</sum_event_value>
+				<min_event_value>350</min_event_value>
+				<max_event_value>350</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>350</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==click_action</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==play25%25</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==play50%25</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==play75%25</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==playEnd</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>90</sum_event_value>
+		<min_event_value>10</min_event_value>
+		<max_event_value>10</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>10</avg_event_value>
+		<segment>eventAction==rating</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>60</sum_event_value>
+				<min_event_value>10</min_event_value>
+				<max_event_value>10</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>10</avg_event_value>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>30</sum_event_value>
+				<min_event_value>10</min_event_value>
+				<max_event_value>10</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>10</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==event+action+1</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==event+action+2</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==event+action+3</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==event+action+4</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==event+action+5</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>1390</sum_event_value>
+		<min_event_value>350</min_event_value>
+		<max_event_value>350</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>350</avg_event_value>
+		<segment>eventAction==Action2</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>1390</sum_event_value>
+				<min_event_value>350</min_event_value>
+				<max_event_value>350</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>350</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>1390</sum_event_value>
+		<min_event_value>350</min_event_value>
+		<max_event_value>350</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>350</avg_event_value>
+		<segment>eventAction==Action3</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>1390</sum_event_value>
+				<min_event_value>350</min_event_value>
+				<max_event_value>350</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>350</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==clickBuyNow</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>30</sum_event_value>
+		<min_event_value>10</min_event_value>
+		<max_event_value>10</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>10</avg_event_value>
+		<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>30</sum_event_value>
+				<min_event_value>10</min_event_value>
+				<max_event_value>10</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>10</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==play</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==playStart</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==press_action</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==Purchase</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>700</sum_event_value>
+		<min_event_value>350</min_event_value>
+		<max_event_value>350</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>350</avg_event_value>
+		<segment>eventAction==Action4</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>700</sum_event_value>
+				<min_event_value>350</min_event_value>
+				<max_event_value>350</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>350</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>700</sum_event_value>
+		<min_event_value>350</min_event_value>
+		<max_event_value>350</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>350</avg_event_value>
+		<segment>eventAction==Action5</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>700</sum_event_value>
+				<min_event_value>350</min_event_value>
+				<max_event_value>350</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>350</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>700</sum_event_value>
+		<min_event_value>350</min_event_value>
+		<max_event_value>350</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>350</avg_event_value>
+		<segment>eventAction==Action6</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>700</sum_event_value>
+				<min_event_value>350</min_event_value>
+				<max_event_value>350</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>350</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>710</sum_event_value>
+		<min_event_value>350</min_event_value>
+		<max_event_value>350</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>350</avg_event_value>
+		<segment>eventAction==Action7</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>710</sum_event_value>
+				<min_event_value>350</min_event_value>
+				<max_event_value>350</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>350</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>710</sum_event_value>
+		<min_event_value>350</min_event_value>
+		<max_event_value>350</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>350</avg_event_value>
+		<segment>eventAction==Action8</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>710</sum_event_value>
+				<min_event_value>350</min_event_value>
+				<max_event_value>350</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>350</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>10</sum_event_value>
+		<min_event_value>10</min_event_value>
+		<max_event_value>10</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>10</avg_event_value>
+		<segment>eventAction==Event+ACTION</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>10</sum_event_value>
+				<min_event_value>10</min_event_value>
+				<max_event_value>10</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>10</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>70</sum_event_value>
+		<min_event_value>30</min_event_value>
+		<max_event_value>40</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>40</avg_event_value>
+		<segment>eventAction==event+name</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>70</sum_event_value>
+				<min_event_value>30</min_event_value>
+				<max_event_value>40</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>40</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>11110</sum_event_value>
+		<min_event_value>11110</min_event_value>
+		<max_event_value>11110</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>11110</avg_event_value>
+		<segment>eventAction==Action</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>10</nb_events_with_value>
+				<sum_event_value>11110</sum_event_value>
+				<min_event_value>11110</min_event_value>
+				<max_event_value>11110</max_event_value>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>11110</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value />
+		<max_event_value />
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==other_action</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_events>10</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value />
+				<max_event_value />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_events>10</nb_events>
+		<nb_events_with_value>10</nb_events_with_value>
+		<sum_event_value>20</sum_event_value>
+		<min_event_value>0</min_event_value>
+		<max_event_value>20</max_event_value>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<avg_event_value>10</avg_event_value>
+		<segment>eventAction==This+is+an+event+without+a+URL</segment>
+	</row>
+</result>

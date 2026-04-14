@@ -9,12 +9,9 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Exception\DI\DependencyException;
 use Piwik\Exception\DI\NotFoundException;
 use Piwik\Option;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Settings\ReferrerAnonymisation as ReferrerAnonymizationSettings;
 use Piwik\Tracker\Cache;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
@@ -129,17 +126,17 @@ class Config
      */
     private function getOptionValueWithPrivacyComplianceOverride(string $name, ?int $idSite, $optionValue)
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            if ($name === 'ipAddressMaskLength') {
-                return IpAddressMaskLengthSetting::getInstance($idSite)->getValue();
-            } elseif ($name === 'ipAnonymizerEnabled') {
-                return IPAnonymisationSetting::getInstance($idSite)->getValue();
-            } elseif ($name === 'anonymizeReferrer') {
-                return ReferrerAnonymizationSettings::getInstance($idSite)->getValue();
-            } elseif ($name === 'anonymizeOrderId') {
-                return OrderIdAnonymizationSetting::getInstance($idSite)->getValue();
-            }
+        if ($name === 'ipAddressMaskLength') {
+            return IpAddressMaskLengthSetting::getInstance($idSite)->getValue();
+        }
+        if ($name === 'ipAnonymizerEnabled') {
+            return IPAnonymisationSetting::getInstance($idSite)->getValue();
+        }
+        if ($name === 'anonymizeReferrer') {
+            return ReferrerAnonymizationSettings::getInstance($idSite)->getValue();
+        }
+        if ($name === 'anonymizeOrderId') {
+            return OrderIdAnonymizationSetting::getInstance($idSite)->getValue();
         }
 
         return $optionValue;

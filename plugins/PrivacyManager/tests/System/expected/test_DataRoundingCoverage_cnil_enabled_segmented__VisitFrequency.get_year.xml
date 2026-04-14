@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_visits_new>150</nb_visits_new>
+	<nb_actions_new>400</nb_actions_new>
+	<nb_visits_converted_new>130</nb_visits_converted_new>
+	<bounce_count_new>80</bounce_count_new>
+	<sum_visit_length_new>54202</sum_visit_length_new>
+	<max_actions_new>20</max_actions_new>
+	<bounce_rate_new>0%</bounce_rate_new>
+	<nb_actions_per_visit_new>10</nb_actions_per_visit_new>
+	<avg_time_on_site_new>352</avg_time_on_site_new>
+	<nb_visits_returning>270</nb_visits_returning>
+	<nb_actions_returning>520</nb_actions_returning>
+	<nb_visits_converted_returning>170</nb_visits_converted_returning>
+	<bounce_count_returning>170</bounce_count_returning>
+	<sum_visit_length_returning>67948</sum_visit_length_returning>
+	<max_actions_returning>11</max_actions_returning>
+	<bounce_rate_returning>0%</bounce_rate_returning>
+	<nb_actions_per_visit_returning>10</nb_actions_per_visit_returning>
+	<avg_time_on_site_returning>254</avg_time_on_site_returning>
+</result>

@@ -45,7 +45,6 @@ class WidgetsListTest extends IntegrationTestCase
             'General_Actions' => 26,
             'General_KpiMetric' => 1,
             'General_Visitors' => 31,
-            'SEO' => 1,
             'Goals_Goals' => 3,
             'Insights_WidgetCategory' => 2,
             'ExampleUI_UiFramework' => 8,
@@ -109,7 +108,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(20, count($perCategory));
+        $this->assertEquals(19, count($perCategory));
         $this->assertEquals($initialGoalsWidgets + 2, count($perCategory['Goals_Goals'])); // make sure widgets for that goal were added
     }
 
@@ -123,7 +122,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(21, count($perCategory));
+        $this->assertEquals(20, count($perCategory));
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
@@ -147,7 +146,7 @@ class WidgetsListTest extends IntegrationTestCase
 
         // number of main categories
         $widgetsPerCategory = $this->getWidgetsPerCategory($widgets);
-        $this->assertCount(12, $widgetsPerCategory);
+        $this->assertCount(11, $widgetsPerCategory);
 
         // no professional services promos
         foreach ($widgetsPerCategory as $category => $categoryWidgets) {
@@ -164,20 +163,20 @@ class WidgetsListTest extends IntegrationTestCase
 
         $list = WidgetsList::get();
 
-        $this->assertCount(21, $this->getWidgetsPerCategory($list));
+        $this->assertCount(20, $this->getWidgetsPerCategory($list));
 
-        $list->remove('SEO', 'NoTeXiStInG');
-
-        $perCategory = $this->getWidgetsPerCategory($list);
-        $this->assertCount(21, $perCategory);
-
-        $this->assertArrayHasKey('SEO', $perCategory);
-        $this->assertCount(1, $perCategory['SEO']);
-
-        $list->remove('SEO', 'SEO_SeoRankings');
+        $list->remove('General_KpiMetric', 'NoTeXiStInG');
 
         $perCategory = $this->getWidgetsPerCategory($list);
-        $this->assertArrayNotHasKey('SEO', $perCategory);
+        $this->assertCount(20, $perCategory);
+
+        $this->assertArrayHasKey('General_KpiMetric', $perCategory);
+        $this->assertCount(1, $perCategory['General_KpiMetric']);
+
+        $list->remove('General_KpiMetric', 'General_KpiMetric');
+
+        $perCategory = $this->getWidgetsPerCategory($list);
+        $this->assertArrayNotHasKey('General_KpiMetric', $perCategory);
         $this->assertArrayHasKey('About Matomo', $perCategory);
 
         $list->remove('About Matomo');

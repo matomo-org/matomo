@@ -46,6 +46,7 @@
         "BuildYourOwn": "建立你自己的",
         "ClickHereSettings": "点这里查看 %s 设置。",
         "ComplianceTableSettingStatus": "状态",
+        "ConsentManagementPlatformsOutro": "如果您不使用上述同意管理器之一，则可以使用 Matomo JavaScript API%2$s 在同意的情况下实施 %1$stracking。",
         "ConsentManager": "同意管理器",
         "ConsentManagerConnected": "%1$s 似乎已配置为与 Matomo 一起使用。",
         "ConsentManagerDetected": "在您的网站上检测到 %1$s 同意管理器。要了解如何配置 Matomo 以与 %1$s 一起使用，请阅读 %2$s 本指南%3$s",

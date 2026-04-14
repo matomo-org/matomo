@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>120</nb_visits>
+		<nb_actions>180</nb_actions>
+		<max_actions>12</max_actions>
+		<sum_visit_length>23649</sum_visit_length>
+		<bounce_count>100</bounce_count>
+		<nb_visits_converted>120</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>170</nb_conversions>
+				<nb_visits_converted>120</nb_visits_converted>
+				<revenue>855</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>120</nb_conversions>
+				<nb_visits_converted>120</nb_visits_converted>
+				<revenue>590</revenue>
+			</row>
+		</goals>
+		<nb_conversions>290</nb_conversions>
+		<revenue>1445</revenue>
+		<sum_daily_nb_uniq_visitors>50</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<code>xx</code>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		<segment>countryCode==xx</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>110</nb_visits>
+		<nb_actions>280</nb_actions>
+		<max_actions>18</max_actions>
+		<sum_visit_length>47629</sum_visit_length>
+		<bounce_count>60</bounce_count>
+		<nb_visits_converted>70</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>100</revenue>
+				<items>10</items>
+			</row>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>45.63</revenue>
+				<revenue_subtotal>0</revenue_subtotal>
+				<revenue_tax>0</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>0</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>120</nb_conversions>
+				<nb_visits_converted>70</nb_visits_converted>
+				<revenue>2396.26</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>70</nb_conversions>
+				<nb_visits_converted>70</nb_visits_converted>
+				<revenue>325</revenue>
+			</row>
+			<row idgoal='3'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>42.26</revenue>
+			</row>
+			<row idgoal='4'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+			<row idgoal='5'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>200</nb_conversions>
+		<revenue>2809.15</revenue>
+		<sum_daily_nb_uniq_visitors>50</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<code>fr</code>
+		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		<segment>countryCode==fr</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>50</nb_visits>
+		<nb_actions>90</nb_actions>
+		<max_actions>20</max_actions>
+		<sum_visit_length>760</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>20</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>105</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>105</revenue>
+			</row>
+		</goals>
+		<nb_conversions>40</nb_conversions>
+		<revenue>210</revenue>
+		<sum_daily_nb_uniq_visitors>20</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<code>jp</code>
+		<logo>plugins/Morpheus/icons/dist/flags/jp.png</logo>
+		<segment>countryCode==jp</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>50</nb_visits>
+		<nb_actions>80</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>8143</sum_visit_length>
+		<bounce_count>30</bounce_count>
+		<nb_visits_converted>20</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>222.22</revenue>
+				<revenue_subtotal>200</revenue_subtotal>
+				<revenue_tax>22</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>100</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>100</revenue>
+			</row>
+		</goals>
+		<nb_conversions>40</nb_conversions>
+		<revenue>422.22</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<code>ca</code>
+		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		<segment>countryCode==ca</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>30</nb_visits>
+		<nb_actions>40</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>25</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>50</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<code>au</code>
+		<logo>plugins/Morpheus/icons/dist/flags/au.png</logo>
+		<segment>countryCode==au</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>20</nb_visits>
+		<nb_actions>80</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>16223</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>20</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>222.22</revenue>
+				<revenue_subtotal>200</revenue_subtotal>
+				<revenue_tax>22</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>100</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>100</revenue>
+			</row>
+		</goals>
+		<nb_conversions>40</nb_conversions>
+		<revenue>422.22</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>gb</code>
+		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		<segment>countryCode==gb</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>20</nb_visits>
+		<nb_actions>50</nb_actions>
+		<max_actions>12</max_actions>
+		<sum_visit_length>6595</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>20</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10000000000</revenue>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>100</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>100</revenue>
+			</row>
+		</goals>
+		<nb_conversions>40</nb_conversions>
+		<revenue>200</revenue>
+		<sum_daily_nb_uniq_visitors>20</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<code>us</code>
+		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+		<segment>countryCode==us</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>20</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>3247</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>111.11</revenue>
+				<revenue_subtotal>100</revenue_subtotal>
+				<revenue_tax>11</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>161.11</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>cn</code>
+		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+		<segment>countryCode==cn</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>20</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>3247</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>111.11</revenue>
+				<revenue_subtotal>100</revenue_subtotal>
+				<revenue_tax>11</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>151.11</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>id</code>
+		<logo>plugins/Morpheus/icons/dist/flags/id.png</logo>
+		<segment>countryCode==id</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>6</max_actions>
+		<sum_visit_length>6126</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>7530.33</revenue>
+				<items>10</items>
+			</row>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>13351.11</revenue>
+				<revenue_subtotal>2700</revenue_subtotal>
+				<revenue_tax>531</revenue_tax>
+				<revenue_shipping>120.11</revenue_shipping>
+				<revenue_discount>686</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>60</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+		</goals>
+		<nb_conversions>20</nb_conversions>
+		<revenue>13426.11</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>pl</code>
+		<logo>plugins/Morpheus/icons/dist/flags/pl.png</logo>
+		<segment>countryCode==pl</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>20</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>3244</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>40</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>ru</code>
+		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
+		<segment>countryCode==ru</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>6</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>30</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>br</code>
+		<logo>plugins/Morpheus/icons/dist/flags/br.png</logo>
+		<segment>countryCode==br</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>6</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>30</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>sg</code>
+		<logo>plugins/Morpheus/icons/dist/flags/sg.png</logo>
+		<segment>countryCode==sg</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>6</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>it</code>
+		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
+		<segment>countryCode==it</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>1625</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>111.11</revenue>
+				<revenue_subtotal>100</revenue_subtotal>
+				<revenue_tax>11</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>131.11</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>mk</code>
+		<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
+		<segment>countryCode==mk</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<code>&amp;lt</code>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		<segment>countryCode==%26lt</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<code>{{_</code>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		<segment>countryCode==%7B%7B_</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>2</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>10</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>kr</code>
+		<logo>plugins/Morpheus/icons/dist/flags/kr.png</logo>
+		<segment>countryCode==kr</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+</result>

@@ -75,6 +75,7 @@
         "GdprToolsPageIntroEraseRight": "prawo do usunięcia części lub całości ich danych (oraz prawo do ich poprawienia).",
         "GeolocationAnonymizeIpNote": "NOTKA: Geolokalizacja zwróci zbliżone wyniki przy anonimizacji 1 bajtu. 2 bajty lub więcej znacząco obniżą dokładność.",
         "GetPurgeEstimate": "Oszacuj wzrost wolnego miejsca",
+        "InProgress": "W trakcie",
         "KeepBasicMetrics": "Zachowaj podstawowe wskaźniki ()wizyty, odsłony stron, wskaźnik porzuceń, konwersje celów, konwersje e-commerce, itd.)",
         "KeepDataFor": "Zachowaj wszystkie dane przez",
         "KeepReportSegments": "Zachowaj raporty grup dla zachowanych powyżej danych",

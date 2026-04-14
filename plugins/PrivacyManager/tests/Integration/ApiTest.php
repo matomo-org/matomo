@@ -11,7 +11,6 @@ namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
 use Exception;
 use Piwik\Access;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\NoAccessException;
 use Piwik\Plugins\PrivacyManager\API;
@@ -46,24 +45,8 @@ class ApiTest extends IntegrationTestCase
         $this->api = API::getInstance();
     }
 
-    public function testSetComplianceStatusThrowsExceptionIfFeatureFlagDisabled(): void
-    {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'disabled'];
-
-        $this->expectExceptionMessage('Feature not available');
-        $this->api->setComplianceStatus(
-            (string) $this->siteId,
-            'cnil_v1',
-            true
-        );
-    }
-
     public function testSetComplianceStatusThrowsExceptionIfInvalidComplianceType(): void
     {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
         $this->expectExceptionMessage('Invalid compliance type');
         $this->api->setComplianceStatus(
             (string) $this->siteId,
@@ -74,10 +57,7 @@ class ApiTest extends IntegrationTestCase
 
     public function testSetComplianceStatusThrowsExceptionIfUserDoesntHaveSuperAdmin(): void
     {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
-        $fakeAccess = $container->get(Access::class);
+        $fakeAccess = StaticContainer::getContainer()->get(Access::class);
         $fakeAccess->setSuperUserAccess(false);
 
         $this->expectException(NoAccessException::class);
@@ -91,9 +71,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testSetComplianceStatusReturnsTheNewStateIfEnabled(): void
     {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
         $complianceType = 'cnil_v1';
 
         $result = $this->api->setComplianceStatus(
@@ -108,9 +85,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testSetComplianceStatusDoesNotRequirePasswordWhenPostSessionFlagIsZeroEvenIfGetFlagIsOne(): void
     {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
         $_GET['force_api_session'] = 1;
         $_POST['token_auth'] = 'postToken';
         $_POST['force_api_session'] = 0;
@@ -132,9 +106,6 @@ class ApiTest extends IntegrationTestCase
 
     public function testSetComplianceStatusRequiresPasswordWhenPostSessionFlagIsOneEvenIfGetFlagIsZero(): void
     {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
 

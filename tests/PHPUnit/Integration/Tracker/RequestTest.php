@@ -11,7 +11,6 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Matomo\Network\IPUtils;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -529,8 +528,6 @@ class RequestTest extends IntegrationTestCase
 
     public function testGetForcedUserIdShouldReturnUserIdWhenCnilPolicyDisabled()
     {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false);
 
         $request = $this->buildRequest(['uid' => 'mytest', 'idsite' => '1']);
@@ -539,8 +536,6 @@ class RequestTest extends IntegrationTestCase
 
     public function testGetForcedUserIdShouldReturnFalseWhenCnilPolicyEnabled()
     {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true);
 
         $request = $this->buildRequest(['uid' => 'mytest', 'idsite' => '1']);

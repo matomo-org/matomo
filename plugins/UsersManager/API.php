@@ -24,6 +24,7 @@ use Piwik\Date;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\Plugins\CoreAdminHome\Emails\AnonymousAccessEnabledEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -100,6 +101,9 @@ class API extends \Piwik\Plugin\API
     private $allowedEmailDomain;
 
     private $userRepository;
+
+    public const PREFERENCE_THEME_MODE = 'themeMode';
+    public const PREFERENCE_DEFAULT_THEME_MODE = ThemeStyles::LIGHT_MODE;
 
     public const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     public const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
@@ -313,6 +317,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $names = [
+          self::PREFERENCE_THEME_MODE,
           self::PREFERENCE_DEFAULT_REPORT,
           self::PREFERENCE_DEFAULT_REPORT_DATE,
           'isLDAPUser', // used in loginldap
@@ -337,6 +342,8 @@ class API extends \Piwik\Plugin\API
     private function getDefaultUserPreference($preferenceName, $login)
     {
         switch ($preferenceName) {
+            case self::PREFERENCE_THEME_MODE:
+                return self::PREFERENCE_DEFAULT_THEME_MODE;
             case self::PREFERENCE_DEFAULT_REPORT:
                 $viewableSiteIds = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
                 if (!empty($viewableSiteIds)) {

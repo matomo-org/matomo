@@ -281,7 +281,7 @@ window.piwikHelper = {
         // template that references the root component and wraps the vue-entry component's html.
         // this allows using slots in twig.
         var app = createVueApp({
-          name: componentName+'Entry',
+          name: entry,
           template: '<root ' + paramsStr + '>' + this.innerHTML.replace('{{', '{&lbrace;') + '</root>',
           data: function () {
             return componentParams;

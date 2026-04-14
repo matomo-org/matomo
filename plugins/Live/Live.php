@@ -13,10 +13,8 @@ use Piwik\Cache;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Site;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled as VisitorLogDisabledSetting;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 
 class Live extends \Piwik\Plugin
 {
@@ -62,16 +60,8 @@ class Live extends \Piwik\Plugin
      */
     public static function checkIsVisitorLogEnabled($idSite = null): void
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            if (VisitorLogDisabledSetting::getInstance()->getValue() === true) {
-                throw new \Exception('Visits log is deactivated globally. A user with super user access can enable this feature in the general settings.');
-            }
-        } else {
-            $systemSettings = new SystemSettings();
-            if ($systemSettings->disableVisitorLog->getValue() === true) {
-                throw new \Exception('Visits log is deactivated globally. A user with super user access can enable this feature in the general settings.');
-            }
+        if (VisitorLogDisabledSetting::getInstance()->getValue() === true) {
+            throw new \Exception('Visits log is deactivated globally. A user with super user access can enable this feature in the general settings.');
         }
 
         if (empty($idSite)) {
@@ -82,15 +72,8 @@ class Live extends \Piwik\Plugin
             $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
             foreach ($idSites as $idSite) {
-                if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-                    if (VisitorLogDisabledSetting::getInstance($idSite)->getValue() === true) {
-                        throw new \Exception('Visits log is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website (idSite=' . $idSite . ').');
-                    }
-                } else {
-                    $settings =  new MeasurableSettings($idSite);
-                    if ($settings->disableVisitorLog->getValue() === true) {
-                        throw new \Exception('Visits log is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website (idSite=' . $idSite . ').');
-                    }
+                if (VisitorLogDisabledSetting::getInstance($idSite)->getValue() === true) {
+                    throw new \Exception('Visits log is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website (idSite=' . $idSite . ').');
                 }
             }
         }

@@ -1,0 +1,1634 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>240</nb_visits>
+		<nb_actions>630</nb_actions>
+		<max_actions>20</max_actions>
+		<sum_visit_length>89397</sum_visit_length>
+		<bounce_count>100</bounce_count>
+		<nb_visits_converted>120</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10000007530.33</revenue>
+				<items>10</items>
+			</row>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>14128.88</revenue>
+				<revenue_subtotal>3400</revenue_subtotal>
+				<revenue_tax>608</revenue_tax>
+				<revenue_shipping>120.11</revenue_shipping>
+				<revenue_discount>686</revenue_discount>
+				<items>20</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>160</nb_conversions>
+				<nb_visits_converted>120</nb_visits_converted>
+				<revenue>1426</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>120</nb_conversions>
+				<nb_visits_converted>120</nb_visits_converted>
+				<revenue>620</revenue>
+			</row>
+			<row idgoal='3'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>42.26</revenue>
+			</row>
+			<row idgoal='4'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+			<row idgoal='5'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>300</nb_conversions>
+		<revenue>16217.14</revenue>
+		<sum_daily_nb_uniq_visitors>120</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>30</sum_daily_nb_users>
+		<segment>referrerType==direct</segment>
+		<referrer_type>1</referrer_type>
+	</row>
+	<row>
+		
+		<nb_visits>70</nb_visits>
+		<nb_actions>130</nb_actions>
+		<max_actions>7</max_actions>
+		<sum_visit_length>23259</sum_visit_length>
+		<bounce_count>50</bounce_count>
+		<nb_visits_converted>70</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>120</nb_conversions>
+				<nb_visits_converted>70</nb_visits_converted>
+				<revenue>595</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>70</nb_conversions>
+				<nb_visits_converted>70</nb_visits_converted>
+				<revenue>330</revenue>
+			</row>
+		</goals>
+		<nb_conversions>190</nb_conversions>
+		<revenue>925</revenue>
+		<sum_daily_nb_uniq_visitors>70</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>referrerType==website</segment>
+		<referrer_type>3</referrer_type>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>5</max_actions>
+				<sum_visit_length>723</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>30</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>40</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==anothersite.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>3</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==apocalypsenow.org</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==mutantregistration.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>3</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==mutantrights.org</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>2</max_actions>
+				<sum_visit_length>362</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>15</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==myotherreferrerwebsite.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==myreferrerwebsite.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>2</max_actions>
+				<sum_visit_length>2</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==piwik.org</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>50</nb_actions>
+				<max_actions>7</max_actions>
+				<sum_visit_length>9020</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>20</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>120</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>60</revenue>
+					</row>
+				</goals>
+				<nb_conversions>40</nb_conversions>
+				<revenue>180</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerName==referrer.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>2</max_actions>
+				<sum_visit_length>2</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==sn110w.snt110.mail.live.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerName==whatever.com1</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>4</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>40</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerName==whatever0.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>2</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>20</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerName==whatever1.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerName==whatever3.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>4</max_actions>
+				<sum_visit_length>1804</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>35</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>45</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==www.external.com.vn</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>2555</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>70</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>35</revenue>
+					</row>
+				</goals>
+				<nb_conversions>20</nb_conversions>
+				<revenue>105</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==www.referrer0.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>3</max_actions>
+				<sum_visit_length>2194</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>70</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>40</revenue>
+					</row>
+				</goals>
+				<nb_conversions>20</nb_conversions>
+				<revenue>110</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==www.referrer1.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>3</max_actions>
+				<sum_visit_length>2194</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>70</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>40</revenue>
+					</row>
+				</goals>
+				<nb_conversions>20</nb_conversions>
+				<revenue>110</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==www.referrer2.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>3</max_actions>
+				<sum_visit_length>2194</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>70</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>40</revenue>
+					</row>
+				</goals>
+				<nb_conversions>20</nb_conversions>
+				<revenue>110</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==www.referrer3.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>2190</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>60</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>30</revenue>
+					</row>
+				</goals>
+				<nb_conversions>20</nb_conversions>
+				<revenue>90</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==www.referrer4.com</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>3</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==xavierinstitute.org</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>60</nb_visits>
+		<nb_actions>110</nb_actions>
+		<max_actions>16</max_actions>
+		<sum_visit_length>8005</sum_visit_length>
+		<bounce_count>60</bounce_count>
+		<nb_visits_converted>60</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>100</revenue>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>100</nb_conversions>
+				<nb_visits_converted>60</nb_visits_converted>
+				<revenue>512</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>60</nb_conversions>
+				<nb_visits_converted>60</nb_visits_converted>
+				<revenue>315</revenue>
+			</row>
+		</goals>
+		<nb_conversions>160</nb_conversions>
+		<revenue>827</revenue>
+		<sum_daily_nb_uniq_visitors>60</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>20</sum_daily_nb_users>
+		<segment>referrerType==search</segment>
+		<referrer_type>2</referrer_type>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>30</nb_actions>
+				<max_actions>16</max_actions>
+				<sum_visit_length>4325</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>20</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>85</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>20</nb_conversions>
+				<revenue>95</revenue>
+				<segment>referrerType==search;referrerKeyword==%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==%3Cscript%3E_x%289%29%3C%2Fscript%3E</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>11</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>55</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>55</revenue>
+					</row>
+				</goals>
+				<nb_conversions>20</nb_conversions>
+				<revenue>110</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==free+%3E+proprietary</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>13</max_actions>
+				<sum_visit_length>14</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>65</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>70</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==hello+world</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>10</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>50</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>50</revenue>
+					</row>
+				</goals>
+				<nb_conversions>20</nb_conversions>
+				<revenue>100</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==justice+%29%28%26%5E%23%25%24+not+%27%22+corruption%21</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1084</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>52</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>62</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>5</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>25</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>25</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>50</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==kia+ora</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>10</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>50</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>50</revenue>
+					</row>
+				</goals>
+				<nb_conversions>20</nb_conversions>
+				<revenue>100</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==peace+%22%2C%22+not+war</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>8</max_actions>
+				<sum_visit_length>2162</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>30</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>40</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==piwik</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>2</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>20</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==purchase</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==salut</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==search+term+1</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>2</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>20</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==search+term+2</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>2</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>20</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==search+term+3</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>2</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>20</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==search+term+4</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>2</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>20</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==that+search+term</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>4</max_actions>
+				<sum_visit_length>365</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==this+keyword+should+be+ranked</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>3</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>15</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>15</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>30</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==this+search+term</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>20</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==wikileaks+ftw</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>10</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==%7B%7B_vue.h.constructor%60_x%2821%29%60%28%29%7D%7D</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='ecommerceAbandonedCart'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>100</revenue>
+						<items>10</items>
+					</row>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==%F0%9F%98%A1</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>30</nb_visits>
+		<nb_actions>30</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>31</sum_visit_length>
+		<bounce_count>30</bounce_count>
+		<nb_visits_converted>30</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>30</nb_conversions>
+				<nb_visits_converted>30</nb_visits_converted>
+				<revenue>155</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>30</nb_conversions>
+				<nb_visits_converted>30</nb_visits_converted>
+				<revenue>155</revenue>
+			</row>
+		</goals>
+		<nb_conversions>60</nb_conversions>
+		<revenue>310</revenue>
+		<sum_daily_nb_uniq_visitors>30</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerType==ai</segment>
+		<referrer_type>8</referrer_type>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>12</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>60</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>60</revenue>
+					</row>
+				</goals>
+				<nb_conversions>20</nb_conversions>
+				<revenue>120</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<url>chatgpt.com</url>
+				<logo>plugins/Morpheus/icons/dist/aiAssistants/chatgpt.com.png</logo>
+				<segment>referrerType==ai;referrerName==ChatGPT</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>4</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>40</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<url>claude.ai</url>
+				<logo>plugins/Morpheus/icons/dist/aiAssistants/claude.ai.png</logo>
+				<segment>referrerType==ai;referrerName==Claude</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>4</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>40</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<url>gemini.google.com</url>
+				<logo>plugins/Morpheus/icons/dist/aiAssistants/gemini.google.com.png</logo>
+				<segment>referrerType==ai;referrerName==Gemini</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>3</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>15</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>15</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>30</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<url>chat.mistral.ai</url>
+				<logo>plugins/Morpheus/icons/dist/aiAssistants/chat.mistral.ai.png</logo>
+				<segment>referrerType==ai;referrerName==Le+Chat</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>8</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>40</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>40</revenue>
+					</row>
+				</goals>
+				<nb_conversions>20</nb_conversions>
+				<revenue>80</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<url>perplexity.ai</url>
+				<logo>plugins/Morpheus/icons/dist/aiAssistants/perplexity.ai.png</logo>
+				<segment>referrerType==ai;referrerName==Perplexity</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>20</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>1458</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>20</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>45.63</revenue>
+				<revenue_subtotal>0</revenue_subtotal>
+				<revenue_tax>0</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>0</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>1193.26</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>80</revenue>
+			</row>
+		</goals>
+		<nb_conversions>40</nb_conversions>
+		<revenue>1318.89</revenue>
+		<sum_daily_nb_uniq_visitors>20</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerType==campaign</segment>
+		<referrer_type>6</referrer_type>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==campaign;referrerName==adwords+%28text%29</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>1</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==campaign;referrerName==adwords+%28text_image%29</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>2</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>10</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>20</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==campaign;referrerName==adwords+campaign</segment>
+			</row>
+			<row>
+				
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>1005</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>1010</revenue>
+				<nb_visits>0</nb_visits>
+				<segment>referrerType==campaign;referrerName==campaign+name+-+yeah%21</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>0</nb_actions>
+				<max_actions>0</max_actions>
+				<sum_visit_length>3</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>24</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>24</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==campaign;referrerName==credited+to+another+goal</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>0</nb_actions>
+				<max_actions>0</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>42</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>42</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==campaign;referrerName==credited+to+goal+please</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>2</max_actions>
+				<sum_visit_length>1447</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='ecommerceOrder'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5.33</revenue>
+						<revenue_subtotal>0</revenue_subtotal>
+						<revenue_tax>0</revenue_tax>
+						<revenue_shipping>0</revenue_shipping>
+						<revenue_discount>0</revenue_discount>
+						<items>0</items>
+					</row>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>67.26</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>92.59</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==campaign;referrerName==ga+campaign</segment>
+			</row>
+			<row>
+				
+				<goals>
+					<row idgoal='ecommerceOrder'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>17.4</revenue>
+						<revenue_subtotal>0</revenue_subtotal>
+						<revenue_tax>0</revenue_tax>
+						<revenue_shipping>0</revenue_shipping>
+						<revenue_discount>0</revenue_discount>
+						<items>0</items>
+					</row>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>27.4</revenue>
+				<nb_visits>0</nb_visits>
+				<segment>referrerType==campaign;referrerName==gifted+search</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>4</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>20</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>40</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==campaign;referrerName==goal-matching-url-parameter</segment>
+			</row>
+			<row>
+				
+				<goals>
+					<row idgoal='ecommerceOrder'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>22.9</revenue>
+						<revenue_subtotal>0</revenue_subtotal>
+						<revenue_tax>0</revenue_tax>
+						<revenue_shipping>0</revenue_shipping>
+						<revenue_discount>0</revenue_discount>
+						<items>0</items>
+					</row>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>32.9</revenue>
+				<nb_visits>0</nb_visits>
+				<segment>referrerType==campaign;referrerName==recruiting+drive</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>10</nb_conversions>
+						<nb_visits_converted>10</nb_visits_converted>
+						<revenue>5</revenue>
+					</row>
+				</goals>
+				<nb_conversions>10</nb_conversions>
+				<revenue>10</revenue>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerType==campaign;referrerName==testcampaign</segment>
+			</row>
+		</subtable>
+	</row>
+</result>

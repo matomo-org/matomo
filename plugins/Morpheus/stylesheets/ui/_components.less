@@ -1,8 +1,8 @@
 //colors calendar
 @calendarHeaderBackground: @theme-color-background-contrast;
 @calendarHeaderColor: #999;
-@calendarCurrentStateHover: #f5f5f5;
-@calendarBorder: #ccc;
+@calendarCurrentStateHover: @theme-color-background-base;
+@calendarBorder: @theme-color-border;
 
 .ui-datepicker {
   th,
@@ -137,7 +137,7 @@
   }
 
   .segment-footer {
-    background: @color-white;
+    background: @theme-color-background-contrast;
 
     a.delete {
       color: @theme-color-brand;
@@ -240,7 +240,7 @@
       border-bottom: 1px solid @color-gray;
       font-weight: normal;
       padding: 15px;
-      background: #f5f5f5;
+      background: @theme-color-background-tinyContrast;
       .border-radius(6px 6px 0 0);
     }
 
@@ -264,7 +264,7 @@
 
         h3 {
           font-weight: normal;
-          color: #000;
+          color: @theme-color-text;
           .font-default(15px, 20px);
 
           margin-bottom: 10px;
@@ -276,7 +276,7 @@
 
         h3 {
           font-weight: normal;
-          color: #000;
+          color: @theme-color-text;
           .font-default(15px, 20px);
 
           margin-bottom: 10px;
@@ -286,7 +286,7 @@
   }
 
   .Transitions_TitleOfOpenGroup {
-    color: #000;
+    color: @theme-color-text;
     .font-default(15px, 20px);
 
     font-weight: normal;

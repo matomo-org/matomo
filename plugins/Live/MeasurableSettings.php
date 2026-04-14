@@ -9,11 +9,8 @@
 
 namespace Piwik\Plugins\Live;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled as VisitorLogDisabledSetting;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Measurable\MeasurableSetting;
 
@@ -32,39 +29,22 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
         $systemSettings = new SystemSettings();
 
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $this->disableVisitorLog->setIsWritableByCurrentUser(!VisitorLogDisabledSetting::getInstance()->getValue());
-        } else {
-            $this->disableVisitorLog->setIsWritableByCurrentUser(!$systemSettings->disableVisitorLog->getValue());
-        }
+        $this->disableVisitorLog->setIsWritableByCurrentUser(!VisitorLogDisabledSetting::getInstance()->getValue());
         $this->disableVisitorProfile->setIsWritableByCurrentUser(!$systemSettings->disableVisitorProfile->getValue());
     }
 
     private function makeVisitorLogSetting(): MeasurableSetting
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $setting = VisitorLogDisabledSetting::getMeasurableSetting($this->idSite);
-            $setting->setConfigureCallback(function (FieldConfig $field) {
-                $field->title = VisitorLogDisabledSetting::getTitle();
-                $field->inlineHelp = VisitorLogDisabledSetting::getInlineHelp();
-                $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            });
+        $setting = VisitorLogDisabledSetting::getMeasurableSetting($this->idSite);
+        $setting->setConfigureCallback(function (FieldConfig $field) {
+            $field->title = VisitorLogDisabledSetting::getTitle();
+            $field->inlineHelp = VisitorLogDisabledSetting::getInlineHelp();
+            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+        });
 
-            $this->addSetting($setting);
+        $this->addSetting($setting);
 
-            return $setting;
-        } else {
-            $defaultValue = false;
-            $type = FieldConfig::TYPE_BOOL;
-
-            return $this->makeSetting('disable_visitor_log', $defaultValue, $type, function (FieldConfig $field) {
-                $field->title = Piwik::translate('Live_DisableVisitsLogAndProfile');
-                $field->inlineHelp = Piwik::translate('Live_DisableVisitsLogAndProfileDescription');
-                $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
-            });
-        }
+        return $setting;
     }
 
     private function makeVisitorProfileSetting(): MeasurableSetting

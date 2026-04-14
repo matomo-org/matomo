@@ -40,11 +40,9 @@ describe("PrivacyManager_SiteSpecific", function () {
 
     async function setCnilPolicyEnforced(enforced) {
         if (enforced) {
-            testEnvironment.overrideConfig('FeatureFlags', 'PrivacyCompliance_feature', 'enabled');
             testEnvironment.overrideConfig('CnilPolicy', 'cnil_v1_policy_enabled', 1);
         } else {
             delete testEnvironment.configOverride.CnilPolicy;
-            delete testEnvironment.configOverride.FeatureFlags;
         }
         await testEnvironment.save();
     }

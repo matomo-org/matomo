@@ -23,9 +23,6 @@ use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\Goals\RecordBuilders\ProductRecord;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
-use Piwik\Container\StaticContainer;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 
@@ -540,19 +537,16 @@ class Goals extends \Piwik\Plugin
 
     public function filterSegments(SegmentsList &$list, array $idSites)
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $limitSegmentsSettingEnabled = false;
-            if (empty($idSites)) {
-                $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
-            } else {
-                foreach ($idSites as $idsite) {
-                    $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
-                }
+        $limitSegmentsSettingEnabled = false;
+        if (empty($idSites)) {
+            $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
+        } else {
+            foreach ($idSites as $idsite) {
+                $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
             }
-            if ($limitSegmentsSettingEnabled) {
-                $list->remove('Goals_Conversion', 'orderId');
-            }
+        }
+        if ($limitSegmentsSettingEnabled) {
+            $list->remove('Goals_Conversion', 'orderId');
         }
     }
 }

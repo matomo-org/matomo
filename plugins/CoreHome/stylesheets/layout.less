@@ -413,11 +413,18 @@ nav {
 
     .collapsible-header {
       border-bottom: 0;
-      cursor: pointer!important;
-      color: @theme-color-header-text;
-      & when (@theme-color-header-text = #ffffff) {
-        color: unset;
+      cursor: pointer !important;
+      color: @theme-color-text;
+      background-color: @theme-color-background-contrast;
+
+      i {
+        color: @theme-color-text-lighter;
       }
+    }
+
+    .collapsible li.active > .collapsible-header,
+    .collapsible-header.active {
+      background-color: @theme-color-background-tinyContrast;
     }
 
     .collapsible-body {
@@ -492,19 +499,6 @@ nav {
   padding: 4px 6px;
   font-size: 9px;
   font-weight: bold;
-}
-
-.whatisnew-changelist {
-  overflow-y: scroll;
-  max-height: 500px;
-  margin-bottom: 10px;
-  padding-right: 5px;
-  padding-left: 5px;
-}
-
-.whatisnew-btn {
-  float:right;
-  margin-left: 10px;
 }
 
 #root, #standalone {

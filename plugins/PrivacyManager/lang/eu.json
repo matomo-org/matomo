@@ -46,6 +46,7 @@
         "BuildYourOwn": "Eraiki zurea",
         "ClickHereSettings": "Egin klik hemen %s ezarpenetara sartzeko.",
         "ComplianceTableSettingStatus": "Egoera",
+        "ConsentManagementPlatformsOutro": "Ez baduzu goiko onarpen-kudeatzaileetako bat erabiltzen, %1$sMatomoren JavaScript APIa erabiliz inplementatu dezakezu onarpenaren jarraipena%2$s.",
         "ConsentManager": "Baimen-kudeatzailea",
         "ConsentManagerConnected": "Dirudienez %1$s dagoeneko konfiguratuta dago Matomorekin lan egiteko.",
         "ConsentManagerDetected": "%1$s baimen-kudeatzailea detektatu da zure webgunean. Matomo %1$s(r)ekin funtzionatzeko konfiguratzeari buruz ikasteko %2$sirakurri gida hau%3$s",

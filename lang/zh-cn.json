@@ -81,6 +81,7 @@
         "ColumnPercentageVisits": "%% 访问",
         "ColumnPercentageVisitsDocumentation": "总访问次数的百分比。",
         "ColumnRevenue": "收益",
+        "ColumnSegment": "區隔",
         "ColumnSumTimeOnSite": "网站总浏览时间",
         "ColumnSumVisitLength": "网站停留时间 (秒)",
         "ColumnTotalPageviews": "总的浏览次数",

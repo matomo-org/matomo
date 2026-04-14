@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>20</nb_visits>
+		<nb_hits>20</nb_hits>
+		<sum_time_spent>10800</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_visits>20</exit_nb_visits>
+		<nb_pages_per_search>10</nb_pages_per_search>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>600</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>siteSearchKeyword==Bring+on+the+party</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_hits>10</nb_hits>
+		<sum_time_spent>252</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<nb_pages_per_search>10</nb_pages_per_search>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>252</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
+	</row>
+</result>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>10</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentPiece==content+piece+20</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+		<segment>contentPiece==content+piece+21</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>10</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentPiece==content+piece+22</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+		<segment>contentPiece==content+piece+23</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>10</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentPiece==content+piece+24</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>10</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentPiece==Click+to+download+Piwik+now</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>10</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentPiece==%2Fpath%2Fad.jpg</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+		<segment>contentPiece==%2Fpath%2Fad2.jpg</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>10</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentPiece==Click+NOW</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+		<segment>contentPiece==movie.mov</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+		<segment>contentPiece==Unknown</segment>
+	</row>
+</result>

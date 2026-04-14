@@ -18,7 +18,9 @@ use Piwik\DataTable\Filter\Pattern;
 use Piwik\DataTable\Renderer;
 use Piwik\ExceptionHandler;
 use Piwik\Http\HttpCodeException;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
+use Piwik\Plugins\PrivacyManager\DataRounding;
 
 class ResponseBuilder
 {
@@ -189,6 +191,17 @@ class ResponseBuilder
         if ($this->postProcessDataTable) {
             $postProcessor = new DataTablePostProcessor($this->apiModule, $this->apiMethod, $this->request);
             $datatable = $postProcessor->process($datatable);
+        } else {
+            $report = null;
+            if (
+                DataRounding::shouldApplyForRequest($this->request)
+                && !empty($this->apiModule)
+                && !empty($this->apiMethod)
+            ) {
+                $report = ReportsProvider::factory($this->apiModule, $this->apiMethod);
+            }
+
+            DataRounding::roundCountMetricsForRequest($datatable, $this->request, $report);
         }
 
         return $this->apiRenderer->renderDataTable($datatable);
@@ -196,6 +209,10 @@ class ResponseBuilder
 
     private function handleArray($array)
     {
+        if (!$this->shouldSkipRequestBasedArrayRounding() && DataRounding::shouldApplyForRequest($this->request)) {
+            $array = DataRounding::roundCountArrayValuesForRequest($array, $this->request);
+        }
+
         $firstArray = null;
         $firstKey   = null;
         if (!empty($array)) {
@@ -235,6 +252,13 @@ class ResponseBuilder
         }
 
         return $this->apiRenderer->renderArray($array);
+    }
+
+    private function shouldSkipRequestBasedArrayRounding(): bool
+    {
+        // MultiSites.getAllWithGroups applies per-row site-aware rounding later, so request-level array
+        // rounding here would double-round mixed-policy payloads based on the ambient request site list.
+        return $this->apiModule === 'MultiSites' && $this->apiMethod === 'getAllWithGroups';
     }
 
     private function sendHeaderIfEnabled()

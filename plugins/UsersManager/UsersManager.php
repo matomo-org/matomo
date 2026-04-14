@@ -420,6 +420,10 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_SuperUsersPermissionsNotice';
         $translationKeys[] = 'UsersManager_TheDisplayedUsersAreSelected';
         $translationKeys[] = 'UsersManager_TheDisplayedWebsitesAreSelected';
+        $translationKeys[] = 'UsersManager_ThemeModeHelp1';
+        $translationKeys[] = 'UsersManager_ThemeModeHelp2';
+        $translationKeys[] = 'UsersManager_ThemeModeHelp3';
+        $translationKeys[] = 'UsersManager_ThemeModeMatchBrowser';
         $translationKeys[] = 'UsersManager_TokenAuthIntro';
         $translationKeys[] = 'UsersManager_TokenSuccessfullyGenerated';
         $translationKeys[] = 'UsersManager_TwoFactorAuthentication';

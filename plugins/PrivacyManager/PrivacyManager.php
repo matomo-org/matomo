@@ -23,10 +23,8 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Request;
@@ -208,6 +206,21 @@ class PrivacyManager extends Plugin
 
     public function onConfigureVisualisation(Plugin\Visualization $view)
     {
+        $roundingRequest = [
+            'idSite' => $view->requestConfig->getRequestParam('idSite') ?: $view->requestConfig->getRequestParam('idsite'),
+            'segment' => $view->requestConfig->getRequestParam('segment'),
+        ];
+
+        if (DataRounding::shouldApplyForRequest($roundingRequest)) {
+            if (!$view->config->show_footer_message) {
+                $view->config->show_footer_message = '';
+            } elseif (!str_ends_with($view->config->show_footer_message, '<br/>')) {
+                $view->config->show_footer_message .= '<br/>';
+            }
+
+            $view->config->show_footer_message .= Piwik::translate('PrivacyManager_InfoCountsRoundedForPrivacy') . '<br/>';
+        }
+
         if ($view->requestConfig->getApiModuleToRequest() === 'Referrers' && !$view->requestConfig->idSubtable) {
             $idSite = $view->requestConfig->getRequestParam('idsite');
             if (!is_numeric($idSite) || !$idSite) {
@@ -316,6 +329,9 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_BackgroundColor';
         $translationKeys[] = 'PrivacyManager_BuildYourOwn';
         $translationKeys[] = 'PrivacyManager_DBPurged';
+        $translationKeys[] = 'PrivacyManager_DataProcessingAgreement';
+        $translationKeys[] = 'PrivacyManager_DataProcessingAgreementIntro1Linked';
+        $translationKeys[] = 'PrivacyManager_DataProcessingAgreementIntro2';
         $translationKeys[] = 'PrivacyManager_DataRetention';
         $translationKeys[] = 'PrivacyManager_DataRetentionInMatomo';
         $translationKeys[] = 'PrivacyManager_DataRetentionOverall';
@@ -380,8 +396,17 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_GdprChecklistDesc2';
         $translationKeys[] = 'PrivacyManager_GdprChecklists';
         $translationKeys[] = 'PrivacyManager_GdprOverview';
+        $translationKeys[] = 'PrivacyManager_GdprOverviewApplicabilityCondition1';
+        $translationKeys[] = 'PrivacyManager_GdprOverviewApplicabilityCondition2';
+        $translationKeys[] = 'PrivacyManager_GdprOverviewApplicabilityCondition2Detail1';
+        $translationKeys[] = 'PrivacyManager_GdprOverviewApplicabilityCondition2Detail2';
+        $translationKeys[] = 'PrivacyManager_GdprOverviewApplicabilityIntro';
         $translationKeys[] = 'PrivacyManager_GdprOverviewIntro1';
         $translationKeys[] = 'PrivacyManager_GdprOverviewIntro2';
+        $translationKeys[] = 'PrivacyManager_GdprOverviewIntro3';
+        $translationKeys[] = 'PrivacyManager_GdprOverviewIntro4';
+        $translationKeys[] = 'PrivacyManager_GdprOverviewKeyPoint1';
+        $translationKeys[] = 'PrivacyManager_GdprOverviewMatomoPersonalData';
         $translationKeys[] = 'PrivacyManager_GdprTools';
         $translationKeys[] = 'PrivacyManager_GdprToolsOverviewHint';
         $translationKeys[] = 'PrivacyManager_GdprToolsPageIntro1';
@@ -648,11 +673,8 @@ class PrivacyManager extends Plugin
             }
         }
 
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            if (!empty($settings['delete_logs_older_than'])) {
-                $settings['delete_logs_older_than'] = ReportRetentionSetting::getInstance()->getValue();
-            }
+        if (!empty($settings['delete_logs_older_than'])) {
+            $settings['delete_logs_older_than'] = ReportRetentionSetting::getInstance()->getValue();
         }
 
         return $settings;

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_conversions>740</nb_conversions>
+	<nb_visits_converted>310</nb_visits_converted>
+	<revenue>19598.03</revenue>
+	<conversion_rate>0%</conversion_rate>
+	<nb_conversions_new_visit>360</nb_conversions_new_visit>
+	<nb_visits_converted_new_visit>130</nb_visits_converted_new_visit>
+	<revenue_new_visit>3584.85</revenue_new_visit>
+	<conversion_rate_new_visit>0%</conversion_rate_new_visit>
+	<nb_conversions_returning_visit>380</nb_conversions_returning_visit>
+	<nb_visits_converted_returning_visit>170</nb_visits_converted_returning_visit>
+	<revenue_returning_visit>16013.18</revenue_returning_visit>
+	<conversion_rate_returning_visit>0%</conversion_rate_returning_visit>
+</result>

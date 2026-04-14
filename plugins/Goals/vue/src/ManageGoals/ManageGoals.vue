@@ -83,15 +83,22 @@
                   :is="beforeGoalListActionsBodyComponent[goal.idgoal]"
                 ></component>
 
-                <td v-if="userCanEditGoals" style="padding-top:2px">
+                <td
+                  v-if="userCanEditGoals"
+                  class="entityTable_ActionCell entityTable_ActionCell-3"
+                >
+                  <a
+                    class="table-action icon-show"
+                    :href="getGoalReportUrl(goal.idgoal)"
+                    :title="translate('Goals_ViewGoalReport')"
+                    :aria-label="translate('Goals_ViewGoalReport')"
+                  ></a>
                   <button
-                    v-if="userCanEditGoals"
                     @click="editGoal(goal.idgoal)"
                     class="table-action icon-edit"
                     :title="translate('General_Edit')"
                   ></button>
                   <button
-                    v-if="userCanEditGoals"
                     @click="deleteGoal(goal.idgoal)"
                     class="table-action icon-delete"
                     :title="translate('General_Delete')"
@@ -133,6 +140,7 @@
                 name="goal_name"
                 v-model="goal.name"
                 :maxlength="50"
+                autocomplete="off"
                 :title="translate('Goals_GoalName')"
                 @change="goalNameChanged">
               </Field>
@@ -144,6 +152,7 @@
                 name="goal_description"
                 v-model="goal.description"
                 :maxlength="255"
+                autocomplete="off"
                 :title="translate('General_Description')"
               />
             </div>
@@ -247,6 +256,7 @@
                     uicontrol="text" name="pattern"
                     v-model="goal.pattern"
                     :maxlength="255"
+                    autocomplete="off"
                     :title="patternFieldLabel"
                     :full-width="true"
                   />
@@ -709,7 +719,7 @@ export default defineComponent({
       }
       return null;
     },
-    showNotificationMessage(goalId:string|number, isCreate:boolean) {
+    getGoalReportUrl(goalId:string|number) {
       const link = MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
         module: 'CoreHome',
@@ -718,10 +728,13 @@ export default defineComponent({
       const hash = MatomoUrl.stringify({
         ...MatomoUrl.hashParsed.value,
         category: 'Goals_Goals',
-        subcategory: encodeURIComponent(goalId),
+        subcategory: goalId,
       });
+      return `?${link}#?${hash}`;
+    },
+    showNotificationMessage(goalId:string|number, isCreate:boolean) {
       let successMessage = translate(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
-      const reportLink = `<a href="?${link}#${hash}">[${translate('Goals_ViewGoalReport')}]</a>`;
+      const reportLink = `<a href="${this.getGoalReportUrl(goalId)}">[${translate('Goals_ViewGoalReport')}]</a>`;
       successMessage = `${successMessage} ${reportLink}`;
 
       NotificationsStore.show({

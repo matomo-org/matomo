@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>40</nb_visits>
+		<nb_hits>40</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_following_search>20</nb_hits_following_search>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_following_search>10</nb_hits_following_search>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://example.org/path/file0.zip</url>
+				<segment>downloadUrl==http%253A%252F%252Fexample.org%252Fpath%252Ffile0.zip</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://example.org/path/file1.zip</url>
+				<segment>downloadUrl==http%253A%252F%252Fexample.org%252Fpath%252Ffile1.zip</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_following_search>10</nb_hits_following_search>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://example.org/path/file2.zip</url>
+				<segment>downloadUrl==http%253A%252F%252Fexample.org%252Fpath%252Ffile2.zip</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://example.org/path/file3.zip</url>
+				<segment>downloadUrl==http%253A%252F%252Fexample.org%252Fpath%252Ffile3.zip</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_following_search>10</nb_hits_following_search>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://example.org/path/file4.zip</url>
+				<segment>downloadUrl==http%253A%252F%252Fexample.org%252Fpath%252Ffile4.zip</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://example.org/path/file5.zip</url>
+				<segment>downloadUrl==http%253A%252F%252Fexample.org%252Fpath%252Ffile5.zip</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_following_search>10</nb_hits_following_search>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://example.org/path/file6.zip</url>
+				<segment>downloadUrl==http%253A%252F%252Fexample.org%252Fpath%252Ffile6.zip</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://example.org/path/file7.zip</url>
+				<segment>downloadUrl==http%253A%252F%252Fexample.org%252Fpath%252Ffile7.zip</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_following_search>10</nb_hits_following_search>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://example.org/path/file8.zip</url>
+				<segment>downloadUrl==http%253A%252F%252Fexample.org%252Fpath%252Ffile8.zip</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://example.org/downloads/33.tar.gz</url>
+				<segment>downloadUrl==http%253A%252F%252Fexample.org%252Fdownloads%252F33.tar.gz</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>https://example.org/downloads/35.tar.gz</url>
+				<segment>downloadUrl==https%253A%252F%252Fexample.org%252Fdownloads%252F35.tar.gz</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>https://example.org/downloads/43.tar.gz</url>
+				<segment>downloadUrl==https%253A%252F%252Fexample.org%252Fdownloads%252F43.tar.gz</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_hits>10</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite5.com/20/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252F20%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite5.com/21/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252F21%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite5.com/22/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252F22%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite5.com/23/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252F23%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite5.com/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252Fdownload</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_hits>10</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite6.com/24/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252F24%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite6.com/25/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252F25%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite6.com/26/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252F26%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite6.com/27/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252F27%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite6.com/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252Fdownload</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_hits>10</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite7.com/28/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252F28%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite7.com/29/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252F29%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite7.com/30/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252F30%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite7.com/31/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252F31%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite7.com/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252Fdownload</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_hits>10</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite8.com/32/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite8.com%252F32%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite8.com/33/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite8.com%252F33%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite8.com/34/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite8.com%252F34%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite8.com/35/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite8.com%252F35%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite8.com/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite8.com%252Fdownload</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_hits>10</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite9.com/36/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite9.com%252F36%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite9.com/37/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite9.com%252F37%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite9.com/38/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite9.com%252F38%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite9.com/39/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite9.com%252F39%252Fdownload</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite9.com/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite9.com%252Fdownload</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_hits>10</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>8669490</sum_bandwidth>
+		<nb_hits_with_bandwidth>8</nb_hits_with_bandwidth>
+		<min_bandwidth>4334745</min_bandwidth>
+		<max_bandwidth>4334745</max_bandwidth>
+		<avg_bandwidth>1083686</avg_bandwidth>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>8648046</sum_bandwidth>
+				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
+				<min_bandwidth>4324023</min_bandwidth>
+				<max_bandwidth>4324023</max_bandwidth>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://piwik.net/19.pdf</url>
+				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252F19.pdf</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>7148</sum_bandwidth>
+				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
+				<min_bandwidth>3574</min_bandwidth>
+				<max_bandwidth>3574</max_bandwidth>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://piwik.net/other.png</url>
+				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252Fother.png</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>7148</sum_bandwidth>
+				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
+				<min_bandwidth>3574</min_bandwidth>
+				<max_bandwidth>3574</max_bandwidth>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://piwik.net/thing.css</url>
+				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252Fthing.css</segment>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>7148</sum_bandwidth>
+				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
+				<min_bandwidth>3574</min_bandwidth>
+				<max_bandwidth>3574</max_bandwidth>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://piwik.net/thing.js</url>
+				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252Fthing.js</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_hits>10</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_hits>10</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<url>http://piwik.org/path/again/latest.zip</url>
+				<segment>downloadUrl==http%253A%252F%252Fpiwik.org%252Fpath%252Fagain%252Flatest.zip</segment>
+			</row>
+		</subtable>
+	</row>
+</result>

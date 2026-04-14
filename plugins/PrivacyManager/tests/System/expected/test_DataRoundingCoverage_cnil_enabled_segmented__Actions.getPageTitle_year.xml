@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label> Checkout / Purchasing...</label>
+		<nb_visits>10</nb_visits>
+		<nb_hits>10</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_visits>10</exit_nb_visits>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<revenue>40</revenue>
+				<nb_conv_pages_before>20</nb_conv_pages_before>
+				<nb_conversions_attrib>10</nb_conversions_attrib>
+				<nb_conversions_page_rate>0.019</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
+				<revenue_attrib>16.68</revenue_attrib>
+			</row>
+		</goals>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_exit_nb_uniq_visitors>10</sum_daily_exit_nb_uniq_visitors>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<avg_bandwidth>0</avg_bandwidth>
+	</row>
+</result>

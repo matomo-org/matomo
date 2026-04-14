@@ -12,11 +12,17 @@ declare(strict_types=1);
 namespace Piwik\Plugins\PrivacyManager\FeatureFlags;
 
 use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
+use Piwik\Plugins\FeatureFlags\ForcedFeatureFlagStateInterface;
 
-class PrivacyCompliance implements FeatureFlagInterface
+class PrivacyCompliance implements FeatureFlagInterface, ForcedFeatureFlagStateInterface
 {
     public function getName(): string
     {
         return 'PrivacyCompliance';
+    }
+
+    public function getForcedFeatureFlagState(): bool
+    {
+        return true;
     }
 }

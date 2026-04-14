@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>210</nb_visits>
+		<nb_actions>510</nb_actions>
+		<max_actions>18</max_actions>
+		<sum_visit_length>93297</sum_visit_length>
+		<bounce_count>130</bounce_count>
+		<nb_visits_converted>160</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>110</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>20</sum_daily_nb_users>
+		<segment>browserEngine==Gecko</segment>
+	</row>
+	<row>
+		
+		<nb_visits>90</nb_visits>
+		<nb_actions>160</nb_actions>
+		<max_actions>20</max_actions>
+		<sum_visit_length>12210</sum_visit_length>
+		<bounce_count>70</bounce_count>
+		<nb_visits_converted>90</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>50</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>browserEngine==</segment>
+	</row>
+	<row>
+		
+		<nb_visits>80</nb_visits>
+		<nb_actions>130</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>5249</sum_visit_length>
+		<bounce_count>40</bounce_count>
+		<nb_visits_converted>40</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>40</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>browserEngine==WebKit</segment>
+	</row>
+	<row>
+		
+		<nb_visits>30</nb_visits>
+		<nb_actions>70</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>4895</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>browserEngine==Trident</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>20</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>10</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>browserEngine==Presto</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>30</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>6489</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>browserEngine==Blink</segment>
+	</row>
+</result>

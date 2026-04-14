@@ -84,13 +84,14 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             'format_metrics' => 0,
             'idGoal' => $idGoal,
         ]);
+        /** @var DataTable $datatable */
         $datatable = $request->process();
         $dataRow = $datatable->getFirstRow();
 
         $return = parent::getMetricsForGoal($idGoal, $dataRow);
 
         // Previous period data for evolution
-        list($lastPeriodDate, $ignore) = Range::getLastDate();
+        [$lastPeriodDate, $ignore] = Range::getLastDate();
         if ($lastPeriodDate !== false) {
             $date = Common::getRequestVar('date');
 

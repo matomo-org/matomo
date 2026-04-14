@@ -70,6 +70,7 @@
         "ColumnPageviews": "Ogledov strani",
         "ColumnPageviewsDocumentation": "Število obiskov te strani.",
         "ColumnRevenue": "Prihodki",
+        "ColumnSegment": "Segment",
         "ColumnSumTimeOnSite": "skupni čas na strani",
         "ColumnSumVisitLength": "Skupni čas, ki so ga porabili obiskovalci (v sekundah)",
         "ColumnTotalPageviews": "Vseh ogledov strani",
