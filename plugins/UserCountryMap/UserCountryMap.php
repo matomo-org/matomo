@@ -58,5 +58,7 @@ class UserCountryMap extends \Piwik\Plugin
         $translationKeys[] = 'UserCountryMap_Cities';
         $translationKeys[] = 'UserCountryMap_WorldWide';
         $translationKeys[] = 'UserCountryMap_ShowingVisits';
+        $translationKeys[] = 'UserCountryMap_NoVisitsInfo';
+        $translationKeys[] = 'UserCountryMap_NoVisitsInfo2';
     }
 }

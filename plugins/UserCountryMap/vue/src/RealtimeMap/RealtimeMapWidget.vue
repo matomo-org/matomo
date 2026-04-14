@@ -12,6 +12,7 @@
       class="RealTimeMap card-content"
       style="position:relative; overflow:hidden;"
       :data-config="configJson"
+      :data-standalone="isStandalone ? 1 : 0"
       tabindex="0"
     >
       <div class="RealTimeMap_container">
@@ -53,10 +54,29 @@
         />
       </div>
       <div class="RealTimeMap_meta">
-        <span class="loadingPiwik">
+        <span
+          v-if="!loadFailed"
+          class="loadingPiwik"
+        >
           <ActivityIndicator :loading="true" />
           {{ translate('General_LoadingData') }}...
         </span>
+        <span v-else class="pk-emptyDataTable">
+          {{ translate(
+            'CoreHome_ThereIsNoDataForThisReport'
+          ) }}
+        </span>
+      </div>
+      <div
+        v-if="hasSuperUserAccess"
+        id="realTimeMapNoVisitsInfo"
+        class="alert alert-info"
+        style="display:none;margin-top:20px;margin-bottom:0;"
+      >
+        <p>{{ translate('UserCountryMap_NoVisitsInfo') }}</p>
+        <p>
+          {{ translate('UserCountryMap_NoVisitsInfo2') }}
+        </p>
       </div>
     </div>
   </div>
@@ -67,6 +87,7 @@ import { defineComponent, nextTick } from 'vue';
 import {
   AjaxHelper,
   ActivityIndicator,
+  Matomo,
   translate,
 } from 'CoreHome';
 
@@ -104,6 +125,7 @@ interface RealtimeMapWidgetData {
   configJson: string;
   showFooterMessage: boolean;
   showDateTime: boolean;
+  loadFailed: boolean;
   resizeObserver?: ResizeObserver;
 }
 
@@ -123,7 +145,16 @@ export default defineComponent({
       configJson: '',
       showFooterMessage: true,
       showDateTime: true,
+      loadFailed: false,
     };
+  },
+  computed: {
+    isStandalone(): boolean {
+      return !this.widgetized && !this.isWidget;
+    },
+    hasSuperUserAccess(): boolean {
+      return !!Matomo.hasSuperUserAccess;
+    },
   },
   mounted() {
     this.loadConfig();
@@ -162,9 +193,8 @@ export default defineComponent({
         UserCountryMap.RealtimeMap.initElements();
 
         this.startResizeObserver();
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error('RealtimeMap config load failed', e);
+      } catch {
+        this.loadFailed = true;
       }
     },
 

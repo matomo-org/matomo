@@ -98,7 +98,6 @@ class Controller extends \Piwik\Plugin\Controller
             'period'     => 'range',
             'idSite'     => $this->idSite,
             'segment'    => $segment,
-            'token_auth' => $token_auth,
         ];
 
         $realtimeWindow = Common::getRequestVar('realtimeWindow', self::REAL_TIME_WINDOW, 'string');
