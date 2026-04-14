@@ -10,10 +10,14 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\API\Request;
+use Piwik\Common;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\ProxyHttp;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
+use Piwik\Url;
 
 class CoreAdminHome extends \Piwik\Plugin
 {
@@ -30,7 +34,75 @@ class CoreAdminHome extends \Piwik\Plugin
             'Template.jsGlobalVariables' => 'addJsGlobalVariables',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'System.addSystemSummaryItems' => 'addSystemSummaryItems',
+            'FrontController.modifyErrorPage' => 'onModifyErrorPage',
         );
+    }
+
+    public function onModifyErrorPage(&$output, $exception)
+    {
+        if (
+            empty($output)
+            || !$exception instanceof UnexpectedWebsiteFoundException
+        ) {
+            return;
+        }
+
+        $requestedIdSite = $this->getRequestedIdSite();
+        if ($requestedIdSite === null) {
+            return;
+        }
+
+        $dashboardUrl = $this->getDashboardUrl();
+        $message = sprintf(
+            '<p>%s</p><p>%s</p>',
+            Piwik::translate('CoreAdminHome_InvalidSiteUrlError', Common::sanitizeInputValue($requestedIdSite)),
+            Piwik::translate(
+                'CoreAdminHome_InvalidSiteUrlErrorHelp',
+                [
+                    '<a href="' . Common::sanitizeInputValue($dashboardUrl) . '">',
+                    '</a>',
+                ]
+            )
+        );
+
+        $output = Piwik_GetErrorMessagePage(
+            $message,
+            $optionalLinkBack = true,
+            $writeErrorLog = false
+        );
+    }
+
+    private function getRequestedIdSite(): ?string
+    {
+        foreach ([$_GET, $_POST] as $request) {
+            if (!isset($request['idSite']) || is_array($request['idSite'])) {
+                continue;
+            }
+
+            $idSite = trim((string) $request['idSite']);
+            if ($idSite !== '') {
+                return $idSite;
+            }
+        }
+
+        return null;
+    }
+
+    private function getDashboardUrl(): string
+    {
+        $preferences = new UserPreferences();
+        $idSite = $preferences->getDefaultWebsiteId();
+        if (empty($idSite)) {
+            return 'index.php?module=CoreHome&action=index';
+        }
+
+        return 'index.php?' . Url::getQueryStringFromParameters([
+            'module' => 'CoreHome',
+            'action' => 'index',
+            'idSite' => $idSite,
+            'period' => $preferences->getDefaultPeriod(),
+            'date' => $preferences->getDefaultDate(),
+        ]);
     }
 
     public function addSystemSummaryItems(&$systemSummary)

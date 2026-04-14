@@ -12,6 +12,8 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 use Piwik\Changes\Model as ChangesModel;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Plugins\CoreAdminHome\CoreAdminHome;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CoreAdminHome\OptOutManager;
 use Piwik\Tests\Framework\Fixture;
@@ -52,6 +54,8 @@ class ControllerTest extends IntegrationTestCase
             $idSitesView = [1],
             $identity = 'superUserLogin'
         );
+        Fixture::resetTranslations();
+        Fixture::loadAllTranslations();
         $_GET = ['idSite' => 1, 'period' => 'day', 'date' => 'today'];
         $_REQUEST = $_GET;
 
@@ -90,6 +94,24 @@ class ControllerTest extends IntegrationTestCase
 
         $this->assertStringNotContainsString('>CoreHome - Core bundled change<', $html);
         $this->assertStringNotContainsString('>ProfessionalServices - Professional services bundled change<', $html);
+    }
+
+    public function testModifyErrorPageReplacesInvalidWebsiteMessage(): void
+    {
+        $_GET = ['idSite' => '999', 'period' => 'day', 'date' => 'today'];
+        $_REQUEST = $_GET;
+
+        $output = 'original output';
+        $plugin = new CoreAdminHome();
+        $plugin->onModifyErrorPage(
+            $output,
+            new UnexpectedWebsiteFoundException("An unexpected website was found in the request: website id was set to '999' .")
+        );
+
+        $this->assertStringContainsString('This URL is not valid. The content may have been moved, deleted, or is no longer available', $output);
+        $this->assertStringContainsString("website id was set to '999' on the URL", $output);
+        $this->assertStringContainsString('return to your dashboard', $output);
+        $this->assertStringNotContainsString('An unexpected website was found in the request', $output);
     }
 
     public function tearDown(): void
