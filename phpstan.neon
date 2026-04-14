@@ -28,6 +28,9 @@ parameters:
         - plugins/VisitorGenerator
     bootstrapFiles:
         - bootstrap-phpstan.php
+    scanFiles:
+        - tests/PHPStan/Rules/PermissionDeclaration.php
+        - tests/PHPStan/Rules/ApiPermissionConsistencyRule.php
     ignoreErrors:
         - "#Unsafe usage of new static#"
     universalObjectCratesClasses:
@@ -35,3 +38,9 @@ parameters:
         - Piwik\View
         - Piwik\ViewDataTable\Config
         - Piwik\Session\SessionNamespace
+
+services:
+    -
+        class: Piwik\Tests\PHPStan\Rules\ApiPermissionConsistencyRule
+        tags:
+            - phpstan.rules.rule

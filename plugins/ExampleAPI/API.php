@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\ExampleAPI;
 
+use Piwik\Attributes\Permission;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Piwik;
@@ -34,7 +35,9 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get Matomo version
+     * @matomo-permission someView
      */
+    #[Permission('someView')]
     public function getMatomoVersion(): string
     {
         Piwik::checkUserHasSomeViewAccess();

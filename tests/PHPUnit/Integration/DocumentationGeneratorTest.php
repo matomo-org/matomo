@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration;
 use PHPUnit\Framework\TestCase;
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
+use Piwik\API\Request;
 use Piwik\EventDispatcher;
 use ReflectionClass;
 
@@ -69,5 +70,38 @@ class DocumentationGeneratorTest extends TestCase
             }
         );
         $this->assertEquals(Proxy::getInstance()->shouldHideAPIMethod($annotation), false);
+    }
+
+    public function testProxyMetadataExposesExplicitPermissionsOnly()
+    {
+        $apiClass = Request::getClassNameAPI('API');
+        $usersManagerClass = Request::getClassNameAPI('UsersManager');
+
+        Proxy::getInstance()->registerClass($apiClass);
+        Proxy::getInstance()->registerClass($usersManagerClass);
+
+        $this->assertSame(
+            ['name' => 'someView', 'parameter' => null],
+            Proxy::getInstance()->getMethodPermission($apiClass, 'getPiwikVersion')
+        );
+
+        $this->assertSame(
+            ['name' => 'superUserOrUser', 'parameter' => 'userLogin'],
+            Proxy::getInstance()->getMethodPermission($usersManagerClass, 'setUserPreference')
+        );
+
+        $this->assertNull(
+            Proxy::getInstance()->getMethodPermission($apiClass, 'getSettings')
+        );
+    }
+
+    public function testGeneratedDocumentationDisplaysPermissionsForMigratedMethod()
+    {
+        $documentation = new DocumentationGenerator();
+
+        $result = $documentation->getApiDocumentationAsString(false);
+
+        $this->assertStringContainsString('[Permissions: someView]', $result);
+        $this->assertStringContainsString('[Permissions: superUserOrUser(userLogin)]', $result);
     }
 }

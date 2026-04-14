@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\Archive;
+use Piwik\Attributes\Permission;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
@@ -24,6 +25,10 @@ use Piwik\Url;
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @matomo-permission view(idSite)
+     */
+    #[Permission('doesNotExist', 'idSite')]
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
@@ -63,17 +68,25 @@ class API extends \Piwik\Plugin\API
 
     protected function getNumeric($idSite, $period, $date, $segment, $toFetch)
     {
-        Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasAdminAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTableFromNumeric($toFetch);
         return $dataTable;
     }
 
+    /**
+     * @matomo-permission view(idSite)
+     */
+    #[Permission('view', 'idSite')]
     public function getVisits($idSite, $period, $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'nb_visits');
     }
 
+    /**
+     * @matomo-permission view(idSite)
+     */
+    #[Permission('view', 'idSite')]
     public function getUniqueVisitors($idSite, $period, $date, $segment = false)
     {
         $metric = 'nb_uniq_visitors';
@@ -81,6 +94,10 @@ class API extends \Piwik\Plugin\API
         return $this->getNumeric($idSite, $period, $date, $segment, $metric);
     }
 
+    /**
+     * @matomo-permission view(idSite)
+     */
+    #[Permission('view', 'idSite')]
     public function getUsers($idSite, $period, $date, $segment = false)
     {
         $metric = 'nb_users';
@@ -88,31 +105,55 @@ class API extends \Piwik\Plugin\API
         return $this->getNumeric($idSite, $period, $date, $segment, $metric);
     }
 
+    /**
+     * @matomo-permission view(idSite)
+     */
+    #[Permission('view', 'idSite')]
     public function getActions($idSite, $period, $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'nb_actions');
     }
 
+    /**
+     * @matomo-permission view(idSite)
+     */
+    #[Permission('view', 'idSite')]
     public function getMaxActions($idSite, $period, $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'max_actions');
     }
 
+    /**
+     * @matomo-permission view(idSite)
+     */
+    #[Permission('view', 'idSite')]
     public function getBounceCount($idSite, $period, $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'bounce_count');
     }
 
+    /**
+     * @matomo-permission view(idSite)
+     */
+    #[Permission('view', 'idSite')]
     public function getVisitsConverted($idSite, $period, $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'nb_visits_converted');
     }
 
+    /**
+     * @matomo-permission view(idSite)
+     */
+    #[Permission('view', 'idSite')]
     public function getSumVisitsLength($idSite, $period, $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'sum_visit_length');
     }
 
+    /**
+     * @matomo-permission view(idSite)
+     */
+    #[Permission('view', 'idSite')]
     public function getSumVisitsLengthPretty($idSite, $period, $date, $segment = false)
     {
         $formatter = new Formatter();

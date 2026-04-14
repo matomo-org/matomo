@@ -96,8 +96,12 @@ class DocumentationGenerator
             }
 
             $params = $this->getParametersString($class, $methodName);
+            $permissions = $this->getPermissionsString($class, $methodName);
 
             $str .= "\n <div class='apiMethod'>- <b>$moduleName.$methodName </b>" . $params . "";
+            if (!empty($permissions)) {
+                $str .= " <span class='apiPermissions'>[Permissions: " . $permissions . "]</span>";
+            }
             $str .= '<small>';
             if ($outputExampleUrls) {
                 $str .= $this->addExamples($class, $methodName, $prefixUrls);
@@ -371,6 +375,16 @@ class DocumentationGenerator
         }
         $sParameters = implode(", ", $asParameters);
         return "($sParameters)";
+    }
+
+    protected function getPermissionsString($class, $name)
+    {
+        $permission = Proxy::getInstance()->getMethodPermission($class, $name);
+        if (empty($permission)) {
+            return '';
+        }
+
+        return StaticContainer::get(MethodPermissions::class)->toReadableString($permission);
     }
 
     /**

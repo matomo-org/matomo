@@ -267,6 +267,8 @@ class Proxy
              */
             Piwik::postEvent(sprintf('API.%s.%s', $pluginName, $methodName), array(&$finalParameters));
 
+            $this->enforcePermissions($className, $methodName, $finalParameters);
+
             /**
              * Triggered before an API request is dispatched.
              *
@@ -436,6 +438,11 @@ class Proxy
     public function usesUnsanitizedInputParams($class, $methodName)
     {
         return $this->metadataArray[$class][$methodName]['unsanitizedInputParams'] ?? false;
+    }
+
+    public function getMethodPermission($class, $methodName)
+    {
+        return $this->metadataArray[$class][$methodName]['permission'] ?? null;
     }
 
     /**
@@ -644,6 +651,10 @@ class Proxy
         $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
         $this->metadataArray[$class][$name]['isDeprecated'] = false !== strstr($docComment, '@deprecated');
         $this->metadataArray[$class][$name]['unsanitizedInputParams'] = false !== strstr($docComment, '@unsanitized');
+
+        $permissionMetadata = StaticContainer::get(MethodPermissions::class)->resolveMethodPermissions($method);
+        $this->metadataArray[$class][$name]['permission'] = $permissionMetadata['permission'];
+        $this->metadataArray[$class][$name]['hasPermissionMetadata'] = $permissionMetadata['hasPermissionMetadata'];
     }
 
     /**
@@ -736,5 +747,15 @@ class Proxy
         if (!method_exists($className, "getInstance")) {
             throw new Exception("$className that provide an API must be Singleton and have a 'public static function getInstance()' method.");
         }
+    }
+
+    private function enforcePermissions($className, $methodName, array $finalParameters): void
+    {
+        $permission = $this->getMethodPermission($className, $methodName);
+        if (empty($permission)) {
+            return;
+        }
+
+        StaticContainer::get(MethodPermissions::class)->enforce($permission, $finalParameters);
     }
 }
