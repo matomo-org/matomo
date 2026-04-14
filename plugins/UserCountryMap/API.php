@@ -47,6 +47,10 @@ class API extends \Piwik\Plugin\API
             throw new Exception($this->translator->translate('General_Required', 'Plugin UserCountry'));
         }
 
+        // token_auth is included in reqParams because visitor-map.js
+        // sends it via POST for its own subsequent API calls (country,
+        // region, city data). This mirrors the pre-existing Controller
+        // behaviour where the token was embedded in the Twig template.
         $tokenAuth = Piwik::getCurrentUserTokenAuth();
 
         if (empty($segment)) {

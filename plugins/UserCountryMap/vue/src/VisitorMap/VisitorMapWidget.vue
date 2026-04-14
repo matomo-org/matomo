@@ -160,7 +160,14 @@ import {
 
 declare global {
   interface Window {
-    visitorMap?: { resize: () => void; destroy: () => void };
+    visitorMap?: {
+      resize: () => void;
+      destroy: () => void;
+    };
+    jQuery?: (
+      selector: string | Element,
+      context?: Element,
+    ) => { length: number };
   }
 }
 
@@ -185,6 +192,16 @@ declare const UserCountryMap: {
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
+interface VisitorMapWidgetData {
+  loading: boolean;
+  noData: boolean;
+  metrics: [string, string][];
+  defaultMetric: string;
+  continents: Record<string, string>;
+  metricSelectStyle: Record<string, string>;
+  resizeObserver?: ResizeObserver;
+}
+
 export default defineComponent({
   components: {
     ActivityIndicator,
@@ -196,7 +213,7 @@ export default defineComponent({
     isWidget: Boolean,
     isWide: Boolean,
   },
-  data() {
+  data(): VisitorMapWidgetData {
     return {
       loading: true,
       noData: false,
@@ -217,6 +234,7 @@ export default defineComponent({
     this.loadConfig();
   },
   beforeUnmount() {
+    this.stopResizeObserver();
     if (window.visitorMap) {
       window.visitorMap.destroy();
       window.visitorMap = undefined;
@@ -234,7 +252,10 @@ export default defineComponent({
           method: 'UserCountryMap.getVisitorMapConfig',
         });
 
-        if (!config.visitsSummary || !config.visitsSummary.nb_visits) {
+        if (
+          !config.visitsSummary
+          || !config.visitsSummary.nb_visits
+        ) {
           this.noData = true;
           this.loading = false;
           return;
@@ -247,10 +268,53 @@ export default defineComponent({
 
         await nextTick();
 
-        window.visitorMap = new UserCountryMap.VisitorMap(config);
+        // Scope jQuery selectors to this component's DOM
+        // so the legacy JS finds only elements within this
+        // widget instance. The VisitorMap constructor uses
+        // theWidget.element as the jQuery context.
+        const scopeEl = this.$el as HTMLElement;
+        const theWidget = { element: scopeEl };
+
+        window.visitorMap = new UserCountryMap.VisitorMap(
+          config,
+          theWidget,
+        );
+
+        this.startResizeObserver();
       } catch {
         this.noData = true;
         this.loading = false;
+      }
+    },
+
+    startResizeObserver() {
+      const container = (this.$el as HTMLElement)
+        ?.querySelector('.UserCountryMap_container');
+      if (!container || !window.ResizeObserver) {
+        return;
+      }
+
+      let lastWidth = container.clientWidth;
+      let lastHeight = container.clientHeight;
+
+      this.resizeObserver = new ResizeObserver(() => {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        if (w !== lastWidth || h !== lastHeight) {
+          lastWidth = w;
+          lastHeight = h;
+          if (window.visitorMap) {
+            window.visitorMap.resize();
+          }
+        }
+      });
+      this.resizeObserver.observe(container);
+    },
+
+    stopResizeObserver() {
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect();
+        this.resizeObserver = undefined;
       }
     },
   },

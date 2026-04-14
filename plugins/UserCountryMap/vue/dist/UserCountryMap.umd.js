@@ -139,7 +139,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=f0a01ce2
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=4c1146e9
 
 const _hoisted_1 = {
   class: "card"
@@ -268,7 +268,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(name), 9, _hoisted_25);
   }), 128)), _hoisted_26])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]);
 }
-// CONCATENATED MODULE: ./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=f0a01ce2
+// CONCATENATED MODULE: ./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=4c1146e9
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -276,7 +276,6 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=script&lang=ts
 
 
-/* eslint-enable @typescript-eslint/no-explicit-any */
 /* harmony default export */ var VisitorMapWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   components: {
     ActivityIndicator: external_CoreHome_["ActivityIndicator"]
@@ -309,6 +308,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
     this.loadConfig();
   },
   beforeUnmount() {
+    this.stopResizeObserver();
     if (window.visitorMap) {
       window.visitorMap.destroy();
       window.visitorMap = undefined;
@@ -333,10 +333,46 @@ var external_CoreHome_ = __webpack_require__("19dc");
         this.continents = config.continents;
         this.loading = false;
         await Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])();
-        window.visitorMap = new UserCountryMap.VisitorMap(config);
+        // Scope jQuery selectors to this component's DOM
+        // so the legacy JS finds only elements within this
+        // widget instance. The VisitorMap constructor uses
+        // theWidget.element as the jQuery context.
+        const scopeEl = this.$el;
+        const theWidget = {
+          element: scopeEl
+        };
+        window.visitorMap = new UserCountryMap.VisitorMap(config, theWidget);
+        this.startResizeObserver();
       } catch (_unused) {
         this.noData = true;
         this.loading = false;
+      }
+    },
+    startResizeObserver() {
+      var _this$$el;
+      const container = (_this$$el = this.$el) === null || _this$$el === void 0 ? void 0 : _this$$el.querySelector('.UserCountryMap_container');
+      if (!container || !window.ResizeObserver) {
+        return;
+      }
+      let lastWidth = container.clientWidth;
+      let lastHeight = container.clientHeight;
+      this.resizeObserver = new ResizeObserver(() => {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        if (w !== lastWidth || h !== lastHeight) {
+          lastWidth = w;
+          lastHeight = h;
+          if (window.visitorMap) {
+            window.visitorMap.resize();
+          }
+        }
+      });
+      this.resizeObserver.observe(container);
+    },
+    stopResizeObserver() {
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect();
+        this.resizeObserver = undefined;
       }
     }
   }
