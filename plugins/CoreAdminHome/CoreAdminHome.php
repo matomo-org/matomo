@@ -13,11 +13,9 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
-use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\ProxyHttp;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
-use Piwik\Url;
 
 class CoreAdminHome extends \Piwik\Plugin
 {
@@ -52,23 +50,17 @@ class CoreAdminHome extends \Piwik\Plugin
             return;
         }
 
-        $dashboardUrl = $this->getDashboardUrl();
         $message = sprintf(
             '<p>%s</p><p>%s</p>',
             Piwik::translate('CoreAdminHome_InvalidSiteUrlError', Common::sanitizeInputValue($requestedIdSite)),
-            Piwik::translate(
-                'CoreAdminHome_InvalidSiteUrlErrorHelp',
-                [
-                    '<a href="' . Common::sanitizeInputValue($dashboardUrl) . '">',
-                    '</a>',
-                ]
-            )
+            Piwik::translate('CoreAdminHome_InvalidSiteUrlErrorHelp')
         );
 
         $output = Piwik_GetErrorMessagePage(
             $message,
-            $optionalLinkBack = true,
-            $writeErrorLog = false
+            false,
+            true,
+            true
         );
     }
 
@@ -87,24 +79,6 @@ class CoreAdminHome extends \Piwik\Plugin
 
         return null;
     }
-
-    private function getDashboardUrl(): string
-    {
-        $preferences = new UserPreferences();
-        $idSite = $preferences->getDefaultWebsiteId();
-        if (empty($idSite)) {
-            return 'index.php?module=CoreHome&action=index';
-        }
-
-        return 'index.php?' . Url::getQueryStringFromParameters([
-            'module' => 'CoreHome',
-            'action' => 'index',
-            'idSite' => $idSite,
-            'period' => $preferences->getDefaultPeriod(),
-            'date' => $preferences->getDefaultDate(),
-        ]);
-    }
-
     public function addSystemSummaryItems(&$systemSummary)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {

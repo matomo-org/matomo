@@ -110,6 +110,7 @@ class ControllerTest extends IntegrationTestCase
 
         $this->assertStringContainsString('This URL is not valid. The content may have been moved, deleted, or is no longer available', $output);
         $this->assertStringContainsString("website id was set to '999' on the URL", $output);
+        $this->assertStringContainsString('Please go back to your previous page', $output);
         $this->assertStringContainsString('return to your dashboard', $output);
         $this->assertStringNotContainsString('An unexpected website was found in the request', $output);
     }
