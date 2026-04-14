@@ -44,6 +44,7 @@ export { default as ExpandOnClick } from './ExpandOnClick/ExpandOnClick';
 export { default as ExpandOnHover } from './ExpandOnHover/ExpandOnHover';
 export { default as ShowSensitiveData } from './ShowSensitiveData/ShowSensitiveData';
 export { default as DropdownButton } from './DropdownButton/DropdownButton';
+export { default as DraggableList } from './DraggableList/DraggableList.vue';
 export { default as SelectOnFocus } from './SelectOnFocus/SelectOnFocus';
 export { default as CopyToClipboard } from './CopyToClipboard/CopyToClipboard';
 export { default as SideNav } from './SideNav/SideNav';
