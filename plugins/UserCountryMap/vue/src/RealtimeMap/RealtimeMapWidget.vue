@@ -1,0 +1,207 @@
+<!--
+  Matomo - free/libre analytics platform
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
+<template>
+  <div class="card">
+    <div
+      ref="mapRoot"
+      class="RealTimeMap card-content"
+      style="position:relative; overflow:hidden;"
+      :data-config="configJson"
+      tabindex="0"
+    >
+      <div class="RealTimeMap_container">
+        <div
+          class="RealTimeMap_map"
+          style="overflow:hidden;"
+        />
+        <div class="realTimeMap_overlay">
+          <span
+            v-if="showFooterMessage"
+            class="showing_visits_of"
+            style="display:none;"
+          >
+            {{ translate('UserCountryMap_ShowingVisits') }}
+            <span
+              class="realTimeMap_timeSpan"
+              style="font-weight:bold;"
+            />
+          </span>
+          <span
+            class="no_data"
+            style="display:none;"
+          >
+            {{ translate(
+              'CoreHome_ThereIsNoDataForThisReport'
+            ) }}
+          </span>
+          <span class="loading_data">
+            {{ translate('General_LoadingData') }}...
+          </span>
+          <img
+            src="plugins/UserCountryMap/images/realtimemap-loading.gif"
+            style="vertical-align:baseline;position:relative;left:-2px;"
+          >
+        </div>
+        <div
+          v-if="showDateTime"
+          class="realTimeMap_overlay realTimeMap_datetime"
+        />
+      </div>
+      <div class="RealTimeMap_meta">
+        <span class="loadingPiwik">
+          <ActivityIndicator :loading="true" />
+          {{ translate('General_LoadingData') }}...
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, nextTick } from 'vue';
+import {
+  AjaxHelper,
+  ActivityIndicator,
+  translate,
+} from 'CoreHome';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+declare const UserCountryMap: {
+  RealtimeMap: {
+    initElements: () => void;
+    new (element: any): {
+      _destroy?: () => void;
+    };
+  };
+};
+
+declare const $: any;
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+interface RealtimeMapConfig {
+  metrics: unknown[];
+  svgBasePath: string;
+  liveRefreshAfterMs: number;
+  _: Record<string, string>;
+  reqParams: Record<string, unknown>;
+  siteHasGoals: boolean;
+  maxVisits: number;
+  changeVisitAlpha: number;
+  removeOldVisits: number;
+  showFooterMessage: number;
+  showDateTime: number;
+  doNotRefreshVisits: number;
+  enableAnimation: number;
+  forceNowValue: number;
+}
+
+interface RealtimeMapWidgetData {
+  configJson: string;
+  showFooterMessage: boolean;
+  showDateTime: boolean;
+  resizeObserver?: ResizeObserver;
+}
+
+export default defineComponent({
+  components: {
+    ActivityIndicator,
+  },
+  props: {
+    uniqueId: String,
+    widgetName: String,
+    widgetized: Boolean,
+    isWidget: Boolean,
+    isWide: Boolean,
+  },
+  data(): RealtimeMapWidgetData {
+    return {
+      configJson: '',
+      showFooterMessage: true,
+      showDateTime: true,
+    };
+  },
+  mounted() {
+    this.loadConfig();
+  },
+  beforeUnmount() {
+    this.stopResizeObserver();
+    // UIControl instances register themselves; find and
+    // destroy the one attached to our element
+    const el = this.$refs.mapRoot as HTMLElement | undefined;
+    if (el && typeof $ === 'function') {
+      const ctrl = $(el).data('uiControlObject');
+      // eslint-disable-next-line no-underscore-dangle
+      if (ctrl && typeof ctrl._destroy === 'function') {
+        ctrl._destroy(); // eslint-disable-line no-underscore-dangle
+      }
+    }
+  },
+  methods: {
+    translate,
+
+    async loadConfig() {
+      try {
+        const config = await AjaxHelper.fetch<RealtimeMapConfig>(
+          {
+            module: 'UserCountryMap',
+            action: 'getRealtimeMapConfig',
+          },
+        );
+
+        this.showFooterMessage = !!config.showFooterMessage;
+        this.showDateTime = !!config.showDateTime;
+        this.configJson = JSON.stringify(config);
+
+        await nextTick();
+
+        UserCountryMap.RealtimeMap.initElements();
+
+        this.startResizeObserver();
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error('RealtimeMap config load failed', e);
+      }
+    },
+
+    startResizeObserver() {
+      const container = (this.$refs.mapRoot as HTMLElement)
+        ?.querySelector('.RealTimeMap_container');
+      if (!container || !window.ResizeObserver) {
+        return;
+      }
+
+      let lastW = container.clientWidth;
+      let lastH = container.clientHeight;
+
+      this.resizeObserver = new ResizeObserver(() => {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        if (w !== lastW || h !== lastH) {
+          lastW = w;
+          lastH = h;
+          if (typeof $ === 'function') {
+            const el = this.$refs.mapRoot;
+            const ctrl = $(el).data('uiControlObject');
+            if (ctrl && typeof ctrl.resize === 'function') {
+              ctrl.resize();
+            }
+          }
+        }
+      });
+      this.resizeObserver.observe(container);
+    },
+
+    stopResizeObserver() {
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect();
+        this.resizeObserver = undefined;
+      }
+    },
+  },
+});
+</script>
