@@ -73,7 +73,6 @@ function getReferrerTypeLabel($label)
  * Works in both directions
  * @param string|int $name
  * @return string
- *@throws \Exception
  */
 function getReferrerTypeFromShortName($name)
 {

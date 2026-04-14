@@ -699,6 +699,9 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+    /**
+     * @internal
+     */
     public function getTranslations(): array
     {
         $controller = new Controller();
