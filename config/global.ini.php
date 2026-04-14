@@ -127,6 +127,9 @@ log_level = WARN
 ; log_level_file =
 ; log_level_errorlog =
 ; log_level_syslog =
+; you can also override log levels for individual plugins while keeping a stricter global level.
+; use the plugin name as the array key, like so:
+; plugin_log_level[MyPlugin] = INFO
 
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/matomo.log

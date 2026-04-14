@@ -17,4 +17,9 @@ class LoggerWrapper
     {
         Log::warning($message);
     }
+
+    public static function doInfoLog($message)
+    {
+        Log::info($message);
+    }
 }

@@ -160,6 +160,42 @@ class LogTest extends IntegrationTestCase
     /**
      * @dataProvider getBackendsToTest
      */
+    public function testPluginLogLevelAllowsLowerSeverityMessages($backend)
+    {
+        $this->recreateLogSingleton($backend, 'WARN', ['ini.log.plugin_log_level' => ['Monolog' => 'INFO']]);
+
+        LoggerWrapper::doInfoLog(self::TESTMESSAGE);
+
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, 'Monolog');
+    }
+
+    /**
+     * @dataProvider getBackendsToTest
+     */
+    public function testPluginLogLevelCanBeMoreStrictThanDefault($backend)
+    {
+        $this->recreateLogSingleton($backend, 'WARN', ['ini.log.plugin_log_level' => ['Monolog' => 'ERROR']]);
+
+        LoggerWrapper::doLog(self::TESTMESSAGE);
+
+        $this->checkNoMessagesLogged($backend);
+    }
+
+    /**
+     * @dataProvider getBackendsToTest
+     */
+    public function testInvalidPluginLogLevelFallsBackToDefaultLevel($backend)
+    {
+        $this->recreateLogSingleton($backend, 'WARN', ['ini.log.plugin_log_level' => ['Monolog' => 'NOPE']]);
+
+        LoggerWrapper::doInfoLog(self::TESTMESSAGE);
+
+        $this->checkNoMessagesLogged($backend);
+    }
+
+    /**
+     * @dataProvider getBackendsToTest
+     */
     public function testLogMessagesAreTrimmed($backend)
     {
         $this->recreateLogSingleton($backend);
@@ -269,9 +305,9 @@ class LogTest extends IntegrationTestCase
         return StaticContainer::get('path.tmp') . '/logs/piwik.test.log';
     }
 
-    private function recreateLogSingleton($backend, $level = 'INFO')
+    private function recreateLogSingleton($backend, $level = 'INFO', array $extraConfig = [])
     {
-        $newEnv = new Environment('test', array(
+        $config = array(
             'ini.log.log_writers' => array($backend),
             'ini.log.log_level' => $level,
             'ini.log.string_message_format' => self::STRING_MESSAGE_FORMAT,
@@ -279,7 +315,8 @@ class LogTest extends IntegrationTestCase
             'ini.log.logger_file_path' => self::getLogFileLocation(),
             Log\LoggerInterface::class => \Piwik\DI::get(Log\Logger::class),
             'Tests.log.allowAllHandlers' => true,
-        ));
+        );
+        $newEnv = new Environment('test', array_merge($config, $extraConfig));
         $newEnv->init();
 
         $newMonologLogger = $newEnv->getContainer()->make(Log\LoggerInterface::class);

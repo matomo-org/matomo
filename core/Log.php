@@ -46,6 +46,10 @@ use Piwik\Log\LoggerInterface;
  *                or **VERBOSE**. Log entries made with a log level that is as or more
  *                severe than the current log level will be outputted. Others will be
  *                ignored. The default level is **WARN**.
+ * - `plugin_log_level[PluginName]`: Optional per-plugin overrides for the effective log
+ *                                   level. For example, `plugin_log_level[MyPlugin] = INFO`
+ *                                   keeps the global level unchanged while allowing that
+ *                                   plugin to emit info-level records.
  * - `logger_file_path`: For the file log writer, specifies the path to the log file
  *                       to log to or a path to a directory to store logs in. If a
  *                       directory, the file name is piwik.log. Can be relative to

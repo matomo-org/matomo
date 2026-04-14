@@ -5,6 +5,28 @@ use Piwik\Log\Logger;
 use Piwik\Log;
 use Piwik\Plugins\Monolog\Handler\FileHandler;
 use Piwik\Plugins\Monolog\Handler\LogCaptureHandler;
+use Piwik\Plugins\Monolog\Handler\PluginLevelFilterHandler;
+
+$getLogLevelServiceForWriter = static function ($writerName) {
+    switch ($writerName) {
+        case 'file':
+        case 'screen':
+        case 'database':
+        case 'syslog':
+        case 'errorlog':
+            return 'log.level.' . $writerName;
+        default:
+            return 'log.level';
+    }
+};
+
+$wrapHandlerWithPluginLevelFilter = static function (Container $c, $handler, $writerName) use ($getLogLevelServiceForWriter) {
+    return new PluginLevelFilterHandler(
+        $handler,
+        $c->get($getLogLevelServiceForWriter($writerName)),
+        $c->get('log.plugin.levels')
+    );
+};
 
 return array(
 
@@ -24,7 +46,7 @@ return array(
         'errorlog' => 'Piwik\Plugins\Monolog\Handler\ErrorLogHandler',
         'syslog' => 'Piwik\Plugins\Monolog\Handler\SyslogHandler',
     ),
-    'log.handlers' => Piwik\DI::factory(function (Container $c) {
+    'log.handlers' => Piwik\DI::factory(function (Container $c) use ($wrapHandlerWithPluginLevelFilter) {
         if ($c->has('ini.log.log_writers')) {
             $writerNames = $c->get('ini.log.log_writers');
         } else {
@@ -80,6 +102,8 @@ return array(
                     );
                 }
 
+                $handler = $wrapHandlerWithPluginLevelFilter($c, $handler, $writerName);
+
                 $writers[$writerName] = $handler;
             }
         }
@@ -88,7 +112,7 @@ return array(
             $enableLogCaptureHandler
             && $isLogBufferingAllowed
         ) {
-            $writers[] = $c->get(LogCaptureHandler::class);
+            $writers[] = $wrapHandlerWithPluginLevelFilter($c, $c->get(LogCaptureHandler::class), 'log_capture');
         }
 
         // we always add the null handler to make sure there is at least one handler specified. otherwise Monolog will
@@ -139,6 +163,34 @@ return array(
         }
 
         return Logger::WARNING;
+    }),
+
+    'log.plugin.levels' => Piwik\DI::factory(function (Container $c) {
+        if (!$c->has('ini.log.plugin_log_level')) {
+            return [];
+        }
+
+        $pluginLevels = $c->get('ini.log.plugin_log_level');
+        if (!is_array($pluginLevels)) {
+            return [];
+        }
+
+        $result = [];
+        foreach ($pluginLevels as $plugin => $level) {
+            $plugin = trim((string) $plugin);
+            if ($plugin === '') {
+                continue;
+            }
+
+            $level = Log::getMonologLevelIfValid($level);
+            if ($level === null) {
+                continue;
+            }
+
+            $result[$plugin] = $level;
+        }
+
+        return $result;
     }),
 
     'log.level.file' => Piwik\DI::factory(function (Container $c) {

@@ -3,6 +3,7 @@
 use Piwik\Container\Container;
 use Piwik\Log\Logger;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
+use Piwik\Plugins\Monolog\Handler\PluginLevelFilterHandler;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -16,7 +17,11 @@ return array(
         if ($c->has('ini.log.log_writers')) {
             $writerNames = $c->get('ini.log.log_writers');
             if (in_array('file', $writerNames)) {
-                $writers[] = $c->get('Piwik\Plugins\Monolog\Handler\FileHandler');
+                $writers[] = new PluginLevelFilterHandler(
+                    $c->get('Piwik\Plugins\Monolog\Handler\FileHandler'),
+                    $c->get('log.level.file'),
+                    $c->get('log.plugin.levels')
+                );
             }
         }
         return $writers;

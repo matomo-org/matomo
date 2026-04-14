@@ -26,7 +26,11 @@ return array(
         }
 
         return [
-            $c->get('Piwik\Plugins\Monolog\Handler\FileHandler'),
+            new \Piwik\Plugins\Monolog\Handler\PluginLevelFilterHandler(
+                $c->get('Piwik\Plugins\Monolog\Handler\FileHandler'),
+                $c->get('log.level.file'),
+                $c->get('log.plugin.levels')
+            ),
         ];
     }),
 
