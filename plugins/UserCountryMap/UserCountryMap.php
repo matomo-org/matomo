@@ -64,5 +64,12 @@ class UserCountryMap extends \Piwik\Plugin
         $translationKeys[] = 'UserCountryMap_WithUnknownRegion';
         $translationKeys[] = 'UserCountryMap_WithUnknownCity';
         $translationKeys[] = 'General_UserId';
+        $translationKeys[] = 'UserCountryMap_VisitorMap';
+        $translationKeys[] = 'CoreHome_ThereIsNoDataForThisReport';
+        $translationKeys[] = 'General_LoadingData';
+        $translationKeys[] = 'UserCountryMap_Regions';
+        $translationKeys[] = 'UserCountryMap_Countries';
+        $translationKeys[] = 'UserCountryMap_Cities';
+        $translationKeys[] = 'UserCountryMap_WorldWide';
     }
 }
