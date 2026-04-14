@@ -272,6 +272,118 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
+    /**
+     * Returns the visitor map widget configuration as JSON.
+     * Used by the client-rendered VisitorMapWidget Vue component.
+     */
+    public function getVisitorMapConfig()
+    {
+        $this->checkUserCountryPluginEnabled();
+        $this->checkSitePermission();
+        Piwik::checkUserHasViewAccess($this->idSite);
+
+        $period = Common::getRequestVar('period');
+        $date = Common::getRequestVar('date');
+        $segment = Request::getRawSegmentFromRequest();
+        if (empty($segment)) {
+            $segment = '';
+        }
+
+        $token_auth = Piwik::getCurrentUserTokenAuth();
+
+        // visits summary
+        $visitsSummary = json_decode((new Request([
+            'method' => 'VisitsSummary.get',
+            'format' => 'json',
+            'idSite' => $this->idSite,
+            'period' => $period,
+            'date' => $date,
+            'segment' => $segment,
+            'token_auth' => $token_auth,
+            'filter_limit' => -1,
+        ]))->process(), true);
+
+        $defaultMetric = array_key_exists('nb_uniq_visitors', $visitsSummary ?? [])
+            ? 'nb_uniq_visitors' : 'nb_visits';
+
+        // locale translations
+        $locale = $this->buildVisitorMapLocale();
+
+        // request params for JS-side API calls
+        $reqParams = $this->getEnrichedRequest([
+            'period' => $period,
+            'idSite' => $this->idSite,
+            'date' => $date,
+            'segment' => $segment,
+            'token_auth' => $token_auth,
+            'enable_filter_excludelowpop' => 1,
+            'filter_excludelowpop_value' => -1,
+        ], false);
+
+        // metrics metadata
+        $metrics = $this->getMetrics($this->idSite, $period, $date, $token_auth);
+
+        // country names
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        $countryNames = [];
+        foreach (array_keys($regionDataProvider->getCountryList()) as $country) {
+            $countryNames[strtoupper($country)] = Piwik::translate('Intl_Country_' . strtoupper($country));
+        }
+
+        // continent names
+        $continents = [
+            'AF' => \Piwik\Plugins\UserCountry\continentTranslate('afr'),
+            'AS' => \Piwik\Plugins\UserCountry\continentTranslate('asi'),
+            'EU' => \Piwik\Plugins\UserCountry\continentTranslate('eur'),
+            'NA' => \Piwik\Plugins\UserCountry\continentTranslate('amn'),
+            'OC' => \Piwik\Plugins\UserCountry\continentTranslate('oce'),
+            'SA' => \Piwik\Plugins\UserCountry\continentTranslate('ams'),
+        ];
+
+        return json_encode([
+            'visitsSummary' => $visitsSummary,
+            'metrics' => $metrics,
+            'defaultMetric' => $defaultMetric,
+            'svgBasePath' => 'plugins/UserCountryMap/svg/',
+            'mapCssPath' => 'plugins/UserCountryMap/stylesheets/map.css',
+            'reqParams' => $reqParams,
+            '_' => $locale,
+            'countryNames' => $countryNames,
+            'continents' => $continents,
+        ]);
+    }
+
+    private function buildVisitorMapLocale(): array
+    {
+        $noVisitTranslation = $this->translator->translate('UserCountryMap_NoVisit');
+
+        $translations = [
+            'nb_visits' => $this->translator->translate('General_NVisits'),
+            'no_visit' => $noVisitTranslation,
+            'nb_actions' => $this->translator->translate('VisitsSummary_NbActionsDescription'),
+            'nb_actions_per_visit' => $this->translator->translate('VisitsSummary_NbActionsPerVisit'),
+            'bounce_rate' => $this->translator->translate('VisitsSummary_NbVisitsBounced'),
+            'avg_time_on_site' => $this->translator->translate('VisitsSummary_AverageVisitDuration'),
+            'and_n_others' => $this->translator->translate('UserCountryMap_AndNOthers'),
+            'nb_uniq_visitors' => $this->translator->translate('General_NUniqueVisitors'),
+            'nb_users' => $this->translator->translate('VisitsSummary_NbUsers'),
+        ];
+
+        foreach ($translations as &$translation) {
+            if (
+                false === strpos($translation, '%s')
+                && $translation !== $noVisitTranslation
+            ) {
+                $translation = '%s ' . $translation;
+            }
+        }
+
+        $translations['one_visit'] = $this->translator->translate('General_OneVisit');
+        $translations['no_data'] = $this->translator->translate('CoreHome_ThereIsNoDataForThisReport');
+
+        return $translations;
+    }
+
     private function getEnrichedRequest($params, $encode = true)
     {
         $params['format'] = 'json';

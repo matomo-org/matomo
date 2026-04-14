@@ -249,7 +249,8 @@ export default defineComponent({
 
       try {
         const config = await AjaxHelper.fetch<VisitorMapConfig>({
-          method: 'UserCountryMap.getVisitorMapConfig',
+          module: 'UserCountryMap',
+          action: 'getVisitorMapConfig',
         });
 
         if (
