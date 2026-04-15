@@ -275,11 +275,28 @@
           </div>
         </div>
       </div>
-      <SelectedReportsList
-        :reports="selectedReportsForCurrentType"
-        :enabled="allowMultipleReportsByReportType[report.type]"
-        @reorder="onSelectedReportsReorder"
-      />
+      <div
+        v-if="allowMultipleReportsByReportType[report.type] && selectedReportsForCurrentType.length"
+        class="draggableListPanel selectedReportsWrapper"
+      >
+        <div class="draggableListHeading selectedReportsHeading">
+          <h3>{{ translate('ScheduledReports_SelectedReports') }}</h3>
+        </div>
+        <p class="draggableListHelp selectedReportsHelp">
+          {{ translate('ScheduledReports_SelectedReportsHelp') }}
+        </p>
+        <DraggableList
+          class="selectedReportsList"
+          :items="selectedReportsForCurrentType"
+          item-key="uniqueId"
+          @reorder="onSelectedReportsReorder"
+        >
+          <template #default="{ item: reportItem }">
+            <span class="icon-menu-hamburger drag-icon"></span>
+            <span>{{ decode(reportItem.name) }}</span>
+          </template>
+        </DraggableList>
+      </div>
       <SaveButton
         :value="saveButtonTitle"
         @confirm="$emit('submit')"
@@ -302,6 +319,7 @@ import {
 } from 'vue';
 import {
   ContentBlock,
+  DraggableList,
   Matomo,
   MatomoUrl,
   translate,
@@ -310,7 +328,6 @@ import {
 } from 'CoreHome';
 import { Field, Form, SaveButton } from 'CorePluginsAdmin';
 import { adjustHourToTimezone } from '../utilities';
-import SelectedReportsList from './SelectedReportsList.vue';
 
 interface Option {
   key: string;
@@ -387,9 +404,9 @@ export default defineComponent({
   emits: ['submit', 'change', 'toggleSelectedReport', 'reorderSelectedReports'],
   components: {
     ContentBlock,
+    DraggableList,
     Field,
     SaveButton,
-    SelectedReportsList,
   },
   directives: {
     Form,
