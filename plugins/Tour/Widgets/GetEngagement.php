@@ -41,6 +41,7 @@ class GetEngagement extends Widget
     {
         $config->setCategoryId('About Matomo');
         $config->setName(Piwik::translate('Tour_BecomeMatomoExpert'));
+        $config->setClientSideComponent('Tour', 'BecomeMatomoExpert');
         $config->setOrder(99);
 
         if (!Piwik::hasUserSuperUserAccess()) {

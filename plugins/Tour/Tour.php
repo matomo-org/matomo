@@ -33,6 +33,7 @@ class Tour extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Dashboard.changeDefaultDashboardLayout' => 'changeDefaultDashboardLayout',
             'API.Annotations.add.end' => 'onAnnotationAdded',
             'API.Goals.addGoal.end' => 'onGoalAdded',
@@ -140,5 +141,22 @@ class Tour extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Tour/javascripts/engagement.js";
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'Tour_CompletionTitle';
+        $translationKeys[] = 'Tour_CompletionMessage';
+        $translationKeys[] = 'Tour_YouCanCallYourselfExpert';
+        $translationKeys[] = 'Tour_ShareYourAchievementOn';
+        $translationKeys[] = 'Tour_ShareAllChallengesCompleted';
+        $translationKeys[] = 'Tour_StatusLevel';
+        $translationKeys[] = 'Tour_ChallengeCompleted';
+        $translationKeys[] = 'Tour_SkipThisChallenge';
+        $translationKeys[] = 'Tour_PreviousChallenges';
+        $translationKeys[] = 'Tour_NextChallenges';
+        $translationKeys[] = 'Tour_OnlyVisibleToSuperUser';
+        $translationKeys[] = 'General_Previous';
+        $translationKeys[] = 'General_Next';
     }
 }
