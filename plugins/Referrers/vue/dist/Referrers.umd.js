@@ -126,6 +126,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "CampaignBuilder", function() { return /* reexport */ CampaignBuilder; });
+__webpack_require__.d(__webpack_exports__, "CampaignBuilderWidget", function() { return /* reexport */ CampaignBuilderWidget; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -358,6 +359,54 @@ const {
 CampaignBuildervue_type_script_lang_ts.render = render
 
 /* harmony default export */ var CampaignBuilder = (CampaignBuildervue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Referrers/vue/src/CampaignBuilderWidget/CampaignBuilderWidget.vue?vue&type=template&id=5a7cadbe
+
+const CampaignBuilderWidgetvue_type_template_id_5a7cadbe_hoisted_1 = {
+  class: "widgetBody"
+};
+const CampaignBuilderWidgetvue_type_template_id_5a7cadbe_hoisted_2 = ["innerHTML"];
+function CampaignBuilderWidgetvue_type_template_id_5a7cadbe_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_CampaignBuilder = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("CampaignBuilder");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", CampaignBuilderWidgetvue_type_template_id_5a7cadbe_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+    innerHTML: _ctx.$sanitize(_ctx.introHtml)
+  }, null, 8, CampaignBuilderWidgetvue_type_template_id_5a7cadbe_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_CampaignBuilder, {
+    "has-extra-plugin": _ctx.hasExtraPlugin
+  }, null, 8, ["has-extra-plugin"])]);
+}
+// CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilderWidget/CampaignBuilderWidget.vue?vue&type=template&id=5a7cadbe
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Referrers/vue/src/CampaignBuilderWidget/CampaignBuilderWidget.vue?vue&type=script&lang=ts
+
+
+
+const docsBuilderUrl = 'https://matomo.org/docs/' + 'tracking-campaigns-url-builder/';
+const docsCampaignsUrl = 'https://matomo.org/docs/' + 'tracking-campaigns/';
+/* harmony default export */ var CampaignBuilderWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  components: {
+    CampaignBuilder: CampaignBuilder
+  },
+  props: {
+    hasExtraPlugin: Boolean
+  },
+  computed: {
+    introHtml() {
+      /* eslint-disable prefer-template */
+      const link1 = '<a target="_blank"' + ' rel="noreferrer noopener"' + ' href="' + docsBuilderUrl + '">';
+      const link2 = '<a target="_blank"' + ' rel="noreferrer noopener"' + ' href="' + docsCampaignsUrl + '">';
+      /* eslint-enable prefer-template */
+      return Object(external_CoreHome_["translate"])('Referrers_URLCampaignBuilderIntro', link1, '</a>', link2, '</a>');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilderWidget/CampaignBuilderWidget.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilderWidget/CampaignBuilderWidget.vue
+
+
+
+CampaignBuilderWidgetvue_type_script_lang_ts.render = CampaignBuilderWidgetvue_type_template_id_5a7cadbe_render
+
+/* harmony default export */ var CampaignBuilderWidget = (CampaignBuilderWidgetvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/Referrers/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -365,6 +414,7 @@ CampaignBuildervue_type_script_lang_ts.render = render
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 

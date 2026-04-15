@@ -21,6 +21,10 @@ class GetCampaignUrlBuilder extends \Piwik\Widget\Widget
         $config->setCategoryId('Referrers_Referrers');
         $config->setSubcategoryId('Referrers_URLCampaignBuilder');
         $config->setName('Referrers_URLCampaignBuilder');
+        $config->setClientSideComponent('Referrers', 'CampaignBuilderWidget');
+        $config->setClientSideProps([
+            'hasExtraPlugin' => Plugin\Manager::getInstance()->isPluginActivated('MarketingCampaignsReporting'),
+        ]);
 
         $idSite = self::getIdSite();
         if (!Piwik::isUserHasViewAccess($idSite)) {
