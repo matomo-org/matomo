@@ -16,7 +16,7 @@
         v-if="index > 0"
         class="preset-date-range-group-separator"
       />
-      <p
+      <div
         v-for="preset in group"
         :key="preset.id"
       >
@@ -33,7 +33,7 @@
           />
           <span class="preset-option-text">{{ translate(preset.labelKey) }}</span>
         </label>
-      </p>
+      </div>
     </div>
   </div>
 </template>

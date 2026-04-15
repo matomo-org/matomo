@@ -173,37 +173,7 @@
 
   .period-selector-options-column {
     #otherPeriods .periodOptions {
-      p:first-child {
-        margin-top: 5px;
-      }
-
-      .period-option-label {
-        background: transparent;
-        border: 0;
-        border-radius: 5px;
-        color: @color-period-selector;
-        cursor: pointer;
-        display: block;
-        font: inherit;
-        margin: 0;
-        outline: none;
-        padding-left: 8px;
-        position: relative;
-        text-align: left;
-        width: 100%;
-        font-size: 13px;
-
-        &:hover {
-          background-color: @color-period-selector-options-hover-background;
-        }
-      }
-
-      .period-option-label:has(.period-option-input:focus-visible) {
-        background-color: @color-period-selector-options-hover-background;
-        border-radius: 5px;
-        outline: 2px solid @theme-color-focus-ring;
-        outline-offset: 0;
-      }
+      padding-top: 5px;
 
       // Period options are visually button-like; hide radio-marker pseudo elements.
       .period-option-text {
@@ -226,14 +196,8 @@
       margin-top: 12px;
       padding-top: 12px;
 
-      label,
-      label span {
-        color: @color-period-selector;
-      }
-
-      .preset-option-input:focus-visible:checked + .preset-option-text:not(.lever):before,
-      .preset-option-input:focus-visible:checked + .preset-option-text:not(.lever):after {
-        border-color: @theme-color-focus-ring;
+      label {
+        padding-left: 0;
       }
 
       .selected-period-label {
@@ -293,7 +257,6 @@
   @media (max-width: 900px) {
     .flex {
       flex-direction: column;
-      overflow-x: auto;
     }
 
     .period-selector-calendar-column {
