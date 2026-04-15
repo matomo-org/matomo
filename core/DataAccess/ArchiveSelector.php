@@ -67,7 +67,18 @@ class ArchiveSelector
         $dateStartIso = $dateStart->toString('Y-m-d');
         $dateEndIso   = $params->getPeriod()->getDateEnd()->toString('Y-m-d');
 
-        $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
+        $numericTable = ArchiveTableCreator::getNumericTable($dateStart, false);
+        if (empty($numericTable)) {
+            return self::archiveInfoBcResult([
+                'idArchives' => false,
+                'visits' => false,
+                'visitsConverted' => false,
+                'archiveExists' => false,
+                'tsArchived' => false,
+                'doneFlagValue' => false,
+                'existingRecords' => null,
+            ]);
+        }
 
         $requestedPlugin = $params->getRequestedPlugin();
         $requestedReport = $params->getArchiveOnlyReport();
@@ -285,7 +296,10 @@ class ArchiveSelector
             if ($period->getDateStart()->isLater(Date::now()->addDay(2))) {
                 continue; // avoid creating any archive tables in the future
             }
-            $table = ArchiveTableCreator::getNumericTable($period->getDateStart());
+            $table = ArchiveTableCreator::getNumericTable($period->getDateStart(), false);
+            if (empty($table)) {
+                continue;
+            }
             $monthToPeriods[$table][] = $period;
         }
 
@@ -397,9 +411,13 @@ class ArchiveSelector
 
             $isNumeric = $archiveDataType === 'numeric';
             if ($isNumeric) {
-                $table = ArchiveTableCreator::getNumericTable($date);
+                $table = ArchiveTableCreator::getNumericTable($date, false);
             } else {
-                $table = ArchiveTableCreator::getBlobTable($date);
+                $table = ArchiveTableCreator::getBlobTable($date, false);
+            }
+
+            if (empty($table)) {
+                continue;
             }
 
             $ids      = array_map('intval', $ids);
@@ -604,7 +622,10 @@ class ArchiveSelector
         foreach ($archiveIdsPerMonth as $yearMonth => $ids) {
             $date = Date::factory($yearMonth . '-01');
 
-            $table = ArchiveTableCreator::getBlobTable($date);
+            $table = ArchiveTableCreator::getBlobTable($date, false);
+            if (empty($table)) {
+                continue;
+            }
 
             $ids      = array_map('intval', $ids);
             $sql      = sprintf($getValuesSql, $table, implode(',', $ids));

@@ -711,12 +711,12 @@ class ArchiveInvalidator
         foreach ($dates as $tableDate => $datesForTable) {
             $tableDateObj = Date::factory($tableDate);
 
-            $table = ArchiveTableCreator::getNumericTable($tableDateObj);
+            $table = ArchiveTableCreator::getNumericTable($tableDateObj, false);
             $yearMonths[] = $tableDateObj->toString('Y_m');
 
             $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistentRanges, $name, $doNotCreateInvalidations);
 
-            if ($removeRanges) {
+            if ($removeRanges && !empty($table)) {
                 $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
             }
         }

@@ -2,7 +2,12 @@
 
 This is the Developer Changelog for Matomo platform developers. All changes in our HTTP APIs, Plugins, Themes, SDKs, etc. are listed below.
 
-The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
+The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
+
+## Matomo 5.10.0
+
+### Deprecations
+* The methods `ArchiveTableCreator::getNumericTable()` and `ArchiveTableCreator::getBlobTable()` now support a `$createIfMissing` parameter. Omitting this parameter is deprecated; pass `true` to create missing archive tables or `false` to return only existing tables. In Matomo 6 the default behavior for omitted calls will change to lookup-only.
 
 ## Matomo 5.9.0
 

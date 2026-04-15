@@ -94,6 +94,7 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Db\TransactionLevel', 'setUncommitted');
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Plugins\SitesManager\API', 'setGlobalExcludedQueryParameters');
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\API\Request', 'isTokenAuthProvidedSecurely');
+        $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\DataAccess\ArchiveTableCreator', 'triggerLegacyDefaultDeprecation');
     }
 
 

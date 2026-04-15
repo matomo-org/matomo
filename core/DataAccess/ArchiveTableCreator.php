@@ -19,17 +19,66 @@ class ArchiveTableCreator
 
     public static $tablesAlreadyInstalled = null;
 
-    public static function getNumericTable(Date $date)
+    /**
+     * Returns the prefixed numeric archive table name for the given date.
+     *
+     * In Matomo 5, omitting `$createIfMissing` keeps the legacy behavior and creates missing archive tables,
+     * but this is deprecated and will change in Matomo 6. Pass `true` to explicitly create missing tables or
+     * `false` to only return an existing table.
+     */
+    public static function getNumericTable(Date $date, ?bool $createIfMissing = null): ?string
     {
-        return self::getTable($date, self::NUMERIC_TABLE);
+        return self::getTable($date, self::NUMERIC_TABLE, $createIfMissing);
     }
 
-    public static function getBlobTable(Date $date)
+    /**
+     * Returns the prefixed blob archive table name for the given date.
+     *
+     * In Matomo 5, omitting `$createIfMissing` keeps the legacy behavior and creates missing archive tables,
+     * but this is deprecated and will change in Matomo 6. Pass `true` to explicitly create missing tables or
+     * `false` to only return an existing table.
+     */
+    public static function getBlobTable(Date $date, ?bool $createIfMissing = null): ?string
     {
-        return self::getTable($date, self::BLOB_TABLE);
+        return self::getTable($date, self::BLOB_TABLE, $createIfMissing);
     }
 
-    protected static function getTable(Date $date, $type)
+    protected static function getTable(Date $date, string $type, ?bool $createIfMissing = null): ?string
+    {
+        if ($createIfMissing === null) {
+            self::triggerLegacyDefaultDeprecation($type);
+            $createIfMissing = true;
+        }
+
+        if ($createIfMissing) {
+            return self::ensureArchiveTableExists($date, $type);
+        }
+
+        return self::getExistingTable($date, $type);
+    }
+
+    protected static function getExistingTable(Date $date, string $type): ?string
+    {
+        $tableNamePrefix = "archive_" . $type;
+        $tableName = $tableNamePrefix . "_" . self::getTableMonthFromDate($date);
+        $tableName = Common::prefixTable($tableName);
+
+        if (is_null(self::$tablesAlreadyInstalled)) {
+            self::refreshTableList();
+        }
+
+        if (!in_array($tableName, self::$tablesAlreadyInstalled)) {
+            self::refreshTableList();
+
+            if (!in_array($tableName, self::$tablesAlreadyInstalled)) {
+                return null;
+            }
+        }
+
+        return $tableName;
+    }
+
+    protected static function ensureArchiveTableExists(Date $date, string $type): string
     {
         $tableNamePrefix = "archive_" . $type;
         $tableName = $tableNamePrefix . "_" . self::getTableMonthFromDate($date);
@@ -38,6 +87,21 @@ class ArchiveTableCreator
         self::createArchiveTablesIfAbsent($tableName, $tableNamePrefix);
 
         return $tableName;
+    }
+
+    /**
+     * @deprecated Will be removed in Matomo 6 once omitted get*Table() calls stop using the legacy default behavior.
+     */
+    private static function triggerLegacyDefaultDeprecation(string $type): void
+    {
+        $method = $type === self::NUMERIC_TABLE ? 'getNumericTable' : 'getBlobTable';
+        trigger_error(
+            sprintf(
+                "Omitting \$createIfMissing in ArchiveTableCreator::%s() is deprecated. Pass true to create missing archive tables or false to only return existing ones. In Matomo 6 the default behavior will change to lookup-only.",
+                $method
+            ),
+            E_USER_DEPRECATED
+        );
     }
 
     protected static function createArchiveTablesIfAbsent($tableName, $tableNamePrefix)
