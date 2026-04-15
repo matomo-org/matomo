@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { translate } from 'CoreHome';
+import { translate, externalLink } from 'CoreHome';
 import CampaignBuilder from '../CampaignBuilder/CampaignBuilder.vue';
 
 const docsBuilderUrl = 'https://matomo.org/docs/'
@@ -31,19 +31,11 @@ export default defineComponent({
   },
   computed: {
     introHtml(): string {
-      /* eslint-disable prefer-template */
-      const link1 = '<a target="_blank"'
-        + ' rel="noreferrer noopener"'
-        + ' href="' + docsBuilderUrl + '">';
-      const link2 = '<a target="_blank"'
-        + ' rel="noreferrer noopener"'
-        + ' href="' + docsCampaignsUrl + '">';
-      /* eslint-enable prefer-template */
       return translate(
         'Referrers_URLCampaignBuilderIntro',
-        link1,
+        externalLink(docsBuilderUrl),
         '</a>',
-        link2,
+        externalLink(docsCampaignsUrl),
         '</a>',
       );
     },
