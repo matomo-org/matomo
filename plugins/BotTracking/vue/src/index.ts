@@ -6,3 +6,4 @@
  */
 
 export { default as SiteWithoutData } from './SiteWithoutData/SiteWithoutData.vue';
+export { default as NoRecentRequestsWidget } from './NoRecentRequests/NoRecentRequestsWidget.vue';
