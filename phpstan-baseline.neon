@@ -4384,16 +4384,6 @@ parameters:
 			path: plugins/UsersManager/UserAccessFilter.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\UsersManager\\\\UserPreferences\\:\\:getDefaultReport\\(\\) should return bool\\|int but returns string\\.$#"
-			count: 1
-			path: plugins/UsersManager/UserPreferences.php
-
-		-
-			message: "#^Parameter \\#1 \\$idSites of static method Piwik\\\\Piwik\\:\\:isUserHasViewAccess\\(\\) expects array\\|int, string given\\.$#"
-			count: 1
-			path: plugins/UsersManager/UserPreferences.php
-
-		-
 			message: "#^Parameter \\#1 \\$view of method Piwik\\\\Plugins\\\\VisitFrequency\\\\Reports\\\\Get\\:\\:addSparklineColumns\\(\\) expects Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines, Piwik\\\\Plugin\\\\ViewDataTable given\\.$#"
 			count: 1
 			path: plugins/VisitFrequency/Reports/Get.php
