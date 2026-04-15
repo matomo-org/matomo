@@ -55,7 +55,7 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureTopMenu(MenuTop $menu)
     {
-        $url = $this->urlForModuleAction('CoreAdminHome', 'home');
+        $url = $this->urlForModuleAction('CoreAdminHome', 'home', ['idSite' => null]);
         $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-settings');
         $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
 
