@@ -28,6 +28,7 @@ use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
@@ -262,7 +263,13 @@ class Controller extends ControllerAdmin
             array('key' => ThemeStyles::AUTO_MODE, 'value' => Piwik::translate('UsersManager_ThemeModeMatchBrowser')),
         );
 
+        $storedDefaultReport = $this->getStoredDefaultReportForUser($userLogin);
         $defaultReport   = $userPreferences->getDefaultReport();
+
+        if (is_numeric($storedDefaultReport) && $defaultReport === false) {
+            $defaultReport = $userPreferences->getDefaultWebsiteId();
+            $this->persistDefaultReportForUser($userLogin, $defaultReport);
+        }
 
         if ($defaultReport === false) {
             $defaultReport = $userPreferences->getDefaultWebsiteId();
@@ -315,6 +322,34 @@ class Controller extends ControllerAdmin
         );
 
         return $view->render();
+    }
+
+    /**
+     * @return false|int|string
+     */
+    private function getStoredDefaultReportForUser(string $userLogin)
+    {
+        return StaticContainer::get(UserScopedSettingsAccessManager::class)->get(
+            'UsersManager',
+            $userLogin,
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT,
+            false
+        );
+    }
+
+    /**
+     * @param false|int $defaultReport
+     */
+    private function persistDefaultReportForUser(string $userLogin, $defaultReport): void
+    {
+        $store = StaticContainer::get(UserScopedSettingsAccessManager::class);
+
+        if ($defaultReport === false) {
+            $store->delete('UsersManager', $userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT);
+            return;
+        }
+
+        $store->set('UsersManager', $userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT, $defaultReport);
     }
 
     /**
