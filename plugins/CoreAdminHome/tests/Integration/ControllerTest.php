@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CoreAdminHome\OptOutManager;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -52,8 +53,17 @@ class ControllerTest extends IntegrationTestCase
             $idSitesView = [1],
             $identity = 'superUserLogin'
         );
+        if (!Fixture::siteCreated(2)) {
+            Fixture::createWebsite('2012-01-02 00:00:00');
+        }
         $_GET = ['idSite' => 1, 'period' => 'day', 'date' => 'today'];
         $_REQUEST = $_GET;
+
+        UsersManagerAPI::getInstance()->setUserPreference(
+            'superUserLogin',
+            UsersManagerAPI::PREFERENCE_DEFAULT_REPORT,
+            2
+        );
 
         $this->controller = new Controller(
             new Translator(new DevelopmentLoader(new JsonFileLoader())),
@@ -92,6 +102,110 @@ class ControllerTest extends IntegrationTestCase
         $this->assertStringNotContainsString('>ProfessionalServices - Professional services bundled change<', $html);
     }
 
+    public function testWhatIsNewRewritesInternalLinksToDefaultReportIdSite(): void
+    {
+        $this->deleteAllChanges();
+
+        $changesModel = new ChangesModel();
+        $changesModel->addChange('UsersManager', [
+            'version' => '1.0.0',
+            'title' => 'Settings change',
+            'description' => 'Description',
+            'link_name' => 'Open settings',
+            'link' => 'index.php?module=UsersManager&action=userSettings&idSite=1',
+        ]);
+        $changesModel->addChange('SegmentEditor', [
+            'version' => '1.0.0',
+            'title' => 'Segment change',
+            'description' => 'Description',
+            'link_name' => 'Open segments',
+            'link' => '/index.php?module=CoreHome&action=index&idSite=1#?idSite=1&category=General_Visitors',
+        ]);
+
+        $html = $this->controller->whatIsNew();
+
+        $this->assertStringContainsString('index.php?module=UsersManager&amp;action=userSettings&amp;idSite=2', $html);
+        $this->assertStringContainsString('/index.php?module=CoreHome&amp;action=index&amp;idSite=2#?idSite=2&amp;category=General_Visitors', $html);
+        $this->assertStringNotContainsString('idSite=1', $html);
+    }
+
+    public function testWhatIsNewLeavesExternalLinksUnchanged(): void
+    {
+        $this->deleteAllChanges();
+
+        $changesModel = new ChangesModel();
+        $changesModel->addChange('PrivacyManager', [
+            'version' => '1.0.0',
+            'title' => 'External change',
+            'description' => 'Description',
+            'link_name' => 'Open docs',
+            'link' => 'https://matomo.org/blog/2022/09/improvements-to-matomo-opt-out-form-feature/',
+        ]);
+
+        $html = $this->controller->whatIsNew();
+
+        $this->assertStringContainsString(
+            'https://matomo.org/blog/2022/09/improvements-to-matomo-opt-out-form-feature/',
+            $html
+        );
+    }
+
+    public function testWhatIsNewFallsBackToDefaultWebsiteIdWhenDefaultReportIsMultiSites(): void
+    {
+        $this->deleteAllChanges();
+
+        UsersManagerAPI::getInstance()->setUserPreference(
+            'superUserLogin',
+            UsersManagerAPI::PREFERENCE_DEFAULT_REPORT,
+            'MultiSites'
+        );
+
+        $changesModel = new ChangesModel();
+        $changesModel->addChange('UsersManager', [
+            'version' => '1.0.0',
+            'title' => 'Settings change',
+            'description' => 'Description',
+            'link_name' => 'Open settings',
+            'link' => 'index.php?module=UsersManager&action=userSettings&idSite=99',
+        ]);
+
+        $html = $this->controller->whatIsNew();
+
+        $this->assertStringContainsString('index.php?module=UsersManager&amp;action=userSettings&amp;idSite=1', $html);
+    }
+
+    public function testWhatIsNewLeavesInternalLinksUnchangedWhenNoDefaultIdSiteIsAvailable(): void
+    {
+        FakeAccess::clearAccess(
+            $superUser = false,
+            $idSitesAdmin = [],
+            $idSitesView = [],
+            $identity = 'superUserLogin'
+        );
+
+        UsersManagerAPI::getInstance()->setUserPreference(
+            'superUserLogin',
+            UsersManagerAPI::PREFERENCE_DEFAULT_REPORT,
+            'MultiSites'
+        );
+
+        $changes = [[
+            'plugin_name' => 'UsersManager',
+            'version' => '1.0.0',
+            'title' => 'Settings change',
+            'description' => 'Description',
+            'link_name' => 'Open settings',
+            'link' => 'index.php?module=UsersManager&action=userSettings&idSite=99',
+        ]];
+
+        $changes = $this->callEnrichChangesForWhatIsNew($changes);
+
+        $this->assertSame(
+            'index.php?module=UsersManager&action=userSettings&idSite=99',
+            $changes[0]['link']
+        );
+    }
+
     public function tearDown(): void
     {
         $this->deleteAllChanges();
@@ -111,5 +225,13 @@ class ControllerTest extends IntegrationTestCase
     private function deleteAllChanges(): void
     {
         Db::query('DELETE FROM `' . Common::prefixTable('changes') . '`');
+    }
+
+    private function callEnrichChangesForWhatIsNew(array $changes): array
+    {
+        $method = new \ReflectionMethod($this->controller, 'enrichChangesForWhatIsNew');
+        $method->setAccessible(true);
+
+        return $method->invoke($this->controller, $changes);
     }
 }
