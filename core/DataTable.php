@@ -1498,8 +1498,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * Encodes `$rows` (the export array built by `getSerialized()`) into a columnar JSON blob prefixed
-     * with `COLUMNAR_BLOB_MAGIC`. Column names are stored once; each row's values are a positional
-     * array aligned to that column list. Subtable IDs and per-row metadata are stored as sparse maps.
+     * with `COLUMNAR_BLOB_MAGIC`. Column names are collected via a union pass over all rows so that no
+     * column is ever dropped; each row's values are then a positional array aligned to that union list,
+     * with `null` filling any column absent from a given row. Subtable IDs and per-row metadata are
+     * stored as sparse maps.
      *
      * @param array $rows Array of exported row data keyed by row ID.
      * @return string The encoded blob.
@@ -1527,13 +1529,21 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             unset($rows[self::ID_SUMMARY_ROW]);
         }
 
-        // Discover column names from the first regular row.
-        $firstRow = reset($rows);
-        if ($firstRow !== false) {
-            $colNames = array_keys($firstRow[Row::COLUMNS]);
-        } elseif ($summaryExport !== null) {
-            $colNames = array_keys($summaryExport[Row::COLUMNS]);
+        // Union pass: collect every column name that appears in any regular row or the summary row.
+        // This prevents data loss when rows have heterogeneous column sets (e.g. multi-site responses,
+        // goal reports where not every row carries every metric).
+        $colNameSet = [];
+        foreach ($rows as $export) {
+            foreach (array_keys($export[Row::COLUMNS]) as $name) {
+                $colNameSet[$name] = true;
+            }
         }
+        if ($summaryExport !== null) {
+            foreach (array_keys($summaryExport[Row::COLUMNS]) as $name) {
+                $colNameSet[$name] = true;
+            }
+        }
+        $colNames = array_keys($colNameSet);
 
         // Encode regular rows.
         foreach ($rows as $id => $export) {
@@ -1557,14 +1567,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         // Encode summary row.
         if ($summaryExport !== null) {
-            $cols            = $summaryExport[Row::COLUMNS];
-            $summaryColNames = empty($colNames) ? array_keys($cols) : $colNames;
-            if (empty($colNames)) {
-                $colNames = $summaryColNames;
-            }
             $summaryValues = [];
-            foreach ($summaryColNames as $name) {
-                $summaryValues[] = $cols[$name] ?? null;
+            foreach ($colNames as $name) {
+                $summaryValues[] = $summaryExport[Row::COLUMNS][$name] ?? null;
             }
             $summaryRow = $summaryValues;
 

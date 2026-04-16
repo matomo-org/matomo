@@ -841,15 +841,15 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $tableAfter->addRowsFromSerializedArray($serialized[0]);
 
         // Verify rows, checking column values, metadata, and subtable IDs individually.
-        // Note: the columnar format discovers column names from the first row, so rows with fewer
-        // columns are null-filled for the missing columns on decode — this is expected behaviour.
+        // The columnar format unions column names across all rows, so every column from every row
+        // is preserved; rows that lack a column in the union receive null on decode.
         $afterRows = array_values($tableAfter->getRows());
         $origRows  = array_values($table->getRows());
         self::assertCount(count($origRows), $afterRows);
 
         $consecutiveSubtableId = 0;
         foreach ($origRows as $i => $origRow) {
-            // All columns from the original row must match (null-fill may add extra columns, that's fine).
+            // All columns from the original row must be present and match after the roundtrip.
             foreach ($origRow->getColumns() as $col => $val) {
                 self::assertSame($val, $afterRows[$i]->getColumn($col), "column $col mismatch on row $i");
             }
@@ -1620,5 +1620,44 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         // Table-level metadata.
         self::assertSame('2024-01', $restored->getMetadata('report_date'));
         self::assertSame('EUR', $restored->getMetadata('currency'));
+    }
+
+    /**
+     * Columnar blob roundtrip with heterogeneous column sets.
+     * Rows in multi-site or goal reports can carry different columns; no column must be dropped.
+     */
+    public function testColumnarBlobRoundtripHeterogeneousColumns(): void
+    {
+        $table = new DataTable();
+
+        // Row 0: has 'nb_visits' but not 'nb_conversions'.
+        $table->addRowFromArray([Row::COLUMNS => ['label' => 'site-A', 'nb_visits' => 10]]);
+
+        // Row 1: has 'nb_conversions' but not 'nb_visits' — would be dropped under first-row-only discovery.
+        $table->addRowFromArray([Row::COLUMNS => ['label' => 'site-B', 'nb_conversions' => 3]]);
+
+        // Summary row: has both.
+        $table->addSummaryRow(new Row([Row::COLUMNS => ['label' => DataTable::LABEL_SUMMARY_ROW, 'nb_visits' => 10, 'nb_conversions' => 3]]));
+
+        $blobs    = $table->getSerialized();
+        $restored = DataTable::fromSerializedArray($blobs[0]);
+
+        $rows = array_values($restored->getRows());
+
+        // Row 0: nb_visits preserved; nb_conversions is null-filled → getColumn returns false (same as absent).
+        self::assertSame('site-A', $rows[0]->getColumn('label'));
+        self::assertSame(10, $rows[0]->getColumn('nb_visits'));
+        self::assertFalse($rows[0]->getColumn('nb_conversions'));
+
+        // Row 1: nb_conversions preserved; nb_visits is null-filled → getColumn returns false (same as absent).
+        self::assertSame('site-B', $rows[1]->getColumn('label'));
+        self::assertFalse($rows[1]->getColumn('nb_visits'));
+        self::assertSame(3, $rows[1]->getColumn('nb_conversions'));
+
+        // Summary row: both columns preserved.
+        $summary = $restored->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        self::assertNotNull($summary);
+        self::assertSame(10, $summary->getColumn('nb_visits'));
+        self::assertSame(3, $summary->getColumn('nb_conversions'));
     }
 }
