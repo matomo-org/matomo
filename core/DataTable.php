@@ -225,6 +225,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     public const ROW_IDENTIFIER_METADATA_NAME = 'rowIdentifier';
 
+    /** Magic prefix that identifies a columnar-encoded blob (3 bytes: DEL 'C' DEL). Never produced by PHP serialize(). */
+    public const COLUMNAR_BLOB_MAGIC = "\x7fC\x7f";
+
     /**
      * Maximum nesting level.
      * @var int
