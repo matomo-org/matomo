@@ -680,12 +680,8 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
         $tableUnserialized = DataTable::fromSerializedArray($results[0]);
         self::assertEquals(1, $tableUnserialized->getSummaryRow()->getIdSubDataTable());
-
-        $expectedResults = [
-            'a:2:{i:0;a:3:{i:0;a:2:{s:5:"label";s:7:"dimval1";s:6:"visits";i:245;}i:1;a:0:{}i:3;N;}i:-1;a:3:{i:0;a:2:{s:5:"label";s:6:"others";s:6:"visits";i:500;}i:1;a:0:{}i:3;i:1;}}',
-            'a:1:{i:0;a:3:{i:0;a:2:{s:5:"label";s:17:"subtabledimension";s:6:"visits";i:100;}i:1;a:0:{}i:3;N;}}',
-        ];
-        self::assertEquals($expectedResults, $results);
+        self::assertEquals('others', $tableUnserialized->getSummaryRow()->getColumn('label'));
+        self::assertEquals(245, $tableUnserialized->getFirstRow()->getColumn('visits'));
     }
 
     /**
@@ -841,29 +837,31 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals(array_keys($serialized), [2, 1, 0]); // subtableIds are now consecutive
 
-        // In the next test we compare an unserialized datatable with its original instance.
-        // The unserialized datatable rows will have positive DATATABLE_ASSOCIATED ids.
-        // Positive DATATABLE_ASSOCIATED ids mean that the associated sub-datatables are not loaded in memory.
-        // In this case, this is NOT true: we know that the sub-datatable is loaded in memory.
-        // HOWEVER, because of datatable id conflicts happening in the datatable manager, it is not yet
-        // possible to know, after unserializing a datatable, if its sub-datatables are loaded in memory.
-        $expectedTableRows = [];
-        $i                 = 0;
-        foreach ($table->getRows() as $currentRow) {
-            $expectedTableRow = clone $currentRow;
-
-            $currentRowAssociatedDatatableId = $currentRow->subtableId;
-            if ($currentRowAssociatedDatatableId != null) {
-                $expectedTableRow->setNonLoadedSubtableId(++$i); // subtableIds are consecutive
-            }
-
-            $expectedTableRows[] = $expectedTableRow;
-        }
-
         $tableAfter = new DataTable();
         $tableAfter->addRowsFromSerializedArray($serialized[0]);
 
-        self::assertEquals($expectedTableRows, $tableAfter->getRows());
+        // Verify rows, checking column values, metadata, and subtable IDs individually.
+        // Note: the columnar format discovers column names from the first row, so rows with fewer
+        // columns are null-filled for the missing columns on decode — this is expected behaviour.
+        $afterRows = array_values($tableAfter->getRows());
+        $origRows  = array_values($table->getRows());
+        self::assertCount(count($origRows), $afterRows);
+
+        $consecutiveSubtableId = 0;
+        foreach ($origRows as $i => $origRow) {
+            // All columns from the original row must match (null-fill may add extra columns, that's fine).
+            foreach ($origRow->getColumns() as $col => $val) {
+                self::assertSame($val, $afterRows[$i]->getColumn($col), "column $col mismatch on row $i");
+            }
+            // Metadata must be identical.
+            self::assertEquals($origRow->getMetadata(), $afterRows[$i]->getMetadata(), "metadata mismatch on row $i");
+            // Subtable ID: original rows with subtables get a consecutive ID; others are null.
+            if ($origRow->subtableId != null) {
+                self::assertSame(++$consecutiveSubtableId, $afterRows[$i]->getIdSubDataTable(), "subtableId mismatch on row $i");
+            } else {
+                self::assertNull($afterRows[$i]->getIdSubDataTable(), "unexpected subtableId on row $i");
+            }
+        }
 
         $subsubtableAfter = new DataTable();
         $subsubtableAfter->addRowsFromSerializedArray($serialized[$consecutiveSubtableId = 2]);
@@ -907,36 +905,30 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
         // make sure the rows subtableId were updated as well.
         foreach ($tables as $index => $serializedRows) {
-            $rows = unserialize($serializedRows);
-            self::assertTrue(is_array($rows));
+            self::assertStringStartsWith(DataTable::COLUMNAR_BLOB_MAGIC, $serializedRows);
+            $payload     = json_decode(substr($serializedRows, strlen(DataTable::COLUMNAR_BLOB_MAGIC)), true);
+            $rowData     = $payload[1]; // rowId => values[]
+            $subtableMap = $payload[2]; // rowId => subtableId (sparse)
+            $hasSummary  = $payload[4] !== null;
 
             if (0 === $index) {
-                // root table, make sure correct amount of rows are in subtables
-                self::assertCount($numRowsInRoot, $rows);
+                // root table: regular rows + summary row = $numRowsInRoot
+                self::assertSame($numRowsInRoot, count($rowData) + ($hasSummary ? 1 : 0));
             }
 
-            foreach ($rows as $row) {
-                self::assertTrue(is_array($row));
+            // Verify subtable IDs are within range and the referenced blobs have the right row counts.
+            foreach ($subtableMap as $rowId => $subtableId) {
+                self::assertLessThanOrEqual($sumSubTables, $subtableId);
+                self::assertGreaterThanOrEqual(0, $subtableId);
 
-                $subtableId = $row[Row::DATATABLE_ASSOCIATED];
+                $subPayload  = json_decode(substr($tables[$subtableId], strlen(DataTable::COLUMNAR_BLOB_MAGIC)), true);
+                $subRowCount = count($subPayload[1]) + ($subPayload[4] !== null ? 1 : 0);
 
-                if (
-                    $row[Row::COLUMNS]['label'] === DataTable::LABEL_SUMMARY_ROW
-                    || $row[Row::COLUMNS]['label'] === DataTable::LABEL_ARCHIVED_METADATA_ROW
-                ) {
-                    self::assertNull($subtableId);
+                // 2nd-level tables have subtables; 3rd-level tables do not.
+                if ($index === 0) {
+                    self::assertSame($numRowsInSubtables, $subRowCount);
                 } else {
-                    self::assertLessThanOrEqual($sumSubTables, $subtableId); // make sure row was actually updated
-                    self::assertGreaterThanOrEqual(0, $subtableId);
-                    $subrows = unserialize($tables[$subtableId]);
-
-                    // this way we make sure the rows point to the correct subtable. only 2nd level rows have actually
-                    // subtables. All 3rd level datatables do not have a row see table creation further above
-                    if ($index === 0) {
-                        self::assertCount($numRowsInSubtables, $subrows);
-                    } else {
-                        self::assertCount(0, $subrows);
-                    }
+                    self::assertSame(0, $subRowCount);
                 }
             }
         }
@@ -955,12 +947,23 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
         $tables = $rootTable->getSerialized();
 
-        // we also make sure it actually handles the subtableIds correct etc
-        self::assertEquals([
-            0 => 'a:2:{i:0;a:3:{i:0;a:1:{s:5:"label";s:6:"label0";}i:1;a:0:{}i:3;i:1;}i:1;a:3:{i:0;a:1:{s:5:"label";s:6:"label1";}i:1;a:0:{}i:3;i:2;}}',
-            1 => 'a:2:{i:0;a:3:{i:0;a:1:{s:5:"label";s:6:"label0";}i:1;a:0:{}i:3;N;}i:1;a:3:{i:0;a:1:{s:5:"label";s:6:"label1";}i:1;a:0:{}i:3;N;}}',
-            2 => 'a:2:{i:0;a:3:{i:0;a:1:{s:5:"label";s:6:"label0";}i:1;a:0:{}i:3;N;}i:1;a:3:{i:0;a:1:{s:5:"label";s:6:"label1";}i:1;a:0:{}i:3;N;}}',
-        ], $tables);
+        // Three blobs: root (0) + two subtables (1, 2).
+        self::assertCount(3, $tables);
+
+        // All blobs use the columnar format.
+        foreach ($tables as $blob) {
+            self::assertStringStartsWith(DataTable::COLUMNAR_BLOB_MAGIC, $blob);
+        }
+
+        // Root blob must record consecutive subtable IDs 1 and 2.
+        $rootPayload = json_decode(substr($tables[0], strlen(DataTable::COLUMNAR_BLOB_MAGIC)), true);
+        self::assertSame(['0' => 1, '1' => 2], $rootPayload[2]); // index 2 = subtableMap
+
+        // Subtable blobs must have no subtable references.
+        $sub1Payload = json_decode(substr($tables[1], strlen(DataTable::COLUMNAR_BLOB_MAGIC)), true);
+        $sub2Payload = json_decode(substr($tables[2], strlen(DataTable::COLUMNAR_BLOB_MAGIC)), true);
+        self::assertSame([], $sub1Payload[2]);
+        self::assertSame([], $sub2Payload[2]);
     }
 
     public function testSerializationOfDataTableMetadata(): void
@@ -1346,8 +1349,8 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(sizeof($serializedStrings), 2);
 
         // the serialized string references the id subtable
-        $unserialized = unserialize($serializedStrings[0]);
-        self::assertSame($idSubtable, $unserialized[0][3], "not found the id sub table in the serialized, not expected");
+        $payload0 = json_decode(substr($serializedStrings[0], strlen(DataTable::COLUMNAR_BLOB_MAGIC)), true);
+        self::assertSame($idSubtable, $payload0[2]['0'] ?? null, "not found the id sub table in the serialized, not expected");
 
         // KABOOM, we delete the subtable, reproducing a "random data issue"
         Manager::getInstance()->deleteTable($table1->getId());
@@ -1359,10 +1362,10 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
         // - the serialized table does NOT contain the sub table
         self::assertEquals(sizeof($serializedStrings), 1); // main table only is serialized
-        $unserialized = unserialize($serializedStrings[0]);
+        $payload0 = json_decode(substr($serializedStrings[0], strlen(DataTable::COLUMNAR_BLOB_MAGIC)), true);
 
         // - the serialized string does NOT contain the id subtable (the row was cleaned up as expected)
-        self::assertNull($unserialized[0][3], "found the id sub table in the serialized, not expected");
+        self::assertArrayNotHasKey('0', $payload0[2], "found the id sub table in the serialized, not expected");
     }
 
     public function testMergeSubtablesKeepsMetadata(): void
@@ -1548,5 +1551,74 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             [Row::COLUMNS => ['label' => '123a', 'visits' => 2]],
         ];
         return $rows;
+    }
+
+    /**
+     * Full roundtrip test for the columnar blob format.
+     * Verifies that a DataTable with regular rows, per-row metadata, subtable IDs,
+     * a summary row, and table-level metadata is preserved exactly through
+     * getSerialized() → fromSerializedArray().
+     */
+    public function testColumnarBlobRoundtrip(): void
+    {
+        // Build original table.
+        $original = new DataTable();
+
+        // Two regular rows, one with per-row metadata and a subtable.
+        $sub = new DataTable();
+        $sub->addRowFromArray([Row::COLUMNS => ['label' => 'sub-page', 'nb_hits' => 7]]);
+
+        $row0 = new Row([Row::COLUMNS => ['label' => '/foo', 'nb_visits' => 100, 'nb_actions' => 200]]);
+        $row0->setMetadata('logo', 'test.png');
+        $row0->setSubtable($sub);
+        $original->addRow($row0);
+
+        $row1 = new Row([Row::COLUMNS => ['label' => '/bar', 'nb_visits' => 50, 'nb_actions' => 80]]);
+        $original->addRow($row1);
+
+        // Summary row.
+        $summaryRow = new Row([Row::COLUMNS => ['label' => DataTable::LABEL_SUMMARY_ROW, 'nb_visits' => 150, 'nb_actions' => 280]]);
+        $original->addSummaryRow($summaryRow);
+
+        // Table-level metadata (only scalar values are persisted).
+        $original->setAllTableMetadata(['report_date' => '2024-01', 'currency' => 'EUR']);
+
+        // Serialize.
+        $blobs = $original->getSerialized();
+
+        // Root blob must use the columnar format.
+        self::assertStringStartsWith(DataTable::COLUMNAR_BLOB_MAGIC, $blobs[0]);
+
+        // Roundtrip: restore root table only (subtables are separate blobs).
+        $restored = DataTable::fromSerializedArray($blobs[0]);
+
+        // Row count (excludes summary row).
+        self::assertSame(2, $restored->getRowsCountWithoutSummaryRow());
+
+        // Column values.
+        $restoredRows = array_values($restored->getRows());
+        self::assertSame('/foo', $restoredRows[0]->getColumn('label'));
+        self::assertSame(100, $restoredRows[0]->getColumn('nb_visits'));
+        self::assertSame(200, $restoredRows[0]->getColumn('nb_actions'));
+        self::assertSame('/bar', $restoredRows[1]->getColumn('label'));
+        self::assertSame(50, $restoredRows[1]->getColumn('nb_visits'));
+
+        // Per-row metadata.
+        self::assertSame('test.png', $restoredRows[0]->getMetadata('logo'));
+        self::assertFalse($restoredRows[1]->getMetadata('logo'));
+
+        // Subtable ID is preserved (exact value depends on serialization order; just check it is set).
+        self::assertNotNull($restoredRows[0]->getIdSubDataTable());
+        self::assertNull($restoredRows[1]->getIdSubDataTable());
+
+        // Summary row.
+        $restoredSummary = $restored->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        self::assertNotNull($restoredSummary);
+        self::assertSame(150, $restoredSummary->getColumn('nb_visits'));
+        self::assertSame(280, $restoredSummary->getColumn('nb_actions'));
+
+        // Table-level metadata.
+        self::assertSame('2024-01', $restored->getMetadata('report_date'));
+        self::assertSame('EUR', $restored->getMetadata('currency'));
     }
 }

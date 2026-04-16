@@ -1567,6 +1567,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $summaryValues[] = $cols[$name] ?? null;
             }
             $summaryRow = $summaryValues;
+
+            // Include the summary row's subtable ID in the sparse map (key = ID_SUMMARY_ROW = "-1").
+            $summarySubtableId = $summaryExport[Row::DATATABLE_ASSOCIATED];
+            if ($summarySubtableId !== null && $summarySubtableId !== false) {
+                $subtableMap[(string) self::ID_SUMMARY_ROW] = (int) $summarySubtableId;
+            }
         }
 
         $payload = [
@@ -1578,7 +1584,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             empty($archivedMeta) ? null : $archivedMeta,
         ];
 
-        return self::COLUMNAR_BLOB_MAGIC . json_encode($payload, JSON_THROW_ON_ERROR);
+        $encoded = json_encode($payload);
+        if ($encoded === false) {
+            throw new \Exception('Failed to JSON-encode columnar blob: ' . json_last_error_msg());
+        }
+        return self::COLUMNAR_BLOB_MAGIC . $encoded;
     }
 
     /**
@@ -1591,7 +1601,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     private function decodeColumnarBlob(string $blob): array
     {
         $json    = substr($blob, strlen(self::COLUMNAR_BLOB_MAGIC));
-        $payload = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        $payload = json_decode($json, true, 512);
+        if (!is_array($payload)) {
+            throw new \Exception('Failed to JSON-decode columnar blob: ' . json_last_error_msg());
+        }
 
         [$colNames, $rowData, $subtableMap, $metadataMap, $summaryValues, $archivedMeta] = $payload;
 
@@ -1614,7 +1627,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $rows[self::ID_SUMMARY_ROW] = [
                 Row::COLUMNS              => array_combine($colNames, $summaryValues),
                 Row::METADATA             => [],
-                Row::DATATABLE_ASSOCIATED => null,
+                Row::DATATABLE_ASSOCIATED => $subtableMap[(string) self::ID_SUMMARY_ROW] ?? null,
             ];
         }
 
