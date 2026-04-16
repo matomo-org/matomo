@@ -104,7 +104,7 @@ class ColumnCallbackAddColumn extends BaseFilter
 
         $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
 
-        foreach ($table->getRows() as $row) {
+        foreach ($table as $row) {
             $row->setColumn($this->columnToAdd, $metric->compute($row));
             $this->filterSubTable($row);
         }

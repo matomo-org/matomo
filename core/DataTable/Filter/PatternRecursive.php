@@ -51,9 +51,9 @@ class PatternRecursive extends BaseFilter
      */
     public function filter($table)
     {
-        $rows = $table->getRows();
+        $rowsToDelete = [];
 
-        foreach ($rows as $key => $row) {
+        foreach ($table as $key => $row) {
             // A row is deleted if
             // 1 - its label doesn't contain the pattern
             // AND 2 - the label is not found in the children
@@ -74,8 +74,12 @@ class PatternRecursive extends BaseFilter
                 $patternNotFoundInChildren
                 && !Pattern::match($this->patternToSearchQuoted, $row->getColumn($this->columnToFilter), $invertedMatch = false)
             ) {
-                $table->deleteRow($key);
+                $rowsToDelete[] = $key;
             }
+        }
+
+        foreach ($rowsToDelete as $key) {
+            $table->deleteRow($key);
         }
 
         return $table->getRowsCount();

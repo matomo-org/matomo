@@ -23,7 +23,7 @@ class EnrichRecordWithGoalMetricSums extends BaseFilter
 {
     public function filter($table)
     {
-        foreach ($table->getRows() as $row) {
+        foreach ($table as $row) {
             $columns = $row->getColumns();
             self::enrichWithConversions($columns);
             $row->setColumns($columns);

@@ -117,7 +117,7 @@ class DataRounding
         $columnsToRound = self::collectColumnsToRound($table, $metricTypes);
 
         if (!empty($columnsToRound)) {
-            foreach ($table->getRows() as $row) {
+            foreach ($table as $row) {
                 self::roundRowColumns($row, $columnsToRound, $metricTypes, $report);
                 self::roundRowComparisons($row, $report);
             }
@@ -216,7 +216,7 @@ class DataRounding
             return;
         }
 
-        foreach ($table->getRows() as $row) {
+        foreach ($table as $row) {
             foreach ($columnsToRound as $columnName) {
                 self::clearRatioMetadata($row, $columnName);
             }
@@ -249,7 +249,7 @@ class DataRounding
                 continue;
             }
 
-            foreach ($table->getRows() as $row) {
+            foreach ($table as $row) {
                 self::recomputeProcessedMetricForRow($row, $metricName, $processedMetric);
             }
 
@@ -770,7 +770,7 @@ class DataRounding
         $shouldRoundFallbackRows = self::isAnyRequestedSiteEnabled($requestedSiteIds, $isSiteEnabled);
 
         if (!empty($columnsToRound)) {
-            foreach ($dataTable->getRows() as $row) {
+            foreach ($dataTable as $row) {
                 $rowSiteId = $currentSiteId ?? self::extractSiteIdFromRow($row);
                 $shouldRoundRow = $rowSiteId !== null
                     ? (bool) call_user_func($isSiteEnabled, $rowSiteId)

@@ -68,7 +68,7 @@ class AddSegmentBySegmentValue extends BaseFilter
         $segment     = reset($segments);
         $segmentName = $segment->getSegment();
 
-        foreach ($table->getRows() as $row) {
+        foreach ($table as $row) {
             $value  = $row->getMetadata('segmentValue');
             $filter = $row->getMetadata('segment');
 

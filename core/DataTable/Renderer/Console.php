@@ -85,7 +85,7 @@ class Console extends Renderer
         static $depth = 0;
         $output = '';
         $i = 1;
-        foreach ($table->getRows() as $row) {
+        foreach ($table as $row) {
             $dataTableMapBreak = false;
             $columns = array();
             foreach ($row->getColumns() as $column => $value) {

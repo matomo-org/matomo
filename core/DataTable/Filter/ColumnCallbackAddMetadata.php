@@ -68,7 +68,7 @@ class ColumnCallbackAddMetadata extends BaseFilter
     public function filter($table)
     {
         if ($this->applyToSummaryRow) {
-            $rows = $table->getRows();
+            $rows = $table;
         } else {
             $rows = $table->getRowsWithoutSummaryRow();
         }

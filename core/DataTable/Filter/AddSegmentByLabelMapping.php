@@ -52,7 +52,7 @@ class AddSegmentByLabelMapping extends BaseFilter
             return;
         }
 
-        foreach ($table->getRows() as $row) {
+        foreach ($table as $row) {
             $label = $row->getColumn('label');
 
             if (!empty($this->mapping[$label])) {

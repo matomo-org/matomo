@@ -364,7 +364,7 @@ class ArchivingHelper
      */
     public static function deleteInvalidSummedColumnsFromDataTable($dataTable)
     {
-        foreach ($dataTable->getRows() as $id => $row) {
+        foreach ($dataTable as $id => $row) {
             if (
                 ($idSubtable = $row->getIdSubDataTable()) !== null
                 || $id === DataTable::ID_SUMMARY_ROW

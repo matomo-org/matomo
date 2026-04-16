@@ -63,7 +63,9 @@ class ColumnCallbackDeleteRow extends BaseFilter
      */
     public function filter($table)
     {
-        foreach ($table->getRows() as $key => $row) {
+        $rowsToDelete = [];
+
+        foreach ($table as $key => $row) {
             $params = array();
             foreach ($this->columnsToFilter as $column) {
                 $params[] = $row->getColumn($column);
@@ -71,10 +73,14 @@ class ColumnCallbackDeleteRow extends BaseFilter
 
             $params = array_merge($params, $this->functionParams);
             if (call_user_func_array($this->function, $params) === true) {
-                $table->deleteRow($key);
+                $rowsToDelete[] = $key;
             }
 
             $this->filterSubTable($row);
+        }
+
+        foreach ($rowsToDelete as $key) {
+            $table->deleteRow($key);
         }
     }
 }

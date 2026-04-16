@@ -66,7 +66,7 @@ class SafeDecodeLabel extends BaseFilter
             return;
         }
 
-        foreach ($table->getRows() as $row) {
+        foreach ($table as $row) {
             $value = $row->getColumn($this->columnToDecode);
             if ($value !== false) {
                 $value = self::decodeLabelSafe($value);

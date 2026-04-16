@@ -80,23 +80,22 @@ class ReplaceColumnNames extends BaseFilter
      */
     protected function filterTable($table)
     {
-        $rows = $table->getRows();
-
-        $totalRow = $table->getTotalsRow();
-        if ($totalRow) {
-            $rows[] = $totalRow;
-        }
-
-        foreach ($rows as $row) {
+        foreach ($table as $row) {
             $newColumns = $this->getRenamedColumns($row->getColumns());
             $row->setColumns($newColumns);
             $this->filterSubTable($row);
+        }
+
+        $totalRow = $table->getTotalsRow();
+        if ($totalRow) {
+            $newColumns = $this->getRenamedColumns($totalRow->getColumns());
+            $totalRow->setColumns($newColumns);
         }
     }
 
     protected function filterSimple(Simple $table)
     {
-        foreach ($table->getRows() as $row) {
+        foreach ($table as $row) {
             $columns = array_keys($row->getColumns());
             foreach ($columns as $column) {
                 $newName = $this->getRenamedColumn($column);

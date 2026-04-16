@@ -387,7 +387,7 @@ class Csv extends Renderer
     private function makeArrayFromDataTable($table, array &$allColumns): array
     {
         $csv = [];
-        foreach ($table->getRows() as $row) {
+        foreach ($table as $row) {
             $csvRow = $this->flattenColumnArray($row->getColumns());
 
             if (!$this->hideMetadata) {

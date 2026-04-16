@@ -30,6 +30,17 @@ class Row extends \ArrayObject
     public const COMPARISONS_METADATA_NAME = 'comparisons';
 
     /**
+     * @internal — static map from spl_object_id($row) to a callable.
+     * Set by DataTable::materialiseRow() so that setSubtable() mutations on
+     * materialised rows propagate back to the owning DataTable's packed storage.
+     * Using a static map avoids adding an instance property, which would change
+     * the object's exported representation and break PHPUnit assertEquals comparisons.
+     *
+     * @var callable[]
+     */
+    private static $_bindCallbacks = [];
+
+    /**
      * List of columns that cannot be summed. An associative array for speed.
      *
      * @var array
@@ -46,6 +57,17 @@ class Row extends \ArrayObject
 
     private $metadata = array();
     protected $isSubtableLoaded = false;
+
+    /**
+     * @internal — non-null when this Row's metadata is delegated to a DataTable's packed
+     * storage (set by DataTable::addRow()).  Ensures that external Row references remain
+     * "live" after addRow(): mutations made via ViewRow are visible through the original Row.
+     *
+     * @var \Piwik\DataTable|null
+     */
+    private $_boundTable = null;
+    /** @var int|null */
+    private $_boundRowId = null;
 
     /**
      * @internal
@@ -105,12 +127,40 @@ class Row extends \ArrayObject
     }
 
     /**
+     * @internal — called by DataTable::materialiseRow() to register a callback that propagates
+     * setSubtable() calls back to the owning DataTable's packed storage, and prevents the
+     * destructor from deleting the subtable (the DataTable owns it, not the materialised Row).
+     */
+    public function bindSubtableCallback(callable $callback)
+    {
+        self::$_bindCallbacks[spl_object_id($this)] = $callback;
+    }
+
+    /**
+     * @internal — called by DataTable::addRow() / addSummaryRow() to delegate this Row's
+     * metadata operations to the owning DataTable's packed storage.  After binding,
+     * getMetadata() / setMetadata() / deleteMetadata() read/write the DataTable's
+     * rowMetadata map so that mutations made via ViewRow are immediately visible through
+     * the original Row reference.
+     */
+    public function bindToTable(DataTable $table, int $rowId): void
+    {
+        $this->_boundTable = $table;
+        $this->_boundRowId = $rowId;
+    }
+
+    /**
      * When destroyed, a row destroys its associated subtable if there is one.
      * @ignore
      */
     public function __destruct()
     {
-        if ($this->isSubtableLoaded) {
+        $oid = spl_object_id($this);
+        if (isset(self::$_bindCallbacks[$oid])) {
+            // This row is a materialised view of a DataTable's packed storage.
+            // The DataTable owns the subtable — do NOT delete it from Manager.
+            unset(self::$_bindCallbacks[$oid]);
+        } elseif ($this->isSubtableLoaded) {
             Manager::getInstance()->deleteTable($this->subtableId);
             $this->subtableId = null;
             $this->isSubtableLoaded = false;
@@ -157,6 +207,10 @@ class Row extends \ArrayObject
      */
     public function deleteColumn($name)
     {
+        if ($this->_boundTable !== null) {
+            return $this->_boundTable->deletePackedColumn($this->_boundRowId, (string) $name);
+        }
+
         if (!$this->offsetExists($name)) {
             return false;
         }
@@ -173,6 +227,12 @@ class Row extends \ArrayObject
      */
     public function renameColumn($oldName, $newName)
     {
+        if ($this->_boundTable !== null) {
+            // Schema-level rename: propagate to DataTable (updates all rows).
+            $this->_boundTable->renameColumn($oldName, $newName);
+            return;
+        }
+
         if (isset($this[$oldName])) {
             $this[$newName] = $this[$oldName];
         }
@@ -191,6 +251,14 @@ class Row extends \ArrayObject
      */
     public function getColumn($name)
     {
+        if ($this->_boundTable !== null) {
+            if (!$this->_boundTable->rowColumnExists($this->_boundRowId, (string) $name)) {
+                return false;
+            }
+            $val = $this->_boundTable->getPackedValue($this->_boundRowId, (string) $name);
+            return ($val === null) ? false : $val;
+        }
+
         if (!isset($this[$name])) {
             return false;
         }
@@ -206,6 +274,13 @@ class Row extends \ArrayObject
      */
     public function getMetadata($name = null)
     {
+        if ($this->_boundTable !== null) {
+            $meta = $this->_boundTable->getRowMetadata($this->_boundRowId);
+            if (is_null($name)) {
+                return $meta;
+            }
+            return $meta[$name] ?? false;
+        }
         if (is_null($name)) {
             return $this->metadata;
         }
@@ -224,6 +299,9 @@ class Row extends \ArrayObject
      */
     public function hasColumn($name)
     {
+        if ($this->_boundTable !== null) {
+            return $this->_boundTable->rowColumnExists($this->_boundRowId, (string) $name);
+        }
         return $this->offsetExists($name);
     }
 
@@ -237,9 +315,16 @@ class Row extends \ArrayObject
      *                        'label'     => 'www.php.net'
      *                        'nb_visits' => 15894,
      *                    )
+     *
+     * When bound to a DataTable (after addRow()), delegates to the DataTable's
+     * packed storage so that the returned columns reflect any mutations made by
+     * filters operating through ViewRow.
      */
     public function getColumns()
     {
+        if ($this->_boundTable !== null) {
+            return $this->_boundTable->getPackedRow($this->_boundRowId);
+        }
         return $this->getArrayCopy();
     }
 
@@ -282,6 +367,19 @@ class Row extends \ArrayObject
     }
 
     /**
+     * Record a subtable ID that is already registered in Manager (i.e., already "loaded").
+     * Unlike setNonLoadedSubtableId(), this marks the subtable as loaded so that
+     * getSubtable() can return it without needing a setSubtable() call.
+     *
+     * @internal used by DataTable::materialiseRow()
+     */
+    public function setLoadedSubtableId(int $subtableId): void
+    {
+        $this->subtableId       = $subtableId;
+        $this->isSubtableLoaded = true;
+    }
+
+    /**
      * Sums a DataTable to this row's subtable. If this row has no subtable a new
      * one is created.
      *
@@ -315,6 +413,11 @@ class Row extends \ArrayObject
     {
         $this->subtableId = $subTable->getId();
         $this->isSubtableLoaded = true;
+
+        $oid = spl_object_id($this);
+        if (isset(self::$_bindCallbacks[$oid])) {
+            call_user_func(self::$_bindCallbacks[$oid], $this->subtableId);
+        }
 
         return $subTable;
     }
@@ -358,6 +461,10 @@ class Row extends \ArrayObject
      */
     public function setColumn($name, $value)
     {
+        if ($this->_boundTable !== null) {
+            $this->_boundTable->setPackedValue($this->_boundRowId, (string) $name, $value);
+            return;
+        }
         $this[$name] = $value;
     }
 
@@ -369,6 +476,10 @@ class Row extends \ArrayObject
      */
     public function setMetadata($name, $value)
     {
+        if ($this->_boundTable !== null) {
+            $this->_boundTable->setRowMetadataValue($this->_boundRowId, $name, $value);
+            return;
+        }
         $this->metadata[$name] = $value;
     }
 
@@ -379,6 +490,10 @@ class Row extends \ArrayObject
      */
     public function setAllMetadata($metadata)
     {
+        if ($this->_boundTable !== null) {
+            $this->_boundTable->setRowMetadata($this->_boundRowId, $metadata);
+            return;
+        }
         $this->metadata = $metadata;
     }
 
@@ -390,6 +505,13 @@ class Row extends \ArrayObject
      */
     public function deleteMetadata($name = false)
     {
+        if ($this->_boundTable !== null) {
+            if ($name === false) {
+                $this->_boundTable->setRowMetadata($this->_boundRowId, []);
+                return true;
+            }
+            return $this->_boundTable->deleteRowMetadataKey($this->_boundRowId, (string) $name);
+        }
         if ($name === false) {
             $this->metadata = array();
             return true;
@@ -446,6 +568,13 @@ class Row extends \ArrayObject
      */
     public function addMetadata($name, $value)
     {
+        if ($this->_boundTable !== null) {
+            if ($this->getMetadata($name) !== false) {
+                throw new Exception("Metadata $name already in the array!");
+            }
+            $this->_boundTable->setRowMetadataValue($this->_boundRowId, $name, $value);
+            return;
+        }
         if (isset($this->metadata[$name])) {
             throw new Exception("Metadata $name already in the array!");
         }

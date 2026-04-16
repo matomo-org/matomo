@@ -101,7 +101,7 @@ class InsightReport
 
         $shakers = $this->generateMoverAndShaker($reportMetadata, $period, $date, $lastDate, $metric, $currentReport, $lastReport, $totalValue, $lastTotalValue, $orderBy, $limitIncreaser, $limitDecreaser);
 
-        foreach ($insight->getRows() as $row) {
+        foreach ($insight as $row) {
             $label = $row->getColumn('label');
 
             if ($shakers->getRowFromLabel($label)) {

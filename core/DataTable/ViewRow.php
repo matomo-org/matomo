@@ -27,37 +27,43 @@ use Piwik\DataTable;
  */
 class ViewRow extends Row
 {
+    /** @var DataTable */
+    private $table;
+
+    /** @var int */
+    private $rowId;
+
     /**
      * @param DataTable $table The owning table.
      * @param int       $rowId Row ID within that table (may be ID_SUMMARY_ROW or ID_TOTALS_ROW).
      */
-    public function __construct(
-        private readonly DataTable $table,
-        private readonly int $rowId
-    ) {
+    public function __construct(DataTable $table, int $rowId)
+    {
         // Do NOT call parent::__construct() — that would populate ArrayObject storage.
+        $this->table            = $table;
+        $this->rowId            = $rowId;
         $this->subtableId       = $table->getRowSubtableId($rowId);
         $this->isSubtableLoaded = ($this->subtableId !== null);
     }
 
     // ── ArrayObject intercepts ────────────────────────────────────────────────
 
-    public function offsetExists(mixed $name): bool
+    public function offsetExists($name): bool
     {
         return $this->table->rowColumnExists($this->rowId, (string) $name);
     }
 
-    public function offsetGet(mixed $name): mixed
+    public function offsetGet($name)
     {
         return $this->table->getPackedValue($this->rowId, (string) $name);
     }
 
-    public function offsetSet(mixed $name, mixed $value): void
+    public function offsetSet($name, $value): void
     {
         $this->table->setPackedValue($this->rowId, (string) $name, $value);
     }
 
-    public function offsetUnset(mixed $name): void
+    public function offsetUnset($name): void
     {
         $this->deleteColumn((string) $name);
     }
@@ -75,27 +81,23 @@ class ViewRow extends Row
 
     // ── Row API overrides ─────────────────────────────────────────────────────
 
-    public function getColumn($name): mixed
+    public function getColumn($name)
     {
         $value = $this->table->getPackedValue($this->rowId, (string) $name);
         return $value ?? false;
     }
 
-    public function setColumn($name, $value): void
+    public function setColumn($name, $value)
     {
         $this->table->setPackedValue($this->rowId, (string) $name, $value);
     }
 
     public function deleteColumn($name): bool
     {
-        if (!isset($this->table->columnIndex[(string) $name])) {
-            return false;
-        }
-        $this->table->setPackedValue($this->rowId, (string) $name, null);
-        return true;
+        return $this->table->deletePackedColumn($this->rowId, (string) $name);
     }
 
-    public function renameColumn($oldName, $newName): void
+    public function renameColumn($oldName, $newName)
     {
         // Schema-level rename — delegate to DataTable so all rows are updated.
         $this->table->renameColumn($oldName, $newName);
@@ -106,7 +108,7 @@ class ViewRow extends Row
         return $this->table->getPackedRow($this->rowId);
     }
 
-    public function setColumns(array $columns): void
+    public function setColumns($columns)
     {
         foreach ($columns as $name => $value) {
             $this->table->setPackedValue($this->rowId, (string) $name, $value);
@@ -120,7 +122,7 @@ class ViewRow extends Row
 
     // ── Metadata ─────────────────────────────────────────────────────────────
 
-    public function getMetadata($name = null): mixed
+    public function getMetadata($name = null)
     {
         $meta = $this->table->getRowMetadata($this->rowId);
         if ($name === null) {
@@ -129,12 +131,12 @@ class ViewRow extends Row
         return $meta[$name] ?? false;
     }
 
-    public function setMetadata($name, $value): void
+    public function setMetadata($name, $value)
     {
         $this->table->setRowMetadataValue($this->rowId, $name, $value);
     }
 
-    public function setAllMetadata(array $metadata): void
+    public function setAllMetadata($metadata)
     {
         $this->table->setRowMetadata($this->rowId, $metadata);
     }
@@ -148,7 +150,7 @@ class ViewRow extends Row
         return $this->table->deleteRowMetadataKey($this->rowId, (string) $name);
     }
 
-    public function addMetadata($name, $value): void
+    public function addMetadata($name, $value)
     {
         if ($this->getMetadata($name) !== false) {
             throw new \Exception("Metadata '$name' already exists.");
@@ -166,7 +168,7 @@ class ViewRow extends Row
         return $result;
     }
 
-    public function removeSubtable(): void
+    public function removeSubtable()
     {
         parent::removeSubtable();
         $this->table->setRowSubtableId($this->rowId, null);
@@ -177,6 +179,17 @@ class ViewRow extends Row
     public function isSummaryRow(): bool
     {
         return $this->rowId === DataTable::ID_SUMMARY_ROW;
+    }
+
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+    /**
+     * ViewRow does NOT own the subtable — the DataTable's packed storage does.
+     * Override to prevent Row::__destruct() from calling deleteTable().
+     */
+    public function __destruct()
+    {
+        // intentionally empty
     }
 
     // ── Serialization ─────────────────────────────────────────────────────────

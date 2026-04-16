@@ -17,6 +17,7 @@ use Piwik\DataTable\Renderer\Html;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\DataTable\Simple;
+use Piwik\DataTable\ViewRow;
 use ReflectionClass;
 
 /**
@@ -235,17 +236,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     private static $maximumDepthLevelAllowed = self::MAX_DEPTH_DEFAULT;
 
     /**
-     * Array of Row
+     * rowId → packed int-indexed value array
      *
-     * @var Row[]|null
+     * @var array<int, array<int, mixed>>
      */
     protected $rows = [];
 
     // ── Columnar packed storage ───────────────────────────────────────────────
-    // These properties replace $rows / $summaryRow / $totalsRow once the
-    // migration in Commit 3 is applied.  They are added here (Commit 2) so
-    // that the @internal helper methods and ViewRow can reference them without
-    // touching any existing behaviour.
 
     /**
      * Shared column schema — established on first addRow().
@@ -253,7 +250,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @internal
      * @var string[]
      */
-    public array $columnNames = [];
+    public $columnNames = [];
 
     /**
      * Reverse map: column name → integer index into packed value arrays.
@@ -261,15 +258,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @internal
      * @var array<string, int>
      */
-    public array $columnIndex = [];
+    public $columnIndex = [];
 
     /**
      * Monotonically increasing row-ID counter.
      * Using count($this->rows) would produce collisions after deleteRow().
      *
      * @internal
+     * @var int
      */
-    protected int $nextRowId = 0;
+    protected $nextRowId = 0;
 
     /**
      * Sparse map of rowId → subtable ID (omit key when null).
@@ -277,7 +275,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @internal
      * @var array<int, int>
      */
-    protected array $rowSubtableIds = [];
+    protected $rowSubtableIds = [];
 
     /**
      * Sparse map of rowId → metadata array (omit key when empty).
@@ -285,21 +283,32 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @internal
      * @var array<int, array<string, mixed>>
      */
-    protected array $rowMetadata = [];
+    protected $rowMetadata = [];
 
-    /** @internal */
-    protected ?array $summaryRowData     = null;
-    /** @internal */
-    protected array  $summaryRowMetadata = [];
-    /** @internal */
-    protected ?int   $summarySubtableId  = null;
+    /**
+     * Per-row column order.  Only populated when a row's column insertion order
+     * differs from the schema order (or the row is missing some schema columns).
+     * Stored as an int[] of schema-column indices in the row's original insertion
+     * order — omitting indices for columns that were absent when the row was added.
+     *
+     * @internal
+     * @var array<int, int[]>
+     */
+    protected $rowColumnOrder = [];
 
-    /** @internal */
-    protected ?array $totalsRowData     = null;
-    /** @internal */
-    protected array  $totalsRowMetadata = [];
-    /** @internal */
-    protected ?int   $totalsSubtableId  = null;
+    /** @internal @var array<int, mixed>|null */
+    protected $summaryRowData     = null;
+    /** @internal @var array<string, mixed> */
+    protected $summaryRowMetadata = [];
+    /** @internal @var int|null */
+    protected $summarySubtableId  = null;
+
+    /** @internal @var array<int, mixed>|null */
+    protected $totalsRowData     = null;
+    /** @internal @var array<string, mixed> */
+    protected $totalsRowMetadata = [];
+    /** @internal @var int|null */
+    protected $totalsSubtableId  = null;
     // ── End columnar packed storage ───────────────────────────────────────────
 
     /**
@@ -367,16 +376,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     protected $rowsIndexByLabel = array();
 
     /**
-     * @var Row|null
-     */
-    protected $summaryRow = null;
-
-    /**
-     * @var Row|null
-     */
-    protected $totalsRow = null;
-
-    /**
      * Table metadata. Read [this](#class-desc-the-basics) to learn more.
      *
      * Any data that describes the data held in the table's rows should go here.
@@ -398,6 +397,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /** @var bool */
     protected $isBuiltWithoutArchives = true;
 
+    /** @var bool Sentinel used by __destruct() to prevent double-destruction. */
+    protected $isDestroyed = false;
+
     // ── Columnar schema management (private) ─────────────────────────────────
 
     private function establishSchema(array $columnNames): void
@@ -411,22 +413,47 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $idx = count($this->columnNames);
         $this->columnNames[]            = $newColName;
         $this->columnIndex[$newColName] = $idx;
-        foreach ($this->rows as &$packed) {
-            $packed[$idx] = null;
+        // Existing rows are NOT back-filled — absence of the key in a row's packed
+        // array means the column was never set for that row.  We distinguish
+        // "absent" from "explicitly null" via array_key_exists() in getPackedRow().
+    }
+
+    /**
+     * Record per-row column order for a specific row ID if the row's column
+     * insertion order differs from the schema order or the row is missing some
+     * schema columns.
+     *
+     * @param int   $rowId   Row ID (may be ID_SUMMARY_ROW or ID_TOTALS_ROW).
+     * @param array $columns Column name => value map in insertion order.
+     */
+    private function recordRowColumnOrder(int $rowId, array $columns): void
+    {
+        $colNames    = array_keys($columns);
+        $schemaCount = count($this->columnNames);
+        $needsOrder  = count($colNames) < $schemaCount;
+        if (!$needsOrder) {
+            foreach ($colNames as $pos => $name) {
+                if (($this->columnIndex[$name] ?? -1) !== $pos) {
+                    $needsOrder = true;
+                    break;
+                }
+            }
         }
-        unset($packed);
-        if ($this->summaryRowData !== null) {
-            $this->summaryRowData[$idx] = null;
-        }
-        if ($this->totalsRowData !== null) {
-            $this->totalsRowData[$idx] = null;
+        if ($needsOrder) {
+            $order = [];
+            foreach ($colNames as $name) {
+                $order[] = $this->columnIndex[$name];
+            }
+            $this->rowColumnOrder[$rowId] = $order;
+        } else {
+            unset($this->rowColumnOrder[$rowId]);
         }
     }
 
     // ── Columnar @internal helpers (public for ViewRow access) ───────────────
 
     /** @internal */
-    public function getPackedValue(int $rowId, string $colName): mixed
+    public function getPackedValue(int $rowId, string $colName)
     {
         $idx = $this->columnIndex[$colName] ?? null;
         if ($idx === null) {
@@ -442,7 +469,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /** @internal */
-    public function setPackedValue(int $rowId, string $colName, mixed $value): void
+    public function setPackedValue(int $rowId, string $colName, $value): void
     {
         if (!isset($this->columnIndex[$colName])) {
             $this->extendSchema($colName);
@@ -455,12 +482,31 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         } else {
             $this->rows[$rowId][$idx] = $value;
         }
+        // When a row has a custom column order and the column is not yet tracked,
+        // append the index so getPackedRow() returns it in the right position.
+        // (null is now a valid explicit value, so no null-guard here.)
+        if (isset($this->rowColumnOrder[$rowId])) {
+            if (!in_array($idx, $this->rowColumnOrder[$rowId], true)) {
+                $this->rowColumnOrder[$rowId][] = $idx;
+            }
+        }
     }
 
     /** @internal */
     public function rowColumnExists(int $rowId, string $colName): bool
     {
-        return isset($this->columnIndex[$colName]);
+        $idx = $this->columnIndex[$colName] ?? null;
+        if ($idx === null) {
+            return false;
+        }
+        // Use array_key_exists: null is a valid column value; only a missing key means absent.
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            return array_key_exists($idx, $this->summaryRowData ?? []);
+        }
+        if ($rowId === self::ID_TOTALS_ROW) {
+            return array_key_exists($idx, $this->totalsRowData ?? []);
+        }
+        return array_key_exists($idx, $this->rows[$rowId] ?? []);
     }
 
     /** @internal */
@@ -476,16 +522,63 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (empty($this->columnNames) || empty($packed)) {
             return [];
         }
-        return array_combine($this->columnNames, $packed);
+
+        // When this row has a non-standard column order, return columns in that
+        // original order.  array_key_exists distinguishes "column absent" (no key)
+        // from "column explicitly set to null" (key present, value null).
+        $order = $this->rowColumnOrder[$rowId] ?? null;
+        if ($order !== null) {
+            $result = [];
+            foreach ($order as $idx) {
+                if (array_key_exists($idx, $packed)) {
+                    $result[$this->columnNames[$idx]] = $packed[$idx];
+                }
+            }
+            return $result;
+        }
+
+        // Standard schema order: include every column whose key is present in $packed.
+        $result = [];
+        foreach ($this->columnNames as $idx => $name) {
+            if (array_key_exists($idx, $packed)) {
+                $result[$name] = $packed[$idx];
+            }
+        }
+        return $result;
     }
 
     /** @internal */
     public function deletePackedColumn(int $rowId, string $colName): bool
     {
-        if (!isset($this->columnIndex[$colName])) {
+        $idx = $this->columnIndex[$colName] ?? null;
+        if ($idx === null) {
             return false;
         }
-        $this->setPackedValue($rowId, $colName, null);
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            if ($this->summaryRowData !== null) {
+                unset($this->summaryRowData[$idx]);
+            }
+        } elseif ($rowId === self::ID_TOTALS_ROW) {
+            if ($this->totalsRowData !== null) {
+                unset($this->totalsRowData[$idx]);
+            }
+        } else {
+            if (isset($this->rows[$rowId])) {
+                unset($this->rows[$rowId][$idx]);
+            }
+        }
+        // Remove from custom column order if tracked
+        if (isset($this->rowColumnOrder[$rowId])) {
+            $order = array_values(array_filter(
+                $this->rowColumnOrder[$rowId],
+                function ($i) use ($idx) { return $i !== $idx; }
+            ));
+            if (empty($order)) {
+                unset($this->rowColumnOrder[$rowId]);
+            } else {
+                $this->rowColumnOrder[$rowId] = $order;
+            }
+        }
         return true;
     }
 
@@ -520,7 +613,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /** @internal */
-    public function setRowMetadataValue(int $rowId, string $key, mixed $value): void
+    public function setRowMetadataValue(int $rowId, string $key, $value): void
     {
         if ($rowId === self::ID_SUMMARY_ROW) {
             $this->summaryRowMetadata[$key] = $value;
@@ -607,19 +700,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function __destruct()
     {
         static $depth = 0;
-        // destruct can be called several times
-        if (
-            $depth < self::$maximumDepthLevelAllowed
-            && isset($this->rows)
-        ) {
+        // destruct can be called several times; use $isDestroyed as sentinel
+        // (avoids unset($this->rows) which would cause "Undefined property" errors
+        // if any method is called on the object after destruction)
+        if ($depth < self::$maximumDepthLevelAllowed && !$this->isDestroyed) {
+            $this->isDestroyed = true;
             $depth++;
-            foreach ($this->rows as $row) {
-                Common::destroy($row);
-            }
-            if (isset($this->summaryRow)) {
-                Common::destroy($this->summaryRow);
-            }
-            unset($this->rows);
             Manager::getInstance()->setTableDeleted($this->currentId);
             $depth--;
         }
@@ -651,9 +737,60 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function setRows($rows)
     {
-        unset($this->rows);
-        $this->rows = (is_array($rows) ? $rows : []);
-        $this->indexNotUpToDate = true;
+        if (!is_array($rows)) {
+            $this->rows           = [];
+            $this->rowSubtableIds = [];
+            $this->rowMetadata    = [];
+            $this->rowColumnOrder = [];
+            $this->columnNames    = [];
+            $this->columnIndex    = [];
+            $this->nextRowId      = 0;
+            $this->indexNotUpToDate = true;
+            return;
+        }
+
+        // Materialize row data BEFORE clearing storage. When $rows contains ViewRow
+        // objects that belong to this very table, clearing storage first would make
+        // their getColumns() / getMetadata() calls return empty results.
+        $materialized = [];
+        foreach ($rows as $row) {
+            $materialized[] = $row->export();
+        }
+
+        // Also save summary/totals rows before wiping storage so they can be
+        // re-added with correct indices after the schema is rebuilt from $rows.
+        $savedSummary = ($this->summaryRowData !== null)
+            ? $this->materialiseRow(self::ID_SUMMARY_ROW)
+            : null;
+        $savedTotals = ($this->totalsRowData !== null)
+            ? $this->materialiseRow(self::ID_TOTALS_ROW)
+            : null;
+
+        $this->rows                 = [];
+        $this->rowSubtableIds       = [];
+        $this->rowMetadata          = [];
+        $this->rowColumnOrder       = [];
+        $this->columnNames          = [];
+        $this->columnIndex          = [];
+        $this->nextRowId            = 0;
+        $this->indexNotUpToDate     = true;
+        $this->summaryRowData       = null;
+        $this->summaryRowMetadata   = [];
+        $this->summarySubtableId    = null;
+        $this->totalsRowData        = null;
+        $this->totalsRowMetadata    = [];
+        $this->totalsSubtableId     = null;
+
+        foreach ($materialized as $data) {
+            $this->addRow(new Row($data));
+        }
+
+        if ($savedSummary !== null) {
+            $this->addSummaryRow($savedSummary);
+        }
+        if ($savedTotals !== null) {
+            $this->setTotalsRow($savedTotals);
+        }
     }
 
     /**
@@ -668,7 +805,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $this->setTableSortedBy($columnSortedBy);
 
-        usort($this->rows, $functionCallback);
+        // Sort by row IDs using ViewRow proxies so callbacks receive Row objects.
+        $rowIds = array_keys($this->rows);
+        usort($rowIds, function (int $a, int $b) use ($functionCallback): int {
+            return $functionCallback(new ViewRow($this, $a), new ViewRow($this, $b));
+        });
+        $sorted = [];
+        foreach ($rowIds as $id) {
+            $sorted[$id] = $this->rows[$id];
+        }
+        $this->rows = $sorted;
 
         if ($this->isSortRecursiveEnabled()) {
             foreach ($this->getRowsWithoutSummaryRow() as $row) {
@@ -686,7 +832,22 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function setTotalsRow(Row $totalsRow)
     {
-        $this->totalsRow = $totalsRow;
+        $columns = $totalsRow->getColumns();
+        foreach ($columns as $name => $_) {
+            if (!isset($this->columnIndex[$name])) {
+                $this->extendSchema($name);
+            }
+        }
+        // Pack the totals row — only store explicitly-provided columns.
+        $this->totalsRowData = [];
+        foreach ($columns as $name => $val) {
+            $this->totalsRowData[$this->columnIndex[$name]] = $val;
+        }
+        $this->totalsRowMetadata = $totalsRow->getMetadata();
+        $this->totalsSubtableId  = $totalsRow->subtableId;
+
+        // Record per-row column order for totals row when non-standard
+        $this->recordRowColumnOrder(self::ID_TOTALS_ROW, $columns);
     }
 
     /**
@@ -694,7 +855,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getTotalsRow()
     {
-        return $this->totalsRow;
+        if ($this->totalsRowData === null) {
+            return null;
+        }
+        return new ViewRow($this, self::ID_TOTALS_ROW);
     }
 
     /**
@@ -702,7 +866,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getSummaryRow()
     {
-        return $this->summaryRow;
+        if ($this->summaryRowData === null) {
+            return null;
+        }
+        return new ViewRow($this, self::ID_SUMMARY_ROW);
     }
 
     /**
@@ -955,7 +1122,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             // this takes a lot of time.
             $row = $tableToSum->getRowFromId(DataTable::ID_SUMMARY_ROW);
             if ($row) {
-                $this->aggregateRow($this->summaryRow, $row, $columnAggregationOps, true);
+                $summaryViewRow = $this->summaryRowData !== null
+                    ? new ViewRow($this, self::ID_SUMMARY_ROW)
+                    : null;
+                $this->aggregateRow($summaryViewRow, $row, $columnAggregationOps, true);
             }
         }
     }
@@ -973,20 +1143,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $rowId = $this->getRowIdFromLabel($label);
         if (is_int($rowId) && isset($this->rows[$rowId])) {
-            return $this->rows[$rowId];
+            return new ViewRow($this, $rowId);
         }
-        if (
-            $rowId == self::ID_SUMMARY_ROW
-            && !empty($this->summaryRow)
-        ) {
-            return $this->summaryRow;
+        if ($rowId == self::ID_SUMMARY_ROW && $this->summaryRowData !== null) {
+            return new ViewRow($this, self::ID_SUMMARY_ROW);
         }
         if (
             empty($rowId)
-            && !empty($this->totalsRow)
-            && $label == $this->totalsRow->getColumn('label')
+            && $this->totalsRowData !== null
+            && $label == ($this->getPackedValue(self::ID_TOTALS_ROW, 'label'))
         ) {
-            return $this->totalsRow;
+            return new ViewRow($this, self::ID_TOTALS_ROW);
         }
         return false;
     }
@@ -1013,7 +1180,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             // in the past, it was possible to get the summary row by searching for the label '-1'
             if (
                 $label == self::LABEL_SUMMARY_ROW
-                && !is_null($this->summaryRow)
+                && $this->summaryRowData !== null
             ) {
                 return self::ID_SUMMARY_ROW;
             }
@@ -1050,9 +1217,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $this->rowsIndexByLabel = [];
         $this->rebuildIndexContinuously = true;
 
-        foreach ($this->rows as $id => $row) {
-            $label = $row->getColumn('label');
-            if ($label !== false) {
+        $labelIdx = $this->columnIndex['label'] ?? null;
+        if ($labelIdx === null) {
+            $this->indexNotUpToDate = false;
+            return;
+        }
+
+        foreach ($this->rows as $id => $packed) {
+            $label = $packed[$labelIdx] ?? null;
+            if ($label !== null) {
                 $this->rowsIndexByLabel[(string) $label] = $id;
             }
         }
@@ -1068,17 +1241,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowFromId($id)
     {
-        if (
-            $id == self::ID_SUMMARY_ROW
-            && !is_null($this->summaryRow)
-        ) {
-            return $this->summaryRow;
+        if ($id === self::ID_SUMMARY_ROW) {
+            return $this->summaryRowData !== null ? new ViewRow($this, self::ID_SUMMARY_ROW) : false;
         }
-
-        if (!isset($this->rows[$id])) {
-            return false;
-        }
-        return $this->rows[$id];
+        return isset($this->rows[$id]) ? new ViewRow($this, $id) : false;
     }
 
     /**
@@ -1090,9 +1256,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function getRowFromIdSubDataTable($idSubTable)
     {
         $idSubTable = (int)$idSubTable;
-        foreach ($this->rows as $row) {
-            if ($row->getIdSubDataTable() === $idSubTable) {
-                return $row;
+        foreach ($this->rowSubtableIds as $rowId => $subtableId) {
+            if ($subtableId === $idSubTable) {
+                return new ViewRow($this, $rowId);
             }
         }
         return false;
@@ -1109,38 +1275,90 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function addRow(Row $row)
     {
+        $columns = $row->getColumns();
+
         // if there is a upper limit on the number of allowed rows and the table is full,
         // add the new row to the summary row
         if (
             $this->maximumAllowedRows > 0
             && $this->getRowsCount() >= $this->maximumAllowedRows - 1
         ) {
-            if ($this->summaryRow === null) {
+            if ($this->summaryRowData === null) {
                 // create the summary row if necessary
-
-                $columns = array('label' => self::LABEL_SUMMARY_ROW) + $row->getColumns();
-                $this->addSummaryRow(new Row(array(Row::COLUMNS => $columns)));
+                $summaryColumns = array('label' => self::LABEL_SUMMARY_ROW) + $columns;
+                $this->addSummaryRow(new Row(array(Row::COLUMNS => $summaryColumns)));
             } else {
-                $this->summaryRow->sumRow(
+                $summaryViewRow = new ViewRow($this, self::ID_SUMMARY_ROW);
+                $summaryViewRow->sumRow(
                     $row,
                     $enableCopyMetadata = false,
                     $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME)
                 );
             }
-            return $this->summaryRow;
+            return new ViewRow($this, self::ID_SUMMARY_ROW);
         }
 
-        $this->rows[] = $row;
-        if (
-            !$this->indexNotUpToDate
-            && $this->rebuildIndexContinuously
-        ) {
-            $label = $row->getColumn('label');
-            if ($label !== false) {
-                $this->rowsIndexByLabel[(string) $label] = count($this->rows) - 1;
+        // Establish / extend schema
+        if (empty($this->columnNames) && !empty($columns)) {
+            $this->establishSchema(array_keys($columns));
+        } else {
+            foreach ($columns as $name => $_) {
+                if (!isset($this->columnIndex[$name])) {
+                    $this->extendSchema($name);
+                }
             }
         }
-        return $row;
+
+        // Build packed value array — only store columns this row explicitly has.
+        // Columns from schema extensions that this row doesn't mention are left absent
+        // (array_key_exists() in getPackedRow distinguishes absent from explicit null).
+        $packed = [];
+        foreach ($columns as $name => $val) {
+            $packed[$this->columnIndex[$name]] = $val;
+        }
+
+        $rowId = $this->nextRowId++;
+        $this->rows[$rowId] = $packed;
+
+        // Record per-row column order when it differs from schema order or the row
+        // is missing some schema columns.  This preserves insertion-order iteration
+        // for getColumns() / renderers without storing the order for the common case
+        // where every row has the same columns in the same order as the schema.
+        $this->recordRowColumnOrder($rowId, $columns);
+
+        // Copy subtable ID and metadata.
+        // Transfer subtable ownership: clear isSubtableLoaded on the source Row so that
+        // Row::__destruct() does not call deleteTable() when $row is garbage collected.
+        $subtableId = $row->subtableId;
+        if ($subtableId !== null) {
+            $this->rowSubtableIds[$rowId] = $subtableId;
+            $row->removeSubtable();
+        }
+        $meta = $row->getMetadata();
+        if (!empty($meta)) {
+            $this->rowMetadata[$rowId] = $meta;
+        }
+
+        // Update label index
+        if (!$this->indexNotUpToDate && $this->rebuildIndexContinuously) {
+            $label = $columns['label'] ?? null;
+            if ($label !== null) {
+                $this->rowsIndexByLabel[(string) $label] = $rowId;
+            }
+        } else {
+            $this->indexNotUpToDate = true;
+        }
+
+        // Bind the original Row to this DataTable's packed storage so that external
+        // references to $row remain "live": mutations made via ViewRow (e.g. by filters)
+        // are visible through $row, and subsequent $row->setSubtable() calls propagate
+        // back to the DataTable's subtable map.
+        $row->bindToTable($this, $rowId);
+        $row->bindSubtableCallback(function (int $newSubtableId) use ($rowId) {
+            $this->setRowSubtableId($rowId, $newSubtableId);
+        });
+
+        return new ViewRow($this, $rowId);
     }
 
     /**
@@ -1152,12 +1370,40 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function addSummaryRow(Row $row)
     {
-        $this->summaryRow = $row;
-        $row->setIsSummaryRow();
+        $columns = $row->getColumns();
+
+        // Extend schema for any new columns
+        foreach ($columns as $name => $_) {
+            if (!isset($this->columnIndex[$name])) {
+                $this->extendSchema($name);
+            }
+        }
+
+        // Pack the summary row — only store explicitly-provided columns.
+        $this->summaryRowData = [];
+        foreach ($columns as $name => $val) {
+            $this->summaryRowData[$this->columnIndex[$name]] = $val;
+        }
+        $this->summaryRowMetadata = $row->getMetadata();
+        $this->summarySubtableId  = $row->subtableId;
+
+        // Transfer subtable ownership: prevent Row::__destruct() from deleting the subtable.
+        if ($row->subtableId !== null) {
+            $row->removeSubtable();
+        }
+
+        // Record per-row column order for summary row when non-standard
+        $this->recordRowColumnOrder(self::ID_SUMMARY_ROW, $columns);
 
         // NOTE: the summary row does not go in the index, since it will overwrite rows w/ label == -1
 
-        return $row;
+        // Bind the original Row to the DataTable's summary-row metadata storage.
+        $row->bindToTable($this, self::ID_SUMMARY_ROW);
+        $row->bindSubtableCallback(function (int $newSubtableId) {
+            $this->summarySubtableId = $newSubtableId;
+        });
+
+        return new ViewRow($this, self::ID_SUMMARY_ROW);
     }
 
     /**
@@ -1207,11 +1453,51 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRows()
     {
-        if (is_null($this->summaryRow)) {
-            return $this->rows;
-        } else {
-            return $this->rows + array(self::ID_SUMMARY_ROW => $this->summaryRow);
+        $result = [];
+        foreach (array_keys($this->rows) as $id) {
+            $result[$id] = $this->materialiseRow($id);
         }
+        if ($this->summaryRowData !== null) {
+            $summaryRow = $this->materialiseRow(self::ID_SUMMARY_ROW);
+            $summaryRow->setIsSummaryRow();
+            $result[self::ID_SUMMARY_ROW] = $summaryRow;
+        }
+        return $result;
+    }
+
+    /**
+     * Materialise a packed row into a full Row object.
+     * Used by getRows() so that callers receive standard Row instances with
+     * correct ArrayObject storage (important for PHPUnit assertEquals comparisons).
+     *
+     * The returned Row is "bound" to this DataTable via a static callback on Row:
+     * if the caller calls setSubtable() on the returned Row, the assignment is
+     * propagated back to $this->rowSubtableIds and the Row destructor will NOT
+     * delete the subtable (the DataTable owns it, not the temporary Row object).
+     *
+     * @internal
+     */
+    private function materialiseRow(int $rowId): Row
+    {
+        $columns    = $this->getPackedRow($rowId);
+        $meta       = $this->getRowMetadata($rowId);
+        $subtableId = $this->getRowSubtableId($rowId);
+
+        $row = new Row([Row::COLUMNS => $columns, Row::METADATA => $meta]);
+        if ($subtableId !== null) {
+            // Mark as loaded: the subtable is already registered in Manager.
+            // setNonLoadedSubtableId() would leave isSubtableLoaded=false, preventing
+            // getSubtable() from returning the table to renderers.
+            $row->setLoadedSubtableId($subtableId);
+        }
+
+        // Bind a callback so setSubtable() on this materialised Row propagates
+        // the subtableId back to this DataTable's packed storage.
+        $row->bindSubtableCallback(function (int $newSubtableId) use ($rowId) {
+            $this->setRowSubtableId($rowId, $newSubtableId);
+        });
+
+        return $row;
     }
 
     /**
@@ -1220,7 +1506,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowsWithoutSummaryRow()
     {
-        return $this->rows;
+        $result = [];
+        foreach (array_keys($this->rows) as $id) {
+            $result[$id] = new ViewRow($this, $id);
+        }
+        return $result;
     }
 
     /**
@@ -1321,19 +1611,23 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function deleteRowsMetadata($name, $deleteRecursiveInSubtables = false)
     {
-        foreach ($this->rows as $row) {
-            $row->deleteMetadata($name);
-
-            $subTable = $row->getSubtable();
-            if ($subTable) {
-                $subTable->deleteRowsMetadata($name, $deleteRecursiveInSubtables);
+        foreach ($this->rowMetadata as $rowId => &$meta) {
+            unset($meta[$name]);
+            if (empty($meta)) {
+                unset($this->rowMetadata[$rowId]);
             }
         }
-        if (!is_null($this->summaryRow)) {
-            $this->summaryRow->deleteMetadata($name);
-        }
-        if (!is_null($this->totalsRow)) {
-            $this->totalsRow->deleteMetadata($name);
+        unset($meta);
+        unset($this->summaryRowMetadata[$name]);
+        unset($this->totalsRowMetadata[$name]);
+
+        if ($deleteRecursiveInSubtables) {
+            foreach ($this->rowSubtableIds as $subtableId) {
+                $subTable = Manager::getInstance()->getTable($subtableId);
+                if ($subTable) {
+                    $subTable->deleteRowsMetadata($name, true);
+                }
+            }
         }
     }
 
@@ -1344,11 +1638,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowsCount()
     {
-        if (is_null($this->summaryRow)) {
-            return count($this->rows);
-        } else {
-            return count($this->rows) + 1;
-        }
+        return count($this->rows) + ($this->summaryRowData !== null ? 1 : 0);
     }
 
     /**
@@ -1358,13 +1648,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getFirstRow()
     {
-        if (count($this->rows) == 0) {
-            if (!is_null($this->summaryRow)) {
-                return $this->summaryRow;
-            }
-            return false;
+        if (empty($this->rows)) {
+            return $this->summaryRowData !== null ? new ViewRow($this, self::ID_SUMMARY_ROW) : false;
         }
-        return reset($this->rows);
+        reset($this->rows);
+        return new ViewRow($this, key($this->rows));
     }
 
     /**
@@ -1375,15 +1663,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getLastRow()
     {
-        if (!is_null($this->summaryRow)) {
-            return $this->summaryRow;
+        if ($this->summaryRowData !== null) {
+            return new ViewRow($this, self::ID_SUMMARY_ROW);
         }
-
-        if (count($this->rows) == 0) {
+        if (empty($this->rows)) {
             return false;
         }
-
-        return end($this->rows);
+        end($this->rows);
+        return new ViewRow($this, key($this->rows));
     }
 
     /**
@@ -1395,14 +1682,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function getRowsCountRecursive()
     {
         $totalCount = 0;
-        foreach ($this->rows as $row) {
-            $subTable = $row->getSubtable();
-            if ($subTable) {
-                $count = $subTable->getRowsCountRecursive();
-                $totalCount += $count;
+        $manager = Manager::getInstance();
+        foreach ($this->rowSubtableIds as $subtableId) {
+            if (isset($manager[$subtableId])) {
+                $totalCount += $manager->getTable($subtableId)->getRowsCountRecursive();
             }
         }
-
         $totalCount += $this->getRowsCount();
         return $totalCount;
     }
@@ -1415,15 +1700,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function getLeafRowsCount()
     {
         $totalCount = 0;
-        foreach ($this->rows as $row) {
-            $subTable = $row->getSubtable();
-            if ($subTable) {
-                $totalCount += $subTable->getLeafRowsCount();
-            } else {
-                $totalCount++;
+        $manager = Manager::getInstance();
+        foreach (array_keys($this->rows) as $rowId) {
+            if (isset($this->rowSubtableIds[$rowId])) {
+                $subtableId = $this->rowSubtableIds[$rowId];
+                if (isset($manager[$subtableId])) {
+                    $totalCount += $manager->getTable($subtableId)->getLeafRowsCount();
+                    continue;
+                }
             }
+            $totalCount++;
         }
-
         return $totalCount;
     }
 
@@ -1441,7 +1728,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     public function __sleep()
     {
-        return array('rows', 'summaryRow', 'metadata', 'totalsRow');
+        return [
+            'rows', 'columnNames', 'columnIndex', 'nextRowId',
+            'rowSubtableIds', 'rowMetadata', 'rowColumnOrder',
+            'summaryRowData', 'summaryRowMetadata', 'summarySubtableId',
+            'totalsRowData',  'totalsRowMetadata',  'totalsSubtableId',
+            'metadata',
+        ];
     }
 
     /**
@@ -1453,19 +1746,20 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function renameColumn($oldName, $newName)
     {
-        foreach ($this->rows as $row) {
-            $row->renameColumn($oldName, $newName);
+        // Schema-level rename — zero data movement, O(1)
+        if (isset($this->columnIndex[$oldName])) {
+            $idx = $this->columnIndex[$oldName];
+            $this->columnNames[$idx] = $newName;
+            unset($this->columnIndex[$oldName]);
+            $this->columnIndex[$newName] = $idx;
+        }
 
-            $subTable = $row->getSubtable();
+        // Recurse into subtables
+        foreach ($this->rowSubtableIds as $subtableId) {
+            $subTable = Manager::getInstance()->getTable($subtableId);
             if ($subTable) {
                 $subTable->renameColumn($oldName, $newName);
             }
-        }
-        if (!is_null($this->summaryRow)) {
-            $this->summaryRow->renameColumn($oldName, $newName);
-        }
-        if (!is_null($this->totalsRow)) {
-            $this->totalsRow->renameColumn($oldName, $newName);
         }
     }
 
@@ -1478,23 +1772,89 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function deleteColumns($names, $deleteRecursiveInSubtables = false)
     {
-        foreach ($this->rows as $row) {
-            foreach ($names as $name) {
-                $row->deleteColumn($name);
-            }
-            $subTable = $row->getSubtable();
-            if ($subTable) {
-                $subTable->deleteColumns($names, $deleteRecursiveInSubtables);
+        $indicesToRemove = [];
+        foreach ($names as $name) {
+            if (isset($this->columnIndex[$name])) {
+                $indicesToRemove[] = $this->columnIndex[$name];
             }
         }
-        if (!is_null($this->summaryRow)) {
-            foreach ($names as $name) {
-                $this->summaryRow->deleteColumn($name);
+        if (empty($indicesToRemove)) {
+            return;
+        }
+
+        sort($indicesToRemove);
+
+        // Build old-index → new-index mapping before altering the schema.
+        // Indices in $indicesToRemove map to null (deleted); others shift down.
+        $oldCount  = count($this->columnNames);
+        $deleteSet = array_flip($indicesToRemove);
+        $mapping   = [];
+        $removed   = 0;
+        for ($i = 0; $i < $oldCount; $i++) {
+            if (isset($deleteSet[$i])) {
+                $mapping[$i] = null; // column deleted
+                $removed++;
+            } else {
+                $mapping[$i] = $i - $removed;
             }
         }
-        if (!is_null($this->totalsRow)) {
-            foreach ($names as $name) {
-                $this->totalsRow->deleteColumn($name);
+
+        // Remove from schema
+        foreach (array_reverse($indicesToRemove) as $idx) {
+            array_splice($this->columnNames, $idx, 1);
+        }
+        $this->columnIndex = array_flip($this->columnNames);
+
+        // Remove from every packed row using the mapping (handles sparse arrays
+        // correctly — array_splice would mis-splice if the row is sparse because
+        // deletePackedColumn already unset the key before deleteColumns is called).
+        $rebuildPacked = function (array &$packed) use ($mapping): void {
+            $newPacked = [];
+            foreach ($packed as $oldIdx => $val) {
+                $newIdx = $mapping[$oldIdx] ?? null;
+                if ($newIdx !== null) {
+                    $newPacked[$newIdx] = $val;
+                }
+                // $newIdx === null  →  column was deleted; skip it
+            }
+            $packed = $newPacked;
+        };
+        foreach ($this->rows as &$packed) {
+            $rebuildPacked($packed);
+        }
+        unset($packed);
+        if ($this->summaryRowData !== null) {
+            $rebuildPacked($this->summaryRowData);
+        }
+        if ($this->totalsRowData !== null) {
+            $rebuildPacked($this->totalsRowData);
+        }
+
+        // Update per-row column-order arrays using the same mapping.
+        if (!empty($this->rowColumnOrder)) {
+            foreach ($this->rowColumnOrder as $rid => &$order) {
+                $newOrder = [];
+                foreach ($order as $idx) {
+                    $newIdx = $mapping[$idx] ?? null;
+                    if ($newIdx !== null) {
+                        $newOrder[] = $newIdx;
+                    }
+                }
+                if (empty($newOrder)) {
+                    unset($this->rowColumnOrder[$rid]);
+                } else {
+                    $order = $newOrder;
+                }
+            }
+            unset($order);
+        }
+
+        if ($deleteRecursiveInSubtables) {
+            foreach ($this->rowSubtableIds as $subtableId) {
+                $subTable = Manager::getInstance()->getTable($subtableId);
+                if ($subTable) {
+                    $subTable->deleteColumns($names, true);
+                }
             }
         }
     }
@@ -1509,13 +1869,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function deleteRow($id)
     {
         if ($id === self::ID_SUMMARY_ROW) {
-            $this->summaryRow = null;
+            $this->summaryRowData     = null;
+            $this->summaryRowMetadata = [];
+            $this->summarySubtableId  = null;
             return;
         }
-        if (!isset($this->rows[$id])) {
-            throw new Exception("Trying to delete unknown row with idkey = $id");
-        }
-        unset($this->rows[$id]);
+        unset($this->rows[$id], $this->rowSubtableIds[$id], $this->rowMetadata[$id]);
+        $this->indexNotUpToDate = true;
     }
 
     /**
@@ -1532,26 +1892,31 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return 0;
         }
 
+        // Use inclusive count (regular rows + summary row) to mirror the original behaviour:
+        // the early-exit and summary-deletion logic both depend on whether offset/limit
+        // reach the summary-row slot.
         $count = $this->getRowsCount();
+
         if ($offset >= $count) {
             return 0;
         }
 
-        // if we delete until the end, we delete the summary row as well
-        if (
-            is_null($limit)
-            || $limit >= $count
-        ) {
-            $this->summaryRow = null;
+        // if we delete until the end (or past all rows), delete the summary row as well.
+        if ($limit === null || $limit >= $count) {
+            $this->summaryRowData     = null;
+            $this->summaryRowMetadata = [];
+            $this->summarySubtableId  = null;
         }
 
-        if (is_null($limit)) {
-            array_splice($this->rows, $offset);
-        } else {
-            array_splice($this->rows, $offset, $limit);
+        $ids      = array_keys($this->rows);
+        $toDelete = array_slice($ids, $offset, $limit);
+
+        foreach ($toDelete as $id) {
+            unset($this->rows[$id], $this->rowSubtableIds[$id], $this->rowMetadata[$id]);
         }
 
-        return $count - $this->getRowsCount();
+        $this->indexNotUpToDate = true;
+        return count($toDelete);
     }
 
     /**
@@ -1601,9 +1966,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return false;
         }
 
-        $rows1 = $table1->getRows();
+        // Use ViewRow objects so that Row::isEqual() can resolve loaded subtables
+        // via getSubtable() (materialised Rows have isSubtableLoaded=false and would cause
+        // a TypeError when Row::isEqual tries DataTable::isEqual on the returned false).
+        $rowIds = array_keys($table1->rows);
+        if ($table1->summaryRowData !== null) {
+            $rowIds[] = self::ID_SUMMARY_ROW;
+        }
 
-        foreach ($rows1 as $row1) {
+        foreach ($rowIds as $id) {
+            $row1 = new ViewRow($table1, $id);
             $row2 = $table2->getRowFromLabel($row1->getColumn('label'));
             if (
                 $row2 === false
@@ -1685,18 +2057,28 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $consecutiveSubtableIds = array();
         $forcedId = $subtableId;
 
-        // For each row (including the summary row), get the serialized row
-        // If it is associated to a sub table, get the serialized table recursively ;
-        // but returns all serialized tables and subtable in an array of 1 dimension
-        foreach ($this->getRows() as $id => $row) {
-            $subTable = $row->getSubtable();
-            if ($subTable) {
+        // For each row (including the summary row), recurse into subtables
+        // and assign consecutive subtable IDs.  We operate on the packed
+        // storage directly to avoid allocating Row / ViewRow objects.
+        $manager = Manager::getInstance();
+
+        // Gather all row IDs that might have subtables: regular rows + summary
+        $rowIdsToCheck = array_keys($this->rows);
+        if ($this->summaryRowData !== null) {
+            $rowIdsToCheck[] = self::ID_SUMMARY_ROW;
+        }
+
+        foreach ($rowIdsToCheck as $id) {
+            $storedSubtableId = ($id === self::ID_SUMMARY_ROW)
+                ? $this->summarySubtableId
+                : ($this->rowSubtableIds[$id] ?? null);
+
+            if ($storedSubtableId !== null && isset($manager[$storedSubtableId])) {
+                $subTable = $manager->getTable($storedSubtableId);
                 $consecutiveSubtableIds[$id] = ++$subtableId;
                 $depth++;
                 $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation, $aSerializedDataTable);
                 $depth--;
-            } else {
-                $row->removeSubtable();
             }
         }
 
@@ -1708,31 +2090,29 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         // we then serialize the rows and store them in the serialized dataTable
         $rows = array();
-        foreach ($this->rows as $id => $row) {
-            if (isset($consecutiveSubtableIds[$id])) {
-                $backup = $row->subtableId;
-                $row->subtableId = $consecutiveSubtableIds[$id];
-                $rows[$id] = $row->export();
-                $row->subtableId = $backup;
-            } else {
-                $rows[$id] = $row->export();
-            }
+        foreach ($this->rows as $id => $packed) {
+            // Only use a consecutive subtableId assigned above — never fall back to the
+            // raw stored subtableId. A stored ID whose subtable was not found in the Manager
+            // (not loaded or already deleted) must be serialised as null, mirroring the
+            // original behaviour of $row->removeSubtable() for non-loaded subtables.
+            $subtableIdForRow = $consecutiveSubtableIds[$id] ?? null;
+            $rows[$id] = [
+                Row::COLUMNS              => $this->getPackedRow($id),
+                Row::METADATA             => $this->rowMetadata[$id] ?? [],
+                Row::DATATABLE_ASSOCIATED => $subtableIdForRow,
+            ];
         }
 
-        if (isset($this->summaryRow)) {
+        if ($this->summaryRowData !== null) {
             $id = self::ID_SUMMARY_ROW;
-            $row = $this->summaryRow;
-
+            $subtableIdForRow = $consecutiveSubtableIds[$id] ?? null;
             // duplicating code above so we don't create a new array w/ getRows() above in this function which is
             // used heavily in matomo.
-            if (isset($consecutiveSubtableIds[$id])) {
-                $backup = $row->subtableId;
-                $row->subtableId = $consecutiveSubtableIds[$id];
-                $rows[$id] = $row->export();
-                $row->subtableId = $backup;
-            } else {
-                $rows[$id] = $row->export();
-            }
+            $rows[$id] = [
+                Row::COLUMNS              => $this->getPackedRow(self::ID_SUMMARY_ROW),
+                Row::METADATA             => $this->summaryRowMetadata,
+                Row::DATATABLE_ASSOCIATED => $subtableIdForRow,
+            ];
         }
 
         if (!empty($metadata)) {
@@ -1875,11 +2255,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         if (array_key_exists(self::ID_SUMMARY_ROW, $rows)) {
             if (is_array($rows[self::ID_SUMMARY_ROW])) {
-                $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]);
-                $this->summaryRow->setIsSummaryRow();
+                $this->addSummaryRow(new Row($rows[self::ID_SUMMARY_ROW]));
             } elseif (isset($rows[self::ID_SUMMARY_ROW]->c)) {
-                $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]->c); // Pre Piwik 2.13
-                $this->summaryRow->setIsSummaryRow();
+                $this->addSummaryRow(new Row($rows[self::ID_SUMMARY_ROW]->c)); // Pre Piwik 2.13
             }
             unset($rows[self::ID_SUMMARY_ROW]);
         }
@@ -1926,8 +2304,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             }
 
             if ($id == self::ID_SUMMARY_ROW) {
-                $this->summaryRow = $row;
-                $this->summaryRow->setIsSummaryRow();
+                $this->addSummaryRow($row);
             } else {
                 $this->addRow($row);
             }
@@ -2421,9 +2798,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $thisRow->setAllMetadata($otherRow->getMetadata());
 
             if ($isSummaryRow) {
-                $this->addSummaryRow($thisRow);
+                // Capture the returned ViewRow so that sumRow() writes to packed storage.
+                $thisRow = $this->addSummaryRow($thisRow);
             } else {
-                $this->addRow($thisRow);
+                // Capture the returned ViewRow so that sumRow() writes to packed storage.
+                $thisRow = $this->addRow($thisRow);
             }
         }
 
@@ -2479,7 +2858,18 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getIterator(): \ArrayIterator
     {
-        return new \ArrayIterator($this->getRows());
+        // Return ViewRow objects so that mutations made during iteration (e.g. by
+        // DataTable filters that call $row->deleteColumn() or assign subtables) are
+        // written back to the DataTable's packed storage.  getRows() is kept separate
+        // and returns materialised Row instances for PHPUnit assertEquals compatibility.
+        $result = [];
+        foreach (array_keys($this->rows) as $id) {
+            $result[$id] = new ViewRow($this, $id);
+        }
+        if ($this->summaryRowData !== null) {
+            $result[self::ID_SUMMARY_ROW] = new ViewRow($this, self::ID_SUMMARY_ROW);
+        }
+        return new \ArrayIterator($result);
     }
 
     /**

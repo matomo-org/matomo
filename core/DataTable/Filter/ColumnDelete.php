@@ -110,11 +110,20 @@ class ColumnDelete extends BaseFilter
         // remove columns specified in $this->columnsToRemove
         if (!empty($this->columnsToRemove)) {
             $this->removeColumnsFromTable($table);
+            // For a columnar DataTable, removeColumnsFromTable only nulls the values in
+            // the packed arrays; also drop the columns from the shared schema so that
+            // getColumns() / isEqual() / etc. no longer see them.
+            // Subtable recursion is handled below via filterSubTable — pass false here.
+            if ($table instanceof DataTable) {
+                $table->deleteColumns($this->columnsToRemove, false);
+            }
             $recurse = true;
         }
 
         // remove columns not specified in $columnsToKeep
         if (!empty($this->columnsToKeep)) {
+            $allColumnsDeleted = [];
+
             foreach ($table as $index => $row) {
                 $columnsToDelete = array();
                 foreach ($row as $name => $value) {
@@ -139,7 +148,14 @@ class ColumnDelete extends BaseFilter
                 }
                 foreach ($columnsToDelete as $columnToDelete) {
                     unset($table[$index][$columnToDelete]);
+                    $allColumnsDeleted[$columnToDelete] = true;
                 }
+            }
+
+            // For a columnar DataTable, the per-row unset only nulls the values;
+            // also remove the columns from the shared schema.
+            if (!empty($allColumnsDeleted) && $table instanceof DataTable) {
+                $table->deleteColumns(array_keys($allColumnsDeleted), false);
             }
 
             $recurse = true;
@@ -169,8 +185,11 @@ class ColumnDelete extends BaseFilter
                 continue;
             }
 
+            // Determine once — drives both the existence check and the write-back strategy.
+            $isArray = is_array($row);
+
             foreach ($this->columnsToRemove as $column) {
-                if (is_array($row)) {
+                if ($isArray) {
                     if (!array_key_exists($column, $row)) {
                         continue;
                     }
@@ -187,11 +206,27 @@ class ColumnDelete extends BaseFilter
                     }
                 }
 
-                unset($table[$index][$column]);
+                // Unset on the local $row variable.
+                //  - Plain array: modifies the local copy; written back to $table below.
+                //  - ArrayAccess: calls offsetUnset, mutating the object immediately.
+                unset($row[$column]);
             }
 
             if ($this->deleteRecursive) {
-                $this->removeColumnsFromTable($table[$index]);
+                // Pass $row by reference so recursive modifications accumulate in-place.
+                // For ArrayAccess rows the reference is an object handle — mutations are
+                // visible immediately.  For plain-array rows $row is the local copy that
+                // we will write back below.
+                $this->removeColumnsFromTable($row);
+            }
+
+            if ($isArray) {
+                // Write back the modified plain-array row (top-level deletions + any
+                // recursive deletions from nested arrays) in a single offsetSet call.
+                // Using $table[$index] = $row instead of $table[$index][$column] avoids
+                // the "Indirect modification of overloaded element" PHP notice when $table
+                // is itself ArrayAccess.
+                $table[$index] = $row;
             }
         }
     }

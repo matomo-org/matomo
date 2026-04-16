@@ -55,7 +55,7 @@ class PrependValueToMetadata extends BaseFilter
         $valueToPrepend = $this->valueToPrepend;
 
         $table->filter(function (DataTable $dataTable) use ($metadataColumn, $valueToPrepend) {
-            foreach ($dataTable->getRows() as $row) {
+            foreach ($dataTable as $row) {
                 $filter = $row->getMetadata($metadataColumn);
                 if ($filter !== false) {
                     $row->setMetadata($metadataColumn, $valueToPrepend . $filter);

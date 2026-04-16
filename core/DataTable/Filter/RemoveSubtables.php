@@ -38,8 +38,7 @@ class RemoveSubtables extends BaseFilter
      */
     public function filter($table)
     {
-        $rows = $table->getRows();
-        foreach ($rows as $row) {
+        foreach ($table as $row) {
             $row->removeSubtable();
         }
     }

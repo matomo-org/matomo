@@ -51,7 +51,7 @@ class RangeCheck extends BaseFilter
      */
     public function filter($table)
     {
-        foreach ($table->getRows() as $row) {
+        foreach ($table as $row) {
             $value = $row->getColumn($this->columnToFilter);
 
             if ($value === false) {

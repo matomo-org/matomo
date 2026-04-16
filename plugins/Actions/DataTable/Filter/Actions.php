@@ -57,7 +57,7 @@ class Actions extends BaseFilter
             $notDefinedUrl = ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_URL);
             $notDefinedTitle = ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_TITLE);
 
-            foreach ($dataTable->getRows() as $row) {
+            foreach ($dataTable as $row) {
                 if (!$row->isSummaryRow()) {
                     $url = $row->getMetadata('url');
                     $pageTitlePath = $row->getMetadata('page_title_path');
