@@ -1731,6 +1731,33 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Blobs written before the columnar format was introduced are plain PHP serialize() strings.
+     * unserializeRows() must still decode them correctly via the safe_unserialize fallback path
+     * (i.e. the absence of COLUMNAR_BLOB_MAGIC routes to the legacy branch).
+     */
+    public function testLegacySerializedBlobIsStillReadable(): void
+    {
+        // Build the exact structure that the old getSerialized() / Row::export() produced.
+        $legacyBlob = serialize([
+            0 => [Row::COLUMNS => ['label' => 'legacy-page', 'nb_visits' => 42], Row::METADATA => [], Row::DATATABLE_ASSOCIATED => null],
+            1 => [Row::COLUMNS => ['label' => 'other-page',  'nb_visits' => 7],  Row::METADATA => [], Row::DATATABLE_ASSOCIATED => null],
+        ]);
+
+        // Must not start with the magic prefix — the test would be meaningless otherwise.
+        self::assertStringNotContainsString(DataTable::COLUMNAR_BLOB_MAGIC, $legacyBlob);
+
+        $table = new DataTable();
+        $table->addRowsFromSerializedArray($legacyBlob);
+
+        self::assertSame(2, $table->getRowsCount());
+        $rows = array_values($table->getRows());
+        self::assertSame('legacy-page', $rows[0]->getColumn('label'));
+        self::assertSame(42, $rows[0]->getColumn('nb_visits'));
+        self::assertSame('other-page', $rows[1]->getColumn('label'));
+        self::assertSame(7, $rows[1]->getColumn('nb_visits'));
+    }
+
+    /**
      * Decoding a blob whose JSON payload has fewer than 6 fields must throw rather than silently
      * producing a partially decoded row set.
      */
