@@ -721,6 +721,84 @@ class RecordBuilderTest extends TestCase
         $this->assertSame(['/flat-path', '/legacy-path'], $hierarchyLabels);
     }
 
+    public function testBuildForNonDayPeriodConsumesFlatTableBeforePreInsertHook(): void
+    {
+        $hookState = (object) ['flatRowsAtHook' => null, 'hierarchyLabelsAtHook' => []];
+
+        $recordBuilder = new class ($hookState) extends ArchiveProcessor\RecordBuilder {
+            private $hookState;
+
+            public function __construct(object $hookState)
+            {
+                parent::__construct();
+                $this->hookState = $hookState;
+            }
+
+            public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
+            {
+                return [
+                    Record::make(Record::TYPE_BLOB, 'TestPlugin_hierarchy')
+                        ->setBuiltFromFlatRecord('TestPlugin_flat', function (Row $flatRow): ?array {
+                            $label = $flatRow->getColumn('label');
+                            if (!is_string($label) || $label === '') {
+                                return null;
+                            }
+
+                            return [$label];
+                        }),
+                    Record::make(Record::TYPE_BLOB, 'TestPlugin_flat'),
+                ];
+            }
+
+            protected function aggregate(ArchiveProcessor $archiveProcessor): array
+            {
+                return [];
+            }
+
+            protected function aggregateRootDataTableFromBlobs(
+                ArchiveProcessor $archiveProcessor,
+                string $recordName,
+                ?array $columnsAggregationOperation,
+                ?array $columnsToRenameAfterAggregation
+            ): array {
+                $table = new DataTable();
+                if ($recordName === 'TestPlugin_flat') {
+                    $table->addRowFromSimpleArray(['label' => '/flat-path-a', 'nb_visits' => 5]);
+                    $table->addRowFromSimpleArray(['label' => '/flat-path-b', 'nb_visits' => 3]);
+                    $table->addSummaryRow(new Row([Row::COLUMNS => ['label' => '-1', 'nb_visits' => 2]]));
+
+                    return [$table, true, ['2020-03-04,2020-03-04' => true]];
+                }
+
+                return [$table, false, []];
+            }
+
+            protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
+            {
+                return ['2020-03-04,2020-03-04' => true];
+            }
+
+            protected function beforeInsertBuiltFromFlatHierarchyRecord(
+                ArchiveProcessor $archiveProcessor,
+                Record $hierarchicalRecord,
+                DataTable $hierarchicalTable,
+                DataTable $flatTable
+            ): void {
+                $this->hookState->flatRowsAtHook = $flatTable->getRowsCount();
+                $this->hookState->hierarchyLabelsAtHook = $hierarchicalTable->getColumn('label');
+            }
+        };
+
+        $mockArchiveProcessor = $this->getMockArchiveProcessor('week', ['TestPlugin_flat']);
+        $recordBuilder->buildForNonDayPeriod($mockArchiveProcessor);
+
+        $this->assertSame(0, $hookState->flatRowsAtHook);
+        $this->assertSame(['/flat-path-a', '/flat-path-b', '-1'], $hookState->hierarchyLabelsAtHook);
+
+        $this->assertSame(['/flat-path-a', '/flat-path-b', '-1'], $this->getTopLevelLabelsOfInsertedBlobRecord('TestPlugin_flat'));
+        $this->assertSame(['/flat-path-a', '/flat-path-b', '-1'], $this->getTopLevelLabelsOfInsertedBlobRecord('TestPlugin_hierarchy'));
+    }
+
     public function testBuildForNonDayPeriodCorrectlyAggregatesMetricsForMetricsThatAreRowCountsOfRecords()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {

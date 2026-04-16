@@ -382,7 +382,7 @@ abstract class RecordBuilder
         $archiveProcessor->insertBlobRecord($flatRecordName, $flatSerialized);
         $processedFlatRecords[$flatRecordName] = true;
 
-        $hierarchicalTable = $this->buildHierarchicalTableFromFlatTable(
+        $hierarchicalTable = $this->buildHierarchicalTableFromFlatTableAndConsumeRows(
             $flatTable,
             $columnAggregationOps,
             function (Row $flatRow) use ($flatToHierarchyPathCallback, $archiveProcessor, $hierarchicalRecord) {
@@ -410,7 +410,8 @@ abstract class RecordBuilder
      * the hierarchical blob record is serialized and inserted.
      *
      * Intended for plugin-specific finalization (for example, metadata or column cleanup) when
-     * using setBuiltFromFlatRecord().
+     * using setBuiltFromFlatRecord(). The flat table has already been serialized at this point
+     * and may have been fully consumed while rebuilding the hierarchy.
      */
     protected function beforeInsertBuiltFromFlatHierarchyRecord(
         ArchiveProcessor $archiveProcessor,
@@ -461,6 +462,47 @@ abstract class RecordBuilder
 
             $this->sumRowIntoDestination($flatRow, $destinationRow, $columnAggregationOps);
         }
+
+        return $hierarchicalTable;
+    }
+
+    protected function buildHierarchicalTableFromFlatTableAndConsumeRows(
+        DataTable $flatTable,
+        ?array $columnAggregationOps,
+        callable $flatToHierarchyPathCallback,
+        array $defaultHierarchyRowColumns = []
+    ): DataTable {
+        $hierarchicalTable = new DataTable();
+        if (!empty($columnAggregationOps)) {
+            $hierarchicalTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnAggregationOps);
+        }
+
+        while (($flatRow = $flatTable->shiftRow()) instanceof Row) {
+            $path = call_user_func($flatToHierarchyPathCallback, $flatRow);
+            if (is_array($path) && !empty($path)) {
+                [$destinationRow, $level] = $hierarchicalTable->walkPath($path, $defaultHierarchyRowColumns, 0);
+                if ($destinationRow instanceof Row) {
+                    $this->sumRowIntoDestination($flatRow, $destinationRow, $columnAggregationOps);
+                }
+            }
+
+            Common::destroy($flatRow);
+        }
+
+        $summaryRow = $flatTable->getSummaryRow();
+        if ($summaryRow instanceof Row && !$this->isSummaryRowEmpty($summaryRow)) {
+            $destinationSummaryRow = $hierarchicalTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            if ($destinationSummaryRow === false) {
+                $destinationSummaryRow = clone $summaryRow;
+                $destinationSummaryRow->setIsSummaryRow();
+                $hierarchicalTable->addSummaryRow($destinationSummaryRow);
+            } else {
+                $this->sumRowIntoDestination($summaryRow, $destinationSummaryRow, $columnAggregationOps);
+            }
+        }
+
+        $flatTable->deleteRow(DataTable::ID_SUMMARY_ROW);
+        Common::destroy($summaryRow);
 
         return $hierarchicalTable;
     }
