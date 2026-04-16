@@ -1638,9 +1638,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getColumn($name)
     {
-        $columnValues = array();
-        foreach ($this->getRows() as $row) {
+        // Use ViewRow proxies instead of materialised snapshot rows — no column data copying.
+        $columnValues = [];
+        foreach ($this->getRowsWithoutSummaryRow() as $row) {
             $columnValues[] = $row->getColumn($name);
+        }
+        if ($this->summaryRowData !== null) {
+            $columnValues[] = (new ViewRow($this, self::ID_SUMMARY_ROW))->getColumn($name);
         }
         return $columnValues;
     }
@@ -1653,12 +1657,19 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getColumnsStartingWith($namePrefix)
     {
-        $columnValues = array();
-        foreach ($this->getRows() as $row) {
-            $columns = $row->getColumns();
-            foreach ($columns as $column => $value) {
+        $columnValues = [];
+        foreach ($this->getRowsWithoutSummaryRow() as $row) {
+            foreach ($row->getColumns() as $column => $value) {
                 if (strpos($column, $namePrefix) === 0) {
                     $columnValues[] = $row->getColumn($column);
+                }
+            }
+        }
+        if ($this->summaryRowData !== null) {
+            $summaryRow = new ViewRow($this, self::ID_SUMMARY_ROW);
+            foreach ($summaryRow->getColumns() as $column => $value) {
+                if (strpos($column, $namePrefix) === 0) {
+                    $columnValues[] = $summaryRow->getColumn($column);
                 }
             }
         }
@@ -1666,8 +1677,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Returns the names of every column this DataTable contains. This method will return the
-     * columns of the first row with data and will assume they occur in every other row as well.
+     * Returns the names of every column this DataTable contains.
      *
      *_ Note: If column names still use their in-database INDEX values (@see Metrics), they
      *        will be converted to their string name in the array result._
@@ -1676,12 +1686,21 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getColumns()
     {
-        $result = array();
-        foreach ($this->getRows() as $row) {
-            $columns = $row->getColumns();
-            if (!empty($columns)) {
-                $result = array_keys($columns);
-                break;
+        // Columnar storage: column names are available directly from the schema.
+        if (!empty($this->columnNames)) {
+            $result = $this->columnNames;
+        } else {
+            // Empty table or no rows added yet — scan for the first non-empty row.
+            $result = [];
+            foreach ($this->getRowsWithoutSummaryRow() as $row) {
+                $columns = $row->getColumns();
+                if (!empty($columns)) {
+                    $result = array_keys($columns);
+                    break;
+                }
+            }
+            if (empty($result) && $this->summaryRowData !== null) {
+                $result = array_keys((new ViewRow($this, self::ID_SUMMARY_ROW))->getColumns());
             }
         }
 
@@ -1703,9 +1722,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowsMetadata($name)
     {
-        $metadataValues = array();
-        foreach ($this->getRows() as $row) {
+        $metadataValues = [];
+        foreach ($this->getRowsWithoutSummaryRow() as $row) {
             $metadataValues[] = $row->getMetadata($name);
+        }
+        if ($this->summaryRowData !== null) {
+            $metadataValues[] = (new ViewRow($this, self::ID_SUMMARY_ROW))->getMetadata($name);
         }
         return $metadataValues;
     }
