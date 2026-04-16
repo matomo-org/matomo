@@ -229,6 +229,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     public const ROW_IDENTIFIER_METADATA_NAME = 'rowIdentifier';
 
+    /** Magic prefix that identifies a columnar-encoded blob (3 bytes: DEL 'C' DEL). Never produced by PHP serialize(). */
+    public const COLUMNAR_BLOB_MAGIC = "\x7fC\x7f";
+
     /**
      * Maximum nesting level.
      * @var int
@@ -2235,10 +2238,176 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $rows[self::ID_ARCHIVED_METADATA_ROW] = $metadataRow->export();
         }
 
-        $aSerializedDataTable[$forcedId] = serialize($rows);
+        $aSerializedDataTable[$forcedId] = $this->encodeRowsColumnar($rows);
         unset($rows);
 
         return $aSerializedDataTable;
+    }
+
+    /**
+     * Encodes `$rows` (the export array built by `getSerialized()`) into a columnar JSON blob prefixed
+     * with `COLUMNAR_BLOB_MAGIC`. Column names are collected via a union pass over all rows so that no
+     * column is ever dropped; each row's values are then a positional array aligned to that union list,
+     * with `null` filling any column absent from a given row. Subtable IDs and per-row metadata are
+     * stored as sparse maps.
+     *
+     * @param array $rows Array of exported row data keyed by row ID.
+     * @return string The encoded blob.
+     */
+    private function encodeRowsColumnar(array $rows): string
+    {
+        $colNames    = [];
+        $rowData     = [];
+        $subtableMap = [];
+        $metadataMap = [];
+        $summaryRow  = null;
+        $archivedMeta = null;
+
+        // Extract special rows before column discovery.
+        if (array_key_exists(self::ID_ARCHIVED_METADATA_ROW, $rows)) {
+            $metaExport   = $rows[self::ID_ARCHIVED_METADATA_ROW];
+            $archivedMeta = $metaExport[Row::COLUMNS];
+            unset($archivedMeta['label']); // 'label' is the sentinel value, not real metadata
+            unset($rows[self::ID_ARCHIVED_METADATA_ROW]);
+        }
+
+        $summaryExport = null;
+        if (array_key_exists(self::ID_SUMMARY_ROW, $rows)) {
+            $summaryExport = $rows[self::ID_SUMMARY_ROW];
+            unset($rows[self::ID_SUMMARY_ROW]);
+        }
+
+        // Union pass: collect every column name that appears in any regular row or the summary row.
+        // This prevents data loss when rows have heterogeneous column sets (e.g. multi-site responses,
+        // goal reports where not every row carries every metric).
+        $colNameSet = [];
+        foreach ($rows as $export) {
+            foreach (array_keys($export[Row::COLUMNS]) as $name) {
+                $colNameSet[$name] = true;
+            }
+        }
+        if ($summaryExport !== null) {
+            foreach (array_keys($summaryExport[Row::COLUMNS]) as $name) {
+                $colNameSet[$name] = true;
+            }
+        }
+        $colNames = array_keys($colNameSet);
+
+        // Encode regular rows.
+        foreach ($rows as $id => $export) {
+            $cols   = $export[Row::COLUMNS];
+            $values = [];
+            foreach ($colNames as $name) {
+                $values[] = $cols[$name] ?? null;
+            }
+            $rowData[(string) $id] = $values;
+
+            $subtableId = $export[Row::DATATABLE_ASSOCIATED];
+            if ($subtableId !== null && $subtableId !== false) {
+                $subtableMap[(string) $id] = (int) $subtableId;
+            }
+
+            $meta = $export[Row::METADATA] ?? [];
+            if (!empty($meta)) {
+                $metadataMap[(string) $id] = $meta;
+            }
+        }
+
+        // Encode summary row.
+        if ($summaryExport !== null) {
+            $summaryValues = [];
+            foreach ($colNames as $name) {
+                $summaryValues[] = $summaryExport[Row::COLUMNS][$name] ?? null;
+            }
+            $summaryRow = $summaryValues;
+
+            // Include the summary row's subtable ID in the sparse map (key = ID_SUMMARY_ROW = "-1").
+            $summarySubtableId = $summaryExport[Row::DATATABLE_ASSOCIATED];
+            if ($summarySubtableId !== null && $summarySubtableId !== false) {
+                $subtableMap[(string) self::ID_SUMMARY_ROW] = (int) $summarySubtableId;
+            }
+        }
+
+        $payload = [
+            $colNames,
+            $rowData,
+            $subtableMap,
+            $metadataMap,
+            $summaryRow,
+            empty($archivedMeta) ? null : $archivedMeta,
+        ];
+
+        $encoded = json_encode($payload, JSON_PRESERVE_ZERO_FRACTION);
+        if ($encoded === false) {
+            throw new \Exception('Failed to JSON-encode columnar blob: ' . json_last_error_msg());
+        }
+        return self::COLUMNAR_BLOB_MAGIC . $encoded;
+    }
+
+    /**
+     * Decodes a columnar blob (produced by `encodeRowsColumnar()`) back into the canonical `$rows`
+     * array that `addRowsFromSerializedArray()` already knows how to consume.
+     *
+     * @param string $blob Blob starting with `COLUMNAR_BLOB_MAGIC`.
+     * @return array Decoded rows array.
+     */
+    private function decodeColumnarBlob(string $blob): array
+    {
+        $json    = substr($blob, strlen(self::COLUMNAR_BLOB_MAGIC));
+        $payload = json_decode($json, true, 512);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Failed to JSON-decode columnar blob: ' . json_last_error_msg());
+        }
+        if (!is_array($payload)) {
+            throw new \Exception('Columnar blob payload decoded to unexpected type, expected array');
+        }
+        if (count($payload) !== 6) {
+            throw new \Exception('Columnar blob payload has unexpected field count: ' . count($payload) . ', expected 6');
+        }
+
+        [$colNames, $rowData, $subtableMap, $metadataMap, $summaryValues, $archivedMeta] = $payload;
+
+        $rows = [];
+
+        // Decode regular rows.
+        foreach ($rowData as $idStr => $values) {
+            $id      = (int) $idStr;
+            // Filter out null-filled entries so absent columns are truly absent rather than present
+            // with a null value. This keeps getColumns() consistent with getColumn() semantics.
+            $columns = array_filter(array_combine($colNames, $values), static function ($v) {
+                return $v !== null;
+            });
+
+            $rows[$id] = [
+                Row::COLUMNS              => $columns,
+                Row::METADATA             => $metadataMap[$idStr] ?? [],
+                Row::DATATABLE_ASSOCIATED => $subtableMap[$idStr] ?? null,
+            ];
+        }
+
+        // Decode summary row.
+        if ($summaryValues !== null) {
+            $rows[self::ID_SUMMARY_ROW] = [
+                Row::COLUMNS              => array_filter(array_combine($colNames, $summaryValues), static function ($v) {
+                    return $v !== null;
+                }),
+                Row::METADATA             => [],
+                Row::DATATABLE_ASSOCIATED => $subtableMap[(string) self::ID_SUMMARY_ROW] ?? null,
+            ];
+        }
+
+        // Restore archived table metadata as the sentinel row.
+        if ($archivedMeta !== null) {
+            $metaCols          = $archivedMeta;
+            $metaCols['label'] = self::LABEL_ARCHIVED_METADATA_ROW;
+            $rows[self::ID_ARCHIVED_METADATA_ROW] = [
+                Row::COLUMNS              => $metaCols,
+                Row::METADATA             => [],
+                Row::DATATABLE_ASSOCIATED => null,
+            ];
+        }
+
+        return $rows;
     }
 
     /** @var string[] */
@@ -2266,6 +2435,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     private function unserializeRows($serialized)
     {
+        if (str_starts_with($serialized, self::COLUMNAR_BLOB_MAGIC)) {
+            return $this->decodeColumnarBlob($serialized);
+        }
+
         // Current archives only persist row arrays, so do not allow objects in the default path.
         $rows = Common::safe_unserialize($serialized, []);
 
