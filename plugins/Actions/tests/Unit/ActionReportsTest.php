@@ -17,6 +17,8 @@ use Piwik\Date;
 use Piwik\Plugins\Actions\Archiver;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Actions\RecordBuilders\ActionReports;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
 
 /**
  * @group Actions
@@ -74,8 +76,8 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
             $flatRecordName = Archiver::PAGE_URLS_FLAT_RECORD_NAME;
             $hierarchicalRecordName = Archiver::PAGE_URLS_RECORD_NAME;
 
-            $flatPeriodTable = $this->createFlatSerializedTable('flat-a', ['flat-a'], 4);
-            $hierarchicalPeriodTable = $this->createHierarchicalSerializedTable('legacy-b', 6, 2);
+            $flatPeriodTable = $this->createFlatSerializedTable('/flat-a', ['/flat-a'], 4);
+            $hierarchicalPeriodTable = $this->createHierarchicalSerializedTable('/legacy-b', 6, 2);
 
             $rowsByRecordName = [
                 $flatRecordName => [[
@@ -135,11 +137,11 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
             $flatResult = DataTable::fromSerializedArray(
                 $this->getRootBlobFromInsertedRecord($insertedBlobs[$flatRecordName], $flatRecordName)
             );
-            $flatRowA = $flatResult->getRowFromLabel('flat-a');
+            $flatRowA = $flatResult->getRowFromLabel('/flat-a');
             $this->assertNotFalse($flatRowA);
             $this->assertSame(4, $flatRowA->getColumn('nb_hits'));
 
-            $flatRowB = $flatResult->getRowFromLabel('legacy-b');
+            $flatRowB = $flatResult->getRowFromLabel('/legacy-b');
             $this->assertNotFalse($flatRowB);
             $this->assertSame(6, $flatRowB->getColumn('nb_hits'));
 
@@ -150,11 +152,11 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
             $hierarchicalResult = DataTable::fromSerializedArray(
                 $this->getRootBlobFromInsertedRecord($insertedBlobs[$hierarchicalRecordName], $hierarchicalRecordName)
             );
-            $hierarchicalRowA = $hierarchicalResult->getRowFromLabel('flat-a');
+            $hierarchicalRowA = $hierarchicalResult->getRowFromLabel('/flat-a');
             $this->assertNotFalse($hierarchicalRowA);
             $this->assertSame(4, $hierarchicalRowA->getColumn('nb_hits'));
 
-            $hierarchicalRowB = $hierarchicalResult->getRowFromLabel('legacy-b');
+            $hierarchicalRowB = $hierarchicalResult->getRowFromLabel('/legacy-b');
             $this->assertNotFalse($hierarchicalRowB);
             $this->assertSame(6, $hierarchicalRowB->getColumn('nb_hits'));
 
@@ -170,8 +172,8 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
             $flatRecordName = Archiver::PAGE_URLS_FLAT_RECORD_NAME;
             $hierarchicalRecordName = Archiver::PAGE_URLS_RECORD_NAME;
 
-            $flatPeriodTable = $this->createFlatSerializedTable('flat-a', ['flat-a'], 4);
-            $hierarchicalPeriodTable = $this->createHierarchicalSerializedTable('legacy-b', 6, 2);
+            $flatPeriodTable = $this->createFlatSerializedTable('/flat-a', ['/flat-a'], 4);
+            $hierarchicalPeriodTable = $this->createHierarchicalSerializedTable('/legacy-b', 6, 2);
 
             $rowsByRecordName = [
                 $flatRecordName => [[
@@ -230,11 +232,11 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
             $flatResult = DataTable::fromSerializedArray(
                 $this->getRootBlobFromInsertedRecord($insertedBlobs[$flatRecordName], $flatRecordName)
             );
-            $flatRowA = $flatResult->getRowFromLabel('flat-a');
+            $flatRowA = $flatResult->getRowFromLabel('/flat-a');
             $this->assertNotFalse($flatRowA);
             $this->assertSame(4, $flatRowA->getColumn('nb_hits'));
 
-            $flatRowB = $flatResult->getRowFromLabel('legacy-b');
+            $flatRowB = $flatResult->getRowFromLabel('/legacy-b');
             $this->assertNotFalse($flatRowB);
             $this->assertSame(6, $flatRowB->getColumn('nb_hits'));
 
@@ -291,6 +293,186 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(12, $rebuiltSummary->getColumn('nb_hits'));
     }
 
+    public function testPageUrlFlatRowsDeduplicateUsingNormalizedUrl()
+    {
+        $table = new DataTable();
+
+        $firstRow = $this->invokeGetFlatActionRow(
+            'EXAMPLE.org/shared/path#',
+            Action::TYPE_PAGE_URL,
+            PageUrl::$urlPrefixMap['http://'],
+            $table
+        );
+        $secondRow = $this->invokeGetFlatActionRow(
+            'example.org/shared/path',
+            Action::TYPE_PAGE_URL,
+            PageUrl::$urlPrefixMap['http://'],
+            $table
+        );
+
+        $this->assertSame($firstRow, $secondRow);
+        $this->assertSame('/shared/path', $firstRow->getColumn('label'));
+        $this->assertSame(1, $table->getRowsCount());
+        $this->assertFalse($firstRow->getMetadata(ArchivingHelper::ACTION_FLAT_PATH_METADATA_NAME));
+    }
+
+    public function testPageUrlFlatRowsUseUrlPrefixToBuildCanonicalPathLabel()
+    {
+        $table = new DataTable();
+
+        $row = $this->invokeGetFlatActionRow(
+            'example.org/page',
+            Action::TYPE_PAGE_URL,
+            PageUrl::$urlPrefixMap['http://www.'],
+            $table
+        );
+
+        $this->assertSame('/page', $row->getColumn('label'));
+        $this->assertSame(1, $table->getRowsCount());
+    }
+
+    public function testPageUrlFlatRowsTreatStringActionTypeAsPageUrl()
+    {
+        $table = new DataTable();
+
+        $row = $this->invokeGetFlatActionRow(
+            'example.org/page',
+            '1',
+            PageUrl::$urlPrefixMap['http://www.'],
+            $table
+        );
+
+        $this->assertSame('/page', $row->getColumn('label'));
+        $this->assertSame(1, $table->getRowsCount());
+    }
+
+    public function testMergingFlatRowsUsesLastUrlMetadata()
+    {
+        $destination = new Row([
+            Row::COLUMNS => ['label' => '/page', 'nb_hits' => 1],
+        ]);
+        $destination->setMetadata('url', 'http://example.org/first');
+
+        $source = new Row([
+            Row::COLUMNS => ['label' => '/page', 'nb_hits' => 1],
+        ]);
+        $source->setMetadata('url', 'http://example.org/last');
+
+        $method = new \ReflectionMethod(ArchivingHelper::class, 'mergeRowIntoDestination');
+        $method->setAccessible(true);
+        $method->invoke(null, $source, $destination);
+
+        $this->assertSame('http://example.org/last', $destination->getMetadata('url'));
+    }
+
+    public function testUnknownPageUrlFlatLabelRebuildsWithoutLeadingSlash()
+    {
+        $flatRow = new Row([
+            Row::COLUMNS => [
+                'label' => ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_URL),
+                'nb_hits' => 1,
+            ],
+        ]);
+
+        $recordBuilder = new ActionReports();
+        $method = new \ReflectionMethod(ActionReports::class, 'flatRowToHierarchyPath');
+        $method->setAccessible(true);
+        $path = $method->invoke($recordBuilder, $flatRow, Action::TYPE_PAGE_URL);
+
+        $this->assertSame([ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_URL)], $path);
+    }
+
+    public function testPageUrlFlatLabelRebuildPreservesTrailingIndexAtLevelLimit()
+    {
+        $this->withActionCategoryLevelLimit(10, function () {
+            $flatRow = new Row([
+                Row::COLUMNS => [
+                    'label' => '/this/is/not/the/page/i/am/looking/for/index',
+                    'nb_hits' => 1,
+                ],
+            ]);
+
+            $recordBuilder = new ActionReports();
+            $method = new \ReflectionMethod(ActionReports::class, 'flatRowToHierarchyPath');
+            $method->setAccessible(true);
+            $path = $method->invoke($recordBuilder, $flatRow, Action::TYPE_PAGE_URL);
+
+            $this->assertSame(
+                ['this', 'is', 'not', 'the', 'page', 'i', 'am', 'looking', 'for', '/index'],
+                $path
+            );
+        });
+    }
+
+    public function testHierarchyBuiltFromCanonicalFlatUrlLabelMatchesFlatRowCount()
+    {
+        $flat = new DataTable();
+
+        $firstRow = new Row([Row::COLUMNS => ['label' => '/shared/path', 'nb_hits' => 4]]);
+        $flat->addRow($firstRow);
+
+        $recordBuilder = new class extends ActionReports {
+            public function buildUrlHierarchyFromFlatForTest(DataTable $flat): DataTable
+            {
+                return $this->buildHierarchicalTableFromFlatTable(
+                    $flat,
+                    null,
+                    [$this, 'flatRowToUrlHierarchyPath']
+                );
+            }
+        };
+
+        $rebuilt = $recordBuilder->buildUrlHierarchyFromFlatForTest($flat);
+
+        $this->assertSame(1, $flat->getRowsCount());
+        $this->assertSame(1, $rebuilt->getRowsCount());
+
+        $parentRow = $rebuilt->getRows()[0] ?? null;
+        $this->assertInstanceOf(Row::class, $parentRow);
+        $this->assertSame('shared', $parentRow->getColumn('label'));
+
+        $leafTable = $parentRow->getSubtable();
+        $this->assertInstanceOf(DataTable::class, $leafTable);
+
+        $leafRow = $leafTable->getRows()[0] ?? null;
+        $this->assertInstanceOf(Row::class, $leafRow);
+        $this->assertSame('/path', $leafRow->getColumn('label'));
+        $this->assertSame(4, $leafRow->getColumn('nb_hits'));
+    }
+
+    public function testPageTitleFlatLabelCanBeRebuiltIntoTheSameHierarchy()
+    {
+        $this->withTitleDelimiter(' / ', function () {
+            $flat = new DataTable();
+            $flat->addRow(new Row([Row::COLUMNS => ['label' => 'Parent / Child', 'nb_hits' => 3]]));
+
+            $recordBuilder = new class extends ActionReports {
+                public function buildTitleHierarchyFromFlatForTest(DataTable $flat): DataTable
+                {
+                    return $this->buildHierarchicalTableFromFlatTable(
+                        $flat,
+                        null,
+                        [$this, 'flatRowToTitleHierarchyPath']
+                    );
+                }
+            };
+
+            $rebuilt = $recordBuilder->buildTitleHierarchyFromFlatForTest($flat);
+
+            $parentRow = $rebuilt->getRows()[0] ?? null;
+            $this->assertInstanceOf(Row::class, $parentRow);
+            $this->assertSame('Parent', $parentRow->getColumn('label'));
+
+            $leafTable = $parentRow->getSubtable();
+            $this->assertInstanceOf(DataTable::class, $leafTable);
+
+            $leafRow = $leafTable->getRows()[0] ?? null;
+            $this->assertInstanceOf(Row::class, $leafRow);
+            $this->assertSame(' Child', $leafRow->getColumn('label'));
+            $this->assertSame(3, $leafRow->getColumn('nb_hits'));
+        });
+    }
+
     private function withFlatLimit(int $flatLimit, callable $callback): void
     {
         $config = Config::getInstance();
@@ -307,6 +489,48 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
                 $config->General['datatable_archiving_maximum_rows_actions_flat'] = $previousFlatLimit;
             } else {
                 unset($config->General['datatable_archiving_maximum_rows_actions_flat']);
+            }
+            ArchivingHelper::reloadConfig();
+        }
+    }
+
+    private function withTitleDelimiter(string $titleDelimiter, callable $callback): void
+    {
+        $config = Config::getInstance();
+        $hadPreviousDelimiter = array_key_exists('action_title_category_delimiter', $config->General);
+        $previousDelimiter = $hadPreviousDelimiter ? $config->General['action_title_category_delimiter'] : null;
+
+        $config->General['action_title_category_delimiter'] = $titleDelimiter;
+        ArchivingHelper::reloadConfig();
+
+        try {
+            $callback();
+        } finally {
+            if ($hadPreviousDelimiter) {
+                $config->General['action_title_category_delimiter'] = $previousDelimiter;
+            } else {
+                unset($config->General['action_title_category_delimiter']);
+            }
+            ArchivingHelper::reloadConfig();
+        }
+    }
+
+    private function withActionCategoryLevelLimit(int $levelLimit, callable $callback): void
+    {
+        $config = Config::getInstance();
+        $hadPreviousLimit = array_key_exists('action_category_level_limit', $config->General);
+        $previousLimit = $hadPreviousLimit ? $config->General['action_category_level_limit'] : null;
+
+        $config->General['action_category_level_limit'] = $levelLimit;
+        ArchivingHelper::reloadConfig();
+
+        try {
+            $callback();
+        } finally {
+            if ($hadPreviousLimit) {
+                $config->General['action_category_level_limit'] = $previousLimit;
+            } else {
+                unset($config->General['action_category_level_limit']);
             }
             ArchivingHelper::reloadConfig();
         }
@@ -442,5 +666,13 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
         }
 
         return (string) reset($blobValue);
+    }
+
+    private function invokeGetFlatActionRow(string $actionName, int $actionType, int $urlPrefix, DataTable $table): Row
+    {
+        $reflection = new \ReflectionMethod(ArchivingHelper::class, 'getFlatActionRow');
+        $reflection->setAccessible(true);
+
+        return $reflection->invoke(null, $actionName, $actionType, $urlPrefix, $table);
     }
 }

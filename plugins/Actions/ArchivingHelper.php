@@ -330,18 +330,17 @@ class ArchivingHelper
                 continue;
             }
 
-            $rowsByPath = [];
+            $rowsByLabel = [];
             foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
-                $path = $row->getMetadata(self::ACTION_FLAT_PATH_METADATA_NAME);
-                if (!is_array($path) || empty($path)) {
+                $label = $row->getColumn('label');
+                if (!is_string($label) || $label === '') {
                     continue;
                 }
 
-                $pathKey = self::getFlatPathKey($path);
-                $rowsByPath[$pathKey][] = $row;
+                $rowsByLabel[$label][] = $row;
             }
 
-            foreach ($rowsByPath as $rows) {
+            foreach ($rowsByLabel as $rows) {
                 self::normalizeFlatGoalsMetricsForHierarchyPathRows($rows);
             }
         }
@@ -460,16 +459,6 @@ class ArchivingHelper
         }
 
         $goalMetrics[$metricKey] += $value;
-    }
-
-    private static function getFlatPathKey(array $path): string
-    {
-        $pathKey = json_encode($path);
-        if ($pathKey === false) {
-            return implode("\n", $path);
-        }
-
-        return $pathKey;
     }
 
     public static function removeEmptyColumns($dataTable)
@@ -732,7 +721,6 @@ class ArchivingHelper
 
     private static function getFlatActionRow($actionName, $actionType, $urlPrefix, DataTable $table): Row
     {
-        $actionExplodedNames = self::getActionExplodedNames($actionName, $actionType, $urlPrefix);
         $flatLabel = self::buildFlatActionLabelFromActionName($actionName, $actionType, $urlPrefix);
 
         $row = $table->getRowFromLabel($flatLabel);
@@ -743,7 +731,6 @@ class ArchivingHelper
         $row = new Row(array(
             Row::COLUMNS => array('label' => $flatLabel) + self::getDefaultFlatRowColumns(),
         ));
-        $row->setMetadata(self::ACTION_FLAT_PATH_METADATA_NAME, $actionExplodedNames);
         $table->addRow($row);
 
         return $row;
@@ -774,10 +761,25 @@ class ArchivingHelper
         }
 
         if ($delimiter === '') {
-            return implode('', $segments);
+            $label = implode('', $segments);
+        } else {
+            $label = implode($delimiter, $segments);
         }
 
-        return implode($delimiter, $segments);
+        if (
+            $actionType === Action::TYPE_PAGE_URL
+            && $label !== self::getUnknownActionName(Action::TYPE_PAGE_URL)
+            && substr($label, 0, 1) !== '/'
+        ) {
+            return '/' . $label;
+        }
+
+        return $label;
+    }
+
+    public static function removePageUrlLeafMarkerFromFlatLabel(string $label): string
+    {
+        return ltrim($label, self::URL_ACTION_LEAF_MARKER);
     }
 
     private static function appendHierarchicalRowsToFlatTable(
@@ -819,7 +821,6 @@ class ArchivingHelper
                 $flatRow = new Row(array(
                     Row::COLUMNS => $columns,
                 ));
-                $flatRow->setMetadata(self::ACTION_FLAT_PATH_METADATA_NAME, $currentPath);
                 $flatTable->addRow($flatRow);
             }
             self::mergeRowIntoDestination($row, $flatRow);
@@ -856,12 +857,14 @@ class ArchivingHelper
             return (string) $actionName;
         }
 
+        $actionType = (int) $actionType;
+
         if (
-            $actionType === Action::TYPE_PAGE_URL
-            && $actionName !== ''
+            ($actionType === Action::TYPE_PAGE_URL || $actionType === Action::TYPE_PAGE_TITLE)
             && $actionName !== RankingQuery::LABEL_SUMMARY_ROW
         ) {
-            return PageUrl::reconstructNormalizedUrl($actionName, $urlPrefix);
+            $actionPath = self::getActionExplodedNames($actionName, $actionType, $urlPrefix);
+            return self::buildBestEffortActionLabelFromPath($actionPath, $actionType);
         }
 
         return $actionName;
@@ -874,6 +877,11 @@ class ArchivingHelper
 
         $aggregationOps = Metrics::getColumnsAggregationOperation();
         $destination->sumRow($sourceCopy, $enableCopyMetadata = true, $aggregationOps);
+
+        $metadataValue = $sourceCopy->getMetadata('url');
+        if ($metadataValue !== false) {
+            $destination->setMetadata('url', $metadataValue);
+        }
     }
 
     private static function isRowEmptyOfMetrics(Row $row): bool

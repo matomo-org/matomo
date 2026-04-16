@@ -275,14 +275,20 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     private function flatRowToHierarchyPath(Row $flatRow, int $actionType): ?array
     {
-        $path = $flatRow->getMetadata(ArchivingHelper::ACTION_FLAT_PATH_METADATA_NAME);
-        if (is_array($path) && !empty($path)) {
-            return $path;
-        }
-
         $label = $flatRow->getColumn('label');
         if (!is_string($label) || $label === '') {
             return null;
+        }
+
+        if ($actionType === Action::TYPE_PAGE_URL) {
+            if ($label === ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_URL)) {
+                return [$label];
+            }
+
+            return ArchivingHelper::getActionExplodedNames(
+                ArchivingHelper::removePageUrlLeafMarkerFromFlatLabel($label),
+                $actionType
+            );
         }
 
         return ArchivingHelper::getActionExplodedNames($label, $actionType);

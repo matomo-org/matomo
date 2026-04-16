@@ -167,6 +167,54 @@ class MixedArchivingAggregationTest extends IntegrationTestCase
         );
     }
 
+    public function testDayFlatAndHierarchyStayInParityWhenHostsDifferButPathsMatch()
+    {
+        $idSite = Fixture::createWebsite('2026-02-10 00:00:00');
+
+        $tracker = Fixture::getTracker($idSite, '2026-02-10 00:00:01');
+        $tracker->setUrl('http://EXAMPLE.org/shared/path#');
+        Fixture::checkResponse($tracker->doTrackPageView('first'));
+
+        $tracker->setForceVisitDateTime('2026-02-10 00:00:02');
+        $tracker->setUrl('https://other.example/shared/path');
+        Fixture::checkResponse($tracker->doTrackPageView('second'));
+
+        $config = Config::getInstance();
+        $configKeys = [
+            'datatable_archiving_maximum_rows_actions_flat',
+            'datatable_archiving_maximum_rows_actions',
+            'datatable_archiving_maximum_rows_subtable_actions',
+            'archiving_ranking_query_row_limit',
+        ];
+        $configBackup = $this->backupGeneralConfig($configKeys);
+
+        try {
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 50;
+            $config->General['datatable_archiving_maximum_rows_actions'] = 50000;
+            $config->General['datatable_archiving_maximum_rows_subtable_actions'] = 50000;
+            $config->General['archiving_ranking_query_row_limit'] = 100000;
+
+            $archive = Archive::build($idSite, 'day', '2026-02-10');
+            $flatUrls = $archive->getDataTable(Archiver::PAGE_URLS_FLAT_RECORD_NAME);
+            $hierarchicalUrls = $archive->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+        } finally {
+            $this->restoreGeneralConfig($configBackup);
+        }
+
+        $flatExport = $this->exportFlatTableValues($flatUrls);
+        $hierarchicalExport = $this->exportHierarchyTableValues($hierarchicalUrls);
+
+        $this->assertCount(1, $flatExport['rows']);
+        $this->assertArrayHasKey('/shared/path', $flatExport['rows']);
+        $flatUrlRow = $flatUrls->getRowFromLabel('/shared/path');
+        $this->assertNotFalse($flatUrlRow);
+        $this->assertNotFalse($flatUrlRow->getMetadata('url'));
+        $this->assertCount(1, $hierarchicalExport['rows']);
+        $hierarchicalRows = array_values($hierarchicalExport['rows']);
+        $this->assertCount(1, $hierarchicalRows);
+        $this->assertSame(2, $hierarchicalRows[0][Metrics::INDEX_PAGE_NB_HITS]);
+    }
+
     protected static function configureFixture($fixture)
     {
         parent::configureFixture($fixture);
