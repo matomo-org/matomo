@@ -1613,6 +1613,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (!is_array($payload)) {
             throw new \Exception('Columnar blob payload decoded to unexpected type, expected array');
         }
+        if (count($payload) !== 6) {
+            throw new \Exception('Columnar blob payload has unexpected field count: ' . count($payload) . ', expected 6');
+        }
 
         [$colNames, $rowData, $subtableMap, $metadataMap, $summaryValues, $archivedMeta] = $payload;
 
@@ -1621,7 +1624,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // Decode regular rows.
         foreach ($rowData as $idStr => $values) {
             $id      = (int) $idStr;
-            $columns = array_combine($colNames, $values);
+            // Filter out null-filled entries so absent columns are truly absent rather than present
+            // with a null value. This keeps getColumns() consistent with getColumn() semantics.
+            $columns = array_filter(array_combine($colNames, $values), static function ($v) {
+                return $v !== null;
+            });
 
             $rows[$id] = [
                 Row::COLUMNS              => $columns,
@@ -1633,7 +1640,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // Decode summary row.
         if ($summaryValues !== null) {
             $rows[self::ID_SUMMARY_ROW] = [
-                Row::COLUMNS              => array_combine($colNames, $summaryValues),
+                Row::COLUMNS              => array_filter(array_combine($colNames, $summaryValues), static function ($v) {
+                    return $v !== null;
+                }),
                 Row::METADATA             => [],
                 Row::DATATABLE_ASSOCIATED => $subtableMap[(string) self::ID_SUMMARY_ROW] ?? null,
             ];

@@ -1706,4 +1706,44 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
         $table->getSerialized();
     }
+
+    /**
+     * Absent columns (null-filled by the union pass during encode) must be absent after decode,
+     * not present as null. Verifies both getColumn() and getColumns() semantics.
+     */
+    public function testColumnarBlobDecodeDropsNullFilledColumns(): void
+    {
+        $table = new DataTable();
+        $table->addRowFromArray([Row::COLUMNS => ['label' => 'A', 'nb_visits' => 10]]);
+        $table->addRowFromArray([Row::COLUMNS => ['label' => 'B', 'nb_conversions' => 3]]);
+
+        $blobs    = $table->getSerialized();
+        $restored = DataTable::fromSerializedArray($blobs[0]);
+        $rows     = array_values($restored->getRows());
+
+        // getColumn() returns false for an absent column — unchanged behaviour.
+        self::assertFalse($rows[0]->getColumn('nb_conversions'));
+        self::assertFalse($rows[1]->getColumn('nb_visits'));
+
+        // getColumns() must not include the null-filled keys at all.
+        self::assertArrayNotHasKey('nb_conversions', $rows[0]->getColumns());
+        self::assertArrayNotHasKey('nb_visits', $rows[1]->getColumns());
+    }
+
+    /**
+     * Decoding a blob whose JSON payload has fewer than 6 fields must throw rather than silently
+     * producing a partially decoded row set.
+     */
+    public function testColumnarBlobDecodeThrowsOnTruncatedPayload(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageMatches('/unexpected field count/');
+
+        // Build a valid blob, then replace its JSON with a 5-element payload.
+        $truncated = DataTable::COLUMNAR_BLOB_MAGIC . json_encode([[], [], [], [], null]);
+
+        $table = new DataTable();
+        // addRowsFromSerializedArray is the public entry point into unserializeRows / decodeColumnarBlob.
+        $table->addRowsFromSerializedArray($truncated);
+    }
 }
