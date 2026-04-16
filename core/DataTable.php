@@ -204,6 +204,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /** The ID of the Summary Row. */
     public const ID_SUMMARY_ROW = -1;
 
+    /** The ID of the Totals Row (matches LABEL_TOTALS_ROW). */
+    public const ID_TOTALS_ROW = -2;
+
     /**
      * The ID of the special metadata row. This row only exists in the serialized row data and stores the datatable metadata.
      *
@@ -237,6 +240,67 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @var Row[]|null
      */
     protected $rows = [];
+
+    // ── Columnar packed storage ───────────────────────────────────────────────
+    // These properties replace $rows / $summaryRow / $totalsRow once the
+    // migration in Commit 3 is applied.  They are added here (Commit 2) so
+    // that the @internal helper methods and ViewRow can reference them without
+    // touching any existing behaviour.
+
+    /**
+     * Shared column schema — established on first addRow().
+     *
+     * @internal
+     * @var string[]
+     */
+    public array $columnNames = [];
+
+    /**
+     * Reverse map: column name → integer index into packed value arrays.
+     *
+     * @internal
+     * @var array<string, int>
+     */
+    public array $columnIndex = [];
+
+    /**
+     * Monotonically increasing row-ID counter.
+     * Using count($this->rows) would produce collisions after deleteRow().
+     *
+     * @internal
+     */
+    protected int $nextRowId = 0;
+
+    /**
+     * Sparse map of rowId → subtable ID (omit key when null).
+     *
+     * @internal
+     * @var array<int, int>
+     */
+    protected array $rowSubtableIds = [];
+
+    /**
+     * Sparse map of rowId → metadata array (omit key when empty).
+     *
+     * @internal
+     * @var array<int, array<string, mixed>>
+     */
+    protected array $rowMetadata = [];
+
+    /** @internal */
+    protected ?array $summaryRowData     = null;
+    /** @internal */
+    protected array  $summaryRowMetadata = [];
+    /** @internal */
+    protected ?int   $summarySubtableId  = null;
+
+    /** @internal */
+    protected ?array $totalsRowData     = null;
+    /** @internal */
+    protected array  $totalsRowMetadata = [];
+    /** @internal */
+    protected ?int   $totalsSubtableId  = null;
+    // ── End columnar packed storage ───────────────────────────────────────────
 
     /**
      * Id assigned to the DataTable, used to lookup the table using the DataTable_Manager
@@ -333,6 +397,200 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /** @var bool */
     protected $isBuiltWithoutArchives = true;
+
+    // ── Columnar schema management (private) ─────────────────────────────────
+
+    private function establishSchema(array $columnNames): void
+    {
+        $this->columnNames = array_values($columnNames);
+        $this->columnIndex = array_flip($this->columnNames);
+    }
+
+    private function extendSchema(string $newColName): void
+    {
+        $idx = count($this->columnNames);
+        $this->columnNames[]            = $newColName;
+        $this->columnIndex[$newColName] = $idx;
+        foreach ($this->rows as &$packed) {
+            $packed[$idx] = null;
+        }
+        unset($packed);
+        if ($this->summaryRowData !== null) {
+            $this->summaryRowData[$idx] = null;
+        }
+        if ($this->totalsRowData !== null) {
+            $this->totalsRowData[$idx] = null;
+        }
+    }
+
+    // ── Columnar @internal helpers (public for ViewRow access) ───────────────
+
+    /** @internal */
+    public function getPackedValue(int $rowId, string $colName): mixed
+    {
+        $idx = $this->columnIndex[$colName] ?? null;
+        if ($idx === null) {
+            return null;
+        }
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            return $this->summaryRowData[$idx] ?? null;
+        }
+        if ($rowId === self::ID_TOTALS_ROW) {
+            return $this->totalsRowData[$idx] ?? null;
+        }
+        return $this->rows[$rowId][$idx] ?? null;
+    }
+
+    /** @internal */
+    public function setPackedValue(int $rowId, string $colName, mixed $value): void
+    {
+        if (!isset($this->columnIndex[$colName])) {
+            $this->extendSchema($colName);
+        }
+        $idx = $this->columnIndex[$colName];
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            $this->summaryRowData[$idx] = $value;
+        } elseif ($rowId === self::ID_TOTALS_ROW) {
+            $this->totalsRowData[$idx] = $value;
+        } else {
+            $this->rows[$rowId][$idx] = $value;
+        }
+    }
+
+    /** @internal */
+    public function rowColumnExists(int $rowId, string $colName): bool
+    {
+        return isset($this->columnIndex[$colName]);
+    }
+
+    /** @internal */
+    public function getPackedRow(int $rowId): array
+    {
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            $packed = $this->summaryRowData ?? [];
+        } elseif ($rowId === self::ID_TOTALS_ROW) {
+            $packed = $this->totalsRowData ?? [];
+        } else {
+            $packed = $this->rows[$rowId] ?? [];
+        }
+        if (empty($this->columnNames) || empty($packed)) {
+            return [];
+        }
+        return array_combine($this->columnNames, $packed);
+    }
+
+    /** @internal */
+    public function deletePackedColumn(int $rowId, string $colName): bool
+    {
+        if (!isset($this->columnIndex[$colName])) {
+            return false;
+        }
+        $this->setPackedValue($rowId, $colName, null);
+        return true;
+    }
+
+    /** @internal */
+    public function getRowMetadata(int $rowId): array
+    {
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            return $this->summaryRowMetadata;
+        }
+        if ($rowId === self::ID_TOTALS_ROW) {
+            return $this->totalsRowMetadata;
+        }
+        return $this->rowMetadata[$rowId] ?? [];
+    }
+
+    /** @internal */
+    public function setRowMetadata(int $rowId, array $meta): void
+    {
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            $this->summaryRowMetadata = $meta;
+            return;
+        }
+        if ($rowId === self::ID_TOTALS_ROW) {
+            $this->totalsRowMetadata = $meta;
+            return;
+        }
+        if (empty($meta)) {
+            unset($this->rowMetadata[$rowId]);
+        } else {
+            $this->rowMetadata[$rowId] = $meta;
+        }
+    }
+
+    /** @internal */
+    public function setRowMetadataValue(int $rowId, string $key, mixed $value): void
+    {
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            $this->summaryRowMetadata[$key] = $value;
+            return;
+        }
+        if ($rowId === self::ID_TOTALS_ROW) {
+            $this->totalsRowMetadata[$key] = $value;
+            return;
+        }
+        $this->rowMetadata[$rowId][$key] = $value;
+    }
+
+    /** @internal */
+    public function deleteRowMetadataKey(int $rowId, string $key): bool
+    {
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            $exists = isset($this->summaryRowMetadata[$key]);
+            unset($this->summaryRowMetadata[$key]);
+            return $exists;
+        }
+        if ($rowId === self::ID_TOTALS_ROW) {
+            $exists = isset($this->totalsRowMetadata[$key]);
+            unset($this->totalsRowMetadata[$key]);
+            return $exists;
+        }
+        $exists = isset($this->rowMetadata[$rowId][$key]);
+        unset($this->rowMetadata[$rowId][$key]);
+        if (empty($this->rowMetadata[$rowId])) {
+            unset($this->rowMetadata[$rowId]);
+        }
+        return $exists;
+    }
+
+    /** @internal */
+    public function getRowSubtableId(int $rowId): ?int
+    {
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            return $this->summarySubtableId;
+        }
+        if ($rowId === self::ID_TOTALS_ROW) {
+            return $this->totalsSubtableId;
+        }
+        return $this->rowSubtableIds[$rowId] ?? null;
+    }
+
+    /** @internal */
+    public function setRowSubtableId(int $rowId, ?int $id): void
+    {
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            $this->summarySubtableId = $id;
+            return;
+        }
+        if ($rowId === self::ID_TOTALS_ROW) {
+            $this->totalsSubtableId = $id;
+            return;
+        }
+        if ($id === null) {
+            unset($this->rowSubtableIds[$rowId]);
+        } else {
+            $this->rowSubtableIds[$rowId] = $id;
+        }
+    }
+
+    /** @internal */
+    public function getColumnCount(): int
+    {
+        return count($this->columnNames);
+    }
+
+    // ── End columnar helpers ──────────────────────────────────────────────────
 
     /**
      * Constructor. Creates an empty DataTable.
