@@ -45,7 +45,7 @@ class Row extends \ArrayObject
     public $maxVisitsSummed = 0;
 
     private $metadata = array();
-    private $isSubtableLoaded = false;
+    protected $isSubtableLoaded = false;
 
     /**
      * @internal
