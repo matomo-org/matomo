@@ -235,7 +235,7 @@ class Login extends \Piwik\Plugin
 
         if (
             empty($login)
-            || $login === 'anonymous'
+            || strtolower($login) === 'anonymous'
         ) {
             return; // can't do the check if we don't know the login
         }
