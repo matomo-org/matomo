@@ -99,8 +99,15 @@ class ViewRow extends Row
 
     public function renameColumn($oldName, $newName)
     {
-        // Schema-level rename — delegate to DataTable so all rows are updated.
-        $this->table->renameColumn($oldName, $newName);
+        // Per-row rename: copy value to new column name, remove old — same semantics
+        // as the original ArrayObject-based Row::renameColumn.  DataTable::renameColumn
+        // is NOT used here because it recurses into every subtable via Manager::getTable(),
+        // which throws for subtables not currently loaded in memory.
+        if ($this->table->rowColumnExists($this->rowId, (string) $oldName)) {
+            $value = $this->table->getPackedValue($this->rowId, (string) $oldName);
+            $this->table->setPackedValue($this->rowId, (string) $newName, $value);
+        }
+        $this->table->deletePackedColumn($this->rowId, (string) $oldName);
     }
 
     public function getColumns(): array

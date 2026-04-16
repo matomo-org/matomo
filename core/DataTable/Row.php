@@ -228,8 +228,17 @@ class Row extends \ArrayObject
     public function renameColumn($oldName, $newName)
     {
         if ($this->_boundTable !== null) {
-            // Schema-level rename: propagate to DataTable (updates all rows).
-            $this->_boundTable->renameColumn($oldName, $newName);
+            // Per-row rename: copy value to new column name, remove old one — exactly
+            // mirroring the unbound ArrayObject path below.  We do NOT delegate to
+            // DataTable::renameColumn here because that method recurses into every
+            // subtable via Manager::getTable(), which throws for subtables that are not
+            // currently loaded in memory (e.g. during archiving).  The DataTable::filter()
+            // call that wraps renameColumn already handles subtable recursion.
+            if ($this->_boundTable->rowColumnExists($this->_boundRowId, (string) $oldName)) {
+                $value = $this->_boundTable->getPackedValue($this->_boundRowId, (string) $oldName);
+                $this->_boundTable->setPackedValue($this->_boundRowId, (string) $newName, $value);
+            }
+            $this->_boundTable->deletePackedColumn($this->_boundRowId, (string) $oldName);
             return;
         }
 
