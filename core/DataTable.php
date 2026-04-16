@@ -1496,6 +1496,142 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         return $aSerializedDataTable;
     }
 
+    /**
+     * Encodes `$rows` (the export array built by `getSerialized()`) into a columnar JSON blob prefixed
+     * with `COLUMNAR_BLOB_MAGIC`. Column names are stored once; each row's values are a positional
+     * array aligned to that column list. Subtable IDs and per-row metadata are stored as sparse maps.
+     *
+     * @param array $rows Array of exported row data keyed by row ID.
+     * @return string The encoded blob.
+     */
+    private function encodeRowsColumnar(array $rows): string
+    {
+        $colNames    = [];
+        $rowData     = [];
+        $subtableMap = [];
+        $metadataMap = [];
+        $summaryRow  = null;
+        $archivedMeta = null;
+
+        // Extract special rows before column discovery.
+        if (array_key_exists(self::ID_ARCHIVED_METADATA_ROW, $rows)) {
+            $metaExport   = $rows[self::ID_ARCHIVED_METADATA_ROW];
+            $archivedMeta = $metaExport[Row::COLUMNS];
+            unset($archivedMeta['label']); // 'label' is the sentinel value, not real metadata
+            unset($rows[self::ID_ARCHIVED_METADATA_ROW]);
+        }
+
+        $summaryExport = null;
+        if (array_key_exists(self::ID_SUMMARY_ROW, $rows)) {
+            $summaryExport = $rows[self::ID_SUMMARY_ROW];
+            unset($rows[self::ID_SUMMARY_ROW]);
+        }
+
+        // Discover column names from the first regular row.
+        $firstRow = reset($rows);
+        if ($firstRow !== false) {
+            $colNames = array_keys($firstRow[Row::COLUMNS]);
+        } elseif ($summaryExport !== null) {
+            $colNames = array_keys($summaryExport[Row::COLUMNS]);
+        }
+
+        // Encode regular rows.
+        foreach ($rows as $id => $export) {
+            $cols   = $export[Row::COLUMNS];
+            $values = [];
+            foreach ($colNames as $name) {
+                $values[] = $cols[$name] ?? null;
+            }
+            $rowData[(string) $id] = $values;
+
+            $subtableId = $export[Row::DATATABLE_ASSOCIATED];
+            if ($subtableId !== null && $subtableId !== false) {
+                $subtableMap[(string) $id] = (int) $subtableId;
+            }
+
+            $meta = $export[Row::METADATA] ?? [];
+            if (!empty($meta)) {
+                $metadataMap[(string) $id] = $meta;
+            }
+        }
+
+        // Encode summary row.
+        if ($summaryExport !== null) {
+            $cols            = $summaryExport[Row::COLUMNS];
+            $summaryColNames = empty($colNames) ? array_keys($cols) : $colNames;
+            if (empty($colNames)) {
+                $colNames = $summaryColNames;
+            }
+            $summaryValues = [];
+            foreach ($summaryColNames as $name) {
+                $summaryValues[] = $cols[$name] ?? null;
+            }
+            $summaryRow = $summaryValues;
+        }
+
+        $payload = [
+            $colNames,
+            $rowData,
+            $subtableMap,
+            $metadataMap,
+            $summaryRow,
+            empty($archivedMeta) ? null : $archivedMeta,
+        ];
+
+        return self::COLUMNAR_BLOB_MAGIC . json_encode($payload, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * Decodes a columnar blob (produced by `encodeRowsColumnar()`) back into the canonical `$rows`
+     * array that `addRowsFromSerializedArray()` already knows how to consume.
+     *
+     * @param string $blob Blob starting with `COLUMNAR_BLOB_MAGIC`.
+     * @return array Decoded rows array.
+     */
+    private function decodeColumnarBlob(string $blob): array
+    {
+        $json    = substr($blob, strlen(self::COLUMNAR_BLOB_MAGIC));
+        $payload = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+
+        [$colNames, $rowData, $subtableMap, $metadataMap, $summaryValues, $archivedMeta] = $payload;
+
+        $rows = [];
+
+        // Decode regular rows.
+        foreach ($rowData as $idStr => $values) {
+            $id      = (int) $idStr;
+            $columns = array_combine($colNames, $values);
+
+            $rows[$id] = [
+                Row::COLUMNS              => $columns,
+                Row::METADATA             => $metadataMap[$idStr] ?? [],
+                Row::DATATABLE_ASSOCIATED => $subtableMap[$idStr] ?? null,
+            ];
+        }
+
+        // Decode summary row.
+        if ($summaryValues !== null) {
+            $rows[self::ID_SUMMARY_ROW] = [
+                Row::COLUMNS              => array_combine($colNames, $summaryValues),
+                Row::METADATA             => [],
+                Row::DATATABLE_ASSOCIATED => null,
+            ];
+        }
+
+        // Restore archived table metadata as the sentinel row.
+        if ($archivedMeta !== null) {
+            $metaCols          = $archivedMeta;
+            $metaCols['label'] = self::LABEL_ARCHIVED_METADATA_ROW;
+            $rows[self::ID_ARCHIVED_METADATA_ROW] = [
+                Row::COLUMNS              => $metaCols,
+                Row::METADATA             => [],
+                Row::DATATABLE_ASSOCIATED => null,
+            ];
+        }
+
+        return $rows;
+    }
+
     /** @var string[] */
     private static $previousRowClasses = [
         'O:39:"Piwik\DataTable\Row\DataTableSummaryRow"',
