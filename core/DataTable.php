@@ -1566,14 +1566,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Materialise a packed row into a full Row object.
-     * Used by getRows() so that callers receive standard Row instances with
-     * correct ArrayObject storage (important for PHPUnit assertEquals comparisons).
+     * Materialise a packed row into a Row object.
      *
-     * The returned Row is "bound" to this DataTable via a static callback on Row:
-     * if the caller calls setSubtable() on the returned Row, the assignment is
-     * propagated back to $this->rowSubtableIds and the Row destructor will NOT
-     * delete the subtable (the DataTable owns it, not the temporary Row object).
+     * The returned Row stores columns in its ArrayObject (for PHPUnit assertEquals
+     * and Twig attribute access) and is also bound to this DataTable's packed storage
+     * so that column mutations (setColumn, deleteColumn) and subtable assignments
+     * propagate back immediately.
+     *
+     * PHPUnit's ObjectComparator compares ArrayObject subclasses via (array)$obj,
+     * which returns only the ArrayObject internal items — NOT class properties such
+     * as _boundTable.  Therefore binding does NOT break assertEquals.
      *
      * @internal
      */
@@ -1583,26 +1585,22 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $meta       = $this->getRowMetadata($rowId);
         $subtableId = $this->getRowSubtableId($rowId);
 
+        // Populate ArrayObject with a snapshot of the columns so that
+        // (array)$row, Twig, and PHPUnit comparisons see them immediately.
         $row = new Row([Row::COLUMNS => $columns, Row::METADATA => $meta]);
+
+        // Bind to packed storage so column mutations propagate back.
+        $row->bindToTable($this, $rowId);
+
         if ($subtableId !== null) {
             if ($this->isRowSubtableLoaded($rowId)) {
-                // Subtable was set via setSubtable() — it is registered in Manager.
                 $row->setLoadedSubtableId($subtableId);
             } else {
-                // Subtable ID came from a deserialised blob — the Manager table may not
-                // exist yet (lazy-loaded). Mark unloaded so getSubtable() won't
-                // accidentally return an unrelated table with a colliding ID.
                 $row->setNonLoadedSubtableId($subtableId);
             }
         }
 
-        // Bind column/metadata operations so that mutations made on this Row
-        // (e.g. by DataTable filters iterating getRows()) are written back to
-        // the DataTable's packed storage rather than only to the local Row copy.
-        $row->bindToTable($this, $rowId);
-
-        // Bind a callback so setSubtable() on this materialised Row propagates
-        // the subtableId back to this DataTable's packed storage.
+        // Bind a subtable callback so setSubtable() propagates back.
         $row->bindSubtableCallback(function (int $newSubtableId) use ($rowId) {
             $this->setRowSubtableId($rowId, $newSubtableId);
         });
