@@ -1490,7 +1490,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $rows[self::ID_ARCHIVED_METADATA_ROW] = $metadataRow->export();
         }
 
-        $aSerializedDataTable[$forcedId] = serialize($rows);
+        $aSerializedDataTable[$forcedId] = $this->encodeRowsColumnar($rows);
         unset($rows);
 
         return $aSerializedDataTable;
@@ -1657,6 +1657,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     private function unserializeRows($serialized)
     {
+        if (str_starts_with($serialized, self::COLUMNAR_BLOB_MAGIC)) {
+            return $this->decodeColumnarBlob($serialized);
+        }
+
         // Current archives only persist row arrays, so do not allow objects in the default path.
         $rows = Common::safe_unserialize($serialized, []);
 
