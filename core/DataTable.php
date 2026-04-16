@@ -2202,44 +2202,49 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         // we then serialize the rows and store them in the serialized dataTable
-        $rows = array();
-        foreach ($this->rows as $id => $packed) {
-            // Only use a consecutive subtableId assigned above — never fall back to the
-            // raw stored subtableId. A stored ID whose subtable was not found in the Manager
-            // (not loaded or already deleted) must be serialised as null, mirroring the
-            // original behaviour of $row->removeSubtable() for non-loaded subtables.
-            $subtableIdForRow = $consecutiveSubtableIds[$id] ?? null;
-            $rows[$id] = [
-                Row::COLUMNS              => $this->getPackedRow($id),
-                Row::METADATA             => $this->rowMetadata[$id] ?? [],
-                Row::DATATABLE_ASSOCIATED => $subtableIdForRow,
-            ];
+        if (!empty($this->columnNames)) {
+            // Direct path: packed arrays → columnar blob, no intermediate export structures
+            $aSerializedDataTable[$forcedId] = $this->serializeToColumnarBlob($consecutiveSubtableIds);
+        } else {
+            $rows = array();
+            foreach ($this->rows as $id => $packed) {
+                // Only use a consecutive subtableId assigned above — never fall back to the
+                // raw stored subtableId. A stored ID whose subtable was not found in the Manager
+                // (not loaded or already deleted) must be serialised as null, mirroring the
+                // original behaviour of $row->removeSubtable() for non-loaded subtables.
+                $subtableIdForRow = $consecutiveSubtableIds[$id] ?? null;
+                $rows[$id] = [
+                    Row::COLUMNS              => $this->getPackedRow($id),
+                    Row::METADATA             => $this->rowMetadata[$id] ?? [],
+                    Row::DATATABLE_ASSOCIATED => $subtableIdForRow,
+                ];
+            }
+
+            if ($this->summaryRowData !== null) {
+                $id = self::ID_SUMMARY_ROW;
+                $subtableIdForRow = $consecutiveSubtableIds[$id] ?? null;
+                // duplicating code above so we don't create a new array w/ getRows() above in this function which is
+                // used heavily in matomo.
+                $rows[$id] = [
+                    Row::COLUMNS              => $this->getPackedRow(self::ID_SUMMARY_ROW),
+                    Row::METADATA             => $this->summaryRowMetadata,
+                    Row::DATATABLE_ASSOCIATED => $subtableIdForRow,
+                ];
+            }
+
+            if (!empty($metadata)) {
+                $metadataRow = new Row();
+                $metadataRow->setColumns($metadata);
+
+                // set the label so the row will be indexed correctly internally
+                $metadataRow->setColumn('label', self::LABEL_ARCHIVED_METADATA_ROW);
+
+                $rows[self::ID_ARCHIVED_METADATA_ROW] = $metadataRow->export();
+            }
+
+            $aSerializedDataTable[$forcedId] = $this->encodeRowsColumnar($rows);
+            unset($rows);
         }
-
-        if ($this->summaryRowData !== null) {
-            $id = self::ID_SUMMARY_ROW;
-            $subtableIdForRow = $consecutiveSubtableIds[$id] ?? null;
-            // duplicating code above so we don't create a new array w/ getRows() above in this function which is
-            // used heavily in matomo.
-            $rows[$id] = [
-                Row::COLUMNS              => $this->getPackedRow(self::ID_SUMMARY_ROW),
-                Row::METADATA             => $this->summaryRowMetadata,
-                Row::DATATABLE_ASSOCIATED => $subtableIdForRow,
-            ];
-        }
-
-        if (!empty($metadata)) {
-            $metadataRow = new Row();
-            $metadataRow->setColumns($metadata);
-
-            // set the label so the row will be indexed correctly internally
-            $metadataRow->setColumn('label', self::LABEL_ARCHIVED_METADATA_ROW);
-
-            $rows[self::ID_ARCHIVED_METADATA_ROW] = $metadataRow->export();
-        }
-
-        $aSerializedDataTable[$forcedId] = $this->encodeRowsColumnar($rows);
-        unset($rows);
 
         return $aSerializedDataTable;
     }
@@ -2345,6 +2350,86 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Serializes directly from packed columnar storage into a columnar blob, bypassing the
+     * intermediate export-row array that `encodeRowsColumnar()` would otherwise require.
+     *
+     * @param array $consecutiveSubtableIds Map of rowId => consecutive subtable ID.
+     * @return string Encoded blob (magic-prefixed JSON).
+     */
+    private function serializeToColumnarBlob(array $consecutiveSubtableIds): string
+    {
+        $rowData     = [];
+        $subtableMap = [];
+        $metadataMap = [];
+
+        $nCols = count($this->columnNames);
+        foreach ($this->rows as $id => $packed) {
+            // Normalize to a full-length sequential array so JSON encodes it as an array,
+            // not an object. Absent columns (sparse indices) are stored as null, matching
+            // the contract used by encodeRowsColumnar(). null = "absent" in the blob format.
+            $normalized = [];
+            for ($i = 0; $i < $nCols; $i++) {
+                $normalized[] = $packed[$i] ?? null;
+            }
+            $rowData[(string) $id] = $normalized;
+
+            $subtableId = $consecutiveSubtableIds[$id] ?? null;
+            if ($subtableId !== null) {
+                $subtableMap[(string) $id] = $subtableId;
+            }
+
+            $meta = $this->rowMetadata[$id] ?? [];
+            if (!empty($meta)) {
+                $metadataMap[(string) $id] = $meta;
+            }
+        }
+
+        // Summary row
+        $summaryValues = null;
+        if ($this->summaryRowData !== null) {
+            $normalized = [];
+            for ($i = 0; $i < $nCols; $i++) {
+                $normalized[] = $this->summaryRowData[$i] ?? null;
+            }
+            $summaryValues = $normalized;
+            $summarySubtable = $consecutiveSubtableIds[self::ID_SUMMARY_ROW] ?? null;
+            if ($summarySubtable !== null) {
+                $subtableMap[(string) self::ID_SUMMARY_ROW] = $summarySubtable;
+            }
+            if (!empty($this->summaryRowMetadata)) {
+                $metadataMap[(string) self::ID_SUMMARY_ROW] = $this->summaryRowMetadata;
+            }
+        }
+
+        // Archived table-level metadata
+        $archivedMeta = null;
+        $tableMeta = $this->getAllTableMetadata();
+        foreach ($tableMeta as $key => $value) {
+            if (!is_scalar($value)) {
+                unset($tableMeta[$key]);
+            }
+        }
+        if (!empty($tableMeta)) {
+            $archivedMeta = $tableMeta;
+        }
+
+        $payload = [
+            $this->columnNames,
+            $rowData,
+            $subtableMap,
+            $metadataMap,
+            $summaryValues,
+            $archivedMeta,
+        ];
+
+        $encoded = json_encode($payload, JSON_PRESERVE_ZERO_FRACTION);
+        if ($encoded === false) {
+            throw new \Exception('Failed to JSON-encode columnar blob: ' . json_last_error_msg());
+        }
+        return self::COLUMNAR_BLOB_MAGIC . $encoded;
+    }
+
+    /**
      * Decodes a columnar blob (produced by `encodeRowsColumnar()`) back into the canonical `$rows`
      * array that `addRowsFromSerializedArray()` already knows how to consume.
      *
@@ -2408,6 +2493,87 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         return $rows;
+    }
+
+    /**
+     * Deserializes a columnar blob directly into packed storage, bypassing intermediate
+     * export-row arrays and Row object construction.
+     *
+     * @param string $blob Blob starting with `COLUMNAR_BLOB_MAGIC`.
+     */
+    private function deserializeColumnarBlobDirect(string $blob): void
+    {
+        $json    = substr($blob, strlen(self::COLUMNAR_BLOB_MAGIC));
+        $payload = json_decode($json, true, 512);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Failed to JSON-decode columnar blob: ' . json_last_error_msg());
+        }
+
+        if (!is_array($payload) || count($payload) !== 6) {
+            throw new \Exception('Columnar blob payload has unexpected field count: ' . (is_array($payload) ? count($payload) : 'non-array') . ', expected 6');
+        }
+
+        [$colNames, $rowData, $subtableMap, $metadataMap, $summaryValues, $archivedMeta] = $payload;
+
+        // Establish or extend schema
+        if (empty($this->columnNames)) {
+            $this->establishSchema($colNames);
+        } else {
+            foreach ($colNames as $name) {
+                if (!isset($this->columnIndex[$name])) {
+                    $this->extendSchema($name);
+                }
+            }
+        }
+
+        // Decode regular rows directly into packed storage.
+        // null in the blob means "column absent" (not explicitly set to null) — skip those
+        // indices to keep the packed array sparse, matching the behaviour of addRow().
+        foreach ($rowData as $idStr => $values) {
+            $id = (int) $idStr;
+
+            $packed = [];
+            foreach ($colNames as $srcIdx => $name) {
+                $val = $values[$srcIdx] ?? null;
+                if ($val !== null) {
+                    $packed[$this->columnIndex[$name]] = $val;
+                }
+            }
+            $this->rows[$id] = $packed;
+
+            $subtableId = $subtableMap[$idStr] ?? null;
+            if ($subtableId !== null) {
+                $this->rowSubtableIds[$id] = (int) $subtableId;
+            }
+
+            $meta = $metadataMap[$idStr] ?? [];
+            if (!empty($meta)) {
+                $this->rowMetadata[$id] = $meta;
+            }
+        }
+
+        // Decode summary row
+        if ($summaryValues !== null) {
+            $packed = [];
+            foreach ($colNames as $srcIdx => $name) {
+                $val = $summaryValues[$srcIdx] ?? null;
+                if ($val !== null) {
+                    $packed[$this->columnIndex[$name]] = $val;
+                }
+            }
+            $this->summaryRowData     = $packed;
+            $this->summaryRowMetadata = $metadataMap[(string) self::ID_SUMMARY_ROW] ?? [];
+            $this->summarySubtableId  = $subtableMap[(string) self::ID_SUMMARY_ROW] ?? null;
+        }
+
+        // Restore archived table-level metadata
+        if ($archivedMeta !== null) {
+            foreach ($archivedMeta as $key => $value) {
+                $this->setMetadata($key, $value);
+            }
+        }
+
+        $this->indexNotUpToDate = true;
     }
 
     /** @var string[] */
@@ -2534,6 +2700,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function addRowsFromSerializedArray($serialized)
     {
+        if (str_starts_with($serialized, self::COLUMNAR_BLOB_MAGIC)) {
+            $this->deserializeColumnarBlobDirect($serialized);
+            return;
+        }
+
         $rows = $this->unserializeRows($serialized);
 
         if (array_key_exists(self::ID_SUMMARY_ROW, $rows)) {
