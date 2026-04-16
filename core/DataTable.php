@@ -757,14 +757,26 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $materialized[] = $row->export();
         }
 
-        // Also save summary/totals rows before wiping storage so they can be
-        // re-added with correct indices after the schema is rebuilt from $rows.
-        $savedSummary = ($this->summaryRowData !== null)
-            ? $this->materialiseRow(self::ID_SUMMARY_ROW)
-            : null;
-        $savedTotals = ($this->totalsRowData !== null)
-            ? $this->materialiseRow(self::ID_TOTALS_ROW)
-            : null;
+        // Snapshot summary/totals as raw data before wiping storage.
+        // We cannot use materialiseRow() here because that now binds the Row to
+        // the DataTable; after storage is cleared, getColumns() on the bound Row
+        // would return [] instead of the saved columns.
+        $savedSummary = null;
+        if ($this->summaryRowData !== null) {
+            $savedSummary = [
+                Row::COLUMNS              => $this->getPackedRow(self::ID_SUMMARY_ROW),
+                Row::METADATA             => $this->summaryRowMetadata,
+                Row::DATATABLE_ASSOCIATED => $this->summarySubtableId,
+            ];
+        }
+        $savedTotals = null;
+        if ($this->totalsRowData !== null) {
+            $savedTotals = [
+                Row::COLUMNS              => $this->getPackedRow(self::ID_TOTALS_ROW),
+                Row::METADATA             => $this->totalsRowMetadata,
+                Row::DATATABLE_ASSOCIATED => $this->totalsSubtableId,
+            ];
+        }
 
         $this->rows                 = [];
         $this->rowSubtableIds       = [];
@@ -786,10 +798,18 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         if ($savedSummary !== null) {
-            $this->addSummaryRow($savedSummary);
+            $summaryRow = new Row([Row::COLUMNS => $savedSummary[Row::COLUMNS], Row::METADATA => $savedSummary[Row::METADATA]]);
+            if ($savedSummary[Row::DATATABLE_ASSOCIATED] !== null) {
+                $summaryRow->setLoadedSubtableId($savedSummary[Row::DATATABLE_ASSOCIATED]);
+            }
+            $this->addSummaryRow($summaryRow);
         }
         if ($savedTotals !== null) {
-            $this->setTotalsRow($savedTotals);
+            $totalsRow = new Row([Row::COLUMNS => $savedTotals[Row::COLUMNS], Row::METADATA => $savedTotals[Row::METADATA]]);
+            if ($savedTotals[Row::DATATABLE_ASSOCIATED] !== null) {
+                $totalsRow->setLoadedSubtableId($savedTotals[Row::DATATABLE_ASSOCIATED]);
+            }
+            $this->setTotalsRow($totalsRow);
         }
     }
 
@@ -1490,6 +1510,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             // getSubtable() from returning the table to renderers.
             $row->setLoadedSubtableId($subtableId);
         }
+
+        // Bind column/metadata operations so that mutations made on this Row
+        // (e.g. by DataTable filters iterating getRows()) are written back to
+        // the DataTable's packed storage rather than only to the local Row copy.
+        $row->bindToTable($this, $rowId);
 
         // Bind a callback so setSubtable() on this materialised Row propagates
         // the subtableId back to this DataTable's packed storage.
@@ -2858,10 +2883,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getIterator(): \ArrayIterator
     {
-        // Return ViewRow objects so that mutations made during iteration (e.g. by
-        // DataTable filters that call $row->deleteColumn() or assign subtables) are
-        // written back to the DataTable's packed storage.  getRows() is kept separate
-        // and returns materialised Row instances for PHPUnit assertEquals compatibility.
         $result = [];
         foreach (array_keys($this->rows) as $id) {
             $result[$id] = new ViewRow($this, $id);
