@@ -54,7 +54,7 @@ class APITest extends IntegrationTestCase
 
     public function testGetDashboardsNoDefaultShouldReturnEmpty()
     {
-        $result = $this->api->getDashboards(null, false);
+        $result = $this->api->getDashboards('', false);
         $this->assertCount(0, $result);
     }
 

@@ -360,14 +360,6 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->deleteUser("");
     }
 
-    public function testDeleteUserNullUser()
-    {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
-
-        $this->api->deleteUser(null);
-    }
-
     public function testDeleteUserShouldFailInCaseTheUserIsTheOnlyRemainingSuperUser()
     {
         $this->expectException(\Exception::class);

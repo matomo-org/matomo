@@ -60,6 +60,10 @@ use Piwik\Validators\WhitelistedValue;
  * "setGlobalExcludedQueryParameters" will set the list of URL parameters to remove from URLs for all websites.
  * The existing values can be fetched via "getExcludedIpsGlobal" and "getExcludedQueryParametersGlobal".
  * See also the documentation about <a href='https://matomo.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Matomo.
+ *
+ * @phpstan-type SiteData array{idsite: int, name: string, main_url: string, ts_created: string, timezone: string, currency: string, ecommerce: int, sitesearch: int, exclude_unknown_urls: int, excluded_ips: string, excluded_parameters: string, excluded_user_agents: string, group: string, type: string, keep_url_fragment: int, creator_login?: string, timezone_name?: string, currency_name?: string}
+ * @phpstan-type SettingValues array<string, list<array{name: string, value: mixed}>>
+ *
  * @method static \Piwik\Plugins\SitesManager\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -91,6 +95,7 @@ class API extends \Piwik\Plugin\API
      */
     private $translator;
 
+    /** @var array<string, string> */
     private $timezoneNameCache = [];
 
     /** @var SiteContentDetector */
@@ -114,18 +119,29 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the javascript tag for the given idSite.
-     * This tag must be included on every page to be tracked by Matomo
+     * Returns the JavaScript tracking tag for the given website.
      *
-     * @param array  $visitorCustomVariables
-     * @param array  $pageCustomVariables
-     * @param bool   $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
-     * @param string|array  $excludedQueryParams array or comma separated string of excluded query parameters.
-     * @param string|array  $excludedReferrers array or comma separated string of ignored referrers. Defaults to configured ignored referrers
-     * @param bool   $disableCampaignParameters Prevent campaign parameters being sent to the tracker
+     * This tag must be included on every page to be tracked by Matomo. The generated code
+     * initialises the Matomo JavaScript tracker with the specified options.
      *
-     * @return string The Javascript tag ready to be included on the HTML pages
-     * @throws Exception
+     * @param int $idSite The numeric ID of the website to generate tracking code for.
+     * @param string $piwikUrl The domain and URL path to the Matomo installation. Defaults to the current Matomo URL.
+     * @param bool $mergeSubdomains Whether to track visitors across all subdomains of the site.
+     * @param bool $groupPageTitlesByDomain Whether to prepend the site domain to the page title when tracking.
+     * @param bool $mergeAliasUrls Whether to treat alias URLs as part of the same website for outlink detection.
+     * @param array<int, array{string, string}> $visitorCustomVariables Custom visitor-scope variables as `array(array('name', 'value'), ...)`.
+     * @param array<int, array{string, string}> $pageCustomVariables Custom page-scope variables as `array(array('name', 'value'), ...)`.
+     * @param string $customCampaignNameQueryParam Custom campaign name query parameter name, overriding the default.
+     * @param string $customCampaignKeywordParam Custom campaign keyword query parameter name, overriding the default.
+     * @param bool $doNotTrack Whether to respect the browser's Do-Not-Track setting.
+     * @param bool $disableCookies Whether to disable all first-party cookies.
+     * @param bool $trackNoScript Whether to include a `<noscript>` image-based fallback for JavaScript-disabled browsers.
+     * @param bool $crossDomain Whether to enable cross-domain linking.
+     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior to 3.7.0.
+     * @param string|string[] $excludedQueryParams Array or comma-separated string of query parameters to exclude from page URLs.
+     * @param string|string[] $excludedReferrers Array or comma-separated string of referrer hosts/URLs to ignore.
+     * @param bool $disableCampaignParameters Whether to prevent campaign parameters from being sent to the tracker.
+     * @return string The JavaScript tag ready to be included in HTML pages.
      * @unsanitized
      */
     public function getJavascriptTag(
@@ -146,11 +162,11 @@ class API extends \Piwik\Plugin\API
         $excludedQueryParams = '',
         $excludedReferrers = '',
         bool $disableCampaignParameters = false
-    ) {
+    ): string {
         Piwik::checkUserHasViewAccess($idSite);
 
         if (empty($piwikUrl)) {
-            $piwikUrl = SettingsPiwik::getPiwikUrl();
+            $piwikUrl = SettingsPiwik::getPiwikUrl() ?: '';
         }
 
         if (is_array($excludedQueryParams)) {
@@ -189,10 +205,12 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The ID to generate tracking code for.
      * @param string $piwikUrl The domain and URL path to the Matomo installation.
-     * @param int $idGoal An ID for a goal to trigger a conversion for.
-     * @param int $revenue The revenue of the goal conversion. Only used if $idGoal is supplied.
-     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
-     * @return string The HTML tracking code.
+     * @param string|false $actionName Action name to include in the image tracking request, or `false` to omit it.
+     * @param int|false $idGoal Goal ID to trigger a conversion for, or `false` to omit goal tracking.
+     * @param int|float|false $revenue Revenue for the goal conversion. Only used when `$idGoal` is supplied.
+     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed
+     *                                  prior to 3.7.0.
+     * @return string The HTML-encoded image tracking code.
      */
     public function getImageTrackingCode(
         $idSite,
@@ -201,7 +219,7 @@ class API extends \Piwik\Plugin\API
         $idGoal = false,
         $revenue = false,
         $forceMatomoEndpoint = false
-    ) {
+    ): string {
         $urlParams = ['idsite' => $idSite, 'rec' => 1];
 
         if ($actionName !== false) {
@@ -241,11 +259,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns all websites belonging to the specified group
-     * @param string $group Group name
-     * @return array of sites
+     * Returns all websites belonging to the specified group.
+     *
+     * Requires Superuser access.
+     *
+     * @param string $group Group name to filter by. An empty string returns websites without a group.
+     * @return list<SiteData> Websites belonging to the group.
      */
-    public function getSitesFromGroup($group = '')
+    public function getSitesFromGroup(string $group = ''): array
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -262,11 +283,13 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of website groups, including the empty group
-     * if no group were specified for some websites
+     * if no group was specified for some websites.
      *
-     * @return array of group names strings
+     * Requires Superuser access.
+     *
+     * @return list<string> Distinct group names.
      */
-    public function getSitesGroups()
+    public function getSitesGroups(): array
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -277,12 +300,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the website information : name, main_url
+     * Returns the website information for a single site: name, main_url, timezone, currency, etc.
      *
-     * @throws Exception if the site ID doesn't exist or the user doesn't have access to it
-     * @return array
+     * @param int $idSite The numeric ID of the website.
+     * @return SiteData|array{} Site data array.
      */
-    public function getSiteFromId(int $idSite)
+    public function getSiteFromId(int $idSite): array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -297,34 +320,39 @@ class API extends \Piwik\Plugin\API
         return $site;
     }
 
-    private function getModel()
+    private function getModel(): Model
     {
         return new Model();
     }
 
     /**
-     * Returns the list of all URLs registered for the given idSite (main_url + alias URLs).
+     * Returns the list of all URLs registered for the given website (main_url + alias URLs).
      *
-     * @throws Exception if the website ID doesn't exist or the user doesn't have access to it
-     * @return array list of URLs
+     * @param int $idSite The numeric ID of the website.
+     * @return list<string> List of URLs, with the main URL first.
      */
-    public function getSiteUrlsFromId(int $idSite)
+    public function getSiteUrlsFromId(int $idSite): array
     {
         Piwik::checkUserHasViewAccess($idSite);
         return $this->getModel()->getSiteUrlsFromId($idSite);
     }
 
-    private function getSitesId()
+    /**
+     * @return list<int>
+     */
+    private function getSitesId(): array
     {
         return $this->getModel()->getSitesId();
     }
 
     /**
-     * Returns all websites, requires Super User access
+     * Returns all websites.
      *
-     * @return array The list of websites, indexed by idsite
+     * Requires Superuser access.
+     *
+     * @return array<int, SiteData> The list of websites, indexed by idsite.
      */
-    public function getAllSites()
+    public function getAllSites(): array
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -342,11 +370,12 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of all the website IDs registered.
-     * Requires Super User access.
      *
-     * @return array The list of website IDs
+     * Requires Superuser access.
+     *
+     * @return list<int> The list of website IDs.
      */
-    public function getAllSitesId()
+    public function getAllSitesId(): array
     {
         Piwik::checkUserHasSuperUserAccess();
         try {
@@ -359,27 +388,27 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of websites with the 'admin' access for the current user.
-     * For the superUser it returns all the websites in the database.
+     * For the Superuser it returns all the websites in the database.
      *
-     * @param bool $fetchAliasUrls
-     * @param false|string $pattern
-     * @param false|int    $limit
-     * @param []|int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
-     * @return array for each site, an array of information (idsite, name, main_url, etc.)
+     * @param bool $fetchAliasUrls Whether to include alias URLs as an `alias_urls` key in each site entry.
+     * @param string|false $pattern Optional name/URL pattern to filter results by.
+     * @param int|false $limit Maximum number of sites to return, or `false` for no limit.
+     * @param int[] $sitesToExclude Site IDs to exclude from the result.
+     * @return list<SiteData> Websites the current user has admin access to.
      */
-    public function getSitesWithAdminAccess($fetchAliasUrls = false, $pattern = false, $limit = false, $sitesToExclude = [])
+    public function getSitesWithAdminAccess($fetchAliasUrls = false, $pattern = false, $limit = false, $sitesToExclude = []): array
     {
         $sitesId = $this->getSitesIdWithAdminAccess();
 
         // Remove the sites to exclude from the list of IDs.
-        if (is_array($sitesId) && is_array($sitesToExclude) && count($sitesToExclude)) {
+        if (count($sitesToExclude)) {
             $sitesId = array_diff($sitesId, $sitesToExclude);
         }
 
         if ($pattern === false) {
             $sites = $this->getSitesFromIds($sitesId, $limit);
         } else {
-            $sites = $this->getModel()->getPatternMatchSites($sitesId, $pattern, $limit);
+            $sites = $this->getModel()->getPatternMatchSites($sitesId, $pattern, $limit ?: null);
 
             foreach ($sites as &$site) {
                 $this->enrichSite($site);
@@ -398,14 +427,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the list of websites, where the current user has at least the provided access level
+     * Returns the list of websites where the current user has at least the provided access level.
      *
-     * @param string $permission one of view, write or admin
-     * @param null|string $pattern pattern to match name against
-     * @param null|int $limit optional parameter to limit the amount of returned records
-     * @param int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
-     * @param string[] $siteTypesToExclude optional array of site types to exclude from the result.
-     * @return array for each site, an array of information (idsite, name, main_url, etc.)
+     * @param string $permission One of `'view'`, `'write'` or `'admin'`.
+     * @param string|null $pattern Optional name/URL pattern to filter results by.
+     * @param int|null $limit Maximum number of sites to return, or `null` for no limit.
+     * @param int[] $sitesToExclude Site IDs to exclude from the result.
+     * @param string[] $siteTypesToExclude Site types (e.g. `'website'`, `'mobileapp'`) to exclude from the result.
+     * @return list<SiteData> Websites matching the access level and filters.
      */
     public function getSitesWithMinimumAccess(string $permission, ?string $pattern = null, ?int $limit = null, array $sitesToExclude = [], array $siteTypesToExclude = []): array
     {
@@ -424,7 +453,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // Remove the sites to exclude from the list of IDs.
-        if (is_array($sitesId) && is_array($sitesToExclude) && count($sitesToExclude)) {
+        if (count($sitesToExclude)) {
             $sitesId = array_diff($sitesId, $sitesToExclude);
         }
 
@@ -444,10 +473,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the messages to warn users on site deletion.
+     * Returns the messages to warn users before deleting a site.
      *
-     * @return array messages to warn users
-     * @throws Exception if the website ID doesn't exist or the user doesn't have super user access to it
+     * @param int $idSite The numeric ID of the website to inspect.
+     * @return list<string> Warning messages to display in the deletion confirmation dialog.
      * @internal
      * @unsanitized
      */
@@ -470,11 +499,13 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of websites with the 'view' access for the current user.
-     * For the superUser it doesn't return any result because the superUser has admin access on all the websites (use getSitesWithAtLeastViewAccess() instead).
      *
-     * @return array for each site, an array of information (idsite, name, main_url, etc.)
+     * For the Superuser this returns an empty array because the Superuser has admin access
+     * on all websites. Use {@see getSitesWithAtLeastViewAccess()} instead.
+     *
+     * @return list<SiteData> Websites the current user has view-only access to.
      */
-    public function getSitesWithViewAccess()
+    public function getSitesWithViewAccess(): array
     {
         $sitesId = $this->getSitesIdWithViewAccess();
         return $this->getSitesFromIds($sitesId);
@@ -482,71 +513,78 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of websites with the 'view' or 'admin' access for the current user.
-     * For the superUser it returns all the websites in the database.
+     * For the Superuser it returns all the websites in the database.
      *
-     * @param bool|int $limit Specify max number of sites to return
-     * @param string|null|false $_restrictSitesToLogin Hack necessary when running scheduled tasks, where "Super User" is forced, but sometimes not desired, see #3017
-     * @return array array for each site, an array of information (idsite, name, main_url, etc.)
+     * @param int|false $limit Maximum number of sites to return, or `false` for no limit.
+     * @param string|false $_restrictSitesToLogin Implementation detail for scheduled tasks where Superuser access
+     *                                            is forced but sites should be restricted to a specific login. See #3017.
+     * @return list<SiteData> Websites the current user has at least view access to.
      */
-    public function getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin = false)
+    public function getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin = false): array
     {
         $sitesId = $this->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
         return $this->getSitesFromIds($sitesId, $limit);
     }
 
     /**
-     * Returns the list of websites ID with the 'admin' access for the current user.
-     * For the superUser it returns all the websites in the database.
+     * Returns the list of website IDs with the 'admin' access for the current user.
+     * For the Superuser it returns all the website IDs in the database.
      *
-     * @return array list of websites ID
+     * @return list<int> Website IDs.
      */
-    public function getSitesIdWithAdminAccess()
+    public function getSitesIdWithAdminAccess(): array
     {
         $sitesId = Access::getInstance()->getSitesIdWithAdminAccess();
         return $sitesId;
     }
 
     /**
-     * Returns the list of websites ID with the 'view' access for the current user.
-     * For the superUser it doesn't return any result because the superUser has admin access on all the websites (use getSitesIdWithAtLeastViewAccess() instead).
+     * Returns the list of website IDs with the 'view' access for the current user.
      *
-     * @return array list of websites ID
+     * For the Superuser this returns an empty array because the Superuser has admin access
+     * on all websites. Use {@see getSitesIdWithAtLeastViewAccess()} instead.
+     *
+     * @return list<int> Website IDs.
      */
-    public function getSitesIdWithViewAccess()
+    public function getSitesIdWithViewAccess(): array
     {
         return Access::getInstance()->getSitesIdWithViewAccess();
     }
 
     /**
-     * Returns the list of websites ID with the 'write' access for the current user.
-     * For the superUser it doesn't return any result because the superUser has write access on all the websites (use getSitesIdWithAtLeastWriteAccess() instead).
+     * Returns the list of website IDs with the 'write' access for the current user.
      *
-     * @return array list of websites ID
+     * For the Superuser this returns an empty array because the Superuser has write access
+     * on all websites. Use `getSitesIdWithAtLeastWriteAccess()` instead.
+     *
+     * @return list<int> Website IDs.
      */
-    public function getSitesIdWithWriteAccess()
+    public function getSitesIdWithWriteAccess(): array
     {
         return Access::getInstance()->getSitesIdWithWriteAccess();
     }
 
     /**
-     * Returns the list of websites ID with the 'view' or 'admin' access for the current user.
-     * For the superUser it returns all the websites in the database.
+     * Returns the list of website IDs with the 'view' or 'admin' access for the current user.
+     * For the Superuser it returns all the website IDs in the database.
      *
-     * @param string|null|false $_restrictSitesToLogin
-     * @return array list of websites ID
+     * @param string|false $_restrictSitesToLogin Implementation detail for scheduled tasks where Superuser access
+     *                                            is forced but sites should be restricted to a specific login.
+     * @return list<int> Website IDs.
      */
-    public function getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin = false)
+    public function getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin = false): array
     {
         /** @var Scheduler $scheduler */
         $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
 
         if (Piwik::hasUserSuperUserAccess() && !$scheduler->isRunningTask()) {
-            return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+            $sitesId = Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+            return array_map('intval', $sitesId);
         }
 
         if (
             !empty($_restrictSitesToLogin)
-            // Only Super User or logged in user can see viewable sites for a specific login,
+            // Only Superuser or logged in user can see viewable sites for a specific login,
             // but during scheduled task execution, we sometimes want to restrict sites to
             // a different login than the superuser.
             && (Piwik::hasUserSuperUserAccessOrIsTheUser($_restrictSitesToLogin)
@@ -557,13 +595,8 @@ class API extends \Piwik\Plugin\API
             }
 
             $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
-            $sitesId   = [];
-
-            foreach ($accessRaw as $access) {
-                $sitesId[] = $access['idsite'];
-            }
-
-            return $sitesId;
+            $sitesId = array_column($accessRaw, 'idsite');
+            return array_map('intval', $sitesId);
         } else {
             return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
         }
@@ -571,14 +604,14 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of websites from the ID array in parameters.
-     * The user access is not checked in this method so the ID have to be accessible by the user!
+     * The user access is not checked in this method so the IDs must be accessible by the user.
      *
-     * @param array $idSites list of website ID
-     * @param bool $limit
-     * @param string[] $siteTypesToExclude optional array of site types to exclude from the result.
-     * @return array
+     * @param int[] $idSites Website IDs to fetch.
+     * @param int|null|false $limit Maximum number of sites to return, or `false` for no limit.
+     * @param string[] $siteTypesToExclude Site types to exclude from the result.
+     * @return list<SiteData>
      */
-    private function getSitesFromIds($idSites, $limit = false, array $siteTypesToExclude = [])
+    private function getSitesFromIds(array $idSites, $limit = false, array $siteTypesToExclude = []): array
     {
         $sites = $this->getModel()->getSitesFromIds($idSites, $limit, $siteTypesToExclude);
 
@@ -591,7 +624,10 @@ class API extends \Piwik\Plugin\API
         return $sites;
     }
 
-    protected function getNormalizedUrls($url)
+    /**
+     * @return list<string>
+     */
+    protected function getNormalizedUrls(string $url): array
     {
         // if found, remove scheme and www. from URL
         $hostname = str_replace('www.', '', $url);
@@ -609,12 +645,15 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the list of websites ID associated with a URL.
+     * Returns the list of website IDs associated with a URL.
      *
-     * @param string $url
-     * @return array list of websites ID
+     * Matches against main URLs and alias URLs. Automatically tries HTTP/HTTPS and www/non-www
+     * variants. Only websites the current user has access to are returned (all websites for Superusers).
+     *
+     * @param string $url The URL to search for.
+     * @return list<array{idsite: string}> Matching website IDs.
      */
-    public function getSitesIdFromSiteUrl($url)
+    public function getSitesIdFromSiteUrl(string $url): array
     {
         $url = $this->removeTrailingSlash($url);
         $normalisedUrls = $this->getNormalizedUrls($url);
@@ -630,13 +669,15 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns all websites with a timezone matching one the specified timezones
+     * Returns all website IDs with a timezone matching one of the specified timezones.
      *
-     * @param array $timezones
-     * @return array
+     * Requires Superuser access.
+     *
+     * @param string[]|string $timezones Timezone identifiers to filter by (array or comma-separated string).
+     * @return list<int> Matching website IDs.
      * @ignore
      */
-    public function getSitesIdFromTimezones($timezones)
+    public function getSitesIdFromTimezones($timezones): array
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -647,13 +688,16 @@ class API extends \Piwik\Plugin\API
 
         $return = [];
         foreach ($ids as $id) {
-            $return[] = $id['idsite'];
+            $return[] = (int)$id['idsite'];
         }
 
         return $return;
     }
 
-    private function enrichSite(&$site)
+    /**
+     * @param array<string, mixed> $site
+     */
+    private function enrichSite(array &$site): void
     {
         $cacheKey = $site['timezone'] . $this->translator->getCurrentLanguage();
         if (!isset($this->timezoneNameCache[$cacheKey])) {
@@ -675,37 +719,40 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Add a website.
-     * Requires Super User access.
+     *
+     * Requires Superuser access.
      *
      * The website is defined by a name and an array of URLs.
-     * @param string $siteName Site name
-     * @param array|string $urls The URLs array must contain at least one URL called the 'main_url' ;
-     *                        if several URLs are provided in the array, they will be recorded
-     *                        as Alias URLs for this website.
-     *                        When calling API via HTTP specify multiple URLs via `&urls[]=http...&urls[]=http...`.
-     * @param int $ecommerce Is Ecommerce Reporting enabled for this website?
-     * @param null $siteSearch
-     * @param string $searchKeywordParameters Comma separated list of search keyword parameter names
-     * @param string $searchCategoryParameters Comma separated list of search category parameter names
-     * @param string $excludedIps Comma separated list of IPs to exclude from the reports (allows wildcards)
-     * @param null $excludedQueryParameters
-     * @param string $timezone Timezone string, eg. 'Europe/London'
-     * @param string $currency Currency, eg. 'EUR'
-     * @param string $group Website group identifier
-     * @param string $startDate Date at which the statistics for this website will start. Defaults to today's date in YYYY-MM-DD format
-     * @param null|string $excludedUserAgents
-     * @param int $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
-     *                              will be removed. If 0, the default global behavior will be used.
-     * @param array|null $settingValues JSON serialized settings eg {settingName: settingValue, ...}
-     * @see getKeepURLFragmentsGlobal.
-     * @param string $type The website type, defaults to "website" if not set.
-     * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
-     * @param string|null $excludedReferrers Comma separated list of hosts/urls to exclude from referrer detection
      *
-     * @return int the website ID created
+     * @param string $siteName Site name.
+     * @param string[]|string|null $urls The URLs array must contain at least one URL called the 'main_url';
+     *                                   if several URLs are provided in the array, they will be recorded
+     *                                   as alias URLs for this website.
+     *                                   When calling the API via HTTP specify multiple URLs via `&urls[]=http...&urls[]=http...`.
+     * @param int|null $ecommerce Whether Ecommerce Reporting is enabled (1) or disabled (0).
+     * @param int|null $siteSearch Whether Site Search is enabled (1) or disabled (0).
+     * @param string|null $searchKeywordParameters Comma-separated list of search keyword parameter names.
+     * @param string|null $searchCategoryParameters Comma-separated list of search category parameter names.
+     * @param string|null $excludedIps Comma-separated list of IPs to exclude from reports (allows wildcards).
+     * @param string|null $excludedQueryParameters Comma-separated list of URL query parameters to strip from tracked URLs.
+     * @param string|null $timezone Timezone string, e.g. `'Europe/London'`. Defaults to the global default timezone.
+     * @param string|null $currency Currency code, e.g. `'EUR'`. Defaults to the global default currency.
+     * @param string|null $group Website group identifier. Requires Superuser access.
+     * @param string|null $startDate Date at which statistics for this website will start, in `YYYY-MM-DD` format.
+     *                               Defaults to today's date.
+     * @param string|null $excludedUserAgents Comma-separated list of user agent substrings to exclude.
+     * @param int|null $keepURLFragments If `1`, URL fragments will be kept when tracking. If `2`, they
+     *                                   will be removed. If `0`, the default global behavior will be used.
+     * @param string|null $type The website type, defaults to `'website'` if not set.
+     * @param SettingValues|null $settingValues Measurable settings keyed by plugin name, each containing an array
+     *                                         of `['name' => string, 'value' => mixed]` pairs.
+     * @param bool|null $excludeUnknownUrls Whether to track only URLs matching one of the website's registered URLs.
+     * @param string|null $excludedReferrers Comma-separated list of hosts/URLs to exclude from referrer detection.
+     * @return int The ID of the newly created website.
+     * @see getKeepURLFragmentsGlobal
      */
     public function addSite(
-        $siteName,
+        string $siteName,
         $urls = null,
         $ecommerce = null,
         $siteSearch = null,
@@ -723,7 +770,7 @@ class API extends \Piwik\Plugin\API
         $settingValues = null,
         $excludeUnknownUrls = null,
         $excludedReferrers = null
-    ) {
+    ): int {
         Piwik::checkUserHasSuperUserAccess();
         SitesManager::dieIfSitesAdminIsDisabled();
 
@@ -827,7 +874,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param string|int|float|bool|array|null $value
+     * @param string|int|float|bool|list<mixed>|null $value
+     * @param SettingValues $coreProperties
+     * @param SettingValues $settingValues
+     * @return SettingValues
      */
     private function setSettingValue(string $fieldName, $value, array $coreProperties, array $settingValues): array
     {
@@ -856,7 +906,15 @@ class API extends \Piwik\Plugin\API
         return $coreProperties;
     }
 
-    public function getSiteSettings(int $idSite)
+    /**
+     * Returns the editable measurable settings metadata for a website.
+     *
+     * Requires admin access to the specified site.
+     *
+     * @param int $idSite The numeric ID of the website to inspect.
+     * @return list<array{pluginName: string, title: string, settings: list<mixed>}> Formatted measurable settings grouped by plugin, each containing setting definitions and values.
+     */
+    public function getSiteSettings(int $idSite): array
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -865,7 +923,11 @@ class API extends \Piwik\Plugin\API
         return $this->settingsMetadata->formatSettings($measurableSettings, $idSite);
     }
 
-    private function setAndValidateMeasurableSettings($idSite, $idType, $settingValues)
+    /**
+     * @param SettingValues $settingValues
+     * @return array<string, \Piwik\Settings\Measurable\MeasurableSettings>
+     */
+    private function setAndValidateMeasurableSettings(int $idSite, ?string $idType, array $settingValues): array
     {
         $measurableSettings = $this->settingsProvider->getAllMeasurableSettings($idSite, $idType);
 
@@ -874,7 +936,10 @@ class API extends \Piwik\Plugin\API
         return $measurableSettings;
     }
 
-    private function saveMeasurableSettings($idSite, $idType, $settingValues)
+    /**
+     * @param SettingValues $settingValues
+     */
+    private function saveMeasurableSettings(int $idSite, ?string $idType, array $settingValues): void
     {
         $measurableSettings = $this->setAndValidateMeasurableSettings($idSite, $idType, $settingValues);
 
@@ -883,7 +948,7 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function postUpdateWebsite($idSite)
+    private function postUpdateWebsite(int $idSite): void
     {
         Site::clearCache();
         Cache::regenerateCacheWebsiteAttributes($idSite);
@@ -892,20 +957,26 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Delete a website from the database, given its Id. The method deletes the actual site as well as some associated
-     * data. However, it does not delete any logs or archives that belong to this website. You can delete logs and
-     * archives for a site manually as described in this FAQ: https://matomo.org/faq/how-to/faq_73/ .
+     * Delete a website from the database, given its ID.
      *
-     * Requires Super User access.
+     * The method deletes the site record and associated configuration (goals, segments, etc.)
+     * but does **not** delete any logs or archives that belong to this website. You can delete
+     * logs and archives for a site manually as described in this
+     * FAQ: https://matomo.org/faq/how-to/faq_73/ .
      *
-     * @param string|null $passwordConfirmation the current user's password, only required when the request is authenticated with session token auth
-     * @throws Exception
+     * At least one website must remain in the database; deleting the last website is not allowed.
+     *
+     * Requires Superuser access.
+     *
+     * @param int $idSite The numeric ID of the website to delete.
+     * @param string|null $passwordConfirmation The current user's password. Only required when the request
+     *                                          is authenticated with a session token.
      */
     public function deleteSite(
         int $idSite,
         #[\SensitiveParameter]
-        $passwordConfirmation = null
-    ) {
+        ?string $passwordConfirmation = null
+    ): void {
         Piwik::checkUserHasSuperUserAccess();
         SitesManager::dieIfSitesAdminIsDisabled();
 
@@ -943,7 +1014,7 @@ class API extends \Piwik\Plugin\API
         });
     }
 
-    private function checkValidTimezone($timezone)
+    private function checkValidTimezone(string $timezone): bool
     {
         try {
             Date::factory('today', $timezone);
@@ -959,14 +1030,14 @@ class API extends \Piwik\Plugin\API
         throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidTimezone', [$timezone]));
     }
 
-    private function checkValidCurrency($currency)
+    private function checkValidCurrency(string $currency): void
     {
         if (!in_array($currency, array_keys($this->getCurrencyList()))) {
             throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidCurrency', [$currency, "USD, EUR, etc."]));
         }
     }
 
-    private function checkAndReturnType($type)
+    private function checkAndReturnType(?string $type): string
     {
         if (empty($type)) {
             $type = Site::DEFAULT_SITE_TYPE;
@@ -984,10 +1055,9 @@ class API extends \Piwik\Plugin\API
      * Returns the cleaned up IPs
      *
      * @param string $excludedIps Comma separated list of IP addresses
-     * @throws Exception
      * @return string Comma separated list of IP addresses
      */
-    private function checkAndReturnExcludedIps($excludedIps)
+    private function checkAndReturnExcludedIps(string $excludedIps): string
     {
         if (empty($excludedIps)) {
             return '';
@@ -1012,15 +1082,19 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Add a list of alias Urls to the given idSite
+     * Add a list of alias URLs to the given website.
      *
      * If some URLs given in parameter are already recorded as alias URLs for this website,
      * they won't be duplicated. The 'main_url' of the website won't be affected by this method.
      *
-     * @param array|string $urls When calling API via HTTP specify multiple URLs via `&urls[]=http...&urls[]=http...`.
-     * @return int the number of inserted URLs
+     * Requires admin access to the specified site.
+     *
+     * @param int $idSite The numeric ID of the website to update.
+     * @param string[]|string $urls URLs to add. When calling the API via HTTP specify multiple URLs
+     *                              via `&urls[]=http...&urls[]=http...`.
+     * @return int The number of newly inserted URLs.
      */
-    public function addSiteAliasUrls(int $idSite, $urls)
+    public function addSiteAliasUrls(int $idSite, $urls): int
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1047,14 +1121,18 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Set the list of alias Urls for the given idSite
+     * Set the list of alias URLs for the given website.
      *
-     * Completely overwrites the current list of URLs with the provided list.
+     * Completely overwrites the current list of alias URLs with the provided list.
      * The 'main_url' of the website won't be affected by this method.
      *
-     * @return int the number of inserted URLs
+     * Requires admin access to the specified site.
+     *
+     * @param int $idSite The numeric ID of the website to update.
+     * @param string[] $urls Alias URLs to persist for the website.
+     * @return int The number of newly inserted URLs.
      */
-    public function setSiteAliasUrls(int $idSite, $urls = [])
+    public function setSiteAliasUrls(int $idSite, array $urls = []): int
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1073,12 +1151,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get the start and end IP addresses for an IP address range
+     * Get the start and end IP addresses for an IP address range.
      *
-     * @param string $ipRange IP address range in presentation format
-     * @return array|false Array( low, high ) IP addresses in presentation format; or false if error
+     * @param string $ipRange IP address range in presentation format (e.g. `'192.168.1.0/24'`).
+     * @return array{0: string, 1: string}|false Low and high IP addresses in presentation format, or `false` on error.
      */
-    public function getIpsForRange($ipRange)
+    public function getIpsForRange(string $ipRange)
     {
         $range = IPUtils::getIPRangeBounds($ipRange);
         if ($range === null) {
@@ -1092,10 +1170,12 @@ class API extends \Piwik\Plugin\API
      * Sets IPs to be excluded from all websites. IPs can contain wildcards.
      * Will also apply to websites created in the future.
      *
-     * @param string $excludedIps Comma separated list of IPs to exclude from being tracked (allows wildcards)
-     * @return bool
+     * Requires Superuser access.
+     *
+     * @param string $excludedIps Comma-separated list of IPs to exclude from being tracked (allows wildcards).
+     * @return bool Always `true`.
      */
-    public function setGlobalExcludedIps($excludedIps)
+    public function setGlobalExcludedIps(string $excludedIps): bool
     {
         Piwik::checkUserHasSuperUserAccess();
         $excludedIps = $this->checkAndReturnExcludedIps($excludedIps);
@@ -1105,14 +1185,16 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets Site Search keyword/category parameter names, to be used on websites which have not specified these values
-     * Expects Comma separated list of query params names
+     * Sets global Site Search keyword/category parameter names, to be used on websites
+     * which have not specified these values individually.
      *
-     * @param string
-     * @param string
-     * @return bool
+     * Requires Superuser access.
+     *
+     * @param string $searchKeywordParameters Comma-separated site search keyword parameter names.
+     * @param string $searchCategoryParameters Comma-separated site search category parameter names.
+     * @return bool Always `true`.
      */
-    public function setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters)
+    public function setGlobalSearchParameters(string $searchKeywordParameters, string $searchCategoryParameters): bool
     {
         Piwik::checkUserHasSuperUserAccess();
         Option::set(self::OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL, $searchKeywordParameters);
@@ -1122,9 +1204,13 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @return string Comma separated list of URL parameters
+     * Returns the global site search keyword parameter names.
+     *
+     * Falls back to the built-in default list when no custom parameters have been configured.
+     *
+     * @return string Comma-separated list of keyword parameter names.
      */
-    public function getSearchKeywordParametersGlobal()
+    public function getSearchKeywordParametersGlobal(): string
     {
         Piwik::checkUserHasSomeAdminAccess();
         $names = Option::get(self::OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL);
@@ -1138,7 +1224,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @return string Comma separated list of URL parameters
+     * Returns the global site search category parameter names.
+     *
+     * @return string|false Comma-separated list of URL parameter names, or `false` if not configured.
      */
     public function getSearchCategoryParametersGlobal()
     {
@@ -1151,6 +1239,9 @@ class API extends \Piwik\Plugin\API
      * Returns the list of URL query parameters that are excluded for the given website
      *
      * Globally excluded parameters are included in this list
+     *
+     * @param int $idSite The numeric ID of the website to inspect.
+     * @return string[] List of excluded query parameter names for the requested website.
      */
     public function getExcludedQueryParameters(int $idSite): array
     {
@@ -1166,9 +1257,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the list of URL query parameters that are excluded from all websites
+     * Returns the list of URL query parameters that are excluded from all websites.
      *
-     * @return string Comma separated list of URL parameters
+     * The result depends on the current exclusion type: for "common_session_parameters" an empty
+     * string is returned, for "matomo_recommended_pii" the built-in PII parameters are returned,
+     * and for "custom" the user-configured parameters are returned.
+     *
+     * @param int|null $idSite Optional site ID for site-specific filtering.
+     * @return string Comma-separated list of URL parameters.
      */
     public function getExcludedQueryParametersGlobal(?int $idSite = null): string
     {
@@ -1180,7 +1276,7 @@ class API extends \Piwik\Plugin\API
             case SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII:
                 return implode(',', Config::getInstance()->SitesManager['CommonPIIParams']);
             default:
-                return Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
+                return Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL) ?: '';
         }
     }
 
@@ -1189,7 +1285,7 @@ class API extends \Piwik\Plugin\API
      * all websites. If a visitor's user agent string contains one of these substrings,
      * their visits will not be included.
      *
-     * @return string Comma separated list of strings.
+     * @return string|false Comma separated list of strings.
      */
     public function getExcludedUserAgentsGlobal()
     {
@@ -1198,13 +1294,15 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets list of user agent substrings to look for when excluding visits. For more info,
-     * @see getExcludedUserAgentsGlobal.
+     * Sets list of user agent substrings to look for when excluding visits.
      *
-     * @param string $excludedUserAgents Comma separated list of strings. Each element is trimmed,
+     * Requires Superuser access.
+     *
+     * @param string $excludedUserAgents Comma-separated list of strings. Each element is trimmed,
      *                                   and empty strings are removed.
+     * @see getExcludedUserAgentsGlobal
      */
-    public function setGlobalExcludedUserAgents($excludedUserAgents)
+    public function setGlobalExcludedUserAgents(string $excludedUserAgents): void
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -1217,11 +1315,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the list of urls/hosts that should be ignored when detecting referrers for the given site.
+     * Returns the list of URLs/hosts that should be ignored when detecting referrers for the given site.
      *
-     * @return array list of urls/hosts
+     * This includes both site-specific and global excluded referrers.
+     *
+     * @param int $idSite The numeric ID of the website to inspect.
+     * @return list<string> Excluded referrer URLs/hosts.
      */
-    public function getExcludedReferrers(int $idSite)
+    public function getExcludedReferrers(int $idSite): array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -1242,10 +1343,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the global list of urls/hosts that should be ignored when detecting referrers.
-     * If a visitor is coming from a site on this list, it will be treated as direct entry
+     * Returns the global list of URLs/hosts that should be ignored when detecting referrers.
      *
-     * @return string Comma separated list of strings
+     * If a visitor is coming from a site on this list, it will be treated as a direct entry.
+     *
+     * @return string Comma-separated list of excluded referrer URLs/hosts.
      */
     public function getExcludedReferrersGlobal(): string
     {
@@ -1256,11 +1358,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets list of urls/hosts that should be ignored when detecting referrers. For more info,
-     * @see getExcludedReferrersGlobal.
+     * Sets list of URLs/hosts that should be ignored when detecting referrers.
      *
-     * @param string $excludedReferrers Comma separated list of strings. Each element is trimmed,
-     *                                   and empty strings are removed.
+     * Requires Superuser access. URLs can be specified fully qualified (`http://example.com/path`),
+     * without protocol (`example.com/path`), or with subdomain wildcard (`.example.com`).
+     *
+     * @param string $excludedReferrers Comma-separated list of URLs/hosts. Each element is trimmed,
+     *                                  and empty strings are removed.
+     * @see getExcludedReferrersGlobal
      */
     public function setGlobalExcludedReferrers(string $excludedReferrers): void
     {
@@ -1273,7 +1378,7 @@ class API extends \Piwik\Plugin\API
             // - fully qualified like http://example.url/path
             // - without protocol like example.url/path
             // - with subdomain wildcard like .example.url/path
-            $prefixedUrl = 'https://' . ltrim(preg_replace('/^https?:\/\//', '', $url), '.');
+            $prefixedUrl = 'https://' . ltrim(preg_replace('/^https?:\/\//', '', $url) ?? '', '.');
             $parsedUrl = @parse_url($prefixedUrl);
             if (false === $parsedUrl || !UrlHelper::isLookLikeUrl($prefixedUrl)) {
                 throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidUrl', [$url]));
@@ -1288,12 +1393,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns true if the default behavior is to keep URL fragments when tracking,
-     * false if otherwise.
+     * Returns whether the default global behavior is to keep URL fragments when tracking.
      *
-     * @return bool
+     * @return bool `true` if URL fragments are kept by default, `false` if they are removed.
      */
-    public function getKeepURLFragmentsGlobal()
+    public function getKeepURLFragmentsGlobal(): bool
     {
         Piwik::checkUserHasSomeViewAccess();
         return (bool)Option::get(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL);
@@ -1303,16 +1407,17 @@ class API extends \Piwik\Plugin\API
      * Sets whether the default behavior should be to keep URL fragments when
      * tracking or not.
      *
-     * @param $enabled bool If true, the default behavior will be to keep URL
-     *                      fragments when tracking. If false, the default
-     *                      behavior will be to remove them.
+     * Requires Superuser access.
+     *
+     * @param bool $enabled If `true`, the default behavior will be to keep URL
+     *                      fragments when tracking. If `false`, they will be removed.
      */
-    public function setKeepURLFragmentsGlobal($enabled)
+    public function setKeepURLFragmentsGlobal($enabled): void
     {
         Piwik::checkUserHasSuperUserAccess();
 
         // update option
-        Option::set(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL, $enabled);
+        Option::set(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL, (string)(int)$enabled);
 
         // make sure tracker cache will reflect change
         Cache::deleteTrackerCache();
@@ -1322,11 +1427,13 @@ class API extends \Piwik\Plugin\API
      * Sets list of URL query parameters to be excluded on all websites.
      * Will also apply to websites created in the future.
      *
-     * @param string $excludedQueryParameters Comma separated list of URL query parameters to exclude from URLs
-     * @deprecated Use self::setGlobalQueryParamExclusion() instead.
-     * @return bool
+     * Requires Superuser access.
+     *
+     * @param string $excludedQueryParameters Comma-separated list of URL query parameters to exclude from URLs.
+     * @return bool Always `true`.
+     * @deprecated Use {@see setGlobalQueryParamExclusion()} instead.
      */
-    public function setGlobalExcludedQueryParameters($excludedQueryParameters)
+    public function setGlobalExcludedQueryParameters($excludedQueryParameters): bool
     {
         if (empty($excludedQueryParameters)) {
             $this->setGlobalQueryParamExclusion(SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS);
@@ -1342,7 +1449,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the list of IPs that are excluded from all websites
      *
-     * @return string Comma separated list of IPs
+     * @return string|false Comma separated list of IPs
      */
     public function getExcludedIpsGlobal()
     {
@@ -1353,9 +1460,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the default currency that will be set when creating a website through the API.
      *
-     * @return string Currency ID eg. 'USD'
+     * @return string Currency code, e.g. `'USD'`.
      */
-    public function getDefaultCurrency()
+    public function getDefaultCurrency(): string
     {
         Piwik::checkUserHasSomeAdminAccess();
         $defaultCurrency = Option::get(self::OPTION_DEFAULT_CURRENCY);
@@ -1366,12 +1473,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets the default currency that will be used when creating websites
+     * Sets the default currency that will be used when creating websites.
      *
-     * @param string $defaultCurrency Currency code, eg. 'USD'
-     * @return bool
+     * Requires Superuser access.
+     *
+     * @param string $defaultCurrency Currency code, e.g. `'USD'`.
+     * @return bool Always `true`.
      */
-    public function setDefaultCurrency($defaultCurrency)
+    public function setDefaultCurrency(string $defaultCurrency): bool
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkValidCurrency($defaultCurrency);
@@ -1381,11 +1490,11 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the default timezone that will be set when creating a website through the API.
-     * Via the UI, if the default timezone is not UTC, it will be pre-selected in the drop down
+     * In the UI, if the default timezone is not UTC, it will be pre-selected in the drop-down.
      *
-     * @return string Timezone eg. UTC+7 or Europe/Paris
+     * @return string Timezone identifier, e.g. `'UTC+7'` or `'Europe/Paris'`.
      */
-    public function getDefaultTimezone()
+    public function getDefaultTimezone(): string
     {
         $defaultTimezone = Option::get(self::OPTION_DEFAULT_TIMEZONE);
         if ($defaultTimezone) {
@@ -1395,12 +1504,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets the default timezone that will be used when creating websites
+     * Sets the default timezone that will be used when creating websites.
      *
-     * @param string $defaultTimezone Timezone string eg. Europe/Paris or UTC+8
-     * @return bool
+     * Requires Superuser access.
+     *
+     * @param string $defaultTimezone Timezone string, e.g. `'Europe/Paris'` or `'UTC+8'`.
+     * @return bool Always `true`.
      */
-    public function setDefaultTimezone($defaultTimezone)
+    public function setDefaultTimezone(string $defaultTimezone): bool
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkValidTimezone($defaultTimezone);
@@ -1411,13 +1522,14 @@ class API extends \Piwik\Plugin\API
     /**
      * Sets global query parameter exclusion based on the specified exclusion type.
      *
-     * @param string $exclusionType The type of query param exclusion, must be of the following:
-     *  - common_session_parameters
-     *  - matomo_recommended_pii
-     *  - custom
-     * @param string|null $queryParamsToExclude (Optional) Comma separated list of query parameters to exclude when $exclusionType is 'custom'.
-     *                                         Ignored if $exclusionType is not 'custom'.
-     * @throws Exception
+     * Requires Superuser access.
+     *
+     * @param string $exclusionType The type of query parameter exclusion. One of:
+     *                              - `'common_session_parameters'` — strip common session parameters only.
+     *                              - `'matomo_recommended_pii'` — strip Matomo's recommended PII parameters.
+     *                              - `'custom'` — strip a user-defined list of parameters.
+     * @param string|null $queryParamsToExclude Comma-separated list of query parameters to exclude.
+     *                                         Required when `$exclusionType` is `'custom'`, ignored otherwise.
      */
     public function setGlobalQueryParamExclusion(string $exclusionType, ?string $queryParamsToExclude = null): void
     {
@@ -1450,6 +1562,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Gets the exclusion type, if the option is not present in the store then it infers the type based on if there are
      * custom exclusions already defined.
+     *
+     * @param int|null $idSite Specific site ID when site-specific filtering is active, or `null` for global settings.
+     * @return string Query parameter exclusion type name.
      */
     public function getExclusionTypeForQueryParams(?int $idSite = null): string
     {
@@ -1470,33 +1585,36 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Update an existing website.
-     * If only one URL is specified then only the main url will be updated.
-     * If several URLs are specified, both the main URL and the alias URLs will be updated.
      *
-     * @param int $idSite website ID defining the website to edit
-     * @param string $siteName website name
-     * @param string|string[] $urls the website URLs
-     *                              When calling API via HTTP specify multiple URLs via `&urls[]=http...&urls[]=http...`.
-     * @param int $ecommerce Whether Ecommerce is enabled, 0 or 1
-     * @param null|int $siteSearch Whether site search is enabled, 0 or 1
-     * @param string $searchKeywordParameters Comma separated list of search keyword parameter names
-     * @param string $searchCategoryParameters Comma separated list of search category parameter names
-     * @param string $excludedIps Comma separated list of IPs to exclude from being tracked (allows wildcards)
-     * @param null|string $excludedQueryParameters
-     * @param string $timezone Timezone
-     * @param string $currency Currency code
-     * @param string $group Group name where this website belongs
-     * @param string $startDate Date at which the statistics for this website will start. Defaults to today's date in YYYY-MM-DD format
-     * @param null|string $excludedUserAgents
-     * @param int|null $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
-     *                                   will be removed. If 0, the default global behavior will be used.
-     * @param string $type The Website type, default value is "website"
-     * @param array|null $settingValues JSON serialized settings eg {settingName: settingValue, ...}
-     * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
-     * @param string|null $excludedReferrers Comma separated list of hosts/urls to exclude from referrer detection
-     * @throws Exception
-     * @see getKeepURLFragmentsGlobal. If null, the existing value will
-     *                                   not be modified.
+     * If only one URL is specified then only the main URL will be updated.
+     * If several URLs are specified, both the main URL and the alias URLs will be updated.
+     * Any parameter set to `null` will leave the existing value unchanged.
+     *
+     * Requires admin access to the specified site.
+     *
+     * @param int $idSite Website ID defining the website to edit.
+     * @param string|null $siteName Website name.
+     * @param string[]|string|null $urls The website URLs.
+     *                                   When calling the API via HTTP specify multiple URLs via `&urls[]=http...&urls[]=http...`.
+     * @param int|null $ecommerce Whether Ecommerce is enabled (`1`) or disabled (`0`).
+     * @param int|null $siteSearch Whether Site Search is enabled (`1`) or disabled (`0`).
+     * @param string|null $searchKeywordParameters Comma-separated list of search keyword parameter names.
+     * @param string|null $searchCategoryParameters Comma-separated list of search category parameter names.
+     * @param string|null $excludedIps Comma-separated list of IPs to exclude from being tracked (allows wildcards).
+     * @param string|null $excludedQueryParameters Comma-separated list of URL query parameters to strip from tracked URLs.
+     * @param string|null $timezone Timezone string, e.g. `'Europe/London'`.
+     * @param string|null $currency Currency code, e.g. `'EUR'`.
+     * @param string|null $group Group name where this website belongs. Requires Superuser access.
+     * @param string|null $startDate Date at which statistics for this website will start, in `YYYY-MM-DD` format.
+     * @param string|null $excludedUserAgents Comma-separated list of user agent substrings to exclude.
+     * @param int|null $keepURLFragments If `1`, URL fragments will be kept when tracking. If `2`, they will be
+     *                                   removed. If `0`, the default global behavior will be used.
+     * @param string|null $type The website type, e.g. `'website'`.
+     * @param SettingValues|null $settingValues Measurable settings keyed by plugin name, each containing an array
+     *                                         of `['name' => string, 'value' => mixed]` pairs.
+     * @param bool|null $excludeUnknownUrls Whether to track only URLs matching one of the website's registered URLs.
+     * @param string|null $excludedReferrers Comma-separated list of hosts/URLs to exclude from referrer detection.
+     * @see getKeepURLFragmentsGlobal
      */
     public function updateSite(
         $idSite,
@@ -1518,7 +1636,7 @@ class API extends \Piwik\Plugin\API
         $settingValues = null,
         $excludeUnknownUrls = null,
         $excludedReferrers = null
-    ) {
+    ): void {
         Piwik::checkUserHasAdminAccess($idSite);
         SitesManager::dieIfSitesAdminIsDisabled();
 
@@ -1603,14 +1721,16 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Updates the field ts_created for the specified websites.
+     * Updates the field `ts_created` for the specified websites.
      *
-     * @param $idSites int|string|array<string|int> Id Site(s) to update ts_created
-     * @param $minDate Date to set as creation date. To play it safe it will subtract one more day.
+     * Sets the creation date to one day before the given `$minDate` to play it safe.
+     * Requires admin access to the specified sites.
      *
+     * @param int|string|int[]|string[] $idSites Site ID(s) to update (single ID, comma-separated string, or array).
+     * @param Date $minDate The minimum date. The creation date will be set to one day before this.
      * @ignore
      */
-    public function updateSiteCreatedTime($idSites, Date $minDate)
+    public function updateSiteCreatedTime($idSites, Date $minDate): void
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
         Piwik::checkUserHasAdminAccess($idSites);
@@ -1635,11 +1755,13 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the list of supported currencies
-     * @return array<string, string> (currencyId => currencyName)
+     * Returns the list of supported currencies.
+     *
+     * @return array<string, string> Map of currency code to human-readable name with symbol,
+     *                               e.g. `['USD' => 'US Dollar ($)', ...]`.
      * @see getCurrencySymbols()
      */
-    public function getCurrencyList()
+    public function getCurrencyList(): array
     {
         /** @var CurrencyDataProvider $dataProvider */
         $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
@@ -1657,11 +1779,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the list of currency symbols
-     * @return array<string, string> (currencyId => currencySymbol)
+     * Returns the list of currency symbols.
+     *
+     * @return array<string, string> Map of currency code to its symbol, e.g. `['USD' => '$', ...]`.
      * @see getCurrencyList()
      */
-    public function getCurrencySymbols()
+    public function getCurrencySymbols(): array
     {
         /** @var CurrencyDataProvider $dataProvider */
         $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
@@ -1673,8 +1796,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Return true if Timezone support is enabled on server
+     * Returns whether timezone support is enabled on the server.
      *
+     * @return bool `true` if timezone support is available.
      */
     public function isTimezoneSupportEnabled(): bool
     {
@@ -1683,12 +1807,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the list of timezones supported.
-     * Used for addSite and updateSite
+     * Returns the list of supported timezones, grouped by continent.
      *
-     * @return array of timezone strings
+     * Used for {@see addSite()} and {@see updateSite()} to populate timezone selectors.
+     *
+     * @return array<string, array<string, string>> Timezones grouped by continent name.
+     *                                              Each entry maps a timezone identifier to its human-readable label.
      */
-    public function getTimezonesList()
+    public function getTimezonesList(): array
     {
         if (!SettingsServer::isTimezoneSupportEnabled()) {
             return ['UTC' => $this->getTimezonesListUTCOffsets()];
@@ -1726,12 +1852,13 @@ class API extends \Piwik\Plugin\API
      * This is usually the country name of the timezone. For countries spanning multiple timezones,
      * a city/location name is added to avoid ambiguity.
      *
-     * @param string $timezone a timezone, e.g. "Asia/Tokyo" or "America/Los_Angeles"
-     * @param string $countryCode an upper-case country code (if not supplied, it will be looked up)
-     * @param bool $multipleTimezonesInCountry whether there are multiple timezones in the country (if not supplied, it will be looked up)
+     * @param string $timezone A timezone, e.g. `'Asia/Tokyo'` or `'America/Los_Angeles'`.
+     * @param string|null $countryCode An upper-case country code, or `null` to look it up automatically.
+     * @param bool|null $multipleTimezonesInCountry Whether there are multiple timezones in the country,
+     *                                              or `null` to look it up automatically.
      * @return string a timezone label, e.g. "Japan" or "United States - Los Angeles"
      */
-    public function getTimezoneName($timezone, $countryCode = null, $multipleTimezonesInCountry = null)
+    public function getTimezoneName(string $timezone, ?string $countryCode = null, ?bool $multipleTimezonesInCountry = null): string
     {
         if (substr($timezone, 0, 3) === 'UTC') {
             return $this->translator->translate('SitesManager_Format_Utc', str_replace(['.25', '.5', '.75'], [':15', ':30', ':45'], substr($timezone, 3)));
@@ -1776,7 +1903,10 @@ class API extends \Piwik\Plugin\API
         return $return;
     }
 
-    private function getTimezonesListUTCOffsets()
+    /**
+     * @return array<string, string>
+     */
+    private function getTimezonesListUTCOffsets(): array
     {
         // manually add the UTC offsets
         $GmtOffsets = [-12, -11.5, -11, -10.5, -10, -9.5, -9, -8.5, -8, -7.5, -7, -6.5, -6, -5.5, -5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.5,
@@ -1800,9 +1930,11 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the list of unique timezones from all configured sites.
      *
-     * @return array ( string )
+     * Requires Superuser access.
+     *
+     * @return list<string> Distinct timezone identifiers currently in use.
      */
-    public function getUniqueSiteTimezones()
+    public function getUniqueSiteTimezones(): array
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -1812,10 +1944,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Remove the final slash in the URLs if found
      *
-     * @param string $url
      * @return string the URL without the trailing slash
      */
-    private function removeTrailingSlash($url)
+    private function removeTrailingSlash(string $url): string
     {
         // if there is a final slash, we take the URL without this slash (expected URL format)
         if (
@@ -1833,9 +1964,8 @@ class API extends \Piwik\Plugin\API
      * Wildcards can only be used from right to left, ie. 1.1.*.* is allowed, but 1.1.*.1 is not.
      *
      * @param string $ip IP address
-     * @return bool
      */
-    private function isValidIp($ip)
+    private function isValidIp(string $ip): bool
     {
         return IPUtils::getIPRangeBounds($ip) !== null;
     }
@@ -1852,7 +1982,16 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    public function renameGroup($oldGroupName, $newGroupName)
+    /**
+     * Renames a website group across all sites that currently use it.
+     *
+     * Requires Superuser access.
+     *
+     * @param string $oldGroupName Existing group name to replace.
+     * @param string $newGroupName New group name to assign.
+     * @return bool Always `true`.
+     */
+    public function renameGroup(string $oldGroupName, string $newGroupName): bool
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -1885,21 +2024,21 @@ class API extends \Piwik\Plugin\API
     /**
      * Find websites matching the given pattern.
      *
-     * Any website will be returned that matches the pattern in the name, URL or group.
+     * Any website will be returned that matches the pattern in its name, URL or group.
      * To limit the number of returned sites you can either specify `filter_limit` as usual or `limit` which is
-     * faster.
+     * faster. Only sites the current user has at least view access to are returned.
      *
-     * @param string $pattern
-     * @param int|false $limit
-     * @param int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
-     * @return array
+     * @param string $pattern Search string to match against site name, URL or group.
+     * @param int|false $limit Maximum number of sites to return, or `false` for no limit.
+     * @param int[] $sitesToExclude Site IDs to exclude from the result.
+     * @return list<SiteData> Matching websites.
      */
-    public function getPatternMatchSites($pattern, $limit = false, $sitesToExclude = [])
+    public function getPatternMatchSites(string $pattern, $limit = false, $sitesToExclude = []): array
     {
         $ids = $this->getSitesIdWithAtLeastViewAccess();
 
         // Remove the sites to exclude from the list of IDs.
-        if (is_array($ids) && is_array($sitesToExclude) && count($sitesToExclude)) {
+        if (count($sitesToExclude)) {
             $ids = array_diff($ids, $sitesToExclude);
         }
 
@@ -1907,7 +2046,7 @@ class API extends \Piwik\Plugin\API
             return [];
         }
 
-        $sites = $this->getModel()->getPatternMatchSites($ids, $pattern, $limit);
+        $sites = $this->getModel()->getPatternMatchSites($ids, $pattern, $limit ?: null);
 
         foreach ($sites as &$site) {
             $this->enrichSite($site);
@@ -1921,13 +2060,14 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the number of websites to display per page.
      *
-     * For example this is used in the All Websites Dashboard, in the Website Selector etc. If multiple websites are
-     * shown somewhere, one should request this method to detect how many websites should be shown per page when
-     * using paging. To use paging is always recommended since some installations have thousands of websites.
+     * For example this is used in the All Websites Dashboard and the Website Selector.
+     * If multiple websites are shown somewhere, this method should be used to determine how
+     * many websites should be shown per page when using pagination. Pagination is recommended
+     * since some installations have thousands of websites.
      *
-     * @return int
+     * @return int Number of websites per page.
      */
-    public function getNumWebsitesToDisplayPerPage()
+    public function getNumWebsitesToDisplayPerPage(): int
     {
         Piwik::checkUserHasSomeViewAccess();
 
@@ -1936,8 +2076,15 @@ class API extends \Piwik\Plugin\API
 
 
     /**
-     * Detect consent manager details for a site
+     * Detect consent manager details for a site.
      *
+     * Scans the site's content to identify which consent manager (if any) is in use
+     * and whether it is properly connected to Matomo.
+     *
+     * @param int $idSite The numeric ID of the website to inspect.
+     * @param int $timeOut HTTP timeout in seconds for fetching the site content.
+     * @return array{name: string, url: string|null, isConnected: bool}|null Detected consent manager details,
+     *                                                                      or `null` if none was found.
      * @internal
      * @unsanitized
      */

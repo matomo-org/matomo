@@ -14,12 +14,13 @@ use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
 use Piwik\DataTable\Map;
-use Piwik\DataTable\Simple;
 use Piwik\Exception\InvalidDimensionException;
 use Piwik\Filesystem;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Request as PiwikRequest;
 use Piwik\SettingsServer;
 
 /**
@@ -44,6 +45,9 @@ class API extends \Piwik\Plugin\API
     public const MAX_WIDTH = 2048;
     public const MAX_HEIGHT = 2048;
 
+    /**
+     * @var array<string, array<string, string|int|null>>
+     */
     private static $DEFAULT_PARAMETERS = array(
         StaticGraph::GRAPH_TYPE_BASIC_LINE     => array(
             self::FILENAME_KEY => 'BasicLine',
@@ -77,6 +81,9 @@ class API extends \Piwik\Plugin\API
         ),
     );
 
+    /**
+     * @var array[]
+     */
     private static $DEFAULT_GRAPH_TYPE_OVERRIDE = array(
         'Referrers_getReferrerType' => array(
             false // override if !$isMultiplePeriod
@@ -102,34 +109,66 @@ class API extends \Piwik\Plugin\API
     public const DEFAULT_NB_ROW_EVOLUTIONS = 5;
     public const MAX_NB_ROW_LABELS = 10;
 
+    /**
+     * Generates a static graph image for a Matomo report.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string $apiModule API module name of the source report.
+     * @param string $apiAction API method name of the source report.
+     * @param 'evolution'|'verticalBar'|'horizontalBar'|'pie'|'3dPie'|false $graphType Optional graph type.
+     * @param int $outputType Output mode: inline image, saved file, or raw PHP graph object.
+     * @param string|false $columns Optional comma-separated metric names to plot.
+     * @param string|false $labels Optional comma-separated row labels to include for evolution graphs.
+     * @param bool $showLegend Whether the graph legend should be displayed.
+     * @param int|false $width Optional graph width in pixels.
+     * @param int|false $height Optional graph height in pixels.
+     * @param int $fontSize Base font size used in the graph.
+     * @param int|false $legendFontSize Optional legend font size.
+     * @param bool $aliasedGraph Whether anti-aliasing should be enabled.
+     * @param int|string|false $idGoal Optional goal ID for report methods that support goals.
+     * @param string|false $colors Optional comma-separated list of hex colors to use in the graph.
+     * @param string $textColor Hex color used for text.
+     * @param string $backgroundColor Hex color used for the background.
+     * @param string $gridColor Hex color used for grid lines.
+     * @param int|false $idSubtable Optional subtable ID for source reports that use subtables.
+     * @param bool $legendAppendMetric Whether the metric name should be appended to legend labels.
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param int|string|false $idDimension Optional dimension ID for reports that support dimensions.
+     * @return mixed Generated graph output, depending on the selected output type.
+     */
     public function get(
-        $idSite,
-        $period,
-        $date,
-        $apiModule,
-        $apiAction,
+        int $idSite,
+        string $period,
+        string $date,
+        string $apiModule,
+        string $apiAction,
         $graphType = false,
-        $outputType = API::GRAPH_OUTPUT_INLINE,
+        int $outputType = API::GRAPH_OUTPUT_INLINE,
         $columns = false,
         $labels = false,
-        $showLegend = true,
+        bool $showLegend = true,
         $width = false,
         $height = false,
-        $fontSize = API::DEFAULT_FONT_SIZE,
+        int $fontSize = API::DEFAULT_FONT_SIZE,
         $legendFontSize = false,
-        $aliasedGraph = true,
+        bool $aliasedGraph = true,
         $idGoal = false,
         $colors = false,
-        $textColor = API::DEFAULT_TEXT_COLOR,
-        $backgroundColor = API::DEFAULT_BACKGROUND_COLOR,
-        $gridColor = API::DEFAULT_GRID_COLOR,
+        string $textColor = API::DEFAULT_TEXT_COLOR,
+        string $backgroundColor = API::DEFAULT_BACKGROUND_COLOR,
+        string $gridColor = API::DEFAULT_GRID_COLOR,
         $idSubtable = false,
-        $legendAppendMetric = true,
+        bool $legendAppendMetric = true,
         $segment = false,
         $idDimension = false
     ) {
-        $idSite = (int) $idSite;
-
         Piwik::checkUserHasViewAccess($idSite);
 
         // Health check - should we also test for GD2 only?
@@ -138,9 +177,9 @@ class API extends \Piwik\Plugin\API
             and restart your web server.');
         }
 
-        $useUnicodeFont = array(
+        $useUnicodeFont = [
             'am', 'ar', 'el', 'fa', 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
-        );
+        ];
         $languageLoaded = StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage();
         $font = self::getFontPath(self::DEFAULT_FONT);
         if (in_array($languageLoaded, $useUnicodeFont)) {
@@ -152,15 +191,15 @@ class API extends \Piwik\Plugin\API
         $savedGET = $_GET;
 
         try {
-            $apiParameters = array();
+            $apiParameters = [];
             if (!empty($idGoal)) {
-                $apiParameters = array('idGoal' => $idGoal);
+                $apiParameters = ['idGoal' => $idGoal];
             }
             if (!empty($idDimension)) {
-                $apiParameters = array('idDimension' => $idDimension);
+                $apiParameters = ['idDimension' => $idDimension];
             }
             // Fetch the metadata for given api-action
-            $parameters = array(
+            $parameters = [
                 'idSite' => $idSite,
                 'apiModule' => $apiModule,
                 'apiAction' => $apiAction,
@@ -170,8 +209,9 @@ class API extends \Piwik\Plugin\API
                 'date' => $date,
                 'hideMetricsDoc' => false,
                 'showSubtableReports' => true,
-            );
+            ];
 
+            /** @var array|false $metadata */
             $metadata = Request::processRequest('API.getMetadata', $parameters);
             if (!$metadata) {
                 throw new Exception('Invalid API Module and/or API Action');
@@ -187,7 +227,7 @@ class API extends \Piwik\Plugin\API
             }
 
             if (empty($legendFontSize)) {
-                $legendFontSize = (int)$fontSize + self::DEFAULT_LEGEND_FONT_SIZE_OFFSET;
+                $legendFontSize = $fontSize + self::DEFAULT_LEGEND_FONT_SIZE_OFFSET;
             }
 
             if (empty($graphType)) {
@@ -292,7 +332,7 @@ class API extends \Piwik\Plugin\API
                     break;
             }
 
-            $ordinateLogos = array();
+            $ordinateLogos = [];
 
             // row evolutions
             if ($isMultiplePeriod && $reportHasDimension) {
@@ -301,16 +341,16 @@ class API extends \Piwik\Plugin\API
                 // when no labels are specified, getRowEvolution returns the top N=filter_limit row evolutions
                 // rows are sorted using filter_sort_column (see DataTableGenericFilter for more info)
                 if (!$labels) {
-                    $savedFilterSortColumnValue = Common::getRequestVar('filter_sort_column', '');
+                    $savedFilterSortColumnValue = PiwikRequest::fromRequest()->getStringParameter('filter_sort_column', '');
                     $_GET['filter_sort_column'] = $plottedMetric;
 
-                    $savedFilterLimitValue = Common::getRequestVar('filter_limit', -1, 'int');
+                    $savedFilterLimitValue = PiwikRequest::fromRequest()->getIntegerParameter('filter_limit', -1);
                     if ($savedFilterLimitValue == -1 || $savedFilterLimitValue > self::MAX_NB_ROW_LABELS) {
                         $_GET['filter_limit'] = self::DEFAULT_NB_ROW_EVOLUTIONS;
                     }
                 }
 
-                $parameters = array(
+                $parameters = [
                     'idSite' => $idSite,
                     'period' => $period,
                     'date' => $date,
@@ -324,7 +364,8 @@ class API extends \Piwik\Plugin\API
                     'idDimension' => $idDimension,
                     'legendAppendMetric' => $legendAppendMetric,
                     'labelUseAbsoluteUrl' => false,
-                );
+                ];
+                /** @var array $processedReport */
                 $processedReport = Request::processRequest('API.getRowEvolution', $parameters);
 
                 //@review this test will need to be updated after evaluating the @review comment in API/API.php
@@ -342,11 +383,11 @@ class API extends \Piwik\Plugin\API
 
                 // retrieve metric names & labels
                 $metrics = $processedReport['metadata']['metrics'];
-                $ordinateLabels = array();
+                $ordinateLabels = [];
 
                 // getRowEvolution returned more than one label
                 if (!array_key_exists($plottedMetric, $metrics)) {
-                    $ordinateColumns = array();
+                    $ordinateColumns = [];
                     $i = 0;
                     foreach ($metrics as $metric => $info) {
                         $ordinateColumn = $plottedMetric . '_' . $i++;
@@ -369,7 +410,7 @@ class API extends \Piwik\Plugin\API
                     $ordinateLabels[$plottedMetric] = $processedReport['label'] . ' (' . $metrics[$plottedMetric]['name'] . ')';
                 }
             } else {
-                $parameters = array(
+                $parameters = [
                     'idSite' => $idSite,
                     'period' => $period,
                     'date' => $date,
@@ -384,25 +425,26 @@ class API extends \Piwik\Plugin\API
                     'hideMetricsDoc' => false,
                     'idSubtable' => $idSubtable,
                     'showRawMetrics' => false,
-                );
+                ];
+                /** @var array $processedReport */
                 $processedReport = Request::processRequest('API.getProcessedReport', $parameters);
             }
 
             // prepare abscissa and ordinate series
-            $abscissaSeries = array();
-            $abscissaLogos = array();
-            $ordinateSeries = array();
-            /** @var \Piwik\DataTable\Simple|\Piwik\DataTable\Map $reportData */
+            $abscissaSeries = [];
+            $abscissaLogos  = [];
+            $ordinateSeries = [];
+            /** @var DataTable|DataTable\Map $reportData */
             $reportData = $processedReport['reportData'];
             $hasData = false;
             $hasNonZeroValue = false;
 
             if (!$isMultiplePeriod || !($reportData instanceof Map)) {
+                /** @var DataTable $reportData */
                 $reportMetadata = $processedReport['reportMetadata']->getRows();
 
                 $i = 0;
-                // $reportData instanceof DataTable
-                foreach ($reportData->getRows() as $row) { // Row[]
+                foreach ($reportData->getRows() as $row) {
                     // $row instanceof Row
                     $rowData = $row->getColumns(); // Associative Array
                     $abscissaSeries[] = Common::unsanitizeInputValue($rowData['label']);
@@ -430,7 +472,7 @@ class API extends \Piwik\Plugin\API
                 }
             } else // if the report has no dimension we have multiple reports each with only one row within the reportData
             {
-                /** @var Simple[] $periodsData */
+                /** @var DataTable[] $periodsData */
                 $periodsData = array_values($reportData->getDataTables());
                 $periodsCount = count($periodsData);
 
@@ -464,7 +506,9 @@ class API extends \Piwik\Plugin\API
                         }
                     }
 
-                    $rowId = $periodsData[$i]->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString();
+                    /** @var Period $periodObj */
+                    $periodObj = $periodsData[$i]->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+                    $rowId     = $periodObj->getLocalizedShortString();
                     $abscissaSeries[] = Common::unsanitizeInputValue($rowId);
                 }
             }
@@ -543,9 +587,9 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function setFilterTruncate($default)
+    private function setFilterTruncate(int $default): void
     {
-        $_GET['filter_truncate'] = Common::getRequestVar('filter_truncate', $default, 'int');
+        $_GET['filter_truncate'] = PiwikRequest::fromRequest()->getIntegerParameter('filter_truncate', $default);
     }
 
     private static function parseOrdinateValue($ordinateValue)
@@ -554,24 +598,23 @@ class API extends \Piwik\Plugin\API
 
         // convert hh:mm:ss formatted time values to number of seconds
         if (preg_match('/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}(\.[0-9]{2})?)/', $ordinateValue, $matches)) {
-            $hour = $matches[1];
-            $min = $matches[2];
-            $sec = $matches[3];
+            $hour = (int)$matches[1];
+            $min  = (int)$matches[2];
+            $sec = (float)$matches[3];
 
-            $ordinateValue = ($hour * 3600) + ($min * 60) + $sec;
+            return ($hour * 3600) + ($min * 60) + $sec;
         }
 
         // OK, only numbers from here please (strip out currency sign)
-        $ordinateValue = preg_replace('/[^0-9.]/', '', $ordinateValue);
-        return $ordinateValue;
+        return preg_replace('/[^0-9.]/', '', $ordinateValue);
     }
 
-    private static function getFontPath($font)
+    private static function getFontPath(string $font): string
     {
         return PIWIK_INCLUDE_PATH . self::FONT_DIR . $font;
     }
 
-    protected static function getAbsoluteLogoPath($relativeLogoPath)
+    protected static function getAbsoluteLogoPath(string $relativeLogoPath): string
     {
         return PIWIK_INCLUDE_PATH . '/' . $relativeLogoPath;
     }
