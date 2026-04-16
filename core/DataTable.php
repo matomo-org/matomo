@@ -1589,7 +1589,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             empty($archivedMeta) ? null : $archivedMeta,
         ];
 
-        $encoded = json_encode($payload);
+        $encoded = json_encode($payload, JSON_PRESERVE_ZERO_FRACTION);
         if ($encoded === false) {
             throw new \Exception('Failed to JSON-encode columnar blob: ' . json_last_error_msg());
         }
@@ -1607,8 +1607,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $json    = substr($blob, strlen(self::COLUMNAR_BLOB_MAGIC));
         $payload = json_decode($json, true, 512);
-        if (!is_array($payload)) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('Failed to JSON-decode columnar blob: ' . json_last_error_msg());
+        }
+        if (!is_array($payload)) {
+            throw new \Exception('Columnar blob payload decoded to unexpected type, expected array');
         }
 
         [$colNames, $rowData, $subtableMap, $metadataMap, $summaryValues, $archivedMeta] = $payload;

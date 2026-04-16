@@ -1660,4 +1660,50 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         self::assertSame(10, $summary->getColumn('nb_visits'));
         self::assertSame(3, $summary->getColumn('nb_conversions'));
     }
+
+    /**
+     * Columnar blob roundtrip must preserve PHP float type even when the value is a whole number.
+     * json_encode(1.0) without JSON_PRESERVE_ZERO_FRACTION emits "1", which json_decode reads back
+     * as int(1) — breaking assertSame(1.0, ...) and is_float() checks in downstream code.
+     */
+    public function testColumnarBlobRoundtripPreservesFloatType(): void
+    {
+        $table = new DataTable();
+        $table->addRowFromArray([Row::COLUMNS => [
+            'label'            => 'test',
+            'int_metric'       => 42,          // int must stay int
+            'float_whole'      => 1.0,          // float that looks like an int — must stay float
+            'float_fractional' => 1.5,          // float with fraction — must stay float
+            'float_zero'       => 0.0,          // zero float — must stay float
+        ]]);
+
+        $blobs    = $table->getSerialized();
+        $restored = DataTable::fromSerializedArray($blobs[0]);
+        $row      = $restored->getFirstRow();
+
+        self::assertSame(42, $row->getColumn('int_metric'));
+        self::assertSame(1.0, $row->getColumn('float_whole'));
+        self::assertSame(1.5, $row->getColumn('float_fractional'));
+        self::assertSame(0.0, $row->getColumn('float_zero'));
+        self::assertIsFloat($row->getColumn('float_whole'));
+        self::assertIsFloat($row->getColumn('float_zero'));
+    }
+
+    /**
+     * Columnar blob encoding must throw on invalid UTF-8 rather than silently substituting bytes.
+     * Fail-fast is preferred over silent data corruption: the archiving layer will log and surface
+     * the error, making the problem visible to operators.
+     */
+    public function testColumnarBlobEncodingThrowsOnInvalidUtf8(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageMatches('/Failed to JSON-encode columnar blob/');
+
+        $table = new DataTable();
+        $table->addRowFromArray([Row::COLUMNS => [
+            'label' => "\x80invalid-utf8", // 0x80 is a bare continuation byte — not valid UTF-8
+        ]]);
+
+        $table->getSerialized();
+    }
 }
