@@ -12,8 +12,9 @@ ul.browser-default {
   }
 }
 
-nav {
-  background-color: @theme-color-header-background !important;
+#root nav {
+  background-color: @theme-color-header-background;
+  box-shadow: none;
 
   a:focus-visible,
   button:focus-visible {
@@ -66,11 +67,50 @@ nav {
 
   ul.right.hide-on-med-and-down {
     margin-right: 4px;
+
+    > li[role="menuitem"].active {
+      background: transparent;
+
+      > a {
+        background: transparent;
+      }
+
+      .navbar-icon,
+      .navbar-label {
+        background-color: @theme-color-background-tinyContrast;
+      }
+    }
+
+    > li[role="menuitem"] a {
+      background: transparent;
+
+      &:hover,
+      &:focus {
+        background: transparent;
+      }
+
+      .navbar-icon {
+        padding: 8px;
+      }
+      .navbar-label {
+        padding: 4px;
+      }
+      .navbar-label, .navbar-icon {
+        border-radius: 8px;
+      }
+
+      &:hover .navbar-icon,
+      &:hover .navbar-label,
+      &:focus .navbar-icon,
+      &:focus .navbar-label {
+        background-color: @theme-color-background-tinyContrast;
+      }
+    }
   }
 
   .languageSelection {
     &:hover {
-      background-color: rgba(0,0,0,0.1);
+      background-color: @theme-color-background-tinyContrast;
     }
   }
 
@@ -78,6 +118,7 @@ nav {
     .languageSelection {
       .title {
         color: @theme-color-header-text;
+        font-size: 14px;
       }
     }
   }
@@ -85,10 +126,15 @@ nav {
   ul a {
     color: @theme-color-header-text;
     text-decoration: none;
+    font-size: 14px;
+    padding: 0 8px;
 
     &:hover {
       text-decoration: none;
     }
+  }
+  .navbar-icon {
+    font-size: 16px;
   }
 }
 
