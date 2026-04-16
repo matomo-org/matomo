@@ -41,7 +41,7 @@ class AppendNameToColumnNames extends BaseFilter
             return;
         }
 
-        foreach ($table as $row) {
+        foreach ($table->getRows() as $row) {
             $columns = $row->getColumns();
 
             foreach ($columns as $column => $value) {

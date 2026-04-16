@@ -34,7 +34,7 @@ class AddSegmentMetadata extends BaseFilter
     {
         $dimension = CustomDimensionsRequestProcessor::buildCustomDimensionTrackingApiName($this->idDimension);
 
-        foreach ($table as $row) {
+        foreach ($table->getRows() as $row) {
             $label = $row->getColumn('label');
             if ($label !== false) {
                 if ($label === Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED) {
