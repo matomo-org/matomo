@@ -63,6 +63,7 @@ const PAGE_METHODS_TO_PROXY = [
     'waitForSelector',
     'waitForTimeout',
     'waitForXPath',
+    'screenshotNoResize',
 ];
 
 const PAGE_PROPERTIES_TO_PROXY = [
@@ -185,8 +186,21 @@ PageRenderer.prototype.jQuery = async function (selector, options = {}) {
     return await this.webpage.$('.' + selectorMarkerClass);
 };
 
+PageRenderer.prototype.resizeViewportToFullPage = async function () {
+    await this.webpage.waitForFunction(() => !! document.documentElement);
+
+    const dims = await this.webpage.evaluate(() => JSON.stringify({
+        width: document.documentElement.scrollWidth,
+        height: document.documentElement.scrollHeight,
+    }));
+
+    await this.webpage.setViewport(JSON.parse(dims));
+};
+
 PageRenderer.prototype.screenshotSelector = async function (selector) {
     await this.waitForFunction(() => !! window.$, { timeout: 60000 });
+
+    await this.resizeViewportToFullPage();
 
     const result = await this.webpage.evaluate(function (selector) {
         window.jQuery('html').addClass('uiTest');
@@ -261,7 +275,7 @@ PageRenderer.prototype.screenshotSelector = async function (selector) {
         return;
     }
 
-    return await this.screenshot({
+    return await this.screenshotNoResize({
         clip: {
             x: result.left,
             y: result.top,
@@ -294,17 +308,13 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
         let result;
         if (methodName === 'screenshot') {
             // change viewport to entire page before screenshot
-            result = this.webpage.waitForFunction(() => !! document.documentElement)
-                .then(() => {
-                    return this.webpage.evaluate(() => JSON.stringify({
-                        width: document.documentElement.scrollWidth,
-                        height: document.documentElement.scrollHeight,
-                    }));
-                }).then((dims) => {
-                    return this.webpage.setViewport(JSON.parse(dims));
-                }).then(() => {
-                    return this.webpage[methodName](...args);
-                });
+            result = this.resizeViewportToFullPage()
+              .then(() => {
+                return this.webpage[methodName](...args);
+              });
+        } else if (methodName === 'screenshotNoResize') {
+            // we do not need to resize the viewport since we did it on top anyway
+            return this.webpage.screenshot(...args);
         } else {
             result = this.webpage[methodName](...args);
         }
