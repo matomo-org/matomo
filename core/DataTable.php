@@ -278,6 +278,20 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     protected $rowSubtableIds = [];
 
     /**
+     * Set of rowIds whose subtable is actually loaded in Manager (as opposed to
+     * merely stored as a serialised integer ID from a deserialised blob).
+     *
+     * In the original Row-based storage, Row::$isSubtableLoaded tracked this per
+     * Row object.  Rows created via addRowsFromSerializedArray() had
+     * $isSubtableLoaded = false, so Row::getSubtable() correctly returned false.
+     * In packed storage there are no Row objects; this array replaces that flag.
+     *
+     * @internal
+     * @var array<int, true>
+     */
+    protected $rowSubtableIdsLoaded = [];
+
+    /**
      * Sparse map of rowId → metadata array (omit key when empty).
      *
      * @internal
@@ -297,18 +311,22 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     protected $rowColumnOrder = [];
 
     /** @internal @var array<int, mixed>|null */
-    protected $summaryRowData     = null;
+    protected $summaryRowData           = null;
     /** @internal @var array<string, mixed> */
-    protected $summaryRowMetadata = [];
+    protected $summaryRowMetadata       = [];
     /** @internal @var int|null */
-    protected $summarySubtableId  = null;
+    protected $summarySubtableId        = null;
+    /** @internal @var bool  true when summarySubtableId references a loaded DataTable in Manager */
+    protected $summarySubtableIdLoaded  = false;
 
     /** @internal @var array<int, mixed>|null */
-    protected $totalsRowData     = null;
+    protected $totalsRowData           = null;
     /** @internal @var array<string, mixed> */
-    protected $totalsRowMetadata = [];
+    protected $totalsRowMetadata       = [];
     /** @internal @var int|null */
-    protected $totalsSubtableId  = null;
+    protected $totalsSubtableId        = null;
+    /** @internal @var bool  true when totalsSubtableId references a loaded DataTable in Manager */
+    protected $totalsSubtableIdLoaded  = false;
     // ── End columnar packed storage ───────────────────────────────────────────
 
     /**
@@ -663,18 +681,41 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function setRowSubtableId(int $rowId, ?int $id): void
     {
         if ($rowId === self::ID_SUMMARY_ROW) {
-            $this->summarySubtableId = $id;
+            $this->summarySubtableId       = $id;
+            $this->summarySubtableIdLoaded = ($id !== null); // always a loaded context
             return;
         }
         if ($rowId === self::ID_TOTALS_ROW) {
-            $this->totalsSubtableId = $id;
+            $this->totalsSubtableId       = $id;
+            $this->totalsSubtableIdLoaded = ($id !== null);
             return;
         }
         if ($id === null) {
             unset($this->rowSubtableIds[$rowId]);
+            unset($this->rowSubtableIdsLoaded[$rowId]);
         } else {
-            $this->rowSubtableIds[$rowId] = $id;
+            $this->rowSubtableIds[$rowId]       = $id;
+            $this->rowSubtableIdsLoaded[$rowId] = true; // always a loaded context
         }
+    }
+
+    /**
+     * Returns true when the subtable for $rowId was set via setSubtable() (i.e. the
+     * DataTable is actually registered in Manager), as opposed to merely stored from
+     * a deserialised blob (where the integer ID is present but no DataTable was ever
+     * loaded).  Mirrors the per-Row $isSubtableLoaded flag from the original storage.
+     *
+     * @internal
+     */
+    public function isRowSubtableLoaded(int $rowId): bool
+    {
+        if ($rowId === self::ID_SUMMARY_ROW) {
+            return $this->summarySubtableIdLoaded;
+        }
+        if ($rowId === self::ID_TOTALS_ROW) {
+            return $this->totalsSubtableIdLoaded;
+        }
+        return isset($this->rowSubtableIdsLoaded[$rowId]);
     }
 
     /** @internal */
@@ -738,23 +779,28 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function setRows($rows)
     {
         if (!is_array($rows)) {
-            $this->rows           = [];
-            $this->rowSubtableIds = [];
-            $this->rowMetadata    = [];
-            $this->rowColumnOrder = [];
-            $this->columnNames    = [];
-            $this->columnIndex    = [];
-            $this->nextRowId      = 0;
-            $this->indexNotUpToDate = true;
+            $this->rows                 = [];
+            $this->rowSubtableIds       = [];
+            $this->rowSubtableIdsLoaded = [];
+            $this->rowMetadata          = [];
+            $this->rowColumnOrder       = [];
+            $this->columnNames          = [];
+            $this->columnIndex          = [];
+            $this->nextRowId            = 0;
+            $this->indexNotUpToDate     = true;
             return;
         }
 
         // Materialize row data BEFORE clearing storage. When $rows contains ViewRow
         // objects that belong to this very table, clearing storage first would make
         // their getColumns() / getMetadata() calls return empty results.
+        // We also capture the subtable-loaded flag so it can be restored faithfully
+        // after the storage is wiped and rows are re-inserted.
         $materialized = [];
         foreach ($rows as $row) {
-            $materialized[] = $row->export();
+            $data                  = $row->export();
+            $data['_subtableLoaded'] = $row->isSubtableLoaded();
+            $materialized[]        = $data;
         }
 
         // Snapshot summary/totals as raw data before wiping storage.
@@ -767,6 +813,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 Row::COLUMNS              => $this->getPackedRow(self::ID_SUMMARY_ROW),
                 Row::METADATA             => $this->summaryRowMetadata,
                 Row::DATATABLE_ASSOCIATED => $this->summarySubtableId,
+                '_loaded'                 => $this->summarySubtableIdLoaded,
             ];
         }
         $savedTotals = null;
@@ -775,39 +822,59 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 Row::COLUMNS              => $this->getPackedRow(self::ID_TOTALS_ROW),
                 Row::METADATA             => $this->totalsRowMetadata,
                 Row::DATATABLE_ASSOCIATED => $this->totalsSubtableId,
+                '_loaded'                 => $this->totalsSubtableIdLoaded,
             ];
         }
 
-        $this->rows                 = [];
-        $this->rowSubtableIds       = [];
-        $this->rowMetadata          = [];
-        $this->rowColumnOrder       = [];
-        $this->columnNames          = [];
-        $this->columnIndex          = [];
-        $this->nextRowId            = 0;
-        $this->indexNotUpToDate     = true;
-        $this->summaryRowData       = null;
-        $this->summaryRowMetadata   = [];
-        $this->summarySubtableId    = null;
-        $this->totalsRowData        = null;
-        $this->totalsRowMetadata    = [];
-        $this->totalsSubtableId     = null;
+        $this->rows                   = [];
+        $this->rowSubtableIds         = [];
+        $this->rowSubtableIdsLoaded   = [];
+        $this->rowMetadata            = [];
+        $this->rowColumnOrder         = [];
+        $this->columnNames            = [];
+        $this->columnIndex            = [];
+        $this->nextRowId              = 0;
+        $this->indexNotUpToDate       = true;
+        $this->summaryRowData         = null;
+        $this->summaryRowMetadata     = [];
+        $this->summarySubtableId      = null;
+        $this->summarySubtableIdLoaded = false;
+        $this->totalsRowData          = null;
+        $this->totalsRowMetadata      = [];
+        $this->totalsSubtableId       = null;
+        $this->totalsSubtableIdLoaded = false;
 
         foreach ($materialized as $data) {
-            $this->addRow(new Row($data));
+            $isLoaded  = $data['_subtableLoaded'];
+            unset($data['_subtableLoaded']);
+            $newRow = new Row($data);
+            // Restore the subtable-loaded flag before addRow() reads isSubtableLoaded().
+            // Row($data) constructor stores the ID but leaves isSubtableLoaded=false.
+            if ($isLoaded && $newRow->subtableId !== null) {
+                $newRow->setLoadedSubtableId($newRow->subtableId);
+            }
+            $this->addRow($newRow);
         }
 
         if ($savedSummary !== null) {
             $summaryRow = new Row([Row::COLUMNS => $savedSummary[Row::COLUMNS], Row::METADATA => $savedSummary[Row::METADATA]]);
             if ($savedSummary[Row::DATATABLE_ASSOCIATED] !== null) {
-                $summaryRow->setLoadedSubtableId($savedSummary[Row::DATATABLE_ASSOCIATED]);
+                if ($savedSummary['_loaded']) {
+                    $summaryRow->setLoadedSubtableId($savedSummary[Row::DATATABLE_ASSOCIATED]);
+                } else {
+                    $summaryRow->setNonLoadedSubtableId($savedSummary[Row::DATATABLE_ASSOCIATED]);
+                }
             }
             $this->addSummaryRow($summaryRow);
         }
         if ($savedTotals !== null) {
             $totalsRow = new Row([Row::COLUMNS => $savedTotals[Row::COLUMNS], Row::METADATA => $savedTotals[Row::METADATA]]);
             if ($savedTotals[Row::DATATABLE_ASSOCIATED] !== null) {
-                $totalsRow->setLoadedSubtableId($savedTotals[Row::DATATABLE_ASSOCIATED]);
+                if ($savedTotals['_loaded']) {
+                    $totalsRow->setLoadedSubtableId($savedTotals[Row::DATATABLE_ASSOCIATED]);
+                } else {
+                    $totalsRow->setNonLoadedSubtableId($savedTotals[Row::DATATABLE_ASSOCIATED]);
+                }
             }
             $this->setTotalsRow($totalsRow);
         }
@@ -863,8 +930,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         foreach ($columns as $name => $val) {
             $this->totalsRowData[$this->columnIndex[$name]] = $val;
         }
-        $this->totalsRowMetadata = $totalsRow->getMetadata();
-        $this->totalsSubtableId  = $totalsRow->subtableId;
+        $this->totalsRowMetadata      = $totalsRow->getMetadata();
+        $this->totalsSubtableId       = $totalsRow->subtableId;
+        $this->totalsSubtableIdLoaded = $totalsRow->isSubtableLoaded();
 
         // Record per-row column order for totals row when non-standard
         $this->recordRowColumnOrder(self::ID_TOTALS_ROW, $columns);
@@ -1349,9 +1417,19 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // Copy subtable ID and metadata.
         // Transfer subtable ownership: clear isSubtableLoaded on the source Row so that
         // Row::__destruct() does not call deleteTable() when $row is garbage collected.
-        $subtableId = $row->subtableId;
+        $subtableId       = $row->subtableId;
+        $subtableIsLoaded = $row->isSubtableLoaded(); // capture BEFORE removeSubtable()
         if ($subtableId !== null) {
             $this->rowSubtableIds[$rowId] = $subtableId;
+            if ($subtableIsLoaded) {
+                // Only mark as loaded when the Row's subtable is actually registered in
+                // Manager.  Deserialized rows (from addRowsFromSerializedArray) have
+                // isSubtableLoaded=false because the Row constructor sets $subtableId
+                // directly without calling setSubtable().  Preserving that distinction
+                // prevents ViewRow::getSubtable() from accidentally returning an unrelated
+                // active DataTable whose Manager ID happens to match the serialised ID.
+                $this->rowSubtableIdsLoaded[$rowId] = true;
+            }
             $row->removeSubtable();
         }
         $meta = $row->getMetadata();
@@ -1404,8 +1482,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         foreach ($columns as $name => $val) {
             $this->summaryRowData[$this->columnIndex[$name]] = $val;
         }
-        $this->summaryRowMetadata = $row->getMetadata();
-        $this->summarySubtableId  = $row->subtableId;
+        $this->summaryRowMetadata      = $row->getMetadata();
+        $this->summarySubtableId       = $row->subtableId;
+        $this->summarySubtableIdLoaded = $row->isSubtableLoaded(); // capture BEFORE removeSubtable
 
         // Transfer subtable ownership: prevent Row::__destruct() from deleting the subtable.
         if ($row->subtableId !== null) {
@@ -1420,7 +1499,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // Bind the original Row to the DataTable's summary-row metadata storage.
         $row->bindToTable($this, self::ID_SUMMARY_ROW);
         $row->bindSubtableCallback(function (int $newSubtableId) {
-            $this->summarySubtableId = $newSubtableId;
+            $this->summarySubtableId       = $newSubtableId;
+            $this->summarySubtableIdLoaded = ($newSubtableId !== null);
         });
 
         return new ViewRow($this, self::ID_SUMMARY_ROW);
@@ -1505,10 +1585,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         $row = new Row([Row::COLUMNS => $columns, Row::METADATA => $meta]);
         if ($subtableId !== null) {
-            // Mark as loaded: the subtable is already registered in Manager.
-            // setNonLoadedSubtableId() would leave isSubtableLoaded=false, preventing
-            // getSubtable() from returning the table to renderers.
-            $row->setLoadedSubtableId($subtableId);
+            if ($this->isRowSubtableLoaded($rowId)) {
+                // Subtable was set via setSubtable() — it is registered in Manager.
+                $row->setLoadedSubtableId($subtableId);
+            } else {
+                // Subtable ID came from a deserialised blob — the Manager table may not
+                // exist yet (lazy-loaded). Mark unloaded so getSubtable() won't
+                // accidentally return an unrelated table with a colliding ID.
+                $row->setNonLoadedSubtableId($subtableId);
+            }
         }
 
         // Bind column/metadata operations so that mutations made on this Row
@@ -1755,9 +1840,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         return [
             'rows', 'columnNames', 'columnIndex', 'nextRowId',
-            'rowSubtableIds', 'rowMetadata', 'rowColumnOrder',
-            'summaryRowData', 'summaryRowMetadata', 'summarySubtableId',
-            'totalsRowData',  'totalsRowMetadata',  'totalsSubtableId',
+            'rowSubtableIds', 'rowSubtableIdsLoaded', 'rowMetadata', 'rowColumnOrder',
+            'summaryRowData', 'summaryRowMetadata', 'summarySubtableId', 'summarySubtableIdLoaded',
+            'totalsRowData',  'totalsRowMetadata',  'totalsSubtableId',  'totalsSubtableIdLoaded',
             'metadata',
         ];
     }

@@ -43,7 +43,7 @@ class ViewRow extends Row
         $this->table            = $table;
         $this->rowId            = $rowId;
         $this->subtableId       = $table->getRowSubtableId($rowId);
-        $this->isSubtableLoaded = ($this->subtableId !== null);
+        $this->isSubtableLoaded = $table->isRowSubtableLoaded($rowId);
     }
 
     // ── ArrayObject intercepts ────────────────────────────────────────────────
