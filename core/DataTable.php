@@ -1585,9 +1585,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $meta       = $this->getRowMetadata($rowId);
         $subtableId = $this->getRowSubtableId($rowId);
 
-        // Populate ArrayObject with a snapshot of the columns so that
-        // (array)$row, Twig, and PHPUnit comparisons see them immediately.
-        $row = new Row([Row::COLUMNS => $columns, Row::METADATA => $meta]);
+        // Binding-only: no column snapshot in ArrayObject.
+        // Column reads/writes go through bound packed storage (offsetGet/Set intercepts).
+        // Metadata snapshot is still set so Row::getMetadata() works on the Row object
+        // before it is bound (constructor path) — binding overrides reads/writes after.
+        $row = new Row([Row::METADATA => $meta]);
 
         // Bind to packed storage so column mutations propagate back.
         $row->bindToTable($this, $rowId);

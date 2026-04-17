@@ -981,11 +981,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
         $newTable = DataTable::fromSerializedArray(reset($serialized));
 
-        self::assertEquals([
-            new Row([
-                Row::COLUMNS => ['label' => 'abc', 'nb_visits' => 5],
-            ]),
-        ], $newTable->getRows());
+        $rows = array_values($newTable->getRows());
+        self::assertCount(1, $rows);
+        self::assertSame(['label' => 'abc', 'nb_visits' => 5], $rows[0]->getColumns());
 
         self::assertEquals([
             'str' => 'str value',
