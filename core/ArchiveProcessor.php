@@ -450,7 +450,8 @@ class ArchiveProcessor
             $tableToAddTo->addDataTable($blobTable);
 
             // add subtable IDs for $blobTableRow to $tableIdToResultRowMapping
-            foreach ($blobTable->getRows() as $blobTableRow) {
+            // Use getRowsWithoutSummaryRow() to get ViewRow proxies — no column data copying.
+            foreach ($blobTable->getRowsWithoutSummaryRow() as $blobTableRow) {
                 $label = $blobTableRow->getColumn('label');
                 $subtableId = $blobTableRow->getIdSubDataTable();
                 if (empty($subtableId)) {
@@ -684,7 +685,8 @@ class ArchiveProcessor
             return;
         }
 
-        foreach ($table->getRows() as $row) {
+        // Use getRowsWithoutSummaryRow() to get ViewRow proxies — no column data copying.
+        foreach ($table->getRowsWithoutSummaryRow() as $row) {
             foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
                 $row->renameColumn($oldName, $newName);
             }
@@ -692,6 +694,12 @@ class ArchiveProcessor
             $subTable = $row->getSubtable();
             if ($subTable) {
                 $this->renameColumnsAfterAggregation($subTable, $columnsToRenameAfterAggregation);
+            }
+        }
+        // Also rename columns in the summary row if present.
+        if ($summaryRow = $table->getSummaryRow()) {
+            foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
+                $summaryRow->renameColumn($oldName, $newName);
             }
         }
     }

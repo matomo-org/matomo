@@ -406,7 +406,8 @@ class DataTableFactory
 
         $dataName = reset($this->dataNames);
 
-        foreach ($dataTable->getRows() as $row) {
+        // Use getRowsWithoutSummaryRow() to get ViewRow proxies — no column data copying.
+        foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
             $sid = $row->getIdSubDataTable();
             if ($sid === null) {
                 continue;
