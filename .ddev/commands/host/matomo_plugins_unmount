@@ -9,11 +9,11 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${script_dir}/matomo_plugins_lib.sh"
 
-declare -A managed_mounts=()
+managed_mounts=()
 
 matomo_plugins::load_mounts managed_mounts
 
-if [[ ${#managed_mounts[@]} -eq 0 ]]; then
+if matomo_plugins::map_is_empty managed_mounts; then
   echo "No managed plugin mounts found."
   exit 0
 fi
@@ -23,9 +23,10 @@ if [[ $# -eq 0 ]]; then
   managed_mounts=()
 else
   for plugin_name in "$@"; do
-    if [[ -n "${managed_mounts[${plugin_name}]:-}" ]]; then
-      echo "Unmounting ${plugin_name} from ${managed_mounts[${plugin_name}]}."
-      unset "managed_mounts[${plugin_name}]"
+    plugin_path="$(matomo_plugins::map_get managed_mounts "${plugin_name}")"
+    if [[ -n "${plugin_path}" ]]; then
+      echo "Unmounting ${plugin_name} from ${plugin_path}."
+      matomo_plugins::map_unset managed_mounts "${plugin_name}"
     else
       echo "Plugin ${plugin_name} is not currently managed."
     fi

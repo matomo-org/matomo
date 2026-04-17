@@ -10,6 +10,89 @@ MATOMO_PLUGINS_DDEV_PHP_VERSION=""
 MATOMO_PLUGINS_DDEV_PHP_VERSION_READY=0
 MATOMO_PLUGINS_DDEV_PHP_VERSION_UNAVAILABLE=0
 MATOMO_PLUGINS_PHP_CHECK_RESULT="ok"
+MATOMO_PLUGINS_MAP_SEPARATOR=$'\t'
+
+matomo_plugins::map_get() {
+  local map_name="${1}"
+  local wanted_key="${2}"
+  local entry=""
+  local entry_key=""
+  local entry_value=""
+
+  eval "for entry in \"\${${map_name}[@]+\"\${${map_name}[@]}\"}\"; do
+    entry_key=\${entry%%\"\${MATOMO_PLUGINS_MAP_SEPARATOR}\"*}
+    if [[ \"\${entry}\" == *\"\${MATOMO_PLUGINS_MAP_SEPARATOR}\"* ]]; then
+      entry_value=\${entry#*\"\${MATOMO_PLUGINS_MAP_SEPARATOR}\"}
+    else
+      entry_value=''
+    fi
+    if [[ \"\${entry_key}\" == \"\${wanted_key}\" ]]; then
+      printf '%s\n' \"\${entry_value}\"
+      break
+    fi
+  done"
+}
+
+matomo_plugins::map_set() {
+  local map_name="${1}"
+  local wanted_key="${2}"
+  local wanted_value="${3}"
+  local entry=""
+  local entry_key=""
+  local -a updated_entries=()
+
+  eval "for entry in \"\${${map_name}[@]+\"\${${map_name}[@]}\"}\"; do
+    entry_key=\${entry%%\"\${MATOMO_PLUGINS_MAP_SEPARATOR}\"*}
+    if [[ \"\${entry_key}\" != \"\${wanted_key}\" ]]; then
+      updated_entries+=(\"\${entry}\")
+    fi
+  done"
+
+  updated_entries+=("${wanted_key}${MATOMO_PLUGINS_MAP_SEPARATOR}${wanted_value}")
+  eval "${map_name}=(\"\${updated_entries[@]}\")"
+}
+
+matomo_plugins::map_unset() {
+  local map_name="${1}"
+  local wanted_key="${2}"
+  local entry=""
+  local entry_key=""
+  local -a updated_entries=()
+
+  eval "for entry in \"\${${map_name}[@]+\"\${${map_name}[@]}\"}\"; do
+    entry_key=\${entry%%\"\${MATOMO_PLUGINS_MAP_SEPARATOR}\"*}
+    if [[ \"\${entry_key}\" != \"\${wanted_key}\" ]]; then
+      updated_entries+=(\"\${entry}\")
+    fi
+  done"
+
+  eval "${map_name}=(\"\${updated_entries[@]}\")"
+}
+
+matomo_plugins::map_keys_sorted() {
+  local map_name="${1}"
+  local entry=""
+  local entry_key=""
+
+  eval "for entry in \"\${${map_name}[@]+\"\${${map_name}[@]}\"}\"; do
+    entry_key=\${entry%%\"\${MATOMO_PLUGINS_MAP_SEPARATOR}\"*}
+    printf '%s\n' \"\${entry_key}\"
+  done" | sort
+}
+
+matomo_plugins::map_size() {
+  local map_name="${1}"
+
+  eval "printf '%s\n' \"\${#${map_name}[@]}\""
+}
+
+matomo_plugins::map_is_empty() {
+  local map_name="${1}"
+  local size
+
+  size="$(matomo_plugins::map_size "${map_name}")"
+  [[ "${size}" -eq 0 ]]
+}
 
 matomo_plugins::app_root() {
   printf '%s\n' "${MATOMO_APP_ROOT}"
@@ -135,8 +218,6 @@ matomo_plugins::load_mounts() {
   local line
   local mount_path
   local plugin_name
-  local -n mounts_ref="${map_name}"
-
   config_file="$(matomo_plugins::generated_config)"
   if [[ ! -f "${config_file}" ]]; then
     return 0
@@ -146,7 +227,7 @@ matomo_plugins::load_mounts() {
     if [[ "${line}" =~ ^[[:space:]]*-[[:space:]]*\"([^\"]+):/var/www/html/plugins/([^\"]+)\"[[:space:]]*$ ]]; then
       mount_path="${BASH_REMATCH[1]}"
       plugin_name="${BASH_REMATCH[2]}"
-      mounts_ref["${plugin_name}"]="${mount_path}"
+      matomo_plugins::map_set "${map_name}" "${plugin_name}" "${mount_path}"
     fi
   done < "${config_file}"
 }
@@ -269,7 +350,7 @@ matomo_plugins::write_mounts_to_temp() {
   local map_name="${1}"
   local tmp_file="${2}"
   local plugin_name
-  local -n mounts_ref="${map_name}"
+  local plugin_path
 
   {
     echo "#ddev-generated"
@@ -279,8 +360,9 @@ matomo_plugins::write_mounts_to_temp() {
     echo "    volumes:"
 
     while IFS= read -r plugin_name; do
-      printf '      - "%s:/var/www/html/plugins/%s"\n' "${mounts_ref[${plugin_name}]}" "${plugin_name}"
-    done < <(printf '%s\n' "${!mounts_ref[@]}" | sort)
+      plugin_path="$(matomo_plugins::map_get "${map_name}" "${plugin_name}")"
+      printf '      - "%s:/var/www/html/plugins/%s"\n' "${plugin_path}" "${plugin_name}"
+    done < <(matomo_plugins::map_keys_sorted "${map_name}")
   } > "${tmp_file}"
 }
 
@@ -290,12 +372,11 @@ matomo_plugins::apply_mounts() {
   local config_file
   local tmp_file
   local mount_count=0
-  local -n mounts_ref="${map_name}"
 
   MATOMO_PLUGINS_LAST_CHANGE=0
 
   config_file="$(matomo_plugins::generated_config)"
-  mount_count="${#mounts_ref[@]}"
+  mount_count="$(matomo_plugins::map_size "${map_name}")"
 
   if [[ "${mount_count}" -eq 0 ]]; then
     if [[ -f "${config_file}" ]]; then
@@ -339,20 +420,22 @@ matomo_plugins::record_mount() {
   local plugin_name="${2}"
   local plugin_path="${3}"
   local source_label="${4}"
-  local -n mounts_ref="${map_name}"
+  local existing_path=""
 
-  if [[ -n "${mounts_ref[${plugin_name}]:-}" ]]; then
-    if [[ "${mounts_ref[${plugin_name}]}" == "${plugin_path}" ]]; then
+  existing_path="$(matomo_plugins::map_get "${map_name}" "${plugin_name}")"
+
+  if [[ -n "${existing_path}" ]]; then
+    if [[ "${existing_path}" == "${plugin_path}" ]]; then
       echo "Keeping ${plugin_name} mounted from ${plugin_path} (${source_label})."
       return 0
     fi
 
-    echo "Replacing ${plugin_name}: ${mounts_ref[${plugin_name}]} -> ${plugin_path} (${source_label})."
+    echo "Replacing ${plugin_name}: ${existing_path} -> ${plugin_path} (${source_label})."
   else
     echo "Mounting ${plugin_name} from ${plugin_path} (${source_label})."
   fi
 
-  mounts_ref["${plugin_name}"]="${plugin_path}"
+  matomo_plugins::map_set "${map_name}" "${plugin_name}" "${plugin_path}"
 }
 
 matomo_plugins::scan_explicit_dir() {
@@ -362,7 +445,6 @@ matomo_plugins::scan_explicit_dir() {
   local plugin_name
   local normalized_dir
   local source_label="path:${explicit_dir}"
-  local -n mounts_ref="${map_name}"
 
   normalized_dir="$(matomo_plugins::normalize_path "${explicit_dir}")"
 
