@@ -42,6 +42,7 @@ abstract class ConversionDimension extends Dimension
 
     /**
      * Get all conversion dimensions that are defined by all activated plugins.
+     * @return ConversionDimension[]
      * @ignore
      */
     public static function getAllDimensions()

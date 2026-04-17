@@ -90,23 +90,54 @@ class Controller extends \Piwik\Plugins\Goals\Controller
 
         $return = parent::getMetricsForGoal($idGoal, $dataRow);
 
-        // Previous period data for evolution
-        [$lastPeriodDate, $ignore] = Range::getLastDate();
-        if ($lastPeriodDate !== false) {
-            $date = Common::getRequestVar('date');
+        $currentDate   = Common::getRequestVar('date');
+        $currentPeriod = Piwik::getPeriod();
+        [$comparisonDate, $comparisonPeriod] = $this->getComparisonPeriodAndDate($currentDate, $currentPeriod);
 
+        if ($comparisonDate !== false) {
             /** @var DataTable $previousData */
             $previousData = Request::processRequest(
                 'Goals.get',
-                ['date' => $lastPeriodDate,
-                'format_metrics' => 0,
-                'idGoal' => $idGoal]
+                [
+                    'period'         => $comparisonPeriod,
+                    'date'           => $comparisonDate,
+                    'format_metrics' => 0,
+                    'idGoal'         => $idGoal,
+                ]
             );
             $previousDataRow = $previousData->getFirstRow();
 
-            $return = $this->addSparklineEvolutionValues($return, $idGoal, $date, $lastPeriodDate, $dataRow, $previousDataRow);
+            $return = $this->addSparklineEvolutionValues(
+                $return,
+                $idGoal,
+                $currentDate,
+                $currentPeriod,
+                $comparisonDate,
+                $comparisonPeriod,
+                $dataRow,
+                $previousDataRow
+            );
         }
         return $return;
+    }
+
+    /**
+     * Returns the explicitly selected comparison period/date when present,
+     * otherwise falls back to the previous period for backwards compatibility.
+     *
+     * @return array{0: string|false, 1: string}
+     */
+    private function getComparisonPeriodAndDate(string $currentDate, string $currentPeriod): array
+    {
+        $compareDates   = Common::getRequestVar('compareDates', [], 'array');
+        $comparePeriods = Common::getRequestVar('comparePeriods', [], 'array');
+
+        if (!empty($compareDates[0]) && !empty($comparePeriods[0])) {
+            return [$compareDates[0], $comparePeriods[0]];
+        }
+
+        [$lastPeriodDate, $ignore] = Range::getLastDate($currentDate, $currentPeriod);
+        return [$lastPeriodDate, $currentPeriod];
     }
 
     /**
@@ -121,7 +152,9 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         array $return,
         $idGoal,
         string $date,
-        string $lastPeriodDate,
+        string $period,
+        string $comparisonDate,
+        string $comparisonPeriod,
         DataTable\Row $currentDataRow,
         DataTable\Row $previousDataRow
     ): array {
@@ -147,10 +180,10 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             unset($metrics['nb_visits_converted']);
         }
 
-        $currentPeriod = PeriodFactory::build(Piwik::getPeriod(), $date);
+        $currentPeriod  = PeriodFactory::build($period, $date);
         $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString() : $currentPeriod->getPrettyString());
-        $lastPeriod = PeriodFactory::build(Piwik::getPeriod(), $lastPeriodDate);
-        $lastPrettyDate = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString() : $lastPeriod->getPrettyString());
+        $lastPeriod     = PeriodFactory::build($comparisonPeriod, $comparisonDate);
+        $lastPrettyDate = ($lastPeriod instanceof Month ? $lastPeriod->getLocalizedLongString() : $lastPeriod->getPrettyString());
 
         $formatter = new Metrics\Formatter();
 

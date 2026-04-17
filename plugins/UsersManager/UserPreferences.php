@@ -12,10 +12,12 @@ namespace Piwik\Plugins\UsersManager;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DbHelper;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Site;
 
 class UserPreferences
 {
@@ -91,13 +93,33 @@ class UserPreferences
             return $defaultReport;
         }
 
-        if ($defaultReport && Piwik::isUserHasViewAccess($defaultReport)) {
+        $defaultReport = (int) $defaultReport;
+
+        if ($this->isValidWebsiteForCurrentUser($defaultReport)) {
             return $defaultReport;
         }
 
         return false;
     }
 
+    private function isValidWebsiteForCurrentUser(int $idSite): bool
+    {
+        if (empty($idSite)) {
+            return false;
+        }
+
+        if (!Piwik::isUserHasViewAccess($idSite)) {
+            return false;
+        }
+
+        try {
+            new Site($idSite);
+        } catch (UnexpectedWebsiteFoundException $e) {
+            return false;
+        }
+
+        return true;
+    }
     /**
      * Returns default date for Piwik reports.
      *

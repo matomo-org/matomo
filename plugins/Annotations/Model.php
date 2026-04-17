@@ -12,6 +12,9 @@ namespace Piwik\Plugins\Annotations;
 use Piwik\Common;
 use Piwik\Db;
 
+/**
+ * @phpstan-type Annotation array{id:int, idsite:int, date:string, note:string, starred:int, user:string}
+ */
 class Model
 {
     private const TABLE_NAME = 'annotations';
@@ -26,7 +29,6 @@ class Model
 
     /**
      * @param array<string,mixed> $annotation
-     * @throws \Exception
      */
     public function createAnnotation(array $annotation): int
     {
@@ -37,8 +39,7 @@ class Model
     }
 
     /**
-     * @return array<string,string|int|bool>
-     * @throws \Exception
+     * @return Annotation|array{}
      */
     public function getAnnotation(int $annotationId, int $idSite): array
     {
@@ -50,8 +51,7 @@ class Model
     }
 
     /**
-     * @return array<int,array<string,string|int|bool>>
-     * @throws \Exception
+     * @return list<Annotation>
      */
     public function getAllAnnotationsForSiteInRange(int $idSite, ?string $startDate = null, ?string $endDate = null, ?int $limit = null): array
     {
@@ -78,7 +78,6 @@ class Model
 
     /**
      * @return array{int, int}
-     * @throws \Exception
      */
     public function getCountAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate): array
     {
@@ -105,8 +104,7 @@ class Model
      * @param int $idSite the site of the annotation
      * @param array<string,string|int|bool> $updatedColumns an associative array containing columns to update,
      *              only columns matching $this->getEditableColumns() are used.
-     * @return array<string,string|int|bool> the updated annotation
-     * @throws \Exception
+     * @return Annotation the updated annotation
      */
     public function updateAnnotation(int $annotationId, int $idSite, array $updatedColumns): array
     {
@@ -128,9 +126,6 @@ class Model
         return $this->getAnnotation($annotationId, $idSite);
     }
 
-    /**
-     * @throws \Exception
-     */
     public function deleteAnnotation(int $annotationId, int $idsite): void
     {
         $db = $this->getDb();
@@ -139,9 +134,6 @@ class Model
         $db->query($query, $bind);
     }
 
-    /**
-     * @throws \Exception
-     */
     public function deleteAllAnnotationsForSite(int $idSite): void
     {
         $db = $this->getDb();

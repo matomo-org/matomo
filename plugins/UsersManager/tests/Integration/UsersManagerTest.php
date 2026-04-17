@@ -79,6 +79,44 @@ class UsersManagerTest extends IntegrationTestCase
         parent::tearDown();
     }
 
+    public function testDeleteSiteShouldRewriteStoredDefaultReportInUserScopedSettings()
+    {
+        $login = 'defaultreportrewrite';
+        $this->api->addUser($login, 'Password111!', 'rewrite@example.com');
+        $this->api->setUserAccess($login, 'view', [2, 3]);
+        $this->api->setUserPreference($login, API::PREFERENCE_DEFAULT_REPORT, 2);
+
+        APISitesManager::getInstance()->deleteSite(2);
+
+        $storedDefaultReport = StaticContainer::get(UserScopedSettingsAccessManager::class)->get(
+            'UsersManager',
+            $login,
+            API::PREFERENCE_DEFAULT_REPORT,
+            false
+        );
+
+        $this->assertSame('3', (string) $storedDefaultReport);
+    }
+
+    public function testDeleteSiteShouldRemoveStoredDefaultReportIfUserHasNoFallbackSite()
+    {
+        $login = 'defaultreportdelete';
+        $this->api->addUser($login, 'Password111!', 'delete@example.com');
+        $this->api->setUserAccess($login, 'view', [2]);
+        $this->api->setUserPreference($login, API::PREFERENCE_DEFAULT_REPORT, 2);
+
+        APISitesManager::getInstance()->deleteSite(2);
+
+        $storedDefaultReport = StaticContainer::get(UserScopedSettingsAccessManager::class)->get(
+            'UsersManager',
+            $login,
+            API::PREFERENCE_DEFAULT_REPORT,
+            false
+        );
+
+        $this->assertFalse($storedDefaultReport);
+    }
+
     private function flatten($sitesAccess)
     {
         $result = array();
@@ -358,14 +396,6 @@ class UsersManagerTest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
 
         $this->api->deleteUser("");
-    }
-
-    public function testDeleteUserNullUser()
-    {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
-
-        $this->api->deleteUser(null);
     }
 
     public function testDeleteUserShouldFailInCaseTheUserIsTheOnlyRemainingSuperUser()

@@ -99,13 +99,13 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     /**
      * @param string $recordName 'nb_conversions'
-     * @param int|bool $idGoal idGoal to return the metrics for, or false to return overall
+     * @param int|string|null|false $idGoal idGoal to return the metrics for, or false/null to return overall
      * @return string Archive record name
      */
     public static function getRecordName($recordName, $idGoal = false)
     {
         $idGoalStr = '';
-        if ($idGoal !== false) {
+        if ($idGoal !== false && $idGoal !== null) {
             $idGoalStr = $idGoal . "_";
         }
         return 'Goal_' . $idGoalStr . $recordName;

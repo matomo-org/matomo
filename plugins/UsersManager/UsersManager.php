@@ -14,9 +14,12 @@ use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\Write;
 use Piwik\API\Request;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\SettingsPiwik;
 
 /**
@@ -124,7 +127,43 @@ class UsersManager extends \Piwik\Plugin
      */
     public function deleteSite($idSite)
     {
+        // TODO: remove in Matomo 6 - users should be using new userScopedSettings
         Option::deleteLike('%\_' . API::PREFERENCE_DEFAULT_REPORT, $idSite);
+
+        $preferencesStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
+        $usersPreferences = $preferencesStore->getValuesForAllUsers('UsersManager', [API::PREFERENCE_DEFAULT_REPORT]);
+
+        foreach ($usersPreferences as $login => $preferences) {
+            if (empty($preferences[API::PREFERENCE_DEFAULT_REPORT])) {
+                continue;
+            }
+
+            if ((string) $preferences[API::PREFERENCE_DEFAULT_REPORT] !== (string) $idSite) {
+                continue;
+            }
+
+            $fallbackSiteId = $this->getFallbackDefaultReportForLogin($login);
+            if ($fallbackSiteId === false) {
+                $preferencesStore->delete('UsersManager', $login, API::PREFERENCE_DEFAULT_REPORT);
+                continue;
+            }
+
+            $preferencesStore->set('UsersManager', $login, API::PREFERENCE_DEFAULT_REPORT, $fallbackSiteId);
+        }
+    }
+
+    /**
+     * @return false|int
+     */
+    private function getFallbackDefaultReportForLogin(string $login)
+    {
+        if (Piwik::hasTheUserSuperUserAccess($login)) {
+            $siteIds = SitesManagerAPI::getInstance()->getAllSitesId();
+        } else {
+            $siteIds = array_column((new Model())->getSitesAccessFromUser($login), 'site');
+        }
+
+        return reset($siteIds) ?: false;
     }
 
     /**

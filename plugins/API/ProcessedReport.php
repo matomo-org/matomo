@@ -31,6 +31,18 @@ use Piwik\Plugin\ReportsProvider;
 use Piwik\Site;
 use Piwik\Timer;
 
+/**
+ * @phpstan-type ProcessedReportData array{
+ *     website: string,
+ *     prettyDate: string,
+ *     metadata: mixed,
+ *     columns: mixed,
+ *     reportData: mixed,
+ *     reportMetadata: mixed,
+ *     reportTotal: mixed,
+ *     timerMillis?: string
+ * }
+ */
 class ProcessedReport
 {
     /**
@@ -189,8 +201,8 @@ class ProcessedReport
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *
      * @param int $idSite
-     * @param bool|string $period
-     * @param bool|Date $date
+     * @param string|null|false $period
+     * @param Date|string|null|false $date
      * @param bool $hideMetricsDoc
      * @param bool $showSubtableReports
      * @return array
@@ -358,6 +370,25 @@ class ProcessedReport
         return $this->reportsProvider->compareCategories($a['category'], $a['subcategory'], $a['order'], $b['category'], $b['subcategory'], $b['order']);
     }
 
+    /**
+     * @param int|string $idSite
+     * @param string $period
+     * @param string $date
+     * @param string $apiModule
+     * @param string $apiAction
+     * @param string|false $segment
+     * @param array<string, mixed>|false $apiParameters
+     * @param int|string|false $idGoal
+     * @param string|false $language
+     * @param bool $showTimer
+     * @param bool $hideMetricsDoc
+     * @param int|string|false $idSubtable
+     * @param bool $showRawMetrics
+     * @param string|bool|null $formatMetrics
+     * @param int|string|false $idDimension
+     * @return array<string, mixed>
+     * @phpstan-return ProcessedReportData
+     */
     public function getProcessedReport(
         $idSite,
         $period,

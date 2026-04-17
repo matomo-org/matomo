@@ -30,6 +30,21 @@ describe("GoalsPages", function () {
     expect(await tooltip.screenshot()).to.matchImage('revenue_incart_tooltip');
   });
 
+  it('should show the selected last year comparison period in an ecommerce sparkline tooltip', async function() {
+    var compareMonthParams = 'idSite=1&period=month&date=2012-01-09&compareDates[]=2011-01-01&comparePeriods[]=month';
+    await page.goto("?" + urlBaseGeneric + compareMonthParams + "#?" + compareMonthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
+    await page.waitForNetworkIdle();
+
+    const element = await page.jQuery('#rightcolumn .sparkline:eq(1) .metricEvolution');
+    await element.hover();
+    await page.waitForSelector('.ui-tooltip', { visible: true });
+
+    const tooltipContent = await page.evaluate(() => $('.ui-tooltip:visible').text());
+
+    expect(tooltipContent).to.contain('January 2012');
+    expect(tooltipContent).to.contain('January 2011');
+  });
+
   it('should load the goals > overview page correctly', async function () {
     await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=General_Overview");
     await page.waitForNetworkIdle();

@@ -357,7 +357,7 @@ abstract class LocationProvider
      * Sets the provider to use when tracking.
      *
      * @param string $providerId The ID of the provider to use.
-     * @return \Piwik\Plugins\UserCountry\LocationProvider The new current provider.
+     * @return LocationProvider The new current provider.
      * @throws Exception If the provider ID is invalid.
      */
     public static function setCurrentProvider($providerId)

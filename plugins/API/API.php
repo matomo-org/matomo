@@ -53,6 +53,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  * The Metadata API is for example used by the Matomo Mobile App to automatically display all Matomo reports, with translated report & columns names and nicely formatted values.
  * More information on the <a href='https://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API documentation page</a>
  *
+ * @phpstan-import-type ProcessedReportData from ProcessedReport
+ *
  * @method static \Piwik\Plugins\API\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -80,38 +82,41 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get Matomo version
-     * @return string
+     * Returns the current Matomo version.
+     *
+     * @return string Matomo's version string.
      */
-    public function getMatomoVersion()
+    public function getMatomoVersion(): string
     {
         Piwik::checkUserHasSomeViewAccess();
         return Version::VERSION;
     }
 
     /**
-     * Get PHP version
-     * @return array
+     * Returns information about the PHP runtime version.
+     *
+     * @return array{version:string, major:int, minor:int, release:int, versionId:int, extra:string}
      */
-    public function getPhpVersion()
+    public function getPhpVersion(): array
     {
         Piwik::checkUserHasSuperUserAccess();
-        return array(
+        return [
             'version' => PHP_VERSION,
             'major' => PHP_MAJOR_VERSION,
             'minor' => PHP_MINOR_VERSION,
             'release' => PHP_RELEASE_VERSION,
             'versionId' => PHP_VERSION_ID,
             'extra' => PHP_EXTRA_VERSION,
-        );
+        ];
     }
 
     /**
-     * Get Matomo version
-     * @return string
+     * Returns the current Matomo version.
+     *
+     * @return string Matomo's version string.
      * @deprecated Deprecated but we keep it for historical reasons to not break BC
      */
-    public function getPiwikVersion()
+    public function getPiwikVersion(): string
     {
         return $this->getMatomoVersion();
     }
@@ -122,15 +127,16 @@ class API extends \Piwik\Plugin\API
      *
      * @return string IP address in presentation format.
      */
-    public function getIpFromHeader()
+    public function getIpFromHeader(): string
     {
         Piwik::checkUserHasSomeViewAccess();
         return IP::getIpFromHeader();
     }
 
     /**
-     * Returns the section [APISettings] if defined in config.ini.php
-     * @return array
+     * Returns the `[APISettings]` section from `config.ini.php`.
+     *
+     * @return array<string, mixed>
      * @deprecated May be removed in one of the next major releases
      */
     public function getSettings()
@@ -140,9 +146,9 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns all available measurable types.
-     * Marked as deprecated so it won't appear in API page. It won't be a public API for now.
-     * @deprecated
-     * @return array
+     * Marked as internal so it won't appear on the API page.
+     * @return list<array{id:string, name:string, description:string, longDescription:string, howToSetupUrl:string, settings:list<array<string, scalar>>}>
+     * @internal
      */
     public function getAvailableMeasurableTypes()
     {
@@ -170,7 +176,15 @@ class API extends \Piwik\Plugin\API
         return $available;
     }
 
-    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $_showAllSegments = false)
+    /**
+     * Returns metadata for all available segments.
+     *
+     * @param int[]|int|string $idSites One or more site IDs. If empty, returns metadata visible to the current user.
+     * @param bool $_hideImplementationData Whether internal implementation details should be omitted.
+     * @param bool $_showAllSegments Whether to include segments that are normally hidden.
+     * @return array<int, array<string, mixed>>
+     */
+    public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $_showAllSegments = false): array
     {
         if (empty($idSites)) {
             Piwik::checkUserHasSomeViewAccess();
@@ -199,9 +213,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param $segmentName
-     * @param $table
-     * @return array
+     * Extracts suggested segment values from a visitor log result table.
+     *
+     * @param string $segmentName Segment name to read values for.
+     * @param DataTable $table Visitor log data.
+     * @return array<int, mixed>
      */
     protected function getSegmentValuesFromVisitorLog($segmentName, $table)
     {
@@ -227,14 +243,24 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Loads reports metadata, then return the requested one,
-     * matching optional API parameters.
+     * Returns metadata for a specific API method.
+     *
+     * @param int|string $idSite Site ID to use when loading metadata.
+     * @param string $apiModule API module name.
+     * @param string $apiAction API method name without the module prefix.
+     * @param array<string, mixed> $apiParameters Additional API parameters used to resolve metadata variants.
+     * @param string|false $language Optional language code used to localize the response.
+     * @param string|false $period Optional period used to resolve period-dependent metadata.
+     * @param string|false $date Optional date or date range used to resolve metadata.
+     * @param bool $hideMetricsDoc Whether metric documentation should be omitted.
+     * @param bool $showSubtableReports Whether subtable reports should be included.
+     * @return array<int, array<string, mixed>>
      */
     public function getMetadata(
         $idSite,
-        $apiModule,
-        $apiAction,
-        $apiParameters = array(),
+        string $apiModule,
+        string $apiAction,
+        $apiParameters = [],
         $language = false,
         $period = false,
         $date = false,
@@ -249,21 +275,19 @@ class API extends \Piwik\Plugin\API
             $translator->setCurrentLanguage($language);
         }
 
-        $metadata = $this->processedReport->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
-        return $metadata;
+        return $this->processedReport->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
     }
 
     /**
-     * Triggers a hook to ask plugins for available Reports.
-     * Returns metadata information about each report (category, name, dimension, metrics, etc.)
+     * Returns metadata for all available reports.
      *
-     * @param string $idSites THIS PARAMETER IS DEPRECATED AND WILL BE REMOVED IN PIWIK 4
-     * @param bool|string $period
-     * @param bool|Date $date
-     * @param bool $hideMetricsDoc
-     * @param bool $showSubtableReports
-     * @param int $idSite
-     * @return array
+     * @param int[]|int|string $idSites Deprecated fallback for specifying one or more site IDs.
+     * @param string|false $period Optional period used to resolve report metadata.
+     * @param string|false $date Optional date or date range used to resolve report metadata.
+     * @param bool $hideMetricsDoc Whether metric documentation should be omitted.
+     * @param bool $showSubtableReports Whether subtable reports should be included.
+     * @param int|string|false $idSite Preferred site ID parameter.
+     * @return array<int, array<string, mixed>>
      */
     public function getReportMetadata(
         $idSites = '',
@@ -289,6 +313,27 @@ class API extends \Piwik\Plugin\API
         return $metadata;
     }
 
+    /**
+     * Returns a processed report with metadata, formatting, and processed metrics applied.
+     *
+     * @param int|string $idSite Site ID to query.
+     * @param string $period Report period.
+     * @param string $date Date or date range to query.
+     * @param string $apiModule API module name.
+     * @param string $apiAction API method name without the module prefix.
+     * @param string|false $segment Optional segment expression.
+     * @param array<string, mixed>|false $apiParameters Additional API parameters forwarded to the target report.
+     * @param int|string|false $idGoal Optional goal ID.
+     * @param string|false $language Optional language code for the response.
+     * @param bool $showTimer Whether processing time information should be included.
+     * @param bool $hideMetricsDoc Whether metric documentation should be omitted.
+     * @param int|string|false $idSubtable Optional subtable ID to load.
+     * @param bool $showRawMetrics Whether raw metrics should be included alongside formatted metrics.
+     * @param string|null $format_metrics Optional metrics formatting mode.
+     * @param int|string|false $idDimension Optional dimension ID.
+     * @return array<string, mixed>
+     * @phpstan-return ProcessedReportData
+     */
     public function getProcessedReport(
         $idSite,
         $period,
@@ -330,11 +375,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get a list of all pages that shall be shown in a Matomo UI including a list of all widgets that shall
-     * be shown within each page.
+     * Returns page metadata for the Matomo UI, including the widgets shown on each page.
      *
-     * @param int $idSite
-     * @return array
+     * @param int|string $idSite Site ID used for the access check.
+     * @return array<int, array<string, mixed>>
      */
     public function getReportPagesMetadata($idSite)
     {
@@ -348,10 +392,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get a list of all widgetizable widgets.
+     * Returns metadata for all widgets that can be displayed in the UI.
      *
-     * @param int $idSite
-     * @return array
+     * @param int|string $idSite Site ID used for the access check.
+     * @return array<int, array<string, mixed>>
      */
     public function getWidgetMetadata($idSite)
     {
@@ -365,7 +409,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get a combined report of the *.get API methods.
+     * Returns a combined report built from the `*.get` API methods of other plugins.
+     *
+     * @param int|string $idSite Site ID to query.
+     * @param string $period Report period.
+     * @param string $date Date or date range to query.
+     * @param string|false $segment Optional segment expression.
+     * @param string[]|string|false $columns Optional metric names to keep in the combined result.
+     * @return DataTable
      */
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
@@ -391,7 +442,7 @@ class API extends \Piwik\Plugin\API
                 && !empty($reportMeta['metrics'])
             ) {
                 $plugin = $reportMeta['module'];
-                $allMetrics = array_merge($reportMeta['metrics'], @$reportMeta['processedMetrics'] ?: array());
+                $allMetrics = array_merge($reportMeta['metrics'], (@$reportMeta['processedMetrics'] ?: []));
                 foreach ($allMetrics as $column => $columnTranslation) {
                     // a metric from this report has been requested
                     if (
@@ -438,26 +489,24 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Given an API report to query (eg. "Referrers.getKeywords", and a Label (eg. "free%20software"),
-     * this function will query the API for the previous days/weeks/etc. and will return
-     * a ready to use data structure containing the metrics for the requested Label, along with enriched information (min/max values, etc.)
+     * Returns an evolution series for a specific report row or metric label.
      *
-     * @param int $idSite
-     * @param string $period
-     * @param Date $date
-     * @param string $apiModule
-     * @param string $apiAction
-     * @param bool|string $label
-     * @param bool|string $segment
-     * @param bool|string $column
-     * @param bool|string $language
-     * @param bool|int $idGoal
-     * @param bool|string $legendAppendMetric
-     * @param bool|string $labelUseAbsoluteUrl
-     * @param bool|int $idDimension
-     * @param string $labelSeries
-     * @param string|int $showGoalMetricsForGoal
-     * @return array
+     * @param int|string $idSite Site ID to query.
+     * @param string $period Period to calculate the evolution for.
+     * @param string $date Date or date range to query.
+     * @param string $apiModule API module name.
+     * @param string $apiAction API method name without the module prefix.
+     * @param string|false $label Optional row label to track.
+     * @param string|false $segment Optional segment expression.
+     * @param string|false $column Optional metric column to use.
+     * @param string|false $language Optional language code for the response.
+     * @param int|string|false $idGoal Optional goal ID.
+     * @param bool|string $legendAppendMetric Whether to append the metric name to the legend.
+     * @param bool|string $labelUseAbsoluteUrl Whether labels that are URLs should be normalized to absolute URLs.
+     * @param int|string|false $idDimension Optional dimension ID.
+     * @param string|false $labelSeries Optional custom series label.
+     * @param int|string|false $showGoalMetricsForGoal Optional goal ID whose goal metrics should be included.
+     * @return array<string, mixed>
      */
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false, $labelSeries = false, $showGoalMetricsForGoal = false)
     {
@@ -507,8 +556,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Performs multiple API requests at once and returns every result.
      *
-     * @param array $urls The array of API requests.
-     * @return array
+     * @param string[] $urls API query strings to execute.
+     * @return array<int, mixed>
      * @unsanitized
      */
     public function getBulkRequest($urls)
@@ -549,23 +598,22 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Return true if plugin is activated, false otherwise
+     * Returns whether a plugin is currently activated.
      *
-     * @param string $pluginName
-     * @return bool
+     * @param string $pluginName Plugin name to check.
      */
-    public function isPluginActivated($pluginName)
+    public function isPluginActivated($pluginName): bool
     {
         Piwik::checkUserHasSomeViewAccess();
         return \Piwik\Plugin\Manager::getInstance()->isPluginActivated($pluginName);
     }
 
     /**
-     * Given a segment, will return a list of the most used values for this particular segment.
-     * @param $segmentName
-     * @param $idSite
-     * @throws \Exception
-     * @return array
+     * Returns suggested values for a segment based on recent data or a segment-specific callback.
+     *
+     * @param string $segmentName Segment name to suggest values for.
+     * @param int|string $idSite Site ID to query, or `'all'` for all sites where supported.
+     * @return array<int, mixed>
      */
     public function getSuggestedValuesForSegment($segmentName, $idSite)
     {
@@ -597,7 +645,7 @@ class API extends \Piwik\Plugin\API
             $period = 'year';
             $date = $now->toString();
             if ($now->toString('m') == '01') {
-                if (Rules::isArchivingDisabledFor(array($idSite), new Segment('', array($idSite)), 'range')) {
+                if (Rules::isArchivingDisabledFor([$idSite], new Segment('', [$idSite]), 'range')) {
                     $date = $now->subYear(1)->toString(); // use previous year data to avoid using range
                 } else {
                     $period = 'range';
@@ -609,7 +657,7 @@ class API extends \Piwik\Plugin\API
             $meta = $this->getMetadata($idSite, $apiParts[0], $apiParts[1]);
             $flat = !empty($meta[0]['actionToLoadSubTables']) && $meta[0]['actionToLoadSubTables'] == $apiParts[1];
 
-            $table = Request::processRequest($segment['suggestedValuesApi'], array(
+            $table          = Request::processRequest($segment['suggestedValuesApi'], [
                 'idSite' => $idSite,
                 'period' => $period,
                 'date' => $date,
@@ -617,16 +665,17 @@ class API extends \Piwik\Plugin\API
                 'filter_offset' => 0,
                 'flat' => (int) $flat,
                 'filter_limit' => $maxSuggestionsToReturn,
-            ));
+            ]);
 
             if ($table && $table instanceof DataTable && $table->getRowsCount()) {
                 $values = [];
                 foreach ($table->getRowsWithoutSummaryRow() as $row) {
+                    /** @var string|null|false $segment */
                     $segment = $row->getMetadata('segment');
-                    $remove = array(
+                    $remove = [
                         $segmentName . Segment\SegmentExpression::MATCH_EQUAL,
                         $segmentName . Segment\SegmentExpression::MATCH_STARTS_WITH,
-                    );
+                    ];
                     // we don't look at row columns since this could include rows that won't work eg Other summary rows. etc
                     // and it is generally not reliable.
                     if (!empty($segment) && preg_match('/^' . implode('|', $remove) . '/', $segment)) {
@@ -635,7 +684,7 @@ class API extends \Piwik\Plugin\API
                 }
 
                 $values = array_slice($values, 0, $maxSuggestionsToReturn);
-                $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
+                $values     = array_map(['Piwik\Common', 'unsanitizeInputValue'], $values);
                 return $values;
             }
         }
@@ -652,11 +701,11 @@ class API extends \Piwik\Plugin\API
 
         // if period=range is disabled, do not proceed
         if (!Period\Factory::isPeriodEnabledForAPI('range')) {
-            return array();
+            return [];
         }
 
         if (!empty($segment['unionOfSegments'])) {
-            $values = array();
+            $values = [];
             foreach ($segment['unionOfSegments'] as $unionSegmentName) {
                 $unionSegment = $this->findSegment($unionSegmentName, $idSite, $_showAllSegments = true);
 
@@ -681,7 +730,7 @@ class API extends \Piwik\Plugin\API
             $values = $this->getMostFrequentValues($values);
         }
         $values = array_slice($values, 0, $maxSuggestionsToReturn);
-        $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
+        $values = array_map(['Piwik\Common', 'unsanitizeInputValue'], $values);
 
         return $values;
     }
@@ -717,25 +766,29 @@ class API extends \Piwik\Plugin\API
         return $pages;
     }
 
-    private function findSegment($segmentName, $idSite, $_showAllSegments = false)
+    /**
+     * @param string $segmentName
+     * @param int|string $idSite
+     * @return mixed[]
+     */
+    private function findSegment($segmentName, $idSite, bool $_showAllSegments = false)
     {
         $segmentsMetadata = $this->getSegmentsMetadata($idSite, $_hideImplementationData = false, $_showAllSegments);
 
-        $segmentFound = false;
         foreach ($segmentsMetadata as $segmentMetadata) {
             if ($segmentMetadata['segment'] == $segmentName) {
-                $segmentFound = $segmentMetadata;
-                break;
+                return $segmentMetadata;
             }
         }
 
-        if (empty($segmentFound)) {
-            throw new \Exception("Requested segment $segmentName not found.");
-        }
-
-        return $segmentFound;
+        throw new \Exception("Requested segment $segmentName not found.");
     }
 
+    /**
+     * @param int|string $idSite
+     * @param array $segment
+     * @param int $maxSuggestionsToReturn
+     */
     private function getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn)
     {
         $startDate = Date::now()->subDay(self::$_autoSuggestLookBack)->toString();
@@ -783,10 +836,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * A glossary of all reports and their definition
+     * Returns glossary entries for all reports.
      *
-     * @param $idSite
-     * @return array
+     * @param int|string $idSite Site ID used for the access check.
+     * @return array<int, array<string, mixed>>
      */
     public function getGlossaryReports($idSite)
     {
@@ -795,10 +848,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * A glossary of all metrics and their definition
+     * Returns glossary entries for all metrics.
      *
-     * @param $idSite
-     * @return array
+     * @param int|string $idSite Site ID used for the access check.
+     * @return array<int, array<string, mixed>>
      */
     public function getGlossaryMetrics($idSite)
     {
@@ -807,10 +860,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param $segmentName
-     * @return bool
+     * Returns whether the segment requires action details from the visitor log.
      */
-    protected function doesSegmentNeedActionsData($segmentName)
+    protected function doesSegmentNeedActionsData(string $segmentName): bool
     {
         // If you update this, also update flattenVisitorDetailsArray
         $segmentsNeedActionsInfo = array('visitConvertedGoalId', 'visitConvertedGoalName',
@@ -827,9 +879,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param $values
+     * Sorts values by frequency, preserving deterministic ordering for ties.
      *
-     * @return array
+     * @param array<int, mixed> $values Raw values to rank.
+     * @return array<int, int|string>
      */
     private function getMostFrequentValues($values)
     {
@@ -848,9 +901,9 @@ class API extends \Piwik\Plugin\API
         // Sort this list by converting and sorting the array with custom method, so the result doesn't differ between PHP versions
         $sortArray = [];
 
-        foreach ($values as $value => $count) {
+        foreach ($values as $val => $count) {
             $sortArray[] = [
-                'value' => $value,
+                'value' => $val,
                 'count' => $count,
             ];
         }
@@ -866,7 +919,10 @@ class API extends \Piwik\Plugin\API
         return array_column($sortArray, 'value');
     }
 
-    private function doesSuggestedValuesCallbackNeedData($suggestedValuesCallback)
+    /**
+     * @param callable|string $suggestedValuesCallback
+     */
+    private function doesSuggestedValuesCallbackNeedData($suggestedValuesCallback): bool
     {
         if (
             is_string($suggestedValuesCallback)
@@ -908,18 +964,24 @@ class Plugin extends \Piwik\Plugin
         );
     }
 
-    public function detectIsApiRequest()
+    public function detectIsApiRequest(): void
     {
         Request::setIsRootRequestApiRequest(Request::getMethodIfApiRequest($request = null));
     }
 
-    public function getStylesheetFiles(&$stylesheets)
+    /**
+     * @param list<string> $stylesheets
+     */
+    public function getStylesheetFiles(&$stylesheets): void
     {
         $stylesheets[] = "plugins/API/stylesheets/listAllAPI.less";
         $stylesheets[] = "plugins/API/stylesheets/glossary.less";
     }
 
-    public function getJsGlobalVariables(&$out)
+    /**
+     * @param string $out
+     */
+    public function getJsGlobalVariables(&$out): void
     {
         $bulkRequestLimit = BulkRequestLimit::getCurrentLimit();
         $out .= "piwik.apiBulkRequestLimit = $bulkRequestLimit;\n";
@@ -932,7 +994,10 @@ class Plugin extends \Piwik\Plugin
         }
     }
 
-    public function getClientSideTranslationKeys(&$translations)
+    /**
+     * @param list<string> $translations
+     */
+    public function getClientSideTranslationKeys(&$translations): void
     {
         $translations[] = 'API_Glossary';
         $translations[] = 'API_LearnAboutCommonlyUsedTerms2';
