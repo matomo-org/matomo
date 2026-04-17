@@ -1,5 +1,12 @@
 [
   {
+    "title": "New: Manage API access more securely with OAuth 2.0",
+    "description": "With the new free Matomo OAuth 2.0 plugin, you can connect securely to the Matomo API using OAuth 2.0, with support for modern authentication flows and rotating access tokens. By improving security, simplifying token lifecycle management and aligning with enterprise authentication standards, your teams can build and maintain integrations with greater confidence.",
+    "link_name": "Learn more",
+    "link": "https://matomo.org/faq/how-to/set-up-oauth-2-0-authentication-for-the-matomo-api/",
+    "version": "5.9.0"
+  },
+  {
     "title": "New: Share insights directly in Microsoft Teams!",
     "description": "With the new free Matomo MS Teams plugin you can schedule reports and alerts for automatic delivery to shared MS Teams channels, ensuring critical updates reach the right people without delay. By improving visibility across stakeholders, reducing manual reporting and following performance trends consistently, your teams can respond quickly when metrics change.",
     "link_name": "Learn more",
