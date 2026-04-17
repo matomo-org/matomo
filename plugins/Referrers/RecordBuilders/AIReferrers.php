@@ -68,7 +68,7 @@ class AIReferrers extends RecordBuilder
 
         $this->aggregateFromConversions($logAggregator, $records, ["referer_name"]);
 
-        $records[Archiver::METRIC_DISTINCT_AI_ASSISTANT_RECORD_NAME] = count($records[Archiver::AI_ASSISTANTS_ENTRY_URL_RECORD_NAME]->getRows());
+        $records[Archiver::METRIC_DISTINCT_AI_ASSISTANT_RECORD_NAME] = $records[Archiver::AI_ASSISTANTS_ENTRY_URL_RECORD_NAME]->getRowsCount();
 
         return $records;
     }

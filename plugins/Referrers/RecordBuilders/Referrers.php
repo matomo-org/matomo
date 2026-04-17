@@ -82,11 +82,11 @@ class Referrers extends RecordBuilder
         $this->aggregateFromConversions($logAggregator, $records, ["referer_type", "referer_name", "referer_keyword"]);
 
         $numericRecords = [
-            Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => count($records[Archiver::SEARCH_ENGINES_RECORD_NAME]->getRows()),
-            Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME => count($records[Archiver::SOCIAL_NETWORKS_RECORD_NAME]->getRows()),
-            Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME      => count($records[Archiver::KEYWORDS_RECORD_NAME]->getRows()),
-            Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME     => count($records[Archiver::CAMPAIGNS_RECORD_NAME]->getRows()),
-            Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME      => count($records[Archiver::WEBSITES_RECORD_NAME]->getRows()),
+            Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => $records[Archiver::SEARCH_ENGINES_RECORD_NAME]->getRowsCount(),
+            Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME => $records[Archiver::SOCIAL_NETWORKS_RECORD_NAME]->getRowsCount(),
+            Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME      => $records[Archiver::KEYWORDS_RECORD_NAME]->getRowsCount(),
+            Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME     => $records[Archiver::CAMPAIGNS_RECORD_NAME]->getRowsCount(),
+            Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME      => $records[Archiver::WEBSITES_RECORD_NAME]->getRowsCount(),
             Archiver::METRIC_DISTINCT_URLS_RECORD_NAME         => count($distinctUrls),
         ];
 

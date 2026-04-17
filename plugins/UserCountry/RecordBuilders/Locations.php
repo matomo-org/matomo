@@ -178,7 +178,7 @@ class Locations extends RecordBuilder
      */
     private function setLatitudeLongitude(DataTable $tableCity): void
     {
-        foreach ($tableCity->getRows() as $row) {
+        foreach ($tableCity->getRowsWithoutSummaryRow() as $row) {
             $label = $row->getColumn('label');
             if (isset($this->latLongForCities[$label])) {
                 // get lat/long for city
