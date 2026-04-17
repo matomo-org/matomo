@@ -10,11 +10,18 @@
 namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Actions;
+use Piwik\Plugins\Actions\Columns\EntryPageTitle;
+use Piwik\Plugins\Actions\Columns\EntryPageUrl;
+use Piwik\Plugins\Actions\Columns\ExitPageTitle;
+use Piwik\Plugins\Actions\Columns\ExitPageUrl;
+use Piwik\Plugins\Actions\Columns\PageTitle;
+use Piwik\Plugins\Actions\Columns\PageUrl;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\API\Request;
 
@@ -122,5 +129,31 @@ abstract class Base extends \Piwik\Plugin\Report
                 return min($visitsInfo->getColumn('max_actions') - 1, $nbActionsLowPopulationThreshold - 1);
             };
         }
+    }
+
+    public function getRecursiveLabelSeparator()
+    {
+        $legacyDelimiter = GeneralConfig::getConfigValue('action_category_delimiter');
+        if (!empty($legacyDelimiter)) {
+            return $legacyDelimiter;
+        }
+
+        if (
+            $this->dimension instanceof PageTitle
+            || $this->dimension instanceof EntryPageTitle
+            || $this->dimension instanceof ExitPageTitle
+        ) {
+            return GeneralConfig::getConfigValue('action_title_category_delimiter') ?: $this->recursiveLabelSeparator;
+        }
+
+        if (
+            $this->dimension instanceof PageUrl
+            || $this->dimension instanceof EntryPageUrl
+            || $this->dimension instanceof ExitPageUrl
+        ) {
+            return GeneralConfig::getConfigValue('action_url_category_delimiter') ?: $this->recursiveLabelSeparator;
+        }
+
+        return parent::getRecursiveLabelSeparator();
     }
 }
