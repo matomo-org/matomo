@@ -20,6 +20,7 @@ use Piwik\Site;
 
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
+ *
  * @method static \Piwik\Plugins\VisitFrequency\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -34,8 +35,21 @@ class API extends \Piwik\Plugin\API
     protected $autoSanitizeInputParams = false;
 
     /**
-     * @param string|int|int[] $idSite
-     * @param null|string|string[] $columns
+     * Returns visit summary metrics split between new and returning visitors.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null $segment Custom segment to append to the visitor type filters.
+     * @param list<string>|string|null $columns Metrics to include in the response.
+     *                                          Accepts a comma-separated list or array of metric names.
+     * @return DataTable\DataTableInterface Visit summary metrics with `_new` and `_returning` column suffixes.
      */
     public function get($idSite, string $period, string $date, ?string $segment = null, $columns = null): DataTable\DataTableInterface
     {
@@ -59,7 +73,7 @@ class API extends \Piwik\Plugin\API
         }
 
         foreach ($visitTypes as $columnSuffix => $visitorTypeSegment) {
-            $modifiedSegment = Segment::combine($segment, SegmentExpression::AND_DELIMITER, $visitorTypeSegment);
+            $modifiedSegment = Segment::combine($segment ?? '', SegmentExpression::AND_DELIMITER, $visitorTypeSegment);
 
             $columnsForVisitType = empty($columns) ? array() : $this->unprefixColumns($columns, $columnSuffix);
 

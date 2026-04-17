@@ -99,7 +99,7 @@ class UserAccessFilterTest extends IntegrationTestCase
         $this->assertSame(['login' => $identity], $this->filter->filterUser(['login' => $identity]));
         foreach ($this->getAllLogins() as $login) {
             if ($login !== $identity) {
-                $this->assertNull($this->filter->filterUser(['login' => $login]));
+                $this->assertEmpty($this->filter->filterUser(['login' => $login]));
             }
         }
     }
@@ -113,7 +113,7 @@ class UserAccessFilterTest extends IntegrationTestCase
         if ($expectedAllowed) {
             $this->assertSame(['login' => $loginToSee], $this->filter->filterUser(['login' => $loginToSee]));
         } else {
-            $this->assertSame(null, $this->filter->filterUser(['login' => $loginToSee]));
+            $this->assertSame([], $this->filter->filterUser(['login' => $loginToSee]));
         }
     }
 

@@ -194,7 +194,7 @@ class Model
      * Returns the list of websites from the ID array in parameters.
      *
      * @param array $idSites list of website ID
-     * @param bool $limit
+     * @param int|null|false $limit
      * @param string[] $siteTypesToExclude Optional list of site types to exclude. E.g. intranet or rollup.
      * @return array
      */
@@ -397,7 +397,7 @@ class Model
      *
      * @param int[] $ids
      * @param string $pattern
-     * @param int $limit
+     * @param int|null $limit
      * @param string[] $siteTypesToExclude Optional list of site types to exclude. E.g. intranet or rollup.
      * @return array
      */

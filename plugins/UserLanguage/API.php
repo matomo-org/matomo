@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\UserLanguage;
 
 use Piwik\Archive;
+use Piwik\DataTable;
 use Piwik\Piwik;
 
 /**
@@ -24,7 +25,12 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserLanguage/functions.php';
  */
 class API extends \Piwik\Plugin\API
 {
-    protected function getDataTable($name, $idSite, $period, $date, $segment)
+    /**
+     * @param int|string|int[] $idSite
+     * @param string|null|false $segment
+     * @return DataTable|DataTable\Map
+     */
+    protected function getDataTable(string $name, $idSite, string $period, string $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
@@ -34,7 +40,24 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getLanguage($idSite, $period, $date, $segment = false)
+    /**
+     * Returns visitor language metrics grouped by base language code.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Visitor language metrics grouped by language code.
+     */
+    public function getLanguage($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\groupByLangCallback'));
@@ -49,7 +72,24 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getLanguageCode($idSite, $period, $date, $segment = false)
+    /**
+     * Returns visitor language metrics grouped by full locale code.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Visitor language metrics grouped by locale code.
+     */
+    public function getLanguageCode($idSite, string $period, string $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
