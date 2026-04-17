@@ -376,7 +376,7 @@ class LoaderTest extends IntegrationTestCase
 
     private function getExistingArchives($date)
     {
-        $table = ArchiveTableCreator::getNumericTable(Date::factory($date));
+        $table = ArchiveTableCreator::getNumericTable(Date::factory($date), true);
         return Db::fetchAll("SELECT idarchive, `name`, date1, date2, period, `value` FROM `$table` WHERE `name` LIKE 'done%' ORDER BY idarchive ASC");
     }
 
@@ -1910,7 +1910,7 @@ class LoaderTest extends IntegrationTestCase
         $idArchive = $loader->prepareArchive('Actions')[0];
         $this->assertNotEmpty($idArchive);
 
-        $table = ArchiveTableCreator::getNumericTable(Date::factory('2016-02-03'));
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2016-02-03'), true);
         $doneFlag = Db::fetchOne("SELECT `name` FROM `$table` WHERE `name` LIKE 'done%' AND idarchive IN (" . implode(',', $idArchive) . ")");
         $this->assertEquals('done.Actions', $doneFlag);
     }
@@ -1988,7 +1988,7 @@ class LoaderTest extends IntegrationTestCase
 
         if ($tsArchived) {
             Db::query(
-                "UPDATE " . ArchiveTableCreator::getNumericTable($params->getPeriod()->getDateStart()) . " SET ts_archived = ?",
+                "UPDATE " . ArchiveTableCreator::getNumericTable($params->getPeriod()->getDateStart(), true) . " SET ts_archived = ?",
                 [Date::factory($tsArchived)->getDatetime()]
             );
         }
@@ -2008,7 +2008,7 @@ class LoaderTest extends IntegrationTestCase
             }
 
             $d = Date::factory($row['date1']);
-            $table = !empty($row['is_blob_data']) ? ArchiveTableCreator::getBlobTable($d) : ArchiveTableCreator::getNumericTable($d);
+            $table = !empty($row['is_blob_data']) ? ArchiveTableCreator::getBlobTable($d, true) : ArchiveTableCreator::getNumericTable($d, true);
             $tsArchived = isset($row['ts_archived']) ? $row['ts_archived'] : Date::now()->getDatetime();
 
             Db::query(
@@ -2021,7 +2021,7 @@ class LoaderTest extends IntegrationTestCase
             $idarchives = array_column($archiveRows, 'idarchive');
             $max = max($idarchives);
 
-            $seq = new Sequence(ArchiveTableCreator::getNumericTable(Date::factory($archiveRows[0]['date1'])));
+            $seq = new Sequence(ArchiveTableCreator::getNumericTable(Date::factory($archiveRows[0]['date1']), true));
             $seq->create($max);
         }
     }

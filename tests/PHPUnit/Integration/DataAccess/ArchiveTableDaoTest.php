@@ -37,8 +37,8 @@ class ArchiveTableDaoTest extends IntegrationTestCase
             'Piwik\DataAccess\ArchiveTableDao'
         );
 
-        ArchiveTableCreator::getBlobTable(Date::factory('2015-01-01'));
-        ArchiveTableCreator::getNumericTable(Date::factory('2015-01-01'));
+        ArchiveTableCreator::getBlobTable(Date::factory('2015-01-01'), true);
+        ArchiveTableCreator::getNumericTable(Date::factory('2015-01-01'), true);
     }
 
     public function testGetArchiveTableAnalysisQueriesNumericAndBlobTableIncludingArchivesInBlobThatAreNotInNumeric()

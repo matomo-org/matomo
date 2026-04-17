@@ -10,10 +10,26 @@
 namespace Piwik\Plugins\DBStats\tests\Mocks;
 
 use Piwik\Common;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Date;
 use Piwik\Plugins\DBStats\MySQLMetadataDataAccess;
 
 class MockDataAccess extends MySQLMetadataDataAccess
 {
+    private const MOCK_ARCHIVE_DATES = ['2012-01-01', '2012-02-01', '2012-03-01', '2012-04-01'];
+
+    public function __construct()
+    {
+        // Ensure the monthly archive tables the mock pretends to describe actually exist in the DB,
+        // so MySQLMetadataProvider's DbHelper::getTablesInstalled() filter doesn't drop them.
+        ArchiveTableCreator::clear();
+        foreach (self::MOCK_ARCHIVE_DATES as $date) {
+            $d = Date::factory($date);
+            ArchiveTableCreator::getNumericTable($d, true);
+            ArchiveTableCreator::getBlobTable($d, true);
+        }
+    }
+
     public static $tableStatuses = array(
         'user' => array(5, 8192, 8192),
         'access' => array(9, 8192, 1024),
@@ -105,17 +121,11 @@ class MockDataAccess extends MySQLMetadataDataAccess
             $result[] = $this->getTableStatus($unprefixed);
         }
 
-        $result[] = $this->getTableStatus(Common::prefixTable('archive_numeric_2012_01'));
-        $result[] = $this->getTableStatus(Common::prefixTable('archive_blob_2012_01'));
-
-        $result[] = $this->getTableStatus(Common::prefixTable('archive_numeric_2012_02'));
-        $result[] = $this->getTableStatus(Common::prefixTable('archive_blob_2012_02'));
-
-        $result[] = $this->getTableStatus(Common::prefixTable('archive_numeric_2012_03'));
-        $result[] = $this->getTableStatus(Common::prefixTable('archive_blob_2012_03'));
-
-        $result[] = $this->getTableStatus(Common::prefixTable('archive_numeric_2012_04'));
-        $result[] = $this->getTableStatus(Common::prefixTable('archive_blob_2012_04'));
+        foreach (self::MOCK_ARCHIVE_DATES as $date) {
+            $d = Date::factory($date);
+            $result[] = $this->getTableStatus(ArchiveTableCreator::getNumericTable($d, true));
+            $result[] = $this->getTableStatus(ArchiveTableCreator::getBlobTable($d, true));
+        }
 
         return $result;
     }

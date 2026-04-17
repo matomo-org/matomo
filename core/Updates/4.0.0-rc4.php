@@ -49,7 +49,12 @@ class Updates_4_0_0_rc4 extends PiwikUpdates
                 $numericTable = ArchiveTableCreator::getBlobTable($date, false);
                 $blobTable = ArchiveTableCreator::getNumericTable($date, false);
 
-                if (DbHelper::tableExists($blobTable) && DbHelper::tableExists($numericTable)) {
+                if (
+                    $blobTable !== null
+                    && $numericTable !== null
+                    && DbHelper::tableExists($blobTable)
+                    && DbHelper::tableExists($numericTable)
+                ) {
                     $migrations[] = $this->migration->db->sql(
                         "DELETE FROM `$blobTable` WHERE idarchive NOT IN (SELECT idarchive FROM `$numericTable`)",
                         []

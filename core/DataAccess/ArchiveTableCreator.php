@@ -17,6 +17,9 @@ class ArchiveTableCreator
     public const NUMERIC_TABLE = "numeric";
     public const BLOB_TABLE    = "blob";
 
+    /**
+     * @var list<string>|null
+     */
     public static $tablesAlreadyInstalled = null;
 
     /**
@@ -25,6 +28,8 @@ class ArchiveTableCreator
      * In Matomo 5, omitting `$createIfMissing` keeps the legacy behavior and creates missing archive tables,
      * but this is deprecated and will change in Matomo 6. Pass `true` to explicitly create missing tables or
      * `false` to only return an existing table.
+     *
+     * @phpstan-return ($createIfMissing is false ? string|null : string)
      */
     public static function getNumericTable(Date $date, ?bool $createIfMissing = null): ?string
     {
@@ -37,12 +42,17 @@ class ArchiveTableCreator
      * In Matomo 5, omitting `$createIfMissing` keeps the legacy behavior and creates missing archive tables,
      * but this is deprecated and will change in Matomo 6. Pass `true` to explicitly create missing tables or
      * `false` to only return an existing table.
+     *
+     * @phpstan-return ($createIfMissing is false ? string|null : string)
      */
     public static function getBlobTable(Date $date, ?bool $createIfMissing = null): ?string
     {
         return self::getTable($date, self::BLOB_TABLE, $createIfMissing);
     }
 
+    /**
+     * @phpstan-return ($createIfMissing is false ? string|null : string)
+     */
     protected static function getTable(Date $date, string $type, ?bool $createIfMissing = null): ?string
     {
         if ($createIfMissing === null) {
