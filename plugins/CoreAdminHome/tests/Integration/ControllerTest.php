@@ -101,7 +101,19 @@ class ControllerTest extends IntegrationTestCase
         $_GET = ['idSite' => '999', 'period' => 'day', 'date' => 'today'];
         $_REQUEST = $_GET;
 
-        $output = 'original output';
+        $output = Piwik_GetErrorMessagePage(
+            'Original message',
+            false,
+            true,
+            true,
+            'custom-logo.svg',
+            'custom-favicon.png',
+            false,
+            '',
+            false,
+            'https://example.test/redirect',
+            5
+        );
         $plugin = new CoreAdminHome();
         $plugin->onModifyErrorPage(
             $output,
@@ -112,7 +124,11 @@ class ControllerTest extends IntegrationTestCase
         $this->assertStringContainsString("website id was set to '999' on the URL", $output);
         $this->assertStringContainsString('Please go back to your previous page', $output);
         $this->assertStringContainsString('return to your dashboard', $output);
-        $this->assertStringNotContainsString('An unexpected website was found in the request', $output);
+        $this->assertStringNotContainsString('Original message', $output);
+        $this->assertStringContainsString('custom-logo.svg', $output);
+        $this->assertStringContainsString('custom-favicon.png', $output);
+        $this->assertStringContainsString('https://example.test/redirect', $output);
+        $this->assertStringContainsString('setTimeout(function(){window.location.href="https://example.test/redirect"}', $output);
     }
 
 
@@ -121,14 +137,15 @@ class ControllerTest extends IntegrationTestCase
         $_GET = ['idSite' => '1', 'period' => 'day', 'date' => 'today'];
         $_REQUEST = $_GET;
 
-        $output = 'original output';
+        $output = Piwik_GetErrorMessagePage('Original message', false, true, true, false, false, false, '', false);
         $plugin = new CoreAdminHome();
         $plugin->onModifyErrorPage(
             $output,
             new UnexpectedWebsiteFoundException("The requested website id = 999 couldn't be found")
         );
 
-        $this->assertSame('original output', $output);
+        $this->assertStringContainsString('Original message', $output);
+        $this->assertStringNotContainsString('This URL is not valid. The content may have been moved, deleted, or is no longer available', $output);
     }
 
     public function tearDown(): void

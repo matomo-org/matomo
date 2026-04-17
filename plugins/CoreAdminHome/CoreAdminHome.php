@@ -61,12 +61,7 @@ class CoreAdminHome extends \Piwik\Plugin
             Piwik::translate('CoreAdminHome_InvalidSiteUrlErrorHelp')
         );
 
-        $output = Piwik_GetErrorMessagePage(
-            $message,
-            false,
-            true,
-            true
-        );
+        $output = $this->replaceErrorPageMessage($output, $message);
     }
 
     private function getRequestedIdSite(): ?string
@@ -97,6 +92,27 @@ class CoreAdminHome extends \Piwik\Plugin
         } catch (UnexpectedWebsiteFoundException $exception) {
             return true;
         }
+    }
+
+    private function replaceErrorPageMessage(string $output, string $message): string
+    {
+        $updatedOutput = preg_replace('/<h2>.*?<\/h2>/s', '<h2>' . $message . '</h2>', $output, 1);
+        if ($updatedOutput !== null && $updatedOutput !== $output) {
+            return $updatedOutput;
+        }
+
+        $updatedOutput = preg_replace(
+            '/<div class=\'alert alert-danger\'><strong>Error:<\/strong> .*?<\/div>/s',
+            "<div class='alert alert-danger'><strong>Error:</strong> $message</div>",
+            $output,
+            1
+        );
+
+        if ($updatedOutput !== null) {
+            return $updatedOutput;
+        }
+
+        return $output;
     }
 
     public function addSystemSummaryItems(&$systemSummary)
