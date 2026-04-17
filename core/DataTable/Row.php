@@ -117,7 +117,7 @@ class Row extends \ArrayObject
      */
     public function export()
     {
-        $metadataToPersist = $this->metadata;
+        $metadataToPersist = $this->getMetadata();
         unset($metadataToPersist[self::COMPARISONS_METADATA_NAME]);
         return array(
             self::COLUMNS => $this->getArrayCopy(),
@@ -147,6 +147,75 @@ class Row extends \ArrayObject
     {
         $this->_boundTable = $table;
         $this->_boundRowId = $rowId;
+    }
+
+    // ── ArrayObject intercepts when bound ─────────────────────────────────────
+    //
+    // When this Row is bound to a DataTable's packed storage (via bindToTable),
+    // all ArrayObject read/write operations are forwarded to the DataTable so that
+    // the packed storage is the single source of truth.  Without these overrides,
+    // Twig's attribute access ({{ row.idVisit }}) would read from the internal
+    // ArrayObject storage (which is empty for materialised rows), causing a
+    // "property does not exist" error.
+
+    public function offsetExists($name): bool
+    {
+        if ($this->_boundTable !== null) {
+            return $this->_boundTable->rowColumnExists($this->_boundRowId, (string) $name);
+        }
+        // Return true if the key exists, regardless of whether its value is null.
+        // hasColumn() and deleteColumn() must return true/succeed for null-valued columns.
+        // getColumn() and renameColumn() apply their own explicit null checks rather than
+        // relying on isset() — because once offsetExists() is overridden, PHP's
+        // isset($obj[$key]) no longer performs a native null-check; it uses our return value.
+        return parent::offsetExists($name);
+    }
+
+    public function offsetGet($name)
+    {
+        if ($this->_boundTable !== null) {
+            return $this->_boundTable->getPackedValue($this->_boundRowId, (string) $name);
+        }
+        return parent::offsetGet($name);
+    }
+
+    public function offsetSet($name, $value): void
+    {
+        if ($this->_boundTable !== null) {
+            $this->_boundTable->setPackedValue($this->_boundRowId, (string) $name, $value);
+            // Also keep the ArrayObject snapshot in sync so that (array)$row and
+            // Twig attribute access always reflect the current value.
+            parent::offsetSet($name, $value);
+            return;
+        }
+        parent::offsetSet($name, $value);
+    }
+
+    public function offsetUnset($name): void
+    {
+        if ($this->_boundTable !== null) {
+            $this->_boundTable->deletePackedColumn($this->_boundRowId, (string) $name);
+            // Keep ArrayObject snapshot in sync.
+            parent::offsetUnset($name);
+            return;
+        }
+        parent::offsetUnset($name);
+    }
+
+    public function getArrayCopy(): array
+    {
+        if ($this->_boundTable !== null) {
+            return $this->_boundTable->getPackedRow($this->_boundRowId);
+        }
+        return parent::getArrayCopy();
+    }
+
+    public function getIterator(): \ArrayIterator
+    {
+        if ($this->_boundTable !== null) {
+            return new \ArrayIterator($this->_boundTable->getPackedRow($this->_boundRowId));
+        }
+        return parent::getIterator();
     }
 
     /**
@@ -242,12 +311,16 @@ class Row extends \ArrayObject
             return;
         }
 
-        if (isset($this[$oldName])) {
-            $this[$newName] = $this[$oldName];
+        // Cannot use isset($this[$oldName]) here: our overridden offsetExists() returns
+        // true for null-valued keys, so isset() also returns true for null.  Renaming
+        // a null-valued column must NOT create the new column name — only non-null values
+        // are copied.  Apply an explicit null check via parent:: to bypass the override.
+        if (parent::offsetExists($oldName) && parent::offsetGet($oldName) !== null) {
+            $this[$newName] = parent::offsetGet($oldName);
         }
 
         // outside the if () since we want to delete nulled columns
-        if ($this->offsetExists($oldName)) {
+        if (parent::offsetExists($oldName)) {
             unset($this[$oldName]);
         }
     }
@@ -268,11 +341,15 @@ class Row extends \ArrayObject
             return ($val === null) ? false : $val;
         }
 
-        if (!isset($this[$name])) {
+        // Cannot use isset($this[$name]) here: our overridden offsetExists() returns true
+        // even for null-valued keys (needed for hasColumn/deleteColumn contracts), so
+        // isset($this[$name]) would also return true for null values. Apply an explicit
+        // null-to-false conversion to preserve the Row API contract (null columns → false).
+        if (!parent::offsetExists($name)) {
             return false;
         }
-
-        return $this[$name];
+        $val = parent::offsetGet($name);
+        return ($val === null) ? false : $val;
     }
 
     /**

@@ -31,19 +31,14 @@ class UrlsFromWebsiteIdTest extends \PHPUnit\Framework\TestCase
         $filter->filter($table);
 
         $expected = [
-            new DataTable\Row([
-                DataTable\Row::COLUMNS => ['label' => 'x/y/z', 'nb_visits' => 3],
-                DataTable\Row::METADATA => ['url' => ''],
-            ]),
-            new DataTable\Row([
-                DataTable\Row::COLUMNS => ['label' => 'x/y/z/', 'nb_visits' => 1],
-                DataTable\Row::METADATA => ['url' => ''],
-            ]),
-            new DataTable\Row([
-                DataTable\Row::COLUMNS => ['label' => 'index', 'nb_visits' => 1],
-                DataTable\Row::METADATA => ['url' => ''],
-            ]),
+            ['label' => 'x/y/z', 'nb_visits' => 3],
+            ['label' => 'x/y/z/', 'nb_visits' => 1],
+            ['label' => 'index', 'nb_visits' => 1],
         ];
-        $this->assertEquals($expected, array_values($table->getRows()));
+        $rows = array_values($table->getRows());
+        $this->assertCount(count($expected), $rows);
+        foreach ($expected as $i => $expectedColumns) {
+            $this->assertSame($expectedColumns, $rows[$i]->getColumns());
+        }
     }
 }

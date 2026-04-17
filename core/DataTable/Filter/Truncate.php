@@ -116,7 +116,11 @@ class Truncate extends BaseFilter
 
         $table->filter('Sort', [$this->columnToSortByBeforeTruncating, 'desc', $naturalSort = true, $recursiveSort = false]);
 
-        $rows   = array_values($table->getRows());
+        // Use getRowsWithoutSummaryRow() so that row data is accessed via ViewRow
+        // proxies instead of materialised snapshot Rows — avoids duplicating all
+        // column data in memory.  The summary-row case (if $i >= count of regular rows)
+        // is handled by the existing getRowFromId() fallback below.
+        $rows   = array_values($table->getRowsWithoutSummaryRow());
         $count  = $table->getRowsCount();
         $newRow = new Row([Row::COLUMNS => ['label' => DataTable::LABEL_SUMMARY_ROW]]);
 

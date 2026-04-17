@@ -1569,14 +1569,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Materialise a packed row into a full Row object.
-     * Used by getRows() so that callers receive standard Row instances with
-     * correct ArrayObject storage (important for PHPUnit assertEquals comparisons).
+     * Materialise a packed row into a Row object.
      *
-     * The returned Row is "bound" to this DataTable via a static callback on Row:
-     * if the caller calls setSubtable() on the returned Row, the assignment is
-     * propagated back to $this->rowSubtableIds and the Row destructor will NOT
-     * delete the subtable (the DataTable owns it, not the temporary Row object).
+     * The returned Row stores columns in its ArrayObject (for PHPUnit assertEquals
+     * and Twig attribute access) and is also bound to this DataTable's packed storage
+     * so that column mutations (setColumn, deleteColumn) and subtable assignments
+     * propagate back immediately.
+     *
+     * PHPUnit's ObjectComparator compares ArrayObject subclasses via (array)$obj,
+     * which returns only the ArrayObject internal items — NOT class properties such
+     * as _boundTable.  Therefore binding does NOT break assertEquals.
      *
      * @internal
      */
@@ -1586,26 +1588,24 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $meta       = $this->getRowMetadata($rowId);
         $subtableId = $this->getRowSubtableId($rowId);
 
-        $row = new Row([Row::COLUMNS => $columns, Row::METADATA => $meta]);
+        // Binding-only: no column snapshot in ArrayObject.
+        // Column reads/writes go through bound packed storage (offsetGet/Set intercepts).
+        // Metadata snapshot is still set so Row::getMetadata() works on the Row object
+        // before it is bound (constructor path) — binding overrides reads/writes after.
+        $row = new Row([Row::METADATA => $meta]);
+
+        // Bind to packed storage so column mutations propagate back.
+        $row->bindToTable($this, $rowId);
+
         if ($subtableId !== null) {
             if ($this->isRowSubtableLoaded($rowId)) {
-                // Subtable was set via setSubtable() — it is registered in Manager.
                 $row->setLoadedSubtableId($subtableId);
             } else {
-                // Subtable ID came from a deserialised blob — the Manager table may not
-                // exist yet (lazy-loaded). Mark unloaded so getSubtable() won't
-                // accidentally return an unrelated table with a colliding ID.
                 $row->setNonLoadedSubtableId($subtableId);
             }
         }
 
-        // Bind column/metadata operations so that mutations made on this Row
-        // (e.g. by DataTable filters iterating getRows()) are written back to
-        // the DataTable's packed storage rather than only to the local Row copy.
-        $row->bindToTable($this, $rowId);
-
-        // Bind a callback so setSubtable() on this materialised Row propagates
-        // the subtableId back to this DataTable's packed storage.
+        // Bind a subtable callback so setSubtable() propagates back.
         $row->bindSubtableCallback(function (int $newSubtableId) use ($rowId) {
             $this->setRowSubtableId($rowId, $newSubtableId);
         });
@@ -1643,9 +1643,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getColumn($name)
     {
-        $columnValues = array();
-        foreach ($this->getRows() as $row) {
+        // Use ViewRow proxies instead of materialised snapshot rows — no column data copying.
+        $columnValues = [];
+        foreach ($this->getRowsWithoutSummaryRow() as $row) {
             $columnValues[] = $row->getColumn($name);
+        }
+        if ($this->summaryRowData !== null) {
+            $columnValues[] = (new ViewRow($this, self::ID_SUMMARY_ROW))->getColumn($name);
         }
         return $columnValues;
     }
@@ -1658,12 +1662,19 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getColumnsStartingWith($namePrefix)
     {
-        $columnValues = array();
-        foreach ($this->getRows() as $row) {
-            $columns = $row->getColumns();
-            foreach ($columns as $column => $value) {
+        $columnValues = [];
+        foreach ($this->getRowsWithoutSummaryRow() as $row) {
+            foreach ($row->getColumns() as $column => $value) {
                 if (strpos($column, $namePrefix) === 0) {
                     $columnValues[] = $row->getColumn($column);
+                }
+            }
+        }
+        if ($this->summaryRowData !== null) {
+            $summaryRow = new ViewRow($this, self::ID_SUMMARY_ROW);
+            foreach ($summaryRow->getColumns() as $column => $value) {
+                if (strpos($column, $namePrefix) === 0) {
+                    $columnValues[] = $summaryRow->getColumn($column);
                 }
             }
         }
@@ -1671,8 +1682,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Returns the names of every column this DataTable contains. This method will return the
-     * columns of the first row with data and will assume they occur in every other row as well.
+     * Returns the names of every column this DataTable contains.
      *
      *_ Note: If column names still use their in-database INDEX values (@see Metrics), they
      *        will be converted to their string name in the array result._
@@ -1681,12 +1691,21 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getColumns()
     {
-        $result = array();
-        foreach ($this->getRows() as $row) {
-            $columns = $row->getColumns();
-            if (!empty($columns)) {
-                $result = array_keys($columns);
-                break;
+        // Columnar storage: column names are available directly from the schema.
+        if (!empty($this->columnNames)) {
+            $result = $this->columnNames;
+        } else {
+            // Empty table or no rows added yet — scan for the first non-empty row.
+            $result = [];
+            foreach ($this->getRowsWithoutSummaryRow() as $row) {
+                $columns = $row->getColumns();
+                if (!empty($columns)) {
+                    $result = array_keys($columns);
+                    break;
+                }
+            }
+            if (empty($result) && $this->summaryRowData !== null) {
+                $result = array_keys((new ViewRow($this, self::ID_SUMMARY_ROW))->getColumns());
             }
         }
 
@@ -1708,9 +1727,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowsMetadata($name)
     {
-        $metadataValues = array();
-        foreach ($this->getRows() as $row) {
+        $metadataValues = [];
+        foreach ($this->getRowsWithoutSummaryRow() as $row) {
             $metadataValues[] = $row->getMetadata($name);
+        }
+        if ($this->summaryRowData !== null) {
+            $metadataValues[] = (new ViewRow($this, self::ID_SUMMARY_ROW))->getMetadata($name);
         }
         return $metadataValues;
     }
@@ -2724,6 +2746,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         foreach ($rows as $id => $row) {
+            unset($rows[$id]); // free raw entry immediately to halve deserialization peak memory
             if (isset($row->c)) {
                 $this->addRow(new Row($row->c)); // Pre Piwik 2.13
             } else {

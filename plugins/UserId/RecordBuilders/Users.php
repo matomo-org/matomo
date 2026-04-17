@@ -98,7 +98,7 @@ class Users extends RecordBuilder
      */
     private function setVisitorIds(DataTable $dataTable, array $visitorIdsUserIdsMap)
     {
-        foreach ($dataTable->getRows() as $row) {
+        foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
             $userId = $row->getColumn('label');
             if (isset($visitorIdsUserIdsMap[$userId])) {
                 $row->setMetadata(Archiver::VISITOR_ID_FIELD, $visitorIdsUserIdsMap[$userId]);

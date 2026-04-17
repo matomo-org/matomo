@@ -466,7 +466,7 @@ class Map implements DataTableInterface
      */
     private function copyRowsAndSetLabel($toTable, $fromTable, $label)
     {
-        foreach ($fromTable->getRows() as $fromRow) {
+        foreach ($fromTable->getRowsWithoutSummaryRow() as $fromRow) {
             $oldColumns = $fromRow->getColumns();
             unset($oldColumns['label']);
 
