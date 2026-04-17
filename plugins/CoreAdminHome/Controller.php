@@ -420,25 +420,7 @@ class Controller extends ControllerAdmin
 
         private function replaceIdSiteInQueryString ($queryStr, $idSite) {...}
 
-        $fragment = $parsedLink['fragment'] ?? '';
-        $fragmentPrefix = '';
-        $fragmentQuery = '';
-        if (strpos($fragment, '/?') === 0) {
-            $fragmentPrefix = '/?';
-            $fragmentQuery = substr($fragment, 2);
-        } elseif (strpos($fragment, '?') === 0) {
-            $fragmentPrefix = '?';
-            $fragmentQuery = substr($fragment, 1);
-        }
-
-        if ($fragmentPrefix !== '') {
-            $fragmentParams = UrlHelper::getArrayFromQueryString($fragmentQuery);
-            if (array_key_exists('idSite', $fragmentParams)) {
-                $fragmentParams['idSite'] = $defaultIdSite;
-                $parsedLink['fragment'] = $fragmentPrefix . Url::getQueryStringFromParameters($fragmentParams);
-                $wasUpdated = true;
-            }
-        }
+       private function replaceIdSiteInFragment($fragment, $idSite) {...}
 
         if (!$wasUpdated) {
             return $link;
