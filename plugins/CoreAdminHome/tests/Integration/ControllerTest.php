@@ -105,7 +105,7 @@ class ControllerTest extends IntegrationTestCase
         $plugin = new CoreAdminHome();
         $plugin->onModifyErrorPage(
             $output,
-            new UnexpectedWebsiteFoundException("An unexpected website was found in the request: website id was set to '999' .")
+            new UnexpectedWebsiteFoundException("The requested website id = 999 couldn't be found")
         );
 
         $this->assertStringContainsString('This URL is not valid. The content may have been moved, deleted, or is no longer available', $output);
@@ -113,6 +113,22 @@ class ControllerTest extends IntegrationTestCase
         $this->assertStringContainsString('Please go back to your previous page', $output);
         $this->assertStringContainsString('return to your dashboard', $output);
         $this->assertStringNotContainsString('An unexpected website was found in the request', $output);
+    }
+
+
+    public function testModifyErrorPageDoesNotReplaceOtherUnexpectedWebsiteExceptions(): void
+    {
+        $_GET = ['idSite' => '1', 'period' => 'day', 'date' => 'today'];
+        $_REQUEST = $_GET;
+
+        $output = 'original output';
+        $plugin = new CoreAdminHome();
+        $plugin->onModifyErrorPage(
+            $output,
+            new UnexpectedWebsiteFoundException("The requested website id = 999 couldn't be found")
+        );
+
+        $this->assertSame('original output', $output);
     }
 
     public function tearDown(): void

@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
+use Piwik\Site;
 use Piwik\ProxyHttp;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
@@ -50,6 +51,10 @@ class CoreAdminHome extends \Piwik\Plugin
             return;
         }
 
+        if (!$this->isInvalidRequestedIdSite($requestedIdSite)) {
+            return;
+        }
+
         $message = sprintf(
             '<p>%s</p><p>%s</p>',
             Piwik::translate('CoreAdminHome_InvalidSiteUrlError', Common::sanitizeInputValue($requestedIdSite)),
@@ -79,6 +84,21 @@ class CoreAdminHome extends \Piwik\Plugin
 
         return null;
     }
+
+    private function isInvalidRequestedIdSite(string $requestedIdSite): bool
+    {
+        if (!ctype_digit($requestedIdSite)) {
+            return false;
+        }
+
+        try {
+            new Site((int) $requestedIdSite);
+            return false;
+        } catch (UnexpectedWebsiteFoundException $exception) {
+            return true;
+        }
+    }
+
     public function addSystemSummaryItems(&$systemSummary)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
