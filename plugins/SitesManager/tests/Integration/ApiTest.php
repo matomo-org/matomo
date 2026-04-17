@@ -14,6 +14,7 @@ use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -1281,6 +1282,20 @@ class ApiTest extends IntegrationTestCase
 
         $this->assertSame(1, $called);
         $this->assertSame($siteId1, $deletedSiteId);
+    }
+
+
+    public function testDeleteShouldClearDeletedSiteFromStaticSiteCache(): void
+    {
+        $this->addSite();
+        $siteId = $this->addSite();
+
+        new Site($siteId);
+
+        API::getInstance()->deleteSite($siteId);
+
+        $this->expectException(UnexpectedWebsiteFoundException::class);
+        new Site($siteId);
     }
 
     private function assertHasSite($idSite)
