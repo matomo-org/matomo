@@ -282,7 +282,7 @@ window.piwikHelper = {
         // this allows using slots in twig.
         var app = createVueApp({
           name: entry,
-          template: '<root ' + paramsStr + '>' + this.innerHTML.replace('{{', '{&lbrace;') + '</root>',
+          template: '<root ' + paramsStr + '>' + this.innerHTML.replaceAll('{{', '{&lbrace;') + '</root>',
           data: function () {
             return componentParams;
           },
