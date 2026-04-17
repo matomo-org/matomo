@@ -2402,6 +2402,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         foreach ($rows as $id => $row) {
+            unset($rows[$id]); // free raw entry immediately to halve deserialization peak memory
             if (isset($row->c)) {
                 $this->addRow(new Row($row->c)); // Pre Piwik 2.13
             } else {
