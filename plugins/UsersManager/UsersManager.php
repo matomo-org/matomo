@@ -142,7 +142,7 @@ class UsersManager extends \Piwik\Plugin
                 continue;
             }
 
-            $fallbackSiteId = $this->getFallbackDefaultReportForLogin($login, (int) $idSite);
+            $fallbackSiteId = $this->getFallbackDefaultReportForLogin($login);
             if ($fallbackSiteId === false) {
                 $preferencesStore->delete('UsersManager', $login, API::PREFERENCE_DEFAULT_REPORT);
                 continue;
@@ -155,7 +155,7 @@ class UsersManager extends \Piwik\Plugin
     /**
      * @return false|int
      */
-    private function getFallbackDefaultReportForLogin(string $login, int $deletedSiteId)
+    private function getFallbackDefaultReportForLogin(string $login)
     {
         if (Piwik::hasTheUserSuperUserAccess($login)) {
             $siteIds = SitesManagerAPI::getInstance()->getAllSitesId();
@@ -163,14 +163,7 @@ class UsersManager extends \Piwik\Plugin
             $siteIds = array_column((new Model())->getSitesAccessFromUser($login), 'site');
         }
 
-        foreach ($siteIds as $idSite) {
-            $idSite = (int) $idSite;
-            if ($idSite !== $deletedSiteId) {
-                return $idSite;
-            }
-        }
-
-        return false;
+        return reset($siteIds) ?: false;
     }
 
     /**
