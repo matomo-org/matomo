@@ -418,13 +418,7 @@ class Controller extends ControllerAdmin
 
         $wasUpdated = false;
 
-        $query = $parsedLink['query'] ?? '';
-        $queryParams = UrlHelper::getArrayFromQueryString($query);
-        if (array_key_exists('idSite', $queryParams)) {
-            $queryParams['idSite'] = $defaultIdSite;
-            $parsedLink['query'] = Url::getQueryStringFromParameters($queryParams);
-            $wasUpdated = true;
-        }
+        private function replaceIdSiteInQueryString ($queryStr, $idSite) {...}
 
         $fragment = $parsedLink['fragment'] ?? '';
         $fragmentPrefix = '';
