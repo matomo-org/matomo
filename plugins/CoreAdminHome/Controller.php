@@ -416,17 +416,48 @@ class Controller extends ControllerAdmin
             return $link;
         }
 
-        $wasUpdated = false;
+        $query = $parsedLink['query'] ?? '';
+        $parsedLink['query'] = $this->replaceIdSiteInQueryString($query, $defaultIdSite);
 
-        private function replaceIdSiteInQueryString ($queryStr, $idSite) {...}
+        $fragment = $parsedLink['fragment'] ?? '';
+        $parsedLink['fragment'] = $this->replaceIdSiteInFragment($fragment, $defaultIdSite);
 
-       private function replaceIdSiteInFragment($fragment, $idSite) {...}
-
-        if (!$wasUpdated) {
+        if ($query === $parsedLink['query'] && $fragment === $parsedLink['fragment']) {
             return $link;
         }
 
         return UrlHelper::getParseUrlReverse($parsedLink) ?: $link;
+    }
+
+    private function replaceIdSiteInFragment(string $fragment, int $idSite): string
+    {
+        $fragmentPrefix = '';
+        $fragmentQuery = '';
+        if (strpos($fragment, '/?') === 0) {
+            $fragmentPrefix = '/?';
+            $fragmentQuery = substr($fragment, 2);
+        } elseif (strpos($fragment, '?') === 0) {
+            $fragmentPrefix = '?';
+            $fragmentQuery = substr($fragment, 1);
+        }
+
+        if (empty($fragmentPrefix)) {
+            return $fragment;
+        }
+
+        return $fragmentPrefix . $this->replaceIdSiteInQueryString($fragmentQuery, $idSite);
+    }
+
+    private function replaceIdSiteInQueryString(string $queryStr, int $idSite): string
+    {
+        $queryParams = UrlHelper::getArrayFromQueryString($queryStr);
+
+        if (!array_key_exists('idSite', $queryParams)) {
+            return $queryStr;
+        }
+
+        $queryParams['idSite'] = $idSite;
+        return Url::getQueryStringFromParameters($queryParams);
     }
 
     private function isInternalWhatIsNewLink(string $link): bool
