@@ -23,10 +23,12 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
@@ -253,7 +255,21 @@ class Controller extends ControllerAdmin
                                     && SettingsPiwik::isInternetEnabled();
 
         $userPreferences = new UserPreferences();
+
+        $view->themeMode = $userPreferences->getThemeMode();
+        $view->themeModeOptions = array(
+            array('key' => ThemeStyles::LIGHT_MODE, 'value' => Piwik::translate('UsersManager_ThemeModeLightDefault')),
+            array('key' => ThemeStyles::DARK_MODE, 'value' => Piwik::translate('UsersManager_ThemeModeDark')),
+            array('key' => ThemeStyles::AUTO_MODE, 'value' => Piwik::translate('UsersManager_ThemeModeMatchBrowser')),
+        );
+
+        $storedDefaultReport = $this->getStoredDefaultReportForUser($userLogin);
         $defaultReport   = $userPreferences->getDefaultReport();
+
+        if (is_numeric($storedDefaultReport) && $defaultReport === false) {
+            $defaultReport = $userPreferences->getDefaultWebsiteId();
+            $this->persistDefaultReportForUser($userLogin, $defaultReport);
+        }
 
         if ($defaultReport === false) {
             $defaultReport = $userPreferences->getDefaultWebsiteId();
@@ -306,6 +322,34 @@ class Controller extends ControllerAdmin
         );
 
         return $view->render();
+    }
+
+    /**
+     * @return false|int|string
+     */
+    private function getStoredDefaultReportForUser(string $userLogin)
+    {
+        return StaticContainer::get(UserScopedSettingsAccessManager::class)->get(
+            'UsersManager',
+            $userLogin,
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT,
+            false
+        );
+    }
+
+    /**
+     * @param false|int $defaultReport
+     */
+    private function persistDefaultReportForUser(string $userLogin, $defaultReport): void
+    {
+        $store = StaticContainer::get(UserScopedSettingsAccessManager::class);
+
+        if ($defaultReport === false) {
+            $store->delete('UsersManager', $userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT);
+            return;
+        }
+
+        $store->set('UsersManager', $userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT, $defaultReport);
     }
 
     /**
@@ -607,6 +651,7 @@ class Controller extends ControllerAdmin
         try {
             $this->checkTokenInUrl();
 
+            $themeMode = $this->getValidatedThemeMode(Common::getRequestVar('themeMode'));
             $defaultReport = Common::getRequestVar('defaultReport');
             $defaultDate = Common::getRequestVar('defaultDate');
             $language = Common::getRequestVar('language');
@@ -628,6 +673,15 @@ class Controller extends ControllerAdmin
                 'use12HourClock' => $timeFormat,
             ]);
 
+            $currentThemeMode = (new UserPreferences())->getThemeMode();
+            if ($currentThemeMode !== $themeMode) {
+                APIUsersManager::getInstance()->setUserPreference(
+                    $userLogin,
+                    APIUsersManager::PREFERENCE_THEME_MODE,
+                    $themeMode
+                );
+            }
+
             APIUsersManager::getInstance()->setUserPreference(
                 $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
@@ -644,6 +698,21 @@ class Controller extends ControllerAdmin
         }
 
         return $toReturn;
+    }
+
+    private function getValidatedThemeMode(string $themeMode): string
+    {
+        $allowedThemeModes = [
+            ThemeStyles::AUTO_MODE,
+            ThemeStyles::LIGHT_MODE,
+            ThemeStyles::DARK_MODE,
+        ];
+
+        if (!in_array($themeMode, $allowedThemeModes, true)) {
+            throw new Exception('Invalid theme mode');
+        }
+
+        return $themeMode;
     }
 
 

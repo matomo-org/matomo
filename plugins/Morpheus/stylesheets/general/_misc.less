@@ -53,6 +53,20 @@
   cursor: pointer;
 }
 
+.ui-confirm,
+.modal {
+  .btn.disabled,
+  .btn-flat.disabled,
+  .btn:disabled,
+  .btn-flat:disabled,
+  .btn[disabled],
+  .btn-flat[disabled] {
+    opacity: 1;
+    color: @theme-color-text-on-disabled !important;
+    background: @theme-color-background-disabled !important;
+  }
+}
+
 .card .card-content {
   padding: 20px;
 }

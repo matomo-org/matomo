@@ -28,7 +28,12 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DevicePlugins/functions.php';
  */
 class API extends \Piwik\Plugin\API
 {
-    protected function getDataTable($name, $idSite, $period, $date, $segment)
+    /**
+     * @param int|string|int[] $idSite
+     * @param string|null|false $segment
+     * @return DataTable|DataTable\Map
+     */
+    protected function getDataTable(string $name, $idSite, string $period, string $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
@@ -38,7 +43,24 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getPlugin($idSite, $period, $date, $segment = false)
+    /**
+     * Returns metrics for detected browser plugins on the requested site.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Browser plugin metrics with visit percentages.
+     */
+    public function getPlugin($idSite, string $period, string $date, $segment = false)
     {
         // fetch all archive data required
         $dataTable = $this->getDataTable(Archiver::PLUGIN_RECORD_NAME, $idSite, $period, $date, $segment);

@@ -37,7 +37,7 @@ describe('piwikHelper', () => {
 
     expect(createVueApp).toHaveBeenCalledTimes(1);
     expect(createVueApp).toHaveBeenCalledWith(expect.objectContaining({
-      name: 'MyComponentEntry',
+      name: 'MyPlugin.MyComponent',
     }));
   });
 });

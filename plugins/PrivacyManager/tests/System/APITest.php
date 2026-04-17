@@ -57,7 +57,7 @@ class APITest extends SystemTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('No list of visits given');
 
-        $this->assertNull($this->api->exportDataSubjects(false));
+        $this->assertNull($this->api->exportDataSubjects([]));
     }
 
     public function testExportDataSubjectsWhenOneVisitGiven()

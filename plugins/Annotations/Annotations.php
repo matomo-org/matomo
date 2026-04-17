@@ -66,7 +66,7 @@ class Annotations extends \Piwik\Plugin
      *                         Ignored if period == range.
      * @param int|null $idSite the id of the current site, used to get timezone
      *
-     * @return Date[]|bool[]   array of Date objects or array(false, false)
+     * @return array{0: Date, 1: Date}|array{0: false, 1: false}
      */
     public static function getDateRangeForPeriod($date, $period, $lastN = false, ?int $idSite = null): array
     {

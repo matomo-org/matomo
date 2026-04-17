@@ -11,9 +11,9 @@
 #tooltip {
   position: absolute;
   z-index: 3000;
-  border: 1px solid #e4e2d7 ;
+  border: 1px solid @theme-color-background-base;
   padding: 5px 7px 5px 7px;
-  background-color: #f5f7ff;
+  background-color: @theme-color-background-tinyContrast;
   opacity: 0.95;
 }
 
@@ -51,10 +51,9 @@
   font-size: 14px;
 }
 
-
 .ui-inline-help {
   display: inline-block;
-  background-color: #f4f8fa;
+  background-color: @theme-color-background-tinyContrast;
   margin: 0;
   font-size: 12px;
   padding: 20px;
@@ -72,7 +71,8 @@ div.ui-state-highlight {
 }
 
 .ui-datepicker {
-  border: 1px solid #fff !important;
+  background: @theme-color-background-contrast !important;
+  border: 1px solid @theme-color-background-contrast !important;
   border-radius: 0 !important;
   font-size: 11px !important;
   padding: 0 !important;
@@ -80,7 +80,7 @@ div.ui-state-highlight {
 }
 
 .ui-datepicker-header {
-  color: #fff !important;
+  color: @theme-color-text-highContrast !important;
   border-radius: 0 !important;
 }
 
@@ -93,8 +93,8 @@ div.ui-state-highlight {
   content: " \25BC";
   font-size: 1px;
   color: @theme-color-brand;
-  border-top: 4px solid rgba(0, 0, 0, 0);
-  border-bottom: 4px solid rgba(0, 0, 0, 0);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
   border-left: 5px solid @theme-color-brand;
   margin-left: 7px;
   display: inline-block;
@@ -151,7 +151,7 @@ div.ui-state-highlight {
 }
 
 .ui-datepicker th.ui-datepicker-week-end {
-  background: #d4d0c7 !important;
+  background: @theme-color-background-lowContrast !important;
 }
 
 .ui-datepicker td {
@@ -159,10 +159,10 @@ div.ui-state-highlight {
 }
 
 .ui-state-default {
-  border: 1px solid #f2f6f9 !important;
+  border: 1px solid @theme-color-background-tinyContrast !important;
   border-right: 0 !important;
   background: @theme-color-background-base !important;
-  color: #000 !important;
+  color: @theme-color-text-highContrast !important;
   text-align: center !important;
 }
 
@@ -176,7 +176,7 @@ div.ui-state-highlight {
 }
 
 .ui-datepicker td.ui-datepicker-week-end .ui-state-default {
-  background: #f6f6f6 !important;
+  background: @theme-color-background-tinyContrast !important;
   color: @theme-color-text !important;
 }
 
@@ -187,7 +187,7 @@ div.ui-state-highlight {
  .ui-datepicker td.ui-datepicker-other-month.ui-datepicker-current-period {
   border-color: #887f71 !important;
   background: #887f71 !important;
-  color: #fff !important;
+  color: @theme-color-text-invert-contrast !important;
   opacity: 1 !important;
 }
 
@@ -204,8 +204,8 @@ div.ui-state-highlight {
 }
 
 td.ui-datepicker-other-month.ui-state-hover {
-  background: #e5e3e0 !important;
-  color: #000 !important;
+  background: @theme-color-background-base !important;
+  color: @theme-color-text-highContrast !important;
   opacity: 1 !important;
   border-style: none;
   cursor: pointer !important;
@@ -220,8 +220,8 @@ td.ui-datepicker-other-month.ui-state-hover {
 }
 
 .ui-datepicker-month:disabled {
-  border-color: #ccc !important;
-  background: #f5f3f0 !important;
+  border-color: @theme-color-text-disabled !important;
+  background: @theme-color-background-tinyContrast !important;
 }
 
 /* Piwik jQuery UI Tooltips */
@@ -230,11 +230,11 @@ td.ui-datepicker-other-month.ui-state-hover {
   position: absolute;
   z-index: 2000;
   text-align: left;
-  background: #f7f7f7;
+  background: @theme-color-background-tinyContrast;
   color: @theme-color-text-light;
   font-size: 12px;
   font-weight: normal;
-  border: 1px solid #e4e5e4;
+  border: 1px solid @theme-color-background-base;
   padding: 5px 10px 6px 10px;
   border-radius: 4px;
   -moz-box-shadow: 1px 1px 2px @theme-color-text-lighter;

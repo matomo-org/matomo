@@ -17,7 +17,7 @@ use Piwik\Tracker\GoalManager;
 
 abstract class Base extends RecordBuilder
 {
-    protected function getSiteId(ArchiveProcessor $archiveProcessor): ?int
+    protected function getSiteId(ArchiveProcessor $archiveProcessor): int
     {
         return $archiveProcessor->getParams()->getSite()->getId();
     }

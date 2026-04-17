@@ -87,7 +87,7 @@
           <span v-if="pluginNamesHavingSettings.indexOf(name) !== -1">
             <br /><br />
             <a
-              :href="`${generalSettingsLink}#${name}`"
+              :href="`${generalSettingsLink}#/${name}`"
               class="settingsLink"
             >{{ translate('General_Settings') }}</a>
           </span>

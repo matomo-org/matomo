@@ -31,10 +31,12 @@ use Piwik\Request;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Url;
+use Piwik\UrlHelper;
 use Piwik\View;
 use Piwik\Widget\WidgetsList;
 use Piwik\SettingsPiwik;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Plugins\UsersManager\UserPreferences;
 
 class Controller extends ControllerAdmin
 {
@@ -373,9 +375,93 @@ class Controller extends ControllerAdmin
             $pluginName = $change['plugin_name'] ?? '';
             $change['showPluginPrefix'] = !empty($pluginName)
                 && !$pluginManager->isPluginBundledWithCore($pluginName);
+
+            if (!empty($change['link'])) {
+                $defaultIdSite = $this->getDefaultIdSiteForWhatIsNewLinks();
+                if (!empty($defaultIdSite)) {
+                    $change['link'] = $this->normalizeWhatIsNewLink($change['link'], $defaultIdSite);
+                }
+            }
         }
         unset($change);
 
         return $changes;
+    }
+
+    private function getDefaultIdSiteForWhatIsNewLinks(): ?int
+    {
+        $userPreferences = new UserPreferences();
+        $defaultReport = $userPreferences->getDefaultReport();
+
+        if (is_numeric($defaultReport)) {
+            return (int) $defaultReport;
+        }
+
+        $defaultWebsiteId = $userPreferences->getDefaultWebsiteId();
+        if (is_numeric($defaultWebsiteId)) {
+            return (int) $defaultWebsiteId;
+        }
+
+        return null;
+    }
+
+    private function normalizeWhatIsNewLink(string $link, int $defaultIdSite): string
+    {
+        if (!$this->isInternalWhatIsNewLink($link)) {
+            return $link;
+        }
+
+        $parsedLink = @parse_url($link);
+        if (!is_array($parsedLink)) {
+            return $link;
+        }
+
+        $query = $parsedLink['query'] ?? '';
+        $parsedLink['query'] = $this->replaceIdSiteInQueryString($query, $defaultIdSite);
+
+        $fragment = $parsedLink['fragment'] ?? '';
+        $parsedLink['fragment'] = $this->replaceIdSiteInFragment($fragment, $defaultIdSite);
+
+        if ($query === $parsedLink['query'] && $fragment === $parsedLink['fragment']) {
+            return $link;
+        }
+
+        return UrlHelper::getParseUrlReverse($parsedLink) ?: $link;
+    }
+
+    private function replaceIdSiteInFragment(string $fragment, int $idSite): string
+    {
+        $fragmentPrefix = '';
+        $fragmentQuery = '';
+        if (strpos($fragment, '/?') === 0) {
+            $fragmentPrefix = '/?';
+            $fragmentQuery = substr($fragment, 2);
+        } elseif (strpos($fragment, '?') === 0) {
+            $fragmentPrefix = '?';
+            $fragmentQuery = substr($fragment, 1);
+        }
+
+        if (empty($fragmentPrefix)) {
+            return $fragment;
+        }
+
+        return $fragmentPrefix . $this->replaceIdSiteInQueryString($fragmentQuery, $idSite);
+    }
+
+    private function replaceIdSiteInQueryString(string $queryStr, int $idSite): string
+    {
+        $queryParams = UrlHelper::getArrayFromQueryString($queryStr);
+
+        if (!array_key_exists('idSite', $queryParams)) {
+            return $queryStr;
+        }
+
+        $queryParams['idSite'] = $idSite;
+        return Url::getQueryStringFromParameters($queryParams);
+    }
+
+    private function isInternalWhatIsNewLink(string $link): bool
+    {
+        return strpos($link, 'index.php') === 0 || strpos($link, '/index.php') === 0;
     }
 }

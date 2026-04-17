@@ -121,14 +121,14 @@ export default defineComponent({
     },
     evolutionIconSrc() {
       if (this.evolutionTrend === 1) {
-        return 'plugins/MultiSites/images/arrow_up.png';
+        return 'plugins/MultiSites/images/arrow_up.svg';
       }
 
       if (this.evolutionTrend === -1) {
-        return 'plugins/MultiSites/images/arrow_down.png';
+        return 'plugins/MultiSites/images/arrow_down.svg';
       }
 
-      return 'plugins/MultiSites/images/stop.png';
+      return 'plugins/MultiSites/images/stop.svg';
     },
     evolutionSparklineSrc() {
       let sparklineDate = Matomo.currentDateString as string;

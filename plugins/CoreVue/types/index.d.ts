@@ -188,6 +188,8 @@ declare global {
     getBaseDatePickerOptions(defaultDate?: Date|null): {[key: string]: any};
     getSparklineColors(): SparklineColors;
     getBaseDatePickerOptions(defaultDate: Date|null): any;
+    getThemeMode(): string;
+    setThemeMode(preferredThemeMode: string): void;
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;

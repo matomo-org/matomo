@@ -123,7 +123,7 @@ div.scrollable {
     font-weight: bold;
     color: #505050;
     margin: 0 0 0 0;
-    text-shadow: 0 1px 0 #fff;
+    text-shadow: 0 1px 0 @theme-color-background-contrast;
 }
 
 .segment-element .segment-content h3 a {
@@ -210,7 +210,7 @@ div.scrollable {
     }
 
     #root &.editing {
-        background: #fff;
+        background: @theme-color-background-contrast;
     }
 }
 
@@ -270,7 +270,7 @@ div.scrollable {
 
 .segmentationContainer .submenu ul li:hover {
     color: #255792;
-    background: @color-silver-l95;
+    background: @theme-color-background-tinyContrast;
     outline: none;
 
     > * {
@@ -336,6 +336,7 @@ div.scrollable {
   font-weight: normal;
   text-align: center;
   opacity: 0.5;
+  filter: @theme-filter-on-illustration;
 
   &:hover {
     opacity: 1;
@@ -443,12 +444,13 @@ div.scrollable {
 }
 
 .segmentEditorPanel.expanded .segmentFilterContainer > input[type="text"] {
-    font-size: 11px;
     width: 100%;
-    border: 1px solid #d0d0d0;
-    border-width: 1px;
-    color: #999;
     padding: 7px 10px 7px 10px;
+
+    background: @theme-color-background-contrast;
+    border: 1px solid @theme-color-border;
+    font-size: 11px;
+    color: #999;
 }
 
 .segmentEditorPanel.expanded .segmentFilterContainer > span {

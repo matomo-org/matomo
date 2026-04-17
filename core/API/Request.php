@@ -414,7 +414,7 @@ class Request
     /**
      * Returns the current API method being executed, if the current request is an API request.
      *
-     * @param array $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
+     * @param array|null $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
      * @return string|null
      * @throws Exception
      */

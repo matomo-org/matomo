@@ -1,3 +1,14 @@
+.ui-widget-content,
+.ui-widget.ui-widget-content {
+  background: @theme-color-background-contrast;
+  color: @theme-color-text-contrast;
+  border: 1px solid @theme-color-border;
+}
+
+.ui-widget-content a {
+  color: @theme-color-text;
+}
+
 .ui-dialog-title {
   color: @theme-color-text;
   font-weight: normal;
@@ -21,8 +32,8 @@
 }
 
 .ui-state-default,
- .ui-widget-content .ui-state-default,
- .ui-widget-header .ui-state-default {
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
   border: 0 !important;
 
   .ui-icon {
@@ -37,25 +48,49 @@
 }
 
 button.ui-state-default,
- .ui-widget-content button.ui-state-default,
- .ui-widget-header button.ui-state-default {
+.ui-widget-content button.ui-state-default,
+.ui-widget-header button.ui-state-default {
   &:hover {
     background: @theme-color-brand !important;
   }
 }
 
 .ui-state-hover,
- .ui-widget-content .ui-state-hover,
- .ui-widget-header .ui-state-hover,
- .ui-state-focus,
- .ui-widget-content .ui-state-focus,
- .ui-widget-header .ui-state-focus,
- .ui-menu .ui-menu-item a.ui-state-active,
- .ui-widget-content .ui-state-active {
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus,
+.ui-menu .ui-menu-item a.ui-state-active,
+.ui-widget-content .ui-state-active {
   border: 0 !important;
 }
 
 .ui-menu .ui-menu-item a.ui-state-active,
 .ui-widget-content .ui-state-active {
-  background: @color-silver-l90;
+  background: @theme-color-background-tinyContrast;
+  color: @theme-color-text;
+}
+
+.ui-autocomplete-loading {
+  background: @theme-color-background-contrast;
+}
+
+.ui-autocomplete.ui-menu.ui-widget {
+  background: @theme-color-background-contrast;
+  border: 1px solid @theme-color-border;
+  color: @theme-color-text;
+}
+
+.ui-autocomplete .ui-menu-item a,
+.ui-autocomplete .ui-menu-item .ui-menu-item-wrapper {
+  color: @theme-color-text;
+}
+
+.ui-autocomplete .ui-menu-item a.ui-state-focus,
+.ui-autocomplete .ui-menu-item a.ui-state-active,
+.ui-autocomplete .ui-menu-item .ui-menu-item-wrapper.ui-state-active,
+.ui-autocomplete .ui-menu-item .ui-menu-item-wrapper.ui-state-focus {
+  background: @theme-color-background-tinyContrast;
+  color: @theme-color-text;
 }

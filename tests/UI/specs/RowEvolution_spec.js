@@ -18,6 +18,13 @@ describe("RowEvolution", function () {
         await page.waitForFunction("$('.ui-dialog .evolution-annotations > span').length > 0");
     };
 
+    const setThemeMode = async (themeMode) => {
+        await page.evaluate((mode) => {
+            window.piwik.setThemeMode(mode);
+        }, themeMode);
+        await page.waitForFunction((mode) => window.piwik.getThemeMode() === mode, {}, themeMode);
+    };
+
     it('should load when icon clicked in ViewDataTable', async function() {
         await page.goto(viewDataTableUrl);
         await page.waitForSelector('tbody tr:first-child')
@@ -127,5 +134,25 @@ describe("RowEvolution", function () {
 
         const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('row_evolution_ecommerce_item');
+    });
+
+    it('should keep row evolution open when the theme changes live', async function() {
+        await page.goto(viewDataTableUrl);
+        await setThemeMode('light');
+
+        const row = await page.jQuery('tbody tr:contains("corruption")');
+        await row.hover();
+        const icon = await page.jQuery('tbody tr:contains("corruption") a.actionRowEvolution');
+        await icon.click();
+
+        await setThemeMode('dark');
+        await waitForRowEvolutionAnnotations();
+
+        const dialogCount = await page.evaluate(() => $('.ui-dialog').length);
+        const hasRowEvolution = await page.evaluate(() => $('.ui-dialog .rowevolution').length);
+        expect(dialogCount).to.be.equal(1);
+        expect(hasRowEvolution).to.be.equal(1);
+
+        await setThemeMode('light');
     });
 });

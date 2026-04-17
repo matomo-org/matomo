@@ -56,6 +56,22 @@ class GoalReportForDevicesTest extends SystemTestCase
         return array_values($report->getColumn('label'));
     }
 
+    /**
+     * @return list<string>
+     */
+    private function getAvailableReportsForSiteRequest(string $idSite): array
+    {
+        $reports = Request::processRequest('API.getReportMetadata', [
+            'idSite' => $idSite,
+            'period' => 'day',
+            'date' => self::$fixture->dateTime,
+        ]);
+
+        return array_map(static function (array $report): string {
+            return $report['module'] . '.' . $report['action'];
+        }, $reports);
+    }
+
     public function getApiForTesting()
     {
         $idSite   = self::$fixture->idSite;
@@ -88,6 +104,22 @@ class GoalReportForDevicesTest extends SystemTestCase
         ]);
 
         CnilPolicy::setActiveStatus(null, false);
+    }
+
+    public function testGetModelReportMetadataHidesOnlyRelevantReportWhenPolicyEnabledGlobally(): void
+    {
+        CnilPolicy::setActiveStatus(null, true);
+
+        try {
+            $availableReports = $this->getAvailableReportsForSiteRequest((string) self::$fixture->idSite);
+
+            $this->assertContains('DevicesDetection.getType', $availableReports);
+            $this->assertContains('DevicesDetection.getBrand', $availableReports);
+            $this->assertContains('DevicesDetection.getOsVersions', $availableReports);
+            $this->assertNotContains('DevicesDetection.getModel', $availableReports);
+        } finally {
+            CnilPolicy::setActiveStatus(null, false);
+        }
     }
 
     public function testGetModelReturnsOnlyAllowedSitesForSpecificSiteList(): void
@@ -126,6 +158,38 @@ class GoalReportForDevicesTest extends SystemTestCase
             $this->getModelLabelsForSiteRequest((string) self::$fixture->idSite);
         } finally {
             $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+        }
+    }
+
+    public function testGetModelReturnsErrorWhenAllRequestedSitesAreDisallowedForSpecificSiteList(): void
+    {
+        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+        $this->setSiteCompliancePolicy(self::$fixture->idSite2, true);
+
+        try {
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage('Device model report is disabled by compliance policy.');
+
+            $this->getModelLabelsForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2);
+        } finally {
+            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+            $this->setSiteCompliancePolicy(self::$fixture->idSite2, false);
+        }
+    }
+
+    public function testGetModelReturnsErrorWhenAllRequestedSitesAreDisallowedForAll(): void
+    {
+        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+        $this->setSiteCompliancePolicy(self::$fixture->idSite2, true);
+
+        try {
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage('Device model report is disabled by compliance policy.');
+
+            $this->getModelLabelsForSiteRequest('all');
+        } finally {
+            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+            $this->setSiteCompliancePolicy(self::$fixture->idSite2, false);
         }
     }
 }

@@ -312,16 +312,16 @@ ul.widgetpreview-widgetlist li {
 
 .widgetpreview-base li.widgetpreview-choosen {
   background: #e4e2d7 url(plugins/Morpheus/images/arr_r.png) no-repeat right 6px;
-  color: #255792;
+  color: @theme-color-link;
   font-weight: bold;
 }
 
 .widgetpreview-categorylist li.widgetpreview-choosen {
-  color: #000;
+  color: @theme-color-text-contrast;
 }
 
 .widgetpreview-base li.widgetpreview-unavailable {
-  color: #D3D3D3;
+  color: @theme-color-text-disabled;
   cursor: default;
 }
 
@@ -338,7 +338,7 @@ div.widgetpreview-preview {
 
 .dashboardSettings .submenu {
   font-weight: bold;
-  color: #255792;
+  color: @theme-color-link;
 }
 
 .dashboardSettings .submenu ul {
@@ -362,18 +362,18 @@ div.widgetpreview-preview {
 
 .dashboardSettings ul.submenu > li.generalAction:hover {
   color: @theme-color-link;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .dashboardSettings .submenu ul li:not([disabled]):hover {
   background: @theme-color-background-base;
   border-radius: 2px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .dashboardSettings .submenu li[disabled],
 .dashboardSettings .submenu li[disabled]:hover {
-  color: #d3d3d3;
+  color: @theme-color-text-disabled;
 }
 
 .dashboardSettings .widgetpreview-widgetlist {

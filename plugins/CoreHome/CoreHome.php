@@ -187,6 +187,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/top_controls.js";
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/themes.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/listingFormatter.js";

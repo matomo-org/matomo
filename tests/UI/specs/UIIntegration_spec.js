@@ -462,6 +462,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the example ui > evolution graph page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Evolution%20Graph");
+            await page.waitForSelector('.icon-annotation');
 
             expect(await screenshotPageWrap()).to.matchImage('exampleui_evolutionGraph');
         });

@@ -154,7 +154,6 @@ class UserRepository
     /**
      * @param array $user
      * @return array
-     * @throws \Exception
      */
     public function enrichUser(array $user): array
     {

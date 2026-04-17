@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="7" viewBox="0 0 8 7">
+  <defs>
+    <path id="arrow-down-green-shape" d="M2 0H6V3H8L4 7L0 3H2Z"/>
+    <clipPath id="arrow-down-green-clip">
+      <use href="#arrow-down-green-shape"/>
+    </clipPath>
+  </defs>
+  <use href="#arrow-down-green-shape" fill="#99D75A" stroke="#000" stroke-opacity="0.5" stroke-width="1" clip-path="url(#arrow-down-green-clip)"/>
+</svg>

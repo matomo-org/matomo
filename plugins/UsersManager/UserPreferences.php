@@ -9,11 +9,15 @@
 
 namespace Piwik\Plugins\UsersManager;
 
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\DbHelper;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Site;
 
 class UserPreferences
 {
@@ -53,6 +57,23 @@ class UserPreferences
     }
 
     /**
+     * Returns user light/dark mode preference.
+     *
+     * @api
+     */
+    public function getThemeMode(): string
+    {
+        if (!DbHelper::tableExists(Common::prefixTable('plugin_setting'))) {
+            return APIUsersManager::PREFERENCE_DEFAULT_THEME_MODE;
+        }
+
+        return $this->api->getUserPreference(
+            APIUsersManager::PREFERENCE_THEME_MODE,
+            Piwik::getCurrentUserLogin()
+        );
+    }
+
+    /**
      * Returns default site ID that Piwik should load.
      *
      * _Note: This value is a Piwik setting set by each user._
@@ -72,13 +93,33 @@ class UserPreferences
             return $defaultReport;
         }
 
-        if ($defaultReport && Piwik::isUserHasViewAccess($defaultReport)) {
+        $defaultReport = (int) $defaultReport;
+
+        if ($this->isValidWebsiteForCurrentUser($defaultReport)) {
             return $defaultReport;
         }
 
         return false;
     }
 
+    private function isValidWebsiteForCurrentUser(int $idSite): bool
+    {
+        if (empty($idSite)) {
+            return false;
+        }
+
+        if (!Piwik::isUserHasViewAccess($idSite)) {
+            return false;
+        }
+
+        try {
+            new Site($idSite);
+        } catch (UnexpectedWebsiteFoundException $e) {
+            return false;
+        }
+
+        return true;
+    }
     /**
      * Returns default date for Piwik reports.
      *

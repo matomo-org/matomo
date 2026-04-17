@@ -20,6 +20,10 @@
     color: @theme-color-brand !important;
     cursor: pointer;
 
+    .inDarkMode({
+      background-color: @theme-color-background-tinyContrast;
+    });
+
     input.select-dropdown,
     span.caret {
       color: @theme-color-brand !important;
@@ -38,8 +42,8 @@
   }
 
   .select-wrapper {
-    padding-right: 24px; 
-      
+    padding-right: 24px;
+
     input.select-dropdown {
       height: 36px;
       line-height: 30px;
@@ -123,6 +127,5 @@ body > .widget {
 }
 
 .limitSelection > ul > li:hover {
-  background-color: @color-silver-l95;
+  background-color: @theme-color-background-tinyContrast;
 }
-

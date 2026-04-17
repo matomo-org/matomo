@@ -144,7 +144,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=253ba914
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=7922956c
 
 const _hoisted_1 = {
   key: 0,
@@ -160,14 +160,14 @@ const _hoisted_4 = ["title"];
 const _hoisted_5 = {
   id: "pauseImage",
   border: "0",
-  src: "plugins/Live/images/pause.png",
+  src: "plugins/Live/images/pause.svg",
   role: "presentation"
 };
 const _hoisted_6 = ["title"];
 const _hoisted_7 = {
   id: "playImage",
   border: "0",
-  src: "plugins/Live/images/play.png",
+  src: "plugins/Live/images/play.svg",
   role: "presentation"
 };
 const _hoisted_8 = {
@@ -187,7 +187,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.visitorLogUrl
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_LinkVisitorLog')), 9, _hoisted_9)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=253ba914
+// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=7922956c
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
