@@ -1350,7 +1350,7 @@ class AjaxHelper_AjaxHelper {
         if (errorMessage.length) {
           errorMessage += '<br />';
         }
-        // append error count if it occured more than once
+        // append error count if it occurred more than once
         if (errors[error] > 1) {
           errorMessage += `${error} (${errors[error]}x)`;
         } else {
