@@ -156,7 +156,7 @@ class ControllerTest extends IntegrationTestCase
         $this->assertStringContainsString('Original message', $output);
         $this->assertStringNotContainsString('This URL is not valid. The content may have been moved, deleted, or is no longer available', $output);
     }
-  
+
     public function testWhatIsNewRewritesInternalLinksToDefaultReportIdSite(): void
     {
         $this->deleteAllChanges();
