@@ -295,6 +295,20 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     protected $rowMetadata = [];
 
 
+    /**
+     * Per-row column insertion order: rowId → int[] (schema indices in the order the row's
+     * columns were inserted).  Only populated when a row's column order differs from the
+     * natural schema order (ascending indices), so the common case (all rows share the same
+     * schema order) pays zero extra memory.
+     *
+     * @internal
+     * @var array<int, int[]>
+     */
+    protected $rowColumnOrders = [];
+
+    /** @internal @var int[]|null  Insertion-order indices for the summary row (null = schema order). */
+    protected $summaryRowColumnOrder = null;
+
     /** @internal @var array<int, mixed>|null */
     protected $summaryRowData           = null;
     /** @internal @var array<string, mixed> */
@@ -419,6 +433,23 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // null (= absent) for that slot without error.
     }
 
+    /**
+     * Returns true when the given int array is already in strictly ascending order
+     * (i.e. matches the natural schema order).  Used to decide whether per-row
+     * column-insertion-order storage is needed.
+     */
+    private function isSchemaOrder(array $indices): bool
+    {
+        $prev = -1;
+        foreach ($indices as $idx) {
+            if ($idx <= $prev) {
+                return false;
+            }
+            $prev = $idx;
+        }
+        return true;
+    }
+
     // ── Columnar @internal helpers (public for ViewRow access) ───────────────
 
     /** @internal */
@@ -476,13 +507,37 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         if ($rowId === self::ID_SUMMARY_ROW) {
             $packed = $this->summaryRowData;
+            $order  = $this->summaryRowColumnOrder;
         } elseif ($rowId === self::ID_TOTALS_ROW) {
             $packed = $this->totalsRowData;
+            $order  = null;
         } else {
             $packed = $this->rows[$rowId] ?? null;
+            $order  = $this->rowColumnOrders[$rowId] ?? null;
         }
         if (empty($this->columnNames) || $packed === null) {
             return [];
+        }
+        if ($order !== null) {
+            $result = [];
+            $seen   = [];
+            foreach ($order as $idx) {
+                $val = $packed[$idx] ?? null;
+                if ($val !== null) {
+                    $result[$this->columnNames[$idx]] = $val;
+                    $seen[$idx] = true;
+                }
+            }
+            // Append columns added to the schema after this row was inserted.
+            foreach ($this->columnNames as $idx => $name) {
+                if (!isset($seen[$idx])) {
+                    $val = $packed[$idx] ?? null;
+                    if ($val !== null) {
+                        $result[$name] = $val;
+                    }
+                }
+            }
+            return $result;
         }
         $result = [];
         foreach ($this->columnNames as $idx => $name) {
@@ -701,6 +756,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->rowSubtableIds       = [];
             $this->rowSubtableIdsLoaded = [];
             $this->rowMetadata          = [];
+            $this->rowColumnOrders      = [];
             $this->columnNames          = [];
             $this->nextRowId            = 0;
             $this->indexNotUpToDate     = true;
@@ -715,6 +771,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $newRowMetadata          = [];
             $newRowSubtableIds       = [];
             $newRowSubtableIdsLoaded = [];
+            $newRowColOrders         = [];
             $newId = 0;
             foreach ($rows as $row) {
                 $old = $row->getRowId();
@@ -728,12 +785,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                         $newRowSubtableIdsLoaded[$newId] = true;
                     }
                 }
+                if (isset($this->rowColumnOrders[$old])) {
+                    $newRowColOrders[$newId] = $this->rowColumnOrders[$old];
+                }
                 $newId++;
             }
             $this->rows                 = $newRows;
             $this->rowMetadata          = $newRowMetadata;
             $this->rowSubtableIds       = $newRowSubtableIds;
             $this->rowSubtableIdsLoaded = $newRowSubtableIdsLoaded;
+            $this->rowColumnOrders      = $newRowColOrders;
             $this->nextRowId            = $newId;
             $this->indexNotUpToDate     = true;
             return;
@@ -778,6 +839,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $this->rowSubtableIds         = [];
         $this->rowSubtableIdsLoaded   = [];
         $this->rowMetadata            = [];
+        $this->rowColumnOrders        = [];
         $this->columnNames            = [];
         $this->nextRowId              = 0;
         $this->indexNotUpToDate       = true;
@@ -785,6 +847,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $this->summaryRowMetadata     = [];
         $this->summarySubtableId      = null;
         $this->summarySubtableIdLoaded = false;
+        $this->summaryRowColumnOrder  = null;
         $this->totalsRowData          = null;
         $this->totalsRowMetadata      = [];
         $this->totalsSubtableId       = null;
@@ -837,6 +900,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $newMeta       = [];
         $newSubIds     = [];
         $newSubLoaded  = [];
+        $newColOrders  = [];
         $newId = 0;
         foreach ($rowIds as $oldId) {
             $newRows[$newId] = $this->rows[$oldId];
@@ -849,12 +913,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                     $newSubLoaded[$newId] = true;
                 }
             }
+            if (isset($this->rowColumnOrders[$oldId])) {
+                $newColOrders[$newId] = $this->rowColumnOrders[$oldId];
+            }
             $newId++;
         }
         $this->rows                 = $newRows;
         $this->rowMetadata          = $newMeta;
         $this->rowSubtableIds       = $newSubIds;
         $this->rowSubtableIdsLoaded = $newSubLoaded;
+        $this->rowColumnOrders      = $newColOrders;
         $this->nextRowId            = $newId;
         $this->indexNotUpToDate     = true;
     }
@@ -1392,6 +1460,20 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $rowId = $this->nextRowId++;
         $this->rows[$rowId] = $packed;
 
+        // Record per-row column insertion order when it differs from schema order.
+        // This preserves the original column ordering semantics for callers that
+        // depend on getColumns() returning columns in insertion order.
+        $insertionIdxs = [];
+        foreach ($columns as $name => $_) {
+            $idx = array_search($name, $this->columnNames);
+            if ($idx !== false) {
+                $insertionIdxs[] = $idx;
+            }
+        }
+        if (!$this->isSchemaOrder($insertionIdxs)) {
+            $this->rowColumnOrders[$rowId] = $insertionIdxs;
+        }
+
         // Copy subtable ID and metadata.
         // Transfer subtable ownership: clear isSubtableLoaded on the source Row so that
         // Row::__destruct() does not call deleteTable() when $row is garbage collected.
@@ -1459,12 +1541,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // Pack the summary row as a dense array (null = absent).
         $colCount = count($this->columnNames);
         $this->summaryRowData = $colCount > 0 ? array_fill(0, $colCount, null) : [];
+        $insertionIdxs = [];
         foreach ($columns as $name => $val) {
             $idx = array_search($name, $this->columnNames);
             if ($idx !== false) {
                 $this->summaryRowData[$idx] = $val;
+                $insertionIdxs[] = $idx;
             }
         }
+        $this->summaryRowColumnOrder = $this->isSchemaOrder($insertionIdxs) ? null : $insertionIdxs;
         $this->summaryRowMetadata      = $row->getMetadata();
         $this->summarySubtableId       = $row->subtableId;
         $this->summarySubtableIdLoaded = $row->isSubtableLoaded(); // capture BEFORE removeSubtable
@@ -1966,12 +2051,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function deleteRow($id)
     {
         if ($id === self::ID_SUMMARY_ROW) {
-            $this->summaryRowData     = null;
-            $this->summaryRowMetadata = [];
-            $this->summarySubtableId  = null;
+            $this->summaryRowData        = null;
+            $this->summaryRowMetadata    = [];
+            $this->summarySubtableId     = null;
+            $this->summaryRowColumnOrder = null;
             return;
         }
-        unset($this->rows[$id], $this->rowSubtableIds[$id], $this->rowMetadata[$id]);
+        unset($this->rows[$id], $this->rowSubtableIds[$id], $this->rowMetadata[$id], $this->rowColumnOrders[$id]);
         $this->indexNotUpToDate = true;
     }
 
