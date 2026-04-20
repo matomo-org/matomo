@@ -181,6 +181,7 @@ class Row extends \ArrayObject
         return parent::offsetExists($name);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($name)
     {
         if ($this->_boundTable !== null) {
