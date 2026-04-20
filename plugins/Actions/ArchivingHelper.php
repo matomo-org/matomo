@@ -169,7 +169,8 @@ class ArchivingHelper
                 // in some edge cases, we have twice the same action name with 2 different idaction
                 // - this happens when 2 visitors visit the same new page at the same time, and 2 actions get recorded for the same name
                 // - this could also happen when 2 URLs end up having the same label (eg. 2 subdomains get aggregated to the "/index" page name)
-                if (($alreadyValue = $actionRow->getColumn($name)) !== false) {
+                if ($actionRow->hasColumn($name)) {
+                    $alreadyValue = $actionRow->getColumn($name);
                     $newValue = self::getColumnValuesMerged($name, $alreadyValue, $value, $metricsConfig);
                     $actionRow->setColumn($name, $newValue);
                 } else {
@@ -180,11 +181,15 @@ class ArchivingHelper
             // if the exit_action was not recorded properly in the log_link_visit_action
             // there would be an error message when getting the nb_hits column
             // we must fake the record and add the columns
-            if ($actionRow->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS) === false) {
+            if (!$actionRow->hasColumn(PiwikMetrics::INDEX_PAGE_NB_HITS)
+                || $actionRow->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS) === false
+            ) {
                 // to test this code: delete the entries in log_link_action_visit for
                 //  a given exit_idaction_url
                 foreach (self::getDefaultRow()->getColumns() as $name => $value) {
-                    $actionRow->addColumn($name, $value);
+                    if (!$actionRow->hasColumn($name)) {
+                        $actionRow->addColumn($name, $value);
+                    }
                 }
             }
             $rowsProcessed++;
