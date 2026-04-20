@@ -21,8 +21,10 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ArchiveBlobColumnTypeTest extends IntegrationTestCase
 {
-    private const TEST_TABLE_MEDIUM = 'archive_blob_test_medium';
-    private const TEST_TABLE_LONG   = 'archive_blob_test_long';
+    private const TEST_TABLE_MEDIUM            = 'archive_blob_test_medium';
+    private const TEST_TABLE_LONG             = 'archive_blob_test_long';
+    /** Raw (un-prefixed) name for a table that belongs to a different Matomo instance. */
+    private const TEST_TABLE_FOREIGN_MEDIUM   = 'other_archive_blob_foreign_medium';
 
     public function setUp(): void
     {
@@ -64,11 +66,10 @@ class ArchiveBlobColumnTypeTest extends IntegrationTestCase
     {
         // A table that does not exist → INFORMATION_SCHEMA returns nothing → fail-safe returns true.
         $tableName = Common::prefixTable('archive_blob_9999_99');
-        // Result is false because INFORMATION_SCHEMA returns null/empty string, not 'mediumblob'.
-        // The fail-safe only triggers on exceptions; an empty result means the table is not
-        // MEDIUMBLOB (it doesn't exist at all). Confirm no exception is thrown.
+        // An empty/null result from INFORMATION_SCHEMA is treated as a fail-safe condition:
+        // the cap is applied conservatively rather than risking a silent 16 MB truncation.
         $result = ArchiveBlobColumnType::isMediumBlob($tableName);
-        self::assertFalse($result);
+        self::assertTrue($result);
     }
 
     // -----------------------------------------------------------------------
@@ -133,6 +134,22 @@ class ArchiveBlobColumnTypeTest extends IntegrationTestCase
         self::assertNotContains($prefixedLong, $tables);
     }
 
+    public function testGetMediumBlobArchiveTablesIgnoresTablesWithDifferentPrefix(): void
+    {
+        // Create a MEDIUMBLOB table whose raw name contains "archive_blob_" but does NOT carry the
+        // Matomo table prefix (simulates a table from a different Matomo instance sharing the same
+        // DB schema).
+        $this->createRawTable(self::TEST_TABLE_FOREIGN_MEDIUM, 'MEDIUMBLOB');
+
+        $tables = ArchiveBlobColumnType::getMediumBlobArchiveTables();
+
+        self::assertNotContains(
+            self::TEST_TABLE_FOREIGN_MEDIUM,
+            $tables,
+            'getMediumBlobArchiveTables() must not return tables from a different table prefix'
+        );
+    }
+
     // -----------------------------------------------------------------------
     // Helpers
     // -----------------------------------------------------------------------
@@ -140,6 +157,14 @@ class ArchiveBlobColumnTypeTest extends IntegrationTestCase
     private function createTestTable(string $tableBaseName, string $blobType): void
     {
         $tableName = Common::prefixTable($tableBaseName);
+        $this->createRawTable($tableName, $blobType);
+    }
+
+    /**
+     * Creates a table using the exact (already-resolved) name passed — no prefix is added.
+     */
+    private function createRawTable(string $tableName, string $blobType): void
+    {
         Db::exec(sprintf(
             'CREATE TABLE IF NOT EXISTS `%s` (
                 `idarchive`  INT UNSIGNED     NOT NULL,
@@ -165,6 +190,13 @@ class ArchiveBlobColumnTypeTest extends IntegrationTestCase
             } catch (\Exception $e) {
                 // Ignore errors during cleanup.
             }
+        }
+
+        // Drop the foreign table (stored under its raw name, not prefixed).
+        try {
+            Db::exec('DROP TABLE IF EXISTS `' . self::TEST_TABLE_FOREIGN_MEDIUM . '`');
+        } catch (\Exception $e) {
+            // Ignore errors during cleanup.
         }
     }
 }

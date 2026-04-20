@@ -18,18 +18,18 @@ use Piwik\Updater\Migration\Config\Factory as ConfigFactory;
 use Piwik\Updater\Migration\Db\Factory as DbFactory;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updater\Migration\Plugin\Factory as PluginFactory;
-use Piwik\Updates\Updates_5_10_0_b1;
+use Piwik\Updates\Updates_5_11_0_b2;
 
-require_once PIWIK_INCLUDE_PATH . '/core/Updates/5.10.0-b1.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Updates/5.11.0-b2.php';
 
 /**
- * @group Updates5100b1Test
+ * @group Updates5110b2Test
  * @group Core
  */
-class Updates5100b1Test extends IntegrationTestCase
+class Updates5110B2Test extends IntegrationTestCase
 {
-    private const TEST_TABLE_MEDIUM = 'archive_blob_test_5100_medium';
-    private const TEST_TABLE_LONG   = 'archive_blob_test_5100_long';
+    private const TEST_TABLE_MEDIUM = 'archive_blob_test_5110_medium';
+    private const TEST_TABLE_LONG = 'archive_blob_test_5110_long';
 
     public function setUp(): void
     {
@@ -78,14 +78,14 @@ class Updates5100b1Test extends IntegrationTestCase
     // Helpers
     // -----------------------------------------------------------------------
 
-    private function buildUpdate(): Updates_5_10_0_b1
+    private function buildUpdate(): Updates_5_11_0_b2
     {
         $migrationFactory = new MigrationFactory(
             $this->getMockBuilder(DbFactory::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(PluginFactory::class)->disableOriginalConstructor()->getMock(),
             new ConfigFactory()
         );
-        return new Updates_5_10_0_b1($migrationFactory);
+        return new Updates_5_11_0_b2($migrationFactory);
     }
 
     private function createTestTable(string $tableBaseName, string $blobType): void

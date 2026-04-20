@@ -21,7 +21,7 @@ use Piwik\Updates;
  * Fresh installs (all tables are LONGBLOB) receive no migration so the fast-path short-circuit
  * in {@see \Piwik\ArchiveProcessor\ArchiveBlobRowCap} costs nothing at runtime.
  */
-class Updates_5_10_0_b1 extends Updates
+class Updates_5_11_0_b2 extends Updates
 {
     /**
      * @var MigrationFactory

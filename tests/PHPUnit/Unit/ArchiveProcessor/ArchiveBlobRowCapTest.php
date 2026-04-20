@@ -177,6 +177,7 @@ class ArchiveBlobRowCapTest extends TestCase
     private function setFlag(int $value): void
     {
         $config = Config::getInstance();
+        /** @var array<string, scalar> $database */
         $database = $config->database;
         if ($value === 0) {
             unset($database['archive_blob_tables_may_contain_mediumblob']);
