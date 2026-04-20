@@ -332,10 +332,21 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /** @internal @var int[]|null  Insertion-order indices for the summary row (null = schema order). */
     protected $summaryRowColumnOrder = null;
 
-    /** @internal @var array<int, array<int, true>>  rowId → set of colIdx that are present but null. */
-    protected $rowExplicitNullColIdxs = [];
-    /** @internal @var array<int, true>|null  Schema-idx set of explicit-null columns for the summary row. */
-    protected $summaryExplicitNullColIdxs = null;
+    /**
+     * Sentinel object stored in a packed slot to mean "column is present but has a null value".
+     * Kept as a static singleton so every null column in every table shares the same pointer.
+     * Distinct from PHP null (= "absent") so getPackedRow() can include it in the result.
+     * @internal
+     */
+    private static $EXPLICIT_NULL;
+
+    private static function explicitNull(): \stdClass
+    {
+        if (!isset(self::$EXPLICIT_NULL)) {
+            self::$EXPLICIT_NULL = new \stdClass();
+        }
+        return self::$EXPLICIT_NULL;
+    }
 
     /** @internal @var array<int, mixed>|null */
     protected $summaryRowData           = null;
@@ -534,12 +545,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return null;
         }
         if ($rowId === self::ID_SUMMARY_ROW) {
-            return $this->summaryRowData[$idx] ?? null;
+            $v = $this->summaryRowData[$idx] ?? null;
+        } elseif ($rowId === self::ID_TOTALS_ROW) {
+            $v = $this->totalsRowData[$idx] ?? null;
+        } else {
+            $v = $this->rows[$rowId][$idx] ?? null;
         }
-        if ($rowId === self::ID_TOTALS_ROW) {
-            return $this->totalsRowData[$idx] ?? null;
-        }
-        return $this->rows[$rowId][$idx] ?? null;
+        // Sentinel means "present but null" — return null to callers.
+        return ($v === self::$EXPLICIT_NULL) ? null : $v;
     }
 
     /** @internal */
@@ -550,27 +563,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->extendSchema($colName);
             $idx = count($this->columnNames) - 1;
         }
+        // Store the sentinel for explicit null; plain null means "absent".
+        $stored = ($value === null && $rowId !== self::ID_TOTALS_ROW) ? self::explicitNull() : $value;
         if ($rowId === self::ID_SUMMARY_ROW) {
-            $this->summaryRowData[$idx] = $value;
+            $this->summaryRowData[$idx] = $stored;
         } elseif ($rowId === self::ID_TOTALS_ROW) {
             $this->totalsRowData[$idx] = $value;
         } else {
-            $this->rows[$rowId][$idx] = $value;
-        }
-
-        if ($value === null) {
-            if ($rowId === self::ID_SUMMARY_ROW) {
-                $this->summaryExplicitNullColIdxs[$idx] = true;
-            } elseif ($rowId !== self::ID_TOTALS_ROW) {
-                $this->rowExplicitNullColIdxs[$rowId][$idx] = true;
-            }
-        } else {
-            // clear any prior explicit-null marker for this slot
-            if ($rowId === self::ID_SUMMARY_ROW) {
-                unset($this->summaryExplicitNullColIdxs[$idx]);
-            } elseif ($rowId !== self::ID_TOTALS_ROW) {
-                unset($this->rowExplicitNullColIdxs[$rowId][$idx]);
-            }
+            $this->rows[$rowId][$idx] = $stored;
         }
     }
 
@@ -586,13 +586,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $packed   = array_fill(0, $colCount, null);
         $order    = [];
 
-        // Clear old explicit-null tracking for this row before rebuilding.
-        if ($rowId === self::ID_SUMMARY_ROW) {
-            $this->summaryExplicitNullColIdxs = null;
-        } elseif ($rowId !== self::ID_TOTALS_ROW) {
-            unset($this->rowExplicitNullColIdxs[$rowId]);
-        }
-
+        $usesSentinel = ($rowId !== self::ID_TOTALS_ROW);
         foreach ($columns as $name => $value) {
             $name = (string) $name;
             $idx  = array_search($name, $this->columnNames);
@@ -601,15 +595,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $idx                 = count($this->columnNames) - 1;
                 $packed[]            = null;
             }
-            $packed[$idx] = $value;
+            $packed[$idx] = ($usesSentinel && $value === null) ? self::explicitNull() : $value;
             $order[]      = $idx;
-            if ($value === null) {
-                if ($rowId === self::ID_SUMMARY_ROW) {
-                    $this->summaryExplicitNullColIdxs[$idx] = true;
-                } elseif ($rowId !== self::ID_TOTALS_ROW) {
-                    $this->rowExplicitNullColIdxs[$rowId][$idx] = true;
-                }
-            }
         }
 
         if ($rowId === self::ID_SUMMARY_ROW) {
@@ -634,14 +621,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if ($idx === false) {
             return false;
         }
-        // null == absent, unless tracked as an explicit null value.
+        // null == absent; sentinel (or any real value) == present.
         if ($rowId === self::ID_SUMMARY_ROW) {
-            return ($this->summaryRowData[$idx] ?? null) !== null || isset($this->summaryExplicitNullColIdxs[$idx]);
+            return ($this->summaryRowData[$idx] ?? null) !== null;
         }
         if ($rowId === self::ID_TOTALS_ROW) {
             return ($this->totalsRowData[$idx] ?? null) !== null;
         }
-        return ($this->rows[$rowId][$idx] ?? null) !== null || isset($this->rowExplicitNullColIdxs[$rowId][$idx]);
+        return ($this->rows[$rowId][$idx] ?? null) !== null;
     }
 
     /** @internal */
@@ -660,16 +647,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (empty($this->columnNames) || $packed === null) {
             return [];
         }
-        $nullSet = ($rowId === self::ID_SUMMARY_ROW)
-            ? ($this->summaryExplicitNullColIdxs ?? [])
-            : (($rowId === self::ID_TOTALS_ROW) ? [] : ($this->rowExplicitNullColIdxs[$rowId] ?? []));
+        $sentinel = self::$EXPLICIT_NULL;
         if ($order !== null) {
             $result = [];
             $seen   = [];
             foreach ($order as $idx) {
                 $val = $packed[$idx] ?? null;
-                if ($val !== null || isset($nullSet[$idx])) {
-                    $result[$this->columnNames[$idx]] = $val;
+                if ($val !== null) {
+                    $result[$this->columnNames[$idx]] = ($val === $sentinel) ? null : $val;
                     $seen[$idx] = true;
                 }
             }
@@ -677,8 +662,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             foreach ($this->columnNames as $idx => $name) {
                 if (!isset($seen[$idx])) {
                     $val = $packed[$idx] ?? null;
-                    if ($val !== null || isset($nullSet[$idx])) {
-                        $result[$name] = $val;
+                    if ($val !== null) {
+                        $result[$name] = ($val === $sentinel) ? null : $val;
                     }
                 }
             }
@@ -687,8 +672,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $result = [];
         foreach ($this->columnNames as $idx => $name) {
             $val = $packed[$idx] ?? null;
-            if ($val !== null || isset($nullSet[$idx])) {
-                $result[$name] = $val;
+            if ($val !== null) {
+                $result[$name] = ($val === $sentinel) ? null : $val;
             }
         }
         return $result;
@@ -706,7 +691,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             if ($this->summaryRowData !== null) {
                 $this->summaryRowData[$idx] = null;
             }
-            unset($this->summaryExplicitNullColIdxs[$idx]);
         } elseif ($rowId === self::ID_TOTALS_ROW) {
             if ($this->totalsRowData !== null) {
                 $this->totalsRowData[$idx] = null;
@@ -715,7 +699,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             if (isset($this->rows[$rowId])) {
                 $this->rows[$rowId][$idx] = null;
             }
-            unset($this->rowExplicitNullColIdxs[$rowId][$idx]);
         }
         return true;
     }
@@ -899,17 +882,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function setRows($rows)
     {
         if (!is_array($rows)) {
-            $this->rows                      = [];
-            $this->rowSubtableIds            = [];
-            $this->rowSubtableIdsLoaded      = [];
-            $this->rowMetadata               = [];
-            $this->rowColumnOrders           = [];
-            $this->summaryTypeRowIds         = [];
-            $this->columnNames               = [];
-            $this->nextRowId                 = 0;
-            $this->indexNotUpToDate          = true;
-            $this->rowExplicitNullColIdxs    = [];
-            $this->summaryExplicitNullColIdxs = null;
+            $this->rows                 = [];
+            $this->rowSubtableIds       = [];
+            $this->rowSubtableIdsLoaded = [];
+            $this->rowMetadata          = [];
+            $this->rowColumnOrders      = [];
+            $this->summaryTypeRowIds    = [];
+            $this->columnNames          = [];
+            $this->nextRowId            = 0;
+            $this->indexNotUpToDate     = true;
             return;
         }
 
@@ -923,7 +904,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $newRowSubtableIdsLoaded = [];
             $newRowColOrders         = [];
             $newSummaryTypeRowIds    = [];
-            $newNullColIdxs          = [];
             $newId = 0;
             foreach ($rows as $row) {
                 $old = $row->getRowId();
@@ -943,18 +923,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 if (isset($this->summaryTypeRowIds[$old])) {
                     $newSummaryTypeRowIds[$newId] = true;
                 }
-                if (isset($this->rowExplicitNullColIdxs[$old])) {
-                    $newNullColIdxs[$newId] = $this->rowExplicitNullColIdxs[$old];
-                }
                 $newId++;
             }
-            $this->rows                   = $newRows;
-            $this->rowMetadata            = $newRowMetadata;
-            $this->rowSubtableIds         = $newRowSubtableIds;
-            $this->rowSubtableIdsLoaded   = $newRowSubtableIdsLoaded;
-            $this->rowColumnOrders        = $newRowColOrders;
-            $this->summaryTypeRowIds      = $newSummaryTypeRowIds;
-            $this->rowExplicitNullColIdxs = $newNullColIdxs;
+            $this->rows                 = $newRows;
+            $this->rowMetadata          = $newRowMetadata;
+            $this->rowSubtableIds       = $newRowSubtableIds;
+            $this->rowSubtableIdsLoaded = $newRowSubtableIdsLoaded;
+            $this->rowColumnOrders      = $newRowColOrders;
+            $this->summaryTypeRowIds    = $newSummaryTypeRowIds;
             $this->nextRowId              = $newId;
             $this->indexNotUpToDate       = true;
             return;
@@ -1006,15 +982,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $this->indexNotUpToDate          = true;
         $this->summaryRowData            = null;
         $this->summaryRowMetadata        = [];
-        $this->summarySubtableId         = null;
-        $this->summarySubtableIdLoaded   = false;
-        $this->summaryRowColumnOrder     = null;
-        $this->totalsRowData             = null;
-        $this->totalsRowMetadata         = [];
-        $this->totalsSubtableId          = null;
-        $this->totalsSubtableIdLoaded    = false;
-        $this->rowExplicitNullColIdxs    = [];
-        $this->summaryExplicitNullColIdxs = null;
+        $this->summarySubtableId       = null;
+        $this->summarySubtableIdLoaded = false;
+        $this->summaryRowColumnOrder   = null;
+        $this->totalsRowData           = null;
+        $this->totalsRowMetadata       = [];
+        $this->totalsSubtableId        = null;
+        $this->totalsSubtableIdLoaded  = false;
 
         foreach ($materialized as $data) {
             $isLoaded  = $data['_subtableLoaded'];
@@ -1065,7 +1039,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $newSubLoaded      = [];
         $newColOrders      = [];
         $newSummaryTypeIds = [];
-        $newNullColIdxs    = [];
         $newId = 0;
         foreach ($rowIds as $oldId) {
             $newRows[$newId] = $this->rows[$oldId];
@@ -1084,18 +1057,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             if (isset($this->summaryTypeRowIds[$oldId])) {
                 $newSummaryTypeIds[$newId] = true;
             }
-            if (isset($this->rowExplicitNullColIdxs[$oldId])) {
-                $newNullColIdxs[$newId] = $this->rowExplicitNullColIdxs[$oldId];
-            }
             $newId++;
         }
-        $this->rows                   = $newRows;
-        $this->rowMetadata            = $newMeta;
-        $this->rowSubtableIds         = $newSubIds;
-        $this->rowSubtableIdsLoaded   = $newSubLoaded;
-        $this->rowColumnOrders        = $newColOrders;
-        $this->summaryTypeRowIds      = $newSummaryTypeIds;
-        $this->rowExplicitNullColIdxs = $newNullColIdxs;
+        $this->rows             = $newRows;
+        $this->rowMetadata      = $newMeta;
+        $this->rowSubtableIds   = $newSubIds;
+        $this->rowSubtableIdsLoaded = $newSubLoaded;
+        $this->rowColumnOrders  = $newColOrders;
+        $this->summaryTypeRowIds = $newSummaryTypeIds;
         $this->nextRowId              = $newId;
         $this->indexNotUpToDate       = true;
     }
@@ -1626,22 +1595,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         foreach ($columns as $name => $val) {
             $idx = array_search($name, $this->columnNames);
             if ($idx !== false) {
-                $packed[$idx] = $val;
+                // Sentinel marks "present but null" (≠ absent slot).
+                $packed[$idx] = ($val === null) ? self::explicitNull() : $val;
             }
         }
 
         $rowId = $this->nextRowId++;
         $this->rows[$rowId] = $packed;
-
-        // Track explicit null columns (present but null).
-        foreach ($columns as $name => $val) {
-            if ($val === null) {
-                $idx = array_search($name, $this->columnNames);
-                if ($idx !== false) {
-                    $this->rowExplicitNullColIdxs[$rowId][$idx] = true;
-                }
-            }
-        }
 
         // Record per-row column insertion order when it differs from schema order.
         // This preserves the original column ordering semantics for callers that
@@ -1727,19 +1687,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             }
         }
 
-        // Pack the summary row as a dense array (null = absent).
+        // Pack the summary row as a dense array (null = absent; sentinel = present-null).
         $colCount = count($this->columnNames);
         $this->summaryRowData = $colCount > 0 ? array_fill(0, $colCount, null) : [];
-        $this->summaryExplicitNullColIdxs = null;
         $insertionIdxs = [];
         foreach ($columns as $name => $val) {
             $idx = array_search($name, $this->columnNames);
             if ($idx !== false) {
-                $this->summaryRowData[$idx] = $val;
+                $this->summaryRowData[$idx] = ($val === null) ? self::explicitNull() : $val;
                 $insertionIdxs[] = $idx;
-                if ($val === null) {
-                    $this->summaryExplicitNullColIdxs[$idx] = true;
-                }
             }
         }
         $this->summaryRowColumnOrder = $this->isSchemaOrder($insertionIdxs) ? null : $insertionIdxs;
@@ -2257,35 +2213,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->summaryRowColumnOrder = $this->isSchemaOrder($newOrder) ? null : ($newOrder ?: null);
         }
 
-        // Remap explicit-null col indices for regular rows
-        foreach ($this->rowExplicitNullColIdxs as $rowId => &$nullSet) {
-            $newSet = [];
-            foreach ($nullSet as $oldIdx => $_) {
-                $newIdx = $mapping[$oldIdx] ?? null;
-                if ($newIdx !== null) {
-                    $newSet[$newIdx] = true;
-                }
-            }
-            if (empty($newSet)) {
-                unset($this->rowExplicitNullColIdxs[$rowId]);
-            } else {
-                $nullSet = $newSet;
-            }
-        }
-        unset($nullSet);
-
-        // Remap explicit-null col indices for summary row
-        if ($this->summaryExplicitNullColIdxs !== null) {
-            $newSet = [];
-            foreach ($this->summaryExplicitNullColIdxs as $oldIdx => $_) {
-                $newIdx = $mapping[$oldIdx] ?? null;
-                if ($newIdx !== null) {
-                    $newSet[$newIdx] = true;
-                }
-            }
-            $this->summaryExplicitNullColIdxs = $newSet ?: null;
-        }
-
         if ($deleteRecursiveInSubtables) {
             foreach ($this->rowSubtableIds as $subtableId) {
                 $subTable = Manager::getInstance()->getTable($subtableId);
@@ -2306,14 +2233,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function deleteRow($id)
     {
         if ($id === self::ID_SUMMARY_ROW) {
-            $this->summaryRowData             = null;
-            $this->summaryRowMetadata         = [];
-            $this->summarySubtableId          = null;
-            $this->summaryRowColumnOrder      = null;
-            $this->summaryExplicitNullColIdxs = null;
+            $this->summaryRowData        = null;
+            $this->summaryRowMetadata    = [];
+            $this->summarySubtableId     = null;
+            $this->summaryRowColumnOrder = null;
             return;
         }
-        unset($this->rows[$id], $this->rowSubtableIds[$id], $this->rowMetadata[$id], $this->rowColumnOrders[$id], $this->summaryTypeRowIds[$id], $this->rowExplicitNullColIdxs[$id]);
+        unset($this->rows[$id], $this->rowSubtableIds[$id], $this->rowMetadata[$id], $this->rowColumnOrders[$id], $this->summaryTypeRowIds[$id]);
         $this->indexNotUpToDate = true;
     }
 
@@ -2342,17 +2268,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         // if we delete until the end (or past all rows), delete the summary row as well.
         if ($limit === null || $limit >= $count) {
-            $this->summaryRowData             = null;
-            $this->summaryRowMetadata         = [];
-            $this->summarySubtableId          = null;
-            $this->summaryExplicitNullColIdxs = null;
+            $this->summaryRowData        = null;
+            $this->summaryRowMetadata    = [];
+            $this->summarySubtableId     = null;
         }
 
         $ids      = array_keys($this->rows);
         $toDelete = array_slice($ids, $offset, $limit);
 
         foreach ($toDelete as $id) {
-            unset($this->rows[$id], $this->rowSubtableIds[$id], $this->rowMetadata[$id], $this->rowExplicitNullColIdxs[$id]);
+            unset($this->rows[$id], $this->rowSubtableIds[$id], $this->rowMetadata[$id]);
         }
 
         $this->indexNotUpToDate = true;
@@ -2718,14 +2643,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $subtableMap = [];
         $metadataMap = [];
 
+        $sentinel = self::$EXPLICIT_NULL;
         $nCols = count($this->columnNames);
         foreach ($this->rows as $id => $packed) {
             // Normalize to a full-length sequential array so JSON encodes it as an array,
-            // not an object. Absent columns (sparse indices) are stored as null, matching
-            // the contract used by encodeRowsColumnar(). null = "absent" in the blob format.
+            // not an object. Sentinels (present-but-null) and absent slots both emit null
+            // in the blob; the explicit-null map (elements 6/7) distinguishes them.
             $normalized = [];
             for ($i = 0; $i < $nCols; $i++) {
-                $normalized[] = $packed[$i] ?? null;
+                $v = $packed[$i] ?? null;
+                $normalized[] = ($v === $sentinel) ? null : $v;
             }
             $rowData[(string) $id] = $normalized;
 
@@ -2745,7 +2672,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if ($this->summaryRowData !== null) {
             $normalized = [];
             for ($i = 0; $i < $nCols; $i++) {
-                $normalized[] = $this->summaryRowData[$i] ?? null;
+                $v = $this->summaryRowData[$i] ?? null;
+                $normalized[] = ($v === $sentinel) ? null : $v;
             }
             $summaryValues = $normalized;
             $summarySubtable = $consecutiveSubtableIds[self::ID_SUMMARY_ROW] ?? null;
@@ -2769,15 +2697,32 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $archivedMeta = $tableMeta;
         }
 
-        // Encode explicit null col indices per row as a sparse map rowId_str → [idx, ...]
+        // Build explicit-null maps by scanning for sentinel values in packed storage.
+        $sentinel        = self::$EXPLICIT_NULL;
         $explicitNullMap = [];
-        foreach ($this->rowExplicitNullColIdxs as $id => $nullSet) {
-            if (!empty($nullSet)) {
-                $explicitNullMap[(string) $id] = array_keys($nullSet);
+        foreach ($this->rows as $id => $packed) {
+            $nullIdxs = [];
+            foreach ($packed as $idx => $v) {
+                if ($v === $sentinel) {
+                    $nullIdxs[] = $idx;
+                }
+            }
+            if (!empty($nullIdxs)) {
+                $explicitNullMap[(string) $id] = $nullIdxs;
             }
         }
-        $summaryExplicitNull = $this->summaryExplicitNullColIdxs
-            ? array_keys($this->summaryExplicitNullColIdxs) : null;
+        $summaryExplicitNull = null;
+        if ($this->summaryRowData !== null) {
+            $nullIdxs = [];
+            foreach ($this->summaryRowData as $idx => $v) {
+                if ($v === $sentinel) {
+                    $nullIdxs[] = $idx;
+                }
+            }
+            if (!empty($nullIdxs)) {
+                $summaryExplicitNull = $nullIdxs;
+            }
+        }
 
         $payload = [
             $this->columnNames,
@@ -2941,14 +2886,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             }
         }
 
-        // Restore explicit-null tracking for regular rows (new blob format only).
+        // Restore sentinel values for explicitly-null slots (new blob format only).
         if ($explicitNullMap !== null) {
+            $sent = self::explicitNull();
             foreach ($explicitNullMap as $idStr => $idxList) {
                 $rowId = (int) $idStr;
                 foreach ($idxList as $srcIdx) {
                     $dstIdx = $colMapping[$srcIdx] ?? null;
                     if ($dstIdx !== null && $dstIdx !== false) {
-                        $this->rowExplicitNullColIdxs[$rowId][$dstIdx] = true;
+                        $this->rows[$rowId][$dstIdx] = $sent;
                     }
                 }
             }
@@ -2964,12 +2910,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->summaryRowMetadata = $metadataMap[(string) self::ID_SUMMARY_ROW] ?? [];
             $this->summarySubtableId  = $subtableMap[(string) self::ID_SUMMARY_ROW] ?? null;
 
-            // Restore explicit-null tracking for summary row (new blob format only).
+            // Restore sentinel values for explicitly-null summary slots (new blob format only).
             if ($summaryExplicitNull !== null) {
+                $sent = self::explicitNull();
                 foreach ($summaryExplicitNull as $srcIdx) {
                     $dstIdx = $colMapping[$srcIdx] ?? null;
                     if ($dstIdx !== null && $dstIdx !== false) {
-                        $this->summaryExplicitNullColIdxs[$dstIdx] = true;
+                        $this->summaryRowData[$dstIdx] = $sent;
                     }
                 }
             }
