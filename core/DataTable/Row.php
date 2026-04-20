@@ -147,6 +147,10 @@ class Row extends \ArrayObject
     {
         $this->_boundTable = $table;
         $this->_boundRowId = $rowId;
+        // Drop ArrayObject storage: packed DataTable is now the single source of truth.
+        // All offsetGet/Set/Exists/Unset calls delegate to packed storage when bound,
+        // so keeping a mirrored ArrayObject copy only wastes memory.
+        $this->exchangeArray([]);
     }
 
     // ── ArrayObject intercepts when bound ─────────────────────────────────────
@@ -183,9 +187,6 @@ class Row extends \ArrayObject
     {
         if ($this->_boundTable !== null) {
             $this->_boundTable->setPackedValue($this->_boundRowId, (string) $name, $value);
-            // Also keep the ArrayObject snapshot in sync so that (array)$row and
-            // Twig attribute access always reflect the current value.
-            parent::offsetSet($name, $value);
             return;
         }
         parent::offsetSet($name, $value);
@@ -195,8 +196,6 @@ class Row extends \ArrayObject
     {
         if ($this->_boundTable !== null) {
             $this->_boundTable->deletePackedColumn($this->_boundRowId, (string) $name);
-            // Keep ArrayObject snapshot in sync.
-            parent::offsetUnset($name);
             return;
         }
         parent::offsetUnset($name);
