@@ -1831,7 +1831,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var defaultLabel = labelSpan.text();
 
             $(this).hover(function() {
-                    labelSpan.html(defaultLabel + details);
+                    labelSpan.html(piwikHelper.htmlEntities(defaultLabel) + details);
                 },
                 function() {
                     labelSpan.text(defaultLabel);

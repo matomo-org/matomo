@@ -536,36 +536,6 @@ parameters:
 			path: core/Common.php
 
 		-
-			message: "#^Method Piwik\\\\Common\\:\\:extractCountryCodeFromBrowserLanguage\\(\\) should return array but returns string\\.$#"
-			count: 3
-			path: core/Common.php
-
-		-
-			message: "#^Method Piwik\\\\Common\\:\\:getCountry\\(\\) should return string but returns array\\.$#"
-			count: 1
-			path: core/Common.php
-
-		-
-			message: "#^Method Piwik\\\\Common\\:\\:hashStringToInt\\(\\) should return int but returns string\\.$#"
-			count: 1
-			path: core/Common.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 1
-			path: core/Common.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between false and float\\|string will always evaluate to false\\.$#"
-			count: 1
-			path: core/Common.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between null and float\\|string will always evaluate to false\\.$#"
-			count: 1
-			path: core/Common.php
-
-		-
 			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
 			count: 1
 			path: core/Concurrency/DistributedList.php
@@ -4077,11 +4047,6 @@ parameters:
 			message: "#^Property Piwik\\\\ViewDataTable\\\\RequestConfig\\:\\:\\$filter_excludelowpop_value \\(Closure\\|string\\) does not accept 2\\.$#"
 			count: 1
 			path: plugins/UserId/Reports/GetUsers.php
-
-		-
-			message: "#^Binary operation \"\\.\" between non\\-falsy\\-string and array results in an error\\.$#"
-			count: 1
-			path: plugins/UserLanguage/RecordBuilders/Languages.php
 
 		-
 			message: "#^If condition is always false\\.$#"
