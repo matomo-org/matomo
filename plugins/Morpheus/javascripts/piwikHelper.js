@@ -507,6 +507,11 @@ window.piwikHelper = {
             delete options.extraWide;
         }
 
+        // add custom css classes to dialog
+        if (options && options.classes) {
+          $content.addClass(options.classes);
+        }
+
         if (options && !options.onOpenEnd) {
             options.onOpenEnd = function () {
                 if (options.focusSelector) {

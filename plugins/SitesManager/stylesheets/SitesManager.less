@@ -402,15 +402,22 @@ td.editable-site-field:hover {
     font-size: 11px;
 }
 
+.modal.sites-manager-modal {
+  width:unset;
+  max-width:70%;
+  max-height:80%
+}
+
 .add-site-dialog {
     .card-row {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+        gap: 20px;
+        align-items: stretch;
 
         .card {
-            margin: 10px;
-            width: 30%;
+            margin: 0;
+            min-width: 0;
 
             .card-content {
                 height: 100%;
@@ -435,9 +442,15 @@ td.editable-site-field:hover {
 @media (max-width: 1200px) {
     .add-site-dialog {
         .card-row {
-            .card {
-                width: 100%;
-            }
+            grid-template-columns: repeat(2, minmax(220px, 1fr));
+        }
+    }
+}
+
+@media (max-width: 800px) {
+    .add-site-dialog {
+        .card-row {
+            grid-template-columns: minmax(220px, 1fr);
         }
     }
 }
