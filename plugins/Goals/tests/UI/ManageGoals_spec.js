@@ -11,6 +11,8 @@ describe("ManageGoals", function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\SomePageGoalVisitsWithConversions';
 
     const manageGoalsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=Goals_ManageGoals";
+    const defaultViewport = { width: 1350, height: 768 };
+    const mobileViewport = { width: 480, height: 900 };
 
     async function fillField(selector, value) {
         await page.$eval(selector, (el) => {
@@ -55,6 +57,20 @@ describe("ManageGoals", function () {
         expect(notificationText).to.equal(expectedNotificationText);
         expect(viewGoalLinkHref).to.include(`subcategory=${createdGoalId}`);
     });
+
+    it("should keep the goals table contained on mobile", async function () {
+      await page.webpage.setViewport(mobileViewport);
+
+      try {
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('div.manageGoals .card-content'))
+          .to.matchImage('manage_goals_mobile_table_contained');
+      } finally {
+        await page.webpage.setViewport(defaultViewport);
+      }
+    });
+
     it("should show the correct notification when editing the goal", async function () {
       const goalEditButtonSelector = 'table.entityTable tbody tr:nth-last-child(1) button.icon-edit';
       await page.click(goalEditButtonSelector);
