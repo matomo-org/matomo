@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveBlobColumnType;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater\Migration;
@@ -335,6 +336,7 @@ class Updater
 
         $this->executeListenerHook('onComponentUpdateFinished', array($componentName, $updatedVersion, $warningMessages));
         ServerFilesGenerator::createFilesForSecurity();
+        ArchiveBlobColumnType::recheckAndUpdateFlag();
         return $warningMessages;
     }
 
@@ -514,6 +516,7 @@ class Updater
 
         Filesystem::deleteAllCacheOnUpdate();
         ServerFilesGenerator::createFilesForSecurity();
+        ArchiveBlobColumnType::recheckAndUpdateFlag();
 
         $result = array(
             'warnings'  => $warnings,

@@ -12,6 +12,7 @@ namespace Piwik\ArchiveProcessor;
 use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
@@ -744,9 +745,25 @@ abstract class RecordBuilder
         ?int $maxRowsInSubtable,
         ?string $columnToSortByBeforeTruncation
     ): void {
+        $effectiveMaxRows = $maxRowsInTable ?? $this->maxRowsInTable;
+        $effectiveMaxSubtableRows = $maxRowsInSubtable ?? $this->maxRowsInSubtable;
+
+        // Only look up the blob table name (which touches the DB table-list cache) when the
+        // MEDIUMBLOB cap flag is set. Fresh installs pay zero I/O overhead via this guard.
+        if (ArchiveBlobRowCap::isCapPossiblyNeeded()) {
+            $blobTable = ArchiveTableCreator::getBlobTable(
+                $archiveProcessor->getParams()->getPeriod()->getDateStart(),
+                false
+            );
+            if ($blobTable !== null) {
+                $effectiveMaxRows = ArchiveBlobRowCap::capMaxRows($effectiveMaxRows, $blobTable);
+                $effectiveMaxSubtableRows = ArchiveBlobRowCap::capMaxSubtableRows($effectiveMaxSubtableRows, $blobTable);
+            }
+        }
+
         $serialized = $record->getSerialized(
-            $maxRowsInTable ?? $this->maxRowsInTable,
-            $maxRowsInSubtable ?? $this->maxRowsInSubtable,
+            $effectiveMaxRows,
+            $effectiveMaxSubtableRows,
             $columnToSortByBeforeTruncation ?? $this->columnToSortByBeforeTruncation
         );
         $archiveProcessor->insertBlobRecord($recordName, $serialized);
