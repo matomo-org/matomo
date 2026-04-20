@@ -79,3 +79,23 @@ h1,
     margin: 25px 20px;
   }
 }
+
+@media only screen and (max-width: 767px) {
+  .card > .card-content {
+    .contentTableWrapper {
+      margin: 16px 0 16px -20px;
+      width: ~"calc(100% + 40px)";
+      overflow-x: auto;
+    }
+
+    .contentTableWrapper > .card-table {
+      margin: 0;
+      min-width: 100%;
+      width: auto;
+    }
+  }
+
+  .contentTableWrapper + .tableActionBar {
+    margin: 0 0 0 -20px;
+  }
+}

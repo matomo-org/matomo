@@ -11177,6 +11177,91 @@ Progressbarvue_type_script_lang_ts.render = Progressbarvue_type_template_id_f800
     });
   }
 });
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentTable/contentTableUtils.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+const MOBILE_BREAKPOINT = '(max-width: 767px)';
+const registrations = new WeakMap();
+function ensureOverflowWrapper(el) {
+  const parent = el.parentElement;
+  if (!parent || parent.classList.contains('contentTableWrapper')) {
+    return;
+  }
+  const wrapper = document.createElement('div');
+  wrapper.className = 'contentTableWrapper';
+  parent.insertBefore(wrapper, el);
+  wrapper.appendChild(el);
+}
+function removeOverflowWrapper(el) {
+  const parent = el.parentElement;
+  if (!parent || !parent.classList.contains('contentTableWrapper')) {
+    return;
+  }
+  const wrapperParent = parent.parentElement;
+  if (!wrapperParent) {
+    return;
+  }
+  wrapperParent.insertBefore(el, parent);
+  parent.remove();
+}
+function shouldWrapTable(mediaQuery) {
+  return (mediaQuery || window.matchMedia(MOBILE_BREAKPOINT)).matches;
+}
+function addMediaQueryListener(mediaQuery, listener) {
+  if ('addEventListener' in mediaQuery) {
+    mediaQuery.addEventListener('change', listener);
+  } else {
+    mediaQuery.addListener(listener);
+  }
+}
+function removeMediaQueryListener(mediaQuery, listener) {
+  if ('removeEventListener' in mediaQuery) {
+    mediaQuery.removeEventListener('change', listener);
+  } else {
+    mediaQuery.removeListener(listener);
+  }
+}
+function applyResponsiveContentTable(el, mediaQuery) {
+  el.classList.add('card', 'card-table', 'entityTable');
+  if (shouldWrapTable(mediaQuery)) {
+    ensureOverflowWrapper(el);
+  } else {
+    removeOverflowWrapper(el);
+  }
+}
+function unregisterResponsiveContentTable(el) {
+  const registration = registrations.get(el);
+  if (registration) {
+    removeMediaQueryListener(registration.mediaQuery, registration.listener);
+    registrations.delete(el);
+  }
+  removeOverflowWrapper(el);
+}
+function registerResponsiveContentTable(el) {
+  const existingRegistration = registrations.get(el);
+  if (existingRegistration) {
+    applyResponsiveContentTable(el, existingRegistration.mediaQuery);
+    return;
+  }
+  const mediaQuery = window.matchMedia(MOBILE_BREAKPOINT);
+  const listener = () => {
+    if (!el.isConnected) {
+      unregisterResponsiveContentTable(el);
+      return;
+    }
+    applyResponsiveContentTable(el, mediaQuery);
+  };
+  addMediaQueryListener(mediaQuery, listener);
+  registrations.set(el, {
+    mediaQuery,
+    listener
+  });
+  applyResponsiveContentTable(el, mediaQuery);
+}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ContentTable/ContentTable.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -11185,25 +11270,30 @@ Progressbarvue_type_script_lang_ts.render = Progressbarvue_type_template_id_f800
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+
 /* harmony default export */ var ContentTable = ({
   mounted(el, binding) {
     var _binding$value;
     if (binding !== null && binding !== void 0 && (_binding$value = binding.value) !== null && _binding$value !== void 0 && _binding$value.off) {
       return;
     }
-    el.classList.add('card', 'card-table', 'entityTable');
+    registerResponsiveContentTable(el);
   },
   updated(el, binding) {
     var _binding$value2;
     if (binding !== null && binding !== void 0 && (_binding$value2 = binding.value) !== null && _binding$value2 !== void 0 && _binding$value2.off) {
+      unregisterResponsiveContentTable(el);
       return;
     }
     // classes can be overwritten when elements bind to :class, nextTick + using
     // updated avoids this problem (and doing in both mounted and updated avoids a temporary
     // state where the classes aren't added)
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(() => {
-      el.classList.add('card', 'card-table', 'entityTable');
+      registerResponsiveContentTable(el);
     });
+  },
+  beforeUnmount(el) {
+    unregisterResponsiveContentTable(el);
   }
 });
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/AjaxForm/AjaxForm.vue?vue&type=template&id=04849007
