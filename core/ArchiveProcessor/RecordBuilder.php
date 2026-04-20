@@ -378,6 +378,7 @@ abstract class RecordBuilder
             $flatColumnToSortByBeforeTruncation
         );
         $archiveProcessor->insertBlobRecord($flatRecordName, $flatSerialized);
+        unset($flatSerialized);
         $processedFlatRecords[$flatRecordName] = true;
 
         $hierarchicalTable = $this->buildHierarchicalTableFromFlatTableAndConsumeRows(
@@ -396,6 +397,7 @@ abstract class RecordBuilder
             $columnToSortByBeforeTruncation
         );
         $archiveProcessor->insertBlobRecord($hierarchicalRecord->getName(), $hierarchicalSerialized);
+        unset($hierarchicalSerialized);
 
         Common::destroy($hierarchicalTable);
         Common::destroy($flatTable);
