@@ -32,7 +32,9 @@ describe("ManageGoals", function () {
         await page.waitForSelector('.addEditGoal', { visible: true });
 
         const goalName = 'My name';
+        const goalDescription = 'https://longurlwithlotsofthings.example.com/path/to/a/page?with=query&that=keeps_going';
         await fillField('#goal_name', goalName);
+        await fillField('#goal_description', goalDescription);
         await fillField('#pattern', '/thank-you');
 
         const saveButton = await page.waitForSelector('.addEditGoal .matomo-save-button .btn');
