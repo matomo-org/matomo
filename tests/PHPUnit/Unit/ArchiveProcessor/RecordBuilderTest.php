@@ -874,6 +874,27 @@ class RecordBuilderTest extends TestCase
             {
                 // make the serialized values more readable
                 $values = array_map(function ($v) {
+                    if (str_starts_with($v, DataTable::COLUMNAR_BLOB_MAGIC)) {
+                        $dt = new DataTable();
+                        $dt->addRowsFromSerializedArray($v);
+                        $rows = [];
+                        foreach ($dt->getRows() as $id => $row) {
+                            $rows[$id] = [
+                                Row::COLUMNS => $row->getColumns(),
+                                Row::METADATA => $row->getMetadata(),
+                                Row::DATATABLE_ASSOCIATED => $row->getIdSubDataTable(),
+                            ];
+                        }
+                        if (($summary = $dt->getRowFromId(DataTable::ID_SUMMARY_ROW)) !== false) {
+                            $rows[DataTable::ID_SUMMARY_ROW] = [
+                                Row::COLUMNS => $summary->getColumns(),
+                                Row::METADATA => $summary->getMetadata(),
+                                Row::DATATABLE_ASSOCIATED => $summary->getIdSubDataTable(),
+                            ];
+                        }
+                        return json_decode(json_encode($rows), true);
+                    }
+
                     $deserialized = unserialize($v);
 
                     $asArray = json_encode($deserialized);
