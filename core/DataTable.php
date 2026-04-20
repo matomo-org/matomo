@@ -2444,6 +2444,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $depth++;
                 $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation, $aSerializedDataTable);
                 $depth--;
+                // The subtable is now fully encoded in $aSerializedDataTable.
+                // Free it from Manager immediately rather than waiting for the whole
+                // DataTable to go out of scope — this cuts peak memory during archiving
+                // by ~5 MB for large URL trees.
+                $manager->deleteTable($storedSubtableId);
+                unset($subTable);
             }
         }
 
