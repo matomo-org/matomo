@@ -707,6 +707,38 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return;
         }
 
+        // Fast path: if every row is a ViewRow from this very table, we only need to
+        // reorder the packed arrays in-place — no Row construction, no schema rebuild.
+        $first = reset($rows);
+        if ($first instanceof ViewRow && $first->getOwnerTable() === $this) {
+            $newRows                 = [];
+            $newRowMetadata          = [];
+            $newRowSubtableIds       = [];
+            $newRowSubtableIdsLoaded = [];
+            $newId = 0;
+            foreach ($rows as $row) {
+                $old = $row->getRowId();
+                $newRows[$newId] = $this->rows[$old];
+                if (isset($this->rowMetadata[$old])) {
+                    $newRowMetadata[$newId] = $this->rowMetadata[$old];
+                }
+                if (isset($this->rowSubtableIds[$old])) {
+                    $newRowSubtableIds[$newId] = $this->rowSubtableIds[$old];
+                    if (isset($this->rowSubtableIdsLoaded[$old])) {
+                        $newRowSubtableIdsLoaded[$newId] = true;
+                    }
+                }
+                $newId++;
+            }
+            $this->rows                 = $newRows;
+            $this->rowMetadata          = $newRowMetadata;
+            $this->rowSubtableIds       = $newRowSubtableIds;
+            $this->rowSubtableIdsLoaded = $newRowSubtableIdsLoaded;
+            $this->nextRowId            = $newId;
+            $this->indexNotUpToDate     = true;
+            return;
+        }
+
         // Materialize row data BEFORE clearing storage. When $rows contains ViewRow
         // objects that belong to this very table, clearing storage first would make
         // their getColumns() / getMetadata() calls return empty results.
@@ -792,6 +824,39 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             }
             $this->setTotalsRow($totalsRow);
         }
+    }
+
+    /**
+     * Reorders packed row storage to match the given sequence of row IDs without creating any Row objects.
+     * @internal Used by Sorter as a zero-allocation alternative to setRows().
+     * @param int[] $rowIds Row IDs in desired order (must not include ID_SUMMARY_ROW).
+     */
+    public function reorderRows(array $rowIds): void
+    {
+        $newRows       = [];
+        $newMeta       = [];
+        $newSubIds     = [];
+        $newSubLoaded  = [];
+        $newId = 0;
+        foreach ($rowIds as $oldId) {
+            $newRows[$newId] = $this->rows[$oldId];
+            if (isset($this->rowMetadata[$oldId])) {
+                $newMeta[$newId] = $this->rowMetadata[$oldId];
+            }
+            if (isset($this->rowSubtableIds[$oldId])) {
+                $newSubIds[$newId] = $this->rowSubtableIds[$oldId];
+                if (isset($this->rowSubtableIdsLoaded[$oldId])) {
+                    $newSubLoaded[$newId] = true;
+                }
+            }
+            $newId++;
+        }
+        $this->rows                 = $newRows;
+        $this->rowMetadata          = $newMeta;
+        $this->rowSubtableIds       = $newSubIds;
+        $this->rowSubtableIdsLoaded = $newSubLoaded;
+        $this->nextRowId            = $newId;
+        $this->indexNotUpToDate     = true;
     }
 
     /**
@@ -1534,6 +1599,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $result[$id] = new ViewRow($this, $id);
         }
         return $result;
+    }
+
+    /**
+     * Returns row IDs in insertion order, excluding the summary row.
+     * Cheaper than getRowsWithoutSummaryRow() — no ViewRow objects are created.
+     * @internal Used by Sorter and Truncate to avoid peak memory spikes from N ViewRow allocations.
+     * @return int[]
+     */
+    public function getRowIdsWithoutSummaryRow(): array
+    {
+        return array_keys($this->rows);
     }
 
     /**
@@ -2998,6 +3074,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                         $next->deleteMetadata();
                         return [$next, $i];
                     }
+
+                    // Replace the bound DataTableSummaryRow with a lightweight ViewRow so
+                    // that callers (e.g. ArchivingHelper::$cacheParsedAction) hold a ViewRow
+                    // (~422 B, no closure) rather than a DataTableSummaryRow with a bound
+                    // closure (~500 B+). The DataTableSummaryRow $row is released here.
+                    $next = new ViewRow($table, $row->getBoundRowId());
                 }
             }
 
@@ -3217,18 +3299,19 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * @return \ArrayIterator<int, Row>
+     * Yields one ViewRow at a time so that foreach ($table as $row) never holds more than
+     * one ViewRow in memory simultaneously — avoids allocating N proxies upfront for large tables.
+     *
+     * @return \Traversable<int, Row>
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): \Traversable
     {
-        $result = [];
         foreach (array_keys($this->rows) as $id) {
-            $result[$id] = new ViewRow($this, $id);
+            yield $id => new ViewRow($this, $id);
         }
         if ($this->summaryRowData !== null) {
-            $result[self::ID_SUMMARY_ROW] = new ViewRow($this, self::ID_SUMMARY_ROW);
+            yield self::ID_SUMMARY_ROW => new ViewRow($this, self::ID_SUMMARY_ROW);
         }
-        return new \ArrayIterator($result);
     }
 
     /**

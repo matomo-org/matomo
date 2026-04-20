@@ -188,6 +188,18 @@ class ViewRow extends Row
         return $this->rowId === DataTable::ID_SUMMARY_ROW;
     }
 
+    /** @internal — used by DataTable::setRows() fast path */
+    public function getOwnerTable(): DataTable
+    {
+        return $this->table;
+    }
+
+    /** @internal — used by DataTable::setRows() fast path */
+    public function getRowId(): int
+    {
+        return $this->rowId;
+    }
+
     // ── Lifecycle ─────────────────────────────────────────────────────────────
 
     /**

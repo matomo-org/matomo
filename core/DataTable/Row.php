@@ -153,6 +153,12 @@ class Row extends \ArrayObject
         $this->exchangeArray([]);
     }
 
+    /** Returns the row ID within the bound DataTable, or null if not bound. */
+    public function getBoundRowId(): ?int
+    {
+        return $this->_boundRowId;
+    }
+
     // ── ArrayObject intercepts when bound ─────────────────────────────────────
     //
     // When this Row is bound to a DataTable's packed storage (via bindToTable),

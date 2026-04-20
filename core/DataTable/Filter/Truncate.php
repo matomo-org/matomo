@@ -116,32 +116,30 @@ class Truncate extends BaseFilter
 
         $table->filter('Sort', [$this->columnToSortByBeforeTruncating, 'desc', $naturalSort = true, $recursiveSort = false]);
 
-        // Use getRowsWithoutSummaryRow() so that row data is accessed via ViewRow
-        // proxies instead of materialised snapshot Rows — avoids duplicating all
-        // column data in memory.  The summary-row case (if $i >= count of regular rows)
-        // is handled by the existing getRowFromId() fallback below.
-        $rows   = array_values($table->getRowsWithoutSummaryRow());
-        $count  = $table->getRowsCount();
-        $newRow = new Row([Row::COLUMNS => ['label' => DataTable::LABEL_SUMMARY_ROW]]);
+        // Iterate over row IDs one at a time to avoid allocating N ViewRow objects simultaneously.
+        // For large tables (e.g. 13k rows) pre-allocating all rows at once costs ~5 MB peak.
+        $rowIds   = $table->getRowIdsWithoutSummaryRow();
+        $rowCount = count($rowIds);
+        $newRow   = new Row([Row::COLUMNS => ['label' => DataTable::LABEL_SUMMARY_ROW]]);
 
         $aggregationOps = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
 
-        for ($i = $this->truncateAfter; $i < $count; $i++) {
-            if (!isset($rows[$i])) {
-                // case when the last row is a summary row, it is not indexed by $count but by DataTable::ID_SUMMARY_ROW
-                $summaryRow = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        for ($i = $this->truncateAfter; $i < $rowCount; $i++) {
+            $viewRow = $table->getRowFromId($rowIds[$i]);
+            $newRow->sumRow($viewRow, $enableCopyMetadata = false, $aggregationOps);
+            unset($viewRow);
+        }
 
-                //FIXME: I'm not sure why it could return false, but it was reported in: https://forum.piwik.org/read.php?2,89324,page=1#msg-89442
-                if ($summaryRow) {
-                    $newRow->sumRow($summaryRow, $enableCopyMetadata = false, $aggregationOps);
-                }
-            } else {
-                $newRow->sumRow($rows[$i], $enableCopyMetadata = false, $aggregationOps);
+        // If a summary row already existed on the table, fold it into the new summary too.
+        //FIXME: I'm not sure why it could return false, but it was reported in: https://forum.piwik.org/read.php?2,89324,page=1#msg-89442
+        if ($table->getRowsCount() > $rowCount) {
+            $summaryRow = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            if ($summaryRow) {
+                $newRow->sumRow($summaryRow, $enableCopyMetadata = false, $aggregationOps);
             }
         }
 
         $table->filter('Limit', [0, $this->truncateAfter]);
         $table->addSummaryRow($newRow);
-        unset($rows);
     }
 }

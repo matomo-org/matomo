@@ -178,17 +178,15 @@ class Locations extends RecordBuilder
      */
     private function setLatitudeLongitude(DataTable $tableCity): void
     {
-        foreach ($tableCity->getRowsWithoutSummaryRow() as $row) {
-            $label = $row->getColumn('label');
-            if (isset($this->latLongForCities[$label])) {
-                // get lat/long for city
-                list($lat, $long) = $this->latLongForCities[$label];
-                $lat = round($lat, LocationProvider::GEOGRAPHIC_COORD_PRECISION);
+        // Use row IDs + direct packed access to avoid allocating N ViewRow objects upfront.
+        foreach ($tableCity->getRowIdsWithoutSummaryRow() as $rowId) {
+            $label = $tableCity->getPackedValue($rowId, 'label');
+            if ($label !== null && isset($this->latLongForCities[$label])) {
+                [$lat, $long] = $this->latLongForCities[$label];
+                $lat  = round($lat,  LocationProvider::GEOGRAPHIC_COORD_PRECISION);
                 $long = round($long, LocationProvider::GEOGRAPHIC_COORD_PRECISION);
-
-                // set latitude + longitude metadata
-                $row->setMetadata('lat', $lat);
-                $row->setMetadata('long', $long);
+                $tableCity->setRowMetadataValue($rowId, 'lat',  $lat);
+                $tableCity->setRowMetadataValue($rowId, 'long', $long);
             }
         }
     }
