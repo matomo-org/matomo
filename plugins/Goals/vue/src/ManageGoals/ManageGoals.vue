@@ -32,8 +32,12 @@
               <tr>
                 <th class="first">{{ translate('General_Id') }}</th>
                 <th>{{ translate('Goals_GoalName') }}</th>
-                <th>{{ translate('General_Description') }}</th>
-                <th>{{ translate('Goals_GoalIsTriggeredWhen') }}</th>
+                <th class="manageGoals-descriptionColumn">
+                  {{ translate('General_Description') }}
+                </th>
+                <th class="manageGoals-triggerColumn">
+                  {{ translate('Goals_GoalIsTriggeredWhen') }}
+                </th>
                 <th>{{ translate('General_ColumnRevenue') }}</th>
 
                 <component
@@ -41,7 +45,9 @@
                   :is="beforeGoalListActionsHeadComponent"
                 ></component>
 
-                <th v-if="userCanEditGoals">{{ translate('General_Actions') }}</th>
+                <th v-if="userCanEditGoals" class="manageGoals-actionsColumn">
+                  {{ translate('General_Actions') }}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -55,8 +61,8 @@
               <tr v-for="goal in goals || []" :id="goal.idgoal" :key="goal.idgoal">
                 <td class="first">{{ goal.idgoal }}</td>
                 <td>{{ goal.name }}</td>
-                <td>{{ goal.description }}</td>
-                <td>
+                <td class="manageGoals-descriptionColumn">{{ goal.description }}</td>
+                <td class="manageGoals-triggerColumn">
                   <span class='matchAttribute'>
                     {{ goalMatchAttributeTranslations[goal.match_attribute]
                       || goal.match_attribute }}
@@ -85,7 +91,7 @@
 
                 <td
                   v-if="userCanEditGoals"
-                  class="entityTable_ActionCell entityTable_ActionCell-3"
+                  class="entityTable_ActionCell entityTable_ActionCell-3 manageGoals-actionsColumn"
                 >
                   <a
                     class="table-action icon-show"
