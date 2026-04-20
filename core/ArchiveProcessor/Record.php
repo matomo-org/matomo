@@ -266,6 +266,7 @@ class Record
      *                                                            aggregates into the flat table when some periods do not
      *                                                            have the flat record yet.
      *                                                            Signature: function (DataTable $legacyHierarchy, DataTable $flatTable, ArchiveProcessor $archiveProcessor, Record $hierarchicalRecord): void
+     *                                                            The callback is invoked once per legacy source period hierarchy table.
      */
     public function setBuiltFromFlatRecord(
         string $flatRecordName,

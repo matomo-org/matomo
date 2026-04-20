@@ -355,18 +355,16 @@ abstract class RecordBuilder
         $hasLegacyFallbackData = false;
         $legacyReducerCallback = $hierarchicalRecord->getLegacyHierarchyToFlatReducerCallback();
         if (!empty($periodsWithoutFlatRecord) && is_callable($legacyReducerCallback)) {
-            [$legacyHierarchicalTable, $hasLegacyFallbackData] = $this->aggregateDataTableFromBlobs(
+            $hasLegacyFallbackData = $this->aggregateLegacyHierarchyPeriodsIntoFlatTable(
                 $archiveProcessor,
                 $hierarchicalRecord->getName(),
+                $flatTable,
+                $legacyReducerCallback,
+                $hierarchicalRecord,
                 $columnAggregationOps,
                 $columnToRenameAfterAggregation,
                 $periodsWithoutFlatRecord
             );
-
-            if ($hasLegacyFallbackData) {
-                call_user_func($legacyReducerCallback, $legacyHierarchicalTable, $flatTable, $archiveProcessor, $hierarchicalRecord);
-            }
-            Common::destroy($legacyHierarchicalTable);
         }
 
         if (!$hasFlatSourceData && !$hasLegacyFallbackData) {
@@ -403,6 +401,88 @@ abstract class RecordBuilder
         Common::destroy($flatTable);
 
         return true;
+    }
+
+    protected function aggregateLegacyHierarchyPeriodsIntoFlatTable(
+        ArchiveProcessor $archiveProcessor,
+        string $recordName,
+        DataTable $flatTable,
+        callable $legacyReducerCallback,
+        Record $hierarchicalRecord,
+        ?array $columnsAggregationOperation,
+        ?array $columnsToRenameAfterAggregation,
+        ?array $periodsToInclude
+    ): bool {
+        $currentPeriod = null;
+        $currentPeriodRows = [];
+        $hasRows = false;
+
+        foreach ($this->querySingleBlobRows($archiveProcessor, $recordName) as $archiveDataRow) {
+            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            if ($periodsToInclude !== null && !isset($periodsToInclude[$period])) {
+                continue;
+            }
+
+            if ($currentPeriod !== null && $period !== $currentPeriod) {
+                $hasRows = $this->reduceLegacyHierarchyPeriodRowsIntoFlatTable(
+                    $currentPeriodRows,
+                    $recordName,
+                    $flatTable,
+                    $legacyReducerCallback,
+                    $archiveProcessor,
+                    $hierarchicalRecord,
+                    $columnsAggregationOperation,
+                    $columnsToRenameAfterAggregation
+                ) || $hasRows;
+                $currentPeriodRows = [];
+            }
+
+            $currentPeriod = $period;
+            $currentPeriodRows[] = $archiveDataRow;
+        }
+
+        if (!empty($currentPeriodRows)) {
+            $hasRows = $this->reduceLegacyHierarchyPeriodRowsIntoFlatTable(
+                $currentPeriodRows,
+                $recordName,
+                $flatTable,
+                $legacyReducerCallback,
+                $archiveProcessor,
+                $hierarchicalRecord,
+                $columnsAggregationOperation,
+                $columnsToRenameAfterAggregation
+            ) || $hasRows;
+        }
+
+        return $hasRows;
+    }
+
+    protected function reduceLegacyHierarchyPeriodRowsIntoFlatTable(
+        array $periodRows,
+        string $recordName,
+        DataTable $flatTable,
+        callable $legacyReducerCallback,
+        ArchiveProcessor $archiveProcessor,
+        Record $hierarchicalRecord,
+        ?array $columnsAggregationOperation,
+        ?array $columnsToRenameAfterAggregation
+    ): bool {
+        [$legacyHierarchicalTable, $hasRows] = BlobTableAggregator::aggregateBlobRows(
+            $periodRows,
+            $recordName,
+            $columnsAggregationOperation,
+            function (DataTable $table) use ($archiveProcessor, $columnsToRenameAfterAggregation): void {
+                $archiveProcessor->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+            }
+        );
+
+        if ($hasRows) {
+            call_user_func($legacyReducerCallback, $legacyHierarchicalTable, $flatTable, $archiveProcessor, $hierarchicalRecord);
+        }
+
+        Common::destroy($legacyHierarchicalTable);
+
+        return $hasRows;
     }
 
     /**
