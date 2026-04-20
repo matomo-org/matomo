@@ -9,7 +9,7 @@
 
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\Config;
+use Piwik\Config\DatabaseConfig;
 use Piwik\DataAccess\ArchiveBlobColumnType;
 
 /**
@@ -54,7 +54,7 @@ final class ArchiveBlobRowCap
      */
     public static function isCapPossiblyNeeded(): bool
     {
-        return (int) (Config::getInstance()->database['archive_blob_tables_may_contain_mediumblob'] ?? 0) !== 0;
+        return (int)(DatabaseConfig::getConfigValue(ArchiveBlobColumnType::CONFIG_KEY) ?? 0) !== 0;
     }
 
     /**
@@ -91,7 +91,7 @@ final class ArchiveBlobRowCap
     private static function applyCap(?int $configuredMax, string $tableName): ?int
     {
         // Fast-path: skip all I/O when the flag is not set (fresh installs).
-        $flag = (int) (Config::getInstance()->database['archive_blob_tables_may_contain_mediumblob'] ?? 0);
+        $flag = (int)(DatabaseConfig::getConfigValue(ArchiveBlobColumnType::CONFIG_KEY) ?? 0);
         if ($flag === 0) {
             return $configuredMax;
         }

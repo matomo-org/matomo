@@ -9,6 +9,7 @@
 
 namespace Piwik\DataAccess;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
@@ -27,6 +28,12 @@ use Piwik\Log\LoggerInterface;
  */
 final class ArchiveBlobColumnType
 {
+    /**
+     * The [database] config key used to signal that archive_blob tables may still contain
+     * MEDIUMBLOB `value` columns (set by the 5.10.0-b1 migration on existing installs).
+     */
+    public const CONFIG_KEY = 'archive_blob_tables_may_contain_mediumblob';
+
     /**
      * Per-request cache: table name → isMediumBlob result.
      *
@@ -54,9 +61,21 @@ final class ArchiveBlobColumnType
                 [$tableName, 'value']
             );
 
-            // MySQL returns the type in lowercase ('mediumblob', 'longblob'); use
-            // case-insensitive comparison so we are not surprised by unusual drivers.
-            $result = (strtolower((string) $columnType) === 'mediumblob');
+            $normalized = strtolower((string) $columnType);
+            if ($normalized === '') {
+                // INFORMATION_SCHEMA returned no row: the table or column is missing.
+                // This is unexpected (callers create the table before calling us) and
+                // indicates a race condition or schema corruption.  Apply the cap conservatively.
+                StaticContainer::get(LoggerInterface::class)->warning(
+                    'ArchiveBlobColumnType: INFORMATION_SCHEMA returned no row for table {table}; applying cap conservatively.',
+                    ['table' => $tableName]
+                );
+                $result = true;
+            } else {
+                // MySQL returns the type in lowercase ('mediumblob', 'longblob'); use
+                // case-insensitive comparison so we are not surprised by unusual drivers.
+                $result = ($normalized === 'mediumblob');
+            }
         } catch (\Exception $e) {
             StaticContainer::get(LoggerInterface::class)->warning(
                 'ArchiveBlobColumnType: could not determine column type for table {table}: {exception}',
@@ -81,7 +100,8 @@ final class ArchiveBlobColumnType
     /**
      * Checks whether any archive_blob_* tables in the current schema still use MEDIUMBLOB for
      * their `value` column.  If none remain, the
-     * `[database] archive_blob_tables_may_contain_mediumblob` config flag is removed.
+     * `[database] archive_blob_tables_may_contain_mediumblob` ({@see CONFIG_KEY}) config flag is
+     * removed.
      *
      * If the flag is not set (0 / unset) this method returns immediately without any I/O so that
      * fresh installs pay zero runtime cost during updates.
@@ -90,15 +110,17 @@ final class ArchiveBlobColumnType
      *  - `core/Updater.php` after each component update finishes and at the end of a full batch.
      *  - `plugins/CoreUpdater/Commands/RecheckArchiveBlobTypes.php` as an on-demand CLI tool.
      *
-     * @return bool  `true` when MEDIUMBLOB tables were found (flag left as-is or not set),
-     *               `false` when flag was unset because no MEDIUMBLOB tables remain.
+     * @return string[]  Names of archive_blob tables that still use MEDIUMBLOB.
+     *                   An empty array means no MEDIUMBLOB tables remain and the flag was cleared.
+     *                   A non-empty array means the flag was left as-is.
+     *                   Returns an empty array (without I/O) when the flag was not set.
      */
-    public static function recheckAndUpdateFlag(): bool
+    public static function recheckAndUpdateFlag(): array
     {
-        $flag = (int) (Config::getInstance()->database['archive_blob_tables_may_contain_mediumblob'] ?? 0);
+        $flag = (int) (Config::getInstance()->database[self::CONFIG_KEY] ?? 0);
         if ($flag === 0) {
             // Nothing to do on fresh installs or after the flag was already cleared.
-            return false;
+            return [];
         }
 
         $mediumBlobTables = self::getMediumBlobArchiveTables();
@@ -106,23 +128,31 @@ final class ArchiveBlobColumnType
             // All tables have been migrated (or none existed). Remove the flag.
             $config = Config::getInstance();
             $database = $config->database;
-            unset($database['archive_blob_tables_may_contain_mediumblob']);
+            unset($database[self::CONFIG_KEY]);
             $config->database = $database;
             $config->forceSave();
-            return false;
         }
 
-        return true;
+        return $mediumBlobTables;
     }
 
     /**
      * Returns the names of all archive_blob_* tables in the current schema whose `value` column
-     * is MEDIUMBLOB.
+     * is MEDIUMBLOB.  Only tables whose name begins with the configured Matomo table prefix are
+     * inspected, so tables belonging to other Matomo instances (or unrelated tables that happen to
+     * contain "archive_blob_" in their name) are never returned.
      *
      * @return string[]
      */
     public static function getMediumBlobArchiveTables(): array
     {
+        // Build a prefix-anchored LIKE pattern, e.g. "matomo_archive\_blob\_%".
+        // LIKE-escape any '%' or '_' in the prefix itself so a weird table-prefix cannot
+        // accidentally broaden the match.
+        $rawPrefix = Common::prefixTable('archive_blob_');
+        $likePrefix = str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $rawPrefix);
+        $likePattern = $likePrefix . '%';
+
         try {
             $rows = Db::fetchAll(
                 "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS
@@ -130,7 +160,7 @@ final class ArchiveBlobColumnType
                     AND TABLE_NAME   LIKE ?
                     AND COLUMN_NAME  = ?
                     AND LOWER(COLUMN_TYPE) = ?",
-                ['%archive\_blob\_%', 'value', 'mediumblob']
+                [$likePattern, 'value', 'mediumblob']
             );
         } catch (\Exception $e) {
             StaticContainer::get(LoggerInterface::class)->warning(

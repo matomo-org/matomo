@@ -38,7 +38,8 @@ class RecheckArchiveBlobTypes extends ConsoleCommand
     {
         $output = $this->getOutput();
 
-        $flag = (int) (Config::getInstance()->database['archive_blob_tables_may_contain_mediumblob'] ?? 0);
+        // Short-circuit when the flag is not set (fresh installs, or already cleared).
+        $flag = (int) (Config::getInstance()->database[ArchiveBlobColumnType::CONFIG_KEY] ?? 0);
         if ($flag === 0) {
             $output->writeln(
                 'No MEDIUMBLOB archive_blob tables possible (flag not set); nothing to do.'
@@ -46,19 +47,13 @@ class RecheckArchiveBlobTypes extends ConsoleCommand
             return self::SUCCESS;
         }
 
-        $mediumBlobTables = ArchiveBlobColumnType::getMediumBlobArchiveTables();
+        // Delegate all detection and flag-clearing logic to the single canonical implementation.
+        $mediumBlobTables = ArchiveBlobColumnType::recheckAndUpdateFlag();
 
         if (empty($mediumBlobTables)) {
-            // All tables have been migrated. Remove the flag.
-            $config = Config::getInstance();
-            $database = $config->database;
-            unset($database['archive_blob_tables_may_contain_mediumblob']);
-            $config->database = $database;
-            $config->forceSave();
-
             $output->writeln(
                 'No MEDIUMBLOB archive_blob tables found. ' .
-                'The archive_blob_tables_may_contain_mediumblob flag has been removed from config.ini.php. ' .
+                'The ' . ArchiveBlobColumnType::CONFIG_KEY . ' flag has been removed from config.ini.php. ' .
                 'Archive row-limit cap will no longer be applied.'
             );
         } else {
@@ -70,7 +65,7 @@ class RecheckArchiveBlobTypes extends ConsoleCommand
                 $output->writeln('  - ' . $table);
             }
             $output->writeln(
-                'The archive_blob_tables_may_contain_mediumblob flag remains set. ' .
+                'The ' . ArchiveBlobColumnType::CONFIG_KEY . ' flag remains set. ' .
                 'To migrate, run ALTER TABLE on the listed tables to change the `value` column to LONGBLOB, ' .
                 'then re-run this command.'
             );
