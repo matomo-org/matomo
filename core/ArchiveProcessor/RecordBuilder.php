@@ -625,32 +625,6 @@ abstract class RecordBuilder
         return true;
     }
 
-    protected function aggregateDataTableFromBlobs(
-        ArchiveProcessor $archiveProcessor,
-        string $recordName,
-        ?array $columnsAggregationOperation,
-        ?array $columnsToRenameAfterAggregation,
-        ?array $periodsToInclude = null
-    ): array {
-        [$result, $hasRows] = BlobTableAggregator::aggregateBlobRows(
-            $this->querySingleBlobRows($archiveProcessor, $recordName),
-            $recordName,
-            $columnsAggregationOperation,
-            function (DataTable $table) use ($archiveProcessor, $columnsToRenameAfterAggregation): void {
-                $archiveProcessor->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
-            },
-            function (array $archiveDataRow) use ($periodsToInclude): bool {
-                if ($periodsToInclude === null) {
-                    return true;
-                }
-                $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
-                return isset($periodsToInclude[$period]);
-            }
-        );
-
-        return [$result, $hasRows];
-    }
-
     /**
      * Aggregates a root blob record while discovering periods that contain the root record in a single pass.
      *
@@ -683,21 +657,6 @@ abstract class RecordBuilder
         );
 
         return [$result, $hasRows, $periodsWithRootRecord];
-    }
-
-    protected function getPeriodsWithRootBlob(ArchiveProcessor $archiveProcessor, string $recordName): array
-    {
-        $result = [];
-        foreach ($this->querySingleBlobRows($archiveProcessor, $recordName) as $archiveDataRow) {
-            if ($archiveDataRow['name'] !== $recordName) {
-                continue;
-            }
-
-            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
-            $result[$period] = true;
-        }
-
-        return $result;
     }
 
     protected function querySingleBlobRows(ArchiveProcessor $archiveProcessor, string $recordName): iterable

@@ -505,22 +505,6 @@ class RecordBuilderTest extends TestCase
                 return [];
             }
 
-            protected function aggregateDataTableFromBlobs(
-                ArchiveProcessor $archiveProcessor,
-                string $recordName,
-                ?array $columnsAggregationOperation,
-                ?array $columnsToRenameAfterAggregation,
-                ?array $periodsToInclude = null
-            ): array {
-                $table = new DataTable();
-                if ($recordName === 'TestPlugin_flat') {
-                    $table->addRowFromSimpleArray(['label' => '/flat-path', 'nb_visits' => 5]);
-                    return [$table, true];
-                }
-
-                return [$table, false];
-            }
-
             protected function aggregateRootDataTableFromBlobs(
                 ArchiveProcessor $archiveProcessor,
                 string $recordName,
