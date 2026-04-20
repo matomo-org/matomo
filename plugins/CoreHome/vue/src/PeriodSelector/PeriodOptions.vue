@@ -11,7 +11,7 @@
     role="radiogroup"
     :aria-label="translate('General_ChoosePeriod')"
   >
-    <p
+    <div
       v-for="period in displayPeriods"
       :key="period"
     >
@@ -34,7 +34,7 @@
         />
         <span class="period-option-text">{{ getPeriodDisplayText(period) }}</span>
       </label>
-    </p>
+    </div>
   </div>
 </template>
 
