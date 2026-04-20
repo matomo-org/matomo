@@ -233,6 +233,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public const COLUMNAR_BLOB_MAGIC = "\x7fC\x7f";
 
     /**
+     * Sentinel prefixes used inside columnar blobs to encode non-UTF-8 binary strings.
+     * DEL + 'B' + 'I' + 'N' + DEL → marks a base64-encoded binary value.
+     * DEL + 'E' + 'S' + 'C' + DEL → marks a string that originally began with one of these sentinels.
+     * Both are valid UTF-8 (DEL = 0x7F is a single-byte ASCII code point) and extremely unlikely
+     * to appear in normal Matomo data (page titles, URLs, etc.).
+     */
+    private const BLOB_BINARY_MARKER  = "\x7fBIN\x7f";
+    private const BLOB_ESCAPED_MARKER = "\x7fESC\x7f";
+
+    /**
      * Maximum nesting level.
      * @var int
      */
@@ -448,6 +458,52 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $prev = $idx;
         }
         return true;
+    }
+
+    /**
+     * Recursively prepares a value for JSON encoding by marking non-UTF-8 strings
+     * with BLOB_BINARY_MARKER + base64, and strings that already start with a marker
+     * with BLOB_ESCAPED_MARKER so they survive a decode round-trip.
+     */
+    private static function encodeForJson($value)
+    {
+        if (is_string($value)) {
+            if (str_starts_with($value, self::BLOB_BINARY_MARKER) || str_starts_with($value, self::BLOB_ESCAPED_MARKER)) {
+                return self::BLOB_ESCAPED_MARKER . $value;
+            }
+            if (!mb_check_encoding($value, 'UTF-8')) {
+                return self::BLOB_BINARY_MARKER . base64_encode($value);
+            }
+            return $value;
+        }
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $value[$k] = self::encodeForJson($v);
+            }
+        }
+        return $value;
+    }
+
+    /**
+     * Inverse of encodeForJson(): restores binary strings and removes escape markers.
+     */
+    private static function decodeFromJson($value)
+    {
+        if (is_string($value)) {
+            if (str_starts_with($value, self::BLOB_BINARY_MARKER)) {
+                return base64_decode(substr($value, strlen(self::BLOB_BINARY_MARKER)));
+            }
+            if (str_starts_with($value, self::BLOB_ESCAPED_MARKER)) {
+                return substr($value, strlen(self::BLOB_ESCAPED_MARKER));
+            }
+            return $value;
+        }
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $value[$k] = self::decodeFromJson($v);
+            }
+        }
+        return $value;
     }
 
     // ── Columnar @internal helpers (public for ViewRow access) ───────────────
@@ -2412,7 +2468,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             empty($archivedMeta) ? null : $archivedMeta,
         ];
 
-        $encoded = json_encode($payload, JSON_PRESERVE_ZERO_FRACTION);
+        $encoded = json_encode(self::encodeForJson($payload), JSON_PRESERVE_ZERO_FRACTION);
         if ($encoded === false) {
             throw new \Exception('Failed to JSON-encode columnar blob: ' . json_last_error_msg());
         }
@@ -2492,7 +2548,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $archivedMeta,
         ];
 
-        $encoded = json_encode($payload, JSON_PRESERVE_ZERO_FRACTION);
+        $encoded = json_encode(self::encodeForJson($payload), JSON_PRESERVE_ZERO_FRACTION);
         if ($encoded === false) {
             throw new \Exception('Failed to JSON-encode columnar blob: ' . json_last_error_msg());
         }
@@ -2520,7 +2576,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             throw new \Exception('Columnar blob payload has unexpected field count: ' . count($payload) . ', expected 6');
         }
 
-        [$colNames, $rowData, $subtableMap, $metadataMap, $summaryValues, $archivedMeta] = $payload;
+        [$colNames, $rowData, $subtableMap, $metadataMap, $summaryValues, $archivedMeta] = self::decodeFromJson($payload);
 
         $rows = [];
 
@@ -2583,7 +2639,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             throw new \Exception('Columnar blob payload has unexpected field count: ' . (is_array($payload) ? count($payload) : 'non-array') . ', expected 6');
         }
 
-        [$colNames, $rowData, $subtableMap, $metadataMap, $summaryValues, $archivedMeta] = $payload;
+        [$colNames, $rowData, $subtableMap, $metadataMap, $summaryValues, $archivedMeta] = self::decodeFromJson($payload);
 
         // Establish or extend schema
         if (empty($this->columnNames)) {
