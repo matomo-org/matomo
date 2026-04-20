@@ -424,19 +424,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $idx = count($this->columnNames);
         $this->columnNames[]            = $newColName;
         $this->columnIndex[$newColName] = $idx;
-        // Backfill existing rows with null so arrays stay dense (consecutive keys
-        // 0..C-1). PHP uses its fast "packed" internal layout only for dense arrays;
-        // gaps force hashtable mode and negate the per-row memory savings.
-        foreach ($this->rows as &$packed) {
-            $packed[$idx] = null;
-        }
-        unset($packed);
-        if ($this->summaryRowData !== null) {
-            $this->summaryRowData[$idx] = null;
-        }
-        if ($this->totalsRowData !== null) {
-            $this->totalsRowData[$idx] = null;
-        }
+        // Existing rows are NOT backfilled. New rows built by addRow() use array_fill
+        // and are always dense. Rows added before this extension stay sparse (missing
+        // slot $idx); getPackedRow() / getPackedValue() use `?? null` so they return
+        // null (= absent) for that slot without error.
     }
 
     // ── Columnar @internal helpers (public for ViewRow access) ───────────────
@@ -505,8 +496,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
         $result = [];
         foreach ($this->columnNames as $idx => $name) {
-            if ($packed[$idx] !== null) {
-                $result[$name] = $packed[$idx];
+            $val = $packed[$idx] ?? null;
+            if ($val !== null) {
+                $result[$name] = $val;
             }
         }
         return $result;
