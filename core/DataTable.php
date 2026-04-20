@@ -1451,15 +1451,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         // Bind the original Row to this DataTable's packed storage so that external
-        // references to $row remain "live": mutations made via ViewRow (e.g. by filters)
-        // are visible through $row, and subsequent $row->setSubtable() calls propagate
-        // back to the DataTable's subtable map.
+        // references to $row remain "live": mutations made via $row are visible through
+        // the packed storage, and subsequent $row->setSubtable() calls propagate back.
+        // Return $row so identity checks (e.g. walkPath's overflow detection) work:
+        //   $next = $table->addRow($row); if ($next !== $row) { /* table full */ }
         $row->bindToTable($this, $rowId);
         $row->bindSubtableCallback(function (int $newSubtableId) use ($rowId) {
             $this->setRowSubtableId($rowId, $newSubtableId);
         });
 
-        return new ViewRow($this, $rowId);
+        return $row;
     }
 
     /**
@@ -1558,12 +1559,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $result = [];
         foreach (array_keys($this->rows) as $id) {
-            $result[$id] = $this->materialiseRow($id);
+            $result[$id] = new ViewRow($this, $id);
         }
         if ($this->summaryRowData !== null) {
-            $summaryRow = $this->materialiseRow(self::ID_SUMMARY_ROW);
-            $summaryRow->setIsSummaryRow();
-            $result[self::ID_SUMMARY_ROW] = $summaryRow;
+            $result[self::ID_SUMMARY_ROW] = new ViewRow($this, self::ID_SUMMARY_ROW);
         }
         return $result;
     }
