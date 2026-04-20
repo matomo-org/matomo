@@ -39,6 +39,28 @@ class DataTableSummaryRow extends Row
     }
 
     /**
+     * Creates a DataTableSummaryRow proxy backed by the given DataTable's packed storage.
+     * Used by DataTable::getRows() to restore the correct instanceof identity for rows that
+     * were originally added as DataTableSummaryRow objects (e.g. URL tree folder nodes).
+     *
+     * @internal
+     */
+    public static function createBound(DataTable $table, int $rowId): self
+    {
+        $row = new self();
+        $row->bindToTable($table, $rowId);
+        $row->subtableId       = $table->getRowSubtableId($rowId);
+        $row->isSubtableLoaded = $table->isRowSubtableLoaded($rowId);
+        return $row;
+    }
+
+    public function __destruct()
+    {
+        // intentionally empty — DataTableSummaryRow may be created as a lightweight
+        // proxy via createBound() and must not destroy the subtable it doesn't own.
+    }
+
+    /**
      * Reset this row to an empty one and sums the associated subtable again.
      */
     public function recalculate()

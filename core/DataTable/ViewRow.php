@@ -117,9 +117,8 @@ class ViewRow extends Row
 
     public function setColumns($columns)
     {
-        foreach ($columns as $name => $value) {
-            $this->table->setPackedValue($this->rowId, (string) $name, $value);
-        }
+        // Full replacement — mirrors Row::exchangeArray() semantics.
+        $this->table->replacePackedRow($this->rowId, $columns);
     }
 
     public function getArrayCopy(): array
