@@ -256,14 +256,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public $columnNames = [];
 
     /**
-     * Reverse map: column name → integer index into packed value arrays.
-     *
-     * @internal
-     * @var array<string, int>
-     */
-    public $columnIndex = [];
-
-    /**
      * Monotonically increasing row-ID counter.
      * Using count($this->rows) would produce collisions after deleteRow().
      *
@@ -416,14 +408,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     private function establishSchema(array $columnNames): void
     {
         $this->columnNames = array_values($columnNames);
-        $this->columnIndex = array_flip($this->columnNames);
     }
 
     private function extendSchema(string $newColName): void
     {
-        $idx = count($this->columnNames);
-        $this->columnNames[]            = $newColName;
-        $this->columnIndex[$newColName] = $idx;
+        $this->columnNames[] = $newColName;
         // Existing rows are NOT backfilled. New rows built by addRow() use array_fill
         // and are always dense. Rows added before this extension stay sparse (missing
         // slot $idx); getPackedRow() / getPackedValue() use `?? null` so they return
@@ -435,8 +424,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /** @internal */
     public function getPackedValue(int $rowId, string $colName)
     {
-        $idx = $this->columnIndex[$colName] ?? null;
-        if ($idx === null) {
+        $idx = array_search($colName, $this->columnNames);
+        if ($idx === false) {
             return null;
         }
         if ($rowId === self::ID_SUMMARY_ROW) {
@@ -451,10 +440,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /** @internal */
     public function setPackedValue(int $rowId, string $colName, $value): void
     {
-        if (!isset($this->columnIndex[$colName])) {
+        $idx = array_search($colName, $this->columnNames);
+        if ($idx === false) {
             $this->extendSchema($colName);
+            $idx = count($this->columnNames) - 1;
         }
-        $idx = $this->columnIndex[$colName];
         if ($rowId === self::ID_SUMMARY_ROW) {
             $this->summaryRowData[$idx] = $value;
         } elseif ($rowId === self::ID_TOTALS_ROW) {
@@ -467,8 +457,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /** @internal */
     public function rowColumnExists(int $rowId, string $colName): bool
     {
-        $idx = $this->columnIndex[$colName] ?? null;
-        if ($idx === null) {
+        $idx = array_search($colName, $this->columnNames);
+        if ($idx === false) {
             return false;
         }
         // null == absent: dense arrays always carry the key, but null means "not set".
@@ -507,8 +497,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /** @internal */
     public function deletePackedColumn(int $rowId, string $colName): bool
     {
-        $idx = $this->columnIndex[$colName] ?? null;
-        if ($idx === null) {
+        $idx = array_search($colName, $this->columnNames);
+        if ($idx === false) {
             return false;
         }
         // Set to null (= absent) to keep the array dense; don't unset the key.
@@ -712,7 +702,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->rowSubtableIdsLoaded = [];
             $this->rowMetadata          = [];
             $this->columnNames          = [];
-            $this->columnIndex          = [];
             $this->nextRowId            = 0;
             $this->indexNotUpToDate     = true;
             return;
@@ -758,7 +747,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $this->rowSubtableIdsLoaded   = [];
         $this->rowMetadata            = [];
         $this->columnNames            = [];
-        $this->columnIndex            = [];
         $this->nextRowId              = 0;
         $this->indexNotUpToDate       = true;
         $this->summaryRowData         = null;
@@ -847,7 +835,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $columns = $totalsRow->getColumns();
         foreach ($columns as $name => $_) {
-            if (!isset($this->columnIndex[$name])) {
+            if (array_search($name, $this->columnNames) === false) {
                 $this->extendSchema($name);
             }
         }
@@ -855,7 +843,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $colCount = count($this->columnNames);
         $this->totalsRowData = $colCount > 0 ? array_fill(0, $colCount, null) : [];
         foreach ($columns as $name => $val) {
-            $this->totalsRowData[$this->columnIndex[$name]] = $val;
+            $idx = array_search($name, $this->columnNames);
+            if ($idx !== false) {
+                $this->totalsRowData[$idx] = $val;
+            }
         }
         $this->totalsRowMetadata      = $totalsRow->getMetadata();
         $this->totalsSubtableId       = $totalsRow->subtableId;
@@ -1229,8 +1220,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $this->rowsIndexByLabel = [];
         $this->rebuildIndexContinuously = true;
 
-        $labelIdx = $this->columnIndex['label'] ?? null;
-        if ($labelIdx === null) {
+        $labelIdx = array_search('label', $this->columnNames);
+        if ($labelIdx === false) {
             $this->indexNotUpToDate = false;
             return;
         }
@@ -1315,7 +1306,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->establishSchema(array_keys($columns));
         } else {
             foreach ($columns as $name => $_) {
-                if (!isset($this->columnIndex[$name])) {
+                if (array_search($name, $this->columnNames) === false) {
                     $this->extendSchema($name);
                 }
             }
@@ -1327,7 +1318,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $colCount = count($this->columnNames);
         $packed   = $colCount > 0 ? array_fill(0, $colCount, null) : [];
         foreach ($columns as $name => $val) {
-            $packed[$this->columnIndex[$name]] = $val;
+            $idx = array_search($name, $this->columnNames);
+            if ($idx !== false) {
+                $packed[$idx] = $val;
+            }
         }
 
         $rowId = $this->nextRowId++;
@@ -1392,7 +1386,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         // Extend schema for any new columns
         foreach ($columns as $name => $_) {
-            if (!isset($this->columnIndex[$name])) {
+            if (array_search($name, $this->columnNames) === false) {
                 $this->extendSchema($name);
             }
         }
@@ -1401,7 +1395,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $colCount = count($this->columnNames);
         $this->summaryRowData = $colCount > 0 ? array_fill(0, $colCount, null) : [];
         foreach ($columns as $name => $val) {
-            $this->summaryRowData[$this->columnIndex[$name]] = $val;
+            $idx = array_search($name, $this->columnNames);
+            if ($idx !== false) {
+                $this->summaryRowData[$idx] = $val;
+            }
         }
         $this->summaryRowMetadata      = $row->getMetadata();
         $this->summarySubtableId       = $row->subtableId;
@@ -1777,7 +1774,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function __sleep()
     {
         return [
-            'rows', 'columnNames', 'columnIndex', 'nextRowId',
+            'rows', 'columnNames', 'nextRowId',
             'rowSubtableIds', 'rowSubtableIdsLoaded', 'rowMetadata',
             'summaryRowData', 'summaryRowMetadata', 'summarySubtableId', 'summarySubtableIdLoaded',
             'totalsRowData',  'totalsRowMetadata',  'totalsSubtableId',  'totalsSubtableIdLoaded',
@@ -1794,12 +1791,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function renameColumn($oldName, $newName)
     {
-        // Schema-level rename — zero data movement, O(1)
-        if (isset($this->columnIndex[$oldName])) {
-            $idx = $this->columnIndex[$oldName];
+        // Schema-level rename — zero data movement, O(C)
+        $idx = array_search($oldName, $this->columnNames);
+        if ($idx !== false) {
             $this->columnNames[$idx] = $newName;
-            unset($this->columnIndex[$oldName]);
-            $this->columnIndex[$newName] = $idx;
         }
 
         // Recurse into subtables
@@ -1822,8 +1817,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $indicesToRemove = [];
         foreach ($names as $name) {
-            if (isset($this->columnIndex[$name])) {
-                $indicesToRemove[] = $this->columnIndex[$name];
+            $idx = array_search($name, $this->columnNames);
+            if ($idx !== false) {
+                $indicesToRemove[] = $idx;
             }
         }
         if (empty($indicesToRemove)) {
@@ -1851,7 +1847,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         foreach (array_reverse($indicesToRemove) as $idx) {
             array_splice($this->columnNames, $idx, 1);
         }
-        $this->columnIndex = array_flip($this->columnNames);
 
         // Rebuild every packed row as a new dense array under the updated schema.
         $newColCount   = count($this->columnNames);
@@ -2433,10 +2428,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $this->establishSchema($colNames);
         } else {
             foreach ($colNames as $name) {
-                if (!isset($this->columnIndex[$name])) {
+                if (array_search($name, $this->columnNames) === false) {
                     $this->extendSchema($name);
                 }
             }
+        }
+
+        // Build src-index → dst-index mapping once (avoids repeated array_search in per-row loop).
+        $colMapping = [];
+        foreach ($colNames as $srcIdx => $name) {
+            $colMapping[$srcIdx] = array_search($name, $this->columnNames);
         }
 
         // Decode regular rows directly into packed dense storage.
@@ -2446,8 +2447,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $id = (int) $idStr;
 
             $packed = array_fill(0, $colCount, null);
-            foreach ($colNames as $srcIdx => $name) {
-                $packed[$this->columnIndex[$name]] = $values[$srcIdx] ?? null;
+            foreach ($colMapping as $srcIdx => $dstIdx) {
+                $packed[$dstIdx] = $values[$srcIdx] ?? null;
             }
             $this->rows[$id] = $packed;
 
@@ -2465,8 +2466,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // Decode summary row
         if ($summaryValues !== null) {
             $packed = array_fill(0, $colCount, null);
-            foreach ($colNames as $srcIdx => $name) {
-                $packed[$this->columnIndex[$name]] = $summaryValues[$srcIdx] ?? null;
+            foreach ($colMapping as $srcIdx => $dstIdx) {
+                $packed[$dstIdx] = $summaryValues[$srcIdx] ?? null;
             }
             $this->summaryRowData     = $packed;
             $this->summaryRowMetadata = $metadataMap[(string) self::ID_SUMMARY_ROW] ?? [];
