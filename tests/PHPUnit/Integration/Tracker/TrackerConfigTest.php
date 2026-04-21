@@ -30,6 +30,6 @@ class TrackerConfigTest extends IntegrationTestCase
         Config::getInstance()->Tracker_10 = ['use_third_party_id_cookie' => false];
 
         $this->assertTrue(TrackerConfig::getBooleanConfigValue('use_third_party_id_cookie'));
-        $this->assertFalse(TrackerConfig::getBooleanConfigValue('use_third_party_id_cookie', 10));
+        $this->assertFalse(TrackerConfig::getBooleanConfigValue('use_third_party_id_cookie', null, 10));
     }
 }
