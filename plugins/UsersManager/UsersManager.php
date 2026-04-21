@@ -103,7 +103,7 @@ class UsersManager extends \Piwik\Plugin
         $writeLogins = $model->getUsersLoginWithSiteAccess($idSite, Write::ID);
         $logins = array_merge($logins, $writeLogins);
 
-        $token_auths = $model->getAllHashedTokensForLogins($logins);
+        $token_auths = $model->getAllHashedTokensForTrackerCacheForLogins($logins);
 
         $attributes['tracking_token_auth'] = array();
 
@@ -492,5 +492,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_SignOutUser';
         $translationKeys[] = 'UsersManager_SignOutUserConfirm';
         $translationKeys[] = 'UsersManager_SignOutUserSuccess';
+        $translationKeys[] = 'UsersManager_TokenAccessLevel';
+        $translationKeys[] = 'UsersManager_TokenAccessLevelHelp';
+        $translationKeys[] = 'UsersManager_InvalidTokenAccessLevel';
     }
 }

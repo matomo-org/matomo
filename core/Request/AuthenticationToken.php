@@ -10,8 +10,10 @@
 namespace Piwik\Request;
 
 use Piwik\API\Request as ApiRequest;
+use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Request;
 use Piwik\SettingsServer;
 
@@ -32,6 +34,16 @@ class AuthenticationToken
     protected $isJsonRequestBodyTokenLoaded = false;
     /** @var string|null */
     protected $jsonRequestBodyTokenAuth = null;
+    /**
+     * Per-(token,secure-state) metadata cache. Scoped to the lifetime of this
+     * AuthenticationToken instance and preserved across detectToken() resets so
+     * repeated getAuthToken()/wasTokenAuthProvidedSecurely()/isSessionToken()
+     * calls within the same request do not re-query user_token_auth on
+     * force_api_session=1 paths.
+     *
+     * @var array<string, array<string,mixed>|null>
+     */
+    private $tokenMetadataCache = [];
 
     /**
      * @param array<string, mixed>|null $request
@@ -53,7 +65,13 @@ class AuthenticationToken
      */
     public function wasTokenAuthProvidedSecurely(): bool
     {
-        $this->detectToken();
+        // Deliberately does not enforce the scoped-token session guard. This only reports how the token
+        // reached us and never grants anything, but it is called from failure handlers - notably
+        // Login::onFailedAPILogin() - where throwing would replace the authentication error being reported
+        // with an unrelated one. Every path that can actually establish an API session calls
+        // isSessionToken() or getAuthToken() first (see Access::reloadAccess() and
+        // FrontController::makeSessionAuthenticator()), so the guard still runs before a session exists.
+        $this->detectToken($enforceScopedTokenSessionGuard = false);
 
         return $this->wasTokenProvidedSecurely;
     }
@@ -65,10 +83,31 @@ class AuthenticationToken
         return $this->isSessionToken;
     }
 
-    private function detectToken(): void
+    private function detectToken(bool $enforceScopedTokenSessionGuard = true): void
     {
+        $this->resetDetectedTokenState();
         $this->validateNoConflictingAuthParameters();
         $this->initTokenFromHeader() || $this->initTokenFromJsonRequestBody() || $this->initTokenFromPostRequest() || $this->initTokenFromGetRequest();
+
+        if ($enforceScopedTokenSessionGuard) {
+            $this->throwIfScopedTokenUsesApiSession();
+        }
+    }
+
+    private function resetDetectedTokenState(): void
+    {
+        // Reset on every detectToken() call so the init helpers below recompute
+        // from the current request. Without it, a later call where no source
+        // matches would inherit stale flags from an earlier detection and
+        // throwIfScopedTokenUsesApiSession() could evaluate out-of-date state.
+        $this->authToken = '';
+        $this->wasTokenProvidedSecurely = false;
+        $this->isSessionToken = false;
+        // $isConflictingAuthValidationDone is intentionally not cleared so
+        // validateNoConflictingAuthParameters() latches once per instance and
+        // does not throw on subsequent detectToken() calls inside the same request.
+        // $tokenMetadataCache is intentionally not cleared so repeated
+        // detectToken() calls within the same request do not re-query the DB.
     }
 
     private function validateNoConflictingAuthParameters(): void
@@ -218,6 +257,63 @@ class AuthenticationToken
         $action = $get->getStringParameter('action', '');
 
         return $module === 'Overlay' && $action === 'startOverlaySession';
+    }
+
+    /**
+     * Returns true when the token metadata for the given token was already fetched by throwIfScopedTokenUsesApiSession().
+     */
+    public function isTokenMetadataPreloadedFor(
+        #[\SensitiveParameter]
+        ?string $tokenAuth
+    ): bool {
+        if ($tokenAuth === null || $this->authToken !== $tokenAuth) {
+            return false;
+        }
+        return array_key_exists($this->getTokenMetadataCacheKey(), $this->tokenMetadataCache);
+    }
+
+    /**
+     * Returns the cached token metadata fetched during the scoped-token session check, or null if not preloaded.
+     *
+     * @return array<string,mixed>|null
+     */
+    public function getPreloadedTokenMetadata(): ?array
+    {
+        return $this->tokenMetadataCache[$this->getTokenMetadataCacheKey()] ?? null;
+    }
+
+    protected function getUsersModel(): UsersModel
+    {
+        return new UsersModel();
+    }
+
+    private function throwIfScopedTokenUsesApiSession(): void
+    {
+        if (!$this->isSessionToken || $this->authToken === '') {
+            return;
+        }
+
+        $cacheKey = $this->getTokenMetadataCacheKey();
+        if (!array_key_exists($cacheKey, $this->tokenMetadataCache)) {
+            $this->tokenMetadataCache[$cacheKey] = $this->getUsersModel()->getTokenMetadataByTokenAuthWithSecurityState(
+                $this->authToken,
+                $this->wasTokenProvidedSecurely
+            );
+        }
+
+        $accessLevel = $this->tokenMetadataCache[$cacheKey]['access_level'] ?? null;
+        if (empty($accessLevel) || $accessLevel === 'superuser') {
+            return;
+        }
+
+        throw new AuthenticationFailedException(
+            Piwik::translate('General_ScopedTokenCannotUseApiSession')
+        );
+    }
+
+    private function getTokenMetadataCacheKey(): string
+    {
+        return ($this->wasTokenProvidedSecurely ? '1|' : '0|') . $this->authToken;
     }
 
     private function getTokenAuthFromHeader(): ?string

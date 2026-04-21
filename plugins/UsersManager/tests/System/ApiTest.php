@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\UsersManager\tests\System;
 
 use Piwik\Access;
+use Piwik\Access\Capability;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\API\Request;
@@ -18,6 +19,36 @@ use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\tests\Fixtures\ManyUsers;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+
+class TestWriteCap extends Capability
+{
+    public const ID = 'test_write_cap';
+
+    public function getId(): string
+    {
+        return self::ID;
+    }
+
+    public function getCategory(): string
+    {
+        return 'Test';
+    }
+
+    public function getName(): string
+    {
+        return 'WriteCap';
+    }
+
+    public function getDescription(): string
+    {
+        return '';
+    }
+
+    public function getIncludedInRoles(): array
+    {
+        return [];
+    }
+}
 
 /**
  * @group UsersManager
@@ -168,6 +199,9 @@ class ApiTest extends SystemTestCase
 
         $user = $this->model->getUserByTokenAuth($token);
         $this->assertSame('login1', $user['login']);
+
+        $tokenMetadata = $this->model->getTokenMetadataByTokenAuth($token);
+        $this->assertNull($tokenMetadata['access_level']);
     }
 
     public function testCreateAppSpecificTokenAuthCanLoginByEmail()
@@ -206,6 +240,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals('login1', $tokens[0]['login']);
         $this->assertEquals('test', $tokens[0]['description']);
         $this->assertEquals($expiryDate->format('Y-m-d H:i:s'), $tokens[0]['date_expired']);
+        $this->assertNull($tokens[0]['access_level']);
     }
 
     public function testCreateAppSpecificTokenAuthWithExpireHours()
@@ -220,10 +255,220 @@ class ApiTest extends SystemTestCase
         $this->assertEquals($this->model->hashTokenAuth($token), $tokens[0]['password']);
         $this->assertEquals('login1', $tokens[0]['login']);
         $this->assertNotEmpty($tokens[0]['date_expired']);
+        $this->assertNull($tokens[0]['access_level']);
 
         $dateExpired = Date::factory($tokens[0]['date_expired']);
         $dateExpired->isLater(Date::now()->addHour($expireInHours - 1));
         $dateExpired->isEarlier(Date::now()->addHour($expireInHours + 1));
+    }
+
+    public function testCreateAppSpecificTokenAuthWithExplicitAccessLevel()
+    {
+        $this->model->deleteAllTokensForUser('login1');
+        $this->setAnonymousUser();
+        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', null, 0, false, 'write');
+        $this->assertMd5($token);
+
+        $tokenMetadata = $this->model->getTokenMetadataByTokenAuth($token);
+        $this->assertSame('write', $tokenMetadata['access_level']);
+    }
+
+    public function testCreateAppSpecificTokenAuthWithoutAccessLevelKeepsTokenUnscopedForAdminUser()
+    {
+        $this->model->deleteAllTokensForUser('login2');
+        $this->setAnonymousUser();
+        $token = $this->api->createAppSpecificTokenAuth('login2', 'password', 'test');
+        $this->assertMd5($token);
+
+        $tokenMetadata = $this->model->getTokenMetadataByTokenAuth($token);
+        $this->assertNull($tokenMetadata['access_level']);
+    }
+
+    public function testCreateAppSpecificTokenAuthWithoutAccessLevelKeepsTokenUnscopedForViewOnlyUser()
+    {
+        $this->model->deleteAllTokensForUser('login4');
+        $this->setAnonymousUser();
+        $token = $this->api->createAppSpecificTokenAuth('login4', 'password', 'test');
+        $this->assertMd5($token);
+
+        $tokenMetadata = $this->model->getTokenMetadataByTokenAuth($token);
+        $this->assertNull($tokenMetadata['access_level']);
+    }
+
+    public function testCreateAppSpecificTokenAuthWithoutAccessLevelKeepsExplicitCapabilities()
+    {
+        $this->api->setUserAccess('login2', 'write', [1]);
+        $this->api->addCapabilities('login2', TestWriteCap::ID, [1]);
+        $this->model->deleteAllTokensForUser('login2');
+
+        $this->setAnonymousUser();
+        $token = $this->api->createAppSpecificTokenAuth('login2', 'password', 'test');
+        $this->assertMd5($token);
+
+        // Drive the auth flow as the token request would, then inspect Access::getInstance() directly.
+        // We cannot verify via UsersManager.getSitesAccessForUser because that API filters results to
+        // sites the caller has admin access on; setUserAccess('write', [1]) downgrades login2 to write
+        // on site 1, so login2 would not see site 1 in its own filtered admin view.
+        $_GET['token_auth'] = $token;
+
+        try {
+            /** @var \Piwik\Auth $auth */
+            $auth = \Piwik\Container\StaticContainer::get(\Piwik\Auth::class);
+            $auth->setLogin(null);
+            $auth->setPasswordHash(null);
+            $auth->setPassword(null);
+            $auth->setTokenAuth($token);
+
+            $access = Access::getInstance();
+            $access->setSuperUserAccess(false);
+            $this->assertTrue($access->reloadAccess($auth));
+
+            $this->assertSame('login2', $access->getLogin());
+            $this->assertSame('write', $access->getRoleForSite(1));
+            // checkUserHasCapability throws NoAccessException when the capability is missing.
+            $access->checkUserHasCapability(1, TestWriteCap::ID);
+        } finally {
+            unset($_GET['token_auth']);
+            Access::getInstance()->setSuperUserAccess(true);
+            Access::getInstance()->reloadAccess();
+        }
+    }
+
+    public function testCreateAppSpecificTokenAuthFailsWhenAccessLevelInvalid()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The parameter access must have one of the following values');
+
+        $this->model->deleteAllTokensForUser('login1');
+        $this->setAnonymousUser();
+        $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', null, 0, false, 'foobar');
+    }
+
+    public function testCreateAppSpecificTokenAuthCoercesEmptyAccessLevelToUnscoped()
+    {
+        $this->model->deleteAllTokensForUser('login1');
+        $this->setAnonymousUser();
+        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', null, 0, false, '');
+        $this->assertMd5($token);
+
+        $tokenMetadata = $this->model->getTokenMetadataByTokenAuth($token);
+        $this->assertNull($tokenMetadata['access_level']);
+    }
+
+    public function testCreateAppSpecificTokenAuthFailsWhenAccessLevelIsInvalidFalsyString()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The parameter access must have one of the following values');
+
+        $this->model->deleteAllTokensForUser('login1');
+        $this->setAnonymousUser();
+        $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', null, 0, false, '0');
+    }
+
+    public function testCreateAppSpecificTokenAuthFailsWhenAccessLevelIsTooHigh()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(Piwik::translate('UsersManager_InvalidTokenAccessLevelTooHigh'));
+
+        $this->model->deleteAllTokensForUser('login4');
+        $this->setAnonymousUser();
+        $this->api->createAppSpecificTokenAuth('login4', 'password', 'test', null, 0, false, 'admin');
+    }
+
+    public function testScopedTokenCannotUseForceApiSession()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Scoped tokens cannot be used with force_api_session.');
+
+        $this->model->deleteAllTokensForUser('login1');
+        $this->setAnonymousUser();
+        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', null, 0, false, 'write');
+
+        $_GET['token_auth'] = $token;
+        $_GET['force_api_session'] = 1;
+
+        try {
+            Request::processRequest('API.getPiwikVersion', [
+                'token_auth' => $token,
+                'force_api_session' => 1,
+                'format' => 'original',
+            ]);
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_GET['force_api_session']);
+        }
+    }
+
+    public function testScopedTokenReloadDoesNotKeepExistingSuperuserAccess()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("requires 'admin' access");
+
+        $this->model->deleteAllTokensForUser('login1');
+        $this->setAnonymousUser();
+        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', null, 0, false, 'view');
+
+        Access::getInstance()->setSuperUserAccess(true);
+        $_GET['token_auth'] = $token;
+
+        try {
+            Request::processRequest('UsersManager.setUserAccess', [
+                'userLogin' => 'login4',
+                'access' => 'view',
+                'idSites' => 1,
+                'token_auth' => $token,
+                'format' => 'original',
+            ]);
+        } finally {
+            unset($_GET['token_auth']);
+            Access::getInstance()->setSuperUserAccess(false);
+        }
+    }
+
+    public function testLegacyTokenCanUseForceApiSession()
+    {
+        // Prior tests delete login1's tokens, so create a fresh legacy token (access_level=null)
+        // directly via the model to avoid depending on the fixture token still being present.
+        $this->model->deleteAllTokensForUser('login1');
+        $legacyToken = $this->model->generateRandomTokenAuth();
+        $this->model->addTokenAuth('login1', $legacyToken, 'legacy', Date::now()->getDatetime(), null, false, false, null);
+
+        $_GET['token_auth'] = $legacyToken;
+        $_GET['force_api_session'] = 1;
+
+        try {
+            $result = Request::processRequest('API.getPiwikVersion', [
+                'token_auth' => $legacyToken,
+                'force_api_session' => 1,
+                'format' => 'original',
+            ]);
+            $this->assertNotEmpty($result);
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_GET['force_api_session']);
+        }
+    }
+
+    public function testSuperuserScopedTokenCanUseForceApiSession()
+    {
+        $this->model->deleteAllTokensForUser('login1');
+        $this->setAnonymousUser();
+        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', null, 0, false, 'superuser');
+
+        $_GET['token_auth'] = $token;
+        $_GET['force_api_session'] = 1;
+
+        try {
+            $result = Request::processRequest('API.getPiwikVersion', [
+                'token_auth' => $token,
+                'force_api_session' => 1,
+                'format' => 'original',
+            ]);
+            $this->assertNotEmpty($result);
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_GET['force_api_session']);
+        }
     }
 
     private function assertMd5($string)
@@ -240,6 +485,20 @@ class ApiTest extends SystemTestCase
     public static function getPathToTestDirectory()
     {
         return dirname(__FILE__);
+    }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        return [
+            'observers.global' => \Piwik\DI::add([
+                [
+                    'Access.Capability.addCapabilities',
+                    \Piwik\DI::value(function (&$capabilities) {
+                        $capabilities[] = new TestWriteCap();
+                    }),
+                ],
+            ]),
+        ];
     }
 }
 

@@ -14,6 +14,7 @@ use Piwik\Access\Role\Write;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
@@ -114,6 +115,86 @@ class ModelTest extends IntegrationTestCase
         ), $this->model->getSitesAccessFromUser($this->login));
     }
 
+    public function testGetMaxTokenAccessLevelForUserReturnsAdminWhenUserHasAdminAccess()
+    {
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+        $this->model->addUserAccess($this->login, 'admin', array(2));
+
+        $this->assertSame('admin', $this->model->getMaxTokenAccessLevelForUser($this->login));
+    }
+
+    public function testGetAllowedTokenAccessLevelsForUserReturnsLevelsUpToMaximum()
+    {
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+
+        $this->assertSame(['view', 'write'], $this->model->getAllowedTokenAccessLevelsForUser($this->login));
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserDefaultsToMaximum()
+    {
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+
+        $this->assertSame('write', $this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, null));
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserKeepsNullWhenDefaultDisabled()
+    {
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+
+        $this->assertNull($this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, null, false));
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserRejectsEmptyString()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+        $this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, '');
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserRejectsInvalidFalsyString()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ExceptionAccessValues');
+
+        $this->model->addUserAccess($this->login, Write::ID, array(1));
+        $this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, '0');
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserRejectsTooHighLevel()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(Piwik::translate('UsersManager_InvalidTokenAccessLevelTooHigh'));
+
+        $this->model->addUserAccess($this->login, View::ID, array(1));
+        $this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, 'admin');
+    }
+
+    public function testGetMaxTokenAccessLevelForUserReturnsNullWhenUserHasNoAccess()
+    {
+        $this->assertNull($this->model->getMaxTokenAccessLevelForUser($this->login));
+    }
+
+    public function testGetAllowedTokenAccessLevelsForUserReturnsEmptyWhenUserHasNoAccess()
+    {
+        $this->assertSame([], $this->model->getAllowedTokenAccessLevelsForUser($this->login));
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserReturnsNullWhenUserHasNoAccessAndNoLevelRequested()
+    {
+        $this->assertNull($this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, null));
+        $this->assertNull($this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, null, false));
+    }
+
+    public function testNormalizeAndValidateTokenAccessLevelForUserRejectsExplicitLevelWhenUserHasNoAccess()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(Piwik::translate('UsersManager_InvalidTokenAccessLevelTooHigh'));
+
+        $this->model->normalizeAndValidateTokenAccessLevelForUser($this->login, 'view');
+    }
+
     public function testGetAllNonSystemTokensForLoginWhenNoTokenConfigured()
     {
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
@@ -135,6 +216,7 @@ class ModelTest extends IntegrationTestCase
             'date_created' => '2020-01-02 03:04:05',
             'date_expired' => null,
             'secure_only' => '0',
+            'access_level' => null,
             'ts_rotation_notified' => null,
             'ts_expiration_warning_notified' => null,
         )), $tokens);
@@ -156,6 +238,7 @@ class ModelTest extends IntegrationTestCase
             'date_created' => '2020-01-02 03:04:05',
             'date_expired' => '2030-01-05 03:04:05',
             'secure_only' => '0',
+            'access_level' => null,
             'ts_rotation_notified' => null,
             'ts_expiration_warning_notified' => null,
         )), $tokens);
@@ -220,9 +303,17 @@ class ModelTest extends IntegrationTestCase
             'date_created' => '2020-01-02 03:04:05',
             'date_expired' => '2030-01-05 03:04:05',
             'secure_only' => '0',
+            'access_level' => null,
             'ts_rotation_notified' => null,
             'ts_expiration_warning_notified' => null,
         )), $tokens);
+    }
+
+    public function testAddTokenAuthWithAccessLevel()
+    {
+        $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'write');
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
+        $this->assertSame('write', $tokens[0]['access_level']);
     }
 
     public function testGetUserByTokenAuthFindsUserWhenTokenNotYetExpired()
@@ -251,6 +342,29 @@ class ModelTest extends IntegrationTestCase
         $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05', null, true);
         $user = $this->model->getUserByTokenAuth('token');
         $this->assertSame($this->login, $user['login']);
+    }
+
+    public function testGetTokenMetadataByTokenAuthReturnsToken()
+    {
+        $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'admin');
+        $token = $this->model->getTokenMetadataByTokenAuth('token');
+
+        $this->assertSame($this->login, $token['login']);
+        $this->assertSame('admin', $token['access_level']);
+    }
+
+    public function testGetTokenMetadataByTokenAuthReturnsAnonymousMetadataWithoutTokenRow()
+    {
+        if (!$this->model->userExists('anonymous')) {
+            $this->model->addUser('anonymous', 'not_a_hash', 'anonymous@example.org', Date::now()->getDatetime());
+        }
+
+        $this->model->deleteAllTokensForUser('anonymous');
+
+        $token = $this->model->getTokenMetadataByTokenAuth('anonymous');
+
+        $this->assertSame('anonymous', $token['login']);
+        $this->assertNull($token['access_level']);
     }
 
     public function testGenerateRandomTokenAuthCorrectFormat()
@@ -294,6 +408,38 @@ class ModelTest extends IntegrationTestCase
             '2265daba0872fc3aef169d079365e590f0cbc8ed46c2a7984c8a642803cfd96cb47804a63cf22a79f6ca469268c29ee9e72a5059b62d0a598fe42dfc8dcc51bc',
             '02c2e43dcb393097a1221465812a4e9b1e1e80f16e92b313fd4ce8c5ee5b8272a17cd8cdc1ce63578494eaba739c6f7abba7890506ef6bf8d607538778f2a849',
         ), $this->model->getAllHashedTokensForLogins(array('foo', $this->login, 'bar')));
+    }
+
+    public function testGetAllHashedTokensForTrackerCacheForLoginsFiltersByTrackerEligibleAccessLevel()
+    {
+        $this->model->addTokenAuth($this->login, 'token-default', 'MyDescription', '2020-01-02 03:04:05');
+        $this->model->addTokenAuth($this->login, 'token-write', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'write');
+        $this->model->addTokenAuth($this->login, 'token-admin', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'admin');
+        $this->model->addTokenAuth($this->login, 'token-superuser', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'superuser');
+        $this->model->addTokenAuth($this->login, 'token-view', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'view');
+
+        $tokens = $this->model->getAllHashedTokensForTrackerCacheForLogins(array($this->login));
+        sort($tokens);
+
+        $expected = array(
+            $this->model->hashTokenAuth('token-default'),
+            $this->model->hashTokenAuth('token-write'),
+            $this->model->hashTokenAuth('token-admin'),
+            $this->model->hashTokenAuth('token-superuser'),
+        );
+        sort($expected);
+
+        $this->assertSame($expected, $tokens);
+    }
+
+    public function testGetAllHashedTokensForTrackerCacheForLoginsExcludesExpiredTokens()
+    {
+        $this->model->addTokenAuth($this->login, 'token-write', 'MyDescription', '2020-01-02 03:04:05', null, false, false, 'write');
+        $this->model->addTokenAuth($this->login, 'token-expired', 'MyDescription', '2020-01-02 03:04:05', '2019-02-03 00:01:02', false, false, 'admin');
+
+        $this->assertSame(array(
+            $this->model->hashTokenAuth('token-write'),
+        ), $this->model->getAllHashedTokensForTrackerCacheForLogins(array($this->login)));
     }
 
     public function testDeleteToken()

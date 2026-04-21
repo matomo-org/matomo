@@ -472,6 +472,7 @@
         "RowsToDisplay": "Rows to display",
         "Save": "Save",
         "SaveImageOnYourComputer": "To save the image on your computer, right click on the image and select \"Save Image As…\"",
+        "ScopedTokenCannotUseApiSession": "Scoped tokens cannot be used with force_api_session. Please use this token without session mode.",
         "Search": "Search",
         "SearchNoResults": "No results",
         "SecondaryDimension": "Secondary dimension is %s.",

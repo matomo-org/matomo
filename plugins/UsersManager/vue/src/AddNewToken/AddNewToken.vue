@@ -11,7 +11,7 @@
       {{ translate('UsersManager_TokenAuthIntro') }}
     </p>
 
-    <br v-if="noDescription || invalidExpireDate"/>
+    <br v-if="noDescription || invalidExpireDate || invalidAccessLevel"/>
     <div class="alert alert-danger" v-if="noDescription">
       {{ translate('General_Description') }}:
       {{ translate('General_ValidatorErrorEmptyValue') }}
@@ -19,6 +19,10 @@
     <div class="alert alert-danger" v-if="invalidExpireDate">
       {{ translate('UsersManager_TokenExpireDate') }}:
       {{ translate('UsersManager_InvalidTokenExpireDateFormat') }}
+    </div>
+    <div class="alert alert-danger" v-if="invalidAccessLevel">
+      {{ translate('UsersManager_TokenAccessLevel') }}:
+      {{ translate('UsersManager_InvalidTokenAccessLevel') }}
     </div>
 
     <form
@@ -46,6 +50,17 @@
         v-model="tokenSecureOnly"
         :disabled=forceSecureOnlyCalc
       />
+
+      <Field
+        uicontrol="select"
+        name="access_level_ui"
+        :title="translate('UsersManager_TokenAccessLevel')"
+        :required="true"
+        :inline-help="translate('UsersManager_TokenAccessLevelHelp')"
+        :options="allowedAccessLevels"
+        v-model="tokenAccessLevel"
+      />
+      <input type="hidden" name="access_level" :value="tokenAccessLevel || ''">
 
       <section style="margin-bottom: 2rem">
         <h3>{{ translate('UsersManager_ExpireDate') }}</h3>
@@ -102,7 +117,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import {
   translate,
   ContentBlock,
@@ -115,6 +130,7 @@ import ChangeEvent = JQuery.ChangeEvent;
 interface AddNewTokenState {
   tokenDescription: string;
   tokenSecureOnly: boolean;
+  tokenAccessLevel: string|null;
   tokenHasExpiration: boolean;
   tokenExpireDate: string|null;
   isSaving: boolean;
@@ -127,10 +143,13 @@ export default defineComponent({
     formNonce: String,
     noDescription: Boolean,
     invalidExpireDate: Boolean,
+    invalidAccessLevel: Boolean,
     forceSecureOnly: Boolean,
     defaultExpirationDays: Number,
     expirationReminderDays: Number,
     initialExpireDate: String,
+    allowedAccessLevels: Array as PropType<Array<{key: string; value: string}>>,
+    selectedAccessLevel: String,
   },
   components: {
     ContentBlock,
@@ -140,6 +159,7 @@ export default defineComponent({
     return {
       tokenDescription: '',
       tokenSecureOnly: true,
+      tokenAccessLevel: null,
       tokenHasExpiration: true,
       tokenExpireDate: null,
       isSaving: false,
@@ -147,6 +167,7 @@ export default defineComponent({
   },
   mounted() {
     this.setInitialTokenExpirationDate();
+    this.tokenAccessLevel = (this.selectedAccessLevel as string) || '';
   },
   computed: {
     addNewTokenFormUrl() {
