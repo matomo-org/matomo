@@ -66,8 +66,8 @@ describe("ManageGoals", function () {
       try {
         await page.goto(manageGoalsUrl);
         await page.waitForNetworkIdle();
-        await page.waitForSelector('div.manageGoals .contentTableWrapper');
-        expect(await page.screenshotSelector('div.manageGoals .contentTableWrapper'))
+        await page.waitForSelector('div.manageGoals #entityEditContainer .card-content');
+        expect(await page.screenshotSelector('div.manageGoals #entityEditContainer .card-content'))
           .to.matchImage('manage_goals_mobile_table_contained');
       } finally {
         await page.webpage.setViewport(defaultViewport);
