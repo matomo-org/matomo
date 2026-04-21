@@ -1,5 +1,9 @@
+@_selector-color-background-button: @theme-color-background-base;
+@_selector-color-background-dropdown: @theme-color-background-contrast;
+@_selector-gap-button-dropdown: 2px;
+
 .piwikSelector {
-  display: inline-block;
+  display: inline-flex;
   line-height: 0;
 
   span.title,
@@ -9,7 +13,7 @@
     display: inline-block;
     width: 100%;
     padding: 10px 15px 11px 13px;
-    background-color: transparent;
+    background-color: @_selector-color-background-button;
     border: none;
 
     white-space: nowrap;
@@ -17,6 +21,7 @@
     text-transform: uppercase;
     text-decoration: none;
     color: @theme-color-text;
+    font-variant: tabular-nums;
 
     &.activityIndicator {
       background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat 9px 9px;
@@ -51,6 +56,10 @@
     }
   }
 
+  .move-period {
+    background-color: @_selector-color-background-button;
+  }
+
   .dropdown {
     .font-default(11px, 15px);
     display: none;
@@ -59,16 +68,25 @@
 
   &.expanded {
     .dropdown {
-      display: block;
-      margin-top: 2px;
-      margin-left: -1px;
+      display: block; /* to revert display: none */
+
       position: absolute;
       z-index: 999;
+      top: 100%;
+      margin-top: @_selector-gap-button-dropdown;
+      left: -1px;
+      right: -1px;
+
       border: 1px solid @theme-color-background-base;
       border-radius: 2px;
       box-shadow: 4px 7px 25px rgba(0,0,0,0.3);
       padding: 16px;
-      background-color: @theme-color-background-contrast;
     }
+  }
+
+  &.expanded .dropdown,
+  &:hover .dropdown,
+  &.active .dropdown {
+    background-color: @_selector-color-background-dropdown;
   }
 }
