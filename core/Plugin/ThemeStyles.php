@@ -176,12 +176,12 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorMenuContrastTextSelected = ['#1976D2', '#ccc'];
+    public $colorMenuContrastTextSelected;
 
     /**
      * @var string|array<string>
      */
-    public $colorMenuContrastTextActive = ['#3450A3', '#fff'];
+    public $colorMenuContrastTextActive = ['#1976D2', '#fff'];
 
     /**
      * @var string|array<string>
@@ -283,6 +283,7 @@ class ThemeStyles
         $this->themeMode = $themeMode;
         $this->colorFocusRingAlternative = $this->colorBrand;
         $this->colorMenuContrastText = $this->colorText;
+        $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
         $this->colorMenuContrastBackground = $this->colorBackgroundContrast;
         $this->colorWidgetExportedBackgroundBase = $this->colorBackgroundContrast;
         $this->colorWidgetTitleText = $this->colorText;

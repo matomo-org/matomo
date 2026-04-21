@@ -210,6 +210,8 @@ nav {
 
       #secondNavBar {
         flex: 0 0 224px;
+        width: 224px;
+        min-height: 100vh;
         background-color: @theme-color-menu-contrast-background;
         box-shadow: none !important;
         padding: 16px 12px;
@@ -229,6 +231,7 @@ nav {
   @media all and (max-width: 992px) {
     #secondNavBar {
       width: 0 !important;
+      min-height: 0;
       .quick-access {
         margin-left: 16px;
         z-index: 1000;
@@ -269,8 +272,6 @@ nav {
   }
 
   #secondNavBar {
-    width: 224px;
-    min-height: 100vh;
     flex: none;
     background-color: @theme-color-menu-contrast-background;
     box-shadow: none !important;
@@ -397,7 +398,7 @@ nav {
             &.active {
               > .menuDropdown,
               > .item {
-                color: @theme-color-menu-contrast-textSelected;
+                color: @theme-color-menu-contrast-textActive;
                 background-color: @theme-color-menu-contrast-backgroundHover;
                 text-decoration: none;
                 border-radius: 8px;
@@ -408,9 +409,9 @@ nav {
       }
       li.active, li:hover {
         >.item {
-          color: @theme-color-menu-contrast-textSelected;
+          color: @theme-color-menu-contrast-textActive;
           .menu-icon {
-            color: @theme-color-menu-contrast-textSelected;
+            color: @theme-color-menu-contrast-textActive;
           }
         }
       }
@@ -440,7 +441,7 @@ nav {
         }
 
         .title {
-          color: @theme-color-menu-contrast-text;
+          color: @theme-color-menu-contrast-textActive;
           padding: 10px 10px 10px 36px;
           font-size: 13px;
           font-weight: normal;
