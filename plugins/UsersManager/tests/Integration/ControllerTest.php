@@ -649,6 +649,34 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame(ThemeStyles::LIGHT_MODE, (new UserPreferences())->getThemeMode());
     }
 
+    public function testAddNewTokenShouldStoreNullAccessLevelWhenDefaultOptionIsSubmitted()
+    {
+        $idSite = $this->createSiteWithUser();
+        $this->markPasswordAsVerifiedForAddToken();
+
+        $_GET = ['idSite' => $idSite];
+
+        $_POST = [
+            'nonce' => Nonce::getNonce(Controller::NONCE_ADD_AUTH_TOKEN),
+            'description' => 'default scope token',
+            'secure_only' => '1',
+            'has_expiration' => '1',
+            'token_expire_date' => Date::now()->addDay(5)->toString('Y-m-d'),
+            'access_level' => '',
+        ];
+        $_REQUEST = array_merge($_GET, $_POST);
+
+        $this->controller->addNewToken();
+
+        $tokens = $this->userModel->getAllNonSystemTokensForLogin(self::CURRENT_USER_LOGIN);
+        $tokenMetadata = end($tokens);
+
+        $this->assertNotNull($tokenMetadata);
+        $this->assertNull($tokenMetadata['access_level']);
+        $this->assertSame(self::CURRENT_USER_LOGIN, $tokenMetadata['login']);
+        $this->assertSame('default scope token', $tokenMetadata['description']);
+    }
+
     private function addSiteAnonymousCanView(): int
     {
         $this->userModel->addUser('anonymous', '', 'anonymous@example.com', Date::now()->getDatetime());
@@ -733,6 +761,18 @@ class ControllerTest extends IntegrationTestCase
         } catch (NoWebsiteFoundException $e) {
             // expected
         }
+    }
+
+    private function markPasswordAsVerifiedForAddToken(): void
+    {
+        $params = ['module' => 'UsersManager', 'action' => 'addNewToken'];
+
+        // the password only counts as verified while a verification is pending, so the redirect has
+        // to be initiated first
+        $this->passwordVerify->setDisableRedirect();
+        $this->assertNull($this->passwordVerify->requirePasswordVerifiedRecently($params));
+        $this->passwordVerify->setPasswordVerifiedCorrectly();
+        $this->assertTrue($this->passwordVerify->requirePasswordVerifiedRecently($params));
     }
 
     private function setupPostStateWithPassword(string $password)
