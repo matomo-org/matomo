@@ -1,10 +1,21 @@
-@_selector-color-background-button: @theme-color-background-base;
-@_selector-color-background-dropdown: @theme-color-background-contrast;
-@_selector-gap-button-dropdown: 2px;
+@_selector-button_color-background: @theme-color-background-base;
+@_selector-button_color-background-hover: @theme-color-background-contrast;
+@_selector-button_border: 0;
+@_selector-button_border-radius: 2px;
+@_selector-button_box-shadow: @default-box-shade;
+
+@_selector-dropdown_color-background: @theme-color-background-contrast;
+@_selector-dropdown_border: 1px solid @theme-color-background-base;
+@_selector-dropdown_border-radius: 2px;
+@_selector-dropdown_box-shadown: 4px 7px 25px rgba(0,0,0,0.3);
+@_selector-dropdown_margin-top: 2px;
+
 
 .piwikSelector {
   display: inline-flex;
-  line-height: 0;
+  border: @_selector-button_border;
+  border-radius: @_selector-button_border-radius;
+  box-shadow: @_selector-button_box-shadow;
 
   span.title,
   a.title,
@@ -13,8 +24,9 @@
     display: inline-block;
     width: 100%;
     padding: 10px 15px 11px 13px;
-    background-color: @_selector-color-background-button;
+    background-color: @_selector-button_color-background;
     border: none;
+    border-radius: @_selector-button_border-radius;
 
     white-space: nowrap;
     cursor: pointer;
@@ -45,21 +57,46 @@
 
     .icon:not(.icon-fixed) {
       float: right;
-      &:after {
+      &::after {
         clear:left;
         content: ' ';
       }
     }
+  }
 
-    &:hover, &:focus {
+  &:hover,
+  &:focus {
+    span,
+    button,
+    a {
       text-decoration: none;
+      background: @_selector-button_color-background-hover;
     }
   }
 
-  .move-period {
-    background-color: @_selector-color-background-button;
+  /* Quick access specific: input */
+  #root .top_controls &.quick-access input {
+    border-radius: @_selector-button_border-radius !important;
   }
 
+  /* Period selector specific: left & right arrows */
+  .move-period {
+    background-color: @_selector-button_color-background;
+  }
+
+  .move-period-prev {
+    border-radius: @_selector-button_border-radius 0 0 @_selector-button_border-radius;
+  }
+
+  .move-period-next {
+    border-radius: 0 @_selector-button_border-radius @_selector-button_border-radius 0;
+  }
+
+  &.periodSelector-withPrevNext .title {
+    border-radius: 0;
+  }
+
+  /* Dropdown */
   .dropdown {
     .font-default(11px, 15px);
     display: none;
@@ -73,13 +110,13 @@
       position: absolute;
       z-index: 999;
       top: 100%;
-      margin-top: @_selector-gap-button-dropdown;
+      margin-top: @_selector-dropdown_margin-top;
       left: -1px;
       right: -1px;
 
-      border: 1px solid @theme-color-background-base;
-      border-radius: 2px;
-      box-shadow: 4px 7px 25px rgba(0,0,0,0.3);
+      border: @_selector-dropdown_border;
+      border-radius: @_selector-dropdown_border-radius;
+      box-shadow: @_selector-dropdown_box-shadown;
       padding: 16px;
     }
   }
@@ -87,6 +124,11 @@
   &.expanded .dropdown,
   &:hover .dropdown,
   &.active .dropdown {
-    background-color: @_selector-color-background-dropdown;
+    background-color: @_selector-dropdown_color-background;
   }
+}
+
+/* Temporary fix to avoid screenshot regeneration */
+#root .top_controls .piwikTopControl {
+  margin-bottom: 13px;
 }
