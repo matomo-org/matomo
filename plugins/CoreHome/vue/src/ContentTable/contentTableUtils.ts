@@ -53,22 +53,14 @@ function addMediaQueryListener(
   mediaQuery: MediaQueryList,
   listener: MediaQueryChangeListener,
 ): void {
-  if ('addEventListener' in mediaQuery) {
-    mediaQuery.addEventListener('change', listener);
-  } else {
-    mediaQuery.addListener(listener);
-  }
+  mediaQuery.addEventListener('change', listener);
 }
 
 function removeMediaQueryListener(
   mediaQuery: MediaQueryList,
   listener: MediaQueryChangeListener,
 ): void {
-  if ('removeEventListener' in mediaQuery) {
-    mediaQuery.removeEventListener('change', listener);
-  } else {
-    mediaQuery.removeListener(listener);
-  }
+  mediaQuery.removeEventListener('change', listener);
 }
 
 function applyResponsiveContentTable(el: HTMLElement, mediaQuery?: MediaQueryList): void {
