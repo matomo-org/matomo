@@ -485,6 +485,16 @@ class Request
         #[\SensitiveParameter]
         $tokenAuth
     ) {
+        // Skip the reset for empty/anonymous tokens — neither can grant superuser, and resetting would
+        // clobber deliberate caller state such as CliMulti's --superuser observer for cron archiving.
+        $hadAmbientSuperUserAccess = Access::getInstance()->hasSuperUserAccess();
+        $ambientLogin = Access::getInstance()->getLogin();
+        $ambientTokenAuth = Access::getInstance()->getTokenAuth();
+        $ambientAuth = Access::getInstance()->getAuth();
+        if (!empty($tokenAuth) && $tokenAuth !== 'anonymous') {
+            Access::getInstance()->setSuperUserAccess(false);
+        }
+
         /**
          * Triggered when authenticating an API request, but only if the **token_auth**
          * query parameter is found in the request.
@@ -496,7 +506,58 @@ class Request
          * @param string $token_auth The value of the **token_auth** query parameter.
          */
         Piwik::postEvent('API.Request.authenticate', array($tokenAuth));
-        if (!Access::getInstance()->reloadAccess() && $tokenAuth && $tokenAuth !== 'anonymous') {
+
+        // Resolve the Auth instance after the event so a listener that rebound `Piwik\Auth` is honoured, and
+        // clear any leftover password-auth state on it (e.g. set by PasswordVerifier::isPasswordCorrect())
+        // so it cannot pre-empt the token branch in Auth::authenticate().
+        $auth = StaticContainer::get('Piwik\Auth');
+        // Each setter is cleared on its own and a rejection is not an error here. An Auth implementation
+        // that cannot verify a password hash may refuse the call outright instead of accepting null to
+        // clear it, which the Auth interface allowed until 6.0.0-b3; such an implementation holds no
+        // leftover password state for the token branch to pre-empt, so there is nothing to clear.
+        try {
+            $auth->setPasswordHash(null);
+        } catch (\Exception $e) {
+            // nothing to clear
+        }
+
+        try {
+            $auth->setPassword(null);
+        } catch (\Exception $e) {
+            // nothing to clear
+        }
+
+        if (!Access::getInstance()->reloadAccess($auth) && $tokenAuth && $tokenAuth !== 'anonymous') {
+            // Nothing authenticated, so the value was not a credential and there is no token scope to
+            // enforce; give the ambient access back. Without this, a caller that stringifies an absent
+            // token into a non-empty value — `'' + params.token_auth` yielding "undefined" or "null", as two
+            // of Matomo's own UserCountryMap requests did before this branch fixed them — loses the session
+            // or CliMulti access it arrived with, where before the reset above it kept it. A token that did
+            // authenticate never reaches here, so a scoped token still cannot inherit ambient privileges.
+            //
+            // Re-running the authentication the caller arrived with puts identity, site access and
+            // super-user state back together. Restoring only the identity fields is not enough for a caller
+            // who was not a super user: reloadAccess() resets the site lists on its way to failing, so a
+            // session-authenticated view/write/admin user would be left holding a login and no access to
+            // anything.
+            if ($ambientAuth === null || !Access::getInstance()->reloadAccess($ambientAuth)) {
+                // No Auth to re-run, or it no longer authenticates - the ambient access was set
+                // programmatically, as CliMulti's --superuser observer and doAsSuperUser() do. Only the
+                // super-user case can be given back here, and only the flag was ever set.
+                if ($hadAmbientSuperUserAccess) {
+                    // Identity first: reloadAccess() cleared the login on its way to failing, and
+                    // setSuperUserAccess() substitutes a placeholder for an empty one, so restoring in the
+                    // other order would leave the rest of the request attributing its writes and log lines
+                    // to that placeholder instead of to the caller.
+                    Access::getInstance()->restoreAmbientIdentity(
+                        $ambientLogin,
+                        $ambientTokenAuth,
+                        $hadAmbientSuperUserAccess
+                    );
+                    Access::getInstance()->setSuperUserAccess(true);
+                }
+            }
+
             /**
              * @ignore
              * @internal
