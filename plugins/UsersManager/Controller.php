@@ -510,7 +510,7 @@ class Controller extends ControllerAdmin
             'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
             'noDescription' => $postRequestHasData && $noDescription,
             'invalidExpireDate' => $postRequestHasData && $invalidExpireDate,
-            'forceSecureOnly' => GeneralConfig::getBooleanConfigValue('only_allow_secure_auth_tokens', false),
+            'forceSecureOnly' => GeneralConfig::getBoolConfigValue('only_allow_secure_auth_tokens', false),
             'initialExpireDate' => $today->addDay($defaultExpireDays)->toString(),
             'defaultExpirationDays' => $defaultExpireDays,
             'expirationReminderDays' => GeneralConfig::getConfigValue('auth_token_expiration_notification_days'),

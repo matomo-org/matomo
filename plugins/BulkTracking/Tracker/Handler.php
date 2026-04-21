@@ -114,7 +114,7 @@ class Handler extends Tracker\Handler
      */
     private function isTransactionSupported()
     {
-        return TrackerConfig::getBooleanConfigValue('bulk_requests_use_transaction', false);
+        return TrackerConfig::getBoolConfigValue('bulk_requests_use_transaction', false);
     }
 
     private function isBulkTrackingRequestAuthenticated(RequestSet $requestSet)

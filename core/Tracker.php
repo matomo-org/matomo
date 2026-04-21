@@ -377,12 +377,12 @@ class Tracker
     private static function isDebugEnabled()
     {
         try {
-            $debug = TrackerConfig::getBooleanConfigValue('debug', false);
+            $debug = TrackerConfig::getBoolConfigValue('debug', false);
             if ($debug) {
                 return true;
             }
 
-            $debugOnDemand = TrackerConfig::getBooleanConfigValue('debug_on_demand', false);
+            $debugOnDemand = TrackerConfig::getBoolConfigValue('debug_on_demand', false);
             if ($debugOnDemand) {
                 return (bool) Common::getRequestVar('debug', false);
             }

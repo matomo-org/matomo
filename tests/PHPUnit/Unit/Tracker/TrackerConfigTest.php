@@ -36,7 +36,7 @@ class TrackerConfigTest extends UnitTestCase
         Config::getInstance()->Tracker = ['setting' => '1'];
         Config::getInstance()->Tracker_10 = ['setting' => '0'];
 
-        $this->assertTrue(TrackerConfig::getBooleanConfigValue('setting', null, 5));
-        $this->assertFalse(TrackerConfig::getBooleanConfigValue('setting', null, 10));
+        $this->assertTrue(TrackerConfig::getBoolConfigValue('setting', null, 5));
+        $this->assertFalse(TrackerConfig::getBoolConfigValue('setting', null, 10));
     }
 }

@@ -21,7 +21,7 @@ class SectionConfigTest extends UnitTestCase
     {
         $this->assertNull(TestSectionConfig::getIntegerConfigValue('missing'));
         $this->assertNull(TestSectionConfig::getFloatConfigValue('missing'));
-        $this->assertNull(TestSectionConfig::getBooleanConfigValue('missing'));
+        $this->assertNull(TestSectionConfig::getBoolConfigValue('missing'));
         $this->assertNull(TestSectionConfig::getStringConfigValue('missing'));
         $this->assertNull(TestSectionConfig::getArrayConfigValue('missing'));
     }
@@ -38,7 +38,7 @@ class SectionConfigTest extends UnitTestCase
 
         $this->assertSame(17, TestSectionConfig::getIntegerConfigValue('integer'));
         $this->assertSame(17.25, TestSectionConfig::getFloatConfigValue('float'));
-        $this->assertTrue(TestSectionConfig::getBooleanConfigValue('boolean'));
+        $this->assertTrue(TestSectionConfig::getBoolConfigValue('boolean'));
         $this->assertSame('random', TestSectionConfig::getStringConfigValue('string'));
         $this->assertSame(['key' => 'value'], TestSectionConfig::getArrayConfigValue('array'));
     }
@@ -47,7 +47,7 @@ class SectionConfigTest extends UnitTestCase
     {
         $this->assertSame(7, TestSectionConfig::getIntegerConfigValue('missing', 7));
         $this->assertSame(7.5, TestSectionConfig::getFloatConfigValue('missing', 7.5));
-        $this->assertTrue(TestSectionConfig::getBooleanConfigValue('missing', true));
+        $this->assertTrue(TestSectionConfig::getBoolConfigValue('missing', true));
         $this->assertSame('fallback', TestSectionConfig::getStringConfigValue('missing', 'fallback'));
         $this->assertSame(['fallback'], TestSectionConfig::getArrayConfigValue('missing', ['fallback']));
     }
@@ -130,7 +130,7 @@ class SectionConfigTest extends UnitTestCase
     {
         yield 'int from invalid string' => ['getIntegerConfigValue', 'abc', 'int'];
         yield 'float from invalid string' => ['getFloatConfigValue', 'abc', 'float'];
-        yield 'bool from invalid integer' => ['getBooleanConfigValue', 2, 'bool'];
+        yield 'bool from invalid integer' => ['getBoolConfigValue', 2, 'bool'];
         yield 'string from bool' => ['getStringConfigValue', true, 'string'];
         yield 'array from csv string' => ['getArrayConfigValue', 'a,b', 'array'];
         yield 'int from object' => ['getIntegerConfigValue', new \stdClass(), 'int'];
@@ -143,7 +143,7 @@ class SectionConfigTest extends UnitTestCase
     {
         yield 'int from invalid string with default' => ['getIntegerConfigValue', 'abc', 9, 'int'];
         yield 'float from invalid string with default' => ['getFloatConfigValue', 'abc', 9.5, 'float'];
-        yield 'bool from invalid integer with default' => ['getBooleanConfigValue', 2, true, 'bool'];
+        yield 'bool from invalid integer with default' => ['getBoolConfigValue', 2, true, 'bool'];
         yield 'string from bool with default' => ['getStringConfigValue', true, 'fallback', 'string'];
         yield 'array from csv string with default' => ['getArrayConfigValue', 'a,b', ['fallback'], 'array'];
     }

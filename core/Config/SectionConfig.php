@@ -54,7 +54,7 @@ abstract class SectionConfig
         return self::castFloatConfigValue($name, static::getRawConfigValue($name, $idSite), $default);
     }
 
-    public static function getBooleanConfigValue(string $name, ?bool $default = null, ?int $idSite = null): ?bool
+    public static function getBoolConfigValue(string $name, ?bool $default = null, ?int $idSite = null): ?bool
     {
         return self::castBoolConfigValue($name, static::getRawConfigValue($name, $idSite), $default);
     }
