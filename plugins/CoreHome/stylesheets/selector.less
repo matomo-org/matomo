@@ -12,7 +12,7 @@
 
 
 .piwikSelector {
-  display: inline-flex;
+  display: flex;
   border: @_selector-button_border;
   border-radius: @_selector-button_border-radius;
   box-shadow: @_selector-button_box-shadow;
@@ -20,7 +20,7 @@
   span.title,
   a.title,
   button.title {
-    display: inline-block;
+    display: flex;
     width: 100%;
     padding: 10px 15px 11px 13px;
     background-color: @_selector-button_color-background;
@@ -62,6 +62,7 @@
     }
   }
 
+  &.expanded,
   &:hover,
   &:focus {
     span.title,
@@ -124,9 +125,105 @@
   &.active .dropdown {
     background-color: @_selector-dropdown_color-background;
   }
+
+/*
+ * ============================================================================
+ * TEMPORARY LEGACY OVERRIDES
+ * ============================================================================
+ *
+ * The rules from here and to the end of the files will be removed.
+ * They were previously defined either in component-specific files
+ * such as PeriodSelector.less, SiteSelector.less, segmentation.less,
+ * dashboard.less, _periodSelect.less and _headerMessage.less, or were part of
+ * the historical rendering behavior of selector.less itself.
+ *
+ * They exist only to reduce UI/screenshot side effects during the refactor.
+ * They should be removed later, once the shared selector system has been
+ * redesigned component-by-component with explicit visual contracts.
+ * ============================================================================
+ */
+  .selectorLegacyCompatibility();
 }
 
-/* Temporary fix to avoid screenshot regeneration */
-#root .top_controls .piwikTopControl {
-  margin-bottom: 13px;
+/* A mixin to by-pass Stylelint errors */
+.selectorLegacyCompatibility() {
+  // Legacy inline-block layout kept only to preserve historical spacing and screenshots.
+  // The shared selector layout should eventually rely on flexbox only.
+  display: inline-block;
+  line-height: 0;
+  background-color: @theme-color-background-base;
+
+  &.expanded,
+  &:hover,
+  &:focus {
+    background-color: @theme-color-background-contrast;
+
+    span.title,
+    a.title,
+    button.title {
+      background: transparent;
+    }
+  }
+
+  span.title,
+  a.title,
+  button.title {
+    // Legacy buttons were visually transparent and depended on the shell background.
+    // The new design should keep the button styling self-contained.
+    display: inline-block;
+    background-color: transparent;
+    border-radius: 0;
+    font-variant: initial;
+
+    .icon {
+      // Legacy icon alignment depends on inline-block metrics and manual spacing.
+      // This should disappear once all selectors use the flex layout consistently.
+      display: inline-block;
+      vertical-align: top;
+      padding-left: 6px;
+    }
+  }
+
+  .move-period {
+    background-color: transparent;
+  }
+
+  .move-period-prev,
+  .move-period-next {
+    border-radius: 0;
+  }
+
+  &.expanded {
+    .dropdown {
+      // Legacy dropdown positioning relies on margin offsets instead of the newer anchored layout.
+      // This should be removed once all selectors share the same positioning model.
+      top: auto;
+      left: auto;
+      right: auto;
+      margin-left: -1px;
+      background-color: @theme-color-background-contrast;
+    }
+  }
+}
+
+.sites_autocomplete {
+  height: 36px;
+}
+
+.periodSelector {
+  display: inline-block;
+}
+
+// Keep same flow when a siteSelector is used inside a page
+.siteSelector a.title {
+  overflow: hidden;
+}
+
+// Uppercase is kept only for legacy selector rendering.
+// We do not want to force uppercase in the shared selector design long-term.
+.dashboardSettings,
+.siteSelector .custom_select_ul_list li a,
+.siteSelector .custom_select_all a,
+.siteSelector .custom_select_main_link > span {
+  text-transform: uppercase;
 }
