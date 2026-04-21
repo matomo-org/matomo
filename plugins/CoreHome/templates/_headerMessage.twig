@@ -1,6 +1,6 @@
 {% set updateCheck %}
+    <span class="icon icon-fixed icon-reload"></span>
     <span id="updateCheckLinkContainer">
-        <span class="icon icon-fixed icon-reload"></span>
         {{ (lastUpdateCheckFailed|default(false) ? 'General_ErrorTryAgain' : 'CoreHome_CheckForUpdates')|translate }}
     </span>
 {% endset %}

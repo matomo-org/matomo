@@ -7,7 +7,7 @@
 @_selector-dropdown_color-background: @theme-color-background-contrast;
 @_selector-dropdown_border: 1px solid @theme-color-background-base;
 @_selector-dropdown_border-radius: 2px;
-@_selector-dropdown_box-shadown: 4px 7px 25px rgba(0,0,0,0.3);
+@_selector-dropdown_box-shadow: 4px 7px 25px rgba(0,0,0,0.3);
 @_selector-dropdown_margin-top: 2px;
 
 
@@ -20,7 +20,6 @@
   span.title,
   a.title,
   button.title {
-    .font-default(11px, 12px);
     display: inline-block;
     width: 100%;
     padding: 10px 15px 11px 13px;
@@ -28,6 +27,7 @@
     border: none;
     border-radius: @_selector-button_border-radius;
 
+    .font-default(11px, 12px);
     white-space: nowrap;
     cursor: pointer;
     text-transform: uppercase;
@@ -45,10 +45,8 @@
 
     .icon {
       // remove relative: [class^="icon-"], [class*=" icon-"]{line-height:1em}
-      .font-default(11px, 12px);
-      padding-left: 6px;
-      display: inline-block;
-      vertical-align: top;
+      font-size: inherit;
+      line-height: inherit;
 
       &.iconHidden {
         visibility: hidden;
@@ -66,9 +64,9 @@
 
   &:hover,
   &:focus {
-    span,
-    button,
-    a {
+    span.title,
+    a.title,
+    button.title {
       text-decoration: none;
       background: @_selector-button_color-background-hover;
     }
@@ -116,7 +114,7 @@
 
       border: @_selector-dropdown_border;
       border-radius: @_selector-dropdown_border-radius;
-      box-shadow: @_selector-dropdown_box-shadown;
+      box-shadow: @_selector-dropdown_box-shadow;
       padding: 16px;
     }
   }
