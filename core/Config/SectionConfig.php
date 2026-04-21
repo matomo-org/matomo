@@ -44,21 +44,33 @@ abstract class SectionConfig
         return static::getRawConfigValue($name, $idSite);
     }
 
+    /**
+     * @phpstan-return ($default is null ? int|null : int)
+     */
     public static function getIntegerConfigValue(string $name, ?int $default = null, ?int $idSite = null): ?int
     {
         return self::castIntConfigValue($name, static::getRawConfigValue($name, $idSite), $default);
     }
 
+    /**
+     * @phpstan-return ($default is null ? float|null : float)
+     */
     public static function getFloatConfigValue(string $name, ?float $default = null, ?int $idSite = null): ?float
     {
         return self::castFloatConfigValue($name, static::getRawConfigValue($name, $idSite), $default);
     }
 
+    /**
+     * @phpstan-return ($default is null ? bool|null : bool)
+     */
     public static function getBoolConfigValue(string $name, ?bool $default = null, ?int $idSite = null): ?bool
     {
         return self::castBoolConfigValue($name, static::getRawConfigValue($name, $idSite), $default);
     }
 
+    /**
+     * @phpstan-return ($default is null ? string|null : string)
+     */
     public static function getStringConfigValue(string $name, ?string $default = null, ?int $idSite = null): ?string
     {
         return self::castStringConfigValue($name, static::getRawConfigValue($name, $idSite), $default);
@@ -66,6 +78,7 @@ abstract class SectionConfig
 
     /**
      * @return array<mixed>|null
+     * @phpstan-return ($default is null ? array<mixed>|null : array<mixed>)
      */
     public static function getArrayConfigValue(string $name, ?array $default = null, ?int $idSite = null): ?array
     {
