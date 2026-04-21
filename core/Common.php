@@ -28,6 +28,8 @@ use Piwik\Tracker\TrackerConfig;
  */
 class Common
 {
+    private const FLOAT_REGEX = "/^[-+]?((([0-9]+(_[0-9]+)*)|(([0-9]+(_[0-9]+)*)?\.([0-9]+(_[0-9]+)*))|(([0-9]+(_[0-9]+)*)\.([0-9]+(_[0-9]+)*)?))([eE][+-]?([0-9]+(_[0-9]+)*))?)$/";
+
     // constants used to map the referrer type to an integer in the log_visit table
     public const REFERRER_TYPE_DIRECT_ENTRY = 1;
     public const REFERRER_TYPE_SEARCH_ENGINE = 2;
@@ -1091,6 +1093,26 @@ class Common
         }
 
         return str_replace(',', '.', $value);
+    }
+
+    /**
+     * Parses the given value as float and returns null if it cannot be represented as a PHP float.
+     *
+     * Supports the same string notations as PHP floats, including underscore notation.
+     *
+     * @param mixed $value
+     */
+    public static function parseFloat($value): ?float
+    {
+        if (is_float($value) || is_int($value)) {
+            return (float)$value;
+        }
+
+        if (is_string($value) && preg_match(self::FLOAT_REGEX, $value)) {
+            return (float)str_replace('_', '', $value);
+        }
+
+        return null;
     }
 
     /**

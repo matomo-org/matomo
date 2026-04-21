@@ -16,8 +16,6 @@ use Piwik\Log\LoggerInterface;
 
 abstract class SectionConfig
 {
-    private const FLOAT_REGEX = "/^[-+]?((([0-9]+(_[0-9]+)*)|(([0-9]+(_[0-9]+)*)?\.([0-9]+(_[0-9]+)*))|(([0-9]+(_[0-9]+)*)\.([0-9]+(_[0-9]+)*)?))([eE][+-]?([0-9]+(_[0-9]+)*))?)$/";
-
     abstract public static function getSectionName(): string;
 
     /**
@@ -140,16 +138,9 @@ abstract class SectionConfig
      */
     private static function castFloatConfigValue(string $name, $value, ?float $default): ?float
     {
-        if ($value === null) {
-            return $default;
-        }
-
-        if (is_float($value) || is_int($value)) {
-            return (float) $value;
-        }
-
-        if (is_string($value) && preg_match(self::FLOAT_REGEX, $value)) {
-            return (float) str_replace('_', '', $value);
+        $parsedFloat = Common::parseFloat($value);
+        if ($parsedFloat !== null) {
+            return $parsedFloat;
         }
 
         self::logTypeCastWarning($name, 'float', $value);
