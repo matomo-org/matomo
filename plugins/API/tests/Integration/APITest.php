@@ -127,7 +127,7 @@ class APITest extends IntegrationTestCase
         $this->setAnonymousAccessForSite(1, 'view');
 
         try {
-            $response = $this->processApiRequest([
+            $response = $this->processRootApiRequest([
                 'module' => 'API',
                 'method' => ' CoreAdminHome.archiveReports ',
                 'idSite' => '1',
@@ -147,7 +147,7 @@ class APITest extends IntegrationTestCase
         $this->setAnonymousAccessForSite(1, 'view');
 
         try {
-            $response = $this->processApiRequest([
+            $response = $this->processRootApiRequest([
                 'module' => 'API',
                 'method' => ' API.getBulkRequest ',
                 'format' => 'json',
@@ -395,9 +395,16 @@ class APITest extends IntegrationTestCase
         }
     }
 
-    private function processApiRequest(array $params)
+    private function processRootApiRequest(array $params)
     {
-        return json_decode((string) (new Request($params))->process(), true);
+        $rootApiMethod = Request::getRootApiRequestMethod();
+
+        try {
+            Request::setIsRootRequestApiRequest((string) ($params['method'] ?? ''));
+            return json_decode((string) (new Request($params))->process(), true);
+        } finally {
+            Request::setIsRootRequestApiRequest($rootApiMethod ?: '');
+        }
     }
 
     private function makeArchiveReportsBulkUrl(int $idSite, ?string $tokenAuth = null, string $method = 'CoreAdminHome.archiveReports'): string
