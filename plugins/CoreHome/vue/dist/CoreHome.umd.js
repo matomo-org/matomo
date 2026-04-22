@@ -11212,18 +11212,10 @@ function shouldWrapTable(mediaQuery) {
   return (mediaQuery || window.matchMedia(MOBILE_BREAKPOINT)).matches;
 }
 function addMediaQueryListener(mediaQuery, listener) {
-  if ('addEventListener' in mediaQuery) {
-    mediaQuery.addEventListener('change', listener);
-  } else {
-    mediaQuery.addListener(listener);
-  }
+  mediaQuery.addEventListener('change', listener);
 }
 function removeMediaQueryListener(mediaQuery, listener) {
-  if ('removeEventListener' in mediaQuery) {
-    mediaQuery.removeEventListener('change', listener);
-  } else {
-    mediaQuery.removeListener(listener);
-  }
+  mediaQuery.removeEventListener('change', listener);
 }
 function applyResponsiveContentTable(el, mediaQuery) {
   el.classList.add('card', 'card-table', 'entityTable');
