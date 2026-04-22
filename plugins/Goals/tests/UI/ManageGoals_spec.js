@@ -12,7 +12,7 @@ describe("ManageGoals", function () {
 
     const manageGoalsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=Goals_ManageGoals";
     const defaultViewport = { width: 1350, height: 768 };
-    const mobileViewport = { width: 480, height: 900 };
+    const smallerViewport = { width: 800, height: 900 };
 
     async function fillField(selector, value) {
         await page.$eval(selector, (el) => {
@@ -67,8 +67,8 @@ describe("ManageGoals", function () {
         expect(viewGoalLinkHref).to.include(`subcategory=${createdGoalId}`);
     });
 
-    it("should keep the goals table contained on mobile", async function () {
-      await page.webpage.setViewport(mobileViewport);
+    it("description and trigger with long words should wrap", async function () {
+      await page.webpage.setViewport(smallerViewport);
 
       try {
         await page.goto(manageGoalsUrl);

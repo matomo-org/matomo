@@ -197,10 +197,12 @@ PageRenderer.prototype.resizeViewportToFullPage = async function () {
     await this.webpage.setViewport(JSON.parse(dims));
 };
 
-PageRenderer.prototype.screenshotSelector = async function (selector) {
+PageRenderer.prototype.screenshotSelector = async function (selector, shouldResizeViewport = true) {
     await this.waitForFunction(() => !! window.$, { timeout: 60000 });
 
-    await this.resizeViewportToFullPage();
+    if (shouldResizeViewport) {
+        await this.resizeViewportToFullPage();
+    }
 
     const result = await this.webpage.evaluate(function (selector) {
         window.jQuery('html').addClass('uiTest');

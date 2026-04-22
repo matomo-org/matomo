@@ -60,7 +60,8 @@
       />
     </div>
 
-    <MatomoDialog v-model="showAddSiteDialog">
+    <MatomoDialog v-model="showAddSiteDialog"
+                  :options="{ classes: availableTypes.length > 2 ? 'sites-manager-modal' : '' }">
       <div class="ui-confirm add-site-dialog">
         <div>
           <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>

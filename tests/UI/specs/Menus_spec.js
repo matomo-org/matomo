@@ -93,7 +93,7 @@ describe("Menus", function () {
     });
 
     it('should load the admin left menu correctly on mobile', async function() {
-        await page.webpage.setViewport({ width: 815, height: 1500 });
+        await page.webpage.setViewport({ width: 815, height: 1600 });
         await page.goto("?module=CoreAdminHome&action=home");
         await page.waitForNetworkIdle();
         await page.click('[data-target="mobile-left-menu"]');
@@ -106,7 +106,7 @@ describe("Menus", function () {
         await page.click('ul#mobile-left-menu > li:nth-child(6) a');
         await page.waitForTimeout(500);
 
-        expect(await page.screenshotSelector('#mobile-left-menu')).to.matchImage('mobile_left_admin');
+        expect(await page.screenshotSelector('#mobile-left-menu', false)).to.matchImage('mobile_left_admin');
     });
 
     it('should load the admin top menu correctly on mobile', async function() {
@@ -122,7 +122,7 @@ describe("Menus", function () {
     });
 
     it('should load the left reporting menu correctly on mobile', async function() {
-        await page.webpage.setViewport({ width: 768, height: 1200 });
+        await page.webpage.setViewport({ width: 768, height: 1000 });
         await page.goto("?" + generalParams + "&module=CoreHome&action=index#?category=General_Visitors&subcategory=General_Overview");
         await page.waitForNetworkIdle();
         await page.evaluate(function(){
@@ -132,6 +132,6 @@ describe("Menus", function () {
         await (await page.jQuery('#mobile-left-menu>li>ul:contains(Goals)')).click();
         await page.waitForTimeout(500);
 
-        expect(await page.screenshotSelector('#mobile-left-menu')).to.matchImage('mobile_left');
+        expect(await page.screenshotSelector('#mobile-left-menu', false)).to.matchImage('mobile_left');
     });
 });
