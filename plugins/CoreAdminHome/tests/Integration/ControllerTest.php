@@ -180,7 +180,8 @@ class ControllerTest extends IntegrationTestCase
         $html = $this->controller->whatIsNew();
 
         $this->assertStringContainsString('index.php?module=UsersManager&amp;action=userSettings&amp;idSite=2', $html);
-        $this->assertStringContainsString('/index.php?module=CoreHome&amp;action=index&amp;idSite=2#?idSite=2&amp;category=General_Visitors', $html);
+        $this->assertStringContainsString('index.php?module=CoreHome&amp;action=index&amp;idSite=2#?idSite=2&amp;category=General_Visitors', $html);
+        $this->assertStringNotContainsString('href="/index.php?', $html);
         $this->assertStringNotContainsString('idSite=1', $html);
     }
 
