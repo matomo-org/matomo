@@ -11,6 +11,7 @@
 @_selector-dropdown_border-radius: 8px;
 @_selector-dropdown_padding: 16px;
 @_selector-dropdown_box-shadow: ~"0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D";
+@_selector-dropdown_box-shadow-dark: ~"0 0 3px #00000080, 0 10px 40px #00000080";
 @_selector-dropdown_margin-top: 8px;
 
 .piwikSelector:not(.quick-access) {
@@ -143,6 +144,10 @@
       box-shadow: @_selector-dropdown_box-shadow;
 
       overflow: hidden;
+
+      .inDarkMode({
+        box-shadow: @_selector-dropdown_box-shadow-dark;
+      });
     }
   }
 
