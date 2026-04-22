@@ -28,6 +28,9 @@
 .icon-circle:before {
   content: "\e90f";
 }
+.icon-update:before {
+  content: "\e913";
+}
 .icon-dollar-sign:before {
   content: "\e90e";
 }
