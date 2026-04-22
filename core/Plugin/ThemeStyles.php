@@ -53,7 +53,6 @@ class ThemeStyles
         'colorBackgroundHighContrast' => 'theme-color-background-highContrast',
         'colorBackgroundDisabled' => 'theme-color-background-disabled',
         'colorBorder' => 'theme-color-border',
-        'colorBorderActive' => 'theme-color-border-active',
         'colorBorderLight' => 'theme-color-border-light',
         'colorBoxShadow' => 'theme-color-boxShadow',
         'colorCode' => 'theme-color-code',
@@ -243,11 +242,6 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorBorderLight = ['#a9a399', '#645e54'];
-
-    /**
-     * @var string|array<string>
-     */
-    public $colorBorderActive = ['#1976D2', '#42A5F5'];
 
     /**
      * @var string|array<string>
