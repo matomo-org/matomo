@@ -10,6 +10,8 @@
 describe("SegmentManagementPageTest", function () {
   this.fixture = 'Piwik\\Plugins\\SegmentEditor\\tests\\Fixtures\\SegmentManagementPageFixture';
 
+  const defaultViewport = { width: 1350, height: 768 };
+  const mobileViewport = { width: 480, height: 900 };
   var generalParams = 'idSite=1&period=range&date=2010-03-06,2010-03-08';
   var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Visitors&subcategory=CoreHome_Segments';
   const globalSegment = {
@@ -49,6 +51,21 @@ describe("SegmentManagementPageTest", function () {
     await page.waitForNetworkIdle();
 
     expect(await page.screenshot({ fullPage: true })).to.matchImage('initial');
+  });
+
+  it("should keep the segments table contained on mobile", async function() {
+    await page.webpage.setViewport(mobileViewport);
+
+    try {
+      await page.goto(url);
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.pageWrap');
+
+      expect(await page.screenshotSelector('.pageWrap'))
+        .to.matchImage('initial_mobile_table_contained');
+    } finally {
+      await page.webpage.setViewport(defaultViewport);
+    }
   });
 
   it("should expose the expected segment panel public API contract", async function() {
