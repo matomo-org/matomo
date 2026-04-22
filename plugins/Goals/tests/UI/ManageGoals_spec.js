@@ -67,7 +67,7 @@ describe("ManageGoals", function () {
         expect(viewGoalLinkHref).to.include(`subcategory=${createdGoalId}`);
     });
 
-    it.only("description and trigger with long words should wrap", async function () {
+    it("description and trigger with long words should wrap", async function () {
       await page.webpage.setViewport(smallerViewport);
 
       try {
