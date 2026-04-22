@@ -26,7 +26,6 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
-use Piwik\Request as PiwikRequest;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsServer;
@@ -401,13 +400,13 @@ class API extends \Piwik\Plugin\API
 
     private function shouldRequireSuperUserForArchiveReports(): bool
     {
-        $rootApiMethod = Request::getRootApiRequestMethod();
-        $requestParameters = PiwikRequest::fromRequest()->getParameters();
+        $rootApiMethod = trim((string) Request::getRootApiRequestMethod());
+        $requestParameters = Request::getRequestArrayFromString(null);
         $currentApiMethod = Request::getMethodIfApiRequest($requestParameters);
 
-        // Bulk subrequests can arrive without module=API, so fall back to raw method.
         if (empty($currentApiMethod)) {
-            $currentApiMethod = (string) ($requestParameters['method'] ?? '');
+            // Bulk subrequests can omit module=API, but dispatch still trims the method before execution.
+            $currentApiMethod = trim((string) ($requestParameters['method'] ?? ''));
         }
 
         // Require superuser for direct archiveReports calls and archiveReports inside bulk requests.
