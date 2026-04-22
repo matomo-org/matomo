@@ -34,6 +34,13 @@ abstract class SectionConfig
     /**
      * Get a setting value
      *
+     * Prefer one of the type-safe getters if a specific type is expected:
+     * @see getIntegerConfigValue()
+     * @see getFloatConfigValue()
+     * @see getBoolConfigValue()
+     * @see getStringConfigValue()
+     * @see getArrayConfigValue()
+     *
      * @param string    $name     Setting name
      * @param int|null  $idSite   Optional site Id
      *
@@ -151,6 +158,10 @@ abstract class SectionConfig
      */
     private static function castFloatConfigValue(string $name, $value, ?float $default): ?float
     {
+        if ($value === null) {
+            return $default;
+        }
+
         $parsedFloat = Common::parseFloat($value);
         if ($parsedFloat !== null) {
             return $parsedFloat;
