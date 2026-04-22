@@ -9,7 +9,7 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${script_dir}/matomo_plugins_lib.sh"
 
-declare -A managed_mounts=()
+managed_mounts=()
 declare -a literal_roots=()
 declare -a original_args=("$@")
 
