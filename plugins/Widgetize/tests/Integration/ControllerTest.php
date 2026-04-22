@@ -13,6 +13,7 @@ use Piwik\Plugins\Widgetize\Controller;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Widget\WidgetConfig;
 
 /**
  * @group Widgetize
@@ -82,5 +83,31 @@ class ControllerTest extends IntegrationTestCase
         $this->assertStringContainsString('widgetized="true"', $html);
         $this->assertStringContainsString('clientComponent', $html);
         $this->assertStringContainsString('TransitionsPage', $html);
+    }
+
+    public function testBuildClientWidgetMetadataShouldRejectDisabledWidgets(): void
+    {
+        $config = new WidgetConfig();
+        $config->setClientSideComponent('Transitions', 'TransitionsPage');
+        $config->disable();
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionWidgetNotEnabled');
+
+        $method = new \ReflectionMethod(Controller::class, 'buildClientWidgetMetadata');
+        $method->setAccessible(true);
+        $method->invoke($this->controller, $config);
+    }
+
+    public function testBuildClientWidgetMetadataShouldIgnoreNonWidgetizableWidgets(): void
+    {
+        $config = new WidgetConfig();
+        $config->setClientSideComponent('Transitions', 'TransitionsPage');
+        $config->setIsNotWidgetizable();
+
+        $method = new \ReflectionMethod(Controller::class, 'buildClientWidgetMetadata');
+        $method->setAccessible(true);
+
+        $this->assertNull($method->invoke($this->controller, $config));
     }
 }

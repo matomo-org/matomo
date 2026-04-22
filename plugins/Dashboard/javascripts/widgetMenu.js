@@ -20,14 +20,18 @@ widgetsHelper.firstGetAvailableWidgetsCall = null;
  */
 widgetsHelper.getAvailableWidgets = function (callback) {
 
+    function resetFirstGetAvailableWidgetsCall(promise) {
+        if (widgetsHelper.firstGetAvailableWidgetsCall === promise) {
+            widgetsHelper.firstGetAvailableWidgetsCall = null;
+        }
+    }
+
     if (!widgetsHelper.availableWidgets && widgetsHelper.firstGetAvailableWidgetsCall) {
-        widgetsHelper.firstGetAvailableWidgetsCall.then(function () {
+        return widgetsHelper.firstGetAvailableWidgetsCall.then(function () {
             if (callback) {
                 callback(widgetsHelper.availableWidgets);
             }
         });
-
-        return widgetsHelper.firstGetAvailableWidgetsCall;
     }
 
     function mergeCategoriesAndSubCategories(availableWidgets)
@@ -97,15 +101,25 @@ widgetsHelper.getAvailableWidgets = function (callback) {
           function (data) {
             widgetsHelper.availableWidgets = mergeCategoriesAndSubCategories(data);
 
+            resetFirstGetAvailableWidgetsCall(promise);
             resolve();
           }
         );
         ajaxRequest.setErrorCallback(function (deferred, status) {
-          if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
+          resetFirstGetAvailableWidgetsCall(promise);
+
+          if (status == 'abort') {
+            reject(new Error('Loading widget metadata was aborted'));
             return;
           }
+
+          if (!deferred || deferred.status < 400 || deferred.status >= 600) {
+            reject(new Error('Loading widget metadata failed'));
+            return;
+          }
+
           $('#loadingError').show();
-          reject();
+          reject(new Error('Loading widget metadata failed'));
         });
         ajaxRequest.send();
         return;
@@ -118,13 +132,11 @@ widgetsHelper.getAvailableWidgets = function (callback) {
       widgetsHelper.firstGetAvailableWidgetsCall = promise;
     }
 
-    promise.then(function () {
+    return promise.then(function () {
       if (callback) {
         callback(widgetsHelper.availableWidgets);
       }
     });
-
-    return promise;
 };
 
 /**

@@ -18,6 +18,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\API\WidgetMetadata;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\Widget\WidgetConfig;
 use Piwik\Widget\WidgetsList;
 
 class Controller extends \Piwik\Plugin\Controller
@@ -113,10 +114,21 @@ class Controller extends \Piwik\Plugin\Controller
                 return null;
             }
 
-            $metadata = new WidgetMetadata();
-            return $metadata->buildWidgetMetadata($config);
+            return $this->buildClientWidgetMetadata($config);
         }
 
         return null;
+    }
+
+    private function buildClientWidgetMetadata(WidgetConfig $config): ?array
+    {
+        if (!$config->isWidgetizeable()) {
+            return null;
+        }
+
+        $config->checkIsEnabled();
+
+        $metadata = new WidgetMetadata();
+        return $metadata->buildWidgetMetadata($config);
     }
 }
