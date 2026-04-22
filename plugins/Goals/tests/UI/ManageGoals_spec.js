@@ -23,24 +23,31 @@ describe("ManageGoals", function () {
         await page.type(selector, value);
     }
 
-    it("should show correct notification when creating a new goal", async function () {
-        await page.goto(manageGoalsUrl);
-        await page.waitForNetworkIdle();
-
+    async function createGoal({ goalName, goalDescription, goalPattern }) {
         await page.waitForSelector('#add-goal');
         await page.click('#add-goal');
         await page.waitForSelector('.addEditGoal', { visible: true });
 
-        const goalName = 'My name';
-        const goalDescription = 'https://longurlwithlotsofthings.example.com/path/to/a/page?with=query&that=keeps_going';
         await fillField('#goal_name', goalName);
         await fillField('#goal_description', goalDescription);
-        await fillField('#pattern', '/thank-you');
+        await fillField('#pattern', goalPattern);
 
         const saveButton = await page.waitForSelector('.addEditGoal .matomo-save-button .btn');
         await saveButton.click();
-
         await page.waitForNetworkIdle();
+    }
+
+    it("should show correct notification when creating a new goal", async function () {
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+
+        const goalName = 'My name';
+        const goalDescription = 'https://longurlwithlotsofthings.example.com/path/to/a/page?with=query&that=keeps_going';
+        await createGoal({
+          goalName,
+          goalDescription,
+          goalPattern: '/thank-you',
+        });
 
         // We check that the created goal id is in the View Goal Report url
         const createdGoalId = await page.$eval(
@@ -66,6 +73,11 @@ describe("ManageGoals", function () {
       try {
         await page.goto(manageGoalsUrl);
         await page.waitForNetworkIdle();
+        await createGoal({
+          goalName: 'Goal with wrapped trigger',
+          goalDescription: 'https://longurlwithlotsofthings.example.com/path/to/a/page?with=query&that=keeps_going',
+          goalPattern: '/asdasd/asdas/asdasd/asdas/asdasd/asdas/asdasd/asdas',
+        });
         await page.waitForSelector('div.manageGoals #entityEditContainer .card-content');
         expect(await page.screenshotSelector('div.manageGoals #entityEditContainer .card-content'))
           .to.matchImage('manage_goals_mobile_table_contained');
