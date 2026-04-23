@@ -57,6 +57,8 @@ When using Matomo for development you need to [install Matomo from the Git repos
 
 This will also give you access to a DDEV environment you can use. More details can be found in the [DDEV README](.ddev/README.md).
 
+The repository README is a good starting point for local development setup.
+
 ## Free trial 
 
 If you do not have a server or don't want to host yourself, you can use our Matomo Cloud service (21 day free trial): https://matomo.org/start-free-analytics-trial/
