@@ -27,6 +27,8 @@ use Piwik\Url;
  */
 class Evolution extends JqplotDataGenerator
 {
+    private const MIN_FORECAST_RATIO = 0.05;
+
     protected function getUnitsForColumnsToDisplay()
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
@@ -79,6 +81,7 @@ class Evolution extends JqplotDataGenerator
 
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
         $allSeriesData = [];
+        $allSeriesDataAvailability = [];
         foreach ($rowsToDisplay as $rowIdentifier) {
             $rowLabel = $rowIdentifier;
 
@@ -92,7 +95,7 @@ class Evolution extends JqplotDataGenerator
 
             foreach ($columnsToDisplay as $columnName) {
                 if (!$this->isComparing) {
-                    $this->setNonComparisonSeriesData($allSeriesData, $rowLabel, $columnName, $dataTable);
+                    $this->setNonComparisonSeriesData($allSeriesData, $allSeriesDataAvailability, $rowLabel, $columnName, $dataTable);
                 } else {
                     $this->setComparisonSeriesData($allSeriesData, $seriesLabels, $rowLabel, $columnName, $dataTable);
                 }
@@ -140,12 +143,14 @@ class Evolution extends JqplotDataGenerator
             $visualization->setAxisXOnClick($axisXOnClick);
         }
 
-        $this->setDataStates($visualization, $dataTables);
+        $dataStates = $this->setDataStates($visualization, $dataTables);
+        $visualization->setForecastData($this->buildForecastData($allSeriesData, $dataTables, $dataStates, $seriesUnits, $allSeriesDataAvailability));
     }
 
-    private function getSeriesData($rowLabel, $columnName, DataTable\Map $dataTable)
+    private function getSeriesData($rowLabel, $columnName, DataTable\Map $dataTable, &$seriesDataAvailability)
     {
         $seriesData = array();
+        $seriesDataAvailability = array();
         foreach ($dataTable->getDataTables() as $childTable) {
             // get the row for this label (use the first if $rowLabel is false)
             if ($rowLabel === false) {
@@ -157,11 +162,27 @@ class Evolution extends JqplotDataGenerator
             // get series data point. defaults to 0 if no row or no column value.
             if ($row === false) {
                 $seriesData[] = 0;
+                $seriesDataAvailability[] = false;
             } else {
-                $seriesData[] = $row->getColumn($columnName) ? : 0;
+                $value = $row->getColumn($columnName);
+                // Preserve the legacy `?: 0` coercion for the rendered series data so '0' /
+                // 0.0 values continue to flow through as plain int 0 (downstream consumers
+                // doing `=== 0` rely on it). The hasColumnValue check below tracks the
+                // separate "real 0 vs missing" distinction the forecast builder needs.
+                $seriesData[] = $value ?: 0;
+                $seriesDataAvailability[] = $this->hasColumnValue($value);
             }
         }
         return $seriesData;
+    }
+
+    /**
+     * Single source of truth for whether a column value should count as "this tick has data".
+     * Numeric 0 (and "0") counts as data; only false, null, and '' are treated as missing.
+     */
+    private function hasColumnValue($value): bool
+    {
+        return $value !== false && $value !== null && $value !== '';
     }
 
     /**
@@ -245,12 +266,13 @@ class Evolution extends JqplotDataGenerator
         }
     }
 
-    private function setNonComparisonSeriesData(array &$allSeriesData, $rowLabel, $columnName, DataTable\Map $dataTable)
+    private function setNonComparisonSeriesData(array &$allSeriesData, array &$allSeriesDataAvailability, $rowLabel, $columnName, DataTable\Map $dataTable)
     {
         $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
 
-        $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable);
+        $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable, $seriesDataAvailability);
         $allSeriesData[$seriesLabel] = $seriesData;
+        $allSeriesDataAvailability[$seriesLabel] = $seriesDataAvailability;
     }
 
     private function setComparisonSeriesData(array &$allSeriesData, array $seriesLabels, $rowLabel, $columnName, DataTable\Map $dataTable)
@@ -330,10 +352,10 @@ class Evolution extends JqplotDataGenerator
     /**
      * @param array<DataTable> $dataTables
      */
-    private function setDataStates(Chart $visualization, array $dataTables): void
+    private function setDataStates(Chart $visualization, array $dataTables): array
     {
         if (0 === count($dataTables)) {
-            return;
+            return [];
         }
 
         $dataTableDates = array_keys($dataTables);
@@ -369,6 +391,264 @@ class Evolution extends JqplotDataGenerator
             $previousState = $state;
         }
 
-        $visualization->setDataStates(array_values($dataStates));
+        $dataStates = array_values($dataStates);
+        $visualization->setDataStates($dataStates);
+
+        return $dataStates;
+    }
+
+    /**
+     * @param array<string, array<int, float|int>> $allSeriesData
+     * @param array<DataTable> $dataTables
+     * @param array<int, string> $dataStates
+     * @param array<string, string|false> $seriesUnits
+     * @param array<string, array<int, bool>> $allSeriesDataAvailability
+     * @return array<int, array<int, float|null>>
+     */
+    private function buildForecastData(array $allSeriesData, array $dataTables, array $dataStates, array $seriesUnits, array $allSeriesDataAvailability = []): array
+    {
+        if ($this->isComparing) {
+            return [];
+        }
+
+        if ([] === $allSeriesData || [] === $dataTables || [] === $dataStates) {
+            return [];
+        }
+
+        /** @var Site|null $site */
+        $site = reset($dataTables)->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX);
+        if (empty($site)) {
+            return [];
+        }
+
+        $dataTableList = array_values($dataTables);
+        $seriesDataList = array_values($allSeriesData);
+        $seriesUnitsList = array_values($seriesUnits);
+        $seriesDataAvailabilityList = array_values($allSeriesDataAvailability);
+
+        $forecastData = [];
+
+        foreach ($seriesDataList as $seriesIndex => $seriesData) {
+            $seriesForecasts = [];
+            // Reset on every non-rendered tick so a suppressed or skipped forecast does not
+            // bridge into later zero-data ticks; later ticks must restart from historical priors.
+            $previousForecastValue = null;
+            $isPercentSeries = ($seriesUnitsList[$seriesIndex] ?? false) === '%';
+            $seriesDataAvailability = $seriesDataAvailabilityList[$seriesIndex] ?? [];
+
+            foreach ($seriesData as $tickIndex => $currentValueRaw) {
+                $state = $dataStates[$tickIndex] ?? ArchiveState::COMPLETE;
+
+                if (ArchiveState::INCOMPLETE !== $state) {
+                    $seriesForecasts[] = null;
+                    $previousForecastValue = null;
+                    continue;
+                }
+
+                $currentValue = (float) $currentValueRaw;
+                $dataTable = $dataTableList[$tickIndex] ?? null;
+
+                if (empty($dataTable)) {
+                    $seriesForecasts[] = null;
+                    $previousForecastValue = null;
+                    continue;
+                }
+
+                $elapsedRatio = $this->getElapsedRatio($dataTable, $site);
+                $ratio = max($elapsedRatio, self::MIN_FORECAST_RATIO);
+                $linearForecast = $currentValue / $ratio;
+
+                $pastValues = $this->getHistoricalSamplesForSeries($seriesData, $dataTableList, $dataStates, $tickIndex, $dataTable, $seriesDataAvailability);
+                $baseForecast = $linearForecast;
+                $priorForecast = $linearForecast;
+
+                if ([] !== $pastValues) {
+                    $priorForecast = array_sum($pastValues) / count($pastValues);
+                }
+
+                $periodLabel = $this->getPeriodLabel($dataTable);
+                $weight = $this->getPriorForecastWeight(count($pastValues), $periodLabel);
+
+                if ($this->shouldUseHistoricalPercentForecast($isPercentSeries, $currentValue, $seriesDataAvailability[$tickIndex] ?? true)) {
+                    if ([] !== $pastValues) {
+                        $baseForecast = $priorForecast;
+                    } elseif ($previousForecastValue !== null) {
+                        $baseForecast = $previousForecastValue;
+                    } else {
+                        $seriesForecasts[] = null;
+                        $previousForecastValue = null;
+                        continue;
+                    }
+                } elseif ($this->shouldUseForecastAsSyntheticData($currentValue, $previousForecastValue)) {
+                    $baseForecast = $previousForecastValue;
+                }
+
+                $forecastValue = $this->blendForecastValue($baseForecast, $priorForecast, $weight);
+
+                if ($baseForecast >= 0 && $priorForecast >= 0) {
+                    $forecastValue = max(0, $forecastValue);
+                }
+
+                if (!$this->shouldRenderForecastValue($forecastValue, $currentValue)) {
+                    $seriesForecasts[] = null;
+                    $previousForecastValue = null;
+                    continue;
+                }
+
+                $roundedForecast = round($forecastValue, 4);
+                $seriesForecasts[] = $roundedForecast;
+                $previousForecastValue = $roundedForecast;
+            }
+
+            $forecastData[] = $seriesForecasts;
+        }
+
+        return $forecastData;
+    }
+
+    /**
+     * @param array<int, float|int> $seriesData
+     * @param array<int, DataTable> $dataTableList
+     * @param array<int, string> $dataStates
+     * @param array<int, bool> $seriesDataAvailability
+     * @return array<int, float>
+     */
+    private function getHistoricalSamplesForSeries(
+        array $seriesData,
+        array $dataTableList,
+        array $dataStates,
+        int $currentTickIndex,
+        DataTable $currentDataTable,
+        array $seriesDataAvailability = []
+    ): array {
+        $samples = [];
+        $periodLabel = $this->getPeriodLabel($currentDataTable);
+        $currentWeekDay = (int) $this->getPeriodStartDayOfWeek($currentDataTable);
+
+        for ($tickIndex = 0; $tickIndex < $currentTickIndex; ++$tickIndex) {
+            if (($dataStates[$tickIndex] ?? null) !== ArchiveState::COMPLETE) {
+                continue;
+            }
+
+            if (!isset($seriesData[$tickIndex])) {
+                continue;
+            }
+
+            if (($seriesDataAvailability[$tickIndex] ?? true) === false) {
+                continue;
+            }
+
+            $value = (float) $seriesData[$tickIndex];
+            $dataTable = $dataTableList[$tickIndex] ?? null;
+
+            if (empty($dataTable)) {
+                continue;
+            }
+
+            if ('day' === $periodLabel) {
+                if ((int) $this->getPeriodStartDayOfWeek($dataTable) !== $currentWeekDay) {
+                    continue;
+                }
+            }
+
+            $samples[] = $value;
+        }
+
+        return $this->removeLeadingZeroSamples($samples);
+    }
+
+    /**
+     * @param array<int, float> $samples
+     * @return array<int, float>
+     */
+    private function removeLeadingZeroSamples(array $samples): array
+    {
+        while ([] !== $samples && 0.0 === (float) reset($samples)) {
+            array_shift($samples);
+        }
+
+        return array_values($samples);
+    }
+
+    private function shouldUseHistoricalPercentForecast(bool $isPercentSeries, float $currentValue, bool $hasCurrentData): bool
+    {
+        return $isPercentSeries && !$hasCurrentData && $currentValue <= 0;
+    }
+
+    private function shouldRenderForecastValue(float $forecastValue, float $currentDisplayValue): bool
+    {
+        return $forecastValue >= $currentDisplayValue;
+    }
+
+    private function shouldUseForecastAsSyntheticData(float $currentValue, ?float $previousForecastValue): bool
+    {
+        if ($previousForecastValue === null) {
+            return false;
+        }
+
+        return $currentValue <= 0;
+    }
+
+    private function blendForecastValue(float $baseForecast, float $priorForecast, float $weight): float
+    {
+        return ((1 - $weight) * $baseForecast) + ($weight * $priorForecast);
+    }
+
+    private function getPriorForecastWeight(int $sampleCount, string $periodLabel): float
+    {
+        if ($sampleCount <= 0) {
+            return 0.0;
+        }
+
+        if ('day' === $periodLabel) {
+            return min(0.7, $sampleCount / 5);
+        }
+
+        return min(0.5, $sampleCount / 4);
+    }
+
+    private function getElapsedRatio(DataTable $dataTable, Site $site): float
+    {
+        /** @var Period $period */
+        $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+        $siteTz = $site->getTimezone();
+
+        // date1/date2 are site-local wall-clock; setTimezone($siteTz)->getTimestamp() returns
+        // the real UTC instant of that wall-clock moment.
+        $startTs = $period->getDateTimeStart()->setTimezone($siteTz)->getTimestamp();
+        $endTs = $period->getDateTimeEnd()->setTimezone($siteTz)->getTimestamp();
+
+        // ts_archived is stored as UTC, so getTimestampUTC() keeps it real UTC; cap by current
+        // real UTC so the ratio reflects actual elapsed time in the site's day.
+        $elapsedTs = Date::now()->getTimestamp();
+        $archivedDateStr = $dataTable->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
+        if (!empty($archivedDateStr)) {
+            $archivedTs = Date::factory($archivedDateStr)->getTimestampUTC();
+            if ($archivedTs < $elapsedTs) {
+                $elapsedTs = $archivedTs;
+            }
+        }
+
+        $elapsedTs = min($elapsedTs, $endTs);
+
+        if ($elapsedTs <= $startTs || $endTs <= $startTs) {
+            return 0.0;
+        }
+
+        return min(1.0, max(0.0, ($elapsedTs - $startTs) / ($endTs - $startTs)));
+    }
+
+    private function getPeriodLabel(DataTable $dataTable): string
+    {
+        /** @var Period $period */
+        $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+        return $period->getLabel();
+    }
+
+    private function getPeriodStartDayOfWeek(DataTable $dataTable): string
+    {
+        /** @var Period $period */
+        $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+        return $period->getDateStart()->toString('N');
     }
 }
