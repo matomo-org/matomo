@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
 use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
@@ -78,7 +79,7 @@ class CommonTest extends IntegrationTestCase
         $this->assertTrue(CampaignParameterValuesMasked::isPlaceholderValue($placeholder));
         $this->assertFalse(CampaignParameterValuesMasked::isPlaceholderValue('newsletter'));
         $this->assertSame(
-            '(UTM parameter discarded)',
+            Piwik::translate('PrivacyManager_CampaignParameterDiscarded'),
             CampaignParameterValuesMasked::formatValue($placeholder)
         );
     }
