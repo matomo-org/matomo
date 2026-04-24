@@ -28,6 +28,7 @@ class CampaignParameterValuesMasked implements
 
     /** @use MeasurableGetterTrait<bool> */
     use MeasurableGetterTrait;
+
     public const DISCARDED_CAMPAIGN_PLACEHOLDER = '__discarded_by_policy__';
 
     /** @var bool */

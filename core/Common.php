@@ -13,6 +13,7 @@ use Exception;
 use Piwik\CliMulti\Process;
 use Piwik\Config\DatabaseConfig;
 use Piwik\Config\GeneralConfig;
+use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
