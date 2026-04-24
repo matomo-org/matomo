@@ -11,7 +11,7 @@
 @_selector-dropdown_margin-top: 2px;
 
 
-.piwikSelector {
+.piwikSelector:not(.quick-access) {
   display: flex;
   border: @_selector-button_border;
   border-radius: @_selector-button_border-radius;
@@ -55,8 +55,9 @@
 
     .icon:not(.icon-fixed) {
       float: right;
+
       &::after {
-        clear:left;
+        clear: left;
         content: ' ';
       }
     }
@@ -74,12 +75,8 @@
     }
   }
 
-  /* Quick access specific: input */
-  #root .top_controls &.quick-access input {
-    border-radius: @_selector-button_border-radius !important;
-  }
-
   /* Period selector specific: left & right arrows */
+
   .move-period {
     background-color: @_selector-button_color-background;
   }
@@ -96,7 +93,12 @@
     border-radius: 0;
   }
 
-  /* Dropdown */
+  .selectorLegacyCompatibility();
+}
+
+/* Dropdown */
+
+.piwikSelector {
   .dropdown {
     .font-default(11px, 15px);
     display: none;
@@ -126,6 +128,7 @@
   &.active .dropdown {
     background-color: @_selector-dropdown_color-background;
   }
+}
 
 /*
  * ============================================================================
@@ -143,8 +146,6 @@
  * redesigned component-by-component with explicit visual contracts.
  * ============================================================================
  */
-  .selectorLegacyCompatibility();
-}
 
 /* A mixin to by-pass Stylelint errors */
 .selectorLegacyCompatibility() {
@@ -184,6 +185,10 @@
       vertical-align: top;
       padding-left: 6px;
     }
+  }
+
+  &.periodSelector-withPrevNext button.title {
+    width: auto;
   }
 
   .move-period {
