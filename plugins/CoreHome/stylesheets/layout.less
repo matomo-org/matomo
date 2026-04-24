@@ -210,7 +210,7 @@ nav {
 
   #secondNavBar {
     width: 224px;
-    height: fit-content;
+    min-height: 100vh;
     flex: none;
     background-color: @theme-color-menu-contrast-background;
     box-shadow: none !important;
@@ -218,6 +218,7 @@ nav {
     .navbar {
       padding-top: 16px;
       padding-bottom: 20px;
+      box-shadow: none;
 
       .menu-icon {
         padding-right: 13px;
@@ -594,6 +595,6 @@ nav {
   }
 }
 
-.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
+.z-depth-1, nav, .card-panel, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
   box-shadow: @default-box-shade;
 }

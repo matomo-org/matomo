@@ -12,6 +12,8 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 use Piwik\Changes\Model as ChangesModel;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Plugins\CoreAdminHome\CoreAdminHome;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CoreAdminHome\OptOutManager;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
@@ -53,6 +55,8 @@ class ControllerTest extends IntegrationTestCase
             $idSitesView = [1],
             $identity = 'superUserLogin'
         );
+        Fixture::resetTranslations();
+        Fixture::loadAllTranslations();
         if (!Fixture::siteCreated(2)) {
             Fixture::createWebsite('2012-01-02 00:00:00');
         }
@@ -102,6 +106,57 @@ class ControllerTest extends IntegrationTestCase
         $this->assertStringNotContainsString('>ProfessionalServices - Professional services bundled change<', $html);
     }
 
+    public function testModifyErrorPageReplacesInvalidWebsiteMessage(): void
+    {
+        $_GET = ['idSite' => '999', 'period' => 'day', 'date' => 'today'];
+        $_REQUEST = $_GET;
+
+        $output = Piwik_GetErrorMessagePage(
+            'Original message',
+            false,
+            true,
+            true,
+            'custom-logo.svg',
+            'custom-favicon.png',
+            false,
+            '',
+            false,
+            'https://example.test/redirect',
+            5
+        );
+        $plugin = new CoreAdminHome();
+        $plugin->onModifyErrorPage(
+            $output,
+            new UnexpectedWebsiteFoundException("The requested website id = 999 couldn't be found")
+        );
+
+        $this->assertStringContainsString('This URL is not valid. The content may have been moved, deleted, or is no longer available', $output);
+        $this->assertStringContainsString("website id was set to '999' on the URL", $output);
+        $this->assertStringContainsString('Please go back to your previous page', $output);
+        $this->assertStringContainsString('return to your dashboard', $output);
+        $this->assertStringNotContainsString('Original message', $output);
+        $this->assertStringContainsString('custom-logo.svg', $output);
+        $this->assertStringContainsString('custom-favicon.png', $output);
+        $this->assertStringContainsString('https://example.test/redirect', $output);
+        $this->assertStringContainsString('setTimeout(function(){window.location.href="https://example.test/redirect"}', $output);
+    }
+
+    public function testModifyErrorPageDoesNotReplaceOtherUnexpectedWebsiteExceptions(): void
+    {
+        $_GET = ['idSite' => '1', 'period' => 'day', 'date' => 'today'];
+        $_REQUEST = $_GET;
+
+        $output = Piwik_GetErrorMessagePage('Original message', false, true, true, false, false, false, '', false);
+        $plugin = new CoreAdminHome();
+        $plugin->onModifyErrorPage(
+            $output,
+            new UnexpectedWebsiteFoundException("The requested website id = 999 couldn't be found")
+        );
+
+        $this->assertStringContainsString('Original message', $output);
+        $this->assertStringNotContainsString('This URL is not valid. The content may have been moved, deleted, or is no longer available', $output);
+    }
+
     public function testWhatIsNewRewritesInternalLinksToDefaultReportIdSite(): void
     {
         $this->deleteAllChanges();
@@ -125,7 +180,8 @@ class ControllerTest extends IntegrationTestCase
         $html = $this->controller->whatIsNew();
 
         $this->assertStringContainsString('index.php?module=UsersManager&amp;action=userSettings&amp;idSite=2', $html);
-        $this->assertStringContainsString('/index.php?module=CoreHome&amp;action=index&amp;idSite=2#?idSite=2&amp;category=General_Visitors', $html);
+        $this->assertStringContainsString('index.php?module=CoreHome&amp;action=index&amp;idSite=2#?idSite=2&amp;category=General_Visitors', $html);
+        $this->assertStringNotContainsString('href="/index.php?', $html);
         $this->assertStringNotContainsString('idSite=1', $html);
     }
 

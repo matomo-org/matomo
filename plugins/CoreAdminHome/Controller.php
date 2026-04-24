@@ -411,6 +411,12 @@ class Controller extends ControllerAdmin
             return $link;
         }
 
+        // Use a path relative to the current Matomo install so subdirectory installs
+        // don't resolve internal "What's New" links against the web root.
+        if (strpos($link, '/index.php') === 0) {
+            $link = substr($link, 1);
+        }
+
         $parsedLink = @parse_url($link);
         if (!is_array($parsedLink)) {
             return $link;

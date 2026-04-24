@@ -11,6 +11,8 @@ describe("ManageGoals", function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\SomePageGoalVisitsWithConversions';
 
     const manageGoalsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=Goals_ManageGoals";
+    const defaultViewport = { width: 1350, height: 768 };
+    const smallerViewport = { width: 800, height: 900 };
 
     async function fillField(selector, value) {
         await page.$eval(selector, (el) => {
@@ -21,22 +23,31 @@ describe("ManageGoals", function () {
         await page.type(selector, value);
     }
 
-    it("should show correct notification when creating a new goal", async function () {
-        await page.goto(manageGoalsUrl);
-        await page.waitForNetworkIdle();
-
+    async function createGoal({ goalName, goalDescription, goalPattern }) {
         await page.waitForSelector('#add-goal');
         await page.click('#add-goal');
         await page.waitForSelector('.addEditGoal', { visible: true });
 
-        const goalName = 'My name';
         await fillField('#goal_name', goalName);
-        await fillField('#pattern', '/thank-you');
+        await fillField('#goal_description', goalDescription);
+        await fillField('#pattern', goalPattern);
 
         const saveButton = await page.waitForSelector('.addEditGoal .matomo-save-button .btn');
         await saveButton.click();
-
         await page.waitForNetworkIdle();
+    }
+
+    it("should show correct notification when creating a new goal", async function () {
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+
+        const goalName = 'My name';
+        const goalDescription = 'https://longurlwithlotsofthings.example.com/path/to/a/page?with=query&that=keeps_going';
+        await createGoal({
+          goalName,
+          goalDescription,
+          goalPattern: '/thank-you',
+        });
 
         // We check that the created goal id is in the View Goal Report url
         const createdGoalId = await page.$eval(
@@ -81,6 +92,25 @@ describe("ManageGoals", function () {
 
         await page.click('.entityCancelLink');
         await page.waitForNetworkIdle();
+    });
+  
+    it("description and trigger with long words should wrap", async function () {
+      await page.webpage.setViewport(smallerViewport);
+
+      try {
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+        await createGoal({
+          goalName: 'Goal with wrapped trigger',
+          goalDescription: 'https://longurlwithlotsofthings.example.com/path/to/a/page?with=query&that=keeps_going',
+          goalPattern: '/asdasd/asdas/asdasd/asdas/asdasd/asdas/asdasd/asdas',
+        });
+        await page.waitForSelector('div.manageGoals #entityEditContainer .card-content');
+        expect(await page.screenshotSelector('div.manageGoals #entityEditContainer .card-content'))
+          .to.matchImage('manage_goals_mobile_table_contained');
+      } finally {
+        await page.webpage.setViewport(defaultViewport);
+      }
     });
 
     it("should show the correct notification when editing the goal", async function () {

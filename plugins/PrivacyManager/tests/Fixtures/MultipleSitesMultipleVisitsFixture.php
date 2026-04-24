@@ -367,7 +367,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
 
     private function insertArchiveRow($date, $row)
     {
-        $table = ArchiveTableCreator::getNumericTable($date);
+        $table = ArchiveTableCreator::getNumericTable($date, true);
         $sql = "INSERT INTO `%s` (idarchive, idsite, name, value, date1, date2, period, ts_archived) VALUES ('%s')";
 
         $row['period'] = Day::PERIOD_ID;

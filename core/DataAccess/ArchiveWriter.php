@@ -372,12 +372,12 @@ class ArchiveWriter
             return $this->getTableNumeric();
         }
 
-        return ArchiveTableCreator::getBlobTable($this->dateStart);
+        return ArchiveTableCreator::getBlobTable($this->dateStart, true);
     }
 
     protected function getTableNumeric()
     {
-        return ArchiveTableCreator::getNumericTable($this->dateStart);
+        return ArchiveTableCreator::getNumericTable($this->dateStart, true);
     }
 
     protected function getInsertFields()

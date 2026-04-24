@@ -76,7 +76,7 @@ class ArchiveCronTest extends SystemTestCase
         Fixture::checkResponse($t->doTrackPageView('a page title'));
 
         // update ts_archived for archives in 2012_08 so they will be invalidated and rearchived
-        $sql = "UPDATE " . ArchiveTableCreator::getNumericTable(Date::factory('2012-08-01')) . " SET ts_archived = ?";
+        $sql = "UPDATE " . ArchiveTableCreator::getNumericTable(Date::factory('2012-08-01'), true) . " SET ts_archived = ?";
         Db::query($sql, [Date::now()->subHour(2)->getDatetime()]);
     }
 
@@ -251,7 +251,7 @@ class ArchiveCronTest extends SystemTestCase
 
         $this->runArchivePhpCron();
 
-        $table = ArchiveTableCreator::getNumericTable(Date::factory($dateToTest));
+        $table = ArchiveTableCreator::getNumericTable(Date::factory($dateToTest), true);
         $doneFlags = Db::fetchAll("SELECT `period`, `date1`, `date2`, `value` FROM `$table` WHERE name LIKE 'done.ExamplePlugin%' ORDER BY `period` ASC , `date1` ASC, `date2` ASC");
         $expectedDoneFlags = [
             ['period' => Day::PERIOD_ID, 'date1' => '2007-04-05', 'date2' => '2007-04-05', 'value' => ArchiveWriter::DONE_OK],
@@ -274,7 +274,7 @@ class ArchiveCronTest extends SystemTestCase
         }
 
         // re archiving should not produce any ExamplePlugin specific archives, but 382 done flags for certain periods and segments
-        $table = ArchiveTableCreator::getNumericTable(Date::factory('2012-08-09'));
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2012-08-09'), true);
         self::assertEquals(0, Db::fetchOne("SELECT count(*) FROM `$table` WHERE name LIKE 'done.ExamplePlugin%'"));
         self::assertEquals(382, Db::fetchOne("SELECT count(*) FROM `$table` WHERE name LIKE 'done%'"));
 
@@ -320,7 +320,7 @@ class ArchiveCronTest extends SystemTestCase
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory($dateToRequest));
 
-        $table = ArchiveTableCreator::getNumericTable(Date::factory($dateToRequest));
+        $table = ArchiveTableCreator::getNumericTable(Date::factory($dateToRequest), true);
 
         // three whole plugin archives from previous tests
         $doneFlags = Db::fetchAll("SELECT `period`, `date1`, `date2`, `value` FROM `$table` WHERE name LIKE 'done.ExamplePlugin%' ORDER BY `period` ASC , `date1` ASC, `date2` ASC, `value` ASC");
@@ -408,8 +408,8 @@ class ArchiveCronTest extends SystemTestCase
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         unset(Config::getInstance()->General['archiving_range_force_on_browser_request']);
 
-        $table = ArchiveTableCreator::getNumericTable(Date::factory('2012-08-09'));
-        $blobTable = ArchiveTableCreator::getBlobTable(Date::factory('2012-08-09'));
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2012-08-09'), true);
+        $blobTable = ArchiveTableCreator::getBlobTable(Date::factory('2012-08-09'), true);
 
         // remove existing range archives
         $idArchives = Db::fetchAll("SELECT DISTINCT idarchive FROM `$table` WHERE period = 5");

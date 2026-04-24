@@ -212,7 +212,7 @@ class PasswordResetter
         $this->checkNewPassword($newPassword);
 
         // 'anonymous' has no password and cannot be reset
-        if ($loginOrEmail === 'anonymous') {
+        if (strtolower($loginOrEmail) === 'anonymous') {
             throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
         }
 

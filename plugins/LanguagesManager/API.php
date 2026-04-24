@@ -299,7 +299,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getLanguageForUser(string $login)
     {
-        if ($login == 'anonymous') {
+        if (strtolower($login) === 'anonymous') {
             return false;
         }
 
@@ -344,7 +344,7 @@ class API extends \Piwik\Plugin\API
      */
     public function uses12HourClockForUser(string $login): bool
     {
-        if ($login === 'anonymous') {
+        if (strtolower($login) === 'anonymous') {
             return false;
         }
 
@@ -362,7 +362,7 @@ class API extends \Piwik\Plugin\API
      */
     public function set12HourClockForUser(string $login, bool $use12HourClock): bool
     {
-        if ($login === 'anonymous') {
+        if (strtolower($login) === 'anonymous') {
             return false;
         }
 

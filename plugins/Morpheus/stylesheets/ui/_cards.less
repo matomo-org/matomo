@@ -20,6 +20,10 @@ h1,
 .card {
   background-color: @theme-color-background-contrast;
 
+  border-radius: 8px;
+  box-shadow: none;
+  border: 1px solid @theme-color-background-lowContrast;
+
   h1,
   h2,
   h3,
@@ -37,6 +41,8 @@ h1,
       box-shadow: 0 0;
       width: ~"calc(100% + 40px)";
       border-radius: 0;
+      border-right: none;
+      border-left: none;
     }
   }
 
@@ -44,9 +50,11 @@ h1,
     color: @theme-color-text;
 
     .card-title {
-      margin-bottom: 16px;
+      font-size: 20px;
+      margin-bottom: 20px;
       display: block;
       font-weight: 400;
+      line-height: 24px;
     }
   }
 
@@ -77,5 +85,25 @@ h1,
 
   .card-image {
     margin: 25px 20px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .card > .card-content {
+    .contentTableWrapper {
+      margin: 16px 0 16px -20px;
+      width: ~"calc(100% + 40px)";
+      overflow-x: auto;
+    }
+
+    .contentTableWrapper > .card-table {
+      margin: 0;
+      min-width: 100%;
+      width: auto;
+    }
+  }
+
+  .contentTableWrapper + .tableActionBar {
+    margin: 0 0 0 -20px;
   }
 }

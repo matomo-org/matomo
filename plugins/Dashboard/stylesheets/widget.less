@@ -1,14 +1,9 @@
 .widget {
     .font-default(13px, 18px);
     background: @theme-color-widget-background;
-    border-radius: 2px;
+    border-radius: 8px;
     position: relative;
-    box-shadow: @default-box-shade;
-    border: 1px solid @theme-color-widget-background !important;
-
-    &:hover, &:focus {
-        box-shadow: @default-box-shade;
-    }
+    border: 1px solid @theme-color-background-lowContrast !important;
 
     h2 {
         font-weight: normal;
@@ -40,11 +35,12 @@
         cursor: move;
         font-size: 10pt;
         font-weight: normal;
-        padding-bottom: 4px;
+        border-radius: 8px;
         background: @theme-color-widget-title-background;
         h3 {
-            .font-default(18px, 18px);
+            .font-default(20px, 24px);
             color: @theme-color-widget-title-text;
+            padding: 20px !important;
         }
         .button {
             margin: 16px 8px 0 0;
@@ -65,7 +61,7 @@
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='@{theme-color-widget-title-background}',GradientType=1 );
         }
-        
+
         &:hover .buttons {
             display:block;
         }
@@ -89,10 +85,9 @@
         .card {
             box-shadow: 0 0;
             padding: 0 10px;
-
+            border: none;
             .card-content {
                 padding: 0;
-                border-radius: 0
             }
         }
         .jqplot-graph {
@@ -127,7 +122,7 @@
 
     .card {
         margin: 0;
-        border-radius: 0;
+        border-radius: 8px;
     }
 
     .datatableHeaderMessage, .datatableFooterMessage {

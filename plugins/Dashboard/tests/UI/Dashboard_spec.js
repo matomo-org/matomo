@@ -80,6 +80,6 @@ describe("Dashboard", function () {
     await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
     await page.waitForNetworkIdle();
 
-    expect(await page.screenshot({ fullPage: true })).to.matchImage('dashboard1_mobile');
+    expect(await page.screenshotSelector('.top_controls, #dashboard')).to.matchImage('dashboard1_mobile');
   });
 });

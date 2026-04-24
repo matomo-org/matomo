@@ -10,7 +10,10 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\API\Request;
+use Piwik\Common;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
+use Piwik\Site;
 use Piwik\ProxyHttp;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
@@ -30,7 +33,86 @@ class CoreAdminHome extends \Piwik\Plugin
             'Template.jsGlobalVariables' => 'addJsGlobalVariables',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'System.addSystemSummaryItems' => 'addSystemSummaryItems',
+            'FrontController.modifyErrorPage' => 'onModifyErrorPage',
         );
+    }
+
+    public function onModifyErrorPage(&$output, $exception)
+    {
+        if (
+            empty($output)
+            || !$exception instanceof UnexpectedWebsiteFoundException
+        ) {
+            return;
+        }
+
+        $requestedIdSite = $this->getRequestedIdSite();
+        if ($requestedIdSite === null) {
+            return;
+        }
+
+        if (!$this->isInvalidRequestedIdSite($requestedIdSite)) {
+            return;
+        }
+
+        $message = sprintf(
+            '<p>%s</p><p>%s</p>',
+            Piwik::translate('CoreAdminHome_InvalidSiteUrlError', Common::sanitizeInputValue($requestedIdSite)),
+            Piwik::translate('CoreAdminHome_InvalidSiteUrlErrorHelp')
+        );
+
+        $output = $this->replaceErrorPageMessage($output, $message);
+    }
+
+    private function getRequestedIdSite(): ?string
+    {
+        foreach ([$_GET, $_POST] as $request) {
+            if (!isset($request['idSite']) || is_array($request['idSite'])) {
+                continue;
+            }
+
+            $idSite = trim((string) $request['idSite']);
+            if ($idSite !== '') {
+                return $idSite;
+            }
+        }
+
+        return null;
+    }
+
+    private function isInvalidRequestedIdSite(string $requestedIdSite): bool
+    {
+        if (!ctype_digit($requestedIdSite)) {
+            return false;
+        }
+
+        try {
+            new Site((int) $requestedIdSite);
+            return false;
+        } catch (UnexpectedWebsiteFoundException $exception) {
+            return true;
+        }
+    }
+
+    private function replaceErrorPageMessage(string $output, string $message): string
+    {
+        $updatedOutput = preg_replace('/<h2>.*?<\/h2>/s', '<h2>' . $message . '</h2>', $output, 1);
+        if ($updatedOutput !== null && $updatedOutput !== $output) {
+            return $updatedOutput;
+        }
+
+        $updatedOutput = preg_replace(
+            '/<div class=\'alert alert-danger\'><strong>Error:<\/strong> .*?<\/div>/s',
+            "<div class='alert alert-danger'><strong>Error:</strong> $message</div>",
+            $output,
+            1
+        );
+
+        if ($updatedOutput !== null) {
+            return $updatedOutput;
+        }
+
+        return $output;
     }
 
     public function addSystemSummaryItems(&$systemSummary)

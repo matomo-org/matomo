@@ -5468,7 +5468,7 @@
 		<subcategory>
 			<id>Goals_ManageGoals</id>
 			<name>Manage Goals</name>
-			<order>9999</order>
+			<order>800</order>
 			<help>&lt;p&gt;This section allows you to create and edit Goals for specific actions which visitors take on your site, such as visiting a certain page or submitting a specific form. Goal reports vary but can help you track your website performance against business objectives such as lead generation, online sales and increased brand exposure.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/tracking-goals-web-analytics/&quot;&gt;Learn more in our Goals guide here.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>

@@ -579,7 +579,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
     private function insertArchiveRows(Date $archiveDate, array $dummyArchiveData)
     {
-        $numericTable = ArchiveTableCreator::getNumericTable($archiveDate);
+        $numericTable = ArchiveTableCreator::getNumericTable($archiveDate, true);
         foreach ($dummyArchiveData as $row) {
             // done row
             $this->insertTestArchiveRow($numericTable, $row);
@@ -594,7 +594,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             $this->insertTestArchiveRow($numericTable, $row);
         }
 
-        $blobTable = ArchiveTableCreator::getBlobTable($archiveDate);
+        $blobTable = ArchiveTableCreator::getBlobTable($archiveDate, true);
         foreach ($dummyArchiveData as $row) {
             // two blobs
             $row['name'] = 'blobname';
@@ -703,8 +703,8 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
     public function assertArchivesDoNotExist($expectedPurgedArchiveIds, $archiveDate)
     {
-        $numericTable = ArchiveTableCreator::getNumericTable($archiveDate);
-        $blobTable = ArchiveTableCreator::getBlobTable($archiveDate);
+        $numericTable = ArchiveTableCreator::getNumericTable($archiveDate, true);
+        $blobTable = ArchiveTableCreator::getBlobTable($archiveDate, true);
 
         $numericPurgedArchiveCount = $this->getArchiveRowCountWithId($numericTable, $expectedPurgedArchiveIds);
         $this->assertEquals(0, $numericPurgedArchiveCount);
@@ -715,8 +715,8 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
     public function assertArchivesExist($expectedPresentArchiveIds, $archiveDate)
     {
-        $numericTable = ArchiveTableCreator::getNumericTable($archiveDate);
-        $blobTable = ArchiveTableCreator::getBlobTable($archiveDate);
+        $numericTable = ArchiveTableCreator::getNumericTable($archiveDate, true);
+        $blobTable = ArchiveTableCreator::getBlobTable($archiveDate, true);
 
         $numericArchiveCount = $this->getArchiveRowCountWithId($numericTable, $expectedPresentArchiveIds);
         $expectedNumericRowCount = count($expectedPresentArchiveIds) * 3; // two metrics + 1 done row

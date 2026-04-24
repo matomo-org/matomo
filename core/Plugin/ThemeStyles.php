@@ -205,7 +205,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundBase = ['#eff0f1', '#151819'];
+    public $colorBackgroundBase = ['#f5f5f5', '#151819'];
 
     /**
      * @var string|array<string>

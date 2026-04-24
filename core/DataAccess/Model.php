@@ -109,7 +109,7 @@ class Model
     }
 
     public function updateArchiveAsInvalidated(
-        $archiveTable,
+        ?string $archiveTable,
         $idSites,
         $allPeriodsToInvalidate,
         ?Segment $segment = null,
@@ -120,11 +120,6 @@ class Model
         if (empty($idSites)) {
             return 0;
         }
-
-        // select all idarchive/name pairs we want to invalidate
-        $sql = "SELECT idarchive, idsite, period, date1, date2, `name`, `value`
-                  FROM `$archiveTable`
-                 WHERE idsite IN (" . implode(',', $idSites) . ") AND value <> " . ArchiveWriter::DONE_PARTIAL;
 
         $periodCondition = '';
         if (!empty($allPeriodsToInvalidate)) {
@@ -151,8 +146,6 @@ class Model
             }
             $periodCondition .= ")";
         }
-        $sql .= $periodCondition;
-
         if (!empty($name)) {
             if (strpos($name, '.') !== false) {
                 [$plugin, $name] = explode('.', $name, 2);
@@ -178,15 +171,19 @@ class Model
             }
         }
 
-
-        $sql .= " AND $nameCondition";
-
         $idArchives = [];
         $archivesToInvalidate = [];
 
         // update each archive as invalidated (but only for full archives or plugin archives, not for partial archives.
         // DONE_INVALIDATED also implies that an archive is whole and not partial, and we want to avoid that.)
-        if (empty($name)) {
+        if (!empty($archiveTable) && empty($name)) {
+            // select all idarchive/name pairs we want to invalidate
+            $sql = "SELECT idarchive, idsite, period, date1, date2, `name`, `value`
+                      FROM `$archiveTable`
+                     WHERE idsite IN (" . implode(',', $idSites) . ") AND value <> " . ArchiveWriter::DONE_PARTIAL
+                . $periodCondition
+                . " AND $nameCondition";
+
             $archivesToInvalidate = Db::fetchAll($sql);
             $idArchives = array_column($archivesToInvalidate, 'idarchive');
 
@@ -420,7 +417,7 @@ class Model
         return Db::fetchAll($query);
     }
 
-    public function deleteArchivesWithPeriod($numericTable, $blobTable, $period, $date)
+    public function deleteArchivesWithPeriod($numericTable, ?string $blobTable, $period, $date)
     {
         if (SettingsServer::isArchivePhpTriggered()) {
             StaticContainer::get(LoggerInterface::class)->info('deleteArchivesWithPeriod: ' . $numericTable . ' with period = ' . $period . ' and date = ' . $date);
@@ -432,21 +429,23 @@ class Model
         $queryObj = Db::query(sprintf($query, $numericTable), $bind);
         $deletedRows = $queryObj->rowCount();
 
-        try {
-            $queryObj = Db::query(sprintf($query, $blobTable), $bind);
-            $deletedRows += $queryObj->rowCount();
-        } catch (Exception $e) {
-            // Individual blob tables could be missing
-            $this->logger->debug("Unable to delete archives by period from {blobTable}.", array(
-                'blobTable' => $blobTable,
-                'exception' => $e,
-            ));
+        if (!empty($blobTable)) {
+            try {
+                $queryObj = Db::query(sprintf($query, $blobTable), $bind);
+                $deletedRows += $queryObj->rowCount();
+            } catch (Exception $e) {
+                // Individual blob tables could be missing
+                $this->logger->debug("Unable to delete archives by period from {blobTable}.", array(
+                    'blobTable' => $blobTable,
+                    'exception' => $e,
+                ));
+            }
         }
 
         return $deletedRows;
     }
 
-    public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
+    public function deleteArchiveIds($numericTable, ?string $blobTable, $idsToDelete)
     {
         $idsToDelete = array_values($idsToDelete);
 
@@ -456,15 +455,17 @@ class Model
         $queryObj = Db::query(sprintf($query, $numericTable), array());
         $deletedRows = $queryObj->rowCount();
 
-        try {
-            $queryObj = Db::query(sprintf($query, $blobTable), array());
-            $deletedRows += $queryObj->rowCount();
-        } catch (Exception $e) {
-            // Individual blob tables could be missing
-            $this->logger->debug("Unable to delete archive IDs from {blobTable}.", array(
-                'blobTable' => $blobTable,
-                'exception' => $e,
-            ));
+        if (!empty($blobTable)) {
+            try {
+                $queryObj = Db::query(sprintf($query, $blobTable), array());
+                $deletedRows += $queryObj->rowCount();
+            } catch (Exception $e) {
+                // Individual blob tables could be missing
+                $this->logger->debug("Unable to delete archive IDs from {blobTable}.", array(
+                    'blobTable' => $blobTable,
+                    'exception' => $e,
+                ));
+            }
         }
 
         return $deletedRows;
@@ -475,8 +476,12 @@ class Model
         $dateStart = $params->getPeriod()->getDateStart();
         $dateEnd = $params->getPeriod()->getDateEnd();
 
-        $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
-        $blobTable = ArchiveTableCreator::getBlobTable($dateStart);
+        $numericTable = ArchiveTableCreator::getNumericTable($dateStart, false);
+        if (empty($numericTable)) {
+            return;
+        }
+
+        $blobTable = ArchiveTableCreator::getBlobTable($dateStart, false);
 
         $sql = "SELECT idarchive FROM `$numericTable` WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND name = ? AND ts_archived <= ? AND idarchive < ?";
 
@@ -934,7 +939,11 @@ class Model
     {
         $date = $period->getDateStart();
         while ($date->isEarlier($period->getDateEnd()->addPeriod(1, 'month'))) {
-            $archiveTable = ArchiveTableCreator::getNumericTable($date);
+            $archiveTable = ArchiveTableCreator::getNumericTable($date, false);
+            if (empty($archiveTable)) {
+                $date = $date->addPeriod(1, 'month'); // move to next archive table
+                continue;
+            }
 
             // we look for any archive that can be used to compute this one. this includes invalidated archives, since it is possible
             // under certain circumstances for them to exist, when archiving a higher period that includes them. the main example being
@@ -1141,8 +1150,8 @@ class Model
 
         $countSql = "SELECT DISTINCT name FROM `%s` WHERE idarchive IN ($idArchives) AND name IN ($placeholders) LIMIT " . count($requestedRecords);
 
-        $numericTable = ArchiveTableCreator::getNumericTable($archiveStartDate);
-        $blobTable = ArchiveTableCreator::getBlobTable($archiveStartDate);
+        $numericTable = ArchiveTableCreator::getNumericTable($archiveStartDate, false);
+        $blobTable = ArchiveTableCreator::getBlobTable($archiveStartDate, false);
 
         // if the requested metrics look numeric, prioritize the numeric table, otherwise the blob table. this way, if all the metrics are
         // found in this table (which will be most of the time), we don't have to query the other table
@@ -1154,6 +1163,10 @@ class Model
 
         $existingRecords = [];
         foreach ($tablesToSearch as $tableName) {
+            if (empty($tableName)) {
+                continue;
+            }
+
             $sql = sprintf($countSql, $tableName);
             $rows = Db::fetchAll($sql, $requestedRecords);
             $existingRecords = array_merge($existingRecords, array_column($rows, 'name'));

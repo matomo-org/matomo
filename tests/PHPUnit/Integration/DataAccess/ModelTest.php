@@ -75,7 +75,7 @@ class ModelTest extends IntegrationTestCase
         ]);
 
         // sanity check
-        $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'));
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'), true);
         $sql = "SELECT GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC, idarchive DESC) as archives
                   FROM `$table`
               GROUP BY idsite, date1, date2, period, name";
@@ -143,7 +143,7 @@ class ModelTest extends IntegrationTestCase
             ['date1' => '2020-02-03', 'date2' => '2020-02-03', 'period' => Day::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_ERROR],
         ]);
 
-        $numericTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'));
+        $numericTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-02-03'), true);
 
         self::assertEquals(
             ArchiveWriter::DONE_ERROR,
@@ -802,7 +802,7 @@ class ModelTest extends IntegrationTestCase
         $idarchive = 1;
         $now = Date::now()->getDatetime();
         foreach ($archivesToInsert as $archive) {
-            $table = ArchiveTableCreator::getNumericTable(Date::factory($archive['date1']));
+            $table = ArchiveTableCreator::getNumericTable(Date::factory($archive['date1']), true);
             $sql = "INSERT INTO `$table` (idarchive, idsite, date1, date2, period, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             Db::query($sql, [
                 $idarchive, 1, $archive['date1'], $archive['date2'], $archive['period'], $archive['name'], $archive['value'],

@@ -76,7 +76,7 @@ describe("UsersManager", function () {
             comparisonThreshold: 0.025
         });
     });
-    
+
     it('should change the results page when next is clicked', async function () {
         await (await page.jQuery('.notification-success .close')).click();
         await page.waitForTimeout(250);
@@ -177,6 +177,7 @@ describe("UsersManager", function () {
 
     it('should change access for all rows in search when confirmed', async function () {
         await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('bulk_set_access');
