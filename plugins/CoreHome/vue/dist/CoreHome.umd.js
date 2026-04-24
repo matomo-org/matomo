@@ -2276,9 +2276,10 @@ class PopoverHandler_PopoverHandler {
 const {
   $: zenMode_$
 } = window;
+let zenModeShortcutRegistered = false;
 function handleZenMode() {
   let zenMode = !!parseInt(getCookie('zenMode'), 10);
-  const iconSwitcher = zenMode_$('.top_controls .icon-arrowup');
+  const iconSwitcher = zenMode_$('.top_controls .zenModeToggle');
   function updateZenMode() {
     if (zenMode) {
       zenMode_$('body').addClass('zenMode');
@@ -2290,19 +2291,23 @@ function handleZenMode() {
       iconSwitcher.prop('title', translate('CoreHome_EnterZenMode'));
     }
   }
-  Matomo_Matomo.helper.registerShortcut('z', translate('CoreHome_ShortcutZenMode'), event => {
-    if (event.altKey) {
-      return;
-    }
-    zenMode = !zenMode;
-    setCookie('zenMode', zenMode ? '1' : '0');
-    updateZenMode();
-  });
-  iconSwitcher.click(() => {
+  if (!zenModeShortcutRegistered) {
+    Matomo_Matomo.helper.registerShortcut('z', translate('CoreHome_ShortcutZenMode'), event => {
+      if (event.altKey) {
+        return;
+      }
+      zenMode = !zenMode;
+      setCookie('zenMode', zenMode ? '1' : '0');
+      updateZenMode();
+    });
+    zenModeShortcutRegistered = true;
+  }
+  iconSwitcher.off('click.matomoZenMode').on('click.matomoZenMode', () => {
     window.Mousetrap.trigger('z');
   });
   updateZenMode();
 }
+zenMode_$(handleZenMode);
 Matomo_Matomo.on('Matomo.topControlsRendered', () => {
   handleZenMode();
 });

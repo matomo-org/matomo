@@ -139,9 +139,16 @@ nav {
     flex-direction: column;
   }
 
-  & > .top_controls {
-    .icon-arrowup:before,
-    .icon-arrowdown:before {
+  & .top_controls {
+    height: auto;
+
+    .zenModeToggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      min-height: 32px;
+
       cursor: pointer;
 
       @media screen and (max-width: 600px) {
@@ -150,24 +157,11 @@ nav {
     }
 
     @media all and (max-width: 600px) {
-      height: auto;
-
       .piwikSelector {
         > a.title {
             max-width: none;
         }
       }
-    }
-
-    .piwikTopControl {
-      display: inline-block;
-      float: none;
-      position: relative;
-      margin-right: 14px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      vertical-align: top;
-      font-size: 11px;
     }
 
     @media print {
