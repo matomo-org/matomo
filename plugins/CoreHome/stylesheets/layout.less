@@ -189,7 +189,7 @@ nav {
         min-height: 100vh;
         background-color: @theme-color-menu-contrast-background;
         box-shadow: none !important;
-        padding: 16px 12px;
+        padding: 24px 12px;
       }
 
       .layoutWithSidebarContent {
@@ -521,14 +521,24 @@ nav {
     gap: 8px;
 
     height: auto;
-    min-height: 51px;
-    margin-top: 24px;
-    margin-bottom: 24px;
+    min-height: 38px;
+    margin: 24px 16px;
 
     @media all and (max-width: 600px) {
       flex-direction: column;
       align-items: stretch;
+      margin: 24px 0;
       padding: 0 23px 0 17px;
+
+      .piwikSelector {
+        display: flex;
+        flex: auto;
+      }
+
+      .icon-arrowup::before,
+      .icon-arrowdown::before {
+        display: none;
+      }
     }
 
     .piwikTopControl {
