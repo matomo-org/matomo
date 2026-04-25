@@ -221,7 +221,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserIsNotAnonymous();
 
-        if ($login === 'anonymous') {
+        if (strtolower($login) === 'anonymous') {
             throw new \Exception('This method can\'t be performed for anonymous user');
         }
     }

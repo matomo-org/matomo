@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -92,6 +93,18 @@ class UserPreferencesTest extends IntegrationTestCase
         $this->createSite();
         $this->setDefaultReport(1);
         $this->assertEquals(1, $this->userPreferences->getDefaultReport());
+    }
+
+    public function testGetDefaultReportShouldReturnFalseWhenSavedSiteNoLongerExistsForSuperUser()
+    {
+        $this->createSite();
+        $this->createSite();
+        $this->setDefaultReport(1);
+
+        SitesManagerAPI::getInstance()->deleteSite(1);
+        $this->setDefaultReport(1);
+
+        $this->assertFalse($this->userPreferences->getDefaultReport());
     }
 
     public function testGetDefaultWebsiteIdShouldReturnFalseByDefault()

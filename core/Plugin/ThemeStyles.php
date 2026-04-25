@@ -60,6 +60,7 @@ class ThemeStyles
         'colorWidgetBackground' => 'theme-color-widget-background',
         'colorWidgetBorder' => 'theme-color-widget-border',
         'filterOnIllustration' => 'theme-filter-on-illustration',
+        'colorMenuContrastBackgroundHover' => 'theme-color-menu-contrast-backgroundHover',
     ];
 
     /**
@@ -180,7 +181,12 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorMenuContrastTextActive = ['#3450A3', '#fff'];
+    public $colorMenuContrastTextActive = ['#1976D2', '#fff'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorMenuContrastBackgroundHover = ['#eff0f1', '#151819'];
 
     /**
      * @var string|array<string>
@@ -205,7 +211,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundBase = ['#eff0f1', '#151819'];
+    public $colorBackgroundBase = ['#f5f5f5', '#151819'];
 
     /**
      * @var string|array<string>

@@ -83,7 +83,7 @@
         "SystemCheckDatabaseSSLNotWorking": "%s is set to '1', but the SSL connection is not working",
         "SystemCheckDatabaseSSLOn": "Your database is not using SSL-connections, but supports it. Check the SSL settings of your database in the Matomo config file",
         "SystemCheckDebugBacktraceHelp": "View::factory won't be able to create views for the calling module.",
-        "SystemCheckError": "An error occured and must be fixed before proceeding",
+        "SystemCheckError": "An error occurred and must be fixed before proceeding",
         "SystemCheckEvalHelp": "Required by HTML QuickForm and the Twig templating system.",
         "SystemCheckExtensions": "Other required extensions",
         "SystemCheckFileIntegrity": "File integrity",

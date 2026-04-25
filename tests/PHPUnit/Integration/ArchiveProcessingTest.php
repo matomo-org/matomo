@@ -363,7 +363,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
     public function testTableInsertBatchBlob()
     {
         $dateLabel = '2011-03-31';
-        $table = ArchiveTableCreator::getBlobTable(Date::factory($dateLabel));
+        $table = ArchiveTableCreator::getBlobTable(Date::factory($dateLabel), true);
 
         $data = $this->getBlobDataInsert();
         try {
@@ -396,7 +396,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
     public function testTableInsertBatchIterateBlob()
     {
         $dateLabel = '2011-03-31';
-        $table = ArchiveTableCreator::getBlobTable(Date::factory($dateLabel));
+        $table = ArchiveTableCreator::getBlobTable(Date::factory($dateLabel), true);
 
         $data = $this->getBlobDataInsert();
         BatchInsert::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
@@ -516,7 +516,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
             ],
         ];
 
-        $archiveDoneFlag = Db::fetchOne("SELECT `value` FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2015-02-03')) . " WHERE idarchive = ? AND name LIKE 'done%'", [$idArchive]);
+        $archiveDoneFlag = Db::fetchOne("SELECT `value` FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2015-02-03'), true) . " WHERE idarchive = ? AND name LIKE 'done%'", [$idArchive]);
         $this->assertEquals(ArchiveWriter::DONE_PARTIAL, $archiveDoneFlag);
 
         $this->assertEquals($expected, $capturedInserts);
@@ -636,7 +636,7 @@ END;
         $capturedInserts = $archiveProcessor->getCapturedInserts();
         $this->assertNotEmpty($capturedInserts);
 
-        $archiveDoneFlag = Db::fetchOne("SELECT `value` FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2015-02-03')) . " WHERE idarchive = ? AND name LIKE 'done%'", [$idArchive]);
+        $archiveDoneFlag = Db::fetchOne("SELECT `value` FROM " . ArchiveTableCreator::getNumericTable(Date::factory('2015-02-03'), true) . " WHERE idarchive = ? AND name LIKE 'done%'", [$idArchive]);
         $this->assertEquals(ArchiveWriter::DONE_PARTIAL, $archiveDoneFlag);
     }
 

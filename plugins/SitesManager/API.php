@@ -997,6 +997,7 @@ class API extends \Piwik\Plugin\API
             }
 
             $this->getModel()->deleteSite($idSite);
+            Site::clearCacheForSite($idSite);
 
             $coreModel = new CoreModel();
             $coreModel->deleteInvalidationsForSites([$idSite]);

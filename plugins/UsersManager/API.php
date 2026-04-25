@@ -242,7 +242,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception('User does not exist: ' . $userLogin);
         }
 
-        if ($userLogin === 'anonymous') {
+        if (strtolower($userLogin) === 'anonymous') {
             Piwik::checkUserHasSuperUserAccess();
         }
 
@@ -1104,7 +1104,7 @@ class API extends \Piwik\Plugin\API
      */
     public function userExists(string $userLogin): bool
     {
-        if ($userLogin === 'anonymous') {
+        if (strtolower($userLogin) === 'anonymous') {
             return true;
         }
 
@@ -1186,7 +1186,7 @@ class API extends \Piwik\Plugin\API
 
         // check password confirmation only when using session auth and setting view access for anonymous user
         if (
-            $userLogin === 'anonymous'
+            strtolower($userLogin) === 'anonymous'
             && StaticContainer::get(AuthenticationToken::class)->isSessionToken()
             && $access === 'view'
         ) {
@@ -1194,7 +1194,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if (
-            $userLogin === 'anonymous' &&
+            strtolower($userLogin) === 'anonymous' &&
             (is_array($access) || !in_array($access, ['view', 'noaccess'], true))
         ) {
             throw new Exception(Piwik::translate(
@@ -1249,7 +1249,7 @@ class API extends \Piwik\Plugin\API
             }
 
             // Send notification to all super users if anonymous access is set for a site
-            if ($userLogin === 'anonymous' && $access === 'view') {
+            if (strtolower($userLogin) === 'anonymous' && $access === 'view') {
                 $container = StaticContainer::getContainer();
 
                 $siteNames = [];
@@ -1290,7 +1290,7 @@ class API extends \Piwik\Plugin\API
         $this->executeConcurrencySafe($userLogin, function () use ($userLogin, $capabilities, $idSites) {
             $idSites = $this->getIdSitesCheckAdminAccess($idSites);
 
-            if ($userLogin == 'anonymous') {
+            if (strtolower($userLogin) === 'anonymous') {
                 throw new Exception(Piwik::translate("UsersManager_ExceptionAnonymousNoCapabilities"));
             }
 
@@ -1463,7 +1463,7 @@ class API extends \Piwik\Plugin\API
 
     private function checkUserIsNotAnonymous(string $userLogin): void
     {
-        if ($userLogin == 'anonymous') {
+        if (strtolower($userLogin) === 'anonymous') {
             throw new Exception(Piwik::translate("UsersManager_ExceptionEditAnonymous"));
         }
     }

@@ -1,5 +1,8 @@
-{% macro menu(menu, anchorlink, cssClass, currentModule, currentAction, collapsible, isSuperUser) %}
+{% macro menu(menu, anchorlink, cssClass, currentModule, currentAction, collapsible, isSuperUser, renderQuickAccess) %}
     <div id="secondNavBar" class="{{ cssClass }} z-depth-1">
+        {% if renderQuickAccess|default(false) %}
+            <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl"></div>
+        {% endif %}
         <ul class="navbar {% if collapsible %}collapsible collapsible-accordion{% endif %} hide-on-med-and-down" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" role="menu">
             {% for level1,level2 in menu %}
 

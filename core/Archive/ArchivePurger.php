@@ -92,7 +92,10 @@ class ArchivePurger
      */
     public function purgeInvalidatedArchivesFrom(Date $date)
     {
-        $numericTable = ArchiveTableCreator::getNumericTable($date);
+        $numericTable = ArchiveTableCreator::getNumericTable($date, false);
+        if (empty($numericTable)) {
+            return 0;
+        }
 
         $archiveIds = $this->model->getInvalidatedArchiveIdsSafeToDelete($numericTable);
         if (empty($archiveIds)) {
@@ -197,7 +200,10 @@ class ArchivePurger
 
     public function purgeDeletedSiteArchives(Date $dateStart)
     {
-        $archiveTable = ArchiveTableCreator::getNumericTable($dateStart);
+        $archiveTable = ArchiveTableCreator::getNumericTable($dateStart, false);
+        if (empty($archiveTable)) {
+            return 0;
+        }
         $idArchivesToDelete = $this->model->getArchiveIdsForDeletedSites($archiveTable);
 
         return $this->purge($idArchivesToDelete, $dateStart, 'deleted sites');
@@ -251,7 +257,11 @@ class ArchivePurger
 
     protected function getDeletedSegmentArchiveIds(Date $date, array $deletedSegments)
     {
-        $archiveTable = ArchiveTableCreator::getNumericTable($date);
+        $archiveTable = ArchiveTableCreator::getNumericTable($date, false);
+        if (empty($archiveTable)) {
+            return [];
+        }
+
         return $this->model->getArchiveIdsForSegments(
             $archiveTable,
             $deletedSegments,
@@ -261,7 +271,10 @@ class ArchivePurger
 
     protected function getOutdatedArchiveIds(Date $date, $purgeArchivesOlderThan)
     {
-        $archiveTable = ArchiveTableCreator::getNumericTable($date);
+        $archiveTable = ArchiveTableCreator::getNumericTable($date, false);
+        if (empty($archiveTable)) {
+            return [];
+        }
 
         $result = $this->model->getTemporaryArchivesOlderThan($archiveTable, $purgeArchivesOlderThan);
 
@@ -284,7 +297,10 @@ class ArchivePurger
      */
     private function getBrokenArchiveIds(Month $month): array
     {
-        $archiveTable = ArchiveTableCreator::getNumericTable($month->getDateStart());
+        $archiveTable = ArchiveTableCreator::getNumericTable($month->getDateStart(), false);
+        if (empty($archiveTable)) {
+            return [];
+        }
 
         $result = $this->model->getArchivesMissingDoneFlag($archiveTable);
 
@@ -303,8 +319,12 @@ class ArchivePurger
      */
     public function purgeArchivesWithPeriodRange(Date $date)
     {
-        $numericTable = ArchiveTableCreator::getNumericTable($date);
-        $blobTable    = ArchiveTableCreator::getBlobTable($date);
+        $numericTable = ArchiveTableCreator::getNumericTable($date, false);
+        if (empty($numericTable)) {
+            return 0;
+        }
+
+        $blobTable = ArchiveTableCreator::getBlobTable($date, false);
 
         $deletedCount = $this->model->deleteArchivesWithPeriod(
             $numericTable,
@@ -334,8 +354,12 @@ class ArchivePurger
     protected function deleteArchiveIds(Date $date, $idArchivesToDelete): int
     {
         $batches      = array_chunk($idArchivesToDelete, 1000);
-        $numericTable = ArchiveTableCreator::getNumericTable($date);
-        $blobTable    = ArchiveTableCreator::getBlobTable($date);
+        $numericTable = ArchiveTableCreator::getNumericTable($date, false);
+        if (empty($numericTable)) {
+            return 0;
+        }
+
+        $blobTable = ArchiveTableCreator::getBlobTable($date, false);
 
         $deletedCount = 0;
         foreach ($batches as $idsToDelete) {

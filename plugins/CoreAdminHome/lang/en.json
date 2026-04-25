@@ -35,6 +35,8 @@
         "ImportFromGoogleAnalytics": "Import from Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "If you have a Google Analytics property and are switching to Matomo, you can import your existing data using the %1$sGoogleAnalyticsImporter%2$s plugin.",
         "ImportingServerLogsDesc": "An alternative to tracking visitors through the browser (either via JavaScript or an image link) is to continuously import server logs. Learn more about %1$sServer Log File Analytics%2$s.",
+        "InvalidSiteUrlError": "This URL is not valid. The content may have been moved, deleted, or is no longer available (website id was set to '%s' on the URL).",
+        "InvalidSiteUrlErrorHelp": "Please go back to your previous page or return to your dashboard to select a website.",
         "InvalidPluginsWarning": "The following plugins are not compatible with %1$s and could not be loaded: %2$s.",
         "InvalidPluginsYouCanUninstall": "You can update or uninstall these plugins on the %1$sManage Plugins%2$s page.",
         "JSTrackingIntro1": "You can track visitors to your website in many different ways. The recommended way to do it is through JavaScript. To use this method you must make sure every webpage of your website has some JavaScript code, which you can generate here.",

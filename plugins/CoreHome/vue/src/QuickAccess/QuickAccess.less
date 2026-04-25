@@ -1,15 +1,23 @@
 .quick-access {
   position: relative;
+  box-shadow: none;
+  border: 1px solid @theme-color-background-lowContrast;
+  border-radius: 8px;
+  width: 200px;
 
   &:hover,
   &.expanded,
   &.active {
-    input {
-      background-color: @theme-color-background-contrast !important;
+    border-color: transparent;
+    .quickAccessInside .quickAccessInput {
+      background-color: @theme-color-background-contrast;
+      border: 1px solid @theme-color-focus-ring;
+      outline: 0;
+      box-shadow: none;
     }
   }
   li {
-    font-size: 11px;
+    font-size: 14px;
   }
 
   li a {
@@ -17,38 +25,59 @@
     display: inline-block;
     text-decoration: none;
     word-break: break-all;
+    color: @theme-color-text-lighter;
   }
 
   .icon-search {
     position: absolute;
     font-size: 14px;
-    top: 10px;
-    left: 10px;
+    top: 13px;
+    left: 12px;
+    color: @theme-color-border;
 
   }
-  input {
-    width:100%;
-    height: 100%;
-    box-shadow: 0 0 !important;
-    border-radius: 0 !important;
-    background-color: @theme-color-background-base !important;
-    font-size: 11px;
-    &:focus {
-      outline: none;
+  .quickAccessInside .quickAccessInput {
+    height: 38px;
+    font-size: 14px;
+    padding: 10px 12px 10px 38px;
+    border: 0;
+    border-radius: 8px;
+    width: 100%;
+    &:focus-visible {
+      border: 1px solid @theme-color-focus-ring;
+      outline: 1px solid @theme-color-focus-ring;
     }
+  }
+  .quickAccessInside .quickAccessDropdown.dropdown {
+    padding: 8px;
+    border-radius: 8px;
+    margin-top: 5px;
+    width: 200px;
+    max-height: 75vh;
+    overflow: auto;
+    box-shadow: 0 10px 40px 0 rgba(165, 177, 202, 0.30), 0 0 3px 0 rgba(165, 177, 202, 0.30);
+    @media all and (max-width: 992px) {
+      width: 100%;
+    }
+   }
+
+  .quickAccessInput::placeholder {
+    color: @theme-color-background-lowContrast;
   }
   .selected {
     background-color: @theme-color-background-tinyContrast !important;
+    border-radius: 8px;
   }
   .quick-access-category {
     text-align: left !important;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 5px 5px 5px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px;
     cursor: pointer;
   }
   .result {
     cursor: pointer;
+    font-weight: normal;
   }
   .quick-access-category:hover {
     background: none !important;

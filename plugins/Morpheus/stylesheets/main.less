@@ -152,14 +152,8 @@ p {
 }
 
 .dashboardSettings {
-  border: 1px solid @theme-color-background-lowContrast;
-  background: @theme-color-background-base;
-  .border-radius(0);
-
   > span {
     position: relative;
-    background: none;
-    text-transform: uppercase;
 
     &::after {
       content: '';
@@ -209,20 +203,8 @@ p {
 }
 
 .segmentEditorPanel {
-  border: 1px solid @theme-color-background-lowContrast;
-  background: @theme-color-background-base;
-  .border-radius(0);
-
   .dropdown-body {
-    background: @theme-color-background-contrast;
     padding: 8px 19px 0;
-    .border-radius(0);
-
-    border-top-width: 0;
-  }
-
-  &:hover .dropdown-body {
-    background: @theme-color-background-contrast;
   }
 
   .segmentationContainer {
@@ -256,12 +238,6 @@ p {
       }
     }
   }
-}
-
-.segmentEditorPanel:hover,
-.dashboardSettings:hover {
-  background: @theme-color-background-base;
-  border: 1px solid @theme-color-background-lowContrast;
 }
 
 /* Iframed Embed dashboard style */
@@ -349,8 +325,7 @@ table.dataTable {
         background: @theme-color-background-base;
         border-radius: 0;
         color: @theme-color-text-contrast;
-        text-transform: uppercase;
-        .font-default(11px, 12px);
+        .font-default(12px, 16px);
 
         padding-top: 16px;
         padding-bottom: 16px;
@@ -523,6 +498,9 @@ table.dataTable {
         background-color: @theme-color-background-base;
       }
     }
+  }
+  tr:last-child td {
+    border-bottom: none !important;
   }
 }
 

@@ -48,7 +48,7 @@ class ArchiveTest extends IntegrationTestCase
         Fixture::checkResponse($tracker->doTrackPageView('a page'));
 
         // the table may not be created if we skip archiving logic, so make sure it's created here
-        ArchiveTableCreator::getNumericTable(Date::factory('2014-05-07'));
+        ArchiveTableCreator::getNumericTable(Date::factory('2014-05-07'), true);
 
         $archive = Archive::factory(new Segment('', [1]), [Factory::build('range', '2014-05-07,2014-05-08')], [1]);
         $data = $archive->getDataTableFromNumeric([]);
@@ -75,7 +75,7 @@ class ArchiveTest extends IntegrationTestCase
         Fixture::checkResponse($tracker->doTrackPageView('a page'));
 
         // the table may not be created if we skip archiving logic, so make sure it's created here
-        ArchiveTableCreator::getNumericTable(Date::factory('2014-05-07'));
+        ArchiveTableCreator::getNumericTable(Date::factory('2014-05-07'), true);
 
         $archive = Archive::factory(new Segment('', [1]), [Factory::build('range', '2014-05-07,2014-05-08')], [1]);
         $data = $archive->getDataTable('DevicePlugins_InvalidRecord');
@@ -208,8 +208,8 @@ class ArchiveTest extends IntegrationTestCase
         Rules::setBrowserTriggerArchiving(true);
 
         try {
-            $numericTable = ArchiveTableCreator::getNumericTable(Date::factory($date));
-            $blobTable = ArchiveTableCreator::getBlobTable(Date::factory($date));
+            $numericTable = ArchiveTableCreator::getNumericTable(Date::factory($date), true);
+            $blobTable = ArchiveTableCreator::getBlobTable(Date::factory($date), true);
 
             $deletedNumericRows = Db::query(
                 "DELETE FROM `$numericTable` WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ?",

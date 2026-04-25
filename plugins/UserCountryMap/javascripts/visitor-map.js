@@ -1003,7 +1003,7 @@
                                     return scale;
                                 },
                                 tooltip: function (city) {
-                                    return '<h3>' + city.city_name + '</h3>' +
+                                    return '<h3>' + piwikHelper.htmlEntities(city.city_name) + '</h3>' +
                                         formatValueForTooltips(city, metric, iso);
                                 },
                                 attrs: function (city) {

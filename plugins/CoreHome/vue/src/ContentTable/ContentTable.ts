@@ -6,6 +6,10 @@
  */
 
 import { nextTick, DirectiveBinding } from 'vue';
+import {
+  registerResponsiveContentTable,
+  unregisterResponsiveContentTable,
+} from './contentTableUtils';
 
 interface ContentTableValue {
   off?: boolean; // if set to true, does not apply style
@@ -17,10 +21,11 @@ export default {
       return;
     }
 
-    el.classList.add('card', 'card-table', 'entityTable');
+    registerResponsiveContentTable(el);
   },
   updated(el: HTMLElement, binding?: DirectiveBinding<ContentTableValue|undefined>): void {
     if (binding?.value?.off) {
+      unregisterResponsiveContentTable(el);
       return;
     }
 
@@ -28,7 +33,10 @@ export default {
     // updated avoids this problem (and doing in both mounted and updated avoids a temporary
     // state where the classes aren't added)
     nextTick(() => {
-      el.classList.add('card', 'card-table', 'entityTable');
+      registerResponsiveContentTable(el);
     });
+  },
+  beforeUnmount(el: HTMLElement): void {
+    unregisterResponsiveContentTable(el);
   },
 };

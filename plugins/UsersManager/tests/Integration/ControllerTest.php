@@ -25,6 +25,8 @@ use Piwik\Translation\Loader\DevelopmentLoader;
 use Piwik\Translation\Loader\JsonFileLoader;
 use Piwik\Translation\Translator;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
+use Piwik\Container\StaticContainer;
 
 /**
  * @group UsersManager
@@ -104,6 +106,8 @@ class ControllerTest extends IntegrationTestCase
             UsersManagerAPI::PREFERENCE_DEFAULT_REPORT,
             $idSite
         );
+
+        return $idSite;
     }
 
     public function testRecordPasswordChangePasswordStrengthCheckWeakPassword()
@@ -160,6 +164,34 @@ class ControllerTest extends IntegrationTestCase
         $this->assertStringContainsString('theme-mode="&quot;light&quot;"', $response);
         $this->assertStringContainsString('UsersManager_ThemeModeMatchBrowser', $response);
         $this->assertStringContainsString('&quot;key&quot;:&quot;auto&quot;', $response);
+    }
+
+    public function testUserSettingsShouldRepairDeletedStoredDefaultReport()
+    {
+        $deletedSiteId = $this->createSiteWithUser();
+        $fallbackSiteId = SitesManagerAPI::getInstance()->addSite(
+            'Fallback site',
+            ['https://fallback.example.test']
+        );
+        UsersManagerAPI::getInstance()->setUserAccess(
+            self::CURRENT_USER_LOGIN,
+            'view',
+            [$deletedSiteId, $fallbackSiteId]
+        );
+
+        SitesManagerAPI::getInstance()->deleteSite($deletedSiteId);
+
+        $response = $this->controller->userSettings();
+
+        $storedDefaultReport = StaticContainer::get(UserScopedSettingsAccessManager::class)->get(
+            'UsersManager',
+            self::CURRENT_USER_LOGIN,
+            UsersManagerAPI::PREFERENCE_DEFAULT_REPORT,
+            false
+        );
+
+        $this->assertSame((string) $fallbackSiteId, (string) $storedDefaultReport);
+        $this->assertStringContainsString('Fallback site', $response);
     }
 
     public function testThemeModeShouldDefaultToLightForNewUsers()

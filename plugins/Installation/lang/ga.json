@@ -102,7 +102,7 @@
         "SystemCheckDatabaseSSLNotWorking": "Tá %s socraithe ag '1', ach níl an nasc SSL ag obair",
         "SystemCheckDatabaseSSLOn": "Níl do bhunachar sonraí ag baint úsáide as naisc SSL, ach tacaíonn sé leis. Seiceáil socruithe SSL do bhunachar sonraí sa chomhad cumraíochta Matomo",
         "SystemCheckDebugBacktraceHelp": "Féach::Ní bheidh monarcha in ann tuairimí a chruthú don mhodúl glao.",
-        "SystemCheckError": "Tharla earráid agus ní mór é a shocrú sula dtéann tú ar aghaidh",
+        "SystemCheckError": "Tharla earráid agus ní mór í a shocrú sula leanfar ar aghaidh",
         "SystemCheckEvalHelp": "Ag teastáil ó HTML QuickForm agus an córas templating Twig.",
         "SystemCheckExtensions": "Síntí riachtanacha eile",
         "SystemCheckFileIntegrity": "Sláine an chomhaid",
