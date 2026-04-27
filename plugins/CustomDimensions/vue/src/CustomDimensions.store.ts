@@ -118,6 +118,7 @@ class CustomDimensionsStore {
         idDimension: dimension.idcustomdimension,
         idSite: dimension.idsite,
         name: dimension.name,
+        description: dimension.description || '',
         active: dimension.active ? '1' : '0',
         caseSensitive: dimension.case_sensitive ? '1' : '0',
       },

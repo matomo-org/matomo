@@ -26,7 +26,20 @@
               :maxlength="255"
               :required="true"
               :title="translate('General_Name')"
-              :inline-help="translate('CustomDimensions_NameAllowedCharacters')"
+              :inline-help="`${translate('CustomDimensions_NameHelp')} `
+                + translate('CustomDimensions_NameAllowedCharacters')"
+            >
+            </Field>
+          </div>
+          <div>
+            <Field
+              uicontrol="textarea"
+              name="description"
+              v-model="dimension.description"
+              :maxlength="1000"
+              :rows="3"
+              :title="translate('CustomDimensions_Description')"
+              :inline-help="translate('CustomDimensions_DescriptionHelp')"
             >
             </Field>
           </div>
@@ -257,6 +270,7 @@ export default defineComponent({
           this.dimension = {
             idsite: Matomo.idSite,
             name: '',
+            description: '',
             active: true,
             extractions: [],
             scope: this.dimensionScope,

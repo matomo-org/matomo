@@ -84,6 +84,7 @@ class ApiTest extends IntegrationTestCase
             'idcustomdimension' => '1',
             'idsite' => '1',
             'name' => 'Valid Name äöü',
+            'description' => '',
             'index' => '1',
             'scope' => 'action',
             'active' => true,
@@ -144,6 +145,51 @@ class ApiTest extends IntegrationTestCase
         $this->assertFalse($dimensions[0]['active']);
         $this->assertTrue($dimensions[0]['case_sensitive']);
         $this->assertSame('newtest', $dimensions[0]['extractions'][0]['pattern']);
+    }
+
+    public function testConfigureNewAndExistingCustomDimensionShouldPersistDescription()
+    {
+        $id = $this->api->configureNewCustomDimension(
+            $idSite = 1,
+            'Valid Name',
+            CustomDimensions::SCOPE_ACTION,
+            '1',
+            array(),
+            '1',
+            'first description'
+        );
+
+        $dimensions = $this->api->getConfiguredCustomDimensions(1);
+        $this->assertSame('first description', $dimensions[0]['description']);
+
+        $this->api->configureExistingCustomDimension(
+            $id,
+            $idSite,
+            'Valid Name',
+            '1',
+            array(),
+            true,
+            'updated description'
+        );
+
+        $dimensions = $this->api->getConfiguredCustomDimensions(1);
+        $this->assertSame('updated description', $dimensions[0]['description']);
+    }
+
+    public function testConfigureNewCustomDimensionShouldFailWhenDescriptionContainsHtml()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('CustomDimensions_DescriptionAllowedCharacters');
+
+        $this->api->configureNewCustomDimension(
+            $idSite = 1,
+            'Valid Name',
+            CustomDimensions::SCOPE_ACTION,
+            '1',
+            array(),
+            '1',
+            'has <b>html</b>'
+        );
     }
 
     public function testConfigureExistingCustomDimensionShouldNotChangeCaseSensitiveIfNoValuePassed()

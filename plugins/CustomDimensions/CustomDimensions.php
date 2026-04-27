@@ -325,8 +325,11 @@ class CustomDimensions extends Plugin
         $translationKeys[] = 'CustomDimensions_CannotBeDeleted';
         $translationKeys[] = 'CustomDimensions_PageUrlParam';
         $translationKeys[] = 'CustomDimensions_NameAllowedCharacters';
+        $translationKeys[] = 'CustomDimensions_NameHelp';
         $translationKeys[] = 'CustomDimensions_NameIsRequired';
         $translationKeys[] = 'CustomDimensions_NameIsTooLong';
+        $translationKeys[] = 'CustomDimensions_Description';
+        $translationKeys[] = 'CustomDimensions_DescriptionHelp';
         $translationKeys[] = 'CustomDimensions_ExceptionDimensionDoesNotExist';
         $translationKeys[] = 'CustomDimensions_ExceptionDimensionIsNotActive';
         $translationKeys[] = 'CustomDimensions_DimensionCreated';

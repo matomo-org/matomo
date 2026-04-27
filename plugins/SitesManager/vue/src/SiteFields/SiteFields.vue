@@ -99,18 +99,26 @@
 
       <div v-if="editMode">
 
-        <div class="form-group row">
-          <div class="col s12 m6 input-field">
-            <input
-              type="text"
-              v-model="theSite.name"
-              maxlength="90"
-              :placeholder="translate('General_Name')"
-            />
-            <label>{{ translate('General_Name') }}</label>
-          </div>
-          <div class="col s12 m6"></div>
-        </div>
+        <Field
+          uicontrol="text"
+          name="siteName"
+          v-model="theSite.name"
+          :maxlength="90"
+          autocomplete="off"
+          :title="translate('General_Name')"
+          :inline-help="translate('SitesManager_SiteNameInlineHelp')"
+        />
+
+        <Field
+          uicontrol="textarea"
+          name="siteDescription"
+          v-model="theSite.description"
+          :maxlength="255"
+          :rows="3"
+          autocomplete="off"
+          :title="`${translate('General_Description')} ${translate('Goals_Optional')}`"
+          :inline-help="translate('SitesManager_SiteDescriptionInlineHelp')"
+        />
 
         <ActivityIndicator :loading="isLoading"/>
 
@@ -407,6 +415,7 @@ export default defineComponent({
 
       const values: Record<string, unknown> = {
         siteName: this.theSite.name,
+        description: this.theSite.description ?? '',
         timezone: this.theSite.timezone,
         currency: this.theSite.currency,
         type: this.theSite.type,

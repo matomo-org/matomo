@@ -958,6 +958,84 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals("http://main.url", $site['main_url']);
     }
 
+    public function testAddSiteShouldPersistDescription()
+    {
+        $idsite = $this->addSiteWithDescription('Initial description');
+
+        $site = API::getInstance()->getSiteFromId($idsite);
+
+        $this->assertSame('Initial description', $site['description']);
+    }
+
+    public function testAddSiteShouldFailWhenDescriptionIsTooLong()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('SitesManager_ExceptionInvalidWebsiteDescription');
+
+        $this->addSiteWithDescription(str_repeat('x', 256));
+    }
+
+    public function testUpdateSiteShouldPersistDescription()
+    {
+        $idsite = API::getInstance()->addSite("site1", "http://main.url");
+
+        $this->updateSiteDescription($idsite, 'Updated description');
+
+        $site = API::getInstance()->getSiteFromId($idsite);
+        $this->assertSame('Updated description', $site['description']);
+    }
+
+    private function addSiteWithDescription(string $description): int
+    {
+        return API::getInstance()->addSite(
+            "site1",
+            "http://main.url",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            $description
+        );
+    }
+
+    private function updateSiteDescription(int $idsite, string $description): void
+    {
+        API::getInstance()->updateSite(
+            $idsite,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            $description
+        );
+    }
+
     /**
      * several urls => both main and alias are updated
      * also test the update of group field
