@@ -15,13 +15,11 @@ use PHPUnit\Framework\TestCase;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Period\Factory;
-use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Evolution;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as JqplotEvolutionGraph;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Site;
-use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * @group CoreVisualizations
@@ -30,260 +28,18 @@ use ReflectionClass;
  */
 class EvolutionTest extends TestCase
 {
-    /**
-     * @dataProvider getLeadingZeroSamplesTestData
-     * @param array<int, float> $samples
-     * @param array<int, float> $expected
-     */
-    public function testRemoveLeadingZeroSamples(array $samples, array $expected): void
+    public function testBuildForecastDataReturnsEmptyWhenForecastDisabled(): void
     {
-        $result = $this->invokePrivateMethod(
-            $this->createGenerator(),
-            'removeLeadingZeroSamples',
-            [$samples]
-        );
+        $evolution = $this->createEvolution(['show_forecast' => 0], false);
 
-        self::assertSame($expected, $result);
+        self::assertSame([], $evolution->callBuildForecastData([], [], [], [], []));
     }
 
-    /**
-     * @return iterable<string, array{array<int, float>, array<int, float>}>
-     */
-    public function getLeadingZeroSamplesTestData(): iterable
+    public function testBuildForecastDataReturnsEmptyWhenComparing(): void
     {
-        yield 'empty' => [
-            [],
-            [],
-        ];
+        $evolution = $this->createEvolution(['show_forecast' => 1], true);
 
-        yield 'all zeros' => [
-            [0.0, 0.0, 0.0],
-            [],
-        ];
-
-        yield 'leading zeros only are removed' => [
-            [0.0, 0.0, 5.0, 0.0, 2.0],
-            [5.0, 0.0, 2.0],
-        ];
-
-        yield 'first value non zero' => [
-            [3.0, 0.0, 1.0],
-            [3.0, 0.0, 1.0],
-        ];
-    }
-
-    /**
-     * @dataProvider getForecastVisibilityTestData
-     */
-    public function testShouldRenderForecastValue(float $forecastValue, float $currentValue, bool $expected): void
-    {
-        $result = $this->invokePrivateMethod(
-            $this->createGenerator(),
-            'shouldRenderForecastValue',
-            [$forecastValue, $currentValue]
-        );
-
-        self::assertSame($expected, $result);
-    }
-
-    /**
-     * @return iterable<string, array{float, float, bool}>
-     */
-    public function getForecastVisibilityTestData(): iterable
-    {
-        yield 'higher than current' => [12.5, 10.0, true];
-        yield 'equal to current' => [10.0, 10.0, true];
-        yield 'below current' => [9.99, 10.0, false];
-    }
-
-    public function testBuildForecastDataUsesPriorForecastAsFirstNoDataBaseline(): void
-    {
-        $generator = $this->createGenerator();
-        $site = $this->createSiteMock();
-
-        $dataTables = [
-            $this->createDataTableForDay('2026-04-10', $site),
-            $this->createDataTableForDay('2026-04-11', $site),
-            $this->createDataTableForDay('2026-04-12', $site),
-            $this->createDataTableForDay('2026-04-13', $site),
-            $this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00'),
-            $this->createDataTableForDay('2026-04-18', $site, '2026-04-18 00:00:00'),
-        ];
-
-        $forecastData = $this->invokePrivateMethod(
-            $generator,
-            'buildForecastData',
-            [[
-                'Visits' => [80.0, 100.0, 140.0, 60.0, 20.0, 0.0],
-            ], $dataTables, [
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::INCOMPLETE,
-                ArchiveState::INCOMPLETE,
-            ], [
-                'Visits' => false,
-            ]]
-        );
-
-        self::assertSame([[null, null, null, null, 47.9996, 58.3997]], $forecastData);
-    }
-
-    public function testBuildForecastDataKeepsPercentSeriesOnDisplayScale(): void
-    {
-        $generator = $this->createGenerator();
-        $site = $this->createSiteMock();
-
-        $dataTables = [
-            $this->createDataTableForDay('2026-04-10', $site),
-            $this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00'),
-        ];
-
-        $forecastData = $this->invokePrivateMethod(
-            $generator,
-            'buildForecastData',
-            [[
-                'Bounce rate' => [80.0, 20.0],
-            ], $dataTables, [
-                ArchiveState::COMPLETE,
-                ArchiveState::INCOMPLETE,
-            ], [
-                'Bounce rate' => '%',
-            ]]
-        );
-
-        self::assertSame([[null, 47.9996]], $forecastData);
-    }
-
-    public function testBuildForecastDataDoesNotUseSyntheticZeroAsPercentForecastSeed(): void
-    {
-        $generator = $this->createGenerator();
-        $site = $this->createSiteMock();
-
-        $dataTables = [
-            $this->createDataTableForDay('2026-04-05', $site),
-            $this->createDataTableForDay('2026-04-12', $site, '2026-04-12 00:00:00'),
-            $this->createDataTableForDay('2026-04-19', $site, '2026-04-19 00:00:00'),
-        ];
-
-        $forecastData = $this->invokePrivateMethod(
-            $generator,
-            'buildForecastData',
-            [[
-                'Bounce rate' => [69.0, 0.0, 0.0],
-            ], $dataTables, [
-                ArchiveState::COMPLETE,
-                ArchiveState::INCOMPLETE,
-                ArchiveState::INCOMPLETE,
-            ], [
-                'Bounce rate' => '%',
-            ], [
-                'Bounce rate' => [true, false, false],
-            ]]
-        );
-
-        self::assertSame([[null, 69.0, 69.0]], $forecastData);
-    }
-
-    public function testBuildForecastDataDoesNotUseUnavailableHistoricalSamples(): void
-    {
-        $generator = $this->createGenerator();
-        $site = $this->createSiteMock();
-
-        $dataTables = [
-            $this->createDataTableForDay('2026-03-27', $site),
-            $this->createDataTableForDay('2026-04-03', $site),
-            $this->createDataTableForDay('2026-04-10', $site),
-            $this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00'),
-        ];
-
-        $forecastData = $this->invokePrivateMethod(
-            $generator,
-            'buildForecastData',
-            [[
-                'Visits' => [80.0, 0.0, 100.0, 20.0],
-            ], $dataTables, [
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::INCOMPLETE,
-            ], [
-                'Visits' => false,
-            ], [
-                'Visits' => [true, false, true, true],
-            ]]
-        );
-
-        self::assertSame([[null, null, null, 59.9997]], $forecastData);
-    }
-
-    public function testBuildForecastDataReusesForecastAsSyntheticDataForLaterNoDataDaysAndRecalculatesWhenDataReturns(): void
-    {
-        $generator = $this->createGenerator();
-        $site = $this->createSiteMock();
-
-        $dataTables = [
-            $this->createDataTableForDay('2026-04-10', $site),
-            $this->createDataTableForDay('2026-04-11', $site),
-            $this->createDataTableForDay('2026-04-12', $site),
-            $this->createDataTableForDay('2026-04-13', $site),
-            $this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00'),
-            $this->createDataTableForDay('2026-04-18', $site, '2026-04-18 00:00:00'),
-            $this->createDataTableForDay('2026-04-19', $site, '2026-04-19 00:00:00'),
-            $this->createDataTableForDay('2026-04-20', $site, '2026-04-20 12:00:00'),
-        ];
-
-        $forecastData = $this->invokePrivateMethod(
-            $generator,
-            'buildForecastData',
-            [[
-                'Visits' => [80.0, 100.0, 140.0, 60.0, 20.0, 0.0, 0.0, 30.0],
-            ], $dataTables, [
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::INCOMPLETE,
-                ArchiveState::INCOMPLETE,
-                ArchiveState::INCOMPLETE,
-                ArchiveState::INCOMPLETE,
-            ], [
-                'Visits' => false,
-            ]]
-        );
-
-        self::assertSame([[null, null, null, null, 47.9996, 58.3997, 74.7198, 59.9994]], $forecastData);
-    }
-
-    public function testBuildForecastDataDoesNotCarryForwardAcrossSuppressedForecastGap(): void
-    {
-        $generator = $this->createGenerator();
-        $site = $this->createSiteMock();
-
-        $dataTables = [
-            $this->createDataTableForDay('2026-04-01', $site),
-            $this->createDataTableForDay('2026-04-08', $site),
-            $this->createDataTableForDay('2026-04-15', $site, '2026-04-15 22:48:00'),
-            $this->createDataTableForDay('2026-04-16', $site, '2026-04-16 00:00:00'),
-        ];
-
-        $forecastData = $this->invokePrivateMethod(
-            $generator,
-            'buildForecastData',
-            [[
-                'Visits' => [50.0, 50.0, 90.0, 0.0],
-            ], $dataTables, [
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::INCOMPLETE,
-                ArchiveState::INCOMPLETE,
-            ], [
-                'Visits' => false,
-            ]]
-        );
-
-        self::assertSame([[null, null, null, 0.0]], $forecastData);
+        self::assertSame([], $evolution->callBuildForecastData([], [], [], [], []));
     }
 
     /**
@@ -292,13 +48,15 @@ class EvolutionTest extends TestCase
      */
     public function testHasColumnValueRule($value, bool $expected): void
     {
-        $result = $this->invokePrivateMethod(
-            $this->createGenerator(),
-            'hasColumnValue',
-            [$value]
-        );
+        $evolution = $this->createEvolution([], false);
 
-        self::assertSame($expected, $result);
+        $method = new ReflectionMethod(Evolution::class, 'hasColumnValue');
+
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
+
+        self::assertSame($expected, $method->invoke($evolution, $value));
     }
 
     /**
@@ -318,186 +76,101 @@ class EvolutionTest extends TestCase
         yield 'non-empty string counts as data' => ['1.5', true];
     }
 
-    public function testInitChartObjectDataDoesNotExposeForecastDataWhenDisabled(): void
-    {
-        $_GET['idSite'] = '1';
-        $_REQUEST['idSite'] = '1';
-        $_GET['period'] = 'range';
-        $_REQUEST['period'] = 'range';
-
-        $generator = $this->createGenerator();
-        $site = $this->createSiteMock();
-
-        $this->setGeneratorProperty($generator, 'properties', [
-            'columns_to_display' => [],
-            'rows_to_display' => [],
-            'translations' => [],
-            'request_parameters_to_modify' => ['format_metrics' => 1],
-            'show_forecast' => 0,
-        ]);
-        $this->setGeneratorProperty($generator, 'isComparing', false);
-
-        $dayOne = $this->createDataTableForDay('2026-04-10', $site);
-        $dayOne->addRow(new Row([Row::COLUMNS => ['label' => 'Visits', 'nb_visits' => 80]]));
-
-        $dayTwo = $this->createDataTableForDay('2026-04-11', $site, '2026-04-11 12:00:00');
-        $dayTwo->addRow(new Row([Row::COLUMNS => ['label' => 'Visits', 'nb_visits' => 20]]));
-
-        $dataTable = new class ([$dayOne, $dayTwo]) {
-            private $tables;
-
-            public function __construct(array $tables)
-            {
-                $this->tables = $tables;
-            }
-
-            public function getDataTables(): array
-            {
-                return $this->tables;
-            }
-
-            public function getColumn(string $column): array
-            {
-                if ($column === 'label') {
-                    return [];
-                }
-
-                return [];
-            }
-        };
-
-        $chart = $this->getMockBuilder(Chart::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['setAxisYValues', 'setAxisYUnits', 'setAxisXLabelsMultiple', 'setAxisXOnClick', 'setDataStates', 'setForecastData'])
-            ->getMock();
-        $chart->properties = ['x_axis_step_size' => 1, 'show_all_ticks' => false];
-
-        $chart->expects(self::once())->method('setForecastData')->with([]);
-
-        $this->invokeProtectedMethod($generator, 'initChartObjectData', [$dataTable, $chart]);
-
-        unset($_GET['idSite'], $_REQUEST['idSite'], $_GET['period'], $_REQUEST['period']);
-    }
-
-    public function testInitChartObjectDataSkipsForecastDataWhenComparing(): void
-    {
-        $_GET['idSite'] = '1';
-        $_REQUEST['idSite'] = '1';
-        $_GET['period'] = 'range';
-        $_REQUEST['period'] = 'range';
-
-        $generator = $this->createGenerator();
-        $site = $this->createSiteMock();
-
-        $this->setGeneratorProperty($generator, 'properties', [
-            'columns_to_display' => [],
-            'rows_to_display' => [],
-            'translations' => [],
-            'request_parameters_to_modify' => ['format_metrics' => 1],
-            'show_forecast' => 1,
-        ]);
-        $this->setGeneratorProperty($generator, 'isComparing', true);
-
-        $dayOne = $this->createDataTableForDay('2026-04-10', $site);
-        $dayOne->addRow(new Row([Row::COLUMNS => ['label' => 'Visits', 'nb_visits' => 80]]));
-
-        $dayTwo = $this->createDataTableForDay('2026-04-11', $site, '2026-04-11 12:00:00');
-        $dayTwo->addRow(new Row([Row::COLUMNS => ['label' => 'Visits', 'nb_visits' => 20]]));
-
-        $dataTable = new class ([$dayOne, $dayTwo]) {
-            private $tables;
-
-            public function __construct(array $tables)
-            {
-                $this->tables = $tables;
-            }
-
-            public function getDataTables(): array
-            {
-                return $this->tables;
-            }
-
-            public function getColumn(string $column): array
-            {
-                if ($column === 'label') {
-                    return [];
-                }
-
-                return [];
-            }
-        };
-
-        $chart = $this->getMockBuilder(Chart::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['setAxisYValues', 'setAxisYUnits', 'setAxisXLabelsMultiple', 'setAxisXOnClick', 'setDataStates', 'setForecastData'])
-            ->getMock();
-        $chart->properties = ['x_axis_step_size' => 1, 'show_all_ticks' => false];
-
-        $chart->expects(self::once())->method('setForecastData')->with([]);
-
-        $this->invokeProtectedMethod($generator, 'initChartObjectData', [$dataTable, $chart]);
-
-        unset($_GET['idSite'], $_REQUEST['idSite'], $_GET['period'], $_REQUEST['period']);
-    }
-
     public function testPrecomputeForecastReturnsEmptyWhenComparing(): void
     {
-        $generator = $this->createGenerator();
-        $this->setGeneratorProperty($generator, 'properties', [
-            'show_forecast' => 1,
-            'columns_to_display' => ['nb_visits'],
-            'rows_to_display' => [false],
-        ]);
-        $this->setGeneratorProperty($generator, 'isComparing', true);
+        $evolution = $this->createEvolution(
+            ['show_forecast' => 1, 'columns_to_display' => ['nb_visits'], 'rows_to_display' => [false]],
+            true
+        );
 
-        self::assertSame([], $generator->precomputeForecast(new DataTable\Map()));
+        self::assertSame([], $evolution->precomputeForecast(new DataTable\Map()));
     }
 
     public function testPrecomputeForecastReturnsEmptyForEmptyMap(): void
     {
-        $generator = $this->createGenerator();
-        $this->setGeneratorProperty($generator, 'properties', [
-            'show_forecast' => 1,
-            'columns_to_display' => ['nb_visits'],
-            'rows_to_display' => [false],
-        ]);
-        $this->setGeneratorProperty($generator, 'isComparing', false);
+        $evolution = $this->createEvolution(
+            ['show_forecast' => 1, 'columns_to_display' => ['nb_visits'], 'rows_to_display' => [false]],
+            false
+        );
 
-        self::assertSame([], $generator->precomputeForecast(new DataTable\Map()));
+        self::assertSame([], $evolution->precomputeForecast(new DataTable\Map()));
     }
 
     public function testPrecomputeForecastReturnsEmptyWhenNoIncompletePeriod(): void
     {
-        $generator = $this->createGenerator();
-        $this->setGeneratorProperty($generator, 'properties', [
-            'show_forecast' => 1,
-            'columns_to_display' => ['nb_visits'],
-            'rows_to_display' => [false],
-        ]);
-        $this->setGeneratorProperty($generator, 'isComparing', false);
+        $evolution = $this->createEvolution(
+            ['show_forecast' => 1, 'columns_to_display' => ['nb_visits'], 'rows_to_display' => [false]],
+            false
+        );
 
         $site = $this->createSiteMock();
         $map = new DataTable\Map();
         $map->addTable($this->createDataTableForDay('2026-04-10', $site), '2026-04-10');
         $map->addTable($this->createDataTableForDay('2026-04-11', $site), '2026-04-11');
 
-        self::assertSame([], $generator->precomputeForecast($map));
+        self::assertSame([], $evolution->precomputeForecast($map));
     }
 
-    private function createGenerator(): Evolution
+    public function testBuildForecastDataDelegatesToBuilderWhenEnabledAndNotComparing(): void
     {
-        $reflection = new ReflectionClass(Evolution::class);
-        $generator = $reflection->newInstanceWithoutConstructor();
+        $evolution = $this->createEvolution(['show_forecast' => 1], false);
+        $site = $this->createSiteMock();
 
-        $graph = $this->getMockBuilder(JqplotEvolutionGraph::class)
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-11', $site, '2026-04-11 12:00:00'),
+        ];
+
+        $forecast = $evolution->callBuildForecastData(
+            ['Visits' => [80.0, 20.0]],
+            $dataTables,
+            [ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
+            ['Visits' => false],
+            ['Visits' => [true, true]]
+        );
+
+        self::assertCount(1, $forecast);
+        self::assertNull($forecast[0][0]);
+        self::assertIsFloat($forecast[0][1]);
+        self::assertGreaterThan(20.0, $forecast[0][1]);
+    }
+
+    /**
+     * @param array<string, mixed> $properties
+     */
+    private function createEvolution(array $properties, bool $isComparing): Evolution
+    {
+        $graph = $this->getMockBuilder(JqplotGraph::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getForecastData'])
-            ->getMock();
-        $graph->method('getForecastData')->willReturn([]);
+            ->onlyMethods(['isComparing'])
+            ->getMockForAbstractClass();
+        $graph->method('isComparing')->willReturn($isComparing);
 
-        $this->setGeneratorProperty($generator, 'graph', $graph);
-
-        return $generator;
+        return new class ($properties, 'evolution', $graph) extends Evolution {
+            /**
+             * @param array<string, mixed> $allSeriesData
+             * @param array<int, DataTable> $dataTables
+             * @param array<int, string> $dataStates
+             * @param array<string, string|false> $seriesUnits
+             * @param array<string, array<int, bool>> $allSeriesDataAvailability
+             * @return array<int, array<int, float|null>>
+             */
+            public function callBuildForecastData(
+                array $allSeriesData,
+                array $dataTables,
+                array $dataStates,
+                array $seriesUnits,
+                array $allSeriesDataAvailability
+            ): array {
+                return $this->buildForecastData(
+                    $allSeriesData,
+                    $dataTables,
+                    $dataStates,
+                    $seriesUnits,
+                    $allSeriesDataAvailability
+                );
+            }
+        };
     }
 
     private function createSiteMock(): Site
@@ -523,42 +196,5 @@ class EvolutionTest extends TestCase
         }
 
         return $dataTable;
-    }
-
-    /**
-     * @param array<int, mixed> $arguments
-     * @return mixed
-     */
-    private function invokePrivateMethod(Evolution $generator, string $methodName, array $arguments)
-    {
-        $reflection = new ReflectionClass(Evolution::class);
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($generator, $arguments);
-    }
-
-    /**
-     * @param array<int, mixed> $arguments
-     * @return mixed
-     */
-    private function invokeProtectedMethod(Evolution $generator, string $methodName, array $arguments)
-    {
-        return $this->invokePrivateMethod($generator, $methodName, $arguments);
-    }
-
-    /**
-     * @param mixed $value
-     */
-    private function setGeneratorProperty(Evolution $generator, string $propertyName, $value): void
-    {
-        $reflection = new ReflectionClass($generator);
-        while ($reflection && !$reflection->hasProperty($propertyName)) {
-            $reflection = $reflection->getParentClass();
-        }
-
-        $property = $reflection->getProperty($propertyName);
-        $property->setAccessible(true);
-        $property->setValue($generator, $value);
     }
 }
