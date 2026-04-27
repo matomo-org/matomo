@@ -1,4 +1,5 @@
 @_selector-button_padding: 8px 16px;
+@_selector-button_inner-half-gap: 8px;
 @_selector-button_color-background: @theme-color-background-contrast;
 @_selector-button_color-background-hover: @theme-color-background-contrast;
 @_selector-button_border: 1px solid @theme-color-border;
@@ -43,16 +44,8 @@
     color: @theme-color-text;
     font-variant: tabular-nums;
 
-    &:has(.icon-chevron-down) {
-      flex-direction: row-reverse;
-    }
-
     &:focus {
       outline: none;
-    }
-
-    &:focus-visible {
-      outline: 2px solid @theme-color-focus-ring;
     }
 
     &.activityIndicator {
@@ -85,9 +78,9 @@
 
   &.expanded,
   &.editing,
-  &:hover,
-  &:focus,
-  &:focus-within {
+  &:hover:not(.periodSelector-withPrevNext),
+  &:focus:not(.periodSelector-withPrevNext),
+  &:focus-within:not(.periodSelector-withPrevNext) {
     border: @_selector-button_border-active;
 
     span.title,
@@ -101,22 +94,62 @@
   /* Period selector specific: left & right arrows */
 
   .move-period {
+    position: relative;
     padding: @_selector-button_padding;
     background-color: @_selector-button_color-background;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border: 1px solid transparent;
+
+      pointer-events: none;
+    }
+
+    &:hover::before,
+    &:focus-visible::before {
+      border-color: @theme-color-focus-ring;
+    }
   }
 
   .move-period-prev {
-    padding-right: 0;
+    padding-right: @_selector-button_inner-half-gap;
     border-radius: @_selector-button_border-radius 0 0 @_selector-button_border-radius;
+
+    &::before {
+      border-radius: @_selector-button_border-radius 0 0 @_selector-button_border-radius;
+    }
   }
 
   .move-period-next {
-    padding-left: 0;
+    padding-left: @_selector-button_inner-half-gap;
     border-radius: 0 @_selector-button_border-radius @_selector-button_border-radius 0;
+
+    &::before {
+      border-radius: 0 @_selector-button_border-radius @_selector-button_border-radius 0;
+    }
   }
 
   &.periodSelector-withPrevNext .title {
     border-radius: 0;
+    padding-left: @_selector-button_inner-half-gap;
+    padding-right: @_selector-button_inner-half-gap;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border: 1px solid transparent;
+      border-radius: @_selector-button_border-radius;
+
+      pointer-events: none;
+    }
+
+    &:hover::before,
+    &:focus-visible::before {
+      border-color: @theme-color-focus-ring;
+    }
   }
 }
 
