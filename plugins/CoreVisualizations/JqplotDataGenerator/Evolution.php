@@ -19,6 +19,7 @@ use Piwik\Period;
 use Piwik\Period\Factory;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as JqplotEvolutionGraph;
 use Piwik\Site;
 use Piwik\Url;
 
@@ -28,6 +29,16 @@ use Piwik\Url;
 class Evolution extends JqplotDataGenerator
 {
     private const MIN_FORECAST_RATIO = 0.05;
+
+    /**
+     * Narrow the parent's untyped `$graph` to the evolution visualization, since
+     * `JqplotDataGenerator\Evolution` is only ever constructed by
+     * {@see JqplotEvolutionGraph::makeDataGenerator()}. Lets later code call
+     * forecast-specific accessors without redundant `instanceof` checks.
+     *
+     * @var JqplotEvolutionGraph
+     */
+    protected $graph;
 
     protected function getUnitsForColumnsToDisplay()
     {
@@ -144,7 +155,11 @@ class Evolution extends JqplotDataGenerator
         }
 
         $dataStates = $this->setDataStates($visualization, $dataTables);
-        $visualization->setForecastData($this->buildForecastData($allSeriesData, $dataTables, $dataStates, $seriesUnits, $allSeriesDataAvailability));
+        if (!empty($this->properties['show_forecast']) && !$this->isComparing) {
+            $visualization->setForecastData($this->buildForecastData($allSeriesData, $dataTables, $dataStates, $seriesUnits, $allSeriesDataAvailability));
+        } else {
+            $visualization->setForecastData([]);
+        }
     }
 
     private function getSeriesData($rowLabel, $columnName, DataTable\Map $dataTable, &$seriesDataAvailability)
@@ -354,6 +369,21 @@ class Evolution extends JqplotDataGenerator
      */
     private function setDataStates(Chart $visualization, array $dataTables): array
     {
+        $dataStates = $this->computeDataStates($dataTables);
+        $visualization->setDataStates($dataStates);
+
+        return $dataStates;
+    }
+
+    /**
+     * Pure data-state computation. Returns the per-tick archive state for the given
+     * per-period DataTables, ordered by the original DataTable\Map keys.
+     *
+     * @param array<DataTable> $dataTables
+     * @return array<int, string>
+     */
+    public function computeDataStates(array $dataTables): array
+    {
         if (0 === count($dataTables)) {
             return [];
         }
@@ -369,9 +399,8 @@ class Evolution extends JqplotDataGenerator
         $previousState = ArchiveState::COMPLETE;
 
         foreach ($dataTableDates as $dataTableDate) {
-            /** @var Period $period */
-            $period = $dataTables[$dataTableDate]->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
-            $state = $dataTables[$dataTableDate]->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
+            $childTable = $dataTables[$dataTableDate];
+            $state = $childTable->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
 
             if (false === $state) {
                 // Missing archive state information should only occur if no
@@ -383,7 +412,7 @@ class Evolution extends JqplotDataGenerator
                     : ArchiveState::COMPLETE;
             }
 
-            if ($siteToday <= $period->getDateEnd()->getTimestamp()) {
+            if (self::isIncompleteTick($childTable, $siteToday)) {
                 $state = ArchiveState::INCOMPLETE;
             }
 
@@ -391,10 +420,34 @@ class Evolution extends JqplotDataGenerator
             $previousState = $state;
         }
 
-        $dataStates = array_values($dataStates);
-        $visualization->setDataStates($dataStates);
+        return array_values($dataStates);
+    }
 
-        return $dataStates;
+    /**
+     * Decides whether a single child table from an evolution Map represents an
+     * incomplete tick. Two signals can mark a tick incomplete: an explicit
+     * INCOMPLETE archive_state metadata flag (set by the archiver when ts_archived
+     * falls before the period end), or the tick's period running on/past the
+     * site's "today". The siteToday rule exists because the archiver may not
+     * write numeric records for periods with no data (low-volume Goals/Ecommerce
+     * reports hit this), in which case the metadata is absent even though the
+     * period is, by definition, still in progress.
+     *
+     * Called from {@see computeDataStates()} as the override that forces the
+     * per-tick state to INCOMPLETE, and from
+     * {@see \Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution::hasAnyIncompleteTick()}
+     * to gate the forecast toggle visibility on whether any tick is incomplete.
+     * Both consumers must agree on the rule, so the comparison lives in one place.
+     */
+    public static function isIncompleteTick(DataTable $childTable, int $siteToday): bool
+    {
+        if (ArchiveState::INCOMPLETE === $childTable->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME)) {
+            return true;
+        }
+
+        $period = $childTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+
+        return $period instanceof Period && $siteToday <= $period->getDateEnd()->getTimestamp();
     }
 
     /**
@@ -419,6 +472,13 @@ class Evolution extends JqplotDataGenerator
         $site = reset($dataTables)->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX);
         if (empty($site)) {
             return [];
+        }
+
+        // Prefer the value precomputed in JqplotGraph\Evolution::afterAllFiltersAreApplied()
+        // so the toggle-visibility gate and the rendered values share one source of truth.
+        $precomputed = $this->graph->getForecastData();
+        if ([] !== $precomputed) {
+            return $precomputed;
         }
 
         $dataTableList = array_values($dataTables);
@@ -650,5 +710,69 @@ class Evolution extends JqplotDataGenerator
         /** @var Period $period */
         $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
         return $period->getDateStart()->toString('N');
+    }
+
+    /**
+     * Compute forecast values for the given DataTable\Map without rendering a chart.
+     * Used by the visualization in afterAllFiltersAreApplied() to gate the forecast
+     * toggle action on whether the algorithm actually yields any renderable values.
+     *
+     * @return array<int, array<int, float|null>>
+     */
+    public function precomputeForecast(DataTable\Map $dataTable): array
+    {
+        if ($this->isComparing) {
+            return [];
+        }
+
+        $dataTables = $dataTable->getDataTables();
+        if ([] === $dataTables) {
+            return [];
+        }
+
+        // Cheap gate: without at least one incomplete tick the builder cannot
+        // produce a forecast value, so skip the per-series construction below.
+        // This runs on every evolution graph render to size the toggle action,
+        // so the early exit matters for dashboards full of historical-only graphs.
+        $dataStates = $this->computeDataStates($dataTables);
+        if (!in_array(ArchiveState::INCOMPLETE, $dataStates, true)) {
+            return [];
+        }
+
+        $units = $this->getUnitsForColumnsToDisplay();
+
+        $rowsToDisplay = $this->properties['rows_to_display']
+            ?: array_unique($dataTable->getColumn('label'))
+                ?: [false];
+
+        $columnsToDisplay = array_values($this->properties['columns_to_display']);
+
+        [, $seriesUnits] = $this->getSeriesMetadata($rowsToDisplay, $columnsToDisplay, $units, $dataTables);
+
+        $allSeriesData = [];
+        $allSeriesDataAvailability = [];
+        foreach ($rowsToDisplay as $rowIdentifier) {
+            $rowLabel = $rowIdentifier;
+
+            if (!empty($this->properties['selectable_rows'])) {
+                foreach ($this->properties['selectable_rows'] as $row) {
+                    if ($rowIdentifier === $row['matcher']) {
+                        $rowLabel = $row['label'];
+                    }
+                }
+            }
+
+            foreach ($columnsToDisplay as $columnName) {
+                $this->setNonComparisonSeriesData($allSeriesData, $allSeriesDataAvailability, $rowLabel, $columnName, $dataTable);
+            }
+        }
+
+        return $this->buildForecastData(
+            $allSeriesData,
+            $dataTables,
+            $dataStates,
+            $seriesUnits,
+            $allSeriesDataAvailability
+        );
     }
 }

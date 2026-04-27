@@ -15,8 +15,11 @@ use PHPUnit\Framework\TestCase;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Period\Factory;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Evolution;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as JqplotEvolutionGraph;
 use Piwik\Site;
 use ReflectionClass;
 
@@ -315,10 +318,186 @@ class EvolutionTest extends TestCase
         yield 'non-empty string counts as data' => ['1.5', true];
     }
 
+    public function testInitChartObjectDataDoesNotExposeForecastDataWhenDisabled(): void
+    {
+        $_GET['idSite'] = '1';
+        $_REQUEST['idSite'] = '1';
+        $_GET['period'] = 'range';
+        $_REQUEST['period'] = 'range';
+
+        $generator = $this->createGenerator();
+        $site = $this->createSiteMock();
+
+        $this->setGeneratorProperty($generator, 'properties', [
+            'columns_to_display' => [],
+            'rows_to_display' => [],
+            'translations' => [],
+            'request_parameters_to_modify' => ['format_metrics' => 1],
+            'show_forecast' => 0,
+        ]);
+        $this->setGeneratorProperty($generator, 'isComparing', false);
+
+        $dayOne = $this->createDataTableForDay('2026-04-10', $site);
+        $dayOne->addRow(new Row([Row::COLUMNS => ['label' => 'Visits', 'nb_visits' => 80]]));
+
+        $dayTwo = $this->createDataTableForDay('2026-04-11', $site, '2026-04-11 12:00:00');
+        $dayTwo->addRow(new Row([Row::COLUMNS => ['label' => 'Visits', 'nb_visits' => 20]]));
+
+        $dataTable = new class ([$dayOne, $dayTwo]) {
+            private $tables;
+
+            public function __construct(array $tables)
+            {
+                $this->tables = $tables;
+            }
+
+            public function getDataTables(): array
+            {
+                return $this->tables;
+            }
+
+            public function getColumn(string $column): array
+            {
+                if ($column === 'label') {
+                    return [];
+                }
+
+                return [];
+            }
+        };
+
+        $chart = $this->getMockBuilder(Chart::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['setAxisYValues', 'setAxisYUnits', 'setAxisXLabelsMultiple', 'setAxisXOnClick', 'setDataStates', 'setForecastData'])
+            ->getMock();
+        $chart->properties = ['x_axis_step_size' => 1, 'show_all_ticks' => false];
+
+        $chart->expects(self::once())->method('setForecastData')->with([]);
+
+        $this->invokeProtectedMethod($generator, 'initChartObjectData', [$dataTable, $chart]);
+
+        unset($_GET['idSite'], $_REQUEST['idSite'], $_GET['period'], $_REQUEST['period']);
+    }
+
+    public function testInitChartObjectDataSkipsForecastDataWhenComparing(): void
+    {
+        $_GET['idSite'] = '1';
+        $_REQUEST['idSite'] = '1';
+        $_GET['period'] = 'range';
+        $_REQUEST['period'] = 'range';
+
+        $generator = $this->createGenerator();
+        $site = $this->createSiteMock();
+
+        $this->setGeneratorProperty($generator, 'properties', [
+            'columns_to_display' => [],
+            'rows_to_display' => [],
+            'translations' => [],
+            'request_parameters_to_modify' => ['format_metrics' => 1],
+            'show_forecast' => 1,
+        ]);
+        $this->setGeneratorProperty($generator, 'isComparing', true);
+
+        $dayOne = $this->createDataTableForDay('2026-04-10', $site);
+        $dayOne->addRow(new Row([Row::COLUMNS => ['label' => 'Visits', 'nb_visits' => 80]]));
+
+        $dayTwo = $this->createDataTableForDay('2026-04-11', $site, '2026-04-11 12:00:00');
+        $dayTwo->addRow(new Row([Row::COLUMNS => ['label' => 'Visits', 'nb_visits' => 20]]));
+
+        $dataTable = new class ([$dayOne, $dayTwo]) {
+            private $tables;
+
+            public function __construct(array $tables)
+            {
+                $this->tables = $tables;
+            }
+
+            public function getDataTables(): array
+            {
+                return $this->tables;
+            }
+
+            public function getColumn(string $column): array
+            {
+                if ($column === 'label') {
+                    return [];
+                }
+
+                return [];
+            }
+        };
+
+        $chart = $this->getMockBuilder(Chart::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['setAxisYValues', 'setAxisYUnits', 'setAxisXLabelsMultiple', 'setAxisXOnClick', 'setDataStates', 'setForecastData'])
+            ->getMock();
+        $chart->properties = ['x_axis_step_size' => 1, 'show_all_ticks' => false];
+
+        $chart->expects(self::once())->method('setForecastData')->with([]);
+
+        $this->invokeProtectedMethod($generator, 'initChartObjectData', [$dataTable, $chart]);
+
+        unset($_GET['idSite'], $_REQUEST['idSite'], $_GET['period'], $_REQUEST['period']);
+    }
+
+    public function testPrecomputeForecastReturnsEmptyWhenComparing(): void
+    {
+        $generator = $this->createGenerator();
+        $this->setGeneratorProperty($generator, 'properties', [
+            'show_forecast' => 1,
+            'columns_to_display' => ['nb_visits'],
+            'rows_to_display' => [false],
+        ]);
+        $this->setGeneratorProperty($generator, 'isComparing', true);
+
+        self::assertSame([], $generator->precomputeForecast(new DataTable\Map()));
+    }
+
+    public function testPrecomputeForecastReturnsEmptyForEmptyMap(): void
+    {
+        $generator = $this->createGenerator();
+        $this->setGeneratorProperty($generator, 'properties', [
+            'show_forecast' => 1,
+            'columns_to_display' => ['nb_visits'],
+            'rows_to_display' => [false],
+        ]);
+        $this->setGeneratorProperty($generator, 'isComparing', false);
+
+        self::assertSame([], $generator->precomputeForecast(new DataTable\Map()));
+    }
+
+    public function testPrecomputeForecastReturnsEmptyWhenNoIncompletePeriod(): void
+    {
+        $generator = $this->createGenerator();
+        $this->setGeneratorProperty($generator, 'properties', [
+            'show_forecast' => 1,
+            'columns_to_display' => ['nb_visits'],
+            'rows_to_display' => [false],
+        ]);
+        $this->setGeneratorProperty($generator, 'isComparing', false);
+
+        $site = $this->createSiteMock();
+        $map = new DataTable\Map();
+        $map->addTable($this->createDataTableForDay('2026-04-10', $site), '2026-04-10');
+        $map->addTable($this->createDataTableForDay('2026-04-11', $site), '2026-04-11');
+
+        self::assertSame([], $generator->precomputeForecast($map));
+    }
+
     private function createGenerator(): Evolution
     {
         $reflection = new ReflectionClass(Evolution::class);
-        return $reflection->newInstanceWithoutConstructor();
+        $generator = $reflection->newInstanceWithoutConstructor();
+
+        $graph = $this->getMockBuilder(JqplotEvolutionGraph::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getForecastData'])
+            ->getMock();
+        $graph->method('getForecastData')->willReturn([]);
+
+        $this->setGeneratorProperty($generator, 'graph', $graph);
+
+        return $generator;
     }
 
     private function createSiteMock(): Site

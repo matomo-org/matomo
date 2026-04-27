@@ -24,6 +24,13 @@ class Config extends JqplotGraphConfig
      */
     public $show_line_graph = true;
 
+    /**
+     * Whether forecast values should be rendered for incomplete periods.
+     *
+     * Default value: false
+     */
+    public $show_forecast = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -34,9 +41,10 @@ class Config extends JqplotGraphConfig
         $this->hide_annotations_view  = false;
         $this->x_axis_step_size       = false;
         $this->show_line_graph        = true;
+        $this->show_forecast          = false;
 
-        $this->addPropertiesThatShouldBeAvailableClientSide(array('show_line_graph'));
-        $this->addPropertiesThatCanBeOverwrittenByQueryParams(array('show_line_graph'));
+        $this->addPropertiesThatShouldBeAvailableClientSide(['show_line_graph', 'show_forecast']);
+        $this->addPropertiesThatCanBeOverwrittenByQueryParams(['show_line_graph', 'show_forecast']);
 
         $period = Common::getRequestVar('period');
         if ($period !== 'range') {
