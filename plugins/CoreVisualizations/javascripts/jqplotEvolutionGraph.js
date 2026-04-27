@@ -80,6 +80,25 @@
 
             const self = this;
 
+            this.$element
+                .off('click.forecastToggle')
+                .on('click.forecastToggle', '.dataTableShowForecast.dataTableAction', function (e) {
+                    e.preventDefault();
+
+                    let currentValue = self.param.show_forecast;
+                    if (typeof currentValue === 'undefined') {
+                        currentValue = self.props.show_forecast;
+                    }
+
+                    const isForecastEnabled = currentValue === true || currentValue === 1 || currentValue === '1';
+                    self.param.show_forecast = isForecastEnabled ? '0' : '1';
+
+                    self.param.filter_offset = 0;
+                    delete self.param.totalRows;
+                    self.reloadAjaxDataTable(true);
+                    self.notifyWidgetParametersChange(self.$element, { show_forecast: self.param.show_forecast });
+                });
+
             $('#' + this.targetDivId)
                 .on('jqplotMouseLeave', function (e, s, i, d) {
                     $(this).css('cursor', 'default');
