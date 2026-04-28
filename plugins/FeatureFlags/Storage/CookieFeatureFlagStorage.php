@@ -16,8 +16,6 @@ class CookieFeatureFlagStorage implements FeatureFlagStorageInterface
 {
     /**
      * @internal
-     * @param FeatureFlagInterface $feature
-     * @return bool|null
      */
     public function isFeatureActive(FeatureFlagInterface $feature): ?bool
     {
@@ -36,8 +34,6 @@ class CookieFeatureFlagStorage implements FeatureFlagStorageInterface
 
     /**
      * @internal
-     * @param FeatureFlagInterface $feature
-     * @return void
      */
     public function disableFeatureFlag(FeatureFlagInterface $feature): void
     {
@@ -46,8 +42,6 @@ class CookieFeatureFlagStorage implements FeatureFlagStorageInterface
 
     /**
      * @internal
-     * @param FeatureFlagInterface $feature
-     * @return void
      */
     public function enableFeatureFlag(FeatureFlagInterface $feature): void
     {
@@ -56,8 +50,6 @@ class CookieFeatureFlagStorage implements FeatureFlagStorageInterface
 
     /**
      * @internal
-     * @param string $feature
-     * @return void
      */
     public function deleteFeatureFlag(string $featureName): void
     {
