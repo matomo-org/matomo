@@ -156,7 +156,10 @@ class ForecastBuilder
     /**
      * Forecast for monotonic count series: linear elapsed-ratio extrapolation blended with the
      * historical same-period prior. Carries the previous forecast forward when the current tick
-     * has no positive value so a synthetic 0 does not collapse the linear seed to zero.
+     * has no positive value so a synthetic 0 does not collapse the linear seed to zero. When the
+     * current tick is the first incomplete tick (no previous forecast) and historical priors
+     * exist, the blend would otherwise dilute the prior with a meaningless zero, so it falls back
+     * to the prior mean directly.
      *
      * @param array<int, float> $pastValues
      */
@@ -182,6 +185,8 @@ class ForecastBuilder
 
         if ($currentValue <= 0 && $previousForecastValue !== null) {
             $baseForecast = $previousForecastValue;
+        } elseif ($currentValue <= 0 && [] !== $pastValues) {
+            $baseForecast = $priorForecast;
         }
 
         $forecastValue = $this->blendForecastValue($baseForecast, $priorForecast, $weight);
