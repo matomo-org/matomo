@@ -183,6 +183,7 @@ class Session extends Zend_Session
         $shouldUseNoneForcefully = false;
         Piwik::postEvent('Session.shouldSendSameSiteCookieAsNoneForcefully', [&$shouldUseNoneForcefully]);
 
+        // @phpstan-ignore-next-line value may be changed by plugin listeners via reference
         if (($shouldUseNone || $shouldUseNoneForcefully) && ProxyHttp::isHttps()) {
             return 'None';
         }
