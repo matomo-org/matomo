@@ -372,7 +372,7 @@ class API extends \Piwik\Plugin\API
                 }
                 return false;
             case self::PREFERENCE_DEFAULT_REPORT_DATE:
-                return (string)GeneralConfig::getConfigValue('default_day');
+                return GeneralConfig::getStringConfigValue('default_day', '');
             default:
                 return false;
         }
@@ -997,7 +997,7 @@ class API extends \Piwik\Plugin\API
             // this will indirectly invalidate the invitation sent to the previous address
             $this->userRepository->reInviteUser(
                 $userLogin,
-                (int)GeneralConfig::getConfigValue('default_invite_user_token_expiry_days')
+                GeneralConfig::getIntegerConfigValue('default_invite_user_token_expiry_days', 0)
             );
         } elseif ($hasEmailChanged && $isEmailNotificationOnInConfig) {
             $this->sendEmailChangedEmail($userInfo, $email);

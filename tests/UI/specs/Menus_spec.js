@@ -20,6 +20,20 @@ describe("Menus", function () {
         await page.waitForTimeout(250);
     }
 
+    async function screenshotClippedSelector(selector, maxHeight, screenshotName) {
+        const element = await page.$(selector);
+        const box = await element.boundingBox();
+
+        expect(await page.screenshot({
+            clip: {
+              x: Math.floor(box.x),
+              y: Math.floor(box.y),
+              width: Math.ceil(box.width),
+              height: Math.min(maxHeight, Math.ceil(box.height)),
+            },
+        })).to.matchImage(screenshotName);
+    }
+
     beforeEach(function() {
         if (testEnvironment.enableProfessionalSupportAdsForUITests) {
           delete testEnvironment.enableProfessionalSupportAdsForUITests;
@@ -68,19 +82,18 @@ describe("Menus", function () {
 
     // admin menu tests
     it('should load the admin reporting menu correctly', async function() {
+        await page.webpage.setViewport({width: 1500, height: 750 });
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
         await page.waitForSelector('#secondNavBar');
 
-        const element = await page.jQuery('#secondNavBar');
-        expect(await element.screenshot()).to.matchImage('admin_loaded');
+        await screenshotClippedSelector('#secondNavBar', 620, 'admin_loaded');
     });
 
     it('should toggle the submenu visibility when main item is clicked', async function() {
         await openMenuItem(page, 'Website');
         await page.waitForTimeout(500); // wait for animation
 
-        const element = await page.jQuery('#secondNavBar');
-        expect(await element.screenshot()).to.matchImage('admin_websites');
+        await screenshotClippedSelector('#secondNavBar', 620, 'admin_websites');
     });
 
     it('should change the admin page correctly when an admin menu item is clicked', async function() {
@@ -93,7 +106,7 @@ describe("Menus", function () {
     });
 
     it('should load the admin left menu correctly on mobile', async function() {
-        await page.webpage.setViewport({ width: 815, height: 1600 });
+        await page.webpage.setViewport({ width: 815, height: 1650 });
         await page.goto("?module=CoreAdminHome&action=home");
         await page.waitForNetworkIdle();
         await page.click('[data-target="mobile-left-menu"]');

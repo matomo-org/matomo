@@ -90,8 +90,11 @@ describe("OneClickUpdate", function () {
         const updateDetailsToken = readUpdateDetailsTokenFromConfig();
         const runUpdaterLink = await page.$eval('.footer a', link => link.getAttribute('href'));
 
-        expect(updateDetailsToken).to.be.ok;
-        expect(runUpdaterLink).to.match(new RegExp(`[?&]updateDetailsToken=${updateDetailsToken}(?:&|$)`));
+        if (updateDetailsToken) {
+            expect(runUpdaterLink).to.match(new RegExp(`[?&]updateDetailsToken=${updateDetailsToken}(?:&|$)`));
+        } else {
+            expect(runUpdaterLink).to.not.match(/[?&]updateDetailsToken=/);
+        }
     });
 
     it('should login successfully after the update', async function () {

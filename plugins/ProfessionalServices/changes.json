@@ -1,5 +1,12 @@
 [
   {
+    "title": "Bring AI-powered analytics into your workflows",
+    "description": "The new MCP Server lets you connect Matomo to tools like ChatGPT or Claude, so you can ask questions in your language and get instant answers based on your real data. Generate reports, explore trends, and unlock insights - without digging through dashboards.",
+    "link_name": "Learn more",
+    "link": "https://matomo.org/faq/how-to/configure-the-matomo-mcp-server/",
+    "version": "5.10.0"
+  },
+  {
     "title": "New: Manage API access more securely with OAuth 2.0",
     "description": "With the new free Matomo OAuth 2.0 plugin, you can connect securely to the Matomo API using OAuth 2.0, with support for modern authentication flows and rotating access tokens. By improving security, simplifying token lifecycle management and aligning with enterprise authentication standards, your teams can build and maintain integrations with greater confidence.",
     "link_name": "Learn more",

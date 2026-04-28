@@ -15,19 +15,28 @@ use Piwik\Tracker\TrackerConfig;
 
 class TrackerConfigTest extends UnitTestCase
 {
-    public function testGetConfigValueReturnsTrackerConfigValueIfNoSiteSpecificValue()
+    public function testGetConfigValueReturnsTrackerConfigValueIfNoSiteSpecificValue(): void
     {
-        Config::getInstance()->Tracker['setting'] = 1;
-        Config::getInstance()->Tracker_10['setting'] = 0;
+        Config::getInstance()->Tracker = ['setting' => 1];
+        Config::getInstance()->Tracker_10 = ['setting' => 0];
 
-        $this->assertEquals(1, TrackerConfig::getConfigValue('setting', 5));
+        $this->assertSame(1, TrackerConfig::getConfigValue('setting', 5));
     }
 
-    public function testGetConfigValueReturnsSiteSpecificConfigValueIfOneIsSpecified()
+    public function testGetConfigValueReturnsSiteSpecificConfigValueIfOneIsSpecified(): void
     {
-        Config::getInstance()->Tracker['setting'] = 1;
-        Config::getInstance()->Tracker_10['setting'] = 0;
+        Config::getInstance()->Tracker = ['setting' => 1];
+        Config::getInstance()->Tracker_10 = ['setting' => 0];
 
-        $this->assertEquals(0, TrackerConfig::getConfigValue('setting', 10));
+        $this->assertSame(0, TrackerConfig::getConfigValue('setting', 10));
+    }
+
+    public function testGetBooleanConfigValueReturnsTypedTrackerConfigValue(): void
+    {
+        Config::getInstance()->Tracker = ['setting' => '1'];
+        Config::getInstance()->Tracker_10 = ['setting' => '0'];
+
+        $this->assertTrue(TrackerConfig::getBoolConfigValue('setting', null, 5));
+        $this->assertFalse(TrackerConfig::getBoolConfigValue('setting', null, 10));
     }
 }

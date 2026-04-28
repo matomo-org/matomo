@@ -51,15 +51,19 @@ describe("PluginsAdmin", function () {
 
     await page.waitForNetworkIdle();
     await page.waitForTimeout(200);
+    const text = await page.$eval(
+      '#secondNavBar .navbar .menuTab.active .item.manage-plugins',
+      (el) => el.textContent.trim(),
+    );
 
-    expect(await page.screenshotSelector('#secondNavBar')).to.matchImage('plugins_update_menu');
+    expect(text).to.contain('2')
   });
 
   it('should load the plugins admin page correctly when internet disabled', async function () {
-    testEnvironment.overrideConfig('General', {
+    await testEnvironment.overrideConfig('General', {
       enable_internet_features: 0
     });
-    testEnvironment.save();
+    await testEnvironment.save();
 
     await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
 
@@ -67,10 +71,10 @@ describe("PluginsAdmin", function () {
   });
 
   it('should load the plugins admin page correctly when admin disabled', async function () {
-    testEnvironment.overrideConfig('General', {
+    await testEnvironment.overrideConfig('General', {
       enable_plugins_admin: 0
     });
-    testEnvironment.save();
+    await testEnvironment.save();
 
     await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
 

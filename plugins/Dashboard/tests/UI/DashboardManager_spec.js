@@ -115,7 +115,7 @@ describe("DashboardManager", function () {
     it("should load widgets on smaller screen", async function(){
         await page.webpage.setViewport({ width: 815, height: 512 });
         await page.waitForTimeout(500);
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('small_screen');
+        expect(await page.screenshotSelector('.top_controls, #dashboard')).to.matchImage('small_screen');
     });
 
     it("should remove dashboard when remove dashboard process completed", async function() {
