@@ -311,7 +311,7 @@ class ForecastBuilderTest extends TestCase
             ['Visits' => [true, false, true, true]]
         );
 
-        self::assertSame([[null, null, null, 59.9997]], $forecastData);
+        self::assertSame([[null, null, null, 67.9997]], $forecastData);
     }
 
     public function testBuildReusesForecastAsSyntheticDataForLaterNoDataDaysAndRecalculatesWhenDataReturns(): void
@@ -348,15 +348,17 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[null, null, null, null, 47.9996, 58.3997, 74.7198, 59.9994]], $forecastData);
     }
 
-    public function testBuildMonotonicReturnsFullPriorWhenIncompleteTickHasNoData(): void
+    public function testBuildMonotonicReturnsTrendAwarePriorWhenIncompleteTickHasNoData(): void
     {
         $site = $this->createSiteMock();
 
         // The "today" tick exists in the date range but has no archived data yet — currentValue
         // is 0 and there is no earlier incomplete tick to carry a forecast forward from. The
         // blend would otherwise dilute the historical prior with a meaningless zero; the builder
-        // must return the full prior mean instead. Apr 3/10/17/24 are all Fridays so the daily
-        // weekday filter keeps every prior tick in the sample.
+        // falls back to computeHistoricalPrior. With three same-weekday priors [80, 100, 60] the
+        // least-squares fit gives slope = -10, intercept = 100. The damped projection at
+        // x = 3 + TREND_DAMPING (0.5) is 100 + (-10) * 3.5 = 65. Apr 3/10/17/24 are all Fridays
+        // so the daily weekday filter keeps every prior tick in the sample.
         $dataTables = [
             $this->createDataTableForDay('2026-04-03', $site),
             $this->createDataTableForDay('2026-04-10', $site),
@@ -376,7 +378,103 @@ class ForecastBuilderTest extends TestCase
             ['Visits' => false]
         );
 
-        self::assertSame([[null, null, null, 80.0]], $forecastData);
+        self::assertSame([[null, null, null, 65.0]], $forecastData);
+    }
+
+    public function testBuildAppliesDampedLinearTrendOnMultiSamplePriors(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Five consecutive Fridays so the daily weekday filter keeps all four priors. Priors
+        // [100, 120, 140, 160] form a clean linear trend: slope = 20, intercept = 80, regressed
+        // value at x=4 = 160. The damped projection adds TREND_DAMPING * slope to that anchor:
+        // 160 + 0.5 * 20 = 170. A flat-mean predictor would have returned 130, so the test pins
+        // the trend-aware behaviour on a realistic four-week history.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-03', $site),
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site),
+            $this->createDataTableForDay('2026-05-01', $site, '2026-05-01 00:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [100.0, 120.0, 140.0, 160.0, 0.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        self::assertSame([[null, null, null, null, 170.0]], $forecastData);
+    }
+
+    public function testBuildPriorReducesToMeanWhenTrendIsFlat(): void
+    {
+        $site = $this->createSiteMock();
+
+        // With identical priors the least-squares slope is zero, so the damped projection
+        // reduces exactly to the historical mean. This guards against accidental drift the
+        // trend formulation might introduce on stable series.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-03', $site),
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site),
+            $this->createDataTableForDay('2026-05-01', $site, '2026-05-01 00:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [50.0, 50.0, 50.0, 50.0, 0.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        self::assertSame([[null, null, null, null, 50.0]], $forecastData);
+    }
+
+    public function testBuildClampsNegativeTrendExtrapolationToZero(): void
+    {
+        $site = $this->createSiteMock();
+
+        // A steeply collapsing prior series produces a damped extrapolation below zero
+        // (slope = -32.5, intercept = 122.5, damped projection at x=4.5 = -23.75). Counts and
+        // percentages are non-negative by construction, so the forecast clamps to 0 rather
+        // than rendering a meaningless negative value on the chart.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-03', $site),
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site),
+            $this->createDataTableForDay('2026-05-01', $site, '2026-05-01 00:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [100.0, 50.0, 10.0, 5.0, 0.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        self::assertSame([[null, null, null, null, 0.0]], $forecastData);
     }
 
     public function testBuildDoesNotCarryForwardAcrossSuppressedForecastGap(): void

@@ -39,6 +39,16 @@ class ForecastBuilder
     private const MIN_FORECAST_RATIO = 0.05;
 
     /**
+     * Damping factor applied to the linear-trend projection of the historical prior.
+     * 1.0 = full least-squares extrapolation (most responsive to trends, most prone to
+     * overshoot on noisy ratios). 0.0 = no projection (flat mean). 0.5 keeps the regression
+     * line's fit on the historical samples but only takes a half-step in the slope direction
+     * for the next-period forecast — a trade-off between catching growth on count series and
+     * not amplifying noise on volatile averages.
+     */
+    private const TREND_DAMPING = 0.5;
+
+    /**
      * @param array<string, array<int, float|int>> $allSeriesData
      * @param array<DataTable> $dataTables
      * @param array<int, string> $dataStates
@@ -159,7 +169,7 @@ class ForecastBuilder
      * has no positive value so a synthetic 0 does not collapse the linear seed to zero. When the
      * current tick is the first incomplete tick (no previous forecast) and historical priors
      * exist, the blend would otherwise dilute the prior with a meaningless zero, so it falls back
-     * to the prior mean directly.
+     * to the prior directly. The prior itself is trend-aware via computeHistoricalPrior.
      *
      * @param array<int, float> $pastValues
      */
@@ -178,7 +188,7 @@ class ForecastBuilder
         $priorForecast = $linearForecast;
 
         if ([] !== $pastValues) {
-            $priorForecast = array_sum($pastValues) / count($pastValues);
+            $priorForecast = $this->computeHistoricalPrior($pastValues);
         }
 
         $weight = $this->getPriorForecastWeight(count($pastValues), $this->getPeriodLabel($dataTable));
@@ -200,15 +210,16 @@ class ForecastBuilder
 
     /**
      * Forecast for non-monotonic series (ratios, averages, latency-style). Returns the historical
-     * same-period prior, falling back to the previous forecast if there is no prior. Returns null
-     * when neither signal is available because no defensible value can be produced.
+     * same-period prior (trend-aware via computeHistoricalPrior), falling back to the previous
+     * forecast if there is no prior. Returns null when neither signal is available because no
+     * defensible value can be produced.
      *
      * @param array<int, float> $pastValues
      */
     private function buildNonMonotonicForecastValue(array $pastValues, ?float $previousForecastValue): ?float
     {
         if ([] !== $pastValues) {
-            return array_sum($pastValues) / count($pastValues);
+            return $this->computeHistoricalPrior($pastValues);
         }
 
         if ($previousForecastValue !== null) {
@@ -216,6 +227,50 @@ class ForecastBuilder
         }
 
         return null;
+    }
+
+    /**
+     * Same-period historical prior used by both forecast paths. With fewer than two samples
+     * there is no slope to fit and the only signal is the single value (or a flat mean).
+     * With two or more samples we apply a least-squares linear-trend extrapolation projected
+     * one step forward, then dampen the projection by TREND_DAMPING so noisy ratios do not
+     * runaway-extrapolate from a spurious slope. Catching sustained growth or decline that a
+     * flat mean would systematically lag is the win; the damping is what keeps that win from
+     * becoming a loss on volatile averages. The result is clamped to >= 0 because every metric
+     * the builder serves (counts, percentages, durations) is non-negative; a negative trend
+     * extrapolation past zero is never a defensible forecast.
+     *
+     * @param array<int, float> $pastValues Same-period historical samples in temporal order
+     *        (oldest first), already filtered and stripped of leading zeros by the caller.
+     */
+    private function computeHistoricalPrior(array $pastValues): float
+    {
+        $sampleCount = count($pastValues);
+        if ($sampleCount < 2) {
+            return max(0.0, (float) $pastValues[0]);
+        }
+
+        $sumX = $sampleCount * ($sampleCount + 1) / 2;
+        $sumY = array_sum($pastValues);
+        $sumXX = 0.0;
+        $sumXY = 0.0;
+        for ($i = 0; $i < $sampleCount; ++$i) {
+            $x = $i + 1;
+            $sumXX += $x * $x;
+            $sumXY += $x * $pastValues[$i];
+        }
+
+        $denominator = $sampleCount * $sumXX - $sumX * $sumX;
+        if ($denominator <= 0.0) {
+            return max(0.0, $sumY / $sampleCount);
+        }
+
+        $slope = ($sampleCount * $sumXY - $sumX * $sumY) / $denominator;
+        $intercept = ($sumY - $slope * $sumX) / $sampleCount;
+
+        // Equivalent to projecting from the regressed value at x=sampleCount and taking a
+        // fractional step in the slope direction: y(n) + damping * slope.
+        return max(0.0, $intercept + $slope * ($sampleCount + self::TREND_DAMPING));
     }
 
     /**
