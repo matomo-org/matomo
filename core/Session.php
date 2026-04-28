@@ -180,8 +180,10 @@ class Session extends Zend_Session
 
         $isOptOutRequest = $module == 'CoreAdminHome' && ($action == 'optOut' || $action == 'optOutJS');
         $shouldUseNone = !empty($general['enable_framed_pages']) || $isOptOutRequest || Overlay::isOverlayRequest($module, $action, $method, $referer);
+        $shouldUseNoneForcefully = false;
+        Piwik::postEvent('Session.shouldSendSameSiteCookieAsNoneForcefully', [&$shouldUseNoneForcefully]);
 
-        if ($shouldUseNone && ProxyHttp::isHttps()) {
+        if (($shouldUseNone || $shouldUseNoneForcefully) && ProxyHttp::isHttps()) {
             return 'None';
         }
 
