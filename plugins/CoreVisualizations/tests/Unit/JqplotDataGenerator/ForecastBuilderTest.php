@@ -348,6 +348,37 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[null, null, null, null, 47.9996, 58.3997, 74.7198, 59.9994]], $forecastData);
     }
 
+    public function testBuildMonotonicReturnsFullPriorWhenIncompleteTickHasNoData(): void
+    {
+        $site = $this->createSiteMock();
+
+        // The "today" tick exists in the date range but has no archived data yet — currentValue
+        // is 0 and there is no earlier incomplete tick to carry a forecast forward from. The
+        // blend would otherwise dilute the historical prior with a meaningless zero; the builder
+        // must return the full prior mean instead. Apr 3/10/17/24 are all Fridays so the daily
+        // weekday filter keeps every prior tick in the sample.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-03', $site),
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 00:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [80.0, 100.0, 60.0, 0.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        self::assertSame([[null, null, null, 80.0]], $forecastData);
+    }
+
     public function testBuildDoesNotCarryForwardAcrossSuppressedForecastGap(): void
     {
         $site = $this->createSiteMock();
