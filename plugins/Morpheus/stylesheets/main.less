@@ -245,10 +245,6 @@ p {
   #Dashboard {
     position: relative;
 
-    &:hover ul {
-      background-color: @theme-color-background-base;
-    }
-
     ul {
       padding: 0 19px;
       color: @theme-color-text-light;
@@ -257,7 +253,7 @@ p {
       .border-radius(0);
 
       border: 0;
-      background-color: @theme-color-background-base;
+      background-color: transparent;
     }
 
     > ul > li {
@@ -284,7 +280,7 @@ p {
 
     > ul > li:hover,
     > ul > li:hover a {
-      color: @theme-color-brand;
+      color: @theme-color-link;
     }
   }
 }

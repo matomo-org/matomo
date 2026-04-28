@@ -139,24 +139,16 @@ nav {
     flex-direction: column;
   }
 
-  .layoutWithSidebarContent {
-    min-width: 0;
-  }
-
-  .top_controls {
-    min-height: 51px;
-    position: relative;
-    background-color: @theme-color-background-base;
+  & .top_controls {
     height: auto;
-    margin-bottom: 8px;
-    margin-top: 8px;
-    visibility: hidden;
-    opacity: 0;
-    padding-left: 18px;
 
-    .icon-arrowup:before, .icon-arrowdown:before {
-      padding: 17px 0 0 0;
-      display: inline-block;
+    .zenModeToggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      min-height: 32px;
+
       cursor: pointer;
 
       @media screen and (max-width: 600px) {
@@ -165,34 +157,11 @@ nav {
     }
 
     @media all and (max-width: 600px) {
-      height: auto;
-      padding-left: 0;
-
-      .piwikTopControl {
-        position: static !important;
-        float: none;
-        margin: 0 23px 10px 17px !important;
-        display: block !important;
-      }
-
       .piwikSelector {
         > a.title {
             max-width: none;
         }
-
-        display: block;
       }
-    }
-
-    .piwikTopControl {
-      display: inline-block;
-      float: none;
-      position: relative;
-      margin-right: 14px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      vertical-align: top;
-      font-size: 11px;
     }
 
     @media print {
@@ -214,7 +183,7 @@ nav {
         min-height: 100vh;
         background-color: @theme-color-menu-contrast-background;
         box-shadow: none !important;
-        padding: 16px 12px;
+        padding: 24px 12px;
       }
 
       .layoutWithSidebarContent {
@@ -538,20 +507,37 @@ nav {
 
 #root, #standalone {
   .top_controls {
-    min-height: 51px;
     position: relative;
-    background-color: @theme-color-background-base;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
     height: auto;
-    margin-bottom: 8px;
-    margin-top: 8px;
+    min-height: 38px;
+    margin: 24px 16px;
+
+    @media all and (max-width: 600px) {
+      flex-direction: column;
+      align-items: stretch;
+      margin: 24px 0;
+      padding: 0 23px 0 17px;
+
+      .piwikSelector {
+        display: flex;
+        flex: auto;
+      }
+
+      .icon-arrowup::before,
+      .icon-arrowdown::before {
+        display: none;
+      }
+    }
 
     .piwikTopControl {
-      display: inline-block;
-      float: none;
       position: relative;
-      margin-right: 14px;
-      vertical-align: top;
-      font-size: 11px;
+      font-size: 14px;
     }
   }
 }

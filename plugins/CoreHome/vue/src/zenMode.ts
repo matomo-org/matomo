@@ -10,10 +10,11 @@ import Matomo from './Matomo/Matomo';
 import { setCookie, getCookie } from './CookieHelper/CookieHelper';
 
 const { $ } = window;
+let zenModeShortcutRegistered = false;
 
 function handleZenMode() {
   let zenMode = !!parseInt(getCookie('zenMode')!, 10);
-  const iconSwitcher = $('.top_controls .icon-arrowup');
+  const iconSwitcher = $('.top_controls .zenModeToggle');
 
   function updateZenMode() {
     if (zenMode) {
@@ -27,22 +28,27 @@ function handleZenMode() {
     }
   }
 
-  Matomo.helper.registerShortcut('z', translate('CoreHome_ShortcutZenMode'), (event) => {
-    if (event.altKey) {
-      return;
-    }
+  if (!zenModeShortcutRegistered) {
+    Matomo.helper.registerShortcut('z', translate('CoreHome_ShortcutZenMode'), (event) => {
+      if (event.altKey) {
+        return;
+      }
 
-    zenMode = !zenMode;
-    setCookie('zenMode', zenMode ? '1' : '0');
-    updateZenMode();
-  });
+      zenMode = !zenMode;
+      setCookie('zenMode', zenMode ? '1' : '0');
+      updateZenMode();
+    });
+    zenModeShortcutRegistered = true;
+  }
 
-  iconSwitcher.click(() => {
+  iconSwitcher.off('click.matomoZenMode').on('click.matomoZenMode', () => {
     window.Mousetrap.trigger('z');
   });
 
   updateZenMode();
 }
+
+$(handleZenMode);
 
 Matomo.on('Matomo.topControlsRendered', () => {
   handleZenMode();
