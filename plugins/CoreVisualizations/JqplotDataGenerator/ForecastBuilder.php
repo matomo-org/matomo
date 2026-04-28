@@ -21,9 +21,17 @@ use Piwik\Site;
 /**
  * Computes per-tick forecast values for incomplete-period data points on evolution-style series.
  *
- * The builder is stateless and reusable: it inspects each tick's archive state, blends a linear
- * elapsed-ratio extrapolation with a same-weekday historical average, and decides per tick
- * whether to render the forecast. Period bounds and the archive timestamp are read from
+ * Two algorithms are applied based on each series' monotonicity:
+ *
+ * - Monotonic count series (visits, conversions, page views): the period's value can only grow
+ *   from the current partial accumulation, so the forecast blends a linear elapsed-ratio
+ *   extrapolation with the historical same-period average and is suppressed if it falls below
+ *   the current display value (counts cannot shrink within a period).
+ * - Non-monotonic series (ratios, rates, percentages, averages): the forecast is the historical
+ *   same-period average only, and is allowed to fall below the current display value because the
+ *   period's value can move in either direction during the remaining time.
+ *
+ * The builder is stateless and reusable. Period bounds and the archive timestamp are read from
  * DataTable metadata, so any caller producing comparable DataTable maps can reuse it.
  */
 class ForecastBuilder
@@ -36,6 +44,11 @@ class ForecastBuilder
      * @param array<int, string> $dataStates
      * @param array<string, string|false> $seriesUnits
      * @param array<string, array<int, bool>> $allSeriesDataAvailability
+     * @param array<string, bool> $allSeriesAllowsDownwardForecast Per-series flag; when true the
+     *        series is treated as able to decrease by the end of the period and forecasts are
+     *        produced from the historical prior only without the "forecast >= current"
+     *        suppression. When the flag is missing for a series, the builder falls back to
+     *        "percent unit implies non-monotonic".
      * @return array<int, array<int, float|null>>
      */
     public function build(
@@ -43,7 +56,8 @@ class ForecastBuilder
         array $dataTables,
         array $dataStates,
         array $seriesUnits,
-        array $allSeriesDataAvailability = []
+        array $allSeriesDataAvailability = [],
+        array $allSeriesAllowsDownwardForecast = []
     ): array {
         if ([] === $allSeriesData || [] === $dataTables || [] === $dataStates) {
             return [];
@@ -59,6 +73,7 @@ class ForecastBuilder
         $seriesDataList = array_values($allSeriesData);
         $seriesUnitsList = array_values($seriesUnits);
         $seriesDataAvailabilityList = array_values($allSeriesDataAvailability);
+        $seriesAllowsDownwardList = array_values($allSeriesAllowsDownwardForecast);
 
         $forecastData = [];
 
@@ -69,6 +84,7 @@ class ForecastBuilder
             $previousForecastValue = null;
             $isPercentSeries = ($seriesUnitsList[$seriesIndex] ?? false) === '%';
             $seriesDataAvailability = $seriesDataAvailabilityList[$seriesIndex] ?? [];
+            $allowsDownward = $seriesAllowsDownwardList[$seriesIndex] ?? $isPercentSeries;
 
             foreach ($seriesData as $tickIndex => $currentValueRaw) {
                 $state = $dataStates[$tickIndex] ?? ArchiveState::COMPLETE;
@@ -88,10 +104,6 @@ class ForecastBuilder
                     continue;
                 }
 
-                $elapsedRatio = $this->getElapsedRatio($dataTable, $site);
-                $ratio = max($elapsedRatio, self::MIN_FORECAST_RATIO);
-                $linearForecast = $currentValue / $ratio;
-
                 $pastValues = $this->getHistoricalSamplesForSeries(
                     $seriesData,
                     $dataTableList,
@@ -100,40 +112,31 @@ class ForecastBuilder
                     $dataTable,
                     $seriesDataAvailability
                 );
-                $baseForecast = $linearForecast;
-                $priorForecast = $linearForecast;
 
-                if ([] !== $pastValues) {
-                    $priorForecast = array_sum($pastValues) / count($pastValues);
-                }
+                if ($allowsDownward) {
+                    $forecastValue = $this->buildNonMonotonicForecastValue($pastValues, $previousForecastValue);
 
-                $periodLabel = $this->getPeriodLabel($dataTable);
-                $weight = $this->getPriorForecastWeight(count($pastValues), $periodLabel);
-
-                $hasCurrentData = $seriesDataAvailability[$tickIndex] ?? true;
-                $preferHistoricalBase = $isPercentSeries && !$hasCurrentData;
-
-                if ($currentValue <= 0) {
-                    if ($preferHistoricalBase && [] !== $pastValues) {
-                        $baseForecast = $priorForecast;
-                    } elseif ($previousForecastValue !== null) {
-                        $baseForecast = $previousForecastValue;
-                    } elseif ($preferHistoricalBase) {
-                        // Percent series with no current data, no historical samples,
-                        // and no carry-forward state: the synthetic 0 carries no signal.
+                    if ($forecastValue === null) {
                         $seriesForecasts[] = null;
                         $previousForecastValue = null;
                         continue;
                     }
+
+                    $roundedForecast = round($forecastValue, 4);
+                    $seriesForecasts[] = $roundedForecast;
+                    $previousForecastValue = $roundedForecast;
+                    continue;
                 }
 
-                $forecastValue = $this->blendForecastValue($baseForecast, $priorForecast, $weight);
+                $forecastValue = $this->buildMonotonicForecastValue(
+                    $currentValue,
+                    $pastValues,
+                    $previousForecastValue,
+                    $dataTable,
+                    $site
+                );
 
-                if ($baseForecast >= 0 && $priorForecast >= 0) {
-                    $forecastValue = max(0, $forecastValue);
-                }
-
-                if (!$this->shouldRenderForecastValue($forecastValue, $currentValue)) {
+                if (!$this->shouldRenderForecastValue($forecastValue, $currentValue, $allowsDownward)) {
                     $seriesForecasts[] = null;
                     $previousForecastValue = null;
                     continue;
@@ -148,6 +151,66 @@ class ForecastBuilder
         }
 
         return $forecastData;
+    }
+
+    /**
+     * Forecast for monotonic count series: linear elapsed-ratio extrapolation blended with the
+     * historical same-period prior. Carries the previous forecast forward when the current tick
+     * has no positive value so a synthetic 0 does not collapse the linear seed to zero.
+     *
+     * @param array<int, float> $pastValues
+     */
+    private function buildMonotonicForecastValue(
+        float $currentValue,
+        array $pastValues,
+        ?float $previousForecastValue,
+        DataTable $dataTable,
+        Site $site
+    ): float {
+        $elapsedRatio = $this->getElapsedRatio($dataTable, $site);
+        $ratio = max($elapsedRatio, self::MIN_FORECAST_RATIO);
+        $linearForecast = $currentValue / $ratio;
+
+        $baseForecast = $linearForecast;
+        $priorForecast = $linearForecast;
+
+        if ([] !== $pastValues) {
+            $priorForecast = array_sum($pastValues) / count($pastValues);
+        }
+
+        $weight = $this->getPriorForecastWeight(count($pastValues), $this->getPeriodLabel($dataTable));
+
+        if ($currentValue <= 0 && $previousForecastValue !== null) {
+            $baseForecast = $previousForecastValue;
+        }
+
+        $forecastValue = $this->blendForecastValue($baseForecast, $priorForecast, $weight);
+
+        if ($baseForecast >= 0 && $priorForecast >= 0) {
+            $forecastValue = max(0, $forecastValue);
+        }
+
+        return $forecastValue;
+    }
+
+    /**
+     * Forecast for non-monotonic series (ratios, averages, latency-style). Returns the historical
+     * same-period prior, falling back to the previous forecast if there is no prior. Returns null
+     * when neither signal is available because no defensible value can be produced.
+     *
+     * @param array<int, float> $pastValues
+     */
+    private function buildNonMonotonicForecastValue(array $pastValues, ?float $previousForecastValue): ?float
+    {
+        if ([] !== $pastValues) {
+            return array_sum($pastValues) / count($pastValues);
+        }
+
+        if ($previousForecastValue !== null) {
+            return $previousForecastValue;
+        }
+
+        return null;
     }
 
     /**
@@ -214,8 +277,15 @@ class ForecastBuilder
         return array_values($samples);
     }
 
-    private function shouldRenderForecastValue(float $forecastValue, float $currentDisplayValue): bool
-    {
+    private function shouldRenderForecastValue(
+        float $forecastValue,
+        float $currentDisplayValue,
+        bool $allowsDownward
+    ): bool {
+        if ($allowsDownward) {
+            return true;
+        }
+
         return $forecastValue >= $currentDisplayValue;
     }
 
