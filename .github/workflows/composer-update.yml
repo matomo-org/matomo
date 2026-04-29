@@ -32,28 +32,19 @@ jobs:
       run: composer install
     - name: Prepare branches
       run: |
-          cat <<- EOF > $HOME/.netrc
-            machine github.com
-            login $GITHUB_ACTOR
-            password $GITHUB_TOKEN
-            machine api.github.com
-            login $GITHUB_ACTOR
-            password $GITHUB_TOKEN
-          EOF
-          chmod 600 $HOME/.netrc
-
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config --global user.name "$GITHUB_ACTOR"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
 
           git remote add upstream https://github.com/${GITHUB_REPOSITORY}.git
 
-          git push origin --delete composer-update || true
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" --delete composer-update || true
           git branch -D composer-update || true
           git fetch upstream 5.x-dev
           git checkout -f upstream/5.x-dev
           git branch composer-update
           git checkout -f composer-update
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Update composer dependencies
       id: update
       run: |
@@ -76,15 +67,19 @@ jobs:
     - name: Push changes
       run: |
           git commit -m "Update composer dependencies"
-          git push --set-upstream origin composer-update
+          git push --set-upstream "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" composer-update
       shell: bash
       if: steps.update.outputs.message
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Create PR
+      env:
+        CUSTOM_ACCESS_TOKEN: ${{ secrets.CUSTOM_ACCESS_TOKEN }}
       run: |
           message=
           curl \
                  --request POST \
-                 --header 'authorization: Bearer ${{ secrets.CUSTOM_ACCESS_TOKEN }}' \
+                 --header "authorization: Bearer ${CUSTOM_ACCESS_TOKEN}" \
                  --header 'content-type: application/json' \
                  --data '{
                   "title":"[automatic composer updates]",

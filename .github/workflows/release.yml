@@ -73,25 +73,29 @@ jobs:
         with:
           lfs: false
           ref: ${{ inputs.ref || github.ref }}
+          persist-credentials: false
       - name: Import GPG key
         id: import_gpg
+        env:
+          GPG_CERTIFICATE: ${{ secrets.GPG_CERTIFICATE }}
+          GPG_CERTIFICATE_PASS: ${{ secrets.GPG_CERTIFICATE_PASS }}
         run: |
-          echo "${{ secrets.GPG_CERTIFICATE }}" > $HOME/private.asc
+          echo "$GPG_CERTIFICATE" > $HOME/private.asc
           gpg --import --batch --yes $HOME/private.asc
           echo "default-cache-ttl 7200
           max-cache-ttl 31536000
           allow-preset-passphrase" > $HOME/.gnupg/gpg-agent.conf
           keygrip=$(gpg --import --import-options show-only --with-keygrip $HOME/private.asc | grep "Keygrip" | grep -oP "([A-F0-9]+)" | head -1)
-          hexPassphrase=$( echo -n '${{ secrets.GPG_CERTIFICATE_PASS }}' | od -A n -t x1 -w100 | sed 's/ *//g' )
+          hexPassphrase=$( echo -n "$GPG_CERTIFICATE_PASS" | od -A n -t x1 -w100 | sed 's/ *//g' )
           gpg-connect-agent "RELOADAGENT" /bye
           gpg-connect-agent "PRESET_PASSPHRASE ${keygrip} -1 ${hexPassphrase}" /bye
           gpg-connect-agent "KEYINFO ${keygrip}" /bye
       - name: Check preconditions, create tag, build and publish release
         id: tag
         run: |
-          if [[ -n "${{ github.event.inputs.version }}" ]]
+          if [[ -n "$VERSION_FROM_EVENT" ]]
           then
-            version="${{ github.event.inputs.version }}"
+            version="$VERSION_FROM_EVENT"
             echo "Version to re-build: '$version'"
 
             git fetch --tags -q 2>/dev/null
@@ -138,7 +142,7 @@ jobs:
             echo "Creating a tag for $version"
 
             git tag $version
-            git push origin tags/$version
+            git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" tags/$version
 
             echo "update=false" >> $GITHUB_OUTPUT
           fi
@@ -173,6 +177,9 @@ jobs:
           chmod 755 ./.github/scripts/*.sh
           ./.github/scripts/build-package.sh $version
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION_FROM_EVENT: ${{ github.event.inputs.version }}
       - uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd
         with:
           artifacts: "archives/matomo-${{ steps.tag.outputs.version }}.*,archives/piwik-${{ steps.tag.outputs.version }}.*"

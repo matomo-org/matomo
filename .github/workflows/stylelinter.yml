@@ -25,5 +25,5 @@ jobs:
           persist-credentials: false
       - name: stylelint
         run: |
-          npm install
+          npm install --ignore-scripts
           npx stylelint "**/*.{css,less}" -f github
