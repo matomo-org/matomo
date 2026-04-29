@@ -1,7 +1,7 @@
 .quick-access {
   position: relative;
   box-shadow: none;
-  border: 1px solid @theme-color-background-lowContrast;
+  border: 0;
   border-radius: 8px;
   width: 200px;
 
@@ -9,6 +9,7 @@
   &.expanded,
   &.active {
     border-color: transparent;
+
     .quickAccessInside .quickAccessInput {
       background-color: @theme-color-background-contrast;
       border: 1px solid @theme-color-focus-ring;
@@ -16,6 +17,11 @@
       box-shadow: none;
     }
   }
+
+  .quickAccessInside {
+    flex: auto;
+  }
+
   li {
     font-size: 14px;
   }
@@ -34,13 +40,13 @@
     top: 13px;
     left: 12px;
     color: @theme-color-border;
-
   }
+
   .quickAccessInside .quickAccessInput {
     height: 38px;
     font-size: 14px;
     padding: 10px 12px 10px 38px;
-    border: 0;
+    border: 1px solid @theme-color-border;
     border-radius: 8px;
     width: 100%;
     &:focus-visible {
