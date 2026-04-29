@@ -565,11 +565,14 @@ ul.browser-default {
   position: absolute;
   top: 12px;
   left: 23px;
-  line-height: 1.25;
+  z-index: 2;
+
   background-color: rgba(212, 19, 13, 1);
   color: #fff;
-  border-radius: 8px;
+  border-radius: 999px; // hack to produce a circle
   padding: 4px 6px;
+
+  line-height: 1;
   font-size: 9px;
   font-weight: bold;
 }
