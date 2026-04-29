@@ -56,6 +56,7 @@
           @period-select="onPeriodOptionSelected($event)"
           @period-dblclick="onPeriodOptionDblClick($event)"
           @preset-select="onPresetDateRangeSelected($event)"
+          @preset-dblclick="onPresetDateRangeDblClick($event)"
         />
         <PeriodSelectorCalendarColumn
           :ui-selection="uiSelection"
@@ -557,6 +558,10 @@ export default defineComponent({
       if (isSingleCalendarPeriod(selection.period)) {
         this.singleCalendarPeriod = selection.period;
       }
+    },
+    onPresetDateRangeDblClick(selection: PresetDateRangeSelection) {
+      this.onPresetDateRangeSelected(selection);
+      this.onApplyClicked();
     },
     propagateNewUrlParams(date: string, period: string) {
       const compareParams = this.selectedComparisonParams;

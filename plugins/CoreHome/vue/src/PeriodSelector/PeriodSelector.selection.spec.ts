@@ -730,6 +730,25 @@ describe('PeriodSelector', () => {
     expect(ignoredVm.appliedRangeEndDate).toBe('2026-01-31');
   });
 
+  it('applies preset immediately on double click', () => {
+    const selection = {
+      id: 'last30days',
+      period: 'range',
+      date: 'last30',
+      startDate: new Date('2026-01-20'),
+      endDate: new Date('2026-02-18'),
+    };
+    const vm: any = {
+      onPresetDateRangeSelected: jest.fn(),
+      onApplyClicked: jest.fn(),
+    };
+
+    methods.onPresetDateRangeDblClick.call(vm, selection);
+
+    expect(vm.onPresetDateRangeSelected).toHaveBeenCalledWith(selection);
+    expect(vm.onApplyClicked).toHaveBeenCalled();
+  });
+
   it('keeps legacy immediate apply behavior on non-range period double click', () => {
     const vm: any = {
       committedPeriod: 'day',
