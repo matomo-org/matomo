@@ -79,6 +79,7 @@ ul.browser-default {
       z-index: 1;
       border-radius: 8px;
 
+      /* Hover & active background */
       &::after {
         content: '';
         position: absolute;
@@ -101,7 +102,7 @@ ul.browser-default {
       .navbar-label {
         &::after {
           // contrast + opacity to create an effect that work in light and dark mode, with our without white-label customization
-          background: light-dark(black, white);
+          background: @color-mode-black;
         }
       }
     }
@@ -128,7 +129,7 @@ ul.browser-default {
 
   .languageSelection {
     &:hover {
-      background-color: @theme-color-background-tinyContrast;
+      background-color: @color-mode-black;
     }
   }
 
