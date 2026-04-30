@@ -594,11 +594,11 @@ class API extends \Piwik\Plugin\API
 
     private static function parseOrdinateValue($ordinateValue): float
     {
-        if (is_int($ordinateValue) || is_float($ordinateValue)) {
+        if (is_numeric($ordinateValue)) {
             return (float) $ordinateValue;
         }
 
-        $ordinateValue = @str_replace(',', '.', (string) $ordinateValue);
+        $ordinateValue = str_replace(',', '.', (string) $ordinateValue);
 
         // convert hh:mm:ss formatted time values to number of seconds
         if (preg_match('/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}(\.[0-9]{2})?)/', $ordinateValue, $matches)) {
@@ -612,11 +612,11 @@ class API extends \Piwik\Plugin\API
         // OK, only numbers from here please (strip out currency sign)
         $ordinateValue = preg_replace('/[^0-9.]/', '', $ordinateValue);
 
-        if ($ordinateValue === null || $ordinateValue === '' || $ordinateValue === '.') {
+        if (empty($ordinateValue) || $ordinateValue === '.') {
             return 0.0;
         }
 
-        return is_numeric($ordinateValue) ? (float) $ordinateValue : 0.0;
+        return (float) $ordinateValue;
     }
 
     private static function getFontPath(string $font): string
