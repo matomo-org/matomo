@@ -101,7 +101,7 @@ class TestsRunUI extends ConsoleCommand
             $options[] = "--plugin=" . $plugin;
         }
 
-        if ($core) {
+        if ($core && !$plugin) {
             $options[] = "--core";
         }
 

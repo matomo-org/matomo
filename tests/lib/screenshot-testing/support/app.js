@@ -131,7 +131,7 @@ Application.prototype.loadTestModules = function () {
     // load all UI tests we can find
     var modulePaths = walk(uiTestsDir, /_spec\.js$/);
 
-    if (options.core && !options['store-in-ui-tests-repo']) {
+    if (options.core && !options.plugin) {
         plugins = plugins.filter(function (path) {
             return isCorePlugin(path);
         });
