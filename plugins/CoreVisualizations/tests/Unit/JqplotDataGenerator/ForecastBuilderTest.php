@@ -130,6 +130,62 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[null, null, null, null, 47.9996, 58.3997]], $forecastData);
     }
 
+    public function testBuildAppliesSuppliedZeroDecimalForecastPrecision(): void
+    {
+        $site = $this->createSiteMock();
+
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-11', $site),
+            $this->createDataTableForDay('2026-04-12', $site),
+            $this->createDataTableForDay('2026-04-13', $site),
+            $this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [80.0, 100.0, 140.0, 60.0, 20.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false],
+            [],
+            [],
+            ['Visits' => 0]
+        );
+
+        self::assertSame([[null, null, null, null, 48.0]], $forecastData);
+    }
+
+    public function testBuildAppliesSuppliedTwoDecimalForecastPrecision(): void
+    {
+        $site = $this->createSiteMock();
+
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Actions per visit' => [12.345, 90.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Actions per visit' => false],
+            [],
+            ['Actions per visit' => true],
+            ['Actions per visit' => 2]
+        );
+
+        self::assertSame([[null, 12.35]], $forecastData);
+    }
+
     public function testBuildPercentSeriesUsesHistoricalPriorWithoutLinearExtrapolation(): void
     {
         $site = $this->createSiteMock();

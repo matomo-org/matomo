@@ -59,6 +59,8 @@ class ForecastBuilder
      *        produced from the historical prior only without the "forecast >= current"
      *        suppression. When the flag is missing for a series, the builder falls back to
      *        "percent unit implies non-monotonic".
+     * @param array<string, int> $allSeriesForecastPrecision Per-series decimal precision for raw
+     *        forecast payload values. Missing entries preserve the historical 4-decimal default.
      * @return array<int, array<int, float|null>>
      */
     public function build(
@@ -67,7 +69,8 @@ class ForecastBuilder
         array $dataStates,
         array $seriesUnits,
         array $allSeriesDataAvailability = [],
-        array $allSeriesAllowsDownwardForecast = []
+        array $allSeriesAllowsDownwardForecast = [],
+        array $allSeriesForecastPrecision = []
     ): array {
         if ([] === $allSeriesData || [] === $dataTables || [] === $dataStates) {
             return [];
@@ -84,6 +87,7 @@ class ForecastBuilder
         $seriesUnitsList = array_values($seriesUnits);
         $seriesDataAvailabilityList = array_values($allSeriesDataAvailability);
         $seriesAllowsDownwardList = array_values($allSeriesAllowsDownwardForecast);
+        $seriesForecastPrecisionList = array_values($allSeriesForecastPrecision);
 
         $forecastData = [];
 
@@ -95,6 +99,7 @@ class ForecastBuilder
             $isPercentSeries = ($seriesUnitsList[$seriesIndex] ?? false) === '%';
             $seriesDataAvailability = $seriesDataAvailabilityList[$seriesIndex] ?? [];
             $allowsDownward = $seriesAllowsDownwardList[$seriesIndex] ?? $isPercentSeries;
+            $forecastPrecision = $seriesForecastPrecisionList[$seriesIndex] ?? 4;
 
             foreach ($seriesData as $tickIndex => $currentValueRaw) {
                 $state = $dataStates[$tickIndex] ?? ArchiveState::COMPLETE;
@@ -132,7 +137,7 @@ class ForecastBuilder
                         continue;
                     }
 
-                    $roundedForecast = round($forecastValue, 4);
+                    $roundedForecast = round($forecastValue, $forecastPrecision);
                     $seriesForecasts[] = $roundedForecast;
                     $previousForecastValue = $roundedForecast;
                     continue;
@@ -152,7 +157,7 @@ class ForecastBuilder
                     continue;
                 }
 
-                $roundedForecast = round($forecastValue, 4);
+                $roundedForecast = round($forecastValue, $forecastPrecision);
                 $seriesForecasts[] = $roundedForecast;
                 $previousForecastValue = $roundedForecast;
             }
