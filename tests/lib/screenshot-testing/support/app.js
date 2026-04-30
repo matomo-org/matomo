@@ -79,6 +79,7 @@ Application.prototype.printHelpAndExit = function () {
     console.log("  --screenshot-repo:        Specifies the GitHub repository that contains the expected screenshots");
     console.log("                            to link to in the diffviewer. For use with CI build.");
     console.log("  --core:                   Only execute UI tests that are for Matomo core or Matomo core plugins.");
+    console.log("  --core-tests-only:        Only execute UI tests from tests/UI and skip plugin UI specs.");
     console.log("  --num-test-groups:        Divide all test execution into this many overall groups. Use --test-group to pick which group to run in this execution.");
     console.log("  --test-group:             The test group to run.");
 
@@ -143,10 +144,12 @@ Application.prototype.loadTestModules = function () {
         });
     }
 
-    plugins.forEach(function (pluginPath) {
-        walk(path.join(pluginPath, 'Test'), /_spec\.js$/, modulePaths);
-        walk(path.join(pluginPath, 'tests'), /_spec\.js$/, modulePaths);
-    });
+    if (!options['core-tests-only']) {
+        plugins.forEach(function (pluginPath) {
+            walk(path.join(pluginPath, 'Test'), /_spec\.js$/, modulePaths);
+            walk(path.join(pluginPath, 'tests'), /_spec\.js$/, modulePaths);
+        });
+    }
 
     modulePaths.forEach(function (path) {
         self.currentModulePath = path;
