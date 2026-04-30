@@ -208,6 +208,82 @@ class EvolutionTest extends TestCase
         self::assertGreaterThan(20.0, $forecast[0][1]);
     }
 
+    public function testPrecomputeForecastRoundsCountMetricToInteger(): void
+    {
+        $evolution = $this->createEvolution(
+            [
+                'show_forecast' => 1,
+                'columns_to_display' => ['nb_visits'],
+                'rows_to_display' => [false],
+                'translations' => ['nb_visits' => 'Visits'],
+            ],
+            false
+        );
+        $site = $this->createSiteMock();
+        $map = new DataTable\Map();
+        $map->addTable($this->createDataTableForDay('2026-04-10', $site, null, ['nb_visits' => 80.0]), '2026-04-10');
+        $map->addTable($this->createDataTableForDay('2026-04-11', $site, null, ['nb_visits' => 100.0]), '2026-04-11');
+        $map->addTable($this->createDataTableForDay('2026-04-12', $site, null, ['nb_visits' => 140.0]), '2026-04-12');
+        $map->addTable($this->createDataTableForDay('2026-04-13', $site, null, ['nb_visits' => 60.0]), '2026-04-13');
+        $map->addTable($this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00', ['nb_visits' => 20.0], ArchiveState::INCOMPLETE), '2026-04-17');
+
+        self::assertSame([[null, null, null, null, 48.0]], $evolution->precomputeForecast($map));
+    }
+
+    public function testPrecomputeForecastRoundsNonCountMetricToTwoDecimals(): void
+    {
+        $evolution = $this->createEvolution(
+            [
+                'show_forecast' => 1,
+                'columns_to_display' => ['nb_actions_per_visit'],
+                'rows_to_display' => [false],
+                'translations' => ['nb_actions_per_visit' => 'Actions per visit'],
+            ],
+            false
+        );
+        $site = $this->createSiteMock();
+        $map = new DataTable\Map();
+        $map->addTable($this->createDataTableForDay('2026-04-10', $site, null, ['nb_actions_per_visit' => 12.345]), '2026-04-10');
+        $map->addTable($this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00', ['nb_actions_per_visit' => 90.0], ArchiveState::INCOMPLETE), '2026-04-17');
+
+        self::assertSame([[null, 12.35]], $evolution->precomputeForecast($map));
+    }
+
+    /**
+     * @dataProvider getForecastPrecisionTestData
+     * @param string|false $columnUnit
+     */
+    public function testForecastPrecisionUsesMetricSemanticsAndNameFallbacks(
+        string $columnName,
+        $columnUnit,
+        bool $allowsDownward,
+        int $expected
+    ): void {
+        $evolution = $this->createEvolution([], false);
+
+        $method = new ReflectionMethod(Evolution::class, 'getForecastPrecisionForColumn');
+
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
+
+        self::assertSame($expected, $method->invoke($evolution, $columnName, $columnUnit, $allowsDownward));
+    }
+
+    /**
+     * @return iterable<string, array{string, string|false, bool, int}>
+     */
+    public function getForecastPrecisionTestData(): iterable
+    {
+        yield 'plain nb metric' => ['nb_visits', false, false, 0];
+        yield 'embedded nb metric' => ['exit_nb_visits', false, false, 0];
+        yield 'count suffix metric' => ['bounce_count', false, false, 0];
+        yield 'actions per visit is ratio' => ['nb_actions_per_visit', false, true, 2];
+        yield 'percent unit' => ['custom_metric', '%', true, 2];
+        yield 'duration name fallback' => ['sum_visit_length_returning', false, false, 2];
+        yield 'unknown metric fallback' => ['custom_numeric_metric', false, false, 2];
+    }
+
     /**
      * @param array<string, mixed> $properties
      * @param array<string, string> $semanticTypes
@@ -288,14 +364,32 @@ class EvolutionTest extends TestCase
         return $site;
     }
 
-    private function createDataTableForDay(string $date, Site $site, ?string $archivedDate = null): DataTable
-    {
+    /**
+     * @param array<string, float|int> $columns
+     */
+    private function createDataTableForDay(
+        string $date,
+        Site $site,
+        ?string $archivedDate = null,
+        array $columns = [],
+        ?string $archiveState = null
+    ): DataTable {
         $dataTable = new DataTable();
         $dataTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('day', $date));
         $dataTable->setMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX, $site);
 
         if ($archivedDate !== null) {
             $dataTable->setMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME, $archivedDate);
+        }
+
+        if ($archiveState !== null) {
+            $dataTable->setMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME, $archiveState);
+        }
+
+        if ($columns !== []) {
+            $dataTable->addRowFromArray([
+                DataTable\Row::COLUMNS => $columns,
+            ]);
         }
 
         return $dataTable;
