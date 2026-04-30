@@ -8,8 +8,15 @@
 import { Orderable } from '../Orderable';
 import { Subcategory } from '../ReportingMenu/Subcategory';
 
+export interface ClientComponent {
+  plugin: string;
+  name: string;
+  props?: Record<string, unknown>;
+}
+
 export interface Widget extends Orderable {
   uniqueId?: string;
+  name?: string;
   module?: string;
   action?: string;
   viewDataTable?: string;
@@ -18,6 +25,7 @@ export interface Widget extends Orderable {
   isContainer?: boolean;
   isReport?: boolean;
   middlewareParameters?: Record<string, unknown>;
+  clientComponent?: ClientComponent;
   documentation?: string;
   layout?: string;
   isWide?: boolean;

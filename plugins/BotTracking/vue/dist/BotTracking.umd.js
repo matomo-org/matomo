@@ -119,6 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "SiteWithoutData", function() { return /* reexport */ SiteWithoutData; });
+__webpack_require__.d(__webpack_exports__, "NoRecentRequestsWidget", function() { return /* reexport */ NoRecentRequestsWidget; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -356,6 +357,52 @@ var external_CoreHome_ = __webpack_require__("19dc");
 SiteWithoutDatavue_type_script_lang_ts.render = render
 
 /* harmony default export */ var SiteWithoutData = (SiteWithoutDatavue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/BotTracking/vue/src/NoRecentRequests/NoRecentRequestsWidget.vue?vue&type=template&id=d9a3d5fe
+
+const NoRecentRequestsWidgetvue_type_template_id_d9a3d5fe_hoisted_1 = ["innerHTML"];
+function NoRecentRequestsWidgetvue_type_template_id_d9a3d5fe_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: "alert alert-warning bot-tracking-no-recent-requests-message",
+    innerHTML: _ctx.$sanitize(_ctx.messageHtml)
+  }, null, 8, NoRecentRequestsWidgetvue_type_template_id_d9a3d5fe_hoisted_1);
+}
+// CONCATENATED MODULE: ./plugins/BotTracking/vue/src/NoRecentRequests/NoRecentRequestsWidget.vue?vue&type=template&id=d9a3d5fe
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/BotTracking/vue/src/NoRecentRequests/NoRecentRequestsWidget.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var NoRecentRequestsWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  computed: {
+    noDataUrl() {
+      var _Matomo$idSite;
+      const {
+        period,
+        date
+      } = external_CoreHome_["MatomoUrl"].parsed.value;
+      const query = external_CoreHome_["MatomoUrl"].stringify({
+        module: 'BotTracking',
+        action: 'siteWithoutData',
+        idSite: (_Matomo$idSite = external_CoreHome_["Matomo"].idSite) !== null && _Matomo$idSite !== void 0 ? _Matomo$idSite : external_CoreHome_["MatomoUrl"].parsed.value.idSite,
+        period,
+        date
+      });
+      return `index.php?${query}`;
+    },
+    messageHtml() {
+      const linkOpen = `<a href="${this.noDataUrl}">`;
+      return Object(external_CoreHome_["translate"])('BotTracking_NoRecentAIBotRequests', '<strong>', '</strong>', linkOpen, '</a>');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/BotTracking/vue/src/NoRecentRequests/NoRecentRequestsWidget.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/BotTracking/vue/src/NoRecentRequests/NoRecentRequestsWidget.vue
+
+
+
+NoRecentRequestsWidgetvue_type_script_lang_ts.render = NoRecentRequestsWidgetvue_type_template_id_d9a3d5fe_render
+
+/* harmony default export */ var NoRecentRequestsWidget = (NoRecentRequestsWidgetvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/BotTracking/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -363,6 +410,7 @@ SiteWithoutDatavue_type_script_lang_ts.render = render
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 

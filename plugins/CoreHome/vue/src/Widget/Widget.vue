@@ -14,9 +14,14 @@
     v-tooltips="{ content: tooltipContent }"
   >
     <WidgetLoader
-      v-if="!actualWidget.isContainer && actualWidget.parameters"
+      v-if="!actualWidget.isContainer && actualWidget.parameters && !actualWidget.clientComponent"
       :widget-params="actualWidget.parameters"
       :widget-name="actualWidget.name"
+    />
+    <ClientWidgetRenderer
+      v-if="!actualWidget.isContainer && actualWidget.clientComponent"
+      :widget="actualWidget"
+      :widgetized="widgetized"
     />
     <div v-if="actualWidget.isContainer
       && actualWidget.layout !== 'ByDimension'
@@ -39,6 +44,7 @@ import { DeepReadonly, defineComponent } from 'vue';
 import WidgetLoader from '../WidgetLoader/WidgetLoader.vue';
 import WidgetContainer from '../WidgetContainer/WidgetContainer.vue';
 import WidgetByDimensionContainer from '../WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
+import ClientWidgetRenderer from './ClientWidgetRenderer.vue';
 import WidgetsStoreInstance, { getWidgetChildren } from './Widgets.store';
 import {
   Widget as WidgetData,
@@ -97,6 +103,7 @@ export default defineComponent({
     WidgetLoader,
     WidgetContainer,
     WidgetByDimensionContainer,
+    ClientWidgetRenderer,
   },
   directives: {
     Tooltips,

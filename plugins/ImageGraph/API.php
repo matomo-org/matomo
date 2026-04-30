@@ -425,6 +425,7 @@ class API extends \Piwik\Plugin\API
                     'hideMetricsDoc' => false,
                     'idSubtable' => $idSubtable,
                     'showRawMetrics' => false,
+                    'format_metrics' => 0,
                 ];
                 /** @var array $processedReport */
                 $processedReport = Request::processRequest('API.getProcessedReport', $parameters);
@@ -470,8 +471,7 @@ class API extends \Piwik\Plugin\API
                     }
                     $i++;
                 }
-            } else // if the report has no dimension we have multiple reports each with only one row within the reportData
-            {
+            } else { // if the report has no dimension we have multiple reports each with only one row within the reportData
                 /** @var DataTable[] $periodsData */
                 $periodsData = array_values($reportData->getDataTables());
                 $periodsCount = count($periodsData);
@@ -592,9 +592,13 @@ class API extends \Piwik\Plugin\API
         $_GET['filter_truncate'] = PiwikRequest::fromRequest()->getIntegerParameter('filter_truncate', $default);
     }
 
-    private static function parseOrdinateValue($ordinateValue)
+    private static function parseOrdinateValue($ordinateValue): float
     {
-        $ordinateValue = @str_replace(',', '.', $ordinateValue);
+        if (is_numeric($ordinateValue)) {
+            return (float) $ordinateValue;
+        }
+
+        $ordinateValue = str_replace(',', '.', (string) $ordinateValue);
 
         // convert hh:mm:ss formatted time values to number of seconds
         if (preg_match('/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}(\.[0-9]{2})?)/', $ordinateValue, $matches)) {
@@ -606,7 +610,13 @@ class API extends \Piwik\Plugin\API
         }
 
         // OK, only numbers from here please (strip out currency sign)
-        return preg_replace('/[^0-9.]/', '', $ordinateValue);
+        $ordinateValue = preg_replace('/[^0-9.]/', '', $ordinateValue);
+
+        if (empty($ordinateValue) || $ordinateValue === '.') {
+            return 0.0;
+        }
+
+        return (float) $ordinateValue;
     }
 
     private static function getFontPath(string $font): string

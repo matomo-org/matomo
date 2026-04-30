@@ -12,8 +12,9 @@ ul.browser-default {
   }
 }
 
-nav {
-  background-color: @theme-color-header-background !important;
+#root nav {
+  background-color: @theme-color-header-background;
+  box-shadow: none;
 
   a:focus-visible,
   button:focus-visible {
@@ -66,29 +67,96 @@ nav {
 
   ul.right.hide-on-med-and-down {
     margin-right: 4px;
+
+    .navbar-icon {
+      padding: 8px;
+    }
+    .navbar-label {
+      padding: 4px;
+    }
+    .navbar-label, .navbar-icon {
+      position: relative;
+      z-index: 1;
+      border-radius: 8px;
+
+      /* Hover & active background */
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: 8px;
+        background: transparent;
+        opacity: 0.051;
+      }
+    }
+
+    > li[role="menuitem"].active {
+      background: transparent;
+
+      > a {
+        background: transparent;
+      }
+
+      .navbar-icon,
+      .navbar-label {
+        &::after {
+          // contrast + opacity to create an effect that work in light and dark mode, with our without white-label customization
+          background: @color-mode-black;
+        }
+      }
+    }
+
+    > li[role="menuitem"] a {
+      background: transparent;
+
+      &:hover,
+      &:focus {
+        background: transparent;
+      }
+
+      &:hover .navbar-icon,
+      &:hover .navbar-label,
+      &:focus .navbar-icon,
+      &:focus .navbar-label {
+        &::after {
+          // contrast + opacity to create an effect that work in light and dark mode, with our without white-label customization
+          background: light-dark(black, white);
+        }
+      }
+    }
   }
 
   .languageSelection {
     &:hover {
-      background-color: rgba(0,0,0,0.1);
+      background-color: @color-mode-black;
     }
   }
 
   ul:not(#mobile-top-menu) {
+    a {
+      color: @theme-color-header-text;
+    }
+
     .languageSelection {
       .title {
         color: @theme-color-header-text;
+        font-size: 14px;
       }
     }
   }
 
   ul a {
-    color: @theme-color-header-text;
     text-decoration: none;
+    font-size: 14px;
+    padding: 0 8px;
 
     &:hover {
       text-decoration: none;
     }
+  }
+  .navbar-icon {
+    font-size: 16px;
   }
 }
 
@@ -137,6 +205,7 @@ nav {
   .layoutWithSidebar {
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 
   & .top_controls {
@@ -496,11 +565,14 @@ nav {
   position: absolute;
   top: 12px;
   left: 23px;
-  line-height: 1.25;
+  z-index: 2;
+
   background-color: rgba(212, 19, 13, 1);
   color: #fff;
-  border-radius: 8px;
+  border-radius: 999px; // hack to produce a circle
   padding: 4px 6px;
+
+  line-height: 1;
   font-size: 9px;
   font-weight: bold;
 }

@@ -401,14 +401,8 @@ class API extends \Piwik\Plugin\API
 
     private function shouldRequireSuperUserForArchiveReports(): bool
     {
-        $rootApiMethod = Request::getRootApiRequestMethod();
-        $requestParameters = PiwikRequest::fromRequest()->getParameters();
-        $currentApiMethod = Request::getMethodIfApiRequest($requestParameters);
-
-        // Bulk subrequests can arrive without module=API, so fall back to raw method.
-        if (empty($currentApiMethod)) {
-            $currentApiMethod = (string) ($requestParameters['method'] ?? '');
-        }
+        $rootApiMethod = trim(Request::getRootApiRequestMethod() ?: '');
+        $currentApiMethod = trim(PiwikRequest::fromRequest()->getStringParameter('method', ''));
 
         // Require superuser for direct archiveReports calls and archiveReports inside bulk requests.
         return $rootApiMethod === 'CoreAdminHome.archiveReports'

@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.10.0
 
+### New APIs
+* Widgets can now be declared as client-rendered through `WidgetConfig::setClientSideComponent()` and `WidgetConfig::setClientSideProps()`. `API.getWidgetMetadata` and `API.getReportPagesMetadata` now expose a `clientComponent` field for these widgets, and Widgetize/dashboard rendering supports bootstrapping them without an extra widget controller request.
+
 ### Deprecations
 * The methods `ArchiveTableCreator::getNumericTable()` and `ArchiveTableCreator::getBlobTable()` now support a `$createIfMissing` parameter. Omitting this parameter is deprecated; pass `true` to create missing archive tables or `false` to return only existing tables. In Matomo 6 the default behavior for omitted calls will change to lookup-only.
 
