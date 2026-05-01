@@ -58,11 +58,52 @@ concurrency:
 
 jobs:
   PHP:
+    name: PHP (UnitTests, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
-        type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
+        environment:
+          - php: '7.2'
+            adapter: 'PDO_MYSQL'
+            mysql-engine: 'Mysql'
+            mysql-version: '5.7'
+          - php: '8.2'
+            adapter: 'PDO_MYSQL'
+            mysql-engine: 'Mariadb'
+            mysql-version: '11.4'
+          - php: '8.5'
+            adapter: 'MYSQLI'
+            mysql-engine: 'Mysql'
+            mysql-version: '8.0'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          test-type: 'UnitTests'
+          mysql-driver: ${{ matrix.environment.adapter }}
+          mysql-engine: ${{ matrix.environment.mysql-engine }}
+          mysql-version: ${{ matrix.environment.mysql-version }}
+          php-version: ${{ matrix.environment.php }}
+          redis-service: true
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+          testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+  PHP-extra:
+    name: PHP (${{ matrix.type }}, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: ${{ inputs.is_preview == true }}
+      matrix:
+        type: [ 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
         environment:
           - php: '7.2'
             adapter: 'PDO_MYSQL'
@@ -156,3 +197,19 @@ jobs:
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
           testomatio: ${{ secrets.TESTOMATIO }}
+  ci-required:
+    name: All required tests passed
+    if: ${{ always() }}
+    needs: [ PHP, Javascript, Client, UI ]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Verify required jobs succeeded
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: |
+          echo "$NEEDS_JSON"
+          if echo "$NEEDS_JSON" | grep -q '"result": "\(failure\|cancelled\|skipped\)"'; then
+            echo "One or more required jobs did not succeed."
+            exit 1
+          fi
+          echo "All required jobs passed."
