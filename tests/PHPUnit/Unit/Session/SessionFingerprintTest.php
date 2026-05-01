@@ -83,7 +83,29 @@ class SessionFingerprintTest extends \PHPUnit\Framework\TestCase
 
         $this->testInstance->setTwoFactorAuthenticationVerified();
 
+        $this->assertSame('testuser', $this->testInstance->getVerifiedTwoFactorUser());
         $this->assertTrue($this->testInstance->hasVerifiedTwoFactor());
+    }
+
+    public function testHasVerifiedTwoFactorReturnsFalseWhenVerifiedForDifferentSessionUser()
+    {
+        $this->testInstance->initialize('testuser', Fixture::ADMIN_USER_TOKEN, self::TEST_TIME_VALUE);
+        $this->testInstance->setTwoFactorAuthenticationVerified('testuser');
+
+        $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME] = 'otheruser';
+
+        $this->assertFalse($this->testInstance->hasVerifiedTwoFactor());
+    }
+
+    public function testInitializeClearsVerifiedTwoFactorUser()
+    {
+        $this->testInstance->initialize('testuser', Fixture::ADMIN_USER_TOKEN, self::TEST_TIME_VALUE);
+        $this->testInstance->setTwoFactorAuthenticationVerified('testuser');
+
+        $this->testInstance->initialize('otheruser', Fixture::ADMIN_USER_TOKEN, self::TEST_TIME_VALUE);
+
+        $this->assertFalse($this->testInstance->hasVerifiedTwoFactor());
+        $this->assertNull($this->testInstance->getVerifiedTwoFactorUser());
     }
 
     public function testUpdateSessionExpireTimeSetsANewExpirationTime()
