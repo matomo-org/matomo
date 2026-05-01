@@ -152,14 +152,8 @@ p {
 }
 
 .dashboardSettings {
-  border: 1px solid @theme-color-background-lowContrast;
-  background: @theme-color-background-base;
-  .border-radius(0);
-
   > span {
     position: relative;
-    background: none;
-    text-transform: uppercase;
 
     &::after {
       content: '';
@@ -209,20 +203,8 @@ p {
 }
 
 .segmentEditorPanel {
-  border: 1px solid @theme-color-background-lowContrast;
-  background: @theme-color-background-base;
-  .border-radius(0);
-
   .dropdown-body {
-    background: @theme-color-background-contrast;
     padding: 8px 19px 0;
-    .border-radius(0);
-
-    border-top-width: 0;
-  }
-
-  &:hover .dropdown-body {
-    background: @theme-color-background-contrast;
   }
 
   .segmentationContainer {
@@ -258,20 +240,10 @@ p {
   }
 }
 
-.segmentEditorPanel:hover,
-.dashboardSettings:hover {
-  background: @theme-color-background-base;
-  border: 1px solid @theme-color-background-lowContrast;
-}
-
 /* Iframed Embed dashboard style */
 #standalone {
   #Dashboard {
     position: relative;
-
-    &:hover ul {
-      background-color: @theme-color-background-base;
-    }
 
     ul {
       padding: 0 19px;
@@ -281,7 +253,7 @@ p {
       .border-radius(0);
 
       border: 0;
-      background-color: @theme-color-background-base;
+      background-color: transparent;
     }
 
     > ul > li {
@@ -308,7 +280,7 @@ p {
 
     > ul > li:hover,
     > ul > li:hover a {
-      color: @theme-color-brand;
+      color: @theme-color-link;
     }
   }
 }

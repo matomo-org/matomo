@@ -49,7 +49,6 @@
   }
 }
 
-.siteSelector a.title,
 .siteSelector .custom_select_ul_list li a,
 .siteSelector .custom_select_all a,
 .siteSelector .custom_select_main_link > span {
@@ -59,13 +58,10 @@
   text-overflow: ellipsis;
   padding: 0;
   color: @theme-color-text;
-  text-transform: uppercase;
   width: 100%;
 }
 
 .siteSelector.piwikSelector a.title {
-  padding: 10px 15px 11px 13px;
-
   > span {
     max-width: 161px;
     overflow: hidden;
@@ -171,12 +167,6 @@
 
     .icon {
       display: none !important;
-    }
-  }
-
-  &.borderedControl {
-    &:hover {
-      background-color: @theme-color-background-base!important;
     }
   }
 }

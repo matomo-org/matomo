@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+## Description: Unmount managed local plugin directories from Matomo and remove the generated DDEV override when empty
+## Usage: matomo:plugins:unmount [<plugin-name> ...]
+## Example: ddev matomo:plugins:unmount FormAnalytics HeatmapSessionRecording
+
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${script_dir}/matomo_plugins_lib.sh"
+
+managed_mounts=()
+
+matomo_plugins::load_mounts managed_mounts
+
+if matomo_plugins::map_is_empty managed_mounts; then
+  echo "No managed plugin mounts found."
+  exit 0
+fi
+
+if [[ $# -eq 0 ]]; then
+  echo "Unmounting all managed plugins ..."
+  managed_mounts=()
+else
+  for plugin_name in "$@"; do
+    plugin_path="$(matomo_plugins::map_get managed_mounts "${plugin_name}")"
+    if [[ -n "${plugin_path}" ]]; then
+      echo "Unmounting ${plugin_name} from ${plugin_path}."
+      matomo_plugins::map_unset managed_mounts "${plugin_name}"
+    else
+      echo "Plugin ${plugin_name} is not currently managed."
+    fi
+  done
+fi
+
+matomo_plugins::apply_mounts managed_mounts "Unmount command"
+matomo_plugins::restart_ddev_if_needed

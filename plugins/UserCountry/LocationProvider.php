@@ -383,7 +383,7 @@ abstract class LocationProvider
      */
     public static function getDefaultProviderId()
     {
-        if (!!TrackerConfig::getConfigValue('enable_default_location_provider')) {
+        if (TrackerConfig::getBoolConfigValue('enable_default_location_provider', false)) {
             return DefaultProvider::ID;
         }
 

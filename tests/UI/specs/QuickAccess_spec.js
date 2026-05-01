@@ -10,6 +10,7 @@
 describe("QuickAccess", function () {
     const selectorToCapture = ".quick-access,.quick-access .dropdown";
     const url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09";
+    const pagesResultSelector = '.quick-access .result a';
 
     async function enterSearchTerm(searchTermToAdd) {
         await page.evaluate(function () {
@@ -25,6 +26,17 @@ describe("QuickAccess", function () {
         await page.evaluate(function () {
             $('.quick-access input').blur();
         });
+    }
+
+    async function searchForPages() {
+        await page.focus('.quick-access input');
+        await page.keyboard.type('page');
+        await page.waitForTimeout(200);
+        await page.waitForFunction(
+            (selector) => Array.from(document.querySelectorAll(selector)).some((element) => element.textContent.includes('Pages')),
+            {},
+            pagesResultSelector,
+        );
     }
 
     it("should be displayed", async function () {
@@ -79,5 +91,40 @@ describe("QuickAccess", function () {
         await element.click();
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('search_category');
+    });
+
+    it("should close the mobile side menu when selecting a search result", async function () {
+        await page.webpage.setViewport({ width: 768, height: 1200 });
+        await page.goto('?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-04#?idSite=1&period=year&date=2009-01-04&category=General_Visitors&subcategory=General_Overview');
+        await page.waitForNetworkIdle();
+
+        await page.evaluate(function () {
+            $('.activateLeftMenu>span').click();
+        });
+        await page.waitForFunction(() => $('#secondNavBar').hasClass('mobileLeftMenuOpen'));
+
+        await searchForPages();
+        await page.click(pagesResultSelector);
+
+        await page.waitForFunction(() => !$('#secondNavBar').hasClass('mobileLeftMenuOpen'));
+        await page.waitForFunction(() => window.location.href.includes('subcategory=General_Pages'));
+    });
+    it("should clear the active state when tabbing away", async function () {
+      await page.goto(url);
+      await searchForPages();
+
+      await page.keyboard.press('Tab');
+
+      await page.waitForFunction(() => !$('.quick-access').hasClass('active'));
+      await page.waitForFunction(() => !$('.quick-access .dropdown').is(':visible'));
+    });
+
+    it("should navigate when clicking a search result", async function () {
+      await page.goto(url);
+      await searchForPages();
+
+      await page.click(pagesResultSelector);
+
+      await page.waitForFunction(() => window.location.href.includes('subcategory=General_Pages'));
     });
 });

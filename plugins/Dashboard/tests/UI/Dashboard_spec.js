@@ -56,8 +56,13 @@ describe("Dashboard", function () {
     await page.waitForNetworkIdle();
     await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
       $('.dataTableScroller').css('overflow-x', 'scroll');
+      $('[widgetid="widgetRssWidgetrssChangelog"] .widgetContent').html(
+        '<div style="padding:10px 15px;"><ul class="rss"><li>' +
+        '<div class="rss-description">Changed to something static for tests</div>' +
+        '</li></ul></div>'
+      );
     });
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(100);
     pageWrap = await page.$('.pageWrap');
     expect(await pageWrap.screenshot()).to.matchImage('dashboard4');
   });

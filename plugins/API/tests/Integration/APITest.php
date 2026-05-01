@@ -122,6 +122,45 @@ class APITest extends IntegrationTestCase
         }
     }
 
+    public function testArchiveReportsRequestWithWhitespacePaddedMethodDeniesViewOnlyUser()
+    {
+        $this->setAnonymousAccessForSite(1, 'view');
+
+        try {
+            $response = $this->processRootApiRequest([
+                'module' => 'API',
+                'method' => ' CoreAdminHome.archiveReports ',
+                'idSite' => '1',
+                'period' => 'day',
+                'date' => '2012-01-01',
+                'format' => 'json',
+            ]);
+
+            $this->assertResponseIsSuperUserPermissionError($response);
+        } finally {
+            $this->restoreAnonymousAccessForSite(1);
+        }
+    }
+
+    public function testGetBulkRequestWithWhitespacePaddedMethodsDeniesArchiveReportsForViewOnlyUser()
+    {
+        $this->setAnonymousAccessForSite(1, 'view');
+
+        try {
+            $response = $this->processRootApiRequest([
+                'module' => 'API',
+                'method' => ' API.getBulkRequest ',
+                'format' => 'json',
+                'urls' => [$this->makeArchiveReportsBulkUrl(1, null, ' CoreAdminHome.archiveReports ')],
+            ]);
+
+            $this->assertCount(1, $response);
+            $this->assertResponseIsSuperUserPermissionError($response[0]);
+        } finally {
+            $this->restoreAnonymousAccessForSite(1);
+        }
+    }
+
     public function testGetBulkRequestAllowsArchiveReportsForSuperUser()
     {
         $this->setSuperUserContext();
@@ -356,18 +395,32 @@ class APITest extends IntegrationTestCase
         }
     }
 
-    private function makeArchiveReportsBulkUrl(int $idSite, ?string $tokenAuth = null): string
+    private function processRootApiRequest(array $params)
     {
-        $url = sprintf(
-            'method%%3dCoreAdminHome.archiveReports%%26idSite%%3d%d%%26period%%3dday%%26date%%3d2012-01-01',
-            $idSite
-        );
+        $rootApiMethod = Request::getRootApiRequestMethod();
+
+        try {
+            Request::setIsRootRequestApiRequest((string) ($params['method'] ?? ''));
+            return json_decode((string) (new Request($params))->process(), true);
+        } finally {
+            Request::setIsRootRequestApiRequest($rootApiMethod ?: '');
+        }
+    }
+
+    private function makeArchiveReportsBulkUrl(int $idSite, ?string $tokenAuth = null, string $method = 'CoreAdminHome.archiveReports'): string
+    {
+        $params = [
+            'method' => $method,
+            'idSite' => $idSite,
+            'period' => 'day',
+            'date' => '2012-01-01',
+        ];
 
         if (!empty($tokenAuth)) {
-            $url .= '%26token_auth%3d' . $tokenAuth;
+            $params['token_auth'] = $tokenAuth;
         }
 
-        return $url;
+        return rawurlencode(http_build_query($params, '', '&', PHP_QUERY_RFC3986));
     }
 
     private function makeVisitsSummaryBulkUrl(int $idSite, string $date): string

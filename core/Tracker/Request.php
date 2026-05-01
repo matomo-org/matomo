@@ -100,8 +100,9 @@ class Request
         // check for 4byte utf8 characters in all tracking params and replace them with � if not support by database
         $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
 
-        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = (int) TrackerConfig::getConfigValue(
+        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = TrackerConfig::getIntegerConfigValue(
             'tracking_requests_require_authentication_when_custom_timestamp_newer_than',
+            0,
             $this->getIdSiteIfExists()
         );
     }

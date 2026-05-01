@@ -155,6 +155,7 @@ class BotTracking extends Plugin
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_Refresh';
         $translationKeys[] = 'Mobile_NavigationBack';
+        $translationKeys[] = 'BotTracking_NoRecentAIBotRequests';
     }
 
     public function getStylesheetFiles(&$stylesheets)

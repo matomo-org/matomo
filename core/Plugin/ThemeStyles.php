@@ -60,6 +60,7 @@ class ThemeStyles
         'colorWidgetBackground' => 'theme-color-widget-background',
         'colorWidgetBorder' => 'theme-color-widget-border',
         'filterOnIllustration' => 'theme-filter-on-illustration',
+        'colorMenuContrastBackgroundHover' => 'theme-color-menu-contrast-backgroundHover',
     ];
 
     /**
@@ -115,7 +116,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorTextLighter = ['#666666', '#999'];
+    public $colorTextLighter = ['#646464', '#999'];
 
     /**
      * @var string|array<string>
@@ -160,12 +161,12 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorHeaderBackground = ['#3450A3', '#2b3138'];
+    public $colorHeaderBackground;
 
     /**
      * @var string|array<string>
      */
-    public $colorHeaderText =  ['#fff', '#ccc'];
+    public $colorHeaderText;
 
     /**
      * @var string|array<string>
@@ -180,7 +181,12 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorMenuContrastTextActive = ['#3450A3', '#fff'];
+    public $colorMenuContrastTextActive = ['#1976D2', '#fff'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorMenuContrastBackgroundHover = ['#eff0f1', '#151819'];
 
     /**
      * @var string|array<string>
@@ -284,6 +290,8 @@ class ThemeStyles
         $this->colorWidgetTitleBackground = $this->colorBackgroundContrast;
         $this->colorWidgetBackground = $this->colorBackgroundContrast;
         $this->colorWidgetBorder = $this->colorBackgroundTinyContrast;
+        $this->colorHeaderBackground = $this->colorBackgroundContrast;
+        $this->colorHeaderText = $this->colorTextLighter;
     }
 
     /**

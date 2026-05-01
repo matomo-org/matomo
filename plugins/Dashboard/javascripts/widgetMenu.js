@@ -20,6 +20,20 @@ widgetsHelper.firstGetAvailableWidgetsCall = null;
  */
 widgetsHelper.getAvailableWidgets = function (callback) {
 
+    function resetFirstGetAvailableWidgetsCall(promise) {
+        if (widgetsHelper.firstGetAvailableWidgetsCall === promise) {
+            widgetsHelper.firstGetAvailableWidgetsCall = null;
+        }
+    }
+
+    if (!widgetsHelper.availableWidgets && widgetsHelper.firstGetAvailableWidgetsCall) {
+        return widgetsHelper.firstGetAvailableWidgetsCall.then(function () {
+            if (callback) {
+                callback(widgetsHelper.availableWidgets);
+            }
+        });
+    }
+
     function mergeCategoriesAndSubCategories(availableWidgets)
     {
         var categorized = {};
@@ -87,15 +101,25 @@ widgetsHelper.getAvailableWidgets = function (callback) {
           function (data) {
             widgetsHelper.availableWidgets = mergeCategoriesAndSubCategories(data);
 
+            resetFirstGetAvailableWidgetsCall(promise);
             resolve();
           }
         );
         ajaxRequest.setErrorCallback(function (deferred, status) {
-          if (status == 'abort' || !deferred || deferred.status < 400 || deferred.status >= 600) {
+          resetFirstGetAvailableWidgetsCall(promise);
+
+          if (status == 'abort') {
+            reject(new Error('Loading widget metadata was aborted'));
             return;
           }
+
+          if (!deferred || deferred.status < 400 || deferred.status >= 600) {
+            reject(new Error('Loading widget metadata failed'));
+            return;
+          }
+
           $('#loadingError').show();
-          reject();
+          reject(new Error('Loading widget metadata failed'));
         });
         ajaxRequest.send();
         return;
@@ -108,7 +132,7 @@ widgetsHelper.getAvailableWidgets = function (callback) {
       widgetsHelper.firstGetAvailableWidgetsCall = promise;
     }
 
-    promise.then(function () {
+    return promise.then(function () {
       if (callback) {
         callback(widgetsHelper.availableWidgets);
       }
@@ -121,6 +145,7 @@ widgetsHelper.getAvailableWidgets = function (callback) {
  */
 widgetsHelper.clearAvailableWidgets = function () {
     delete widgetsHelper.availableWidgets;
+    widgetsHelper.firstGetAvailableWidgetsCall = null;
 };
 
 /**
@@ -131,17 +156,25 @@ widgetsHelper.clearAvailableWidgets = function () {
  */
 widgetsHelper.getWidgetObjectFromUniqueId = function (uniqueId, callback) {
     widgetsHelper.getAvailableWidgets(function(widgets){
-        for (var widgetCategory in widgets) {
-            var widgetInCategory = widgets[widgetCategory];
-            for (var i in widgetInCategory) {
-                if (widgetInCategory[i]["uniqueId"] == uniqueId) {
-                    callback(widgetInCategory[i]);
-                    return;
-                }
+        callback(widgetsHelper.findWidgetObjectFromUniqueId(uniqueId, widgets));
+    });
+};
+
+widgetsHelper.findWidgetObjectFromUniqueId = function (uniqueId, widgets) {
+    if (!widgets) {
+        return false;
+    }
+
+    for (var widgetCategory in widgets) {
+        var widgetInCategory = widgets[widgetCategory];
+        for (var i in widgetInCategory) {
+            if (widgetInCategory[i]["uniqueId"] == uniqueId) {
+                return widgetInCategory[i];
             }
         }
-        callback(false);
-    });
+    }
+
+    return false;
 };
 
 /**
@@ -174,15 +207,76 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
     widgetParameters['widget'] = 1;
 
-    var ajaxRequest = new ajaxHelper();
-    ajaxRequest.addParams(widgetParameters, 'get');
-    ajaxRequest.setCallback(onWidgetLoadedCallback);
-    if (onWidgetErrorCallback) {
-        ajaxRequest.setErrorCallback(onWidgetErrorCallback);
+    var widgetRequest = {
+        aborted: false,
+        ajaxRequest: null,
+        abort: function () {
+            this.aborted = true;
+            if (this.ajaxRequest) {
+                this.ajaxRequest.abort();
+            }
+        }
+    };
+
+    function loadLegacyWidget() {
+        if (widgetRequest.aborted) {
+            return;
+        }
+
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.addParams(widgetParameters, 'get');
+        ajaxRequest.setCallback(function () {
+            if (widgetRequest.aborted) {
+                return;
+            }
+
+            onWidgetLoadedCallback.apply(this, arguments);
+        });
+        if (onWidgetErrorCallback) {
+            ajaxRequest.setErrorCallback(function () {
+                if (widgetRequest.aborted) {
+                    return;
+                }
+
+                onWidgetErrorCallback.apply(this, arguments);
+            });
+        }
+        ajaxRequest.setFormat('html');
+        ajaxRequest.send();
+        widgetRequest.ajaxRequest = ajaxRequest;
     }
-    ajaxRequest.setFormat('html');
-    ajaxRequest.send();
-    return ajaxRequest;
+
+    var metadataReady = widgetsHelper.availableWidgets
+        ? Promise.resolve()
+        : widgetsHelper.getAvailableWidgets();
+
+    metadataReady.then(function () {
+        if (widgetRequest.aborted) {
+            return;
+        }
+
+        var clientWidget = widgetsHelper.findWidgetObjectFromUniqueId(
+            widgetUniqueId,
+            widgetsHelper.availableWidgets
+        );
+
+        if (clientWidget && clientWidget.clientComponent) {
+            clientWidget = $.extend(true, {}, clientWidget);
+            clientWidget.parameters = $.extend({}, clientWidget.parameters, widgetParameters);
+
+            var html = '<div vue-entry="CoreHome.Widget"'
+                + ' widget="' + piwikHelper.htmlEntities(JSON.stringify(clientWidget)) + '"'
+                + ' widgetized="true"></div>';
+            onWidgetLoadedCallback(html);
+            return;
+        }
+
+        loadLegacyWidget();
+    }).catch(function () {
+        loadLegacyWidget();
+    });
+
+    return widgetRequest;
 };
 
 (function ($, require) {

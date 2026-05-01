@@ -40,6 +40,8 @@
         "ImportingServerLogsDesc": "Rogha eile ar chuairteoirí a rianú tríd an mbrabhsálaí (trí JavaScript nó nasc íomhá) is ea logaí freastalaí a iompórtáil go leanúnach. Foghlaim tuilleadh faoi %1$sServer Log File Analytics%2$s.",
         "InvalidPluginsWarning": "Níl na breiseáin seo a leanas comhoiriúnach le%1$s agus níorbh fhéidir iad a luchtú:%2$s.",
         "InvalidPluginsYouCanUninstall": "Is féidir leat na breiseáin seo a nuashonrú nó a dhíshuiteáil ar an leathanach %1$sManage Plugins%2$s.",
+        "InvalidSiteUrlError": "Níl an URL seo bailí. B’fhéidir gur aistríodh, gur scriosadh, nó nach bhfuil sé ar fáil a thuilleadh (socraíodh aitheantas an tsuímh ghréasáin go '%s' ar an URL).",
+        "InvalidSiteUrlErrorHelp": "Téigh ar ais chuig do leathanach roimhe seo nó fill ar do phainéal rialaithe chun suíomh Gréasáin a roghnú.",
         "JSTrackingDocumentationHelp": "Le haghaidh rochtain éasca, tá na roghanna chun cinn is coitianta ar fáil thíos. Le haghaidh roghanna níos mó fós (lena n-áirítear conas spriocanna, athróga saincheaptha, orduithe ríomhthráchtála agus cairteacha tréigthe a rianú) féach ar dhoiciméadú%1$sMatomo Javascript Rianú%2$s.",
         "JSTrackingIntro1": "Is féidir leat cuairteoirí ar do láithreán gréasáin a rianú ar go leor bealaí éagsúla. Is é an bealach molta chun é a dhéanamh trí JavaScript. Chun an modh seo a úsáid ní mór duit a chinntiú go bhfuil cód JavaScript ag gach leathanach Gréasáin de do láithreán gréasáin, ar féidir leat a ghiniúint anseo.",
         "JSTrackingIntro2": "Nuair a bheidh an cód rianaithe JavaScript agat le do láithreán gréasáin, cóipeáil agus greamaigh é chuig na leathanaigh go léir is mian leat a rianú le Matomo.",

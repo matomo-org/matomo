@@ -17,6 +17,37 @@ interface SideNavArgs {
   initialized?: boolean;
 }
 
+export function openMobileLeftMenu(): void {
+  const mobileLeftMenu = document.getElementById('mobile-left-menu');
+  if (!mobileLeftMenu) {
+    return;
+  }
+
+  try {
+    window.$(mobileLeftMenu).sidenav('open');
+  } catch (e) {
+    // Not initialized outside mobile layouts.
+  }
+}
+
+export function closeMobileLeftMenu(): void {
+  const secondNavBar = document.getElementById('secondNavBar');
+  if (!secondNavBar?.classList.contains('mobileLeftMenuOpen')) {
+    return;
+  }
+
+  const mobileLeftMenu = document.getElementById('mobile-left-menu');
+  if (!mobileLeftMenu) {
+    return;
+  }
+
+  try {
+    window.$(mobileLeftMenu).sidenav('close');
+  } catch (e) {
+    // The mobile sidenav is not initialized outside mobile layouts.
+  }
+}
+
 /**
  * Will activate the materialize side nav feature once rendered. We use this directive as
  * it makes sure the actual left menu is rendered at the time we init the side nav.
@@ -31,7 +62,12 @@ export default {
     if (!binding.value.activator) {
       return;
     }
-
+    const secondNavBar = document.getElementById('secondNavBar');
+    const setSecondNavBarMenuState = (isOpen: boolean) => {
+      if (secondNavBar) {
+        secondNavBar.classList.toggle('mobileLeftMenuOpen', isOpen);
+      }
+    };
     setTimeout(() => {
       if (!binding.value.initialized) {
         binding.value.initialized = true;
@@ -41,10 +77,15 @@ export default {
           window.$(sideNavActivator).show();
 
           const targetSelector = sideNavActivator.getAttribute('data-target');
-
           // @ts-ignore
           window.$(`#${targetSelector}`).sidenav({
             closeOnClick: true,
+            onOpenStart: () => {
+              setSecondNavBarMenuState(true);
+            },
+            onCloseStart: () => {
+              setSecondNavBarMenuState(false);
+            },
           });
         }
       }
