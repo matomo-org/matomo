@@ -81,20 +81,6 @@ describe("ManageGoals", function () {
           'This is a deliberately long goal description that should wrap onto a new line when the textarea content becomes wider than the available field width.'
         );
 
-        // FieldTextarea debounces keystrokes (50ms) and queues
-        // Materialize.textareaAutoResize via setTimeout, so the textarea
-        // height may still be settling when fillField returns. Force a
-        // synchronous resize and wait briefly so the screenshot captures
-        // stable layout.
-        await page.evaluate(() => {
-            const ta = document.getElementById('goal_description');
-            if (ta && window.Materialize) {
-                window.Materialize.textareaAutoResize(ta);
-                window.Materialize.updateTextFields();
-            }
-        });
-        await new Promise((resolve) => setTimeout(resolve, 150));
-
         await page.$eval('#goal_description', (el) => {
             const formField = el.closest('.matomo-form-field');
             if (formField) {
