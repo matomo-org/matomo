@@ -73,6 +73,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function loginTwoFactorAuth()
     {
         $this->validator->checkCanUseTwoFa();
+        $this->validator->checkCurrentUserMatchesSessionUser();
         $this->validator->check2FaEnabled();
         $this->validator->checkNotVerified2FAYet();
 
@@ -94,7 +95,7 @@ class Controller extends \Piwik\Plugin\Controller
 
                 if ($this->twoFa->validateAuthCode(Piwik::getCurrentUserLogin(), $authCode)) {
                     $sessionFingerprint = new SessionFingerprint();
-                    $sessionFingerprint->setTwoFactorAuthenticationVerified();
+                    $sessionFingerprint->setTwoFactorAuthenticationVerified(Piwik::getCurrentUserLogin());
                     Url::redirectToUrl(Url::getCurrentUrl());
                 } else {
                     $messageNoAccess = Piwik::translate('TwoFactorAuth_InvalidAuthCode');
@@ -222,7 +223,7 @@ class Controller extends \Piwik\Plugin\Controller
             if ($this->twoFa->validateAuthCodeDuringSetup(trim($authCode), $secret)) {
                 $this->twoFa->saveSecret($login, $secret);
                 $fingerprint = new SessionFingerprint();
-                $fingerprint->setTwoFactorAuthenticationVerified();
+                $fingerprint->setTwoFactorAuthenticationVerified($login);
                 unset($session->secret);
                 $this->passwordVerify->forgetVerifiedPassword();
 

@@ -155,7 +155,7 @@ class TwoFactorAuth extends \Piwik\Plugin
                 && $twoFa->validateAuthCode($login, $authCode)
             ) {
                 $sessionFingerprint = new SessionFingerprint();
-                $sessionFingerprint->setTwoFactorAuthenticationVerified();
+                $sessionFingerprint->setTwoFactorAuthenticationVerified($login);
             }
         }
     }
@@ -220,6 +220,19 @@ class TwoFactorAuth extends \Piwik\Plugin
         }
 
         if (!$this->requiresAuth($module, $action, $parameters)) {
+            return;
+        }
+
+        if (
+            $validator->hasPendingSessionTwoFactorAuthentication()
+            && !$validator->isCurrentUserMatchingSessionUser()
+        ) {
+            if (!Request::isRootRequestApiRequest()) {
+                $module = 'TwoFactorAuth';
+                $action = 'loginTwoFactorAuth';
+            } elseif (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+                throw new Exception(Piwik::translate('General_YourSessionHasExpired'));
+            }
             return;
         }
 

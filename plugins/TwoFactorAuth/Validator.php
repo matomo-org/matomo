@@ -88,6 +88,40 @@ class Validator
         }
     }
 
+    public function getSessionUser()
+    {
+        $sessionFingerprint = $this->getSessionFingerPrint();
+        return $sessionFingerprint->getUser();
+    }
+
+    public function isCurrentUserMatchingSessionUser()
+    {
+        $sessionUser = $this->getSessionUser();
+        if (empty($sessionUser)) {
+            return false;
+        }
+
+        return $sessionUser === Piwik::getCurrentUserLogin();
+    }
+
+    public function checkCurrentUserMatchesSessionUser()
+    {
+        if (!$this->isCurrentUserMatchingSessionUser()) {
+            throw new Exception('not available');
+        }
+    }
+
+    public function hasPendingSessionTwoFactorAuthentication()
+    {
+        $sessionUser = $this->getSessionUser();
+        if (empty($sessionUser)) {
+            return false;
+        }
+
+        $sessionFingerprint = $this->getSessionFingerPrint();
+        return !$sessionFingerprint->hasVerifiedTwoFactor();
+    }
+
     private function getSessionFingerPrint()
     {
         return new SessionFingerprint();
