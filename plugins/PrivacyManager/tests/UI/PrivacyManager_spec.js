@@ -13,9 +13,35 @@ describe("PrivacyManager", function () {
     var generalParams = 'idSite=1&period=day&date=2017-01-02',
         urlBase = '?module=PrivacyManager&' + generalParams + '&action=';
 
+    async function resetSiteSpecificPrivacySettings()
+    {
+        for (const idSiteSpecific of [1, 2]) {
+            await testEnvironment.callApi('PrivacyManager.setAnonymizeIpSettings', {
+                anonymizeIPEnable: false,
+                ipAddressMaskLength: 0,
+                useAnonymizedIpForVisitEnrichment: false,
+                anonymizeUserId: false,
+                anonymizeOrderId: false,
+                anonymizeReferrer: '',
+                forceCookielessTracking: false,
+                randomizeConfigId: false,
+                idSiteSpecific,
+                useSiteSpecificSettings: false,
+            });
+        }
+    }
+
     before(function () {
         testEnvironment.pluginsToLoad = ['PrivacyManager'];
         testEnvironment.save();
+    });
+
+    before(async function () {
+        await resetSiteSpecificPrivacySettings();
+    });
+
+    after(async function () {
+        await resetSiteSpecificPrivacySettings();
     });
 
     async function setAnonymizeStartEndDate()
