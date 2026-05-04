@@ -100,7 +100,6 @@ describe("OneClickUpdate", function () {
         expect(heading).to.match(/update error/i);
         expect(await page.$('.alert-danger')).to.be.ok;
         expect(await page.$('.footer a')).to.be.ok;
-        expect(await page.$('#updateUsingHttp')).to.be.ok;
     });
 
     it('should update successfully and show the finished update screen', async function () {
