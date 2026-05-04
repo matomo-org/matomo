@@ -3599,16 +3599,6 @@ parameters:
 			path: plugins/Login/Controller.php
 
 		-
-			message: "#^Parameter \\#1 \\$str of function nl2br expects string, bool given\\.$#"
-			count: 1
-			path: plugins/Login/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$infoMessage of method Piwik\\\\Plugins\\\\Login\\\\Controller\\:\\:login\\(\\) expects bool, string given\\.$#"
-			count: 1
-			path: plugins/Login/Controller.php
-
-		-
 			message: "#^Parameter \\#1 \\$login of method Piwik\\\\Auth\\:\\:setLogin\\(\\) expects string, null given\\.$#"
 			count: 1
 			path: plugins/Login/Login.php
