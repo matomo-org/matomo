@@ -18,7 +18,8 @@ use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\Period\Factory;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Evolution;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSeriesState;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as JqplotEvolutionGraph;
 use Piwik\Site;
 use ReflectionMethod;
 
@@ -33,14 +34,14 @@ class EvolutionTest extends TestCase
     {
         $evolution = $this->createEvolution(['show_forecast' => 0], false);
 
-        self::assertSame([], $evolution->callBuildForecastData([], [], [], [], [], []));
+        self::assertSame([], $evolution->callBuildForecastData(new ForecastSeriesState([], [], [], []), [], [], []));
     }
 
     public function testBuildForecastDataReturnsEmptyWhenComparing(): void
     {
         $evolution = $this->createEvolution(['show_forecast' => 1], true);
 
-        self::assertSame([], $evolution->callBuildForecastData([], [], [], [], [], []));
+        self::assertSame([], $evolution->callBuildForecastData(new ForecastSeriesState([], [], [], []), [], [], []));
     }
 
     /**
@@ -193,12 +194,17 @@ class EvolutionTest extends TestCase
             $this->createDataTableForDay('2026-04-11', $site, '2026-04-11 12:00:00'),
         ];
 
-        $forecast = $evolution->callBuildForecastData(
+        $seriesState = new ForecastSeriesState(
             ['Visits' => [80.0, 20.0]],
+            ['Visits' => [true, true]],
+            ['Visits' => false],
+            []
+        );
+
+        $forecast = $evolution->callBuildForecastData(
+            $seriesState,
             $dataTables,
             [ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
-            ['Visits' => false],
-            ['Visits' => [true, true]],
             ['Visits' => false]
         );
 
@@ -293,11 +299,12 @@ class EvolutionTest extends TestCase
         bool $isComparing,
         array $semanticTypes = []
     ): Evolution {
-        $graph = $this->getMockBuilder(JqplotGraph::class)
+        $graph = $this->getMockBuilder(JqplotEvolutionGraph::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['isComparing'])
-            ->getMockForAbstractClass();
+            ->onlyMethods(['isComparing', 'getForecastSeriesState', 'setForecastSeriesState'])
+            ->getMock();
         $graph->method('isComparing')->willReturn($isComparing);
+        $graph->method('getForecastSeriesState')->willReturn(null);
 
         return new class ($properties, 'evolution', $graph, $semanticTypes) extends Evolution {
             /** @var array<string, string> */
@@ -324,30 +331,18 @@ class EvolutionTest extends TestCase
             }
 
             /**
-             * @param array<string, mixed> $allSeriesData
              * @param array<int, DataTable> $dataTables
              * @param array<int, string> $dataStates
              * @param array<string, string|false> $seriesUnits
-             * @param array<string, array<int, bool>> $allSeriesDataAvailability
-             * @param array<string, bool> $allSeriesAllowsDownwardForecast
              * @return array<int, array<int, float|null>>
              */
             public function callBuildForecastData(
-                array $allSeriesData,
+                ForecastSeriesState $seriesState,
                 array $dataTables,
                 array $dataStates,
-                array $seriesUnits,
-                array $allSeriesDataAvailability,
-                array $allSeriesAllowsDownwardForecast
+                array $seriesUnits
             ): array {
-                return $this->buildForecastData(
-                    $allSeriesData,
-                    $dataTables,
-                    $dataStates,
-                    $seriesUnits,
-                    $allSeriesDataAvailability,
-                    $allSeriesAllowsDownwardForecast
-                );
+                return $this->buildForecastData($seriesState, $dataTables, $dataStates, $seriesUnits);
             }
         };
     }

@@ -89,72 +89,24 @@ class Evolution extends JqplotDataGenerator
         [$seriesMetadata, $seriesUnits, $seriesLabels, $seriesToXAxis] =
             $this->getSeriesMetadata($rowsToDisplay, $columnsToDisplay, $units, $dataTables);
 
-        // Reuse the per-series state precomputed in JqplotGraph\Evolution::afterAllFiltersAreApplied()
-        // when forecast is on, instead of running the same row × column collection loop again. Only
-        // populated for the non-comparing path; the comparing branch still computes from scratch.
-        $precomputedSeriesState = (!$this->isComparing && $this->graph instanceof JqplotEvolutionGraph)
-            ? $this->graph->getForecastSeriesState()
-            : null;
-
-        if ($precomputedSeriesState !== null) {
-            $allSeriesData = $precomputedSeriesState['allSeriesData'];
-            $allSeriesDataAvailability = $precomputedSeriesState['allSeriesDataAvailability'];
-            $allSeriesAllowsDownwardForecast = $precomputedSeriesState['allSeriesAllowsDownwardForecast'];
-            $allSeriesForecastPrecision = $precomputedSeriesState['allSeriesForecastPrecision'];
+        if ($this->isComparing) {
+            // Comparing graphs never render a forecast, so we only need the chart-rendering
+            // data, not the forecast-state machinery the seriesState wrapper carries.
+            $allSeriesData = $this->collectComparisonSeriesData(
+                $rowsToDisplay,
+                $columnsToDisplay,
+                $seriesLabels,
+                $dataTable
+            );
+            $seriesState = new ForecastSeriesState([], [], [], []);
         } else {
-            // The render path always needs $allSeriesData to seed the chart's y-axis values, but
-            // the forecast precision/downward-forecast classifiers are forecast-only signals that
-            // touch the metric semantic-type registry and run a cluster of string searches per
-            // column. Skip them on the show_forecast=0 hot path so dashboards full of evolution
-            // graphs do not pay for a feature they are not rendering. precomputeForecast() always
-            // sets show_forecast=1, so the toggle-visibility path keeps the full classifier work.
-            // Comparing graphs are also treated as the forecast-off path: buildForecastData() and
-            // precomputeForecast() both return [] when isComparing, so the classifier output would
-            // be discarded anyway.
-            $forecastEnabled = !empty($this->properties['show_forecast']) && !$this->isComparing;
+            // Reuse the per-series state precomputed in
+            // JqplotGraph\Evolution::afterAllFiltersAreApplied() when forecast is on, instead
+            // of running the same row × column collection loop again.
+            $seriesState = $this->graph->getForecastSeriesState()
+                ?? $this->collectForecastSeriesState($rowsToDisplay, $columnsToDisplay, $units, $dataTable);
 
-            // collect series data to show. each row-to-display/column-to-display permutation creates a series.
-            $allSeriesData = [];
-            $allSeriesDataAvailability = [];
-            $allSeriesAllowsDownwardForecast = [];
-            $allSeriesForecastPrecision = [];
-            foreach ($rowsToDisplay as $rowIdentifier) {
-                $rowLabel = $rowIdentifier;
-
-                if (!empty($this->properties['selectable_rows'])) {
-                    foreach ($this->properties['selectable_rows'] as $row) {
-                        if ($rowIdentifier === $row['matcher']) {
-                            $rowLabel = $row['label'];
-                        }
-                    }
-                }
-
-                foreach ($columnsToDisplay as $columnName) {
-                    if (!$this->isComparing) {
-                        // The comparing branch never renders a forecast (buildForecastData()
-                        // short-circuits when comparing), so the classifier output would be
-                        // discarded. Skip the lookup for the only path that uses it.
-                        $columnAllowsDownwardForecast = $forecastEnabled
-                            ? $this->columnAllowsDownwardForecast($columnName, $units[$columnName] ?? false)
-                            : false;
-
-                        $this->setNonComparisonSeriesData(
-                            $allSeriesData,
-                            $allSeriesDataAvailability,
-                            $allSeriesAllowsDownwardForecast,
-                            $allSeriesForecastPrecision,
-                            $rowLabel,
-                            $columnName,
-                            $columnAllowsDownwardForecast,
-                            $units[$columnName] ?? false,
-                            $dataTable,
-                            $forecastEnabled
-                        );
-                    } else {
-                        $this->setComparisonSeriesData($allSeriesData, $seriesLabels, $rowLabel, $columnName, $dataTable);
-                    }
-                }
-            }
+            $allSeriesData = $seriesState->getAllSeriesData();
         }
 
         $visualization->properties = $this->properties;
@@ -200,13 +152,10 @@ class Evolution extends JqplotDataGenerator
 
         $dataStates = $this->setDataStates($visualization, $dataTables);
         $visualization->setForecastData($this->buildForecastData(
-            $allSeriesData,
+            $seriesState,
             $dataTables,
             $dataStates,
-            $seriesUnits,
-            $allSeriesDataAvailability,
-            $allSeriesAllowsDownwardForecast,
-            $allSeriesForecastPrecision
+            $seriesUnits
         ));
     }
 
@@ -216,36 +165,29 @@ class Evolution extends JqplotDataGenerator
      * payload — the builder would yield [] anyway, but checking here avoids
      * unnecessary work on the cold path.
      *
-     * @param array<string, array<int, float|int>> $allSeriesData
      * @param array<DataTable> $dataTables
      * @param array<int, string> $dataStates
      * @param array<string, string|false> $seriesUnits
-     * @param array<string, array<int, bool>> $allSeriesDataAvailability
-     * @param array<string, bool> $allSeriesAllowsDownwardForecast
-     * @param array<string, int> $allSeriesForecastPrecision
      * @return array<int, array<int, float|null>>
      */
     protected function buildForecastData(
-        array $allSeriesData,
+        ForecastSeriesState $seriesState,
         array $dataTables,
         array $dataStates,
-        array $seriesUnits,
-        array $allSeriesDataAvailability = [],
-        array $allSeriesAllowsDownwardForecast = [],
-        array $allSeriesForecastPrecision = []
+        array $seriesUnits
     ): array {
         if (empty($this->properties['show_forecast']) || $this->isComparing) {
             return [];
         }
 
         return (new ForecastBuilder())->build(
-            $allSeriesData,
+            $seriesState->getAllSeriesData(),
             $dataTables,
             $dataStates,
             $seriesUnits,
-            $allSeriesDataAvailability,
-            $allSeriesAllowsDownwardForecast,
-            $allSeriesForecastPrecision
+            $seriesState->getAllSeriesDataAvailability(),
+            $seriesState->getAllSeriesAllowsDownwardForecast(),
+            $seriesState->getAllSeriesForecastPrecision()
         );
     }
 
@@ -495,6 +437,128 @@ class Evolution extends JqplotDataGenerator
         }
     }
 
+    /**
+     * Run the row × column collection loop and produce the per-series state. Shared by
+     * initChartObjectData() (render path) and precomputeForecast() (toggle-visibility path)
+     * so the two paths produce identical state. Comparing graphs go through
+     * {@see self::collectComparisonSeriesData()} instead — they only need $allSeriesData and
+     * never consume the forecast-state fields.
+     *
+     * @param array<int, mixed> $rowsToDisplay
+     * @param array<int, string> $columnsToDisplay
+     * @param array<string, string|false> $units
+     */
+    private function collectForecastSeriesState(
+        array $rowsToDisplay,
+        array $columnsToDisplay,
+        array $units,
+        DataTable\Map $dataTable
+    ): ForecastSeriesState {
+        // The render path always needs $allSeriesData to seed the chart's y-axis values,
+        // but the forecast precision/downward-forecast classifiers are forecast-only signals
+        // that touch the metric semantic-type registry and run a cluster of string searches per
+        // column. Skip them on the show_forecast=0 hot path so dashboards full of evolution
+        // graphs do not pay for a feature they are not rendering. precomputeForecast() always
+        // sets show_forecast=1, so the toggle-visibility path keeps the full classifier work.
+        $forecastEnabled = !empty($this->properties['show_forecast']);
+
+        $allSeriesData = [];
+        $allSeriesDataAvailability = [];
+        $allSeriesAllowsDownwardForecast = [];
+        $allSeriesForecastPrecision = [];
+
+        foreach ($rowsToDisplay as $rowIdentifier) {
+            $rowLabel = $this->resolveRowLabel($rowIdentifier);
+
+            foreach ($columnsToDisplay as $columnName) {
+                $columnUnit = $units[$columnName] ?? false;
+                $columnAllowsDownwardForecast = $forecastEnabled
+                    ? $this->columnAllowsDownwardForecast($columnName, $columnUnit)
+                    : false;
+
+                $this->setNonComparisonSeriesData(
+                    $allSeriesData,
+                    $allSeriesDataAvailability,
+                    $allSeriesAllowsDownwardForecast,
+                    $allSeriesForecastPrecision,
+                    $rowLabel,
+                    $columnName,
+                    $columnAllowsDownwardForecast,
+                    $columnUnit,
+                    $dataTable,
+                    $forecastEnabled
+                );
+            }
+        }
+
+        return new ForecastSeriesState(
+            $allSeriesData,
+            $allSeriesDataAvailability,
+            $allSeriesAllowsDownwardForecast,
+            $allSeriesForecastPrecision
+        );
+    }
+
+    /**
+     * Comparing-only twin of {@see self::collectForecastSeriesState()}: walks the same
+     * row × column grid but only populates the chart-rendering data, since comparing graphs
+     * never reach the forecast builder.
+     *
+     * @param array<int, mixed> $rowsToDisplay
+     * @param array<int, string> $columnsToDisplay
+     * @param array<int, string> $seriesLabels
+     * @return array<string, array<int, float|int>>
+     */
+    private function collectComparisonSeriesData(
+        array $rowsToDisplay,
+        array $columnsToDisplay,
+        array $seriesLabels,
+        DataTable\Map $dataTable
+    ): array {
+        $allSeriesData = [];
+
+        foreach ($rowsToDisplay as $rowIdentifier) {
+            $rowLabel = $this->resolveRowLabel($rowIdentifier);
+
+            foreach ($columnsToDisplay as $columnName) {
+                $this->setComparisonSeriesData(
+                    $allSeriesData,
+                    $seriesLabels,
+                    $rowLabel,
+                    $columnName,
+                    $dataTable
+                );
+            }
+        }
+
+        return $allSeriesData;
+    }
+
+    /**
+     * Apply the `selectable_rows` matcher → label translation that both collection paths
+     * share, keeping the loop body identical between comparing and non-comparing.
+     *
+     * @param mixed $rowIdentifier
+     * @return mixed
+     */
+    private function resolveRowLabel($rowIdentifier)
+    {
+        if (!empty($this->properties['selectable_rows'])) {
+            foreach ($this->properties['selectable_rows'] as $row) {
+                if ($rowIdentifier === $row['matcher']) {
+                    return $row['label'];
+                }
+            }
+        }
+        return $rowIdentifier;
+    }
+
+    /**
+     * @param array<string, array<int, float|int>> $allSeriesData
+     * @param array<string, array<int, bool>> $allSeriesDataAvailability
+     * @param array<string, bool> $allSeriesAllowsDownwardForecast
+     * @param array<string, int> $allSeriesForecastPrecision
+     */
     private function setNonComparisonSeriesData(
         array &$allSeriesData,
         array &$allSeriesDataAvailability,
@@ -506,7 +570,7 @@ class Evolution extends JqplotDataGenerator
         $columnUnit,
         DataTable\Map $dataTable,
         bool $forecastEnabled
-    ) {
+    ): void {
         $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
 
         $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable, $seriesDataAvailability);
@@ -525,8 +589,17 @@ class Evolution extends JqplotDataGenerator
         );
     }
 
-    private function setComparisonSeriesData(array &$allSeriesData, array $seriesLabels, $rowLabel, $columnName, DataTable\Map $dataTable)
-    {
+    /**
+     * @param array<string, array<int, float|int>> $allSeriesData
+     * @param array<int, string> $seriesLabels
+     */
+    private function setComparisonSeriesData(
+        array &$allSeriesData,
+        array $seriesLabels,
+        $rowLabel,
+        $columnName,
+        DataTable\Map $dataTable
+    ): void {
         foreach ($dataTable->getDataTables() as $label => $childTable) {
             // get the row for this label (use the first if $rowLabel is false)
             if ($rowLabel === false) {
@@ -725,59 +798,10 @@ class Evolution extends JqplotDataGenerator
 
         [, $seriesUnits] = $this->getSeriesMetadata($rowsToDisplay, $columnsToDisplay, $units, $dataTables);
 
-        $allSeriesData = [];
-        $allSeriesDataAvailability = [];
-        $allSeriesAllowsDownwardForecast = [];
-        $allSeriesForecastPrecision = [];
-        foreach ($rowsToDisplay as $rowIdentifier) {
-            $rowLabel = $rowIdentifier;
+        $seriesState = $this->collectForecastSeriesState($rowsToDisplay, $columnsToDisplay, $units, $dataTable);
 
-            if (!empty($this->properties['selectable_rows'])) {
-                foreach ($this->properties['selectable_rows'] as $row) {
-                    if ($rowIdentifier === $row['matcher']) {
-                        $rowLabel = $row['label'];
-                    }
-                }
-            }
+        $this->graph->setForecastSeriesState($seriesState);
 
-            foreach ($columnsToDisplay as $columnName) {
-                $columnAllowsDownwardForecast = $this->columnAllowsDownwardForecast(
-                    $columnName,
-                    $units[$columnName] ?? false
-                );
-
-                $this->setNonComparisonSeriesData(
-                    $allSeriesData,
-                    $allSeriesDataAvailability,
-                    $allSeriesAllowsDownwardForecast,
-                    $allSeriesForecastPrecision,
-                    $rowLabel,
-                    $columnName,
-                    $columnAllowsDownwardForecast,
-                    $units[$columnName] ?? false,
-                    $dataTable,
-                    true
-                );
-            }
-        }
-
-        if ($this->graph instanceof JqplotEvolutionGraph) {
-            $this->graph->setForecastSeriesState([
-                'allSeriesData' => $allSeriesData,
-                'allSeriesDataAvailability' => $allSeriesDataAvailability,
-                'allSeriesAllowsDownwardForecast' => $allSeriesAllowsDownwardForecast,
-                'allSeriesForecastPrecision' => $allSeriesForecastPrecision,
-            ]);
-        }
-
-        return $this->buildForecastData(
-            $allSeriesData,
-            $dataTables,
-            $dataStates,
-            $seriesUnits,
-            $allSeriesDataAvailability,
-            $allSeriesAllowsDownwardForecast,
-            $allSeriesForecastPrecision
-        );
+        return $this->buildForecastData($seriesState, $dataTables, $dataStates, $seriesUnits);
     }
 }
