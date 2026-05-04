@@ -367,6 +367,17 @@ Segmentation = (function($) {
             displayFormAddNewSegment(segment);
         }
 
+        function selectSegment(segmentDefinition) {
+            if (!piwikHelper.isReportingPage()) {
+                // we update segment on location change success
+                self.setSegment(segmentDefinition);
+            }
+
+            self.markCurrentSegment();
+            self.segmentSelectMethod(segmentDefinition);
+            toggleLoadingMessage(segmentDefinition.length);
+        }
+
         var filterSegmentList = function (keyword) {
             var curTitle;
             var normalizedKeyword = piwikHelper.normalize(keyword);
@@ -463,6 +474,27 @@ Segmentation = (function($) {
           });
         }
 
+        function toggleSegmentComparison(segmentDefinition) {
+          const comparisonService = window.CoreHome.ComparisonsStoreInstance;
+          const comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
+            return comparison.params.segment;
+          });
+          const isCompared = (
+            comparedSegments.indexOf(segmentDefinition) !== -1 ||
+            comparedSegments.indexOf(decodeURIComponent(segmentDefinition)) !== -1
+          );
+
+          if (isCompared) {
+            comparisonService.removeSegmentComparisonByDefinition(segmentDefinition);
+          } else {
+            comparisonService.addSegmentComparison({
+              segment: segmentDefinition,
+            });
+          }
+
+          closeAllOpenLists();
+        }
+
         function toggleStarredSegment($segment, idSegment) {
           const segment = getSegmentFromId(idSegment);
           segment.starred = !segment.starred;
@@ -557,38 +589,21 @@ Segmentation = (function($) {
                 if ($button.attr('data-state') === 'disabled') {
                   return false;
                 }
-                const comparisonService = window.CoreHome.ComparisonsStoreInstance;
                 const segmentDefinition = $button.closest('li').data('definition') ?? '';
-                if ($button.attr('data-state') === 'active') {
-                  comparisonService.removeSegmentComparisonByDefinition(segmentDefinition);
-                } else {
-                  comparisonService.addSegmentComparison({
-                    segment: segmentDefinition,
-                  });
-                }
-                closeAllOpenLists();
+                toggleSegmentComparison(segmentDefinition);
             });
 
             self.target.on("click", ".segmentList li .segname", function (e) {
                 let parentLi = $(this).parent();
                 if (parentLi.hasClass("grayed") !== true) {
                     var segmentDefinition = $(parentLi).data("definition");
-
-                    if (!piwikHelper.isReportingPage()) {
-                        // we update segment on location change success
-                        self.setSegment(segmentDefinition);
-                    }
-
-                    self.markCurrentSegment();
-                    self.segmentSelectMethod(segmentDefinition);
-                    toggleLoadingMessage(segmentDefinition.length);
+                    selectSegment(segmentDefinition);
                 }
             });
 
             self.target.on('click', '.add_new_segment', function (e) {
                 e.stopPropagation();
-
-                showAddNewSegmentForm();
+                modalService.openAddSegment();
             });
 
             // emulate a click when pressing enter on one of the segments or the add button
@@ -654,12 +669,12 @@ Segmentation = (function($) {
 
             self.target.on('click', ".delete", function() {
                 var segmentId = $(self.form).find(".available_segments_select").val();
-                askToDeleteSegment(segmentId);
+                modalService.deleteSegment(segmentId);
             });
 
             self.target.on("click", "a.close", function (e) {
                 $(".segmentListContainer", self.target).show();
-                closeForm();
+                modalService.closeEditModal();
             });
 
             $("body").on("keyup", function (e) {
@@ -672,7 +687,7 @@ Segmentation = (function($) {
                         return;
                     }
                     $(".segmentListContainer", self.target).show();
-                    closeForm();
+                    modalService.closeEditModal();
                 }
             });
 
@@ -798,17 +813,24 @@ Segmentation = (function($) {
             var idsegment = option.attr("data-idsegment") || '';
 
             if (idsegment.length == 0) {
-                displayFormAddNewSegment();
+                modalService.openAddSegment();
             } else {
                 var segment = getSegmentFromId(idsegment);
                 segment.definition = option.data("definition");
-                openEditForm(segment);
+                modalService.openEditSegment(segment);
             }
         }
 
         function openEditFormGivenIdSegment(idSegment) {
+            if (!idSegment) {
+                modalService.openAddSegment();
+                return;
+            }
+
             const $segment = $(self.target).find("[data-idsegment='" + idSegment + "']");
-            openEditFormGivenSegment($segment);
+            if ($segment.length) {
+                openEditFormGivenSegment($segment);
+            }
         }
 
         // Mode = 'new' or 'edit'
@@ -856,11 +878,11 @@ Segmentation = (function($) {
             makeDropList(".auto_archive" , ".auto_archive_select");
             $(self.form).find(".saveAndApply").bind("click", function (e) {
                 e.preventDefault();
-                parseFormAndSave();
+                modalService.saveSegment();
             });
             $(self.form).find(".testSegment").bind("click", function (e) {
                 e.preventDefault();
-                testSegment();
+                modalService.testSegment();
             });
 
             $(".segmentListContainer", self.target).hide();
@@ -992,6 +1014,31 @@ Segmentation = (function($) {
             });
 
             Piwik_Popover.createPopupAndLoadUrl(url, _pk_translate('Live_VisitsLog'));
+        };
+
+        const modalService = {
+            openAddSegment(segment) {
+                showAddNewSegmentForm(segment);
+            },
+            openEditSegment(segment) {
+                closePanel();
+                openEditForm(segment);
+            },
+            closeEditModal() {
+                closeForm();
+            },
+            deleteSegment(idSegment) {
+                askToDeleteSegment(idSegment);
+            },
+            saveSegment() {
+                parseFormAndSave();
+            },
+            testSegment(segmentDefinition) {
+                if (typeof segmentDefinition !== 'undefined') {
+                    self.currentSegmentStr = segmentDefinition;
+                }
+                testSegment();
+            }
         };
 
         var makeDropList = function(spanId, selectId){
