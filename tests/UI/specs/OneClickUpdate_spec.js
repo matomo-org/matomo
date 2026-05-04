@@ -20,6 +20,8 @@ describe("OneClickUpdate", function () {
     const settingsUrl = latestStableUrl + '?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday';
 
     async function openHttpsFailureScreen() {
+        // Recreate the HTTPS failure state directly so the rest of the test
+        // does not depend on browser history or transport-specific behavior.
         await page.evaluate((oneClickResultsUrl) => {
             const form = document.createElement('form');
             form.method = 'POST';
@@ -46,6 +48,8 @@ describe("OneClickUpdate", function () {
     }
 
     before(async function () {
+        // The updater page loads helper code that may register shortcuts before
+        // Mousetrap is available in this screenshot-test environment.
         await page.evaluateOnNewDocument(() => {
             window.Mousetrap = window.Mousetrap || {
                 bind: () => {},
@@ -93,6 +97,7 @@ describe("OneClickUpdate", function () {
 
     it('should fail when a directory is not writable', async function () {
         await openHttpsFailureScreen();
+        // Force the updater to hit the writable-directory error path.
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
         await page.click('#updateUsingHttp');
         await page.waitForSelector('.alert-danger', { visible: true });
@@ -104,6 +109,7 @@ describe("OneClickUpdate", function () {
 
     it('should update successfully and show the finished update screen', async function () {
         await openHttpsFailureScreen();
+        // Restore permissions so the same flow can complete successfully.
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
         await page.click('#updateUsingHttp');
         await page.waitForSelector('.footer a', { visible: true });
