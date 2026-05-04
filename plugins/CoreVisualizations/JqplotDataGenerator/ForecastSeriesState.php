@@ -1,0 +1,75 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+declare(strict_types=1);
+
+namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
+
+/**
+ * Per-series state collected for forecast computation. Groups the four parallel arrays the
+ * data generator builds so they can be passed and cached as a single value instead of four
+ * reference parameters that need to stay in lockstep. Constructed in one shot and read-only
+ * thereafter so the lockstep invariant cannot be broken by an out-of-order mutation.
+ */
+class ForecastSeriesState
+{
+    /** @var array<string, array<int, float|int>> */
+    private $allSeriesData;
+
+    /** @var array<string, array<int, bool>> */
+    private $allSeriesDataAvailability;
+
+    /** @var array<string, bool> */
+    private $allSeriesAllowsDownwardForecast;
+
+    /** @var array<string, int> */
+    private $allSeriesForecastPrecision;
+
+    /**
+     * @param array<string, array<int, float|int>> $allSeriesData
+     * @param array<string, array<int, bool>> $allSeriesDataAvailability
+     * @param array<string, bool> $allSeriesAllowsDownwardForecast
+     * @param array<string, int> $allSeriesForecastPrecision
+     */
+    public function __construct(
+        array $allSeriesData,
+        array $allSeriesDataAvailability,
+        array $allSeriesAllowsDownwardForecast,
+        array $allSeriesForecastPrecision
+    ) {
+        $this->allSeriesData = $allSeriesData;
+        $this->allSeriesDataAvailability = $allSeriesDataAvailability;
+        $this->allSeriesAllowsDownwardForecast = $allSeriesAllowsDownwardForecast;
+        $this->allSeriesForecastPrecision = $allSeriesForecastPrecision;
+    }
+
+    /** @return array<string, array<int, float|int>> */
+    public function getAllSeriesData(): array
+    {
+        return $this->allSeriesData;
+    }
+
+    /** @return array<string, array<int, bool>> */
+    public function getAllSeriesDataAvailability(): array
+    {
+        return $this->allSeriesDataAvailability;
+    }
+
+    /** @return array<string, bool> */
+    public function getAllSeriesAllowsDownwardForecast(): array
+    {
+        return $this->allSeriesAllowsDownwardForecast;
+    }
+
+    /** @return array<string, int> */
+    public function getAllSeriesForecastPrecision(): array
+    {
+        return $this->allSeriesForecastPrecision;
+    }
+}

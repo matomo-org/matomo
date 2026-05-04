@@ -18,6 +18,7 @@ use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Evolution as JqplotEvolutionData;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSeriesState;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\EvolutionPeriodSelector;
 use Piwik\Site;
@@ -43,11 +44,10 @@ class Evolution extends JqplotGraph
 
     /**
      * Per-series state collected by JqplotDataGenerator\Evolution::precomputeForecast()
-     * so the later initChartObjectData() pass can skip its row × column loop. Keys:
-     * allSeriesData, allSeriesDataAvailability, allSeriesAllowsDownwardForecast,
-     * allSeriesForecastPrecision. Null when no precompute ran.
+     * so the later initChartObjectData() pass can skip its row × column loop. Null when
+     * no precompute ran.
      *
-     * @var array<string, mixed>|null
+     * @var ForecastSeriesState|null
      */
     private $forecastSeriesState = null;
 
@@ -64,18 +64,12 @@ class Evolution extends JqplotGraph
         return $this->forecastData;
     }
 
-    /**
-     * @param array<string, mixed>|null $state
-     */
-    public function setForecastSeriesState(?array $state): void
+    public function setForecastSeriesState(?ForecastSeriesState $state): void
     {
         $this->forecastSeriesState = $state;
     }
 
-    /**
-     * @return array<string, mixed>|null
-     */
-    public function getForecastSeriesState(): ?array
+    public function getForecastSeriesState(): ?ForecastSeriesState
     {
         return $this->forecastSeriesState;
     }
