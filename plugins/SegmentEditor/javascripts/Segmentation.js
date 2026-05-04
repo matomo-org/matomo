@@ -9,6 +9,7 @@ Segmentation = (function($) {
     const starCallbackList = [];
     const FORM_MODE_EDIT = 'edit';
     const FORM_MODE_NEW = 'new';
+    const panelStateCallbackLists = {};
 
     piwikHelper.registerShortcut('s', _pk_translate('CoreHome_ShortcutSegmentSelector'), function (event) {
         if (event.altKey) {
@@ -39,8 +40,6 @@ Segmentation = (function($) {
 
         self.editorTemplate = self.editorTemplate.detach();
 
-        self.filterTimer = "";
-
         self.availableMatches = [];
         self.availableMatches["metric"] = [];
         self.availableMatches["metric"]["=="] = self.translations['General_OperationEquals'];
@@ -58,8 +57,40 @@ Segmentation = (function($) {
         self.availableMatches["dimension"]["=^"] = self.translations['General_OperationStartsWith'];
         self.availableMatches["dimension"]["=$"] = self.translations['General_OperationEndsWith'];
 
+        self.bridgeId = self.target.attr('data-segment-bridge-id') || ('segment-editor-bridge-' + Math.random().toString(36).slice(2, 12));
+        self.target.attr('data-segment-bridge-id', self.bridgeId);
+        panelStateCallbackLists[self.bridgeId] = panelStateCallbackLists[self.bridgeId] || [];
+
+        function notifyPanelStateChange() {
+            (panelStateCallbackLists[self.bridgeId] || []).forEach(function (callback) {
+                callback();
+            });
+        }
+
+        function onPanelStateChange(callback) {
+            if (typeof callback !== 'function') {
+                return function () {};
+            }
+
+            panelStateCallbackLists[self.bridgeId].push(callback);
+
+            let isUnsubscribed = false;
+            return function unsubscribePanelStateChange() {
+                if (isUnsubscribed) {
+                    return;
+                }
+
+                isUnsubscribed = true;
+                const index = panelStateCallbackLists[self.bridgeId].indexOf(callback);
+                if (index !== -1) {
+                    panelStateCallbackLists[self.bridgeId].splice(index, 1);
+                }
+            };
+        }
+
         segmentation.prototype.setAvailableSegments = function (segments) {
             this.availableSegments = segments;
+            notifyPanelStateChange();
         };
 
         segmentation.prototype.getSegment = function(){
@@ -69,13 +100,10 @@ Segmentation = (function($) {
 
         segmentation.prototype.setSegment = function(segmentStr){
             this.currentSegmentStr = segmentStr;
+            notifyPanelStateChange();
         };
 
-        segmentation.prototype.setTooltip = function (segmentDescription) {
-          var title = _pk_translate('SegmentEditor_ChooseASegment') + '.';
-          title += ' '+ _pk_translate('SegmentEditor_CurrentlySelectedSegment', [segmentDescription]);
-          $('a.title', this.content).attr('title', title);
-        };
+        segmentation.prototype.setTooltip = function () {};
 
         // We will listen to changes in the Segment Comparison Store
         // so we can mark compared segments properly. This will now include deletion of compared segments.
@@ -84,83 +112,35 @@ Segmentation = (function($) {
         });
 
         segmentation.prototype.markComparedSegments = function() {
-            const comparisonService = window.CoreHome.ComparisonsStoreInstance;
-            const comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
-                return comparison.params.segment;
-            });
-            $('div.segmentList ul li[data-definition]', this.target).each(function () {
-                const $segment = $(this);
-                const definition = $segment.attr('data-definition');
-                const isCompared = (
-                  comparedSegments.indexOf(definition) !== -1 ||
-                  comparedSegments.indexOf(decodeURIComponent(definition)) !== -1
-                );
-                $segment.toggleClass('comparedSegment', isCompared);
-                $segment.find('.compareSegment').attr('data-state', isCompared ? 'active' : '');
-            });
-            self.checkIfComparedSegmentsHasReachedLimit();
+            notifyPanelStateChange();
         };
         segmentation.prototype.checkIfComparedSegmentsHasReachedLimit = function() {
-            const limit = piwik.config.data_comparison_segment_limit + 1;
-            const comparisonService = window.CoreHome.ComparisonsStoreInstance;
-            const comparedSegmentsLength = comparisonService.getSegmentComparisons().length;
-            $('div.segmentList ul li[data-definition] .compareSegment').each(function() {
-              const $compareButton = $(this);
-              const currentState = $compareButton.attr('data-state');
-              if (currentState === 'active') {
-                return;
-              }
-              if (comparedSegmentsLength >= limit) {
-                $compareButton.attr('data-state','disabled');
-                $compareButton.attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]));
-              } else {
-                $compareButton.attr('data-state','');
-                $compareButton.attr('title', _pk_translate('SegmentEditor_CompareThisSegment'));
-              }
-            });
+            notifyPanelStateChange();
             return false;
         };
 
+        function getCurrentSegmentTitle() {
+            var current = self.getSegment();
+
+            if (current !== "") {
+                var segment = findSegmentByDefinition(current);
+                if (segment) {
+                    return getPlainSegmentName(segment);
+                }
+                return _pk_translate('SegmentEditor_CustomSegment');
+            }
+
+            return self.translations['SegmentEditor_DefaultAllVisits'];
+        }
+
+        function getCurrentSegmentTooltip() {
+            var title = _pk_translate('SegmentEditor_ChooseASegment') + '.';
+            title += ' ' + _pk_translate('SegmentEditor_CurrentlySelectedSegment', [getCurrentSegmentTitle()]);
+            return title;
+        }
+
         segmentation.prototype.markCurrentSegment = function(){
-            var current = this.getSegment();
-
-            var segmentationTitle = $(this.content).find(".segmentationTitle");
-            var title;
-            if (current != "") {
-                // this code is mad, and may drive you mad.
-                // the whole segmentation editor needs to be rewritten in Vue with clean code
-                var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
-                var foundItems = $(selector, this.target);
-
-                if (foundItems.length === 0) {
-                    try {
-                        currentDecoded = piwikHelper.htmlDecode(current);
-                        selector = 'div.segmentList ul li[data-definition="'+currentDecoded+'"]';
-                        foundItems = $(selector, this.target);
-                    } catch(e) {}
-                }
-                if (foundItems.length === 0) {
-                    try {
-                        currentDecoded = piwikHelper.htmlDecode(decodeURIComponent(current));
-                        selector = 'div.segmentList ul li[data-definition="'+currentDecoded+'"]';
-                        foundItems = $(selector, this.target);
-                    } catch(e) {}
-                }
-
-                if (foundItems.length > 0) {
-                    var idSegment = $(foundItems).first().attr('data-idsegment');
-                    title = getSegmentName(getSegmentFromId(idSegment));
-                } else {
-                    title = _pk_translate('SegmentEditor_CustomSegment');
-                }
-                segmentationTitle.addClass('segment-clicked').html( title );
-                this.setTooltip(title);
-            }
-            else {
-                title = this.translations['SegmentEditor_DefaultAllVisits'];
-                segmentationTitle.text(title);
-                this.setTooltip(title);
-            }
+            notifyPanelStateChange();
             window.CoreHome.MatomoUrl.updatePageTitle();
         };
 
@@ -184,102 +164,33 @@ Segmentation = (function($) {
             return false;
         };
 
-        var getListHtml = function() {
-            var html = self.editorTemplate.find("> .listHtml").clone();
-            var segment, injClass;
-            var listHtml = '<li data-idsegment="" ' +
-                (self.currentSegmentStr == "" ? " class='segmentSelected'" : "")
-                + ' data-definition=""><span class="segname" tabindex="4">' + self.translations['SegmentEditor_DefaultAllVisits']
-                + ' ' + self.translations['General_DefaultAppended']
-                + '</span>';
-            var comparisonService = window.CoreHome.ComparisonsStoreInstance;
-            if (
-                comparisonService.isComparisonEnabled() ||
-                comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of Vue
-            ) {
-                const className = 'segmentAction compareSegment allVisitsCompareSegment ' + (self.segmentAccess === 'write' ? 'allVisitsCompareSegment--write' : '');
-                const title = _pk_translate('SegmentEditor_CompareThisSegment');
-                listHtml += '<button class="' + className + '" title="' + title + '"></button>';
-            }
-            listHtml += '</li>';
+        function decodeDefinition(definition) {
+            const candidates = [definition];
 
-            let isVisibleToSuperUserNoticeAlreadyDisplayedOnce = false;
-            let isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce = false;
+            try {
+                candidates.push(piwikHelper.htmlDecode(definition));
+            } catch (e) {}
 
-            if (self.availableSegments.length > 0) {
+            try {
+                candidates.push(piwikHelper.htmlDecode(decodeURIComponent(definition)));
+            } catch (e) {}
 
-                for(var i = 0; i < self.availableSegments.length; i++)
-                {
-                    segment = self.availableSegments[i];
+            return candidates.filter(function (candidate, index, values) {
+                return typeof candidate !== 'undefined' && values.indexOf(candidate) === index;
+            });
+        }
 
-                    // starred should be an int, but it could be converted as string
-                    // and !"0" would then be false instead of true
-                    segment.starred = Boolean(parseInt(segment.starred, 10));
+        function findSegmentByDefinition(definition) {
+            const candidates = decodeDefinition(definition);
 
-                    if (isSegmentSharedWithMeBySuperUser(segment) && !isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce) {
-                        isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce = true;
-                        listHtml += '<span class="segmentsSharedWithMeBySuperUser"><hr> ' + _pk_translate('SegmentEditor_SharedWithYou') + ':<br/></span>';
-                    }
-
-                    if (isSegmentVisibleToSuperUserOnly(segment) && !isVisibleToSuperUserNoticeAlreadyDisplayedOnce) {
-                        isVisibleToSuperUserNoticeAlreadyDisplayedOnce = true;
-                        listHtml += '<span class="segmentsVisibleToSuperUser"><hr> ' + _pk_translate('SegmentEditor_VisibleToSuperUser') + ':<br/></span>';
-                    }
-
-
-                    injClass = [];
-                    var checkSelected = segment.definition;
-                    var escapedSegmentName = (segment.definition).replace(/"/g, '&quot;');
-
-                    if (checkSelected === self.currentSegmentStr || checkSelected === decodeURIComponent(self.currentSegmentStr)) {
-                        injClass.push('segmentSelected');
-                    }
-                    if (segment.starred) {
-                        injClass.push('segmentStarred');
-                    }
-                    listHtml += '' +
-                      '<li class="' + injClass.join(' ') + '"' +
-                        'data-idsegment="' + segment.idsegment + '"' +
-                        'data-definition="' + escapedSegmentName + '"' +
-                      '>' +
-                        '<span class="segname" tabindex="4" title="' + getSegmentTooltipEnrichedWithUsername(segment) + '" >' + getSegmentName(segment) + '</span>';
-
-                    const canEdit = getCanUserEditSegment(segment);
-                    // We do not use "disabled" attribute here because it remove pointer events and we want to show tooltips
-                    const disabledAttribute = canEdit ? '' : 'data-state="disabled"';
-                    const starTitleAttribute = 'title="' + getStarSegmentTitle(segment, canEdit) + '"';
-                    listHtml += '' +
-                      '<button data-star="' + segment.idsegment + '" class="segmentAction starSegment" '+ starTitleAttribute + ' ' + disabledAttribute + '>️' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">' +
-                            '<path stroke="black" stroke-width="3" fill="none" d="M9.153 5.408C10.42 3.136 11.053 2 12 2c.947 0 1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182.28.213.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506-.766.582-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452-.347 0-.674.15-1.329.452l-.595.274c-2.303 1.06-3.455 1.59-4.22 1.01-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882.293-.941 1.523-1.22 3.983-1.776l.636-.144c.699-.158 1.048-.237 1.329-.45.28-.213.46-.536.82-1.182l.328-.588Z"/>' +
-                        '</svg>' +
-                      '</button>';
-                    if (self.segmentAccess === 'write') {
-                      const editTitleAttribute = 'title="' + getEditSegmentTitle(segment, canEdit) + '"';
-                      listHtml += '<button class="segmentAction editSegment" ' + editTitleAttribute + ' ' + disabledAttribute + '>️</button>';
-                    }
-
-                    if (
-                      comparisonService.isComparisonEnabled() ||
-                      comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of Vue
-                    ) {
-                        listHtml += '<button class="segmentAction compareSegment" title="' + _pk_translate('SegmentEditor_CompareThisSegment') + '"></button>';
-                    }
-                    listHtml += '</li>';
+            for (var i = 0; i < self.availableSegments.length; i++) {
+                if (candidates.indexOf(self.availableSegments[i].definition) !== -1) {
+                    return self.availableSegments[i];
                 }
-
-                $(html).find(".segmentList > ul").append(listHtml);
-                if (self.segmentAccess === "write") {
-                    $(html).find(".add_new_segment").show();
-                } else {
-                    $(html).find(".add_new_segment").hide();
-                }
-            } else {
-                $(html).find(".segmentList > ul").append(listHtml);
             }
 
-            return html;
-        };
+            return false;
+        }
 
         var isSegmentVisibleToSuperUserOnly = function(segment) {
             return hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)
@@ -310,8 +221,27 @@ Segmentation = (function($) {
             return sanitiseSegmentName(segmentName);
         };
 
+        var getSegmentTooltipText = function(segment) {
+            var segmentName = piwikHelper.htmlDecode(segment.name);
+            if(hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)) {
+                segmentName += ' (';
+                segmentName += _pk_translate('General_CreatedByUser', [segment.login]);
+
+                if(segment.enable_all_users == 0) {
+                    segmentName += ', ' + _pk_translate('SegmentEditor_VisibleToSuperUser');
+                }
+
+                segmentName += ')';
+            }
+            return segmentName;
+        };
+
         var getSegmentName = function(segment) {
             return sanitiseSegmentName(segment.name);
+        };
+
+        var getPlainSegmentName = function(segment) {
+            return piwikHelper.htmlDecode(segment.name);
         };
 
         var sanitiseSegmentName = function(segment) {
@@ -328,9 +258,15 @@ Segmentation = (function($) {
         };
 
         var closeAllOpenLists = function() {
-            $(".segmentationContainer", self.target).each(function() {
-                if($(this).closest('.segmentEditorPanel').hasClass("expanded"))
-                    $(this).trigger("click");
+            const bridges = window.matomoPluginSegmentEditor && window.matomoPluginSegmentEditor.bridges;
+            if (!bridges) {
+                return;
+            }
+
+            Object.keys(bridges).forEach(function (bridgeId) {
+                if (bridgeId !== self.bridgeId && bridges[bridgeId] && typeof bridges[bridgeId].closePanel === 'function') {
+                    bridges[bridgeId].closePanel();
+                }
             });
         };
 
@@ -367,65 +303,9 @@ Segmentation = (function($) {
             displayFormAddNewSegment(segment);
         }
 
-        function selectSegment(segmentDefinition) {
-            if (!piwikHelper.isReportingPage()) {
-                // we update segment on location change success
-                self.setSegment(segmentDefinition);
-            }
-
-            self.markCurrentSegment();
-            self.segmentSelectMethod(segmentDefinition);
-            toggleLoadingMessage(segmentDefinition.length);
-        }
-
-        var filterSegmentList = function (keyword) {
-            var curTitle;
-            var normalizedKeyword = piwikHelper.normalize(keyword);
-            var lowerKeyword = keyword.toLowerCase();
-
-            var isSearchMatch = function(title) {
-                var normalizedTitle = piwikHelper.normalize(title);
-                var lowerTitle = title.toLowerCase();
-                return normalizedTitle.indexOf(normalizedKeyword) !== -1
-                    || lowerTitle.indexOf(lowerKeyword) !== -1;
-            };
-
-            clearFilterSegmentList();
-            $(self.target).find(".filterNoResults").remove();
-
-            $(self.target).find(".segmentList li").each(function () {
-                curTitle = $(this).find('.segname').prop('title') || '';
-                $(this).hide();
-                if (isSearchMatch(curTitle)) {
-                    $(this).show();
-                }
-            });
-
-            if ($(self.target).find(".segmentList li:visible").length === 0) {
-                $(self.target).find(".segmentList li:first")
-                    .before("<li class=\"filterNoResults grayed\">" + self.translations['General_SearchNoResults'] + "</li>");
-            }
-
-            if ($(self.target).find(".segmentList .segmentsVisibleToSuperUser li:visible").length === 0) {
-                $(self.target).find(".segmentList .segmentsVisibleToSuperUser").hide();
-            }
-            if ($(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser li:visible").length === 0) {
-                $(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser").hide();
-            }
-        };
-
-        var clearFilterSegmentList = function () {
-            $(self.target).find(" .filterNoResults").remove();
-            $(self.target).find(".segmentList li").each(function () {
-                $(this).show();
-            });
-            $(self.target).find(".segmentList .segmentsVisibleToSuperUser").show();
-            $(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser").show();
-        };
-
-        function togglePanel(event) {
-          if (self.content.closest('.segmentEditorPanel').hasClass("expanded")) {
-            closePanel(event);
+        function togglePanel() {
+          if (self.target.closest('.segmentEditorPanel').hasClass("expanded")) {
+            closePanel();
           } else {
             openPanel();
           }
@@ -435,22 +315,13 @@ Segmentation = (function($) {
           // for each visible segmentationContainer -> trigger click event to close and kill scrollpane - very important !
           closeAllOpenLists();
           self.target.closest('.segmentEditorPanel').addClass('expanded');
-          self.target.find('.segmentFilter').val('').trigger('keyup');
+          self.target[0].dispatchEvent(new CustomEvent('SegmentEditor.resetFilter'));
+          notifyPanelStateChange();
         }
 
-        function closePanel(event) {
-          if (event) {
-            // hide all other modals connected with this widget
-            if (
-              $(event.target).hasClass("jspDrag") === true ||
-              $(event.target).hasClass("segmentFilterContainer") === true ||
-              $(event.target).parents().hasClass("segmentFilterContainer") === true ||
-              $(event.target).hasClass("filterNoResults")
-            ) {
-              event.stopPropagation();
-            }
-          }
+        function closePanel() {
           self.target.closest('.segmentEditorPanel').removeClass('expanded');
+          notifyPanelStateChange();
         }
 
         function askToDeleteSegment(idSegment) {
@@ -474,29 +345,11 @@ Segmentation = (function($) {
           });
         }
 
-        function toggleSegmentComparison(segmentDefinition) {
-          const comparisonService = window.CoreHome.ComparisonsStoreInstance;
-          const comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
-            return comparison.params.segment;
-          });
-          const isCompared = (
-            comparedSegments.indexOf(segmentDefinition) !== -1 ||
-            comparedSegments.indexOf(decodeURIComponent(segmentDefinition)) !== -1
-          );
-
-          if (isCompared) {
-            comparisonService.removeSegmentComparisonByDefinition(segmentDefinition);
-          } else {
-            comparisonService.addSegmentComparison({
-              segment: segmentDefinition,
-            });
-          }
-
-          closeAllOpenLists();
-        }
-
         function toggleStarredSegment($segment, idSegment) {
           const segment = getSegmentFromId(idSegment);
+          if (!segment) {
+            return;
+          }
           segment.starred = !segment.starred;
           const method = segment.starred ? 'star' : 'unstar';
           updateStarredSegment(segment);
@@ -515,7 +368,7 @@ Segmentation = (function($) {
               segment.starred = !segment.starred;
               updateStarredSegment(segment, true);
             } else {
-              segment.starred = !!response.starred;
+              segment.starred = Boolean(parseInt(response.starred, 10));
               segment.starred_by = response.starred_by;
               updateStarredSegment(segment);
             }
@@ -544,95 +397,18 @@ Segmentation = (function($) {
         }
         const removePanelStarChangeListener = onSegmentsStarChange(function(segment, isError) {
           const $starButton = self.target.find(`[data-star="${segment.idsegment}"]`);
-          const $segment = $starButton.closest('li');
-          updateStarSegmentTitle($starButton, segment);
-          triggerStarAnimation($segment, segment, isError);
+          if ($starButton.length) {
+            updateStarSegmentTitle($starButton, segment);
+          }
+
+          if ($starButton.closest('li').length) {
+            triggerStarAnimation($starButton.closest('li'), segment, isError);
+          }
+
+          notifyPanelStateChange();
         });
 
         var bindEvents = function () {
-            self.target.on('click', '.segmentationContainer', function (e) {
-                if ($(e.target).closest('.segmentFilterContainer').length > 0) {
-                    return;
-                }
-                togglePanel(e);
-            });
-
-            self.target.on('click', '.editSegment', function(e) {
-                const $button = $(this);
-                if ($button.attr('data-state') === 'disabled') {
-                  return false;
-                }
-                const $segment = $button.parent("li");
-                $segment.closest(".segmentationContainer").trigger("click");
-
-                openEditFormGivenSegment($segment);
-                e.stopPropagation();
-                e.preventDefault();
-            });
-
-            self.target.on('click', '[data-star]', function (e) {
-                e.stopPropagation();
-                e.preventDefault();
-                const $button = $(this);
-                if ($button.attr('data-state') === 'disabled') {
-                  return false;
-                }
-                const $segment = $button.closest('li');
-                const idSegment = $button.attr('data-star');
-                toggleStarredSegment($segment, idSegment);
-            });
-
-            self.target.on('click', '.compareSegment', function (e) {
-                e.stopPropagation();
-                e.preventDefault();
-                const $button = $(this);
-                if ($button.attr('data-state') === 'disabled') {
-                  return false;
-                }
-                const segmentDefinition = $button.closest('li').data('definition') ?? '';
-                toggleSegmentComparison(segmentDefinition);
-            });
-
-            self.target.on("click", ".segmentList li .segname", function (e) {
-                let parentLi = $(this).parent();
-                if (parentLi.hasClass("grayed") !== true) {
-                    var segmentDefinition = $(parentLi).data("definition");
-                    selectSegment(segmentDefinition);
-                }
-            });
-
-            self.target.on('click', '.add_new_segment', function (e) {
-                e.stopPropagation();
-                modalService.openAddSegment();
-            });
-
-            // emulate a click when pressing enter on one of the segments or the add button
-            self.target.on("keyup", ".segmentList li, .add_new_segment", function (event) {
-                var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.key));
-                if (keycode == '13'){
-                    $(this).trigger('click');
-                }
-            });
-
-            // attach event that will clear segment list filtering input after clicking x
-            self.target.on('click', ".segmentFilterContainer span", function (e) {
-                $(e.target).parent().find('.segmentFilter').val('').trigger('keyup');
-            });
-
-            self.target.on('keyup', ".segmentFilter", function (e) {
-                var search = $(e.currentTarget).val();
-
-                clearTimeout(self.filterTimer);
-                self.filterTimer = false;
-                if (search.length >= 2) {
-                    self.filterTimer = setTimeout(function () {
-                        filterSegmentList(search);
-                    }, 500);
-                } else {
-                    self.filterTimer = setTimeout(clearFilterSegmentList, 500);
-                }
-            });
-
             //
             // segment editor form events
             //
@@ -694,6 +470,9 @@ Segmentation = (function($) {
         };
 
         function getCanUserEditSegment(segment) {
+          if (piwik.isUserAnonymous) {
+            return false;
+          }
           if (self.segmentAccess !== 'write') {
             return false;
           }
@@ -816,8 +595,10 @@ Segmentation = (function($) {
                 modalService.openAddSegment();
             } else {
                 var segment = getSegmentFromId(idsegment);
-                segment.definition = option.data("definition");
-                modalService.openEditSegment(segment);
+                if (segment) {
+                    segment.definition = option.data("definition");
+                    modalService.openEditSegment(segment);
+                }
             }
         }
 
@@ -827,9 +608,9 @@ Segmentation = (function($) {
                 return;
             }
 
-            const $segment = $(self.target).find("[data-idsegment='" + idSegment + "']");
-            if ($segment.length) {
-                openEditFormGivenSegment($segment);
+            const segment = getSegmentFromId(idSegment);
+            if (segment) {
+                modalService.openEditSegment(segment);
             }
         }
 
@@ -1103,19 +884,261 @@ Segmentation = (function($) {
             }
         }
 
-        this.initHtml = function() {
-            var self = this;
+        function getComparedSegmentDefinitions() {
+            const comparisonService = window.CoreHome.ComparisonsStoreInstance;
+            return comparisonService.getSegmentComparisons().map(function (comparison) {
+                return comparison.params.segment;
+            });
+        }
 
-            var html = getListHtml();
-
-            if (typeof self.content !== "undefined") {
-                this.content.html($(html).html());
-            } else {
-                this.target.append(html);
-                this.content = this.target.find(".segmentationContainer");
+        function normalizeStarredState(starred) {
+            if (typeof starred === 'boolean') {
+                return starred;
             }
 
-            // assign content to object attribute to make it easily accessible through all widget methods
+            if (typeof starred === 'number') {
+                return starred !== 0;
+            }
+
+            if (typeof starred === 'string') {
+                return starred === '1' || starred.toLowerCase() === 'true';
+            }
+
+            return false;
+        }
+
+        function getComparisonLimit() {
+            return piwik.config.data_comparison_segment_limit + 1;
+        }
+
+        function isComparisonAvailable() {
+            const comparisonService = window.CoreHome.ComparisonsStoreInstance;
+            return comparisonService.isComparisonEnabled() || comparisonService.isComparisonEnabled() === null;
+        }
+
+        function isSegmentSelected(definition) {
+            return definition === self.currentSegmentStr || definition === decodeURIComponent(self.currentSegmentStr);
+        }
+
+        function isSegmentCompared(definition, comparedSegments) {
+            return comparedSegments.indexOf(definition) !== -1 || comparedSegments.indexOf(decodeURIComponent(definition)) !== -1;
+        }
+
+        function buildCompareState(definition, comparedSegments) {
+            if (isSegmentCompared(definition, comparedSegments)) {
+                return {
+                    state: 'active',
+                    title: _pk_translate('SegmentEditor_CompareThisSegment'),
+                };
+            }
+
+            if (comparedSegments.length >= getComparisonLimit()) {
+                return {
+                    state: 'disabled',
+                    title: _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [getComparisonLimit()]),
+                };
+            }
+
+            return {
+                state: '',
+                title: _pk_translate('SegmentEditor_CompareThisSegment'),
+            };
+        }
+
+        function buildPanelEntries(searchValue) {
+            const comparedSegments = getComparedSegmentDefinitions();
+            const normalizedSearch = (searchValue || '').length >= 2 ? piwikHelper.normalize(searchValue) : '';
+            const lowerSearch = (searchValue || '').toLowerCase();
+            const entries = [];
+
+            function matchesSearch(text) {
+                if (!normalizedSearch.length) {
+                    return true;
+                }
+
+                const normalizedText = piwikHelper.normalize(text);
+                const lowerText = text.toLowerCase();
+
+                return normalizedText.indexOf(normalizedSearch) !== -1 || lowerText.indexOf(lowerSearch) !== -1;
+            }
+
+            const allVisitsCompareState = buildCompareState('', comparedSegments);
+            const allVisitsLabel = self.translations['SegmentEditor_DefaultAllVisits']
+                + ' ' + self.translations['General_DefaultAppended'];
+
+            if (matchesSearch(allVisitsLabel)) {
+                entries.push({
+                    key: 'segment-all-visits',
+                    type: 'segment',
+                    classes: [self.currentSegmentStr === '' ? 'segmentSelected' : '', isSegmentCompared('', comparedSegments) ? 'comparedSegment' : ''].join(' ').trim(),
+                    idsegment: '',
+                    definition: '',
+                    label: allVisitsLabel,
+                    labelText: allVisitsLabel,
+                    tooltip: allVisitsLabel,
+                    showStarButton: false,
+                    showEditButton: false,
+                    showCompareButton: isComparisonAvailable(),
+                    compareButtonClass: 'segmentAction compareSegment allVisitsCompareSegment ' + (self.segmentAccess === 'write' ? 'allVisitsCompareSegment--write' : ''),
+                    compareTitle: allVisitsCompareState.title,
+                    compareState: allVisitsCompareState.state,
+                });
+            }
+
+            let hasSharedHeader = false;
+            let hasSuperUserHeader = false;
+
+            self.availableSegments.forEach(function (segment) {
+                segment.starred = normalizeStarredState(segment.starred);
+
+                const labelText = getPlainSegmentName(segment);
+                const tooltipText = getSegmentTooltipText(segment);
+                if (!matchesSearch(tooltipText)) {
+                    return;
+                }
+
+                if (isSegmentSharedWithMeBySuperUser(segment) && !hasSharedHeader) {
+                    hasSharedHeader = true;
+                    entries.push({
+                        key: 'header-shared-with-you',
+                        type: 'header',
+                        className: 'segmentsSharedWithMeBySuperUser',
+                        label: _pk_translate('SegmentEditor_SharedWithYou'),
+                    });
+                }
+
+                if (isSegmentVisibleToSuperUserOnly(segment) && !hasSuperUserHeader) {
+                    hasSuperUserHeader = true;
+                    entries.push({
+                        key: 'header-visible-to-super-user',
+                        type: 'header',
+                        className: 'segmentsVisibleToSuperUser',
+                        label: _pk_translate('SegmentEditor_VisibleToSuperUser'),
+                    });
+                }
+
+                const canEdit = getCanUserEditSegment(segment);
+                const compareState = buildCompareState(segment.definition, comparedSegments);
+                const classes = [];
+
+                if (isSegmentSelected(segment.definition)) {
+                    classes.push('segmentSelected');
+                }
+                if (segment.starred) {
+                    classes.push('segmentStarred');
+                }
+                if (isSegmentCompared(segment.definition, comparedSegments)) {
+                    classes.push('comparedSegment');
+                }
+
+                entries.push({
+                    key: 'segment-' + segment.idsegment,
+                    type: 'segment',
+                    classes: classes.join(' '),
+                    idsegment: String(segment.idsegment),
+                    definition: segment.definition,
+                    label: labelText,
+                    labelText: tooltipText,
+                    tooltip: tooltipText,
+                    showStarButton: true,
+                    starTitle: getStarSegmentTitle(segment, canEdit),
+                    starState: canEdit ? '' : 'disabled',
+                    showEditButton: self.segmentAccess === 'write',
+                    editTitle: getEditSegmentTitle(segment, canEdit),
+                    editState: canEdit ? '' : 'disabled',
+                    showCompareButton: isComparisonAvailable(),
+                    compareButtonClass: 'segmentAction compareSegment',
+                    compareTitle: compareState.title,
+                    compareState: compareState.state,
+                });
+            });
+
+            if ((searchValue || '').length >= 2 && entries.filter(function (entry) { return entry.type === 'segment'; }).length === 0) {
+                entries.push({
+                    key: 'no-results',
+                    type: 'no-results',
+                    classes: 'filterNoResults grayed',
+                    idsegment: '',
+                    definition: '',
+                    label: self.translations['General_SearchNoResults'],
+                    labelText: self.translations['General_SearchNoResults'],
+                    tooltip: self.translations['General_SearchNoResults'],
+                    showStarButton: false,
+                    showEditButton: false,
+                    showCompareButton: false,
+                });
+            }
+
+            return entries;
+        }
+
+        function getPanelViewModel(searchValue) {
+            return {
+                authorizedToCreateSegments: self.segmentAccess === 'write',
+                currentSegmentTitle: getCurrentSegmentTitle(),
+                currentSegmentTooltip: getCurrentSegmentTooltip(),
+                currentSegmentValue: self.getSegment(),
+                entries: buildPanelEntries(searchValue),
+                isExpanded: self.target.closest('.segmentEditorPanel').hasClass('expanded'),
+                isUserAnonymous: !!self.isUserAnonymous,
+                loginUrl: self.loginUrl,
+                manageSegmentsUrl: self.manageSegmentsUrl,
+            };
+        }
+
+        function selectSegment(segmentDefinition) {
+            if (!piwikHelper.isReportingPage()) {
+                self.setSegment(segmentDefinition);
+            }
+
+            self.markCurrentSegment();
+            self.segmentSelectMethod(segmentDefinition);
+            toggleLoadingMessage(segmentDefinition.length);
+            closePanel();
+        }
+
+        function toggleComparisonByDefinition(segmentDefinition) {
+            const comparisonService = window.CoreHome.ComparisonsStoreInstance;
+            const comparedSegments = getComparedSegmentDefinitions();
+            if (isSegmentCompared(segmentDefinition, comparedSegments)) {
+                comparisonService.removeSegmentComparisonByDefinition(segmentDefinition);
+            } else {
+                comparisonService.addSegmentComparison({
+                    segment: segmentDefinition,
+                });
+            }
+            closeAllOpenLists();
+        }
+
+        function openEditSegmentById(idSegment) {
+            const segment = getSegmentFromId(idSegment);
+            if (segment) {
+                modalService.openEditSegment(segment);
+            }
+        }
+
+        const panelBridge = {
+            closePanel,
+            getViewModel: getPanelViewModel,
+            onStateChange: onPanelStateChange,
+            openAddSegment() {
+                modalService.openAddSegment();
+            },
+            openEditSegment(idSegment) {
+                openEditSegmentById(idSegment);
+            },
+            openPanel,
+            selectSegment,
+            toggleComparisonByDefinition,
+            togglePanel,
+            toggleStarredSegmentById(idSegment) {
+                toggleStarredSegment(null, idSegment);
+            },
+        };
+
+        this.closePanel = closePanel;
+
+        this.initHtml = function() {
             this.markCurrentSegment();
             setTimeout(function () {
                 self.markComparedSegments();
@@ -1130,12 +1153,19 @@ Segmentation = (function($) {
               show: { delay: 700, duration: 200 }, // default from Tooltips.js
               hide: false,
             });
+
+            window.matomoPluginSegmentEditor = window.matomoPluginSegmentEditor || {};
+            window.matomoPluginSegmentEditor.bridges = window.matomoPluginSegmentEditor.bridges || {};
+            window.matomoPluginSegmentEditor.bridges[self.bridgeId] = panelBridge;
+            self.target[0].dispatchEvent(new CustomEvent('SegmentEditor.bridgeReady'));
+            notifyPanelStateChange();
         };
 
+        let removeHashWatcher = null;
         if (piwikHelper.isReportingPage()) {
           var watch = window.Vue.watch;
           var MatomoUrl = window.CoreHome.MatomoUrl;
-          watch(() => MatomoUrl.hashParsed.value.segment, function (value) {
+          removeHashWatcher = watch(() => MatomoUrl.hashParsed.value.segment, function (value) {
             var segment = value || '';
 
             if (self.getSegment() != segment) {
@@ -1168,6 +1198,14 @@ Segmentation = (function($) {
 
         this.destroy = function () {
           removePanelStarChangeListener();
+          if (removeHashWatcher) {
+            removeHashWatcher();
+            removeHashWatcher = null;
+          }
+          if (window.matomoPluginSegmentEditor && window.matomoPluginSegmentEditor.bridges) {
+            delete window.matomoPluginSegmentEditor.bridges[self.bridgeId];
+          }
+          delete panelStateCallbackLists[self.bridgeId];
         };
 
         this.initHtml();
@@ -1375,7 +1413,12 @@ $(document).ready(function() {
 
         var segmentFromRequest = getSegmentFromRequest();
 
-        var userSegmentAccess = (this.props.authorizedToCreateSegments) ? "write" : "read";
+        var isAuthorizedToCreateSegments = this.props.authorizedToCreateSegments === true
+            || this.props.authorizedToCreateSegments === 'true'
+            || this.props.authorizedToCreateSegments === 1
+            || this.props.authorizedToCreateSegments === '1';
+        var userSegmentAccess = isAuthorizedToCreateSegments ? "write" : "read";
+        var segmentSelectorVueRoot = this.$element.find('[vue-entry="SegmentEditor.SegmentSelector"]').first();
 
         this.impl = new Segmentation({
             "target"   : this.$element.find(".segmentListContainer"),
@@ -1385,6 +1428,9 @@ $(document).ready(function() {
             "addMethod": addSegment,
             "updateMethod": updateSegment,
             "deleteMethod": deleteSegment,
+            "isUserAnonymous": segmentSelectorVueRoot.attr('is-user-anonymous') === 'true',
+            "loginUrl": segmentSelectorVueRoot.attr('login-url') || '',
+            "manageSegmentsUrl": segmentSelectorVueRoot.attr('manage-segments-url') || '',
             "segmentSelectMethod": function () { self.changeSegment.apply(self, arguments); },
             "currentSegmentStr": segmentFromRequest,
             "translations": this.props.segmentTranslations
@@ -1409,7 +1455,7 @@ $(document).ready(function() {
             if ($(e.target).closest('.segmentListContainer').length === 0
                 && self.$element.hasClass("expanded")
             ) {
-                $(".segmentationContainer", self.$element).trigger("click");
+                self.impl.closePanel();
             }
         };
 

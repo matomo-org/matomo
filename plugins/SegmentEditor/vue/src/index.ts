@@ -8,3 +8,4 @@
 export * from './types';
 export { default as SegmentGeneratorStore } from './SegmentGenerator/SegmentGenerator.store';
 export { default as SegmentGenerator } from './SegmentGenerator/SegmentGenerator.vue';
+export { default as SegmentSelector } from './SegmentSelector/SegmentSelector.vue';
