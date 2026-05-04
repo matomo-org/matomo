@@ -19,6 +19,32 @@ describe("OneClickUpdate", function () {
     const latestStableUrl = config.piwikUrl + '/latestStableInstall/index.php';
     const settingsUrl = latestStableUrl + '?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday';
 
+    async function openHttpsFailureScreen() {
+        await page.evaluate((oneClickResultsUrl) => {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = oneClickResultsUrl;
+
+            [
+                ['httpsFail', '1'],
+                ['error', 'Simulated SSL certificate failure'],
+                ['messages', 'a:0:{}'],
+            ].forEach(([name, value]) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+        }, latestStableUrl + '?module=CoreUpdater&action=oneClickResults');
+
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('#updateUsingHttp', { visible: true });
+    }
+
     function readUpdateDetailsTokenFromConfig() {
         const pathConfigIni = path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/config/config.ini.php');
         const configFile = fs.readFileSync(pathConfigIni);
@@ -58,15 +84,13 @@ describe("OneClickUpdate", function () {
     });
 
     it('should fail to automatically update when trying to update over https fails', async function () {
-        await page.click('#updateAutomatically');
-        await page.waitForNetworkIdle();
-        await page.waitForSelector('.content');
+        await openHttpsFailureScreen();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_fail');
     });
 
     it('should fail when a directory is not writable', async function () {
+        await openHttpsFailureScreen();
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
-        await page.waitForTimeout(100);
         await page.click('#updateUsingHttp');
         await page.waitForNetworkIdle();
         await page.evaluate(function(directory) {
@@ -76,10 +100,8 @@ describe("OneClickUpdate", function () {
     });
 
     it('should update successfully and show the finished update screen', async function () {
+        await openHttpsFailureScreen();
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
-
-        await page.waitForTimeout(100);
-        await page.goBack();
         await page.click('#updateUsingHttp');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.content');

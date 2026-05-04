@@ -102,6 +102,7 @@ class Controller extends \Piwik\Plugin\Controller
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
             'node_modules/@materializecss/materialize/dist/js/materialize.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
+            "node_modules/mousetrap/mousetrap.min.js",
             'plugins/Morpheus/javascripts/piwikHelper.js',
             "plugins/CoreHome/javascripts/broadcast.js",
             'plugins/CoreUpdater/javascripts/updateLayout.js',
@@ -232,6 +233,13 @@ class Controller extends \Piwik\Plugin\Controller
     {
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
             throw new Exception('Auto updater is disabled');
+        }
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            $tokenAuth = Request::fromPost()->getStringParameter('token_auth', '');
+            if ($tokenAuth !== '') {
+                \Piwik\API\Request::reloadAuthUsingTokenAuth($_POST);
+            }
         }
 
         $httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
