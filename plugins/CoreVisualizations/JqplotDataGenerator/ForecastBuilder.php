@@ -74,6 +74,30 @@ class ForecastBuilder
     private const MIN_ALIGNED_SAMPLES_TO_PREFER = 2;
 
     /**
+     * Minimum number of historical samples required before clamping the blended forecast to a
+     * historical-range envelope. With fewer samples the empirical standard deviation is too
+     * noisy to define a meaningful upper/lower bound, so the clamp is skipped.
+     */
+    private const MIN_SAMPLES_FOR_BOUNDED_RANGE = 4;
+
+    /**
+     * Width of the historical-range envelope expressed in standard deviations of the past
+     * samples. Three sigmas covers ~99.7% of normally-distributed history, so a forecast
+     * landing outside this band almost certainly reflects an extrapolation artefact (e.g. a
+     * partial-period linear scaling that does not respect intra-period seasonality) rather
+     * than a credible final value.
+     */
+    private const BOUNDED_RANGE_SIGMAS = 3.0;
+
+    /**
+     * Minimum half-width of the historical-range envelope expressed as a fraction of the
+     * sample mean. Without this floor a perfectly stable history (sigma ≈ 0) would collapse
+     * the envelope onto the prior and forbid any deviation, including the legitimate case
+     * where the partial period is genuinely trending up or down.
+     */
+    private const BOUNDED_RANGE_MIN_RELATIVE_SPREAD = 0.05;
+
+    /**
      * @param array<string, array<int, float|int>> $allSeriesData
      * @param array<DataTable> $dataTables
      * @param array<int, string> $dataStates
@@ -239,6 +263,14 @@ class ForecastBuilder
             $forecastValue = max(0, $forecastValue);
         }
 
+        if (count($pastValues) >= self::MIN_SAMPLES_FOR_BOUNDED_RANGE) {
+            $forecastValue = $this->clampForecastToHistoricalRange(
+                $forecastValue,
+                $pastValues,
+                $priorForecast
+            );
+        }
+
         return $forecastValue;
     }
 
@@ -398,6 +430,42 @@ class ForecastBuilder
             default:
                 return true;
         }
+    }
+
+    /**
+     * Clamp the blended forecast to a historical-range envelope around the prior projection.
+     * The envelope is k * sigma wide (with a relative-spread floor so a perfectly stable
+     * history does not collapse the band onto the prior). Without this clamp the linear
+     * partial-period extrapolation can push the forecast far above any value the metric has
+     * historically reached — typical pathology when a partial period's elapsed ratio under-
+     * counts the share of period traffic that has already occurred.
+     *
+     * @param array<int, float> $pastValues Historical samples used to size the envelope.
+     */
+    private function clampForecastToHistoricalRange(
+        float $forecastValue,
+        array $pastValues,
+        float $priorForecast
+    ): float {
+        $sampleCount = count($pastValues);
+        if ($sampleCount === 0) {
+            return $forecastValue;
+        }
+
+        $mean = array_sum($pastValues) / $sampleCount;
+        $variance = 0.0;
+        foreach ($pastValues as $sample) {
+            $variance += ($sample - $mean) ** 2;
+        }
+        $stdDev = sqrt($variance / $sampleCount);
+
+        $minSpread = abs($mean) * self::BOUNDED_RANGE_MIN_RELATIVE_SPREAD;
+        $halfWidth = max($stdDev, $minSpread) * self::BOUNDED_RANGE_SIGMAS;
+
+        $lower = max(0.0, $priorForecast - $halfWidth);
+        $upper = $priorForecast + $halfWidth;
+
+        return max($lower, min($upper, $forecastValue));
     }
 
     /**

@@ -615,6 +615,41 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[null, null, null, 125.0]], $forecastData);
     }
 
+    public function testBuildClampsForecastToHistoricalRangeOnExtremeLinearExtrapolation(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Four perfectly stable Friday priors of 100 produce sigma = 0; the relative-spread
+        // floor (5% of the mean) gives a ±15 envelope around the prior, i.e. [85, 115]. Partial
+        // value 80 archived at hour 2 yields linear = 80 / 0.0833 = 960 and even with the
+        // 0.95 prior-weight ceiling the blend is 0.05 * 960 + 0.95 * 100 = 143 — still well
+        // outside the envelope. The clamp pulls it back to the upper bound 115, which still
+        // satisfies the monotonic gate (≥ partial 80) and is rendered. Without the clamp the
+        // forecast would imply nearly 50% growth on a metric that has not moved in four weeks.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-03', $site),
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site),
+            $this->createDataTableForDay('2026-05-01', $site, '2026-05-01 02:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [100.0, 100.0, 100.0, 100.0, 80.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        self::assertSame([[null, null, null, null, 115.0]], $forecastData);
+    }
+
     public function testBuildPrefersCalendarAlignedMonthlySamplesWhenAvailable(): void
     {
         $site = $this->createSiteMock();
