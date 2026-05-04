@@ -96,8 +96,10 @@ describe("OneClickUpdate", function () {
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
         await page.click('#updateUsingHttp');
         await page.waitForSelector('.alert-danger', { visible: true });
-        const errorText = await page.$eval('.alert-danger', node => node.textContent);
-        expect(errorText).to.match(/UpdateErrorTitle|cancelled/i);
+        const heading = await page.$eval('.header h1', node => node.textContent);
+        expect(heading).to.match(/update error/i);
+        expect(await page.$('.alert-danger')).to.be.ok;
+        expect(await page.$('.footer a')).to.be.ok;
         expect(await page.$('#updateUsingHttp')).to.be.ok;
     });
 
