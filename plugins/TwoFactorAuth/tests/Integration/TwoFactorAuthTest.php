@@ -82,17 +82,18 @@ class TwoFactorAuthTest extends IntegrationTestCase
         unset($_GET['authCode']);
     }
 
-    public function testLoginTwoFactorAuthRejectsWhenCurrentUserDoesNotMatchPendingSessionUser()
+    public function testLoginTwoFactorAuthRequiresFreshLoginWhenCurrentUserDoesNotMatchPendingSessionUser()
     {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('not available');
-
         $this->setCurrentUser($this->otherUserWith2Fa);
 
         $sessionFingerprint = new SessionFingerprint();
         $sessionFingerprint->initialize($this->userWith2Fa, 'pending-session-token');
 
-        StaticContainer::get(Controller::class)->loginTwoFactorAuth();
+        $result = StaticContainer::get(Controller::class)->loginTwoFactorAuth();
+
+        $this->assertStringContainsString('form_login', $result);
+        $this->assertNull($sessionFingerprint->getUser());
+        $this->assertTrue(Access::getInstance()->wasSessionExpired());
     }
 
     public function testLoginTwoFactorAuthRendersForPendingSessionUser()
@@ -134,6 +135,18 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $validator = StaticContainer::get(Validator::class);
 
         $this->assertTrue($validator->hasPendingSessionTwoFactorAuthentication());
+        $this->assertFalse($validator->isCurrentUserMatchingSessionUser());
+    }
+
+    public function testValidatorIgnoresUnverifiedSessionForUserWithoutTwoFactorAuthentication()
+    {
+        $this->setCurrentUser($this->otherUserWith2Fa);
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWithout2Fa, 'plain-session-token');
+
+        $validator = StaticContainer::get(Validator::class);
+
+        $this->assertFalse($validator->hasPendingSessionTwoFactorAuthentication());
         $this->assertFalse($validator->isCurrentUserMatchingSessionUser());
     }
 

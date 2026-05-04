@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\TwoFactorAuth;
 
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\IP;
@@ -73,7 +74,11 @@ class Controller extends \Piwik\Plugin\Controller
     public function loginTwoFactorAuth()
     {
         $this->validator->checkCanUseTwoFa();
-        $this->validator->checkCurrentUserMatchesSessionUser();
+
+        if (!$this->validator->isCurrentUserMatchingSessionUser()) {
+            return $this->renderFreshLoginAfterResettingPendingTwoFactorSession();
+        }
+
         $this->validator->check2FaEnabled();
         $this->validator->checkNotVerified2FAYet();
 
@@ -118,6 +123,17 @@ class Controller extends \Piwik\Plugin\Controller
         $view->nonce = Nonce::getNonce(self::LOGIN_2FA_NONCE);
 
         return $view->render();
+    }
+
+    private function renderFreshLoginAfterResettingPendingTwoFactorSession()
+    {
+        \Piwik\Plugins\Login\Controller::clearSession();
+        Access::getInstance()->setSessionExpired(true);
+
+        return StaticContainer::get(\Piwik\Plugins\Login\Controller::class)->login(
+            null,
+            Piwik::translate('General_YourSessionHasExpired')
+        );
     }
 
     public function userSettings()

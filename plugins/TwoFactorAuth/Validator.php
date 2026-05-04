@@ -118,6 +118,12 @@ class Validator
             return false;
         }
 
+        $needsTwoFactorAuthentication = TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($sessionUser)
+            || $this->twoFa->isUserRequiredToHaveTwoFactorEnabled();
+        if (!$needsTwoFactorAuthentication) {
+            return false;
+        }
+
         $sessionFingerprint = $this->getSessionFingerPrint();
         return !$sessionFingerprint->hasVerifiedTwoFactor();
     }
