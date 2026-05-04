@@ -113,6 +113,14 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-18', $site, '2026-04-18 00:00:00'),
         ];
 
+        // Apr 17 (Fri partial, archived noon, partial=20): same-DOW filter keeps only Apr 10
+        // Fri = 80, so prior = 80. Linear = 20 / 0.5 = 40. Base prior weight at 1 sample/day is
+        // 0.2; the early-period bias adds (1 - 0.5) * 0.4 = 0.2 → effective weight 0.4.
+        // Forecast = 0.6 * 40 + 0.4 * 80 = 56.
+        // Apr 18 (Sat partial, archived 00:00, partial=0): same-DOW filter keeps Apr 11 Sat = 100,
+        // so prior = 100. With currentValue ≤ 0 and a previous forecast in hand the base falls
+        // back to the carried 56. At elapsedRatio = 0 the early-period bias contributes its full
+        // 0.4 → effective weight 0.6. Forecast = 0.4 * 56 + 0.6 * 100 = 82.4.
         $forecastData = (new ForecastBuilder())->build(
             ['Visits' => [80.0, 100.0, 140.0, 60.0, 20.0, 0.0]],
             $dataTables,
@@ -127,7 +135,7 @@ class ForecastBuilderTest extends TestCase
             ['Visits' => false]
         );
 
-        self::assertSame([[null, null, null, null, 47.9996, 58.3997]], $forecastData);
+        self::assertSame([[null, null, null, null, 55.9996, 82.3998]], $forecastData);
     }
 
     public function testBuildAppliesSuppliedZeroDecimalForecastPrecision(): void
@@ -158,7 +166,9 @@ class ForecastBuilderTest extends TestCase
             ['Visits' => 0]
         );
 
-        self::assertSame([[null, null, null, null, 48.0]], $forecastData);
+        // Same Apr 17 forecast as testBuildUsesPriorForecastAsFirstNoDataBaseline (= 56) but
+        // round()'d to integer precision via the per-series forecast precision flag.
+        self::assertSame([[null, null, null, null, 56.0]], $forecastData);
     }
 
     public function testBuildAppliesSuppliedTwoDecimalForecastPrecision(): void
@@ -367,7 +377,11 @@ class ForecastBuilderTest extends TestCase
             ['Visits' => [true, false, true, true]]
         );
 
-        self::assertSame([[null, null, null, 67.9997]], $forecastData);
+        // Apr 3 Fri is flagged unavailable so its 0 sample is dropped. Same-DOW filter keeps
+        // Mar 27 Fri = 80 and Apr 10 Fri = 100 — slope 20, intercept 60, prior 60 + 20*2.5 = 110.
+        // Linear = 20 / 0.5 = 40. Two-sample weight is 0.4 + (1 - 0.5)*0.4 = 0.6.
+        // Forecast = 0.4 * 40 + 0.6 * 110 = 82.
+        self::assertSame([[null, null, null, 81.9997]], $forecastData);
     }
 
     public function testBuildReusesForecastAsSyntheticDataForLaterNoDataDaysAndRecalculatesWhenDataReturns(): void
@@ -401,7 +415,15 @@ class ForecastBuilderTest extends TestCase
             ['Visits' => false]
         );
 
-        self::assertSame([[null, null, null, null, 47.9996, 58.3997, 74.7198, 59.9994]], $forecastData);
+        // Apr 17 Fri (partial 20, archived noon): same-DOW prior [80] → 56 (see baseline test).
+        // Apr 18 Sat (no data, archived 00:00): prior [100], carries Apr 17's 56 forward, full
+        // early-period bias (elapsed = 0) → forecast 0.4 * 56 + 0.6 * 100 = 82.4.
+        // Apr 19 Sun (no data, archived 00:00): prior [140], carries 82.4 forward → 0.4 * 82.4 +
+        // 0.6 * 140 = 116.96.
+        // Apr 20 Mon (partial 30, archived noon): prior [60], linear = 60. Both base and prior
+        // collapse to 60 so the forecast is 60 regardless of weight; it is rendered because the
+        // monotonic gate (forecast ≥ currentValue 30) is satisfied.
+        self::assertSame([[null, null, null, null, 55.9996, 82.3998, 116.9599, 59.9996]], $forecastData);
     }
 
     public function testBuildMonotonicReturnsTrendAwarePriorWhenIncompleteTickHasNoData(): void
@@ -557,6 +579,40 @@ class ForecastBuilderTest extends TestCase
         );
 
         self::assertSame([[null, null, null, 0.0]], $forecastData);
+    }
+
+    public function testBuildEarlyPeriodBiasShiftsWeightToPriorWhenLittleElapsed(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Three stable Friday priors of 100 (slope 0, prior 100). May 1 partial 30 archived at
+        // hour 1 → elapsedRatio ≈ 0.04 → MIN_FORECAST_RATIO floor of 0.05 → linear = 600. With
+        // three samples (one shy of MIN_SAMPLES_FOR_BOUNDED_RANGE) the clamp is skipped, so the
+        // only thing pulling 600 down to a defensible value is the early-period bias.
+        // Effective weight = min(0.95, 0.6 + (1 - 0.05) * 0.4) = 0.95.
+        // Forecast = 0.05 * 600 + 0.95 * 100 = 125. Before the bias the same setup produced
+        // 0.4 * 600 + 0.6 * 100 = 300, which is implausible for a metric that has been flat
+        // across all sampled periods.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site),
+            $this->createDataTableForDay('2026-05-01', $site, '2026-05-01 01:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [100.0, 100.0, 100.0, 30.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        self::assertSame([[null, null, null, 125.0]], $forecastData);
     }
 
     private function createSiteMock(): Site

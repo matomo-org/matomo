@@ -49,6 +49,23 @@ class ForecastBuilder
     private const TREND_DAMPING = 0.5;
 
     /**
+     * Additional weight added to the historical prior when little of the current period has
+     * elapsed. The linear extrapolation is currentValue / elapsedRatio, so at 5% elapsed the
+     * partial value carries 20× leverage on whatever short-window noise produced it; the prior
+     * needs to anchor the forecast more strongly until enough of the period has accumulated.
+     * Linearly interpolated between elapsed=1 (no extra bias) and elapsed=0 (full bias).
+     */
+    private const EARLY_PERIOD_PRIOR_BIAS = 0.4;
+
+    /**
+     * Hard ceiling on the prior weight. Even at zero elapsed the partial value retains at least
+     * a small contribution so a recent step-change in traffic can pull the forecast off a
+     * mismatched prior — fully ignoring the partial would freeze the forecast at the prior's
+     * projection, which is wrong when the period is genuinely diverging from history.
+     */
+    private const MAX_PRIOR_WEIGHT = 0.95;
+
+    /**
      * @param array<string, array<int, float|int>> $allSeriesData
      * @param array<DataTable> $dataTables
      * @param array<int, string> $dataStates
@@ -196,7 +213,11 @@ class ForecastBuilder
             $priorForecast = $this->computeHistoricalPrior($pastValues);
         }
 
-        $weight = $this->getPriorForecastWeight(count($pastValues), $this->getPeriodLabel($dataTable));
+        $weight = $this->getPriorForecastWeight(
+            count($pastValues),
+            $this->getPeriodLabel($dataTable),
+            $elapsedRatio
+        );
 
         if ($currentValue <= 0 && $previousForecastValue !== null) {
             $baseForecast = $previousForecastValue;
@@ -359,17 +380,28 @@ class ForecastBuilder
         return ((1 - $weight) * $baseForecast) + ($weight * $priorForecast);
     }
 
-    private function getPriorForecastWeight(int $sampleCount, string $periodLabel): float
+    /**
+     * Blend weight assigned to the historical prior. The base weight grows with the number of
+     * available samples (more history = more confidence in the prior); the elapsed-ratio
+     * adjustment shifts further weight onto the prior early in a period and yields it back to
+     * the partial value as completion approaches. The combined weight is capped to retain at
+     * least a small contribution from the partial-period extrapolation, so a recent traffic
+     * step-change can still pull the forecast off a mismatched prior projection.
+     */
+    private function getPriorForecastWeight(int $sampleCount, string $periodLabel, float $elapsedRatio): float
     {
         if ($sampleCount <= 0) {
             return 0.0;
         }
 
-        if ('day' === $periodLabel) {
-            return min(0.7, $sampleCount / 5);
-        }
+        $baseWeight = ('day' === $periodLabel)
+            ? min(0.7, $sampleCount / 5)
+            : min(0.5, $sampleCount / 4);
 
-        return min(0.5, $sampleCount / 4);
+        $clampedElapsed = max(0.0, min(1.0, $elapsedRatio));
+        $earlyPeriodAdjustment = (1.0 - $clampedElapsed) * self::EARLY_PERIOD_PRIOR_BIAS;
+
+        return min(self::MAX_PRIOR_WEIGHT, $baseWeight + $earlyPeriodAdjustment);
     }
 
     private function getElapsedRatio(DataTable $dataTable, Site $site): float

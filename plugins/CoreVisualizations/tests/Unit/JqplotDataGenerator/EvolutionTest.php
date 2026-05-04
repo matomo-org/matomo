@@ -227,7 +227,7 @@ class EvolutionTest extends TestCase
         $map->addTable($this->createDataTableForDay('2026-04-13', $site, null, ['nb_visits' => 60.0]), '2026-04-13');
         $map->addTable($this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00', ['nb_visits' => 20.0], ArchiveState::INCOMPLETE), '2026-04-17');
 
-        self::assertSame([[null, null, null, null, 48.0]], $evolution->precomputeForecast($map));
+        self::assertSame([[null, null, null, null, 56.0]], $evolution->precomputeForecast($map));
     }
 
     public function testPrecomputeForecastRoundsNonCountMetricToTwoDecimals(): void
