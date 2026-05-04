@@ -218,6 +218,40 @@ Segmentation = (function($) {
             addForm(FORM_MODE_NEW, segment);
         }
 
+        function selectSegment(segmentDefinition) {
+            if (!piwikHelper.isReportingPage()) {
+                // we update segment on location change success
+                self.setSegment(segmentDefinition);
+            }
+
+            self.markCurrentSegment();
+            self.segmentSelectMethod(segmentDefinition);
+            toggleLoadingMessage(segmentDefinition.length);
+        }
+
+        var filterSegmentList = function (keyword) {
+            var curTitle;
+            var normalizedKeyword = piwikHelper.normalize(keyword);
+            var lowerKeyword = keyword.toLowerCase();
+
+            var isSearchMatch = function(title) {
+                var normalizedTitle = piwikHelper.normalize(title);
+                var lowerTitle = title.toLowerCase();
+                return normalizedTitle.indexOf(normalizedKeyword) !== -1
+                    || lowerTitle.indexOf(lowerKeyword) !== -1;
+            };
+
+            clearFilterSegmentList();
+            $(self.target).find(".filterNoResults").remove();
+
+            $(self.target).find(".segmentList li").each(function () {
+                curTitle = $(this).find('.segname').prop('title') || '';
+                $(this).hide();
+                if (isSearchMatch(curTitle)) {
+                    $(this).show();
+                }
+            });
+
         function togglePanel() {
           if (self.target.closest('.segmentEditorPanel').hasClass("expanded")) {
             closePanel();
@@ -258,6 +292,27 @@ Segmentation = (function($) {
           });
         }
 
+        function toggleSegmentComparison(segmentDefinition) {
+          const comparisonService = window.CoreHome.ComparisonsStoreInstance;
+          const comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
+            return comparison.params.segment;
+          });
+          const isCompared = (
+            comparedSegments.indexOf(segmentDefinition) !== -1 ||
+            comparedSegments.indexOf(decodeURIComponent(segmentDefinition)) !== -1
+          );
+
+          if (isCompared) {
+            comparisonService.removeSegmentComparisonByDefinition(segmentDefinition);
+          } else {
+            comparisonService.addSegmentComparison({
+              segment: segmentDefinition,
+            });
+          }
+
+          closeAllOpenLists();
+        }
+
         function toggleStarredSegment($segment, idSegment) {
           segmentSelectorStore.toggleStarredSegmentById(idSegment);
         }
@@ -267,6 +322,89 @@ Segmentation = (function($) {
         }
 
         var bindEvents = function () {
+            self.target.on('click', '.segmentationContainer', function (e) {
+                if ($(e.target).closest('.segmentFilterContainer').length > 0) {
+                    return;
+                }
+                togglePanel(e);
+            });
+
+            self.target.on('click', '.editSegment', function(e) {
+                const $button = $(this);
+                if ($button.attr('data-state') === 'disabled') {
+                  return false;
+                }
+                const $segment = $button.parent("li");
+                $segment.closest(".segmentationContainer").trigger("click");
+
+                openEditFormGivenSegment($segment);
+                e.stopPropagation();
+                e.preventDefault();
+            });
+
+            self.target.on('click', '[data-star]', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                const $button = $(this);
+                if ($button.attr('data-state') === 'disabled') {
+                  return false;
+                }
+                const $segment = $button.closest('li');
+                const idSegment = $button.attr('data-star');
+                toggleStarredSegment($segment, idSegment);
+            });
+
+            self.target.on('click', '.compareSegment', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                const $button = $(this);
+                if ($button.attr('data-state') === 'disabled') {
+                  return false;
+                }
+                const segmentDefinition = $button.closest('li').data('definition') ?? '';
+                toggleSegmentComparison(segmentDefinition);
+            });
+
+            self.target.on("click", ".segmentList li .segname", function (e) {
+                let parentLi = $(this).parent();
+                if (parentLi.hasClass("grayed") !== true) {
+                    var segmentDefinition = $(parentLi).data("definition");
+                    selectSegment(segmentDefinition);
+                }
+            });
+
+            self.target.on('click', '.add_new_segment', function (e) {
+                e.stopPropagation();
+                modalService.openAddSegment();
+            });
+
+            // emulate a click when pressing enter on one of the segments or the add button
+            self.target.on("keyup", ".segmentList li, .add_new_segment", function (event) {
+                var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.key));
+                if (keycode == '13'){
+                    $(this).trigger('click');
+                }
+            });
+
+            // attach event that will clear segment list filtering input after clicking x
+            self.target.on('click', ".segmentFilterContainer span", function (e) {
+                $(e.target).parent().find('.segmentFilter').val('').trigger('keyup');
+            });
+
+            self.target.on('keyup', ".segmentFilter", function (e) {
+                var search = $(e.currentTarget).val();
+
+                clearTimeout(self.filterTimer);
+                self.filterTimer = false;
+                if (search.length >= 2) {
+                    self.filterTimer = setTimeout(function () {
+                        filterSegmentList(search);
+                    }, 500);
+                } else {
+                    self.filterTimer = setTimeout(clearFilterSegmentList, 500);
+                }
+            });
+
             //
             // segment editor form events
             //
@@ -596,9 +734,10 @@ Segmentation = (function($) {
 
         const modalService = {
             openAddSegment(segment) {
-                openAddSegmentForm(segment);
+                showAddNewSegmentForm(segment);
             },
             openEditSegment(segment) {
+                closePanel();
                 openEditForm(segment);
             },
             closeEditModal() {
