@@ -9,12 +9,14 @@
 
 namespace Piwik\Plugins\TwoFactorAuth;
 
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\Controller as LoginController;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\UsersManager\Model;
@@ -228,8 +230,7 @@ class TwoFactorAuth extends \Piwik\Plugin
             && !$validator->isCurrentUserMatchingSessionUser()
         ) {
             if (!Request::isRootRequestApiRequest()) {
-                $module = 'TwoFactorAuth';
-                $action = 'loginTwoFactorAuth';
+                $this->resetPendingTwoFactorSessionAndRequireFreshLogin($module, $action);
             } elseif (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
                 throw new Exception(Piwik::translate('General_YourSessionHasExpired'));
             }
@@ -254,6 +255,15 @@ class TwoFactorAuth extends \Piwik\Plugin
             $module = 'TwoFactorAuth';
             $action = 'onLoginSetupTwoFactorAuth';
         }
+    }
+
+    private function resetPendingTwoFactorSessionAndRequireFreshLogin(&$module, &$action)
+    {
+        LoginController::clearSession();
+        Access::getInstance()->setSessionExpired(true);
+
+        $module = Piwik::getLoginPluginName();
+        $action = 'login';
     }
 
     private function requiresAuth($module, $action, $parameters)

@@ -106,7 +106,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->assertStringContainsString('form_authcode', $result);
     }
 
-    public function testOnRequestDispatchRedirectsToTwoFactorAuthWhenDifferentUserIsAuthenticatedDuringPendingSession()
+    public function testOnRequestDispatchRequiresFreshLoginWhenDifferentUserIsAuthenticatedDuringPendingSession()
     {
         $this->setCurrentUser($this->otherUserWith2Fa);
         $sessionFingerprint = new SessionFingerprint();
@@ -119,8 +119,10 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $plugin = new TwoFactorAuth();
         $plugin->onRequestDispatch($module, $action, $parameters);
 
-        $this->assertSame('TwoFactorAuth', $module);
-        $this->assertSame('loginTwoFactorAuth', $action);
+        $this->assertSame(\Piwik\Piwik::getLoginPluginName(), $module);
+        $this->assertSame('login', $action);
+        $this->assertNull($sessionFingerprint->getUser());
+        $this->assertTrue(Access::getInstance()->wasSessionExpired());
     }
 
     public function testValidatorDetectsPendingSessionUserMismatch()
