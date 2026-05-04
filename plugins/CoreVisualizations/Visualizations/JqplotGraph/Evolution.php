@@ -41,6 +41,16 @@ class Evolution extends JqplotGraph
      */
     private $forecastData = [];
 
+    /**
+     * Per-series state collected by JqplotDataGenerator\Evolution::precomputeForecast()
+     * so the later initChartObjectData() pass can skip its row × column loop. Keys:
+     * allSeriesData, allSeriesDataAvailability, allSeriesAllowsDownwardForecast,
+     * allSeriesForecastPrecision. Null when no precompute ran.
+     *
+     * @var array<string, mixed>|null
+     */
+    private $forecastSeriesState = null;
+
     public static function getDefaultConfig()
     {
         return new Evolution\Config();
@@ -52,6 +62,22 @@ class Evolution extends JqplotGraph
     public function getForecastData(): array
     {
         return $this->forecastData;
+    }
+
+    /**
+     * @param array<string, mixed>|null $state
+     */
+    public function setForecastSeriesState(?array $state): void
+    {
+        $this->forecastSeriesState = $state;
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function getForecastSeriesState(): ?array
+    {
+        return $this->forecastSeriesState;
     }
 
     public function beforeRender()
