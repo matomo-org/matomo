@@ -79,14 +79,14 @@ class EvolutionTest extends TestCase
     }
 
     /**
-     * @dataProvider getDownwardForecastColumnTestData
+     * @dataProvider getColumnMonotonicityTestData
      * @param string|false $columnUnit
      */
-    public function testColumnAllowsDownwardForecastUsesMetricMonotonicity(string $columnName, $columnUnit, bool $expected): void
+    public function testGetColumnMonotonicityFromName(string $columnName, $columnUnit, string $expected): void
     {
         $evolution = $this->createEvolution([], false);
 
-        $method = new ReflectionMethod(Evolution::class, 'columnAllowsDownwardForecast');
+        $method = new ReflectionMethod(Evolution::class, 'getColumnMonotonicity');
 
         if (PHP_VERSION_ID < 80100) {
             $method->setAccessible(true);
@@ -96,37 +96,40 @@ class EvolutionTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{string, string|false, bool}>
+     * @return iterable<string, array{string, string|false, string}>
      */
-    public function getDownwardForecastColumnTestData(): iterable
+    public function getColumnMonotonicityTestData(): iterable
     {
-        yield 'percent unit' => ['custom_metric', '%', true];
-        yield 'rate metric' => ['bounce_rate', false, true];
-        yield 'percentage metric' => ['conversion_percentage', false, true];
-        yield 'average metric' => ['avg_time_on_site', false, true];
-        yield 'per metric containing nb prefix' => ['nb_actions_per_visit', false, true];
-        yield 'plain nb metric' => ['nb_visits', false, false];
-        yield 'sum daily nb metric' => ['sum_daily_nb_users', false, false];
-        yield 'exit nb metric' => ['exit_nb_visits', false, false];
-        yield 'sum daily exit nb metric' => ['sum_daily_exit_nb_uniq_visitors', false, false];
-        yield 'lower is better count metric' => ['bounce_count', false, false];
-        yield 'unknown metric defaults to monotonic' => ['custom_numeric_metric', false, false];
-        yield 'revenue currency metric stays monotonic' => ['revenue', false, false];
-        yield 'duration sum metric stays monotonic' => ['sum_time_spent', false, false];
+        yield 'percent unit' => ['custom_metric', '%', Evolution::MONOTONICITY_FREE];
+        yield 'rate metric' => ['bounce_rate', false, Evolution::MONOTONICITY_FREE];
+        yield 'percentage metric' => ['conversion_percentage', false, Evolution::MONOTONICITY_FREE];
+        yield 'average metric' => ['avg_time_on_site', false, Evolution::MONOTONICITY_FREE];
+        yield 'per metric containing nb prefix' => ['nb_actions_per_visit', false, Evolution::MONOTONICITY_FREE];
+        yield 'plain nb metric' => ['nb_visits', false, Evolution::MONOTONICITY_UP];
+        yield 'sum daily nb metric' => ['sum_daily_nb_users', false, Evolution::MONOTONICITY_UP];
+        yield 'exit nb metric' => ['exit_nb_visits', false, Evolution::MONOTONICITY_UP];
+        yield 'sum daily exit nb metric' => ['sum_daily_exit_nb_uniq_visitors', false, Evolution::MONOTONICITY_UP];
+        yield 'lower is better count metric' => ['bounce_count', false, Evolution::MONOTONICITY_UP];
+        yield 'unknown metric defaults to monotonic up' => ['custom_numeric_metric', false, Evolution::MONOTONICITY_UP];
+        yield 'revenue currency metric stays monotonic up' => ['revenue', false, Evolution::MONOTONICITY_UP];
+        yield 'duration sum metric stays monotonic up' => ['sum_time_spent', false, Evolution::MONOTONICITY_UP];
+        yield 'min_ prefix is monotonic down' => ['min_bandwidth', false, Evolution::MONOTONICITY_DOWN];
+        yield 'min_ prefix on event value is monotonic down' => ['min_event_value', false, Evolution::MONOTONICITY_DOWN];
+        yield 'max_ prefix stays monotonic up by default' => ['max_actions', false, Evolution::MONOTONICITY_UP];
     }
 
     /**
-     * @dataProvider getDownwardForecastSemanticTypeTestData
+     * @dataProvider getColumnMonotonicitySemanticTypeTestData
      */
-    public function testColumnAllowsDownwardForecastUsesSemanticTypeForCustomMetrics(
+    public function testGetColumnMonotonicityUsesSemanticTypeForCustomMetrics(
         string $columnName,
         ?string $stubSemanticType,
-        bool $expected
+        string $expected
     ): void {
         $semanticTypes = $stubSemanticType !== null ? [$columnName => $stubSemanticType] : [];
         $evolution = $this->createEvolution([], false, $semanticTypes);
 
-        $method = new ReflectionMethod(Evolution::class, 'columnAllowsDownwardForecast');
+        $method = new ReflectionMethod(Evolution::class, 'getColumnMonotonicity');
 
         if (PHP_VERSION_ID < 80100) {
             $method->setAccessible(true);
@@ -136,17 +139,19 @@ class EvolutionTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{string, ?string, bool}>
+     * @return iterable<string, array{string, ?string, string}>
      */
-    public function getDownwardForecastSemanticTypeTestData(): iterable
+    public function getColumnMonotonicitySemanticTypeTestData(): iterable
     {
-        yield 'percent semantic type without name pattern' => ['engagement_score', Dimension::TYPE_PERCENT, true];
-        yield 'float semantic type without name pattern' => ['session_quality', Dimension::TYPE_FLOAT, true];
-        yield 'number semantic type without name pattern stays monotonic' => ['custom_count', Dimension::TYPE_NUMBER, false];
-        yield 'money semantic type stays monotonic' => ['custom_revenue', Dimension::TYPE_MONEY, false];
-        yield 'duration semantic type without avg_ prefix stays monotonic' => ['custom_dwell', Dimension::TYPE_DURATION_S, false];
-        yield 'byte semantic type without avg_ prefix stays monotonic' => ['custom_bandwidth', Dimension::TYPE_BYTE, false];
-        yield 'no semantic type defaults to monotonic' => ['custom_metric_no_signal', null, false];
+        yield 'percent semantic type without name pattern' => ['engagement_score', Dimension::TYPE_PERCENT, Evolution::MONOTONICITY_FREE];
+        yield 'float semantic type without name pattern' => ['session_quality', Dimension::TYPE_FLOAT, Evolution::MONOTONICITY_FREE];
+        yield 'number semantic type without name pattern stays monotonic up' => ['custom_count', Dimension::TYPE_NUMBER, Evolution::MONOTONICITY_UP];
+        yield 'money semantic type stays monotonic up' => ['custom_revenue', Dimension::TYPE_MONEY, Evolution::MONOTONICITY_UP];
+        yield 'duration semantic type without avg_ prefix stays monotonic up' => ['custom_dwell', Dimension::TYPE_DURATION_S, Evolution::MONOTONICITY_UP];
+        yield 'byte semantic type without avg_ prefix stays monotonic up' => ['custom_bandwidth', Dimension::TYPE_BYTE, Evolution::MONOTONICITY_UP];
+        yield 'no semantic type defaults to monotonic up' => ['custom_metric_no_signal', null, Evolution::MONOTONICITY_UP];
+        yield 'min_ prefix wins even with TYPE_NUMBER semantic' => ['min_custom', Dimension::TYPE_NUMBER, Evolution::MONOTONICITY_DOWN];
+        yield 'min_ prefix yields to percent semantic type' => ['min_rate_custom', Dimension::TYPE_PERCENT, Evolution::MONOTONICITY_FREE];
     }
 
     public function testPrecomputeForecastReturnsEmptyWhenComparing(): void
@@ -197,7 +202,7 @@ class EvolutionTest extends TestCase
         $seriesState = new ForecastSeriesState(
             ['Visits' => [80.0, 20.0]],
             ['Visits' => [true, true]],
-            ['Visits' => false],
+            ['Visits' => Evolution::MONOTONICITY_UP],
             []
         );
 
@@ -262,7 +267,7 @@ class EvolutionTest extends TestCase
     public function testForecastPrecisionUsesMetricSemanticsAndNameFallbacks(
         string $columnName,
         $columnUnit,
-        bool $allowsDownward,
+        string $monotonicity,
         int $expected
     ): void {
         $evolution = $this->createEvolution([], false);
@@ -273,21 +278,33 @@ class EvolutionTest extends TestCase
             $method->setAccessible(true);
         }
 
-        self::assertSame($expected, $method->invoke($evolution, $columnName, $columnUnit, $allowsDownward));
+        self::assertSame($expected, $method->invoke($evolution, $columnName, $columnUnit, $monotonicity));
     }
 
     /**
-     * @return iterable<string, array{string, string|false, bool, int}>
+     * @return iterable<string, array{string, string|false, string, int}>
      */
     public function getForecastPrecisionTestData(): iterable
     {
-        yield 'plain nb metric' => ['nb_visits', false, false, 0];
-        yield 'embedded nb metric' => ['exit_nb_visits', false, false, 0];
-        yield 'count suffix metric' => ['bounce_count', false, false, 0];
-        yield 'actions per visit is ratio' => ['nb_actions_per_visit', false, true, 2];
-        yield 'percent unit' => ['custom_metric', '%', true, 2];
-        yield 'duration name fallback' => ['sum_visit_length_returning', false, false, 2];
-        yield 'unknown metric fallback' => ['custom_numeric_metric', false, false, 2];
+        yield 'plain nb metric' => ['nb_visits', false, Evolution::MONOTONICITY_UP, 0];
+        yield 'embedded nb metric' => ['exit_nb_visits', false, Evolution::MONOTONICITY_UP, 0];
+        yield 'count suffix metric' => ['bounce_count', false, Evolution::MONOTONICITY_UP, 0];
+        yield 'actions per visit is ratio' => ['nb_actions_per_visit', false, Evolution::MONOTONICITY_FREE, 2];
+        yield 'percent unit' => ['custom_metric', '%', Evolution::MONOTONICITY_FREE, 2];
+        yield 'duration name fallback' => ['sum_visit_length_returning', false, Evolution::MONOTONICITY_UP, 2];
+        yield 'unknown metric fallback' => ['custom_numeric_metric', false, Evolution::MONOTONICITY_UP, 2];
+    }
+
+    public function testForecastPrecisionForMonotonicDownIntegerMetricRoundsToZeroDecimals(): void
+    {
+        $evolution = $this->createEvolution([], false, ['min_event_value' => Dimension::TYPE_NUMBER]);
+        $method = new ReflectionMethod(Evolution::class, 'getForecastPrecisionForColumn');
+
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
+
+        self::assertSame(0, $method->invoke($evolution, 'min_event_value', false, Evolution::MONOTONICITY_DOWN));
     }
 
     /**
