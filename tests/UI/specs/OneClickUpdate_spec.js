@@ -95,8 +95,9 @@ describe("OneClickUpdate", function () {
         await openHttpsFailureScreen();
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
         await page.click('#updateUsingHttp');
-        await page.waitForNetworkIdle();
-        expect(await page.$('.alert-danger')).to.be.ok;
+        await page.waitForSelector('.alert-danger', { visible: true });
+        const errorText = await page.$eval('.alert-danger', node => node.textContent);
+        expect(errorText).to.match(/UpdateErrorTitle|cancelled/i);
         expect(await page.$('#updateUsingHttp')).to.be.ok;
     });
 
@@ -104,10 +105,10 @@ describe("OneClickUpdate", function () {
         await openHttpsFailureScreen();
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
         await page.click('#updateUsingHttp');
-        await page.waitForNetworkIdle();
-        await page.waitForSelector('#donate-form-container', { visible: true });
+        await page.waitForSelector('.footer a', { visible: true });
+        const heading = await page.$eval('.header h1', node => node.textContent);
+        expect(heading).to.match(/successfully updated/i);
         expect(await page.$('.footer a')).to.be.ok;
-        expect(await page.$('#donate-form-container')).to.be.ok;
     });
 
     it('should login successfully after the update', async function () {
