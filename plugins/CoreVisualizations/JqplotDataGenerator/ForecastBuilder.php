@@ -66,6 +66,14 @@ class ForecastBuilder
     private const MAX_PRIOR_WEIGHT = 0.95;
 
     /**
+     * Minimum number of calendar-aligned historical samples (same week-of-year, same
+     * calendar month) required before preferring them over the full sample set. With only
+     * one aligned sample there is no slope to fit and the recency-only window is more
+     * informative than a single calendar-matched data point.
+     */
+    private const MIN_ALIGNED_SAMPLES_TO_PREFER = 2;
+
+    /**
      * @param array<string, array<int, float|int>> $allSeriesData
      * @param array<DataTable> $dataTables
      * @param array<int, string> $dataStates
@@ -314,9 +322,9 @@ class ForecastBuilder
         DataTable $currentDataTable,
         array $seriesDataAvailability = []
     ): array {
-        $samples = [];
+        $allSamples = [];
+        $alignedSamples = [];
         $periodLabel = $this->getPeriodLabel($currentDataTable);
-        $currentWeekDay = (int) $this->getPeriodStartDayOfWeek($currentDataTable);
 
         for ($tickIndex = 0; $tickIndex < $currentTickIndex; ++$tickIndex) {
             if (($dataStates[$tickIndex] ?? null) !== ArchiveState::COMPLETE) {
@@ -338,16 +346,58 @@ class ForecastBuilder
                 continue;
             }
 
+            $isAligned = $this->isSamplePeriodCalendarAligned($currentDataTable, $dataTable, $periodLabel);
+
             if ('day' === $periodLabel) {
-                if ((int) $this->getPeriodStartDayOfWeek($dataTable) !== $currentWeekDay) {
+                // Daily series have strong day-of-week effects; mixing weekdays into a Saturday
+                // forecast (or vice versa) is worse than working with a single same-DOW sample,
+                // so the strict filter overrides the aligned/all fallback used for week/month.
+                if (!$isAligned) {
                     continue;
                 }
+                $allSamples[] = $value;
+                continue;
             }
 
-            $samples[] = $value;
+            $allSamples[] = $value;
+
+            if ($isAligned) {
+                $alignedSamples[] = $value;
+            }
         }
 
-        return $this->removeLeadingZeroSamples($samples);
+        if (
+            'day' !== $periodLabel
+            && count($alignedSamples) >= self::MIN_ALIGNED_SAMPLES_TO_PREFER
+        ) {
+            return $this->removeLeadingZeroSamples($alignedSamples);
+        }
+
+        return $this->removeLeadingZeroSamples($allSamples);
+    }
+
+    /**
+     * True when the candidate sample is "calendar-aligned" to the current period: same
+     * day-of-week for daily, same ISO week-of-year for weekly, same calendar month for
+     * monthly. Year periods have no useful alignment (every prior tick is the same kind of
+     * period), so the check returns true and lets the recency-only sample set carry the
+     * forecast.
+     */
+    private function isSamplePeriodCalendarAligned(
+        DataTable $current,
+        DataTable $candidate,
+        string $periodLabel
+    ): bool {
+        switch ($periodLabel) {
+            case 'day':
+                return $this->getPeriodStartDayOfWeek($current) === $this->getPeriodStartDayOfWeek($candidate);
+            case 'week':
+                return $this->getPeriodStartIsoWeek($current) === $this->getPeriodStartIsoWeek($candidate);
+            case 'month':
+                return $this->getPeriodStartCalendarMonth($current) === $this->getPeriodStartCalendarMonth($candidate);
+            default:
+                return true;
+        }
     }
 
     /**
@@ -447,5 +497,19 @@ class ForecastBuilder
         /** @var Period $period */
         $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
         return $period->getDateStart()->toString('N');
+    }
+
+    private function getPeriodStartIsoWeek(DataTable $dataTable): string
+    {
+        /** @var Period $period */
+        $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+        return $period->getDateStart()->toString('W');
+    }
+
+    private function getPeriodStartCalendarMonth(DataTable $dataTable): string
+    {
+        /** @var Period $period */
+        $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+        return $period->getDateStart()->toString('m');
     }
 }

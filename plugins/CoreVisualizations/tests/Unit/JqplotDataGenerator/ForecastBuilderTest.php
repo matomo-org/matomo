@@ -615,6 +615,116 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[null, null, null, 125.0]], $forecastData);
     }
 
+    public function testBuildPrefersCalendarAlignedMonthlySamplesWhenAvailable(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Two prior years of alternating March/June with very different magnitudes; the partial
+        // is March 2025 (in the past relative to the test environment so getElapsedRatio is
+        // pinned by the archive timestamp, not Date::now()). Calendar-month alignment selects
+        // the two Marches [100, 110] (slope 10, intercept 90, prior = 90 + 10*2.5 = 115). The
+        // fallback path would mix the four samples [100, 500, 110, 550] and yield a prior near
+        // 500. Mid-month archive makes elapsedRatio ≈ 0.47, linear ≈ 128, weight ≈ 0.71, so the
+        // aligned forecast lands ~118 — near the March pattern, not the contaminated four-
+        // sample regression.
+        $dataTables = [
+            $this->createDataTableForMonth('2023-03-01', $site),
+            $this->createDataTableForMonth('2023-06-01', $site),
+            $this->createDataTableForMonth('2024-03-01', $site),
+            $this->createDataTableForMonth('2024-06-01', $site),
+            $this->createDataTableForMonth('2025-03-01', $site, '2025-03-15 12:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [100.0, 500.0, 110.0, 550.0, 60.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        $forecast = $forecastData[0][4];
+        self::assertNotNull($forecast);
+        self::assertGreaterThan(105.0, $forecast);
+        self::assertLessThan(135.0, $forecast);
+    }
+
+    public function testBuildFallsBackToAllSamplesWhenAlignedSamplesBelowThreshold(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Only March 2024 is calendar-aligned with March 2025; the other priors are January and
+        // February 2025. With a single aligned sample the builder must fall back to the full
+        // recency window [100, 200, 300] (slope 100, prior 350), not collapse onto the lone
+        // aligned value. The fallback prior pulls the forecast well above 200, while an
+        // aligned-only path with prior = 100 would have produced a forecast near 110. Pinning
+        // the high outcome guards against the alignment filter degrading to "exclude when not
+        // aligned", which would silently discard two thirds of the available history.
+        $dataTables = [
+            $this->createDataTableForMonth('2024-03-01', $site),
+            $this->createDataTableForMonth('2025-01-01', $site),
+            $this->createDataTableForMonth('2025-02-01', $site),
+            $this->createDataTableForMonth('2025-03-01', $site, '2025-03-15 12:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [100.0, 200.0, 300.0, 60.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        $forecast = $forecastData[0][3];
+        self::assertNotNull($forecast);
+        self::assertGreaterThan(200.0, $forecast);
+        self::assertLessThan(310.0, $forecast);
+    }
+
+    public function testBuildPrefersCalendarAlignedWeeklySamplesWhenAvailable(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Two prior years' worth of "the same ISO week" (week 18) plus a noisy adjacent-week
+        // sample. ISO-week alignment selects [200, 220] (slope 20, intercept 180, prior
+        // 180+20*2.5 = 230). The unaligned fallback over the three samples [200, 9000, 220]
+        // would be dominated by the outlier and produce a wildly different prior.
+        $dataTables = [
+            $this->createDataTableForWeek('2024-04-29', $site), // ISO 2024-W18
+            $this->createDataTableForWeek('2025-04-21', $site), // ISO 2025-W17 (mismatch)
+            $this->createDataTableForWeek('2025-04-28', $site), // ISO 2025-W18
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 12:00:00'), // ISO 2026-W18
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [200.0, 9000.0, 220.0, 80.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        $forecast = $forecastData[0][3];
+        self::assertNotNull($forecast);
+        // The W18 alignment keeps the forecast near the historical W18 trajectory; without
+        // alignment the W17 outlier of 9000 would push the prior into the thousands.
+        self::assertGreaterThan(180.0, $forecast);
+        self::assertLessThan(280.0, $forecast);
+    }
+
     private function createSiteMock(): Site
     {
         $site = $this->getMockBuilder(Site::class)
@@ -629,8 +739,27 @@ class ForecastBuilderTest extends TestCase
 
     private function createDataTableForDay(string $date, Site $site, ?string $archivedDate = null): DataTable
     {
+        return $this->createDataTableForPeriod('day', $date, $site, $archivedDate);
+    }
+
+    private function createDataTableForWeek(string $date, Site $site, ?string $archivedDate = null): DataTable
+    {
+        return $this->createDataTableForPeriod('week', $date, $site, $archivedDate);
+    }
+
+    private function createDataTableForMonth(string $date, Site $site, ?string $archivedDate = null): DataTable
+    {
+        return $this->createDataTableForPeriod('month', $date, $site, $archivedDate);
+    }
+
+    private function createDataTableForPeriod(
+        string $periodLabel,
+        string $date,
+        Site $site,
+        ?string $archivedDate = null
+    ): DataTable {
         $dataTable = new DataTable();
-        $dataTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('day', $date));
+        $dataTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build($periodLabel, $date));
         $dataTable->setMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX, $site);
 
         if ($archivedDate !== null) {
