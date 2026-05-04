@@ -25,8 +25,16 @@ class ForecastSeriesState
     /** @var array<string, array<int, bool>> */
     private $allSeriesDataAvailability;
 
-    /** @var array<string, bool> */
-    private $allSeriesAllowsDownwardForecast;
+    /**
+     * Per-series intra-period direction tag. Values are one of the
+     * {@see Evolution::MONOTONICITY_*} constants:
+     * - MONOTONICITY_UP: counts/sums; gate forecast >= current.
+     * - MONOTONICITY_DOWN: running mins; gate forecast <= current.
+     * - MONOTONICITY_FREE: ratios/averages; no gate.
+     *
+     * @var array<string, string>
+     */
+    private $allSeriesMonotonicity;
 
     /** @var array<string, int> */
     private $allSeriesForecastPrecision;
@@ -34,18 +42,18 @@ class ForecastSeriesState
     /**
      * @param array<string, array<int, float|int>> $allSeriesData
      * @param array<string, array<int, bool>> $allSeriesDataAvailability
-     * @param array<string, bool> $allSeriesAllowsDownwardForecast
+     * @param array<string, string> $allSeriesMonotonicity
      * @param array<string, int> $allSeriesForecastPrecision
      */
     public function __construct(
         array $allSeriesData,
         array $allSeriesDataAvailability,
-        array $allSeriesAllowsDownwardForecast,
+        array $allSeriesMonotonicity,
         array $allSeriesForecastPrecision
     ) {
         $this->allSeriesData = $allSeriesData;
         $this->allSeriesDataAvailability = $allSeriesDataAvailability;
-        $this->allSeriesAllowsDownwardForecast = $allSeriesAllowsDownwardForecast;
+        $this->allSeriesMonotonicity = $allSeriesMonotonicity;
         $this->allSeriesForecastPrecision = $allSeriesForecastPrecision;
     }
 
@@ -61,10 +69,10 @@ class ForecastSeriesState
         return $this->allSeriesDataAvailability;
     }
 
-    /** @return array<string, bool> */
-    public function getAllSeriesAllowsDownwardForecast(): array
+    /** @return array<string, string> */
+    public function getAllSeriesMonotonicity(): array
     {
-        return $this->allSeriesAllowsDownwardForecast;
+        return $this->allSeriesMonotonicity;
     }
 
     /** @return array<string, int> */

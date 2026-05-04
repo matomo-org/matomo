@@ -16,6 +16,7 @@ use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
 use Piwik\Period\Factory;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Evolution;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastBuilder;
 use Piwik\Site;
 use ReflectionClass;
@@ -75,29 +76,32 @@ class ForecastBuilderTest extends TestCase
     public function testShouldRenderForecastValue(
         float $forecastValue,
         float $currentValue,
-        bool $allowsDownward,
+        string $monotonicity,
         bool $expected
     ): void {
         $result = $this->invokePrivateMethod(
             new ForecastBuilder(),
             'shouldRenderForecastValue',
-            [$forecastValue, $currentValue, $allowsDownward]
+            [$forecastValue, $currentValue, $monotonicity]
         );
 
         self::assertSame($expected, $result);
     }
 
     /**
-     * @return iterable<string, array{float, float, bool, bool}>
+     * @return iterable<string, array{float, float, string, bool}>
      */
     public function getForecastVisibilityTestData(): iterable
     {
-        yield 'monotonic, higher than current' => [12.5, 10.0, false, true];
-        yield 'monotonic, equal to current' => [10.0, 10.0, false, true];
-        yield 'monotonic, below current' => [9.99, 10.0, false, false];
-        yield 'non-monotonic, higher than current' => [12.5, 10.0, true, true];
-        yield 'non-monotonic, equal to current' => [10.0, 10.0, true, true];
-        yield 'non-monotonic, below current' => [9.99, 10.0, true, true];
+        yield 'up, higher than current' => [12.5, 10.0, Evolution::MONOTONICITY_UP, true];
+        yield 'up, equal to current' => [10.0, 10.0, Evolution::MONOTONICITY_UP, true];
+        yield 'up, below current' => [9.99, 10.0, Evolution::MONOTONICITY_UP, false];
+        yield 'free, higher than current' => [12.5, 10.0, Evolution::MONOTONICITY_FREE, true];
+        yield 'free, equal to current' => [10.0, 10.0, Evolution::MONOTONICITY_FREE, true];
+        yield 'free, below current' => [9.99, 10.0, Evolution::MONOTONICITY_FREE, true];
+        yield 'down, higher than current' => [12.5, 10.0, Evolution::MONOTONICITY_DOWN, false];
+        yield 'down, equal to current' => [10.0, 10.0, Evolution::MONOTONICITY_DOWN, true];
+        yield 'down, below current' => [9.99, 10.0, Evolution::MONOTONICITY_DOWN, true];
     }
 
     public function testBuildUsesPriorForecastAsFirstNoDataBaseline(): void
@@ -189,7 +193,7 @@ class ForecastBuilderTest extends TestCase
             ],
             ['Actions per visit' => false],
             [],
-            ['Actions per visit' => true],
+            ['Actions per visit' => Evolution::MONOTONICITY_FREE],
             ['Actions per visit' => 2]
         );
 
@@ -268,7 +272,7 @@ class ForecastBuilderTest extends TestCase
             ],
             ['Avg time on page' => 's'],
             [],
-            ['Avg time on page' => true]
+            ['Avg time on page' => Evolution::MONOTONICITY_FREE]
         );
 
         self::assertSame([[null, 12.0]], $forecastData);
@@ -322,7 +326,7 @@ class ForecastBuilderTest extends TestCase
             ],
             ['Bounce count' => false],
             [],
-            ['Bounce count' => false]
+            ['Bounce count' => Evolution::MONOTONICITY_UP]
         );
 
         self::assertSame([[null, null, null]], $forecastData);
@@ -758,6 +762,163 @@ class ForecastBuilderTest extends TestCase
         // alignment the W17 outlier of 9000 would push the prior into the thousands.
         self::assertGreaterThan(180.0, $forecast);
         self::assertLessThan(280.0, $forecast);
+    }
+
+    public function testBuildMonotonicDownSeriesAllowsForecastBelowCurrentValue(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Three same-weekday priors of 5 form a flat history. The current partial min is 12,
+        // which is above every historical final-period min: a min metric routed through the
+        // monotonic-down path must render the prior (5), proving the gate flip from
+        // "forecast >= current" to "forecast <= current" let the legitimate downward forecast
+        // through. The legacy boolean gate would have suppressed this entirely.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-03', $site),
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 12:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Min event value' => [5.0, 5.0, 5.0, 12.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Min event value' => false],
+            [],
+            ['Min event value' => Evolution::MONOTONICITY_DOWN],
+            ['Min event value' => 0]
+        );
+
+        self::assertSame([[null, null, null, 5.0]], $forecastData);
+    }
+
+    public function testBuildMonotonicDownSeriesClampsForecastAboveCurrentValueToCurrent(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Three same-weekday priors of 50 form a flat history. The current partial min is 8 —
+        // an early outlier the period has already locked in. The historical prior (50) cannot
+        // describe a defensible final value, since the running min cannot rise above 8. The
+        // gate fails (50 > 8) and the forecast is suppressed; without the gate flip the
+        // monotonic-up path would have rendered ~50 as a wrong-direction forecast.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-03', $site),
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 12:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Min event value' => [50.0, 50.0, 50.0, 8.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Min event value' => false],
+            [],
+            ['Min event value' => Evolution::MONOTONICITY_DOWN],
+            ['Min event value' => 0]
+        );
+
+        self::assertSame([[null, null, null, null]], $forecastData);
+    }
+
+    public function testBuildMonotonicDownSeriesSkipsLinearExtrapolationOfPartialValue(): void
+    {
+        $site = $this->createSiteMock();
+
+        // The current partial min (10) is above the only same-weekday prior (4). The
+        // monotonic-up path would compute linear = 10 / 0.5 = 20 and blend it with the prior,
+        // landing far above 10 — wrong-direction for a min. The monotonic-down path skips
+        // linear extrapolation and renders the prior (4) directly, satisfying the
+        // forecast <= current gate.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 12:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Min bandwidth' => [4.0, 10.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Min bandwidth' => false],
+            [],
+            ['Min bandwidth' => Evolution::MONOTONICITY_DOWN],
+            ['Min bandwidth' => 2]
+        );
+
+        self::assertSame([[null, 4.0]], $forecastData);
+    }
+
+    public function testBuildMonotonicDownSeriesKeepsLeadingZeroFromHistory(): void
+    {
+        $site = $this->createSiteMock();
+
+        // The single same-weekday historical sample is a legitimate min of 0 (e.g. a
+        // min_event_value where one observation in the period was 0). The legacy strip
+        // would discard it, leaving the prior empty and forcing the builder to suppress
+        // the forecast. With the strip scoped to MONOTONICITY_UP, the prior is 0 and the
+        // monotonic-down gate (forecast <= current 30) is satisfied, so the forecast
+        // renders the historically defensible value.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 12:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Min event value' => [0.0, 30.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Min event value' => false],
+            [],
+            ['Min event value' => Evolution::MONOTONICITY_DOWN],
+            ['Min event value' => 0]
+        );
+
+        self::assertSame([[null, 0.0]], $forecastData);
+    }
+
+    public function testBuildPercentSeriesKeepsLeadingZeroFromHistory(): void
+    {
+        $site = $this->createSiteMock();
+
+        // The single same-weekday historical sample is a legitimate 0% (e.g. a bounce_rate
+        // of 0% on a low-traffic day with a single bounceless visit). For a non-monotonic
+        // series the legacy strip would discard it and the builder would have no prior to
+        // draw from, suppressing the forecast on a metric where 0 is a perfectly valid
+        // value. The strip is now skipped on FREE so the prior is 0 and the forecast
+        // renders 0 — anchored to the only same-period observation we have.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 12:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Bounce rate' => [0.0, 50.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Bounce rate' => '%']
+        );
+
+        self::assertSame([[null, 0.0]], $forecastData);
     }
 
     private function createSiteMock(): Site

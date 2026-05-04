@@ -21,15 +21,20 @@ use Piwik\Site;
 /**
  * Computes per-tick forecast values for incomplete-period data points on evolution-style series.
  *
- * Two algorithms are applied based on each series' monotonicity:
+ * Three algorithms are applied based on each series' intra-period direction (see
+ * {@see Evolution::MONOTONICITY_*}):
  *
- * - Monotonic count series (visits, conversions, page views): the period's value can only grow
- *   from the current partial accumulation, so the forecast blends a linear elapsed-ratio
- *   extrapolation with the historical same-period average and is suppressed if it falls below
- *   the current display value (counts cannot shrink within a period).
- * - Non-monotonic series (ratios, rates, percentages, averages): the forecast is the historical
- *   same-period average only, and is allowed to fall below the current display value because the
- *   period's value can move in either direction during the remaining time.
+ * - MONOTONICITY_UP — additive count series (visits, conversions, page views): the period's
+ *   value can only grow from the current partial accumulation, so the forecast blends a linear
+ *   elapsed-ratio extrapolation with the historical same-period average and is suppressed if it
+ *   falls below the current display value.
+ * - MONOTONICITY_DOWN — running-min series (min_bandwidth, min_event_value): the period's
+ *   value can only equal or fall below the current partial value as more samples arrive, so the
+ *   forecast is the historical same-period average and is suppressed (and finally clamped) if
+ *   it would project above the current value.
+ * - MONOTONICITY_FREE — ratio/rate/percentage/average series: the forecast is the historical
+ *   same-period average only, with no directional gate, because the period's value can move
+ *   either way during the remaining time.
  *
  * The builder is stateless and reusable. Period bounds and the archive timestamp are read from
  * DataTable metadata, so any caller producing comparable DataTable maps can reuse it.
@@ -103,11 +108,9 @@ class ForecastBuilder
      * @param array<int, string> $dataStates
      * @param array<string, string|false> $seriesUnits
      * @param array<string, array<int, bool>> $allSeriesDataAvailability
-     * @param array<string, bool> $allSeriesAllowsDownwardForecast Per-series flag; when true the
-     *        series is treated as able to decrease by the end of the period and forecasts are
-     *        produced from the historical prior only without the "forecast >= current"
-     *        suppression. When the flag is missing for a series, the builder falls back to
-     *        "percent unit implies non-monotonic".
+     * @param array<string, string> $allSeriesMonotonicity Per-series intra-period direction tag,
+     *        one of the {@see Evolution::MONOTONICITY_*} constants. Missing entries fall back to
+     *        FREE for percent-unit series and UP otherwise.
      * @param array<string, int> $allSeriesForecastPrecision Per-series decimal precision for raw
      *        forecast payload values. Missing entries preserve the historical 4-decimal default.
      * @return array<int, array<int, float|null>>
@@ -118,7 +121,7 @@ class ForecastBuilder
         array $dataStates,
         array $seriesUnits,
         array $allSeriesDataAvailability = [],
-        array $allSeriesAllowsDownwardForecast = [],
+        array $allSeriesMonotonicity = [],
         array $allSeriesForecastPrecision = []
     ): array {
         if ([] === $allSeriesData || [] === $dataTables || [] === $dataStates) {
@@ -135,7 +138,7 @@ class ForecastBuilder
         $seriesDataList = array_values($allSeriesData);
         $seriesUnitsList = array_values($seriesUnits);
         $seriesDataAvailabilityList = array_values($allSeriesDataAvailability);
-        $seriesAllowsDownwardList = array_values($allSeriesAllowsDownwardForecast);
+        $seriesMonotonicityList = array_values($allSeriesMonotonicity);
         $seriesForecastPrecisionList = array_values($allSeriesForecastPrecision);
 
         $forecastData = [];
@@ -147,7 +150,8 @@ class ForecastBuilder
             $previousForecastValue = null;
             $isPercentSeries = ($seriesUnitsList[$seriesIndex] ?? false) === '%';
             $seriesDataAvailability = $seriesDataAvailabilityList[$seriesIndex] ?? [];
-            $allowsDownward = $seriesAllowsDownwardList[$seriesIndex] ?? $isPercentSeries;
+            $monotonicity = $seriesMonotonicityList[$seriesIndex]
+                ?? ($isPercentSeries ? Evolution::MONOTONICITY_FREE : Evolution::MONOTONICITY_UP);
             $forecastPrecision = $seriesForecastPrecisionList[$seriesIndex] ?? 4;
 
             foreach ($seriesData as $tickIndex => $currentValueRaw) {
@@ -174,36 +178,43 @@ class ForecastBuilder
                     $dataStates,
                     $tickIndex,
                     $dataTable,
-                    $seriesDataAvailability
+                    $seriesDataAvailability,
+                    $monotonicity
                 );
 
-                if ($allowsDownward) {
+                if (Evolution::MONOTONICITY_UP === $monotonicity) {
+                    $forecastValue = $this->buildMonotonicForecastValue(
+                        $currentValue,
+                        $pastValues,
+                        $previousForecastValue,
+                        $dataTable,
+                        $site
+                    );
+                } else {
+                    // FREE and DOWN both rely on the historical prior only — the linear
+                    // elapsed-ratio extrapolation has no meaning for ratios (FREE) and would
+                    // project upward on a metric that can only fall (DOWN).
                     $forecastValue = $this->buildNonMonotonicForecastValue($pastValues, $previousForecastValue);
-
-                    if ($forecastValue === null) {
-                        $seriesForecasts[] = null;
-                        $previousForecastValue = null;
-                        continue;
-                    }
-
-                    $roundedForecast = round($forecastValue, $forecastPrecision);
-                    $seriesForecasts[] = $roundedForecast;
-                    $previousForecastValue = $roundedForecast;
-                    continue;
                 }
 
-                $forecastValue = $this->buildMonotonicForecastValue(
-                    $currentValue,
-                    $pastValues,
-                    $previousForecastValue,
-                    $dataTable,
-                    $site
-                );
-
-                if (!$this->shouldRenderForecastValue($forecastValue, $currentValue, $allowsDownward)) {
+                if ($forecastValue === null) {
                     $seriesForecasts[] = null;
                     $previousForecastValue = null;
                     continue;
+                }
+
+                if (!$this->shouldRenderForecastValue($forecastValue, $currentValue, $monotonicity)) {
+                    $seriesForecasts[] = null;
+                    $previousForecastValue = null;
+                    continue;
+                }
+
+                // Belt-and-braces clamp: a min_* metric's final-period value can never exceed
+                // the current partial min, so even if the gate let the prior through (e.g. it
+                // equalled current within rounding) we hold the rendered forecast at or below
+                // current. Cheap insurance against an ever-rising-min visual in the chart.
+                if (Evolution::MONOTONICITY_DOWN === $monotonicity) {
+                    $forecastValue = min($forecastValue, $currentValue);
                 }
 
                 $roundedForecast = round($forecastValue, $forecastPrecision);
@@ -307,7 +318,10 @@ class ForecastBuilder
      * extrapolation past zero is never a defensible forecast.
      *
      * @param array<int, float> $pastValues Same-period historical samples in temporal order
-     *        (oldest first), already filtered and stripped of leading zeros by the caller.
+     *        (oldest first), already filtered by availability. Leading zeros have been
+     *        stripped only for MONOTONICITY_UP series, where they likely mark "tracking
+     *        had not started yet"; for FREE/DOWN series a leading 0 is a legitimate
+     *        observation (a real 0% rate, an actual running min of 0) and is retained.
      */
     private function computeHistoricalPrior(array $pastValues): float
     {
@@ -344,6 +358,10 @@ class ForecastBuilder
      * @param array<int, DataTable> $dataTableList
      * @param array<int, string> $dataStates
      * @param array<int, bool> $seriesDataAvailability
+     * @param string $monotonicity Per-series intra-period direction tag, one of the
+     *        {@see Evolution::MONOTONICITY_*} constants. Drives whether leading zeros are
+     *        stripped: only MONOTONICITY_UP treats them as "tracking had not started yet".
+     *        For FREE/DOWN a leading 0 is kept as a legitimate observation.
      * @return array<int, float>
      */
     private function getHistoricalSamplesForSeries(
@@ -352,7 +370,8 @@ class ForecastBuilder
         array $dataStates,
         int $currentTickIndex,
         DataTable $currentDataTable,
-        array $seriesDataAvailability = []
+        array $seriesDataAvailability = [],
+        string $monotonicity = Evolution::MONOTONICITY_UP
     ): array {
         $allSamples = [];
         $alignedSamples = [];
@@ -398,14 +417,22 @@ class ForecastBuilder
             }
         }
 
-        if (
+        $samples = (
             'day' !== $periodLabel
             && count($alignedSamples) >= self::MIN_ALIGNED_SAMPLES_TO_PREFER
-        ) {
-            return $this->removeLeadingZeroSamples($alignedSamples);
+        ) ? $alignedSamples : $allSamples;
+
+        // Leading-zero stripping is only sound for additive counts where a leading 0 most
+        // likely marks "tracking had not started yet". For MONOTONICITY_DOWN (running mins)
+        // and MONOTONICITY_FREE (rates/averages) a leading 0 is a legitimate observation
+        // (e.g. a real running min of 0, a 0% rate on a low-traffic day) and dropping it
+        // would inflate the prior — for DOWN it tends to fail the forecast <= current gate
+        // and silently suppress an otherwise-renderable forecast.
+        if (Evolution::MONOTONICITY_UP === $monotonicity) {
+            return $this->removeLeadingZeroSamples($samples);
         }
 
-        return $this->removeLeadingZeroSamples($allSamples);
+        return array_values($samples);
     }
 
     /**
@@ -484,13 +511,17 @@ class ForecastBuilder
     private function shouldRenderForecastValue(
         float $forecastValue,
         float $currentDisplayValue,
-        bool $allowsDownward
+        string $monotonicity
     ): bool {
-        if ($allowsDownward) {
-            return true;
+        switch ($monotonicity) {
+            case Evolution::MONOTONICITY_FREE:
+                return true;
+            case Evolution::MONOTONICITY_DOWN:
+                return $forecastValue <= $currentDisplayValue;
+            case Evolution::MONOTONICITY_UP:
+            default:
+                return $forecastValue >= $currentDisplayValue;
         }
-
-        return $forecastValue >= $currentDisplayValue;
     }
 
     private function blendForecastValue(float $baseForecast, float $priorForecast, float $weight): float
