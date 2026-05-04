@@ -154,7 +154,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Login form
      *
      * @param string $messageNoAccess Access error message
-     * @param bool $infoMessage
+     * @param string|false $infoMessage
      * @return string
      * @internal param string $currentUrl Current URL
      */
