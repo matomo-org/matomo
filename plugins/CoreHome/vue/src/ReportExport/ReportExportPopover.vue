@@ -314,7 +314,7 @@ export default defineComponent({
         return this.effectiveSubtableOptions.optionFlat;
       },
       set(newVal: boolean) {
-        if (!this.hasSubtables || !this.canExportFlat) {
+        if (!this.canExportFlat) {
           return;
         }
 

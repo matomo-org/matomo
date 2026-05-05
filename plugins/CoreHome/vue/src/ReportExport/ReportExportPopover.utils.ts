@@ -65,7 +65,7 @@ export function resolveEffectiveSubtableOptions(
 ): EffectiveSubtableOptions {
   const { hasUserPreference, preferredMode } = subtablePreference;
 
-  if (!hasSubtables) {
+  if (!hasSubtables && !canExportFlat) {
     return {
       optionFlat: false,
       optionExpanded: false,
@@ -84,6 +84,12 @@ export function resolveEffectiveSubtableOptions(
       optionFlat: !hasUserPreference || preferredMode === 'flat',
       optionExpanded: false,
     };
+  }
+
+  if (!hasSubtables) {
+    return canExportFlat
+      ? { optionFlat: preferredMode === 'flat', optionExpanded: false }
+      : { optionFlat: false, optionExpanded: false };
   }
 
   if (!hasUserPreference) {

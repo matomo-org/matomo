@@ -59,6 +59,9 @@ describe('CoreHome/ReportExportPopover.utils', () => {
       ]
     > = [
       [false, true, 'JSON', { hasUserPreference: false, preferredMode: null }, { optionFlat: false, optionExpanded: false }],
+      [false, true, 'JSON', { hasUserPreference: true, preferredMode: 'flat' }, { optionFlat: true, optionExpanded: false }],
+      [false, true, 'CSV', { hasUserPreference: false, preferredMode: null }, { optionFlat: true, optionExpanded: false }],
+      [false, true, 'CSV', { hasUserPreference: true, preferredMode: null }, { optionFlat: false, optionExpanded: false }],
       [true, true, 'CSV', { hasUserPreference: false, preferredMode: null }, { optionFlat: true, optionExpanded: false }],
       [true, true, 'CSV', { hasUserPreference: true, preferredMode: null }, { optionFlat: false, optionExpanded: false }],
       [true, true, 'JSON', { hasUserPreference: false, preferredMode: null }, { optionFlat: false, optionExpanded: true }],

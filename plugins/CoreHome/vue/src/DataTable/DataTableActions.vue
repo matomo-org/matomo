@@ -89,6 +89,7 @@
         apiMethod: apiMethodToRequestDataTable,
         reportFormats,
         maxFilterLimit,
+        canExportFlat: exportSupportsFlat,
       }"
       :title="translate('General_ExportThisReport')"
       href=""
@@ -394,6 +395,10 @@ export default defineComponent({
         RSS: 'RSS',
       };
       return formats;
+    },
+    exportSupportsFlat() {
+      return !!this.showFlattenTable
+        || isBooleanLikeSet(this.clientSideParameters.flat);
     },
     showDimensionsConfigItem() {
       return this.showFlattenTable

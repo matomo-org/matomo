@@ -47,7 +47,7 @@ export default {
         || dataTable.param.show_dimensions === 1
         || dataTable.param.show_dimensions === '1';
       const hasSubtables = isDataTableFlat || dataTable.numberOfSubtables > 0;
-      const canExportFlat = (binding.value.canExportFlat ?? hasSubtables) && hasSubtables;
+      const canExportFlat = binding.value.canExportFlat ?? hasSubtables;
       // Intentional product behaviour:
       // when flat export is available, open the popover with TSV + flat selected.
       const defaultFlatOnOpen = canExportFlat;

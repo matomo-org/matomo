@@ -268,7 +268,7 @@ describe('ReportExportPopover', function () {
     await expectExportLinkNotContains('flat=1');
   });
 
-  it('should hide subtable controls when there are truly no subtables', async function () {
+  it('should keep flat export available but hide expanded export when a flattenable report has no current subtables', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
     await page.waitForSelector('#widgetActionsgetPageUrls', { visible: true });
@@ -299,24 +299,24 @@ describe('ReportExportPopover', function () {
     });
     await page.waitForSelector('#reportExport', { visible: true });
 
-    expect(await isOptionVisible('option_flat')).to.equal(false);
+    expect(await isOptionVisible('option_flat')).to.equal(true);
     expect(await isOptionVisible('option_show_dimensions')).to.equal(false);
     expect(await isOptionExpandSubtableVisible()).to.equal(false);
-    await expectExportLinkNotContains('flat=1');
+    await expectExportLinkContains('flat=1');
     await expectExportLinkNotContains('expanded=1');
 
     await clickFormat('CSV');
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="CSV"]')?.checked === true
     ));
-    await expectExportLinkNotContains('flat=1');
+    await expectExportLinkContains('flat=1');
     await expectExportLinkNotContains('expanded=1');
 
     await clickFormat('TSV');
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="TSV"]')?.checked === true
     ));
-    await expectExportLinkNotContains('flat=1');
+    await expectExportLinkContains('flat=1');
     await expectExportLinkNotContains('expanded=1');
   });
 
