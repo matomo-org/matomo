@@ -863,6 +863,45 @@ class AccessTest extends IntegrationTestCase
         $this->assertTrue($access->hasSuperUserAccess());
     }
 
+    public function testReloadAccessTreatsEmptyStringAccessLevelInAuthContextAsUnscoped()
+    {
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(
+                AuthResult::SUCCESS_SUPERUSER_AUTH_CODE,
+                'superuserlogin',
+                'token',
+                ['token_access_level' => '']
+            )));
+
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($mock));
+        $this->assertTrue($access->hasSuperUserAccess());
+    }
+
+    public function testReloadAccessDeniesAllAccessWhenAuthContextDeclaresUnrecognisedAccessLevel()
+    {
+        $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
+
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(
+                AuthResult::SUCCESS_SUPERUSER_AUTH_CODE,
+                'superuserlogin',
+                'token',
+                ['token_access_level' => 'notalevel']
+            )));
+
+        // A scope that cannot be recognised must deny rather than fall through to the user's full access.
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($mock));
+        $this->assertFalse($access->hasSuperUserAccess());
+        $this->assertSame('noaccess', $access->getRoleForSite($idSite));
+        $this->assertEmpty($access->getSitesIdWithAtLeastViewAccess());
+    }
+
     public function testReloadAccessKeepsTokenAccessLevelWhenReloadedWhileSuperUserAccessIsSet()
     {
         $idSite = Fixture::createWebsite('2010-01-02 00:00:00');

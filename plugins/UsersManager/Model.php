@@ -588,11 +588,19 @@ class Model
             return false;
         }
 
-        $tokenAuth = $this->hashTokenAuth($tokenAuth);
+        // The cache is gated on the request's own token, so sub-request tokens in bulk API and bulk
+        // tracker calls miss and query fresh.
+        $authenticationToken = StaticContainer::get(AuthenticationToken::class);
+        if ($authenticationToken->hasCachedTokenMetadata($tokenAuth, $isTokenSecured)) {
+            $cached = $authenticationToken->getCachedTokenMetadata($tokenAuth, $isTokenSecured);
+            return $cached ?: false;
+        }
+
+        $tokenAuthHashed = $this->hashTokenAuth($tokenAuth);
         $db = $this->getDb();
 
         $expired = $this->getQueryNotExpiredToken();
-        $bind = array_merge(array($tokenAuth), $expired['bind']);
+        $bind = array_merge(array($tokenAuthHashed), $expired['bind']);
 
         $sql = "SELECT * FROM " . $this->tokenTable . " WHERE `password` = ? AND " . $expired['sql'];
 
@@ -602,6 +610,8 @@ class Model
         }
 
         $token = $db->fetchRow($sql, $bind);
+
+        $authenticationToken->cacheTokenMetadata($tokenAuth, $isTokenSecured, $token ?: null);
 
         return $token;
     }
