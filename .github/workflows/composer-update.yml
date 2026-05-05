@@ -48,21 +48,23 @@ jobs:
     - name: Update composer dependencies
       id: update
       run: |
-          composer update --no-ansi 2>&1 | tee COMPOSER_LOG
-          sed -i -e '1i```\' COMPOSER_LOG
-          sed -i -e '1icomposer update log:\' COMPOSER_LOG
-          echo '```' &>> COMPOSER_LOG
+          composer update --no-ansi 2>&1 | tee COMPOSER_RAW
 
-          changes=( $(git diff composer.lock) )
-          git add "composer.lock"
+          {
+            echo 'composer update log:'
+            echo '```'
+            cat COMPOSER_RAW
+            echo '```'
+          } > COMPOSER_LOG
 
           # abort here if no change available
-          if [[ ${#changes[@]} -eq 0 ]]
+          if git diff --quiet -- composer.lock
           then
               exit 0
           fi
 
-          echo "message=$(cat COMPOSER_LOG | jq -aRs)" >> "$GITHUB_OUTPUT"
+          git add "composer.lock"
+          echo "message=$(jq -aRs < COMPOSER_LOG)" >> "$GITHUB_OUTPUT"
       shell: bash
     - name: Push changes
       run: |
