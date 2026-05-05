@@ -10,30 +10,17 @@
 namespace Piwik\Plugins\Marketplace\tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Fixtures\UITestFixture;
 
-class SimpleFixtureTrackFewVisits extends Fixture
+class SimpleFixtureTrackFewVisits extends UITestFixture
 {
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;
 
     public function setUp(): void
     {
-        $this->setUpWebsite();
+        parent::setUp();
         $this->trackVisits();
-    }
-
-    public function tearDown(): void
-    {
-        // empty
-    }
-
-    private function setUpWebsite()
-    {
-        if (!self::siteCreated($this->idSite)) {
-            $idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
-            $this->assertSame($this->idSite, $idSite);
-        }
     }
 
     protected function trackVisits()
