@@ -13,7 +13,18 @@
     :feature="'true'"
     :content-title="contentTitle"
   >
-    <p>{{ translate('ScheduledReports_ManageTooltip')}}</p>
+    <p>{{ translate('ScheduledReports_ManageTooltip1')}}
+      <br/><br/>
+      <ul class="browser-default">{{ translate('ScheduledReports_ManageTooltip2')}}
+        <li>{{ translate('ScheduledReports_PeriodTooltip1')}}</li>
+        <li>{{ translate('ScheduledReports_PeriodTooltip2')}}</li>
+        <li>{{ translate('ScheduledReports_PeriodTooltip3')}}</li>
+      </ul>
+      <br/>
+      <span v-html="$sanitize(translate('ScheduledReports_ManageTooltip3'))"/>
+      <br/>
+      <span v-html="$sanitize(learnMoreComputed)"/>
+    </p>
     <table v-content-table>
       <thead>
       <tr>
@@ -74,21 +85,22 @@
               {{ recipient }}
               <br />
             </span>
-
-            <a
-              v-if="report.recipients.length !== 0 && !sendingReports.includes(report.idreport)"
-              href="#"
-              name="linkSendNow"
-              class="link_but withIcon"
-              style="margin-top:3px;"
-              @click.prevent="$emit('sendnow', report.idreport)"
-            >
+            <span v-if="report.recipients.length !== 0
+              && !sendingReports.includes(report.idreport)"
+              class="clickable" @click.prevent="$emit('sendnow', report.idreport)">
               <img
                 border="0"
                 :src="reportTypes[report.type]"
               />
-              {{ translate('ScheduledReports_SendReportNow') }}
-            </a>
+              <a
+                href="#"
+                name="linkSendNow"
+                class="link_but move_left"
+              >
+                {{ translate('ScheduledReports_SendPreviewNow').trim() }}
+              </a>
+            </span>
+
             <div v-if="sendingReports.includes(report.idreport)" class="loadingPiwik">
               <MatomoLoader />
               {{ translate('ScheduledReports_SendingReport') }}
@@ -121,21 +133,26 @@
                 value="1"
               />
             </form>
-            <a
-              href=""
-              rel="noreferrer noopener"
-              name="linkDownloadReport"
-              class="link_but withIcon"
-              @click.prevent="displayReport(report.idreport)"
-              :id="report.idreport"
-            >
+            <span
+              class="clickable"
+              @click.prevent="displayReport(report.idreport)">
               <img
                 border="0"
                 :width="16"
                 :height="16"
                 :src="reportFormatsByReportType[report.type][report.format]"
-              /> {{ translate('General_Download') }}
+              />
+              <a
+                href="#"
+                rel="noreferrer noopener"
+                name="linkDownloadReport"
+                class="link_but move_left"
+                :id="report.idreport"
+              >
+              {{ translate('ScheduledReports_DownloadPreview').trim() }}
             </a>
+            </span>
+
           </td>
           <td style="text-align: center;padding-top:2px;">
             <button
@@ -179,6 +196,8 @@ import {
   MatomoUrl,
   Matomo,
   MatomoLoader,
+  translate,
+  externalLink,
 } from 'CoreHome';
 import { Report } from '../types';
 
@@ -257,6 +276,13 @@ export default defineComponent({
     decodedReports() {
       return (this.reports as Report[]).map(
         (r) => ({ ...r, description: Matomo.helper.htmlDecode(r.description) }),
+      );
+    },
+    learnMoreComputed() {
+      return translate(
+        'ScheduledReports_LearnMoreTooltip',
+        externalLink('https://matomo.org/faq/general/create-and-schedule-a-report/'),
+        '</a>',
       );
     },
   },
