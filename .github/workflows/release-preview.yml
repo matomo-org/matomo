@@ -70,7 +70,7 @@ jobs:
           DIFF=""
           if [ -n "$LATEST_PREVIEW" ]; then
             # using || true to always exit either with a diff or a success exit code to not fail the whole workflow
-            DIFF=$(git diff $LATEST_PREVIEW..5.x-dev --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
+            DIFF=$(git diff "$LATEST_PREVIEW..5.x-dev" --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
           fi
           
           if [ -z "$DIFF" ]; then
@@ -80,7 +80,7 @@ jobs:
             DO_RELEASE=1
           fi
           
-          echo "do_release=$DO_RELEASE" >> $GITHUB_OUTPUT
+          echo "do_release=$DO_RELEASE" >> "$GITHUB_OUTPUT"
 
       - name: Determine new preview version number
         id: version
@@ -95,11 +95,11 @@ jobs:
             HAS_NEW_VERSION=1
           fi
           
-          echo "OLD_VERSION=$OLD_VERSION" >> $GITHUB_ENV
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-          
-          echo "has_new_version=$HAS_NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "OLD_VERSION=$OLD_VERSION" >> "$GITHUB_ENV"
+          echo "NEW_VERSION=$NEW_VERSION" >> "$GITHUB_ENV"
+
+          echo "has_new_version=$HAS_NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Skip preview releases during RC phase
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'

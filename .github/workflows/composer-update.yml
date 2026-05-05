@@ -35,7 +35,7 @@ jobs:
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config --global user.name "$GITHUB_ACTOR"
 
-          git remote add upstream https://github.com/${GITHUB_REPOSITORY}.git
+          git remote add upstream "https://github.com/${GITHUB_REPOSITORY}.git"
 
           git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" --delete composer-update || true
           git branch -D composer-update || true
@@ -62,7 +62,7 @@ jobs:
               exit 0
           fi
 
-          echo "message=$(cat COMPOSER_LOG | jq -aRs)" >> $GITHUB_OUTPUT
+          echo "message=$(cat COMPOSER_LOG | jq -aRs)" >> "$GITHUB_OUTPUT"
       shell: bash
     - name: Push changes
       run: |
@@ -75,18 +75,15 @@ jobs:
     - name: Create PR
       env:
         CUSTOM_ACCESS_TOKEN: ${{ secrets.CUSTOM_ACCESS_TOKEN }}
+        PR_BODY: ${{ steps.update.outputs.message }}
       run: |
-          message=
-          curl \
-                 --request POST \
-                 --header "authorization: Bearer ${CUSTOM_ACCESS_TOKEN}" \
-                 --header 'content-type: application/json' \
-                 --data '{
-                  "title":"[automatic composer updates]",
-                  "body":${{ steps.update.outputs.message }},
-                  "head":"composer-update",
-                  "base":"5.x-dev"
-                  }' \
-                 --url https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls
+          jq -n --argjson body "$PR_BODY" \
+              '{title:"[automatic composer updates]", body:$body, head:"composer-update", base:"5.x-dev"}' \
+            | curl \
+                   --request POST \
+                   --header "authorization: Bearer ${CUSTOM_ACCESS_TOKEN}" \
+                   --header 'content-type: application/json' \
+                   --data @- \
+                   --url "https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls"
       shell: bash
       if: steps.update.outputs.message

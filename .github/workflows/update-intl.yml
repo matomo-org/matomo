@@ -33,11 +33,11 @@ jobs:
                  --url https://api.github.com/repos/unicode-org/cldr-json/releases?per_page=15 )
           for row in $(echo "${CLDRRELEASES}" | jq -r '.[] | @base64'); do
             _jq() {
-              echo ${row} | base64 --decode | jq -r ${1}
+              echo "${row}" | base64 --decode | jq -r "${1}"
             }
             if [[ $(_jq '.prerelease') == false ]]
             then
-              echo "cldr-version=$(_jq '.tag_name')" >> $GITHUB_OUTPUT
+              echo "cldr-version=$(_jq '.tag_name')" >> "$GITHUB_OUTPUT"
               break
             fi
           done
@@ -58,7 +58,7 @@ jobs:
           php-version: '8.0'
       - name: Get composer cache directory
         id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
       - name: Cache dependencies
         uses: actions/cache@v5
         with:
@@ -89,34 +89,35 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Update Intl data
-        run: php ./console translations:generate-intl-data --cldr-version="${{ steps.cldr.outputs.cldr-version }}"
+        env:
+          CLDR_VERSION: ${{ steps.cldr.outputs.cldr-version }}
+        run: php ./console translations:generate-intl-data --cldr-version="$CLDR_VERSION"
       - name: Push changes
         id: push
         run: |
           if [[ $( git diff --numstat plugins/Intl/lang/*.json ) ]]
           then
-            cd $GITHUB_WORKSPACE
+            cd "$GITHUB_WORKSPACE"
             git add plugins/Intl/lang/*.json
-            git commit -m "Update Intl data from CLDR ${{ steps.cldr.outputs.cldr-version }}"
+            git commit -m "Update Intl data from CLDR $CLDR_VERSION"
             git push --set-upstream "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" update-intl
-            echo "updated=1" >> $GITHUB_OUTPUT
+            echo "updated=1" >> "$GITHUB_OUTPUT"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLDR_VERSION: ${{ steps.cldr.outputs.cldr-version }}
       - name: Create PR
         env:
           CUSTOM_ACCESS_TOKEN: ${{ secrets.CUSTOM_ACCESS_TOKEN }}
+          CLDR_VERSION: ${{ steps.cldr.outputs.cldr-version }}
         run: |
-          curl \
-             --request POST \
-             --header "authorization: Bearer ${CUSTOM_ACCESS_TOKEN}" \
-             --header 'content-type: application/json' \
-             --data '{
-              "title":"[automatic Intl data updates from CLDR ${{ steps.cldr.outputs.cldr-version }}]",
-              "body":"Updated Intl plugin data with changes from CLDR ${{ steps.cldr.outputs.cldr-version }}",
-              "head":"update-intl",
-              "base":"5.x-dev"
-              }' \
-             --url https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls
+          jq -n --arg cldr "$CLDR_VERSION" \
+              '{title:("[automatic Intl data updates from CLDR " + $cldr + "]"), body:("Updated Intl plugin data with changes from CLDR " + $cldr), head:"update-intl", base:"5.x-dev"}' \
+            | curl \
+                 --request POST \
+                 --header "authorization: Bearer ${CUSTOM_ACCESS_TOKEN}" \
+                 --header 'content-type: application/json' \
+                 --data @- \
+                 --url "https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls"
         shell: bash
         if: steps.push.outputs.updated

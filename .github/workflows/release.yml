@@ -80,12 +80,12 @@ jobs:
           GPG_CERTIFICATE: ${{ secrets.GPG_CERTIFICATE }}
           GPG_CERTIFICATE_PASS: ${{ secrets.GPG_CERTIFICATE_PASS }}
         run: |
-          echo "$GPG_CERTIFICATE" > $HOME/private.asc
-          gpg --import --batch --yes $HOME/private.asc
+          echo "$GPG_CERTIFICATE" > "$HOME/private.asc"
+          gpg --import --batch --yes "$HOME/private.asc"
           echo "default-cache-ttl 7200
           max-cache-ttl 31536000
-          allow-preset-passphrase" > $HOME/.gnupg/gpg-agent.conf
-          keygrip=$(gpg --import --import-options show-only --with-keygrip $HOME/private.asc | grep "Keygrip" | grep -oP "([A-F0-9]+)" | head -1)
+          allow-preset-passphrase" > "$HOME/.gnupg/gpg-agent.conf"
+          keygrip=$(gpg --import --import-options show-only --with-keygrip "$HOME/private.asc" | grep "Keygrip" | grep -oP "([A-F0-9]+)" | head -1)
           hexPassphrase=$( echo -n "$GPG_CERTIFICATE_PASS" | od -A n -t x1 -w100 | sed 's/ *//g' )
           gpg-connect-agent "RELOADAGENT" /bye
           gpg-connect-agent "PRESET_PASSPHRASE ${keygrip} -1 ${hexPassphrase}" /bye
@@ -107,7 +107,7 @@ jobs:
               exit 1
             fi
 
-            echo "update=true" >> $GITHUB_OUTPUT
+            echo "update=true" >> "$GITHUB_OUTPUT"
           else
             version=$( cat core/Version.php | grep -oP "VERSION = '\K([^\']+)" )
             echo "Version to build: '$version'"
@@ -141,15 +141,15 @@ jobs:
 
             echo "Creating a tag for $version"
 
-            git tag $version
-            git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" tags/$version
+            git tag "$version"
+            git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" "tags/$version"
 
-            echo "update=false" >> $GITHUB_OUTPUT
+            echo "update=false" >> "$GITHUB_OUTPUT"
           fi
 
           if [[ "$version" =~ "-" ]]
           then
-            echo "prerelease=true" >> $GITHUB_OUTPUT
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
             body="## Matomo ${version} (Pre-release)
 
             We recommend to read [this FAQ](https://matomo.org/faq/how-to-update/faq_159/) before using a pre-release in a production environment.
@@ -159,7 +159,7 @@ jobs:
              - Latest stable production release can be found at https://matomo.org/download/ ([learn more](https://matomo.org/docs/installation/)) (recommended)
              - Beta and Release Candidate releases can be found at https://builds.matomo.org/ ([learn more](https://matomo.org/faq/how-to-update/faq_159/))"
           else
-            echo "prerelease=false" >> $GITHUB_OUTPUT
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
             body="## [Matomo ${version} Changelog](https://matomo.org/changelog/matomo-${version//./-}/)
 
             Please use the attached archives for installing or updating Matomo.
@@ -168,14 +168,14 @@ jobs:
              - Beta and Release Candidate releases can be found at https://builds.matomo.org/ ([learn more](https://matomo.org/faq/how-to-update/faq_159/))"
           fi
 
-          echo "version=$version" >> $GITHUB_OUTPUT
-          echo 'body<<EOF' >> $GITHUB_OUTPUT
-          echo "$body" >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo 'body<<EOF' >> "$GITHUB_OUTPUT"
+          echo "$body" >> "$GITHUB_OUTPUT"
+          echo 'EOF' >> "$GITHUB_OUTPUT"
 
-          cd $GITHUB_WORKSPACE
+          cd "$GITHUB_WORKSPACE"
           chmod 755 ./.github/scripts/*.sh
-          ./.github/scripts/build-package.sh $version
+          ./.github/scripts/build-package.sh "$version"
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

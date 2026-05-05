@@ -32,7 +32,7 @@ jobs:
                    --request GET \
                    --header "authorization: Bearer ${GITHUB_TOKEN}" \
                    --header 'content-type: application/json' \
-                   --url https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR )
+                   --url "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR" )
           REF=$(echo "${PR_INFO}" | jq -r .head.ref)
           BASE=$(echo "${PR_INFO}" | jq -r .head.repo.full_name)
           STATE=$(echo "${PR_INFO}" | jq -r .state)
@@ -44,9 +44,9 @@ jobs:
             exit 0;
           fi
 
-          echo "islocalbranch=$(expr $BASE == $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT
-          echo "branch=$REF" >> $GITHUB_OUTPUT
-          echo "base=$BASE_SHA" >> $GITHUB_OUTPUT
+          echo "islocalbranch=$(expr "$BASE" == "$GITHUB_REPOSITORY")" >> "$GITHUB_OUTPUT"
+          echo "branch=$REF" >> "$GITHUB_OUTPUT"
+          echo "base=$BASE_SHA" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v6
         with:
           lfs: false
@@ -55,9 +55,9 @@ jobs:
       - name: Check vue changes
         id: vuecheck
         run: |
-          git fetch --depth=1 origin ${{ steps.vars.outputs.base }}
+          git fetch --depth=1 origin "$BASE_SHA"
 
-          VUE_FILES_MODIFIED=$(git diff --name-only ${{ steps.vars.outputs.base }} -- plugins/*/vue/**/* plugins/CoreVue/types package-lock.json | wc -l)
+          VUE_FILES_MODIFIED=$(git diff --name-only "$BASE_SHA" -- plugins/*/vue/**/* plugins/CoreVue/types package-lock.json | wc -l)
 
           if [[ $VUE_FILES_MODIFIED == "0" ]]
           then
@@ -65,7 +65,9 @@ jobs:
             exit 0;
           fi
 
-          echo "vue_modified=1" >> $GITHUB_OUTPUT
+          echo "vue_modified=1" >> "$GITHUB_OUTPUT"
+        env:
+          BASE_SHA: ${{ steps.vars.outputs.base }}
         if: steps.vars.outputs.branch != ''
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -82,7 +84,7 @@ jobs:
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Get composer cache directory
         id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Cache dependencies
         uses: actions/cache@v5
@@ -110,13 +112,14 @@ jobs:
         run: |
           git config --global user.email "innocraft-automation@users.noreply.github.com"
           git config --global user.name "innocraft-automation"
-          if [[ "${{ steps.vars.outputs.islocalbranch }}" == "1" ]]
+          if [[ "$IS_LOCAL_BRANCH" == "1" ]]
           then
             git fetch --depth=1 origin "$BRANCH_NAME"
             git checkout "$BRANCH_NAME"
           fi
         env:
           BRANCH_NAME: ${{ steps.vars.outputs.branch }}
+          IS_LOCAL_BRANCH: ${{ steps.vars.outputs.islocalbranch }}
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Build Vue Modules
         run: php ./console vue:build
@@ -126,12 +129,12 @@ jobs:
         run: |
           if [[ $( git diff --numstat plugins/*/vue/dist/*.js ) ]]
           then
-            if [[ "${{ steps.vars.outputs.islocalbranch }}" != "1" ]]
+            if [[ "$IS_LOCAL_BRANCH" != "1" ]]
             then
               echo "It's only possible to update local branches automatically. Adding a comment instead."
-              echo "failure=1" >> $GITHUB_OUTPUT
+              echo "failure=1" >> "$GITHUB_OUTPUT"
             else
-              cd $GITHUB_WORKSPACE
+              cd "$GITHUB_WORKSPACE"
               git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.json
               git commit -m "Build vue files"
               git push "https://x-access-token:${CUSTOM_ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}" "HEAD:${BRANCH_NAME}"
@@ -140,6 +143,7 @@ jobs:
         env:
           BRANCH_NAME: ${{ steps.vars.outputs.branch }}
           CUSTOM_ACCESS_TOKEN: ${{ secrets.CUSTOM_ACCESS_TOKEN }}
+          IS_LOCAL_BRANCH: ${{ steps.vars.outputs.islocalbranch }}
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - uses: actions/github-script@v8
         with:

@@ -32,7 +32,7 @@ jobs:
                  --request GET \
                  --header "authorization: Bearer ${GITHUB_TOKEN}" \
                  --header 'content-type: application/json' \
-                 --url https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR )
+                 --url "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR" )
         REF=$(echo "${PR_INFO}" | jq -r .head.ref)
         BASE=$(echo "${PR_INFO}" | jq -r .head.repo.full_name)
         STATE=$(echo "${PR_INFO}" | jq -r .state)
@@ -43,13 +43,13 @@ jobs:
           exit 0;
         fi
 
-        if [[ $BASE != $GITHUB_REPOSITORY ]]
+        if [[ "$BASE" != "$GITHUB_REPOSITORY" ]]
         then
           echo "It's only possible to update local branches"
           exit 0;
         fi
 
-        echo "branch=$REF" >> $GITHUB_OUTPUT
+        echo "branch=$REF" >> "$GITHUB_OUTPUT"
       if: github.event.comment.body == 'build js'
     - uses: actions/setup-java@v5
       with:
@@ -69,20 +69,20 @@ jobs:
       if: steps.vars.outputs.branch != ''
     - name: Fetch YUICompressor
       run: |
-        cd $GITHUB_WORKSPACE/js
+        cd "$GITHUB_WORKSPACE/js"
         wget https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.zip
         unzip yuicompressor-2.4.8.zip
       if: steps.vars.outputs.branch != ''
     - name: Build JS files
       run: |
-        cd $GITHUB_WORKSPACE/js
+        cd "$GITHUB_WORKSPACE/js"
         sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik.min.js && cp piwik.min.js ../piwik.js && cp piwik.min.js ../matomo.js
       if: steps.vars.outputs.branch != ''
     - name: Push changes
       run: |
           if [[ $( git diff --numstat ) ]]
           then
-            cd $GITHUB_WORKSPACE
+            cd "$GITHUB_WORKSPACE"
             git add piwik.js matomo.js js/piwik.min.js
             git commit -m "Build tracker JS files"
             git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" "HEAD:${BRANCH_NAME}"
