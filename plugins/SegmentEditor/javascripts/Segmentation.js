@@ -6,10 +6,9 @@
  */
 
 Segmentation = (function($) {
-    const starCallbackList = [];
     const FORM_MODE_EDIT = 'edit';
     const FORM_MODE_NEW = 'new';
-    const panelStateCallbackLists = {};
+    let activeSegmentationInstance = null;
 
     piwikHelper.registerShortcut('s', _pk_translate('CoreHome_ShortcutSegmentSelector'), function (event) {
         if (event.altKey) {
@@ -29,6 +28,10 @@ Segmentation = (function($) {
         }
 
         var self = this;
+
+        if (activeSegmentationInstance) {
+            throw new Error('Only one Segmentation instance is supported on a page.');
+        }
 
         self.currentSegmentStr = "";
         self.segmentAccess = "read";
@@ -57,40 +60,14 @@ Segmentation = (function($) {
         self.availableMatches["dimension"]["=^"] = self.translations['General_OperationStartsWith'];
         self.availableMatches["dimension"]["=$"] = self.translations['General_OperationEndsWith'];
 
-        self.bridgeId = self.target.attr('data-segment-bridge-id') || ('segment-editor-bridge-' + Math.random().toString(36).slice(2, 12));
-        self.target.attr('data-segment-bridge-id', self.bridgeId);
-        panelStateCallbackLists[self.bridgeId] = panelStateCallbackLists[self.bridgeId] || [];
-
-        function notifyPanelStateChange() {
-            (panelStateCallbackLists[self.bridgeId] || []).forEach(function (callback) {
-                callback();
-            });
-        }
-
-        function onPanelStateChange(callback) {
-            if (typeof callback !== 'function') {
-                return function () {};
-            }
-
-            panelStateCallbackLists[self.bridgeId].push(callback);
-
-            let isUnsubscribed = false;
-            return function unsubscribePanelStateChange() {
-                if (isUnsubscribed) {
-                    return;
-                }
-
-                isUnsubscribed = true;
-                const index = panelStateCallbackLists[self.bridgeId].indexOf(callback);
-                if (index !== -1) {
-                    panelStateCallbackLists[self.bridgeId].splice(index, 1);
-                }
-            };
+        var segmentSelectorStore = window.SegmentEditor && window.SegmentEditor.SegmentSelectorStore;
+        if (!segmentSelectorStore) {
+            throw new Error('SegmentSelectorStore must be available before Segmentation initializes');
         }
 
         segmentation.prototype.setAvailableSegments = function (segments) {
             this.availableSegments = segments;
-            notifyPanelStateChange();
+            segmentSelectorStore.setAvailableSegments(segments);
         };
 
         segmentation.prototype.getSegment = function(){
@@ -100,7 +77,7 @@ Segmentation = (function($) {
 
         segmentation.prototype.setSegment = function(segmentStr){
             this.currentSegmentStr = segmentStr;
-            notifyPanelStateChange();
+            segmentSelectorStore.setCurrentSegment(segmentStr);
         };
 
         segmentation.prototype.setTooltip = function () {};
@@ -112,35 +89,15 @@ Segmentation = (function($) {
         });
 
         segmentation.prototype.markComparedSegments = function() {
-            notifyPanelStateChange();
+            segmentSelectorStore.notifyChange();
         };
         segmentation.prototype.checkIfComparedSegmentsHasReachedLimit = function() {
-            notifyPanelStateChange();
+            segmentSelectorStore.notifyChange();
             return false;
         };
 
-        function getCurrentSegmentTitle() {
-            var current = self.getSegment();
-
-            if (current !== "") {
-                var segment = findSegmentByDefinition(current);
-                if (segment) {
-                    return getPlainSegmentName(segment);
-                }
-                return _pk_translate('SegmentEditor_CustomSegment');
-            }
-
-            return self.translations['SegmentEditor_DefaultAllVisits'];
-        }
-
-        function getCurrentSegmentTooltip() {
-            var title = _pk_translate('SegmentEditor_ChooseASegment') + '.';
-            title += ' ' + _pk_translate('SegmentEditor_CurrentlySelectedSegment', [getCurrentSegmentTitle()]);
-            return title;
-        }
-
         segmentation.prototype.markCurrentSegment = function(){
-            notifyPanelStateChange();
+            segmentSelectorStore.setCurrentSegment(self.getSegment());
             window.CoreHome.MatomoUrl.updatePageTitle();
         };
 
@@ -152,45 +109,8 @@ Segmentation = (function($) {
         }
 
         var getSegmentFromId = function (id) {
-            if(self.availableSegments.length > 0) {
-                for(var i = 0; i < self.availableSegments.length; i++)
-                {
-                    var segment = self.availableSegments[i];
-                    if(segment.idsegment == id) {
-                        return segment;
-                    }
-                }
-            }
-            return false;
+            return segmentSelectorStore.getSegmentFromId(id);
         };
-
-        function decodeDefinition(definition) {
-            const candidates = [definition];
-
-            try {
-                candidates.push(piwikHelper.htmlDecode(definition));
-            } catch (e) {}
-
-            try {
-                candidates.push(piwikHelper.htmlDecode(decodeURIComponent(definition)));
-            } catch (e) {}
-
-            return candidates.filter(function (candidate, index, values) {
-                return typeof candidate !== 'undefined' && values.indexOf(candidate) === index;
-            });
-        }
-
-        function findSegmentByDefinition(definition) {
-            const candidates = decodeDefinition(definition);
-
-            for (var i = 0; i < self.availableSegments.length; i++) {
-                if (candidates.indexOf(self.availableSegments[i].definition) !== -1) {
-                    return self.availableSegments[i];
-                }
-            }
-
-            return false;
-        }
 
         var isSegmentVisibleToSuperUserOnly = function(segment) {
             return hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)
@@ -257,19 +177,6 @@ Segmentation = (function($) {
             return html;
         };
 
-        var closeAllOpenLists = function() {
-            const bridges = window.matomoPluginSegmentEditor && window.matomoPluginSegmentEditor.bridges;
-            if (!bridges) {
-                return;
-            }
-
-            Object.keys(bridges).forEach(function (bridgeId) {
-                if (bridgeId !== self.bridgeId && bridges[bridgeId] && typeof bridges[bridgeId].closePanel === 'function') {
-                    bridges[bridgeId].closePanel();
-                }
-            });
-        };
-
         var openEditForm = function(segment){
             addForm(FORM_MODE_EDIT, segment);
 
@@ -289,7 +196,7 @@ Segmentation = (function($) {
         };
 
         var displayFormAddNewSegment = function (segment) {
-            closeAllOpenLists();
+            closePanel();
             addForm(FORM_MODE_NEW, segment);
         };
 
@@ -312,16 +219,14 @@ Segmentation = (function($) {
         }
 
         function openPanel() {
-          // for each visible segmentationContainer -> trigger click event to close and kill scrollpane - very important !
-          closeAllOpenLists();
           self.target.closest('.segmentEditorPanel').addClass('expanded');
+          segmentSelectorStore.setPanelExpanded(true);
           self.target[0].dispatchEvent(new CustomEvent('SegmentEditor.resetFilter'));
-          notifyPanelStateChange();
         }
 
         function closePanel() {
           self.target.closest('.segmentEditorPanel').removeClass('expanded');
-          notifyPanelStateChange();
+          segmentSelectorStore.setPanelExpanded(false);
         }
 
         function askToDeleteSegment(idSegment) {
@@ -346,67 +251,12 @@ Segmentation = (function($) {
         }
 
         function toggleStarredSegment($segment, idSegment) {
-          const segment = getSegmentFromId(idSegment);
-          if (!segment) {
-            return;
-          }
-          segment.starred = !segment.starred;
-          const method = segment.starred ? 'star' : 'unstar';
-          updateStarredSegment(segment);
-
-          var ajaxHandler = new ajaxHelper();
-          ajaxHandler.addParams({
-            "module": 'API',
-            "format": 'json',
-            "method": 'SegmentEditor.' + method,
-            "userLogin": piwik.userLogin,
-            "idSegment": idSegment,
-          }, 'POST');
-          ajaxHandler.useCallbackInCaseOfError();
-          ajaxHandler.setCallback(function (response) {
-            if (!response || response.result == 'error') {
-              segment.starred = !segment.starred;
-              updateStarredSegment(segment, true);
-            } else {
-              segment.starred = Boolean(parseInt(response.starred, 10));
-              segment.starred_by = response.starred_by;
-              updateStarredSegment(segment);
-            }
-          });
-          ajaxHandler.send();
+          segmentSelectorStore.toggleStarredSegmentById(idSegment);
         }
 
         function onSegmentsStarChange(callback) {
-          if (typeof callback !== 'function') {
-            return function () {};
-          }
-          starCallbackList.push(callback);
-
-          let isUnsubscribed = false;
-          return function unsubscribeStarChange() {
-            if (isUnsubscribed) {
-              return;
-            }
-            isUnsubscribed = true;
-
-            const index = starCallbackList.indexOf(callback);
-            if (index !== -1) {
-              starCallbackList.splice(index, 1);
-            }
-          };
+          return segmentSelectorStore.onStarChange(callback);
         }
-        const removePanelStarChangeListener = onSegmentsStarChange(function(segment, isError) {
-          const $starButton = self.target.find(`[data-star="${segment.idsegment}"]`);
-          if ($starButton.length) {
-            updateStarSegmentTitle($starButton, segment);
-          }
-
-          if ($starButton.closest('li').length) {
-            triggerStarAnimation($starButton.closest('li'), segment, isError);
-          }
-
-          notifyPanelStateChange();
-        });
 
         var bindEvents = function () {
             //
@@ -470,109 +320,48 @@ Segmentation = (function($) {
         };
 
         function getCanUserEditSegment(segment) {
-          if (piwik.isUserAnonymous) {
-            return false;
-          }
-          if (self.segmentAccess !== 'write') {
-            return false;
-          }
-          if (piwik.hasSuperUserAccess) {
-            return true;
-          }
-
-          return (segment.login === piwik.userLogin);
+          return segmentSelectorStore.getCanUserEditSegment(segment);
         }
 
         function getDeleteSegmentTitle(segment, canEdit) {
-          // Site-specific segments
-          if (segment.enable_only_idsite) {
-            if (canEdit) {
-              return self.translations['General_CanDeleteSiteSegment'];
-            } else {
-              return self.translations['General_CanNotDeleteSiteSegment'];
-            }
-          }
-
-          // Global segments
-          if (canEdit) {
-            return self.translations['General_CanDeleteGlobalSegment'];
-          }
-          return self.translations['General_CanNotDeleteGlobalSegment'];
-        }
-
-        function getEditSegmentTitle(segment, canEdit) {
-          // Site-specific segments
-          if (segment.enable_only_idsite) {
-            if (canEdit) {
-              return self.translations['General_CanEditSiteSegment'];
-            } else {
-              return self.translations['General_CanNotEditSiteSegment'];
-            }
-          }
-
-          // Global segments
-          if (canEdit) {
-            return self.translations['General_CanEditGlobalSegment'];
-          }
-          return self.translations['General_CanNotEditGlobalSegment'];
-        }
-
-        function getStarredByTitlePart(segment) {
-          const login = segment.starred_by || '';
-          if (login === piwik.userLogin) {
-            return ' (' + self.translations['General_StarredByYou'] + ')';
-          }
-
-          return ' (' + self.translations['General_StarredBy'] + ' ' + login + ')';
-        }
-
-        function getStarSegmentTitle(segment, canEdit) {
-          // Anonymous users do not have any action
-          if (piwik.isUserAnonymous) {
+          if (!segment) {
             return '';
           }
 
-          // Site-specific segments
-          if (segment.enable_only_idsite) {
-            if (canEdit) {
-              if (segment.starred) {
-                return self.translations['General_CanUnstarSiteSegment'] + ' ' + getStarredByTitlePart(segment);
-              }
-              return self.translations['General_CanStarSiteSegment'];
-            } else {
-              if (segment.starred) {
-                return self.translations['General_CanNotUnstarSiteSegment'];
-              }
-              return self.translations['General_CanNotStarSiteSegment'];
-            }
+          return segmentSelectorStore.getDeleteSegmentTitle(segment, canEdit);
+        }
+
+        function getEditSegmentTitle(segment, canEdit) {
+          if (!segment) {
+            return '';
           }
 
-          // Global segments
-          if (canEdit) {
-            if (segment.starred) {
-              return self.translations['General_CanUnstarGlobalSegment'] + ' ' + getStarredByTitlePart(segment);
-            }
-            return self.translations['General_CanStarGlobalSegment'];
+          return segmentSelectorStore.getEditSegmentTitle(segment, canEdit);
+        }
+
+        function getStarSegmentTitle(segment, canEdit) {
+          if (!segment) {
+            return '';
           }
-          if (segment.starred) {
-            return self.translations['General_CanNotUnstarGlobalSegment'];
-          }
-          return self.translations['General_CanNotStarGlobalSegment'];
+
+          return segmentSelectorStore.getStarSegmentTitle(segment, canEdit);
         }
 
         function updateStarSegmentTitle($starButton, segment) {
+          if (!segment) {
+            $starButton.attr('title', '');
+            if (typeof $starButton.data('ui-tooltip-title') !== 'undefined') {
+              $starButton.data('ui-tooltip-title', '');
+            }
+            return;
+          }
+
           const canEdit = getCanUserEditSegment(segment);
           const title = getStarSegmentTitle(segment, canEdit);
           $starButton.attr('title', title);
           if (typeof $starButton.data('ui-tooltip-title') !== 'undefined') {
             $starButton.data('ui-tooltip-title', title);
           }
-        }
-
-        function updateStarredSegment(segment, isError = false) {
-          starCallbackList.forEach(function(callback) {
-            callback(segment, isError);
-          });
         }
 
         function triggerStarAnimation($segment, segment, isError = false) {
@@ -802,7 +591,6 @@ Segmentation = (function($) {
                 showAddNewSegmentForm(segment);
             },
             openEditSegment(segment) {
-                closePanel();
                 openEditForm(segment);
             },
             closeEditModal() {
@@ -891,199 +679,8 @@ Segmentation = (function($) {
             });
         }
 
-        function normalizeStarredState(starred) {
-            if (typeof starred === 'boolean') {
-                return starred;
-            }
-
-            if (typeof starred === 'number') {
-                return starred !== 0;
-            }
-
-            if (typeof starred === 'string') {
-                return starred === '1' || starred.toLowerCase() === 'true';
-            }
-
-            return false;
-        }
-
-        function getComparisonLimit() {
-            return piwik.config.data_comparison_segment_limit + 1;
-        }
-
-        function isComparisonAvailable() {
-            const comparisonService = window.CoreHome.ComparisonsStoreInstance;
-            return comparisonService.isComparisonEnabled() || comparisonService.isComparisonEnabled() === null;
-        }
-
-        function isSegmentSelected(definition) {
-            return definition === self.currentSegmentStr || definition === decodeURIComponent(self.currentSegmentStr);
-        }
-
         function isSegmentCompared(definition, comparedSegments) {
             return comparedSegments.indexOf(definition) !== -1 || comparedSegments.indexOf(decodeURIComponent(definition)) !== -1;
-        }
-
-        function buildCompareState(definition, comparedSegments) {
-            if (isSegmentCompared(definition, comparedSegments)) {
-                return {
-                    state: 'active',
-                    title: _pk_translate('SegmentEditor_CompareThisSegment'),
-                };
-            }
-
-            if (comparedSegments.length >= getComparisonLimit()) {
-                return {
-                    state: 'disabled',
-                    title: _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [getComparisonLimit()]),
-                };
-            }
-
-            return {
-                state: '',
-                title: _pk_translate('SegmentEditor_CompareThisSegment'),
-            };
-        }
-
-        function buildPanelEntries(searchValue) {
-            const comparedSegments = getComparedSegmentDefinitions();
-            const normalizedSearch = (searchValue || '').length >= 2 ? piwikHelper.normalize(searchValue) : '';
-            const lowerSearch = (searchValue || '').toLowerCase();
-            const entries = [];
-
-            function matchesSearch(text) {
-                if (!normalizedSearch.length) {
-                    return true;
-                }
-
-                const normalizedText = piwikHelper.normalize(text);
-                const lowerText = text.toLowerCase();
-
-                return normalizedText.indexOf(normalizedSearch) !== -1 || lowerText.indexOf(lowerSearch) !== -1;
-            }
-
-            const allVisitsCompareState = buildCompareState('', comparedSegments);
-            const allVisitsLabel = self.translations['SegmentEditor_DefaultAllVisits']
-                + ' ' + self.translations['General_DefaultAppended'];
-
-            if (matchesSearch(allVisitsLabel)) {
-                entries.push({
-                    key: 'segment-all-visits',
-                    type: 'segment',
-                    classes: [self.currentSegmentStr === '' ? 'segmentSelected' : '', isSegmentCompared('', comparedSegments) ? 'comparedSegment' : ''].join(' ').trim(),
-                    idsegment: '',
-                    definition: '',
-                    label: allVisitsLabel,
-                    labelText: allVisitsLabel,
-                    tooltip: allVisitsLabel,
-                    showStarButton: false,
-                    showEditButton: false,
-                    showCompareButton: isComparisonAvailable(),
-                    compareButtonClass: 'segmentAction compareSegment allVisitsCompareSegment ' + (self.segmentAccess === 'write' ? 'allVisitsCompareSegment--write' : ''),
-                    compareTitle: allVisitsCompareState.title,
-                    compareState: allVisitsCompareState.state,
-                });
-            }
-
-            let hasSharedHeader = false;
-            let hasSuperUserHeader = false;
-
-            self.availableSegments.forEach(function (segment) {
-                segment.starred = normalizeStarredState(segment.starred);
-
-                const labelText = getPlainSegmentName(segment);
-                const tooltipText = getSegmentTooltipText(segment);
-                if (!matchesSearch(tooltipText)) {
-                    return;
-                }
-
-                if (isSegmentSharedWithMeBySuperUser(segment) && !hasSharedHeader) {
-                    hasSharedHeader = true;
-                    entries.push({
-                        key: 'header-shared-with-you',
-                        type: 'header',
-                        className: 'segmentsSharedWithMeBySuperUser',
-                        label: _pk_translate('SegmentEditor_SharedWithYou'),
-                    });
-                }
-
-                if (isSegmentVisibleToSuperUserOnly(segment) && !hasSuperUserHeader) {
-                    hasSuperUserHeader = true;
-                    entries.push({
-                        key: 'header-visible-to-super-user',
-                        type: 'header',
-                        className: 'segmentsVisibleToSuperUser',
-                        label: _pk_translate('SegmentEditor_VisibleToSuperUser'),
-                    });
-                }
-
-                const canEdit = getCanUserEditSegment(segment);
-                const compareState = buildCompareState(segment.definition, comparedSegments);
-                const classes = [];
-
-                if (isSegmentSelected(segment.definition)) {
-                    classes.push('segmentSelected');
-                }
-                if (segment.starred) {
-                    classes.push('segmentStarred');
-                }
-                if (isSegmentCompared(segment.definition, comparedSegments)) {
-                    classes.push('comparedSegment');
-                }
-
-                entries.push({
-                    key: 'segment-' + segment.idsegment,
-                    type: 'segment',
-                    classes: classes.join(' '),
-                    idsegment: String(segment.idsegment),
-                    definition: segment.definition,
-                    label: labelText,
-                    labelText: tooltipText,
-                    tooltip: tooltipText,
-                    showStarButton: true,
-                    starTitle: getStarSegmentTitle(segment, canEdit),
-                    starState: canEdit ? '' : 'disabled',
-                    showEditButton: self.segmentAccess === 'write',
-                    editTitle: getEditSegmentTitle(segment, canEdit),
-                    editState: canEdit ? '' : 'disabled',
-                    showCompareButton: isComparisonAvailable(),
-                    compareButtonClass: 'segmentAction compareSegment',
-                    compareTitle: compareState.title,
-                    compareState: compareState.state,
-                });
-            });
-
-            if ((searchValue || '').length >= 2 && entries.filter(function (entry) { return entry.type === 'segment'; }).length === 0) {
-                entries.push({
-                    key: 'no-results',
-                    type: 'no-results',
-                    classes: 'filterNoResults grayed',
-                    idsegment: '',
-                    definition: '',
-                    label: self.translations['General_SearchNoResults'],
-                    labelText: self.translations['General_SearchNoResults'],
-                    tooltip: self.translations['General_SearchNoResults'],
-                    showStarButton: false,
-                    showEditButton: false,
-                    showCompareButton: false,
-                });
-            }
-
-            return entries;
-        }
-
-        function getPanelViewModel(searchValue) {
-            return {
-                authorizedToCreateSegments: self.segmentAccess === 'write',
-                currentSegmentTitle: getCurrentSegmentTitle(),
-                currentSegmentTooltip: getCurrentSegmentTooltip(),
-                currentSegmentValue: self.getSegment(),
-                entries: buildPanelEntries(searchValue),
-                isExpanded: self.target.closest('.segmentEditorPanel').hasClass('expanded'),
-                isUserAnonymous: !!self.isUserAnonymous,
-                loginUrl: self.loginUrl,
-                manageSegmentsUrl: self.manageSegmentsUrl,
-            };
         }
 
         function selectSegment(segmentDefinition) {
@@ -1107,7 +704,7 @@ Segmentation = (function($) {
                     segment: segmentDefinition,
                 });
             }
-            closeAllOpenLists();
+            closePanel();
         }
 
         function openEditSegmentById(idSegment) {
@@ -1117,27 +714,61 @@ Segmentation = (function($) {
             }
         }
 
-        const panelBridge = {
-            closePanel,
-            getViewModel: getPanelViewModel,
-            onStateChange: onPanelStateChange,
-            openAddSegment() {
-                modalService.openAddSegment();
-            },
-            openEditSegment(idSegment) {
-                openEditSegmentById(idSegment);
-            },
-            openPanel,
-            selectSegment,
-            toggleComparisonByDefinition,
-            togglePanel,
-            toggleStarredSegmentById(idSegment) {
-                toggleStarredSegment(null, idSegment);
-            },
-        };
+        const removeVueIntentListeners = [];
+        function bindVueIntentEvent(eventName, handler) {
+            const listener = function (event) {
+                handler(event.detail || {});
+            };
+            self.target[0].addEventListener(eventName, listener);
+            removeVueIntentListeners.push(function () {
+                self.target[0].removeEventListener(eventName, listener);
+            });
+        }
+
+        bindVueIntentEvent('SegmentEditor:toggle-panel', function () {
+            togglePanel();
+        });
+        bindVueIntentEvent('SegmentEditor:close-panel', function () {
+            closePanel();
+        });
+        bindVueIntentEvent('SegmentEditor:select-segment', function (detail) {
+            if (typeof detail.definition === 'undefined') {
+                return;
+            }
+            selectSegment(detail.definition);
+        });
+        bindVueIntentEvent('SegmentEditor:open-add-segment', function () {
+            modalService.openAddSegment();
+        });
+        bindVueIntentEvent('SegmentEditor:open-edit-segment', function (detail) {
+            openEditSegmentById(detail.idSegment);
+        });
+        bindVueIntentEvent('SegmentEditor:request-delete-segment', function (detail) {
+            askToDeleteSegment(detail.idSegment);
+        });
+        bindVueIntentEvent('SegmentEditor:toggle-comparison', function (detail) {
+            if (typeof detail.definition === 'undefined') {
+                return;
+            }
+            toggleComparisonByDefinition(detail.definition);
+        });
 
         this.closePanel = closePanel;
 
+        segmentSelectorStore.init({
+            availableSegments: self.availableSegments,
+            currentSegment: self.currentSegmentStr,
+            isUserAnonymous: !!self.isUserAnonymous,
+            loginUrl: self.loginUrl,
+            manageSegmentsUrl: self.manageSegmentsUrl,
+            segmentAccess: self.segmentAccess,
+            translations: self.translations,
+            userContext: {
+                hasSuperUserAccess: !!piwik.hasSuperUserAccess,
+                isAnonymous: !!self.isUserAnonymous,
+                login: piwik.userLogin,
+            },
+        });
         this.initHtml = function() {
             this.markCurrentSegment();
             setTimeout(function () {
@@ -1154,11 +785,8 @@ Segmentation = (function($) {
               hide: false,
             });
 
-            window.matomoPluginSegmentEditor = window.matomoPluginSegmentEditor || {};
-            window.matomoPluginSegmentEditor.bridges = window.matomoPluginSegmentEditor.bridges || {};
-            window.matomoPluginSegmentEditor.bridges[self.bridgeId] = panelBridge;
-            self.target[0].dispatchEvent(new CustomEvent('SegmentEditor.bridgeReady'));
-            notifyPanelStateChange();
+            segmentSelectorStore.setPanelExpanded(self.target.closest('.segmentEditorPanel').hasClass('expanded'));
+            segmentSelectorStore.notifyChange();
         };
 
         let removeHashWatcher = null;
@@ -1197,20 +825,22 @@ Segmentation = (function($) {
         };
 
         this.destroy = function () {
-          removePanelStarChangeListener();
           if (removeHashWatcher) {
             removeHashWatcher();
             removeHashWatcher = null;
           }
-          if (window.matomoPluginSegmentEditor && window.matomoPluginSegmentEditor.bridges) {
-            delete window.matomoPluginSegmentEditor.bridges[self.bridgeId];
+          removeVueIntentListeners.forEach(function (removeListener) {
+            removeListener();
+          });
+          if (activeSegmentationInstance === self) {
+            activeSegmentationInstance = null;
           }
-          delete panelStateCallbackLists[self.bridgeId];
         };
 
         this.initHtml();
         bindEvents();
         handleAddNewSegment();
+        activeSegmentationInstance = self;
     };
 
     return segmentation;
