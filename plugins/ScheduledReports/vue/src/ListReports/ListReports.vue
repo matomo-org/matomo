@@ -13,14 +13,14 @@
     :feature="'true'"
     :content-title="contentTitle"
   >
-    <p>{{ translate('ScheduledReports_ManageTooltip1')}}
-      <br/><br/>
-      <ul class="browser-default">{{ translate('ScheduledReports_ManageTooltip2')}}
-        <li>{{ translate('ScheduledReports_PeriodTooltip1')}}</li>
-        <li>{{ translate('ScheduledReports_PeriodTooltip2')}}</li>
-        <li>{{ translate('ScheduledReports_PeriodTooltip3')}}</li>
-      </ul>
-      <br/>
+    <p>{{ translate('ScheduledReports_ManageTooltip1')}}</p>
+    <p>{{ translate('ScheduledReports_ManageTooltip2')}}</p>
+    <ul class="browser-default periodTooltipList">
+      <li>{{ translate('ScheduledReports_PeriodTooltip1')}}</li>
+      <li>{{ translate('ScheduledReports_PeriodTooltip2')}}</li>
+      <li>{{ translate('ScheduledReports_PeriodTooltip3')}}</li>
+    </ul>
+    <p>
       <span v-html="$sanitize(translate('ScheduledReports_ManageTooltip3'))"/>
       <br/>
       <span v-html="$sanitize(learnMoreComputed)"/>
@@ -95,7 +95,7 @@
               <a
                 href="#"
                 name="linkSendNow"
-                class="link_but move_left"
+                class="link_but move-left"
               >
                 {{ translate('ScheduledReports_SendPreviewNow').trim() }}
               </a>
@@ -146,7 +146,7 @@
                 href="#"
                 rel="noreferrer noopener"
                 name="linkDownloadReport"
-                class="link_but move_left"
+                class="link_but move-left"
                 :id="report.idreport"
               >
               {{ translate('ScheduledReports_DownloadPreview').trim() }}
