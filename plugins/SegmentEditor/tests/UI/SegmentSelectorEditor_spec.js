@@ -133,6 +133,21 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('0_initial');
     });
 
+    it("should reject initializing a second Segmentation instance on the same page", async function() {
+        const errorMessage = await page.evaluate(() => {
+            try {
+                // The page already bootstraps one live segment selector control.
+                // A second instance should be rejected by the singleton guard.
+                new window.Segmentation({ target: {} });
+                return null;
+            } catch (error) {
+                return error && error.message;
+            }
+        });
+
+        expect(errorMessage).to.equal('Only one Segmentation instance is supported on a page.');
+    });
+
     it("should open selector when control clicked", async function() {
         await page.click('.segmentationContainer .title');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_open');
