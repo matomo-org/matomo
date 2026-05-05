@@ -10,6 +10,7 @@
 namespace Piwik\Request;
 
 use Piwik\API\Request as ApiRequest;
+use Piwik\Date;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
@@ -39,7 +40,9 @@ class AuthenticationToken
      * AuthenticationToken instance and preserved across detectToken() resets so
      * repeated getAuthToken()/wasTokenAuthProvidedSecurely()/isSessionToken()
      * calls within the same request do not re-query user_token_auth on
-     * force_api_session=1 paths.
+     * force_api_session=1 paths. That lifetime is the whole PHP process in a
+     * long-running CLI run, so every read goes through hasFreshCacheEntry() to
+     * re-evaluate the row's expiry rather than trusting it indefinitely.
      *
      * @var array<string, array<string,mixed>|null>
      */
@@ -269,7 +272,7 @@ class AuthenticationToken
         if ($tokenAuth === null || $this->authToken !== $tokenAuth) {
             return false;
         }
-        return array_key_exists($this->getTokenMetadataCacheKey(), $this->tokenMetadataCache);
+        return $this->hasFreshCacheEntry($this->getTokenMetadataCacheKey());
     }
 
     /**
@@ -279,7 +282,99 @@ class AuthenticationToken
      */
     public function getPreloadedTokenMetadata(): ?array
     {
-        return $this->tokenMetadataCache[$this->getTokenMetadataCacheKey()] ?? null;
+        $cacheKey = $this->getTokenMetadataCacheKey();
+        if (!$this->hasFreshCacheEntry($cacheKey)) {
+            return null;
+        }
+        return $this->tokenMetadataCache[$cacheKey];
+    }
+
+    /**
+     * Returns true when token metadata was cached for this exact (token, secure-state) pair. Lets callers
+     * distinguish a cached null (token not found) from "not in cache".
+     */
+    public function hasCachedTokenMetadata(
+        #[\SensitiveParameter]
+        ?string $tokenAuth,
+        bool $isTokenProvidedSecurely
+    ): bool {
+        if (
+            $tokenAuth === null
+            || $tokenAuth !== $this->authToken
+            || $isTokenProvidedSecurely !== $this->wasTokenProvidedSecurely
+        ) {
+            return false;
+        }
+        return $this->hasFreshCacheEntry($this->getTokenMetadataCacheKey());
+    }
+
+    /**
+     * Reports whether the cache holds a still-usable entry for the given key, dropping it when it does not.
+     *
+     * The cache survives for the lifetime of this instance, which is the whole PHP process in a long-running
+     * CLI run rather than a single request. Without this check a token that expires mid-run would keep
+     * authenticating from the cache until the process exits, because the `date_expired` predicate in
+     * {@see \Piwik\Plugins\UsersManager\Model::getTokenByTokenAuthIfNotExpired()} is only evaluated when the
+     * row is actually queried. A cached "not found" stays usable: it can only ever deny.
+     */
+    private function hasFreshCacheEntry(string $cacheKey): bool
+    {
+        if (!array_key_exists($cacheKey, $this->tokenMetadataCache)) {
+            return false;
+        }
+
+        $metadata = $this->tokenMetadataCache[$cacheKey];
+        if ($metadata === null || empty($metadata['date_expired'])) {
+            return true;
+        }
+
+        if (Date::factory($metadata['date_expired'])->isLater(Date::now())) {
+            return true;
+        }
+
+        unset($this->tokenMetadataCache[$cacheKey]);
+        return false;
+    }
+
+    /**
+     * Returns cached token metadata for this exact (token, secure-state) pair, or null when missing or when
+     * the cache holds a null entry (token not found / expired). Pair with hasCachedTokenMetadata() to disambiguate.
+     *
+     * @return array<string,mixed>|null
+     */
+    public function getCachedTokenMetadata(
+        #[\SensitiveParameter]
+        ?string $tokenAuth,
+        bool $isTokenProvidedSecurely
+    ): ?array {
+        if (!$this->hasCachedTokenMetadata($tokenAuth, $isTokenProvidedSecurely)) {
+            return null;
+        }
+        return $this->tokenMetadataCache[$this->getTokenMetadataCacheKey()];
+    }
+
+    /**
+     * Stores token metadata in the per-request cache, but only for the request's own token at the
+     * request's actual transport security. Lookups for any other (token, secure-state) pair are silently
+     * dropped, so the cache never holds entries that could leak across security contexts or sub-request
+     * tokens (bulk API / bulk tracker requests).
+     *
+     * @param array<string,mixed>|null $metadata Token row to cache, or null when the token was not found.
+     */
+    public function cacheTokenMetadata(
+        #[\SensitiveParameter]
+        ?string $tokenAuth,
+        bool $isTokenProvidedSecurely,
+        ?array $metadata
+    ): void {
+        if (
+            $tokenAuth === null
+            || $tokenAuth !== $this->authToken
+            || $isTokenProvidedSecurely !== $this->wasTokenProvidedSecurely
+        ) {
+            return;
+        }
+        $this->tokenMetadataCache[$this->getTokenMetadataCacheKey()] = $metadata;
     }
 
     protected function getUsersModel(): UsersModel
@@ -294,7 +389,7 @@ class AuthenticationToken
         }
 
         $cacheKey = $this->getTokenMetadataCacheKey();
-        if (!array_key_exists($cacheKey, $this->tokenMetadataCache)) {
+        if (!$this->hasFreshCacheEntry($cacheKey)) {
             $this->tokenMetadataCache[$cacheKey] = $this->getUsersModel()->getTokenMetadataByTokenAuthWithSecurityState(
                 $this->authToken,
                 $this->wasTokenProvidedSecurely

@@ -354,6 +354,16 @@ class Access
             return;
         }
 
+        if ($this->tokenAccessLevel === 'noaccess') {
+            // No site survives this cap, so there is nothing to map and no reason to enumerate the site
+            // table for a capped superuser token. This is reached when a token's scope could not be
+            // established, which includes the token metadata lookup having failed - the last moment to
+            // spend a query on a request that is being denied anyway.
+            $this->replaceRoleSiteIds($this->getEmptyRoleSiteIds());
+            $this->rebuildCapabilitySiteIdsFromRoles([]);
+            return;
+        }
+
         $siteRoleMap = $this->buildSiteRoleMap();
 
         if ($this->isSuperUserRestrictedByTokenAccessLevel()) {
@@ -543,51 +553,65 @@ class Access
         return $roleByRank[min($roleRank, $tokenRank)];
     }
 
-    private function getTokenAccessLevelFromAuthContext(?array $authContext): ?string
+    /**
+     * Normalises a declared token access level into the cap to apply.
+     *
+     * Null and the empty string both mean the token carries no scope. A level from
+     * {@see getTokenAccessLevels()} is returned unchanged. Anything else resolves to the 'noaccess' floor
+     * rather than to "no scope": an unrecognised non-empty value means the token's scope cannot be
+     * established, and a token whose scope cannot be established must not be promoted to the user's full
+     * access. That covers a truncated or corrupted column, a value written by a component that does not
+     * share this list, and a downgrade to a Matomo version that knows fewer levels.
+     *
+     * @param mixed $tokenAccessLevel
+     */
+    private function normalizeTokenAccessLevel($tokenAccessLevel): ?string
     {
-        $tokenAccessLevel = $authContext['token_access_level'] ?? null;
-        if (!is_string($tokenAccessLevel)) {
+        if ($tokenAccessLevel === null || $tokenAccessLevel === '') {
             return null;
         }
 
-        if (!in_array($tokenAccessLevel, self::getTokenAccessLevels(), true)) {
-            return null;
+        if (is_string($tokenAccessLevel) && in_array($tokenAccessLevel, self::getTokenAccessLevels(), true)) {
+            return $tokenAccessLevel;
         }
 
-        return $tokenAccessLevel;
+        return 'noaccess';
     }
 
     /**
      * Resolves the token-level access cap for an authenticated request.
      *
-     * Auth plugins that forward token metadata via {@see AuthResult::getAuthContext()} (core Login does this)
-     * own the result. When no context is provided at all (e.g. third-party auth plugins that still build
-     * AuthResult with the legacy three-arg form), the cap is derived from the submitted token's
-     * user_token_auth row so scope clamping is enforced regardless of which Piwik\Auth implementation is
-     * active. Password and session login carry no submitted token and therefore nothing to clamp.
+     * Auth plugins that declare a `token_access_level` in {@see AuthResult::getAuthContext()} (core Login does
+     * this) own the result, including a declared null, which states that the token carries no scope. The key
+     * has to be declared to own it: gating on the context merely being present would let any plugin that
+     * passes a context for unrelated reasons of its own switch scope clamping off wholesale.
+     *
+     * Without that key the cap is derived from the submitted token's user_token_auth row instead, so scope
+     * clamping is enforced regardless of which Piwik\Auth implementation is active. The fallback is gated on
+     * the AuthResult's own tokenAuth matching the request's submitted token so password/session login (no
+     * submitted token) and bulk-API sub-requests authenticated against a different token than the outer
+     * request never clamp from an unrelated token row.
      */
     private function resolveTokenAccessLevelForResult(AuthResult $result): ?string
     {
         $authContext = $result->getAuthContext();
-        $tokenAccessLevel = $this->getTokenAccessLevelFromAuthContext($authContext);
-        if ($tokenAccessLevel !== null) {
-            return $tokenAccessLevel;
+
+        if (is_array($authContext) && array_key_exists('token_access_level', $authContext)) {
+            return $this->normalizeTokenAccessLevel($authContext['token_access_level']);
         }
 
-        if ($authContext !== null) {
+        $submittedToken = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
+        if ($submittedToken === '' || $submittedToken !== $result->getTokenAuth()) {
             return null;
         }
 
-        return $this->resolveTokenAccessLevelFromSubmittedToken();
+        return $this->resolveTokenAccessLevelFromSubmittedToken($submittedToken);
     }
 
-    private function resolveTokenAccessLevelFromSubmittedToken(): ?string
-    {
-        $submittedToken = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
-        if (empty($submittedToken)) {
-            return null;
-        }
-
+    private function resolveTokenAccessLevelFromSubmittedToken(
+        #[\SensitiveParameter]
+        string $submittedToken
+    ): ?string {
         try {
             // getTokenMetadataByTokenAuth() is cache-aware and serves the row from
             // AuthenticationToken's per-request cache when populated by an earlier lookup in this
@@ -602,15 +626,17 @@ class Access
                 . 'falling back to uncapped access. {exception}',
                 ['exception' => $e]
             );
+            return 'noaccess';
+        }
+
+        // A missing row, or a row from before the 6.0.0-b2 migration added the column, carries no scope
+        // information at all. That is not the same as a value that could not be recognised: while the column
+        // is still pending no token can be scoped, so there is nothing to fail closed on.
+        if ($metadata === null || !array_key_exists('access_level', $metadata)) {
             return null;
         }
 
-        $accessLevel = $metadata['access_level'] ?? null;
-        if (!is_string($accessLevel) || !in_array($accessLevel, self::getTokenAccessLevels(), true)) {
-            return null;
-        }
-
-        return $accessLevel;
+        return $this->normalizeTokenAccessLevel($metadata['access_level']);
     }
 
     protected function getUsersModel(): UsersModel
