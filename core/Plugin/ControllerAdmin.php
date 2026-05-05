@@ -21,6 +21,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
@@ -107,18 +108,22 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        $pluginsLink = Url::getCurrentQueryStringWithParametersModified([
-            'module' => 'CorePluginsAdmin', 'action' => 'plugins',
+        $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', [
+            self::getPiwikVersion(),
+            '<strong>' . implode('</strong>,&nbsp;<wbr><strong>', $missingPlugins) . '</strong>',
         ]);
 
-        $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', [
-                self::getPiwikVersion(),
-                '<strong>' . implode('</strong>,&nbsp;<wbr><strong>', $missingPlugins) . '</strong>'])
-            . "<br/>"
-            . Piwik::translate('CoreAdminHome_InvalidPluginsYouCanUninstall', [
-                '<a href="' . $pluginsLink . '"/>',
+        if (CorePluginsAdmin::isPluginsAdminEnabled()) {
+            $pluginsLink = Url::getCurrentQueryStringWithParametersModified([
+                'module' => 'CorePluginsAdmin', 'action' => 'plugins',
+            ]);
+            $invalidPluginsWarning .= '<br/>' . Piwik::translate('CoreAdminHome_InvalidPluginsYouCanUninstall', [
+                '<a href="' . $pluginsLink . '">',
                 '</a>',
             ]);
+        } else {
+            $invalidPluginsWarning .= '<br/>' . Piwik::translate('CoreAdminHome_InvalidPluginsAdminDisabled');
+        }
 
         $notification = new Notification($invalidPluginsWarning);
         $notification->raw = true;
