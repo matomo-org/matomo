@@ -23,8 +23,6 @@ permissions:
 on:
   # TODO: remove manual dispatch after testing and enable cron
   workflow_dispatch:
-    branches:
-      - 5.x-dev
     inputs:
       password:
         description: 'Release password'
@@ -160,7 +158,7 @@ jobs:
       ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
 
   release_preview_version:
-    needs: [run_matomo_tests]
+    needs: [prepare_preview_version, run_matomo_tests]
     uses: ./.github/workflows/release.yml
     if: |
       always() && 
