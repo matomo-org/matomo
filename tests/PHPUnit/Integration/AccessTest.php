@@ -820,6 +820,45 @@ class AccessTest extends IntegrationTestCase
         $this->assertTrue($access->hasSuperUserAccess());
     }
 
+    public function testReloadAccessTreatsEmptyStringAccessLevelInAuthContextAsUnscoped()
+    {
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(
+                AuthResult::SUCCESS_SUPERUSER_AUTH_CODE,
+                'superuserlogin',
+                'token',
+                ['token_access_level' => '']
+            )));
+
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($mock));
+        $this->assertTrue($access->hasSuperUserAccess());
+    }
+
+    public function testReloadAccessDeniesAllAccessWhenAuthContextDeclaresUnrecognisedAccessLevel()
+    {
+        $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
+
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(
+                AuthResult::SUCCESS_SUPERUSER_AUTH_CODE,
+                'superuserlogin',
+                'token',
+                ['token_access_level' => 'notalevel']
+            )));
+
+        // A scope that cannot be recognised must deny rather than fall through to the user's full access.
+        $access = $this->getAccess();
+        $this->assertTrue($access->reloadAccess($mock));
+        $this->assertFalse($access->hasSuperUserAccess());
+        $this->assertSame('noaccess', $access->getRoleForSite($idSite));
+        $this->assertEmpty($access->getSitesIdWithAtLeastViewAccess());
+    }
+
     public function testReloadAccessKeepsTokenAccessLevelWhenReloadedWhileSuperUserAccessIsSet()
     {
         $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
@@ -1082,6 +1121,70 @@ class AccessTest extends IntegrationTestCase
             $access = $this->getAccess();
             $this->assertTrue($access->reloadAccess($authMock));
             $this->assertSame('admin', $access->getRoleForSite($idSite));
+        } finally {
+            unset($_GET['token_auth']);
+            \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+        }
+    }
+
+    public function testReloadAccessFallsBackToTokenRowWhenAuthContextOmitsTokenAccessLevel()
+    {
+        $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
+
+        $login = 'scopedfallbackotherkeys';
+        $model = new \Piwik\Plugins\UsersManager\Model();
+        $model->addUser($login, 'pwhash', 'otherkeys@example.org', \Piwik\Date::now()->getDatetime());
+        $model->addUserAccess($login, Access\Role\Admin::ID, [$idSite]);
+
+        $token = $model->generateRandomTokenAuth();
+        $model->addTokenAuth($login, $token, 'other keys', \Piwik\Date::now()->getDatetime(), null, false, false, 'view');
+
+        $_GET['token_auth'] = $token;
+        \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+
+        try {
+            $authMock = $this->createPiwikAuthMockInstance();
+            $authMock->expects($this->once())
+                ->method('authenticate')
+                ->willReturn(new AuthResult(AuthResult::SUCCESS, $login, $token, ['some_plugin_detail' => 'value']));
+
+            // An auth plugin that passes a context for reasons of its own, without declaring a token access
+            // level, must not switch scope clamping off.
+            $access = $this->getAccess();
+            $this->assertTrue($access->reloadAccess($authMock));
+            $this->assertSame('view', $access->getRoleForSite($idSite));
+            $this->assertFalse($access->isUserHasSomeAdminAccess());
+        } finally {
+            unset($_GET['token_auth']);
+            \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+        }
+    }
+
+    public function testReloadAccessDeniesAllAccessWhenTokenRowAccessLevelIsNotRecognised()
+    {
+        $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
+
+        $login = 'scopedfallbackcorrupt';
+        $model = new \Piwik\Plugins\UsersManager\Model();
+        $model->addUser($login, 'pwhash', 'corrupt@example.org', \Piwik\Date::now()->getDatetime());
+        $model->addUserAccess($login, Access\Role\Admin::ID, [$idSite]);
+
+        $token = $model->generateRandomTokenAuth();
+        $model->addTokenAuth($login, $token, 'corrupt', \Piwik\Date::now()->getDatetime(), null, false, false, 'notalevel');
+
+        $_GET['token_auth'] = $token;
+        \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+
+        try {
+            $authMock = $this->createPiwikAuthMockInstance();
+            $authMock->expects($this->once())
+                ->method('authenticate')
+                ->willReturn(new AuthResult(AuthResult::SUCCESS, $login, $token));
+
+            $access = $this->getAccess();
+            $this->assertTrue($access->reloadAccess($authMock));
+            $this->assertSame('noaccess', $access->getRoleForSite($idSite));
+            $this->assertEmpty($access->getSitesIdWithAtLeastViewAccess());
         } finally {
             unset($_GET['token_auth']);
             \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());

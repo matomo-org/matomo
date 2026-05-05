@@ -353,6 +353,65 @@ class ModelTest extends IntegrationTestCase
         $this->assertSame('admin', $token['access_level']);
     }
 
+    public function testGetTokenMetadataByTokenAuthDedupesQueryViaAuthenticationTokenCache()
+    {
+        $this->model->addTokenAuth($this->login, 'cached-token', 'desc', Date::now()->getDatetime(), null, false, false, 'write');
+
+        $_GET['token_auth'] = 'cached-token';
+        \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+
+        try {
+            // Trigger the query path; this populates the per-request cache via
+            // Model::getTokenByTokenAuthIfNotExpired().
+            $first = $this->model->getTokenMetadataByTokenAuth('cached-token');
+            $this->assertSame('write', $first['access_level']);
+
+            // Drop the row to prove the second call is served entirely from the cache and never
+            // re-queries user_token_auth.
+            Db::query('DELETE FROM ' . Common::prefixTable('user_token_auth') . ' WHERE login = ?', [$this->login]);
+
+            $second = $this->model->getTokenMetadataByTokenAuth('cached-token');
+            $this->assertSame('write', $second['access_level'], 'second call must be served from cache');
+
+            // A request-scoped reset (new AuthenticationToken instance) clears the cache; the next
+            // call must miss and now reflect the deleted row.
+            \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+            $third = $this->model->getTokenMetadataByTokenAuth('cached-token');
+            $this->assertNull($third);
+        } finally {
+            unset($_GET['token_auth']);
+            \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+        }
+    }
+
+    public function testGetTokenMetadataByTokenAuthDoesNotCacheTokensThatDoNotMatchTheRequestAuthToken()
+    {
+        $this->model->addTokenAuth($this->login, 'request-token', 'request', Date::now()->getDatetime(), null, false, false, 'write');
+        $this->model->addTokenAuth($this->login, 'sub-token', 'sub-request', Date::now()->getDatetime(), null, false, false, 'admin');
+
+        $_GET['token_auth'] = 'request-token';
+        \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+
+        try {
+            // Lookup for the request's own token populates the cache.
+            $this->assertSame('write', $this->model->getTokenMetadataByTokenAuth('request-token')['access_level']);
+            // Lookup for a *different* token (e.g. a bulk-API sub-request) must NOT use the cache.
+            $this->assertSame('admin', $this->model->getTokenMetadataByTokenAuth('sub-token')['access_level']);
+
+            // Drop the sub-token. If it had been cached above, this would still return 'admin'.
+            Db::query(
+                'DELETE FROM ' . Common::prefixTable('user_token_auth') . ' WHERE password = ?',
+                [$this->model->hashTokenAuth('sub-token')]
+            );
+            $this->assertNull($this->model->getTokenMetadataByTokenAuth('sub-token'));
+            // The request's own token is still cached and survives the unrelated delete.
+            $this->assertSame('write', $this->model->getTokenMetadataByTokenAuth('request-token')['access_level']);
+        } finally {
+            unset($_GET['token_auth']);
+            \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+        }
+    }
+
     public function testGetTokenMetadataByTokenAuthReturnsAnonymousMetadataWithoutTokenRow()
     {
         if (!$this->model->userExists('anonymous')) {
