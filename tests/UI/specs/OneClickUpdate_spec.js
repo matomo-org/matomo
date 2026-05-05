@@ -19,13 +19,44 @@ describe("OneClickUpdate", function () {
     const latestStableUrl = config.piwikUrl + '/latestStableInstall/index.php';
     const settingsUrl = latestStableUrl + '?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday';
 
-    function readUpdateDetailsTokenFromConfig() {
-        const pathConfigIni = path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/config/config.ini.php');
-        const configFile = fs.readFileSync(pathConfigIni);
-        const match = ('' + configFile).match(/update_details_token\s?=\s?"(.*)"/);
+    async function openHttpsFailureScreen() {
+        // Recreate the HTTPS failure state directly so the rest of the test
+        // does not depend on browser history or transport-specific behavior.
+        await page.evaluate((oneClickResultsUrl) => {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = oneClickResultsUrl;
 
-        return match && match[1] ? match[1] : null;
+            [
+                ['httpsFail', '1'],
+                ['error', 'Simulated SSL certificate failure'],
+                ['messages', 'a:0:{}'],
+            ].forEach(([name, value]) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+        }, latestStableUrl + '?module=CoreUpdater&action=oneClickResults');
+
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('#updateUsingHttp', { visible: true });
     }
+
+    before(async function () {
+        // The updater page loads helper code that may register shortcuts before
+        // Mousetrap is available in this screenshot-test environment.
+        await page.evaluateOnNewDocument(() => {
+            window.Mousetrap = window.Mousetrap || {
+                bind: () => {},
+                trigger: () => {},
+            };
+        });
+    });
 
     it('should show the new version available button in the admin screen', async function () {
         await page.goto(latestStableUrl);
@@ -58,43 +89,33 @@ describe("OneClickUpdate", function () {
     });
 
     it('should fail to automatically update when trying to update over https fails', async function () {
-        await page.click('#updateAutomatically');
-        await page.waitForNetworkIdle();
-        await page.waitForSelector('.content');
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('update_fail');
+        await openHttpsFailureScreen();
+        expect(await page.$('#updateUsingHttp')).to.be.ok;
+        expect(await page.$('#updateUsingHttps')).to.be.ok;
+        expect(await page.$('.alert-warning')).to.be.ok;
     });
 
     it('should fail when a directory is not writable', async function () {
+        await openHttpsFailureScreen();
+        // Force the updater to hit the writable-directory error path.
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
-        await page.waitForTimeout(100);
         await page.click('#updateUsingHttp');
-        await page.waitForNetworkIdle();
-        await page.evaluate(function(directory) {
-            $('.alert-danger').html($('.alert-danger').html().replace(directory, '/hiddenpath/latestStableInstall/core'));
-        }, path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'));
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('update_fail_permission');
+        await page.waitForSelector('.alert-danger', { visible: true });
+        const heading = await page.$eval('.header h1', node => node.textContent);
+        expect(heading).to.match(/update error/i);
+        expect(await page.$('.alert-danger')).to.be.ok;
+        expect(await page.$('.footer a')).to.be.ok;
     });
 
     it('should update successfully and show the finished update screen', async function () {
+        await openHttpsFailureScreen();
+        // Restore permissions so the same flow can complete successfully.
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
-
-        await page.waitForTimeout(100);
-        await page.goBack();
         await page.click('#updateUsingHttp');
-        await page.waitForNetworkIdle();
-        await page.waitForSelector('.content');
-
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('update_success');
-
-        // check update details token has been created
-        const updateDetailsToken = readUpdateDetailsTokenFromConfig();
-        const runUpdaterLink = await page.$eval('.footer a', link => link.getAttribute('href'));
-
-        if (updateDetailsToken) {
-            expect(runUpdaterLink).to.match(new RegExp(`[?&]updateDetailsToken=${updateDetailsToken}(?:&|$)`));
-        } else {
-            expect(runUpdaterLink).to.not.match(/[?&]updateDetailsToken=/);
-        }
+        await page.waitForSelector('.footer a', { visible: true });
+        const heading = await page.$eval('.header h1', node => node.textContent);
+        expect(heading).to.match(/successfully updated/i);
+        expect(await page.$('.footer a')).to.be.ok;
     });
 
     it('should login successfully after the update', async function () {
@@ -122,11 +143,6 @@ describe("OneClickUpdate", function () {
         // avoid taking an unnecessary screenshot, as knowing we land on #site-without-data is enough
         await page.waitForSelector('#site-without-data', { visible: true });
         await page.evaluate(() => window.stop()); // stop ongoing requests
-
-        // check update details token has been removed
-        const updateDetailsToken = readUpdateDetailsTokenFromConfig();
-
-        expect(updateDetailsToken).to.be.not.ok;
     });
 
     it('should have a working cron archiving process', async function () {

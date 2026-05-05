@@ -131,7 +131,7 @@ describe("Menus", function () {
         });
         await page.waitForTimeout(250);
 
-        expect(await page.screenshotSelector('#mobile-top-menu')).to.matchImage('mobile_top');
+        expect(await page.screenshotSelector('#mobile-top-menu', false)).to.matchImage('mobile_top');
     });
 
     it('should load the left reporting menu correctly on mobile', async function() {

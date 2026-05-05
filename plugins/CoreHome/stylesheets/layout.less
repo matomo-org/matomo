@@ -12,8 +12,9 @@ ul.browser-default {
   }
 }
 
-nav {
-  background-color: @theme-color-header-background !important;
+#root nav {
+  background-color: @theme-color-header-background;
+  box-shadow: none;
 
   a:focus-visible,
   button:focus-visible {
@@ -66,29 +67,96 @@ nav {
 
   ul.right.hide-on-med-and-down {
     margin-right: 4px;
+
+    .navbar-icon {
+      padding: 8px;
+    }
+    .navbar-label {
+      padding: 4px;
+    }
+    .navbar-label, .navbar-icon {
+      position: relative;
+      z-index: 1;
+      border-radius: 8px;
+
+      /* Hover & active background */
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: 8px;
+        background: transparent;
+        opacity: 0.051;
+      }
+    }
+
+    > li[role="menuitem"].active {
+      background: transparent;
+
+      > a {
+        background: transparent;
+      }
+
+      .navbar-icon,
+      .navbar-label {
+        &::after {
+          // contrast + opacity to create an effect that work in light and dark mode, with our without white-label customization
+          background: @color-mode-black;
+        }
+      }
+    }
+
+    > li[role="menuitem"] a {
+      background: transparent;
+
+      &:hover,
+      &:focus {
+        background: transparent;
+      }
+
+      &:hover .navbar-icon,
+      &:hover .navbar-label,
+      &:focus .navbar-icon,
+      &:focus .navbar-label {
+        &::after {
+          // contrast + opacity to create an effect that work in light and dark mode, with our without white-label customization
+          background: light-dark(black, white);
+        }
+      }
+    }
   }
 
   .languageSelection {
     &:hover {
-      background-color: rgba(0,0,0,0.1);
+      background-color: @color-mode-black;
     }
   }
 
   ul:not(#mobile-top-menu) {
+    a {
+      color: @theme-color-header-text;
+    }
+
     .languageSelection {
       .title {
         color: @theme-color-header-text;
+        font-size: 14px;
       }
     }
   }
 
   ul a {
-    color: @theme-color-header-text;
     text-decoration: none;
+    font-size: 14px;
+    padding: 0 8px;
 
     &:hover {
       text-decoration: none;
     }
+  }
+  .navbar-icon {
+    font-size: 16px;
   }
 }
 
@@ -137,26 +205,19 @@ nav {
   .layoutWithSidebar {
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 
-  .layoutWithSidebarContent {
-    min-width: 0;
-  }
-
-  .top_controls {
-    min-height: 51px;
-    position: relative;
-    background-color: @theme-color-background-base;
+  & .top_controls {
     height: auto;
-    margin-bottom: 8px;
-    margin-top: 8px;
-    visibility: hidden;
-    opacity: 0;
-    padding-left: 18px;
 
-    .icon-arrowup:before, .icon-arrowdown:before {
-      padding: 17px 0 0 0;
-      display: inline-block;
+    .zenModeToggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      min-height: 32px;
+
       cursor: pointer;
 
       @media screen and (max-width: 600px) {
@@ -165,34 +226,11 @@ nav {
     }
 
     @media all and (max-width: 600px) {
-      height: auto;
-      padding-left: 0;
-
-      .piwikTopControl {
-        position: static !important;
-        float: none;
-        margin: 0 23px 10px 17px !important;
-        display: block !important;
-      }
-
       .piwikSelector {
         > a.title {
             max-width: none;
         }
-
-        display: block;
       }
-    }
-
-    .piwikTopControl {
-      display: inline-block;
-      float: none;
-      position: relative;
-      margin-right: 14px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      vertical-align: top;
-      font-size: 11px;
     }
 
     @media print {
@@ -214,7 +252,7 @@ nav {
         min-height: 100vh;
         background-color: @theme-color-menu-contrast-background;
         box-shadow: none !important;
-        padding: 16px 12px;
+        padding: 24px 12px;
       }
 
       .layoutWithSidebarContent {
@@ -527,31 +565,51 @@ nav {
   position: absolute;
   top: 12px;
   left: 23px;
-  line-height: 1.25;
+  z-index: 2;
+
   background-color: rgba(212, 19, 13, 1);
   color: #fff;
-  border-radius: 8px;
+  border-radius: 999px; // hack to produce a circle
   padding: 4px 6px;
+
+  line-height: 1;
   font-size: 9px;
   font-weight: bold;
 }
 
 #root, #standalone {
   .top_controls {
-    min-height: 51px;
     position: relative;
-    background-color: @theme-color-background-base;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
     height: auto;
-    margin-bottom: 8px;
-    margin-top: 8px;
+    min-height: 38px;
+    margin: 24px 16px;
+
+    @media all and (max-width: 600px) {
+      flex-direction: column;
+      align-items: stretch;
+      margin: 24px 0;
+      padding: 0 23px 0 17px;
+
+      .piwikSelector {
+        display: flex;
+        flex: auto;
+      }
+
+      .icon-arrowup::before,
+      .icon-arrowdown::before {
+        display: none;
+      }
+    }
 
     .piwikTopControl {
-      display: inline-block;
-      float: none;
       position: relative;
-      margin-right: 14px;
-      vertical-align: top;
-      font-size: 11px;
+      font-size: 14px;
     }
   }
 }

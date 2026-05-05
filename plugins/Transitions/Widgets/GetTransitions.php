@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\Transitions\Widgets;
 
-use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Request;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
@@ -22,6 +22,7 @@ class GetTransitions extends Widget
         $config->setSubcategoryId('Transitions_Transitions');
         $config->setName('Transitions_Transitions');
         $config->setOrder(99);
+        $config->setClientSideComponent('Transitions', 'TransitionsPage');
         $idSite = self::getIdSite();
         if (!$idSite || !Piwik::isUserHasViewAccess($idSite)) {
             $config->disable();
@@ -30,17 +31,6 @@ class GetTransitions extends Widget
 
     private static function getIdSite()
     {
-        return Common::getRequestVar('idSite', 0, 'int');
-    }
-
-    public function render()
-    {
-        Piwik::checkUserHasViewAccess(self::getIdSite());
-
-        $isWidgetized = Common::getRequestVar('widget', 0, 'int') === 1;
-
-        return $this->renderTemplate('transitions', array(
-            'isWidget' => $isWidgetized,
-        ));
+        return Request::fromRequest()->getIntegerParameter('idSite', 0);
     }
 }

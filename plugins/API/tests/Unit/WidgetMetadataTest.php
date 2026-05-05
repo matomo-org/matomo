@@ -114,6 +114,20 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array('module' => 'Goals', 'action' => 'hasAnyConversions'), $metadata['middlewareParameters']);
     }
 
+    public function testBuildWidgetMetadataShouldAddOptionalClientComponent()
+    {
+        $config = $this->createWidgetConfig('Test', 'CategoryId', 'SubcategoryId');
+        $config->setClientSideComponent('Transitions', 'TransitionsPage');
+        $config->setClientSideProps(array('foo' => 'bar'));
+        $metadata = $this->metadata->buildWidgetMetadata($config);
+
+        $this->assertSame(array(
+            'plugin' => 'Transitions',
+            'name' => 'TransitionsPage',
+            'props' => array('foo' => 'bar'),
+        ), $metadata['clientComponent']);
+    }
+
     public function testBuildWidgetMetadataShouldAddReportInformtionIfReportWidgetConfigGiven()
     {
         $config = new ReportWidgetConfig();
