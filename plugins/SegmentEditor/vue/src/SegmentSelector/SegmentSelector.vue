@@ -60,13 +60,13 @@
                     :class="getEntryClasses(entry)"
                     :data-idsegment="entry.idsegment"
                     :data-definition="entry.definition"
+                    @click.prevent="selectSegment(entry)"
                     @animationend="clearStarAnimationClass(entry)"
                   >
                     <span
                       class="segname"
                       tabindex="4"
                       :title="entry.tooltip"
-                      @click.prevent="selectSegment(entry)"
                       @keyup.enter.prevent="selectSegment(entry)"
                     >
                       {{ entry.label }}
