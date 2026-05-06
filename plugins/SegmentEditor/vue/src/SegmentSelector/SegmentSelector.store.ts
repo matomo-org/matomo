@@ -338,7 +338,21 @@ class SegmentSelectorStore {
     const method = segment.starred ? 'star' : 'unstar';
     this.notifyStarredSegment(segment);
 
-    const LegacyAjaxHelper = window.ajaxHelper;
+    interface LegacyAjaxHandler {
+      addParams(params: Record<string, unknown>, method: string): void;
+      useCallbackInCaseOfError(): void;
+      setCallback(
+        callback: (response: {
+          result?: string;
+          starred?: SavedSegment['starred'];
+          starred_by?: SavedSegment['starred_by'];
+        } | null) => void,
+      ): void;
+      send(): void;
+    }
+    const LegacyAjaxHelper = (window as unknown as {
+      ajaxHelper: new () => LegacyAjaxHandler;
+    }).ajaxHelper;
     const ajaxHandler = new LegacyAjaxHelper();
     ajaxHandler.addParams({
       module: 'API',
