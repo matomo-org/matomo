@@ -97,7 +97,8 @@
                 name="linkSendNow"
                 class="link_but move-left"
               >
-                {{ translate('ScheduledReports_SendPreviewNow').trim() }}
+                {{ translate('ScheduledReports_SendPreviewNow') }}
+                {{ translate('ScheduledReports_CurrentPeriod') }}
               </a>
             </span>
 
@@ -149,7 +150,8 @@
                 class="link_but move-left"
                 :id="report.idreport"
               >
-              {{ translate('ScheduledReports_DownloadPreview').trim() }}
+              {{ translate('ScheduledReports_DownloadPreview') }}
+              {{ translate('ScheduledReports_CurrentPeriod') }}
             </a>
             </span>
 

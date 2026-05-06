@@ -181,6 +181,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = "ScheduledReports_PeriodTooltip1";
         $translationKeys[] = "ScheduledReports_PeriodTooltip2";
         $translationKeys[] = "ScheduledReports_PeriodTooltip3";
+        $translationKeys[] = "ScheduledReports_CurrentPeriod";
     }
 
     /**
