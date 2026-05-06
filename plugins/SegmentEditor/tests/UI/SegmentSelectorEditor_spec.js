@@ -55,9 +55,23 @@ describe("SegmentSelectorEditorTest", function () {
 
     async function searchForSegment(searchTerm)
     {
-        await page.evaluate((searchTermValue) => {
-            $('.segmentationContainer .segmentFilter').val(searchTermValue).trigger('keyup');
-        }, searchTerm);
+        const selector = '.segmentationContainer .segmentFilter';
+
+        await page.waitForSelector(selector);
+        await page.evaluate((inputSelector) => {
+            const input = document.querySelector(inputSelector);
+            if (!input) {
+                throw new Error(`Search input not found for selector: ${inputSelector}`);
+            }
+
+            input.value = '';
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+        }, selector);
+
+        if (searchTerm) {
+            await page.focus(selector);
+            await page.type(selector, searchTerm);
+        }
 
         // debounce in segment filter is 500ms
         await page.waitForTimeout(600);
@@ -101,12 +115,12 @@ describe("SegmentSelectorEditorTest", function () {
             idSites: [1],
         });
         testEnvironment.testUseMockAuth = 0;
-        testEnvironment.save();
+        await testEnvironment.save();
     }
 
     async function switchToConnectedUser() {
         testEnvironment.testUseMockAuth = 1;
-        testEnvironment.save();
+        await testEnvironment.save();
         await testEnvironment.callApi('UsersManager.setUserAccess', {
             userLogin: 'anonymous',
             access: 'noaccess',
@@ -170,7 +184,9 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should have disabled star for anonymous users", async function() {
         await switchToAnonymousUser();
+        await page.goto('about:blank');
         await page.goto(url);
+        await page.waitForNetworkIdle();
         await page.click('.segmentationContainer .title');
         const firstSegmentStarState = await page.evaluate(() => $('.segmentList li:nth-of-type(2) .starSegment').attr('data-state') || '');
         expect(firstSegmentStarState).to.equal('disabled');
@@ -178,6 +194,7 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should open segment editor when edit link clicked for existing segment", async function() {
         await switchToConnectedUser();
+        await page.goto('about:blank');
         await page.goto(url);
         await page.click('.segmentationContainer .title');
         await page.evaluate(function() {
