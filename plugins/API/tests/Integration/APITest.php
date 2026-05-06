@@ -431,8 +431,7 @@ class APITest extends IntegrationTestCase
         ?string $tokenAuth = null,
         string $method = 'CoreAdminHome.archiveReports',
         string $module = 'API'
-    ): string
-    {
+    ): string {
         $params = [
             'module' => $module,
             'method' => $method,
