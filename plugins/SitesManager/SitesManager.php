@@ -378,6 +378,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'Actions_SubmenuSitesearch';
         $translationKeys[] = 'General_Actions';
         $translationKeys[] = 'General_Cancel';
+        $translationKeys[] = 'General_Description';
         $translationKeys[] = 'General_ClickToSearch';
         $translationKeys[] = 'General_Loading';
         $translationKeys[] = 'General_Measurables';
@@ -463,6 +464,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_SelectDefaultCurrency';
         $translationKeys[] = 'SitesManager_SelectDefaultTimezone';
         $translationKeys[] = 'SitesManager_ShowTrackingTag';
+        $translationKeys[] = 'SitesManager_SiteDescriptionInlineHelp';
+        $translationKeys[] = 'SitesManager_SiteNameInlineHelp';
         $translationKeys[] = 'SitesManager_SiteSearchUse';
         $translationKeys[] = 'SitesManager_SiteWithoutDataChooseTrackingMethod';
         $translationKeys[] = 'SitesManager_SiteWithoutDataGoogleTagManager';
