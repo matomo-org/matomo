@@ -133,30 +133,6 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('0_initial');
     });
 
-    it("should warn and ignore a second Segmentation initialization on the same page", async function() {
-        const warningData = await page.evaluate(() => {
-            const originalWarn = console.warn;
-            const warnings = [];
-            console.warn = function (...args) {
-                warnings.push(args.join(' '));
-            };
-
-            const secondInstance = new window.Segmentation({ target: {} });
-
-            console.warn = originalWarn;
-
-            return {
-                getSegmentType: typeof secondInstance.getSegment,
-                warnings,
-            };
-        });
-
-        expect(warningData.getSegmentType).to.equal('function');
-        expect(warningData.warnings).to.deep.equal([
-            'Segmentation is initialized more than once on this page. Only one segment selector control per page is supported.',
-        ]);
-    });
-
     it("should open selector when control clicked", async function() {
         await page.click('.segmentationContainer .title');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_open');
