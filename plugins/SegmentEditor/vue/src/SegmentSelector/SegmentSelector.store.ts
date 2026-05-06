@@ -339,7 +339,7 @@ class SegmentSelectorStore {
     this.notifyStarredSegment(segment);
 
     interface LegacyAjaxHandler {
-      addParams(params: Record<string, unknown>, method: string): void;
+      addParams(params: Record<string, unknown>, httpMethod: string): void;
       useCallbackInCaseOfError(): void;
       setCallback(
         callback: (response: {
