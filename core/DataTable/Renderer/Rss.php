@@ -70,7 +70,7 @@ class Rss extends Renderer
             $dateInSiteTimezone = $dateInSiteTimezone->toString('Y-m-d');
             $thisPiwikUrl = Common::sanitizeInputValue($piwikUrl . "&date=$dateInSiteTimezone");
             $siteName = $site ? $site->getName() : '';
-            $title = $siteName . " on " . $date;
+            $title = self::formatValueXml($siteName . " on " . $date);
 
             $out .= "\t<item>
 		<pubDate>$pudDate</pubDate>
