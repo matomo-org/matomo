@@ -114,7 +114,14 @@ Segmentation = (function($) {
 
         segmentation.prototype.markCurrentSegment = function(){
             segmentSelectorStore.setCurrentSegment(self.getSegment());
-            window.CoreHome.MatomoUrl.updatePageTitle();
+            // MatomoUrl.updatePageTitle() reads the active segment label by
+            // querying .segmentEditorPanel .segmentationTitle from the DOM.
+            // The Vue panel re-renders that text on the next tick after the
+            // store mutation, so wait for the render before reading it,
+            // otherwise the page title sticks on the previous segment label.
+            window.Vue.nextTick(function () {
+                window.CoreHome.MatomoUrl.updatePageTitle();
+            });
         };
 
         function handleAddNewSegment() {
