@@ -10,6 +10,8 @@ database:
     type: mysql
     version: "5.7"
 hooks:
+    pre-start:
+        - exec-host: bash .ddev/scripts/configure-platform.sh
     post-start:
         - exec: MYSQL_PWD=root mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* to 'db'@'%'"
           service: db
