@@ -18,6 +18,7 @@ use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
 use Piwik\Config;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive;
@@ -401,12 +402,17 @@ class API extends \Piwik\Plugin\API
 
     private function shouldRequireSuperUserForArchiveReports(): bool
     {
-        $rootApiMethod = trim(Request::getRootApiRequestMethod() ?: '');
-        $currentApiMethod = trim(PiwikRequest::fromRequest()->getStringParameter('method', ''));
+        $rootApiMethod = $this->normalizeApiMethodName(Request::getRootApiRequestMethod() ?: '');
+        $currentApiMethod = $this->normalizeApiMethodName(PiwikRequest::fromRequest()->getStringParameter('method', ''));
 
         // Require superuser for direct archiveReports calls and archiveReports inside bulk requests.
         return $rootApiMethod === 'CoreAdminHome.archiveReports'
             || ($rootApiMethod === 'API.getBulkRequest' && $currentApiMethod === 'CoreAdminHome.archiveReports');
+    }
+
+    private function normalizeApiMethodName(string $method): string
+    {
+        return preg_replace('/[^\w\.]+/', '', Common::sanitizeInputValue($method));
     }
 
     /**
