@@ -161,7 +161,7 @@ class Rss extends Renderer
                 if ($this->translateColumnNames) {
                     $name = $this->translateColumnName($name);
                 }
-                $html .= "\n\t<td><strong>$name</strong></td>";
+                $html .= "\n\t<td><strong>" . self::formatValueXml($name) . "</strong></td>";
             }
         }
         $html .= "\n</tr>";
@@ -172,7 +172,7 @@ class Rss extends Renderer
                 if ($toDisplay !== false) {
                     $value = "-";
                     if (isset($row[$columnName])) {
-                        $value = urldecode($row[$columnName]);
+                        $value = self::formatValueXml(urldecode($row[$columnName]));
                     }
 
                     $html .= "\n\t<td>$value</td>";
