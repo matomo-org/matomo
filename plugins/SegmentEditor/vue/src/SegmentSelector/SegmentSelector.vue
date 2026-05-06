@@ -60,7 +60,7 @@
                     :class="getEntryClasses(entry)"
                     :data-idsegment="entry.idsegment"
                     :data-definition="entry.definition"
-                    @animationend="clearStarAnimation(entry)"
+                    @animationend="clearStarAnimationClass(entry)"
                   >
                     <span
                       class="segname"
@@ -261,18 +261,15 @@ export default defineComponent({
         return;
       }
       this.dispatchPanelEvent('SegmentEditor:toggle-comparison', { definition: entry.definition });
-      this.togglePanel();
     },
     openEditSegment(entry: SegmentSelectorEntry) {
       if (entry.editState === 'disabled' || !entry.idsegment) {
         return;
       }
       this.dispatchPanelEvent('SegmentEditor:open-edit-segment', { idSegment: entry.idsegment });
-      this.togglePanel();
     },
     openAddSegment() {
       this.dispatchPanelEvent('SegmentEditor:open-add-segment');
-      this.togglePanel();
     },
     getEntryClasses(entry: SegmentSelectorEntry) {
       const baseClasses = Array.isArray(entry.classes)
@@ -282,7 +279,7 @@ export default defineComponent({
 
       return [baseClasses, animationClass].filter(Boolean).join(' ');
     },
-    clearStarAnimation(entry: SegmentSelectorEntry) {
+    clearStarAnimationClass(entry: SegmentSelectorEntry) {
       if (!entry.idsegment) {
         return;
       }

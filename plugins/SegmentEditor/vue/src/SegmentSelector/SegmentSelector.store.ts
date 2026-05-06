@@ -498,8 +498,7 @@ class SegmentSelectorStore {
     let hasSuperUserHeader = false;
 
     this.privateState.availableSegments.forEach((segment) => {
-      segment.starred = this.normalizeStarredState(segment.starred);
-
+      const isStarred = this.normalizeStarredState(segment.starred);
       const labelText = this.getPlainSegmentName(segment);
       const tooltipText = this.getSegmentTooltipText(segment);
       if (!this.matchesSearch(tooltipText, context.search)) {
@@ -516,7 +515,10 @@ class SegmentSelectorStore {
         entries.push(this.buildHeaderEntry('superuser'));
       }
 
-      entries.push(this.buildSegmentEntry(segment, tooltipText, labelText, context));
+      entries.push(this.buildSegmentEntry({
+        ...segment,
+        starred: isStarred,
+      }, tooltipText, labelText, context));
     });
 
     return entries;
@@ -556,7 +558,7 @@ class SegmentSelectorStore {
     return entries;
   }
 
-  private buildSelectorMeta(
+  private buildViewModel(
     entries: SegmentSelectorEntry[],
   ): DeepReadonly<SegmentSelectorViewModel> {
     return {
@@ -585,7 +587,7 @@ class SegmentSelectorStore {
     };
     const entries = this.buildSelectorEntries(context);
 
-    return this.buildSelectorMeta(entries);
+    return this.buildViewModel(entries);
   }
 }
 

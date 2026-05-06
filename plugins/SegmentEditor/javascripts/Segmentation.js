@@ -8,7 +8,19 @@
 Segmentation = (function($) {
     const FORM_MODE_EDIT = 'edit';
     const FORM_MODE_NEW = 'new';
+    const SINGLETON_WARNING_MESSAGE = 'Segmentation is initialized more than once on this page. Only one segment selector control per page is supported.';
     let activeSegmentationInstance = null;
+
+    function createUnsupportedSegmentationInstance() {
+        return {
+            closePanel: function () {},
+            destroy: function () {},
+            getSegment: function () { return ''; },
+            initHtml: function () {},
+            setAvailableSegments: function () {},
+            setSegment: function () {},
+        };
+    }
 
     piwikHelper.registerShortcut('s', _pk_translate('CoreHome_ShortcutSegmentSelector'), function (event) {
         if (event.altKey) {
@@ -30,7 +42,8 @@ Segmentation = (function($) {
         var self = this;
 
         if (activeSegmentationInstance) {
-            throw new Error('Only one Segmentation instance is supported on a page.');
+            console.warn(SINGLETON_WARNING_MESSAGE);
+            return createUnsupportedSegmentationInstance();
         }
 
         self.currentSegmentStr = "";
@@ -60,6 +73,9 @@ Segmentation = (function($) {
         self.availableMatches["dimension"]["=^"] = self.translations['General_OperationStartsWith'];
         self.availableMatches["dimension"]["=$"] = self.translations['General_OperationEndsWith'];
 
+        // SegmentSelectorStore is singleton by design and backs the single supported
+        // segment selector control on a page. Pages that render more than one
+        // segment selector are unsupported and should not initialize another instance.
         var segmentSelectorStore = window.SegmentEditor && window.SegmentEditor.SegmentSelectorStore;
         if (!segmentSelectorStore) {
             throw new Error('SegmentSelectorStore must be available before Segmentation initializes');
@@ -104,7 +120,7 @@ Segmentation = (function($) {
         function handleAddNewSegment() {
             var segmentToAdd = broadcast.getValueFromHash('addSegmentAsNew') || broadcast.getValueFromUrl('addSegmentAsNew');
             if (segmentToAdd) {
-                showAddNewSegmentForm({ definition: decodeURIComponent(segmentToAdd) });
+                openAddSegmentForm({ definition: decodeURIComponent(segmentToAdd) });
             }
         }
 
@@ -178,6 +194,7 @@ Segmentation = (function($) {
         };
 
         var openEditForm = function(segment){
+            closePanel();
             addForm(FORM_MODE_EDIT, segment);
 
             $(self.form).find(".segment-content > h3 > span")
@@ -195,19 +212,15 @@ Segmentation = (function($) {
             });
         };
 
-        var displayFormAddNewSegment = function (segment) {
-            closePanel();
-            addForm(FORM_MODE_NEW, segment);
-        };
-
-        function showAddNewSegmentForm(segment) {
+        function openAddSegmentForm(segment) {
             var parameters = {isAllowed: true};
             window.CoreHome.Matomo.postEvent('Segmentation.initAddSegment', parameters);
             if (parameters && !parameters.isAllowed) {
                 return;
             }
 
-            displayFormAddNewSegment(segment);
+            closePanel();
+            addForm(FORM_MODE_NEW, segment);
         }
 
         function togglePanel() {
@@ -588,7 +601,7 @@ Segmentation = (function($) {
 
         const modalService = {
             openAddSegment(segment) {
-                showAddNewSegmentForm(segment);
+                openAddSegmentForm(segment);
             },
             openEditSegment(segment) {
                 openEditForm(segment);
@@ -710,43 +723,44 @@ Segmentation = (function($) {
         function openEditSegmentById(idSegment) {
             const segment = getSegmentFromId(idSegment);
             if (segment) {
+                closePanel();
                 modalService.openEditSegment(segment);
             }
         }
 
-        const removeVueIntentListeners = [];
-        function bindVueIntentEvent(eventName, handler) {
+        const removeSelectorEventListeners = [];
+        function bindSelectorEvent(eventName, handler) {
             const listener = function (event) {
                 handler(event.detail || {});
             };
             self.target[0].addEventListener(eventName, listener);
-            removeVueIntentListeners.push(function () {
+            removeSelectorEventListeners.push(function () {
                 self.target[0].removeEventListener(eventName, listener);
             });
         }
 
-        bindVueIntentEvent('SegmentEditor:toggle-panel', function () {
+        bindSelectorEvent('SegmentEditor:toggle-panel', function () {
             togglePanel();
         });
-        bindVueIntentEvent('SegmentEditor:close-panel', function () {
+        bindSelectorEvent('SegmentEditor:close-panel', function () {
             closePanel();
         });
-        bindVueIntentEvent('SegmentEditor:select-segment', function (detail) {
+        bindSelectorEvent('SegmentEditor:select-segment', function (detail) {
             if (typeof detail.definition === 'undefined') {
                 return;
             }
             selectSegment(detail.definition);
         });
-        bindVueIntentEvent('SegmentEditor:open-add-segment', function () {
+        bindSelectorEvent('SegmentEditor:open-add-segment', function () {
             modalService.openAddSegment();
         });
-        bindVueIntentEvent('SegmentEditor:open-edit-segment', function (detail) {
+        bindSelectorEvent('SegmentEditor:open-edit-segment', function (detail) {
             openEditSegmentById(detail.idSegment);
         });
-        bindVueIntentEvent('SegmentEditor:request-delete-segment', function (detail) {
+        bindSelectorEvent('SegmentEditor:request-delete-segment', function (detail) {
             askToDeleteSegment(detail.idSegment);
         });
-        bindVueIntentEvent('SegmentEditor:toggle-comparison', function (detail) {
+        bindSelectorEvent('SegmentEditor:toggle-comparison', function (detail) {
             if (typeof detail.definition === 'undefined') {
                 return;
             }
@@ -829,7 +843,7 @@ Segmentation = (function($) {
             removeHashWatcher();
             removeHashWatcher = null;
           }
-          removeVueIntentListeners.forEach(function (removeListener) {
+          removeSelectorEventListeners.forEach(function (removeListener) {
             removeListener();
           });
           if (activeSegmentationInstance === self) {

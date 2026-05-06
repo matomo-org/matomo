@@ -119,19 +119,28 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('0_initial');
     });
 
-    it("should reject initializing a second Segmentation instance on the same page", async function() {
-        const errorMessage = await page.evaluate(() => {
-            try {
-                // The page already bootstraps one live segment selector control.
-                // A second instance should be rejected by the singleton guard.
-                new window.Segmentation({ target: {} });
-                return null;
-            } catch (error) {
-                return error && error.message;
-            }
+    it("should warn and ignore a second Segmentation initialization on the same page", async function() {
+        const warningData = await page.evaluate(() => {
+            const originalWarn = console.warn;
+            const warnings = [];
+            console.warn = function (...args) {
+                warnings.push(args.join(' '));
+            };
+
+            const secondInstance = new window.Segmentation({ target: {} });
+
+            console.warn = originalWarn;
+
+            return {
+                getSegmentType: typeof secondInstance.getSegment,
+                warnings,
+            };
         });
 
-        expect(errorMessage).to.equal('Only one Segmentation instance is supported on a page.');
+        expect(warningData.getSegmentType).to.equal('function');
+        expect(warningData.warnings).to.deep.equal([
+            'Segmentation is initialized more than once on this page. Only one segment selector control per page is supported.',
+        ]);
     });
 
     it("should open selector when control clicked", async function() {
@@ -175,6 +184,8 @@ describe("SegmentSelectorEditorTest", function () {
             $('.segmentList .editSegment:first').click();
         });
         await page.waitForNetworkIdle();
+        const isPanelExpanded = await page.evaluate(() => $('.segmentEditorPanel').hasClass('expanded'));
+        expect(isPanelExpanded).to.equal(false);
         await moveMouseAwayFromCapturedArea();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('2_segment_editor_update');
     });
