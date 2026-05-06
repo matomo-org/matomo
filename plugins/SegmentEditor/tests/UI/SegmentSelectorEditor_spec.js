@@ -133,30 +133,6 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('0_initial');
     });
 
-    it("should warn and ignore a second Segmentation initialization on the same page", async function() {
-        const warningData = await page.evaluate(() => {
-            const originalWarn = console.warn;
-            const warnings = [];
-            console.warn = function (...args) {
-                warnings.push(args.join(' '));
-            };
-
-            const secondInstance = new window.Segmentation({ target: {} });
-
-            console.warn = originalWarn;
-
-            return {
-                getSegmentType: typeof secondInstance.getSegment,
-                warnings,
-            };
-        });
-
-        expect(warningData.getSegmentType).to.equal('function');
-        expect(warningData.warnings).to.deep.equal([
-            'Segmentation is initialized more than once on this page. Only one segment selector control per page is supported.',
-        ]);
-    });
-
     it("should open selector when control clicked", async function() {
         await page.click('.segmentationContainer .title');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_open');
@@ -568,5 +544,65 @@ describe("SegmentSelectorEditorTest", function () {
         await expectSearchToShowOnly('ЖУРНАЛ', 'журнал');
         await expectSearchToShowOnly('中文', '中文');
         await expectSearchToHaveNoResults('zhongwen');
+    });
+
+    it("should initialize only the first segment selector control during bootstrap", async function() {
+        await page.goto(url);
+
+        const initState = await page.evaluate(() => {
+            const SegmentSelectorControl = window.require('piwik/UI').SegmentSelectorControl;
+            const $firstPanel = $('.segmentEditorPanel').first();
+            const $secondPanel = $firstPanel.clone(false, false);
+
+            $secondPanel.removeAttr('data-inited');
+            $secondPanel.removeData('uiControlObject');
+            $secondPanel.find('[data-inited]').removeAttr('data-inited');
+            $secondPanel.find('[data-ui-control-object]').removeAttr('data-ui-control-object');
+            $firstPanel.after($secondPanel);
+
+            SegmentSelectorControl.initElements();
+
+            return {
+                panelCount: $('.segmentEditorPanel').length,
+                firstPanelHasUiControl: !!$firstPanel.data('uiControlObject'),
+                firstPanelDataInited: $firstPanel.attr('data-inited') || '',
+                secondPanelDataInited: $secondPanel.attr('data-inited') || '',
+            };
+        });
+
+        expect(initState.panelCount).to.equal(2);
+        expect(initState.firstPanelHasUiControl).to.equal(true);
+        expect(initState.firstPanelDataInited).to.equal('1');
+        expect(initState.secondPanelDataInited).to.equal('');
+    });
+
+    it("should throw when a second Segmentation instance is created", async function() {
+        await page.goto(url);
+
+        const result = await page.evaluate(() => {
+            const $firstPanel = $('.segmentEditorPanel').first();
+            const $secondPanel = $firstPanel.clone(false, false);
+
+            $secondPanel.removeAttr('data-inited');
+            $secondPanel.removeData('uiControlObject');
+            $secondPanel.find('[data-inited]').removeAttr('data-inited');
+            $secondPanel.find('[data-ui-control-object]').removeAttr('data-ui-control-object');
+            $firstPanel.after($secondPanel);
+
+            try {
+                new window.Segmentation({
+                    target: $secondPanel.find('.segmentListContainer'),
+                    editorTemplate: $('.SegmentEditor', $secondPanel),
+                    translations: {},
+                });
+
+                return { didThrow: false, message: '' };
+            } catch (error) {
+                return { didThrow: true, message: error.message };
+            }
+        });
+
+        expect(result.didThrow).to.equal(true);
+        expect(result.message).to.contain('Segmentation is initialized more than once on this page.');
     });
 });

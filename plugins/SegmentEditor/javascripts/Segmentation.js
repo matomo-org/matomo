@@ -11,17 +11,6 @@ Segmentation = (function($) {
     const SINGLETON_WARNING_MESSAGE = 'Segmentation is initialized more than once on this page. Only one segment selector control per page is supported.';
     let activeSegmentationInstance = null;
 
-    function createUnsupportedSegmentationInstance() {
-        return {
-            closePanel: function () {},
-            destroy: function () {},
-            getSegment: function () { return ''; },
-            initHtml: function () {},
-            setAvailableSegments: function () {},
-            setSegment: function () {},
-        };
-    }
-
     piwikHelper.registerShortcut('s', _pk_translate('CoreHome_ShortcutSegmentSelector'), function (event) {
         if (event.altKey) {
             return;
@@ -42,8 +31,7 @@ Segmentation = (function($) {
         var self = this;
 
         if (activeSegmentationInstance) {
-            console.warn(SINGLETON_WARNING_MESSAGE);
-            return createUnsupportedSegmentationInstance();
+            throw new Error(SINGLETON_WARNING_MESSAGE);
         }
 
         self.currentSegmentStr = "";
@@ -1118,11 +1106,15 @@ $(document).ready(function() {
     };
 
     /**
-     * Initializes all elements w/ the .segmentEditorPanel CSS class as SegmentSelectorControl,
+     * Initialize the first element w/ the .segmentEditorPanel CSS class as SegmentSelectorControl,
      * if the element has not already been initialized.
      */
     SegmentSelectorControl.initElements = function () {
-        UIControl.initElements(this, '.segmentEditorPanel');
+      // Enforce the page-level singleton contract for Segmentation.
+      // This legacy bridge is being phased out in favor of shared Vue store state,
+      // so we only allow one Segment Editor control instance per document.
+
+      UIControl.initElements(this, '.segmentEditorPanel:first');
     };
 
     $.extend(SegmentSelectorControl.prototype, UIControl.prototype, {
