@@ -55,6 +55,14 @@ class SegmentGeneratorStore {
       _hideImplementationData: 0,
       idSites,
       idSite,
+    }, {
+      // Stay out of globalAjaxQueue so a navigation-triggered
+      // globalAjaxQueue.abort() (e.g. when the panel close re-renders
+      // hashchange listeners) cannot kill the metadata fetch.
+      // AjaxHelper silently swallows aborts, which would leave the
+      // promise pending forever and the segment editor form rendered
+      // without dimension labels or condition rows.
+      abortable: false,
     }).then((response) => {
       this.privateState.isLoading = false;
 
