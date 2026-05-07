@@ -585,7 +585,7 @@ const notificationId = 'customdimensions';
   }
 }));
 // CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Edit/Edit.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Edit/Edit.vue
 
 
@@ -754,7 +754,7 @@ function Listvue_type_template_id_1d504487_render(_ctx, _cache, $props, $setup, 
   }
 }));
 // CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/List/List.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/List/List.vue
 
 
@@ -873,7 +873,7 @@ function Managevue_type_template_id_dc7029c0_render(_ctx, _cache, $props, $setup
   }
 }));
 // CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Manage/Manage.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/CustomDimensions/vue/src/Manage/Manage.vue
 
 
