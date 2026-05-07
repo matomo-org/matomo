@@ -107,7 +107,7 @@ import {
 } from 'CoreHome';
 import { ucfirst } from '../utilities';
 import CustomDimensionsStore from '../CustomDimensions.store';
-import { CustomDimension } from '../types';
+import type { CustomDimension } from '../types';
 
 export default defineComponent({
   name: 'listcustomdimensions',

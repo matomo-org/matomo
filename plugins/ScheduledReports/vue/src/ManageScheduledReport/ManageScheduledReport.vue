@@ -90,7 +90,7 @@ import {
 import { Form } from 'CorePluginsAdmin';
 import AddReport from '../AddReport/AddReport.vue';
 import ListReports from '../ListReports/ListReports.vue';
-import { Report } from '../types';
+import type { Report } from '../types';
 import { adjustHourToTimezone } from '../utilities';
 import {
   consumeStoredValue,
@@ -296,6 +296,7 @@ export default defineComponent({
         type: ReportPlugin.defaultReportType,
         format: ReportPlugin.defaultReportFormat,
         description: '',
+        reportDescription: '',
         period: ReportPlugin.defaultPeriod,
         hour: ReportPlugin.defaultHour,
         reports: [],
@@ -332,6 +333,9 @@ export default defineComponent({
 
       this.report = report;
       this.report.description = Matomo.helper.htmlDecode(report.description);
+      this.report.reportDescription = Matomo.helper.htmlDecode(
+        `${report.parameters?.reportDescription || ''}`,
+      );
     },
     showNotificationMessage(
       selector: HTMLElement,
@@ -477,6 +481,7 @@ export default defineComponent({
       }
 
       const reportParams = window.getReportParametersFunctions[this.report.type](this.report);
+      reportParams.reportDescription = this.report.reportDescription || '';
       apiParameters.parameters = reportParams as unknown as QueryParameters;
 
       const isUpdate = this.report.idreport > 0;

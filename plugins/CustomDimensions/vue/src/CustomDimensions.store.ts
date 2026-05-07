@@ -12,7 +12,7 @@ import {
   DeepReadonly,
 } from 'vue';
 import { AjaxHelper } from 'CoreHome';
-import { CustomDimension, AvailableScope, ExtractionDimension } from './types';
+import type { CustomDimension, AvailableScope, ExtractionDimension } from './types';
 
 interface CustomDimensionsStoreState {
   isLoading: boolean;

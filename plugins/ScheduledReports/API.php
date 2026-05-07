@@ -800,7 +800,7 @@ class API extends \Piwik\Plugin\API
         $reportRenderer->setReport($report);
 
         // render report
-        $description = str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue($report['description']));
+        $description = self::getReportDescriptionForDisplay($report);
 
         [$reportSubject, $reportTitle] = self::getReportSubjectAndReportTitle(Common::unsanitizeInputValue(Site::getNameFor((int)$idSite)), $report['reports']);
 
@@ -843,6 +843,14 @@ class API extends \Piwik\Plugin\API
                 $reportRenderer->sendToBrowserDownload($filename);
                 break;
         }
+    }
+
+    public static function getReportDescriptionForDisplay(array $report): string
+    {
+        $parameters = $report['parameters'] ?? [];
+        $description = $parameters[ScheduledReports::REPORT_DESCRIPTION_PARAMETER] ?? $report['description'] ?? '';
+
+        return str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) $description));
     }
 
     /**

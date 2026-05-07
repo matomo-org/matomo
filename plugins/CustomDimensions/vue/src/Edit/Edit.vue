@@ -196,7 +196,7 @@ import {
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import CustomDimensionsStore from '../CustomDimensions.store';
-import { CustomDimension } from '../types';
+import type { CustomDimension } from '../types';
 import { ucfirst } from '../utilities';
 
 interface EditState {

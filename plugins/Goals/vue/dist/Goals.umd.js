@@ -955,7 +955,7 @@ function ambiguousBoolToInt(n) {
   }
 }));
 // CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue
 
 
