@@ -114,6 +114,7 @@ class ApiTest extends IntegrationTestCase
         $excludedUserAgents = " p1,P2, \nP3333 ";
         $expectedExcludedUserAgents = "p1,P2,P3333";
         $excludedReferrers = 'http://www.paypal.com,https://amazon.com';
+        $description = 'A site description';
         $keepUrlFragment = 1;
         $idsite = API::getInstance()->addSite(
             "name",
@@ -133,7 +134,8 @@ class ApiTest extends IntegrationTestCase
             $expectedWebsiteType,
             $settingValues,
             null,
-            $excludedReferrers
+            $excludedReferrers,
+            $description
         );
         $siteInfo = API::getInstance()->getSiteFromId($idsite);
         $this->assertEquals($ips, $siteInfo['excluded_ips']);
@@ -153,6 +155,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals($expectedExcludedQueryParameters, $siteInfo['excluded_parameters']);
         $this->assertEquals($expectedExcludedUserAgents, $siteInfo['excluded_user_agents']);
         $this->assertEquals($excludedReferrers, $siteInfo['excluded_referrers']);
+        $this->assertEquals($description, $siteInfo['description']);
 
         return $siteInfo;
     }
@@ -629,8 +632,8 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
 
         $resultWanted = [
-            0 => ["idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD'],
-            1 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD'],
+            0 => ["idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'description' => ''],
+            1 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'description' => ''],
         ];
 
         FakeAccess::setIdSitesAdmin([1, 3]);
@@ -653,7 +656,7 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
 
         $resultWanted = [
-            0 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD'],
+            0 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'description' => ''],
         ];
 
         FakeAccess::setIdSitesAdmin([1, 3]);
@@ -797,8 +800,8 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site3", ["http://piwik.org"]);
 
         $resultWanted = [
-            0 => ["idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', "excluded_ips" => "", 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD'],
-            1 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', "excluded_ips" => "", 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD'],
+            0 => ["idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', "excluded_ips" => "", 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD', 'description' => ''],
+            1 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', "excluded_ips" => "", 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD', 'description' => ''],
         ];
 
         FakeAccess::setIdSitesView([1, 3]);
@@ -835,8 +838,8 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site3", ["http://piwik.org"]);
 
         $resultWanted = [
-            0 => ["idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 1, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD'],
-            1 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD'],
+            0 => ["idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 1, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD', 'description' => ''],
+            1 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD', 'description' => ''],
         ];
 
         FakeAccess::setIdSitesView([1, 3]);
@@ -1034,6 +1037,67 @@ class ApiTest extends IntegrationTestCase
             null,
             $description
         );
+    }
+
+    public function testUpdateSiteShouldPreserveDescriptionWhenNoValuePassed()
+    {
+        $idsite = API::getInstance()->addSite(
+            'site1',
+            'http://main.url',
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            'Original description'
+        );
+
+        API::getInstance()->updateSite($idsite, 'updated site');
+
+        $site = API::getInstance()->getSiteFromId($idsite);
+        $this->assertEquals('Original description', $site['description']);
+    }
+
+    public function testUpdateSiteShouldUpdateDescriptionWhenValuePassed()
+    {
+        $idsite = API::getInstance()->addSite('site1', 'http://main.url');
+
+        API::getInstance()->updateSite(
+            $idsite,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            'Updated description'
+        );
+
+        $site = API::getInstance()->getSiteFromId($idsite);
+        $this->assertEquals('Updated description', $site['description']);
     }
 
     /**
@@ -1671,9 +1735,9 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
 
         $resultWanted = [
-            0 => ["idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
-            1 => ["idsite" => 2, "name" => "site2", "main_url" => "http://piwik.com/test", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
-            2 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
+            0 => ["idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin', 'description' => ''],
+            1 => ["idsite" => 2, "name" => "site2", "main_url" => "http://piwik.com/test", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin', 'description' => ''],
+            2 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin', 'description' => ''],
         ];
 
         $sites = API::getInstance()->getPatternMatchSites('%');
@@ -1697,7 +1761,7 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
 
         $resultWanted = [
-            0 => ["idsite" => 2, "name" => "site2", "main_url" => "http://piwik.com/test", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
+            0 => ["idsite" => 2, "name" => "site2", "main_url" => "http://piwik.com/test", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin', 'description' => ''],
         ];
 
         $sites = API::getInstance()->getPatternMatchSites('site2');
@@ -1719,8 +1783,8 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site3", ["http://piwik.org"], null, null, null, null, null, null, 'Asia/Tokyo');
 
         $resultWanted = [
-            0 => ["idsite" => 2, "name" => "site2", "main_url" => "http://piwik.com/test", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
-            1 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin'],
+            0 => ["idsite" => 2, "name" => "site2", "main_url" => "http://piwik.com/test", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'UTC', 'timezone_name' => 'SitesManager_Format_Utc', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin', 'description' => ''],
+            1 => ["idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'excluded_referrers' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Intl_Country_JP', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'USD', 'creator_login' => 'superUserLogin', 'description' => ''],
         ];
 
         $sites = API::getInstance()->getPatternMatchSites('%', false, [1]);

@@ -99,25 +99,30 @@
 
       <div v-if="editMode">
 
-        <Field
-          uicontrol="text"
-          name="siteName"
-          v-model="theSite.name"
-          :maxlength="90"
-          autocomplete="off"
-          :title="translate('General_Name')"
-          :inline-help="translate('SitesManager_SiteNameInlineHelp')"
-        />
+        <div class="form-group row">
+          <div class="col s12 m6 input-field">
+            <input
+              type="text"
+              v-model="theSite.name"
+              maxlength="90"
+              :placeholder="translate('SitesManager_MeasurableNamePlaceholder')"
+            />
+            <label>{{ translate('General_Name') }}</label>
+            <span class="helper-text">{{ translate('SitesManager_MeasurableNameHelpText') }}</span>
+          </div>
+          <div class="col s12 m6"></div>
+        </div>
 
         <Field
           uicontrol="textarea"
           name="siteDescription"
           v-model="theSite.description"
           :maxlength="255"
-          :rows="3"
           autocomplete="off"
           :title="`${translate('General_Description')} ${translate('Goals_Optional')}`"
-          :inline-help="translate('SitesManager_SiteDescriptionInlineHelp')"
+          :placeholder="translate('SitesManager_MeasurableDescriptionPlaceholder')"
+          :inline-help="translate('SitesManager_MeasurableDescriptionHelpText')"
+          :ui-control-attributes="{ class: 'compact-textarea' }"
         />
 
         <ActivityIndicator :loading="isLoading"/>
