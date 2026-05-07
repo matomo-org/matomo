@@ -875,14 +875,17 @@ class SegmentSelector_store_SegmentSelectorStore {
     SegmentSelector_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState)));
     SegmentSelector_store_defineProperty(this, "starChangeCallbacks", []);
   }
+  normalizeAvailableSegments(segments) {
+    return segments.map(segment => Object.assign(Object.assign({}, segment), {}, {
+      starred: this.normalizeStarredState(segment.starred)
+    }));
+  }
   init(config) {
     // Normalise the starred flag up-front so external consumers (e.g. the
     // page-table panel API getSegmentFromId) can rely on `segment.starred`
     // being a boolean. The backend sends "0"/"1" strings or 0/1 numbers,
     // and the screenshot tests strict-equality compare against true/false.
-    this.privateState.availableSegments = config.availableSegments.map(segment => Object.assign(Object.assign({}, segment), {}, {
-      starred: this.normalizeStarredState(segment.starred)
-    }));
+    this.privateState.availableSegments = this.normalizeAvailableSegments(config.availableSegments);
     this.privateState.currentSegment = config.currentSegment || '';
     this.privateState.isUserAnonymous = config.isUserAnonymous;
     this.privateState.isInitialized = true;
@@ -911,7 +914,7 @@ class SegmentSelector_store_SegmentSelectorStore {
     this.privateState.renderVersion += 1;
   }
   setAvailableSegments(segments) {
-    this.privateState.availableSegments = segments;
+    this.privateState.availableSegments = this.normalizeAvailableSegments(segments);
     this.notifyChange();
   }
   setCurrentSegment(segment) {

@@ -28,6 +28,8 @@ type SegmentSelectorStoreModule = {
         label: string;
       }>;
     };
+    getSegmentFromId: (idSegment?: string | number | null) => SavedSegment | null;
+    setAvailableSegments: (segments: SavedSegment[]) => void;
   };
 };
 
@@ -179,6 +181,22 @@ describe('SegmentEditor/SegmentSelector.store', () => {
     ]));
     expect(savedSegmentEntry?.classes).toContain('segmentStarred');
     expect(segments[0].starred).toBe('1');
+  });
+
+  it('normalizes rebuild-time available segments without mutating the source segments', () => {
+    const store = loadFreshStore();
+    const segments = createSegments();
+
+    store.init(createConfig());
+    store.setAvailableSegments(segments);
+
+    expect(store.getSegmentFromId(1)?.starred).toBe(true);
+    expect(store.getSegmentFromId(2)?.starred).toBe(false);
+    expect(store.getSegmentFromId(3)?.starred).toBe(false);
+
+    expect(segments[0].starred).toBe('1');
+    expect(segments[1].starred).toBe(0);
+    expect(segments[2].starred).toBe(0);
   });
 
   it('filters entries case- and diacritic-insensitively and shows no-results when needed', () => {
