@@ -80,7 +80,10 @@
         "GoalIsTriggered": "Goal is triggered",
         "GoalIsTriggeredWhen": "Goal is triggered when",
         "GoalName": "Goal Name",
-        "GoalNameInlineHelp": "Enter a unique name to clearly identify this goal in reports.",
+        "GoalNameHelpText": "Enter a unique name to clearly identify this goal in reports.",
+        "GoalNamePlaceholder": "Account signup",
+        "GoalDescriptionHelpText": "Enter a description to provide additional context, such as the purpose or usage.",
+        "GoalDescriptionPlaceholder": "Tracks completed signups",
         "Goals": "Goals",
         "NGoals": "%s goals",
         "NRevenue": "%s revenue",
@@ -156,7 +159,6 @@
         "ColumnConversionEntryRateDocumentation": "The percent of entrances that were converted for %s.",
         "ColumnRevenueEntryDocumentation": "The share of all revenue for %s where this page was the entry page.",
         "GoalCreated": "Goal successfully created",
-        "GoalDescriptionInlineHelp": "Enter a description to provide additional context, such as the purpose or usage.",
         "GoalUpdated": "Goal successfully updated",
         "ViewGoalReport": "View Goal Report"
     }

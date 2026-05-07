@@ -482,7 +482,10 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_ClickToViewThisGoal';
         $translationKeys[] = 'Goals_ManageGoals';
         $translationKeys[] = 'Goals_GoalName';
-        $translationKeys[] = 'Goals_GoalNameInlineHelp';
+        $translationKeys[] = 'Goals_GoalNameHelpText';
+        $translationKeys[] = 'Goals_GoalNamePlaceholder';
+        $translationKeys[] = 'Goals_GoalDescriptionHelpText';
+        $translationKeys[] = 'Goals_GoalDescriptionPlaceholder';
         $translationKeys[] = 'Goals_GoalIsTriggeredWhen';
         $translationKeys[] = 'Goals_ThereIsNoGoalToManage';
         $translationKeys[] = 'Goals_ManuallyTriggeredUsingJavascriptFunction';
@@ -524,7 +527,6 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'General_ForExampleShort';
         $translationKeys[] = 'General_Id';
         $translationKeys[] = 'General_Description';
-        $translationKeys[] = 'Goals_GoalDescriptionInlineHelp';
         $translationKeys[] = 'General_ColumnRevenue';
         $translationKeys[] = 'General_Edit';
         $translationKeys[] = 'General_Delete';
