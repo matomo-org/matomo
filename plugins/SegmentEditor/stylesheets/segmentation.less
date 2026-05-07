@@ -1,3 +1,6 @@
+@_default-space: 8px;
+@_selector-dropdown_padding: @_default-space;
+
 /* ADDITIONAL STYLES */
 .youMustBeLoggedIn {
     font-size: 8pt;
@@ -211,7 +214,7 @@ div.scrollable {
 }
 
 .segmentationContainer .submenu {
-    font-size: 13px;
+    font-size: 14px;
     min-width: 206px;
 }
 
@@ -222,22 +225,28 @@ div.scrollable {
 .segmentationContainer .submenu ul {
     display: flex;
     flex-direction: column;
-    color: @theme-color-text-light;
+    color: @theme-color-text-lighter;
     float: none;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: normal;
     line-height: 20px;
     list-style: none outside none;
     margin-right: 0;
     padding-top: 10px;
 }
+.segment-visits-label {
+  padding: 0 @_selector-dropdown_padding;
+  font-size: 14px;
+  font-weight: bold;
+}
 
 .segmentationContainer .submenu ul li {
-    padding: 2px 0;
+    padding: 2px @_selector-dropdown_padding 2px @_selector-dropdown_padding;
     margin: 3px 0 0 0;
     cursor: pointer;
     order: 2;
-    height: 26px;
+    height: 32px;
+    border-radius: @_selector-dropdown_border-radius;
 }
 
 .segmentationContainer .submenu ul li[data-idsegment=""] {
@@ -308,8 +317,8 @@ div.scrollable {
 .segmentAction {
   flex: none;
   display: flex;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 
   // Button reset
   padding: 0;
@@ -344,6 +353,7 @@ div.scrollable {
 
 .starSegment {
     order: 2;
+    color: @theme-color-text-lighter;
 }
 
 .segmentStarAnimation .starSegment {
@@ -380,19 +390,26 @@ div.scrollable {
 }
 
 .segmentStarred .starSegment path {
-    fill: black;
+    fill: currentColor;
 }
 
 .compareSegment {
-    background: url(plugins/Morpheus/images/compare.svg) no-repeat;
-    background-size: cover;
     order: 2;
+    color: @theme-color-text-lighter;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      display: block;
+      width: 18px;
+      height: 18px;
+    }
 
     &.allVisitsCompareSegment {
-        margin-left: 20px;
+        margin-left: 22px;
     }
     &.allVisitsCompareSegment--write {
-      margin-right: 20px;
+      margin-right: 22px;
     }
 }
 
@@ -405,7 +422,8 @@ div.scrollable {
     border-bottom-right-radius: 0;
 
     .dropdown-body {
-        min-width: 280px;
+        min-width: 337px;
+        padding: @_selector-dropdown_padding;
     }
 
     @media screen and (max-width: 600px) {
@@ -419,22 +437,40 @@ div.scrollable {
     display: inline-block;
     list-style: none;
     width: 100%;
+    padding: 0;
 }
 
 .segmentFilterContainer {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     display: inline-block;
+    position: relative;
     width: 100%;
+    padding: @_selector-dropdown_padding;
+
+    .icon-search {
+        position: absolute;
+        font-size: 14px;
+        top: 20px;
+        left: 20px;
+        color: @theme-color-border;
+        pointer-events: none;
+    }
 }
 
 .segmentEditorPanel.expanded .segmentFilterContainer > input[type="text"] {
     width: 100%;
-    padding: 7px 10px 7px 10px;
+    padding: 7px 10px 7px 34px;
 
     background: @theme-color-background-contrast;
     border: 1px solid @theme-color-border;
     font-size: 11px;
     color: #999;
+    height: 38px;
+    border-radius: @_selector-dropdown_border-radius;
+
+    &::placeholder {
+        font-size: 14px;
+    }
 }
 
 .segmentEditorPanel.expanded .segmentFilterContainer > span {
@@ -459,13 +495,20 @@ div.scrollable {
     justify-content: center;
     align-items: center;
 
-    width: 100%;
+    width: ~'calc(100% - 16px)';
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    margin: 1rem 0 0.5rem 0;
+    margin: 16px 8px 8px 8px;
     height: auto;
     min-height: 36px;
     line-height: 1.5;
+    box-shadow: none;
+}
+
+.segmentEditorPanel.expanded .manage_segment_btn {
+    width: ~'calc(100% - 16px)';
+    margin: 0 8px 8px 8px;
+    box-shadow: none;
 }
 
 .segmentationContainer > ul.submenu > li {
@@ -592,6 +635,8 @@ a.metric_category {
 
 .segname {
     flex: auto;
+    font-size: 14px;
+    line-height: 20px;
     padding-right: 10px;
     order: 1;
 }
