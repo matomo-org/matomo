@@ -92,7 +92,8 @@ class SegmentSelectorStore {
     // being a boolean. The backend sends "0"/"1" strings or 0/1 numbers,
     // and the screenshot tests strict-equality compare against true/false.
     this.privateState.availableSegments = config.availableSegments.map(
-      (segment) => Object.assign({}, segment, {
+      (segment) => ({
+        ...segment,
         starred: this.normalizeStarredState(segment.starred),
       }),
     );
