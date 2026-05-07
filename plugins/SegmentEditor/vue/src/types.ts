@@ -62,6 +62,7 @@ export interface SegmentSelectorEntry {
   showCompareButton?: boolean;
   showEditButton?: boolean;
   showStarButton?: boolean;
+  isStarred?: boolean;
   starState?: string;
   starTitle?: string;
   tooltip: string;

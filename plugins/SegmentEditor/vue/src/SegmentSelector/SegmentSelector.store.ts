@@ -507,6 +507,7 @@ class SegmentSelectorStore {
       label: labelText,
       tooltip: tooltipText,
       showStarButton: true,
+      isStarred: this.normalizeStarredState(segment.starred),
       starTitle: this.getStarSegmentTitle(segment, canEdit),
       starState: canEdit ? '' : 'disabled',
       showEditButton: this.privateState.segmentAccess === 'write',

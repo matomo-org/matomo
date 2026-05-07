@@ -11,3 +11,5 @@ export { default as SegmentGenerator } from './SegmentGenerator/SegmentGenerator
 export * from './SegmentSelector/SegmentSelector.helpers';
 export { default as SegmentSelectorStore } from './SegmentSelector/SegmentSelector.store';
 export { default as SegmentSelector } from './SegmentSelector/SegmentSelector.vue';
+export { default as CompareIcon } from './SegmentSelector/CompareIcon.vue';
+export { default as StarIcon } from './SegmentSelector/StarIcon.vue';

@@ -37,6 +37,7 @@ function createViewModel() {
         label: 'Café Visits',
         tooltip: 'Café Visits',
         showStarButton: true,
+        isStarred: false,
         starTitle: 'Star segment',
         starState: '',
         showEditButton: true,
@@ -115,7 +116,30 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
     expect(wrapper.find('.segmentationTitle').text()).toBe('Café Visits');
     expect(wrapper.find('.segname').text()).toBe('Café Visits');
     expect(wrapper.find('.add_new_segment').exists()).toBe(true);
+    expect(wrapper.find('.starSegment svg').exists()).toBe(true);
+    expect(wrapper.find('.compareSegment svg').exists()).toBe(true);
     expect(mockStore.getSelectorViewModel).toHaveBeenCalledWith('');
+  });
+
+  it('passes the starred state through to the star icon fill', () => {
+    const starredViewModel = createViewModel();
+    starredViewModel.entries[0].isStarred = true;
+    mockStore.getSelectorViewModel.mockImplementation(() => starredViewModel);
+
+    const { wrapper } = mountComponent();
+
+    expect(wrapper.find('.starSegment path').attributes('fill')).toBe('currentColor');
+  });
+
+  it('passes the compare state through to the compare icon fill', async () => {
+    const activeViewModel = createViewModel();
+    activeViewModel.entries[0].compareState = 'active';
+    mockStore.getSelectorViewModel.mockImplementation(() => activeViewModel);
+
+    const { wrapper } = mountComponent();
+
+    expect(wrapper.find('.compareSegment').attributes('data-state')).toBe('active');
+    expect(wrapper.findAll('.compareSegment path').every((path) => path.attributes('fill') === 'currentColor')).toBe(true);
   });
 
   it('dispatches a segment selection event when a segment is clicked', async () => {
