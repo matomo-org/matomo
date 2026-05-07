@@ -879,7 +879,13 @@ class SegmentSelector_store_SegmentSelectorStore {
     SegmentSelector_store_defineProperty(this, "starChangeCallbacks", []);
   }
   init(config) {
-    this.privateState.availableSegments = config.availableSegments;
+    // Normalise the starred flag up-front so external consumers (e.g. the
+    // page-table panel API getSegmentFromId) can rely on `segment.starred`
+    // being a boolean. The backend sends "0"/"1" strings or 0/1 numbers,
+    // and the screenshot tests strict-equality compare against true/false.
+    this.privateState.availableSegments = config.availableSegments.map(segment => Object.assign(Object.assign({}, segment), {}, {
+      starred: this.normalizeStarredState(segment.starred)
+    }));
     this.privateState.currentSegment = config.currentSegment || '';
     this.privateState.isUserAnonymous = config.isUserAnonymous;
     this.privateState.isInitialized = true;
