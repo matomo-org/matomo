@@ -280,6 +280,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             expect(await page.screenshotSelector('.pageWrap,.ui-tooltip')).to.matchImage('visitors_realtime_map');
         });
+
+        it('should load the visitors > real-time visits page correctly', async function () {
+            await page.goto("?" + urlBaseGeneric + idSite3Params + "#?" + idSite3Params + "&category=General_Visitors&subcategory=General_RealTime");
+            //await page.waitForNetworkIdle();
+            await page.mouse.move(-10, -10);
+            //await page.click('#pauseImage'); // prevent refreshes breaking the tests
+            await page.waitForTimeout(100);
+
+            expect(await screenshotPageWrap()).to.matchImage('visitors_realtime_visits');
+        });
     });
 
     describe("ActionsPages", function () {
