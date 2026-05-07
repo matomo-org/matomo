@@ -250,6 +250,9 @@ class SegmentSelectorStore {
 
   private isSegmentSharedWithMeBySuperUser(segment: SavedSegment) {
     const { userContext } = this.privateState;
+    if (userContext.hasSuperUserAccess) {
+      return false;
+    }
     return segment.login !== userContext.login
       && Number(segment.enable_all_users) === 1;
   }
@@ -459,7 +462,6 @@ class SegmentSelectorStore {
       key: 'segment-all-visits',
       type: 'segment',
       classes: [
-        'allVisitsEntry',
         this.privateState.currentSegment === '' ? 'segmentSelected' : '',
         this.isSegmentCompared('', context.comparedSegments) ? 'comparedSegment' : '',
       ].join(' ').trim(),
@@ -470,7 +472,10 @@ class SegmentSelectorStore {
       showStarButton: false,
       showEditButton: false,
       showCompareButton: context.comparisonAvailable,
-      compareButtonClass: 'segmentAction compareSegment allVisitsCompareSegment',
+      compareButtonClass: [
+        'segmentAction compareSegment allVisitsCompareSegment',
+        this.privateState.segmentAccess === 'write' ? 'allVisitsCompareSegment--write' : '',
+      ].join(' ').trim(),
       compareTitle: allVisitsCompareState.title,
       compareState: allVisitsCompareState.state,
     };
@@ -504,6 +509,8 @@ class SegmentSelectorStore {
       definition: segment.definition,
       label: labelText,
       tooltip: tooltipText,
+      // Intentionally hide the star control for anonymous users rather than
+      // showing a disabled state; this is the agreed product behavior.
       showStarButton: !this.privateState.isUserAnonymous,
       isStarred: this.normalizeStarredState(segment.starred),
       starTitle: this.getStarSegmentTitle(segment, canEdit),
@@ -512,10 +519,7 @@ class SegmentSelectorStore {
       editTitle: this.getEditSegmentTitle(segment, canEdit),
       editState: canEdit ? '' : 'disabled',
       showCompareButton: context.comparisonAvailable,
-      compareButtonClass: [
-        'segmentAction compareSegment',
-        this.privateState.isUserAnonymous ? 'compareSegment--rightAligned' : '',
-      ].join(' ').trim(),
+      compareButtonClass: 'segmentAction compareSegment',
       compareTitle: compareState.title,
       compareState: compareState.state,
     };

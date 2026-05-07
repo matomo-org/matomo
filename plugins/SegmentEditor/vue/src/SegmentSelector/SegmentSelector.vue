@@ -87,21 +87,21 @@
                         <StarIcon :filled="!!entry.isStarred" />
                       </button>
                       <button
-                        v-if="entry.showEditButton"
-                        class="segmentAction editSegment"
-                        :title="entry.editTitle"
-                        :data-state="entry.editState"
-                        @click.stop.prevent="openEditSegment(entry)"
-                      />
-                      <button
                         v-if="entry.showCompareButton"
-                        :class="entry.compareButtonClass"
+                        :class="[entry.compareButtonClass, compareSegmentClass]"
                         :title="entry.compareTitle"
                         :data-state="entry.compareState"
                         @click.stop.prevent="toggleComparison(entry)"
                       >
                         <CompareIcon :state="entry.compareState" />
                       </button>
+                      <button
+                        v-if="entry.showEditButton"
+                        class="segmentAction editSegment"
+                        :title="entry.editTitle"
+                        :data-state="entry.editState"
+                        @click.stop.prevent="openEditSegment(entry)"
+                      />
                     </template>
                   </li>
                 </template>
@@ -185,6 +185,12 @@ export default defineComponent({
 
       const filterValue = this.debouncedSearchInput.length >= 2 ? this.debouncedSearchInput : '';
       return SegmentSelectorStore.getSelectorViewModel(filterValue) as SegmentSelectorViewModel;
+    },
+    compareSegmentClass(): string {
+      if (this.viewModel) {
+        return this.viewModel.isUserAnonymous ? 'isAnonymous' : '';
+      }
+      return '';
     },
   },
   mounted() {

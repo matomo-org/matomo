@@ -1,11 +1,14 @@
-@_default-space: 8px;
-@_selector-dropdown_padding: @_default-space;
+@_segmentselector-default-space: 8px;
+@_segmentselector-dropdown_padding: @_segmentselector-default-space;
+@_segmentselector-action-size: 18px;
+@_segmentselector-button-height: 36px;
+@_segmentselector-full-width-button-width: ~'calc(100% - 16px)';
 
 /* ADDITIONAL STYLES */
 .youMustBeLoggedIn {
     display: block;
     font-size: 12px;
-    padding: @_selector-dropdown_padding;
+    padding: @_segmentselector-dropdown_padding;
     line-height: 14px;
 
 }
@@ -234,17 +237,25 @@ div.scrollable {
     line-height: 20px;
     list-style: none outside none;
     margin-right: 0;
-    padding-top: 10px;
+    padding-top: 8px;
+}
+.segment-visits-label {
+  height: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
 }
 .segment-visits-label,
-.segmentsSharedWithMeBySuperUser {
-  padding: 0 @_selector-dropdown_padding;
+.segmentsSharedWithMeBySuperUser,
+.segmentsVisibleToSuperUser {
+  padding: 0 @_segmentselector-dropdown_padding;
   font-size: 14px;
   font-weight: bold;
+  color: @theme-color-text;
 }
 
 .segmentationContainer .submenu ul li {
-    padding: 2px @_selector-dropdown_padding 2px @_selector-dropdown_padding;
+    padding: 2px @_segmentselector-dropdown_padding 2px @_segmentselector-dropdown_padding;
     margin: 3px 0 0 0;
     cursor: pointer;
     order: 2;
@@ -320,8 +331,8 @@ div.scrollable {
 .segmentAction {
   flex: none;
   display: flex;
-  width: 18px;
-  height: 18px;
+  width: @_segmentselector-action-size;
+  height: @_segmentselector-action-size;
 
   // Button reset
   padding: 0;
@@ -357,6 +368,11 @@ div.scrollable {
 .starSegment {
     order: 2;
     color: @theme-color-text-lighter;
+}
+
+.starSegment + .compareSegment,
+.compareSegment + .editSegment {
+    margin-left: 8px;
 }
 
 .segmentStarAnimation .starSegment {
@@ -396,6 +412,10 @@ div.scrollable {
     fill: currentColor;
 }
 
+.entityTable .segmentStarred .entityTable_StarCell .starSegment path {
+    fill: black;
+}
+
 .compareSegment {
     order: 2;
     color: @theme-color-text-lighter;
@@ -404,27 +424,17 @@ div.scrollable {
 
     svg {
       display: block;
-      width: 18px;
-      height: 18px;
+      width: @_segmentselector-action-size;
+      height: @_segmentselector-action-size;
     }
 
-    &.compareSegment--rightAligned {
-        margin-left: auto;
+    &.allVisitsCompareSegment,
+    &.isAnonymous:not(.allVisitsCompareSegment){
+        margin-left: 22px;
     }
-
-    &.allVisitsCompareSegment {
-        order: 4;
+    &.allVisitsCompareSegment--write {
+      margin-right: 30px;
     }
-}
-
-.segmentList li.allVisitsEntry .compareSegment {
-    margin-left: auto;
-    order: 4;
-}
-
-.segmentList li.allVisitsEntry .segname {
-    flex: 1 1 auto;
-    min-width: 0;
 }
 
 .comparisonsDisabled  .compareSegment {
@@ -437,7 +447,7 @@ div.scrollable {
 
     .dropdown-body {
         min-width: 337px;
-        padding: @_selector-dropdown_padding;
+        padding: @_segmentselector-dropdown_padding;
     }
 
     @media screen and (max-width: 600px) {
@@ -455,11 +465,11 @@ div.scrollable {
 }
 
 .segmentFilterContainer {
-    margin-bottom: 12px;
+    margin-bottom: 4px;
     display: block;
     position: relative;
     width: 100%;
-    padding: @_selector-dropdown_padding;
+    padding: @_segmentselector-dropdown_padding;
 }
 
 .segmentEditorPanel.expanded .segmentFilterContainer:hover .searchInputClear {
@@ -476,28 +486,28 @@ div.scrollable {
         justify-content: center;
         align-items: center;
 
-        width: ~'calc(100% - 16px)';
+        width: @_segmentselector-full-width-button-width;
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
 
-        min-height: 36px;
-        line-height: 36px;
+        min-height: @_segmentselector-button-height;
+        line-height: @_segmentselector-button-height;
         box-shadow: none;
     }
     .add_new_segment {
-        margin: 16px @_selector-dropdown_padding @_selector-dropdown_padding @_selector-dropdown_padding;
+        margin: 16px @_segmentselector-dropdown_padding @_segmentselector-dropdown_padding @_segmentselector-dropdown_padding;
     }
     .sign_in_segment_btn {
-        margin: @_selector-dropdown_padding;
+        margin: @_segmentselector-dropdown_padding;
     }
 }
 
 
 .segmentEditorPanel.expanded .manage_segment_btn {
-    width: ~'calc(100% - 16px)';
-    margin: 0 @_selector-dropdown_padding @_selector-dropdown_padding @_selector-dropdown_padding;
+    width: @_segmentselector-full-width-button-width;
+    margin: 0 @_segmentselector-dropdown_padding @_segmentselector-dropdown_padding @_segmentselector-dropdown_padding;
     box-shadow: none;
-    line-height: 36px;
+    line-height: @_segmentselector-button-height;
 }
 
 .segmentationContainer > ul.submenu > li {
@@ -508,7 +518,6 @@ div.scrollable {
 
 .segmentList {
     max-height: 300px;
-    margin-top: 5px;
     overflow-x: hidden;
     overflow-y: auto;
 
@@ -662,14 +671,6 @@ a.metric_category {
     margin-left: 0.5em;
     margin-bottom: 0.25em;
     vertical-align: middle;
-}
-
-.segmentsVisibleToSuperUser {
-    font-style: italic;
-
-    li {
-        font-style: normal;
-    }
 }
 
 .enable_all_users, .visible_to_website, .auto_archive {

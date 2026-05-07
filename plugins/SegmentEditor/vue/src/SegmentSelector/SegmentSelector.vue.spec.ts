@@ -57,6 +57,51 @@ function createViewModel() {
   };
 }
 
+function createViewModelForSearch(searchValue = '') {
+  const viewModel = createViewModel();
+
+  if (searchValue === 'ca') {
+    return {
+      ...viewModel,
+      entries: viewModel.entries.filter((entry) => entry.label === 'Café Visits'),
+    };
+  }
+
+  if (searchValue) {
+    return {
+      ...viewModel,
+      entries: [],
+    };
+  }
+
+  return {
+    ...viewModel,
+    entries: [
+      ...viewModel.entries,
+      {
+        key: 'segment-2',
+        type: 'segment',
+        classes: '',
+        idsegment: '2',
+        definition: 'deviceType==mobile',
+        label: 'Mobile Visits',
+        tooltip: 'Mobile Visits',
+        showStarButton: true,
+        isStarred: false,
+        starTitle: 'Star segment',
+        starState: '',
+        showEditButton: true,
+        editTitle: 'Edit segment',
+        editState: '',
+        showCompareButton: true,
+        compareButtonClass: 'segmentAction compareSegment',
+        compareTitle: 'Compare segment',
+        compareState: '',
+      },
+    ],
+  };
+}
+
 function createAnonymousViewModel() {
   return {
     ...createViewModel(),
@@ -83,7 +128,7 @@ const mockStore: MockStore = {
       isInitialized: true,
     },
   },
-  getSelectorViewModel: jest.fn(() => createViewModel()),
+  getSelectorViewModel: jest.fn((searchValue = '') => createViewModelForSearch(searchValue)),
   notifyChange: jest.fn(),
   onStarChange: jest.fn(() => jest.fn()),
   toggleStarredSegmentById: jest.fn(),
@@ -151,7 +196,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockStore.state.value.isInitialized = true;
-    mockStore.getSelectorViewModel.mockImplementation(() => createViewModel());
+    mockStore.getSelectorViewModel.mockImplementation((searchValue = '') => createViewModelForSearch(searchValue));
     mockStore.onStarChange.mockImplementation(() => jest.fn());
   });
 
@@ -216,13 +261,23 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
     expect(mockStore.notifyChange).not.toHaveBeenCalled();
 
     jest.advanceTimersByTime(500);
+    await wrapper.vm.$nextTick();
 
     expect(mockStore.notifyChange).toHaveBeenCalledTimes(1);
+    expect((wrapper.vm as PlainObject).debouncedSearchInput).toBe('ca');
+    expect(mockStore.getSelectorViewModel).toHaveBeenLastCalledWith('ca');
+    expect(wrapper.findAll('.segname')).toHaveLength(1);
+    expect(wrapper.find('.segname').text()).toBe('Café Visits');
 
     await wrapper.find('.searchInputClear').trigger('click');
+    await wrapper.vm.$nextTick();
 
     expect((wrapper.vm as PlainObject).searchInput).toBe('');
+    expect((wrapper.vm as PlainObject).debouncedSearchInput).toBe('');
     expect(mockStore.notifyChange).toHaveBeenCalledTimes(2);
+    expect(mockStore.getSelectorViewModel).toHaveBeenLastCalledWith('');
+    expect(wrapper.findAll('.segname')).toHaveLength(2);
+    expect(wrapper.findAll('.segname').map((node) => node.text())).toEqual(['Café Visits', 'Mobile Visits']);
   });
 
   it('dispatches an add-segment event when the add button is clicked', async () => {
