@@ -54,6 +54,12 @@
                     <br>
                   </span>
                   <li
+                    v-else-if="entry.type === 'no-results'"
+                    :class="getEntryClasses(entry)"
+                  >
+                    {{ entry.label }}
+                  </li>
+                  <li
                     v-else
                     :class="getEntryClasses(entry)"
                     :data-idsegment="entry.idsegment"
