@@ -6633,33 +6633,31 @@ function scrollFirstElementIntoView(element) {
 QuickAccessvue_type_script_lang_ts.render = QuickAccessvue_type_template_id_791ffd77_render
 
 /* harmony default export */ var QuickAccess = (QuickAccessvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/SearchInput/SearchInput.vue?vue&type=template&id=aea12972
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/SearchInput/SearchInput.vue?vue&type=template&id=627c78d1
 
-const SearchInputvue_type_template_id_aea12972_hoisted_1 = {
+const SearchInputvue_type_template_id_627c78d1_hoisted_1 = {
   class: "searchInputContainer"
 };
-const SearchInputvue_type_template_id_aea12972_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const SearchInputvue_type_template_id_627c78d1_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-search"
 }, null, -1);
-const SearchInputvue_type_template_id_aea12972_hoisted_3 = ["value", "placeholder"];
-const SearchInputvue_type_template_id_aea12972_hoisted_4 = ["title"];
-function SearchInputvue_type_template_id_aea12972_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SearchInputvue_type_template_id_aea12972_hoisted_1, [SearchInputvue_type_template_id_aea12972_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])({
+const SearchInputvue_type_template_id_627c78d1_hoisted_3 = ["value", "placeholder"];
+function SearchInputvue_type_template_id_627c78d1_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SearchInputvue_type_template_id_627c78d1_hoisted_1, [SearchInputvue_type_template_id_627c78d1_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])({
     class: "searchInputField browser-default",
     type: "text",
     value: _ctx.modelValue,
     placeholder: _ctx.resolvedPlaceholder
   }, _ctx.$attrs, {
     onInput: _cache[0] || (_cache[0] = $event => _ctx.onInput($event))
-  }), null, 16, SearchInputvue_type_template_id_aea12972_hoisted_3), _ctx.showClear && _ctx.modelValue ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+  }), null, 16, SearchInputvue_type_template_id_627c78d1_hoisted_3), _ctx.showClear && _ctx.modelValue ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
     key: 0,
     type: "button",
     class: "searchInputClear",
-    title: _ctx.translate('General_Clear'),
     onClick: _cache[1] || (_cache[1] = $event => _ctx.onClear())
-  }, null, 8, SearchInputvue_type_template_id_aea12972_hoisted_4)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+  })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SearchInput/SearchInput.vue?vue&type=template&id=aea12972
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SearchInput/SearchInput.vue?vue&type=template&id=627c78d1
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/SearchInput/SearchInput.vue?vue&type=script&lang=ts
 
@@ -6703,7 +6701,7 @@ function SearchInputvue_type_template_id_aea12972_render(_ctx, _cache, $props, $
 
 
 
-SearchInputvue_type_script_lang_ts.render = SearchInputvue_type_template_id_aea12972_render
+SearchInputvue_type_script_lang_ts.render = SearchInputvue_type_template_id_627c78d1_render
 
 /* harmony default export */ var SearchInput = (SearchInputvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/FieldArray/FieldArray.vue?vue&type=template&id=d3908e40
