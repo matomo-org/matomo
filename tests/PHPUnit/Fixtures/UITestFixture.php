@@ -77,18 +77,11 @@ class UITestFixture extends SqlDump
         // Otherwise PHP will run into a segfault when trying to execute updates for plugins.
         EventDispatcher::$_SKIP_EVENTS_IN_TESTS = true;
 
-        // fetch the installed versions of all plugins from options table
-        $pluginVersions = Option::getLike('version_%');
-        $plugins = [];
-
-        foreach ($pluginVersions as $pluginName => $version) {
-            $name = substr($pluginName, 8);
-            if (Manager::getInstance()->isValidPluginName($name) && Manager::getInstance()->isPluginInFilesystem($name)) {
-                $plugins[] = $name;
-            }
-        }
-
-        self::resetPluginsInstalledConfig($plugins);
+        // PluginsInstalled is intentionally left as performSetUp's installAndActivatePlugins
+        // populated it (Plugins[] config load order). Resetting it here from
+        // Option::getLike('version_%') used to reorder it alphabetically by option_name PK,
+        // which made the Diagnostics configfile screenshot non-deterministic between
+        // first/subsequent fixture setups in the same node run-tests.js invocation.
 
         self::updateDatabase();
 
