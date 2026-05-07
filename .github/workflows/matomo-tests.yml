@@ -244,7 +244,7 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: *ui-max-parallel
       matrix:
-        part: [ 0, 1, 2 ]
+        part: [ 0, 1, 2, 3, 4, 5 ]
     steps:
       - uses: actions/checkout@v6
         with:
