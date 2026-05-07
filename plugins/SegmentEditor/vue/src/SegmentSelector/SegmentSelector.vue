@@ -126,18 +126,13 @@
             {{ translate('SegmentEditor_ManageSegments') }}
           </a>
         </template>
-        <template v-else>
-          <hr>
+        <template v-else-if="viewModel.isUserAnonymous">
           <ul class="submenu">
             <li>
-              <span
-                v-if="viewModel.isUserAnonymous"
-                class="youMustBeLoggedIn"
-              >
+              <span class="youMustBeLoggedIn">
                 {{ translate('SegmentEditor_YouMustBeLoggedInToCreateSegments') }}
               </span>
               <a
-                v-if="viewModel.isUserAnonymous"
                 :href="viewModel.loginUrl"
                 tabindex="4"
                 class="sign_in_segment_btn btn"

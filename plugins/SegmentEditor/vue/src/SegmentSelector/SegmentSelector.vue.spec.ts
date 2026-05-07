@@ -61,7 +61,19 @@ function createAnonymousViewModel() {
   return {
     ...createViewModel(),
     authorizedToCreateSegments: false,
+    entries: createViewModel().entries.map((entry) => ({
+      ...entry,
+      showStarButton: false,
+    })),
     isUserAnonymous: true,
+  };
+}
+
+function createLoggedInReadOnlyViewModel() {
+  return {
+    ...createViewModel(),
+    authorizedToCreateSegments: false,
+    isUserAnonymous: false,
   };
 }
 
@@ -154,6 +166,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
     expect(wrapper.find('.segmentationTitle').text()).toBe('Café Visits');
     expect(wrapper.find('.segname').text()).toBe('Café Visits');
     expect(wrapper.find('.add_new_segment').exists()).toBe(true);
+    expect(wrapper.find('.manage_segment_btn').exists()).toBe(true);
     expect(wrapper.find('.starSegment svg').exists()).toBe(true);
     expect(wrapper.find('.compareSegment svg').exists()).toBe(true);
     expect(mockStore.getSelectorViewModel).toHaveBeenCalledWith('');
@@ -232,6 +245,20 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
     expect(signInLink.attributes('href')).toBe('index.php?module=Login');
     expect(signInLink.text()).toBe('Login_LogIn');
     expect(wrapper.find('.add_new_segment').exists()).toBe(false);
+    expect(wrapper.find('.manage_segment_btn').exists()).toBe(false);
+    expect(wrapper.find('.starSegment').exists()).toBe(false);
+  });
+
+  it('shows no footer actions or sign in prompt for logged-in users without write access', () => {
+    mockStore.getSelectorViewModel.mockImplementation(() => createLoggedInReadOnlyViewModel());
+
+    const { wrapper } = mountComponent();
+
+    expect(wrapper.find('.add_new_segment').exists()).toBe(false);
+    expect(wrapper.find('.manage_segment_btn').exists()).toBe(false);
+    expect(wrapper.find('.sign_in_segment_btn').exists()).toBe(false);
+    expect(wrapper.find('.youMustBeLoggedIn').exists()).toBe(false);
+    expect(wrapper.find('.starSegment').exists()).toBe(true);
   });
 
   it('dispatches a toggle-panel event when the title is clicked', async () => {

@@ -459,6 +459,7 @@ class SegmentSelectorStore {
       key: 'segment-all-visits',
       type: 'segment',
       classes: [
+        'allVisitsEntry',
         this.privateState.currentSegment === '' ? 'segmentSelected' : '',
         this.isSegmentCompared('', context.comparedSegments) ? 'comparedSegment' : '',
       ].join(' ').trim(),
@@ -469,10 +470,7 @@ class SegmentSelectorStore {
       showStarButton: false,
       showEditButton: false,
       showCompareButton: context.comparisonAvailable,
-      compareButtonClass: [
-        'segmentAction compareSegment allVisitsCompareSegment',
-        this.privateState.segmentAccess === 'write' ? 'allVisitsCompareSegment--write' : '',
-      ].join(' ').trim(),
+      compareButtonClass: 'segmentAction compareSegment allVisitsCompareSegment',
       compareTitle: allVisitsCompareState.title,
       compareState: allVisitsCompareState.state,
     };
@@ -506,7 +504,7 @@ class SegmentSelectorStore {
       definition: segment.definition,
       label: labelText,
       tooltip: tooltipText,
-      showStarButton: true,
+      showStarButton: !this.privateState.isUserAnonymous,
       isStarred: this.normalizeStarredState(segment.starred),
       starTitle: this.getStarSegmentTitle(segment, canEdit),
       starState: canEdit ? '' : 'disabled',
@@ -514,7 +512,10 @@ class SegmentSelectorStore {
       editTitle: this.getEditSegmentTitle(segment, canEdit),
       editState: canEdit ? '' : 'disabled',
       showCompareButton: context.comparisonAvailable,
-      compareButtonClass: 'segmentAction compareSegment',
+      compareButtonClass: [
+        'segmentAction compareSegment',
+        this.privateState.isUserAnonymous ? 'compareSegment--rightAligned' : '',
+      ].join(' ').trim(),
       compareTitle: compareState.title,
       compareState: compareState.state,
     };

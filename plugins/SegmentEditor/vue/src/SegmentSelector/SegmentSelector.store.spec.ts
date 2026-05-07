@@ -26,6 +26,8 @@ type SegmentSelectorStoreModule = {
         type: string;
         classes?: string;
         label: string;
+        compareButtonClass?: string;
+        showStarButton?: boolean;
       }>;
     };
     getSegmentFromId: (idSegment?: string | number | null) => SavedSegment | null;
@@ -172,6 +174,7 @@ describe('SegmentEditor/SegmentSelector.store', () => {
 
     const viewModel = store.getSelectorViewModel('');
     const savedSegmentEntry = viewModel.entries.find((entry) => entry.key === 'segment-1');
+    const allVisitsEntry = viewModel.entries.find((entry) => entry.key === 'segment-all-visits');
 
     expect(viewModel.currentSegmentTitle).toBe('Café Visits');
     expect(viewModel.entries.map((entry) => entry.label)).toEqual(expect.arrayContaining([
@@ -179,6 +182,7 @@ describe('SegmentEditor/SegmentSelector.store', () => {
       'Café Visits',
       'Mobile Visits',
     ]));
+    expect(allVisitsEntry?.classes).toContain('allVisitsEntry');
     expect(savedSegmentEntry?.classes).toContain('segmentStarred');
     expect(segments[0].starred).toBe('1');
   });
@@ -231,5 +235,28 @@ describe('SegmentEditor/SegmentSelector.store', () => {
     ]));
     expect(transliteratedViewModel.entries.map((entry) => entry.type)).toContain('no-results');
     expect(transliteratedViewModel.entries.map((entry) => entry.label)).toContain('No results');
+  });
+
+  it('hides star buttons for anonymous users while keeping saved segments in the list', () => {
+    const store = loadFreshStore();
+
+    store.init(createConfig({
+      isUserAnonymous: true,
+      segmentAccess: 'read',
+      userContext: {
+        isAnonymous: true,
+        hasSuperUserAccess: false,
+        login: '',
+      },
+    }));
+
+    const viewModel = store.getSelectorViewModel('');
+    const savedSegmentEntry = viewModel.entries.find((entry) => entry.key === 'segment-1');
+    const allVisitsEntry = viewModel.entries.find((entry) => entry.key === 'segment-all-visits');
+
+    expect(savedSegmentEntry?.label).toBe('Café Visits');
+    expect(savedSegmentEntry?.showStarButton).toBe(false);
+    expect(savedSegmentEntry?.compareButtonClass).toContain('compareSegment--rightAligned');
+    expect(allVisitsEntry?.classes).toContain('allVisitsEntry');
   });
 });
