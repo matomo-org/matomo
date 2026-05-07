@@ -31,10 +31,8 @@
             class="segmentFilter browser-default"
             type="text"
             tabindex="4"
-            :value="searchInput"
+            v-model="searchInput"
             :placeholder="translate('General_Search')"
-            @input="onSearchInput"
-            @keyup="onSearchInput"
           >
           <span @click.prevent="clearSearch" />
         </div>
@@ -173,6 +171,7 @@ export default defineComponent({
       filterTimer: null as ReturnType<typeof window.setTimeout> | null,
       panelContainer: null as HTMLElement | null,
       searchInput: '',
+      debouncedSearchInput: '',
       starAnimationClasses: {} as Record<string, string>,
       starPath,
       unsubscribeStarChange: null as (() => void) | null,
@@ -184,14 +183,13 @@ export default defineComponent({
         return null;
       }
 
-      const filterValue = this.searchInput.length >= 2 ? this.searchInput : '';
+      const filterValue = this.debouncedSearchInput.length >= 2 ? this.debouncedSearchInput : '';
       return SegmentSelectorStore.getSelectorViewModel(filterValue) as SegmentSelectorViewModel;
     },
   },
   mounted() {
     const root = this.$refs.root as HTMLElement;
     this.panelContainer = root.closest('.segmentListContainer');
-
     if (this.panelContainer) {
       this.panelContainer.addEventListener('SegmentEditor.resetFilter', this.clearSearch);
     }
@@ -222,6 +220,11 @@ export default defineComponent({
       window.clearTimeout(this.filterTimer);
       this.filterTimer = null;
     }
+  },
+  watch: {
+    searchInput(newValue: string) {
+      this.onSearchInput(newValue);
+    },
   },
   methods: {
     translate,
@@ -293,15 +296,13 @@ export default defineComponent({
       delete classes[segmentId];
       this.starAnimationClasses = classes;
     },
-    onSearchInput(event: Event) {
-      const target = event.target as HTMLInputElement | null;
-      this.searchInput = target?.value || '';
-
+    onSearchInput(value: string) {
       if (this.filterTimer) {
         window.clearTimeout(this.filterTimer);
       }
 
       this.filterTimer = window.setTimeout(() => {
+        this.debouncedSearchInput = value;
         SegmentSelectorStore.notifyChange();
       }, 500);
     },
