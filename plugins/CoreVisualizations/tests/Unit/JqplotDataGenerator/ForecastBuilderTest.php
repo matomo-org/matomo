@@ -104,7 +104,7 @@ class ForecastBuilderTest extends TestCase
         yield 'down, below current' => [9.99, 10.0, Evolution::MONOTONICITY_DOWN, true];
     }
 
-    public function testBuildUsesPriorForecastAsFirstNoDataBaseline(): void
+    public function testBuildUsesSameDoWPriorForDayTargetIncompleteTick(): void
     {
         $site = $this->createSiteMock();
 
@@ -117,14 +117,11 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-18', $site, '2026-04-18 00:00:00'),
         ];
 
-        // Apr 17 (Fri partial, archived noon, partial=20): same-DOW filter keeps only Apr 10
-        // Fri = 80, so prior = 80. Linear = 20 / 0.5 = 40. Base prior weight at 1 sample/day is
-        // 0.2; the early-period bias adds (1 - 0.5) * 0.4 = 0.2 → effective weight 0.4.
-        // Forecast = 0.6 * 40 + 0.4 * 80 = 56.
-        // Apr 18 (Sat partial, archived 00:00, partial=0): same-DOW filter keeps Apr 11 Sat = 100,
-        // so prior = 100. With currentValue ≤ 0 and a previous forecast in hand the base falls
-        // back to the carried 56. At elapsedRatio = 0 the early-period bias contributes its full
-        // 0.4 → effective weight 0.6. Forecast = 0.4 * 56 + 0.6 * 100 = 82.4.
+        // Apr 17 (Fri partial, partial=20): same-DOW filter keeps only Apr 10 Fri = 80, so the
+        // prior-only forecast is 80. Apr 18 (Sat partial, partial=0): same-DOW filter keeps
+        // Apr 11 Sat = 100, so the prior-only forecast is 100. The seasonal-decomposition path
+        // does not apply on day targets (no useful sub-period); the displayed partial is no
+        // longer multiplied by an elapsed-time fraction.
         $forecastData = (new ForecastBuilder())->build(
             ['Visits' => [80.0, 100.0, 140.0, 60.0, 20.0, 0.0]],
             $dataTables,
@@ -139,7 +136,7 @@ class ForecastBuilderTest extends TestCase
             ['Visits' => false]
         );
 
-        self::assertSame([[null, null, null, null, 55.9996, 82.3998]], $forecastData);
+        self::assertSame([[null, null, null, null, 80.0, 100.0]], $forecastData);
     }
 
     public function testBuildAppliesSuppliedZeroDecimalForecastPrecision(): void
@@ -170,9 +167,9 @@ class ForecastBuilderTest extends TestCase
             ['Visits' => 0]
         );
 
-        // Same Apr 17 forecast as testBuildUsesPriorForecastAsFirstNoDataBaseline (= 56) but
-        // round()'d to integer precision via the per-series forecast precision flag.
-        self::assertSame([[null, null, null, null, 56.0]], $forecastData);
+        // Same Apr 17 forecast as testBuildUsesSameDoWPriorForDayTargetIncompleteTick (= 80)
+        // but round()'d to integer precision via the per-series forecast precision flag.
+        self::assertSame([[null, null, null, null, 80.0]], $forecastData);
     }
 
     public function testBuildAppliesSuppliedTwoDecimalForecastPrecision(): void
@@ -382,13 +379,13 @@ class ForecastBuilderTest extends TestCase
         );
 
         // Apr 3 Fri is flagged unavailable so its 0 sample is dropped. Same-DOW filter keeps
-        // Mar 27 Fri = 80 and Apr 10 Fri = 100 — slope 20, intercept 60, prior 60 + 20*2.5 = 110.
-        // Linear = 20 / 0.5 = 40. Two-sample weight is 0.4 + (1 - 0.5)*0.4 = 0.6.
-        // Forecast = 0.4 * 40 + 0.6 * 110 = 82.
-        self::assertSame([[null, null, null, 81.9997]], $forecastData);
+        // Mar 27 Fri = 80 and Apr 10 Fri = 100 — slope 20, intercept 60, damped projection at
+        // x = 2 + 0.5 = 2.5 → 110. The prior-only forecast renders 110 directly (the seasonal
+        // path does not apply on day targets, the displayed partial is not extrapolated).
+        self::assertSame([[null, null, null, 110.0]], $forecastData);
     }
 
-    public function testBuildReusesForecastAsSyntheticDataForLaterNoDataDaysAndRecalculatesWhenDataReturns(): void
+    public function testBuildIncompleteDayTicksRenderTheirOwnSameDoWPrior(): void
     {
         $site = $this->createSiteMock();
 
@@ -419,15 +416,177 @@ class ForecastBuilderTest extends TestCase
             ['Visits' => false]
         );
 
-        // Apr 17 Fri (partial 20, archived noon): same-DOW prior [80] → 56 (see baseline test).
-        // Apr 18 Sat (no data, archived 00:00): prior [100], carries Apr 17's 56 forward, full
-        // early-period bias (elapsed = 0) → forecast 0.4 * 56 + 0.6 * 100 = 82.4.
-        // Apr 19 Sun (no data, archived 00:00): prior [140], carries 82.4 forward → 0.4 * 82.4 +
-        // 0.6 * 140 = 116.96.
-        // Apr 20 Mon (partial 30, archived noon): prior [60], linear = 60. Both base and prior
-        // collapse to 60 so the forecast is 60 regardless of weight; it is rendered because the
-        // monotonic gate (forecast ≥ currentValue 30) is satisfied.
-        self::assertSame([[null, null, null, null, 55.9996, 82.3998, 116.9599, 59.9996]], $forecastData);
+        // Each incomplete tick renders its own same-DoW prior. There is no carry-forward needed
+        // and no displayed-partial extrapolation: Apr 17 Fri → Apr 10 Fri = 80, Apr 18 Sat →
+        // Apr 11 Sat = 100, Apr 19 Sun → Apr 12 Sun = 140, Apr 20 Mon → Apr 13 Mon = 60. Every
+        // forecast satisfies its UP gate because the partial value is below the prior.
+        self::assertSame([[null, null, null, null, 80.0, 100.0, 140.0, 60.0]], $forecastData);
+    }
+
+    public function testBuildDayTargetUsesDailySamplesPriorWhenSupplied(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Apr 30 (Thu) → May 3 (Sun) display, partial Sun. Without daily samples the displayed
+        // range carries zero same-DoW Sundays, so the existing path has no prior. With four
+        // prior Sundays at a flat 50 in $dailySamples, the new day-target fast path collects
+        // them as the prior, the trend fit reduces to mean = 50, and the envelope clamp engages
+        // at four samples (no movement on a flat history).
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-30', $site),
+            $this->createDataTableForDay('2026-05-01', $site),
+            $this->createDataTableForDay('2026-05-02', $site),
+            $this->createDataTableForDay('2026-05-03', $site, '2026-05-03 12:00:00'),
+        ];
+
+        $dailySamples = [
+            '2026-04-05' => 50.0,
+            '2026-04-12' => 50.0,
+            '2026-04-19' => 50.0,
+            '2026-04-26' => 50.0,
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [10.0, 20.0, 30.0, 5.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples]
+        );
+
+        self::assertSame([[null, null, null, 50.0]], $forecastData);
+    }
+
+    public function testBuildDayTargetWithSingleSameDoWSampleInDailySamplesReturnsThatSample(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Only one prior same-DoW (Sunday) entry in $dailySamples. The same-DoW walk collects
+        // [75]; computeHistoricalPrior with one sample returns it directly because the trend
+        // fit needs at least two points. The envelope clamp also stays off below
+        // MIN_SAMPLES_FOR_BOUNDED_RANGE = 4.
+        $dataTables = [
+            $this->createDataTableForDay('2026-05-03', $site, '2026-05-03 12:00:00'),
+        ];
+
+        $dailySamples = [
+            '2026-04-26' => 75.0,
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [10.0]],
+            $dataTables,
+            [ArchiveState::INCOMPLETE],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples]
+        );
+
+        self::assertSame([[75.0]], $forecastData);
+    }
+
+    public function testBuildDayTargetWithDailySamplesStripsLeadingZeroForMonotonicUp(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Three prior Thursdays in $dailySamples; the oldest is 0 (tracking hadn't started yet).
+        // The MONOTONICITY_UP path strips the leading zero, leaving [50, 50] → slope 0,
+        // intercept 50, projection 50. Without the strip, [0, 50, 50] would project ~71 from
+        // the upward slope.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-30', $site, '2026-04-30 12:00:00'),
+        ];
+
+        $dailySamples = [
+            '2026-04-09' => 0.0,
+            '2026-04-16' => 50.0,
+            '2026-04-23' => 50.0,
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [5.0]],
+            $dataTables,
+            [ArchiveState::INCOMPLETE],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples]
+        );
+
+        self::assertSame([[50.0]], $forecastData);
+    }
+
+    public function testBuildDayTargetWithDailySamplesKeepsLeadingZeroForMonotonicDown(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Single same-DoW sample of 0 in $dailySamples — a legitimate min observation, not a
+        // tracking-not-started zero. The MONOTONICITY_DOWN path keeps leading zeros, so the
+        // prior renders 0; the DOWN gate (0 <= current 30) lets the forecast through.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-30', $site, '2026-04-30 12:00:00'),
+        ];
+
+        $dailySamples = [
+            '2026-04-23' => 0.0,
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Min event value' => [30.0]],
+            $dataTables,
+            [ArchiveState::INCOMPLETE],
+            ['Min event value' => false],
+            [],
+            ['Min event value' => Evolution::MONOTONICITY_DOWN],
+            ['Min event value' => 0],
+            ['Min event value' => $dailySamples]
+        );
+
+        self::assertSame([[0.0]], $forecastData);
+    }
+
+    public function testBuildDayTargetSharesDailySamplesAcrossMultipleIncompleteTicks(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Two consecutive incomplete days (Thu Apr 30, Fri May 1) both forecast from the same
+        // $dailySamples map. Each tick's walk filters the shared map by its own DoW: Thu picks
+        // the Thursday entries (flat 100), Fri picks the Fridays (flat 200). Pins the
+        // "fetch-once, reuse-per-tick" contract on the day-target prior path.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-30', $site, '2026-04-30 12:00:00'),
+            $this->createDataTableForDay('2026-05-01', $site, '2026-05-01 12:00:00'),
+        ];
+
+        $dailySamples = [
+            '2026-04-09' => 100.0, '2026-04-10' => 200.0,
+            '2026-04-16' => 100.0, '2026-04-17' => 200.0,
+            '2026-04-23' => 100.0, '2026-04-24' => 200.0,
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [5.0, 10.0]],
+            $dataTables,
+            [ArchiveState::INCOMPLETE, ArchiveState::INCOMPLETE],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples]
+        );
+
+        self::assertSame([[100.0, 200.0]], $forecastData);
     }
 
     public function testBuildMonotonicReturnsTrendAwarePriorWhenIncompleteTickHasNoData(): void
@@ -570,6 +729,12 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-16', $site, '2026-04-16 00:00:00'),
         ];
 
+        // Apr 15 Wed (partial 90): same-DoW priors Apr 1 Wed = 50, Apr 8 Wed = 50, prior = 50.
+        // The UP gate (forecast >= currentValue) fails: 50 < 90, so the forecast is suppressed
+        // and previousForecastValue resets to null. Apr 16 Thu has no same-DoW priors (Apr 1
+        // and Apr 8 are both Wed) so the prior-only path also yields no forecast — without a
+        // previousForecastValue to carry, the result is null. Pins the no-carry-forward
+        // semantic across a suppression gap.
         $forecastData = (new ForecastBuilder())->build(
             ['Visits' => [50.0, 50.0, 90.0, 0.0]],
             $dataTables,
@@ -582,76 +747,7 @@ class ForecastBuilderTest extends TestCase
             ['Visits' => false]
         );
 
-        self::assertSame([[null, null, null, 0.0]], $forecastData);
-    }
-
-    public function testBuildEarlyPeriodBiasShiftsWeightToPriorWhenLittleElapsed(): void
-    {
-        $site = $this->createSiteMock();
-
-        // Three stable Friday priors of 100 (slope 0, prior 100). May 1 partial 30 archived at
-        // hour 1 → elapsedRatio ≈ 0.04 → MIN_FORECAST_RATIO floor of 0.05 → linear = 600. With
-        // three samples (one shy of MIN_SAMPLES_FOR_BOUNDED_RANGE) the clamp is skipped, so the
-        // only thing pulling 600 down to a defensible value is the early-period bias.
-        // Effective weight = min(0.95, 0.6 + (1 - 0.05) * 0.4) = 0.95.
-        // Forecast = 0.05 * 600 + 0.95 * 100 = 125. Before the bias the same setup produced
-        // 0.4 * 600 + 0.6 * 100 = 300, which is implausible for a metric that has been flat
-        // across all sampled periods.
-        $dataTables = [
-            $this->createDataTableForDay('2026-04-10', $site),
-            $this->createDataTableForDay('2026-04-17', $site),
-            $this->createDataTableForDay('2026-04-24', $site),
-            $this->createDataTableForDay('2026-05-01', $site, '2026-05-01 01:00:00'),
-        ];
-
-        $forecastData = (new ForecastBuilder())->build(
-            ['Visits' => [100.0, 100.0, 100.0, 30.0]],
-            $dataTables,
-            [
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::INCOMPLETE,
-            ],
-            ['Visits' => false]
-        );
-
-        self::assertSame([[null, null, null, 125.0]], $forecastData);
-    }
-
-    public function testBuildClampsForecastToHistoricalRangeOnExtremeLinearExtrapolation(): void
-    {
-        $site = $this->createSiteMock();
-
-        // Four perfectly stable Friday priors of 100 produce sigma = 0; the relative-spread
-        // floor (5% of the mean) gives a ±15 envelope around the prior, i.e. [85, 115]. Partial
-        // value 80 archived at hour 2 yields linear = 80 / 0.0833 = 960 and even with the
-        // 0.95 prior-weight ceiling the blend is 0.05 * 960 + 0.95 * 100 = 143 — still well
-        // outside the envelope. The clamp pulls it back to the upper bound 115, which still
-        // satisfies the monotonic gate (≥ partial 80) and is rendered. Without the clamp the
-        // forecast would imply nearly 50% growth on a metric that has not moved in four weeks.
-        $dataTables = [
-            $this->createDataTableForDay('2026-04-03', $site),
-            $this->createDataTableForDay('2026-04-10', $site),
-            $this->createDataTableForDay('2026-04-17', $site),
-            $this->createDataTableForDay('2026-04-24', $site),
-            $this->createDataTableForDay('2026-05-01', $site, '2026-05-01 02:00:00'),
-        ];
-
-        $forecastData = (new ForecastBuilder())->build(
-            ['Visits' => [100.0, 100.0, 100.0, 100.0, 80.0]],
-            $dataTables,
-            [
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::COMPLETE,
-                ArchiveState::INCOMPLETE,
-            ],
-            ['Visits' => false]
-        );
-
-        self::assertSame([[null, null, null, null, 115.0]], $forecastData);
+        self::assertSame([[null, null, null, null]], $forecastData);
     }
 
     public function testBuildPrefersCalendarAlignedMonthlySamplesWhenAvailable(): void
@@ -659,13 +755,11 @@ class ForecastBuilderTest extends TestCase
         $site = $this->createSiteMock();
 
         // Two prior years of alternating March/June with very different magnitudes; the partial
-        // is March 2025 (in the past relative to the test environment so getElapsedRatio is
-        // pinned by the archive timestamp, not Date::now()). Calendar-month alignment selects
-        // the two Marches [100, 110] (slope 10, intercept 90, prior = 90 + 10*2.5 = 115). The
-        // fallback path would mix the four samples [100, 500, 110, 550] and yield a prior near
-        // 500. Mid-month archive makes elapsedRatio ≈ 0.47, linear ≈ 128, weight ≈ 0.71, so the
-        // aligned forecast lands ~118 — near the March pattern, not the contaminated four-
-        // sample regression.
+        // is March 2025. The seasonal path falls back to the prior-only branch here because no
+        // daily/monthly sample maps are supplied, and that branch's calendar-month alignment
+        // selects the two Marches [100, 110] (slope 10, intercept 90, damped projection at
+        // x = 2.5 → 115). The fallback would otherwise mix the four samples [100, 500, 110,
+        // 550] and yield a prior near 500.
         $dataTables = [
             $this->createDataTableForMonth('2023-03-01', $site),
             $this->createDataTableForMonth('2023-06-01', $site),
@@ -690,7 +784,7 @@ class ForecastBuilderTest extends TestCase
         $forecast = $forecastData[0][4];
         self::assertNotNull($forecast);
         self::assertGreaterThan(105.0, $forecast);
-        self::assertLessThan(135.0, $forecast);
+        self::assertLessThan(125.0, $forecast);
     }
 
     public function testBuildFallsBackToAllSamplesWhenAlignedSamplesBelowThreshold(): void
@@ -699,11 +793,12 @@ class ForecastBuilderTest extends TestCase
 
         // Only March 2024 is calendar-aligned with March 2025; the other priors are January and
         // February 2025. With a single aligned sample the builder must fall back to the full
-        // recency window [100, 200, 300] (slope 100, prior 350), not collapse onto the lone
-        // aligned value. The fallback prior pulls the forecast well above 200, while an
-        // aligned-only path with prior = 100 would have produced a forecast near 110. Pinning
-        // the high outcome guards against the alignment filter degrading to "exclude when not
-        // aligned", which would silently discard two thirds of the available history.
+        // recency window [100, 200, 300] (slope 100, intercept 0, damped projection at x = 3.5
+        // → 350), not collapse onto the lone aligned value. The fallback prior pulls the
+        // forecast well above 200, while an aligned-only path with prior = 100 would have
+        // produced a forecast near 110. Pinning the high outcome guards against the alignment
+        // filter degrading to "exclude when not aligned", which would silently discard two
+        // thirds of the available history.
         $dataTables = [
             $this->createDataTableForMonth('2024-03-01', $site),
             $this->createDataTableForMonth('2025-01-01', $site),
@@ -726,7 +821,7 @@ class ForecastBuilderTest extends TestCase
         $forecast = $forecastData[0][3];
         self::assertNotNull($forecast);
         self::assertGreaterThan(200.0, $forecast);
-        self::assertLessThan(310.0, $forecast);
+        self::assertLessThanOrEqual(360.0, $forecast);
     }
 
     public function testBuildPrefersCalendarAlignedWeeklySamplesWhenAvailable(): void
@@ -919,6 +1014,264 @@ class ForecastBuilderTest extends TestCase
         );
 
         self::assertSame([[null, 0.0]], $forecastData);
+    }
+
+    public function testBuildWeekSeasonalDecompositionUsesCompletedDaysAndDoWAnalogs(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Target week 2026-04-27..2026-05-03 (Mon-Sun). Archived Thu 2026-04-30 23:00 → today
+        // index 3 (Thursday). Mon-Wed of the target week are fed via the daily sample map as
+        // "completed real". The same-DoW analog set comes from prior weeks' days, all stable
+        // values keyed off DoW so the prior trend reduces to a flat mean.
+        //
+        // Completed real (Mon-Wed): 100 + 110 + 90 = 300.
+        // Today (Thu) prior: mean of [120, 120, 120] = 120 (≥ partial floor 50, so 120).
+        // Remaining (Fri/Sat/Sun) priors: 80, 60, 70.
+        // Forecast = 300 + 120 + 80 + 60 + 70 = 630.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
+        ];
+
+        $dailySamples = [
+            // 3 prior weeks of stable per-DoW data so the day-level prior collapses to mean.
+            '2026-04-06' => 100.0, '2026-04-07' => 110.0, '2026-04-08' => 90.0,
+            '2026-04-09' => 120.0, '2026-04-10' => 80.0,  '2026-04-11' => 60.0,  '2026-04-12' => 70.0,
+            '2026-04-13' => 100.0, '2026-04-14' => 110.0, '2026-04-15' => 90.0,
+            '2026-04-16' => 120.0, '2026-04-17' => 80.0,  '2026-04-18' => 60.0,  '2026-04-19' => 70.0,
+            '2026-04-20' => 100.0, '2026-04-21' => 110.0, '2026-04-22' => 90.0,
+            '2026-04-23' => 120.0, '2026-04-24' => 80.0,  '2026-04-25' => 60.0,  '2026-04-26' => 70.0,
+            // Target week's Mon-Wed are real archived values that contribute to "completed".
+            '2026-04-27' => 100.0, '2026-04-28' => 110.0, '2026-04-29' => 90.0,
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [630.0, 350.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples]
+        );
+
+        self::assertSame([[null, 630.0]], $forecastData);
+    }
+
+    public function testBuildWeekSeasonalForecastFloorsAtCurrentPartialNotElapsedExtrapolation(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Same setup as above but the partial today (Thu) is huge (200) — well above the same-
+        // DoW prior of 120. The today contribution is therefore the partial floor (200), not an
+        // elapsed-time multiplication of it; the displayed-data extrapolation pathway is gone.
+        // Forecast = 300 (Mon-Wed real) + max(partial 200 - completed 300, 120) = the partial
+        // formulation is `max(snapshotValue - completed_real, prior)`. Snapshot total = 600
+        // (300 completed + 200 today + remainder_irrelevant). max(600 - 300, 120) = 300. Then
+        // remaining priors 80 + 60 + 70 = 210. Total = 300 + 300 + 210 = 810.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
+        ];
+
+        $dailySamples = [
+            '2026-04-06' => 100.0, '2026-04-07' => 110.0, '2026-04-08' => 90.0,
+            '2026-04-09' => 120.0, '2026-04-10' => 80.0,  '2026-04-11' => 60.0,  '2026-04-12' => 70.0,
+            '2026-04-13' => 100.0, '2026-04-14' => 110.0, '2026-04-15' => 90.0,
+            '2026-04-16' => 120.0, '2026-04-17' => 80.0,  '2026-04-18' => 60.0,  '2026-04-19' => 70.0,
+            '2026-04-20' => 100.0, '2026-04-21' => 110.0, '2026-04-22' => 90.0,
+            '2026-04-23' => 120.0, '2026-04-24' => 80.0,  '2026-04-25' => 60.0,  '2026-04-26' => 70.0,
+            '2026-04-27' => 100.0, '2026-04-28' => 110.0, '2026-04-29' => 90.0,
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [630.0, 600.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples]
+        );
+
+        self::assertSame([[null, 810.0]], $forecastData);
+    }
+
+    public function testBuildMonthSeasonalDecompositionUsesCompletedDaysAndDoWAnalogs(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Target month 2026-04 (30 days). Apr 1, 2026 is a Wednesday. Archive at 2026-04-04
+        // 12:00:00 → today is index 3 (Saturday). Apr 1-3 (Wed/Thu/Fri) are completed real;
+        // Apr 4 (Sat) is today; Apr 5-30 are remaining priors. Eight prior weeks of identical
+        // per-DoW values feed the same-DoW analog walk so each remaining-day prior collapses
+        // to its DoW's value (Mon=100, Tue=110, Wed=90, Thu=120, Fri=80, Sat=60, Sun=70).
+        // Empty $monthlySamples short-circuits the MoY scale to 1.0.
+        //
+        // Completed real (Apr 1-3): 90 + 120 + 80 = 290.
+        // Today (Apr 4 Sat) prior: 60. Partial = max(0, 350-290) = 60. Today contribution = 60.
+        // Remaining (Apr 5-30, 26 days):
+        //   Sun×4 + Mon×4 + Tue×4 + Wed×4 + Thu×4 + Fri×3 + Sat×3
+        //   = 4*70 + 4*100 + 4*110 + 4*90 + 4*120 + 3*80 + 3*60 = 2380.
+        // Forecast = 290 + 60 + 2380 = 2730.
+        $dataTables = [
+            $this->createDataTableForMonth('2026-03-01', $site),
+            $this->createDataTableForMonth('2026-04-01', $site, '2026-04-04 12:00:00'),
+        ];
+
+        $dailySamples = $this->buildUniformDoWDailySamples('2026-02-02', 8);
+        $dailySamples['2026-04-01'] = 90.0;  // Wed
+        $dailySamples['2026-04-02'] = 120.0; // Thu
+        $dailySamples['2026-04-03'] = 80.0;  // Fri
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [2730.0, 350.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples]
+        );
+
+        self::assertSame([[null, 2730.0]], $forecastData);
+    }
+
+    public function testBuildYearSeasonalDecompositionUsesCompletedMonthsAndMoYAnalogs(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Target year 2026 (12 months). Archive at 2026-04-04 12:00:00 → todayMonthIdx = 3
+        // (April). Months 0..2 (Jan/Feb/Mar) are completed real from $monthlySamples; month 3
+        // (April) is forecast via the recursive forecastMonthSeasonal path; months 4..11 are
+        // projected from same-MoY analog walks across $monthlySamples.
+        //
+        // Setup:
+        //   - Every prior-year month (2022..2025, all 12 each) = 1000 in $monthlySamples.
+        //   - 2026 Jan/Feb/Mar = 1000 each in $monthlySamples (the 'completed real' bucket).
+        //   - April daily samples reproduce a per-month total of 1000 via the month
+        //     decomposition (same shape as the month test above, scaled to 1000-total).
+        //
+        // The recursion makes April's currentMonthEstimate = 1000, and each remaining month's
+        // same-MoY analog walk yields prior = 1000. Year forecast = 3*1000 (completed) + 1000
+        // (April) + 8*1000 (remaining May..Dec) = 12000.
+        $dataTables = [
+            $this->createDataTableForPeriod('year', '2025-01-01', $site),
+            $this->createDataTableForPeriod('year', '2026-01-01', $site, '2026-04-04 12:00:00'),
+        ];
+
+        // Per-DoW scale where one full week (Mon-Sun) sums to 1000/30 days × 7 days ≈ 233.33;
+        // tune by-the-day so the April per-DoW analog mean × remaining-day pattern + completed
+        // + today reproduces 1000. Mon=100/3, Tue=110/3, Wed=90/3, Thu=120/3, Fri=80/3, Sat=60/3,
+        // Sun=70/3 yields the same 2730/3 = 910 forecast for April; we use the simpler 2730 ÷
+        // April's 30-day total proportion directly here. Use the same numerical values as the
+        // month test but scale all daily values by 1000/2730 so month forecast → 1000.
+        $scale = 1000.0 / 2730.0;
+        $dailySamples = $this->buildUniformDoWDailySamples('2026-02-02', 8, $scale);
+        $dailySamples['2026-04-01'] = 90.0 * $scale;  // Wed
+        $dailySamples['2026-04-02'] = 120.0 * $scale; // Thu
+        $dailySamples['2026-04-03'] = 80.0 * $scale;  // Fri
+
+        $monthlySamples = [];
+        for ($year = 2022; $year <= 2025; ++$year) {
+            for ($month = 1; $month <= 12; ++$month) {
+                $monthlySamples[sprintf('%04d-%02d', $year, $month)] = 1000.0;
+            }
+        }
+        $monthlySamples['2026-01'] = 1000.0;
+        $monthlySamples['2026-02'] = 1000.0;
+        $monthlySamples['2026-03'] = 1000.0;
+
+        $forecastData = (new ForecastBuilder())->build(
+            // Year-level currentValue: 3 completed months at 1000 each + April partial
+            // (currentMonthPartial = 290*scale ≈ 106.23). currentValue = 3000 + 106.23 ≈ 3106.23.
+            ['Visits' => [12000.0, 3000.0 + 290.0 * $scale]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples],
+            ['Visits' => $monthlySamples]
+        );
+
+        // Allow a small delta because the daily-sample scale × per-DoW arithmetic does not
+        // round to exactly 1000 for April; the seasonal path engages and the forecast lands
+        // close to the 12000 fully-uniform projection.
+        $forecast = $forecastData[0][1];
+        self::assertNotNull($forecast);
+        self::assertEqualsWithDelta(12000.0, $forecast, 25.0);
+    }
+
+    public function testBuildSeasonalPathIsSkippedWhenNoDailySamplesProvided(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Without daily samples the caller cannot decompose the week, and the builder falls
+        // back to the prior-only path on the period-level series. Two prior weekly totals at
+        // 500 produce a flat trend prior of 500 (the calendar-aligned ISO-week filter degrades
+        // to the all-samples set since there is only one same-week observation in two prior
+        // years). The current partial of 100 fails the calendar-aligned filter for the W18
+        // alignment, so the test pins the qualitative "fallback-to-prior" outcome rather than a
+        // specific number.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [500.0, 500.0, 100.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        $forecast = $forecastData[0][2];
+        self::assertNotNull($forecast);
+        self::assertEqualsWithDelta(500.0, $forecast, 1.0);
+    }
+
+    /**
+     * Build a daily sample map of $weeks consecutive weeks starting at $firstMonday with a
+     * uniform per-DoW pattern (Mon=100, Tue=110, Wed=90, Thu=120, Fri=80, Sat=60, Sun=70).
+     * Optionally scale every value by $scale.
+     *
+     * @return array<string, float>
+     */
+    private function buildUniformDoWDailySamples(string $firstMonday, int $weeks, float $scale = 1.0): array
+    {
+        $pattern = [100.0, 110.0, 90.0, 120.0, 80.0, 60.0, 70.0]; // Mon..Sun
+        $samples = [];
+        $cursor = \Piwik\Date::factory($firstMonday);
+        for ($w = 0; $w < $weeks; ++$w) {
+            for ($d = 0; $d < 7; ++$d) {
+                $samples[$cursor->toString('Y-m-d')] = $pattern[$d] * $scale;
+                $cursor = $cursor->addDay(1);
+            }
+        }
+        return $samples;
     }
 
     private function createSiteMock(): Site

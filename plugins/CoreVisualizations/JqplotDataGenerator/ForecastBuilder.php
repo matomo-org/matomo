@@ -16,6 +16,7 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Period;
+use Piwik\Period\Month;
 use Piwik\Site;
 
 /**
@@ -24,57 +25,41 @@ use Piwik\Site;
  * Three algorithms are applied based on each series' intra-period direction (see
  * {@see Evolution::MONOTONICITY_*}):
  *
- * - MONOTONICITY_UP — additive count series (visits, conversions, page views): the period's
- *   value can only grow from the current partial accumulation, so the forecast blends a linear
- *   elapsed-ratio extrapolation with the historical same-period average and is suppressed if it
- *   falls below the current display value.
- * - MONOTONICITY_DOWN — running-min series (min_bandwidth, min_event_value): the period's
- *   value can only equal or fall below the current partial value as more samples arrive, so the
- *   forecast is the historical same-period average and is suppressed (and finally clamped) if
- *   it would project above the current value.
+ * - MONOTONICITY_UP — additive count series (visits, conversions, page views): forecasted by
+ *   reconstructing the period from sub-period analog samples. Completed sub-periods contribute
+ *   their real archived values; the in-progress and future sub-periods contribute calendar-aligned
+ *   analog samples (same day-of-week for week/month, same month-of-year for year). The displayed
+ *   in-progress total is used only as a floor — never as a multiplier — so the forecast does not
+ *   drift with the displayed graph range. Falls back to a prior-only same-period projection when
+ *   the caller did not supply the sub-period samples needed for decomposition.
+ * - MONOTONICITY_DOWN — running-min series (min_bandwidth, min_event_value): the period's value
+ *   can only equal or fall below the current partial value as more samples arrive, so the
+ *   forecast is the historical same-period prior, suppressed (and finally clamped) if it would
+ *   project above the current value.
  * - MONOTONICITY_FREE — ratio/rate/percentage/average series: the forecast is the historical
- *   same-period average only, with no directional gate, because the period's value can move
- *   either way during the remaining time.
+ *   same-period prior with no directional gate, because the period's value can move either way
+ *   during the remaining time.
  *
  * The builder is stateless and reusable. Period bounds and the archive timestamp are read from
  * DataTable metadata, so any caller producing comparable DataTable maps can reuse it.
  */
 class ForecastBuilder
 {
-    private const MIN_FORECAST_RATIO = 0.05;
-
     /**
-     * Damping factor applied to the linear-trend projection of the historical prior.
-     * 1.0 = full least-squares extrapolation (most responsive to trends, most prone to
-     * overshoot on noisy ratios). 0.0 = no projection (flat mean). 0.5 keeps the regression
-     * line's fit on the historical samples but only takes a half-step in the slope direction
-     * for the next-period forecast — a trade-off between catching growth on count series and
-     * not amplifying noise on volatile averages.
+     * Damping factor applied to the linear-trend projection of historical priors. 1.0 = full
+     * least-squares extrapolation (most responsive to trends, most prone to overshoot on noisy
+     * ratios). 0.0 = no projection (flat mean). 0.5 keeps the regression line's fit on the
+     * historical samples but only takes a half-step in the slope direction for the next-period
+     * forecast — a trade-off between catching growth on count series and not amplifying noise
+     * on volatile averages.
      */
     private const TREND_DAMPING = 0.5;
 
     /**
-     * Additional weight added to the historical prior when little of the current period has
-     * elapsed. The linear extrapolation is currentValue / elapsedRatio, so at 5% elapsed the
-     * partial value carries 20× leverage on whatever short-window noise produced it; the prior
-     * needs to anchor the forecast more strongly until enough of the period has accumulated.
-     * Linearly interpolated between elapsed=1 (no extra bias) and elapsed=0 (full bias).
-     */
-    private const EARLY_PERIOD_PRIOR_BIAS = 0.4;
-
-    /**
-     * Hard ceiling on the prior weight. Even at zero elapsed the partial value retains at least
-     * a small contribution so a recent step-change in traffic can pull the forecast off a
-     * mismatched prior — fully ignoring the partial would freeze the forecast at the prior's
-     * projection, which is wrong when the period is genuinely diverging from history.
-     */
-    private const MAX_PRIOR_WEIGHT = 0.95;
-
-    /**
-     * Minimum number of calendar-aligned historical samples (same week-of-year, same
-     * calendar month) required before preferring them over the full sample set. With only
-     * one aligned sample there is no slope to fit and the recency-only window is more
-     * informative than a single calendar-matched data point.
+     * Minimum number of calendar-aligned historical samples (same week-of-year, same calendar
+     * month) required before preferring them over the full sample set. With only one aligned
+     * sample there is no slope to fit and the recency-only window is more informative than a
+     * single calendar-matched data point.
      */
     private const MIN_ALIGNED_SAMPLES_TO_PREFER = 2;
 
@@ -86,21 +71,62 @@ class ForecastBuilder
     private const MIN_SAMPLES_FOR_BOUNDED_RANGE = 4;
 
     /**
+     * Below this count the day-level analog reducer falls back to a plain mean instead of a
+     * trend fit. With only a handful of weekly-strided samples the least-squares slope swings
+     * wildly because the time base is short and neighbouring same-DoW values drift around a
+     * stationary mean rather than a persistent trend; the envelope clamp is also not active,
+     * so a noisy slope cannot be contained. The plain mean is the more informative reducer
+     * until enough samples are present to constrain the slope.
+     */
+    private const MIN_SAMPLES_FOR_DAY_LEVEL_TREND = 5;
+
+    /**
      * Width of the historical-range envelope expressed in standard deviations of the past
-     * samples. Three sigmas covers ~99.7% of normally-distributed history, so a forecast
-     * landing outside this band almost certainly reflects an extrapolation artefact (e.g. a
-     * partial-period linear scaling that does not respect intra-period seasonality) rather
-     * than a credible final value.
+     * samples. Three sigmas covers ~99.7% of normally-distributed history, so a forecast landing
+     * outside this band almost certainly reflects an extrapolation artefact rather than a
+     * credible final value.
      */
     private const BOUNDED_RANGE_SIGMAS = 3.0;
 
     /**
-     * Minimum half-width of the historical-range envelope expressed as a fraction of the
-     * sample mean. Without this floor a perfectly stable history (sigma ≈ 0) would collapse
-     * the envelope onto the prior and forbid any deviation, including the legitimate case
-     * where the partial period is genuinely trending up or down.
+     * Minimum half-width of the historical-range envelope expressed as a fraction of the sample
+     * mean. Without this floor a perfectly stable history (sigma ≈ 0) would collapse the
+     * envelope onto the prior and forbid any deviation, including the legitimate case where the
+     * partial period is genuinely trending up or down.
      */
     private const BOUNDED_RANGE_MIN_RELATIVE_SPREAD = 0.05;
+
+    /**
+     * Number of same-DoW samples to draw for the day-period historical prior when the caller
+     * supplies a daily sample map. The day path never enters the seasonal-decomposition branch
+     * (a day has no useful sub-period to decompose), so the prior-only path is the only
+     * forecast surface and a 70-day fetched window yields at most ten same-DoW samples. Above
+     * MIN_SAMPLES_FOR_BOUNDED_RANGE so the envelope clamp engages, and enough data points for
+     * the trend fit to resist single-day noise on short displays.
+     */
+    private const DAY_PRIOR_TARGET_SAMPLES = 10;
+
+    /**
+     * Default number of same-DoW analog samples per remaining day slot when forecasting a week.
+     * Smaller chunks lose accuracy from a single noisy analog; larger chunks pull in older
+     * traffic that drifts away from current site level.
+     */
+    private const WEEK_ANALOG_CHUNK = 3;
+
+    /**
+     * Default number of same-DoW analog samples per remaining day slot when forecasting a
+     * month. Slightly larger than the week default because monthly forecasts span more remaining
+     * days, so additional analogs bring incremental stability without introducing meaningful
+     * drift.
+     */
+    private const MONTH_ANALOG_CHUNK = 4;
+
+    /**
+     * Default number of same-month-of-year analog samples when forecasting a year. With one
+     * sample per analog year, eight is enough to drive the trend fit's slope while remaining
+     * within typical multi-year archive depth.
+     */
+    private const YEAR_ANALOG_CHUNK = 8;
 
     /**
      * @param array<string, array<int, float|int>> $allSeriesData
@@ -113,6 +139,14 @@ class ForecastBuilder
      *        FREE for percent-unit series and UP otherwise.
      * @param array<string, int> $allSeriesForecastPrecision Per-series decimal precision for raw
      *        forecast payload values. Missing entries preserve the historical 4-decimal default.
+     * @param array<string, array<string, float>> $allSeriesDailySamples Per-series map of
+     *        Y-m-d → final daily value, covering enough history to populate same-DoW analog
+     *        slots for the highest-tick week/month target. Required for MONOTONICITY_UP
+     *        week/month forecasts; without it the builder falls back to prior-only same-period
+     *        projection on the period-level series.
+     * @param array<string, array<string, float>> $allSeriesMonthlySamples Per-series map of
+     *        YYYY-MM → final monthly value, used by MONOTONICITY_UP year forecasts to project
+     *        remaining months from same-month-of-year analogs.
      * @return array<int, array<int, float|null>>
      */
     public function build(
@@ -122,7 +156,9 @@ class ForecastBuilder
         array $seriesUnits,
         array $allSeriesDataAvailability = [],
         array $allSeriesMonotonicity = [],
-        array $allSeriesForecastPrecision = []
+        array $allSeriesForecastPrecision = [],
+        array $allSeriesDailySamples = [],
+        array $allSeriesMonthlySamples = []
     ): array {
         if ([] === $allSeriesData || [] === $dataTables || [] === $dataStates) {
             return [];
@@ -135,6 +171,7 @@ class ForecastBuilder
         }
 
         $dataTableList = array_values($dataTables);
+        $seriesNames = array_keys($allSeriesData);
         $seriesDataList = array_values($allSeriesData);
         $seriesUnitsList = array_values($seriesUnits);
         $seriesDataAvailabilityList = array_values($allSeriesDataAvailability);
@@ -144,6 +181,7 @@ class ForecastBuilder
         $forecastData = [];
 
         foreach ($seriesDataList as $seriesIndex => $seriesData) {
+            $seriesName = $seriesNames[$seriesIndex] ?? null;
             $seriesForecasts = [];
             // Reset on every non-rendered tick so a suppressed or skipped forecast does not
             // bridge into later zero-data ticks; later ticks must restart from historical priors.
@@ -153,6 +191,12 @@ class ForecastBuilder
             $monotonicity = $seriesMonotonicityList[$seriesIndex]
                 ?? ($isPercentSeries ? Evolution::MONOTONICITY_FREE : Evolution::MONOTONICITY_UP);
             $forecastPrecision = $seriesForecastPrecisionList[$seriesIndex] ?? 4;
+            $dailySamples = ($seriesName !== null && isset($allSeriesDailySamples[$seriesName]))
+                ? $allSeriesDailySamples[$seriesName]
+                : [];
+            $monthlySamples = ($seriesName !== null && isset($allSeriesMonthlySamples[$seriesName]))
+                ? $allSeriesMonthlySamples[$seriesName]
+                : [];
 
             foreach ($seriesData as $tickIndex => $currentValueRaw) {
                 $state = $dataStates[$tickIndex] ?? ArchiveState::COMPLETE;
@@ -179,7 +223,8 @@ class ForecastBuilder
                     $tickIndex,
                     $dataTable,
                     $seriesDataAvailability,
-                    $monotonicity
+                    $monotonicity,
+                    $dailySamples
                 );
 
                 if (Evolution::MONOTONICITY_UP === $monotonicity) {
@@ -188,12 +233,11 @@ class ForecastBuilder
                         $pastValues,
                         $previousForecastValue,
                         $dataTable,
-                        $site
+                        $site,
+                        $dailySamples,
+                        $monthlySamples
                     );
                 } else {
-                    // FREE and DOWN both rely on the historical prior only — the linear
-                    // elapsed-ratio extrapolation has no meaning for ratios (FREE) and would
-                    // project upward on a metric that can only fall (DOWN).
                     $forecastValue = $this->buildNonMonotonicForecastValue($pastValues, $previousForecastValue);
                 }
 
@@ -229,60 +273,510 @@ class ForecastBuilder
     }
 
     /**
-     * Forecast for monotonic count series: linear elapsed-ratio extrapolation blended with the
-     * historical same-period prior. Carries the previous forecast forward when the current tick
-     * has no positive value so a synthetic 0 does not collapse the linear seed to zero. When the
-     * current tick is the first incomplete tick (no previous forecast) and historical priors
-     * exist, the blend would otherwise dilute the prior with a meaningless zero, so it falls back
-     * to the prior directly. The prior itself is trend-aware via computeHistoricalPrior.
+     * Forecast for monotonic count series via sub-period decomposition. When the caller has
+     * supplied the daily (and, for year targets, monthly) sample maps, the period's final value
+     * is reconstructed from completed sub-periods (real archived values) plus same-DoW (or
+     * same-MoY) analog projections for the in-progress and remaining sub-periods. The displayed
+     * partial value is used only as a floor — it is never multiplied up by an elapsed-time
+     * fraction — so the forecast does not change with the displayed graph range.
+     *
+     * Falls back to a prior-only same-period projection on $pastValues when sub-period samples
+     * are not available, so the builder degrades gracefully on legacy callers and on day-period
+     * targets (where there is no useful sub-period structure).
      *
      * @param array<int, float> $pastValues
+     * @param array<string, float> $dailySamples
+     * @param array<string, float> $monthlySamples
      */
     private function buildMonotonicForecastValue(
         float $currentValue,
         array $pastValues,
         ?float $previousForecastValue,
         DataTable $dataTable,
-        Site $site
-    ): float {
-        $elapsedRatio = $this->getElapsedRatio($dataTable, $site);
-        $ratio = max($elapsedRatio, self::MIN_FORECAST_RATIO);
-        $linearForecast = $currentValue / $ratio;
+        Site $site,
+        array $dailySamples,
+        array $monthlySamples
+    ): ?float {
+        $periodLabel = $this->getPeriodLabel($dataTable);
+        $period = $this->getPeriod($dataTable);
 
-        $baseForecast = $linearForecast;
-        $priorForecast = $linearForecast;
+        $seasonal = $this->buildSeasonalForecastValue(
+            $dataTable,
+            $periodLabel,
+            $period,
+            $currentValue,
+            $dailySamples,
+            $monthlySamples,
+            $site
+        );
+        if ($seasonal !== null) {
+            return $seasonal;
+        }
 
         if ([] !== $pastValues) {
-            $priorForecast = $this->computeHistoricalPrior($pastValues);
+            $prior = $this->computeHistoricalPrior($pastValues);
+            if (count($pastValues) >= self::MIN_SAMPLES_FOR_BOUNDED_RANGE) {
+                $prior = $this->clampForecastToHistoricalRange($prior, $pastValues, $prior);
+            }
+            return $prior;
         }
 
-        $weight = $this->getPriorForecastWeight(
-            count($pastValues),
-            $this->getPeriodLabel($dataTable),
-            $elapsedRatio
+        if ($previousForecastValue !== null) {
+            return $previousForecastValue;
+        }
+
+        return null;
+    }
+
+    /**
+     * Run the seasonal-decomposition path when the caller has supplied the sub-period samples
+     * needed for it. Returns null when the path does not apply (day target, no daily samples,
+     * unsupported period), letting the caller fall back to the prior-only path.
+     *
+     * @param array<string, float> $dailySamples
+     * @param array<string, float> $monthlySamples
+     */
+    private function buildSeasonalForecastValue(
+        DataTable $dataTable,
+        string $periodLabel,
+        Period $period,
+        float $currentValue,
+        array $dailySamples,
+        array $monthlySamples,
+        Site $site
+    ): ?float {
+        switch ($periodLabel) {
+            case 'week':
+                if ([] === $dailySamples) {
+                    return null;
+                }
+                return $this->forecastWeekSeasonal($dataTable, $period, $currentValue, $dailySamples, $site);
+            case 'month':
+                if ([] === $dailySamples) {
+                    return null;
+                }
+                return $this->forecastMonthSeasonal(
+                    $dataTable,
+                    $period,
+                    $currentValue,
+                    $dailySamples,
+                    $monthlySamples,
+                    $site
+                );
+            case 'year':
+                if ([] === $monthlySamples) {
+                    return null;
+                }
+                return $this->forecastYearSeasonal(
+                    $dataTable,
+                    $period,
+                    $currentValue,
+                    $dailySamples,
+                    $monthlySamples,
+                    $site
+                );
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * Week forecast via daily decomposition. Completed days contribute their archived values;
+     * the in-progress day and remaining days are projected from same-DoW analog samples.
+     *
+     * @param array<string, float> $dailySamples
+     */
+    private function forecastWeekSeasonal(
+        DataTable $dataTable,
+        Period $weekPeriod,
+        float $currentValue,
+        array $dailySamples,
+        Site $site
+    ): float {
+        $weekStart = $weekPeriod->getDateStart();
+        $siteTz = $site->getTimezone();
+
+        $dayAnchors = [];
+        for ($i = 0; $i < 7; ++$i) {
+            $dayAnchors[$i] = $weekStart->addDay($i)->toString('Y-m-d');
+        }
+
+        $todayIdx = $this->resolveSubPeriodTodayIndex($dataTable, $dayAnchors, $siteTz);
+
+        return $this->decomposeAndForecast(
+            $dayAnchors,
+            $todayIdx,
+            $currentValue,
+            $dailySamples,
+            self::WEEK_ANALOG_CHUNK,
+            1.0
+        );
+    }
+
+    /**
+     * Month forecast via daily decomposition with month-of-year scaling. Same shape as the week
+     * path but the calendar-day count varies (28-31). The same-DoW analog mean is scaled by a
+     * month-of-year factor so a Feb forecast does not borrow Aug-level traffic from the rolling
+     * day window.
+     *
+     * @param array<string, float> $dailySamples
+     * @param array<string, float> $monthlySamples
+     */
+    private function forecastMonthSeasonal(
+        DataTable $dataTable,
+        Period $monthPeriod,
+        float $currentValue,
+        array $dailySamples,
+        array $monthlySamples,
+        Site $site
+    ): float {
+        $monthStart = $monthPeriod->getDateStart();
+        $siteTz = $site->getTimezone();
+
+        // 't' = days in the month containing $monthStart. Cheaper and DST-safe vs differencing
+        // strtotime() of the boundaries, which a non-UTC process can off-by-one across a DST gap.
+        $dayCount = (int) $monthStart->toString('t');
+
+        $dayAnchors = [];
+        for ($i = 0; $i < $dayCount; ++$i) {
+            $dayAnchors[$i] = $monthStart->addDay($i)->toString('Y-m-d');
+        }
+
+        $todayIdx = $this->resolveSubPeriodTodayIndex($dataTable, $dayAnchors, $siteTz);
+
+        $monthAnchor = $monthStart->toString('Y-m');
+        $monthOfYearScale = $this->computeMonthOfYearScale(
+            $monthAnchor,
+            $monthlySamples,
+            self::MONTH_ANALOG_CHUNK,
+            $dailySamples
         );
 
-        if ($currentValue <= 0 && $previousForecastValue !== null) {
-            $baseForecast = $previousForecastValue;
-        } elseif ($currentValue <= 0 && [] !== $pastValues) {
-            $baseForecast = $priorForecast;
+        return $this->decomposeAndForecast(
+            $dayAnchors,
+            $todayIdx,
+            $currentValue,
+            $dailySamples,
+            self::MONTH_ANALOG_CHUNK,
+            $monthOfYearScale
+        );
+    }
+
+    /**
+     * Year forecast via monthly decomposition. Completed months come from the monthly sample
+     * map; the current month is estimated by recursing into the month seasonal path when daily
+     * samples are available, and remaining months are projected from same-month-of-year
+     * monthly analogs.
+     *
+     * @param array<string, float> $dailySamples
+     * @param array<string, float> $monthlySamples
+     */
+    private function forecastYearSeasonal(
+        DataTable $dataTable,
+        Period $yearPeriod,
+        float $currentValue,
+        array $dailySamples,
+        array $monthlySamples,
+        Site $site
+    ): float {
+        $yearStart = $yearPeriod->getDateStart();
+        $siteTz = $site->getTimezone();
+
+        $monthAnchors = [];
+        for ($i = 0; $i < 12; ++$i) {
+            $monthAnchors[$i] = $yearStart->addMonth($i)->toString('Y-m');
         }
 
-        $forecastValue = $this->blendForecastValue($baseForecast, $priorForecast, $weight);
+        $referenceTs = $this->resolveReferenceTimestamp($dataTable);
+        // Calendar-aligned anchor lookup using the same {@see Date::adjustForTimezone()} primitive
+        // {@see resolveSubPeriodTodayIndex()} relies on, so the day/month/year branches all derive
+        // the in-progress sub-period from the same site-local 'Y-m' anchor surface. A
+        // reference instant outside the displayed year (rare; only possible for an archive whose
+        // ts_archived predates the year start) is treated as Dec, matching the previous behaviour.
+        $referenceMonthAnchor = Date::factory(Date::adjustForTimezone($referenceTs, $siteTz))
+            ->toString('Y-m');
+        $idx = array_search($referenceMonthAnchor, $monthAnchors, true);
+        $todayMonthIdx = (false === $idx) ? 11 : (int) $idx;
 
-        if ($baseForecast >= 0 && $priorForecast >= 0) {
-            $forecastValue = max(0, $forecastValue);
+        $completedReal = 0.0;
+        for ($i = 0; $i < $todayMonthIdx; ++$i) {
+            $completedReal += $monthlySamples[$monthAnchors[$i]] ?? 0.0;
         }
 
-        if (count($pastValues) >= self::MIN_SAMPLES_FOR_BOUNDED_RANGE) {
-            $forecastValue = $this->clampForecastToHistoricalRange(
-                $forecastValue,
-                $pastValues,
-                $priorForecast
+        $currentMonthPartial = max(0.0, $currentValue - $completedReal);
+        $currentMonthAnchorStr = $monthAnchors[$todayMonthIdx] . '-01';
+
+        $currentMonthEstimate = null;
+        if ([] !== $dailySamples) {
+            $currentMonthEstimate = $this->forecastMonthSeasonal(
+                $dataTable,
+                new Month(Date::factory($currentMonthAnchorStr)),
+                $currentMonthPartial,
+                $dailySamples,
+                $monthlySamples,
+                $site
             );
         }
+        if ($currentMonthEstimate === null) {
+            $samples = $this->recentSameMoYValues($monthlySamples, $monthAnchors[$todayMonthIdx], self::YEAR_ANALOG_CHUNK);
+            $currentMonthEstimate = !empty($samples)
+                ? $this->computeHistoricalPrior($samples)
+                : $currentMonthPartial;
+        }
+        $currentMonthEstimate = max($currentMonthEstimate, $currentMonthPartial);
 
-        return $forecastValue;
+        $remainingExpected = 0.0;
+        for ($i = $todayMonthIdx + 1; $i < 12; ++$i) {
+            $samples = $this->recentSameMoYValues($monthlySamples, $monthAnchors[$i], self::YEAR_ANALOG_CHUNK);
+            if (empty($samples)) {
+                continue;
+            }
+            $remainingExpected += $this->computeHistoricalPrior($samples);
+        }
+
+        return $completedReal + $currentMonthEstimate + $remainingExpected;
+    }
+
+    /**
+     * Shared completed/in-progress/remaining decomposition for the week and month paths.
+     * "Today" is the sub-period containing the current site-local instant. Sub-periods before
+     * today contribute their real archived values from $dailySamples. Today's contribution is
+     * the larger of (the partial floor implied by currentValue minus completed real) and the
+     * same-DoW analog prior — never an elapsed-time multiplication. Remaining sub-periods are
+     * projected from same-DoW analogs reduced by the day-level reducer.
+     *
+     * @param array<int, string> $dayAnchors
+     * @param array<string, float> $dailySamples
+     */
+    private function decomposeAndForecast(
+        array $dayAnchors,
+        int $todayIdx,
+        float $currentValue,
+        array $dailySamples,
+        int $analogChunk,
+        float $analogScale
+    ): float {
+        $completedReal = 0.0;
+        for ($i = 0; $i < $todayIdx; ++$i) {
+            $completedReal += $dailySamples[$dayAnchors[$i]] ?? 0.0;
+        }
+
+        $todayAnchor = $dayAnchors[$todayIdx];
+        $todayPartial = max(0.0, $currentValue - $completedReal);
+
+        $todayPriorSamples = $this->recentSameDoWValues($dailySamples, $todayAnchor, $analogChunk);
+        $todayPriorScaled = ($analogScale === 1.0 || empty($todayPriorSamples))
+            ? $todayPriorSamples
+            : array_map(static function ($v) use ($analogScale) {
+                return $v * $analogScale;
+            }, $todayPriorSamples);
+
+        if (!empty($todayPriorScaled)) {
+            $todayPrior = $this->dayLevelAnalogPrior($todayPriorScaled);
+            $todayContribution = max($todayPartial, $todayPrior);
+        } else {
+            $todayContribution = $todayPartial;
+        }
+
+        $remainingExpected = 0.0;
+        $count = count($dayAnchors);
+        for ($i = $todayIdx + 1; $i < $count; ++$i) {
+            $anchor = $dayAnchors[$i];
+            $samples = $this->recentSameDoWValues($dailySamples, $anchor, $analogChunk);
+            if (empty($samples)) {
+                continue;
+            }
+            if ($analogScale !== 1.0) {
+                $samples = array_map(static function ($v) use ($analogScale) {
+                    return $v * $analogScale;
+                }, $samples);
+            }
+            $remainingExpected += $this->dayLevelAnalogPrior($samples);
+        }
+
+        return $completedReal + $todayContribution + $remainingExpected;
+    }
+
+    /**
+     * Day-level analog reducer. Plain mean below MIN_SAMPLES_FOR_DAY_LEVEL_TREND (the slope of
+     * a 2-3 sample fit on weekly-strided same-DoW values is dominated by noise and the envelope
+     * clamp is not active to contain it); damped least-squares trend at and above the threshold.
+     *
+     * @param array<int, float> $samples
+     */
+    private function dayLevelAnalogPrior(array $samples): float
+    {
+        $n = count($samples);
+        if ($n === 0) {
+            return 0.0;
+        }
+        if ($n < self::MIN_SAMPLES_FOR_DAY_LEVEL_TREND) {
+            return max(0.0, array_sum($samples) / $n);
+        }
+        return $this->computeHistoricalPrior($samples);
+    }
+
+    /**
+     * Walk back 7 days at a time from the day before $targetAnchor, collecting up to $K samples
+     * that exist in $dailySamples. Returned oldest-first so the trend fit lines up with
+     * chronological order.
+     *
+     * @param array<string, float> $dailySamples
+     * @return array<int, float>
+     */
+    private function recentSameDoWValues(array $dailySamples, string $targetAnchor, int $K): array
+    {
+        if (empty($dailySamples)) {
+            return [];
+        }
+        // Drive the stride from Matomo's Date class so the cursor sequence stays calendar-aligned
+        // regardless of the process timezone. The samples map is keyed by site-local anchors, so a
+        // process-TZ stride could drift across midnight and skip or duplicate a key.
+        $samples = [];
+        $maxLookbackYears = max(1, $K);
+        $cursor = Date::factory($targetAnchor)->subDay(7);
+        $stop = Date::factory($targetAnchor)->subYear($maxLookbackYears);
+        while (count($samples) < $K && $cursor->isLater($stop)) {
+            $key = $cursor->toString('Y-m-d');
+            if (isset($dailySamples[$key])) {
+                $samples[] = (float) $dailySamples[$key];
+            }
+            $cursor = $cursor->subDay(7);
+        }
+        return array_reverse($samples);
+    }
+
+    /**
+     * Walk back same-month-of-year entries from $monthlySamples. Keys are 'YYYY-MM'.
+     *
+     * @param array<string, float> $monthlySamples
+     * @return array<int, float>
+     */
+    private function recentSameMoYValues(array $monthlySamples, string $targetMonthAnchor, int $K): array
+    {
+        if (empty($monthlySamples)) {
+            return [];
+        }
+        $samples = [];
+        $parts = explode('-', $targetMonthAnchor);
+        if (count($parts) < 2) {
+            return [];
+        }
+        $year = (int) $parts[0];
+        $month = (int) $parts[1];
+        $minYear = $year - max(1, $K) - 1;
+        while (count($samples) < $K && $year > $minYear) {
+            --$year;
+            $key = sprintf('%04d-%02d', $year, $month);
+            if (isset($monthlySamples[$key])) {
+                $samples[] = (float) $monthlySamples[$key];
+            }
+        }
+        return array_reverse($samples);
+    }
+
+    /**
+     * Same-MoY level relative to the rolling-monthly baseline implied by the daily sample
+     * window. Returns 1.0 when either side is missing or degenerate so the caller falls back
+     * gracefully to the unscaled day-level mean.
+     *
+     * The denominator uses the daily sample sum (not the monthly index) because that is the
+     * same surface the same-DoW analog reducer draws from -- so the ratio cancels the "average
+     * month covered by day samples" out and leaves only the MoY effect.
+     *
+     * @param array<string, float> $monthlySamples
+     * @param array<string, float> $dailySamples
+     */
+    private function computeMonthOfYearScale(
+        string $monthAnchor,
+        array $monthlySamples,
+        int $analogChunk,
+        array $dailySamples
+    ): float {
+        if (empty($monthlySamples)) {
+            return 1.0;
+        }
+        $samples = $this->recentSameMoYValues($monthlySamples, $monthAnchor, $analogChunk);
+        if (empty($samples)) {
+            return 1.0;
+        }
+        $numer = $this->computeHistoricalPrior($samples);
+        if ($numer <= 0.0) {
+            return 1.0;
+        }
+
+        if (empty($dailySamples)) {
+            $monthValues = array_values($monthlySamples);
+            $tail = array_slice($monthValues, -min(count($monthValues), 12));
+            if (empty($tail)) {
+                return 1.0;
+            }
+            $denom = array_sum($tail) / count($tail);
+        } else {
+            $sum = array_sum($dailySamples);
+            if ($sum <= 0.0) {
+                return 1.0;
+            }
+            // 30.4375 = average days per month over a 4-year cycle.
+            $denom = ($sum / count($dailySamples)) * 30.4375;
+        }
+        if ($denom <= 0.0) {
+            return 1.0;
+        }
+        return $numer / $denom;
+    }
+
+    /**
+     * Return the index of the sub-period (within $dayAnchors) that contains the reference instant
+     * in the site's timezone. Used to decide which sub-periods are "completed" (real) vs
+     * "in-progress" / "future" (analog-projected).
+     *
+     * Calendar-aligned lookup against the anchor list rather than seconds arithmetic so a DST
+     * transition mid-period (where one wall-clock day is 23h or 25h) cannot shift the index.
+     *
+     * @param array<int, string> $dayAnchors Site-local 'Y-m-d' strings for each sub-period, in
+     *        chronological order. Must be non-empty.
+     */
+    private function resolveSubPeriodTodayIndex(DataTable $dataTable, array $dayAnchors, string $siteTz): int
+    {
+        $referenceTs = $this->resolveReferenceTimestamp($dataTable);
+        // {@see Date::setTimezone()} reinterprets the wall-clock as belonging to a different
+        // timezone rather than projecting a UTC instant into that timezone's wall-clock, so the
+        // round-trip lands a calendar day off for far-offset sites. {@see Date::adjustForTimezone()}
+        // shifts the UTC seconds so that the same wall-clock formatting in UTC reads as the
+        // site-local wall-clock -- the same primitive
+        // {@see \Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Evolution::computeDataStates()}
+        // uses to derive "today in site TZ" -- so the anchor lookup matches a site-local 'Y-m-d'.
+        $referenceAnchor = Date::factory(Date::adjustForTimezone($referenceTs, $siteTz))->toString('Y-m-d');
+
+        $idx = array_search($referenceAnchor, $dayAnchors, true);
+        if (false !== $idx) {
+            return (int) $idx;
+        }
+
+        if ($referenceAnchor < $dayAnchors[0]) {
+            return 0;
+        }
+        return count($dayAnchors) - 1;
+    }
+
+    /**
+     * Reference instant for "as of when is this incomplete tick being forecast". Defaults to
+     * Date::now() so live charts always reflect the current state, but yields to a smaller
+     * ARCHIVED_DATE_METADATA_NAME when present so historical archive runs (and tests) get a
+     * deterministic forecast pinned to the moment the archive was produced.
+     */
+    private function resolveReferenceTimestamp(DataTable $dataTable): int
+    {
+        $referenceTs = Date::now()->getTimestampUTC();
+        $archivedDateStr = $dataTable->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
+        if (!empty($archivedDateStr)) {
+            $archivedTs = Date::factory($archivedDateStr)->getTimestampUTC();
+            if ($archivedTs < $referenceTs) {
+                $referenceTs = $archivedTs;
+            }
+        }
+        return $referenceTs;
     }
 
     /**
@@ -307,21 +801,20 @@ class ForecastBuilder
     }
 
     /**
-     * Same-period historical prior used by both forecast paths. With fewer than two samples
-     * there is no slope to fit and the only signal is the single value (or a flat mean).
-     * With two or more samples we apply a least-squares linear-trend extrapolation projected
-     * one step forward, then dampen the projection by TREND_DAMPING so noisy ratios do not
-     * runaway-extrapolate from a spurious slope. Catching sustained growth or decline that a
-     * flat mean would systematically lag is the win; the damping is what keeps that win from
-     * becoming a loss on volatile averages. The result is clamped to >= 0 because every metric
-     * the builder serves (counts, percentages, durations) is non-negative; a negative trend
-     * extrapolation past zero is never a defensible forecast.
+     * Same-period historical prior. With fewer than two samples the only signal is the single
+     * value (or a flat mean). With two or more samples we apply a least-squares linear-trend
+     * extrapolation projected one step forward, then dampen the projection by TREND_DAMPING so
+     * noisy ratios do not runaway-extrapolate from a spurious slope. Catching sustained growth
+     * or decline that a flat mean would systematically lag is the win; the damping is what keeps
+     * that win from becoming a loss on volatile averages. The result is clamped to >= 0 because
+     * every metric the builder serves (counts, percentages, durations) is non-negative; a
+     * negative trend extrapolation past zero is never a defensible forecast.
      *
      * @param array<int, float> $pastValues Same-period historical samples in temporal order
-     *        (oldest first), already filtered by availability. Leading zeros have been
-     *        stripped only for MONOTONICITY_UP series, where they likely mark "tracking
-     *        had not started yet"; for FREE/DOWN series a leading 0 is a legitimate
-     *        observation (a real 0% rate, an actual running min of 0) and is retained.
+     *        (oldest first), already filtered by availability. Leading zeros have been stripped
+     *        only for MONOTONICITY_UP series, where they likely mark "tracking had not started
+     *        yet"; for FREE/DOWN series a leading 0 is a legitimate observation (a real 0% rate,
+     *        an actual running min of 0) and is retained.
      */
     private function computeHistoricalPrior(array $pastValues): float
     {
@@ -362,6 +855,11 @@ class ForecastBuilder
      *        {@see Evolution::MONOTONICITY_*} constants. Drives whether leading zeros are
      *        stripped: only MONOTONICITY_UP treats them as "tracking had not started yet".
      *        For FREE/DOWN a leading 0 is kept as a legitimate observation.
+     * @param array<string, float> $dailySamples Optional daily sample map (Y-m-d → value)
+     *        covering enough history to populate the day-period prior. When supplied on a day
+     *        target, the prior is built from same-DoW analogs walked back through this map
+     *        instead of from the displayed range alone — short displays (4-7 day charts)
+     *        otherwise carry at most one same-DoW history tick.
      * @return array<int, float>
      */
     private function getHistoricalSamplesForSeries(
@@ -371,11 +869,27 @@ class ForecastBuilder
         int $currentTickIndex,
         DataTable $currentDataTable,
         array $seriesDataAvailability = [],
-        string $monotonicity = Evolution::MONOTONICITY_UP
+        string $monotonicity = Evolution::MONOTONICITY_UP,
+        array $dailySamples = []
     ): array {
         $allSamples = [];
         $alignedSamples = [];
         $periodLabel = $this->getPeriodLabel($currentDataTable);
+
+        if ('day' === $periodLabel && [] !== $dailySamples) {
+            $todayAnchor = $this->getPeriod($currentDataTable)->getDateStart()->toString('Y-m-d');
+            $samples = $this->recentSameDoWValues(
+                $dailySamples,
+                $todayAnchor,
+                self::DAY_PRIOR_TARGET_SAMPLES
+            );
+
+            if (Evolution::MONOTONICITY_UP === $monotonicity) {
+                return $this->removeLeadingZeroSamples($samples);
+            }
+
+            return array_values($samples);
+        }
 
         for ($tickIndex = 0; $tickIndex < $currentTickIndex; ++$tickIndex) {
             if (($dataStates[$tickIndex] ?? null) !== ArchiveState::COMPLETE) {
@@ -437,10 +951,9 @@ class ForecastBuilder
 
     /**
      * True when the candidate sample is "calendar-aligned" to the current period: same
-     * day-of-week for daily, same ISO week-of-year for weekly, same calendar month for
-     * monthly. Year periods have no useful alignment (every prior tick is the same kind of
-     * period), so the check returns true and lets the recency-only sample set carry the
-     * forecast.
+     * day-of-week for daily, same ISO week-of-year for weekly, same calendar month for monthly.
+     * Year periods have no useful alignment (every prior tick is the same kind of period), so
+     * the check returns true and lets the recency-only sample set carry the forecast.
      */
     private function isSamplePeriodCalendarAligned(
         DataTable $current,
@@ -460,12 +973,10 @@ class ForecastBuilder
     }
 
     /**
-     * Clamp the blended forecast to a historical-range envelope around the prior projection.
-     * The envelope is k * sigma wide (with a relative-spread floor so a perfectly stable
-     * history does not collapse the band onto the prior). Without this clamp the linear
-     * partial-period extrapolation can push the forecast far above any value the metric has
-     * historically reached — typical pathology when a partial period's elapsed ratio under-
-     * counts the share of period traffic that has already occurred.
+     * Clamp a forecast value to a historical-range envelope around the prior projection. The
+     * envelope is k * sigma wide (with a relative-spread floor so a perfectly stable history
+     * does not collapse the band onto the prior). Used by the prior-only fallback to bound a
+     * trend extrapolation that strays well outside the empirical history.
      *
      * @param array<int, float> $pastValues Historical samples used to size the envelope.
      */
@@ -524,91 +1035,30 @@ class ForecastBuilder
         }
     }
 
-    private function blendForecastValue(float $baseForecast, float $priorForecast, float $weight): float
-    {
-        return ((1 - $weight) * $baseForecast) + ($weight * $priorForecast);
-    }
-
-    /**
-     * Blend weight assigned to the historical prior. The base weight grows with the number of
-     * available samples (more history = more confidence in the prior); the elapsed-ratio
-     * adjustment shifts further weight onto the prior early in a period and yields it back to
-     * the partial value as completion approaches. The combined weight is capped to retain at
-     * least a small contribution from the partial-period extrapolation, so a recent traffic
-     * step-change can still pull the forecast off a mismatched prior projection.
-     */
-    private function getPriorForecastWeight(int $sampleCount, string $periodLabel, float $elapsedRatio): float
-    {
-        if ($sampleCount <= 0) {
-            return 0.0;
-        }
-
-        $baseWeight = ('day' === $periodLabel)
-            ? min(0.7, $sampleCount / 5)
-            : min(0.5, $sampleCount / 4);
-
-        $clampedElapsed = max(0.0, min(1.0, $elapsedRatio));
-        $earlyPeriodAdjustment = (1.0 - $clampedElapsed) * self::EARLY_PERIOD_PRIOR_BIAS;
-
-        return min(self::MAX_PRIOR_WEIGHT, $baseWeight + $earlyPeriodAdjustment);
-    }
-
-    private function getElapsedRatio(DataTable $dataTable, Site $site): float
+    private function getPeriod(DataTable $dataTable): Period
     {
         /** @var Period $period */
         $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
-        $siteTz = $site->getTimezone();
-
-        // date1/date2 are site-local wall-clock; setTimezone($siteTz)->getTimestamp() returns
-        // the real UTC instant of that wall-clock moment.
-        $startTs = $period->getDateTimeStart()->setTimezone($siteTz)->getTimestamp();
-        $endTs = $period->getDateTimeEnd()->setTimezone($siteTz)->getTimestamp();
-
-        // ts_archived is stored as UTC, so getTimestampUTC() keeps it real UTC; cap by current
-        // real UTC so the ratio reflects actual elapsed time in the site's day.
-        $elapsedTs = Date::now()->getTimestamp();
-        $archivedDateStr = $dataTable->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
-        if (!empty($archivedDateStr)) {
-            $archivedTs = Date::factory($archivedDateStr)->getTimestampUTC();
-            if ($archivedTs < $elapsedTs) {
-                $elapsedTs = $archivedTs;
-            }
-        }
-
-        $elapsedTs = min($elapsedTs, $endTs);
-
-        if ($elapsedTs <= $startTs || $endTs <= $startTs) {
-            return 0.0;
-        }
-
-        return min(1.0, max(0.0, ($elapsedTs - $startTs) / ($endTs - $startTs)));
+        return $period;
     }
 
     private function getPeriodLabel(DataTable $dataTable): string
     {
-        /** @var Period $period */
-        $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
-        return $period->getLabel();
+        return $this->getPeriod($dataTable)->getLabel();
     }
 
     private function getPeriodStartDayOfWeek(DataTable $dataTable): string
     {
-        /** @var Period $period */
-        $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
-        return $period->getDateStart()->toString('N');
+        return $this->getPeriod($dataTable)->getDateStart()->toString('N');
     }
 
     private function getPeriodStartIsoWeek(DataTable $dataTable): string
     {
-        /** @var Period $period */
-        $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
-        return $period->getDateStart()->toString('W');
+        return $this->getPeriod($dataTable)->getDateStart()->toString('W');
     }
 
     private function getPeriodStartCalendarMonth(DataTable $dataTable): string
     {
-        /** @var Period $period */
-        $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
-        return $period->getDateStart()->toString('m');
+        return $this->getPeriod($dataTable)->getDateStart()->toString('m');
     }
 }
