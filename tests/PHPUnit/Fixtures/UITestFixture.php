@@ -25,7 +25,6 @@ use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Manager;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\API\API;
