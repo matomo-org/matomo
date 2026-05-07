@@ -605,7 +605,7 @@ function ButtonBarvue_type_template_id_d473a694_render(_ctx, _cache, $props, $se
   }
 }));
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SitesManagement/ButtonBar.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SitesManagement/ButtonBar.vue
 
 
@@ -1193,7 +1193,7 @@ function isSiteNew(site) {
   }
 }));
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteFields/SiteFields.vue
 
 
@@ -1515,7 +1515,7 @@ class GlobalSettingsStore_GlobalSettingsStore {
   }
 }));
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SitesManagement/SitesManagement.vue
 
 
@@ -1818,7 +1818,7 @@ function ExcludeQueryParameterSettingsvue_type_template_id_4fb96f9e_render(_ctx,
   }
 }));
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/ManageGlobalSettings/ExcludeQueryParameterSettings.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/ManageGlobalSettings/ExcludeQueryParameterSettings.vue
 
 
@@ -1962,7 +1962,7 @@ ExcludeQueryParameterSettingsvue_type_script_lang_ts.render = ExcludeQueryParame
   }
 }));
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/ManageGlobalSettings/ManageGlobalSettings.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/ManageGlobalSettings/ManageGlobalSettings.vue
 
 
@@ -2162,7 +2162,7 @@ function SiteWithoutDatavue_type_template_id_3425106e_render(_ctx, _cache, $prop
   }
 }));
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteWithoutData/SiteWithoutData.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteWithoutData/SiteWithoutData.vue
 
 
