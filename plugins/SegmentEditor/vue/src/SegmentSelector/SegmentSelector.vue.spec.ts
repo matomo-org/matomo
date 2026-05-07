@@ -6,6 +6,7 @@
  */
 
 import { mount } from '@vue/test-utils';
+import { defineComponent } from 'vue';
 
 type PlainObject = Record<string, unknown>;
 
@@ -56,6 +57,14 @@ function createViewModel() {
   };
 }
 
+function createAnonymousViewModel() {
+  return {
+    ...createViewModel(),
+    authorizedToCreateSegments: false,
+    isUserAnonymous: true,
+  };
+}
+
 const mockStore: MockStore = {
   state: {
     value: {
@@ -69,6 +78,35 @@ const mockStore: MockStore = {
 };
 
 jest.mock('CoreHome', () => ({
+  SearchInput: defineComponent({
+    name: 'SearchInput',
+    props: {
+      modelValue: {
+        type: String,
+        required: true,
+      },
+      showClear: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    emits: ['update:modelValue'],
+    template: `
+      <div class="searchInputContainer">
+        <input
+          class="searchInputField"
+          :value="modelValue"
+          @input="$emit('update:modelValue', $event.target.value)"
+        />
+        <button
+          v-if="showClear && modelValue"
+          type="button"
+          class="searchInputClear"
+          @click="$emit('update:modelValue', '')"
+        />
+      </div>
+    `,
+  }),
   translate: (key: string) => key,
 }), { virtual: true });
 
@@ -159,7 +197,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
     jest.useFakeTimers();
     const { wrapper } = mountComponent();
 
-    await wrapper.find('input.segmentFilter').setValue('ca');
+    await wrapper.find('input.searchInputField').setValue('ca');
 
     expect((wrapper.vm as PlainObject).searchInput).toBe('ca');
     expect(mockStore.notifyChange).not.toHaveBeenCalled();
@@ -168,7 +206,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
 
     expect(mockStore.notifyChange).toHaveBeenCalledTimes(1);
 
-    ((wrapper.vm as unknown) as { clearSearch: () => void }).clearSearch();
+    await wrapper.find('.searchInputClear').trigger('click');
 
     expect((wrapper.vm as PlainObject).searchInput).toBe('');
     expect(mockStore.notifyChange).toHaveBeenCalledTimes(2);
@@ -182,6 +220,18 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
     await wrapper.find('.add_new_segment').trigger('click');
 
     expect(openAddListener).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders a button-styled sign in link for anonymous users', () => {
+    mockStore.getSelectorViewModel.mockImplementation(() => createAnonymousViewModel());
+
+    const { wrapper } = mountComponent();
+
+    const signInLink = wrapper.find('.sign_in_segment_btn');
+    expect(signInLink.exists()).toBe(true);
+    expect(signInLink.attributes('href')).toBe('index.php?module=Login');
+    expect(signInLink.text()).toBe('Login_LogIn');
+    expect(wrapper.find('.add_new_segment').exists()).toBe(false);
   });
 
   it('dispatches a toggle-panel event when the title is clicked', async () => {

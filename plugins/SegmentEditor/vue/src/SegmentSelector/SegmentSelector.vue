@@ -27,15 +27,12 @@
       </a>
       <div class="dropdown dropdown-body">
         <div class="segmentFilterContainer">
-          <span class="icon-search" />
-          <input
-            class="segmentFilter browser-default"
-            type="text"
+          <SearchInput
             tabindex="4"
             v-model="searchInput"
-            :placeholder="translate('General_Search')"
-          >
-          <span @click.prevent="clearSearch" />
+            :show-clear="true"
+            @update:model-value="onSearchInputUpdate"
+          />
         </div>
         <ul class="submenu">
           <li>
@@ -138,10 +135,15 @@
                 class="youMustBeLoggedIn"
               >
                 {{ translate('SegmentEditor_YouMustBeLoggedInToCreateSegments') }}
-                <br>
-                ›
-                <a :href="viewModel.loginUrl">{{ translate('Login_LogIn') }}</a>
               </span>
+              <a
+                v-if="viewModel.isUserAnonymous"
+                :href="viewModel.loginUrl"
+                tabindex="4"
+                class="sign_in_segment_btn btn"
+              >
+                {{ translate('Login_LogIn') }}
+              </a>
             </li>
           </ul>
           <br>
@@ -154,7 +156,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { translate } from 'CoreHome';
+import { SearchInput, translate } from 'CoreHome';
 import CompareIcon from './CompareIcon.vue';
 import StarIcon from './StarIcon.vue';
 import SegmentSelectorStore from './SegmentSelector.store';
@@ -167,6 +169,7 @@ export default defineComponent({
   name: 'SegmentSelector',
   components: {
     CompareIcon,
+    SearchInput,
     StarIcon,
   },
   data() {
@@ -297,6 +300,11 @@ export default defineComponent({
       const classes = { ...this.starAnimationClasses };
       delete classes[segmentId];
       this.starAnimationClasses = classes;
+    },
+    onSearchInputUpdate(value: string) {
+      if (!value) {
+        this.clearSearch();
+      }
     },
     onSearchInput(value: string) {
       if (this.filterTimer) {

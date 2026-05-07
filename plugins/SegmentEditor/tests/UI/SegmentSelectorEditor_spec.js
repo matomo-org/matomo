@@ -55,7 +55,7 @@ describe("SegmentSelectorEditorTest", function () {
 
     async function searchForSegment(searchTerm)
     {
-        const selector = '.segmentationContainer .segmentFilter';
+        const selector = '.segmentationContainer .searchInputField';
 
         await page.waitForSelector(selector);
         await page.evaluate((inputSelector) => {

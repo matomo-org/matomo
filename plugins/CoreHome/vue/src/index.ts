@@ -63,6 +63,7 @@ export { default as Site } from './SiteSelector/Site';
 export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';
 export { default as SiteRef } from './SiteSelector/SiteRef';
 export { default as QuickAccess } from './QuickAccess/QuickAccess.vue';
+export { default as SearchInput } from './SearchInput/SearchInput.vue';
 export { default as FieldArray } from './FieldArray/FieldArray.vue';
 export { default as MultiPairField } from './MultiPairField/MultiPairField.vue';
 export { default as PeriodSelector } from './PeriodSelector/PeriodSelector.vue';

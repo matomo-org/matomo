@@ -3,8 +3,10 @@
 
 /* ADDITIONAL STYLES */
 .youMustBeLoggedIn {
-    font-size: 8pt;
-    font-style: italic;
+    display: block;
+    font-size: 12px;
+    padding: @_selector-dropdown_padding;
+    line-height: 14px;
 
 }
 
@@ -234,7 +236,8 @@ div.scrollable {
     margin-right: 0;
     padding-top: 10px;
 }
-.segment-visits-label {
+.segment-visits-label,
+.segmentsSharedWithMeBySuperUser {
   padding: 0 @_selector-dropdown_padding;
   font-size: 14px;
   font-weight: bold;
@@ -442,47 +445,23 @@ div.scrollable {
 
 .segmentFilterContainer {
     margin-bottom: 12px;
-    display: inline-block;
+    display: block;
     position: relative;
     width: 100%;
     padding: @_selector-dropdown_padding;
-
-    .icon-search {
-        position: absolute;
-        font-size: 14px;
-        top: 20px;
-        left: 20px;
-        color: @theme-color-border;
-        pointer-events: none;
-    }
 }
 
-.segmentEditorPanel.expanded .segmentFilterContainer > input[type="text"] {
-    width: 100%;
-    padding: 7px 10px 7px 34px;
-
-    background: @theme-color-background-contrast;
-    border: 1px solid @theme-color-border;
-    font-size: 11px;
-    color: #999;
-    height: 38px;
-    border-radius: @_selector-dropdown_border-radius;
-
-    &::placeholder {
-        font-size: 14px;
-    }
-}
-
-.segmentEditorPanel.expanded .segmentFilterContainer > span {
+.segmentEditorPanel.expanded .segmentFilterContainer .searchInputClear {
     position: absolute;
     width: 13px;
     height: 13px;
     right: 23px;
     top: 24px;
     cursor: pointer;
+    transform: none;
 }
 
-.segmentEditorPanel.expanded .segmentFilterContainer:hover > span {
+.segmentEditorPanel.expanded .segmentFilterContainer:hover .searchInputClear {
     background: url(plugins/SegmentEditor/images/reset_search.png);
 }
 
@@ -499,6 +478,21 @@ div.scrollable {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     margin: 16px 8px 8px 8px;
+    height: auto;
+    min-height: 36px;
+    line-height: 1.5;
+    box-shadow: none;
+}
+
+.segmentEditorPanel.expanded .sign_in_segment_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: ~'calc(100% - 16px)';
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin: 8px 8px 8px 8px;
     height: auto;
     min-height: 36px;
     line-height: 1.5;
@@ -675,7 +669,7 @@ a.metric_category {
     vertical-align: middle;
 }
 
-.segmentsVisibleToSuperUser, .segmentsSharedWithMeBySuperUser {
+.segmentsVisibleToSuperUser {
     font-style: italic;
 
     li {
