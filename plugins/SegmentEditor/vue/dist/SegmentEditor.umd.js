@@ -181,40 +181,30 @@ class SegmentGenerator_store_SegmentGeneratorStore {
       segments: []
     }));
     _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState)));
-    _defineProperty(this, "loadSegmentsAbort", void 0);
-    _defineProperty(this, "loadSegmentsPromise", void 0);
-    _defineProperty(this, "fetchedSiteId", void 0);
   }
   loadSegments(siteId, visitSegmentsOnly) {
-    if (this.loadSegmentsAbort) {
-      this.loadSegmentsAbort.abort();
-      this.loadSegmentsAbort = undefined;
-    }
+    // Do not cache the in-flight promise. AjaxHelper silently swallows
+    // aborts (when globalAjaxQueue.abort() fires during navigation), which
+    // means a cached promise can stay pending forever and any subsequent
+    // call returns that stuck promise so queriedSegments never populates
+    // and the segment editor form fails to render any condition rows.
     this.privateState.isLoading = true;
-    if (this.fetchedSiteId !== siteId) {
-      this.loadSegmentsAbort = undefined;
-      this.fetchedSiteId = siteId;
+    let idSites = undefined;
+    let idSite = undefined;
+    if (siteId === 'all' || !siteId) {
+      idSites = 'all';
+      idSite = 'all';
+    } else if (siteId) {
+      idSites = siteId;
+      idSite = siteId;
     }
-    if (!this.loadSegmentsPromise) {
-      let idSites = undefined;
-      let idSite = undefined;
-      if (siteId === 'all' || !siteId) {
-        idSites = 'all';
-        idSite = 'all';
-      } else if (siteId) {
-        idSites = siteId;
-        idSite = siteId;
-      }
-      this.loadSegmentsAbort = new AbortController();
-      this.loadSegmentsPromise = external_CoreHome_["AjaxHelper"].fetch({
-        method: 'API.getSegmentsMetadata',
-        filter_limit: '-1',
-        _hideImplementationData: 0,
-        idSites,
-        idSite
-      });
-    }
-    return this.loadSegmentsPromise.then(response => {
+    return external_CoreHome_["AjaxHelper"].fetch({
+      method: 'API.getSegmentsMetadata',
+      filter_limit: '-1',
+      _hideImplementationData: 0,
+      idSites,
+      idSite
+    }).then(response => {
       this.privateState.isLoading = false;
       if (response) {
         if (visitSegmentsOnly) {
@@ -226,7 +216,6 @@ class SegmentGenerator_store_SegmentGeneratorStore {
       return this.state.value.segments;
     }).finally(() => {
       this.privateState.isLoading = false;
-      delete this.loadSegmentsPromise;
     });
   }
 }
