@@ -13,12 +13,11 @@ use Exception;
 use Piwik\CliMulti\Process;
 use Piwik\Config\DatabaseConfig;
 use Piwik\Config\GeneralConfig;
+use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Log\LoggerInterface;
-use Piwik\Plugins\PrivacyManager\Settings\CampaignTrackingParametersDisabled;
-use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Tracker\TrackerConfig;
 
 /**
@@ -28,6 +27,8 @@ use Piwik\Tracker\TrackerConfig;
  */
 class Common
 {
+    private const FLOAT_REGEX = "/^[-+]?((([0-9]+(_[0-9]+)*)|(([0-9]+(_[0-9]+)*)?\.([0-9]+(_[0-9]+)*))|(([0-9]+(_[0-9]+)*)\.([0-9]+(_[0-9]+)*)?))([eE][+-]?([0-9]+(_[0-9]+)*))?)$/";
+
     // constants used to map the referrer type to an integer in the log_visit table
     public const REFERRER_TYPE_DIRECT_ENTRY = 1;
     public const REFERRER_TYPE_SEARCH_ENGINE = 2;
@@ -519,7 +520,8 @@ class Common
         if (
             empty($varName)
             || !isset($requestArrayToUse[$varName])
-            || (!is_array($requestArrayToUse[$varName])
+            || (
+                !is_array($requestArrayToUse[$varName])
                 && strlen($requestArrayToUse[$varName]) === 0
             )
         ) {
@@ -1022,16 +1024,8 @@ class Common
      *            1 => array( ... ) // campaign keyword parameters
      * );
      */
-    public static function getCampaignParameters(?int $idSite = null, bool $skipCompliancePolicyCheck = false)
+    public static function getCampaignParameters()
     {
-        if (!$skipCompliancePolicyCheck) {
-            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            $cacheKey = CampaignTrackingParametersDisabled::class;
-            if (($cache[$cacheKey] ?? false) === true) {
-                return [[], []];
-            }
-        }
-
         $return = [
             TrackerConfig::getConfigValue('campaign_var_name'),
             TrackerConfig::getConfigValue('campaign_keyword_var_name'),
@@ -1091,6 +1085,26 @@ class Common
         }
 
         return str_replace(',', '.', $value);
+    }
+
+    /**
+     * Parses the given value as float and returns null if it cannot be represented as a PHP float.
+     *
+     * Supports the same string notations as PHP floats, including underscore notation.
+     *
+     * @param mixed $value
+     */
+    public static function parseFloat($value): ?float
+    {
+        if (is_float($value) || is_int($value)) {
+            return (float)$value;
+        }
+
+        if (is_string($value) && preg_match(self::FLOAT_REGEX, $value)) {
+            return (float)str_replace('_', '', $value);
+        }
+
+        return null;
     }
 
     /**

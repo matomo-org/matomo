@@ -9,16 +9,18 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\EventDispatcher;
 use Piwik\Http;
 use Piwik\Session;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group Core
  * @group Session
  * @group SessionTest
  */
-class SessionTest extends \PHPUnit\Framework\TestCase
+class SessionTest extends IntegrationTestCase
 {
     public function testSessionShouldNotBeStartedIfItWasAlreadyStarted()
     {
@@ -68,5 +70,41 @@ class SessionTest extends \PHPUnit\Framework\TestCase
                 'myname', 'myvalue', 0, '', '', false, false, '',
             ],
         ];
+    }
+
+    public function testGetSameSiteCookieValueReturnsNoneWhenForceEventRequestsItOverHttps()
+    {
+        $_GET['module'] = 'ExamplePlugin';
+        $_REQUEST['module'] = 'ExamplePlugin';
+        $_GET['action'] = 'index';
+        $_REQUEST['action'] = 'index';
+        $_SERVER['HTTPS'] = 'on';
+
+        EventDispatcher::getInstance()->addObserver(
+            'Session.shouldSendSameSiteCookieAsNoneForcefully',
+            function (&$shouldUseNoneForcefully) {
+                $shouldUseNoneForcefully = true;
+            }
+        );
+
+        $this->assertSame('None', Session::getSameSiteCookieValue());
+    }
+
+    public function testGetSameSiteCookieValueKeepsLaxWhenForceEventRequestsItWithoutHttps()
+    {
+        $_GET['module'] = 'ExamplePlugin';
+        $_REQUEST['module'] = 'ExamplePlugin';
+        $_GET['action'] = 'index';
+        $_REQUEST['action'] = 'index';
+        unset($_SERVER['HTTPS']);
+
+        EventDispatcher::getInstance()->addObserver(
+            'Session.shouldSendSameSiteCookieAsNoneForcefully',
+            function (&$shouldUseNoneForcefully) {
+                $shouldUseNoneForcefully = true;
+            }
+        );
+
+        $this->assertSame('Lax', Session::getSameSiteCookieValue());
     }
 }

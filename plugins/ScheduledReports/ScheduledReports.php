@@ -133,7 +133,6 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_ThereIsNoReportToManage';
         $translationKeys[] = 'ScheduledReports_SegmentDeleted';
         $translationKeys[] = 'ScheduledReports_NoRecipients';
-        $translationKeys[] = 'ScheduledReports_SendReportNow';
         $translationKeys[] = 'ScheduledReports_CreateAndScheduleReport';
         $translationKeys[] = 'ScheduledReports_DescriptionOnFirstPageScheduledReport';
         $translationKeys[] = 'SegmentEditor_ChooseASegment';
@@ -156,7 +155,6 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_AlsoSendReportToTheseEmails';
         $translationKeys[] = 'ScheduledReports_ReportSchedule';
         $translationKeys[] = 'ScheduledReports_SendingReport';
-        $translationKeys[] = 'ScheduledReports_ManageTooltip';
         $translationKeys[] = 'ScheduledReports_CreateTooltip';
         $translationKeys[] = 'CoreHome_LearnMoreFullStop';
         $translationKeys[] = 'ScheduledReports_SelectedReports';
@@ -174,6 +172,16 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = "ScheduledReports_ExportDashboardReportDescription";
         $translationKeys[] = "ScheduledReports_ExportDashboardInvalidDashboard";
         $translationKeys[] = "General_Never";
+        $translationKeys[] = "ScheduledReports_SendPreviewNow";
+        $translationKeys[] = "ScheduledReports_DownloadPreview";
+        $translationKeys[] = "ScheduledReports_ManageTooltip1";
+        $translationKeys[] = "ScheduledReports_ManageTooltip2";
+        $translationKeys[] = "ScheduledReports_ManageTooltip3";
+        $translationKeys[] = "ScheduledReports_LearnMoreTooltip";
+        $translationKeys[] = "ScheduledReports_PeriodTooltip1";
+        $translationKeys[] = "ScheduledReports_PeriodTooltip2";
+        $translationKeys[] = "ScheduledReports_PeriodTooltip3";
+        $translationKeys[] = "ScheduledReports_CurrentPeriod";
     }
 
     /**

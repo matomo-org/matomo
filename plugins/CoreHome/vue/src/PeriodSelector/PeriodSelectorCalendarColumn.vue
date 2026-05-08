@@ -43,12 +43,16 @@
       :compare-start-date="compareStartDate"
       :compare-end-date="compareEndDate"
       :compare-period-dropdown-options="comparePeriodDropdownOptions"
+      :show-invalid-comparison-message="showInvalidComparisonMessage"
       @update:isComparing="$emit('update:isComparing', $event)"
       @update:comparePeriodType="$emit('update:comparePeriodType', $event)"
       @update:compareStartDate="$emit('update:compareStartDate', $event)"
       @update:compareEndDate="$emit('update:compareEndDate', $event)"
     />
-    <div class="apply-button-container">
+    <div
+      class="apply-button-container"
+      @mousedown.capture="onApplyButtonInteraction"
+    >
       <input
         type="submit"
         id="calendarApply"
@@ -124,6 +128,10 @@ export default defineComponent({
       type: Array as PropType<Array<{ key: string; value: string }>>,
       required: true,
     },
+    showInvalidComparisonMessage: {
+      type: Boolean,
+      default: false,
+    },
     isApplyEnabled: {
       type: Boolean,
       required: true,
@@ -133,6 +141,7 @@ export default defineComponent({
     'range-change',
     'single-date-select',
     'apply-click',
+    'disabled-apply-interaction',
     'range-preset-date-cell-click-capture',
     'update:isComparing',
     'update:comparePeriodType',
@@ -141,6 +150,11 @@ export default defineComponent({
   ],
   methods: {
     translate,
+    onApplyButtonInteraction() {
+      if (!this.isApplyEnabled) {
+        this.$emit('disabled-apply-interaction');
+      }
+    },
   },
 });
 </script>

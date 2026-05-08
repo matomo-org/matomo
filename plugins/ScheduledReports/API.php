@@ -850,7 +850,7 @@ class API extends \Piwik\Plugin\API
      * dispatches it via the configured transport medium, and cleans up.
      *
      * @param int $idReport The scheduled report ID to send.
-     * @param 'day'|'week'|'month'|'year'|false $period The data period to send, or `false` to use the report's
+     * @param 'day'|'week'|'month'|'year'|'range'|false $period The data period to send, or `false` to use the report's
      *                                                 stored period.
      * @param string|false $date The date to generate the report for (e.g. `'2024-01-15'`),
      *                           or `false` to use the previous scheduled period.
@@ -865,7 +865,7 @@ class API extends \Piwik\Plugin\API
         /** @phpstan-var ScheduledReport $report */
 
         if (!empty($period)) {
-            self::validatePeriodParam($period);
+            self::validatePeriodParam($period, true);
             $report['period_param'] = $period;
         }
 
@@ -1110,11 +1110,13 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private static function validatePeriodParam(string $period): void
+    private static function validatePeriodParam(string $period, bool $allowRange = false): void
     {
         $periodValidator = new Period\PeriodValidator();
         $allowedPeriods = array_flip($periodValidator->getPeriodsAllowedForAPI());
-        unset($allowedPeriods['range']);
+        if (!$allowRange) {
+            unset($allowedPeriods['range']);
+        }
 
         if (!array_key_exists($period, $allowedPeriods)) {
             throw new Exception('Report period must be one of the following: ' . implode(', ', array_keys($allowedPeriods)) . ' (got ' . $period . ')');

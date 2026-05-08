@@ -21,8 +21,8 @@
         style="cursor:pointer;"
         ref="expander"
       >
+        <span class="icon-update"></span>
         {{ translate('General_NewUpdatePiwikX', latestVersionAvailable) }}
-        <span class="icon-warning"></span>
       </span>
       <a
         v-else
@@ -31,8 +31,8 @@
         style="cursor:pointer;"
         ref="expander"
       >
+        <span class="icon-update"></span>
         {{ translate('General_NewUpdatePiwikX', latestVersionAvailable) }}
-        <span class="icon-warning"></span>
       </a>
     </Passthrough>
     <Passthrough v-else-if="isSuperUser && (isAdminArea || lastUpdateCheckFailed)">

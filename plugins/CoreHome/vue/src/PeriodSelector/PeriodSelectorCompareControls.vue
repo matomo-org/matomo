@@ -66,6 +66,12 @@
         </div>
       </div>
     </div>
+    <p
+      v-if="showInvalidComparisonMessage"
+      class="compare-validation-message"
+    >
+      {{ translate('CoreHome_InvalidComparisonDateRange') }}
+    </p>
   </div>
 </template>
 
@@ -110,6 +116,10 @@ export default defineComponent({
     comparePeriodDropdownOptions: {
       type: Array as PropType<ComparePeriodOption[]>,
       required: true,
+    },
+    showInvalidComparisonMessage: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: [

@@ -4,7 +4,7 @@
         {% if icon is defined and icon and icon starts with 'icon-' %}
             <span class="navbar-icon {{ icon|striptags }}" aria-label="{{ label|translate|e('html_attr') }}"></span>
         {% else %}
-            {{ label|translate }}
+            <span class="navbar-label">{{ label|translate }}</span>
         {% endif %}
     {% endmacro %}
 

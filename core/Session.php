@@ -180,8 +180,28 @@ class Session extends Zend_Session
 
         $isOptOutRequest = $module == 'CoreAdminHome' && ($action == 'optOut' || $action == 'optOutJS');
         $shouldUseNone = !empty($general['enable_framed_pages']) || $isOptOutRequest || Overlay::isOverlayRequest($module, $action, $method, $referer);
+        /** @var bool $shouldUseNoneForcefully */
+        $shouldUseNoneForcefully = false;
+        /**
+         * Triggered to determine whether the session cookie SameSite value should be forced to None.
+         *
+         * Plugins can set `$shouldUseNoneForcefully` to true when the session cookie needs to be
+         * sent in a third-party context that is not covered by Matomo's built-in iframe, opt-out,
+         * or Overlay detection. The final cookie value is still only set to `None` when the request
+         * is served over HTTPS.
+         *
+         * @param bool &$shouldUseNoneForcefully Set this to true to force the session cookie SameSite value to None.
+         *
+         * @internal
+         *
+         * @example
+         * Piwik::addAction('Session.shouldSendSameSiteCookieAsNoneForcefully', function (&$shouldUseNoneForcefully) {
+         *     $shouldUseNoneForcefully = true;
+         * });
+         */
+        Piwik::postEvent('Session.shouldSendSameSiteCookieAsNoneForcefully', [&$shouldUseNoneForcefully]);
 
-        if ($shouldUseNone && ProxyHttp::isHttps()) {
+        if (($shouldUseNone || $shouldUseNoneForcefully) && ProxyHttp::isHttps()) {
             return 'None';
         }
 

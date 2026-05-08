@@ -43,7 +43,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Live/index');
         $view->idSite = $this->idSite;
         $view->isWidgetized = \Piwik\Request::fromRequest()->getIntegerParameter('widget', 0);
-        $view->liveRefreshAfterMs = (int)GeneralConfig::getConfigValue('live_widget_refresh_after_seconds', $this->idSite) * 1000;
+        $view->liveRefreshAfterMs = GeneralConfig::getIntegerConfigValue('live_widget_refresh_after_seconds', 0, $this->idSite) * 1000;
         return $this->render($view);
     }
 
@@ -214,7 +214,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $filterLimit  = \Piwik\Request::fromRequest()->getIntegerParameter('filter_offset', 0);
         $startCounter = \Piwik\Request::fromRequest()->getIntegerParameter('start_number', 0);
-        $limit        = (int)GeneralConfig::getConfigValue('live_visitor_profile_max_visits_to_aggregate', $this->idSite);
+        $limit        = GeneralConfig::getIntegerConfigValue('live_visitor_profile_max_visits_to_aggregate', 0, $this->idSite);
 
         if ($startCounter >= $limit) {
             return ''; // do not return more visits than configured for profile

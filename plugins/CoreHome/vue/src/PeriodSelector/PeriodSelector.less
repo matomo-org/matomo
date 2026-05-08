@@ -70,6 +70,15 @@
     padding-top: 20px;
   }
 
+  .compare-validation-message {
+    color: @color-red-matomo;
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 8px 0 0;
+    text-align: center;
+    text-wrap: balance;
+  }
+
   #comparePeriodToDropdown {
     height: 30px;
     display: inline-block;
@@ -398,40 +407,13 @@
 }
 
 .periodSelector-withPrevNext {
-  button.title {
-    width: calc(~'100% - 40px');
-    text-align: center;
-
-    @media (max-width: 600px) {
-      width: calc(~'100% - 60px');
-    }
-  }
-
   .move-period {
     border: none;
-    width: 20px;
-    height: 33px; // req'd for tap target
-
-    @media (max-width: 600px) {
-      width: 30px;
-    }
-
-    &:hover {
-      color: @color-green-matomo;
-      cursor: pointer;
-    }
+    cursor: pointer;
 
     &:disabled {
       color: @color-silver;
       cursor: auto;
     }
-  }
-
-  .move-period-prev {
-    padding-right: 0;
-  }
-
-  .move-period-next {
-    padding-left: 0;
   }
 }

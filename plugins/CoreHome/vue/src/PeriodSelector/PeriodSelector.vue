@@ -56,6 +56,7 @@
           @period-select="onPeriodOptionSelected($event)"
           @period-dblclick="onPeriodOptionDblClick($event)"
           @preset-select="onPresetDateRangeSelected($event)"
+          @preset-dblclick="onPresetDateRangeDblClick($event)"
         />
         <PeriodSelectorCalendarColumn
           :ui-selection="uiSelection"
@@ -70,15 +71,17 @@
           :compare-start-date="compareStartDate"
           :compare-end-date="compareEndDate"
           :compare-period-dropdown-options="comparePeriodDropdownOptions"
+          :show-invalid-comparison-message="shouldDisplayInvalidComparisonMessage()"
           :is-apply-enabled="isApplyEnabled()"
           @range-change="onRangeChange($event.start, $event.end)"
           @single-date-select="onDatePickerSelected($event)"
           @apply-click="onApplyClicked()"
+          @disabled-apply-interaction="onDisabledApplyInteraction()"
           @range-preset-date-cell-click-capture="onRangePresetDateCellClickCapture($event)"
-          @update:isComparing="isComparing = $event"
-          @update:comparePeriodType="comparePeriodType = $event"
-          @update:compareStartDate="compareStartDate = $event"
-          @update:compareEndDate="compareEndDate = $event"
+          @update:isComparing="onCompareToggleUpdated($event)"
+          @update:comparePeriodType="onComparePeriodTypeUpdated($event)"
+          @update:compareStartDate="onCompareStartDateUpdated($event)"
+          @update:compareEndDate="onCompareEndDateUpdated($event)"
         />
       </div>
       <div
@@ -206,6 +209,7 @@ export default defineComponent({
       compareStartDate: '',
       compareEndDate: '',
       compareAppliedSignature: '',
+      shouldShowInvalidComparisonMessage: false,
     };
   },
   mounted() {
@@ -511,6 +515,11 @@ export default defineComponent({
     },
     onPeriodOptionDblClick(payload: { period: string }) {
       this.onPeriodOptionSelected(payload);
+      if (this.hasInvalidCustomComparison()) {
+        this.showInvalidComparisonMessage();
+        return;
+      }
+
       if (payload.period === RANGE_PERIOD
         || payload.period === this.committedPeriod
         || !this.committedAnchorDate
@@ -557,6 +566,15 @@ export default defineComponent({
       if (isSingleCalendarPeriod(selection.period)) {
         this.singleCalendarPeriod = selection.period;
       }
+    },
+    onPresetDateRangeDblClick(selection: PresetDateRangeSelection) {
+      this.onPresetDateRangeSelected(selection);
+      if (this.hasInvalidCustomComparison()) {
+        this.showInvalidComparisonMessage();
+        return;
+      }
+
+      this.onApplyClicked();
     },
     propagateNewUrlParams(date: string, period: string) {
       const compareParams = this.selectedComparisonParams;
@@ -883,6 +901,43 @@ export default defineComponent({
         comparePeriodType: this.comparePeriodType,
         isCompareRangeValid: this.isCompareRangeValid(),
       });
+    },
+    shouldDisplayInvalidComparisonMessage() {
+      return this.shouldShowInvalidComparisonMessage && this.hasInvalidCustomComparison();
+    },
+    hasInvalidCustomComparison() {
+      return !!this.isComparing
+        && this.comparePeriodType === 'custom'
+        && !this.isCompareRangeValid();
+    },
+    showInvalidComparisonMessage() {
+      if (!this.hasInvalidCustomComparison()) {
+        return;
+      }
+
+      this.shouldShowInvalidComparisonMessage = true;
+    },
+    dismissInvalidComparisonMessage() {
+      this.shouldShowInvalidComparisonMessage = false;
+    },
+    onDisabledApplyInteraction() {
+      this.showInvalidComparisonMessage();
+    },
+    onCompareToggleUpdated(value: boolean|null) {
+      this.isComparing = value;
+      this.dismissInvalidComparisonMessage();
+    },
+    onComparePeriodTypeUpdated(value: string) {
+      this.comparePeriodType = value;
+      this.dismissInvalidComparisonMessage();
+    },
+    onCompareStartDateUpdated(value: string) {
+      this.compareStartDate = value;
+      this.dismissInvalidComparisonMessage();
+    },
+    onCompareEndDateUpdated(value: string) {
+      this.compareEndDate = value;
+      this.dismissInvalidComparisonMessage();
     },
     closePeriodSelector() {
       (this.$refs.root as HTMLElement).classList.remove('expanded');

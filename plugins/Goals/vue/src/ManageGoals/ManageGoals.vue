@@ -154,12 +154,13 @@
 
             <div>
               <Field
-                uicontrol="text"
+                uicontrol="textarea"
                 name="goal_description"
                 v-model="goal.description"
                 :maxlength="255"
                 autocomplete="off"
                 :title="translate('General_Description')"
+                :ui-control-attributes="{ class: 'compact-textarea' }"
               />
             </div>
 

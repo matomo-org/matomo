@@ -9,12 +9,19 @@
 
 namespace Piwik\Plugins\TwoFactorAuth\tests\Integration;
 
+use Piwik\Access;
 use Piwik\API\Request;
+use Piwik\Auth;
+use Piwik\AuthResult;
+use Piwik\Session\SessionFingerprint;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\TwoFactorAuth\SystemSettings;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
+use Piwik\Plugins\TwoFactorAuth\Controller;
+use Piwik\Plugins\TwoFactorAuth\TwoFactorAuth;
+use Piwik\Plugins\TwoFactorAuth\Validator;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -45,11 +52,14 @@ class TwoFactorAuthTest extends IntegrationTestCase
     private $userPassword = '123abcDk3_l3';
     private $user2faSecret = '123456';
 
+    private $otherUserWith2Fa = 'myotherloginwith';
+    private $otherUser2faSecret = '654321';
+
     public function setUp(): void
     {
         parent::setUp();
 
-        foreach ([$this->userWith2Fa, $this->userWithout2Fa] as $user) {
+        foreach ([$this->userWith2Fa, $this->userWithout2Fa, $this->otherUserWith2Fa] as $user) {
             API::getInstance()->addUser($user, $this->userPassword, $user . '@matomo.org');
             $userUpdater = new UserUpdater();
             $userUpdater->setSuperUserAccessWithoutCurrentPassword($user, 1);
@@ -61,13 +71,83 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->twoFa = new TwoFactorAuthentication($this->settings, $this->dao, $secretGenerator);
 
         $this->dao->createRecoveryCodesForLogin($this->userWith2Fa);
+        $this->dao->createRecoveryCodesForLogin($this->otherUserWith2Fa);
         $this->twoFa->saveSecret($this->userWith2Fa, $this->user2faSecret);
+        $this->twoFa->saveSecret($this->otherUserWith2Fa, $this->otherUser2faSecret);
         unset($_GET['authCode']);
     }
 
     public function tearDown(): void
     {
         unset($_GET['authCode']);
+    }
+
+    public function testLoginTwoFactorAuthRequiresFreshLoginWhenCurrentUserDoesNotMatchPendingSessionUser()
+    {
+        $this->setCurrentUser($this->otherUserWith2Fa);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWith2Fa, 'pending-session-token');
+
+        $result = StaticContainer::get(Controller::class)->loginTwoFactorAuth();
+
+        $this->assertStringContainsString('form_login', $result);
+        $this->assertNull($sessionFingerprint->getUser());
+        $this->assertTrue(Access::getInstance()->wasSessionExpired());
+    }
+
+    public function testLoginTwoFactorAuthRendersForPendingSessionUser()
+    {
+        $this->setCurrentUser($this->userWith2Fa);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWith2Fa, 'pending-session-token');
+
+        $result = StaticContainer::get(Controller::class)->loginTwoFactorAuth();
+        $this->assertStringContainsString('form_authcode', $result);
+    }
+
+    public function testOnRequestDispatchRequiresFreshLoginWhenDifferentUserIsAuthenticatedDuringPendingSession()
+    {
+        $this->setCurrentUser($this->otherUserWith2Fa);
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWith2Fa, 'pending-session-token');
+
+        $module = 'UsersManager';
+        $action = 'index';
+        $parameters = [];
+
+        $plugin = new TwoFactorAuth();
+        $plugin->onRequestDispatch($module, $action, $parameters);
+
+        $this->assertSame(\Piwik\Piwik::getLoginPluginName(), $module);
+        $this->assertSame('login', $action);
+        $this->assertNull($sessionFingerprint->getUser());
+        $this->assertTrue(Access::getInstance()->wasSessionExpired());
+    }
+
+    public function testValidatorDetectsPendingSessionUserMismatch()
+    {
+        $this->setCurrentUser($this->otherUserWith2Fa);
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWith2Fa, 'pending-session-token');
+
+        $validator = StaticContainer::get(Validator::class);
+
+        $this->assertTrue($validator->hasPendingSessionTwoFactorAuthentication());
+        $this->assertFalse($validator->isCurrentUserMatchingSessionUser());
+    }
+
+    public function testValidatorIgnoresUnverifiedSessionForUserWithoutTwoFactorAuthentication()
+    {
+        $this->setCurrentUser($this->otherUserWith2Fa);
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize($this->userWithout2Fa, 'plain-session-token');
+
+        $validator = StaticContainer::get(Validator::class);
+
+        $this->assertFalse($validator->hasPendingSessionTwoFactorAuthentication());
+        $this->assertFalse($validator->isCurrentUserMatchingSessionUser());
     }
 
     public function testOnCreateAppSpecificTokenAuthCanAuthenticateWhenUserNotUsesTwoFA()
@@ -186,5 +266,17 @@ class TwoFactorAuthTest extends IntegrationTestCase
     {
         $code = new \TwoFactorAuthenticator();
         return $code->getCode($secret);
+    }
+
+    private function setCurrentUser(string $login): void
+    {
+        $auth = $this->getMockBuilder(Auth::class)
+                    ->onlyMethods(['getName', 'setTokenAuth', 'getTokenAuthSecret', 'getLogin', 'setLogin', 'setPassword', 'setPasswordHash', 'authenticate'])
+                    ->getMock();
+        $auth->method('authenticate')
+            ->willReturn(new AuthResult(AuthResult::SUCCESS, $login, $login . '-token'));
+
+        Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess($auth);
     }
 }

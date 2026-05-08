@@ -33,8 +33,8 @@ class GetSimpleLastVisitCount extends Base
     public function render()
     {
         $view = new View('@Live/getSimpleLastVisitCount');
-        $view->lastMinutes = (int)GeneralConfig::getConfigValue(Controller::SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY);
-        $view->refreshAfterXSecs = (int)GeneralConfig::getConfigValue('live_widget_refresh_after_seconds');
+        $view->lastMinutes = GeneralConfig::getIntegerConfigValue(Controller::SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY, 0);
+        $view->refreshAfterXSecs = GeneralConfig::getIntegerConfigValue('live_widget_refresh_after_seconds', 0);
 
         return $view->render();
     }

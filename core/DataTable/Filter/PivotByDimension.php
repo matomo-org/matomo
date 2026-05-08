@@ -581,7 +581,7 @@ class PivotByDimension extends BaseFilter
      */
     public static function isSegmentFetchingEnabledInConfig()
     {
-        return (bool)GeneralConfig::getConfigValue('pivot_by_filter_enable_fetch_by_segment');
+        return GeneralConfig::getBoolConfigValue('pivot_by_filter_enable_fetch_by_segment', false);
     }
 
     /**
@@ -592,7 +592,7 @@ class PivotByDimension extends BaseFilter
      */
     public static function getDefaultColumnLimit()
     {
-        return (int)GeneralConfig::getConfigValue('pivot_by_filter_default_column_limit');
+        return GeneralConfig::getIntegerConfigValue('pivot_by_filter_default_column_limit', 0);
     }
 
     /**

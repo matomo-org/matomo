@@ -81,7 +81,7 @@ class API extends \Piwik\Plugin\API
         $resultDataTable = new DataTable();
 
         try {
-            $limitBeforeGrouping = (int)GeneralConfig::getConfigValue('overlay_following_pages_limit');
+            $limitBeforeGrouping = GeneralConfig::getIntegerConfigValue('overlay_following_pages_limit', 0);
             $transitionsReport = APITransitions::getInstance()->getTransitionsForAction(
                 $url,
                 $type = 'url',

@@ -171,6 +171,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         try {
             $messages = $this->updater->updatePiwik($useHttps);
+            $this->refreshUpdateDetailsToken();
         } catch (ArchiveDownloadException $e) {
             $view->httpsFail = $useHttps;
             $view->error = $e->getMessage();
@@ -244,7 +245,13 @@ class Controller extends \Piwik\Plugin\Controller
             $view = new View('@CoreUpdater/updateHttpError');
             $view->error = $error;
         } else {
-            $updateDetailsToken = $this->createUpdateDetailsTokenIfMissing();
+            $updateDetailsToken = null;
+            if (Piwik::hasUserSuperUserAccess()) {
+                $updateDetailsToken = $this->getUpdateDetailsToken();
+                if ($updateDetailsToken === null) {
+                    $updateDetailsToken = $this->refreshUpdateDetailsToken();
+                }
+            }
             $runUpdaterUrl = Url::getCurrentUrlWithoutQueryString();
 
             if ($updateDetailsToken !== null) {
@@ -474,20 +481,26 @@ class Controller extends \Piwik\Plugin\Controller
         return $config->General['update_details_token'] === Request::fromRequest()->getStringParameter('updateDetailsToken', '');
     }
 
-    private function createUpdateDetailsTokenIfMissing(): ?string
+    private function refreshUpdateDetailsToken(): string
     {
         $config = Config::getInstance();
-
-        if (!empty($config->General['update_details_token'])) {
-            return null;
-        }
-
         $token = Common::generateUniqId();
 
         $config->General['update_details_token'] = $token;
         $config->forceSave();
 
         return $token;
+    }
+
+    private function getUpdateDetailsToken(): ?string
+    {
+        $config = Config::getInstance();
+
+        if (empty($config->General['update_details_token'])) {
+            return null;
+        }
+
+        return $config->General['update_details_token'];
     }
 
     private function removeUpdateDetailsToken(): void

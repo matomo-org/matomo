@@ -42,6 +42,9 @@ describe('PeriodSelector', () => {
       appliedRangeEndDate: '2026-02-18',
       selectedDateString: '2026-02-01,2026-02-18',
       isCompareDirty: true,
+      isComparing: false,
+      comparePeriodType: 'previousPeriod',
+      isCompareRangeValid: jest.fn(() => true),
       hasPendingNonRangePeriodChange: false,
       getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
       closePeriodSelector: jest.fn(),
@@ -460,6 +463,9 @@ describe('PeriodSelector', () => {
       uiSelection: { type: 'preset', id: 'today' },
       selectedPeriod: 'day',
       committedPeriod: 'day',
+      isComparing: false,
+      comparePeriodType: 'previousPeriod',
+      isCompareRangeValid: jest.fn(() => true),
       isCompareDirty: false,
     });
 
@@ -730,12 +736,55 @@ describe('PeriodSelector', () => {
     expect(ignoredVm.appliedRangeEndDate).toBe('2026-01-31');
   });
 
+  it('applies preset immediately on double click', () => {
+    const selection = {
+      id: 'last30days',
+      period: 'range',
+      date: 'last30',
+      startDate: new Date('2026-01-20'),
+      endDate: new Date('2026-02-18'),
+    };
+    const vm: any = {
+      onPresetDateRangeSelected: jest.fn(),
+      onApplyClicked: jest.fn(),
+      hasInvalidCustomComparison: jest.fn(() => false),
+    };
+
+    methods.onPresetDateRangeDblClick.call(vm, selection);
+
+    expect(vm.onPresetDateRangeSelected).toHaveBeenCalledWith(selection);
+    expect(vm.onApplyClicked).toHaveBeenCalled();
+  });
+
+  it('does not immediately apply preset double click when custom comparison range is invalid', () => {
+    const selection = {
+      id: 'last30days',
+      period: 'range',
+      date: 'last30',
+      startDate: new Date('2026-01-20'),
+      endDate: new Date('2026-02-18'),
+    };
+    const vm: any = {
+      onPresetDateRangeSelected: jest.fn(),
+      onApplyClicked: jest.fn(),
+      hasInvalidCustomComparison: jest.fn(() => true),
+      showInvalidComparisonMessage: jest.fn(),
+    };
+
+    methods.onPresetDateRangeDblClick.call(vm, selection);
+
+    expect(vm.onPresetDateRangeSelected).toHaveBeenCalledWith(selection);
+    expect(vm.onApplyClicked).not.toHaveBeenCalled();
+    expect(vm.showInvalidComparisonMessage).toHaveBeenCalled();
+  });
+
   it('keeps legacy immediate apply behavior on non-range period double click', () => {
     const vm: any = {
       committedPeriod: 'day',
       committedAnchorDate: new Date('2026-02-18'),
       onPeriodOptionSelected: jest.fn(),
       setPiwikPeriodAndDate: jest.fn(),
+      hasInvalidCustomComparison: jest.fn(() => false),
     };
 
     methods.onPeriodOptionDblClick.call(vm, { period: 'month' });
@@ -750,12 +799,61 @@ describe('PeriodSelector', () => {
       committedAnchorDate: new Date('2026-02-18'),
       onPeriodOptionSelected: jest.fn(),
       setPiwikPeriodAndDate: jest.fn(),
+      hasInvalidCustomComparison: jest.fn(() => false),
     };
 
     methods.onPeriodOptionDblClick.call(vm, { period: 'range' });
 
     expect(vm.onPeriodOptionSelected).toHaveBeenCalledWith({ period: 'range' });
     expect(vm.setPiwikPeriodAndDate).not.toHaveBeenCalled();
+  });
+
+  it('does not immediately apply non-range period double click when custom comparison range is invalid', () => {
+    const vm: any = {
+      committedPeriod: 'day',
+      committedAnchorDate: new Date('2026-02-18'),
+      onPeriodOptionSelected: jest.fn(),
+      setPiwikPeriodAndDate: jest.fn(),
+      hasInvalidCustomComparison: jest.fn(() => true),
+      showInvalidComparisonMessage: jest.fn(),
+    };
+
+    methods.onPeriodOptionDblClick.call(vm, { period: 'month' });
+
+    expect(vm.onPeriodOptionSelected).toHaveBeenCalledWith({ period: 'month' });
+    expect(vm.setPiwikPeriodAndDate).not.toHaveBeenCalled();
+    expect(vm.showInvalidComparisonMessage).toHaveBeenCalled();
+  });
+
+  it('shows invalid comparison message only after an invalid apply interaction', () => {
+    const vm: any = {
+      shouldShowInvalidComparisonMessage: false,
+      hasInvalidCustomComparison: jest.fn(() => true),
+      showInvalidComparisonMessage: methods.showInvalidComparisonMessage,
+    };
+
+    expect(methods.shouldDisplayInvalidComparisonMessage.call(vm)).toBe(false);
+
+    methods.onDisabledApplyInteraction.call(vm);
+
+    expect(vm.shouldShowInvalidComparisonMessage).toBe(true);
+    expect(methods.shouldDisplayInvalidComparisonMessage.call(vm)).toBe(true);
+  });
+
+  it('clears invalid comparison message when compare input changes', () => {
+    const vm: any = {
+      shouldShowInvalidComparisonMessage: true,
+      isComparing: true,
+      comparePeriodType: 'custom',
+      compareStartDate: '',
+      compareEndDate: '2026-02-18',
+      dismissInvalidComparisonMessage: methods.dismissInvalidComparisonMessage,
+    };
+
+    methods.onCompareStartDateUpdated.call(vm, '2026-02-01');
+
+    expect(vm.compareStartDate).toBe('2026-02-01');
+    expect(vm.shouldShowInvalidComparisonMessage).toBe(false);
   });
 
   it('blocks calendar commit while preset is pending', () => {
