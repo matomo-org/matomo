@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\ScheduledReports;
 
+use Piwik\Common;
 use Piwik\Piwik;
 
 class GeneratedReport
@@ -101,5 +102,14 @@ class GeneratedReport
     public function getReportDescription()
     {
         return Piwik::translate('General_Report') . ' ' . $this->reportTitle . " - " . $this->prettyDate;
+    }
+
+    public function getDisplayDescription(): string
+    {
+        $description = $this->reportDetails['parameters'][ScheduledReports::REPORT_DESCRIPTION_PARAMETER]
+            ?? $this->reportDetails['description']
+            ?? '';
+
+        return str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) $description));
     }
 }
