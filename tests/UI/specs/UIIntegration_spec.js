@@ -725,7 +725,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.evaluate(function () {
                 $('#downloadReportForm_15').attr('target', ''); // do not open the download in new windows
             });
-            await page.click('#downloadReportForm_15 + a');
+            await page.click('#downloadReportForm_15 + span');
             await page.waitForNetworkIdle();
 
             expect(await page.screenshot({fullPage: true})).to.matchImage('email_reports_download');
