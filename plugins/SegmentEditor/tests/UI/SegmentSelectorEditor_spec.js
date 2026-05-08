@@ -174,7 +174,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.goto(url);
         await page.click('.segmentationContainer .title');
         await page.evaluate(function() {
-            $('.segmentList .editSegment:first').click();
+            $('.segmentList button.editSegment:first').click();
         });
         await page.waitForNetworkIdle();
         const isPanelExpanded = await page.evaluate(() => $('.segmentEditorPanel').hasClass('expanded'));
