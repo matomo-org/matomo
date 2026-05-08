@@ -129,6 +129,17 @@ class ForecastBuilder
     private const YEAR_ANALOG_CHUNK = 8;
 
     /**
+     * Number of consecutive complete prior ticks immediately preceding the forecast tick that
+     * must read as "no data" (zero value or missing column) before the forecast is suppressed
+     * as a no-recent-traffic case. Set to 2 so a legitimate single-zero observation (e.g. a
+     * 0% bounce_rate on a low-traffic day with one bounceless visit, or a min_* metric whose
+     * single archived sample was 0) does not trigger suppression — those are valid priors.
+     * Two consecutive empty ticks is the shortest pattern that distinguishes a sustained
+     * outage from a one-tick blip.
+     */
+    private const MIN_RECENT_NO_DATA_TICKS_FOR_SUPPRESSION = 2;
+
+    /**
      * @param array<string, array<int, float|int>> $allSeriesData
      * @param array<DataTable> $dataTables
      * @param array<int, string> $dataStates
@@ -178,25 +189,69 @@ class ForecastBuilder
         $seriesMonotonicityList = array_values($allSeriesMonotonicity);
         $seriesForecastPrecisionList = array_values($allSeriesForecastPrecision);
 
+        $resolvedMonotonicity = [];
+        foreach ($seriesDataList as $seriesIndex => $unused) {
+            $isPercentSeries = ($seriesUnitsList[$seriesIndex] ?? false) === '%';
+            $resolvedMonotonicity[$seriesIndex] = $seriesMonotonicityList[$seriesIndex]
+                ?? ($isPercentSeries ? Evolution::MONOTONICITY_FREE : Evolution::MONOTONICITY_UP);
+        }
+
+        // Process MONOTONICITY_UP series first so the cross-series gate (below) can read each
+        // tick's count-series forecast before deciding whether dependent ratios/averages should
+        // render. Output order is restored by indexing $forecastData on the original series
+        // index and ksort'ing at the end.
+        $processingOrder = array_keys($seriesDataList);
+        usort($processingOrder, function ($a, $b) use ($resolvedMonotonicity) {
+            $aRank = Evolution::MONOTONICITY_UP === $resolvedMonotonicity[$a] ? 0 : 1;
+            $bRank = Evolution::MONOTONICITY_UP === $resolvedMonotonicity[$b] ? 0 : 1;
+            if ($aRank === $bRank) {
+                return $a <=> $b;
+            }
+            return $aRank <=> $bRank;
+        });
+
+        // Per-tick "any UP series produced a renderable forecast > 0" map. Built up as the
+        // first-pass UP series finish processing, consumed by the second-pass FREE/DOWN series
+        // to suppress dependent ratios/averages on ticks where no count series carries data.
+        $upSeriesNonZeroByTick = [];
+        $hasAnyUpSeries = false;
+
         $forecastData = [];
 
-        foreach ($seriesDataList as $seriesIndex => $seriesData) {
+        foreach ($processingOrder as $seriesIndex) {
+            $seriesData = $seriesDataList[$seriesIndex];
             $seriesName = $seriesNames[$seriesIndex] ?? null;
             $seriesForecasts = [];
             // Reset on every non-rendered tick so a suppressed or skipped forecast does not
             // bridge into later zero-data ticks; later ticks must restart from historical priors.
             $previousForecastValue = null;
-            $isPercentSeries = ($seriesUnitsList[$seriesIndex] ?? false) === '%';
             $seriesDataAvailability = $seriesDataAvailabilityList[$seriesIndex] ?? [];
-            $monotonicity = $seriesMonotonicityList[$seriesIndex]
-                ?? ($isPercentSeries ? Evolution::MONOTONICITY_FREE : Evolution::MONOTONICITY_UP);
+            $monotonicity = $resolvedMonotonicity[$seriesIndex];
             $forecastPrecision = $seriesForecastPrecisionList[$seriesIndex] ?? 4;
-            $dailySamples = ($seriesName !== null && isset($allSeriesDailySamples[$seriesName]))
+            $isUpSeries = Evolution::MONOTONICITY_UP === $monotonicity;
+            if ($isUpSeries) {
+                $hasAnyUpSeries = true;
+            }
+            // Running sample maps grow as forecasts are produced for earlier incomplete ticks
+            // in this series, so subsequent ticks pick up those projections in their analog
+            // walks instead of regressing to the partial/empty data left for forecast ticks in
+            // the original sample fetch. Without this feedback the second of two same-DoW
+            // forecast days (e.g. a Tuesday this week and a Tuesday next week) sees this
+            // Tuesday's partial value as a historical analog and pulls the trend hard down.
+            //
+            // Only feed projections forward when the caller originally supplied the matching
+            // sample map. With an empty caller-supplied map the seasonal/day-target paths do
+            // not engage and the prior comes from the legacy dataTableList walk; folding
+            // projections into a previously-empty map would flip the path for later ticks and
+            // hide the legacy behaviour the dataTableList walk is meant to provide.
+            $runningDailySamples = ($seriesName !== null && isset($allSeriesDailySamples[$seriesName]))
                 ? $allSeriesDailySamples[$seriesName]
                 : [];
-            $monthlySamples = ($seriesName !== null && isset($allSeriesMonthlySamples[$seriesName]))
+            $runningMonthlySamples = ($seriesName !== null && isset($allSeriesMonthlySamples[$seriesName]))
                 ? $allSeriesMonthlySamples[$seriesName]
                 : [];
+            $feedDailyProjections = [] !== $runningDailySamples;
+            $feedMonthlyProjections = [] !== $runningMonthlySamples;
 
             foreach ($seriesData as $tickIndex => $currentValueRaw) {
                 $state = $dataStates[$tickIndex] ?? ArchiveState::COMPLETE;
@@ -216,6 +271,37 @@ class ForecastBuilder
                     continue;
                 }
 
+                // Trailing-no-data gate: if the most recent complete prior tick(s) read as
+                // empty (zero value or column unavailable), the same-period analog walks will
+                // happily reach back over the no-data stretch and "snap" the forecast to the
+                // pre-outage level — a ghost spike on the chart with no observable basis.
+                // Suppress instead. Applies to every series in the build pass, regardless of
+                // monotonicity, so a no-traffic stretch hides counts, ratios and averages
+                // uniformly.
+                if (
+                    $this->hasRecentNoDataPattern(
+                        $seriesData,
+                        $dataStates,
+                        $seriesDataAvailability,
+                        $tickIndex,
+                        self::MIN_RECENT_NO_DATA_TICKS_FOR_SUPPRESSION
+                    )
+                ) {
+                    $seriesForecasts[] = null;
+                    $previousForecastValue = null;
+                    continue;
+                }
+
+                // Cross-series gate: ratios and averages (FREE/DOWN) are only meaningful when
+                // the underlying count exists. After the UP-first pass has finished, suppress
+                // any dependent series at ticks where no UP series rendered a non-zero
+                // forecast. Skipped when no UP series were present in the build call.
+                if (!$isUpSeries && $hasAnyUpSeries && empty($upSeriesNonZeroByTick[$tickIndex])) {
+                    $seriesForecasts[] = null;
+                    $previousForecastValue = null;
+                    continue;
+                }
+
                 $pastValues = $this->getHistoricalSamplesForSeries(
                     $seriesData,
                     $dataTableList,
@@ -224,21 +310,31 @@ class ForecastBuilder
                     $dataTable,
                     $seriesDataAvailability,
                     $monotonicity,
-                    $dailySamples
+                    $runningDailySamples
                 );
 
-                if (Evolution::MONOTONICITY_UP === $monotonicity) {
+                $tickDayProjections = [];
+                $tickMonthProjections = [];
+
+                if ($isUpSeries) {
                     $forecastValue = $this->buildMonotonicForecastValue(
                         $currentValue,
                         $pastValues,
                         $previousForecastValue,
                         $dataTable,
                         $site,
-                        $dailySamples,
-                        $monthlySamples
+                        $runningDailySamples,
+                        $runningMonthlySamples,
+                        $tickDayProjections,
+                        $tickMonthProjections
                     );
                 } else {
-                    $forecastValue = $this->buildNonMonotonicForecastValue($pastValues, $previousForecastValue);
+                    $forecastValue = $this->buildNonMonotonicForecastValue(
+                        $pastValues,
+                        $previousForecastValue,
+                        $dataTable,
+                        $tickDayProjections
+                    );
                 }
 
                 if ($forecastValue === null) {
@@ -264,12 +360,74 @@ class ForecastBuilder
                 $roundedForecast = round($forecastValue, $forecastPrecision);
                 $seriesForecasts[] = $roundedForecast;
                 $previousForecastValue = $roundedForecast;
+
+                if ($isUpSeries && $forecastValue > 0.0) {
+                    $upSeriesNonZeroByTick[$tickIndex] = true;
+                }
+
+                // Feed this tick's projections forward as historical analogs for later
+                // incomplete ticks in the same series. Use raw (un-rounded) values so the
+                // feedback channel keeps the precision of the underlying computation; the
+                // rounding step above is for display only.
+                if ($feedDailyProjections) {
+                    foreach ($tickDayProjections as $anchor => $value) {
+                        $runningDailySamples[$anchor] = (float) $value;
+                    }
+                }
+                if ($feedMonthlyProjections) {
+                    foreach ($tickMonthProjections as $anchor => $value) {
+                        $runningMonthlySamples[$anchor] = (float) $value;
+                    }
+                }
             }
 
-            $forecastData[] = $seriesForecasts;
+            $forecastData[$seriesIndex] = $seriesForecasts;
         }
 
-        return $forecastData;
+        ksort($forecastData);
+
+        return array_values($forecastData);
+    }
+
+    /**
+     * True when the $requiredCount complete prior ticks immediately preceding $currentTickIndex
+     * all read as "no data" — either zero value or column-availability false. Skips earlier
+     * incomplete ticks (forecast slots) so an unbroken run of forecast ticks does not interrupt
+     * the walk back into real history. Returns false if the walk runs out of complete history
+     * before $requiredCount ticks have been examined; suppression is a "we are confident the
+     * recent past was empty" decision, and partial evidence does not justify it.
+     *
+     * @param array<int, float|int> $seriesData
+     * @param array<int, string> $dataStates
+     * @param array<int, bool> $seriesDataAvailability
+     */
+    private function hasRecentNoDataPattern(
+        array $seriesData,
+        array $dataStates,
+        array $seriesDataAvailability,
+        int $currentTickIndex,
+        int $requiredCount
+    ): bool {
+        if ($requiredCount <= 0) {
+            return false;
+        }
+
+        $examined = 0;
+        for ($i = $currentTickIndex - 1; $i >= 0 && $examined < $requiredCount; --$i) {
+            $state = $dataStates[$i] ?? ArchiveState::COMPLETE;
+            if (ArchiveState::COMPLETE !== $state) {
+                continue;
+            }
+
+            $available = $seriesDataAvailability[$i] ?? true;
+            $value = (float) ($seriesData[$i] ?? 0);
+            if ($available && $value > 0.0) {
+                return false;
+            }
+            ++$examined;
+        }
+
+        return $examined >= $requiredCount;
     }
 
     /**
@@ -284,9 +442,18 @@ class ForecastBuilder
      * are not available, so the builder degrades gracefully on legacy callers and on day-period
      * targets (where there is no useful sub-period structure).
      *
+     * The $dayProjections and $monthProjections out-params capture sub-period values produced
+     * during this tick's decomposition (today's contribution + remaining-day analogs for week/
+     * month, per-month projections for year, plus the day-target prior keyed under the day's
+     * own anchor). The caller merges them into the running sample maps so that later incomplete
+     * ticks in the same series see this tick's projections as analogs instead of the partial
+     * (or zero) values that prefilled their slots in the original sample fetch.
+     *
      * @param array<int, float> $pastValues
      * @param array<string, float> $dailySamples
      * @param array<string, float> $monthlySamples
+     * @param array<string, float> $dayProjections
+     * @param array<string, float> $monthProjections
      */
     private function buildMonotonicForecastValue(
         float $currentValue,
@@ -295,7 +462,9 @@ class ForecastBuilder
         DataTable $dataTable,
         Site $site,
         array $dailySamples,
-        array $monthlySamples
+        array $monthlySamples,
+        array &$dayProjections,
+        array &$monthProjections
     ): ?float {
         $periodLabel = $this->getPeriodLabel($dataTable);
         $period = $this->getPeriod($dataTable);
@@ -307,7 +476,9 @@ class ForecastBuilder
             $currentValue,
             $dailySamples,
             $monthlySamples,
-            $site
+            $site,
+            $dayProjections,
+            $monthProjections
         );
         if ($seasonal !== null) {
             return $seasonal;
@@ -318,10 +489,19 @@ class ForecastBuilder
             if (count($pastValues) >= self::MIN_SAMPLES_FOR_BOUNDED_RANGE) {
                 $prior = $this->clampForecastToHistoricalRange($prior, $pastValues, $prior);
             }
+            // Day-target prior-only path: record the day's forecast under its own anchor so a
+            // later same-DoW day in this series picks it up via recentSameDoWValues instead of
+            // walking back to a partial/zero entry the sample fetch left for this day.
+            if ('day' === $periodLabel) {
+                $dayProjections[$period->getDateStart()->toString('Y-m-d')] = $prior;
+            }
             return $prior;
         }
 
         if ($previousForecastValue !== null) {
+            if ('day' === $periodLabel) {
+                $dayProjections[$period->getDateStart()->toString('Y-m-d')] = $previousForecastValue;
+            }
             return $previousForecastValue;
         }
 
@@ -335,6 +515,8 @@ class ForecastBuilder
      *
      * @param array<string, float> $dailySamples
      * @param array<string, float> $monthlySamples
+     * @param array<string, float> $dayProjections
+     * @param array<string, float> $monthProjections
      */
     private function buildSeasonalForecastValue(
         DataTable $dataTable,
@@ -343,14 +525,23 @@ class ForecastBuilder
         float $currentValue,
         array $dailySamples,
         array $monthlySamples,
-        Site $site
+        Site $site,
+        array &$dayProjections,
+        array &$monthProjections
     ): ?float {
         switch ($periodLabel) {
             case 'week':
                 if ([] === $dailySamples) {
                     return null;
                 }
-                return $this->forecastWeekSeasonal($dataTable, $period, $currentValue, $dailySamples, $site);
+                return $this->forecastWeekSeasonal(
+                    $dataTable,
+                    $period,
+                    $currentValue,
+                    $dailySamples,
+                    $site,
+                    $dayProjections
+                );
             case 'month':
                 if ([] === $dailySamples) {
                     return null;
@@ -361,7 +552,8 @@ class ForecastBuilder
                     $currentValue,
                     $dailySamples,
                     $monthlySamples,
-                    $site
+                    $site,
+                    $dayProjections
                 );
             case 'year':
                 if ([] === $monthlySamples) {
@@ -373,7 +565,9 @@ class ForecastBuilder
                     $currentValue,
                     $dailySamples,
                     $monthlySamples,
-                    $site
+                    $site,
+                    $dayProjections,
+                    $monthProjections
                 );
             default:
                 return null;
@@ -385,13 +579,15 @@ class ForecastBuilder
      * the in-progress day and remaining days are projected from same-DoW analog samples.
      *
      * @param array<string, float> $dailySamples
+     * @param array<string, float> $dayProjections
      */
     private function forecastWeekSeasonal(
         DataTable $dataTable,
         Period $weekPeriod,
         float $currentValue,
         array $dailySamples,
-        Site $site
+        Site $site,
+        array &$dayProjections
     ): float {
         $weekStart = $weekPeriod->getDateStart();
         $siteTz = $site->getTimezone();
@@ -409,7 +605,8 @@ class ForecastBuilder
             $currentValue,
             $dailySamples,
             self::WEEK_ANALOG_CHUNK,
-            1.0
+            1.0,
+            $dayProjections
         );
     }
 
@@ -421,6 +618,7 @@ class ForecastBuilder
      *
      * @param array<string, float> $dailySamples
      * @param array<string, float> $monthlySamples
+     * @param array<string, float> $dayProjections
      */
     private function forecastMonthSeasonal(
         DataTable $dataTable,
@@ -428,7 +626,8 @@ class ForecastBuilder
         float $currentValue,
         array $dailySamples,
         array $monthlySamples,
-        Site $site
+        Site $site,
+        array &$dayProjections
     ): float {
         $monthStart = $monthPeriod->getDateStart();
         $siteTz = $site->getTimezone();
@@ -458,7 +657,8 @@ class ForecastBuilder
             $currentValue,
             $dailySamples,
             self::MONTH_ANALOG_CHUNK,
-            $monthOfYearScale
+            $monthOfYearScale,
+            $dayProjections
         );
     }
 
@@ -470,6 +670,8 @@ class ForecastBuilder
      *
      * @param array<string, float> $dailySamples
      * @param array<string, float> $monthlySamples
+     * @param array<string, float> $dayProjections
+     * @param array<string, float> $monthProjections
      */
     private function forecastYearSeasonal(
         DataTable $dataTable,
@@ -477,7 +679,9 @@ class ForecastBuilder
         float $currentValue,
         array $dailySamples,
         array $monthlySamples,
-        Site $site
+        Site $site,
+        array &$dayProjections,
+        array &$monthProjections
     ): float {
         $yearStart = $yearPeriod->getDateStart();
         $siteTz = $site->getTimezone();
@@ -514,7 +718,8 @@ class ForecastBuilder
                 $currentMonthPartial,
                 $dailySamples,
                 $monthlySamples,
-                $site
+                $site,
+                $dayProjections
             );
         }
         if ($currentMonthEstimate === null) {
@@ -524,6 +729,7 @@ class ForecastBuilder
                 : $currentMonthPartial;
         }
         $currentMonthEstimate = max($currentMonthEstimate, $currentMonthPartial);
+        $monthProjections[$monthAnchors[$todayMonthIdx]] = $currentMonthEstimate;
 
         $remainingExpected = 0.0;
         for ($i = $todayMonthIdx + 1; $i < 12; ++$i) {
@@ -531,7 +737,9 @@ class ForecastBuilder
             if (empty($samples)) {
                 continue;
             }
-            $remainingExpected += $this->computeHistoricalPrior($samples);
+            $projected = $this->computeHistoricalPrior($samples);
+            $remainingExpected += $projected;
+            $monthProjections[$monthAnchors[$i]] = $projected;
         }
 
         return $completedReal + $currentMonthEstimate + $remainingExpected;
@@ -545,8 +753,14 @@ class ForecastBuilder
      * same-DoW analog prior — never an elapsed-time multiplication. Remaining sub-periods are
      * projected from same-DoW analogs reduced by the day-level reducer.
      *
+     * Captures today's contribution and the remaining-day projections into $dayProjections so
+     * the caller can feed them forward into the running daily samples map. Completed-day values
+     * are not written back because they are already present in $dailySamples; only the values
+     * the decomposition produced for this tick need to be added.
+     *
      * @param array<int, string> $dayAnchors
      * @param array<string, float> $dailySamples
+     * @param array<string, float> $dayProjections
      */
     private function decomposeAndForecast(
         array $dayAnchors,
@@ -554,7 +768,8 @@ class ForecastBuilder
         float $currentValue,
         array $dailySamples,
         int $analogChunk,
-        float $analogScale
+        float $analogScale,
+        array &$dayProjections
     ): float {
         $completedReal = 0.0;
         for ($i = 0; $i < $todayIdx; ++$i) {
@@ -577,6 +792,7 @@ class ForecastBuilder
         } else {
             $todayContribution = $todayPartial;
         }
+        $dayProjections[$todayAnchor] = $todayContribution;
 
         $remainingExpected = 0.0;
         $count = count($dayAnchors);
@@ -591,7 +807,9 @@ class ForecastBuilder
                     return $v * $analogScale;
                 }, $samples);
             }
-            $remainingExpected += $this->dayLevelAnalogPrior($samples);
+            $projected = $this->dayLevelAnalogPrior($samples);
+            $remainingExpected += $projected;
+            $dayProjections[$anchor] = $projected;
         }
 
         return $completedReal + $todayContribution + $remainingExpected;
@@ -785,15 +1003,36 @@ class ForecastBuilder
      * forecast if there is no prior. Returns null when neither signal is available because no
      * defensible value can be produced.
      *
+     * Day-target ticks record the forecast under their own anchor in $dayProjections so a later
+     * same-DoW tick in this series picks up this tick's forecast (not the partial value the
+     * sub-period fetch left at this anchor) when its analog walk steps back through the running
+     * daily map. Without that feedback channel the second of two same-DoW forecast days on a
+     * ratio series like bounce_rate sees this tick's partial (early-hours, low-traffic) value
+     * as a historical analog and the trend fit collapses.
+     *
      * @param array<int, float> $pastValues
+     * @param array<string, float> $dayProjections
      */
-    private function buildNonMonotonicForecastValue(array $pastValues, ?float $previousForecastValue): ?float
-    {
+    private function buildNonMonotonicForecastValue(
+        array $pastValues,
+        ?float $previousForecastValue,
+        DataTable $dataTable,
+        array &$dayProjections
+    ): ?float {
+        $periodLabel = $this->getPeriodLabel($dataTable);
+
         if ([] !== $pastValues) {
-            return $this->computeHistoricalPrior($pastValues);
+            $forecast = $this->computeHistoricalPrior($pastValues);
+            if ('day' === $periodLabel) {
+                $dayProjections[$this->getPeriod($dataTable)->getDateStart()->toString('Y-m-d')] = $forecast;
+            }
+            return $forecast;
         }
 
         if ($previousForecastValue !== null) {
+            if ('day' === $periodLabel) {
+                $dayProjections[$this->getPeriod($dataTable)->getDateStart()->toString('Y-m-d')] = $previousForecastValue;
+            }
             return $previousForecastValue;
         }
 
