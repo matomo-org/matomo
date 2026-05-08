@@ -161,7 +161,7 @@
                 v-model="goal.description"
                 :maxlength="255"
                 autocomplete="off"
-                :title="translate('General_Description')"
+                :title="`${translate('General_Description')} ${translate('Goals_Optional')}`"
                 :placeholder="translate('Goals_GoalDescriptionPlaceholder')"
                 :inline-help="translate('Goals_GoalDescriptionHelpText')"
                 :ui-control-attributes="{ class: 'compact-textarea' }"

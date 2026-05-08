@@ -68,7 +68,7 @@ class AttachedFileReportEmailGenerator extends ReportEmailGenerator
         $headerView = new View\HtmlReportEmailHeaderView(
             $report->getReportTitle(),
             $report->getPrettyDate(),
-            API::getReportDescriptionForDisplay($reportDetails),
+            $report->getDisplayDescription(),
             [],
             $segment,
             $reportDetails['idsite'],

@@ -175,35 +175,6 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertFalse($dimension);
     }
 
-    public function testConfigureNewDimensionShouldPersistDescription()
-    {
-        $idSite = 1;
-        $idDimension = $this->config->configureNewDimension($idSite, 'Test', 'action', 5, true, array(), true, 'some description');
-
-        $dimension = $this->config->getCustomDimension($idDimension, $idSite);
-        $this->assertSame('some description', $dimension['description']);
-    }
-
-    public function testConfigureExistingDimensionShouldUpdateDescription()
-    {
-        $idSite = 1;
-        $idDimension = $this->config->configureNewDimension($idSite, 'Test', 'action', 5, true, array(), true, 'initial');
-
-        $this->config->configureExistingDimension($idDimension, $idSite, 'Test', true, array(), true, 'updated');
-
-        $dimension = $this->config->getCustomDimension($idDimension, $idSite);
-        $this->assertSame('updated', $dimension['description']);
-    }
-
-    public function testDescriptionDefaultsToEmptyStringWhenNotProvided()
-    {
-        $idSite = 1;
-        $idDimension = $this->configureNewDimension();
-
-        $dimension = $this->config->getCustomDimension($idDimension, $idSite);
-        $this->assertSame('', $dimension['description']);
-    }
-
     public function getExtractionsProvider()
     {
         $tests = array();

@@ -468,8 +468,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_SelectDefaultCurrency';
         $translationKeys[] = 'SitesManager_SelectDefaultTimezone';
         $translationKeys[] = 'SitesManager_ShowTrackingTag';
-        $translationKeys[] = 'SitesManager_SiteDescriptionInlineHelp';
-        $translationKeys[] = 'SitesManager_SiteNameInlineHelp';
         $translationKeys[] = 'SitesManager_SiteSearchUse';
         $translationKeys[] = 'SitesManager_SiteWithoutDataChooseTrackingMethod';
         $translationKeys[] = 'SitesManager_SiteWithoutDataGoogleTagManager';

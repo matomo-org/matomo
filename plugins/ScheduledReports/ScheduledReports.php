@@ -166,6 +166,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_ReportDescriptionPlaceholder';
         $translationKeys[] = 'ScheduledReports_SelectedReports';
         $translationKeys[] = 'ScheduledReports_SelectedReportsHelp';
+        $translationKeys[] = 'Goals_Optional';
         $translationKeys[] = "ScheduledReports_ReportAdded";
         $translationKeys[] = "ScheduledReports_ReportWillBeSentAt";
         $translationKeys[] = "ScheduledReports_ReportHourEqualsUtc";

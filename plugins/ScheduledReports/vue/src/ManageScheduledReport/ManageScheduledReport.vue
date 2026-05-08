@@ -334,7 +334,12 @@ export default defineComponent({
       this.report = report;
       this.report.description = Matomo.helper.htmlDecode(report.description);
       this.report.reportDescription = Matomo.helper.htmlDecode(
-        `${report.parameters?.reportDescription || ''}`,
+        report.parameters && Object.prototype.hasOwnProperty.call(
+          report.parameters,
+          'reportDescription',
+        )
+          ? `${report.parameters.reportDescription || ''}`
+          : report.description,
       );
     },
     showNotificationMessage(

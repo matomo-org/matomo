@@ -138,7 +138,6 @@ class Configuration
         $dimension['extractions'] = $this->decodeExtractions($dimension['extractions']);
         $dimension['active'] = (bool) $dimension['active'];
         $dimension['case_sensitive'] = (bool) $dimension['case_sensitive'];
-        $dimension['description'] = isset($dimension['description']) ? (string) $dimension['description'] : '';
 
         return $dimension;
     }

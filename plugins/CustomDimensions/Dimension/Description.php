@@ -28,7 +28,7 @@ class Description
     {
         $maxLen = 1000;
 
-        if (strlen($this->description) > $maxLen) {
+        if (mb_strlen($this->description) > $maxLen) {
             throw new Exception(Piwik::translate('CustomDimensions_DescriptionIsTooLong', $maxLen));
         }
 

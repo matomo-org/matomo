@@ -800,7 +800,10 @@ class API extends \Piwik\Plugin\API
         $reportRenderer->setReport($report);
 
         // render report
-        $description = self::getReportDescriptionForDisplay($report);
+        $description = $report['parameters'][ScheduledReports::REPORT_DESCRIPTION_PARAMETER]
+            ?? $report['description'];
+        $description = str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) $description));
+        $reportName = str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) $report['description']));
 
         [$reportSubject, $reportTitle] = self::getReportSubjectAndReportTitle(Common::unsanitizeInputValue(Site::getNameFor((int)$idSite)), $report['reports']);
 
@@ -808,7 +811,7 @@ class API extends \Piwik\Plugin\API
         if (is_array($segment) && strlen($segment['name'])) {
             $reportTitle .= " - " . $segment['name'];
         }
-        $filename = "$reportTitle - $prettyDate - $description";
+        $filename = "$reportTitle - $prettyDate - $reportName";
 
         $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment ?? []);
         array_walk($processedReports, [$reportRenderer, 'renderReport']);
@@ -843,14 +846,6 @@ class API extends \Piwik\Plugin\API
                 $reportRenderer->sendToBrowserDownload($filename);
                 break;
         }
-    }
-
-    public static function getReportDescriptionForDisplay(array $report): string
-    {
-        $parameters = $report['parameters'] ?? [];
-        $description = $parameters[ScheduledReports::REPORT_DESCRIPTION_PARAMETER] ?? $report['description'] ?? '';
-
-        return str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) $description));
     }
 
     /**
