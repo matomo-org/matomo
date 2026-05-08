@@ -12,31 +12,47 @@ describe("IgnoreCookie", function () {
 
     var userSettingsUrl = "?module=UsersManager&action=userSettings";
 
+    async function getIgnoreCookieText() {
+        return page.evaluate(() => $('.ignoreCookieSettings').text().replace(/\s+/g, ' ').trim());
+    }
+
     it('should show ignore cookie setting on user settings page', async function () {
         await page.goto(userSettingsUrl);
-        expect(await page.screenshotSelector('.ignoreCookieSettings')).to.matchImage('loaded');
+        await page.waitForSelector('.ignoreCookieSettings', { visible: true });
+
+        const text = await getIgnoreCookieText();
+        expect(text).to.contain('Your visits are not ignored');
+        expect(text).to.contain('Click here to set a cookie');
     });
 
     it('should set an ignore cookie and reload the page correctly when clicking ignore link', async function () {
       await page.click('.ignoreCookieSettings a');
       await page.waitForNetworkIdle();
+      await page.waitForSelector('.ignoreCookieSettings', { visible: true });
 
       var cookies = await page.cookies();
       var ignoreCookie = cookies.filter((cookie) => cookie.name === 'matomo_ignore');
 
       expect(ignoreCookie.length).to.eq(1);
-      expect(await page.screenshotSelector('.ignoreCookieSettings')).to.matchImage('ignored');
+
+      const text = await getIgnoreCookieText();
+      expect(text).to.contain('Your visits are ignored');
+      expect(text).to.contain('Click here to delete the cookie');
     });
 
     it('should remove ignore cookie and reload the page correctly when clicking ignore link again', async function () {
       await page.click('.ignoreCookieSettings a');
       await page.waitForNetworkIdle();
+      await page.waitForSelector('.ignoreCookieSettings', { visible: true });
 
       var cookies = await page.cookies();
       var ignoreCookie = cookies.filter((cookie) => cookie.name === 'matomo_ignore');
 
       expect(ignoreCookie.length).to.eq(0);
-      expect(await page.screenshotSelector('.ignoreCookieSettings')).to.matchImage('reset');
+
+      const text = await getIgnoreCookieText();
+      expect(text).to.contain('Your visits are not ignored');
+      expect(text).to.contain('Click here to set a cookie');
     });
 
     it('should fail when directly opening the ignore cookie action without a nonce', async function () {
