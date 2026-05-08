@@ -470,12 +470,11 @@ class SegmentSelectorStore {
       label,
       tooltip: label,
       showStarButton: false,
+      showStarPlaceholder: !this.privateState.isUserAnonymous,
       showEditButton: false,
+      showEditPlaceholder: this.privateState.segmentAccess === 'write',
       showCompareButton: context.comparisonAvailable,
-      compareButtonClass: [
-        'segmentAction compareSegment allVisitsCompareSegment',
-        this.privateState.segmentAccess === 'write' ? 'allVisitsCompareSegment--write' : '',
-      ].join(' ').trim(),
+      compareButtonClass: 'segmentAction compareSegment allVisitsCompareSegment',
       compareTitle: allVisitsCompareState.title,
       compareState: allVisitsCompareState.state,
     };

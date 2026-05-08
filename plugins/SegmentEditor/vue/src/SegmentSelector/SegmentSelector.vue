@@ -86,6 +86,11 @@
                       >
                         <StarIcon :filled="!!entry.isStarred" />
                       </button>
+                      <span
+                        v-else-if="entry.showStarPlaceholder"
+                        class="segmentAction starSegment segmentAction--placeholder"
+                        aria-hidden="true"
+                      />
                       <button
                         v-if="entry.showCompareButton"
                         :class="[entry.compareButtonClass, compareSegmentClass]"
@@ -101,6 +106,11 @@
                         :title="entry.editTitle"
                         :data-state="entry.editState"
                         @click.stop.prevent="openEditSegment(entry)"
+                      />
+                      <span
+                        v-else-if="entry.showEditPlaceholder"
+                        class="segmentAction editSegment segmentAction--placeholder"
+                        aria-hidden="true"
                       />
                     </template>
                   </li>

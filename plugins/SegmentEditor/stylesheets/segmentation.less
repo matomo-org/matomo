@@ -328,6 +328,11 @@ div.scrollable {
   100% { stroke: black; fill: transparent; }
 }
 
+.segmentAction--placeholder {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .segmentAction {
   flex: none;
   display: flex;
@@ -428,12 +433,8 @@ div.scrollable {
       height: @_segmentselector-action-size;
     }
 
-    &.allVisitsCompareSegment,
-    &.isAnonymous:not(.allVisitsCompareSegment){
+    &.isAnonymous {
         margin-left: 22px;
-    }
-    &.allVisitsCompareSegment--write {
-      margin-right: 30px;
     }
 }
 
