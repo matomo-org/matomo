@@ -197,7 +197,7 @@ jobs:
             | while read -r plugin; do
                 [ -n "$plugin" ] || continue
 
-                if [ ! -e "plugins/$plugin/.git" ] || [ "$plugin" = "TagManager" ]; then
+                if [ ! -e "plugins/$plugin/.git" ]; then
                   printf '%s\n' "$plugin"
                 fi
               done)
