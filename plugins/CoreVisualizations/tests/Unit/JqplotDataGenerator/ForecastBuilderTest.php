@@ -589,6 +589,415 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[100.0, 200.0]], $forecastData);
     }
 
+    public function testBuildDayTargetFeedsForwardSameDoWForecastToNextWeekIncompleteTick(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Two same-DoW incomplete ticks one week apart (Tue Apr 28 and Tue May 5). The first is
+        // the "today" tick with a small partial of 100; the second is a future Tuesday with no
+        // data archived. The fetched daily-sample map carries the partial under the today
+        // anchor (since the parallel sub-period fetch covers the displayed range, including
+        // incomplete dates) and zero for the future date — the same shape the production
+        // caller produces.
+        //
+        // Without feed-forward, the second Tuesday's recentSameDoWValues walk picks up the
+        // partial 100 at Apr 28 alongside the real 1000s further back; the trend fit lands far
+        // below 1000 because the most recent point looks like a hard collapse. The fix folds
+        // the first tick's forecast (1000) back into the running daily sample map so the
+        // second tick's walk sees a flat history of 1000s and forecasts 1000 again.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-28', $site, '2026-04-28 12:00:00'),
+            $this->createDataTableForDay('2026-05-05', $site, '2026-05-05 00:00:00'),
+        ];
+
+        $dailySamples = [
+            '2026-03-31' => 1000.0, // Tue, four weeks back, real complete
+            '2026-04-07' => 1000.0, // Tue
+            '2026-04-14' => 1000.0, // Tue
+            '2026-04-21' => 1000.0, // Tue
+            '2026-04-28' => 100.0,  // Tue, today, partial as it would arrive from a sub-period fetch
+            '2026-05-05' => 0.0,    // Tue, future tick, empty archive — extractSubPeriodSamples writes 0
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [100.0, 0.0]],
+            $dataTables,
+            [ArchiveState::INCOMPLETE, ArchiveState::INCOMPLETE],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples]
+        );
+
+        self::assertNotNull($forecastData[0][0]);
+        self::assertNotNull($forecastData[0][1]);
+        self::assertSame(1000.0, $forecastData[0][0]);
+        // Without the feed-forward fix, the second Tuesday's same-DoW walk picks up Apr 28's
+        // partial (100) and the trend fit collapses; the fix keeps the second forecast aligned
+        // with the four 1000-sample history.
+        self::assertSame(1000.0, $forecastData[0][1]);
+    }
+
+    public function testBuildDayTargetFeedsForwardForecastForNonMonotonicSeries(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Same-DoW feed-forward also has to apply to MONOTONICITY_FREE series (ratios,
+        // percentages, averages — bounce_rate is the canonical case the user reported). For a
+        // ratio metric the partial value at "today" is doubly problematic: early-hours samples
+        // skew the rate (a low-traffic morning that bounces hard reads near 0% engagement, an
+        // early session of one engaged visitor reads at the other extreme). Without
+        // feed-forward the second Tuesday's recentSameDoWValues walk pulls today's partial
+        // alongside the prior Tuesdays, the least-squares fit picks up a strong slope from the
+        // outlier and the forecast collapses. With feed-forward today's value in the running
+        // map becomes today's forecast, so the second tick's walk sees a flat history.
+        //
+        // Setup: prior Tuesdays at a stable 35.0 (bounce rate %), today's partial at 5.0
+        // (the early-hours skew), next Tuesday's slot at 0.0 (future, fetch returns 0).
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-28', $site, '2026-04-28 02:00:00'),
+            $this->createDataTableForDay('2026-05-05', $site, '2026-05-05 00:00:00'),
+        ];
+
+        $dailySamples = [
+            '2026-03-31' => 35.0,
+            '2026-04-07' => 35.0,
+            '2026-04-14' => 35.0,
+            '2026-04-21' => 35.0,
+            '2026-04-28' => 5.0,
+            '2026-05-05' => 0.0,
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Bounce rate' => [5.0, 0.0]],
+            $dataTables,
+            [ArchiveState::INCOMPLETE, ArchiveState::INCOMPLETE],
+            ['Bounce rate' => '%'],
+            [],
+            ['Bounce rate' => Evolution::MONOTONICITY_FREE],
+            [],
+            ['Bounce rate' => $dailySamples]
+        );
+
+        // Tick 1: walk from Apr 28 picks up [35, 35, 35, 35]. computeHistoricalPrior on a flat
+        // history reduces to the mean = 35.
+        self::assertSame(35.0, $forecastData[0][0]);
+        // Tick 2: with feed-forward, $runningDailySamples['2026-04-28'] = 35. Walk from May 5
+        // picks up [35, 35, 35, 35] → 35. Without the fix the walk would see [35, 35, 35, 5]
+        // (with today's partial at the most-recent slot) and the trend fit would tilt the
+        // projection well below 35.
+        self::assertSame(35.0, $forecastData[0][1]);
+    }
+
+    public function testBuildDayTargetFeedsForwardForecastForMonotonicDownSeries(): void
+    {
+        $site = $this->createSiteMock();
+
+        // MONOTONICITY_DOWN running-min series go through the same non-monotonic forecast path
+        // as FREE ratios, so the same feed-forward applies. Setup: prior Tuesdays at a flat
+        // 50, today's partial at 200 (an early-hours min that has not yet had time to fall),
+        // next Tuesday's partial at 100 (mid-day partial high enough that a 50 forecast still
+        // satisfies the DOWN render gate of forecast ≤ current).
+        //
+        // Without feed-forward, next Tuesday's analog walk picks up [50, 50, 50, 200] and the
+        // damped least-squares projection lands well above the historical 50; the DOWN gate
+        // (forecast ≤ current = 100) then suppresses the rendered forecast. With feed-forward
+        // today's value in the running map becomes 50 (today's forecast), the walk sees a flat
+        // history at 50 and the rendered forecast is 50.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-28', $site, '2026-04-28 02:00:00'),
+            $this->createDataTableForDay('2026-05-05', $site, '2026-05-05 09:00:00'),
+        ];
+
+        $dailySamples = [
+            '2026-03-31' => 50.0,
+            '2026-04-07' => 50.0,
+            '2026-04-14' => 50.0,
+            '2026-04-21' => 50.0,
+            '2026-04-28' => 200.0,
+            '2026-05-05' => 100.0,
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Min bandwidth' => [200.0, 100.0]],
+            $dataTables,
+            [ArchiveState::INCOMPLETE, ArchiveState::INCOMPLETE],
+            ['Min bandwidth' => false],
+            [],
+            ['Min bandwidth' => Evolution::MONOTONICITY_DOWN],
+            [],
+            ['Min bandwidth' => $dailySamples]
+        );
+
+        // Tick 1: prior [50, 50, 50, 50] → forecast 50. DOWN gate 50 ≤ 200 passes; the clamp
+        // is a no-op. Today's projection in $runningDailySamples becomes 50.
+        self::assertSame(50.0, $forecastData[0][0]);
+        // Tick 2 with feed-forward: walk sees [50, 50, 50, 50] → forecast 50. Render gate
+        // 50 ≤ 100 passes, the rendered forecast is 50. Without feed-forward the walk would
+        // see [50, 50, 50, 200] and the trend-aware prior projects above 100, so the DOWN
+        // gate would suppress the forecast (null in the unfixed output).
+        self::assertSame(50.0, $forecastData[0][1]);
+    }
+
+    public function testBuildWeekTargetFeedsForwardDayProjectionsAcrossConsecutiveIncompleteWeeks(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Two consecutive incomplete weeks (week of Apr 27 with today = Wed Apr 29; week of
+        // May 4 fully in the future). The first week's seasonal decomposition projects per-day
+        // values for Wed/Thu/Fri/Sat/Sun. The second week's decomposition needs same-DoW
+        // analogs for each of its seven days; each walk steps back through the running daily
+        // map, so without feed-forward those walks would land on the zeros the parallel fetch
+        // produced for the future-dated week-1 days (Thu/Fri/Sat/Sun) and pull the trend down
+        // hard. With feed-forward the walk picks up week 1's projections instead.
+        //
+        // To make the difference observable, week 1's same-DoW projection differs from the
+        // historical mean: priors are 100/day flat, but Apr 29 (Wed today) carries a partial
+        // floor of 500 that is bigger than the 100 prior, so today's contribution is 500. Week
+        // 1 then projects Wed=500 (partial floor), Thu/Fri/Sat/Sun=100 (analog). Week 2's Wed
+        // walks back to Apr 29 = 500 (with fix) vs the partial-or-missing case (without fix);
+        // the rest of week 2's days walk to flat-100 history.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-29 12:00:00'),
+            $this->createDataTableForWeek('2026-05-04', $site, '2026-05-04 00:00:00'),
+        ];
+
+        // Eight prior weeks of flat-100/day so every same-DoW analog walk reduces to a mean of
+        // 100 with no slope, isolating the fix's effect.
+        $dailySamples = $this->buildFlatDailySamples('2026-03-02', 8, 100.0);
+        // Week 1's Mon-Tue real archived completed days.
+        $dailySamples['2026-04-27'] = 100.0;
+        $dailySamples['2026-04-28'] = 100.0;
+        // Week 1's Wed (today) carries the partial value the parallel fetch returns.
+        $dailySamples['2026-04-29'] = 500.0;
+        // Week 1's Thu..Sun are future-dated, so the fetch returns 0. Week 2's Mon..Sun are
+        // also fetched and zeroed out for the same reason.
+        foreach (['2026-04-30', '2026-05-01', '2026-05-02', '2026-05-03'] as $futureWeek1Day) {
+            $dailySamples[$futureWeek1Day] = 0.0;
+        }
+        foreach (['2026-05-04', '2026-05-05', '2026-05-06', '2026-05-07', '2026-05-08', '2026-05-09', '2026-05-10'] as $futureWeek2Day) {
+            $dailySamples[$futureWeek2Day] = 0.0;
+        }
+
+        $forecastData = (new ForecastBuilder())->build(
+            // Week 1 currentValue: Mon+Tue real (200) + Wed partial (500) = 700.
+            // Week 2 currentValue: 0 (all future).
+            ['Visits' => [700.0, 0.0]],
+            $dataTables,
+            [ArchiveState::INCOMPLETE, ArchiveState::INCOMPLETE],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples]
+        );
+
+        // Week 1 forecast: Mon (100) + Tue (100) + Wed today contribution (max of partial 500
+        // and prior 100 = 500) + Thu/Fri/Sat/Sun analog priors (100 each) = 200 + 500 + 400 =
+        // 1100.
+        self::assertSame(1100.0, $forecastData[0][0]);
+
+        // Week 2 forecast with the feed-forward fix: each day's same-DoW walk picks up week
+        // 1's projection.
+        //   Mon walk → Apr 27 = 100 (real), and 100s further back → 100.
+        //   Tue walk → Apr 28 = 100 (real), and 100s further back → 100.
+        //   Wed walk → Apr 29 = 500 (week 1 projection), then 100s → analog mean grows; with
+        //     the chunk-3 walk it lands on (100 + 100 + 500) / 3 = 233.33.
+        //   Thu walk → Apr 30 = 100 (week 1 projection from analog), then 100s → 100.
+        //   Fri walk → May 1 = 100, then 100s → 100.
+        //   Sat walk → May 2 = 100, then 100s → 100.
+        //   Sun walk → May 3 = 100, then 100s → 100.
+        // Week 2 = 100 + 100 + 233.3333 + 100 + 100 + 100 + 100 = 833.3333.
+        self::assertNotNull($forecastData[0][1]);
+        self::assertEqualsWithDelta(833.3333, $forecastData[0][1], 0.01);
+
+        // Pin the property the user reported: with feed-forward the second incomplete week's
+        // forecast does not collapse below the flat-100/day baseline (700). Without the fix
+        // Wed's walk would see Apr 29 = 500 alongside two zeros (week 1 projections were never
+        // folded), the rest of the days would see two zeros each, every day's analog mean
+        // would collapse toward 0 and the weekly forecast would land far below 700.
+        self::assertGreaterThan(700.0, $forecastData[0][1]);
+    }
+
+    public function testBuildSuppressesForecastWhenTwoMostRecentPriorTicksHaveNoData(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Sustained zero-traffic stretch: weeks of 200 visits, then two consecutive zero-visit
+        // weeks, then the incomplete forecast tick. The same-period analog walk would happily
+        // reach back over the two zero weeks and project the forecast at the pre-outage level
+        // (a "ghost spike" with no observable basis). The trailing-zero gate suppresses any
+        // forecast on the incomplete tick because the two complete prior ticks both read as
+        // empty.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-06', $site),
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site),
+            $this->createDataTableForWeek('2026-05-04', $site, '2026-05-04 00:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [200.0, 200.0, 0.0, 0.0, 0.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        self::assertSame([[null, null, null, null, null]], $forecastData);
+    }
+
+    public function testBuildRendersForecastWhenOnlySingleTrailingZeroTick(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Single zero-traffic prior tick is too short a pattern to be confident the recent
+        // past was empty: the suppression gate requires two consecutive empty ticks. Pin the
+        // boundary so a one-week outage blip does not silently kill an otherwise renderable
+        // forecast.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site),
+            $this->createDataTableForWeek('2026-05-04', $site, '2026-05-04 00:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Visits' => [200.0, 200.0, 0.0, 0.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false]
+        );
+
+        self::assertNotNull($forecastData[0][3]);
+    }
+
+    public function testBuildSuppressionTreatsUnavailableTicksAsNoData(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Bounce rate during a two-week traffic outage: nb_visits is 0, so the bounce_rate
+        // column is absent and seriesDataAvailability is false on the two outage weeks. The
+        // suppression gate treats availability=false the same as a zero observation, so the
+        // forecast is suppressed. Without this branch the bounce_rate prior would draw from
+        // the (filtered) historic 50% values and snap the forecast back to a meaningless
+        // ratio on a tick where there will be no visits to ratio against.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-06', $site),
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site),
+            $this->createDataTableForWeek('2026-05-04', $site, '2026-05-04 00:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            ['Bounce rate' => [50.0, 50.0, 0.0, 0.0, 0.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Bounce rate' => '%'],
+            ['Bounce rate' => [true, true, false, false, true]]
+        );
+
+        self::assertSame([[null, null, null, null, null]], $forecastData);
+    }
+
+    public function testBuildCrossSeriesGateSuppressesRatioWhenCountForecastIsZero(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Cross-series gate: when the count series (Visits, MONOTONICITY_UP) is suppressed by
+        // the trailing-zero rule, dependent ratios (Bounce rate, MONOTONICITY_FREE) on the
+        // same tick must also be suppressed even if their own history would otherwise produce
+        // a renderable value. This mirrors the user's reported scenario: visits drop to zero,
+        // visits forecast is suppressed, but bounce_rate's prior history excludes the
+        // unavailable rows and still projects ~50% — a meaningless ratio over zero visits.
+        // The gate prevents that.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-06', $site),
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site),
+            $this->createDataTableForWeek('2026-05-04', $site, '2026-05-04 00:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            [
+                'Visits' => [200.0, 200.0, 0.0, 0.0, 0.0],
+                // Bounce rate availability=false on the zero-visit weeks so its own history
+                // would still pull a 50% prior — only the cross-series gate suppresses it.
+                'Bounce rate' => [50.0, 50.0, 0.0, 0.0, 0.0],
+            ],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false, 'Bounce rate' => '%'],
+            [
+                'Visits' => [true, true, true, true, true],
+                'Bounce rate' => [true, true, false, false, true],
+            ]
+        );
+
+        self::assertSame([null, null, null, null, null], $forecastData[0]);
+        self::assertSame([null, null, null, null, null], $forecastData[1]);
+    }
+
+    public function testBuildCrossSeriesGateLeavesRatioRenderableWhenCountForecastIsPositive(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Counterpart to the gate-fires test: when the count series renders a positive
+        // forecast, the dependent ratio is not gated and renders its own prior. Pins that the
+        // cross-series gate is conditional, not blanket.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-13', $site),
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 12:00:00'),
+        ];
+
+        $forecastData = (new ForecastBuilder())->build(
+            [
+                'Visits' => [200.0, 220.0, 100.0],
+                'Bounce rate' => [50.0, 50.0, 30.0],
+            ],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false, 'Bounce rate' => '%']
+        );
+
+        // Visits forecast renders a value > 0 (count series with two healthy priors), so the
+        // gate does not fire and bounce_rate's same-period prior renders its own value.
+        self::assertNotNull($forecastData[0][2]);
+        self::assertGreaterThan(0.0, $forecastData[0][2]);
+        self::assertNotNull($forecastData[1][2]);
+    }
+
     public function testBuildMonotonicReturnsTrendAwarePriorWhenIncompleteTickHasNoData(): void
     {
         $site = $this->createSiteMock();
@@ -1251,6 +1660,26 @@ class ForecastBuilderTest extends TestCase
         $forecast = $forecastData[0][2];
         self::assertNotNull($forecast);
         self::assertEqualsWithDelta(500.0, $forecast, 1.0);
+    }
+
+    /**
+     * Build a daily sample map of $weeks consecutive weeks starting at $firstMonday where every
+     * day carries the same flat $value. Useful for isolating analog-walk feedback effects from
+     * day-of-week variance.
+     *
+     * @return array<string, float>
+     */
+    private function buildFlatDailySamples(string $firstMonday, int $weeks, float $value): array
+    {
+        $samples = [];
+        $cursor = \Piwik\Date::factory($firstMonday);
+        for ($w = 0; $w < $weeks; ++$w) {
+            for ($d = 0; $d < 7; ++$d) {
+                $samples[$cursor->toString('Y-m-d')] = $value;
+                $cursor = $cursor->addDay(1);
+            }
+        }
+        return $samples;
     }
 
     /**
