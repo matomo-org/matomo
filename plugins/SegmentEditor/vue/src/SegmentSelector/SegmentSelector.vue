@@ -314,6 +314,7 @@ export default defineComponent({
     },
     clearSearch() {
       this.searchInput = '';
+      this.debouncedSearchInput = '';
 
       if (this.filterTimer) {
         window.clearTimeout(this.filterTimer);
