@@ -255,7 +255,7 @@ div.scrollable {
 }
 
 .segmentationContainer .submenu ul li {
-    padding: 2px @_segmentselector-dropdown_padding 2px @_segmentselector-dropdown_padding;
+    padding: 2px @_segmentselector-dropdown_padding;
     margin: 3px 0 0 0;
     cursor: pointer;
     order: 2;
@@ -496,7 +496,8 @@ div.scrollable {
         box-shadow: none;
     }
     .add_new_segment {
-        margin: 16px @_segmentselector-dropdown_padding @_segmentselector-dropdown_padding @_segmentselector-dropdown_padding;
+        margin: @_segmentselector-dropdown_padding;
+        margin-top: 16px;
     }
     .sign_in_segment_btn {
         margin: @_segmentselector-dropdown_padding;
@@ -506,7 +507,8 @@ div.scrollable {
 
 .segmentEditorPanel.expanded .manage_segment_btn {
     width: @_segmentselector-full-width-button-width;
-    margin: 0 @_segmentselector-dropdown_padding @_segmentselector-dropdown_padding @_segmentselector-dropdown_padding;
+    margin: @_segmentselector-dropdown_padding;
+    margin-top: 0;
     box-shadow: none;
     line-height: @_segmentselector-button-height;
 }

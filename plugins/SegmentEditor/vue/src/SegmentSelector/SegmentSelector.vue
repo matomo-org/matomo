@@ -31,7 +31,6 @@
             tabindex="4"
             v-model="searchInput"
             :show-clear="true"
-            @update:model-value="onSearchInputUpdate"
           />
         </div>
         <ul class="submenu">
@@ -76,36 +75,22 @@
                       {{ entry.label }}
                     </span>
                     <template v-if="entry.type === 'segment'">
-                      <button
-                        v-if="entry.showStarButton"
-                        :data-star="entry.idsegment"
-                        class="segmentAction starSegment"
-                        :title="entry.starTitle"
-                        :data-state="entry.starState"
-                        @click.stop.prevent="toggleStar(entry)"
-                      >
-                        <StarIcon :filled="!!entry.isStarred" />
-                      </button>
+                      <star-button  v-if="entry.showStarButton" :segment="entry"/>
                       <span
                         v-else-if="entry.showStarPlaceholder"
                         class="segmentAction starSegment segmentAction--placeholder"
                         aria-hidden="true"
                       />
-                      <button
+                      <compare-button
                         v-if="entry.showCompareButton"
-                        :class="[entry.compareButtonClass, compareSegmentClass]"
-                        :title="entry.compareTitle"
-                        :data-state="entry.compareState"
-                        @click.stop.prevent="toggleComparison(entry)"
-                      >
-                        <CompareIcon :state="entry.compareState" />
-                      </button>
-                      <button
+                        :segment="entry"
+                        :is-anonymous="viewModel.isUserAnonymous"
+                        @toggle-compare-button="toggleComparison"
+                      />
+                      <edit-button
                         v-if="entry.showEditButton"
-                        class="segmentAction editSegment"
-                        :title="entry.editTitle"
-                        :data-state="entry.editState"
-                        @click.stop.prevent="openEditSegment(entry)"
+                        :segment="entry"
+                        @open-edit-button="openEditSegment"
                       />
                       <span
                         v-else-if="entry.showEditPlaceholder"
@@ -162,20 +147,22 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { SearchInput, translate } from 'CoreHome';
-import CompareIcon from './CompareIcon.vue';
-import StarIcon from './StarIcon.vue';
+import StarButton from '../Buttons/StarButton.vue';
 import SegmentSelectorStore from './SegmentSelector.store';
 import {
   SegmentSelectorEntry,
   SegmentSelectorViewModel,
 } from '../types';
+import EditButton from '../Buttons/EditButton.vue';
+import CompareButton from '../Buttons/CompareButton.vue';
 
 export default defineComponent({
   name: 'SegmentSelector',
   components: {
-    CompareIcon,
+    CompareButton,
+    EditButton,
     SearchInput,
-    StarIcon,
+    StarButton,
   },
   data() {
     return {
@@ -195,12 +182,6 @@ export default defineComponent({
 
       const filterValue = this.debouncedSearchInput.length >= 2 ? this.debouncedSearchInput : '';
       return SegmentSelectorStore.getSelectorViewModel(filterValue) as SegmentSelectorViewModel;
-    },
-    compareSegmentClass(): string {
-      if (this.viewModel) {
-        return this.viewModel.isUserAnonymous ? 'isAnonymous' : '';
-      }
-      return '';
     },
   },
   mounted() {
@@ -268,24 +249,11 @@ export default defineComponent({
 
       this.dispatchPanelEvent('SegmentEditor:select-segment', { definition: entry.definition });
     },
-    toggleStar(entry: SegmentSelectorEntry) {
-      if (entry.starState === 'disabled' || !entry.idsegment) {
-        return;
-      }
-
-      SegmentSelectorStore.toggleStarredSegmentById(entry.idsegment);
+    toggleComparison(definition: string) {
+      this.dispatchPanelEvent('SegmentEditor:toggle-comparison', { definition });
     },
-    toggleComparison(entry: SegmentSelectorEntry) {
-      if (entry.compareState === 'disabled' || typeof entry.definition === 'undefined') {
-        return;
-      }
-      this.dispatchPanelEvent('SegmentEditor:toggle-comparison', { definition: entry.definition });
-    },
-    openEditSegment(entry: SegmentSelectorEntry) {
-      if (entry.editState === 'disabled' || !entry.idsegment) {
-        return;
-      }
-      this.dispatchPanelEvent('SegmentEditor:open-edit-segment', { idSegment: entry.idsegment });
+    openEditSegment(id: string|number) {
+      this.dispatchPanelEvent('SegmentEditor:open-edit-segment', { idSegment: id });
     },
     openAddSegment() {
       this.dispatchPanelEvent('SegmentEditor:open-add-segment');
@@ -318,6 +286,7 @@ export default defineComponent({
       }
     },
     onSearchInput(value: string) {
+      this.onSearchInputUpdate(value);
       if (this.filterTimer) {
         window.clearTimeout(this.filterTimer);
       }
