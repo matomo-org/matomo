@@ -378,12 +378,15 @@ class Access
                 // getAllSitesId() would fail permission checks. Fetch raw site IDs directly.
                 $allSiteIds = $this->getSitesManagerModel()->getSitesId();
             } catch (\Exception $e) {
-                StaticContainer::get(LoggerInterface::class)->debug(
-                    'Could not enumerate sites while applying token-level access restriction; '
-                    . 'capped superuser token will fall back to sites with explicit access only. {exception}',
-                    ['exception' => $e]
+                // Deliberately no fallback to a smaller list. Continuing with the sites this user holds an
+                // explicit access row for would answer site-enumerating APIs with a shortened list and a
+                // success status, which the caller cannot tell apart from a genuinely short one, and the
+                // only trace would be a server-side log line the API client never sees.
+                throw new Exception(
+                    'Could not enumerate sites while applying token-level access restriction.',
+                    0,
+                    $e
                 );
-                $allSiteIds = [];
             }
             // A superuser's implicit role outranks any explicit access row, which is why getRoleForSite()
             // answers 'admin' for an uncapped superuser regardless of that user's rows. Seeding every site

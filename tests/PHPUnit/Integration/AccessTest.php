@@ -777,6 +777,48 @@ class AccessTest extends IntegrationTestCase
         $this->assertEquals('write', $access->getRoleForSite($idSite));
     }
 
+    public function testLoadSitesFailsRequestWhenSiteEnumerationForCappedSuperuserTokenFails()
+    {
+        Fixture::createWebsite('2010-01-02 00:00:00');
+
+        $authMock = $this->createPiwikAuthMockInstance();
+        $authMock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(
+                AuthResult::SUCCESS_SUPERUSER_AUTH_CODE,
+                'superuserlogin',
+                'token',
+                ['token_access_level' => 'write']
+            )));
+
+        // Falling back to the sites this user holds an explicit access row for would answer
+        // site-enumerating APIs with a shortened list and a success status, which the caller cannot tell
+        // apart from a genuinely short one. The request has to fail instead.
+        $sitesModelMock = $this->getMockBuilder(\Piwik\Plugins\SitesManager\Model::class)
+            ->onlyMethods(['getSitesId'])
+            ->getMock();
+        $sitesModelMock->expects($this->once())
+            ->method('getSitesId')
+            ->willThrowException(new \Exception('site table unavailable'));
+
+        $access = $this->getMockBuilder('Piwik\Access')
+            ->onlyMethods(['getRawSitesWithSomeViewAccess', 'getSitesManagerModel'])
+            ->getMock();
+        $access->expects($this->any())
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue([]));
+        $access->expects($this->any())
+            ->method('getSitesManagerModel')
+            ->will($this->returnValue($sitesModelMock));
+
+        $this->assertTrue($access->reloadAccess($authMock));
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Could not enumerate sites while applying token-level access restriction.');
+
+        $access->getSitesIdWithAtLeastViewAccess();
+    }
+
     public function testGetRoleForSiteIgnoresLowerExplicitAccessRowForCappedSuperuserToken()
     {
         $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
