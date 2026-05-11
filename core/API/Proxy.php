@@ -661,9 +661,7 @@ class Proxy
         $this->metadataArray[$class][$name]['isDeprecated'] = false !== strstr($docComment, '@deprecated');
         $this->metadataArray[$class][$name]['unsanitizedInputParams'] = false !== strstr($docComment, '@unsanitized');
 
-        $permissionMetadata = StaticContainer::get(MethodPermissions::class)->resolveMethodPermissions($method);
-        $this->metadataArray[$class][$name]['permission'] = $permissionMetadata['permission'];
-        $this->metadataArray[$class][$name]['hasPermissionMetadata'] = $permissionMetadata['hasPermissionMetadata'];
+        $this->metadataArray[$class][$name]['permission'] = StaticContainer::get(MethodPermissions::class)->resolveMethodPermissions($method);
     }
 
     /**

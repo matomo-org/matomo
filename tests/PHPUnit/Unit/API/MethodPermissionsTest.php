@@ -36,7 +36,7 @@ class MethodPermissionsTest extends TestCase
 
         $resolved = $permissions->resolveMethodPermissions($method);
 
-        $this->assertSame(['name' => 'someView', 'parameter' => null], $resolved['permission']);
+        $this->assertSame(['name' => 'someView', 'parameter' => null], $resolved);
     }
 
     public function testResolveMethodPermissionsThrowsWhenAttributeParameterDoesNotExistOnMethod()

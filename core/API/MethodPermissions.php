@@ -110,7 +110,10 @@ class MethodPermissions
         );
     }
 
-    public function resolveMethodPermissions(\ReflectionMethod $method): array
+    /**
+     * @return array{name: string, parameter: string|null}|null
+     */
+    public function resolveMethodPermissions(\ReflectionMethod $method): ?array
     {
         $permission = $this->parseFromAttributes($method);
 
@@ -118,10 +121,7 @@ class MethodPermissions
             $this->assertParameterExistsOnMethod($method, $permission['parameter']);
         }
 
-        return [
-            'permission' => $permission,
-            'hasPermissionMetadata' => !empty($permission),
-        ];
+        return $permission;
     }
 
     private function assertParameterExistsOnMethod(\ReflectionMethod $method, string $parameterName): void
