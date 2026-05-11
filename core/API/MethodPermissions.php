@@ -114,10 +114,30 @@ class MethodPermissions
     {
         $permission = $this->parseFromAttributes($method);
 
+        if (!empty($permission) && $permission['parameter'] !== null) {
+            $this->assertParameterExistsOnMethod($method, $permission['parameter']);
+        }
+
         return [
             'permission' => $permission,
             'hasPermissionMetadata' => !empty($permission),
         ];
+    }
+
+    private function assertParameterExistsOnMethod(\ReflectionMethod $method, string $parameterName): void
+    {
+        foreach ($method->getParameters() as $parameter) {
+            if ($parameter->getName() === $parameterName) {
+                return;
+            }
+        }
+
+        throw new \InvalidArgumentException(sprintf(
+            'Permission metadata on %s::%s references parameter "$%s" which does not exist on the method signature.',
+            $method->getDeclaringClass()->getName(),
+            $method->getName(),
+            $parameterName
+        ));
     }
 
     /**

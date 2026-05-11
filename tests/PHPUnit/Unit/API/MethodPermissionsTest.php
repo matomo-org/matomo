@@ -39,6 +39,17 @@ class MethodPermissionsTest extends TestCase
         $this->assertSame(['name' => 'someView', 'parameter' => null], $resolved['permission']);
     }
 
+    public function testResolveMethodPermissionsThrowsWhenAttributeParameterDoesNotExistOnMethod()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('references parameter "$idSite" which does not exist on the method signature');
+
+        $permissions = new MethodPermissions();
+        $method = new ReflectionMethod(MethodPermissionsTestFixture::class, 'attributeParameterMissingFromSignature');
+
+        $permissions->resolveMethodPermissions($method);
+    }
+
     public function testResolveMethodPermissionsThrowsWhenParameterlessDeclarationRequiresParameter()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -55,6 +66,11 @@ class MethodPermissionsTestFixture
 {
     #[Permission('write', '$idSite')]
     public function attributeOnlyMethod()
+    {
+    }
+
+    #[Permission('view', 'idSite')]
+    public function attributeParameterMissingFromSignature($otherParam = null)
     {
     }
 
