@@ -274,7 +274,7 @@ class Request
         $auth->setPasswordHash(null);
         $access = new Access();
         if (!$access->reloadAccess($auth)) {
-            Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
+            Common::printDebug("WARNING! token_auth could not be authenticated, Super User / Admin / Write was NOT authenticated");
 
             /**
              * @ignore
@@ -292,7 +292,7 @@ class Request
             return true;
         }
 
-        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
+        Common::printDebug("WARNING! token_auth authenticated but lacks Super User / Admin / Write role for idSite=$idSite");
 
         /**
          * @ignore
