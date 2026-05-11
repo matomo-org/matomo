@@ -122,22 +122,18 @@
           </a>
         </template>
         <template v-else-if="viewModel.isUserAnonymous">
-          <ul class="submenu">
-            <li>
-              <span class="youMustBeLoggedIn">
-                {{ translate('SegmentEditor_YouMustBeLoggedInToCreateSegments') }}
-              </span>
-              <a
-                :href="viewModel.loginUrl"
-                tabindex="4"
-                class="sign_in_segment_btn btn"
-              >
-                {{ translate('Login_LogIn') }}
-              </a>
-            </li>
-          </ul>
-          <br>
-          <br>
+          <div>
+            <span class="youMustBeLoggedIn">
+              {{ translate('SegmentEditor_YouMustBeLoggedInToCreateSegments') }}
+            </span>
+            <a
+              :href="viewModel.loginUrl"
+              tabindex="4"
+              class="sign_in_segment_btn btn"
+            >
+              {{ translate('Login_LogIn') }}
+            </a>
+          </div>
         </template>
       </div>
     </div>
