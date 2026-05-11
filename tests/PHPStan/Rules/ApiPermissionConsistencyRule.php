@@ -236,10 +236,6 @@ class ApiPermissionConsistencyRule implements Rule
     }
 
     /**
-     * @param array<int, array{0:int,1:string,2:int}|string> $tokens
-     * @return string[]
-     */
-    /**
      * @return string[]
      */
     private function collectAttributeLinesBeforeFunctionLine(string $source, int $functionLine): array
