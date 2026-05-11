@@ -285,15 +285,6 @@ class ApiPermissionConsistencyRule implements Rule
         return PermissionDeclaration::fromAttribute($requirement, $parameter);
     }
 
-    private function extractStringValue(Expr $expr): ?string
-    {
-        if (!$expr instanceof Node\Scalar\String_) {
-            return null;
-        }
-
-        return $expr->value;
-    }
-
     /**
      * @param Node[] $nodes
      * @return array<int, array{permission: PermissionDeclaration, method: string, line: int}>
