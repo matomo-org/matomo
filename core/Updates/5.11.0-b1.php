@@ -29,6 +29,7 @@ class Updates_5_11_0_b1 extends Updates
     {
         return [
             $this->migration->db->addColumn('site', 'description', "VARCHAR(255) NOT NULL DEFAULT ''", 'name'),
+            $this->migration->db->addColumn('custom_dimensions', 'description', "VARCHAR(1000) NOT NULL DEFAULT ''", 'name'),
         ];
     }
 

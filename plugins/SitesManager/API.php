@@ -61,8 +61,27 @@ use Piwik\Validators\WhitelistedValue;
  * The existing values can be fetched via "getExcludedIpsGlobal" and "getExcludedQueryParametersGlobal".
  * See also the documentation about <a href='https://matomo.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Matomo.
  *
- * phpcs:ignore Generic.Files.LineLength.TooLong
- * @phpstan-type SiteData array{idsite: int, name: string, description: string, main_url: string, ts_created: string, timezone: string, currency: string, ecommerce: int, sitesearch: int, exclude_unknown_urls: int, excluded_ips: string, excluded_parameters: string, excluded_user_agents: string, group: string, type: string, keep_url_fragment: int, creator_login?: string, timezone_name?: string, currency_name?: string}
+ * @phpstan-type SiteData array{
+ *     idsite: int,
+ *     name: string,
+ *     description: string,
+ *     main_url: string,
+ *     ts_created: string,
+ *     timezone: string,
+ *     currency: string,
+ *     ecommerce: int,
+ *     sitesearch: int,
+ *     exclude_unknown_urls: int,
+ *     excluded_ips: string,
+ *     excluded_parameters: string,
+ *     excluded_user_agents: string,
+ *     group: string,
+ *     type: string,
+ *     keep_url_fragment: int,
+ *     creator_login?: string,
+ *     timezone_name?: string,
+ *     currency_name?: string
+ * }
  * @phpstan-type SettingValues array<string, list<array{name: string, value: mixed}>>
  *
  * @method static \Piwik\Plugins\SitesManager\API getInstance()

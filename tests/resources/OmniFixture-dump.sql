@@ -242,6 +242,7 @@ CREATE TABLE `custom_dimensions` (
   `idcustomdimension` bigint(20) unsigned NOT NULL,
   `idsite` bigint(20) unsigned NOT NULL,
   `name` varchar(100) NOT NULL,
+  `description` varchar(1000) NOT NULL DEFAULT '',
   `index` smallint(5) unsigned NOT NULL,
   `scope` varchar(10) NOT NULL,
   `active` tinyint(3) unsigned NOT NULL DEFAULT '0',
@@ -258,7 +259,7 @@ CREATE TABLE `custom_dimensions` (
 
 LOCK TABLES `custom_dimensions` WRITE;
 /*!40000 ALTER TABLE `custom_dimensions` DISABLE KEYS */;
-INSERT INTO `custom_dimensions` VALUES (1,1,'test dim',1,'visit',1,'[]',1),(2,1,'testdim',2,'visit',1,'[]',1),(3,1,'testdim2',1,'action',1,'[]',1);
+INSERT INTO `custom_dimensions` VALUES (1,1,'test dim','',1,'visit',1,'[]',1),(2,1,'testdim','',2,'visit',1,'[]',1),(3,1,'testdim2','',1,'action',1,'[]',1);
 /*!40000 ALTER TABLE `custom_dimensions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -953,6 +954,7 @@ DROP TABLE IF EXISTS `site`;
 CREATE TABLE `site` (
   `idsite` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(90) NOT NULL,
+  `description` varchar(255) NOT NULL DEFAULT '',
   `main_url` varchar(255) NOT NULL,
   `ts_created` timestamp NULL DEFAULT NULL,
   `ecommerce` tinyint(4) DEFAULT '0',
@@ -980,7 +982,7 @@ CREATE TABLE `site` (
 
 LOCK TABLES `site` WRITE;
 /*!40000 ALTER TABLE `site` DISABLE KEYS */;
-INSERT INTO `site` VALUES (1,'&lt;script&gt;_x(0)&lt;/script&gt;','http://site.com','2012-01-05 10:22:33',1,1,'','','UTC','USD',0,'','','','','','website',0,'superUserLogin'),(2,'{{_Vue.h.constructor`_x(3)`()}}','http://example-site-two.com','2012-01-05 10:22:33',0,1,'','','UTC','USD',0,'','','','','','website',0,'superUserLogin'),(3,'Piwik test three','http://example-site-three.com','2012-01-05 10:22:33',0,1,'','','UTC','USD',0,'','','','','','website',0,'superUserLogin');
+INSERT INTO `site` VALUES (1,'&lt;script&gt;_x(0)&lt;/script&gt;','','http://site.com','2012-01-05 10:22:33',1,1,'','','UTC','USD',0,'','','','','','website',0,'superUserLogin'),(2,'{{_Vue.h.constructor`_x(3)`()}}','','http://example-site-two.com','2012-01-05 10:22:33',0,1,'','','UTC','USD',0,'','','','','','website',0,'superUserLogin'),(3,'Piwik test three','','http://example-site-three.com','2012-01-05 10:22:33',0,1,'','','UTC','USD',0,'','','','','','website',0,'superUserLogin');
 /*!40000 ALTER TABLE `site` ENABLE KEYS */;
 UNLOCK TABLES;
 
