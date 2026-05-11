@@ -25,7 +25,7 @@ class Updates_6_0_0_b2 extends Updates
     public function getMigrations(Updater $updater)
     {
         return [
-            $this->migration->db->addColumn('user_token_auth', 'access_level', 'VARCHAR(50) NULL'),
+            $this->migration->db->addColumn('user_token_auth', 'access_level', 'VARCHAR(50) NULL', 'secure_only'),
         ];
     }
 
