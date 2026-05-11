@@ -297,6 +297,9 @@ class ApiTest extends SystemTestCase
 
     public function testCreateAppSpecificTokenAuthWithoutAccessLevelKeepsExplicitCapabilities()
     {
+        // login2 starts as admin on site 1 in the ManyUsers fixture; downgrade and grant a
+        // capability for this assertion, then restore in `finally` so sibling tests see the
+        // shared fixture in its original state.
         $this->api->setUserAccess('login2', 'write', [1]);
         $this->api->addCapabilities('login2', TestWriteCap::ID, [1]);
         $this->model->deleteAllTokensForUser('login2');
@@ -331,6 +334,8 @@ class ApiTest extends SystemTestCase
             unset($_GET['token_auth']);
             Access::getInstance()->setSuperUserAccess(true);
             Access::getInstance()->reloadAccess();
+            $this->api->removeCapabilities('login2', TestWriteCap::ID, [1]);
+            $this->api->setUserAccess('login2', 'admin', [1]);
         }
     }
 
