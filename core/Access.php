@@ -372,7 +372,7 @@ class Access
                 // getAllSitesId() would fail permission checks. Fetch raw site IDs directly.
                 $allSiteIds = $this->getSitesManagerModel()->getSitesId();
             } catch (\Exception $e) {
-                StaticContainer::get(LoggerInterface::class)->debug(
+                StaticContainer::get(LoggerInterface::class)->warning(
                     'Could not enumerate sites while applying token-level access restriction; '
                     . 'capped superuser token will fall back to sites with explicit access only. {exception}',
                     ['exception' => $e]
