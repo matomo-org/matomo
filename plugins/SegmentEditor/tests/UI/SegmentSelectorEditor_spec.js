@@ -296,6 +296,7 @@ describe("SegmentSelectorEditorTest", function () {
     it("should correctly load the new segment's details when the new segment is edited", async function() {
         await page.click('.segmentList li[data-idsegment="4"] .editSegment');
         await page.waitForNetworkIdle();
+        await moveMouseAwayFromCapturedArea();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('saved_details');
     });
 
