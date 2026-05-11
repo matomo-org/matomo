@@ -595,11 +595,13 @@ class Access
      * has to be declared to own it: gating on the context merely being present would let any plugin that
      * passes a context for unrelated reasons of its own switch scope clamping off wholesale.
      *
-     * Without that key the cap is derived from the submitted token's user_token_auth row instead, so scope
-     * clamping is enforced regardless of which Piwik\Auth implementation is active. The fallback is gated on
-     * the AuthResult's own tokenAuth matching the request's submitted token so password/session login (no
-     * submitted token) and bulk-API sub-requests authenticated against a different token than the outer
-     * request never clamp from an unrelated token row.
+     * Without that key the cap is derived from the user_token_auth row of whichever token authenticated the
+     * request, so scope clamping is enforced regardless of which Piwik\Auth implementation is active. Which
+     * token authenticated is resolved in {@see findAuthenticatingTokenMetadata()} rather than assumed to be
+     * the submitted one: an implementation can authenticate a token the outer request never carried, as a
+     * bulk sub-request does, so the request having submitted nothing is not on its own grounds to treat the
+     * authentication as unscoped. Only an authentication that names no token on either side is exempt: that
+     * is password or session login, where there is no token to carry a scope.
      */
     private function resolveTokenAccessLevelForResult(AuthResult $result): ?string
     {
@@ -610,29 +612,20 @@ class Access
         }
 
         $submittedToken = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
-        if ($submittedToken === '' || $submittedToken !== $result->getTokenAuth()) {
+        $reportedToken = (string) $result->getTokenAuth();
+
+        if ($submittedToken === '' && $reportedToken === '') {
+            // Neither the request nor the result names a token, so this authenticated by password or
+            // session and there is no token whose scope could apply.
             return null;
         }
 
-        return $this->resolveTokenAccessLevelFromSubmittedToken($submittedToken);
-    }
-
-    private function resolveTokenAccessLevelFromSubmittedToken(
-        #[\SensitiveParameter]
-        string $submittedToken
-    ): ?string {
         try {
-            // getTokenMetadataByTokenAuth() is cache-aware and serves the row from
-            // AuthenticationToken's per-request cache when populated by an earlier lookup in this
-            // request (e.g. Login\Auth::authenticateWithToken). The shared cache is intentional:
-            // the access_level value is identical across callers in the same request, so reusing it
-            // avoids re-querying user_token_auth on every reloadAccess() in bulk API and CliMulti
-            // paths.
-            $metadata = $this->getUsersModel()->getTokenMetadataByTokenAuth($submittedToken);
+            $metadata = $this->findAuthenticatingTokenMetadata($submittedToken, $reportedToken);
         } catch (\Exception $e) {
-            StaticContainer::get(LoggerInterface::class)->debug(
-                'Could not look up token metadata while resolving token access level; '
-                . 'falling back to uncapped access. {exception}',
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'Could not look up token metadata while resolving token access level; the token\'s scope '
+                . 'cannot be established and the request will be restricted to no access. {exception}',
                 ['exception' => $e]
             );
             return 'noaccess';
@@ -646,6 +639,57 @@ class Access
         }
 
         return $this->normalizeTokenAccessLevel($metadata['access_level']);
+    }
+
+    /**
+     * Returns the user_token_auth row of the token that authenticated this request, or null when neither the
+     * token the AuthResult reports nor the token submitted with the request is stored.
+     *
+     * The two can differ, and the difference has to be resolved rather than assumed, because the same
+     * mismatch arises from two situations that need opposite answers:
+     *
+     * - A bulk-API sub-request authenticated against its own token while the outer request still carries a
+     *   different one. The reported token is stored, and it is that row's scope which applies; the outer
+     *   request's token is unrelated to this authentication and must not clamp it.
+     * - An Auth implementation regenerated the token it reports, as {@see \Piwik\Plugins\Login\Auth} does on
+     *   its password path. Nothing is stored under the reported value, and that is what identifies the
+     *   submitted token as the credential, so its scope is the one to apply. Treating this case as unscoped
+     *   would drop the cap entirely for any implementation that regenerates without declaring
+     *   `token_access_level`.
+     *
+     * A submitted token of '' means the outer request carried none, which leaves the reported token as the
+     * only candidate; there is then nothing to fall back to, so null is returned rather than looking up the
+     * empty string.
+     *
+     * getTokenMetadataByTokenAuth() is cache-aware and serves the row from AuthenticationToken's per-request
+     * cache when populated by an earlier lookup in this request (e.g. Login\Auth::authenticateWithToken).
+     * The shared cache is intentional: the access_level value is identical across callers in the same
+     * request, so reusing it avoids re-querying user_token_auth on every reloadAccess() in bulk API and
+     * CliMulti paths.
+     *
+     * @return array<string,mixed>|null
+     */
+    private function findAuthenticatingTokenMetadata(
+        #[\SensitiveParameter]
+        string $submittedToken,
+        #[\SensitiveParameter]
+        string $reportedToken
+    ): ?array {
+        $model = $this->getUsersModel();
+
+        if ($reportedToken !== '' && $reportedToken !== $submittedToken) {
+            $reportedMetadata = $model->getTokenMetadataByTokenAuth($reportedToken);
+
+            if ($reportedMetadata !== null) {
+                return $reportedMetadata;
+            }
+        }
+
+        if ($submittedToken === '') {
+            return null;
+        }
+
+        return $model->getTokenMetadataByTokenAuth($submittedToken);
     }
 
     protected function getUsersModel(): UsersModel

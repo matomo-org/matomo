@@ -1066,7 +1066,7 @@ class AccessTest extends IntegrationTestCase
         }
     }
 
-    public function testReloadAccessSkipsTokenRowFallbackWhenNoSubmittedToken()
+    public function testReloadAccessClampsFromReportedTokenWhenNoTokenWasSubmitted()
     {
         $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
 
@@ -1075,8 +1075,10 @@ class AccessTest extends IntegrationTestCase
         $model->addUser($login, 'pwhash', 'nosubmission@example.org', \Piwik\Date::now()->getDatetime());
         $model->addUserAccess($login, Access\Role\Admin::ID, [$idSite]);
 
-        // No $_GET['token_auth'] — simulates password/session auth where the AuthResult still carries
-        // a tokenAuth (pre-existing session token) but no token was submitted with this request.
+        // No $_GET['token_auth'], so the token the AuthResult reports is the only candidate. An Auth
+        // implementation can authenticate a token the outer request never carried - a bulk sub-request
+        // does exactly that - so the scope stored against the reported token is the one that applies.
+        // Password and session logins are unaffected because core declares token_access_level for them.
         $token = $model->generateRandomTokenAuth();
         $model->addTokenAuth($login, $token, 'password-auth', \Piwik\Date::now()->getDatetime(), null, false, false, 'view');
 
@@ -1090,9 +1092,46 @@ class AccessTest extends IntegrationTestCase
 
             $access = $this->getAccess();
             $this->assertTrue($access->reloadAccess($authMock));
-            // No submitted token => no clamp.
-            $this->assertSame('admin', $access->getRoleForSite($idSite));
+            // Clamped to the reported token's stored scope, not left at the user's own role.
+            $this->assertSame('view', $access->getRoleForSite($idSite));
         } finally {
+            \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+        }
+    }
+
+    public function testReloadAccessClampsFromSubmittedTokenWhenAuthResultReportsAnUnstoredToken()
+    {
+        $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
+
+        $login = 'scopedregenerateduser';
+        $model = new \Piwik\Plugins\UsersManager\Model();
+        $model->addUser($login, 'pwhash', 'regenerated@example.org', \Piwik\Date::now()->getDatetime());
+        $model->addUserAccess($login, Access\Role\Admin::ID, [$idSite]);
+
+        // The submitted token is scoped to view, and the AuthResult reports a token that is not stored at
+        // all - what an Auth implementation produces when it regenerates the token it reports. The submitted
+        // token is therefore the credential and its scope has to be applied; treating the mismatch as "no
+        // scope" would hand the request the user's full admin access and leave the cap unenforced for every
+        // Auth implementation that regenerates without declaring token_access_level.
+        $token = $model->generateRandomTokenAuth();
+        $model->addTokenAuth($login, $token, 'regenerated', \Piwik\Date::now()->getDatetime(), null, false, false, 'view');
+
+        $unstoredToken = $model->generateRandomTokenAuth();
+
+        $_GET['token_auth'] = $token;
+        \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
+
+        try {
+            $authMock = $this->createPiwikAuthMockInstance();
+            $authMock->expects($this->once())
+                ->method('authenticate')
+                ->willReturn(new AuthResult(AuthResult::SUCCESS, $login, $unstoredToken));
+
+            $access = $this->getAccess();
+            $this->assertTrue($access->reloadAccess($authMock));
+            $this->assertSame('view', $access->getRoleForSite($idSite));
+        } finally {
+            unset($_GET['token_auth']);
             \Piwik\Container\StaticContainer::getContainer()->set(\Piwik\Request\AuthenticationToken::class, new \Piwik\Request\AuthenticationToken());
         }
     }

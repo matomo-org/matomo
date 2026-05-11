@@ -182,7 +182,10 @@ class SessionAuth implements Auth
         $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
 
-        return new AuthResult($code, $user['login'], $tokenAuth);
+        // A session login carries no token scope, and the key has to be declared to say so: without it
+        // Access::resolveTokenAccessLevelForResult() would fall back to looking up the session's temporary
+        // token in user_token_auth on every request.
+        return new AuthResult($code, $user['login'], $tokenAuth, ['token_access_level' => null]);
     }
 
     protected function initNewBlankSession(SessionFingerprint $sessionFingerprint)
