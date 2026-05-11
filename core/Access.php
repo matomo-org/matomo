@@ -621,9 +621,9 @@ class Access
             // paths.
             $metadata = $this->getUsersModel()->getTokenMetadataByTokenAuth($submittedToken);
         } catch (\Exception $e) {
-            StaticContainer::get(LoggerInterface::class)->debug(
-                'Could not look up token metadata while resolving token access level; '
-                . 'falling back to uncapped access. {exception}',
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'Could not look up token metadata while resolving token access level; the token\'s scope '
+                . 'cannot be established and the request will be restricted to no access. {exception}',
                 ['exception' => $e]
             );
             return 'noaccess';
