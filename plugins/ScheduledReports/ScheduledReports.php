@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Period;
@@ -392,8 +393,16 @@ class ScheduledReports extends \Piwik\Plugin
             return;
         }
 
-        // Safeguard against sending the same report twice to the same email (unless $force is true)
-        if (!$force && $this->reportAlreadySent($report, $period)) {
+        // The $period passed to this event covers the report's data window, which can be
+        // wider than the schedule cadence (e.g. a Daily-schedule + Weekly-data report has
+        // a 7-day data range that stays constant for ~7 consecutive dispatches). The
+        // duplicate-send safeguard must therefore compare against the schedule cadence,
+        // not the data range, otherwise it suppresses every same-cadence-window dispatch
+        // after the first.
+        $schedulePeriod = Period\Factory::build($report['period'], Date::today());
+
+        // Safeguard against sending the same report twice for the same scheduled cadence (unless $force is true)
+        if (!$force && $this->reportAlreadySent($report, $schedulePeriod)) {
             Log::warning(
                 'Preventing the same scheduled report from being sent again (report #%s for period "%s")',
                 $report['idreport'],
@@ -442,7 +451,7 @@ class ScheduledReports extends \Piwik\Plugin
         $emails = array_unique($emails);
 
         if (! $force) {
-            $this->markReportAsSent($report, $period);
+            $this->markReportAsSent($report, $schedulePeriod);
         }
 
         $subscriptionModel = new SubscriptionModel();
