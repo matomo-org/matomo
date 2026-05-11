@@ -13,10 +13,8 @@ use Piwik\API\Request as ApiRequest;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
-use Piwik\Log\LoggerInterface;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Period\Factory;
@@ -43,6 +41,9 @@ class Evolution extends JqplotDataGenerator
 
     /** @var ForecastMetricClassifier|null */
     private $forecastClassifier;
+
+    /** @var ForecastSubPeriodFetcher|null */
+    private $forecastSubPeriodFetcher;
 
     protected function getUnitsForColumnsToDisplay()
     {
@@ -186,6 +187,19 @@ class Evolution extends JqplotDataGenerator
             $this->forecastClassifier = new ForecastMetricClassifier();
         }
         return $this->forecastClassifier;
+    }
+
+    /**
+     * Memoised access to the sub-period sample fetcher. Protected so subclasses can
+     * substitute an alternative fetcher (one that returns canned sample maps without
+     * issuing inner API requests) instead of touching the Matomo bootstrap.
+     */
+    protected function getForecastSubPeriodFetcher(): ForecastSubPeriodFetcher
+    {
+        if (null === $this->forecastSubPeriodFetcher) {
+            $this->forecastSubPeriodFetcher = new ForecastSubPeriodFetcher();
+        }
+        return $this->forecastSubPeriodFetcher;
     }
 
     private function getSeriesData($rowLabel, $columnName, DataTable\Map $dataTable, &$seriesDataAvailability)
@@ -687,11 +701,14 @@ class Evolution extends JqplotDataGenerator
 
         $this->graph->setForecastSeriesState($seriesState);
 
-        $subPeriodSamples = $this->collectSubPeriodSamples(
+        $subPeriodSamples = $this->getForecastSubPeriodFetcher()->collect(
             $dataTables,
             $seriesState->getAllSeriesColumns(),
             $seriesState->getAllSeriesRows(),
-            $seriesState->getAllSeriesMonotonicity()
+            $seriesState->getAllSeriesMonotonicity(),
+            $this->graph->requestConfig->apiMethodToRequestDataTable,
+            Common::getRequestVar('idSite', 0, 'int'),
+            (string) ApiRequest::getRawSegmentFromRequest()
         );
 
         return (new ForecastBuilder())->build(
@@ -705,259 +722,5 @@ class Evolution extends JqplotDataGenerator
             $subPeriodSamples['daily'],
             $subPeriodSamples['monthly']
         );
-    }
-
-    /**
-     * Fetch sub-period samples needed by ForecastBuilder's seasonal-decomposition path.
-     *
-     * For week/month targets returns a daily sample map per series, covering the displayed
-     * date range plus enough historical days to populate the same-DoW analog slots. For year
-     * targets returns a monthly sample map covering enough years for same-MoY analogs.
-     *
-     * The fetch issues an additional inner API request with the same module/method/idSite/segment
-     * as the displayed data but at a finer period granularity. Failure (unsupported API method,
-     * archive errors, missing parameters) returns empty maps so the builder falls back to the
-     * prior-only same-period projection on the period-level series.
-     *
-     * @param array<DataTable> $dataTables
-     * @param array<string, string> $seriesColumns Map of series label → raw archive column name.
-     *        The map keys are how ForecastBuilder consumes the returned sample maps; the values
-     *        are how the sub-period API result rows are keyed once ReplaceColumnNames has run.
-     * @param array<string, mixed> $seriesRows Map of series label → row label/matcher (the
-     *        value the displayed-series path passes to {@see DataTable::getRowFromLabel()}).
-     *        `false` selects the sub-table's first row, matching the single-row default.
-     *        Threaded through to {@see self::extractSubPeriodSamples()} so multi-row evolution
-     *        graphs (selectable_rows) pull each series' historical samples from its own row.
-     * @param array<string, string> $seriesMonotonicity Map of series label → MONOTONICITY_* tag.
-     *        Forwarded to {@see self::extractSubPeriodSamples()} so the rowless-sub-table
-     *        backfill stays UP-only and synthetic zeros do not pollute DOWN/FREE analog walks.
-     * @return array{daily: array<string, array<string, float>>, monthly: array<string, array<string, float>>}
-     */
-    private function collectSubPeriodSamples(
-        array $dataTables,
-        array $seriesColumns,
-        array $seriesRows,
-        array $seriesMonotonicity
-    ): array {
-        $empty = ['daily' => [], 'monthly' => []];
-
-        if (empty($dataTables) || empty($seriesColumns)) {
-            return $empty;
-        }
-
-        $firstTable = reset($dataTables);
-        $period = $firstTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
-        if (!$period instanceof Period) {
-            return $empty;
-        }
-        $periodLabel = $period->getLabel();
-
-        $apiMethod = $this->graph->requestConfig->apiMethodToRequestDataTable;
-        if (empty($apiMethod) || strpos($apiMethod, '.') === false) {
-            return $empty;
-        }
-
-        $idSite = Common::getRequestVar('idSite', 0, 'int');
-        if ($idSite <= 0) {
-            return $empty;
-        }
-        // getRawSegmentFromRequest() returns false when no segment is set; coerce at the boundary
-        // since fetchSubPeriodSeries() takes a non-nullable string parameter.
-        $segment = (string) ApiRequest::getRawSegmentFromRequest();
-
-        $lastTable = end($dataTables);
-        $lastPeriod = $lastTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
-        if (!$lastPeriod instanceof Period) {
-            return $empty;
-        }
-        $endDate = $lastPeriod->getDateEnd()->subDay(1)->toString('Y-m-d');
-
-        try {
-            if ('day' === $periodLabel) {
-                // Day-period forecasts cannot decompose into sub-periods, so the prior-only
-                // path is the only forecast surface. A 4-7 day display carries at most one
-                // same-DoW history tick in $seriesData; pull a 70-day window so the same-DoW
-                // walk in ForecastBuilder collects ~10 analogs and the trend fit + envelope
-                // clamp engage on short displays.
-                $startDate = (Date::factory($endDate))->subDay(70)->toString('Y-m-d');
-                return [
-                    'daily' => $this->fetchSubPeriodSeries($apiMethod, $idSite, $segment, 'day', $startDate, $endDate, $seriesColumns, $seriesRows, $seriesMonotonicity),
-                    'monthly' => [],
-                ];
-            }
-            if ('week' === $periodLabel || 'month' === $periodLabel) {
-                // Pull enough days to populate same-DoW analog slots for the largest analog
-                // chunk the builder might consume. ForecastBuilder uses chunk = 3 (week) or
-                // 4 (month); the worst case is the first projected day of a 31-day month
-                // pulling its chunk-th analog (31 + 4 × 7 = 59 days). 70 days gives headroom
-                // for any future chunk increase up to 5.
-                $startDate = (Date::factory($endDate))->subDay(70)->toString('Y-m-d');
-                return [
-                    'daily' => $this->fetchSubPeriodSeries($apiMethod, $idSite, $segment, 'day', $startDate, $endDate, $seriesColumns, $seriesRows, $seriesMonotonicity),
-                    'monthly' => 'month' === $periodLabel
-                        ? $this->fetchSubPeriodSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, 4), $endDate, $seriesColumns, $seriesRows, $seriesMonotonicity)
-                        : [],
-                ];
-            }
-            if ('year' === $periodLabel) {
-                return [
-                    'daily' => $this->fetchSubPeriodSeries($apiMethod, $idSite, $segment, 'day', (Date::factory($endDate))->subDay(70)->toString('Y-m-d'), $endDate, $seriesColumns, $seriesRows, $seriesMonotonicity),
-                    'monthly' => $this->fetchSubPeriodSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, 9), $endDate, $seriesColumns, $seriesRows, $seriesMonotonicity),
-                ];
-            }
-        } catch (\Throwable $e) {
-            // Defensive: any error in the parallel fetch falls back to the prior-only path.
-            // The seasonal-decomposition advantage is lost on this render, but the forecast
-            // still renders something defensible from the displayed series alone. Log so a
-            // sustained dip in forecast quality is investigable instead of silent.
-            StaticContainer::get(LoggerInterface::class)->info(
-                'Evolution forecast sub-period fetch failed for {apiMethod} (idSite={idSite}, period={period}): {message}',
-                [
-                    'apiMethod' => $apiMethod,
-                    'idSite' => $idSite,
-                    'period' => $periodLabel,
-                    'message' => $e->getMessage(),
-                    'exception' => $e,
-                ]
-            );
-        }
-
-        return $empty;
-    }
-
-    /**
-     * Issue a single sub-period API request and shape the result into a series-keyed map of
-     * date → value. Date keys are 'Y-m-d' for day targets and 'Y-m' for month targets, matching
-     * what ForecastBuilder's analog walks expect. The returned map keys by series label so the
-     * builder's per-series lookup ($allSeriesDailySamples[$seriesLabel]) hits a populated entry,
-     * while the API row lookup uses the raw archive column name (after ReplaceColumnNames).
-     *
-     * @param array<string, string> $seriesColumns Map of series label → raw archive column name.
-     * @param array<string, mixed> $seriesRows Map of series label → row label/matcher,
-     *        threaded through to {@see self::extractSubPeriodSamples()} so the per-series row
-     *        lookup hits the same row the displayed series is reading.
-     * @param array<string, string> $seriesMonotonicity Map of series label → MONOTONICITY_* tag,
-     *        threaded through to {@see self::extractSubPeriodSamples()} so the rowless-table
-     *        backfill can be gated on direction.
-     * @return array<string, array<string, float>>
-     */
-    private function fetchSubPeriodSeries(
-        string $apiMethod,
-        int $idSite,
-        string $segment,
-        string $subPeriod,
-        string $startDate,
-        string $endDate,
-        array $seriesColumns,
-        array $seriesRows,
-        array $seriesMonotonicity
-    ): array {
-        // Use processRequest() rather than `new ApiRequest([...])` so the inner fetch picks up
-        // its `compare=0` / `format=original` / `serialize=0` defaults and stays aligned with the
-        // recent core convention for inner API calls. Inheritance from $_GET + $_POST is
-        // intentional: this code path runs inside an already-authorized evolution-graph render,
-        // so outer-URL scoping params (idGoal for Goals reports, idDimension for CustomDimensions,
-        // and similar plugin-specific selectors) must reach the inner request for the historical
-        // samples to come from the same series the user is looking at. The `isComparing` guard
-        // upstream prevents comparison-mode leakage; the explicit overrides below pin everything
-        // else the forecast needs in fixed form.
-        $result = ApiRequest::processRequest($apiMethod, [
-            'idSite'                  => $idSite,
-            'period'                  => $subPeriod,
-            'date'                    => $startDate . ',' . $endDate,
-            'segment'                 => $segment,
-            'filter_limit'            => -1,
-            'disable_generic_filters' => 1,
-        ]);
-        if (!$result instanceof DataTable\Map) {
-            return [];
-        }
-
-        return $this->extractSubPeriodSamples($result, $seriesColumns, $seriesRows, $seriesMonotonicity, $subPeriod);
-    }
-
-    /**
-     * Shape a sub-period DataTable\Map into a series-keyed map of date → value. The result of
-     * the inner API request has already been through ReplaceColumnNames so its row columns are
-     * the raw archive column names; we look up by raw name and store under the series label so
-     * ForecastBuilder's per-series lookup hits the right entry.
-     *
-     * Each series carries its own row matcher in $seriesRows. Multi-row evolution graphs
-     * (selectable_rows on a non-summary report) plot one series per selected row, so the
-     * historical sample for each series must come from that series' own row in the sub-period
-     * archive -- not from {@see DataTable::getFirstRow()}, which would silently pin every
-     * series to whichever row sorts first in that sub-table (typically the top-ranked row).
-     * `false` matchers fall through to getFirstRow() to keep the single-row default behaviour.
-     *
-     * @param array<string, string> $seriesColumns Map of series label → raw archive column name.
-     * @param array<string, mixed> $seriesRows Map of series label → row label/matcher (the same
-     *        value the displayed-series path passes to {@see DataTable::getRowFromLabel()}).
-     *        `false` selects the sub-table's first row.
-     * @param array<string, string> $seriesMonotonicity Map of series label → MONOTONICITY_* tag.
-     *        Missing entries fall back to MONOTONICITY_UP so the legacy backfill behaviour
-     *        survives for callers that have not propagated the classifier output yet.
-     * @return array<string, array<string, float>>
-     */
-    private function extractSubPeriodSamples(
-        DataTable\Map $result,
-        array $seriesColumns,
-        array $seriesRows,
-        array $seriesMonotonicity,
-        string $subPeriod
-    ): array {
-        $samples = [];
-        $rowKey = $subPeriod === 'month' ? 'Y-m' : 'Y-m-d';
-
-        foreach ($result->getDataTables() as $subTable) {
-            if (!$subTable instanceof DataTable) {
-                continue;
-            }
-            $tablePeriod = $subTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
-            if (!$tablePeriod instanceof Period) {
-                continue;
-            }
-            $dateKey = $tablePeriod->getDateStart()->toString($rowKey);
-
-            foreach ($seriesColumns as $seriesLabel => $columnName) {
-                $rowMatcher = $seriesRows[$seriesLabel] ?? false;
-                $row = (false === $rowMatcher)
-                    ? $subTable->getFirstRow()
-                    : $subTable->getRowFromLabel($rowMatcher);
-
-                if (empty($row)) {
-                    // No matching row on this date. Only MONOTONICITY_UP count series can
-                    // defensibly read that as a real 0 (no observation = zero count), so they
-                    // get the backfill to keep the analog calendar dense. MONOTONICITY_DOWN
-                    // (running mins) and MONOTONICITY_FREE (rates/averages) have no
-                    // "no observation → 0" mapping: a min of nothing is not 0, and a 0% rate
-                    // inferred from no traffic is not a real ratio observation. Leaving the
-                    // date absent lets recentSameDoWValues() skip it instead of treating a
-                    // synthetic zero as a same-DoW analog, which would pull the prior below
-                    // current and trip shouldRenderForecastValue() into silent suppression.
-                    // The column-missing-on-existing-row branch below is deliberately
-                    // different: a row that exists but lacks the requested column means the
-                    // metric isn't reported here, which is not the same as zero -- and that
-                    // branch already skips for every monotonicity.
-                    $monotonicity = $seriesMonotonicity[$seriesLabel] ?? ForecastMetricClassifier::MONOTONICITY_UP;
-                    if (ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity) {
-                        $samples[$seriesLabel][$dateKey] = 0.0;
-                    }
-                    continue;
-                }
-
-                $value = $row->getColumn($columnName);
-                if ($value === false || $value === null) {
-                    continue;
-                }
-                $samples[$seriesLabel][$dateKey] = (float) $value;
-            }
-        }
-
-        return $samples;
-    }
-
-    private function yearsBack(string $endDate, int $years): string
-    {
-        return Date::factory($endDate)->subYear($years)->toString('Y-m-d');
     }
 }
