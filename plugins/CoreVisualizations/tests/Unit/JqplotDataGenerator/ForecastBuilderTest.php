@@ -16,7 +16,7 @@ use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
 use Piwik\Period\Factory;
-use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Evolution;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastMetricClassifier;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastBuilder;
 use Piwik\Site;
 use ReflectionClass;
@@ -93,15 +93,15 @@ class ForecastBuilderTest extends TestCase
      */
     public function getForecastVisibilityTestData(): iterable
     {
-        yield 'up, higher than current' => [12.5, 10.0, Evolution::MONOTONICITY_UP, true];
-        yield 'up, equal to current' => [10.0, 10.0, Evolution::MONOTONICITY_UP, true];
-        yield 'up, below current' => [9.99, 10.0, Evolution::MONOTONICITY_UP, false];
-        yield 'free, higher than current' => [12.5, 10.0, Evolution::MONOTONICITY_FREE, true];
-        yield 'free, equal to current' => [10.0, 10.0, Evolution::MONOTONICITY_FREE, true];
-        yield 'free, below current' => [9.99, 10.0, Evolution::MONOTONICITY_FREE, true];
-        yield 'down, higher than current' => [12.5, 10.0, Evolution::MONOTONICITY_DOWN, false];
-        yield 'down, equal to current' => [10.0, 10.0, Evolution::MONOTONICITY_DOWN, true];
-        yield 'down, below current' => [9.99, 10.0, Evolution::MONOTONICITY_DOWN, true];
+        yield 'up, higher than current' => [12.5, 10.0, ForecastMetricClassifier::MONOTONICITY_UP, true];
+        yield 'up, equal to current' => [10.0, 10.0, ForecastMetricClassifier::MONOTONICITY_UP, true];
+        yield 'up, below current' => [9.99, 10.0, ForecastMetricClassifier::MONOTONICITY_UP, false];
+        yield 'free, higher than current' => [12.5, 10.0, ForecastMetricClassifier::MONOTONICITY_FREE, true];
+        yield 'free, equal to current' => [10.0, 10.0, ForecastMetricClassifier::MONOTONICITY_FREE, true];
+        yield 'free, below current' => [9.99, 10.0, ForecastMetricClassifier::MONOTONICITY_FREE, true];
+        yield 'down, higher than current' => [12.5, 10.0, ForecastMetricClassifier::MONOTONICITY_DOWN, false];
+        yield 'down, equal to current' => [10.0, 10.0, ForecastMetricClassifier::MONOTONICITY_DOWN, true];
+        yield 'down, below current' => [9.99, 10.0, ForecastMetricClassifier::MONOTONICITY_DOWN, true];
     }
 
     public function testBuildUsesSameDoWPriorForDayTargetIncompleteTick(): void
@@ -190,7 +190,7 @@ class ForecastBuilderTest extends TestCase
             ],
             ['Actions per visit' => false],
             [],
-            ['Actions per visit' => Evolution::MONOTONICITY_FREE],
+            ['Actions per visit' => ForecastMetricClassifier::MONOTONICITY_FREE],
             ['Actions per visit' => 2]
         );
 
@@ -269,7 +269,7 @@ class ForecastBuilderTest extends TestCase
             ],
             ['Avg time on page' => 's'],
             [],
-            ['Avg time on page' => Evolution::MONOTONICITY_FREE]
+            ['Avg time on page' => ForecastMetricClassifier::MONOTONICITY_FREE]
         );
 
         self::assertSame([[null, 12.0]], $forecastData);
@@ -323,7 +323,7 @@ class ForecastBuilderTest extends TestCase
             ],
             ['Bounce count' => false],
             [],
-            ['Bounce count' => Evolution::MONOTONICITY_UP]
+            ['Bounce count' => ForecastMetricClassifier::MONOTONICITY_UP]
         );
 
         self::assertSame([[null, null, null]], $forecastData);
@@ -548,7 +548,7 @@ class ForecastBuilderTest extends TestCase
             [ArchiveState::INCOMPLETE],
             ['Min event value' => false],
             [],
-            ['Min event value' => Evolution::MONOTONICITY_DOWN],
+            ['Min event value' => ForecastMetricClassifier::MONOTONICITY_DOWN],
             ['Min event value' => 0],
             ['Min event value' => $dailySamples]
         );
@@ -675,7 +675,7 @@ class ForecastBuilderTest extends TestCase
             [ArchiveState::INCOMPLETE, ArchiveState::INCOMPLETE],
             ['Bounce rate' => '%'],
             [],
-            ['Bounce rate' => Evolution::MONOTONICITY_FREE],
+            ['Bounce rate' => ForecastMetricClassifier::MONOTONICITY_FREE],
             [],
             ['Bounce rate' => $dailySamples]
         );
@@ -725,7 +725,7 @@ class ForecastBuilderTest extends TestCase
             [ArchiveState::INCOMPLETE, ArchiveState::INCOMPLETE],
             ['Min bandwidth' => false],
             [],
-            ['Min bandwidth' => Evolution::MONOTONICITY_DOWN],
+            ['Min bandwidth' => ForecastMetricClassifier::MONOTONICITY_DOWN],
             [],
             ['Min bandwidth' => $dailySamples]
         );
@@ -1295,7 +1295,7 @@ class ForecastBuilderTest extends TestCase
             ],
             ['Min event value' => false],
             [],
-            ['Min event value' => Evolution::MONOTONICITY_DOWN],
+            ['Min event value' => ForecastMetricClassifier::MONOTONICITY_DOWN],
             ['Min event value' => 0]
         );
 
@@ -1329,7 +1329,7 @@ class ForecastBuilderTest extends TestCase
             ],
             ['Min event value' => false],
             [],
-            ['Min event value' => Evolution::MONOTONICITY_DOWN],
+            ['Min event value' => ForecastMetricClassifier::MONOTONICITY_DOWN],
             ['Min event value' => 0]
         );
 
@@ -1359,7 +1359,7 @@ class ForecastBuilderTest extends TestCase
             ],
             ['Min bandwidth' => false],
             [],
-            ['Min bandwidth' => Evolution::MONOTONICITY_DOWN],
+            ['Min bandwidth' => ForecastMetricClassifier::MONOTONICITY_DOWN],
             ['Min bandwidth' => 2]
         );
 
@@ -1390,7 +1390,7 @@ class ForecastBuilderTest extends TestCase
             ],
             ['Min event value' => false],
             [],
-            ['Min event value' => Evolution::MONOTONICITY_DOWN],
+            ['Min event value' => ForecastMetricClassifier::MONOTONICITY_DOWN],
             ['Min event value' => 0]
         );
 

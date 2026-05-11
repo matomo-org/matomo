@@ -27,7 +27,7 @@ class ForecastSeriesState
 
     /**
      * Per-series intra-period direction tag. Values are one of the
-     * {@see Evolution::MONOTONICITY_*} constants:
+     * {@see ForecastMetricClassifier::MONOTONICITY_*} constants:
      * - MONOTONICITY_UP: counts/sums; gate forecast >= current.
      * - MONOTONICITY_DOWN: running mins; gate forecast <= current.
      * - MONOTONICITY_FREE: ratios/averages; no gate.

@@ -23,7 +23,7 @@ use Piwik\Site;
  * Computes per-tick forecast values for incomplete-period data points on evolution-style series.
  *
  * Three algorithms are applied based on each series' intra-period direction (see
- * {@see Evolution::MONOTONICITY_*}):
+ * {@see ForecastMetricClassifier::MONOTONICITY_*}):
  *
  * - MONOTONICITY_UP — additive count series (visits, conversions, page views): forecasted by
  *   reconstructing the period from sub-period analog samples. Completed sub-periods contribute
@@ -146,7 +146,7 @@ class ForecastBuilder
      * @param array<string, string|false> $seriesUnits
      * @param array<string, array<int, bool>> $allSeriesDataAvailability
      * @param array<string, string> $allSeriesMonotonicity Per-series intra-period direction tag,
-     *        one of the {@see Evolution::MONOTONICITY_*} constants. Missing entries fall back to
+     *        one of the {@see ForecastMetricClassifier::MONOTONICITY_*} constants. Missing entries fall back to
      *        FREE for percent-unit series and UP otherwise.
      * @param array<string, int> $allSeriesForecastPrecision Per-series decimal precision for raw
      *        forecast payload values. Missing entries preserve the historical 4-decimal default.
@@ -193,7 +193,7 @@ class ForecastBuilder
         foreach ($seriesDataList as $seriesIndex => $unused) {
             $isPercentSeries = ($seriesUnitsList[$seriesIndex] ?? false) === '%';
             $resolvedMonotonicity[$seriesIndex] = $seriesMonotonicityList[$seriesIndex]
-                ?? ($isPercentSeries ? Evolution::MONOTONICITY_FREE : Evolution::MONOTONICITY_UP);
+                ?? ($isPercentSeries ? ForecastMetricClassifier::MONOTONICITY_FREE : ForecastMetricClassifier::MONOTONICITY_UP);
         }
 
         // Process MONOTONICITY_UP series first so the cross-series gate (below) can read each
@@ -202,8 +202,8 @@ class ForecastBuilder
         // index and ksort'ing at the end.
         $processingOrder = array_keys($seriesDataList);
         usort($processingOrder, function ($a, $b) use ($resolvedMonotonicity) {
-            $aRank = Evolution::MONOTONICITY_UP === $resolvedMonotonicity[$a] ? 0 : 1;
-            $bRank = Evolution::MONOTONICITY_UP === $resolvedMonotonicity[$b] ? 0 : 1;
+            $aRank = ForecastMetricClassifier::MONOTONICITY_UP === $resolvedMonotonicity[$a] ? 0 : 1;
+            $bRank = ForecastMetricClassifier::MONOTONICITY_UP === $resolvedMonotonicity[$b] ? 0 : 1;
             if ($aRank === $bRank) {
                 return $a <=> $b;
             }
@@ -228,7 +228,7 @@ class ForecastBuilder
             $seriesDataAvailability = $seriesDataAvailabilityList[$seriesIndex] ?? [];
             $monotonicity = $resolvedMonotonicity[$seriesIndex];
             $forecastPrecision = $seriesForecastPrecisionList[$seriesIndex] ?? 4;
-            $isUpSeries = Evolution::MONOTONICITY_UP === $monotonicity;
+            $isUpSeries = ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity;
             if ($isUpSeries) {
                 $hasAnyUpSeries = true;
             }
@@ -353,7 +353,7 @@ class ForecastBuilder
                 // the current partial min, so even if the gate let the prior through (e.g. it
                 // equalled current within rounding) we hold the rendered forecast at or below
                 // current. Cheap insurance against an ever-rising-min visual in the chart.
-                if (Evolution::MONOTONICITY_DOWN === $monotonicity) {
+                if (ForecastMetricClassifier::MONOTONICITY_DOWN === $monotonicity) {
                     $forecastValue = min($forecastValue, $currentValue);
                 }
 
@@ -1091,7 +1091,7 @@ class ForecastBuilder
      * @param array<int, string> $dataStates
      * @param array<int, bool> $seriesDataAvailability
      * @param string $monotonicity Per-series intra-period direction tag, one of the
-     *        {@see Evolution::MONOTONICITY_*} constants. Drives whether leading zeros are
+     *        {@see ForecastMetricClassifier::MONOTONICITY_*} constants. Drives whether leading zeros are
      *        stripped: only MONOTONICITY_UP treats them as "tracking had not started yet".
      *        For FREE/DOWN a leading 0 is kept as a legitimate observation.
      * @param array<string, float> $dailySamples Optional daily sample map (Y-m-d → value)
@@ -1108,7 +1108,7 @@ class ForecastBuilder
         int $currentTickIndex,
         DataTable $currentDataTable,
         array $seriesDataAvailability = [],
-        string $monotonicity = Evolution::MONOTONICITY_UP,
+        string $monotonicity = ForecastMetricClassifier::MONOTONICITY_UP,
         array $dailySamples = []
     ): array {
         $allSamples = [];
@@ -1123,7 +1123,7 @@ class ForecastBuilder
                 self::DAY_PRIOR_TARGET_SAMPLES
             );
 
-            if (Evolution::MONOTONICITY_UP === $monotonicity) {
+            if (ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity) {
                 return $this->removeLeadingZeroSamples($samples);
             }
 
@@ -1181,7 +1181,7 @@ class ForecastBuilder
         // (e.g. a real running min of 0, a 0% rate on a low-traffic day) and dropping it
         // would inflate the prior — for DOWN it tends to fail the forecast <= current gate
         // and silently suppress an otherwise-renderable forecast.
-        if (Evolution::MONOTONICITY_UP === $monotonicity) {
+        if (ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity) {
             return $this->removeLeadingZeroSamples($samples);
         }
 
@@ -1264,11 +1264,11 @@ class ForecastBuilder
         string $monotonicity
     ): bool {
         switch ($monotonicity) {
-            case Evolution::MONOTONICITY_FREE:
+            case ForecastMetricClassifier::MONOTONICITY_FREE:
                 return true;
-            case Evolution::MONOTONICITY_DOWN:
+            case ForecastMetricClassifier::MONOTONICITY_DOWN:
                 return $forecastValue <= $currentDisplayValue;
-            case Evolution::MONOTONICITY_UP:
+            case ForecastMetricClassifier::MONOTONICITY_UP:
             default:
                 return $forecastValue >= $currentDisplayValue;
         }
