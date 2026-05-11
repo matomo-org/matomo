@@ -283,7 +283,9 @@ class LoginTest extends IntegrationTestCase
         // Check that the token auth is correct in the result
         $this->assertEquals(32, strlen($rc->getTokenAuth()));
         $this->assertTrue(ctype_xdigit($rc->getTokenAuth()));
-        $this->assertNull($rc->getAuthContext());
+        // A password login declares the absent token scope rather than leaving it to be looked up on a
+        // token that was generated here and never stored.
+        $this->assertSame(['token_access_level' => null], $rc->getAuthContext());
     }
 
     public function testAuthenticateSuccessWithSuperUserPassword()

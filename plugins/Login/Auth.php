@@ -62,7 +62,9 @@ class Auth implements \Piwik\Auth
         } catch (\Zend_Db_Statement_Exception $e) {
             // user_token_auth table might not yet exist when updating to Matomo 4
             if (strpos($e->getMessage(), 'user_token_auth') && !DbHelper::tableExists(Common::prefixTable('user_token_auth'))) {
-                return new AuthResult(AuthResult::SUCCESS, 'anonymous', 'anonymous');
+                // Declaring no scope keeps core from querying the very table this branch exists because
+                // it does not have.
+                return new AuthResult(AuthResult::SUCCESS, 'anonymous', 'anonymous', ['token_access_level' => null]);
             }
 
             throw $e;
@@ -90,7 +92,9 @@ class Auth implements \Piwik\Auth
             }
             $this->token_auth = null; // make sure to generate a random token
 
-            return $this->authenticationSuccess($user);
+            // A password login carries no scope, and the token reported below is generated here rather
+            // than stored, so a lookup could never match anyway.
+            return $this->authenticationSuccess($user, ['token_access_level' => null]);
         }
 
         return new AuthResult(AuthResult::FAILURE, $login, null);
