@@ -55,7 +55,7 @@
         uicontrol="select"
         name="access_level_ui"
         :title="translate('UsersManager_TokenAccessLevel')"
-        :required="true"
+        :required="false"
         :inline-help="translate('UsersManager_TokenAccessLevelHelp')"
         :options="allowedAccessLevels"
         v-model="tokenAccessLevel"
