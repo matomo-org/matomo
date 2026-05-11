@@ -446,12 +446,13 @@ class Access
                 // A capped superuser token would fail the permission check in API-level getAllSitesId().
                 $allSiteIds = $this->getSitesManagerModel()->getSitesId();
             } catch (\Exception $e) {
-                StaticContainer::get(LoggerInterface::class)->debug(
-                    'Could not enumerate sites while applying token-level access restriction; '
-                    . 'capped superuser token will fall back to sites with explicit access only. {exception}',
-                    ['exception' => $e]
+                // Deliberately no fallback: a shortened site list with a success status is
+                // indistinguishable to the caller from a genuinely short one.
+                throw new Exception(
+                    'Could not enumerate sites while applying token-level access restriction.',
+                    0,
+                    $e
                 );
-                $allSiteIds = [];
             }
             // Seeded unconditionally because a superuser's implicit role outranks any explicit access row:
             // a leftover low-privilege row must not reduce a capped token below what it grants on a site
