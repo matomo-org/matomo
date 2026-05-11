@@ -12,7 +12,6 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\API\Request as ApiRequest;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
-use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
@@ -32,10 +31,6 @@ use Piwik\Url;
  */
 class Evolution extends JqplotDataGenerator
 {
-    public const MONOTONICITY_UP = 'up';
-    public const MONOTONICITY_DOWN = 'down';
-    public const MONOTONICITY_FREE = 'free';
-
     /**
      * Narrow the parent's untyped `$graph` to the evolution visualization, since
      * `JqplotDataGenerator\Evolution` is only ever constructed by
@@ -45,6 +40,9 @@ class Evolution extends JqplotDataGenerator
      * @var JqplotEvolutionGraph
      */
     protected $graph;
+
+    /** @var ForecastMetricClassifier|null */
+    private $forecastClassifier;
 
     protected function getUnitsForColumnsToDisplay()
     {
@@ -105,7 +103,6 @@ class Evolution extends JqplotDataGenerator
                 $seriesLabels,
                 $dataTable
             );
-            $seriesState = new ForecastSeriesState([], [], [], []);
         } else {
             // Reuse the per-series state precomputed in
             // JqplotGraph\Evolution::afterAllFiltersAreApplied() when forecast is on, instead
@@ -157,202 +154,38 @@ class Evolution extends JqplotDataGenerator
             $visualization->setAxisXOnClick($axisXOnClick);
         }
 
-        $dataStates = $this->setDataStates($visualization, $dataTables);
-        $visualization->setForecastData($this->buildForecastData(
-            $seriesState,
-            $dataTables,
-            $dataStates,
-            $seriesUnits
-        ));
+        $this->setDataStates($visualization, $dataTables);
+        $visualization->setForecastData($this->buildForecastData());
     }
 
     /**
-     * Compute forecast values via {@see ForecastBuilder} when forecast is enabled
-     * and the graph is not in compare mode. Both gates short-circuit to an empty
-     * payload — the builder would yield [] anyway, but checking here avoids
-     * unnecessary work on the cold path.
+     * Return the forecast values precomputed in
+     * {@see JqplotEvolutionGraph::afterAllFiltersAreApplied()}. Comparing graphs and graphs
+     * with forecast disabled both short-circuit to an empty payload — precompute would
+     * have returned [] anyway, but checking here saves a property lookup on the cold path.
      *
-     * @param array<DataTable> $dataTables
-     * @param array<int, string> $dataStates
-     * @param array<string, string|false> $seriesUnits
      * @return array<int, array<int, float|null>>
      */
-    protected function buildForecastData(
-        ForecastSeriesState $seriesState,
-        array $dataTables,
-        array $dataStates,
-        array $seriesUnits
-    ): array {
+    protected function buildForecastData(): array
+    {
         if (empty($this->properties['show_forecast']) || $this->isComparing) {
             return [];
         }
 
-        $subPeriodSamples = $this->collectSubPeriodSamples(
-            $dataTables,
-            $seriesState->getAllSeriesColumns(),
-            $seriesState->getAllSeriesRows(),
-            $seriesState->getAllSeriesMonotonicity()
-        );
-
-        return (new ForecastBuilder())->build(
-            $seriesState->getAllSeriesData(),
-            $dataTables,
-            $dataStates,
-            $seriesUnits,
-            $seriesState->getAllSeriesDataAvailability(),
-            $seriesState->getAllSeriesMonotonicity(),
-            $seriesState->getAllSeriesForecastPrecision(),
-            $subPeriodSamples['daily'],
-            $subPeriodSamples['monthly']
-        );
+        return $this->graph->getForecastData();
     }
 
     /**
-     * Resolve the metric semantic-type map. Wraps the static lookup so tests can substitute
-     * a fixed map without seeding the global transient cache that backs
-     * {@see Metrics::getDefaultMetricSemanticTypes()}.
-     *
-     * @return array<string, string>
-     *
-     * @internal
+     * Memoised access to the metric classifier. Protected so subclasses can substitute a
+     * classifier instantiated with an explicit semantic-type map (avoids seeding the global
+     * transient cache that backs {@see Metrics::getDefaultMetricSemanticTypes()}).
      */
-    protected function getMetricSemanticTypes(): array
+    protected function getForecastClassifier(): ForecastMetricClassifier
     {
-        return Metrics::getDefaultMetricSemanticTypes();
-    }
-
-    /**
-     * Classify a column into one of three intra-period directions:
-     *
-     * - MONOTONICITY_UP: counts/sums/totals that can only grow within the period
-     *   ("forecast >= current" gate applies).
-     * - MONOTONICITY_DOWN: running mins that can only fall within the period
-     *   ("forecast <= current" gate applies).
-     * - MONOTONICITY_FREE: ratios, rates, percentages, averages whose value can move in either
-     *   direction within the period (no gate).
-     *
-     * Driven by column unit, semantic type, and a small name-convention layer. The convention
-     * layer cannot disambiguate metrics whose names look like counts but are actually ratios
-     * (ctr, position, web-vitals percentiles); those need a dedicated plugin signal.
-     *
-     * @param string|false $columnUnit
-     * @return self::MONOTONICITY_*
-     */
-    private function getColumnMonotonicity(string $columnName, $columnUnit): string
-    {
-        if ($columnUnit === '%') {
-            return self::MONOTONICITY_FREE;
+        if (null === $this->forecastClassifier) {
+            $this->forecastClassifier = new ForecastMetricClassifier();
         }
-
-        // TYPE_PERCENT and TYPE_FLOAT are non-monotonic by construction (a percentage's or a
-        // ratio's value can move in either direction within a partial period). Plugins extend
-        // the semantic-type map via the Metrics.getDefaultMetricSemanticTypes event, so a
-        // custom metric declared as TYPE_PERCENT or TYPE_FLOAT classifies correctly without
-        // needing a magic name.
-        $semanticType = $this->getMetricSemanticTypes()[$columnName] ?? null;
-        if ($semanticType === Dimension::TYPE_PERCENT || $semanticType === Dimension::TYPE_FLOAT) {
-            return self::MONOTONICITY_FREE;
-        }
-
-        // Name-pattern fallback for metrics whose semantic type is the ambiguous TYPE_NUMBER
-        // but whose name reveals ratio shape (e.g. nb_actions_per_visit is TYPE_NUMBER yet
-        // genuinely non-monotonic). The avg_ prefix also disambiguates TYPE_DURATION_*/TYPE_BYTE
-        // averages from their additive sum_ siblings.
-        if ($this->hasRatioShapedColumnName($columnName)) {
-            return self::MONOTONICITY_FREE;
-        }
-
-        // min_* metrics carry a structural invariant: more samples within the period can only
-        // pull the running min down or leave it unchanged. The default monotonic-up gate would
-        // render upward-projecting forecasts on a metric that cannot rise, so flip to a
-        // monotonic-down gate instead.
-        if (strpos($columnName, 'min_') === 0) {
-            return self::MONOTONICITY_DOWN;
-        }
-
-        // Default unknown metrics to monotonic-up count behaviour. The "forecast >= current"
-        // gate then suppresses obviously-wrong forecasts on metrics whose semantics we cannot
-        // classify, which is safer than emitting a downward forecast on a metric that turns
-        // out to be additive (visits, conversions, revenue, …).
-        return self::MONOTONICITY_UP;
-    }
-
-    /**
-     * True when a column name carries one of the ratio/average/rate name patterns Matomo uses
-     * for non-monotonic metrics. Shared between the monotonicity classifier and the forecast
-     * precision picker so the two cannot drift on the same set of name fragments.
-     */
-    private function hasRatioShapedColumnName(string $columnName): bool
-    {
-        return strpos($columnName, '_rate') !== false
-            || strpos($columnName, '_percentage') !== false
-            || strpos($columnName, 'avg_') === 0
-            || strpos($columnName, '_per_') !== false;
-    }
-
-    /**
-     * Derive conservative raw forecast payload precision for a metric.
-     *
-     * Integer/count-like metrics should not emit fractional forecast values. Ratios, averages,
-     * durations, money, bytes, floats, and unknown numeric metrics keep up to two decimals.
-     *
-     * Both MONOTONICITY_UP and MONOTONICITY_DOWN are treated as "monotonic" for precision —
-     * a min_* count metric should round to integers the same way an additive nb_* count does.
-     * Only MONOTONICITY_FREE (ratios/averages/percentages) keeps the two-decimal default for
-     * TYPE_NUMBER metrics, which is the original allowsDownward = true behaviour.
-     *
-     * @param string|false $columnUnit
-     * @param self::MONOTONICITY_* $monotonicity
-     */
-    private function getForecastPrecisionForColumn(string $columnName, $columnUnit, string $monotonicity): int
-    {
-        if ($columnUnit !== false) {
-            return 2;
-        }
-
-        $semanticType = $this->getMetricSemanticTypes()[$columnName] ?? null;
-
-        if (
-            in_array($semanticType, [
-                Dimension::TYPE_BYTE,
-                Dimension::TYPE_DURATION_MS,
-                Dimension::TYPE_DURATION_S,
-                Dimension::TYPE_FLOAT,
-                Dimension::TYPE_MONEY,
-                Dimension::TYPE_PERCENT,
-            ], true)
-        ) {
-            return 2;
-        }
-
-        // Word-boundary check: an underscore-delimited "time"/"length" segment in the column
-        // name signals a duration- or length-shaped metric (sum_time_spent, time_per_action,
-        // nb_visit_length, length_score). Anchored substring matches avoid false positives on
-        // unrelated names that happen to contain the literal letters (lifetime_*, wavelength).
-        if (
-            $this->hasRatioShapedColumnName($columnName)
-            || strpos($columnName, '_time') !== false
-            || strpos($columnName, 'time_') === 0
-            || strpos($columnName, '_length') !== false
-            || strpos($columnName, 'length_') === 0
-        ) {
-            return 2;
-        }
-
-        if ($semanticType === Dimension::TYPE_NUMBER && $monotonicity !== self::MONOTONICITY_FREE) {
-            return 0;
-        }
-
-        if (
-            strpos($columnName, 'nb_') === 0
-            || strpos($columnName, '_nb_') !== false
-            || strpos($columnName, '_count') !== false
-            || in_array($columnName, ['hits', 'items', 'quantity', 'orders', 'goals'], true)
-        ) {
-            return 0;
-        }
-
-        return 2;
+        return $this->forecastClassifier;
     }
 
     private function getSeriesData($rowLabel, $columnName, DataTable\Map $dataTable, &$seriesDataAvailability)
@@ -512,8 +345,8 @@ class Evolution extends JqplotDataGenerator
             foreach ($columnsToDisplay as $columnName) {
                 $columnUnit = $units[$columnName] ?? false;
                 $columnMonotonicity = $forecastEnabled
-                    ? $this->getColumnMonotonicity($columnName, $columnUnit)
-                    : Evolution::MONOTONICITY_UP;
+                    ? $this->getForecastClassifier()->getColumnMonotonicity($columnName, $columnUnit)
+                    : ForecastMetricClassifier::MONOTONICITY_UP;
 
                 $this->setNonComparisonSeriesData(
                     $allSeriesData,
@@ -632,7 +465,7 @@ class Evolution extends JqplotDataGenerator
 
         $allSeriesDataAvailability[$seriesLabel] = $seriesDataAvailability;
         $allSeriesMonotonicity[$seriesLabel] = $columnMonotonicity;
-        $allSeriesForecastPrecision[$seriesLabel] = $this->getForecastPrecisionForColumn(
+        $allSeriesForecastPrecision[$seriesLabel] = $this->getForecastClassifier()->getForecastPrecisionForColumn(
             $columnName,
             $columnUnit,
             $columnMonotonicity
@@ -854,7 +687,24 @@ class Evolution extends JqplotDataGenerator
 
         $this->graph->setForecastSeriesState($seriesState);
 
-        return $this->buildForecastData($seriesState, $dataTables, $dataStates, $seriesUnits);
+        $subPeriodSamples = $this->collectSubPeriodSamples(
+            $dataTables,
+            $seriesState->getAllSeriesColumns(),
+            $seriesState->getAllSeriesRows(),
+            $seriesState->getAllSeriesMonotonicity()
+        );
+
+        return (new ForecastBuilder())->build(
+            $seriesState->getAllSeriesData(),
+            $dataTables,
+            $dataStates,
+            $seriesUnits,
+            $seriesState->getAllSeriesDataAvailability(),
+            $seriesState->getAllSeriesMonotonicity(),
+            $seriesState->getAllSeriesForecastPrecision(),
+            $subPeriodSamples['daily'],
+            $subPeriodSamples['monthly']
+        );
     }
 
     /**
@@ -1088,8 +938,8 @@ class Evolution extends JqplotDataGenerator
                     // different: a row that exists but lacks the requested column means the
                     // metric isn't reported here, which is not the same as zero -- and that
                     // branch already skips for every monotonicity.
-                    $monotonicity = $seriesMonotonicity[$seriesLabel] ?? Evolution::MONOTONICITY_UP;
-                    if (Evolution::MONOTONICITY_UP === $monotonicity) {
+                    $monotonicity = $seriesMonotonicity[$seriesLabel] ?? ForecastMetricClassifier::MONOTONICITY_UP;
+                    if (ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity) {
                         $samples[$seriesLabel][$dateKey] = 0.0;
                     }
                     continue;

@@ -14,11 +14,10 @@ namespace Piwik\Plugins\CoreVisualizations\tests\Unit\JqplotDataGenerator;
 use PHPUnit\Framework\TestCase;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
-use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\Period\Factory;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Evolution;
-use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSeriesState;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastMetricClassifier;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as JqplotEvolutionGraph;
 use Piwik\ViewDataTable\RequestConfig;
 use Piwik\Site;
@@ -35,14 +34,14 @@ class EvolutionTest extends TestCase
     {
         $evolution = $this->createEvolution(['show_forecast' => 0], false);
 
-        self::assertSame([], $evolution->callBuildForecastData(new ForecastSeriesState([], [], [], []), [], [], []));
+        self::assertSame([], $evolution->callBuildForecastData());
     }
 
     public function testBuildForecastDataReturnsEmptyWhenComparing(): void
     {
         $evolution = $this->createEvolution(['show_forecast' => 1], true);
 
-        self::assertSame([], $evolution->callBuildForecastData(new ForecastSeriesState([], [], [], []), [], [], []));
+        self::assertSame([], $evolution->callBuildForecastData());
     }
 
     /**
@@ -67,92 +66,14 @@ class EvolutionTest extends TestCase
      */
     public function getColumnValueRuleTestData(): iterable
     {
-        yield 'false is missing' => [false, false];
+        yield 'numeric int 0 counts as data' => [0, true];
+        yield 'numeric float 0 counts as data' => [0.0, true];
+        yield 'string "0" counts as data' => ['0', true];
+        yield 'positive int' => [1, true];
+        yield 'positive float' => [1.5, true];
+        yield 'boolean false is missing' => [false, false];
         yield 'null is missing' => [null, false];
         yield 'empty string is missing' => ['', false];
-        yield 'numeric zero counts as data' => [0, true];
-        yield 'float zero counts as data' => [0.0, true];
-        yield 'string zero counts as data' => ['0', true];
-        yield 'positive integer counts as data' => [42, true];
-        yield 'positive float counts as data' => [12.5, true];
-        yield 'negative number counts as data' => [-3, true];
-        yield 'non-empty string counts as data' => ['1.5', true];
-    }
-
-    /**
-     * @dataProvider getColumnMonotonicityTestData
-     * @param string|false $columnUnit
-     */
-    public function testGetColumnMonotonicityFromName(string $columnName, $columnUnit, string $expected): void
-    {
-        $evolution = $this->createEvolution([], false);
-
-        $method = new ReflectionMethod(Evolution::class, 'getColumnMonotonicity');
-
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
-        self::assertSame($expected, $method->invoke($evolution, $columnName, $columnUnit));
-    }
-
-    /**
-     * @return iterable<string, array{string, string|false, string}>
-     */
-    public function getColumnMonotonicityTestData(): iterable
-    {
-        yield 'percent unit' => ['custom_metric', '%', Evolution::MONOTONICITY_FREE];
-        yield 'rate metric' => ['bounce_rate', false, Evolution::MONOTONICITY_FREE];
-        yield 'percentage metric' => ['conversion_percentage', false, Evolution::MONOTONICITY_FREE];
-        yield 'average metric' => ['avg_time_on_site', false, Evolution::MONOTONICITY_FREE];
-        yield 'per metric containing nb prefix' => ['nb_actions_per_visit', false, Evolution::MONOTONICITY_FREE];
-        yield 'plain nb metric' => ['nb_visits', false, Evolution::MONOTONICITY_UP];
-        yield 'sum daily nb metric' => ['sum_daily_nb_users', false, Evolution::MONOTONICITY_UP];
-        yield 'exit nb metric' => ['exit_nb_visits', false, Evolution::MONOTONICITY_UP];
-        yield 'sum daily exit nb metric' => ['sum_daily_exit_nb_uniq_visitors', false, Evolution::MONOTONICITY_UP];
-        yield 'lower is better count metric' => ['bounce_count', false, Evolution::MONOTONICITY_UP];
-        yield 'unknown metric defaults to monotonic up' => ['custom_numeric_metric', false, Evolution::MONOTONICITY_UP];
-        yield 'revenue currency metric stays monotonic up' => ['revenue', false, Evolution::MONOTONICITY_UP];
-        yield 'duration sum metric stays monotonic up' => ['sum_time_spent', false, Evolution::MONOTONICITY_UP];
-        yield 'min_ prefix is monotonic down' => ['min_bandwidth', false, Evolution::MONOTONICITY_DOWN];
-        yield 'min_ prefix on event value is monotonic down' => ['min_event_value', false, Evolution::MONOTONICITY_DOWN];
-        yield 'max_ prefix stays monotonic up by default' => ['max_actions', false, Evolution::MONOTONICITY_UP];
-    }
-
-    /**
-     * @dataProvider getColumnMonotonicitySemanticTypeTestData
-     */
-    public function testGetColumnMonotonicityUsesSemanticTypeForCustomMetrics(
-        string $columnName,
-        ?string $stubSemanticType,
-        string $expected
-    ): void {
-        $semanticTypes = $stubSemanticType !== null ? [$columnName => $stubSemanticType] : [];
-        $evolution = $this->createEvolution([], false, $semanticTypes);
-
-        $method = new ReflectionMethod(Evolution::class, 'getColumnMonotonicity');
-
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
-        self::assertSame($expected, $method->invoke($evolution, $columnName, false));
-    }
-
-    /**
-     * @return iterable<string, array{string, ?string, string}>
-     */
-    public function getColumnMonotonicitySemanticTypeTestData(): iterable
-    {
-        yield 'percent semantic type without name pattern' => ['engagement_score', Dimension::TYPE_PERCENT, Evolution::MONOTONICITY_FREE];
-        yield 'float semantic type without name pattern' => ['session_quality', Dimension::TYPE_FLOAT, Evolution::MONOTONICITY_FREE];
-        yield 'number semantic type without name pattern stays monotonic up' => ['custom_count', Dimension::TYPE_NUMBER, Evolution::MONOTONICITY_UP];
-        yield 'money semantic type stays monotonic up' => ['custom_revenue', Dimension::TYPE_MONEY, Evolution::MONOTONICITY_UP];
-        yield 'duration semantic type without avg_ prefix stays monotonic up' => ['custom_dwell', Dimension::TYPE_DURATION_S, Evolution::MONOTONICITY_UP];
-        yield 'byte semantic type without avg_ prefix stays monotonic up' => ['custom_bandwidth', Dimension::TYPE_BYTE, Evolution::MONOTONICITY_UP];
-        yield 'no semantic type defaults to monotonic up' => ['custom_metric_no_signal', null, Evolution::MONOTONICITY_UP];
-        yield 'min_ prefix wins even with TYPE_NUMBER semantic' => ['min_custom', Dimension::TYPE_NUMBER, Evolution::MONOTONICITY_DOWN];
-        yield 'min_ prefix yields to percent semantic type' => ['min_rate_custom', Dimension::TYPE_PERCENT, Evolution::MONOTONICITY_FREE];
     }
 
     public function testPrecomputeForecastReturnsEmptyWhenComparing(): void
@@ -188,38 +109,6 @@ class EvolutionTest extends TestCase
         $map->addTable($this->createDataTableForDay('2026-04-11', $site), '2026-04-11');
 
         self::assertSame([], $evolution->precomputeForecast($map));
-    }
-
-    public function testBuildForecastDataDelegatesToBuilderWhenEnabledAndNotComparing(): void
-    {
-        $evolution = $this->createEvolution(['show_forecast' => 1], false);
-        $site = $this->createSiteMock();
-
-        // Two same-weekday priors so the prior-only path produces a renderable value. Apr 4
-        // and Apr 11 are both Saturdays.
-        $dataTables = [
-            $this->createDataTableForDay('2026-04-04', $site),
-            $this->createDataTableForDay('2026-04-11', $site, '2026-04-11 12:00:00'),
-        ];
-
-        $seriesState = new ForecastSeriesState(
-            ['Visits' => [80.0, 20.0]],
-            ['Visits' => [true, true]],
-            ['Visits' => Evolution::MONOTONICITY_UP],
-            []
-        );
-
-        $forecast = $evolution->callBuildForecastData(
-            $seriesState,
-            $dataTables,
-            [ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
-            ['Visits' => false]
-        );
-
-        self::assertCount(1, $forecast);
-        self::assertNull($forecast[0][0]);
-        self::assertIsFloat($forecast[0][1]);
-        self::assertGreaterThan(20.0, $forecast[0][1]);
     }
 
     public function testPrecomputeForecastRoundsCountMetricToInteger(): void
@@ -263,41 +152,6 @@ class EvolutionTest extends TestCase
         self::assertSame([[null, 12.35]], $evolution->precomputeForecast($map));
     }
 
-    /**
-     * @dataProvider getForecastPrecisionTestData
-     * @param string|false $columnUnit
-     */
-    public function testForecastPrecisionUsesMetricSemanticsAndNameFallbacks(
-        string $columnName,
-        $columnUnit,
-        string $monotonicity,
-        int $expected
-    ): void {
-        $evolution = $this->createEvolution([], false);
-
-        $method = new ReflectionMethod(Evolution::class, 'getForecastPrecisionForColumn');
-
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
-        self::assertSame($expected, $method->invoke($evolution, $columnName, $columnUnit, $monotonicity));
-    }
-
-    /**
-     * @return iterable<string, array{string, string|false, string, int}>
-     */
-    public function getForecastPrecisionTestData(): iterable
-    {
-        yield 'plain nb metric' => ['nb_visits', false, Evolution::MONOTONICITY_UP, 0];
-        yield 'embedded nb metric' => ['exit_nb_visits', false, Evolution::MONOTONICITY_UP, 0];
-        yield 'count suffix metric' => ['bounce_count', false, Evolution::MONOTONICITY_UP, 0];
-        yield 'actions per visit is ratio' => ['nb_actions_per_visit', false, Evolution::MONOTONICITY_FREE, 2];
-        yield 'percent unit' => ['custom_metric', '%', Evolution::MONOTONICITY_FREE, 2];
-        yield 'duration name fallback' => ['sum_visit_length_returning', false, Evolution::MONOTONICITY_UP, 2];
-        yield 'unknown metric fallback' => ['custom_numeric_metric', false, Evolution::MONOTONICITY_UP, 2];
-    }
-
     public function testExtractSubPeriodSamplesLooksUpRawColumnAndStoresUnderSeriesLabel(): void
     {
         // Sub-period API result rows are keyed by the raw archive column name (after
@@ -321,7 +175,7 @@ class EvolutionTest extends TestCase
             $map,
             ['Visits' => 'nb_visits'],
             [],
-            ['Visits' => Evolution::MONOTONICITY_UP],
+            ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP],
             'day'
         );
 
@@ -353,7 +207,7 @@ class EvolutionTest extends TestCase
             $map,
             ['Visits' => 'nb_visits'],
             [],
-            ['Visits' => Evolution::MONOTONICITY_UP],
+            ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP],
             'day'
         );
 
@@ -402,9 +256,9 @@ class EvolutionTest extends TestCase
             ],
             [],
             [
-                'Min event value' => Evolution::MONOTONICITY_DOWN,
-                'Bounce rate'     => Evolution::MONOTONICITY_FREE,
-                'Visits'          => Evolution::MONOTONICITY_UP,
+                'Min event value' => ForecastMetricClassifier::MONOTONICITY_DOWN,
+                'Bounce rate'     => ForecastMetricClassifier::MONOTONICITY_FREE,
+                'Visits'          => ForecastMetricClassifier::MONOTONICITY_UP,
             ],
             'day'
         );
@@ -493,7 +347,10 @@ class EvolutionTest extends TestCase
             $map,
             ['France' => 'nb_visits', 'Germany' => 'nb_visits'],
             ['France' => 'France', 'Germany' => 'Germany'],
-            ['France' => Evolution::MONOTONICITY_UP, 'Germany' => Evolution::MONOTONICITY_UP],
+            [
+                'France'  => ForecastMetricClassifier::MONOTONICITY_UP,
+                'Germany' => ForecastMetricClassifier::MONOTONICITY_UP,
+            ],
             'day'
         );
 
@@ -548,7 +405,10 @@ class EvolutionTest extends TestCase
             $map,
             ['France' => 'nb_visits', 'Germany' => 'nb_visits'],
             ['France' => 'France', 'Germany' => 'Germany'],
-            ['France' => Evolution::MONOTONICITY_UP, 'Germany' => Evolution::MONOTONICITY_UP],
+            [
+                'France'  => ForecastMetricClassifier::MONOTONICITY_UP,
+                'Germany' => ForecastMetricClassifier::MONOTONICITY_UP,
+            ],
             'day'
         );
 
@@ -561,17 +421,6 @@ class EvolutionTest extends TestCase
         );
     }
 
-    public function testForecastPrecisionForMonotonicDownIntegerMetricRoundsToZeroDecimals(): void
-    {
-        $evolution = $this->createEvolution([], false, ['min_event_value' => Dimension::TYPE_NUMBER]);
-        $method = new ReflectionMethod(Evolution::class, 'getForecastPrecisionForColumn');
-
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
-        self::assertSame(0, $method->invoke($evolution, 'min_event_value', false, Evolution::MONOTONICITY_DOWN));
-    }
 
     /**
      * @param array<string, mixed> $properties
@@ -607,9 +456,9 @@ class EvolutionTest extends TestCase
                 $this->stubSemanticTypes = $semanticTypes;
             }
 
-            protected function getMetricSemanticTypes(): array
+            protected function getForecastClassifier(): ForecastMetricClassifier
             {
-                return $this->stubSemanticTypes;
+                return new ForecastMetricClassifier($this->stubSemanticTypes);
             }
 
             protected function getUnitsForColumnsToDisplay()
@@ -618,18 +467,11 @@ class EvolutionTest extends TestCase
             }
 
             /**
-             * @param array<int, DataTable> $dataTables
-             * @param array<int, string> $dataStates
-             * @param array<string, string|false> $seriesUnits
              * @return array<int, array<int, float|null>>
              */
-            public function callBuildForecastData(
-                ForecastSeriesState $seriesState,
-                array $dataTables,
-                array $dataStates,
-                array $seriesUnits
-            ): array {
-                return $this->buildForecastData($seriesState, $dataTables, $dataStates, $seriesUnits);
+            public function callBuildForecastData(): array
+            {
+                return $this->buildForecastData();
             }
         };
     }
