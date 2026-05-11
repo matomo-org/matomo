@@ -279,6 +279,10 @@ class Proxy
              * `$returnedValue` in a handler for this event, the original API method will not be executed,
              * and the result will be what you set in the event handler.
              *
+             * If the target method declares a `#[Permission]` attribute, the declared access check has
+             * already been enforced before this event fires, so handlers cannot return data to callers
+             * that lack the declared permission.
+             *
              * @param mixed &$returnedValue Set this to set the result and preempt normal API invocation.
              * @param array &$finalParameters List of parameters that will be passed to the API method.
              * @param string $pluginName The name of the plugin the API method belongs to.
