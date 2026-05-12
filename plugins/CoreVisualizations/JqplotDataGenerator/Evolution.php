@@ -325,8 +325,8 @@ class Evolution extends JqplotDataGenerator
      * Run the row × column collection loop and produce the per-series state. Shared by
      * initChartObjectData() (render path) and precomputeForecast() (toggle-visibility path)
      * so the two paths produce identical state. Comparing graphs go through
-     * {@see self::collectComparisonSeriesData()} instead — they only need $allSeriesData and
-     * never consume the forecast-state fields.
+     * {@see self::collectComparisonSeriesData()} instead — they only need the chart-rendering
+     * series data and never consume the forecast-state fields.
      *
      * @param array<int, mixed> $rowsToDisplay
      * @param array<int, string> $columnsToDisplay
@@ -338,55 +338,48 @@ class Evolution extends JqplotDataGenerator
         array $units,
         DataTable\Map $dataTable
     ): ForecastSeriesState {
-        // The render path always needs $allSeriesData to seed the chart's y-axis values,
-        // but the forecast precision/downward-forecast classifiers are forecast-only signals
-        // that touch the metric semantic-type registry and run a cluster of string searches per
+        // The render path always needs the per-series data to seed the chart's y-axis values,
+        // but the forecast precision/monotonicity classifiers are forecast-only signals that
+        // touch the metric semantic-type registry and run a cluster of string searches per
         // column. Skip them on the show_forecast=0 hot path so dashboards full of evolution
         // graphs do not pay for a feature they are not rendering. precomputeForecast() always
         // sets show_forecast=1, so the toggle-visibility path keeps the full classifier work.
         $forecastEnabled = !empty($this->properties['show_forecast']);
 
-        $allSeriesData = [];
-        $allSeriesDataAvailability = [];
-        $allSeriesMonotonicity = [];
-        $allSeriesForecastPrecision = [];
-        $allSeriesColumns = [];
-        $allSeriesRows = [];
+        $builder = new ForecastSeriesStateBuilder();
 
         foreach ($rowsToDisplay as $rowIdentifier) {
             $rowLabel = $this->resolveRowLabel($rowIdentifier);
 
             foreach ($columnsToDisplay as $columnName) {
-                $columnUnit = $units[$columnName] ?? false;
-                $columnMonotonicity = $forecastEnabled
-                    ? $this->getForecastClassifier()->getColumnMonotonicity($columnName, $columnUnit)
-                    : ForecastMetricClassifier::MONOTONICITY_UP;
+                $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
+                $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable, $seriesDataAvailability);
 
-                $this->setNonComparisonSeriesData(
-                    $allSeriesData,
-                    $allSeriesDataAvailability,
-                    $allSeriesMonotonicity,
-                    $allSeriesForecastPrecision,
-                    $allSeriesColumns,
-                    $allSeriesRows,
-                    $rowLabel,
-                    $columnName,
+                if (!$forecastEnabled) {
+                    $builder->addDataOnlySeries($seriesLabel, $seriesData);
+                    continue;
+                }
+
+                $columnUnit = $units[$columnName] ?? false;
+                $columnMonotonicity = $this->getForecastClassifier()->getColumnMonotonicity($columnName, $columnUnit);
+
+                $builder->addForecastSeries(
+                    $seriesLabel,
+                    $seriesData,
+                    $seriesDataAvailability,
                     $columnMonotonicity,
-                    $columnUnit,
-                    $dataTable,
-                    $forecastEnabled
+                    $this->getForecastClassifier()->getForecastPrecisionForColumn(
+                        $columnName,
+                        $columnUnit,
+                        $columnMonotonicity
+                    ),
+                    $columnName,
+                    $rowLabel
                 );
             }
         }
 
-        return new ForecastSeriesState(
-            $allSeriesData,
-            $allSeriesDataAvailability,
-            $allSeriesMonotonicity,
-            $allSeriesForecastPrecision,
-            $allSeriesColumns,
-            $allSeriesRows
-        );
+        return $builder->build();
     }
 
     /**
@@ -441,51 +434,6 @@ class Evolution extends JqplotDataGenerator
             }
         }
         return $rowIdentifier;
-    }
-
-    /**
-     * @param array<string, array<int, float|int>> $allSeriesData
-     * @param array<string, array<int, bool>> $allSeriesDataAvailability
-     * @param array<string, string> $allSeriesMonotonicity
-     * @param array<string, int> $allSeriesForecastPrecision
-     * @param array<string, string> $allSeriesColumns
-     * @param array<string, mixed> $allSeriesRows Per-series row label/matcher (the same value
-     *        the displayed-series path passes to {@see DataTable::getRowFromLabel()}). `false`
-     *        when the series uses {@see DataTable::getFirstRow()} (single-row reports).
-     * @param mixed $rowLabel
-     */
-    private function setNonComparisonSeriesData(
-        array &$allSeriesData,
-        array &$allSeriesDataAvailability,
-        array &$allSeriesMonotonicity,
-        array &$allSeriesForecastPrecision,
-        array &$allSeriesColumns,
-        array &$allSeriesRows,
-        $rowLabel,
-        $columnName,
-        string $columnMonotonicity,
-        $columnUnit,
-        DataTable\Map $dataTable,
-        bool $forecastEnabled
-    ): void {
-        $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
-
-        $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable, $seriesDataAvailability);
-        $allSeriesData[$seriesLabel] = $seriesData;
-
-        if (!$forecastEnabled) {
-            return;
-        }
-
-        $allSeriesDataAvailability[$seriesLabel] = $seriesDataAvailability;
-        $allSeriesMonotonicity[$seriesLabel] = $columnMonotonicity;
-        $allSeriesForecastPrecision[$seriesLabel] = $this->getForecastClassifier()->getForecastPrecisionForColumn(
-            $columnName,
-            $columnUnit,
-            $columnMonotonicity
-        );
-        $allSeriesColumns[$seriesLabel] = $columnName;
-        $allSeriesRows[$seriesLabel] = $rowLabel;
     }
 
     /**
