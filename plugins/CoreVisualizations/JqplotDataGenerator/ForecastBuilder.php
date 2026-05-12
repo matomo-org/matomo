@@ -312,8 +312,7 @@ class ForecastBuilder
                     $runningDailySamples
                 );
 
-                $tickDayProjections = [];
-                $tickMonthProjections = [];
+                $tickWindow = new ForecastSampleWindow($runningDailySamples, $runningMonthlySamples);
 
                 if ($isUpSeries) {
                     $forecastValue = $this->buildMonotonicForecastValue(
@@ -322,17 +321,14 @@ class ForecastBuilder
                         $previousForecastValue,
                         $dataTable,
                         $site,
-                        $runningDailySamples,
-                        $runningMonthlySamples,
-                        $tickDayProjections,
-                        $tickMonthProjections
+                        $tickWindow
                     );
                 } else {
                     $forecastValue = $this->buildNonMonotonicForecastValue(
                         $pastValues,
                         $previousForecastValue,
                         $dataTable,
-                        $tickDayProjections
+                        $tickWindow
                     );
                 }
 
@@ -369,12 +365,12 @@ class ForecastBuilder
                 // feedback channel keeps the precision of the underlying computation; the
                 // rounding step above is for display only.
                 if ($feedDailyProjections) {
-                    foreach ($tickDayProjections as $anchor => $value) {
+                    foreach ($tickWindow->getDayProjections() as $anchor => $value) {
                         $runningDailySamples[$anchor] = (float) $value;
                     }
                 }
                 if ($feedMonthlyProjections) {
-                    foreach ($tickMonthProjections as $anchor => $value) {
+                    foreach ($tickWindow->getMonthProjections() as $anchor => $value) {
                         $runningMonthlySamples[$anchor] = (float) $value;
                     }
                 }
@@ -441,18 +437,14 @@ class ForecastBuilder
      * are not available, so the builder degrades gracefully on legacy callers and on day-period
      * targets (where there is no useful sub-period structure).
      *
-     * The $dayProjections and $monthProjections out-params capture sub-period values produced
+     * The window's day/month projection accumulators capture sub-period values produced
      * during this tick's decomposition (today's contribution + remaining-day analogs for week/
      * month, per-month projections for year, plus the day-target prior keyed under the day's
-     * own anchor). The caller merges them into the running sample maps so that later incomplete
-     * ticks in the same series see this tick's projections as analogs instead of the partial
-     * (or zero) values that prefilled their slots in the original sample fetch.
+     * own anchor). The caller merges them back into the running sample maps so that later
+     * incomplete ticks in the same series see this tick's projections as analogs instead of
+     * the partial (or zero) values that prefilled their slots in the original sample fetch.
      *
      * @param array<int, float> $pastValues
-     * @param array<string, float> $dailySamples
-     * @param array<string, float> $monthlySamples
-     * @param array<string, float> $dayProjections
-     * @param array<string, float> $monthProjections
      */
     private function buildMonotonicForecastValue(
         float $currentValue,
@@ -460,10 +452,7 @@ class ForecastBuilder
         ?float $previousForecastValue,
         DataTable $dataTable,
         Site $site,
-        array $dailySamples,
-        array $monthlySamples,
-        array &$dayProjections,
-        array &$monthProjections
+        ForecastSampleWindow $window
     ): ?float {
         $periodLabel = $this->getPeriodLabel($dataTable);
         $period = $this->getPeriod($dataTable);
@@ -473,11 +462,8 @@ class ForecastBuilder
             $periodLabel,
             $period,
             $currentValue,
-            $dailySamples,
-            $monthlySamples,
             $site,
-            $dayProjections,
-            $monthProjections
+            $window
         );
         if ($seasonal !== null) {
             return $seasonal;
@@ -492,14 +478,14 @@ class ForecastBuilder
             // later same-DoW day in this series picks it up via recentSameDoWValues instead of
             // walking back to a partial/zero entry the sample fetch left for this day.
             if ('day' === $periodLabel) {
-                $dayProjections[$period->getDateStart()->toString('Y-m-d')] = $prior;
+                $window->projectDay($period->getDateStart()->toString('Y-m-d'), $prior);
             }
             return $prior;
         }
 
         if ($previousForecastValue !== null) {
             if ('day' === $periodLabel) {
-                $dayProjections[$period->getDateStart()->toString('Y-m-d')] = $previousForecastValue;
+                $window->projectDay($period->getDateStart()->toString('Y-m-d'), $previousForecastValue);
             }
             return $previousForecastValue;
         }
@@ -511,62 +497,48 @@ class ForecastBuilder
      * Run the seasonal-decomposition path when the caller has supplied the sub-period samples
      * needed for it. Returns null when the path does not apply (day target, no daily samples,
      * unsupported period), letting the caller fall back to the prior-only path.
-     *
-     * @param array<string, float> $dailySamples
-     * @param array<string, float> $monthlySamples
-     * @param array<string, float> $dayProjections
-     * @param array<string, float> $monthProjections
      */
     private function buildSeasonalForecastValue(
         DataTable $dataTable,
         string $periodLabel,
         Period $period,
         float $currentValue,
-        array $dailySamples,
-        array $monthlySamples,
         Site $site,
-        array &$dayProjections,
-        array &$monthProjections
+        ForecastSampleWindow $window
     ): ?float {
         switch ($periodLabel) {
             case 'week':
-                if ([] === $dailySamples) {
+                if ([] === $window->getDailySamples()) {
                     return null;
                 }
                 return $this->forecastWeekSeasonal(
                     $dataTable,
                     $period,
                     $currentValue,
-                    $dailySamples,
                     $site,
-                    $dayProjections
+                    $window
                 );
             case 'month':
-                if ([] === $dailySamples) {
+                if ([] === $window->getDailySamples()) {
                     return null;
                 }
                 return $this->forecastMonthSeasonal(
                     $dataTable,
                     $period,
                     $currentValue,
-                    $dailySamples,
-                    $monthlySamples,
                     $site,
-                    $dayProjections
+                    $window
                 );
             case 'year':
-                if ([] === $monthlySamples) {
+                if ([] === $window->getMonthlySamples()) {
                     return null;
                 }
                 return $this->forecastYearSeasonal(
                     $dataTable,
                     $period,
                     $currentValue,
-                    $dailySamples,
-                    $monthlySamples,
                     $site,
-                    $dayProjections,
-                    $monthProjections
+                    $window
                 );
             default:
                 return null;
@@ -576,17 +548,13 @@ class ForecastBuilder
     /**
      * Week forecast via daily decomposition. Completed days contribute their archived values;
      * the in-progress day and remaining days are projected from same-DoW analog samples.
-     *
-     * @param array<string, float> $dailySamples
-     * @param array<string, float> $dayProjections
      */
     private function forecastWeekSeasonal(
         DataTable $dataTable,
         Period $weekPeriod,
         float $currentValue,
-        array $dailySamples,
         Site $site,
-        array &$dayProjections
+        ForecastSampleWindow $window
     ): float {
         $weekStart = $weekPeriod->getDateStart();
         $siteTz = $site->getTimezone();
@@ -602,10 +570,9 @@ class ForecastBuilder
             $dayAnchors,
             $todayIdx,
             $currentValue,
-            $dailySamples,
             self::WEEK_ANALOG_CHUNK,
             1.0,
-            $dayProjections
+            $window
         );
     }
 
@@ -614,19 +581,13 @@ class ForecastBuilder
      * path but the calendar-day count varies (28-31). The same-DoW analog mean is scaled by a
      * month-of-year factor so a Feb forecast does not borrow Aug-level traffic from the rolling
      * day window.
-     *
-     * @param array<string, float> $dailySamples
-     * @param array<string, float> $monthlySamples
-     * @param array<string, float> $dayProjections
      */
     private function forecastMonthSeasonal(
         DataTable $dataTable,
         Period $monthPeriod,
         float $currentValue,
-        array $dailySamples,
-        array $monthlySamples,
         Site $site,
-        array &$dayProjections
+        ForecastSampleWindow $window
     ): float {
         $monthStart = $monthPeriod->getDateStart();
         $siteTz = $site->getTimezone();
@@ -645,19 +606,17 @@ class ForecastBuilder
         $monthAnchor = $monthStart->toString('Y-m');
         $monthOfYearScale = $this->computeMonthOfYearScale(
             $monthAnchor,
-            $monthlySamples,
             self::MONTH_ANALOG_CHUNK,
-            $dailySamples
+            $window
         );
 
         return $this->decomposeAndForecast(
             $dayAnchors,
             $todayIdx,
             $currentValue,
-            $dailySamples,
             self::MONTH_ANALOG_CHUNK,
             $monthOfYearScale,
-            $dayProjections
+            $window
         );
     }
 
@@ -666,24 +625,18 @@ class ForecastBuilder
      * map; the current month is estimated by recursing into the month seasonal path when daily
      * samples are available, and remaining months are projected from same-month-of-year
      * monthly analogs.
-     *
-     * @param array<string, float> $dailySamples
-     * @param array<string, float> $monthlySamples
-     * @param array<string, float> $dayProjections
-     * @param array<string, float> $monthProjections
      */
     private function forecastYearSeasonal(
         DataTable $dataTable,
         Period $yearPeriod,
         float $currentValue,
-        array $dailySamples,
-        array $monthlySamples,
         Site $site,
-        array &$dayProjections,
-        array &$monthProjections
+        ForecastSampleWindow $window
     ): float {
         $yearStart = $yearPeriod->getDateStart();
         $siteTz = $site->getTimezone();
+        $dailySamples = $window->getDailySamples();
+        $monthlySamples = $window->getMonthlySamples();
 
         $monthAnchors = [];
         for ($i = 0; $i < 12; ++$i) {
@@ -715,10 +668,8 @@ class ForecastBuilder
                 $dataTable,
                 new Month(Date::factory($currentMonthAnchorStr)),
                 $currentMonthPartial,
-                $dailySamples,
-                $monthlySamples,
                 $site,
-                $dayProjections
+                $window
             );
         }
         if ($currentMonthEstimate === null) {
@@ -728,7 +679,7 @@ class ForecastBuilder
                 : $currentMonthPartial;
         }
         $currentMonthEstimate = max($currentMonthEstimate, $currentMonthPartial);
-        $monthProjections[$monthAnchors[$todayMonthIdx]] = $currentMonthEstimate;
+        $window->projectMonth($monthAnchors[$todayMonthIdx], $currentMonthEstimate);
 
         $remainingExpected = 0.0;
         for ($i = $todayMonthIdx + 1; $i < 12; ++$i) {
@@ -738,7 +689,7 @@ class ForecastBuilder
             }
             $projected = $this->computeHistoricalPrior($samples);
             $remainingExpected += $projected;
-            $monthProjections[$monthAnchors[$i]] = $projected;
+            $window->projectMonth($monthAnchors[$i], $projected);
         }
 
         return $completedReal + $currentMonthEstimate + $remainingExpected;
@@ -752,24 +703,23 @@ class ForecastBuilder
      * same-DoW analog prior — never an elapsed-time multiplication. Remaining sub-periods are
      * projected from same-DoW analogs reduced by the day-level reducer.
      *
-     * Captures today's contribution and the remaining-day projections into $dayProjections so
-     * the caller can feed them forward into the running daily samples map. Completed-day values
-     * are not written back because they are already present in $dailySamples; only the values
-     * the decomposition produced for this tick need to be added.
+     * Captures today's contribution and the remaining-day projections onto $window so the
+     * caller can feed them forward into the running daily samples map. Completed-day values
+     * are not written back because they are already present in $window's daily samples; only
+     * the values the decomposition produced for this tick need to be added.
      *
      * @param array<int, string> $dayAnchors
-     * @param array<string, float> $dailySamples
-     * @param array<string, float> $dayProjections
      */
     private function decomposeAndForecast(
         array $dayAnchors,
         int $todayIdx,
         float $currentValue,
-        array $dailySamples,
         int $analogChunk,
         float $analogScale,
-        array &$dayProjections
+        ForecastSampleWindow $window
     ): float {
+        $dailySamples = $window->getDailySamples();
+
         $completedReal = 0.0;
         for ($i = 0; $i < $todayIdx; ++$i) {
             $completedReal += $dailySamples[$dayAnchors[$i]] ?? 0.0;
@@ -791,7 +741,7 @@ class ForecastBuilder
         } else {
             $todayContribution = $todayPartial;
         }
-        $dayProjections[$todayAnchor] = $todayContribution;
+        $window->projectDay($todayAnchor, $todayContribution);
 
         $remainingExpected = 0.0;
         $count = count($dayAnchors);
@@ -808,7 +758,7 @@ class ForecastBuilder
             }
             $projected = $this->dayLevelAnalogPrior($samples);
             $remainingExpected += $projected;
-            $dayProjections[$anchor] = $projected;
+            $window->projectDay($anchor, $projected);
         }
 
         return $completedReal + $todayContribution + $remainingExpected;
@@ -900,16 +850,13 @@ class ForecastBuilder
      * The denominator uses the daily sample sum (not the monthly index) because that is the
      * same surface the same-DoW analog reducer draws from -- so the ratio cancels the "average
      * month covered by day samples" out and leaves only the MoY effect.
-     *
-     * @param array<string, float> $monthlySamples
-     * @param array<string, float> $dailySamples
      */
     private function computeMonthOfYearScale(
         string $monthAnchor,
-        array $monthlySamples,
         int $analogChunk,
-        array $dailySamples
+        ForecastSampleWindow $window
     ): float {
+        $monthlySamples = $window->getMonthlySamples();
         if (empty($monthlySamples)) {
             return 1.0;
         }
@@ -922,6 +869,7 @@ class ForecastBuilder
             return 1.0;
         }
 
+        $dailySamples = $window->getDailySamples();
         if (empty($dailySamples)) {
             $monthValues = array_values($monthlySamples);
             $tail = array_slice($monthValues, -min(count($monthValues), 12));
@@ -1002,35 +950,34 @@ class ForecastBuilder
      * forecast if there is no prior. Returns null when neither signal is available because no
      * defensible value can be produced.
      *
-     * Day-target ticks record the forecast under their own anchor in $dayProjections so a later
-     * same-DoW tick in this series picks up this tick's forecast (not the partial value the
-     * sub-period fetch left at this anchor) when its analog walk steps back through the running
-     * daily map. Without that feedback channel the second of two same-DoW forecast days on a
-     * ratio series like bounce_rate sees this tick's partial (early-hours, low-traffic) value
-     * as a historical analog and the trend fit collapses.
+     * Day-target ticks record the forecast under their own anchor via $window->projectDay()
+     * so a later same-DoW tick in this series picks up this tick's forecast (not the partial
+     * value the sub-period fetch left at this anchor) when its analog walk steps back through
+     * the running daily map. Without that feedback channel the second of two same-DoW forecast
+     * days on a ratio series like bounce_rate sees this tick's partial (early-hours,
+     * low-traffic) value as a historical analog and the trend fit collapses.
      *
      * @param array<int, float> $pastValues
-     * @param array<string, float> $dayProjections
      */
     private function buildNonMonotonicForecastValue(
         array $pastValues,
         ?float $previousForecastValue,
         DataTable $dataTable,
-        array &$dayProjections
+        ForecastSampleWindow $window
     ): ?float {
         $periodLabel = $this->getPeriodLabel($dataTable);
 
         if ([] !== $pastValues) {
             $forecast = $this->computeHistoricalPrior($pastValues);
             if ('day' === $periodLabel) {
-                $dayProjections[$this->getPeriod($dataTable)->getDateStart()->toString('Y-m-d')] = $forecast;
+                $window->projectDay($this->getPeriod($dataTable)->getDateStart()->toString('Y-m-d'), $forecast);
             }
             return $forecast;
         }
 
         if ($previousForecastValue !== null) {
             if ('day' === $periodLabel) {
-                $dayProjections[$this->getPeriod($dataTable)->getDateStart()->toString('Y-m-d')] = $previousForecastValue;
+                $window->projectDay($this->getPeriod($dataTable)->getDateStart()->toString('Y-m-d'), $previousForecastValue);
             }
             return $previousForecastValue;
         }
