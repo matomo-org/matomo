@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Piwik\API\Request as ApiRequest;
+use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
@@ -35,6 +36,16 @@ use Piwik\Period;
  */
 class ForecastSubPeriodFetcher
 {
+    /**
+     * Day-target analog window expressed in days. {@see ForecastBuilder::recentSameDoWValues()}
+     * walks back at most {@see ForecastBuilder::DAY_PRIOR_TARGET_SAMPLES} same-DoW samples in
+     * 7-day strides, so the deepest history a day-target forecast can consume is K × 7 days
+     * before the incomplete tick. The fetcher uses this both as the window-size for the
+     * inner request and as the threshold above which the displayed range alone can supply
+     * the analog window (so no inner request is needed).
+     */
+    private const DAY_ANALOG_WINDOW_DAYS = 70;
+
     /** @var callable(string, array<string, mixed>): mixed */
     private $apiRequestProcessor;
 
@@ -108,13 +119,39 @@ class ForecastSubPeriodFetcher
         try {
             if ('day' === $periodLabel) {
                 // Day-period forecasts cannot decompose into sub-periods, so the prior-only
-                // path is the only forecast surface. A 4-7 day display carries at most one
-                // same-DoW history tick in $seriesData; pull a 70-day window so the same-DoW
-                // walk in ForecastBuilder collects ~10 analogs and the trend fit + envelope
-                // clamp engage on short displays.
-                $startDate = (Date::factory($endDate))->subDay(70)->toString('Y-m-d');
+                // path is the only forecast surface. The analog walk in ForecastBuilder
+                // collects up to DAY_ANALOG_WINDOW_DAYS / 7 same-DoW samples from the day
+                // before the target back through DAY_ANALOG_WINDOW_DAYS days. The displayed
+                // $dataTables already carry the same archived per-day values for the
+                // displayed range, so the inner request only needs to fill the *gap* between
+                // the analog window start and the displayed range start. When the displayed
+                // range itself already spans the analog window (e.g. evolution_day_last_n >= 70),
+                // no inner request fires at all.
+                $firstDisplayedDate = $period->getDateStart()->toString('Y-m-d');
+                $displayDailyMap = $this->extractDisplayedDailyMap($dataTables, $seriesState);
+
+                $analogWindowStart = Date::factory($endDate)
+                    ->subDay(self::DAY_ANALOG_WINDOW_DAYS)
+                    ->toString('Y-m-d');
+
+                if (strcmp($firstDisplayedDate, $analogWindowStart) <= 0) {
+                    // Displayed range covers (or exceeds) the analog window. Skip the fetch.
+                    return ['daily' => $displayDailyMap, 'monthly' => []];
+                }
+
+                $gapEndDate = Date::factory($firstDisplayedDate)->subDay(1)->toString('Y-m-d');
+                $gapDailyMap = $this->fetchSeries(
+                    $apiMethod,
+                    $idSite,
+                    $segment,
+                    'day',
+                    $analogWindowStart,
+                    $gapEndDate,
+                    $seriesState
+                );
+
                 return [
-                    'daily'   => $this->fetchSeries($apiMethod, $idSite, $segment, 'day', $startDate, $endDate, $seriesState),
+                    'daily'   => $this->mergeDailyMaps($gapDailyMap, $displayDailyMap),
                     'monthly' => [],
                 ];
             }
@@ -224,13 +261,31 @@ class ForecastSubPeriodFetcher
         ForecastSeriesState $seriesState,
         string $subPeriod
     ): array {
+        return $this->extractSamplesFromTables($result->getDataTables(), $seriesState, $subPeriod);
+    }
+
+    /**
+     * Same extraction as {@see self::extractSamples()} but reads from a plain array of
+     * sub-tables. Lets the day-target path in {@see self::collect()} reuse the same
+     * column-name + row-matcher walk against the already-loaded displayed `$dataTables`,
+     * so the inner API request can be skipped when the displayed range alone covers the
+     * analog window.
+     *
+     * @param array<DataTable> $subTables
+     * @return array<string, array<string, float>>
+     */
+    private function extractSamplesFromTables(
+        array $subTables,
+        ForecastSeriesState $seriesState,
+        string $subPeriod
+    ): array {
         $samples = [];
         $rowKey = $subPeriod === 'month' ? 'Y-m' : 'Y-m-d';
         $seriesColumns = $seriesState->getAllSeriesColumns();
         $seriesRows = $seriesState->getAllSeriesRows();
         $seriesMonotonicity = $seriesState->getAllSeriesMonotonicity();
 
-        foreach ($result->getDataTables() as $subTable) {
+        foreach ($subTables as $subTable) {
             if (!$subTable instanceof DataTable) {
                 continue;
             }
@@ -281,5 +336,54 @@ class ForecastSubPeriodFetcher
     private function yearsBack(string $endDate, int $years): string
     {
         return Date::factory($endDate)->subYear($years)->toString('Y-m-d');
+    }
+
+    /**
+     * Build a daily sample map from the already-loaded displayed `$dataTables`, skipping
+     * tables flagged ArchiveState::INCOMPLETE. The skip is what keeps the substitution
+     * equivalent to the API fetch: the API path naturally omits incomplete days from its
+     * result (missing/in-progress archive → no entry), and matching that ensures a partial
+     * value on an in-progress tick cannot leak into a later same-DoW tick's analog walk
+     * via the running daily map.
+     *
+     * @param array<DataTable> $dataTables
+     * @return array<string, array<string, float>>
+     */
+    private function extractDisplayedDailyMap(array $dataTables, ForecastSeriesState $seriesState): array
+    {
+        $completeTables = [];
+        foreach ($dataTables as $key => $table) {
+            if (!$table instanceof DataTable) {
+                continue;
+            }
+            if (ArchiveState::INCOMPLETE === $table->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME)) {
+                continue;
+            }
+            $completeTables[$key] = $table;
+        }
+        return $this->extractSamplesFromTables($completeTables, $seriesState, 'day');
+    }
+
+    /**
+     * Per-series union of two daily sample maps. Display values win on the (unexpected)
+     * overlap with the gap fetch — both should reference the same archive rows for the
+     * same dates, but treating the display values as authoritative keeps the result
+     * consistent with what the chart is rendering on the same screen.
+     *
+     * @param array<string, array<string, float>> $gap
+     * @param array<string, array<string, float>> $display
+     * @return array<string, array<string, float>>
+     */
+    private function mergeDailyMaps(array $gap, array $display): array
+    {
+        $merged = [];
+        $seriesLabels = array_unique(array_merge(array_keys($gap), array_keys($display)));
+        foreach ($seriesLabels as $seriesLabel) {
+            $merged[$seriesLabel] = array_replace(
+                $gap[$seriesLabel] ?? [],
+                $display[$seriesLabel] ?? []
+            );
+        }
+        return $merged;
     }
 }
