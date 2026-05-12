@@ -5,7 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-export const FORMATS_WITHOUT_EXPANDED = ['CSV', 'TSV'];
+export const FORMATS_WITHOUT_EXPANDED = ['CSV', 'TSV', 'HTML'];
 
 export type SubtableMode = 'flat' | 'expanded' | null;
 

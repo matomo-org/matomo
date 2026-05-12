@@ -51,7 +51,7 @@
             :name="'option_expanded'"
             :title="translate('CoreHome_ExpandSubtables')"
             v-model="optionExpandedModel"
-            v-show="hasSubtables && !isCsvOrTsv"
+            v-show="hasSubtables && canExpand"
           >
           </Field>
         </div>
@@ -298,8 +298,8 @@ export default defineComponent({
         : '';
       return `${rowLimit} (${computedMetricMax})`;
     },
-    isCsvOrTsv() {
-      return isFormatWithoutExpanded(this.reportFormat);
+    canExpand() {
+      return !isFormatWithoutExpanded(this.reportFormat);
     },
     effectiveSubtableOptions() {
       return resolveEffectiveSubtableOptions(

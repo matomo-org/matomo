@@ -17,6 +17,7 @@ describe('CoreHome/ReportExportPopover.utils', () => {
     it.each([
       ['CSV', true],
       ['TSV', true],
+      ['HTML', true],
       ['JSON', false],
     ])('returns %s => %s', (format: string, expected: boolean) => {
       expect(isFormatWithoutExpanded(format)).toBe(expected);
@@ -26,6 +27,7 @@ describe('CoreHome/ReportExportPopover.utils', () => {
   describe('resolveInitialSubtablePreference', () => {
     const cases: Array<[boolean, boolean, string, SubtablePreference]> = [
       [true, false, 'TSV', { hasUserPreference: false, preferredMode: null }],
+      [true, false, 'HTML', { hasUserPreference: false, preferredMode: null }],
       [true, false, 'JSON', { hasUserPreference: true, preferredMode: 'flat' }],
       [false, true, 'JSON', { hasUserPreference: true, preferredMode: 'expanded' }],
       [false, false, 'JSON', { hasUserPreference: true, preferredMode: null }],
@@ -61,6 +63,9 @@ describe('CoreHome/ReportExportPopover.utils', () => {
       [false, true, 'JSON', { hasUserPreference: false, preferredMode: null }, { optionFlat: false, optionExpanded: false }],
       [true, true, 'CSV', { hasUserPreference: false, preferredMode: null }, { optionFlat: true, optionExpanded: false }],
       [true, true, 'CSV', { hasUserPreference: true, preferredMode: null }, { optionFlat: false, optionExpanded: false }],
+      [true, true, 'HTML', { hasUserPreference: false, preferredMode: null }, { optionFlat: true, optionExpanded: false }],
+      [true, true, 'HTML', { hasUserPreference: true, preferredMode: null }, { optionFlat: false, optionExpanded: false }],
+      [true, false, 'HTML', { hasUserPreference: false, preferredMode: null }, { optionFlat: false, optionExpanded: false }],
       [true, true, 'JSON', { hasUserPreference: false, preferredMode: null }, { optionFlat: false, optionExpanded: true }],
       [true, true, 'JSON', { hasUserPreference: true, preferredMode: 'flat' }, { optionFlat: true, optionExpanded: false }],
       [true, false, 'JSON', { hasUserPreference: true, preferredMode: 'flat' }, { optionFlat: false, optionExpanded: true }],
