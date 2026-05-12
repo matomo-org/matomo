@@ -25,6 +25,7 @@ use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph\Config as GraphConfig;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Config as JqplotGraphConfig;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution\Config as EvolutionVizConfig;
 use Piwik\ViewDataTable\Factory;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
@@ -339,6 +340,14 @@ class RowEvolution
         if ($view->config instanceof JqplotGraphConfig) {
             $view->config->external_series_toggle          = 'RowEvolutionSeriesToggle';
             $view->config->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
+        }
+
+        if ($view->config instanceof EvolutionVizConfig) {
+            // Row evolution applies a label filter, so the forecast's 70-day daily and
+            // multi-year monthly sub-period fetches would pull subtable blobs for every tick.
+            // Suppress both the toggle and the precompute path so the popover stays cheap.
+            $view->config->show_forecast    = false;
+            $view->config->disable_forecast = true;
         }
 
         return $view;
