@@ -703,22 +703,17 @@ class Evolution extends JqplotDataGenerator
 
         $subPeriodSamples = $this->getForecastSubPeriodFetcher()->collect(
             $dataTables,
-            $seriesState->getAllSeriesColumns(),
-            $seriesState->getAllSeriesRows(),
-            $seriesState->getAllSeriesMonotonicity(),
+            $seriesState,
             $this->graph->requestConfig->apiMethodToRequestDataTable,
             Common::getRequestVar('idSite', 0, 'int'),
             (string) ApiRequest::getRawSegmentFromRequest()
         );
 
         return (new ForecastBuilder())->build(
-            $seriesState->getAllSeriesData(),
+            $seriesState,
             $dataTables,
             $dataStates,
             $seriesUnits,
-            $seriesState->getAllSeriesDataAvailability(),
-            $seriesState->getAllSeriesMonotonicity(),
-            $seriesState->getAllSeriesForecastPrecision(),
             $subPeriodSamples['daily'],
             $subPeriodSamples['monthly']
         );

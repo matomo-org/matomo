@@ -140,16 +140,13 @@ class ForecastBuilder
     private const MIN_RECENT_NO_DATA_TICKS_FOR_SUPPRESSION = 2;
 
     /**
-     * @param array<string, array<int, float|int>> $allSeriesData
+     * @param ForecastSeriesState $seriesState Per-series state collected upstream — data,
+     *        availability, intra-period monotonicity, and forecast precision. Missing
+     *        monotonicity entries fall back to FREE for percent-unit series and UP otherwise;
+     *        missing precision entries preserve the historical 4-decimal default.
      * @param array<DataTable> $dataTables
      * @param array<int, string> $dataStates
      * @param array<string, string|false> $seriesUnits
-     * @param array<string, array<int, bool>> $allSeriesDataAvailability
-     * @param array<string, string> $allSeriesMonotonicity Per-series intra-period direction tag,
-     *        one of the {@see ForecastMetricClassifier::MONOTONICITY_*} constants. Missing entries fall back to
-     *        FREE for percent-unit series and UP otherwise.
-     * @param array<string, int> $allSeriesForecastPrecision Per-series decimal precision for raw
-     *        forecast payload values. Missing entries preserve the historical 4-decimal default.
      * @param array<string, array<string, float>> $allSeriesDailySamples Per-series map of
      *        Y-m-d → final daily value, covering enough history to populate same-DoW analog
      *        slots for the highest-tick week/month target. Required for MONOTONICITY_UP
@@ -161,16 +158,18 @@ class ForecastBuilder
      * @return array<int, array<int, float|null>>
      */
     public function build(
-        array $allSeriesData,
+        ForecastSeriesState $seriesState,
         array $dataTables,
         array $dataStates,
         array $seriesUnits,
-        array $allSeriesDataAvailability = [],
-        array $allSeriesMonotonicity = [],
-        array $allSeriesForecastPrecision = [],
         array $allSeriesDailySamples = [],
         array $allSeriesMonthlySamples = []
     ): array {
+        $allSeriesData = $seriesState->getAllSeriesData();
+        $allSeriesDataAvailability = $seriesState->getAllSeriesDataAvailability();
+        $allSeriesMonotonicity = $seriesState->getAllSeriesMonotonicity();
+        $allSeriesForecastPrecision = $seriesState->getAllSeriesForecastPrecision();
+
         if ([] === $allSeriesData || [] === $dataTables || [] === $dataStates) {
             return [];
         }

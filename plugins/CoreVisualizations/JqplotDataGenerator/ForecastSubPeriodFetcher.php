@@ -63,18 +63,8 @@ class ForecastSubPeriodFetcher
      *
      * @param array<DataTable> $dataTables Per-tick tables of the displayed series, ordered by
      *        date. Used to read the period type and the end date of the displayed range.
-     * @param array<string, string> $seriesColumns Map of series label → raw archive column
-     *        name. Keys are how {@see ForecastBuilder} consumes the returned sample maps;
-     *        values are how the sub-period API result rows are keyed once
-     *        ReplaceColumnNames has run.
-     * @param array<string, mixed> $seriesRows Map of series label → row label/matcher (the
-     *        value the displayed-series path passes to {@see DataTable::getRowFromLabel()}).
-     *        `false` selects the sub-table's first row, matching the single-row default.
-     *        Threaded through to {@see self::extractSamples()} so multi-row evolution graphs
-     *        (selectable_rows) pull each series' historical samples from its own row.
-     * @param array<string, string> $seriesMonotonicity Map of series label → MONOTONICITY_*
-     *        tag from {@see ForecastMetricClassifier}. Gates the rowless-sub-table backfill
-     *        so synthetic zeros never pollute DOWN/FREE analog walks.
+     * @param ForecastSeriesState $seriesState Per-series metadata (columns, rows, monotonicity)
+     *        threaded through to {@see self::extractSamples()}.
      * @param string $apiMethod API method spec to fan out to (`Module.action`).
      * @param int $idSite Site id the displayed series belongs to.
      * @param string $segment Segment expression to pin onto the inner request.
@@ -82,16 +72,14 @@ class ForecastSubPeriodFetcher
      */
     public function collect(
         array $dataTables,
-        array $seriesColumns,
-        array $seriesRows,
-        array $seriesMonotonicity,
+        ForecastSeriesState $seriesState,
         string $apiMethod,
         int $idSite,
         string $segment
     ): array {
         $empty = ['daily' => [], 'monthly' => []];
 
-        if (empty($dataTables) || empty($seriesColumns)) {
+        if (empty($dataTables) || [] === $seriesState->getAllSeriesColumns()) {
             return $empty;
         }
 
@@ -126,7 +114,7 @@ class ForecastSubPeriodFetcher
                 // clamp engage on short displays.
                 $startDate = (Date::factory($endDate))->subDay(70)->toString('Y-m-d');
                 return [
-                    'daily'   => $this->fetchSeries($apiMethod, $idSite, $segment, 'day', $startDate, $endDate, $seriesColumns, $seriesRows, $seriesMonotonicity),
+                    'daily'   => $this->fetchSeries($apiMethod, $idSite, $segment, 'day', $startDate, $endDate, $seriesState),
                     'monthly' => [],
                 ];
             }
@@ -138,16 +126,16 @@ class ForecastSubPeriodFetcher
                 // for any future chunk increase up to 5.
                 $startDate = (Date::factory($endDate))->subDay(70)->toString('Y-m-d');
                 return [
-                    'daily'   => $this->fetchSeries($apiMethod, $idSite, $segment, 'day', $startDate, $endDate, $seriesColumns, $seriesRows, $seriesMonotonicity),
+                    'daily'   => $this->fetchSeries($apiMethod, $idSite, $segment, 'day', $startDate, $endDate, $seriesState),
                     'monthly' => 'month' === $periodLabel
-                        ? $this->fetchSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, 4), $endDate, $seriesColumns, $seriesRows, $seriesMonotonicity)
+                        ? $this->fetchSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, 4), $endDate, $seriesState)
                         : [],
                 ];
             }
             if ('year' === $periodLabel) {
                 return [
-                    'daily'   => $this->fetchSeries($apiMethod, $idSite, $segment, 'day', (Date::factory($endDate))->subDay(70)->toString('Y-m-d'), $endDate, $seriesColumns, $seriesRows, $seriesMonotonicity),
-                    'monthly' => $this->fetchSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, 9), $endDate, $seriesColumns, $seriesRows, $seriesMonotonicity),
+                    'daily'   => $this->fetchSeries($apiMethod, $idSite, $segment, 'day', (Date::factory($endDate))->subDay(70)->toString('Y-m-d'), $endDate, $seriesState),
+                    'monthly' => $this->fetchSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, 9), $endDate, $seriesState),
                 ];
             }
         } catch (\Throwable $e) {
@@ -177,9 +165,6 @@ class ForecastSubPeriodFetcher
      * series label so the builder's per-series lookup hits a populated entry, while the API
      * row lookup uses the raw archive column name (after ReplaceColumnNames).
      *
-     * @param array<string, string> $seriesColumns Map of series label → raw archive column name.
-     * @param array<string, mixed> $seriesRows Map of series label → row label/matcher.
-     * @param array<string, string> $seriesMonotonicity Map of series label → MONOTONICITY_* tag.
      * @return array<string, array<string, float>>
      */
     private function fetchSeries(
@@ -189,9 +174,7 @@ class ForecastSubPeriodFetcher
         string $subPeriod,
         string $startDate,
         string $endDate,
-        array $seriesColumns,
-        array $seriesRows,
-        array $seriesMonotonicity
+        ForecastSeriesState $seriesState
     ): array {
         // Use processRequest() rather than `new ApiRequest([...])` so the inner fetch picks
         // up its `compare=0` / `format=original` / `serialize=0` defaults and stays aligned
@@ -215,7 +198,7 @@ class ForecastSubPeriodFetcher
             return [];
         }
 
-        return $this->extractSamples($result, $seriesColumns, $seriesRows, $seriesMonotonicity, $subPeriod);
+        return $this->extractSamples($result, $seriesState, $subPeriod);
     }
 
     /**
@@ -224,31 +207,28 @@ class ForecastSubPeriodFetcher
      * the raw archive column names; we look up by raw name and store under the series label so
      * ForecastBuilder's per-series lookup hits the right entry.
      *
-     * Each series carries its own row matcher in $seriesRows. Multi-row evolution graphs
+     * Each series carries its own row matcher in $seriesState. Multi-row evolution graphs
      * (selectable_rows on a non-summary report) plot one series per selected row, so the
      * historical sample for each series must come from that series' own row in the sub-period
      * archive -- not from {@see DataTable::getFirstRow()}, which would silently pin every
      * series to whichever row sorts first in that sub-table (typically the top-ranked row).
      * `false` matchers fall through to getFirstRow() to keep the single-row default behaviour.
      *
-     * @param array<string, string> $seriesColumns Map of series label → raw archive column name.
-     * @param array<string, mixed> $seriesRows Map of series label → row label/matcher (the same
-     *        value the displayed-series path passes to {@see DataTable::getRowFromLabel()}).
-     *        `false` selects the sub-table's first row.
-     * @param array<string, string> $seriesMonotonicity Map of series label → MONOTONICITY_* tag.
-     *        Missing entries fall back to MONOTONICITY_UP so the legacy backfill behaviour
-     *        survives for callers that have not propagated the classifier output yet.
+     * Missing monotonicity entries fall back to MONOTONICITY_UP so the legacy backfill
+     * behaviour survives for callers that have not propagated the classifier output yet.
+     *
      * @return array<string, array<string, float>>
      */
     public function extractSamples(
         DataTable\Map $result,
-        array $seriesColumns,
-        array $seriesRows,
-        array $seriesMonotonicity,
+        ForecastSeriesState $seriesState,
         string $subPeriod
     ): array {
         $samples = [];
         $rowKey = $subPeriod === 'month' ? 'Y-m' : 'Y-m-d';
+        $seriesColumns = $seriesState->getAllSeriesColumns();
+        $seriesRows = $seriesState->getAllSeriesRows();
+        $seriesMonotonicity = $seriesState->getAllSeriesMonotonicity();
 
         foreach ($result->getDataTables() as $subTable) {
             if (!$subTable instanceof DataTable) {
