@@ -236,13 +236,36 @@ class ForecastSubPeriodFetcherTest extends TestCase
         self::assertCount(70, $result['daily']['Visits']);
     }
 
-    public function testCollectFansOutDailyAndMonthlyForMonthPeriod(): void
+    public function testCollectFansOutDailyAndMonthlyForWeekPeriod(): void
     {
-        // Month-period forecasts pull both a daily window (for same-DoW analogs) and a
-        // 4-year monthly window (for same-MoY analogs). Capture and check both calls.
+        // Week-period forecasts pull only a daily window (no monthly fan-out) sized to the
+        // in-progress week (≤7 days) + WEEK_ANALOG_CHUNK × 7 = 21 days of same-DoW history
+        // = 30 days with slack. The pre-resize implementation fetched 70 days regardless.
         $captured = [];
         $fetcher = $this->createFetcher(function (string $apiMethod, array $params) use (&$captured) {
-            $captured[] = $params['period'];
+            $captured[] = [$params['period'], $params['date']];
+            return $this->createSampleResultMap([]);
+        });
+
+        $weekTable = new DataTable();
+        $weekTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('week', '2026-04-06'));
+
+        $fetcher->collect([$weekTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '');
+
+        self::assertCount(1, $captured);
+        self::assertSame('day', $captured[0][0]);
+        // endDate = week end (2026-04-12) - 1 day = 2026-04-11; startDate = endDate - 30 days.
+        self::assertSame('2026-03-12,2026-04-11', $captured[0][1]);
+    }
+
+    public function testCollectFansOutDailyAndMonthlyForMonthPeriod(): void
+    {
+        // Month-period forecasts pull a daily window (MONTH_DAILY_WINDOW_DAYS = 60: 31-day
+        // month + MONTH_ANALOG_CHUNK × 7 = 28 days history + 1 day slack) plus a
+        // MONTH_MONTHLY_WINDOW_YEARS = 4-year monthly window for the same-MoY trend.
+        $captured = [];
+        $fetcher = $this->createFetcher(function (string $apiMethod, array $params) use (&$captured) {
+            $captured[] = [$params['period'], $params['date']];
             return $this->createSampleResultMap([]);
         });
 
@@ -251,11 +274,22 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $fetcher->collect([$monthTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '');
 
-        self::assertSame(['day', 'month'], $captured);
+        self::assertCount(2, $captured);
+        self::assertSame('day', $captured[0][0]);
+        // endDate = month end (2026-04-30) - 1 day = 2026-04-29; startDate = endDate - 60 days.
+        self::assertSame('2026-02-28,2026-04-29', $captured[0][1]);
+        self::assertSame('month', $captured[1][0]);
+        // Monthly window: 4 years back from endDate. Date::subYear truncates to Jan 1, so a
+        // year-aligned start is the documented behaviour; do not over-rotate that into a
+        // calendar-day-aligned expectation.
+        self::assertSame('2022-01-01,2026-04-29', $captured[1][1]);
     }
 
     public function testCollectFansOutDailyAndMonthlyForYearPeriod(): void
     {
+        // Year-period forecasts pull YEAR_DAILY_WINDOW_DAYS = 60 daily (for the in-progress
+        // month recursion) and YEAR_MONTHLY_WINDOW_YEARS = 8 monthly (for the same-MoY trend
+        // across remaining months). The pre-resize implementation fetched 70 + 9 years.
         $captured = [];
         $fetcher = $this->createFetcher(function (string $apiMethod, array $params) use (&$captured) {
             $captured[] = [$params['period'], $params['date']];
@@ -269,9 +303,11 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         self::assertCount(2, $captured);
         self::assertSame('day', $captured[0][0]);
+        // endDate = year end (2026-12-31) - 1 day = 2026-12-30; startDate = endDate - 60 days.
+        self::assertSame('2026-10-31,2026-12-30', $captured[0][1]);
         self::assertSame('month', $captured[1][0]);
-        // 9-year monthly window for year-target forecasts.
-        self::assertSame('2017-01-01,2026-12-30', $captured[1][1]);
+        // 8-year monthly window for year-target forecasts. Date::subYear truncates to Jan 1.
+        self::assertSame('2018-01-01,2026-12-30', $captured[1][1]);
     }
 
     public function testCollectLogsAndReturnsEmptyWhenInnerRequestThrows(): void
