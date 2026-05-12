@@ -17,6 +17,7 @@ use Piwik\DataTable;
 use Piwik\Log\LoggerInterface;
 use Piwik\Period\Factory;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastMetricClassifier;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSeriesState;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSubPeriodFetcher;
 
 /**
@@ -32,7 +33,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         self::assertSame(
             ['daily' => [], 'monthly' => []],
-            $fetcher->collect([], ['Visits' => 'nb_visits'], [], [], 'VisitsSummary.get', 1, '')
+            $fetcher->collect([], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '')
         );
     }
 
@@ -42,7 +43,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         self::assertSame(
             ['daily' => [], 'monthly' => []],
-            $fetcher->collect([$this->createDayDataTable('2026-04-10')], [], [], [], 'VisitsSummary.get', 1, '')
+            $fetcher->collect([$this->createDayDataTable('2026-04-10')], $this->createSeriesState([], [], []), 'VisitsSummary.get', 1, '')
         );
     }
 
@@ -53,11 +54,11 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         self::assertSame(
             ['daily' => [], 'monthly' => []],
-            $fetcher->collect($dataTables, ['Visits' => 'nb_visits'], [], [], '', 1, '')
+            $fetcher->collect($dataTables, $this->createSeriesState(['Visits' => 'nb_visits'], [], []), '', 1, '')
         );
         self::assertSame(
             ['daily' => [], 'monthly' => []],
-            $fetcher->collect($dataTables, ['Visits' => 'nb_visits'], [], [], 'NoDotMethod', 1, '')
+            $fetcher->collect($dataTables, $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'NoDotMethod', 1, '')
         );
     }
 
@@ -68,7 +69,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         self::assertSame(
             ['daily' => [], 'monthly' => []],
-            $fetcher->collect($dataTables, ['Visits' => 'nb_visits'], [], [], 'VisitsSummary.get', 0, '')
+            $fetcher->collect($dataTables, $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 0, '')
         );
     }
 
@@ -82,7 +83,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         self::assertSame(
             ['daily' => [], 'monthly' => []],
-            $fetcher->collect([$rangeTable], ['Visits' => 'nb_visits'], [], [], 'VisitsSummary.get', 1, '')
+            $fetcher->collect([$rangeTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '')
         );
     }
 
@@ -98,9 +99,11 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $result = $fetcher->collect(
             [$this->createDayDataTable('2026-04-09'), $this->createDayDataTable('2026-04-10')],
-            ['Visits' => 'nb_visits'],
-            [],
-            ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP],
+            $this->createSeriesState(
+                ['Visits' => 'nb_visits'],
+                [],
+                ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP]
+            ),
             'VisitsSummary.get',
             42,
             'pageUrl==foo'
@@ -132,7 +135,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $monthTable = new DataTable();
         $monthTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('month', '2026-04-01'));
 
-        $fetcher->collect([$monthTable], ['Visits' => 'nb_visits'], [], [], 'VisitsSummary.get', 1, '');
+        $fetcher->collect([$monthTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '');
 
         self::assertSame(['day', 'month'], $captured);
     }
@@ -148,7 +151,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $yearTable = new DataTable();
         $yearTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('year', '2026-01-01'));
 
-        $fetcher->collect([$yearTable], ['Visits' => 'nb_visits'], [], [], 'VisitsSummary.get', 1, '');
+        $fetcher->collect([$yearTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '');
 
         self::assertCount(2, $captured);
         self::assertSame('day', $captured[0][0]);
@@ -175,9 +178,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $result = $fetcher->collect(
             [$this->createDayDataTable('2026-04-10')],
-            ['Visits' => 'nb_visits'],
-            [],
-            [],
+            $this->createSeriesState(['Visits' => 'nb_visits'], [], []),
             'VisitsSummary.get',
             99,
             ''
@@ -194,9 +195,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $result = $fetcher->collect(
             [$this->createDayDataTable('2026-04-10')],
-            ['Visits' => 'nb_visits'],
-            [],
-            [],
+            $this->createSeriesState(['Visits' => 'nb_visits'], [], []),
             'VisitsSummary.get',
             1,
             ''
@@ -219,9 +218,11 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $samples = $fetcher->extractSamples(
             $map,
-            ['Visits' => 'nb_visits'],
-            [],
-            ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP],
+            $this->createSeriesState(
+                ['Visits' => 'nb_visits'],
+                [],
+                ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP]
+            ),
             'day'
         );
 
@@ -244,9 +245,11 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $samples = $fetcher->extractSamples(
             $map,
-            ['Visits' => 'nb_visits'],
-            [],
-            ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP],
+            $this->createSeriesState(
+                ['Visits' => 'nb_visits'],
+                [],
+                ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP]
+            ),
             'day'
         );
 
@@ -273,17 +276,19 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $samples = $fetcher->extractSamples(
             $map,
-            [
-                'Min event value' => 'min_event_value',
-                'Bounce rate'     => 'bounce_rate',
-                'Visits'          => 'nb_visits',
-            ],
-            [],
-            [
-                'Min event value' => ForecastMetricClassifier::MONOTONICITY_DOWN,
-                'Bounce rate'     => ForecastMetricClassifier::MONOTONICITY_FREE,
-                'Visits'          => ForecastMetricClassifier::MONOTONICITY_UP,
-            ],
+            $this->createSeriesState(
+                [
+                    'Min event value' => 'min_event_value',
+                    'Bounce rate'     => 'bounce_rate',
+                    'Visits'          => 'nb_visits',
+                ],
+                [],
+                [
+                    'Min event value' => ForecastMetricClassifier::MONOTONICITY_DOWN,
+                    'Bounce rate'     => ForecastMetricClassifier::MONOTONICITY_FREE,
+                    'Visits'          => ForecastMetricClassifier::MONOTONICITY_UP,
+                ]
+            ),
             'day'
         );
 
@@ -310,7 +315,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
             '2026-04-11' => [],
         ]);
 
-        $samples = $fetcher->extractSamples($map, ['Visits' => 'nb_visits'], [], [], 'day');
+        $samples = $fetcher->extractSamples($map, $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'day');
 
         self::assertSame(
             ['Visits' => ['2026-04-10' => 80.0, '2026-04-11' => 0.0]],
@@ -343,12 +348,14 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $samples = $fetcher->extractSamples(
             $map,
-            ['France' => 'nb_visits', 'Germany' => 'nb_visits'],
-            ['France' => 'France', 'Germany' => 'Germany'],
-            [
-                'France'  => ForecastMetricClassifier::MONOTONICITY_UP,
-                'Germany' => ForecastMetricClassifier::MONOTONICITY_UP,
-            ],
+            $this->createSeriesState(
+                ['France' => 'nb_visits', 'Germany' => 'nb_visits'],
+                ['France' => 'France', 'Germany' => 'Germany'],
+                [
+                    'France'  => ForecastMetricClassifier::MONOTONICITY_UP,
+                    'Germany' => ForecastMetricClassifier::MONOTONICITY_UP,
+                ]
+            ),
             'day'
         );
 
@@ -381,12 +388,14 @@ class ForecastSubPeriodFetcherTest extends TestCase
 
         $samples = $fetcher->extractSamples(
             $map,
-            ['France' => 'nb_visits', 'Germany' => 'nb_visits'],
-            ['France' => 'France', 'Germany' => 'Germany'],
-            [
-                'France'  => ForecastMetricClassifier::MONOTONICITY_UP,
-                'Germany' => ForecastMetricClassifier::MONOTONICITY_UP,
-            ],
+            $this->createSeriesState(
+                ['France' => 'nb_visits', 'Germany' => 'nb_visits'],
+                ['France' => 'France', 'Germany' => 'Germany'],
+                [
+                    'France'  => ForecastMetricClassifier::MONOTONICITY_UP,
+                    'Germany' => ForecastMetricClassifier::MONOTONICITY_UP,
+                ]
+            ),
             'day'
         );
 
@@ -397,6 +406,23 @@ class ForecastSubPeriodFetcherTest extends TestCase
             ],
             $samples
         );
+    }
+
+    /**
+     * Build the slice of {@see ForecastSeriesState} the fetcher reads (columns, rows,
+     * monotonicity). The state's remaining slots (data, availability, precision) are
+     * builder-only and stay empty here.
+     *
+     * @param array<string, string> $columns
+     * @param array<string, mixed> $rows
+     * @param array<string, string> $monotonicity
+     */
+    private function createSeriesState(
+        array $columns,
+        array $rows = [],
+        array $monotonicity = []
+    ): ForecastSeriesState {
+        return new ForecastSeriesState([], [], $monotonicity, [], $columns, $rows);
     }
 
     private function createFetcher(?callable $apiRequestProcessor = null, ?LoggerInterface $logger = null): ForecastSubPeriodFetcher

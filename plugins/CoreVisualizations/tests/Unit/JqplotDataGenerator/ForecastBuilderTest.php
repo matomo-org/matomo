@@ -18,6 +18,7 @@ use Piwik\DataTable;
 use Piwik\Period\Factory;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastMetricClassifier;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastBuilder;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSeriesState;
 use Piwik\Site;
 use ReflectionClass;
 
@@ -122,7 +123,7 @@ class ForecastBuilderTest extends TestCase
         // Apr 11 Sat = 100, so the prior-only forecast is 100. The seasonal-decomposition path
         // does not apply on day targets (no useful sub-period); the displayed partial is no
         // longer multiplied by an elapsed-time fraction.
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [80.0, 100.0, 140.0, 60.0, 20.0, 0.0]],
             $dataTables,
             [
@@ -151,7 +152,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [80.0, 100.0, 140.0, 60.0, 20.0]],
             $dataTables,
             [
@@ -181,7 +182,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Actions per visit' => [12.345, 90.0]],
             $dataTables,
             [
@@ -209,7 +210,7 @@ class ForecastBuilderTest extends TestCase
         // Percent series: linear elapsed-ratio extrapolation does not apply, so the forecast is
         // the same-weekday historical prior. Without a flag the builder falls back to
         // "percent unit implies non-monotonic", which is what we exercise here.
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Bounce rate' => [80.0, 20.0]],
             $dataTables,
             [
@@ -234,7 +235,7 @@ class ForecastBuilderTest extends TestCase
         // Prior bounce rate (20%) is below the current partial value (80%). For a count series
         // this would be suppressed; for a percent (non-monotonic) series the downward forecast
         // is a meaningful "trending back to the historical average" signal and must be rendered.
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Bounce rate' => [20.0, 80.0]],
             $dataTables,
             [
@@ -260,7 +261,7 @@ class ForecastBuilderTest extends TestCase
         // below the current partial average. The data generator marks it as allowing a downward
         // forecast via the per-series flag, and the builder must honour that without falling back
         // to count-style suppression.
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Avg time on page' => [12.0, 90.0]],
             $dataTables,
             [
@@ -287,7 +288,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-18', $site, '2026-04-18 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Bounce rate' => [10.0, 30.0]],
             $dataTables,
             [
@@ -313,7 +314,7 @@ class ForecastBuilderTest extends TestCase
         // bounce_count is lower-is-better for trend display, but it is still an additive count
         // within the incomplete period. A forecast below the current archived count is not a
         // possible final value and must be suppressed.
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Bounce count' => [50.0, 50.0, 90.0]],
             $dataTables,
             [
@@ -339,7 +340,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-19', $site, '2026-04-19 00:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Bounce rate' => [69.0, 0.0, 0.0]],
             $dataTables,
             [
@@ -365,7 +366,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-17', $site, '2026-04-17 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [80.0, 0.0, 100.0, 20.0]],
             $dataTables,
             [
@@ -400,7 +401,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-20', $site, '2026-04-20 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [80.0, 100.0, 140.0, 60.0, 20.0, 0.0, 0.0, 30.0]],
             $dataTables,
             [
@@ -446,7 +447,7 @@ class ForecastBuilderTest extends TestCase
             '2026-04-26' => 50.0,
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [10.0, 20.0, 30.0, 5.0]],
             $dataTables,
             [
@@ -481,7 +482,7 @@ class ForecastBuilderTest extends TestCase
             '2026-04-26' => 75.0,
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [10.0]],
             $dataTables,
             [ArchiveState::INCOMPLETE],
@@ -513,7 +514,7 @@ class ForecastBuilderTest extends TestCase
             '2026-04-23' => 50.0,
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [5.0]],
             $dataTables,
             [ArchiveState::INCOMPLETE],
@@ -542,7 +543,7 @@ class ForecastBuilderTest extends TestCase
             '2026-04-23' => 0.0,
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Min event value' => [30.0]],
             $dataTables,
             [ArchiveState::INCOMPLETE],
@@ -575,7 +576,7 @@ class ForecastBuilderTest extends TestCase
             '2026-04-23' => 100.0, '2026-04-24' => 200.0,
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [5.0, 10.0]],
             $dataTables,
             [ArchiveState::INCOMPLETE, ArchiveState::INCOMPLETE],
@@ -619,7 +620,7 @@ class ForecastBuilderTest extends TestCase
             '2026-05-05' => 0.0,    // Tue, future tick, empty archive — extractSubPeriodSamples writes 0
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [100.0, 0.0]],
             $dataTables,
             [ArchiveState::INCOMPLETE, ArchiveState::INCOMPLETE],
@@ -669,7 +670,7 @@ class ForecastBuilderTest extends TestCase
             '2026-05-05' => 0.0,
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Bounce rate' => [5.0, 0.0]],
             $dataTables,
             [ArchiveState::INCOMPLETE, ArchiveState::INCOMPLETE],
@@ -719,7 +720,7 @@ class ForecastBuilderTest extends TestCase
             '2026-05-05' => 100.0,
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Min bandwidth' => [200.0, 100.0]],
             $dataTables,
             [ArchiveState::INCOMPLETE, ArchiveState::INCOMPLETE],
@@ -780,7 +781,7 @@ class ForecastBuilderTest extends TestCase
             $dailySamples[$futureWeek2Day] = 0.0;
         }
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             // Week 1 currentValue: Mon+Tue real (200) + Wed partial (500) = 700.
             // Week 2 currentValue: 0 (all future).
             ['Visits' => [700.0, 0.0]],
@@ -838,7 +839,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForWeek('2026-05-04', $site, '2026-05-04 00:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [200.0, 200.0, 0.0, 0.0, 0.0]],
             $dataTables,
             [
@@ -869,7 +870,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForWeek('2026-05-04', $site, '2026-05-04 00:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [200.0, 200.0, 0.0, 0.0]],
             $dataTables,
             [
@@ -902,7 +903,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForWeek('2026-05-04', $site, '2026-05-04 00:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Bounce rate' => [50.0, 50.0, 0.0, 0.0, 0.0]],
             $dataTables,
             [
@@ -938,7 +939,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForWeek('2026-05-04', $site, '2026-05-04 00:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             [
                 'Visits' => [200.0, 200.0, 0.0, 0.0, 0.0],
                 // Bounce rate availability=false on the zero-visit weeks so its own history
@@ -977,7 +978,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             [
                 'Visits' => [200.0, 220.0, 100.0],
                 'Bounce rate' => [50.0, 50.0, 30.0],
@@ -1016,7 +1017,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 00:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [80.0, 100.0, 60.0, 0.0]],
             $dataTables,
             [
@@ -1048,7 +1049,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-05-01', $site, '2026-05-01 00:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [100.0, 120.0, 140.0, 160.0, 0.0]],
             $dataTables,
             [
@@ -1079,7 +1080,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-05-01', $site, '2026-05-01 00:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [50.0, 50.0, 50.0, 50.0, 0.0]],
             $dataTables,
             [
@@ -1111,7 +1112,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-05-01', $site, '2026-05-01 00:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [100.0, 50.0, 10.0, 5.0, 0.0]],
             $dataTables,
             [
@@ -1144,7 +1145,7 @@ class ForecastBuilderTest extends TestCase
         // and Apr 8 are both Wed) so the prior-only path also yields no forecast — without a
         // previousForecastValue to carry, the result is null. Pins the no-carry-forward
         // semantic across a suppression gap.
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [50.0, 50.0, 90.0, 0.0]],
             $dataTables,
             [
@@ -1177,7 +1178,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForMonth('2025-03-01', $site, '2025-03-15 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [100.0, 500.0, 110.0, 550.0, 60.0]],
             $dataTables,
             [
@@ -1215,7 +1216,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForMonth('2025-03-01', $site, '2025-03-15 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [100.0, 200.0, 300.0, 60.0]],
             $dataTables,
             [
@@ -1248,7 +1249,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 12:00:00'), // ISO 2026-W18
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [200.0, 9000.0, 220.0, 80.0]],
             $dataTables,
             [
@@ -1284,7 +1285,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Min event value' => [5.0, 5.0, 5.0, 12.0]],
             $dataTables,
             [
@@ -1318,7 +1319,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Min event value' => [50.0, 50.0, 50.0, 8.0]],
             $dataTables,
             [
@@ -1350,7 +1351,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Min bandwidth' => [4.0, 10.0]],
             $dataTables,
             [
@@ -1381,7 +1382,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Min event value' => [0.0, 30.0]],
             $dataTables,
             [
@@ -1412,7 +1413,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 12:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Bounce rate' => [0.0, 50.0]],
             $dataTables,
             [
@@ -1455,7 +1456,7 @@ class ForecastBuilderTest extends TestCase
             '2026-04-27' => 100.0, '2026-04-28' => 110.0, '2026-04-29' => 90.0,
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [630.0, 350.0]],
             $dataTables,
             [
@@ -1498,7 +1499,7 @@ class ForecastBuilderTest extends TestCase
             '2026-04-27' => 100.0, '2026-04-28' => 110.0, '2026-04-29' => 90.0,
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [630.0, 600.0]],
             $dataTables,
             [
@@ -1542,7 +1543,7 @@ class ForecastBuilderTest extends TestCase
         $dailySamples['2026-04-02'] = 120.0; // Thu
         $dailySamples['2026-04-03'] = 80.0;  // Fri
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [2730.0, 350.0]],
             $dataTables,
             [
@@ -1604,7 +1605,7 @@ class ForecastBuilderTest extends TestCase
         $monthlySamples['2026-02'] = 1000.0;
         $monthlySamples['2026-03'] = 1000.0;
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             // Year-level currentValue: 3 completed months at 1000 each + April partial
             // (currentMonthPartial = 290*scale ≈ 106.23). currentValue = 3000 + 106.23 ≈ 3106.23.
             ['Visits' => [12000.0, 3000.0 + 290.0 * $scale]],
@@ -1646,7 +1647,7 @@ class ForecastBuilderTest extends TestCase
             $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
         ];
 
-        $forecastData = (new ForecastBuilder())->build(
+        $forecastData = $this->buildForecast(
             ['Visits' => [500.0, 500.0, 100.0]],
             $dataTables,
             [
@@ -1745,6 +1746,51 @@ class ForecastBuilderTest extends TestCase
         }
 
         return $dataTable;
+    }
+
+    /**
+     * Construct the per-series state from the same positional shape the tests historically
+     * passed to {@see ForecastBuilder::build()}, then forward to it. Lets tests stay readable
+     * (positional args, no inline {@see ForecastSeriesState} construction at every call site)
+     * while the production signature carries the state object instead of four parallel maps.
+     *
+     * @param array<string, array<int, float|int>> $allSeriesData
+     * @param array<DataTable> $dataTables
+     * @param array<int, string> $dataStates
+     * @param array<string, string|false> $seriesUnits
+     * @param array<string, array<int, bool>> $allSeriesDataAvailability
+     * @param array<string, string> $allSeriesMonotonicity
+     * @param array<string, int> $allSeriesForecastPrecision
+     * @param array<string, array<string, float>> $allSeriesDailySamples
+     * @param array<string, array<string, float>> $allSeriesMonthlySamples
+     * @return array<int, array<int, float|null>>
+     */
+    private function buildForecast(
+        array $allSeriesData,
+        array $dataTables,
+        array $dataStates,
+        array $seriesUnits,
+        array $allSeriesDataAvailability = [],
+        array $allSeriesMonotonicity = [],
+        array $allSeriesForecastPrecision = [],
+        array $allSeriesDailySamples = [],
+        array $allSeriesMonthlySamples = []
+    ): array {
+        $seriesState = new ForecastSeriesState(
+            $allSeriesData,
+            $allSeriesDataAvailability,
+            $allSeriesMonotonicity,
+            $allSeriesForecastPrecision
+        );
+
+        return (new ForecastBuilder())->build(
+            $seriesState,
+            $dataTables,
+            $dataStates,
+            $seriesUnits,
+            $allSeriesDailySamples,
+            $allSeriesMonthlySamples
+        );
     }
 
     /**
