@@ -36,12 +36,12 @@
 		<row>
 			<key>1</key>
 			<value>Yes</value>
-			<description>Recommended for privacy</description>
+			<description>higher privacy, lower geolocation accuracy</description>
 		</row>
 		<row>
 			<key>0</key>
 			<value>No</value>
-			<description />
+			<description>lower privacy, higher geolocation accuracy</description>
 		</row>
 	</useAnonymizedIpForVisitEnrichmentOptions>
 	<referrerAnonymizationOptions>
