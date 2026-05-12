@@ -123,6 +123,13 @@ class Evolution extends JqplotGraph
             $this->requestConfig->request_parameters_to_modify['date'] = $requestingPeriod->getRangeString();
         }
 
+        // Forecast values can only be drawn by the LineRenderer. Force-off when the viz is in
+        // bar mode (subclass override or ?show_line_graph=0 query param) so a stale
+        // show_forecast=1 cannot sneak forecast computation into a bar-mode render.
+        if (!$this->config->show_line_graph) {
+            $this->config->show_forecast = false;
+        }
+
         $this->config->custom_parameters['columns'] = $this->config->columns_to_display;
         $this->config->custom_parameters['show_forecast'] = (int) $this->config->show_forecast;
 
@@ -171,7 +178,7 @@ class Evolution extends JqplotGraph
         // When it is off, the toggle visibility falls back to the cheap "any incomplete tick"
         // check below so dashboards full of evolution widgets do not run the regression on
         // every render just to size an action button.
-        if ($this->config->show_forecast) {
+        if ($this->config->show_forecast && !$this->config->disable_forecast) {
             $this->forecastData = $this->precomputeForecastData();
         }
     }
@@ -213,6 +220,21 @@ class Evolution extends JqplotGraph
 
     private function shouldShowForecastToggle(): bool
     {
+        // Forecast values are only meaningful for line charts. Bar-mode evolution (either via
+        // ?show_line_graph=0 on this viz, or a bar-rendering subclass like StackedBarEvolution)
+        // has no LineRenderer to draw forecast points onto, so suppress the toggle entirely.
+        if (!$this->config->show_line_graph) {
+            return false;
+        }
+
+        // Contexts that fan out into label-filtered inner API calls (row evolution popovers)
+        // opt out of forecast entirely: each forecast render would trigger 70 days of daily
+        // plus multi-year monthly sub-period fetches with the label filter still attached,
+        // pulling subtable blobs for every tick.
+        if ($this->config->disable_forecast) {
+            return false;
+        }
+
         // When forecast is on we already paid for precompute; honour its verdict so the
         // "Hide forecast" action does not appear on graphs where every value got suppressed.
         // The asymmetry with the show_forecast=0 branch below is intentional: when every

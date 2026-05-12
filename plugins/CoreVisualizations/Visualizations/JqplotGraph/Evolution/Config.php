@@ -31,6 +31,16 @@ class Config extends JqplotGraphConfig
      */
     public $show_forecast = false;
 
+    /**
+     * Hard gate that suppresses the forecast feature regardless of {@see $show_forecast}.
+     * Hides the forecast toggle action and skips the precompute path so callers that fan
+     * out into label-filtered inner API calls (e.g. row evolution popovers) do not pay for
+     * the sub-period blob fetches the forecast builder consumes.
+     *
+     * Default value: false
+     */
+    public $disable_forecast = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -42,6 +52,7 @@ class Config extends JqplotGraphConfig
         $this->x_axis_step_size       = false;
         $this->show_line_graph        = true;
         $this->show_forecast          = false;
+        $this->disable_forecast       = false;
 
         $this->addPropertiesThatShouldBeAvailableClientSide(['show_line_graph', 'show_forecast']);
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(['show_line_graph', 'show_forecast']);
