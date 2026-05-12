@@ -510,7 +510,9 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'Ecommerce_UseAnonymizeOrderId';
         $translationKeys[] = 'PrivacyManager_UseAnonymizeTrackingData';
         $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichment';
+        $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentDesc';
         $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote';
+        $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentReadMore';
         $translationKeys[] = 'PrivacyManager_UseDeleteLog';
         $translationKeys[] = 'PrivacyManager_UseDeleteReports';
         $translationKeys[] = 'PrivacyManager_VisitsMatchedCriteria';
@@ -1069,12 +1071,16 @@ class PrivacyManager extends Plugin
             [
                 'key' => '1',
                 'value' => Piwik::translate('General_Yes'),
-                'description' => Piwik::translate('PrivacyManager_RecommendedForPrivacy'),
+                'description' => Piwik::translate(
+                    'PrivacyManager_UseAnonymizedIpForVisitEnrichmentYesDesc'
+                ),
             ],
             [
                 'key' => '0',
                 'value' => Piwik::translate('General_No'),
-                'description' => '',
+                'description' => Piwik::translate(
+                    'PrivacyManager_UseAnonymizedIpForVisitEnrichmentNoDesc'
+                ),
             ],
         ];
     }
