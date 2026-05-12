@@ -283,6 +283,70 @@ class ForecastSubPeriodFetcherTest extends TestCase
         self::assertSame('2024-01-01,2026-04-29', $captured[1][1]);
     }
 
+    public function testCollectSkipsMonthlyFetchOnMonthTargetWhenNoUpSeries(): void
+    {
+        // Monthly fan-out on month target is consumed only by computeMonthOfYearScale (UP-only).
+        // When all series are explicitly classified FREE/DOWN, the monthly archive lookup has
+        // no consumer and should be skipped. Daily fetch still fires for FREE/DOWN seasonal
+        // decomposition (avg-of-daily-rates, min-of-daily-mins).
+        $captured = [];
+        $fetcher = $this->createFetcher(function (string $apiMethod, array $params) use (&$captured) {
+            $captured[] = $params['period'];
+            return $this->createSampleResultMap([]);
+        });
+
+        $monthTable = new DataTable();
+        $monthTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('month', '2026-04-01'));
+
+        $fetcher->collect(
+            [$monthTable],
+            $this->createSeriesState(
+                ['Bounce Rate' => 'bounce_rate', 'Min BW' => 'min_bandwidth'],
+                [],
+                [
+                    'Bounce Rate' => ForecastMetricClassifier::MONOTONICITY_FREE,
+                    'Min BW'      => ForecastMetricClassifier::MONOTONICITY_DOWN,
+                ]
+            ),
+            'VisitsSummary.get',
+            1,
+            ''
+        );
+
+        self::assertSame(['day'], $captured);
+    }
+
+    public function testCollectFansOutDailyAndMonthlyForMonthPeriodWhenAtLeastOneSeriesIsUp(): void
+    {
+        // Mixed graph: at least one UP series → monthly fan-out fires so its MoY scale can
+        // engage. Other monotonicities along for the ride share the daily fetch.
+        $captured = [];
+        $fetcher = $this->createFetcher(function (string $apiMethod, array $params) use (&$captured) {
+            $captured[] = $params['period'];
+            return $this->createSampleResultMap([]);
+        });
+
+        $monthTable = new DataTable();
+        $monthTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('month', '2026-04-01'));
+
+        $fetcher->collect(
+            [$monthTable],
+            $this->createSeriesState(
+                ['Visits' => 'nb_visits', 'Bounce Rate' => 'bounce_rate'],
+                [],
+                [
+                    'Visits'      => ForecastMetricClassifier::MONOTONICITY_UP,
+                    'Bounce Rate' => ForecastMetricClassifier::MONOTONICITY_FREE,
+                ]
+            ),
+            'VisitsSummary.get',
+            1,
+            ''
+        );
+
+        self::assertSame(['day', 'month'], $captured);
+    }
+
     public function testCollectFansOutDailyAndMonthlyForYearPeriod(): void
     {
         // Year-period forecasts pull YEAR_DAILY_WINDOW_DAYS = 60 daily (for the in-progress

@@ -1663,6 +1663,255 @@ class ForecastBuilderTest extends TestCase
         self::assertEqualsWithDelta(500.0, $forecast, 1.0);
     }
 
+    public function testBuildWeekSeasonalFreeUsesAverageOfDailyRates(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Target week 2026-04-27..05-03 (Mon-Sun). Archive at 2026-04-30 23:00 → todayIdx=3 (Thu).
+        // Mon-Wed completed days come from $dailySamples as archived daily rates. Thu-Sun are
+        // analog-projected from prior weeks (3 same-DoW analogs each). All sample values are
+        // identical to keep the day-level prior at the plain mean (n<5 → mean fallback) and
+        // to make the expected average trivial to compute.
+        //
+        // Day values used: Mon=50, Tue=52, Wed=48, Thu=51, Fri=49, Sat=53, Sun=47.
+        // Expected: (50+52+48+51+49+53+47) / 7 = 350 / 7 = 50.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
+        ];
+
+        $rates = [50.0, 52.0, 48.0, 51.0, 49.0, 53.0, 47.0]; // Mon..Sun
+        $dailySamples = [];
+        $cursor = \Piwik\Date::factory('2026-04-06');
+        for ($w = 0; $w < 3; ++$w) {
+            for ($d = 0; $d < 7; ++$d) {
+                $dailySamples[$cursor->toString('Y-m-d')] = $rates[$d];
+                $cursor = $cursor->addDay(1);
+            }
+        }
+        // Completed Mon-Wed of the target week need to be present in the daily map too.
+        $dailySamples['2026-04-27'] = $rates[0];
+        $dailySamples['2026-04-28'] = $rates[1];
+        $dailySamples['2026-04-29'] = $rates[2];
+
+        $forecastData = $this->buildForecast(
+            ['Bounce Rate' => [50.0, 49.0]],
+            $dataTables,
+            [ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
+            ['Bounce Rate' => false],
+            [],
+            ['Bounce Rate' => ForecastMetricClassifier::MONOTONICITY_FREE],
+            ['Bounce Rate' => 2],
+            ['Bounce Rate' => $dailySamples]
+        );
+
+        self::assertSame([[null, 50.0]], $forecastData);
+    }
+
+    public function testBuildWeekSeasonalDownUsesMinOfDailyMins(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Same setup as the FREE case but with MIN reducer. Day values: Mon=50, Tue=52, Wed=48,
+        // Thu=51, Fri=49, Sat=53, Sun=47. min(50,52,48,51,49,53,47) = 47 (Sun analog).
+        // Belt-and-braces clamp: forecast = min(47, currentValue=200) → 47.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-20', $site),
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-30 23:00:00'),
+        ];
+
+        $rates = [50.0, 52.0, 48.0, 51.0, 49.0, 53.0, 47.0];
+        $dailySamples = [];
+        $cursor = \Piwik\Date::factory('2026-04-06');
+        for ($w = 0; $w < 3; ++$w) {
+            for ($d = 0; $d < 7; ++$d) {
+                $dailySamples[$cursor->toString('Y-m-d')] = $rates[$d];
+                $cursor = $cursor->addDay(1);
+            }
+        }
+        $dailySamples['2026-04-27'] = $rates[0];
+        $dailySamples['2026-04-28'] = $rates[1];
+        $dailySamples['2026-04-29'] = $rates[2];
+
+        $forecastData = $this->buildForecast(
+            ['Min BW' => [50.0, 200.0]],
+            $dataTables,
+            [ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
+            ['Min BW' => false],
+            [],
+            ['Min BW' => ForecastMetricClassifier::MONOTONICITY_DOWN],
+            ['Min BW' => 0],
+            ['Min BW' => $dailySamples]
+        );
+
+        self::assertSame([[null, 47.0]], $forecastData);
+    }
+
+    public function testBuildMonthSeasonalFreeSkipsMonthOfYearScaling(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Target month 2026-04 (30 days). Apr 1 = Wed. Archive at 2026-04-04 12:00 → todayIdx=3
+        // (Sat). Apr 1-3 completed (Wed/Thu/Fri); Apr 4-30 analog-projected. With a uniform daily
+        // rate of 60 across the entire fetched window, FREE's avg-of-daily-rates = 60 regardless
+        // of any MoY-scale value. The presence of a non-trivial monthlySamples set would have
+        // perturbed the UP path via the MoY denominator; FREE ignores it, which is what we pin.
+        $dataTables = [
+            $this->createDataTableForMonth('2026-03', $site),
+            $this->createDataTableForMonth('2026-04', $site, '2026-04-04 12:00:00'),
+        ];
+
+        $dailySamples = $this->buildFlatDailySamples('2026-02-02', 13, 60.0);
+
+        // Monthly samples that would have scaled the UP path drastically. FREE should ignore.
+        $monthlySamples = [
+            '2025-01' => 1000.0, '2025-02' => 2000.0, '2025-03' => 3000.0, '2025-04' => 4000.0,
+            '2024-01' => 1000.0, '2024-02' => 2000.0, '2024-03' => 3000.0, '2024-04' => 4000.0,
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Bounce Rate' => [55.0, 60.0]],
+            $dataTables,
+            [ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
+            ['Bounce Rate' => false],
+            [],
+            ['Bounce Rate' => ForecastMetricClassifier::MONOTONICITY_FREE],
+            ['Bounce Rate' => 2],
+            ['Bounce Rate' => $dailySamples],
+            ['Bounce Rate' => $monthlySamples]
+        );
+
+        self::assertSame([[null, 60.0]], $forecastData);
+    }
+
+    public function testBuildYearSeasonalFreeUsesAverageOfMonthlyRates(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Target year 2026, archive at 2026-04-04 12:00 → todayMonthIdx = 3 (April). Per-month
+        // monthly rates in $monthlySamples are constant 50 across prior years (2022-2025, all 12
+        // months) and 2026 Jan/Feb/Mar. April daily rates are also 50, so the recursive month
+        // decomposition for April returns 50 (avg of daily rates). Each remaining month's
+        // same-MoY analog walk produces 50. avg of all 12 monthly values = 50.
+        $dataTables = [
+            $this->createDataTableForPeriod('year', '2025-01-01', $site),
+            $this->createDataTableForPeriod('year', '2026-01-01', $site, '2026-04-04 12:00:00'),
+        ];
+
+        $dailySamples = $this->buildFlatDailySamples('2026-02-02', 8, 50.0);
+        // Completed days of April that the recursion needs (Apr 1-3) before todayIdx = 3.
+        $dailySamples['2026-04-01'] = 50.0;
+        $dailySamples['2026-04-02'] = 50.0;
+        $dailySamples['2026-04-03'] = 50.0;
+
+        $monthlySamples = [];
+        for ($year = 2022; $year <= 2025; ++$year) {
+            for ($month = 1; $month <= 12; ++$month) {
+                $monthlySamples[sprintf('%04d-%02d', $year, $month)] = 50.0;
+            }
+        }
+        $monthlySamples['2026-01'] = 50.0;
+        $monthlySamples['2026-02'] = 50.0;
+        $monthlySamples['2026-03'] = 50.0;
+
+        $forecastData = $this->buildForecast(
+            ['Bounce Rate' => [50.0, 50.0]],
+            $dataTables,
+            [ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
+            ['Bounce Rate' => false],
+            [],
+            ['Bounce Rate' => ForecastMetricClassifier::MONOTONICITY_FREE],
+            ['Bounce Rate' => 2],
+            ['Bounce Rate' => $dailySamples],
+            ['Bounce Rate' => $monthlySamples]
+        );
+
+        self::assertSame([[null, 50.0]], $forecastData);
+    }
+
+    public function testBuildYearSeasonalDownUsesMinOfMonthlyMins(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Year 2026, archive Apr 4. todayMonthIdx = 3 (April). Same shape as the FREE case but
+        // 2026 March's monthly min is 30 while every other monthly value (prior years + 2026
+        // Jan/Feb + April daily rates + same-MoY analogs for May-Dec) is 100. The min reducer
+        // surfaces 30 across all 12 months. Belt-and-braces clamp at the call site holds the
+        // rendered forecast at min(30, currentValue=200) → 30.
+        $dataTables = [
+            $this->createDataTableForPeriod('year', '2025-01-01', $site),
+            $this->createDataTableForPeriod('year', '2026-01-01', $site, '2026-04-04 12:00:00'),
+        ];
+
+        $dailySamples = $this->buildFlatDailySamples('2026-02-02', 8, 100.0);
+        $dailySamples['2026-04-01'] = 100.0;
+        $dailySamples['2026-04-02'] = 100.0;
+        $dailySamples['2026-04-03'] = 100.0;
+
+        $monthlySamples = [];
+        for ($year = 2022; $year <= 2025; ++$year) {
+            for ($month = 1; $month <= 12; ++$month) {
+                $monthlySamples[sprintf('%04d-%02d', $year, $month)] = 100.0;
+            }
+        }
+        $monthlySamples['2026-01'] = 100.0;
+        $monthlySamples['2026-02'] = 100.0;
+        $monthlySamples['2026-03'] = 30.0;
+
+        $forecastData = $this->buildForecast(
+            ['Min BW' => [100.0, 200.0]],
+            $dataTables,
+            [ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
+            ['Min BW' => false],
+            [],
+            ['Min BW' => ForecastMetricClassifier::MONOTONICITY_DOWN],
+            ['Min BW' => 0],
+            ['Min BW' => $dailySamples],
+            ['Min BW' => $monthlySamples]
+        );
+
+        self::assertSame([[null, 30.0]], $forecastData);
+    }
+
+    public function testBuildYearSeasonalFreeFallsBackToSameMoYAnalogWhenNoDailySamples(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Same setup as the FREE-year test but no daily samples supplied. The April recursion
+        // into forecastMonthSeasonal returns null because the month seasonal requires daily
+        // samples; the year-level FREE path falls back to the same-MoY analog mean over past
+        // Aprils for the current-month value. All same-MoY analogs are 50 here, so the
+        // fallback path produces a per-month value of 50 for April, and avg = 50 overall.
+        $dataTables = [
+            $this->createDataTableForPeriod('year', '2025-01-01', $site),
+            $this->createDataTableForPeriod('year', '2026-01-01', $site, '2026-04-04 12:00:00'),
+        ];
+
+        $monthlySamples = [];
+        for ($year = 2022; $year <= 2025; ++$year) {
+            for ($month = 1; $month <= 12; ++$month) {
+                $monthlySamples[sprintf('%04d-%02d', $year, $month)] = 50.0;
+            }
+        }
+        $monthlySamples['2026-01'] = 50.0;
+        $monthlySamples['2026-02'] = 50.0;
+        $monthlySamples['2026-03'] = 50.0;
+
+        $forecastData = $this->buildForecast(
+            ['Bounce Rate' => [50.0, 50.0]],
+            $dataTables,
+            [ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
+            ['Bounce Rate' => false],
+            [],
+            ['Bounce Rate' => ForecastMetricClassifier::MONOTONICITY_FREE],
+            ['Bounce Rate' => 2],
+            [], // no daily samples — exercises the same-MoY fallback path
+            ['Bounce Rate' => $monthlySamples]
+        );
+
+        self::assertSame([[null, 50.0]], $forecastData);
+    }
+
     /**
      * Build a daily sample map of $weeks consecutive weeks starting at $firstMonday where every
      * day carries the same flat $value. Useful for isolating analog-walk feedback effects from

@@ -19,11 +19,10 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
  * analog walks).
  *
  * Grouping the four maps removes the parameter explosion they would otherwise create across
- * buildMonotonicForecastValue / buildSeasonalForecastValue / forecast{Week,Month,Year}Seasonal
- * / decomposeAndForecast / buildNonMonotonicForecastValue, and makes the read/write
- * asymmetry visible in the method signature (the helpers ask the window for samples and tell
- * it about projections, instead of taking four positional arrays with mixed by-value /
- * by-reference semantics).
+ * buildForecastValue / buildSeasonalForecastValue / forecast{Week,Month,Year}Seasonal, and
+ * makes the read/write asymmetry visible in the method signature (the helpers ask the window
+ * for samples and tell it about projections, instead of taking four positional arrays with
+ * mixed by-value / by-reference semantics).
  *
  * The window is intentionally per-tick: the caller constructs one with the running sample
  * maps before each tick, lets the helpers populate the projections during the forecast
