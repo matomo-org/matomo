@@ -65,13 +65,14 @@ class ForecastSubPeriodFetcher
     private const MONTH_DAILY_WINDOW_DAYS = 60;
 
     /**
-     * Month-target monthly window. {@see ForecastBuilder::computeMonthOfYearScale()} walks
-     * {@see ForecastBuilder::MONTH_ANALOG_CHUNK} = 4 same-MoY entries back through the
-     * monthly samples, so a 4-year window is the minimum that lets the trend fit + envelope
-     * clamp engage. No slack because each extra year of monthly archives is a non-trivial
-     * archive lookup and the additional accuracy is below the noise floor.
+     * Month-target monthly window. {@see ForecastBuilder::computeMonthOfYearScale()} only
+     * needs the same-MoY trend numerator, and {@see ForecastBuilder::computeHistoricalPrior()}
+     * already produces a trend fit from 2 samples (least-squares on 2 points = the line
+     * through both, plus damping). 1 year collapses the same-MoY history to a single value
+     * with no slope to fit; 2 is the smallest window that gives the prior a usable slope.
+     * Larger windows do not feed additional samples into the same-MoY walk.
      */
-    private const MONTH_MONTHLY_WINDOW_YEARS = 4;
+    private const MONTH_MONTHLY_WINDOW_YEARS = 2;
 
     /**
      * Year-target daily window. {@see ForecastBuilder::forecastYearSeasonal()} recurses into

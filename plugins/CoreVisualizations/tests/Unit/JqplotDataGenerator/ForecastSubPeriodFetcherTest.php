@@ -279,10 +279,8 @@ class ForecastSubPeriodFetcherTest extends TestCase
         // endDate = month end (2026-04-30) - 1 day = 2026-04-29; startDate = endDate - 60 days.
         self::assertSame('2026-02-28,2026-04-29', $captured[0][1]);
         self::assertSame('month', $captured[1][0]);
-        // Monthly window: 4 years back from endDate. Date::subYear truncates to Jan 1, so a
-        // year-aligned start is the documented behaviour; do not over-rotate that into a
-        // calendar-day-aligned expectation.
-        self::assertSame('2022-01-01,2026-04-29', $captured[1][1]);
+        // Monthly window: 2 years back from endDate. Date::subYear truncates to Jan 1.
+        self::assertSame('2024-01-01,2026-04-29', $captured[1][1]);
     }
 
     public function testCollectFansOutDailyAndMonthlyForYearPeriod(): void
