@@ -314,23 +314,15 @@ class ForecastBuilder
 
                 $tickWindow = new ForecastSampleWindow($runningDailySamples, $runningMonthlySamples);
 
-                if ($isUpSeries) {
-                    $forecastValue = $this->buildMonotonicForecastValue(
-                        $currentValue,
-                        $pastValues,
-                        $previousForecastValue,
-                        $dataTable,
-                        $site,
-                        $tickWindow
-                    );
-                } else {
-                    $forecastValue = $this->buildNonMonotonicForecastValue(
-                        $pastValues,
-                        $previousForecastValue,
-                        $dataTable,
-                        $tickWindow
-                    );
-                }
+                $forecastValue = $this->buildForecastValue(
+                    $currentValue,
+                    $pastValues,
+                    $previousForecastValue,
+                    $monotonicity,
+                    $dataTable,
+                    $site,
+                    $tickWindow
+                );
 
                 if ($forecastValue === null) {
                     $seriesForecasts[] = null;
@@ -426,30 +418,31 @@ class ForecastBuilder
     }
 
     /**
-     * Forecast for monotonic count series via sub-period decomposition. When the caller has
-     * supplied the daily (and, for year targets, monthly) sample maps, the period's final value
-     * is reconstructed from completed sub-periods (real archived values) plus same-DoW (or
-     * same-MoY) analog projections for the in-progress and remaining sub-periods. The displayed
-     * partial value is used only as a floor — it is never multiplied up by an elapsed-time
-     * fraction — so the forecast does not change with the displayed graph range.
+     * Single forecast-value entry point for all monotonicities. When sub-period samples are
+     * available and the target is week/month/year, runs the seasonal-decomposition path with
+     * a reducer chosen by monotonicity:
      *
-     * Falls back to a prior-only same-period projection on $pastValues when sub-period samples
-     * are not available, so the builder degrades gracefully on legacy callers and on day-period
-     * targets (where there is no useful sub-period structure).
+     * - {@see ForecastMetricClassifier::MONOTONICITY_UP}: SUM completed sub-period totals +
+     *   in-progress partial-floor + remaining analog projections (additive-count semantics).
+     * - {@see ForecastMetricClassifier::MONOTONICITY_FREE}: AVG of completed daily rates +
+     *   analog projections for in-progress and remaining sub-periods (rate-approximation
+     *   semantics; unweighted-vs-traffic-weighted introduces a bounded relative error in
+     *   exchange for stability of the forecast across changes to the displayed range).
+     * - {@see ForecastMetricClassifier::MONOTONICITY_DOWN}: MIN over completed sub-period
+     *   running mins + analog projections (min-as-min semantics).
      *
-     * The window's day/month projection accumulators capture sub-period values produced
-     * during this tick's decomposition (today's contribution + remaining-day analogs for week/
-     * month, per-month projections for year, plus the day-target prior keyed under the day's
-     * own anchor). The caller merges them back into the running sample maps so that later
-     * incomplete ticks in the same series see this tick's projections as analogs instead of
-     * the partial (or zero) values that prefilled their slots in the original sample fetch.
+     * Falls back to a prior-only same-period projection on $pastValues (with envelope clamp
+     * for UP only — the trend-extrapolation runaway it guards against is a UP concern) when
+     * sub-period samples are absent. Final fallback is $previousForecastValue from the prior
+     * tick in this series.
      *
      * @param array<int, float> $pastValues
      */
-    private function buildMonotonicForecastValue(
+    private function buildForecastValue(
         float $currentValue,
         array $pastValues,
         ?float $previousForecastValue,
+        string $monotonicity,
         DataTable $dataTable,
         Site $site,
         ForecastSampleWindow $window
@@ -462,6 +455,7 @@ class ForecastBuilder
             $periodLabel,
             $period,
             $currentValue,
+            $monotonicity,
             $site,
             $window
         );
@@ -471,7 +465,10 @@ class ForecastBuilder
 
         if ([] !== $pastValues) {
             $prior = $this->computeHistoricalPrior($pastValues);
-            if (count($pastValues) >= self::MIN_SAMPLES_FOR_BOUNDED_RANGE) {
+            if (
+                ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity
+                && count($pastValues) >= self::MIN_SAMPLES_FOR_BOUNDED_RANGE
+            ) {
                 $prior = $this->clampForecastToHistoricalRange($prior, $pastValues, $prior);
             }
             // Day-target prior-only path: record the day's forecast under its own anchor so a
@@ -494,15 +491,17 @@ class ForecastBuilder
     }
 
     /**
-     * Run the seasonal-decomposition path when the caller has supplied the sub-period samples
-     * needed for it. Returns null when the path does not apply (day target, no daily samples,
-     * unsupported period), letting the caller fall back to the prior-only path.
+     * Run the seasonal-decomposition path for whichever monotonicity applies, when the caller
+     * has supplied the sub-period samples it needs. Returns null when the path does not apply
+     * (day target, no sub-period samples, unsupported period), letting the caller fall back
+     * to the prior-only path on the displayed-range $pastValues.
      */
     private function buildSeasonalForecastValue(
         DataTable $dataTable,
         string $periodLabel,
         Period $period,
         float $currentValue,
+        string $monotonicity,
         Site $site,
         ForecastSampleWindow $window
     ): ?float {
@@ -515,6 +514,7 @@ class ForecastBuilder
                     $dataTable,
                     $period,
                     $currentValue,
+                    $monotonicity,
                     $site,
                     $window
                 );
@@ -526,6 +526,7 @@ class ForecastBuilder
                     $dataTable,
                     $period,
                     $currentValue,
+                    $monotonicity,
                     $site,
                     $window
                 );
@@ -537,6 +538,7 @@ class ForecastBuilder
                     $dataTable,
                     $period,
                     $currentValue,
+                    $monotonicity,
                     $site,
                     $window
                 );
@@ -547,15 +549,17 @@ class ForecastBuilder
 
     /**
      * Week forecast via daily decomposition. Completed days contribute their archived values;
-     * the in-progress day and remaining days are projected from same-DoW analog samples.
+     * the in-progress day and remaining days are projected from same-DoW analog samples. The
+     * combining reducer is chosen by monotonicity: SUM for UP, AVG for FREE, MIN for DOWN.
      */
     private function forecastWeekSeasonal(
         DataTable $dataTable,
         Period $weekPeriod,
         float $currentValue,
+        string $monotonicity,
         Site $site,
         ForecastSampleWindow $window
-    ): float {
+    ): ?float {
         $weekStart = $weekPeriod->getDateStart();
         $siteTz = $site->getTimezone();
 
@@ -566,29 +570,39 @@ class ForecastBuilder
 
         $todayIdx = $this->resolveSubPeriodTodayIndex($dataTable, $dayAnchors, $siteTz);
 
-        return $this->decomposeAndForecast(
-            $dayAnchors,
-            $todayIdx,
-            $currentValue,
-            self::WEEK_ANALOG_CHUNK,
-            1.0,
-            $window
-        );
+        switch ($monotonicity) {
+            case ForecastMetricClassifier::MONOTONICITY_FREE:
+                return $this->decomposeAndAverageRate($dayAnchors, $todayIdx, self::WEEK_ANALOG_CHUNK, $window);
+            case ForecastMetricClassifier::MONOTONICITY_DOWN:
+                return $this->decomposeAndMinimize($dayAnchors, $todayIdx, self::WEEK_ANALOG_CHUNK, $window);
+            case ForecastMetricClassifier::MONOTONICITY_UP:
+            default:
+                return $this->decomposeAndForecast(
+                    $dayAnchors,
+                    $todayIdx,
+                    $currentValue,
+                    self::WEEK_ANALOG_CHUNK,
+                    1.0,
+                    $window
+                );
+        }
     }
 
     /**
-     * Month forecast via daily decomposition with month-of-year scaling. Same shape as the week
-     * path but the calendar-day count varies (28-31). The same-DoW analog mean is scaled by a
-     * month-of-year factor so a Feb forecast does not borrow Aug-level traffic from the rolling
-     * day window.
+     * Month forecast via daily decomposition. The UP path applies a month-of-year scale to
+     * the analog daily counts so a Feb forecast does not borrow Aug-level traffic from the
+     * rolling day window; FREE/DOWN paths skip the MoY scaling because rates/mins do not
+     * scale proportionally with traffic volume (a 0.8 traffic ratio does not imply
+     * bounce_rate × 0.8).
      */
     private function forecastMonthSeasonal(
         DataTable $dataTable,
         Period $monthPeriod,
         float $currentValue,
+        string $monotonicity,
         Site $site,
         ForecastSampleWindow $window
-    ): float {
+    ): ?float {
         $monthStart = $monthPeriod->getDateStart();
         $siteTz = $site->getTimezone();
 
@@ -603,40 +617,47 @@ class ForecastBuilder
 
         $todayIdx = $this->resolveSubPeriodTodayIndex($dataTable, $dayAnchors, $siteTz);
 
-        $monthAnchor = $monthStart->toString('Y-m');
-        $monthOfYearScale = $this->computeMonthOfYearScale(
-            $monthAnchor,
-            self::MONTH_ANALOG_CHUNK,
-            $window
-        );
-
-        return $this->decomposeAndForecast(
-            $dayAnchors,
-            $todayIdx,
-            $currentValue,
-            self::MONTH_ANALOG_CHUNK,
-            $monthOfYearScale,
-            $window
-        );
+        switch ($monotonicity) {
+            case ForecastMetricClassifier::MONOTONICITY_FREE:
+                return $this->decomposeAndAverageRate($dayAnchors, $todayIdx, self::MONTH_ANALOG_CHUNK, $window);
+            case ForecastMetricClassifier::MONOTONICITY_DOWN:
+                return $this->decomposeAndMinimize($dayAnchors, $todayIdx, self::MONTH_ANALOG_CHUNK, $window);
+            case ForecastMetricClassifier::MONOTONICITY_UP:
+            default:
+                $monthAnchor = $monthStart->toString('Y-m');
+                $monthOfYearScale = $this->computeMonthOfYearScale(
+                    $monthAnchor,
+                    self::MONTH_ANALOG_CHUNK,
+                    $window
+                );
+                return $this->decomposeAndForecast(
+                    $dayAnchors,
+                    $todayIdx,
+                    $currentValue,
+                    self::MONTH_ANALOG_CHUNK,
+                    $monthOfYearScale,
+                    $window
+                );
+        }
     }
 
     /**
-     * Year forecast via monthly decomposition. Completed months come from the monthly sample
-     * map; the current month is estimated by recursing into the month seasonal path when daily
-     * samples are available, and remaining months are projected from same-month-of-year
-     * monthly analogs.
+     * Year forecast via monthly decomposition. Same per-monotonicity reducer dispatch as the
+     * week and month paths: SUM for UP, AVG for FREE, MIN for DOWN. Completed months come
+     * from the monthly sample map; the current month is estimated by recursing into the
+     * month seasonal path with the same monotonicity when daily samples are available;
+     * remaining months are projected from same-month-of-year monthly analogs.
      */
     private function forecastYearSeasonal(
         DataTable $dataTable,
         Period $yearPeriod,
         float $currentValue,
+        string $monotonicity,
         Site $site,
         ForecastSampleWindow $window
-    ): float {
+    ): ?float {
         $yearStart = $yearPeriod->getDateStart();
         $siteTz = $site->getTimezone();
-        $dailySamples = $window->getDailySamples();
-        $monthlySamples = $window->getMonthlySamples();
 
         $monthAnchors = [];
         for ($i = 0; $i < 12; ++$i) {
@@ -654,6 +675,38 @@ class ForecastBuilder
         $idx = array_search($referenceMonthAnchor, $monthAnchors, true);
         $todayMonthIdx = (false === $idx) ? 11 : (int) $idx;
 
+        if (ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity) {
+            return $this->forecastYearSeasonalUp($dataTable, $monthAnchors, $todayMonthIdx, $currentValue, $site, $window);
+        }
+
+        return $this->forecastYearSeasonalAggregate(
+            $dataTable,
+            $monthAnchors,
+            $todayMonthIdx,
+            $monotonicity,
+            $site,
+            $window
+        );
+    }
+
+    /**
+     * UP-flavoured year decomposition: SUM completed monthly counts + current-month partial
+     * floor + remaining same-MoY analog projections. Extracted from the year-level dispatch
+     * so the dispatch reads cleanly.
+     *
+     * @param array<int, string> $monthAnchors
+     */
+    private function forecastYearSeasonalUp(
+        DataTable $dataTable,
+        array $monthAnchors,
+        int $todayMonthIdx,
+        float $currentValue,
+        Site $site,
+        ForecastSampleWindow $window
+    ): float {
+        $dailySamples = $window->getDailySamples();
+        $monthlySamples = $window->getMonthlySamples();
+
         $completedReal = 0.0;
         for ($i = 0; $i < $todayMonthIdx; ++$i) {
             $completedReal += $monthlySamples[$monthAnchors[$i]] ?? 0.0;
@@ -668,6 +721,7 @@ class ForecastBuilder
                 $dataTable,
                 new Month(Date::factory($currentMonthAnchorStr)),
                 $currentMonthPartial,
+                ForecastMetricClassifier::MONOTONICITY_UP,
                 $site,
                 $window
             );
@@ -696,12 +750,87 @@ class ForecastBuilder
     }
 
     /**
-     * Shared completed/in-progress/remaining decomposition for the week and month paths.
-     * "Today" is the sub-period containing the current site-local instant. Sub-periods before
-     * today contribute their real archived values from $dailySamples. Today's contribution is
-     * the larger of (the partial floor implied by currentValue minus completed real) and the
-     * same-DoW analog prior — never an elapsed-time multiplication. Remaining sub-periods are
-     * projected from same-DoW analogs reduced by the day-level reducer.
+     * FREE/DOWN-flavoured year decomposition: build per-month value list (archived monthly
+     * value for completed months, recursive month-seasonal forecast for the current month,
+     * same-MoY analog mean for remaining months) and combine with the monotonicity's reducer
+     * (AVG for FREE, MIN for DOWN). No partial-floor: monthly rates and monthly mins do not
+     * combine with the year's running value the way monthly counts do.
+     *
+     * @param array<int, string> $monthAnchors
+     */
+    private function forecastYearSeasonalAggregate(
+        DataTable $dataTable,
+        array $monthAnchors,
+        int $todayMonthIdx,
+        string $monotonicity,
+        Site $site,
+        ForecastSampleWindow $window
+    ): ?float {
+        $dailySamples = $window->getDailySamples();
+        $monthlySamples = $window->getMonthlySamples();
+
+        $monthlyValues = [];
+        for ($i = 0; $i < $todayMonthIdx; ++$i) {
+            if (isset($monthlySamples[$monthAnchors[$i]])) {
+                $monthlyValues[] = (float) $monthlySamples[$monthAnchors[$i]];
+            }
+        }
+
+        $currentMonthAnchorStr = $monthAnchors[$todayMonthIdx] . '-01';
+        $currentMonthEstimate = null;
+        if ([] !== $dailySamples) {
+            // Recurse with the same monotonicity so the month-level decomposition uses AVG
+            // or MIN as appropriate. currentValue is unused by those reducers, so 0.0 is fine.
+            $currentMonthEstimate = $this->forecastMonthSeasonal(
+                $dataTable,
+                new Month(Date::factory($currentMonthAnchorStr)),
+                0.0,
+                $monotonicity,
+                $site,
+                $window
+            );
+        }
+        if ($currentMonthEstimate === null) {
+            $samples = $this->recentSameMoYValues($monthlySamples, $monthAnchors[$todayMonthIdx], self::YEAR_ANALOG_CHUNK);
+            if (!empty($samples)) {
+                $currentMonthEstimate = ForecastMetricClassifier::MONOTONICITY_DOWN === $monotonicity
+                    ? min($samples)
+                    : array_sum($samples) / count($samples);
+            }
+        }
+        if ($currentMonthEstimate !== null) {
+            $monthlyValues[] = $currentMonthEstimate;
+            $window->projectMonth($monthAnchors[$todayMonthIdx], $currentMonthEstimate);
+        }
+
+        for ($i = $todayMonthIdx + 1; $i < 12; ++$i) {
+            $samples = $this->recentSameMoYValues($monthlySamples, $monthAnchors[$i], self::YEAR_ANALOG_CHUNK);
+            if (empty($samples)) {
+                continue;
+            }
+            $projected = ForecastMetricClassifier::MONOTONICITY_DOWN === $monotonicity
+                ? min($samples)
+                : array_sum($samples) / count($samples);
+            $monthlyValues[] = $projected;
+            $window->projectMonth($monthAnchors[$i], $projected);
+        }
+
+        if (empty($monthlyValues)) {
+            return null;
+        }
+
+        return ForecastMetricClassifier::MONOTONICITY_DOWN === $monotonicity
+            ? min($monthlyValues)
+            : array_sum($monthlyValues) / count($monthlyValues);
+    }
+
+    /**
+     * Shared completed/in-progress/remaining decomposition for the UP (additive count) week and
+     * month paths. "Today" is the sub-period containing the current site-local instant.
+     * Sub-periods before today contribute their real archived values from $dailySamples.
+     * Today's contribution is the larger of (the partial floor implied by currentValue minus
+     * completed real) and the same-DoW analog prior — never an elapsed-time multiplication.
+     * Remaining sub-periods are projected from same-DoW analogs reduced by the day-level reducer.
      *
      * Captures today's contribution and the remaining-day projections onto $window so the
      * caller can feed them forward into the running daily samples map. Completed-day values
@@ -728,40 +857,172 @@ class ForecastBuilder
         $todayAnchor = $dayAnchors[$todayIdx];
         $todayPartial = max(0.0, $currentValue - $completedReal);
 
-        $todayPriorSamples = $this->recentSameDoWValues($dailySamples, $todayAnchor, $analogChunk);
-        $todayPriorScaled = ($analogScale === 1.0 || empty($todayPriorSamples))
-            ? $todayPriorSamples
-            : array_map(static function ($v) use ($analogScale) {
-                return $v * $analogScale;
-            }, $todayPriorSamples);
-
-        if (!empty($todayPriorScaled)) {
-            $todayPrior = $this->dayLevelAnalogPrior($todayPriorScaled);
-            $todayContribution = max($todayPartial, $todayPrior);
-        } else {
-            $todayContribution = $todayPartial;
-        }
+        $todayPrior = $this->projectDailyValueViaAnalog(
+            $todayAnchor,
+            $dailySamples,
+            $analogChunk,
+            $analogScale,
+            null
+        );
+        $todayContribution = $todayPrior !== null ? max($todayPartial, $todayPrior) : $todayPartial;
         $window->projectDay($todayAnchor, $todayContribution);
 
         $remainingExpected = 0.0;
         $count = count($dayAnchors);
         for ($i = $todayIdx + 1; $i < $count; ++$i) {
-            $anchor = $dayAnchors[$i];
-            $samples = $this->recentSameDoWValues($dailySamples, $anchor, $analogChunk);
-            if (empty($samples)) {
+            $projected = $this->projectDailyValueViaAnalog(
+                $dayAnchors[$i],
+                $dailySamples,
+                $analogChunk,
+                $analogScale,
+                $window
+            );
+            if ($projected === null) {
                 continue;
             }
-            if ($analogScale !== 1.0) {
-                $samples = array_map(static function ($v) use ($analogScale) {
-                    return $v * $analogScale;
-                }, $samples);
-            }
-            $projected = $this->dayLevelAnalogPrior($samples);
             $remainingExpected += $projected;
-            $window->projectDay($anchor, $projected);
         }
 
         return $completedReal + $todayContribution + $remainingExpected;
+    }
+
+    /**
+     * Average-of-daily-rates decomposition for the FREE (rate, ratio, average) week and month
+     * paths. Same shape as {@see self::decomposeAndForecast()} but the in-progress day is treated
+     * as just another analog-projected day (no partial-floor max — the partial rate is not a
+     * lower bound for the final rate the way a partial count is), and remaining days are
+     * combined by unweighted mean instead of sum.
+     *
+     * The mean-of-daily-rates differs from the true traffic-weighted period rate by a bounded
+     * relative error (Simpson's-paradox magnitude that depends on how traffic is distributed
+     * across days) — accepted as the price for keeping the forecast stable across changes to
+     * the displayed range. $analogScale is always 1.0 here: scaling daily *rates* by a
+     * monthly-traffic ratio is conceptually wrong (a 0.8 month-of-year traffic ratio does not
+     * imply bounce_rate × 0.8).
+     *
+     * @param array<int, string> $dayAnchors
+     */
+    private function decomposeAndAverageRate(
+        array $dayAnchors,
+        int $todayIdx,
+        int $analogChunk,
+        ForecastSampleWindow $window
+    ): ?float {
+        $dailySamples = $window->getDailySamples();
+        $dailyValues = $this->collectCompletedAndProjectedDailyValues(
+            $dayAnchors,
+            $todayIdx,
+            $dailySamples,
+            $analogChunk,
+            $window
+        );
+        if (empty($dailyValues)) {
+            return null;
+        }
+
+        return array_sum($dailyValues) / count($dailyValues);
+    }
+
+    /**
+     * Min-of-daily-mins decomposition for the DOWN (running-min) week and month paths. Same
+     * collection shape as {@see self::decomposeAndAverageRate()} (in-progress day is analog-
+     * projected, no partial-floor), but the combining operator is `min` because a running min
+     * over a period is the min of the per-sub-period running mins by construction.
+     *
+     * @param array<int, string> $dayAnchors
+     */
+    private function decomposeAndMinimize(
+        array $dayAnchors,
+        int $todayIdx,
+        int $analogChunk,
+        ForecastSampleWindow $window
+    ): ?float {
+        $dailySamples = $window->getDailySamples();
+        $dailyValues = $this->collectCompletedAndProjectedDailyValues(
+            $dayAnchors,
+            $todayIdx,
+            $dailySamples,
+            $analogChunk,
+            $window
+        );
+        if (empty($dailyValues)) {
+            return null;
+        }
+
+        return min($dailyValues);
+    }
+
+    /**
+     * Build the per-day value list the rate-/min-decomposition reducers consume: archived
+     * daily values for completed days, same-DoW analog projections for the in-progress day
+     * and remaining days. Records the analog projections on $window so later same-DoW ticks
+     * in the same series pick them up.
+     *
+     * @param array<int, string> $dayAnchors
+     * @param array<string, float> $dailySamples
+     * @return array<int, float>
+     */
+    private function collectCompletedAndProjectedDailyValues(
+        array $dayAnchors,
+        int $todayIdx,
+        array $dailySamples,
+        int $analogChunk,
+        ForecastSampleWindow $window
+    ): array {
+        $values = [];
+
+        for ($i = 0; $i < $todayIdx; ++$i) {
+            if (isset($dailySamples[$dayAnchors[$i]])) {
+                $values[] = (float) $dailySamples[$dayAnchors[$i]];
+            }
+        }
+
+        $count = count($dayAnchors);
+        for ($i = $todayIdx; $i < $count; ++$i) {
+            $projected = $this->projectDailyValueViaAnalog(
+                $dayAnchors[$i],
+                $dailySamples,
+                $analogChunk,
+                1.0,
+                $window
+            );
+            if ($projected !== null) {
+                $values[] = $projected;
+            }
+        }
+
+        return $values;
+    }
+
+    /**
+     * Project a single sub-period day's value from same-DoW analog samples. Returns null when
+     * no analogs exist in the supplied $dailySamples. When $window is non-null the projection
+     * is also recorded into the window's day-projection accumulator so later same-DoW ticks
+     * in this series pick it up via the running daily map.
+     *
+     * @param array<string, float> $dailySamples
+     */
+    private function projectDailyValueViaAnalog(
+        string $anchor,
+        array $dailySamples,
+        int $analogChunk,
+        float $analogScale,
+        ?ForecastSampleWindow $window
+    ): ?float {
+        $samples = $this->recentSameDoWValues($dailySamples, $anchor, $analogChunk);
+        if (empty($samples)) {
+            return null;
+        }
+        if ($analogScale !== 1.0) {
+            $samples = array_map(static function ($v) use ($analogScale) {
+                return $v * $analogScale;
+            }, $samples);
+        }
+        $value = $this->dayLevelAnalogPrior($samples);
+        if ($window !== null) {
+            $window->projectDay($anchor, $value);
+        }
+        return $value;
     }
 
     /**
@@ -942,47 +1203,6 @@ class ForecastBuilder
             }
         }
         return $referenceTs;
-    }
-
-    /**
-     * Forecast for non-monotonic series (ratios, averages, latency-style). Returns the historical
-     * same-period prior (trend-aware via computeHistoricalPrior), falling back to the previous
-     * forecast if there is no prior. Returns null when neither signal is available because no
-     * defensible value can be produced.
-     *
-     * Day-target ticks record the forecast under their own anchor via $window->projectDay()
-     * so a later same-DoW tick in this series picks up this tick's forecast (not the partial
-     * value the sub-period fetch left at this anchor) when its analog walk steps back through
-     * the running daily map. Without that feedback channel the second of two same-DoW forecast
-     * days on a ratio series like bounce_rate sees this tick's partial (early-hours,
-     * low-traffic) value as a historical analog and the trend fit collapses.
-     *
-     * @param array<int, float> $pastValues
-     */
-    private function buildNonMonotonicForecastValue(
-        array $pastValues,
-        ?float $previousForecastValue,
-        DataTable $dataTable,
-        ForecastSampleWindow $window
-    ): ?float {
-        $periodLabel = $this->getPeriodLabel($dataTable);
-
-        if ([] !== $pastValues) {
-            $forecast = $this->computeHistoricalPrior($pastValues);
-            if ('day' === $periodLabel) {
-                $window->projectDay($this->getPeriod($dataTable)->getDateStart()->toString('Y-m-d'), $forecast);
-            }
-            return $forecast;
-        }
-
-        if ($previousForecastValue !== null) {
-            if ('day' === $periodLabel) {
-                $window->projectDay($this->getPeriod($dataTable)->getDateStart()->toString('Y-m-d'), $previousForecastValue);
-            }
-            return $previousForecastValue;
-        }
-
-        return null;
     }
 
     /**

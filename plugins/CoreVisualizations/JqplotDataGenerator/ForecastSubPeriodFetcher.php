@@ -207,11 +207,38 @@ class ForecastSubPeriodFetcher
                     ? self::WEEK_DAILY_WINDOW_DAYS
                     : self::MONTH_DAILY_WINDOW_DAYS;
                 $startDate = (Date::factory($endDate))->subDay($dailyWindow)->toString('Y-m-d');
+
+                $dailyMap = $this->fetchSeries(
+                    $apiMethod,
+                    $idSite,
+                    $segment,
+                    'day',
+                    $startDate,
+                    $endDate,
+                    $seriesState
+                );
+
+                // Monthly fan-out on the month target is consumed only by the UP-flavoured
+                // {@see ForecastBuilder::computeMonthOfYearScale()}; FREE/DOWN month forecasts
+                // skip the MoY scaling because scaling rates/mins by a traffic ratio is
+                // conceptually wrong. Skip the inner request when no UP series is on this
+                // graph -- the data would have no consumer.
+                $monthlyMap = [];
+                if ('month' === $periodLabel && $this->seriesStateHasUpSeries($seriesState)) {
+                    $monthlyMap = $this->fetchSeries(
+                        $apiMethod,
+                        $idSite,
+                        $segment,
+                        'month',
+                        $this->yearsBack($endDate, self::MONTH_MONTHLY_WINDOW_YEARS),
+                        $endDate,
+                        $seriesState
+                    );
+                }
+
                 return [
-                    'daily'   => $this->fetchSeries($apiMethod, $idSite, $segment, 'day', $startDate, $endDate, $seriesState),
-                    'monthly' => 'month' === $periodLabel
-                        ? $this->fetchSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, self::MONTH_MONTHLY_WINDOW_YEARS), $endDate, $seriesState)
-                        : [],
+                    'daily'   => $dailyMap,
+                    'monthly' => $monthlyMap,
                 ];
             }
             if ('year' === $periodLabel) {
@@ -382,6 +409,26 @@ class ForecastSubPeriodFetcher
     private function yearsBack(string $endDate, int $years): string
     {
         return Date::factory($endDate)->subYear($years)->toString('Y-m-d');
+    }
+
+    /**
+     * True when any series on the chart is classified MONOTONICITY_UP. Used to decide whether
+     * the monthly fan-out on month target needs to fire: month-level MoY scaling only applies
+     * to count metrics, so a graph of nothing but ratios/averages/mins gets no value from the
+     * monthly archive lookup. Falls back to "assume an UP series is present" when the series
+     * state is partially or completely unclassified, matching ForecastBuilder's defensive
+     * default monotonicity for unclassified non-percent series.
+     */
+    private function seriesStateHasUpSeries(ForecastSeriesState $seriesState): bool
+    {
+        $monotonicities = $seriesState->getAllSeriesMonotonicity();
+        $columns = $seriesState->getAllSeriesColumns();
+        // Defensive fallback: unclassified or partially-classified state could imply UP-like
+        // metrics, so do not skip the monthly fetch in that case.
+        if (count($monotonicities) !== count($columns) || [] === $monotonicities) {
+            return true;
+        }
+        return in_array(ForecastMetricClassifier::MONOTONICITY_UP, $monotonicities, true);
     }
 
     /**
