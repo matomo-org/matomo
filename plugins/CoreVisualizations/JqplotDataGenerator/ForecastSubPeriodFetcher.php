@@ -46,6 +46,49 @@ class ForecastSubPeriodFetcher
      */
     private const DAY_ANALOG_WINDOW_DAYS = 70;
 
+    /**
+     * Week-target daily window. The week seasonal decomposition needs same-DoW analog samples
+     * for each remaining day in the in-progress week, with {@see ForecastBuilder::WEEK_ANALOG_CHUNK}
+     * = 3 samples per slot stepped back 7 days each: that is 21 days of history before the
+     * in-progress week's start, plus the in-progress week itself (≤7 days) = 28 days minimum.
+     * 30 keeps 2 days of slack for the week-starts-on-Saturday edge and avoids cutting any
+     * future {@see ForecastBuilder::WEEK_ANALOG_CHUNK} bump up to 4 too tight.
+     */
+    private const WEEK_DAILY_WINDOW_DAYS = 30;
+
+    /**
+     * Month-target daily window. Same shape as the week case but with
+     * {@see ForecastBuilder::MONTH_ANALOG_CHUNK} = 4 samples per slot = 28 days of history
+     * before the in-progress month's start, plus a 31-day month = 59 days minimum. 60 covers
+     * that exactly and gives one day of slack for the boundary case.
+     */
+    private const MONTH_DAILY_WINDOW_DAYS = 60;
+
+    /**
+     * Month-target monthly window. {@see ForecastBuilder::computeMonthOfYearScale()} walks
+     * {@see ForecastBuilder::MONTH_ANALOG_CHUNK} = 4 same-MoY entries back through the
+     * monthly samples, so a 4-year window is the minimum that lets the trend fit + envelope
+     * clamp engage. No slack because each extra year of monthly archives is a non-trivial
+     * archive lookup and the additional accuracy is below the noise floor.
+     */
+    private const MONTH_MONTHLY_WINDOW_YEARS = 4;
+
+    /**
+     * Year-target daily window. {@see ForecastBuilder::forecastYearSeasonal()} recurses into
+     * {@see ForecastBuilder::forecastMonthSeasonal()} for the in-progress month, so the
+     * daily history needed is the same as the month target's: 28 days of history + 31-day
+     * month = 59 minimum, sized to 60.
+     */
+    private const YEAR_DAILY_WINDOW_DAYS = 60;
+
+    /**
+     * Year-target monthly window. {@see ForecastBuilder::forecastYearSeasonal()} walks
+     * {@see ForecastBuilder::YEAR_ANALOG_CHUNK} = 8 same-MoY samples back through the
+     * monthly map, so the minimum is 8 years. Going wider lengthens the inner archive
+     * lookup without feeding additional samples to the analog walk.
+     */
+    private const YEAR_MONTHLY_WINDOW_YEARS = 8;
+
     /** @var callable(string, array<string, mixed>): mixed */
     private $apiRequestProcessor;
 
@@ -156,23 +199,25 @@ class ForecastSubPeriodFetcher
                 ];
             }
             if ('week' === $periodLabel || 'month' === $periodLabel) {
-                // Pull enough days to populate same-DoW analog slots for the largest analog
-                // chunk the builder might consume. ForecastBuilder uses chunk = 3 (week) or
-                // 4 (month); the worst case is the first projected day of a 31-day month
-                // pulling its chunk-th analog (31 + 4 × 7 = 59 days). 70 days gives headroom
-                // for any future chunk increase up to 5.
-                $startDate = (Date::factory($endDate))->subDay(70)->toString('Y-m-d');
+                // Daily window sized to what the seasonal-decomposition path actually consumes:
+                // WEEK_DAILY_WINDOW_DAYS for week (in-progress week + same-DoW × 3 history),
+                // MONTH_DAILY_WINDOW_DAYS for month (in-progress month + same-DoW × 4 history).
+                $dailyWindow = 'week' === $periodLabel
+                    ? self::WEEK_DAILY_WINDOW_DAYS
+                    : self::MONTH_DAILY_WINDOW_DAYS;
+                $startDate = (Date::factory($endDate))->subDay($dailyWindow)->toString('Y-m-d');
                 return [
                     'daily'   => $this->fetchSeries($apiMethod, $idSite, $segment, 'day', $startDate, $endDate, $seriesState),
                     'monthly' => 'month' === $periodLabel
-                        ? $this->fetchSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, 4), $endDate, $seriesState)
+                        ? $this->fetchSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, self::MONTH_MONTHLY_WINDOW_YEARS), $endDate, $seriesState)
                         : [],
                 ];
             }
             if ('year' === $periodLabel) {
+                $dailyStart = (Date::factory($endDate))->subDay(self::YEAR_DAILY_WINDOW_DAYS)->toString('Y-m-d');
                 return [
-                    'daily'   => $this->fetchSeries($apiMethod, $idSite, $segment, 'day', (Date::factory($endDate))->subDay(70)->toString('Y-m-d'), $endDate, $seriesState),
-                    'monthly' => $this->fetchSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, 9), $endDate, $seriesState),
+                    'daily'   => $this->fetchSeries($apiMethod, $idSite, $segment, 'day', $dailyStart, $endDate, $seriesState),
+                    'monthly' => $this->fetchSeries($apiMethod, $idSite, $segment, 'month', $this->yearsBack($endDate, self::YEAR_MONTHLY_WINDOW_YEARS), $endDate, $seriesState),
                 ];
             }
         } catch (\Throwable $e) {
