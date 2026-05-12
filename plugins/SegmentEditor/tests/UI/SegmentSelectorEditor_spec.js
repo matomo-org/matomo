@@ -55,9 +55,23 @@ describe("SegmentSelectorEditorTest", function () {
 
     async function searchForSegment(searchTerm)
     {
-        await page.evaluate((searchTermValue) => {
-            $('.segmentationContainer .segmentFilter').val(searchTermValue).trigger('keyup');
-        }, searchTerm);
+        const selector = '.segmentationContainer .searchInputField';
+
+        await page.waitForSelector(selector);
+        await page.evaluate((inputSelector) => {
+            const input = document.querySelector(inputSelector);
+            if (!input) {
+                throw new Error(`Search input not found for selector: ${inputSelector}`);
+            }
+
+            input.value = '';
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+        }, selector);
+
+        if (searchTerm) {
+            await page.focus(selector);
+            await page.type(selector, searchTerm);
+        }
 
         // debounce in segment filter is 500ms
         await page.waitForTimeout(600);
@@ -101,12 +115,12 @@ describe("SegmentSelectorEditorTest", function () {
             idSites: [1],
         });
         testEnvironment.testUseMockAuth = 0;
-        testEnvironment.save();
+        await testEnvironment.save();
     }
 
     async function switchToConnectedUser() {
         testEnvironment.testUseMockAuth = 1;
-        testEnvironment.save();
+        await testEnvironment.save();
         await testEnvironment.callApi('UsersManager.setUserAccess', {
             userLogin: 'anonymous',
             access: 'noaccess',
@@ -144,22 +158,27 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1b_selector_unstarred');
     });
 
-    it("should have disabled star for anonymous users", async function() {
+    it("should hide star for anonymous users", async function() {
         await switchToAnonymousUser();
+        await page.goto('about:blank');
         await page.goto(url);
+        await page.waitForNetworkIdle();
         await page.click('.segmentationContainer .title');
-        const firstSegmentStarState = await page.evaluate(() => $('.segmentList li:nth-of-type(2) .starSegment').attr('data-state') || '');
-        expect(firstSegmentStarState).to.equal('disabled');
+        const firstSegmentStarCount = await page.evaluate(() => $('.segmentList li:nth-of-type(2) .starSegment').length);
+        expect(firstSegmentStarCount).to.equal(0);
     });
 
     it("should open segment editor when edit link clicked for existing segment", async function() {
         await switchToConnectedUser();
+        await page.goto('about:blank');
         await page.goto(url);
         await page.click('.segmentationContainer .title');
         await page.evaluate(function() {
-            $('.segmentList .editSegment:first').click();
+            $('.segmentList button.editSegment:first').click();
         });
         await page.waitForNetworkIdle();
+        const isPanelExpanded = await page.evaluate(() => $('.segmentEditorPanel').hasClass('expanded'));
+        expect(isPanelExpanded).to.equal(false);
         await moveMouseAwayFromCapturedArea();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('2_segment_editor_update');
     });
@@ -277,6 +296,7 @@ describe("SegmentSelectorEditorTest", function () {
     it("should correctly load the new segment's details when the new segment is edited", async function() {
         await page.click('.segmentList li[data-idsegment="4"] .editSegment');
         await page.waitForNetworkIdle();
+        await moveMouseAwayFromCapturedArea();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('saved_details');
     });
 
@@ -525,5 +545,65 @@ describe("SegmentSelectorEditorTest", function () {
         await expectSearchToShowOnly('ЖУРНАЛ', 'журнал');
         await expectSearchToShowOnly('中文', '中文');
         await expectSearchToHaveNoResults('zhongwen');
+    });
+
+    it("should initialize only the first segment selector control during bootstrap", async function() {
+        await page.goto(url);
+
+        const initState = await page.evaluate(() => {
+            const SegmentSelectorControl = window.require('piwik/UI').SegmentSelectorControl;
+            const $firstPanel = $('.segmentEditorPanel').first();
+            const $secondPanel = $firstPanel.clone(false, false);
+
+            $secondPanel.removeAttr('data-inited');
+            $secondPanel.removeData('uiControlObject');
+            $secondPanel.find('[data-inited]').removeAttr('data-inited');
+            $secondPanel.find('[data-ui-control-object]').removeAttr('data-ui-control-object');
+            $firstPanel.after($secondPanel);
+
+            SegmentSelectorControl.initElements();
+
+            return {
+                panelCount: $('.segmentEditorPanel').length,
+                firstPanelHasUiControl: !!$firstPanel.data('uiControlObject'),
+                firstPanelDataInited: $firstPanel.attr('data-inited') || '',
+                secondPanelDataInited: $secondPanel.attr('data-inited') || '',
+            };
+        });
+
+        expect(initState.panelCount).to.equal(2);
+        expect(initState.firstPanelHasUiControl).to.equal(true);
+        expect(initState.firstPanelDataInited).to.equal('1');
+        expect(initState.secondPanelDataInited).to.equal('');
+    });
+
+    it("should throw when a second Segmentation instance is created", async function() {
+        await page.goto(url);
+
+        const result = await page.evaluate(() => {
+            const $firstPanel = $('.segmentEditorPanel').first();
+            const $secondPanel = $firstPanel.clone(false, false);
+
+            $secondPanel.removeAttr('data-inited');
+            $secondPanel.removeData('uiControlObject');
+            $secondPanel.find('[data-inited]').removeAttr('data-inited');
+            $secondPanel.find('[data-ui-control-object]').removeAttr('data-ui-control-object');
+            $firstPanel.after($secondPanel);
+
+            try {
+                new window.Segmentation({
+                    target: $secondPanel.find('.segmentListContainer'),
+                    editorTemplate: $('.SegmentEditor', $secondPanel),
+                    translations: {},
+                });
+
+                return { didThrow: false, message: '' };
+            } catch (error) {
+                return { didThrow: true, message: error.message };
+            }
+        });
+
+        expect(result.didThrow).to.equal(true);
+        expect(result.message).to.contain('Segmentation is initialized more than once on this page.');
     });
 });

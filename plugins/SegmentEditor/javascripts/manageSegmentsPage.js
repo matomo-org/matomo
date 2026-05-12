@@ -6,11 +6,22 @@ function initManageSegmentsPage() {
   if (typeof root.__segmentEditorManageSegmentsCleanup === 'function') {
     root.__segmentEditorManageSegmentsCleanup();
   }
+  // The panel exposes its public API once the Vue selector has mounted, which
+  // can happen after this inline script runs. Poll briefly until it appears
+  // so the page can wire up its star/edit/delete listeners.
   const panelApi = window.matomoPluginSegmentEditor
     && window.matomoPluginSegmentEditor.panelAPI;
   if (!panelApi) {
+    if (initManageSegmentsPage._retryCount === undefined) {
+      initManageSegmentsPage._retryCount = 0;
+    }
+    if (initManageSegmentsPage._retryCount < 100) {
+      initManageSegmentsPage._retryCount += 1;
+      setTimeout(initManageSegmentsPage, 50);
+    }
     return;
   }
+  initManageSegmentsPage._retryCount = 0;
   const tbody = root.querySelector('tbody');
   const rowList = Array.from(tbody.children).reverse();
   const noResultElement = root.querySelector('.tableFooterLabel');

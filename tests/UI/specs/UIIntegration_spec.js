@@ -282,11 +282,31 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it('should load the visitors > real-time visits page correctly', async function () {
-            await page.goto("?" + urlBaseGeneric + idSite3Params + "#?" + idSite3Params + "&category=General_Visitors&subcategory=General_RealTime");
-            //await page.waitForNetworkIdle();
+            // Use the dedicated site seeded by UITestFixture::addRealtimeVisitsForUITest
+            // so the realtime widget reads only fixture-controlled visits, not state
+            // mutated by other UI specs that share idSite=3 (the overlay test site).
+            const idSite = testEnvironment.realtimeUiSiteId;
+            const idSiteParams = 'idSite=' + idSite + '&period=year&date=2012-08-09';
+
+            await page.goto("?" + urlBaseGeneric + idSiteParams + "#?" + idSiteParams + "&category=General_Visitors&subcategory=General_RealTime");
+
+            // Wait for both the visit list and the totals row to finish their initial fetch
+            await page.waitForNetworkIdle();
+            await page.waitForSelector('#visitsLive li.visit', { visible: true });
+            await page.waitForSelector('#visitsTotal');
+
+            // Pause the LiveWidget refresh timer so a follow-up fetch cannot race the
+            // screenshot (AutoRefreshController falls back to 3s even when the configured
+            // interval is 0). This also halts the totals refresh inside the same widget.
+            await page.click('#pauseImage');
+
+            // Strip any in-flight fade-in animation classes
+            await page.evaluate(() => {
+                document.querySelectorAll('.live-widget-fade-in')
+                    .forEach(el => el.classList.remove('live-widget-fade-in'));
+            });
+
             await page.mouse.move(-10, -10);
-            //await page.click('#pauseImage'); // prevent refreshes breaking the tests
-            await page.waitForTimeout(100);
 
             expect(await screenshotPageWrap()).to.matchImage('visitors_realtime_visits');
         });

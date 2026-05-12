@@ -172,12 +172,52 @@ jobs:
           test-type: 'Client'
           node-version: '16'
           mysql-service: false
-  UI:
+  generate-plugin-ui-matrices:
     runs-on: ubuntu-24.04
+    outputs:
+      plugin_matrix: ${{ steps.generate.outputs.plugin_matrix }}
+      plugin_count: ${{ steps.generate.outputs.plugin_count }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Generate Plugin UI Matrices
+        id: generate
+        shell: bash
+        run: |
+          cd matomo
+
+          plugins=$(find plugins -mindepth 2 -path '*/tests/UI/*_spec.js' \
+            ! -path '*/node_modules/*' ! -path '*/vendor/*' \
+            | awk -F/ '{print $2}' | sort -u \
+            | while read -r plugin; do
+                [ -n "$plugin" ] || continue
+
+                if [ ! -e "plugins/$plugin/.git" ]; then
+                  printf '%s\n' "$plugin"
+                fi
+              done)
+
+          matrix=$(printf '%s\n' "$plugins" \
+            | jq -Rsc 'split("\n") | map(select(length>0) | {plugin: .}) | {include: .}')
+
+          {
+            echo "plugin_matrix=$matrix"
+            echo "plugin_count=$(printf '%s\n' "$plugins" | grep -c . || echo 0)"
+          } >> "$GITHUB_OUTPUT"
+  UI-plugins:
+    needs: generate-plugin-ui-matrices
+    if: ${{ needs.generate-plugin-ui-matrices.outputs.plugin_count != '0' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
-      matrix:
-        parts: [ 0,1,2,3,4,5,6,7,8,9 ]
+      max-parallel: &ui-max-parallel ${{ fromJson(vars.MATOMO_UI_MAX_PARALLEL || '10') }}
+      matrix: ${{ fromJson(needs.generate-plugin-ui-matrices.outputs.plugin_matrix) }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -189,27 +229,73 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
-          ui-test-options: '--num-test-groups=10 --test-group=${{ matrix.parts }}'
+          ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
           php-version: '7.2'
           node-version: '16'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
-          testomatio: ${{ secrets.TESTOMATIO }}
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+  UI-core:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: ${{ inputs.is_preview == true }}
+      max-parallel: *ui-max-parallel
+      matrix:
+        part: [ 0, 1, 2, 3, 4, 5 ]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: true
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          ui-test-options: >-
+            --core-tests-only --num-test-groups=${{ strategy.job-total }}
+            --test-group=${{ strategy.job-index }}
+          test-type: 'UI'
+          php-version: '7.2'
+          node-version: '16'
+          redis-service: true
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: true
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
   ci-required:
     name: All required tests passed
     if: ${{ always() }}
-    needs: [ PHP, Javascript, Client, UI ]
+    needs: [ PHP, Javascript, Client, generate-plugin-ui-matrices, UI-plugins, UI-core ]
     runs-on: ubuntu-24.04
     steps:
       - name: Verify required jobs succeeded
+        uses: actions/github-script@v7
         env:
           NEEDS_JSON: ${{ toJSON(needs) }}
-        run: |
-          echo "$NEEDS_JSON"
-          if echo "$NEEDS_JSON" | grep -q '"result": "\(failure\|cancelled\|skipped\)"'; then
-            echo "One or more required jobs did not succeed."
-            exit 1
-          fi
-          echo "All required jobs passed."
+        with:
+          script: |
+            const needs = JSON.parse(process.env.NEEDS_JSON);
+            const pluginCount = needs['generate-plugin-ui-matrices'].outputs.plugin_count || '0';
+
+            for (const [jobName, jobData] of Object.entries(needs)) {
+              const result = jobData.result;
+              if (result === 'failure' || result === 'cancelled') {
+                core.setFailed(`${jobName} did not succeed: ${result}`);
+                return;
+              }
+
+              if (result === 'skipped') {
+                if (jobName === 'UI-plugins' && pluginCount === '0') {
+                  continue;
+                }
+
+                core.setFailed(`${jobName} did not succeed: ${result}`);
+                return;
+              }
+            }
+
+            core.info('All required jobs passed.');

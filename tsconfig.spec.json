@@ -12,6 +12,7 @@
   "include": [
     "plugins/CoreVue/types/shims-vue.d.ts",
     "plugins/CoreVue/types/index.d.ts",
+    "plugins/CoreVue/types/plugin-modules.d.ts",
     "plugins/**/vue/**/*.spec.ts",
   ]
 }
