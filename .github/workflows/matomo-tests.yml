@@ -85,7 +85,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@gh_token_auth_change
         with:
           test-type: 'UnitTests'
           mysql-driver: ${{ matrix.environment.adapter }}
