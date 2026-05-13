@@ -25,7 +25,6 @@ use Piwik\Filesystem;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Manager;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\API\API;
@@ -77,18 +76,11 @@ class UITestFixture extends SqlDump
         // Otherwise PHP will run into a segfault when trying to execute updates for plugins.
         EventDispatcher::$_SKIP_EVENTS_IN_TESTS = true;
 
-        // fetch the installed versions of all plugins from options table
-        $pluginVersions = Option::getLike('version_%');
-        $plugins = [];
-
-        foreach ($pluginVersions as $pluginName => $version) {
-            $name = substr($pluginName, 8);
-            if (Manager::getInstance()->isValidPluginName($name) && Manager::getInstance()->isPluginInFilesystem($name)) {
-                $plugins[] = $name;
-            }
-        }
-
-        self::resetPluginsInstalledConfig($plugins);
+        // PluginsInstalled is intentionally left as performSetUp's installAndActivatePlugins
+        // populated it (Plugins[] config load order). Resetting it here from
+        // Option::getLike('version_%') used to reorder it alphabetically by option_name PK,
+        // which made the Diagnostics configfile screenshot non-deterministic between
+        // first/subsequent fixture setups in the same node run-tests.js invocation.
 
         self::updateDatabase();
 
@@ -113,6 +105,7 @@ class UITestFixture extends SqlDump
 
         $this->addOverlayVisits();
         $this->addNewSitesForSiteSelector();
+        $this->addRealtimeVisitsForUITest();
 
         DbHelper::createAnonymousUser();
         $userUpdater = new UserUpdater();
@@ -197,6 +190,18 @@ class UITestFixture extends SqlDump
 
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
         $this->testEnvironment->tokenAuth = self::getTokenAuth();
+
+        // Re-expose the realtime UI test site id every run. setUp() is skipped under
+        // --persist-fixture-data, but the site itself survives in the cached DB from
+        // the initial --drop run, so a URL lookup gives us a stable id.
+        $realtimeSiteId = Db::fetchOne(
+            "SELECT idsite FROM `" . Common::prefixTable('site') . "` WHERE main_url = ?",
+            ['http://realtime-fixture.example.com']
+        );
+        if ($realtimeSiteId) {
+            $this->testEnvironment->realtimeUiSiteId = (int) $realtimeSiteId;
+        }
+
         $this->testEnvironment->save();
 
         print "Token auth in fixture is {$this->testEnvironment->tokenAuth}\n";
@@ -211,6 +216,79 @@ class UITestFixture extends SqlDump
         VisitsSummaryAPI::getInstance()->get('all', 'year', '2012-08-09', urlencode(OmniFixture::DEFAULT_SEGMENT));
         VisitsSummaryAPI::getInstance()->get(3, 'week', 'yesterday'); // for overlay
         print("Done.");
+    }
+
+    /**
+     * Seeds a dedicated site with a small, deterministic set of visits anchored to the
+     * forced test clock, so the Visitors > Real-time visits screenshot test sees stable
+     * data regardless of which other UI specs ran in the same CI group.
+     *
+     * Why a new site: idSite=3 is the overlay test site, also written to by JSTracker_spec,
+     * OptOutIframe_spec, OptOutJS_spec and UserIdVisitorId_spec. When CI splits intermix
+     * those specs with UIIntegrationTest, their tracker calls land in the realtime
+     * widget's "last 30 minutes / last 24 hours" window and shift the screenshot. A site
+     * no other spec writes to keeps the data window deterministic.
+     */
+    private function addRealtimeVisitsForUITest(): void
+    {
+        $idSite = self::createWebsite(
+            '2011-01-01 00:00:00',
+            0,
+            'Realtime visits UI test site',
+            'http://realtime-fixture.example.com',
+            1,
+            null,
+            null,
+            null,
+            null,
+            0
+        );
+
+        // Anchor visits to wall-clock now (Date::factory('now') with Date::$now unset
+        // returns wall-clock time). The realtime widget's controller forces `date=today`
+        // which resolves to wall-clock today (Date::today() does NOT honour the
+        // container's `Tests.now` decoration), so visits anchored to forced-now would
+        // fall outside the period window. addOverlayVisits relies on the same
+        // wall-clock semantics via Date::factory('yesterday').
+        $nowTs = Date::factory('now')->getTimestamp();
+
+        // Each entry: [seconds-before-now, page-views-in-visit, ip, userAgent].
+        // Mobile/tablet/old-browser UAs reused from $this->addOverlayVisits() to keep the
+        // realtime widget's icon column visually consistent with mobile-leaning data.
+        $visits = [
+            [   60, 2, '50.112.3.5',     'Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36'],
+            [  300, 1, '70.117.169.113', 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1'],
+            [  600, 3, '156.5.3.1',      'Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36'],
+            [ 1200, 4, '194.57.91.215',  'Mozilla/5.0 (Linux; U; Android 4.3; zh-cn; SM-N9006 Build/JSS15J) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 MQQBrowser/5.0 Mobile Safari/533.1'],
+            [ 1500, 1, '137.82.130.1',   'Mozilla/5.0 (Android 7.0; Mobile; rv:54.0) Gecko/54.0 Firefox/54.0'],
+            [ 4500, 2, '113.62.1.1',     'Mozilla/5.0 (Linux; Android 6.0.1; SM-G920V Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36'],
+            [ 7200, 1, '151.100.101.92', 'Opera/9.80 (J2ME/MIDP; Opera Mini/5.1.21214/28.2725; U; ru) Presto/2.8.119 Version/11.10'],
+            [14400, 3, '24.125.31.147',  'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_2 like Mac OS X) AppleWebKit/603.2.4 (KHTML, like Gecko) FxiOS/7.5b3349 Mobile/14F89 Safari/603.2.4'],
+            [28800, 1, '67.51.31.21',    'Mozilla/5.0 (Linux; Android 7.0; SM-A310F Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91 Mobile Safari/537.36 OPR/42.7.2246.114996'],
+            [50000, 2, '108.211.181.12', 'Mozilla/5.0 (X11; U; Linux i686; ru; rv:1.9.0.14) Gecko/2009090216 Ubuntu/9.04 (jaunty) Firefox/3.0.14'],
+        ];
+
+        $tracker = self::getTracker($idSite, Date::factory($nowTs)->getDatetime(), true);
+        $tracker->enableBulkTracking();
+
+        foreach ($visits as $idx => $entry) {
+            [$secondsAgo, $pageCount, $ip, $userAgent] = $entry;
+            $tracker->setNewVisitorId();
+            $tracker->setIp($ip);
+            $tracker->setUserAgent($userAgent);
+            for ($p = 0; $p < $pageCount; $p++) {
+                $tracker->setForceVisitDateTime(
+                    Date::factory($nowTs - $secondsAgo + $p * 5)->getDatetime()
+                );
+                $tracker->setUrl('http://realtime-fixture.example.com/page-' . $idx . '-' . $p);
+                self::assertTrue($tracker->doTrackPageView('Page ' . $idx . '-' . $p));
+            }
+        }
+
+        self::checkBulkTrackingResponse($tracker->doBulkTrack());
+
+        $this->testEnvironment->realtimeUiSiteId = $idSite;
+        $this->testEnvironment->save();
     }
 
     private function addOverlayVisits()

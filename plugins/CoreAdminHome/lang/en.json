@@ -39,6 +39,7 @@
         "InvalidSiteUrlErrorHelp": "Please go back to your previous page or return to your dashboard to select a website.",
         "InvalidPluginsWarning": "The following plugins are not compatible with %1$s and could not be loaded: %2$s.",
         "InvalidPluginsYouCanUninstall": "You can update or uninstall these plugins on the %1$sManage Plugins%2$s page.",
+        "InvalidPluginsAdminDisabled": "To update or uninstall these plugins, please contact your Matomo administrator, who can use the command line or update the configuration directly.",
         "JSTrackingIntro1": "You can track visitors to your website in many different ways. The recommended way to do it is through JavaScript. To use this method you must make sure every webpage of your website has some JavaScript code, which you can generate here.",
         "JSTrackingIntro2": "Once you have the JavaScript tracking code for your website, copy and paste it to all the pages you want to track with Matomo.",
         "JSTrackingIntro3a": "In most websites, blogs, CMS, etc. you can use a pre-made plugin to do the technical work for you. (See our %1$slist of plugins used to integrate Matomo%2$s.)",

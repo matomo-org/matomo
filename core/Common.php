@@ -13,12 +13,11 @@ use Exception;
 use Piwik\CliMulti\Process;
 use Piwik\Config\DatabaseConfig;
 use Piwik\Config\GeneralConfig;
+use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Log\LoggerInterface;
-use Piwik\Plugins\PrivacyManager\Settings\CampaignTrackingParametersDisabled;
-use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Tracker\TrackerConfig;
 
 /**
@@ -521,7 +520,8 @@ class Common
         if (
             empty($varName)
             || !isset($requestArrayToUse[$varName])
-            || (!is_array($requestArrayToUse[$varName])
+            || (
+                !is_array($requestArrayToUse[$varName])
                 && strlen($requestArrayToUse[$varName]) === 0
             )
         ) {
@@ -1024,16 +1024,8 @@ class Common
      *            1 => array( ... ) // campaign keyword parameters
      * );
      */
-    public static function getCampaignParameters(?int $idSite = null, bool $skipCompliancePolicyCheck = false)
+    public static function getCampaignParameters()
     {
-        if (!$skipCompliancePolicyCheck) {
-            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            $cacheKey = CampaignTrackingParametersDisabled::class;
-            if (($cache[$cacheKey] ?? false) === true) {
-                return [[], []];
-            }
-        }
-
         $return = [
             TrackerConfig::getConfigValue('campaign_var_name'),
             TrackerConfig::getConfigValue('campaign_keyword_var_name'),

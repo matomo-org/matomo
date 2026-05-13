@@ -9,6 +9,16 @@ import { mount } from '@vue/test-utils';
 import { format } from '../Periods';
 import PresetDateRanges from './PresetDateRanges.vue';
 
+jest.mock('../translate', () => ({
+  translate: (key: string) => {
+    const messages: Record<string, string> = {
+      General_DoubleClickToChangePeriod: 'Double click to change period',
+    };
+
+    return messages[key] || key;
+  },
+}));
+
 interface PresetDateRangeSelection {
   id: string;
   period: string;
@@ -109,6 +119,18 @@ describe('PresetDateRanges', () => {
     expect(selectPayload.date).toBe('last7');
   });
 
+  it('should emit dblclick payload for presets', async () => {
+    const wrapper = mountComponent();
+
+    await wrapper.find('#preset_date_last7days').trigger('dblclick');
+
+    expect(wrapper.emitted('dblclick')?.[0]?.[0]).toMatchObject({
+      id: 'last7days',
+      period: 'range',
+      date: 'last7',
+    });
+  });
+
   it('should resolve monday/sunday week behavior correctly', async () => {
     const wrapper = mountComponent({ today: new Date('2026-02-15') });
 
@@ -190,5 +212,17 @@ describe('PresetDateRanges', () => {
     await wrapper.setProps({ checkedPresetId: 'lastMonth' });
 
     expect((wrapper.find('#preset_date_lastMonth').element as HTMLInputElement).checked).toBe(true);
+  });
+
+  it('should set empty tooltip for checked preset and non-empty for others', () => {
+    const wrapper = mountComponent({
+      checkedPresetId: 'today',
+    });
+
+    const todayLabel = wrapper.find('#preset_date_today').element.parentElement as HTMLLabelElement;
+    const yesterdayLabel = wrapper.find('#preset_date_yesterday').element.parentElement as HTMLLabelElement;
+
+    expect(todayLabel.title).toBe('');
+    expect(yesterdayLabel.title).toBe('Double click to change period');
   });
 });

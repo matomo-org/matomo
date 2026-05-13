@@ -1,7 +1,15 @@
+@_segmentselector-default-space: 8px;
+@_segmentselector-dropdown_padding: @_segmentselector-default-space;
+@_segmentselector-action-size: 18px;
+@_segmentselector-button-height: 36px;
+@_segmentselector-full-width-button-width: ~'calc(100% - 16px)';
+
 /* ADDITIONAL STYLES */
 .youMustBeLoggedIn {
-    font-size: 8pt;
-    font-style: italic;
+    display: block;
+    font-size: 12px;
+    padding: @_segmentselector-dropdown_padding;
+    line-height: 14px;
 
 }
 
@@ -211,7 +219,7 @@ div.scrollable {
 }
 
 .segmentationContainer .submenu {
-    font-size: 13px;
+    font-size: 14px;
     min-width: 206px;
 }
 
@@ -222,21 +230,37 @@ div.scrollable {
 .segmentationContainer .submenu ul {
     display: flex;
     flex-direction: column;
-    color: @theme-color-text-light;
+    color: @theme-color-text-lighter;
     float: none;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: normal;
     line-height: 20px;
     list-style: none outside none;
     margin-right: 0;
-    padding-top: 10px;
+    padding-top: 8px;
+}
+.segment-visits-label {
+  height: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+.segment-visits-label,
+.segmentsSharedWithMeBySuperUser,
+.segmentsVisibleToSuperUser {
+  padding: 0 @_segmentselector-dropdown_padding;
+  font-size: 14px;
+  font-weight: bold;
+  color: @theme-color-text;
 }
 
 .segmentationContainer .submenu ul li {
-    padding: 2px 0 2px 0;
+    padding: 2px @_segmentselector-dropdown_padding;
     margin: 3px 0 0 0;
     cursor: pointer;
     order: 2;
+    height: 32px;
+    border-radius: @_selector-dropdown_border-radius;
 }
 
 .segmentationContainer .submenu ul li[data-idsegment=""] {
@@ -304,11 +328,16 @@ div.scrollable {
   100% { stroke: black; fill: transparent; }
 }
 
+.segmentAction--placeholder {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .segmentAction {
   flex: none;
   display: flex;
-  width: 16px;
-  height: 16px;
+  width: @_segmentselector-action-size;
+  height: @_segmentselector-action-size;
 
   // Button reset
   padding: 0;
@@ -343,6 +372,12 @@ div.scrollable {
 
 .starSegment {
     order: 2;
+    color: @theme-color-text-lighter;
+}
+
+.starSegment + .compareSegment,
+.compareSegment + .editSegment {
+    margin-left: 8px;
 }
 
 .segmentStarAnimation .starSegment {
@@ -379,19 +414,27 @@ div.scrollable {
 }
 
 .segmentStarred .starSegment path {
+    fill: currentColor;
+}
+
+.entityTable .segmentStarred .entityTable_StarCell .starSegment path {
     fill: black;
 }
 
 .compareSegment {
-    background: url(plugins/Morpheus/images/compare.svg) no-repeat;
-    background-size: cover;
     order: 2;
+    color: @theme-color-text-lighter;
+    align-items: center;
+    justify-content: center;
 
-    &.allVisitsCompareSegment {
-        margin-left: 20px;
+    svg {
+      display: block;
+      width: @_segmentselector-action-size;
+      height: @_segmentselector-action-size;
     }
-    &.allVisitsCompareSegment--write {
-      margin-right: 20px;
+
+    &.isAnonymous {
+        margin-left: 22px;
     }
 }
 
@@ -404,7 +447,8 @@ div.scrollable {
     border-bottom-right-radius: 0;
 
     .dropdown-body {
-        min-width: 280px;
+        min-width: 337px;
+        padding: @_segmentselector-dropdown_padding;
     }
 
     @media screen and (max-width: 600px) {
@@ -418,34 +462,18 @@ div.scrollable {
     display: inline-block;
     list-style: none;
     width: 100%;
+    padding: 0;
 }
 
 .segmentFilterContainer {
-    margin-bottom: 10px;
-    display: inline-block;
+    margin-bottom: 4px;
+    display: block;
+    position: relative;
     width: 100%;
+    padding: @_segmentselector-dropdown_padding;
 }
 
-.segmentEditorPanel.expanded .segmentFilterContainer > input[type="text"] {
-    width: 100%;
-    padding: 7px 10px 7px 10px;
-
-    background: @theme-color-background-contrast;
-    border: 1px solid @theme-color-border;
-    font-size: 11px;
-    color: #999;
-}
-
-.segmentEditorPanel.expanded .segmentFilterContainer > span {
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    right: 23px;
-    top: 24px;
-    cursor: pointer;
-}
-
-.segmentEditorPanel.expanded .segmentFilterContainer:hover > span {
+.segmentEditorPanel.expanded .segmentFilterContainer:hover .searchInputClear {
     background: url(plugins/SegmentEditor/images/reset_search.png);
 }
 
@@ -453,18 +481,36 @@ div.scrollable {
     font-style: italic;
 }
 
-.segmentEditorPanel.expanded .add_new_segment {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.segmentEditorPanel.expanded {
+    .add_new_segment, .sign_in_segment_btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-    width: 100%;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    margin: 1rem 0 0.5rem 0;
-    height: auto;
-    min-height: 36px;
-    line-height: 1.5;
+        width: @_segmentselector-full-width-button-width;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+
+        min-height: @_segmentselector-button-height;
+        line-height: @_segmentselector-button-height;
+        box-shadow: none;
+    }
+    .add_new_segment {
+        margin: @_segmentselector-dropdown_padding;
+        margin-top: 16px;
+    }
+    .sign_in_segment_btn {
+        margin: @_segmentselector-dropdown_padding;
+    }
+}
+
+
+.segmentEditorPanel.expanded .manage_segment_btn {
+    width: @_segmentselector-full-width-button-width;
+    margin: @_segmentselector-dropdown_padding;
+    margin-top: 0;
+    box-shadow: none;
+    line-height: @_segmentselector-button-height;
 }
 
 .segmentationContainer > ul.submenu > li {
@@ -475,7 +521,6 @@ div.scrollable {
 
 .segmentList {
     max-height: 300px;
-    margin-top: 5px;
     overflow-x: hidden;
     overflow-y: auto;
 
@@ -591,6 +636,8 @@ a.metric_category {
 
 .segname {
     flex: auto;
+    font-size: 14px;
+    line-height: 20px;
     padding-right: 10px;
     order: 1;
 }
@@ -627,14 +674,6 @@ a.metric_category {
     margin-left: 0.5em;
     margin-bottom: 0.25em;
     vertical-align: middle;
-}
-
-.segmentsVisibleToSuperUser, .segmentsSharedWithMeBySuperUser {
-    font-style: italic;
-
-    li {
-        font-style: normal;
-    }
 }
 
 .enable_all_users, .visible_to_website, .auto_archive {

@@ -337,8 +337,9 @@
         "ManagePrivacySettings": "Manage privacy settings",
         "PolicyControlledSetting": "A privacy compliance policy overrides this settings, so changing it has no effect right now.",
         "ViewPrivacyComplianceOverview": "View privacy compliance overview",
-        "CampaignTrackingParametersDisabledSettingTitle": "Campaign tracking parameters disabled",
-        "CampaignTrackingParametersDisabledSettingRequirementNote": "All campaign tracking parameters must be discarded.",
+        "CampaignParameterDiscarded": "(UTM parameter discarded)",
+        "CampaignParameterValuesMaskedSettingRequirementNote": "Campaign parameter values must be masked before they are stored.",
+        "CampaignParameterValuesMaskedSettingTitle": "Campaign parameter values masked",
         "ReferrerAnonymizationSettingTitle": "Referrer Anonymisation",
         "ReferrerAnonymizationSettingRequirementNote": "Only the referrer host or referrer type may be collected."
     }

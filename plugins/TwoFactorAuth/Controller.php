@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\TwoFactorAuth;
 
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\IP;
@@ -73,6 +74,11 @@ class Controller extends \Piwik\Plugin\Controller
     public function loginTwoFactorAuth()
     {
         $this->validator->checkCanUseTwoFa();
+
+        if (!$this->validator->isCurrentUserMatchingSessionUser()) {
+            return $this->renderFreshLoginAfterResettingPendingTwoFactorSession();
+        }
+
         $this->validator->check2FaEnabled();
         $this->validator->checkNotVerified2FAYet();
 
@@ -94,7 +100,7 @@ class Controller extends \Piwik\Plugin\Controller
 
                 if ($this->twoFa->validateAuthCode(Piwik::getCurrentUserLogin(), $authCode)) {
                     $sessionFingerprint = new SessionFingerprint();
-                    $sessionFingerprint->setTwoFactorAuthenticationVerified();
+                    $sessionFingerprint->setTwoFactorAuthenticationVerified(Piwik::getCurrentUserLogin());
                     Url::redirectToUrl(Url::getCurrentUrl());
                 } else {
                     $messageNoAccess = Piwik::translate('TwoFactorAuth_InvalidAuthCode');
@@ -117,6 +123,17 @@ class Controller extends \Piwik\Plugin\Controller
         $view->nonce = Nonce::getNonce(self::LOGIN_2FA_NONCE);
 
         return $view->render();
+    }
+
+    private function renderFreshLoginAfterResettingPendingTwoFactorSession()
+    {
+        \Piwik\Plugins\Login\Controller::clearSession();
+        Access::getInstance()->setSessionExpired(true);
+
+        return StaticContainer::get(\Piwik\Plugins\Login\Controller::class)->login(
+            null,
+            Piwik::translate('General_YourSessionHasExpired')
+        );
     }
 
     public function userSettings()
@@ -222,7 +239,7 @@ class Controller extends \Piwik\Plugin\Controller
             if ($this->twoFa->validateAuthCodeDuringSetup(trim($authCode), $secret)) {
                 $this->twoFa->saveSecret($login, $secret);
                 $fingerprint = new SessionFingerprint();
-                $fingerprint->setTwoFactorAuthenticationVerified();
+                $fingerprint->setTwoFactorAuthenticationVerified($login);
                 unset($session->secret);
                 $this->passwordVerify->forgetVerifiedPassword();
 
