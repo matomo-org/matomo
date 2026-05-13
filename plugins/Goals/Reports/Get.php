@@ -106,11 +106,12 @@ class Get extends Base
 
     private function hasGoalRevenue(string $idGoal): bool
     {
-        if (empty($idGoal)) {
-            return false;
+        $params = ['format_metrics' => '0'];
+        if (!empty($idGoal)) {
+            $params['idGoal'] = $idGoal;
         }
 
-        $datatable = Request::processRequest('Goals.get', ['format_metrics' => '0', 'idGoal' => $idGoal]);
+        $datatable = Request::processRequest('Goals.get', $params);
 
         if (!($datatable instanceof DataTable)) {
             return false;
