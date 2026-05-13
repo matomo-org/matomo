@@ -255,17 +255,14 @@ function make_relative(string $fromDir, string $toPath): string
     $fromParts = explode('/', trim($fromDir, '/'));
     $toParts   = explode('/', trim($toPath, '/'));
 
-    $i = 0;
-    while (
-        $i < count($fromParts)
-        && $i < count($toParts)
-        && $fromParts[$i] === $toParts[$i]
-    ) {
-        $i++;
+    $shared = 0;
+    foreach ($fromParts as $i => $segment) {
+        if (($toParts[$i] ?? null) !== $segment) {
+            break;
+        }
+        $shared++;
     }
 
-    $up   = str_repeat('../', count($fromParts) - $i);
-    $down = implode('/', array_slice($toParts, $i));
-
-    return $up . $down;
+    return str_repeat('../', count($fromParts) - $shared)
+        . implode('/', array_slice($toParts, $shared));
 }
