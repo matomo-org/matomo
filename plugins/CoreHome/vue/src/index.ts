@@ -29,7 +29,8 @@ export { default as MatomoLoader } from './MatomoLoader/MatomoLoader.vue';
 export * from './translate';
 export * from './externalLink';
 export { default as Alert } from './Alert/Alert.vue';
-export { default as AjaxHelper, AjaxOptions } from './AjaxHelper/AjaxHelper';
+export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
+export type { AjaxOptions } from './AjaxHelper/AjaxHelper';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
 export { Matomo };
@@ -60,7 +61,7 @@ export { default as PeriodDatePicker } from './PeriodDatePicker/PeriodDatePicker
 export * from './Notification';
 export { default as ShowHelpLink } from './ShowHelpLink/ShowHelpLink.vue';
 export { default as SitesStore } from './SiteSelector/SitesStore';
-export { default as Site } from './SiteSelector/Site';
+export type { default as Site } from './SiteSelector/Site';
 export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';
 export { default as SiteRef } from './SiteSelector/SiteRef';
 export { default as QuickAccess } from './QuickAccess/QuickAccess.vue';
