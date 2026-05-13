@@ -19,6 +19,7 @@
         <div class="card-action">
             {{ 'General_GoTo2'|translate }}:
             <a href="#/javaScriptTracking">{{ 'CoreAdminHome_JavaScriptTracking'|translate  }}</a>
+            {{ postEvent('Template.afterJsTrackerMenu') }}
             <a href="#/imageTracking">{{ 'CoreAdminHome_ImageTracking'|translate }}</a>
             <a href="#/importServerLogs">{{ 'SitesManager_LogAnalytics'|translate }}</a>
             <a href="#/mobileAppsAndSdks">{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</a>
@@ -42,6 +43,8 @@
     max-custom-variables="{{ maxCustomVariables|json_encode }}"
     server-side-do-not-track-enabled="{{ serverSideDoNotTrackEnabled|json_encode }}"
 ></div>
+
+{{ postEvent('Template.afterJsTracker') }}
 
 <div
     vue-entry="CoreAdminHome.ImageTrackingCodeGenerator"
