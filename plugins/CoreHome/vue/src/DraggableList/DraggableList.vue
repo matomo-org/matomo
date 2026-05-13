@@ -212,7 +212,8 @@ function onDragEnd() {
   resetDragState(true);
 }
 
-watch([itemKeySignature, () => props.disabled], () => resetDragState(true), { immediate: true });
+// Refresh the local list if the parent sends new items
+watch([sourceItems, () => props.disabled], () => resetDragState(true), { immediate: true });
 </script>
 
 <template>

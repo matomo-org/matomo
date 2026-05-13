@@ -112,6 +112,24 @@ describe('CoreHome/DraggableList', () => {
     expect(item.classes()).toContain('isDragged');
   });
 
+  it('should update rendered slot data when items are replaced with the same keys and order', async () => {
+    const wrapper = createWrapper();
+
+    await wrapper.setProps({
+      items: [
+        { id: 'first', label: 'First updated' },
+        { id: 'second', label: 'Second updated' },
+        { id: 'third', label: 'Third updated' },
+      ],
+    });
+
+    expect(wrapper.findAll('.draggableListItem').map((item) => item.text())).toEqual([
+      '::First updated',
+      '::Second updated',
+      '::Third updated',
+    ]);
+  });
+
   it('should only start dragging from the configured handle', async () => {
     const wrapper = createWrapper({
       handle: '.dragHandle',
