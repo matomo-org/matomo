@@ -64,7 +64,7 @@ describe('ReportExportPopover', function () {
     expect(href).to.not.contain(substring);
   }
 
-  it('should hide expanded option when CSV or TSV format is selected and show it for everything else', async function () {
+  it('should hide expanded option when CSV, TSV or HTML format is selected and show it for everything else', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
     await page.waitForSelector('#widgetActionsgetPageUrls', { visible: true });
@@ -80,7 +80,7 @@ describe('ReportExportPopover', function () {
     });
     await page.waitForSelector('#reportExport', { visible: true });
     const formatsToCheck = ['CSV', 'JSON', 'TSV', 'HTML', 'RSS', 'XML'];
-    const formatsToHideExpanded = ['CSV', 'TSV'];
+    const formatsToHideExpanded = ['CSV', 'TSV', 'HTML'];
 
     for (const format of formatsToCheck) {
       await clickFormat(format);

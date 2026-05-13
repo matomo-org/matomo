@@ -254,7 +254,7 @@ export default defineComponent({
       reportFormat: this.initialReportFormat,
       optionShowDimensions: this.initialOptionShowDimensions,
       // Keep explicit preference separate from default behavior:
-      // default means TSV/CSV flat and non-TSV/CSV expanded.
+      // default means CSV/TSV/HTML flat and other formats expanded.
       subtablePreference: resolveInitialSubtablePreference(
         this.initialOptionFlat,
         this.initialOptionExpanded,
