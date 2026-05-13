@@ -104,14 +104,13 @@ class Get extends Base
         return $site->isEcommerceEnabled();
     }
 
-    private function hasGoalRevenue($idGoal): bool
+    private function hasGoalRevenue(string $idGoal): bool
     {
-        $params = ['format_metrics' => '0'];
-        if (!empty($idGoal)) {
-            $params['idGoal'] = $idGoal;
+        if (empty($idGoal)) {
+            return false;
         }
 
-        $datatable = Request::processRequest('Goals.get', $params);
+        $datatable = Request::processRequest('Goals.get', ['format_metrics' => '0', 'idGoal' => $idGoal]);
 
         if (!($datatable instanceof DataTable)) {
             return false;
