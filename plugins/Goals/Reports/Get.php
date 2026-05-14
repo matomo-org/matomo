@@ -190,8 +190,10 @@ class Get extends Base
                 if ($onlySummary) {
                     // in Goals Overview we list an overview for each goal....
                     $view->config->addTranslation('conversion_rate', Piwik::translate('Goals_ConversionRate'));
-                } elseif ($isEcommerceEnabled || $this->hasGoalRevenue($idGoal)) {
-                    // in Goals detail page...
+                }
+
+                if ($isEcommerceEnabled || $this->hasGoalRevenue($idGoal)) {
+                    // in Goals detail page and per-goal summary on Goals Overview
                     $view->config->addSparklineMetric(['revenue'], $order = 30);
                 }
             }
