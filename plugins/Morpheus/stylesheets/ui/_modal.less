@@ -6,6 +6,19 @@
 .modal.open {
     display: flex !important;
     flex-direction: column;
+    // Materialize.js used to set `top` inline when animating in. Vue-driven
+    // modals don't run that code, so we provide a static fallback that
+    // matches Materialize's default `endingTop` of 10%.
+    top: 10%;
+}
+
+// Vue-driven modals toggle `.open` on the overlay rather than relying on
+// Materialize.js setting inline display/opacity. These fallbacks render the
+// dimmed backdrop in that case; existing Materialize.js callers keep their
+// inline styles, which win over these rules.
+.modal-overlay.open {
+    display: block;
+    opacity: 0.5;
 }
 
 .modal .modal-content {

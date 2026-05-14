@@ -6,21 +6,46 @@
 -->
 
 <template>
-  <div ref="root" class="modal add-widget-modal">
-    <div class="modal-content add-widget-modal-content">
-      <span class="btn-close modal-close"><i class="icon-close"></i></span>
-      <h3 class="add-widget-modal-title">{{ translate('Dashboard_AddAWidget') }}</h3>
-      <div class="add-widget-modal-body">
-        <div class="add-widget-modal-categories">
-          <ul class="widgetpreview-categorylist"></ul>
-        </div>
-        <div class="add-widget-modal-details">
-          <ul class="widgetpreview-widgetlist"></ul>
-          <div class="widgetpreview-preview"></div>
+  <Teleport to="body">
+    <div
+      v-if="isOpen"
+      class="modal-overlay add-widget-modal-overlay open"
+      @click="closeModal"
+    />
+    <div
+      v-show="isOpen"
+      ref="root"
+      class="modal add-widget-modal"
+      :class="{ open: isOpen }"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="translate('Dashboard_AddAWidget')"
+      tabindex="-1"
+    >
+      <div class="modal-content add-widget-modal-content">
+        <span
+          class="btn-close modal-close"
+          role="button"
+          tabindex="0"
+          @click="closeModal"
+          @keydown.enter="closeModal"
+          @keydown.space.prevent="closeModal"
+        >
+          <i class="icon-close"></i>
+        </span>
+        <h3 class="add-widget-modal-title">{{ translate('Dashboard_AddAWidget') }}</h3>
+        <div class="add-widget-modal-body">
+          <div class="add-widget-modal-categories">
+            <ul class="widgetpreview-categorylist"></ul>
+          </div>
+          <div class="add-widget-modal-details">
+            <ul class="widgetpreview-widgetlist"></ul>
+            <div class="widgetpreview-preview"></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <script lang="ts">
@@ -43,15 +68,51 @@ interface AddWidgetModalState {
   // markRaw() prevents Vue from trying to make the wrapper reactive.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jqRoot: any;
+  previousBodyOverflow: string;
 }
 
 export default defineComponent({
   name: 'AddWidgetModal',
   emits: ['select'],
+  data(): AddWidgetModalState {
+    return {
+      isOpen: false,
+      jqRoot: null,
+      previousBodyOverflow: '',
+    };
+  },
   methods: {
     translate,
-    openModal() { this.jqRoot.modal('open'); },
-    closeModal() { this.jqRoot.modal('close'); },
+
+    openModal() {
+      if (this.isOpen) {
+        return;
+      }
+      this.isOpen = true;
+      this.previousBodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      document.addEventListener('keydown', this.onKeydown);
+      // The modal element is kept mounted (v-show), so widgetPreview can
+      // attach to it as soon as Vue has flipped its display style.
+      this.$nextTick(() => { this.buildPreview(); });
+    },
+
+    closeModal() {
+      if (!this.isOpen) {
+        return;
+      }
+      this.jqRoot.widgetPreview('reset');
+      this.isOpen = false;
+      document.body.style.overflow = this.previousBodyOverflow;
+      this.previousBodyOverflow = '';
+      document.removeEventListener('keydown', this.onKeydown);
+    },
+
+    onKeydown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        this.closeModal();
+      }
+    },
 
     onSelect(uniqueId: string) {
       window.widgetsHelper.getWidgetObjectFromUniqueId(uniqueId, (widget) => {
@@ -74,20 +135,8 @@ export default defineComponent({
       }
     },
   },
-  data(): AddWidgetModalState {
-    return {
-      isOpen: false,
-      jqRoot: null,
-    };
-  },
   mounted() {
     this.jqRoot = markRaw($(this.$refs.root as HTMLElement));
-
-    this.jqRoot.modal({
-      dismissible: true,
-      onOpenEnd: () => { this.isOpen = true; this.buildPreview(); },
-      onCloseEnd: () => { this.isOpen = false; this.jqRoot.widgetPreview('reset'); },
-    });
 
     Matomo.on(OPEN_EVENT, this.openModal);
     Matomo.on(CLOSE_EVENT, this.closeModal);
@@ -97,6 +146,10 @@ export default defineComponent({
     Matomo.off(OPEN_EVENT, this.openModal);
     Matomo.off(CLOSE_EVENT, this.closeModal);
     Matomo.off('WidgetsStore.reloaded', this.onWidgetsReloaded);
+    if (this.isOpen) {
+      document.body.style.overflow = this.previousBodyOverflow;
+      document.removeEventListener('keydown', this.onKeydown);
+    }
   },
 });
 </script>
