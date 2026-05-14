@@ -134,19 +134,23 @@ describe("WidgetizedDashboard", function () {
     });
 
     it("should add a widget when a widget is selected in the dashboard manager", async function() {
+        const modalSelector = '.modal.open.add-widget-modal';
+
         await page.click('.dashboard-manager .title');
+        await page.waitForTimeout(50);
+        await page.click('.dashboard-manager .addWidget');
+        await page.waitForSelector(modalSelector);
+        await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li');
 
-        await page.waitForSelector('.widgetpreview-categorylist>li');
-
-        var live = await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)'); // have to mouse move twice... otherwise Live! will just be highlighted
+        var live = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li:contains(Goals)'); // have to mouse move twice... otherwise Live! will just be highlighted
         await live.hover();
         await live.click();
 
-        var behaviour = await page.jQuery('.widgetpreview-categorylist>li:contains(Behaviour):first');
+        var behaviour = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li:contains(Behaviour):first');
         await behaviour.hover();
         await behaviour.click();
 
-        var pages = await page.jQuery('.widgetpreview-widgetlist>li:contains(Pages):first');
+        var pages = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Pages):first');
         await pages.hover();
         await pages.click();
 

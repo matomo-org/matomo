@@ -14,15 +14,21 @@ describe('SingleMetricView', function () {
         + "actionToWidgetize=index&idDashboard=1";
 
     it('should load correctly', async function () {
+        const modalSelector = '.modal.open.add-widget-modal';
+
         await page.goto(url);
         await page.waitForNetworkIdle();
-        await page.click('.dashboard-manager a.title');
+        await page.click('.dashboard-manager .title');
+        await page.waitForTimeout(50);
+        await page.click('.dashboard-manager .addWidget');
+        await page.waitForSelector(modalSelector);
+        await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li');
 
-        await (await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)')).hover(); // have to mouse move twice... otherwise Live! will just be highlighted
-        await (await page.jQuery('.widgetpreview-categorylist > li:contains(KPI Metric)')).hover();
+        await (await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li:contains(Goals)')).hover(); // have to mouse move twice... otherwise Live! will just be highlighted
+        await (await page.jQuery(modalSelector + ' .widgetpreview-categorylist > li:contains(KPI Metric)')).hover();
 
-        await (await page.jQuery('.widgetpreview-widgetlist li:contains(KPI Metric)')).hover();
-        await (await page.jQuery('.widgetpreview-widgetlist li:contains(KPI Metric)')).click();
+        await (await page.jQuery(modalSelector + ' .widgetpreview-widgetlist li:contains(KPI Metric)')).hover();
+        await (await page.jQuery(modalSelector + ' .widgetpreview-widgetlist li:contains(KPI Metric)')).click();
 
         var elem = await page.waitForSelector('#widgetCoreVisualizationssingleMetricViewcolumn');
         await page.waitForNetworkIdle();
