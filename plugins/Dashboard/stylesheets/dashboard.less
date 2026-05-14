@@ -307,8 +307,8 @@ ul.widgetpreview-widgetlist li {
   border-radius: 2px;
 }
 
-li.widgetpreview-choosen {
-  background-color: @theme-color-background-lowContrast !important;
+.modal.add-widget-dialog li.widgetpreview-choosen {
+  background-color: @theme-color-background-lowContrast;
 }
 
 .widgetpreview-categorylist li.widgetpreview-choosen {
@@ -383,18 +383,21 @@ div.widgetpreview-preview {
   max-width: 90%;
 }
 
-// Put the 2-column grid on .modal-content rather than on the modal root —
-// otherwise it overrides Materialize's `.modal { display: none }` and the
-// modal would always be visible.
-.add-widget-dialog > .modal-content {
+// Modal title sits flush with the modal top and is left-aligned.
+.add-widget-dialog-title {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.add-widget-dialog-body {
   display: grid;
   grid-template-columns: @add-widget-col @add-widget-preview;
   gap: @add-widget-gap;
 }
 
 .add-widget-dialog {
-  .add-widget-dialog__categories,
-  .add-widget-dialog__details {
+  .add-widget-dialog-categories,
+  .add-widget-dialog-details {
     min-width: 0;
   }
 

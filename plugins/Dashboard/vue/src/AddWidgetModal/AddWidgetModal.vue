@@ -8,23 +8,24 @@
 <template>
   <div ref="root" class="modal add-widget-dialog">
     <div class="modal-content">
-      <h2>Add a widget to this dashboard</h2>
-      <div class="add-widget-dialog__categories">
-        <ul class="widgetpreview-categorylist"></ul>
-      </div>
-      <div class="add-widget-dialog__details">
-        <ul class="widgetpreview-widgetlist"></ul>
-        <div class="widgetpreview-preview"></div>
+      <span class="btn-close modal-close"><i class="icon-close"></i></span>
+      <h3 class="add-widget-dialog-title">{{ translate('Dashboard_AddAWidget') }}</h3>
+      <div class="add-widget-dialog-body">
+        <div class="add-widget-dialog-categories">
+          <ul class="widgetpreview-categorylist"></ul>
+        </div>
+        <div class="add-widget-dialog-details">
+          <ul class="widgetpreview-widgetlist"></ul>
+          <div class="widgetpreview-preview"></div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent, onMounted, onUnmounted, ref,
-} from 'vue';
-import { Matomo, WidgetType } from 'CoreHome';
+import { defineComponent, markRaw } from 'vue';
+import { Matomo, translate, WidgetType } from 'CoreHome';
 
 const { $ } = window;
 const OPEN_EVENT = 'Dashboard.AddWidget.open';
@@ -34,99 +35,68 @@ function isWidgetAvailable(uniqueId: string) {
   return !$('#dashboardWidgetsArea').find(`[widgetId="${uniqueId}"]`).length;
 }
 
+interface AddWidgetModalState {
+  isOpen: boolean;
+  // $.widgetPreview stores its state (settings, widgetAjaxRequest) on the
+  // jQuery wrapper, so we keep the same one for the component's lifetime —
+  // a fresh $(elem) on close would lose settings and crash widgetPreview('reset').
+  // markRaw() prevents Vue from trying to make the wrapper reactive.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  jqRoot: any;
+}
+
 export default defineComponent({
   name: 'AddWidgetModal',
   emits: ['select'],
-  setup(_, { emit }) {
-    const root = ref<HTMLElement | null>(null);
-    // $.widgetPreview stores state on the jQuery object instance, so we must
-    // keep and reuse the same wrapper for open/close/reset calls.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const rootJQuery = ref<any>(null);
-    let isOpen = false;
+  methods: {
+    translate,
+    openModal() { this.jqRoot.modal('open'); },
+    closeModal() { this.jqRoot.modal('close'); },
 
-    function closeModal() {
-      if (!rootJQuery.value) {
-        return;
-      }
-      rootJQuery.value.modal('close');
-    }
-
-    function openModal() {
-      if (!rootJQuery.value) {
-        return;
-      }
-      rootJQuery.value.modal('open');
-    }
-
-    function onSelect(uniqueId: string) {
+    onSelect(uniqueId: string) {
       window.widgetsHelper.getWidgetObjectFromUniqueId(uniqueId, (widget) => {
-        emit('select', widget as WidgetType);
-        closeModal();
+        this.$emit('select', widget as WidgetType);
+        this.closeModal();
       });
-    }
+    },
 
-    function buildPreview() {
-      if (!rootJQuery.value) {
-        return;
-      }
-      rootJQuery.value.widgetPreview({
+    buildPreview() {
+      this.jqRoot.widgetPreview({
         isWidgetAvailable,
-        onSelect,
+        onSelect: this.onSelect,
         resetOnSelect: true,
       });
-    }
+    },
 
-    function resetPreview() {
-      if (!rootJQuery.value || !rootJQuery.value.settings) {
-        return;
+    onWidgetsReloaded() {
+      if (this.isOpen) {
+        this.buildPreview();
       }
-      rootJQuery.value.widgetPreview('reset');
-    }
-
-    function onOpenRequested() {
-      openModal();
-    }
-
-    function onCloseRequested() {
-      closeModal();
-    }
-
-    function onWidgetsReloaded() {
-      if (isOpen) {
-        buildPreview();
-      }
-    }
-
-    onMounted(() => {
-      rootJQuery.value = $(root.value!);
-
-      rootJQuery.value.modal({
-        dismissible: true,
-        onOpenEnd: () => {
-          isOpen = true;
-          buildPreview();
-        },
-        onCloseEnd: () => {
-          isOpen = false;
-          resetPreview();
-        },
-      });
-
-      Matomo.on(OPEN_EVENT, onOpenRequested);
-      Matomo.on(CLOSE_EVENT, onCloseRequested);
-      Matomo.on('WidgetsStore.reloaded', onWidgetsReloaded);
-    });
-
-    onUnmounted(() => {
-      Matomo.off(OPEN_EVENT, onOpenRequested);
-      Matomo.off(CLOSE_EVENT, onCloseRequested);
-      Matomo.off('WidgetsStore.reloaded', onWidgetsReloaded);
-    });
-
+    },
+  },
+  data(): AddWidgetModalState {
     return {
-      root,
+      isOpen: false,
+      jqRoot: null,
     };
+  },
+  mounted() {
+    this.jqRoot = markRaw($(this.$refs.root as HTMLElement));
+
+    this.jqRoot.modal({
+      dismissible: true,
+      onOpenEnd: () => { this.isOpen = true; this.buildPreview(); },
+      onCloseEnd: () => { this.isOpen = false; this.jqRoot.widgetPreview('reset'); },
+    });
+
+    Matomo.on(OPEN_EVENT, this.openModal);
+    Matomo.on(CLOSE_EVENT, this.closeModal);
+    Matomo.on('WidgetsStore.reloaded', this.onWidgetsReloaded);
+  },
+  unmounted() {
+    Matomo.off(OPEN_EVENT, this.openModal);
+    Matomo.off(CLOSE_EVENT, this.closeModal);
+    Matomo.off('WidgetsStore.reloaded', this.onWidgetsReloaded);
   },
 });
 </script>
