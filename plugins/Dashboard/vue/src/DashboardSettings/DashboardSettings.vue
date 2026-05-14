@@ -66,7 +66,6 @@
       </ul>
     </div>
     <AddWidgetModal
-      v-model="showAddWidget"
       @select="onWidgetSelected"
     />
   </div>
@@ -99,7 +98,6 @@ declare global {
 interface DashboardSettingsState {
   isActionDisabled: Record<keyof Window, boolean>;
   actionTooltips: Record<keyof Window, string|undefined>;
-  showAddWidget: boolean;
 }
 
 const { $ } = window;
@@ -118,7 +116,6 @@ export default defineComponent({
     return {
       isActionDisabled: {} as Record<keyof Window, boolean>,
       actionTooltips: {} as Record<keyof Window, string>,
-      showAddWidget: false,
     };
   },
   setup() {
@@ -195,7 +192,7 @@ export default defineComponent({
     openAddWidget() {
       // close the dashboard-manager dropdown when opening the modal
       (this.$refs.root as HTMLElement).classList.remove('expanded');
-      this.showAddWidget = true;
+      Matomo.postEvent('Dashboard.AddWidget.open');
     },
     onWidgetSelected(widget: WidgetType) {
       // for UI tests (see DashboardManager_spec.js)

@@ -297,7 +297,7 @@ ul.widgetpreview-categorylist {
 }
 
 ul.widgetpreview-categorylist {
-  cursor: default;
+  cursor: pointer;
 }
 
 ul.widgetpreview-categorylist li,
@@ -307,10 +307,8 @@ ul.widgetpreview-widgetlist li {
   border-radius: 2px;
 }
 
-.widgetpreview-base li.widgetpreview-choosen {
-  background: #e4e2d7 url(plugins/Morpheus/images/arr_r.png) no-repeat right 6px;
-  color: @theme-color-link;
-  font-weight: bold;
+li.widgetpreview-choosen {
+  background-color: @theme-color-background-lowContrast !important;
 }
 
 .widgetpreview-categorylist li.widgetpreview-choosen {
@@ -418,15 +416,6 @@ div.widgetpreview-preview {
     float: none;
     width: @add-widget-preview;
     margin-top: 10px;
-  }
-
-  .widgetpreview-categorylist,
-  .widgetpreview-widgetlist {
-    li:not([disabled]):not(.widgetpreview-unavailable):hover {
-      background-color: @theme-color-background-tinyContrast;
-      border-radius: 2px;
-      cursor: pointer;
-    }
   }
 
   .widgetTop {
