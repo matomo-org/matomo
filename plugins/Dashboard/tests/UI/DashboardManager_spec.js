@@ -9,7 +9,7 @@
 
 describe("DashboardManager", function () {
     const managerSelector = '.dashboard-manager,.dashboard-manager .dropdown';
-    const modalSelector = '.modal.open.add-widget-dialog';
+    const modalSelector = '.modal.open.add-widget-modal';
 
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
     const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=1';

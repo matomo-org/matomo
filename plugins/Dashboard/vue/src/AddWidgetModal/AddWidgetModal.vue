@@ -6,15 +6,15 @@
 -->
 
 <template>
-  <div ref="root" class="modal add-widget-dialog">
-    <div class="modal-content">
+  <div ref="root" class="modal add-widget-modal">
+    <div class="modal-content add-widget-modal-content">
       <span class="btn-close modal-close"><i class="icon-close"></i></span>
-      <h3 class="add-widget-dialog-title">{{ translate('Dashboard_AddAWidget') }}</h3>
-      <div class="add-widget-dialog-body">
-        <div class="add-widget-dialog-categories">
+      <h3 class="add-widget-modal-title">{{ translate('Dashboard_AddAWidget') }}</h3>
+      <div class="add-widget-modal-body">
+        <div class="add-widget-modal-categories">
           <ul class="widgetpreview-categorylist"></ul>
         </div>
-        <div class="add-widget-dialog-details">
+        <div class="add-widget-modal-details">
           <ul class="widgetpreview-widgetlist"></ul>
           <div class="widgetpreview-preview"></div>
         </div>
