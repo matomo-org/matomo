@@ -8,3 +8,4 @@
 export { default as DashboardStore } from './Dashboard/Dashboard.store';
 export { default as Dashboard } from './Dashboard/Dashboard';
 export { default as DashboardSettings } from './DashboardSettings/DashboardSettings.vue';
+export { default as AddWidgetModal } from './AddWidgetModal/AddWidgetModal.vue';

@@ -200,9 +200,7 @@ body#standalone {
 }
 
 .dashboardSettings.expanded .dropdown {
-  min-width: 800px;
-  display: grid;
-  grid-template-columns: auto 1fr;
+  min-width: 240px;
 }
 
 .dashboardSettings ul.submenu > li {
@@ -284,7 +282,7 @@ body#standalone {
   clear: both;
 }
 
-.addWidget, .manageDashboard {
+.manageDashboard {
   cursor: default;
 }
 
@@ -359,7 +357,8 @@ div.widgetpreview-preview {
   width: 210px;
 }
 
-.dashboardSettings ul.submenu > li.generalAction:hover {
+.dashboardSettings ul.submenu > li.generalAction:hover,
+.dashboardSettings ul.submenu > li.addWidget:hover {
   color: @theme-color-link;
   cursor: pointer;
 }
@@ -375,28 +374,64 @@ div.widgetpreview-preview {
   color: @theme-color-text-disabled;
 }
 
-.dashboardSettings .widgetpreview-widgetlist {
-  width: 228px;
-  font-weight: normal;
+@add-widget-col: 220px;
+@add-widget-preview: 500px;
+@add-widget-gap: 16px;
+
+// Size the modal to fit the columns rather than the other way round.
+// 48px allows for Materialize's default `.modal-content` padding (24px each side).
+.modal.add-widget-dialog {
+  width: @add-widget-col + @add-widget-preview + @add-widget-gap + 48px;
+  max-width: 90%;
 }
 
-.dashboardSettings .widgetTop {
-  cursor: pointer;
+// Put the 2-column grid on .modal-content rather than on the modal root —
+// otherwise it overrides Materialize's `.modal { display: none }` and the
+// modal would always be visible.
+.add-widget-dialog > .modal-content {
+  display: grid;
+  grid-template-columns: @add-widget-col @add-widget-preview;
+  gap: @add-widget-gap;
 }
 
-.dashboardSettings .widgetpreview-widgetlist,
-.dashboardSettings .widgetpreview-preview {
-  display: none;
-}
+.add-widget-dialog {
+  .add-widget-dialog__categories,
+  .add-widget-dialog__details {
+    min-width: 0;
+  }
 
-.dashboardSettings.expanded .widgetpreview-widgetlist,
-.dashboardSettings.expanded .widgetpreview-preview {
-  display: block;
-  z-index: 333999;
-}
+  .widgetpreview-categorylist,
+  .widgetpreview-widgetlist {
+    width: @add-widget-col;
+    float: none;
+    margin-right: 0;
+  }
 
-.dashboardSettings.expanded .widgetpreview-preview {
-  margin-top: 10px;
+  // widgetMenu.js sets inline `top` / `margin-bottom` on the widget list so it
+  // aligns vertically with the hovered category — keep that behaviour, just
+  // strip the float and the `margin-right: 20px` from the global rule.
+  .widgetpreview-widgetlist {
+    font-weight: normal;
+  }
+
+  .widgetpreview-preview {
+    float: none;
+    width: @add-widget-preview;
+    margin-top: 10px;
+  }
+
+  .widgetpreview-categorylist,
+  .widgetpreview-widgetlist {
+    li:not([disabled]):not(.widgetpreview-unavailable):hover {
+      background-color: @theme-color-background-tinyContrast;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+  }
+
+  .widgetTop {
+    cursor: pointer;
+  }
 }
 
 .widgetPlaceholder {

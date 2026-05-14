@@ -121,6 +121,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.d(__webpack_exports__, "DashboardStore", function() { return /* reexport */ Dashboard_store; });
 __webpack_require__.d(__webpack_exports__, "Dashboard", function() { return /* reexport */ Dashboard; });
 __webpack_require__.d(__webpack_exports__, "DashboardSettings", function() { return /* reexport */ DashboardSettings; });
+__webpack_require__.d(__webpack_exports__, "AddWidgetModal", function() { return /* reexport */ AddWidgetModal; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -282,7 +283,7 @@ function onLoadDashboard(idDashboard) {
     external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=5bffb985
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=2977c75c
 
 const _hoisted_1 = ["title"];
 const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
@@ -300,26 +301,16 @@ const _hoisted_6 = {
 };
 const _hoisted_7 = ["onClick", "disabled", "title", "data-action"];
 const _hoisted_8 = {
-  class: "addWidgetsSubmenu"
+  class: "addWidget-label"
 };
-const _hoisted_9 = {
-  class: "addWidget"
-};
-const _hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", {
-  class: "widgetpreview-categorylist"
-}, null, -1);
-const _hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", {
-  class: "widgetpreview-widgetlist"
-}), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-  class: "widgetpreview-preview"
-})], -1);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_AddWidgetModal = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("AddWidgetModal");
   const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
   const _directive_expand_on_click = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("expand-on-click");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     ref: "root",
     class: "dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings",
-    onClick: _cache[1] || (_cache[1] = $event => _ctx.onOpen())
+    onClick: _cache[3] || (_cache[3] = $event => _ctx.onOpen())
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     class: "title",
     title: _ctx.translate('Dashboard_ManageDashboard'),
@@ -346,36 +337,126 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: _ctx.actionTooltips[actionName] || undefined,
       "data-action": actionName
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(title)), 9, _hoisted_7);
-  }), 128))])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", _hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Dashboard_AddAWidget')), 1), _hoisted_10])]), _hoisted_11])), [[_directive_tooltips, {
+  }), 128))])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+    class: "addWidget",
+    onClick: _cache[1] || (_cache[1] = $event => _ctx.openAddWidget())
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Dashboard_AddAWidget')), 1)])])])), [[_directive_tooltips, {
     show: false
-  }]])])), [[_directive_expand_on_click, {
-    expander: 'expander',
-    onClosed: _ctx.onClose
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_AddWidgetModal, {
+    modelValue: _ctx.showAddWidget,
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.showAddWidget = $event),
+    onSelect: _ctx.onWidgetSelected
+  }, null, 8, ["modelValue", "onSelect"])])), [[_directive_expand_on_click, {
+    expander: 'expander'
   }]]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=5bffb985
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=2977c75c
 
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue?vue&type=template&id=7419f4a6
+
+const AddWidgetModalvue_type_template_id_7419f4a6_hoisted_1 = {
+  ref: "root",
+  class: "modal add-widget-dialog"
+};
+const AddWidgetModalvue_type_template_id_7419f4a6_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createStaticVNode"])("<div class=\"modal-content\"><div class=\"add-widget-dialog__categories\"><ul class=\"widgetpreview-categorylist\"></ul></div><div class=\"add-widget-dialog__details\"><ul class=\"widgetpreview-widgetlist\"></ul><div class=\"widgetpreview-preview\"></div></div></div>", 1);
+const AddWidgetModalvue_type_template_id_7419f4a6_hoisted_3 = [AddWidgetModalvue_type_template_id_7419f4a6_hoisted_2];
+function AddWidgetModalvue_type_template_id_7419f4a6_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddWidgetModalvue_type_template_id_7419f4a6_hoisted_1, AddWidgetModalvue_type_template_id_7419f4a6_hoisted_3, 512);
+}
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue?vue&type=template&id=7419f4a6
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue?vue&type=script&lang=ts
+
+
+const {
+  $: AddWidgetModalvue_type_script_lang_ts_$
+} = window;
+function isWidgetAvailable(uniqueId) {
+  return !AddWidgetModalvue_type_script_lang_ts_$('#dashboardWidgetsArea').find(`[widgetId="${uniqueId}"]`).length;
+}
+/* harmony default export */ var AddWidgetModalvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'AddWidgetModal',
+  props: {
+    modelValue: {
+      type: Boolean,
+      required: true
+    }
+  },
+  emits: ['update:modelValue', 'select'],
+  setup(props, {
+    emit
+  }) {
+    const root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    function onSelect(uniqueId) {
+      window.widgetsHelper.getWidgetObjectFromUniqueId(uniqueId, widget => {
+        emit('select', widget);
+        emit('update:modelValue', false);
+      });
+    }
+    function buildPreview() {
+      if (!root.value) {
+        return;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      AddWidgetModalvue_type_script_lang_ts_$(root.value).widgetPreview({
+        isWidgetAvailable,
+        onSelect,
+        resetOnSelect: true
+      });
+    }
+    function openModal() {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      AddWidgetModalvue_type_script_lang_ts_$(root.value).modal({
+        dismissible: true,
+        onOpenEnd: buildPreview,
+        onCloseEnd: () => emit('update:modelValue', false)
+      }).modal('open');
+    }
+    function closeModal() {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      AddWidgetModalvue_type_script_lang_ts_$(root.value).modal('close');
+    }
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => props.modelValue, (open, wasOpen) => {
+      if (open && !wasOpen) {
+        openModal();
+      } else if (!open && wasOpen) {
+        closeModal();
+      }
+    });
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(() => {
+      external_CoreHome_["Matomo"].on('WidgetsStore.reloaded', () => {
+        if (props.modelValue) {
+          buildPreview();
+        }
+      });
+    });
+    return {
+      root
+    };
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue
+
+
+
+AddWidgetModalvue_type_script_lang_ts.render = AddWidgetModalvue_type_template_id_7419f4a6_render
+
+/* harmony default export */ var AddWidgetModal = (AddWidgetModalvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=script&lang=ts
+
 
 
 const {
   $: DashboardSettingsvue_type_script_lang_ts_$
 } = window;
 const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
-function isWidgetAvailable(widgetUniqueId) {
-  return !DashboardSettingsvue_type_script_lang_ts_$('#dashboardWidgetsArea').find(`[widgetId="${widgetUniqueId}"]`).length;
-}
-function widgetSelected(widget) {
-  // for UI tests (see DashboardManager_spec.js)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (window.MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP) {
-    return;
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  DashboardSettingsvue_type_script_lang_ts_$('#dashboardWidgetsArea').dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
-}
 /* harmony default export */ var DashboardSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   name: 'DashboardSettings',
+  components: {
+    AddWidgetModal: AddWidgetModal
+  },
   directives: {
     ExpandOnClick: external_CoreHome_["ExpandOnClick"],
     Tooltips: external_CoreHome_["Tooltips"]
@@ -383,40 +464,18 @@ function widgetSelected(widget) {
   data() {
     return {
       isActionDisabled: {},
-      actionTooltips: {}
+      actionTooltips: {},
+      showAddWidget: false
     };
   },
   setup() {
-    // $.widgetMenu will modify the jquery object it's given, so we have to save it and reuse
-    // it to call functions.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const rootJQuery = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
     const root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-    const createWidgetPreview = () => {
-      rootJQuery.value.widgetPreview({
-        isWidgetAvailable,
-        onSelect: widgetUniqueId => {
-          window.widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, widget => {
-            root.value.click(); // close selector
-            widgetSelected(widget);
-          });
-        },
-        resetOnSelect: true
-      });
-    };
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(() => {
       external_CoreHome_["Matomo"].postEvent('Dashboard.DashboardSettings.mounted', root.value);
-      rootJQuery.value = DashboardSettingsvue_type_script_lang_ts_$(root.value);
-      createWidgetPreview();
-      // When the available widgets list is reloaded, re-create the widget preview to include update
-      external_CoreHome_["Matomo"].on('WidgetsStore.reloaded', () => {
-        createWidgetPreview();
-      });
-      rootJQuery.value.hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)
+      DashboardSettingsvue_type_script_lang_ts_$(root.value).hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)
     });
     return {
-      root,
-      rootJQuery
+      root
     };
   },
   computed: {
@@ -471,8 +530,19 @@ function widgetSelected(widget) {
         this.actionTooltips.removeDashboard = undefined;
       }
     },
-    onClose() {
-      this.rootJQuery.widgetPreview('reset');
+    openAddWidget() {
+      // close the dashboard-manager dropdown when opening the modal
+      this.$refs.root.classList.remove('expanded');
+      this.showAddWidget = true;
+    },
+    onWidgetSelected(widget) {
+      // for UI tests (see DashboardManager_spec.js)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (window.MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP) {
+        return;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      DashboardSettingsvue_type_script_lang_ts_$('#dashboardWidgetsArea').dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
     },
     redirectToCreateScheduledReports() {
       const query = Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value);
@@ -548,6 +618,7 @@ DashboardSettingsvue_type_script_lang_ts.render = render
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

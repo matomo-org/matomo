@@ -9,7 +9,7 @@
   <div
     ref="root"
     class="dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings"
-    v-expand-on-click="{expander: 'expander', onClosed: onClose}"
+    v-expand-on-click="{expander: 'expander'}"
     @click="onOpen()"
   >
     <a
@@ -60,16 +60,15 @@
             </li>
           </ul>
         </li>
-        <li class="addWidgetsSubmenu">
-          <div class="addWidget">{{ translate('Dashboard_AddAWidget') }}</div>
-          <ul class="widgetpreview-categorylist"></ul>
+        <li class="addWidget" @click="openAddWidget()">
+          <div class="addWidget-label">{{ translate('Dashboard_AddAWidget') }}</div>
         </li>
       </ul>
-      <div>
-        <ul class="widgetpreview-widgetlist"></ul>
-        <div class="widgetpreview-preview"></div>
-      </div>
     </div>
+    <AddWidgetModal
+      v-model="showAddWidget"
+      @select="onWidgetSelected"
+    />
   </div>
 </template>
 
@@ -83,6 +82,7 @@ import {
   WidgetType,
   MatomoUrl,
 } from 'CoreHome';
+import AddWidgetModal from '../AddWidgetModal/AddWidgetModal.vue';
 
 declare global {
   interface Window {
@@ -99,29 +99,17 @@ declare global {
 interface DashboardSettingsState {
   isActionDisabled: Record<keyof Window, boolean>;
   actionTooltips: Record<keyof Window, string|undefined>;
+  showAddWidget: boolean;
 }
 
 const { $ } = window;
 const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
 
-function isWidgetAvailable(widgetUniqueId: string) {
-  return !$('#dashboardWidgetsArea').find(`[widgetId="${widgetUniqueId}"]`).length;
-}
-
-function widgetSelected(widget: WidgetType) {
-  // for UI tests (see DashboardManager_spec.js)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if ((window as any).MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP) {
-    return;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ($('#dashboardWidgetsArea') as any)
-    .dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
-}
-
 export default defineComponent({
   name: 'DashboardSettings',
+  components: {
+    AddWidgetModal,
+  },
   directives: {
     ExpandOnClick,
     Tooltips,
@@ -130,47 +118,19 @@ export default defineComponent({
     return {
       isActionDisabled: {} as Record<keyof Window, boolean>,
       actionTooltips: {} as Record<keyof Window, string>,
+      showAddWidget: false,
     };
   },
   setup() {
-    // $.widgetMenu will modify the jquery object it's given, so we have to save it and reuse
-    // it to call functions.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const rootJQuery = ref<any>(null);
-
     const root = ref<HTMLElement|null>(null);
-
-    const createWidgetPreview = () => {
-      rootJQuery.value.widgetPreview({
-        isWidgetAvailable,
-        onSelect: (widgetUniqueId: string) => {
-          window.widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, (widget) => {
-            (root.value as HTMLElement).click(); // close selector
-
-            widgetSelected(widget as WidgetType);
-          });
-        },
-        resetOnSelect: true,
-      });
-    };
 
     onMounted(() => {
       Matomo.postEvent('Dashboard.DashboardSettings.mounted', root.value);
-
-      rootJQuery.value = $(root.value!);
-      createWidgetPreview();
-
-      // When the available widgets list is reloaded, re-create the widget preview to include update
-      Matomo.on('WidgetsStore.reloaded', () => {
-        createWidgetPreview();
-      });
-
-      rootJQuery.value.hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)
+      $(root.value!).hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)
     });
 
     return {
       root,
-      rootJQuery,
     };
   },
   computed: {
@@ -232,8 +192,21 @@ export default defineComponent({
         this.actionTooltips.removeDashboard = undefined;
       }
     },
-    onClose() {
-      this.rootJQuery.widgetPreview('reset');
+    openAddWidget() {
+      // close the dashboard-manager dropdown when opening the modal
+      (this.$refs.root as HTMLElement).classList.remove('expanded');
+      this.showAddWidget = true;
+    },
+    onWidgetSelected(widget: WidgetType) {
+      // for UI tests (see DashboardManager_spec.js)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((window as any).MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP) {
+        return;
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ($('#dashboardWidgetsArea') as any)
+        .dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
     },
     redirectToCreateScheduledReports() {
       const query = {
