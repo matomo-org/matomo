@@ -6,10 +6,13 @@
 .modal.open {
     display: flex !important;
     flex-direction: column;
-    // Materialize.js used to set `top` inline when animating in. Vue-driven
-    // modals don't run that code, so we provide a static fallback that
-    // matches Materialize's default `endingTop` of 10%.
+    // Materialize.js used to set `top` and `z-index` inline when animating in.
+    // Vue-driven modals don't run that code, so we provide static fallbacks
+    // that match Materialize's defaults (`endingTop: 10%`, z-index above the
+    // `.modal-overlay` at 999). Materialize-driven modals keep their inline
+    // values, which still win over these rules.
     top: 10%;
+    z-index: 1003;
 }
 
 // Vue-driven modals toggle `.open` on the overlay rather than relying on

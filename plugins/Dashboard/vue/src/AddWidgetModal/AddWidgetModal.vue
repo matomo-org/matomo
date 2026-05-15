@@ -6,51 +6,45 @@
 -->
 
 <template>
-  <Teleport to="body">
-    <div
-      v-if="isOpen"
-      class="modal-overlay add-widget-modal-overlay open"
-      @click="closeModal"
-    />
-    <div
-      v-show="isOpen"
-      ref="root"
-      class="modal add-widget-modal"
-      :class="{ open: isOpen }"
-      role="dialog"
-      aria-modal="true"
-      :aria-label="translate('Dashboard_AddAWidget')"
-      tabindex="-1"
+  <matomo-modal
+    v-model="isOpen"
+    classes="add-widget-modal"
+    content-class="add-widget-modal-content"
+    :aria-label="translate('Dashboard_AddAWidget')"
+    @opened="onOpened"
+    @closed="onClosed"
+  >
+    <span
+      class="btn-close modal-close"
+      role="button"
+      tabindex="0"
+      @click="isOpen = false"
+      @keydown.enter="isOpen = false"
+      @keydown.space.prevent="isOpen = false"
     >
-      <div class="modal-content add-widget-modal-content">
-        <span
-          class="btn-close modal-close"
-          role="button"
-          tabindex="0"
-          @click="closeModal"
-          @keydown.enter="closeModal"
-          @keydown.space.prevent="closeModal"
-        >
-          <i class="icon-close"></i>
-        </span>
-        <h3 class="add-widget-modal-title">{{ translate('Dashboard_AddAWidget') }}</h3>
-        <div class="add-widget-modal-body">
-          <div class="add-widget-modal-categories">
-            <ul class="widgetpreview-categorylist"></ul>
-          </div>
-          <div class="add-widget-modal-details">
-            <ul class="widgetpreview-widgetlist"></ul>
-            <div class="widgetpreview-preview"></div>
-          </div>
-        </div>
+      <i class="icon-close"></i>
+    </span>
+    <h3 class="add-widget-modal-title">{{ translate('Dashboard_AddAWidget') }}</h3>
+    <div class="add-widget-modal-body">
+      <div class="add-widget-modal-categories">
+        <ul class="widgetpreview-categorylist"></ul>
+      </div>
+      <div class="add-widget-modal-details">
+        <ul class="widgetpreview-widgetlist"></ul>
+        <div class="widgetpreview-preview"></div>
       </div>
     </div>
-  </Teleport>
+  </matomo-modal>
 </template>
 
 <script lang="ts">
 import { defineComponent, markRaw } from 'vue';
-import { Matomo, translate, WidgetType } from 'CoreHome';
+import {
+  Matomo,
+  MatomoModal,
+  translate,
+  WidgetType,
+} from 'CoreHome';
 
 const { $ } = window;
 const OPEN_EVENT = 'Dashboard.AddWidget.open';
@@ -68,56 +62,41 @@ interface AddWidgetModalState {
   // markRaw() prevents Vue from trying to make the wrapper reactive.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jqRoot: any;
-  previousBodyOverflow: string;
 }
 
 export default defineComponent({
   name: 'AddWidgetModal',
+  components: { MatomoModal },
   emits: ['select'],
   data(): AddWidgetModalState {
     return {
       isOpen: false,
       jqRoot: null,
-      previousBodyOverflow: '',
     };
   },
   methods: {
     translate,
 
-    openModal() {
-      if (this.isOpen) {
-        return;
+    open() { this.isOpen = true; },
+    close() { this.isOpen = false; },
+
+    onOpened(modalRoot: HTMLElement) {
+      if (!this.jqRoot) {
+        this.jqRoot = markRaw($(modalRoot));
       }
-      this.isOpen = true;
-      this.previousBodyOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-      document.addEventListener('keydown', this.onKeydown);
-      // The modal element is kept mounted (v-show), so widgetPreview can
-      // attach to it as soon as Vue has flipped its display style.
-      this.$nextTick(() => { this.buildPreview(); });
+      this.buildPreview();
     },
 
-    closeModal() {
-      if (!this.isOpen) {
-        return;
-      }
-      this.jqRoot.widgetPreview('reset');
-      this.isOpen = false;
-      document.body.style.overflow = this.previousBodyOverflow;
-      this.previousBodyOverflow = '';
-      document.removeEventListener('keydown', this.onKeydown);
-    },
-
-    onKeydown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        this.closeModal();
+    onClosed() {
+      if (this.jqRoot) {
+        this.jqRoot.widgetPreview('reset');
       }
     },
 
     onSelect(uniqueId: string) {
       window.widgetsHelper.getWidgetObjectFromUniqueId(uniqueId, (widget) => {
         this.$emit('select', widget as WidgetType);
-        this.closeModal();
+        this.close();
       });
     },
 
@@ -136,20 +115,14 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.jqRoot = markRaw($(this.$refs.root as HTMLElement));
-
-    Matomo.on(OPEN_EVENT, this.openModal);
-    Matomo.on(CLOSE_EVENT, this.closeModal);
+    Matomo.on(OPEN_EVENT, this.open);
+    Matomo.on(CLOSE_EVENT, this.close);
     Matomo.on('WidgetsStore.reloaded', this.onWidgetsReloaded);
   },
   unmounted() {
-    Matomo.off(OPEN_EVENT, this.openModal);
-    Matomo.off(CLOSE_EVENT, this.closeModal);
+    Matomo.off(OPEN_EVENT, this.open);
+    Matomo.off(CLOSE_EVENT, this.close);
     Matomo.off('WidgetsStore.reloaded', this.onWidgetsReloaded);
-    if (this.isOpen) {
-      document.body.style.overflow = this.previousBodyOverflow;
-      document.removeEventListener('keydown', this.onKeydown);
-    }
   },
 });
 </script>

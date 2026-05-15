@@ -7,9 +7,8 @@
 
 import { shallowMount } from '@vue/test-utils';
 
-const mockModal = jest.fn();
 const mockWidgetPreview = jest.fn();
-const mockRootJQuery = { modal: mockModal, widgetPreview: mockWidgetPreview };
+const mockRootJQuery = { widgetPreview: mockWidgetPreview, find: () => ({ length: 0 }) };
 const mockDollar = jest.fn(() => mockRootJQuery);
 
 const testWindow = window as any;
@@ -23,6 +22,7 @@ jest.mock('CoreHome', () => ({
   Matomo: mockMatomo,
   translate: (key: string) => key,
   WidgetType: {},
+  MatomoModal: { template: '<div><slot /></div>' },
 }), { virtual: true });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -33,27 +33,27 @@ describe('Dashboard/AddWidgetModal', () => {
     return shallowMount(AddWidgetModal as any);
   }
 
+  function getHandler(eventName: string) {
+    return mockMatomo.on.mock.calls.find((call) => call[0] === eventName)?.[1];
+  }
+
   beforeEach(() => {
     jest.clearAllMocks();
-    mockModal.mockReturnValue(mockRootJQuery);
   });
 
-  it('opens and closes the modal when Matomo events fire', () => {
-    mountComponent();
+  it('opens and closes when Matomo events fire', () => {
+    const wrapper = mountComponent();
 
-    const openHandler = mockMatomo.on.mock.calls.find((call) => call[0] === 'Dashboard.AddWidget.open')?.[1];
-    const closeHandler = mockMatomo.on.mock.calls.find((call) => call[0] === 'Dashboard.AddWidget.close')?.[1];
+    getHandler('Dashboard.AddWidget.open')!();
+    expect((wrapper.vm as any).isOpen).toBe(true);
 
-    openHandler();
-    closeHandler();
-
-    expect(mockModal).toHaveBeenCalledWith('open');
-    expect(mockModal).toHaveBeenCalledWith('close');
+    getHandler('Dashboard.AddWidget.close')!();
+    expect((wrapper.vm as any).isOpen).toBe(false);
   });
 
   it('emits select with the resolved widget when one is chosen', () => {
     const wrapper = mountComponent();
-    mockModal.mock.calls[0][0].onOpenEnd();
+    (wrapper.vm as any).onOpened(document.createElement('div'));
 
     const widget = { uniqueId: 'Widget.unique', parameters: { foo: 'bar' } };
     testWindow.widgetsHelper.getWidgetObjectFromUniqueId.mockImplementation(
