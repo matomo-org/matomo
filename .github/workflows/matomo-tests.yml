@@ -63,7 +63,7 @@ jobs:
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
-        environment:
+        environment: &php-environments
           - php: '7.2'
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mysql'
@@ -103,20 +103,10 @@ jobs:
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
-        type: [ 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        environment:
-          - php: '7.2'
-            adapter: 'PDO_MYSQL'
-            mysql-engine: 'Mysql'
-            mysql-version: '5.7'
-          - php: '8.2'
-            adapter: 'PDO_MYSQL'
-            mysql-engine: 'Mariadb'
-            mysql-version: '11.4'
-          - php: '8.5'
-            adapter: 'MYSQLI'
-            mysql-engine: 'Mysql'
-            mysql-version: '8.0'
+        # IntegrationTestsCore, IntegrationTestsPlugins and SystemTestsPlugins are split
+        # into 10-bucket jobs below; only SystemTestsCore remains in this single-shard matrix.
+        type: [ 'SystemTestsCore' ]
+        environment: *php-environments
     steps:
       - uses: actions/checkout@v6
         with:
@@ -129,6 +119,132 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: ${{ matrix.type }}
+          mysql-driver: ${{ matrix.environment.adapter }}
+          mysql-engine: ${{ matrix.environment.mysql-engine }}
+          mysql-version: ${{ matrix.environment.mysql-version }}
+          php-version: ${{ matrix.environment.php }}
+          redis-service: true
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+          testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+  PHP-integration-core:
+    name: PHP (IntegrationTestsCore, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: ${{ inputs.is_preview == true }}
+      max-parallel: ${{ fromJson(vars.MATOMO_INTEGRATION_CORE_MAX_PARALLEL || '10') }}
+      matrix:
+        bucket: &php-buckets [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+        environment: *php-environments
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Generate bucket phpunit config
+        working-directory: matomo
+        shell: bash
+        run: |
+          php .github/scripts/list-bucket-tests.php \
+            IntegrationTestsCore \
+            $(( ${{ matrix.bucket }} - 1 )) \
+            10 \
+            --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          test-type: 'IntegrationTestsCore'
+          phpunit-test-options: >-
+            --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+            --testsuite Bucket
+          mysql-driver: ${{ matrix.environment.adapter }}
+          mysql-engine: ${{ matrix.environment.mysql-engine }}
+          mysql-version: ${{ matrix.environment.mysql-version }}
+          php-version: ${{ matrix.environment.php }}
+          redis-service: true
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+          testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+  PHP-integration-plugins:
+    name: PHP (IntegrationTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: ${{ inputs.is_preview == true }}
+      max-parallel: ${{ fromJson(vars.MATOMO_INTEGRATION_PLUGINS_MAX_PARALLEL || '10') }}
+      matrix:
+        bucket: *php-buckets
+        environment: *php-environments
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Generate bucket phpunit config
+        working-directory: matomo
+        shell: bash
+        run: |
+          php .github/scripts/list-bucket-tests.php \
+            IntegrationTestsPlugins \
+            $(( ${{ matrix.bucket }} - 1 )) \
+            10 \
+            --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          test-type: 'IntegrationTestsPlugins'
+          phpunit-test-options: >-
+            --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+            --testsuite Bucket
+          mysql-driver: ${{ matrix.environment.adapter }}
+          mysql-engine: ${{ matrix.environment.mysql-engine }}
+          mysql-version: ${{ matrix.environment.mysql-version }}
+          php-version: ${{ matrix.environment.php }}
+          redis-service: true
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+          testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+  PHP-system-plugins:
+    name: PHP (SystemTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: ${{ inputs.is_preview == true }}
+      max-parallel: ${{ fromJson(vars.MATOMO_SYSTEM_PLUGINS_MAX_PARALLEL || '10') }}
+      matrix:
+        bucket: *php-buckets
+        environment: *php-environments
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Generate bucket phpunit config
+        working-directory: matomo
+        shell: bash
+        run: |
+          php .github/scripts/list-bucket-tests.php \
+            SystemTestsPlugins \
+            $(( ${{ matrix.bucket }} - 1 )) \
+            10 \
+            --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          test-type: 'SystemTestsPlugins'
+          phpunit-test-options: >-
+            --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+            --testsuite Bucket
           mysql-driver: ${{ matrix.environment.adapter }}
           mysql-engine: ${{ matrix.environment.mysql-engine }}
           mysql-version: ${{ matrix.environment.mysql-version }}
@@ -269,7 +385,7 @@ jobs:
   ci-required:
     name: All required tests passed
     if: ${{ always() }}
-    needs: [ PHP, Javascript, Client, generate-plugin-ui-matrices, UI-plugins, UI-core ]
+    needs: [ PHP, PHP-integration-core, PHP-integration-plugins, PHP-system-plugins, Javascript, Client, generate-plugin-ui-matrices, UI-plugins, UI-core ]
     runs-on: ubuntu-24.04
     steps:
       - name: Verify required jobs succeeded
