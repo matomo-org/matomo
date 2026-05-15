@@ -24,6 +24,7 @@ class NoRecentRequests extends Widget
             ->setSubcategoryId('BotTracking_AIChatbotsOverview')
             ->setModule('BotTracking')
             ->setAction('noRecentRequestsMessage')
+            ->setClientSideComponent('BotTracking', 'NoRecentRequestsWidget')
             ->setMiddlewareParameters(['module' => 'BotTracking', 'action' => 'showNoRecentRequestsMessage'])
             ->setIsWide()
             ->setOrder(0)

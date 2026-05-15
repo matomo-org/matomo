@@ -10,8 +10,10 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
+use Piwik\Plugins\PrivacyManager\Settings\CampaignParameterValuesMasked;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -34,11 +36,11 @@ class CommonTest extends IntegrationTestCase
     /**
      * @dataProvider getExpectedCampaignParameters
      */
-    public function testGetCampaignParameters(string $policyClass, bool $policyEnabled, bool $skipCompliancePolicyCheck, array $expectedCampaignParameters)
+    public function testGetCampaignParameters(string $policyClass, bool $policyEnabled, array $expectedCampaignParameters)
     {
         $idSite = 1;
         PolicyManager::setPolicyActiveStatus($policyClass, $policyEnabled, $idSite);
-        $this->assertSame($expectedCampaignParameters, Common::getCampaignParameters($idSite, $skipCompliancePolicyCheck));
+        $this->assertSame($expectedCampaignParameters, Common::getCampaignParameters());
     }
 
     public function getExpectedCampaignParameters()
@@ -64,11 +66,21 @@ class CommonTest extends IntegrationTestCase
             'utm_term',
            ],
         ];
-        $emptyCampaignParameters = [[], []];
+        yield [CnilPolicy::class, false, $fullCampaignParameters];
+        yield [CnilPolicy::class, true, $fullCampaignParameters];
+    }
 
-        yield [CnilPolicy::class, false, false, $fullCampaignParameters];
-        yield [CnilPolicy::class, false, true, $fullCampaignParameters];
-        yield [CnilPolicy::class, true, false, $emptyCampaignParameters];
-        yield [CnilPolicy::class, true, true, $fullCampaignParameters];
+    public function testCampaignPlaceholderHelpers()
+    {
+        $placeholder = CampaignParameterValuesMasked::DISCARDED_CAMPAIGN_PLACEHOLDER;
+
+        $this->assertSame($placeholder, CampaignParameterValuesMasked::maskValue('newsletter'));
+        $this->assertSame('', CampaignParameterValuesMasked::maskValue(''));
+        $this->assertTrue(CampaignParameterValuesMasked::isPlaceholderValue($placeholder));
+        $this->assertFalse(CampaignParameterValuesMasked::isPlaceholderValue('newsletter'));
+        $this->assertSame(
+            Piwik::translate('PrivacyManager_CampaignParameterDiscarded'),
+            CampaignParameterValuesMasked::formatValue($placeholder)
+        );
     }
 }

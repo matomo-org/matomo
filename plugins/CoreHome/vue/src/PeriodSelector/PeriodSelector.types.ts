@@ -84,4 +84,5 @@ export interface PeriodSelectorState {
   compareStartDate: string;
   compareEndDate: string;
   compareAppliedSignature: string;
+  shouldShowInvalidComparisonMessage: boolean;
 }

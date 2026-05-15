@@ -26,6 +26,7 @@
         :max-date="maxAllowedDate"
         @update:model-value="$emit('update:activePresetId', $event)"
         @select="$emit('preset-select', $event)"
+        @dblclick="$emit('preset-dblclick', $event)"
       />
     </div>
   </div>
@@ -79,6 +80,7 @@ export default defineComponent({
     'period-select',
     'period-dblclick',
     'preset-select',
+    'preset-dblclick',
   ],
   methods: {
     translate,

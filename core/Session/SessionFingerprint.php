@@ -42,6 +42,7 @@ class SessionFingerprint
     public const USER_NAME_SESSION_VAR_NAME = 'user.name';
     public const SESSION_INFO_SESSION_VAR_NAME = 'session.info';
     public const SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED = 'twofactorauth.verified';
+    public const SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED_USER = 'twofactorauth.verified_user';
     public const SESSION_INFO_TEMP_TOKEN_AUTH = 'user.token_auth_temp';
 
     public function getUser()
@@ -73,16 +74,37 @@ class SessionFingerprint
 
     public function hasVerifiedTwoFactor()
     {
-        if (isset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED])) {
-            return !empty($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED]);
+        if (!isset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED])) {
+            return null;
         }
 
-        return null;
+        if (empty($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED])) {
+            return false;
+        }
+
+        $verifiedUser = $this->getVerifiedTwoFactorUser();
+        if (!empty($verifiedUser)) {
+            return $verifiedUser === $this->getUser();
+        }
+
+        return true;
     }
 
-    public function setTwoFactorAuthenticationVerified()
+    public function getVerifiedTwoFactorUser()
+    {
+        return $_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED_USER] ?? null;
+    }
+
+    public function setTwoFactorAuthenticationVerified($userName = null)
     {
         $_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED] = 1;
+        $userName = $userName ?? $this->getUser();
+
+        if (!empty($userName)) {
+            $_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED_USER] = $userName;
+        } else {
+            unset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED_USER]);
+        }
     }
 
     public function initialize(
@@ -95,6 +117,7 @@ class SessionFingerprint
         $time = $time ?: Date::now()->getTimestampUTC();
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
         $_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED] = 0;
+        unset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED_USER]);
         $_SESSION[self::SESSION_INFO_TEMP_TOKEN_AUTH] = $tokenAuth;
         $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME] = [
             'ts' => $time,
@@ -115,6 +138,10 @@ class SessionFingerprint
 
         if (isset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED])) { // may not be available during tests
             unset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED]);
+        }
+
+        if (isset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED_USER])) { // may not be available during tests
+            unset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED_USER]);
         }
 
         if (isset($_SESSION[self::SESSION_INFO_TEMP_TOKEN_AUTH])) { // may not be available during tests

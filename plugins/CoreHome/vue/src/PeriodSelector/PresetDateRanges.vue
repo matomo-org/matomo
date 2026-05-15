@@ -22,6 +22,10 @@
       >
         <label
           :class="{ 'selected-period-label': checkedPresetId === preset.id }"
+          :title="checkedPresetId === preset.id
+            ? ''
+            : translate('General_DoubleClickToChangePeriod')"
+          @dblclick="handlePresetDoubleClick(preset.id)"
         >
           <input
             type="radio"
@@ -100,7 +104,7 @@ export default defineComponent({
       presetInputName,
     };
   },
-  emits: ['update:modelValue', 'select'],
+  emits: ['update:modelValue', 'select', 'dblclick'],
   computed: {
     presetDateRanges(): PresetDateRangeOption[] {
       return PRESET_DATE_RANGES.filter(
@@ -125,6 +129,15 @@ export default defineComponent({
 
       this.$emit('update:modelValue', presetId);
       this.$emit('select', {
+        ...resolvedPreset,
+        startDate: clampDateToBounds(resolvedPreset.startDate, this.minDate, this.maxDate),
+        endDate: clampDateToBounds(resolvedPreset.endDate, this.minDate, this.maxDate),
+      } as PresetDateRangeSelection);
+    },
+    handlePresetDoubleClick(presetId: PresetDateRangeId) {
+      const resolvedPreset = resolvePresetDateRange(presetId, this.today);
+
+      this.$emit('dblclick', {
         ...resolvedPreset,
         startDate: clampDateToBounds(resolvedPreset.startDate, this.minDate, this.maxDate),
         endDate: clampDateToBounds(resolvedPreset.endDate, this.minDate, this.maxDate),

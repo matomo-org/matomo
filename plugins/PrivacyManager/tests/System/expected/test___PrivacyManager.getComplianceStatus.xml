@@ -34,9 +34,9 @@
 			<notes>Visits log is required to be disabled.</notes>
 		</row>
 		<row>
-			<name>Campaign tracking parameters disabled</name>
+      <name>Campaign parameter values masked</name>
 			<value>non_compliant</value>
-			<notes>All campaign tracking parameters must be discarded.</notes>
+      <notes>Campaign parameter values must be masked before they are stored.</notes>
 		</row>
 		<row>
 			<name>Segmented data rounding enabled</name>

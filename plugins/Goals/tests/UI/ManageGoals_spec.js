@@ -67,6 +67,33 @@ describe("ManageGoals", function () {
         expect(viewGoalLinkHref).to.include(`subcategory=${createdGoalId}`);
     });
 
+    it("should wrap a long description when creating a new goal", async function () {
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+
+        await page.waitForSelector('#add-goal');
+        await page.click('#add-goal');
+        await page.waitForSelector('.addEditGoal', { visible: true });
+
+        await fillField('#goal_name', 'My long description goal');
+        await fillField(
+          '#goal_description',
+          'This is a deliberately long goal description that should wrap onto a new line when the textarea content becomes wider than the available field width.'
+        );
+
+        await page.$eval('#goal_description', (el) => {
+            const formField = el.closest('.matomo-form-field');
+            if (formField) {
+                formField.setAttribute('data-test-goal-description', '1');
+            }
+        });
+
+        expect(await page.screenshotSelector('[data-test-goal-description="1"]')).to.matchImage('description_wraps');
+
+        await page.click('.entityCancelLink');
+        await page.waitForNetworkIdle();
+    });
+  
     it("description and trigger with long words should wrap", async function () {
       await page.webpage.setViewport(smallerViewport);
 

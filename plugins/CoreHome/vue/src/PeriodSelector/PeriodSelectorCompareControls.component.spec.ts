@@ -21,6 +21,7 @@ describe('PeriodSelectorCompareControls', () => {
           { key: 'custom', value: 'Custom' },
           { key: 'previousPeriod', value: 'Previous period' },
         ],
+        showInvalidComparisonMessage: false,
         ...customProps,
       },
       global: {
@@ -88,5 +89,15 @@ describe('PeriodSelectorCompareControls', () => {
     expect(compareDropdown.attributes('disabled')).toBeDefined();
     expect(wrapper.find('#comparePeriodStartDate').exists()).toBe(false);
     expect(wrapper.find('#comparePeriodEndDate').exists()).toBe(false);
+  });
+
+  it('shows inline validation message for invalid custom comparison range', () => {
+    const wrapper = mountComponent({
+      isComparing: true,
+      comparePeriodType: 'custom',
+      showInvalidComparisonMessage: true,
+    });
+
+    expect(wrapper.find('.compare-validation-message').exists()).toBe(true);
   });
 });

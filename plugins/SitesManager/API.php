@@ -2082,7 +2082,7 @@ class API extends \Piwik\Plugin\API
      * Scans the site's content to identify which consent manager (if any) is in use
      * and whether it is properly connected to Matomo.
      *
-     * @param int $idSite The numeric ID of the website to inspect.
+     * @param int $idSite  The numeric ID of the website to inspect.
      * @param int $timeOut HTTP timeout in seconds for fetching the site content.
      * @return array{name: string, url: string|null, isConnected: bool}|null Detected consent manager details,
      *                                                                      or `null` if none was found.
@@ -2092,6 +2092,8 @@ class API extends \Piwik\Plugin\API
     public function detectConsentManager(int $idSite, int $timeOut = 60): ?array
     {
         Piwik::checkUserHasViewAccess($idSite);
+
+        $timeOut = max(1, min($timeOut, 60));
 
         $this->siteContentDetector->detectContent([SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER], $idSite, null, $timeOut);
         $consentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);

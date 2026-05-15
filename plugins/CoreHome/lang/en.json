@@ -151,6 +151,7 @@
         "ChooseWebsite": "Choose website",
         "CopyModalNote": "%1$sNote:%2$s The copied %3$s may need adjustments if it includes references specific to the original website. Review settings to ensure compatibility.",
         "CopyX": "Copy %1$s",
-        "CopyXDescription": "Select the website to copy this %1$s to. This will create an exact copy, including settings, in the chosen site."
+        "CopyXDescription": "Select the website to copy this %1$s to. This will create an exact copy, including settings, in the chosen site.",
+        "InvalidComparisonDateRange": "Enter a valid comparison date range."
     }
 }

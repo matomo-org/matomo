@@ -83,6 +83,10 @@
 					<module>BotTracking</module>
 					<action>showNoRecentRequestsMessage</action>
 				</middlewareParameters>
+				<clientComponent>
+					<plugin>BotTracking</plugin>
+					<name>NoRecentRequestsWidget</name>
+				</clientComponent>
 			</row>
 			<row>
 				<name>AI Chatbots Over Time</name>

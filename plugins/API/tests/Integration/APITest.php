@@ -161,6 +161,25 @@ class APITest extends IntegrationTestCase
         }
     }
 
+    public function testGetBulkRequestWithHtmlEntityMethodDeniesArchiveReportsForViewOnlyUser()
+    {
+        $this->setAnonymousAccessForSite(1, 'view');
+
+        try {
+            $response = $this->processRootApiRequest([
+                'module' => 'API',
+                'method' => 'API.getBulkRequest',
+                'format' => 'json',
+                'urls' => [$this->makeArchiveReportsBulkUrl(1, null, 'CoreAdminHome.&#97;rchiveReports', 'CoreHome')],
+            ]);
+
+            $this->assertCount(1, $response);
+            $this->assertResponseIsSuperUserPermissionError($response[0]);
+        } finally {
+            $this->restoreAnonymousAccessForSite(1);
+        }
+    }
+
     public function testGetBulkRequestAllowsArchiveReportsForSuperUser()
     {
         $this->setSuperUserContext();
@@ -407,9 +426,14 @@ class APITest extends IntegrationTestCase
         }
     }
 
-    private function makeArchiveReportsBulkUrl(int $idSite, ?string $tokenAuth = null, string $method = 'CoreAdminHome.archiveReports'): string
-    {
+    private function makeArchiveReportsBulkUrl(
+        int $idSite,
+        ?string $tokenAuth = null,
+        string $method = 'CoreAdminHome.archiveReports',
+        string $module = 'API'
+    ): string {
         $params = [
+            'module' => $module,
             'method' => $method,
             'idSite' => $idSite,
             'period' => 'day',
