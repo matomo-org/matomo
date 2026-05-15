@@ -26,8 +26,6 @@ on:
     secrets:
       ARTIFACTS_PASS:
         required: false
-      TESTOMATIO:
-        required: false
       TESTOMATIO_INTEGRATION:
         required: false
   schedule:
