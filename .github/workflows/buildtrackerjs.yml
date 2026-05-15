@@ -71,6 +71,7 @@ jobs:
       run: |
         cd "$GITHUB_WORKSPACE/js"
         wget https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.zip
+        sha512sum -c "$GITHUB_WORKSPACE/.github/checksums/yuicompressor-2.4.8.zip.sha512"
         unzip yuicompressor-2.4.8.zip
       if: steps.vars.outputs.branch != ''
     - name: Build JS files
