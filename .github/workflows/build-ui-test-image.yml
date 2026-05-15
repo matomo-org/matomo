@@ -1,0 +1,99 @@
+name: Build UI test image
+
+# Builds and pushes a prebuilt Ubuntu image used by the UI-plugins and
+# UI-core jobs in matomo-tests.yml. The image bakes PHP 7.2 + the
+# extension list, Node 16, Composer 2, Google Chrome + chromedriver,
+# imagemagick + tweaks, fonts, ghostscript, ripgrep, nginx, plus
+# `composer install` and `npm ci` results for the lockfiles in this repo.
+#
+# Tag scheme:
+#   ghcr.io/matomo-org/matomo-ui-tests:<hash>   - hash of Dockerfile + lockfiles
+#   ghcr.io/matomo-org/matomo-ui-tests:latest   - most recent build
+#
+# Triggers:
+#   - Weekly cron picks up apt security updates and new Chrome releases.
+#   - Push to *.x-dev or next_release when the Dockerfile or any
+#     baked-in lockfile changes.
+#   - Manual via workflow_dispatch.
+
+on:
+  schedule:
+    # Mondays 05:00 UTC
+    - cron: '0 5 * * 1'
+  push:
+    branches:
+      - '**.x-dev'
+      - 'next_release'
+    paths:
+      - '.github/docker/ui-tests/**'
+      - '.github/workflows/build-ui-test-image.yml'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'tests/lib/screenshot-testing/package.json'
+      - 'tests/lib/screenshot-testing/package-lock.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: build-ui-test-image-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: false
+          submodules: false
+          persist-credentials: false
+
+      - name: Compute image hash
+        id: hash
+        shell: bash
+        run: |
+          set -euo pipefail
+          HASH=$(cat \
+              .github/docker/ui-tests/Dockerfile \
+              composer.json \
+              composer.lock \
+              tests/lib/screenshot-testing/package.json \
+              tests/lib/screenshot-testing/package-lock.json \
+            | sha256sum | cut -c1-12)
+          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
+          echo "Image hash: $HASH"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: .github/docker/ui-tests/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ghcr.io/matomo-org/matomo-ui-tests:${{ steps.hash.outputs.hash }}
+            ghcr.io/matomo-org/matomo-ui-tests:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false
+
+      - name: Summary
+        shell: bash
+        run: |
+          {
+            echo "### Pushed image"
+            echo ""
+            echo "- \`ghcr.io/matomo-org/matomo-ui-tests:${{ steps.hash.outputs.hash }}\`"
+            echo "- \`ghcr.io/matomo-org/matomo-ui-tests:latest\`"
+          } >> "$GITHUB_STEP_SUMMARY"

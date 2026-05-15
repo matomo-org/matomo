@@ -1,0 +1,14 @@
+# Build context is the repo root. Exclude everything except the lockfiles
+# we copy into the image so docker build doesn't transfer the whole repo.
+*
+
+!composer.json
+!composer.lock
+!tests
+tests/*
+!tests/lib
+tests/lib/*
+!tests/lib/screenshot-testing
+tests/lib/screenshot-testing/*
+!tests/lib/screenshot-testing/package.json
+!tests/lib/screenshot-testing/package-lock.json
