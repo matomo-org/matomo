@@ -14,16 +14,14 @@
     @opened="onOpened"
     @closed="onClosed"
   >
-    <span
+    <button
+      type="button"
       class="btn-close modal-close"
-      role="button"
-      tabindex="0"
-      @click="isOpen = false"
-      @keydown.enter="isOpen = false"
-      @keydown.space.prevent="isOpen = false"
+      :aria-label="translate('General_Close')"
+      @click="close"
     >
       <i class="icon-close"></i>
-    </span>
+    </button>
     <h3 class="add-widget-modal-title">{{ translate('Dashboard_AddAWidget') }}</h3>
     <div class="add-widget-modal-body">
       <div class="add-widget-modal-categories">
@@ -46,7 +44,7 @@ import {
   WidgetType,
 } from 'CoreHome';
 
-const { $ } = window;
+const { $, widgetsHelper } = window;
 const OPEN_EVENT = 'Dashboard.AddWidget.open';
 const CLOSE_EVENT = 'Dashboard.AddWidget.close';
 
@@ -94,9 +92,11 @@ export default defineComponent({
     },
 
     onSelect(uniqueId: string) {
-      window.widgetsHelper.getWidgetObjectFromUniqueId(uniqueId, (widget) => {
-        this.$emit('select', widget as WidgetType);
-        this.close();
+      this.close();
+      widgetsHelper.getWidgetObjectFromUniqueId(uniqueId, (widget: unknown) => {
+        if (widget) {
+          this.$emit('select', widget as WidgetType);
+        }
       });
     },
 

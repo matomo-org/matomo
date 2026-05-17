@@ -2970,20 +2970,20 @@ function MatomoDialogvue_type_template_id_1791e7fd_render(_ctx, _cache, $props, 
 MatomoDialogvue_type_script_lang_ts.render = MatomoDialogvue_type_template_id_1791e7fd_render
 
 /* harmony default export */ var MatomoDialog = (MatomoDialogvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoModal/MatomoModal.vue?vue&type=template&id=ae261f70
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoModal/MatomoModal.vue?vue&type=template&id=7b601e64
 
-const MatomoModalvue_type_template_id_ae261f70_hoisted_1 = ["aria-label"];
-const MatomoModalvue_type_template_id_ae261f70_hoisted_2 = {
+const MatomoModalvue_type_template_id_7b601e64_hoisted_1 = ["aria-label"];
+const MatomoModalvue_type_template_id_7b601e64_hoisted_2 = {
   key: 0,
   class: "modal-footer"
 };
-function MatomoModalvue_type_template_id_ae261f70_render(_ctx, _cache, $props, $setup, $data, $options) {
+function MatomoModalvue_type_template_id_7b601e64_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Teleport"], {
     to: "body"
   }, [_ctx.modelValue ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 0,
     class: "modal-overlay open",
-    onClick: _cache[0] || (_cache[0] = (...args) => _ctx.onOverlayClick && _ctx.onOverlayClick(...args))
+    onClick: _cache[0] || (_cache[0] = (...args) => _ctx.close && _ctx.close(...args))
   })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     ref: "root",
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["modal", _ctx.modalClasses]),
@@ -2993,34 +2993,23 @@ function MatomoModalvue_type_template_id_ae261f70_render(_ctx, _cache, $props, $
     tabindex: "-1"
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["modal-content", _ctx.contentClass])
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 2), _ctx.$slots.footer ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoModalvue_type_template_id_ae261f70_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "footer")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, MatomoModalvue_type_template_id_ae261f70_hoisted_1), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.modelValue]])]);
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 2), _ctx.$slots.footer ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoModalvue_type_template_id_7b601e64_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "footer")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, MatomoModalvue_type_template_id_7b601e64_hoisted_1), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.modelValue]])]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoModal/MatomoModal.vue?vue&type=template&id=ae261f70
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoModal/MatomoModal.vue?vue&type=template&id=7b601e64
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoModal/MatomoModal.vue?vue&type=script&lang=ts
 
+/**
+ * Vue-native modal shell. The forward direction for Matomo modals — the older
+ * `MatomoDialog` (which wraps Materialize's `modalConfirm`) will be migrated
+ * to this format in a follow-up and eventually removed.
+ */
 /* harmony default export */ var MatomoModalvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   name: 'MatomoModal',
   props: {
     modelValue: {
       type: Boolean,
       required: true
-    },
-    // When false, Esc and overlay clicks no longer close the modal. Equivalent
-    // to Materialize.js's `dismissible: false`.
-    dismissible: {
-      type: Boolean,
-      default: true
-    },
-    // Adds the `.modal-fixed-footer` Materialize variant.
-    fixedFooter: {
-      type: Boolean,
-      default: false
-    },
-    // Adds the `.modal-extra-wide` Materialize variant.
-    extraWide: {
-      type: Boolean,
-      default: false
     },
     // Extra classes applied to the modal root, in the same shape Vue accepts
     // for `:class`. Use this to opt into modal-specific styling.
@@ -3041,14 +3030,15 @@ function MatomoModalvue_type_template_id_ae261f70_render(_ctx, _cache, $props, $
   emits: ['update:modelValue', 'opened', 'closed'],
   data() {
     return {
-      previousBodyOverflow: ''
+      previousBodyOverflow: '',
+      previousFocus: null
     };
   },
   computed: {
     modalClasses() {
       return [{
         open: this.modelValue
-      }, this.fixedFooter ? 'modal-fixed-footer' : '', this.extraWide ? 'modal-extra-wide' : '', this.classes];
+      }, this.classes];
     }
   },
   methods: {
@@ -3058,28 +3048,27 @@ function MatomoModalvue_type_template_id_ae261f70_render(_ctx, _cache, $props, $
       }
       this.$emit('update:modelValue', false);
     },
-    onOverlayClick() {
-      if (this.dismissible) {
-        this.close();
-      }
-    },
     onKeydown(event) {
-      if (event.key === 'Escape' && this.dismissible) {
+      if (event.key === 'Escape') {
         this.close();
       }
     },
     activate() {
       this.previousBodyOverflow = document.body.style.overflow;
+      this.previousFocus = document.activeElement;
       document.body.style.overflow = 'hidden';
       document.addEventListener('keydown', this.onKeydown);
-      this.$nextTick(() => {
-        this.$emit('opened', this.$refs.root);
-      });
+      this.$nextTick(() => this.$refs.root.focus());
+      this.$emit('opened', this.$refs.root);
     },
     deactivate() {
       document.body.style.overflow = this.previousBodyOverflow;
       this.previousBodyOverflow = '';
       document.removeEventListener('keydown', this.onKeydown);
+      if (this.previousFocus) {
+        this.previousFocus.focus();
+      }
+      this.previousFocus = null;
       this.$emit('closed');
     }
   },
@@ -3099,8 +3088,7 @@ function MatomoModalvue_type_template_id_ae261f70_render(_ctx, _cache, $props, $
   },
   unmounted() {
     if (this.modelValue) {
-      document.body.style.overflow = this.previousBodyOverflow;
-      document.removeEventListener('keydown', this.onKeydown);
+      this.deactivate();
     }
   }
 }));
@@ -3110,7 +3098,7 @@ function MatomoModalvue_type_template_id_ae261f70_render(_ctx, _cache, $props, $
 
 
 
-MatomoModalvue_type_script_lang_ts.render = MatomoModalvue_type_template_id_ae261f70_render
+MatomoModalvue_type_script_lang_ts.render = MatomoModalvue_type_template_id_7b601e64_render
 
 /* harmony default export */ var MatomoModal = (MatomoModalvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.ts

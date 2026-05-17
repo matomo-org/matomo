@@ -307,8 +307,19 @@ ul.widgetpreview-widgetlist li {
   border-radius: 2px;
 }
 
-.modal.add-widget-modal li.widgetpreview-choosen {
+.add-widget-modal li.widgetpreview-choosen {
   background-color: @theme-color-background-lowContrast;
+  position: relative;
+}
+
+.add-widget-modal li.widgetpreview-choosen::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 4px solid transparent;
+  border-left-color: @theme-color-brand;
 }
 
 .widgetpreview-categorylist li.widgetpreview-choosen {

@@ -10,7 +10,7 @@
     <div
       v-if="modelValue"
       class="modal-overlay open"
-      @click="onOverlayClick"
+      @click="close"
     />
     <div
       v-show="modelValue"
@@ -37,28 +37,17 @@ import { defineComponent, PropType } from 'vue';
 
 type ClassValue = string | string[] | Record<string, boolean>;
 
+/**
+ * Vue-native modal shell. The forward direction for Matomo modals — the older
+ * `MatomoDialog` (which wraps Materialize's `modalConfirm`) will be migrated
+ * to this format in a follow-up and eventually removed.
+ */
 export default defineComponent({
   name: 'MatomoModal',
   props: {
     modelValue: {
       type: Boolean,
       required: true,
-    },
-    // When false, Esc and overlay clicks no longer close the modal. Equivalent
-    // to Materialize.js's `dismissible: false`.
-    dismissible: {
-      type: Boolean,
-      default: true,
-    },
-    // Adds the `.modal-fixed-footer` Materialize variant.
-    fixedFooter: {
-      type: Boolean,
-      default: false,
-    },
-    // Adds the `.modal-extra-wide` Materialize variant.
-    extraWide: {
-      type: Boolean,
-      default: false,
     },
     // Extra classes applied to the modal root, in the same shape Vue accepts
     // for `:class`. Use this to opt into modal-specific styling.
@@ -80,16 +69,12 @@ export default defineComponent({
   data() {
     return {
       previousBodyOverflow: '',
+      previousFocus: null as HTMLElement | null,
     };
   },
   computed: {
     modalClasses(): Array<ClassValue> {
-      return [
-        { open: this.modelValue },
-        this.fixedFooter ? 'modal-fixed-footer' : '',
-        this.extraWide ? 'modal-extra-wide' : '',
-        this.classes,
-      ];
+      return [{ open: this.modelValue }, this.classes];
     },
   },
   methods: {
@@ -100,31 +85,29 @@ export default defineComponent({
       this.$emit('update:modelValue', false);
     },
 
-    onOverlayClick() {
-      if (this.dismissible) {
-        this.close();
-      }
-    },
-
     onKeydown(event: KeyboardEvent) {
-      if (event.key === 'Escape' && this.dismissible) {
+      if (event.key === 'Escape') {
         this.close();
       }
     },
 
     activate() {
       this.previousBodyOverflow = document.body.style.overflow;
+      this.previousFocus = document.activeElement as HTMLElement | null;
       document.body.style.overflow = 'hidden';
       document.addEventListener('keydown', this.onKeydown);
-      this.$nextTick(() => {
-        this.$emit('opened', this.$refs.root as HTMLElement);
-      });
+      this.$nextTick(() => (this.$refs.root as HTMLElement).focus());
+      this.$emit('opened', this.$refs.root as HTMLElement);
     },
 
     deactivate() {
       document.body.style.overflow = this.previousBodyOverflow;
       this.previousBodyOverflow = '';
       document.removeEventListener('keydown', this.onKeydown);
+      if (this.previousFocus) {
+        this.previousFocus.focus();
+      }
+      this.previousFocus = null;
       this.$emit('closed');
     },
   },
@@ -144,8 +127,7 @@ export default defineComponent({
   },
   unmounted() {
     if (this.modelValue) {
-      document.body.style.overflow = this.previousBodyOverflow;
-      document.removeEventListener('keydown', this.onKeydown);
+      this.deactivate();
     }
   },
 });

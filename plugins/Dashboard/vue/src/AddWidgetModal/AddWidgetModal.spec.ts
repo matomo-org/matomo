@@ -14,7 +14,9 @@ const mockDollar = jest.fn(() => mockRootJQuery);
 const testWindow = window as any;
 testWindow.$ = mockDollar;
 testWindow.jQuery = mockDollar;
-testWindow.widgetsHelper = { getWidgetObjectFromUniqueId: jest.fn() };
+testWindow.widgetsHelper = {
+  getWidgetObjectFromUniqueId: jest.fn(),
+};
 
 const mockMatomo = { on: jest.fn(), off: jest.fn() };
 
@@ -51,9 +53,10 @@ describe('Dashboard/AddWidgetModal', () => {
     expect((wrapper.vm as any).isOpen).toBe(false);
   });
 
-  it('emits select with the resolved widget when one is chosen', () => {
+  it('closes immediately and emits select with the resolved widget', () => {
     const wrapper = mountComponent();
     (wrapper.vm as any).onOpened(document.createElement('div'));
+    getHandler('Dashboard.AddWidget.open')!();
 
     const widget = { uniqueId: 'Widget.unique', parameters: { foo: 'bar' } };
     testWindow.widgetsHelper.getWidgetObjectFromUniqueId.mockImplementation(
@@ -62,7 +65,27 @@ describe('Dashboard/AddWidgetModal', () => {
 
     mockWidgetPreview.mock.calls[0][0].onSelect('Widget.unique');
 
+    expect((wrapper.vm as any).isOpen).toBe(false);
+    expect(testWindow.widgetsHelper.getWidgetObjectFromUniqueId).toHaveBeenCalledWith(
+      'Widget.unique',
+      expect.any(Function),
+    );
     expect(wrapper.emitted().select).toEqual([[widget]]);
+  });
+
+  it('closes without emitting select when the widget cannot be resolved', () => {
+    const wrapper = mountComponent();
+    (wrapper.vm as any).onOpened(document.createElement('div'));
+    getHandler('Dashboard.AddWidget.open')!();
+
+    testWindow.widgetsHelper.getWidgetObjectFromUniqueId.mockImplementation(
+      (_uniqueId: string, callback: (resolvedWidget: unknown) => void) => callback(false),
+    );
+
+    mockWidgetPreview.mock.calls[0][0].onSelect('Widget.missing');
+
+    expect((wrapper.vm as any).isOpen).toBe(false);
+    expect(wrapper.emitted().select).toBeUndefined();
   });
 
   it('unregisters Matomo listeners on unmount', () => {

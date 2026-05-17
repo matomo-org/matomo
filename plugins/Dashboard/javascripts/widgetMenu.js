@@ -417,10 +417,6 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                     var position = $('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).position().top -
                         $('.' + settings.categorylistClass, widgetPreview).position().top;
 
-                    if (!$('#content.admin').length) {
-                        position += 3; // + padding defined in dashboard view
-                    }
-
                     $('.' + settings.widgetlistClass, widgetPreview).css({
                         top: position,
                         marginBottom: position

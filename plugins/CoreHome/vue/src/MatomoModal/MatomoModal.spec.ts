@@ -15,9 +15,6 @@ const activeWrappers: Array<{ unmount: () => void }> = [];
 
 interface HostProps {
   modelValue?: boolean;
-  dismissible?: boolean;
-  fixedFooter?: boolean;
-  extraWide?: boolean;
   classes?: unknown;
   contentClass?: unknown;
   ariaLabel?: string;
@@ -30,9 +27,6 @@ function mountHost(initial: HostProps = {}) {
     data() {
       return {
         modelValue: initial.modelValue ?? false,
-        dismissible: initial.dismissible ?? true,
-        fixedFooter: initial.fixedFooter ?? false,
-        extraWide: initial.extraWide ?? false,
         classes: initial.classes ?? '',
         contentClass: initial.contentClass ?? '',
         ariaLabel: initial.ariaLabel,
@@ -57,9 +51,6 @@ function mountHost(initial: HostProps = {}) {
         {
           modelValue: this.modelValue,
           'onUpdate:modelValue': (val: boolean) => { this.modelValue = val; },
-          dismissible: this.dismissible,
-          fixedFooter: this.fixedFooter,
-          extraWide: this.extraWide,
           classes: this.classes,
           contentClass: this.contentClass,
           ariaLabel: this.ariaLabel,
@@ -117,8 +108,6 @@ describe('CoreHome/MatomoModal', () => {
       ariaLabel: 'My Modal',
       classes: ['custom-modal', { secondary: true }],
       contentClass: 'custom-content',
-      extraWide: true,
-      fixedFooter: true,
     });
 
     const modal = getModal()!;
@@ -127,8 +116,6 @@ describe('CoreHome/MatomoModal', () => {
     expect(modal.getAttribute('aria-label')).toBe('My Modal');
     expect(modal.classList.contains('custom-modal')).toBe(true);
     expect(modal.classList.contains('secondary')).toBe(true);
-    expect(modal.classList.contains('modal-extra-wide')).toBe(true);
-    expect(modal.classList.contains('modal-fixed-footer')).toBe(true);
     expect(modal.querySelector('.modal-content')?.classList.contains('custom-content')).toBe(true);
   });
 
@@ -139,6 +126,10 @@ describe('CoreHome/MatomoModal', () => {
   });
 
   it('opens, locks body scroll, and emits opened with the modal root', async () => {
+    const trigger = document.createElement('button');
+    document.body.appendChild(trigger);
+    trigger.focus();
+
     const wrapper = mountHost();
     wrapper.vm.modelValue = true;
     await settle();
@@ -148,6 +139,7 @@ describe('CoreHome/MatomoModal', () => {
     expect(getOverlay()!.classList.contains('open')).toBe(true);
     expect(document.body.style.overflow).toBe('hidden');
     expect(wrapper.vm.openedWith).toBe(modal);
+    expect(document.activeElement).toBe(modal);
   });
 
   it('closes when Escape is pressed and emits closed', async () => {
@@ -176,21 +168,11 @@ describe('CoreHome/MatomoModal', () => {
     expect(getModal()!.classList.contains('open')).toBe(false);
   });
 
-  it('ignores Escape and overlay clicks when dismissible is false', async () => {
-    const wrapper = mountHost({ modelValue: true, dismissible: false });
-    await settle();
-
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-    await settle();
-    expect(wrapper.vm.modelValue).toBe(true);
-
-    getOverlay()!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    await settle();
-    expect(wrapper.vm.modelValue).toBe(true);
-  });
-
   it('restores the previous body overflow when closed', async () => {
     document.body.style.overflow = 'auto';
+    const trigger = document.createElement('button');
+    document.body.appendChild(trigger);
+    trigger.focus();
     const wrapper = mountHost();
     wrapper.vm.modelValue = true;
     await settle();
@@ -199,6 +181,7 @@ describe('CoreHome/MatomoModal', () => {
     wrapper.vm.modelValue = false;
     await settle();
     expect(document.body.style.overflow).toBe('auto');
+    expect(document.activeElement).toBe(trigger);
   });
 
   it('detaches the document keydown listener when unmounted while open', async () => {
