@@ -117,7 +117,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           IS_LOCAL_BRANCH: ${{ steps.vars.outputs.islocalbranch }}
         if: steps.vars.outputs.branch != '' && steps.ttfcheck.outputs.ttf_modified == '1'
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         with:
           script: |
             github.rest.issues.createComment({

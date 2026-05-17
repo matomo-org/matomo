@@ -150,7 +150,7 @@ jobs:
           CUSTOM_ACCESS_TOKEN: ${{ secrets.CUSTOM_ACCESS_TOKEN }}
           IS_LOCAL_BRANCH: ${{ steps.vars.outputs.islocalbranch }}
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         with:
           script: |
             github.rest.issues.createComment({

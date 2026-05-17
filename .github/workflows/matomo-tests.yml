@@ -389,7 +389,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Verify required jobs succeeded
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         env:
           NEEDS_JSON: ${{ toJSON(needs) }}
         with:

@@ -40,13 +40,13 @@ jobs:
     steps:
       - name: "Check release password"
         if: ${{ github.event_name != 'schedule' && github.event.inputs.password != env.RELEASE_PASSWORD }}
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
         if: ${{ github.event_name != 'schedule' && github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'caddoo' && github.actor != 'nathangavin' && github.actor != 'chippison' && github.actor != 'tzi'}}
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             core.setFailed('User is not allowed to release.')
