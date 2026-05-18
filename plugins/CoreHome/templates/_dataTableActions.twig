@@ -14,6 +14,7 @@
     report-id="{{ properties.report_id|json_encode }}"
     data-table-actions="{{ properties.datatable_actions|default([])|json_encode }}"
     show-flatten-table="{{ properties.show_flatten_table|json_encode }}"
+    report-supports-flatten="{{ properties.show_flatten_table|json_encode }}"
     client-side-parameters="{{ clientSideParameters|json_encode }}"
     has-multiple-dimensions="{{ hasMultipleDimensions|default(false)|json_encode }}"
     is-data-table-empty="{{ isDataTableEmpty|json_encode }}"

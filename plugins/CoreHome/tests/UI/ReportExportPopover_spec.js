@@ -320,6 +320,47 @@ describe('ReportExportPopover', function () {
     await expectExportLinkNotContains('expanded=1');
   });
 
+  it('should keep flat export available even when the table flatten action was hidden after initialization', async function () {
+    await page.goto(url);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('#widgetActionsgetPageUrls', { visible: true });
+    await page.waitForSelector('#widgetActionsgetPageUrls .dataTable', { visible: true });
+    await page.waitForFunction(() => (
+      !!document.querySelector('#widgetActionsgetPageUrls .dataTableAction.activateExportSelection')
+    ));
+    await page.evaluate(() => {
+      const reportElement = document.querySelector('#widgetActionsgetPageUrls [data-report]');
+      const actionsElement = document.querySelector('#widgetActionsgetPageUrls [vue-entry="CoreHome.DataTableActions"]');
+      if (!reportElement || !actionsElement) {
+        return;
+      }
+
+      const $reportElement = window.$(reportElement);
+      const $actionsElement = window.$(actionsElement);
+      const uiControlObject = $reportElement.data('uiControlObject');
+      const actionsApp = $actionsElement.data('vueAppInstance');
+      if (!uiControlObject || !uiControlObject.param || !actionsApp) {
+        return;
+      }
+
+      uiControlObject.numberOfSubtables = 0;
+      uiControlObject.param.flat = 0;
+      $reportElement.data('uiControlObject', uiControlObject);
+      actionsApp.showFlattenTable_ = false;
+
+      const button = document.querySelector('#widgetActionsgetPageUrls .dataTableAction.activateExportSelection');
+      if (button) {
+        button.click();
+      }
+    });
+    await page.waitForSelector('#reportExport', { visible: true });
+
+    expect(await isOptionVisible('option_flat')).to.equal(true);
+    expect(await isOptionExpandSubtableVisible()).to.equal(false);
+    await expectExportLinkContains('flat=1');
+    await expectExportLinkNotContains('expanded=1');
+  });
+
   it('should not restore flat when it was unchecked after being initially enabled', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
