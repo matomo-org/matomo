@@ -528,8 +528,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                     previewElement.html(emptyWidgetHtml);
 
                     var onWidgetLoadedCallback = function (response) {
-                        var widgetElement = $(document.getElementById(widgetUniqueId));
-                        // document.getElementById needed for widgets with uniqueid like widgetOpens+Contact+Form
+                        var widgetElement = previewElement.children('.widget').first();
                         $('.widgetContent', widgetElement).html($(response));
                         piwikHelper.compileVueEntryComponents($('.widgetContent', widgetElement));
                         $('.widgetContent', widgetElement).trigger('widget:create');

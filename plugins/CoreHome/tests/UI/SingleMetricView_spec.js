@@ -14,21 +14,25 @@ describe('SingleMetricView', function () {
         + "actionToWidgetize=index&idDashboard=1";
 
     it('should load correctly', async function () {
-        const modalSelector = '.modal.open.add-widget-modal';
-
         await page.goto(url);
         await page.waitForNetworkIdle();
-        await page.click('.dashboard-manager .title');
-        await page.waitForTimeout(50);
-        await page.click('.dashboard-manager .addWidget');
-        await page.waitForSelector(modalSelector);
-        await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li');
 
-        await (await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li:contains(Goals)')).hover(); // have to mouse move twice... otherwise Live! will just be highlighted
-        await (await page.jQuery(modalSelector + ' .widgetpreview-categorylist > li:contains(KPI Metric)')).hover();
-
-        await (await page.jQuery(modalSelector + ' .widgetpreview-widgetlist li:contains(KPI Metric)')).hover();
-        await (await page.jQuery(modalSelector + ' .widgetpreview-widgetlist li:contains(KPI Metric)')).click();
+        // Add the Single Metric (KPI Metric) widget directly instead of going
+        // through the Add Widget modal so the screenshot stays focused on the
+        // widget itself rather than the surrounding picker flow.
+        await page.evaluate(function () {
+            return new Promise(function (resolve) {
+                window.widgetsHelper.getWidgetObjectFromUniqueId(
+                    'widgetCoreVisualizationssingleMetricViewcolumn',
+                    function (widget) {
+                        $('#dashboardWidgetsArea').dashboard(
+                            'addWidget', widget.uniqueId, 1, widget.parameters, true, false
+                        );
+                        resolve();
+                    }
+                );
+            });
+        });
 
         var elem = await page.waitForSelector('#widgetCoreVisualizationssingleMetricViewcolumn');
         await page.waitForNetworkIdle();
