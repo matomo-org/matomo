@@ -250,7 +250,10 @@ class Sparklines extends ViewDataTable
                     foreach ($comparePeriods as $periodIndex => $period) {
                         $date = $compareDates[$periodIndex];
 
-                        $compareRow = $comparisonRows[$segment][$period][$date];
+                        $compareRow = $this->findComparisonRow($comparisonRows, $segment, $period, $date);
+                        if (!$compareRow) {
+                            continue;
+                        }
                         $segmentPretty = $compareRow->getMetadata('compareSegmentPretty');
                         $periodPretty = $compareRow->getMetadata('comparePeriodPretty');
 
@@ -262,10 +265,10 @@ class Sparklines extends ViewDataTable
                             if (!isset($column[$i])) {
                                 continue;
                             }
-                            if (isset($columnMetrics[$column[$i]]) && $columnMetrics[$column[$i]]) {
-                                $value = $columnMetrics[$columnToUse[$i]]->format($value, $metricFormatter);
-                            } elseif (strpos($columnToUse[$i], 'revenue') !== false && $idSite > 0) {
+                            if (strpos($columnToUse[$i], 'revenue') !== false && $idSite > 0) {
                                 $value = $metricFormatter->getPrettyMoney($value, $idSite);
+                            } elseif (isset($columnMetrics[$columnToUse[$i]]) && $columnMetrics[$columnToUse[$i]]) {
+                                $value = $columnMetrics[$columnToUse[$i]]->format($value, $metricFormatter);
                             }
 
                             $metricInfo = [
@@ -390,5 +393,21 @@ class Sparklines extends ViewDataTable
         }
 
         return array_diff($columns, ['nb_users', 'nb_uniq_visitors']);
+    }
+
+    private function findComparisonRow(array $comparisonRows, string $segment, string $period, string $date): ?DataTable\Row
+    {
+        if (isset($comparisonRows[$segment][$period][$date])) {
+            return $comparisonRows[$segment][$period][$date];
+        }
+
+        if (strpos($date, ',') === false) {
+            $rangeDate = Factory::build($period, $date)->getRangeString();
+            if (isset($comparisonRows[$segment][$period][$rangeDate])) {
+                return $comparisonRows[$segment][$period][$rangeDate];
+            }
+        }
+
+        return null;
     }
 }
