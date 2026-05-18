@@ -22,6 +22,7 @@ class GetLanguage extends Base
         $this->dimension     = new Language();
         $this->name          = Piwik::translate('UserLanguage_BrowserLanguage');
         $this->documentation = Piwik::translate('UserLanguage_getLanguageDocumentation');
+        $this->supportsFlatten = false;
         $this->order = 8;
     }
 

@@ -22,6 +22,7 @@ class GetConfiguration extends Base
         $this->dimension     = new Configuration();
         $this->name          = Piwik::translate('Resolution_Configurations');
         $this->documentation = Piwik::translate('Resolution_WidgetGlobalVisitorsDocumentation', '<br />');
+        $this->supportsFlatten = false;
         $this->order = 7;
 
         $this->subcategoryId = 'DevicesDetection_Software';

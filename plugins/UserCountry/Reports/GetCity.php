@@ -21,6 +21,7 @@ class GetCity extends Base
         $this->dimension      = new City();
         $this->name           = Piwik::translate('UserCountry_City');
         $this->documentation  = Piwik::translate('UserCountry_getCityDocumentation') . '<br/>' . $this->getGeoIPReportDocSuffix();
+        $this->supportsFlatten = false;
         $this->order = 10;
     }
 

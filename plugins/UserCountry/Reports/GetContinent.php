@@ -24,6 +24,7 @@ class GetContinent extends Base
         $this->dimension      = new Continent();
         $this->name           = Piwik::translate('UserCountry_Continent');
         $this->documentation  = Piwik::translate('UserCountry_getContinentDocumentation');
+        $this->supportsFlatten = false;
         $this->order = 6;
     }
 

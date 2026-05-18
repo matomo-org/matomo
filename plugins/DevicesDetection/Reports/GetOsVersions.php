@@ -22,6 +22,7 @@ class GetOsVersions extends Base
         $this->dimension     = new OsVersion();
         $this->name          = Piwik::translate('DevicesDetection_OperatingSystemVersions');
         $this->documentation = Piwik::translate('DevicesDetection_OperatingSystemVersionsReportDocumentation');
+        $this->supportsFlatten = false;
         $this->order = 2;
 
         $this->subcategoryId = 'DevicesDetection_Software';

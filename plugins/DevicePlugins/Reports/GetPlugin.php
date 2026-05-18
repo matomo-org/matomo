@@ -23,6 +23,7 @@ class GetPlugin extends Base
         $this->dimension     = new Plugin();
         $this->name          = Piwik::translate('DevicePlugins_WidgetPlugins');
         $this->documentation = Piwik::translate('DevicePlugins_WidgetPluginsDocumentation', '<br />');
+        $this->supportsFlatten = false;
         $this->metrics       = array('nb_visits');
         $this->constantRowsCount = true;
         $this->processedMetrics = array('nb_visits_percentage');

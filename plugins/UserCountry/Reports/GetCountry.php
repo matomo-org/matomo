@@ -23,6 +23,7 @@ class GetCountry extends Base
         $this->dimension      = new Country();
         $this->name           = Piwik::translate('UserCountry_Country');
         $this->documentation  = Piwik::translate('UserCountry_getCountryDocumentation');
+        $this->supportsFlatten = false;
         $this->order = 5;
     }
 
