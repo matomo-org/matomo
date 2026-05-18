@@ -11,6 +11,19 @@ describe("GoalsPages", function () {
   var generalParams = 'idSite=1&period=year&date=2012-08-09',
     urlBaseGeneric = 'module=CoreHome&action=index&',
     urlBase = urlBaseGeneric + generalParams;
+  const findRevenueLeftInCartEvolution = async function () {
+    await page.waitForFunction(() => {
+      return !!window.$('.sparkline').filter((index, element) => {
+        return window.$(element).text().toLowerCase().includes('left in cart');
+      }).find('.metricEvolution').length;
+    });
+
+    return page.evaluateHandle(() => {
+      return window.$('.sparkline').filter((index, element) => {
+        return window.$(element).text().toLowerCase().includes('left in cart');
+      }).find('.metricEvolution').get(0);
+    });
+  };
 
   // goals pages
   it('should load the goals > ecommerce page correctly', async function () {
@@ -24,7 +37,7 @@ describe("GoalsPages", function () {
     var monthParams = 'idSite=1&period=month&date=2012-01-09';
     await page.goto("?" + urlBase + "#?" + monthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
     await page.waitForNetworkIdle();
-    const element = await page.jQuery('#rightcolumn .sparkline:eq(1) .metricEvolution');
+    const element = await findRevenueLeftInCartEvolution();
     await element.hover();
     const tooltip = await page.waitForSelector('.ui-tooltip', { visible: true });
     expect(await tooltip.screenshot()).to.matchImage('revenue_incart_tooltip');
@@ -35,7 +48,7 @@ describe("GoalsPages", function () {
     await page.goto("?" + urlBaseGeneric + compareMonthParams + "#?" + compareMonthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
     await page.waitForNetworkIdle();
 
-    const element = await page.jQuery('#rightcolumn .sparkline:eq(1) .metricEvolution');
+    const element = await findRevenueLeftInCartEvolution();
     await element.hover();
     await page.waitForSelector('.ui-tooltip', { visible: true });
 
