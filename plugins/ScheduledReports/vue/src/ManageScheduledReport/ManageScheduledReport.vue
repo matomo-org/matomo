@@ -44,6 +44,7 @@
       <AddReport
         v-if="showReportForm"
         :report="report"
+        :validation-errors="validationErrors"
         :periods="periods"
         :param-periods="paramPeriods"
         :report-type-options="reportTypeOptions"
@@ -106,6 +107,10 @@ interface ManageScheduledReportState {
   selectedReportsOrder: Record<string, string[]>;
   sendingReports: Array<string|number>;
   isDashboardExportInfoVisible: boolean;
+  validationErrors: {
+    description: boolean;
+    reports: boolean;
+  };
 }
 
 type WidgetReportMap = {
@@ -141,6 +146,7 @@ window.getReportParametersFunctions = window.getReportParametersFunctions || {};
 const { $ } = window;
 const PENDING_NOTIFICATION_KEY = 'scheduledReports.pendingNotification';
 const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
+const VALIDATION_NOTIFICATION_ID = 'scheduledReportValidationError';
 
 const timeZoneDifferenceInHours = Matomo.timezoneOffset / 3600;
 
@@ -259,6 +265,10 @@ export default defineComponent({
       selectedReportsOrder: {},
       sendingReports: [],
       isDashboardExportInfoVisible: false,
+      validationErrors: {
+        description: false,
+        reports: false,
+      },
     };
   },
   methods: {
@@ -409,6 +419,7 @@ export default defineComponent({
     },
     showListOfReports(shouldScrollToTop?: boolean) {
       this.showReportsList = true;
+      this.resetValidationErrors();
 
       if (this.isDashboardExportInfoVisible) {
         NotificationsStore.remove('scheduledReportSuccess');
@@ -428,6 +439,7 @@ export default defineComponent({
       // entries are used
       nextTick(() => {
         this.formSetEditReport(0);
+        this.resetValidationErrors();
         if (afterInit) {
           afterInit();
         }
@@ -440,6 +452,7 @@ export default defineComponent({
       // entries are used
       nextTick(() => {
         this.formSetEditReport(reportId);
+        this.resetValidationErrors();
       });
     },
     submitReport() {
@@ -476,6 +489,14 @@ export default defineComponent({
         apiParameters.reports = reports;
       }
 
+      const validationErrors = this.getValidationErrors(reports);
+      if (validationErrors.description || validationErrors.reports) {
+        this.validationErrors = validationErrors;
+        scrollToTop();
+        this.showValidationErrors(validationErrors);
+        return false;
+      }
+
       const reportParams = window.getReportParametersFunctions[this.report.type](this.report);
       apiParameters.parameters = reportParams as unknown as QueryParameters;
 
@@ -498,6 +519,8 @@ export default defineComponent({
       if (propName === 'type') {
         this.changedReportType();
       }
+
+      this.refreshValidationErrors();
     },
     toggleSelectedReport(reportType: string, uniqueId: string) {
       this.selectedReports[reportType] = this.selectedReports[reportType] || {};
@@ -515,11 +538,92 @@ export default defineComponent({
           (reportId) => reportId !== uniqueId,
         );
       }
+
+      this.refreshValidationErrors();
     },
     onReorderSelectedReports(reportType: string, order: string[]) {
       this.selectedReportsOrder[reportType] = order.filter(
         (uniqueId) => this.selectedReports[reportType]?.[uniqueId],
       );
+    },
+    getSelectedReportIds(reportType: string): string[] {
+      const selectedReports = this.selectedReports[reportType] || {};
+      let reports = (this.selectedReportsOrder[reportType] || []).filter(
+        (name) => selectedReports[name],
+      );
+
+      if (!reports.length) {
+        reports = Object.keys(selectedReports).filter(
+          (name) => selectedReports[name],
+        );
+      }
+
+      return reports;
+    },
+    getValidationErrors(selectedReportIds?: string[]) {
+      const reportType = this.report.type as string;
+      const selectedReports = selectedReportIds || this.getSelectedReportIds(reportType);
+      return {
+        description: !String(this.report.description || '').trim(),
+        reports: selectedReports.length === 0,
+      };
+    },
+    showValidationErrors(validationErrors: { description: boolean; reports: boolean }) {
+      const messages = [];
+      if (validationErrors.description) {
+        messages.push(translate(
+          'ScheduledReports_ReportMissingDescription',
+          '<a href="#report_description">',
+          '</a>',
+        ));
+      }
+      if (validationErrors.reports) {
+        messages.push(translate(
+          'ScheduledReports_ReportMissingReports',
+          '<a href="#scheduled-reports-selection-heading">',
+          '</a>',
+        ));
+      }
+
+      const message = messages.length > 1
+        ? `<ul><li>${messages.join('</li><li>')}</li></ul>`
+        : messages[0];
+
+      NotificationsStore.remove(VALIDATION_NOTIFICATION_ID);
+      NotificationsStore.show({
+        message,
+        placeat: this.$refs.reportUpdatedSuccess as HTMLElement,
+        context: 'error',
+        noclear: true,
+        type: 'persistent',
+        style: {
+          display: 'inline-block',
+          marginTop: '10px',
+          width: '100%',
+        },
+        id: VALIDATION_NOTIFICATION_ID,
+      });
+    },
+    refreshValidationErrors() {
+      if (!this.validationErrors.description && !this.validationErrors.reports) {
+        return;
+      }
+
+      const validationErrors = this.getValidationErrors();
+      this.validationErrors = validationErrors;
+
+      if (validationErrors.description || validationErrors.reports) {
+        this.showValidationErrors(validationErrors);
+      } else {
+        NotificationsStore.remove(VALIDATION_NOTIFICATION_ID);
+      }
+    },
+    resetValidationErrors() {
+      this.validationErrors = {
+        description: false,
+        reports: false,
+      };
+      NotificationsStore.remove(VALIDATION_NOTIFICATION_ID);
     },
     async handleDashboardExportFromSession() {
       // Dashboard export bootstrap is session-backed on purpose; URL idDashboard is ignored.

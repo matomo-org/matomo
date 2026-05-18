@@ -35,7 +35,10 @@
           :model-value="report.description"
           @update:model-value="$emit('change', { prop: 'description', value: $event })"
           :ui-control-attributes="{ class: 'compact-textarea' }"
-          :inline-help="translate('ScheduledReports_DescriptionOnFirstPageScheduledReport')"
+          :inline-help="translate('ScheduledReports_DescriptionOnReportAndReportsList')"
+          :error-message="validationErrors.description
+            ? translate('ScheduledReports_ReportMissingDescription', '', '')
+            : ''"
         >
         </Field>
       </div>
@@ -240,7 +243,20 @@
         </div>
       </div>
       <div class="row">
-        <h3 class="col s12">{{ translate('ScheduledReports_ReportsIncluded') }}</h3>
+        <h3
+          id="scheduled-reports-selection-heading"
+          class="col s12"
+        >
+          {{ translate('ScheduledReports_ReportsIncluded') }}
+        </h3>
+        <div
+          :class="{
+            'col s12 scheduled-reports-field-help': true,
+            'form-group__error-message': validationErrors.reports,
+          }"
+        >
+          {{ translate('ScheduledReports_ReportsIncludedHelp') }}
+        </div>
       </div>
       <div
         name="reportsList"
@@ -400,6 +416,13 @@ export default defineComponent({
     periods: {
       type: Object,
       required: true,
+    },
+    validationErrors: {
+      type: Object,
+      default: () => ({
+        description: false,
+        reports: false,
+      }),
     },
   },
   emits: ['submit', 'change', 'toggleSelectedReport', 'reorderSelectedReports'],
