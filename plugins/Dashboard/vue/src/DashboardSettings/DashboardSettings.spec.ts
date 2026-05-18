@@ -10,7 +10,6 @@ import { shallowMount } from '@vue/test-utils';
 type PlainObject = Record<string, unknown>;
 
 const mockRootJQuery = {
-  widgetPreview: jest.fn(),
   hide: jest.fn(),
   dashboard: jest.fn(),
   find: jest.fn(() => ({ length: 0 })),
