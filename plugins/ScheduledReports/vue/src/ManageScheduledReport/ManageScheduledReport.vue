@@ -339,7 +339,7 @@ export default defineComponent({
           'reportDescription',
         )
           ? `${report.parameters.reportDescription || ''}`
-          : report.description,
+          : '',
       );
     },
     showNotificationMessage(

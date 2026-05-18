@@ -800,9 +800,6 @@ class API extends \Piwik\Plugin\API
         $reportRenderer->setReport($report);
 
         // render report
-        $description = $report['parameters'][ScheduledReports::REPORT_DESCRIPTION_PARAMETER]
-            ?? $report['description'];
-        $description = str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) $description));
         $reportName = str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) $report['description']));
 
         [$reportSubject, $reportTitle] = self::getReportSubjectAndReportTitle(Common::unsanitizeInputValue(Site::getNameFor((int)$idSite)), $report['reports']);
@@ -813,7 +810,7 @@ class API extends \Piwik\Plugin\API
         }
         $filename = "$reportTitle - $prettyDate - $reportName";
 
-        $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment ?? []);
+        $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $reportName, $reportMetadata, $segment ?? []);
         array_walk($processedReports, [$reportRenderer, 'renderReport']);
 
         switch ($outputType) {

@@ -106,10 +106,7 @@ class GeneratedReport
 
     public function getDisplayDescription(): string
     {
-        $description = $this->reportDetails['parameters'][ScheduledReports::REPORT_DESCRIPTION_PARAMETER]
-            ?? $this->reportDetails['description']
-            ?? '';
-
-        return str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) $description));
+        // The persisted report `description` field now stores the report name.
+        return str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) ($this->reportDetails['description'] ?? '')));
     }
 }

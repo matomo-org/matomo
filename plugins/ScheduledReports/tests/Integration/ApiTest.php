@@ -681,7 +681,7 @@ class ApiTest extends IntegrationTestCase
         self::assertStringNotContainsString('id="UserCountry_getCountry"', $result);
     }
 
-    public function testGenerateReportUsesNameForFilenameAndOptionalDescriptionForFrontPage()
+    public function testGenerateReportUsesNameForFilenameAndFrontPage()
     {
         $realProxy = new Proxy();
 
@@ -810,7 +810,7 @@ class ApiTest extends IntegrationTestCase
 
         self::assertStringContainsString('Weekly traffic overview', $renderedReport['filename']);
         self::assertStringNotContainsString('Metrics for traffic and conversions sent weekly', $renderedReport['filename']);
-        self::assertSame('Metrics for traffic and conversions sent weekly', $renderedReport['frontPageDescription']);
+        self::assertSame('Weekly traffic overview', $renderedReport['frontPageDescription']);
     }
 
     public function testGetDisplayDescriptionFallsBackToNameForLegacyReports()
@@ -825,7 +825,7 @@ class ApiTest extends IntegrationTestCase
         self::assertSame('Legacy report name', $report->getDisplayDescription());
     }
 
-    public function testGetDisplayDescriptionUsesOptionalDescriptionWhenPresent()
+    public function testGetDisplayDescriptionUsesNameWhenOptionalDescriptionIsPresent()
     {
         $report = new GeneratedReport([
             'description' => 'Weekly traffic overview',
@@ -835,7 +835,7 @@ class ApiTest extends IntegrationTestCase
             ],
         ], 'title', 'today', '', []);
 
-        self::assertSame('Metrics for traffic and conversions sent weekly', $report->getDisplayDescription());
+        self::assertSame('Weekly traffic overview', $report->getDisplayDescription());
     }
 
     /**
