@@ -43,14 +43,11 @@ describe('Dashboard/AddWidgetModal', () => {
     jest.clearAllMocks();
   });
 
-  it('opens and closes when Matomo events fire', () => {
+  it('opens when the Matomo event fires', () => {
     const wrapper = mountComponent();
 
     getHandler('Dashboard.AddWidget.open')!();
     expect((wrapper.vm as any).isOpen).toBe(true);
-
-    getHandler('Dashboard.AddWidget.close')!();
-    expect((wrapper.vm as any).isOpen).toBe(false);
   });
 
   it('closes immediately and emits select with the resolved widget', () => {
@@ -94,7 +91,6 @@ describe('Dashboard/AddWidgetModal', () => {
     wrapper.unmount();
 
     expect(mockMatomo.off).toHaveBeenCalledWith('Dashboard.AddWidget.open', expect.any(Function));
-    expect(mockMatomo.off).toHaveBeenCalledWith('Dashboard.AddWidget.close', expect.any(Function));
     expect(mockMatomo.off).toHaveBeenCalledWith('WidgetsStore.reloaded', expect.any(Function));
   });
 });

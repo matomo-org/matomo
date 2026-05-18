@@ -6,73 +6,34 @@
  */
 
 import { mount } from '@vue/test-utils';
-import { defineComponent, nextTick, h } from 'vue';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const MatomoModal = require('./MatomoModal.vue').default;
+import { nextTick } from 'vue';
+import MatomoModal from './MatomoModal.vue';
 
 const activeWrappers: Array<{ unmount: () => void }> = [];
 
-interface HostProps {
-  modelValue?: boolean;
-  classes?: unknown;
-  contentClass?: unknown;
-  ariaLabel?: string;
-  withFooter?: boolean;
-}
-
-function mountHost(initial: HostProps = {}) {
-  const Host = defineComponent({
-    components: { MatomoModal },
-    data() {
-      return {
-        modelValue: initial.modelValue ?? false,
-        classes: initial.classes ?? '',
-        contentClass: initial.contentClass ?? '',
-        ariaLabel: initial.ariaLabel,
-        withFooter: initial.withFooter ?? false,
-        openedWith: null as HTMLElement | null,
-        closedCount: 0,
-      };
+function mountModal(extraProps: Record<string, unknown> = {}, slots: Record<string, string> = {}) {
+  const wrapper = mount(MatomoModal, {
+    attachTo: document.body,
+    props: {
+      modelValue: false,
+      ...extraProps,
     },
-    methods: {
-      onOpened(root: HTMLElement) { this.openedWith = root; },
-      onClosed() { this.closedCount += 1; },
-    },
-    render() {
-      const slots: Record<string, () => unknown> = {
-        default: () => h('p', { class: 'body-text' }, 'modal body'),
-      };
-      if (this.withFooter) {
-        slots.footer = () => h('button', { class: 'footer-btn' }, 'OK');
-      }
-      return h(
-        MatomoModal,
-        {
-          modelValue: this.modelValue,
-          'onUpdate:modelValue': (val: boolean) => { this.modelValue = val; },
-          classes: this.classes,
-          contentClass: this.contentClass,
-          ariaLabel: this.ariaLabel,
-          onOpened: this.onOpened,
-          onClosed: this.onClosed,
-        },
-        slots,
-      );
+    slots: {
+      default: '<p class="body-text">modal body</p>',
+      ...slots,
     },
   });
 
-  const wrapper = mount(Host, { attachTo: document.body });
   activeWrappers.push(wrapper);
   return wrapper;
 }
 
-function getModal(): HTMLElement | null {
-  return document.body.querySelector<HTMLElement>('.modal');
+function getModal(): HTMLElement {
+  return document.body.querySelector('.modal') as HTMLElement;
 }
 
 function getOverlay(): HTMLElement | null {
-  return document.body.querySelector<HTMLElement>('.modal-overlay');
+  return document.body.querySelector('.modal-overlay');
 }
 
 async function settle() {
@@ -92,25 +53,20 @@ describe('CoreHome/MatomoModal', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders the slot inside .modal-content but stays hidden when closed', () => {
-    mountHost({ modelValue: false });
-
-    const modal = getModal()!;
-    expect(modal).not.toBeNull();
-    expect(modal.querySelector('.modal-content .body-text')?.textContent).toBe('modal body');
-    expect(modal.classList.contains('open')).toBe(false);
-    expect(getOverlay()).toBeNull();
-    expect(document.body.style.overflow).toBe('');
-  });
-
-  it('applies aria attributes and custom classes', () => {
-    mountHost({
+  it('renders its content and optional footer with modal classes and attributes', () => {
+    mountModal({
       ariaLabel: 'My Modal',
       classes: ['custom-modal', { secondary: true }],
       contentClass: 'custom-content',
+    }, {
+      footer: '<button class="footer-btn">OK</button>',
     });
 
-    const modal = getModal()!;
+    const modal = getModal();
+
+    expect(modal.querySelector('.modal-content .body-text')?.textContent).toBe('modal body');
+    expect(modal.querySelector('.modal-footer .footer-btn')?.textContent).toBe('OK');
+    expect(modal.classList.contains('open')).toBe(false);
     expect(modal.getAttribute('role')).toBe('dialog');
     expect(modal.getAttribute('aria-modal')).toBe('true');
     expect(modal.getAttribute('aria-label')).toBe('My Modal');
@@ -119,83 +75,54 @@ describe('CoreHome/MatomoModal', () => {
     expect(modal.querySelector('.modal-content')?.classList.contains('custom-content')).toBe(true);
   });
 
-  it('renders an optional footer slot inside .modal-footer', () => {
-    mountHost({ withFooter: true });
-
-    expect(getModal()!.querySelector('.modal-footer .footer-btn')?.textContent).toBe('OK');
-  });
-
-  it('opens, locks body scroll, and emits opened with the modal root', async () => {
-    const trigger = document.createElement('button');
-    document.body.appendChild(trigger);
-    trigger.focus();
-
-    const wrapper = mountHost();
-    wrapper.vm.modelValue = true;
-    await settle();
-
-    const modal = getModal()!;
-    expect(modal.classList.contains('open')).toBe(true);
-    expect(getOverlay()!.classList.contains('open')).toBe(true);
-    expect(document.body.style.overflow).toBe('hidden');
-    expect(wrapper.vm.openedWith).toBe(modal);
-    expect(document.activeElement).toBe(modal);
-  });
-
-  it('closes when Escape is pressed and emits closed', async () => {
-    const wrapper = mountHost({ modelValue: true });
-    await settle();
-    expect(getModal()!.classList.contains('open')).toBe(true);
-
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-    await settle();
-
-    expect(wrapper.vm.modelValue).toBe(false);
-    expect(getModal()!.classList.contains('open')).toBe(false);
-    expect(getOverlay()).toBeNull();
-    expect(wrapper.vm.closedCount).toBe(1);
-    expect(document.body.style.overflow).toBe('');
-  });
-
-  it('closes when the overlay is clicked', async () => {
-    const wrapper = mountHost({ modelValue: true });
-    await settle();
-
-    getOverlay()!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    await settle();
-
-    expect(wrapper.vm.modelValue).toBe(false);
-    expect(getModal()!.classList.contains('open')).toBe(false);
-  });
-
-  it('restores the previous body overflow when closed', async () => {
+  it('locks scroll, focuses the modal, and emits lifecycle events when opened and closed', async () => {
     document.body.style.overflow = 'auto';
     const trigger = document.createElement('button');
     document.body.appendChild(trigger);
     trigger.focus();
-    const wrapper = mountHost();
-    wrapper.vm.modelValue = true;
-    await settle();
-    expect(document.body.style.overflow).toBe('hidden');
 
-    wrapper.vm.modelValue = false;
+    const wrapper = mountModal();
+
+    await wrapper.setProps({ modelValue: true });
     await settle();
+
+    const modal = getModal();
+
+    expect(modal.classList.contains('open')).toBe(true);
+    expect(getOverlay()?.classList.contains('open')).toBe(true);
+    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.activeElement).toBe(modal);
+    expect(wrapper.emitted('opened')?.[0]?.[0]).toBe(modal);
+
+    await wrapper.setProps({ modelValue: false });
+    await settle();
+
+    expect(getOverlay()).toBeNull();
     expect(document.body.style.overflow).toBe('auto');
     expect(document.activeElement).toBe(trigger);
+    expect(wrapper.emitted('closed')).toHaveLength(1);
   });
 
-  it('detaches the document keydown listener when unmounted while open', async () => {
-    const wrapper = mountHost({ modelValue: true });
+  it('requests close when Escape is pressed or the overlay is clicked', async () => {
+    const wrapper = mountModal({ modelValue: true });
+    await settle();
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    getOverlay()?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(wrapper.emitted('update:modelValue')).toEqual([[false], [false]]);
+  });
+
+  it('cleans up global side effects when unmounted while open', async () => {
+    const wrapper = mountModal({ modelValue: true });
     await settle();
 
     wrapper.unmount();
     activeWrappers.pop();
 
-    // Dispatching Escape after unmount must not throw and must not flip
-    // any state — there is no longer a host listening.
+    expect(document.body.style.overflow).toBe('');
     expect(() => {
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     }).not.toThrow();
-    expect(document.body.style.overflow).toBe('');
   });
 });

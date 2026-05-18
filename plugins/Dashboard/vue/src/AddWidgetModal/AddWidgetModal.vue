@@ -46,7 +46,6 @@ import {
 
 const { $, widgetsHelper } = window;
 const OPEN_EVENT = 'Dashboard.AddWidget.open';
-const CLOSE_EVENT = 'Dashboard.AddWidget.close';
 
 function isWidgetAvailable(uniqueId: string) {
   return !$('#dashboardWidgetsArea').find(`[widgetId="${uniqueId}"]`).length;
@@ -116,12 +115,10 @@ export default defineComponent({
   },
   mounted() {
     Matomo.on(OPEN_EVENT, this.open);
-    Matomo.on(CLOSE_EVENT, this.close);
     Matomo.on('WidgetsStore.reloaded', this.onWidgetsReloaded);
   },
   unmounted() {
     Matomo.off(OPEN_EVENT, this.open);
-    Matomo.off(CLOSE_EVENT, this.close);
     Matomo.off('WidgetsStore.reloaded', this.onWidgetsReloaded);
   },
 });

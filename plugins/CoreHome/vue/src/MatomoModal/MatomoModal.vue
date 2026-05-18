@@ -15,17 +15,17 @@
     <div
       v-show="modelValue"
       ref="root"
-      class="modal"
+      class="modal matomo-modal"
       :class="modalClasses"
       role="dialog"
       aria-modal="true"
       :aria-label="ariaLabel"
       tabindex="-1"
     >
-      <div class="modal-content" :class="contentClass">
+      <div class="modal-content matomo-modal-content" :class="contentClass">
         <slot></slot>
       </div>
-      <div v-if="$slots.footer" class="modal-footer">
+      <div v-if="$slots.footer" class="modal-footer matomo-modal-footer">
         <slot name="footer"></slot>
       </div>
     </div>
@@ -62,7 +62,6 @@ export default defineComponent({
     },
     ariaLabel: {
       type: String,
-      default: undefined,
     },
   },
   emits: ['update:modelValue', 'opened', 'closed'],
@@ -86,18 +85,20 @@ export default defineComponent({
     },
 
     onKeydown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        this.close();
+      if (event.key !== 'Escape') {
+        return;
       }
+      this.close();
     },
 
     activate() {
+      const rootElement = this.$refs.root as HTMLElement;
       this.previousBodyOverflow = document.body.style.overflow;
       this.previousFocus = document.activeElement as HTMLElement | null;
       document.body.style.overflow = 'hidden';
       document.addEventListener('keydown', this.onKeydown);
-      this.$nextTick(() => (this.$refs.root as HTMLElement).focus());
-      this.$emit('opened', this.$refs.root as HTMLElement);
+      this.$nextTick(() => (rootElement).focus());
+      this.$emit('opened', rootElement);
     },
 
     deactivate() {
