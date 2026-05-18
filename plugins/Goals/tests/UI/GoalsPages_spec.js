@@ -45,7 +45,7 @@ describe("GoalsPages", function () {
     var monthParams = 'idSite=1&period=month&date=2012-01-09';
     await page.goto("?" + urlBase + "#?" + monthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
     await page.waitForNetworkIdle();
-    const element = await findSparkline('left in cart', '.metricEvolution');
+    const element = await findSparkline('left in cart', '.metricEvolution:last');
     await element.hover();
     const tooltip = await page.waitForSelector('.ui-tooltip', { visible: true });
     expect(await tooltip.screenshot()).to.matchImage('revenue_incart_tooltip');

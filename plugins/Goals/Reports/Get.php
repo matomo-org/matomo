@@ -216,6 +216,7 @@ class Get extends Base
                     $lastPeriod        = PeriodFactory::build(Piwik::getPeriod(), $lastPeriodDate);
                     $lastPrettyDate    = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString(
                     ) : $lastPeriod->getPrettyString());
+                    $metricTranslations = $view->config->translations;
 
                     $view->config->compute_evolution = function (
                         $columns,
@@ -224,7 +225,8 @@ class Get extends Base
                         $currentPrettyDate,
                         $lastPrettyDate,
                         $previousDataRow,
-                        $idSite
+                        $idSite,
+                        $metricTranslations
                     ) {
                         $value      = reset($columns);
                         $columnName = key($columns);
@@ -260,10 +262,12 @@ class Get extends Base
                             }
                         }
 
-                        $columnTranslations = Metrics::getDefaultMetricTranslations();
-                        $columnTranslation  = '';
-                        if (array_key_exists($columnName, $columnTranslations)) {
-                            $columnTranslation = $columnTranslations[$columnName];
+                        $columnTranslation = $metricTranslations[$columnName] ?? '';
+                        if ($columnTranslation === '') {
+                            $columnTranslations = Metrics::getDefaultMetricTranslations();
+                            if (array_key_exists($columnName, $columnTranslations)) {
+                                $columnTranslation = $columnTranslations[$columnName];
+                            }
                         }
 
                         return [

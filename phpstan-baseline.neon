@@ -2934,11 +2934,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
 
 		-
-			message: "#^Variable \\$comparisonRows might not be defined\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
-
-		-
 			message: "#^Variable \\$segmentPretty might not be defined\\.$#"
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
