@@ -23,12 +23,12 @@ class GetCountry extends Base
         $this->dimension      = new Country();
         $this->name           = Piwik::translate('UserCountry_Country');
         $this->documentation  = Piwik::translate('UserCountry_getCountryDocumentation');
-        $this->supportsFlatten = false;
         $this->order = 5;
     }
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
         $view->config->show_exclude_low_population = false;
         $view->config->documentation = $this->documentation;
 

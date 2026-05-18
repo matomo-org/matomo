@@ -21,12 +21,12 @@ class GetRegion extends Base
         $this->dimension      = new Region();
         $this->name           = Piwik::translate('UserCountry_Region');
         $this->documentation  = Piwik::translate('UserCountry_getRegionDocumentation') . '<br/>' . $this->getGeoIPReportDocSuffix();
-        $this->supportsFlatten = false;
         $this->order = 7;
     }
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
         $view->config->show_exclude_low_population = false;
         $view->config->documentation = $this->documentation;
 

@@ -22,7 +22,6 @@ class GetBrowsers extends Base
         $this->dimension     = new BrowserName();
         $this->name          = Piwik::translate('DevicesDetection_Browsers');
         $this->documentation = Piwik::translate('DevicesDetection_WidgetBrowsersDocumentation');
-        $this->supportsFlatten = false;
         $this->order = 5;
         $this->subcategoryId = 'DevicesDetection_Software';
         $this->hasGoalMetrics = true;
@@ -30,6 +29,7 @@ class GetBrowsers extends Base
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
         $view->config->title = $this->name;
         $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;

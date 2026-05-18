@@ -24,7 +24,6 @@ class GetContinent extends Base
         $this->dimension      = new Continent();
         $this->name           = Piwik::translate('UserCountry_Continent');
         $this->documentation  = Piwik::translate('UserCountry_getContinentDocumentation');
-        $this->supportsFlatten = false;
         $this->order = 6;
     }
 
@@ -40,6 +39,7 @@ class GetContinent extends Base
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
         $view->config->show_exclude_low_population = false;
         $view->config->show_search = false;
         $view->config->show_offset_information = false;
