@@ -238,14 +238,6 @@ class Get extends Base
                         $formatter             = new MetricFormatter();
                         $currentValueFormatted = $value;
                         $pastValueFormatted    = $pastValue;
-                        foreach ($metrics as $metric) {
-                            if ($metric->getName() === $columnName) {
-                                $pastValueFormatted    = $metric->format($pastValue, $formatter);
-                                $currentValueFormatted = $metric->format($value, $formatter);
-                                break;
-                            }
-                        }
-
                         if (strpos($columnName, 'revenue') !== false) {
                             $currencySymbol        = Site::getCurrencySymbolFor($idSite);
                             $pastValueFormatted    = NumberFormatter::getInstance()->formatCurrency(
@@ -258,6 +250,14 @@ class Get extends Base
                                 $currencySymbol,
                                 GoalManager::REVENUE_PRECISION
                             );
+                        } else {
+                            foreach ($metrics as $metric) {
+                                if ($metric->getName() === $columnName) {
+                                    $pastValueFormatted    = $metric->format($pastValue, $formatter);
+                                    $currentValueFormatted = $metric->format($value, $formatter);
+                                    break;
+                                }
+                            }
                         }
 
                         $columnTranslations = Metrics::getDefaultMetricTranslations();

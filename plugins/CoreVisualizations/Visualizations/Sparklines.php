@@ -301,10 +301,10 @@ class Sparklines extends ViewDataTable
                     if (!isset($column[$i])) {
                         continue;
                     }
-                    if (isset($columnMetrics[$column[$i]]) && $columnMetrics[$column[$i]]) {
-                        $value = $columnMetrics[$column[$i]]->format($value, $metricFormatter);
-                    } elseif (strpos($column[$i], 'revenue') !== false && $idSite > 0) {
+                    if (strpos($column[$i], 'revenue') !== false && $idSite > 0) {
                         $value = $metricFormatter->getPrettyMoney($value, $idSite);
+                    } elseif (isset($columnMetrics[$column[$i]]) && $columnMetrics[$column[$i]]) {
+                        $value = $columnMetrics[$column[$i]]->format($value, $metricFormatter);
                     }
 
                     $newMetric = [
