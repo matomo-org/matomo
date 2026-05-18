@@ -11,18 +11,26 @@ describe("GoalsPages", function () {
   var generalParams = 'idSite=1&period=year&date=2012-08-09',
     urlBaseGeneric = 'module=CoreHome&action=index&',
     urlBase = urlBaseGeneric + generalParams;
-  const findRevenueLeftInCartEvolution = async function () {
-    await page.waitForFunction(() => {
-      return !!window.$('.sparkline').filter((index, element) => {
-        return window.$(element).text().toLowerCase().includes('left in cart');
-      }).find('.metricEvolution').length;
-    });
+  const findSparkline = async function (text, childSelector = null) {
+    await page.waitForFunction((sparklineText, selector) => {
+      const sparkline = window.$('.sparkline').filter((index, element) => {
+        return window.$(element).text().toLowerCase().includes(sparklineText);
+      }).first();
 
-    return page.evaluateHandle(() => {
-      return window.$('.sparkline').filter((index, element) => {
-        return window.$(element).text().toLowerCase().includes('left in cart');
-      }).find('.metricEvolution').get(0);
-    });
+      if (!sparkline.length) {
+        return false;
+      }
+
+      return selector ? !!sparkline.find(selector).length : true;
+    }, {}, text, childSelector);
+
+    return page.evaluateHandle((sparklineText, selector) => {
+      const sparkline = window.$('.sparkline').filter((index, element) => {
+        return window.$(element).text().toLowerCase().includes(sparklineText);
+      }).first();
+
+      return selector ? sparkline.find(selector).get(0) : sparkline.get(0);
+    }, text, childSelector);
   };
 
   // goals pages
@@ -37,7 +45,7 @@ describe("GoalsPages", function () {
     var monthParams = 'idSite=1&period=month&date=2012-01-09';
     await page.goto("?" + urlBase + "#?" + monthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
     await page.waitForNetworkIdle();
-    const element = await findRevenueLeftInCartEvolution();
+    const element = await findSparkline('left in cart', '.metricEvolution');
     await element.hover();
     const tooltip = await page.waitForSelector('.ui-tooltip', { visible: true });
     expect(await tooltip.screenshot()).to.matchImage('revenue_incart_tooltip');
@@ -48,7 +56,7 @@ describe("GoalsPages", function () {
     await page.goto("?" + urlBaseGeneric + compareMonthParams + "#?" + compareMonthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
     await page.waitForNetworkIdle();
 
-    const element = await findRevenueLeftInCartEvolution();
+    const element = await findSparkline('left in cart', '.metricEvolution');
     await element.hover();
     await page.waitForSelector('.ui-tooltip', { visible: true });
 
@@ -108,7 +116,7 @@ describe("GoalsPages", function () {
   });
 
   it('should update the evolution chart if a sparkline is clicked', async function () {
-    elem = await page.jQuery('.sparkline.linked:contains(conversion rate)');
+    const elem = await findSparkline('conversion rate');
     await elem.click();
     await page.waitForNetworkIdle();
     await page.mouse.move(-10, -10);
