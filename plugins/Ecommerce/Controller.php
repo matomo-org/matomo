@@ -17,21 +17,13 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Live\Live;
-use Piwik\Translation\Translator;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 class Controller extends \Piwik\Plugins\Goals\Controller
 {
-    /**
-     * @var Translator
-     */
-    private $translator;
-
-    public function __construct(Translator $translator)
+    public function __construct(\Piwik\Translation\Translator $translator)
     {
-        $this->translator = $translator;
-
         parent::__construct($translator);
     }
 
