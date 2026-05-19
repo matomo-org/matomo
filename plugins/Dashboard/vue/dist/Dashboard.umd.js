@@ -282,7 +282,7 @@ function onLoadDashboard(idDashboard) {
     external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=007d3205
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=40367c7c
 
 const _hoisted_1 = ["title"];
 const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
@@ -309,8 +309,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     ref: "root",
     class: "dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings",
-    onClick: _cache[2] || (_cache[2] = $event => _ctx.onOpen())
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+    onClick: _cache[2] || (_cache[2] = $event => _ctx.onOpen()),
+    onFocusout: _cache[3] || (_cache[3] = (...args) => _ctx.onFocusOut && _ctx.onFocusOut(...args))
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+    type: "button",
     class: "title",
     title: _ctx.translate('Dashboard_ManageDashboard'),
     tabindex: "4",
@@ -349,11 +351,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     show: false
   }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_AddWidgetModal, {
     onSelect: _ctx.onWidgetSelected
-  }, null, 8, ["onSelect"])])), [[_directive_expand_on_click, {
-    expander: 'expander'
+  }, null, 8, ["onSelect"])], 32)), [[_directive_expand_on_click, {
+    expander: 'expander',
+    onExpand: _ctx.onExpand
   }]]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=007d3205
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=40367c7c
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue?vue&type=template&id=46aadb37
 
@@ -541,6 +544,27 @@ const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
         this.isActionDisabled.removeDashboard = false;
         this.actionTooltips.removeDashboard = undefined;
       }
+    },
+    onExpand(event) {
+      // Clicks triggered via keyboard (Enter/Space on the button) have detail === 0,
+      // mouse clicks have detail >= 1. Only shift focus into the menu for keyboard opens.
+      if (event.detail !== 0) {
+        return;
+      }
+      this.$nextTick(() => {
+        const firstAction = this.$refs.root.querySelector('.submenu button:not([disabled])');
+        if (firstAction) {
+          firstAction.focus();
+        }
+      });
+    },
+    onFocusOut(event) {
+      const root = this.$refs.root;
+      const newTarget = event.relatedTarget;
+      if (newTarget && root.contains(newTarget)) {
+        return;
+      }
+      root.classList.remove('expanded');
     },
     openAddWidget() {
       // close the dashboard-manager dropdown when opening the modal

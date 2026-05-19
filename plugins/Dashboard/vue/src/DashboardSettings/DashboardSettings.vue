@@ -9,10 +9,12 @@
   <div
     ref="root"
     class="dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings"
-    v-expand-on-click="{expander: 'expander'}"
+    v-expand-on-click="{expander: 'expander', onExpand: onExpand}"
     @click="onOpen()"
+    @focusout="onFocusOut"
   >
-    <a
+    <button
+      type="button"
       class="title"
       v-tooltips
       :title="translate('Dashboard_ManageDashboard')"
@@ -21,7 +23,7 @@
     >
       <span class="icon icon-dashboard-customize"></span>
       {{ translate('Dashboard_ManageDashboard') }}
-    </a>
+    </button>
     <div
       class="dropdown positionInViewport"
       v-tooltips="{show: false}"
@@ -200,6 +202,28 @@ export default defineComponent({
         this.isActionDisabled.removeDashboard = false;
         this.actionTooltips.removeDashboard = undefined;
       }
+    },
+    onExpand(event: MouseEvent|KeyboardEvent) {
+      // Clicks triggered via keyboard (Enter/Space on the button) have detail === 0,
+      // mouse clicks have detail >= 1. Only shift focus into the menu for keyboard opens.
+      if ((event as MouseEvent).detail !== 0) {
+        return;
+      }
+      this.$nextTick(() => {
+        const firstAction = (this.$refs.root as HTMLElement)
+          .querySelector<HTMLButtonElement>('.submenu button:not([disabled])');
+        if (firstAction) {
+          firstAction.focus();
+        }
+      });
+    },
+    onFocusOut(event: FocusEvent) {
+      const root = this.$refs.root as HTMLElement;
+      const newTarget = event.relatedTarget as Node | null;
+      if (newTarget && root.contains(newTarget)) {
+        return;
+      }
+      root.classList.remove('expanded');
     },
     openAddWidget() {
       // close the dashboard-manager dropdown when opening the modal
