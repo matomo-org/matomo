@@ -76,10 +76,13 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             'idGoal' => $idGoal,
             'allow_multiple' => (int) $allowMultiple,
             'only_summary' => 0,
-        ], function () use ($translations, $extraSparklineMetrics) {
+        ], function () use ($idGoal, $translations, $extraSparklineMetrics) {
             /** @var Sparklines $view */
             $view = ViewDataTableFactory::build(Sparklines::ID, 'Goals.get', 'Ecommerce.' . __METHOD__, true);
             $view->config->show_title = false;
+            $view->config->custom_parameters = [
+                'idGoal' => $idGoal,
+            ];
             $view->config->addTranslations($translations);
 
             foreach ($extraSparklineMetrics as [$columns, $order]) {

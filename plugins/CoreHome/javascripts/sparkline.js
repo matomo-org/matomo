@@ -110,6 +110,9 @@ window.initializeSparklines = function () {
                     if (urlParams.rows) {
                         params.rows = decodeURIComponent(urlParams.rows);
                     }
+                    if (urlParams.idGoal) {
+                        params.idGoal = decodeURIComponent(urlParams.idGoal);
+                    }
                 }
 
                 // on click, reload the graph with the new url

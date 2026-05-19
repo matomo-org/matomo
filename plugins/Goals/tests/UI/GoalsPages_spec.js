@@ -123,6 +123,20 @@ describe("GoalsPages", function () {
     expect(await page.screenshotSelector('.pageWrap')).to.matchImage('individual_goal_updated');
   });
 
+  it('should include the abandoned cart goal in ecommerce abandoned cart sparkline links', async function () {
+    var monthParams = 'idSite=1&period=month&date=2012-01-09';
+    await page.goto("?" + urlBase + "#?" + monthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
+    await page.waitForNetworkIdle();
+
+    const sparklineImage = await findSparkline('left in cart', 'img');
+    const dataSrc = await page.evaluate((element) => element.getAttribute('data-src'), sparklineImage);
+
+    expect(dataSrc).to.contain('idGoal=ecommerceAbandonedCart');
+
+    await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
+    await page.waitForNetworkIdle();
+  });
+
   // should load the row evolution [see #11526]
   it('should show rov evolution for goal tables', async function () {
     await page.waitForNetworkIdle();
