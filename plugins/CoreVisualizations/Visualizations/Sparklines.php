@@ -236,13 +236,13 @@ class Sparklines extends ViewDataTable
             $compareDatesWithoutOriginalDate = $compareDates ? array_slice($compareDates, 1) : [];
             $comparePeriodsWithoutOriginalPeriod = $comparePeriods ? array_slice($comparePeriods, 1) : [];
 
-        $periodSelector = new EvolutionPeriodSelector($this->config);
-        $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriodsWithoutOriginalPeriod, $compareDatesWithoutOriginalDate);
-        $sparklineUrlParams = $periodSelector->setDatePeriods($sparklineUrlParams, $periodObj, $comparisonPeriods, $isComparing);
-        $originalPeriodPretty = $periodObj->getPrettyString();
+            $periodSelector = new EvolutionPeriodSelector($this->config);
+            $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriodsWithoutOriginalPeriod, $compareDatesWithoutOriginalDate);
+            $sparklineUrlParams = $periodSelector->setDatePeriods($sparklineUrlParams, $periodObj, $comparisonPeriods, $isComparing);
+            $originalPeriodPretty = $periodObj->getPrettyString();
 
-        if ($isComparing) {
-            $sparklineUrlParams['compareSegments'] = [];
+            if ($isComparing) {
+                $sparklineUrlParams['compareSegments'] = [];
 
                 $compareSegments = $data->getMetadata('compareSegments');
                 foreach ($compareSegments as $segmentIndex => $segment) {
