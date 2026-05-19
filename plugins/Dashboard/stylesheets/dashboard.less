@@ -396,57 +396,90 @@ div.widgetpreview-preview {
   line-height: inherit;
 }
 
-@add-widget-col: 220px;
+@add-widget-categories: 200px;
+@add-widget-widgets: 200px;
 @add-widget-preview: 500px;
-@add-widget-gap: 16px;
+@add-widget-gap: 32px;
+@add-widget-height: 560px;
 
-// Size the modal to fit the columns rather than the other way round.
-// 48px allows for Materialize's default `.modal-content` padding (24px each side).
+// Size the modal to fit the three columns. 48px allows for Materialize's
+// default `.modal-content` padding (24px each side).
 .modal.add-widget-modal {
-  width: @add-widget-col + @add-widget-preview + @add-widget-gap + 48px;
+  width: @add-widget-categories + @add-widget-widgets + @add-widget-preview
+    + (@add-widget-gap * 2) + 48px;
   max-width: 90%;
+  height: @add-widget-height;
+  max-height: 90vh;
   border-radius: 8px;
 }
 .add-widget-modal .add-widget-modal-content {
   background: @theme-color-background-contrast;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 // Modal title sits flush with the modal top and is left-aligned.
 .add-widget-modal-title {
   margin-bottom: 10px;
   text-align: left;
+  flex: none;
 }
 
 .add-widget-modal-body {
   display: grid;
-  grid-template-columns: @add-widget-col @add-widget-preview;
+  grid-template-columns: @add-widget-categories @add-widget-widgets @add-widget-preview;
   gap: @add-widget-gap;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .add-widget-modal {
   .add-widget-modal-categories,
-  .add-widget-modal-details {
+  .add-widget-modal-widgets,
+  .add-widget-modal-preview {
     min-width: 0;
+    min-height: 0;
+  }
+
+  .add-widget-modal-categories,
+  .add-widget-modal-widgets {
+    overflow-y: auto;
+  }
+
+  .add-widget-modal-preview {
+    overflow-x: hidden;
+    overflow-y: auto;
+    align-self: start;
+    max-height: 100%;
+  }
+
+  // The preview widget hosts arbitrary reports; datatables and other content
+  // can be intrinsically wider than the 500px column. Box it in so the widget
+  // border stays flush with the column edges and any overflow scrolls inside
+  // the inner report rather than stretching the column.
+  .widgetpreview-preview .widget {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .widgetpreview-categorylist,
   .widgetpreview-widgetlist {
-    width: @add-widget-col;
+    width: 100%;
     float: none;
-    margin-right: 0;
+    margin: 0;
+    padding: 0;
   }
 
-  // widgetMenu.js sets inline `top` / `margin-bottom` on the widget list so it
-  // aligns vertically with the hovered category — keep that behaviour, just
-  // strip the float and the `margin-right: 20px` from the global rule.
   .widgetpreview-widgetlist {
     font-weight: normal;
   }
 
   .widgetpreview-preview {
     float: none;
-    width: @add-widget-preview;
-    margin-top: 10px;
+    width: 100%;
+    margin-top: 0;
   }
 
   .widgetTop {

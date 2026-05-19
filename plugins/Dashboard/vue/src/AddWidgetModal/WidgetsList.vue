@@ -6,10 +6,7 @@
 -->
 
 <template>
-  <ul
-    class="widgetpreview-widgetlist"
-    :style="listStyle"
-  >
+  <ul class="widgetpreview-widgetlist">
     <li
       v-for="widget in widgets"
       :key="widget.uniqueId"
@@ -19,7 +16,7 @@
         'widgetpreview-unavailable': isUnavailable(widget),
       }"
       @mouseenter="onMouseEnter(widget)"
-      @mouseleave="onMouseLeave"
+      @mouseleave="onMouseLeave(widget)"
       @click.prevent="onClick(widget)"
     >{{ widget.name }}</li>
   </ul>
@@ -43,12 +40,6 @@ export default defineComponent({
       type: String as PropType<string | null>,
       default: null,
     },
-    // Vertical offset (px) so the list lines up with the chosen category on the left.
-    // Mirrors the inline `top` / `marginBottom` set by the legacy jQuery widgetPreview.
-    offsetTop: {
-      type: Number,
-      default: 0,
-    },
   },
   emits: ['hover', 'select'],
   data() {
@@ -56,18 +47,10 @@ export default defineComponent({
       hoverTimer: null as number | null,
     };
   },
-  computed: {
-    listStyle(): Record<string, string> {
-      if (!this.offsetTop) {
-        return {};
-      }
-      const offset = `${this.offsetTop}px`;
-      return { top: offset, marginBottom: offset };
-    },
-  },
   methods: {
     isUnavailable(widget: WidgetType): boolean {
-      if (widget.category && (widget.category as { id?: string }).id === KPI_METRIC_CATEGORY_ID) {
+      const { category } = widget as { category?: { id?: string } };
+      if (category && category.id === KPI_METRIC_CATEGORY_ID) {
         return false;
       }
       if (!widget.uniqueId) {
@@ -80,23 +63,29 @@ export default defineComponent({
     },
 
     onMouseEnter(widget: WidgetType) {
-      if (this.isUnavailable(widget) || !widget.uniqueId) {
+      if (!widget.uniqueId) {
         return;
       }
       this.clearHoverTimer();
-      const uniqueId = widget.uniqueId;
+      const { uniqueId } = widget;
       this.hoverTimer = window.setTimeout(() => {
         this.hoverTimer = null;
         this.$emit('hover', uniqueId);
       }, HOVER_DELAY_MS);
     },
 
-    onMouseLeave() {
+    onMouseLeave(widget: WidgetType) {
+      // Matches the original jQuery widget menu: leaving an *unavailable* row keeps the
+      // preview timer running so the user still gets a preview, while leaving any other
+      // row cancels the pending preview.
+      if (this.isUnavailable(widget)) {
+        return;
+      }
       this.clearHoverTimer();
     },
 
     onClick(widget: WidgetType) {
-      if (!widget.uniqueId) {
+      if (!widget.uniqueId || this.isUnavailable(widget)) {
         return;
       }
       this.clearHoverTimer();
