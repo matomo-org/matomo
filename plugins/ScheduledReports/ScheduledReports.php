@@ -137,7 +137,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_SegmentDeleted';
         $translationKeys[] = 'ScheduledReports_NoRecipients';
         $translationKeys[] = 'ScheduledReports_CreateAndScheduleReport';
-        $translationKeys[] = 'ScheduledReports_ReportMissingDescription';
+        $translationKeys[] = 'ScheduledReports_ReportMissingName';
         $translationKeys[] = 'ScheduledReports_ReportMissingReports';
         $translationKeys[] = 'ScheduledReports_ReportNameHelpText';
         $translationKeys[] = 'ScheduledReports_ReportDescriptionHelpText';

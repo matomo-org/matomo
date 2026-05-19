@@ -36,6 +36,9 @@
           @update:model-value="$emit('change', { prop: 'description', value: $event })"
           :placeholder="translate('ScheduledReports_ReportNamePlaceholder')"
           :inline-help="translate('ScheduledReports_ReportNameHelpText')"
+          :error-message="validationErrors.name
+            ? translate('ScheduledReports_ReportMissingName', '', '')
+            : ''"
         >
         </Field>
       </div>
@@ -49,9 +52,6 @@
           :placeholder="translate('ScheduledReports_ReportDescriptionPlaceholder')"
           :inline-help="translate('ScheduledReports_ReportDescriptionHelpText')"
           :ui-control-attributes="{ class: 'compact-textarea' }"
-          :error-message="validationErrors.description
-            ? translate('ScheduledReports_ReportMissingDescription', '', '')
-            : ''"
         >
         </Field>
       </div>
@@ -433,7 +433,7 @@ export default defineComponent({
     validationErrors: {
       type: Object,
       default: () => ({
-        description: false,
+        name: false,
         reports: false,
       }),
     },

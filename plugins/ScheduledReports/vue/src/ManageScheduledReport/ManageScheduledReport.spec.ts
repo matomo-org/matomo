@@ -269,7 +269,7 @@ describe('ScheduledReports/ManageScheduledReport validation', () => {
     return wrapper;
   }
 
-  it('shows description validation error and scrolls to top', () => {
+  it('shows name validation error and scrolls to top', () => {
     const wrapper = createEditableWrapper();
     const vm = wrapper.vm as unknown as ManageScheduledReportVm;
     vm.selectedReports = {
@@ -281,7 +281,7 @@ describe('ScheduledReports/ManageScheduledReport validation', () => {
     expect(mockPost).not.toHaveBeenCalled();
     expect(mockMatomo.helper.lazyScrollTo).toHaveBeenCalled();
     expect(mockShowNotification).toHaveBeenCalledWith(expect.objectContaining({
-      message: 'ScheduledReports_ReportMissingDescription',
+      message: 'ScheduledReports_ReportMissingName',
       context: 'error',
       type: 'persistent',
     }));
@@ -311,7 +311,7 @@ describe('ScheduledReports/ManageScheduledReport validation', () => {
 
     expect(mockPost).not.toHaveBeenCalled();
     expect(mockShowNotification).toHaveBeenCalledWith(expect.objectContaining({
-      message: '<ul><li>ScheduledReports_ReportMissingDescription</li><li>ScheduledReports_ReportMissingReports</li></ul>',
+      message: '<ul><li>ScheduledReports_ReportMissingName</li><li>ScheduledReports_ReportMissingReports</li></ul>',
       context: 'error',
       type: 'persistent',
     }));
