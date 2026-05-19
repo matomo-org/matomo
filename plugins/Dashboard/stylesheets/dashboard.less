@@ -307,34 +307,52 @@ ul.widgetpreview-widgetlist li {
   border-radius: 2px;
 }
 
-.add-widget-modal li.widgetpreview-choosen {
-  background-color: @theme-color-background-lowContrast;
-  position: relative;
+ul.widgetpreview-widgetlist li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 5px;
 }
 
-.add-widget-modal li.widgetpreview-choosen::after {
-  content: '';
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 4px solid transparent;
-  border-left-color: @theme-color-brand;
+ul.widgetpreview-widgetlist .widgetpreview-widgetname {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+ul.widgetpreview-widgetlist .widgetpreview-add-hint {
+  flex: 0 0 auto;
+  padding: 0 6px;
+  color: inherit;
+  opacity: 0;
+  transition: opacity 80ms linear;
+}
+
+ul.widgetpreview-widgetlist li.widgetpreview-choosen .widgetpreview-add-hint {
+  opacity: 1;
+}
+
+// The "+ Add" hint replaces the green-triangle ::after defined at
+// plugins/Morpheus/stylesheets/main.less:615 for chosen widget rows. The
+// triangle continues to mark the chosen category on the categories list.
+ul.widgetpreview-widgetlist li.widgetpreview-choosen::after {
+  display: none;
+}
+
+.modal.add-widget-modal li.widgetpreview-choosen {
+  background-color: @theme-color-background-lowContrast;
 }
 
 .widgetpreview-categorylist li.widgetpreview-choosen {
   color: @theme-color-text-contrast;
 }
 
-.widgetpreview-base li.widgetpreview-unavailable,
-.add-widget-modal li.widgetpreview-unavailable {
+.widgetpreview-base li.widgetpreview-unavailable {
   color: @theme-color-text-disabled;
   cursor: default;
-}
-
-.widgetpreview-base li.widgetpreview-unavailable.widgetpreview-choosen,
-.add-widget-modal li.widgetpreview-unavailable.widgetpreview-choosen {
-  color: @theme-color-text-light;
 }
 
 ul.widgetpreview-widgetlist {
@@ -462,6 +480,23 @@ div.widgetpreview-preview {
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+  }
+
+  // The <Widget> component renders the full report HTML which includes its
+  // own .card-title — that duplicates the "Widget preview" header above the
+  // preview pane. Hide it so only the modal header labels the preview.
+  .widgetpreview-preview .card-title {
+    display: none;
+  }
+
+  // Match the migrate-modal-to-vue layout by re-applying the global
+  // `.widget div.dataTable…` cell-level padding rules
+  // (CoreHome/stylesheets/dataTable/_dataTable.less:194 and :498) with
+  // higher specificity scoped to the preview pane, so they always take
+  // precedence over any layout shrinks the preview column imposes.
+  .widgetpreview-preview .widget .card-content div.dataTable:not(.isComparing) table.dataTable th,
+  .widgetpreview-preview .widget .card-content div.dataTable:not(.isComparing) table.dataTable tbody > tr > td:not(.cellSubDataTable):first-child {
+    padding-left: 30px !important;
   }
 
   .widgetpreview-categorylist,

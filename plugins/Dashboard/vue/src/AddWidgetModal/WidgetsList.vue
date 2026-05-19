@@ -17,14 +17,20 @@
       }"
       @mouseenter="onMouseEnter(widget)"
       @mouseleave="onMouseLeave(widget)"
-      @click.prevent="onClick(widget)"
-    >{{ widget.name }}</li>
+      @click.prevent="onRowClick(widget)"
+    >
+      <span class="widgetpreview-widgetname">{{ widget.name }}</span>
+      <span
+        class="widgetpreview-add-hint"
+        aria-hidden="true"
+      >+ {{ translate('General_Add') }}</span>
+    </li>
   </ul>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { WidgetType } from 'CoreHome';
+import { translate, WidgetType } from 'CoreHome';
 
 const HOVER_DELAY_MS = 400;
 const KPI_METRIC_CATEGORY_ID = 'General_KpiMetric';
@@ -40,15 +46,29 @@ export default defineComponent({
       type: String as PropType<string | null>,
       default: null,
     },
+    addedWidgets: {
+      type: Object as PropType<Set<string>>,
+      default: () => new Set<string>(),
+    },
   },
   emits: ['hover', 'select'],
   data() {
     return {
       hoverTimer: null as number | null,
+      // Cached once: on devices whose primary input has no hover (touch),
+      // a row click previews first and only adds on a second tap.
+      supportsHover: typeof window !== 'undefined'
+        && typeof window.matchMedia === 'function'
+        && window.matchMedia('(hover: hover)').matches,
     };
   },
   methods: {
+    translate,
+
     isUnavailable(widget: WidgetType): boolean {
+      if (widget.uniqueId && this.addedWidgets.has(widget.uniqueId)) {
+        return true;
+      }
       const { category } = widget as { category?: { id?: string } };
       if (category && category.id === KPI_METRIC_CATEGORY_ID) {
         return false;
@@ -84,11 +104,18 @@ export default defineComponent({
       this.clearHoverTimer();
     },
 
-    onClick(widget: WidgetType) {
+    onRowClick(widget: WidgetType) {
       if (!widget.uniqueId || this.isUnavailable(widget)) {
         return;
       }
       this.clearHoverTimer();
+
+      // Touch / non-hover devices: first tap previews; second tap on the same row adds.
+      if (!this.supportsHover && widget.uniqueId !== this.chosenWidget) {
+        this.$emit('hover', widget.uniqueId);
+        return;
+      }
+
       this.$emit('select', widget.uniqueId);
     },
 

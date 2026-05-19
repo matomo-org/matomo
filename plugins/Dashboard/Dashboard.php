@@ -339,5 +339,6 @@ class Dashboard extends \Piwik\Plugin
         $translationKeys[] = 'Dashboard_SetAsDefaultWidgets';
         $translationKeys[] = 'Dashboard_CopyDashboardToUser';
         $translationKeys[] = 'Dashboard_CreateNewDashboard';
+        $translationKeys[] = 'General_Add';
     }
 }
