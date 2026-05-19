@@ -1354,7 +1354,11 @@
             h = w / ratio;
 
             // special handling for widgetize mode
-            if (!this.theWidget && map.container.parents('.widget').length) {
+            // Widgetize iframe mode: clamp the map height to the viewport so the SVG
+            // fits the embedded frame. The previous gate (a `.widget` ancestor) also
+            // matched dashboard widgets and the AddWidget preview, where `$('html').height()`
+            // far exceeds the viewport and made `maxHeight` go negative.
+            if (!this.theWidget && $('body').hasClass('widgetized')) {
                 var maxHeight = $(window).height() - ($('html').height() - map.container.height());
                 h = Math.min(maxHeight, h);
             }
