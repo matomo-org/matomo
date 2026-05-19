@@ -19,7 +19,8 @@
       tabindex="4"
       ref="expander"
     >
-      <span class="icon icon-dashboard-customize"></span>{{ translate('Dashboard_Dashboard') }}
+      <span class="icon icon-dashboard-customize"></span>
+      {{ translate('Dashboard_ManageDashboard') }}
     </a>
     <div
       class="dropdown positionInViewport"
@@ -29,39 +30,50 @@
         <li
           v-for="(title, actionName) of generalActions"
           :key="actionName"
-          @click="onClickAction($event, actionName)"
-          class="generalAction"
-          :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
-          :title="actionTooltips[actionName] || undefined"
-          :data-action="actionName"
         >
-          {{ translate(title) }}
+          <button
+            type="button"
+            @click="onClickAction($event, actionName)"
+            class="generalAction"
+            :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
+            :title="actionTooltips[actionName] || undefined"
+            :data-action="actionName"
+          >
+            {{ translate(title) }}
+          </button>
         </li>
         <li>
-          <div class="manageDashboard">{{ translate('Dashboard_ManageDashboard') }}</div>
-
-          <ul>
-            <li
-              class="exportDashboard"
-              data-action="exportDashboard"
-              @click="onClickExportDashboard()"
-            >
-              {{ translate('Dashboard_ExportThisDashboard') }}
-            </li>
-            <li
-              v-for="(title, actionName) of dashboardActions"
-              :key="actionName"
-              @click="onClickAction($event, actionName)"
-              :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
-              :title="actionTooltips[actionName] || undefined"
-              :data-action="actionName"
-            >
-              {{ translate(title) }}
-            </li>
-          </ul>
+          <button
+            type="button"
+            class="exportDashboard"
+            data-action="exportDashboard"
+            @click="onClickExportDashboard()"
+          >
+            {{ translate('Dashboard_ExportThisDashboard') }}
+          </button>
         </li>
-        <li class="addWidget" @click="openAddWidget()">
-          <div class="addWidget-label">{{ translate('Dashboard_AddAWidget') }}</div>
+        <li
+          v-for="(title, actionName) of dashboardActions"
+          :key="actionName"
+        >
+          <button
+            type="button"
+            @click="onClickAction($event, actionName)"
+            :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
+            :title="actionTooltips[actionName] || undefined"
+            :data-action="actionName"
+          >
+            {{ translate(title) }}
+          </button>
+        </li>
+        <li class="addWidget">
+          <button
+            type="button"
+            class="addWidget-button"
+            @click="openAddWidget()"
+          >
+            <span class="icon icon-add"></span>{{ translate('Dashboard_AddAWidget') }}
+          </button>
         </li>
       </ul>
     </div>

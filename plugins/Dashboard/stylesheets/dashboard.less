@@ -191,21 +191,25 @@ body#standalone {
 .dashboardSettings ul.submenu {
   display: none;
   float: left;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .dashboardSettings.expanded ul.submenu {
   display: block;
-  list-style: square outside none;
+  list-style: none;
   z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
 }
 
 .dashboardSettings.expanded .dropdown {
   min-width: 240px;
+  padding: 8px;
 }
 
 .dashboardSettings ul.submenu > li {
-  padding: 5px 0;
   clear: both;
+  list-style: none;
 }
 
 #changeDashboardLayout h2 {
@@ -282,10 +286,6 @@ body#standalone {
   clear: both;
 }
 
-.manageDashboard {
-  cursor: default;
-}
-
 ul.widgetpreview-widgetlist,
 ul.widgetpreview-categorylist {
   color: @theme-color-text-light;
@@ -331,45 +331,51 @@ div.widgetpreview-preview {
   float: left;
 }
 
-.dashboardSettings .submenu {
-  font-weight: bold;
-  color: @theme-color-link;
-}
-
-.dashboardSettings .submenu ul {
-  float: none;
+.dashboardSettings .submenu button {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
   font-weight: normal;
-  padding-top: 10px;
-  margin-left: 10px;
-  color: @theme-color-text-light;
-  list-style: none;
-  font-size: 11px;
-  line-height: 20px;
-  margin-right: 20px;
-}
-
-.dashboardSettings .submenu ul li {
-  line-height: 20px;
-  padding: 0 25px 0 5px;
-  color: @theme-color-text-light;
-  width: 210px;
-}
-
-.dashboardSettings ul.submenu > li.generalAction:hover,
-.dashboardSettings ul.submenu > li.addWidget:hover {
-  color: @theme-color-link;
+  color: @theme-color-text-lighter;
+  text-align: left;
   cursor: pointer;
+  text-decoration: none;
+  appearance: none;
 }
 
-.dashboardSettings .submenu ul li:not([disabled]):hover {
+.dashboardSettings .submenu button:focus {
+  outline: none;
+}
+
+.dashboardSettings .submenu button:focus-visible {
+  outline: 2px solid @theme-color-focus-ring;
+  outline-offset: -2px;
+}
+
+.dashboardSettings .submenu button:not([disabled]):hover,
+.dashboardSettings .submenu button:not([disabled]):focus-visible {
   background: @theme-color-background-base;
-  border-radius: 2px;
-  cursor: pointer;
+  color: @theme-color-text;
 }
 
-.dashboardSettings .submenu li[disabled],
-.dashboardSettings .submenu li[disabled]:hover {
+.dashboardSettings .submenu button[disabled],
+.dashboardSettings .submenu button[disabled]:hover {
   color: @theme-color-text-disabled;
+  cursor: default;
+}
+
+.dashboardSettings .submenu .addWidget-button .icon {
+  margin-right: 8px;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 @add-widget-col: 220px;

@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Add widget to this dashboard",
+        "AddAWidget": "Add widget",
         "AddPreviewedWidget": "Click to add widget to the dashboard",
         "ChangeDashboardLayout": "Change dashboard layout",
         "CopyDashboardToUser": "Copy dashboard to user",
@@ -14,8 +14,8 @@
         "DeleteWidgetConfirm": "Are you sure you want to delete this widget from the dashboard?",
         "EmptyDashboard": "Empty dashboard - Pick your favorite widgets",
         "LoadingWidget": "Loading widget, please wait…",
-        "ManageDashboard": "Manage this dashboard",
-        "ExportThisDashboard": "Export this dashboard",
+        "ManageDashboard": "Manage Dashboard",
+        "ExportThisDashboard": "Export dashboard",
         "Maximise": "Maximise",
         "Minimise": "Minimise",
         "NotUndo": "You will not be able to undo this operation.",
