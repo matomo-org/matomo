@@ -27,13 +27,14 @@ class GetVisitInformationPerServerTime extends Base
         $this->constantRowsCount = true;
         $this->hasGoalMetrics = true;
         $this->order = 20;
-        $this->supportsFlatten = false;
 
         $this->subcategoryId = 'VisitTime_SubmenuTimes';
     }
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
+        $view->config->show_flatten_table_export = false;
         $this->setBasicConfigViewProperties($view);
 
         $view->requestConfig->filter_limit = 24;

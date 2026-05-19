@@ -280,6 +280,7 @@ export default defineComponent({
     showSearch: Boolean,
     showFlattenTable: Boolean,
     reportSupportsFlatten: Boolean,
+    exportSupportsFlatten: Boolean,
     footerIcons: {
       type: Array,
       required: true,
@@ -396,7 +397,7 @@ export default defineComponent({
     },
     exportSupportsFlat() {
       return resolveExportSupportsFlat(
-        !!this.reportSupportsFlatten,
+        !!this.exportSupportsFlatten,
         this.clientSideParameters.flat as number|string|boolean,
       );
     },

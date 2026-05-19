@@ -22,11 +22,12 @@ class GetCity extends Base
         $this->name           = Piwik::translate('UserCountry_City');
         $this->documentation  = Piwik::translate('UserCountry_getCityDocumentation') . '<br/>' . $this->getGeoIPReportDocSuffix();
         $this->order = 10;
-        $this->supportsFlatten = false;
     }
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
+        $view->config->show_flatten_table_export = false;
         $view->config->show_exclude_low_population = false;
         $view->config->documentation = $this->documentation;
 

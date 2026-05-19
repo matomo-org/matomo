@@ -23,13 +23,14 @@ class GetConfiguration extends Base
         $this->name          = Piwik::translate('Resolution_Configurations');
         $this->documentation = Piwik::translate('Resolution_WidgetGlobalVisitorsDocumentation', '<br />');
         $this->order = 7;
-        $this->supportsFlatten = false;
 
         $this->subcategoryId = 'DevicesDetection_Software';
     }
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
+        $view->config->show_flatten_table_export = false;
         $this->getBasicResolutionDisplayProperties($view);
 
         $view->requestConfig->filter_limit = 3;

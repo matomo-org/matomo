@@ -25,11 +25,12 @@ class GetBrowsers extends Base
         $this->order = 5;
         $this->subcategoryId = 'DevicesDetection_Software';
         $this->hasGoalMetrics = true;
-        $this->supportsFlatten = false;
     }
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
+        $view->config->show_flatten_table_export = false;
         $view->config->title = $this->name;
         $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;

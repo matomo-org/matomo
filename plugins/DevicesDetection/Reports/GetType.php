@@ -24,11 +24,12 @@ class GetType extends Base
         $this->order = 0;
         $this->hasGoalMetrics = true;
         $this->subcategoryId = 'DevicesDetection_Devices';
-        $this->supportsFlatten = false;
     }
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
+        $view->config->show_flatten_table_export = false;
         $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelTypes"));
