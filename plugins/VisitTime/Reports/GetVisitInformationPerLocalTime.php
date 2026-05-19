@@ -27,13 +27,13 @@ class GetVisitInformationPerLocalTime extends Base
         $this->documentation = Piwik::translate('VisitTime_WidgetLocalTimeDocumentation', array('<strong>', '</strong>'));
         $this->constantRowsCount = true;
         $this->order = 15;
+        $this->supportsFlatten = false;
 
         $this->subcategoryId = 'VisitTime_SubmenuTimes';
     }
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->show_flatten_table = false;
         $this->setBasicConfigViewProperties($view);
 
         $view->requestConfig->filter_limit = 24;

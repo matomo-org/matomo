@@ -27,6 +27,7 @@ class GetPlugin extends Base
         $this->constantRowsCount = true;
         $this->processedMetrics = array('nb_visits_percentage');
         $this->order = 13;
+        $this->supportsFlatten = false;
 
         $this->subcategoryId = 'DevicesDetection_Software';
     }
@@ -42,7 +43,6 @@ class GetPlugin extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->show_flatten_table = false;
         $this->getBasicDevicePluginsDisplayProperties($view);
 
         $view->config->addTranslations(array(

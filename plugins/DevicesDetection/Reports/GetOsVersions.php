@@ -23,13 +23,13 @@ class GetOsVersions extends Base
         $this->name          = Piwik::translate('DevicesDetection_OperatingSystemVersions');
         $this->documentation = Piwik::translate('DevicesDetection_OperatingSystemVersionsReportDocumentation');
         $this->order = 2;
+        $this->supportsFlatten = false;
 
         $this->subcategoryId = 'DevicesDetection_Software';
     }
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->show_flatten_table = false;
         $view->config->title = $this->name;
         $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;

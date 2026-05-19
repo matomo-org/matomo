@@ -203,6 +203,12 @@ class Config
     public $show_flatten_table = true;
 
     /**
+     * Whether the underlying report supports flattening, independent of whether the flatten UI is
+     * currently shown.
+     */
+    public $report_supports_flatten = true;
+
+    /**
      * Whether to show the 'Pivot by subtable' option (visible in the popup that displays after clicking
      * the 'cog' icon).
      */
@@ -904,8 +910,12 @@ class Config
     {
         $report = ReportsProvider::factory($this->controllerName, $this->controllerAction);
 
-        if ($report && !$report->supportsFlatten()) {
-            $this->show_flatten_table = false;
+        if ($report) {
+            $this->report_supports_flatten = $report->supportsFlatten();
+
+            if (!$this->report_supports_flatten) {
+                $this->show_flatten_table = false;
+            }
         }
     }
 
