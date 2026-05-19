@@ -87,22 +87,13 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     expect(wrapper.emitted().hover).toBeUndefined();
   });
 
-  it('emits select on click when the preview is not loading', async () => {
+  it('emits select on click', async () => {
     const wrapper = mount(WidgetsList as any, {
-      props: { widgets: [widgetVisits], previewLoading: false },
+      props: { widgets: [widgetVisits] },
     });
 
     await wrapper.findAll('li')[0].trigger('click');
     expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
-  });
-
-  it('suppresses select while the preview is loading', async () => {
-    const wrapper = mount(WidgetsList as any, {
-      props: { widgets: [widgetVisits], previewLoading: true },
-    });
-
-    await wrapper.findAll('li')[0].trigger('click');
-    expect(wrapper.emitted().select).toBeUndefined();
   });
 
   it('applies inline top/marginBottom from offsetTop', () => {

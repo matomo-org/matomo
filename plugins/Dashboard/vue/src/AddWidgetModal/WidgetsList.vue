@@ -49,12 +49,6 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
-    // While the preview is loading, clicking a widget would commit a choice the user
-    // hasn't had a chance to inspect — match the legacy behaviour and suppress it.
-    previewLoading: {
-      type: Boolean,
-      default: false,
-    },
   },
   emits: ['hover', 'select'],
   data() {
@@ -79,8 +73,9 @@ export default defineComponent({
       if (!widget.uniqueId) {
         return false;
       }
-      return !!document.querySelector(
-        `#dashboardWidgetsArea [widgetId="${CSS.escape(widget.uniqueId)}"]`,
+      const placed = document.querySelectorAll('#dashboardWidgetsArea [widgetId]');
+      return Array.from(placed).some(
+        (el) => el.getAttribute('widgetId') === widget.uniqueId,
       );
     },
 
@@ -101,9 +96,7 @@ export default defineComponent({
     },
 
     onClick(widget: WidgetType) {
-      // Match legacy behaviour: clicks are allowed on unavailable items too.
-      // The only guard is "don't commit while a preview is mid-load."
-      if (!widget.uniqueId || this.previewLoading) {
+      if (!widget.uniqueId) {
         return;
       }
       this.clearHoverTimer();
