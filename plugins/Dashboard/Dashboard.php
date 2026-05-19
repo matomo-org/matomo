@@ -332,6 +332,7 @@ class Dashboard extends \Piwik\Plugin
         $translationKeys[] = 'Dashboard_ManageDashboard';
         $translationKeys[] = 'Dashboard_ExportThisDashboard';
         $translationKeys[] = 'Dashboard_AddAWidget';
+        $translationKeys[] = 'Dashboard_AddWidget';
         $translationKeys[] = 'Dashboard_ResetDashboard';
         $translationKeys[] = 'Dashboard_ChangeDashboardLayout';
         $translationKeys[] = 'Dashboard_RenameDashboard';

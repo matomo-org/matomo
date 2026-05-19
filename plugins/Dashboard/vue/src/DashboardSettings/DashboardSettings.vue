@@ -72,7 +72,7 @@
             class="addWidget-button"
             @click="openAddWidget()"
           >
-            <span class="icon icon-add"></span>{{ translate('Dashboard_AddAWidget') }}
+            <span class="icon icon-add"></span>{{ translate('Dashboard_AddWidget') }}
           </button>
         </li>
       </ul>
