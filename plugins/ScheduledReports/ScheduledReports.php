@@ -137,6 +137,8 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_SegmentDeleted';
         $translationKeys[] = 'ScheduledReports_NoRecipients';
         $translationKeys[] = 'ScheduledReports_CreateAndScheduleReport';
+        $translationKeys[] = 'ScheduledReports_ReportMissingDescription';
+        $translationKeys[] = 'ScheduledReports_ReportMissingReports';
         $translationKeys[] = 'ScheduledReports_ReportNameHelpText';
         $translationKeys[] = 'ScheduledReports_ReportDescriptionHelpText';
         $translationKeys[] = 'SegmentEditor_ChooseASegment';
@@ -150,6 +152,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_AggregateReportsFormat';
         $translationKeys[] = 'ScheduledReports_EvolutionGraph';
         $translationKeys[] = 'ScheduledReports_ReportsIncluded';
+        $translationKeys[] = 'ScheduledReports_ReportsIncludedHelp';
         $translationKeys[] = 'ScheduledReports_ReportIncludeNWebsites';
         $translationKeys[] = 'SegmentEditor_LoadingSegmentedDataMayTakeSomeTime';
         $translationKeys[] = 'General_Download';

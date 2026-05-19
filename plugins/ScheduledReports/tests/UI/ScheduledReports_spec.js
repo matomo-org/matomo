@@ -66,6 +66,51 @@ describe("ScheduledReports", function () {
           return await page.$('.selectedReportsWrapper');
         }
 
+        async function reorderSelectedReports(sourceId, targetId, position = 'before') {
+            await page.evaluate(async (dragSourceId, dropTargetId, dropPosition) => {
+                const getItem = (itemId) => document.querySelector(
+                    `.selectedReportsList li[data-item-id="${itemId}"]`,
+                );
+                const source = getItem(dragSourceId);
+                const target = getItem(dropTargetId);
+
+                if (!source || !target) {
+                    throw new Error(`Could not find draggable items ${dragSourceId} -> ${dropTargetId}`);
+                }
+
+                const rect = target.getBoundingClientRect();
+                const clientY = dropPosition === 'after' ? rect.bottom - 1 : rect.top + 1;
+                const dataTransfer = new DataTransfer();
+
+                source.dispatchEvent(new DragEvent('dragstart', {
+                    bubbles: true,
+                    cancelable: true,
+                    dataTransfer,
+                }));
+                target.dispatchEvent(new DragEvent('dragover', {
+                    bubbles: true,
+                    cancelable: true,
+                    clientY,
+                    dataTransfer,
+                }));
+                target.dispatchEvent(new DragEvent('drop', {
+                    bubbles: true,
+                    cancelable: true,
+                    clientY,
+                    dataTransfer,
+                }));
+                source.dispatchEvent(new DragEvent('dragend', {
+                    bubbles: true,
+                    cancelable: true,
+                    dataTransfer,
+                }));
+
+                await new Promise((resolve) => {
+                    requestAnimationFrame(() => requestAnimationFrame(resolve));
+                });
+            }, sourceId, targetId, position);
+        }
+
         it("should show selected reports when creating a new report", async function () {
             await page.goto(manageReportsUrl);
             await page.waitForNetworkIdle();
@@ -95,29 +140,19 @@ describe("ScheduledReports", function () {
             await openReportForTesting();
             const initialOrder = await page.$$eval(
               '.selectedReportsList li',
-              (items) => items.map((item) => item.getAttribute('data-unique-id')),
+              (items) => items.map((item) => item.getAttribute('data-item-id')),
             );
             const expectedOrder = initialOrder.slice().reverse();
 
-            // Reorder the selected reports via DOM manipulation
-            await page.evaluate((newOrder) => {
-                const list = document.querySelector('.selectedReportsList');
-                newOrder.forEach((uniqueId) => {
-                    const item = list.querySelector(`li[data-unique-id="${uniqueId}"]`);
-                    if (item) {
-                        list.appendChild(item);
-                    }
-                });
+            await reorderSelectedReports(initialOrder[3], initialOrder[0], 'before');
+            await reorderSelectedReports(initialOrder[2], initialOrder[0], 'before');
+            await reorderSelectedReports(initialOrder[1], initialOrder[0], 'before');
 
-                const jq = window.jQuery || window.$;
-                const $list = jq('.selectedReportsList');
-                // Get sortable instance and call stop handler manually,
-                // so that we simulate the emitted reorder event
-                const stopHandler = $list.sortable('option', 'stop');
-                if (typeof stopHandler === 'function') {
-                    stopHandler();
-                }
-            }, expectedOrder);
+            await page.waitForFunction((newOrder) => {
+                const order = Array.from(document.querySelectorAll('.selectedReportsList li'))
+                    .map((item) => item.getAttribute('data-item-id'));
+                return JSON.stringify(order) === JSON.stringify(newOrder);
+            }, {}, expectedOrder);
 
             const descriptionSelector = 'textarea[name="report_description"], input[name="report_description"]';
             await page.waitForSelector(descriptionSelector, { visible: true });
@@ -134,7 +169,7 @@ describe("ScheduledReports", function () {
             await openReportForTesting();
             const persistedOrder = await page.$$eval(
               '.selectedReportsList li',
-              (items) => items.map((item) => item.getAttribute('data-unique-id')),
+              (items) => items.map((item) => item.getAttribute('data-item-id')),
             );
 
             expect(persistedOrder).to.deep.equal(expectedOrder);

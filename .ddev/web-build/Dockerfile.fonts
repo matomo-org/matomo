@@ -1,0 +1,17 @@
+RUN mkdir -p /etc/fonts && \
+tee /etc/fonts/local.conf > /dev/null <<EOF
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+<match target="font">
+<edit name="rgba" mode="assign"><const>rgb</const></edit>
+<edit name="antialias" mode="assign"><bool>true</bool></edit>
+<edit name="hinting" mode="assign"><bool>true</bool></edit>
+<edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
+<edit name="lcdfilter" mode="assign"><const>lcddefault</const></edit>
+</match>
+</fontconfig>
+EOF
+
+# Rebuild font cache
+RUN fc-cache -f -v

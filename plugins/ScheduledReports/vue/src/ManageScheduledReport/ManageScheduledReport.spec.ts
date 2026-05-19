@@ -96,6 +96,14 @@ function mountComponent() {
   });
 }
 
+type ManageScheduledReportVm = PlainObject & {
+  report: PlainObject;
+  selectedReports: Record<string, Record<string, boolean>>;
+  selectedReportsOrder: Record<string, string[]>;
+  submitReport: () => boolean;
+  onChangeProperty: (prop: string, value: unknown) => void;
+};
+
 async function flushPromises() {
   await Promise.resolve();
   await Promise.resolve();
@@ -228,5 +236,84 @@ describe('ScheduledReports/ManageScheduledReport dashboard export bootstrap', ()
 
     expect(sessionStorage.getItem(DASHBOARD_EXPORT_STORAGE_KEY)).toBeNull();
     expect(mockFetch).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('ScheduledReports/ManageScheduledReport validation', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  function createEditableWrapper() {
+    const wrapper = mountComponent();
+    const vm = wrapper.vm as unknown as ManageScheduledReportVm;
+
+    vm.report = {
+      idreport: 0,
+      description: '',
+      idsegment: '',
+      type: 'email',
+      formatemail: 'pdf',
+      period: 'day',
+      periodParam: 'day',
+      evolutionPeriodFor: 'prev',
+      evolutionPeriodN: 5,
+      hour: '12',
+    };
+    vm.selectedReports = {};
+    vm.selectedReportsOrder = {};
+    ((window as unknown) as Window & { getReportParametersFunctions: Record<string, () => PlainObject> }).getReportParametersFunctions = {
+      email: () => ({}),
+    };
+
+    return wrapper;
+  }
+
+  it('shows description validation error and scrolls to top', () => {
+    const wrapper = createEditableWrapper();
+    const vm = wrapper.vm as unknown as ManageScheduledReportVm;
+    vm.selectedReports = {
+      email: { VisitsSummary_get: true },
+    };
+
+    expect(vm.submitReport()).toBe(false);
+
+    expect(mockPost).not.toHaveBeenCalled();
+    expect(mockMatomo.helper.lazyScrollTo).toHaveBeenCalled();
+    expect(mockShowNotification).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'ScheduledReports_ReportMissingDescription',
+      context: 'error',
+      type: 'persistent',
+    }));
+  });
+
+  it('shows reports validation error and scrolls to top', () => {
+    const wrapper = createEditableWrapper();
+    const vm = wrapper.vm as unknown as ManageScheduledReportVm;
+    vm.report.description = 'My report';
+
+    expect(vm.submitReport()).toBe(false);
+
+    expect(mockPost).not.toHaveBeenCalled();
+    expect(mockMatomo.helper.lazyScrollTo).toHaveBeenCalled();
+    expect(mockShowNotification).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'ScheduledReports_ReportMissingReports',
+      context: 'error',
+      type: 'persistent',
+    }));
+  });
+
+  it('shows both validation errors as bullet points', () => {
+    const wrapper = createEditableWrapper();
+    const vm = wrapper.vm as unknown as ManageScheduledReportVm;
+
+    expect(vm.submitReport()).toBe(false);
+
+    expect(mockPost).not.toHaveBeenCalled();
+    expect(mockShowNotification).toHaveBeenCalledWith(expect.objectContaining({
+      message: '<ul><li>ScheduledReports_ReportMissingDescription</li><li>ScheduledReports_ReportMissingReports</li></ul>',
+      context: 'error',
+      type: 'persistent',
+    }));
   });
 });

@@ -200,9 +200,7 @@ body#standalone {
 }
 
 .dashboardSettings.expanded .dropdown {
-  min-width: 800px;
-  display: grid;
-  grid-template-columns: auto 1fr;
+  min-width: 240px;
 }
 
 .dashboardSettings ul.submenu > li {
@@ -284,7 +282,7 @@ body#standalone {
   clear: both;
 }
 
-.addWidget, .manageDashboard {
+.manageDashboard {
   cursor: default;
 }
 
@@ -299,7 +297,7 @@ ul.widgetpreview-categorylist {
 }
 
 ul.widgetpreview-categorylist {
-  cursor: default;
+  cursor: pointer;
 }
 
 ul.widgetpreview-categorylist li,
@@ -309,10 +307,8 @@ ul.widgetpreview-widgetlist li {
   border-radius: 2px;
 }
 
-.widgetpreview-base li.widgetpreview-choosen {
-  background: #e4e2d7 url(plugins/Morpheus/images/arr_r.png) no-repeat right 6px;
-  color: @theme-color-link;
-  font-weight: bold;
+.modal.add-widget-modal li.widgetpreview-choosen {
+  background-color: @theme-color-background-lowContrast;
 }
 
 .widgetpreview-categorylist li.widgetpreview-choosen {
@@ -359,7 +355,8 @@ div.widgetpreview-preview {
   width: 210px;
 }
 
-.dashboardSettings ul.submenu > li.generalAction:hover {
+.dashboardSettings ul.submenu > li.generalAction:hover,
+.dashboardSettings ul.submenu > li.addWidget:hover {
   color: @theme-color-link;
   cursor: pointer;
 }
@@ -375,28 +372,62 @@ div.widgetpreview-preview {
   color: @theme-color-text-disabled;
 }
 
-.dashboardSettings .widgetpreview-widgetlist {
-  width: 228px;
-  font-weight: normal;
+@add-widget-col: 220px;
+@add-widget-preview: 500px;
+@add-widget-gap: 16px;
+
+// Size the modal to fit the columns rather than the other way round.
+// 48px allows for Materialize's default `.modal-content` padding (24px each side).
+.modal.add-widget-modal {
+  width: @add-widget-col + @add-widget-preview + @add-widget-gap + 48px;
+  max-width: 90%;
+  border-radius: 8px;
+}
+.add-widget-modal .add-widget-modal-content {
+  background: @theme-color-background-contrast;
 }
 
-.dashboardSettings .widgetTop {
-  cursor: pointer;
+// Modal title sits flush with the modal top and is left-aligned.
+.add-widget-modal-title {
+  margin-bottom: 10px;
+  text-align: left;
 }
 
-.dashboardSettings .widgetpreview-widgetlist,
-.dashboardSettings .widgetpreview-preview {
-  display: none;
+.add-widget-modal-body {
+  display: grid;
+  grid-template-columns: @add-widget-col @add-widget-preview;
+  gap: @add-widget-gap;
 }
 
-.dashboardSettings.expanded .widgetpreview-widgetlist,
-.dashboardSettings.expanded .widgetpreview-preview {
-  display: block;
-  z-index: 333999;
-}
+.add-widget-modal {
+  .add-widget-modal-categories,
+  .add-widget-modal-details {
+    min-width: 0;
+  }
 
-.dashboardSettings.expanded .widgetpreview-preview {
-  margin-top: 10px;
+  .widgetpreview-categorylist,
+  .widgetpreview-widgetlist {
+    width: @add-widget-col;
+    float: none;
+    margin-right: 0;
+  }
+
+  // widgetMenu.js sets inline `top` / `margin-bottom` on the widget list so it
+  // aligns vertically with the hovered category — keep that behaviour, just
+  // strip the float and the `margin-right: 20px` from the global rule.
+  .widgetpreview-widgetlist {
+    font-weight: normal;
+  }
+
+  .widgetpreview-preview {
+    float: none;
+    width: @add-widget-preview;
+    margin-top: 10px;
+  }
+
+  .widgetTop {
+    cursor: pointer;
+  }
 }
 
 .widgetPlaceholder {

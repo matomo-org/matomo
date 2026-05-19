@@ -8,7 +8,8 @@
  */
 
 describe("DashboardManager", function () {
-    const selectorToCapture = '.dashboard-manager,.dashboard-manager .dropdown';
+    const managerSelector = '.dashboard-manager,.dashboard-manager .dropdown';
+    const modalSelector = '.modal.open.add-widget-modal';
 
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
     const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=1';
@@ -17,35 +18,39 @@ describe("DashboardManager", function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('loaded');
+        expect(await page.screenshotSelector(managerSelector)).to.matchImage('loaded');
     });
 
     it("should expand when clicked", async function() {
         await page.click('.dashboard-manager .title');
 
-        expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('expanded');
+        expect(await page.screenshotSelector(managerSelector)).to.matchImage('expanded');
     });
 
     it("should show widget for a category when category label hovered", async function() {
-        live = await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)');
+        await page.click('.dashboard-manager .addWidget');
+        await page.waitForSelector(modalSelector);
+        await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li');
+
+        live = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li:contains(Goals)');
         await live.hover();
 
-        visitors = await page.jQuery('.widgetpreview-categorylist>li:contains(Visitors):first');
+        visitors = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li:contains(Visitors):first');
         await visitors.hover();
         await visitors.click();
 
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('widget_list_shown');
+        expect(await page.screenshotSelector(modalSelector)).to.matchImage('widget_list_shown');
     });
 
     it("should load a widget preview when a widget is hovered", async function() {
-        vot = await page.jQuery('.widgetpreview-widgetlist>li:contains(Visits Over Time)');
+        vot = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Visits Over Time)');
         await vot.hover();
 
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('widget_preview');
+        expect(await page.screenshotSelector(modalSelector)).to.matchImage('widget_preview');
     });
 
     it("should close the manager when a widget is selected", async function() {
@@ -54,12 +59,12 @@ describe("DashboardManager", function () {
             window.MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP = true;
         });
 
-        vot = await page.jQuery('.widgetpreview-widgetlist>li:contains(Visits Over Time)');
+        vot = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Visits Over Time)');
         await vot.click();
 
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('loaded');
+        expect(await page.screenshotSelector(managerSelector)).to.matchImage('loaded');
     });
 
     it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {

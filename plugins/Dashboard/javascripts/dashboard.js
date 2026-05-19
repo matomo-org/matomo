@@ -85,7 +85,7 @@ function showEmptyDashboardNotification() {
     piwikHelper.modalConfirm(makeSelectorLastId('dashboardEmptyNotification'), {
         resetDashboard: function () { $('#dashboardWidgetsArea').dashboard('resetLayout'); },
         addWidget: function () {
-          $('.dashboardSettings > a').trigger('click');
+          window.CoreHome.Matomo.postEvent('Dashboard.AddWidget.open');
         }
     });
 }

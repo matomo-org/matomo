@@ -1,0 +1,63 @@
+.draggableList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  .draggableListItem {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid @theme-color-border;
+    border-radius: 4px;
+    background: @theme-color-background-tinyContrast;
+    color: @theme-color-text;
+    cursor: grab;
+    margin-bottom: 0.6rem;
+    user-select: none;
+
+    > :last-child {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  &.isDragging .draggableListItem {
+    cursor: grabbing;
+  }
+
+  &.isDisabled .draggableListItem,
+  &.isDisabled .drag-icon {
+    cursor: default;
+  }
+
+  .draggableListItem.isDragged {
+    border-style: dashed;
+    border-color: @theme-color-border;
+    background: @theme-color-background-base;
+
+    > * {
+      visibility: hidden;
+    }
+  }
+
+  .drag-icon {
+    padding-right: 15px;
+    font-size: 13px;
+    color: @theme-color-text-light;
+  }
+}
+
+.draggableListPanel {
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
+
+  .draggableListHeading {
+    margin-bottom: 0.4rem;
+  }
+
+  .draggableListHelp {
+    margin-top: 0;
+    color: @theme-color-text-lighter;
+  }
+}

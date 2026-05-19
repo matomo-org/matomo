@@ -414,11 +414,8 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 }
 
                 if ($('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).length) {
-                    var addWidgetsSubmenu = $('.dashboard-manager .addWidgetsSubmenu');
-
                     var position = $('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).position().top -
-                        $('.' + settings.categorylistClass, widgetPreview).position().top +
-                        (addWidgetsSubmenu.length ? addWidgetsSubmenu.position().top : 0);
+                        $('.' + settings.categorylistClass, widgetPreview).position().top;
 
                     if (!$('#content.admin').length) {
                         position += 3; // + padding defined in dashboard view
@@ -480,7 +477,6 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 $('li', widgetList).on('click', function () {
                     if (!$('.widgetLoading', widgetPreview).length) {
                         settings.onSelect($(this).attr('uniqueid'));
-                        $(widgetPreview).closest('.dashboard-manager').removeClass('expanded');
                         if (settings.resetOnSelect) {
                             resetWidgetPreview(widgetPreview);
                         }
@@ -544,7 +540,6 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                         settings.onPreviewLoaded(widgetUniqueId, widgetElement);
                         $('.' + settings.widgetpreviewClass + ' .widgetTop', widgetPreview).on('click', function () {
                             settings.onSelect(widgetUniqueId);
-                            $(widgetPreview).closest('.dashboard-manager').removeClass('expanded');
                             if (settings.resetOnSelect) {
                                 resetWidgetPreview(widgetPreview);
                             }

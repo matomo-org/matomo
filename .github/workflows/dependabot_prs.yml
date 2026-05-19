@@ -34,32 +34,29 @@ jobs:
       - name: Prepare Git
         if: ${{ steps.dependabot-metadata.outputs.package-ecosystem == 'npm_and_yarn' }}
         run: |
-          cat <<- EOF > $HOME/.netrc
-            machine github.com
-            login innocraft-automation
-            password $CUSTOM_ACCESS_TOKEN
-          EOF
-          chmod 600 $HOME/.netrc
-
           git config --global user.email "innocraft-automation@users.noreply.github.com"
           git config --global user.name "innocraft-automation"
-          git remote set-url origin https://x-access-token:${{ secrets.CUSTOM_ACCESS_TOKEN }}@github.com/$GITHUB_REPOSITORY
-
-          git remote add upstream https://github.com/${GITHUB_REPOSITORY}.git
+          git remote add upstream "https://github.com/${GITHUB_REPOSITORY}.git"
       - name: Install npm dependencies
         if: ${{ steps.dependabot-metadata.outputs.package-ecosystem == 'npm_and_yarn' }}
-        run: npm install --omit=dev
-      - name: Push changes if needed
+        run: npm install --omit=dev --ignore-scripts
+      - name: Commit changes if needed
+        id: npm-changes
         if: ${{ steps.dependabot-metadata.outputs.package-ecosystem == 'npm_and_yarn' }}
         run: |
-          changes=( $(git diff node_modules) )
-
-          # abort here if no change available
-          if [[ ${#changes[@]} -eq 0 ]]
+          if git diff --quiet -- node_modules
           then
+              echo "has-changes=false" >> "$GITHUB_OUTPUT"
               exit 0
           fi
+          echo "has-changes=true" >> "$GITHUB_OUTPUT"
           git add ./node_modules
           git commit -m "Update npm dependencies"
-          git push
         shell: bash
+      - name: Push changes if needed
+        if: ${{ steps.npm-changes.outputs.has-changes == 'true' }}
+        run: |
+          git push "https://x-access-token:${CUSTOM_ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}" "HEAD:${GITHUB_HEAD_REF}"
+        shell: bash
+        env:
+          CUSTOM_ACCESS_TOKEN: ${{ secrets.CUSTOM_ACCESS_TOKEN }}

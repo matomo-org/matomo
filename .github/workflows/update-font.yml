@@ -27,9 +27,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
      - uses: actions/checkout@v6
+       with:
+         persist-credentials: false
      - name: Compare stylesheet to base branch
        run: |
-         if [[ $(wget -O - -o /dev/null https://raw.githubusercontent.com/matomo-org/matomo/$GITHUB_BASE_REF/plugins/Morpheus/stylesheets/base/icons.css | grep -m1  -- "format('woff2')") == $(grep -m1  -- "format('woff2')" plugins/Morpheus/stylesheets/base/icons.css) ]]
+         if [[ $(wget -O - -o /dev/null "https://raw.githubusercontent.com/matomo-org/matomo/$GITHUB_BASE_REF/plugins/Morpheus/stylesheets/base/icons.css" | grep -m1  -- "format('woff2')") == $(grep -m1  -- "format('woff2')" plugins/Morpheus/stylesheets/base/icons.css) ]]
          then
            line=$(grep -n "format('woff2')" plugins/Morpheus/stylesheets/base/icons.css | cut -f1 -d:)
            echo "::error file=plugins/Morpheus/stylesheets/base/icons.css,line=$line::Font cachebuster parameter not updated. See https://developer.matomo.org/guides/matomo-font"

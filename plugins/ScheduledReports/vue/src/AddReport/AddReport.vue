@@ -49,6 +49,9 @@
           :placeholder="translate('ScheduledReports_ReportDescriptionPlaceholder')"
           :inline-help="translate('ScheduledReports_ReportDescriptionHelpText')"
           :ui-control-attributes="{ class: 'compact-textarea' }"
+          :error-message="validationErrors.description
+            ? translate('ScheduledReports_ReportMissingDescription', '', '')
+            : ''"
         >
         </Field>
       </div>
@@ -253,7 +256,20 @@
         </div>
       </div>
       <div class="row">
-        <h3 class="col s12">{{ translate('ScheduledReports_ReportsIncluded') }}</h3>
+        <h3
+          id="scheduled-reports-selection-heading"
+          class="col s12"
+        >
+          {{ translate('ScheduledReports_ReportsIncluded') }}
+        </h3>
+        <div
+          :class="{
+            'col s12 scheduled-reports-field-help': true,
+            'form-group__error-message': validationErrors.reports,
+          }"
+        >
+          {{ translate('ScheduledReports_ReportsIncludedHelp') }}
+        </div>
       </div>
       <div
         name="reportsList"
@@ -289,11 +305,28 @@
           </div>
         </div>
       </div>
-      <SelectedReportsList
-        :reports="selectedReportsForCurrentType"
-        :enabled="allowMultipleReportsByReportType[report.type]"
-        @reorder="onSelectedReportsReorder"
-      />
+      <div
+        v-if="allowMultipleReportsByReportType[report.type] && selectedReportsForCurrentType.length"
+        class="draggableListPanel selectedReportsWrapper"
+      >
+        <div class="draggableListHeading selectedReportsHeading">
+          <h3>{{ translate('ScheduledReports_SelectedReports') }}</h3>
+        </div>
+        <p class="draggableListHelp selectedReportsHelp">
+          {{ translate('ScheduledReports_SelectedReportsHelp') }}
+        </p>
+        <DraggableList
+          class="selectedReportsList"
+          :items="selectedReportsForCurrentType"
+          item-key="uniqueId"
+          @reorder="onSelectedReportsReorder"
+        >
+          <template #default="{ item: reportItem }">
+            <span class="icon-menu-hamburger drag-icon"></span>
+            <span>{{ decode(reportItem.name) }}</span>
+          </template>
+        </DraggableList>
+      </div>
       <SaveButton
         :value="saveButtonTitle"
         @confirm="$emit('submit')"
@@ -316,6 +349,7 @@ import {
 } from 'vue';
 import {
   ContentBlock,
+  DraggableList,
   Matomo,
   MatomoUrl,
   translate,
@@ -324,7 +358,6 @@ import {
 } from 'CoreHome';
 import { Field, Form, SaveButton } from 'CorePluginsAdmin';
 import { adjustHourToTimezone } from '../utilities';
-import SelectedReportsList from './SelectedReportsList.vue';
 
 interface Option {
   key: string;
@@ -397,13 +430,20 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    validationErrors: {
+      type: Object,
+      default: () => ({
+        description: false,
+        reports: false,
+      }),
+    },
   },
   emits: ['submit', 'change', 'toggleSelectedReport', 'reorderSelectedReports'],
   components: {
     ContentBlock,
+    DraggableList,
     Field,
     SaveButton,
-    SelectedReportsList,
   },
   directives: {
     Form,

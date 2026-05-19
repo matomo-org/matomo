@@ -23,8 +23,6 @@ permissions:
 on:
   # TODO: remove manual dispatch after testing and enable cron
   workflow_dispatch:
-    branches:
-      - 5.x-dev
     inputs:
       password:
         description: 'Release password'
@@ -42,13 +40,13 @@ jobs:
     steps:
       - name: "Check release password"
         if: ${{ github.event_name != 'schedule' && github.event.inputs.password != env.RELEASE_PASSWORD }}
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
-        if: ${{ github.event_name != 'schedule' && github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
-        uses: actions/github-script@v8
+        if: ${{ github.event_name != 'schedule' && github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'caddoo' && github.actor != 'nathangavin' && github.actor != 'chippison' && github.actor != 'tzi'}}
+        uses: actions/github-script@v9
         with:
           script: |
             core.setFailed('User is not allowed to release.')
@@ -57,23 +55,12 @@ jobs:
           lfs: false
           fetch-tags: true
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Prepare git config
         run: |
-          cat <<- EOF > $HOME/.netrc
-            machine github.com
-            login $GITHUB_ACTOR
-            password $GITHUB_TOKEN
-            machine api.github.com
-            login $GITHUB_ACTOR
-            password $GITHUB_TOKEN
-          EOF
-          chmod 600 $HOME/.netrc
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config --global user.name "$GITHUB_ACTOR"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check if there are any changes to create a preview release for
         id: changes
@@ -83,7 +70,7 @@ jobs:
           DIFF=""
           if [ -n "$LATEST_PREVIEW" ]; then
             # using || true to always exit either with a diff or a success exit code to not fail the whole workflow
-            DIFF=$(git diff $LATEST_PREVIEW..5.x-dev --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
+            DIFF=$(git diff "$LATEST_PREVIEW..5.x-dev" --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
           fi
           
           if [ -z "$DIFF" ]; then
@@ -93,7 +80,7 @@ jobs:
             DO_RELEASE=1
           fi
           
-          echo "do_release=$DO_RELEASE" >> $GITHUB_OUTPUT
+          echo "do_release=$DO_RELEASE" >> "$GITHUB_OUTPUT"
 
       - name: Determine new preview version number
         id: version
@@ -108,11 +95,11 @@ jobs:
             HAS_NEW_VERSION=1
           fi
           
-          echo "OLD_VERSION=$OLD_VERSION" >> $GITHUB_ENV
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-          
-          echo "has_new_version=$HAS_NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "OLD_VERSION=$OLD_VERSION" >> "$GITHUB_ENV"
+          echo "NEW_VERSION=$NEW_VERSION" >> "$GITHUB_ENV"
+
+          echo "has_new_version=$HAS_NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Skip preview releases during RC phase
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
@@ -152,7 +139,9 @@ jobs:
       - name: Push changes to 5.x-preview
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
         run: |
-          git push -f origin 5.x-preview
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" 5.x-preview
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   run_matomo_tests:
     needs: [prepare_preview_version]
@@ -169,7 +158,7 @@ jobs:
       ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
 
   release_preview_version:
-    needs: [run_matomo_tests]
+    needs: [prepare_preview_version, run_matomo_tests]
     uses: ./.github/workflows/release.yml
     if: |
       always() && 
