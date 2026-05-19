@@ -74,7 +74,7 @@ describe("DashboardManager", function () {
         expect(widgetsCountBefore).to.equal(1);
 
         await page.click('.dashboard-manager .title');
-        await page.click('li[data-action="createDashboard"]');
+        await page.click('button[data-action="createDashboard"]');
         await page.waitForSelector('#createDashboardName', { visible: true });
 
         // try to type the text a few times, as it sometimes doesn't get the full value
@@ -125,7 +125,7 @@ describe("DashboardManager", function () {
 
     it("should remove dashboard when remove dashboard process completed", async function() {
         await page.click('.dashboard-manager .title');
-        await page.click('li[data-action="removeDashboard"]');
+        await page.click('button[data-action="removeDashboard"]');
         button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
 

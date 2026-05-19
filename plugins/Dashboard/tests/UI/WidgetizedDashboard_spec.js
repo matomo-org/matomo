@@ -33,7 +33,7 @@ describe("WidgetizedDashboard", function () {
     var clickDashboardMenuItem = async function (item) {
         await page.click('.dashboard-manager .title');
         await page.waitForTimeout(50);
-        await page.click('li[data-action="' + item + '"]');
+        await page.click('button[data-action="' + item + '"]');
     }
 
     var setup = async function() {
