@@ -56,10 +56,9 @@ describe("GoalsPages", function () {
     await page.goto("?" + urlBaseGeneric + compareMonthParams + "#?" + compareMonthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
     await page.waitForNetworkIdle();
 
-    const element = await findSparkline('left in cart', '.metricEvolution');
+    const element = await findSparkline('left in cart', '.metricEvolution:last');
     await element.hover();
     await page.waitForSelector('.ui-tooltip', { visible: true });
-
     const tooltipContent = await page.evaluate(() => $('.ui-tooltip:visible').text());
 
     expect(tooltipContent).to.contain('January 2012');

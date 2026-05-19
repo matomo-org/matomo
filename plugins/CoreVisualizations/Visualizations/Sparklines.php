@@ -239,7 +239,6 @@ class Sparklines extends ViewDataTable
             $periodSelector = new EvolutionPeriodSelector($this->config);
             $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriodsWithoutOriginalPeriod, $compareDatesWithoutOriginalDate);
             $sparklineUrlParams = $periodSelector->setDatePeriods($sparklineUrlParams, $periodObj, $comparisonPeriods, $isComparing);
-            $originalPeriodPretty = $periodObj->getPrettyString();
 
             if ($isComparing) {
                 $sparklineUrlParams['compareSegments'] = [];
@@ -282,10 +281,19 @@ class Sparklines extends ViewDataTable
                             ];
 
                             if (isset($evolutions[$i])) {
-                                $originalValue = $firstRow ? $firstRow->getColumn($columnToUse[$i]) : 0;
+                                $comparisonIndex = $periodIndex === 0 ? 1 : 0;
+                                $comparisonRow = $comparePeriods[$comparisonIndex] ?? false;
+                                $comparisonDate = $compareDates[$comparisonIndex] ?? false;
+                                $originalCompareRow = ($comparisonRow && $comparisonDate)
+                                    ? $this->findComparisonRow($comparisonRows, $segment, $comparisonRow, $comparisonDate)
+                                    : false;
+                                $originalValue = $originalCompareRow ? $originalCompareRow->getColumn($columnToUse[$i]) : 0;
                                 if ($originalValue === false) {
                                     $originalValue = 0;
                                 }
+                                $originalPeriodPretty = $originalCompareRow
+                                    ? $originalCompareRow->getMetadata('comparePeriodPretty')
+                                    : '';
                                 $formattedOriginalValue = $this->formatSparklineMetricValue(
                                     $originalValue,
                                     $columnToUse[$i],
