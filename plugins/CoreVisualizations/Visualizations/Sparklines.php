@@ -236,19 +236,18 @@ class Sparklines extends ViewDataTable
             $compareDatesWithoutOriginalDate = $compareDates ? array_slice($compareDates, 1) : [];
             $comparePeriodsWithoutOriginalPeriod = $comparePeriods ? array_slice($comparePeriods, 1) : [];
 
-            $periodSelector = new EvolutionPeriodSelector($this->config);
-            $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriodsWithoutOriginalPeriod, $compareDatesWithoutOriginalDate);
-            $sparklineUrlParams = $periodSelector->setDatePeriods($sparklineUrlParams, $periodObj, $comparisonPeriods, $isComparing);
+        $periodSelector = new EvolutionPeriodSelector($this->config);
+        $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriodsWithoutOriginalPeriod, $compareDatesWithoutOriginalDate);
+        $sparklineUrlParams = $periodSelector->setDatePeriods($sparklineUrlParams, $periodObj, $comparisonPeriods, $isComparing);
+        $originalPeriodPretty = $periodObj->getPrettyString();
 
-            if ($isComparing) {
-                $sparklineUrlParams['compareSegments'] = [];
+        if ($isComparing) {
+            $sparklineUrlParams['compareSegments'] = [];
 
                 $compareSegments = $data->getMetadata('compareSegments');
                 foreach ($compareSegments as $segmentIndex => $segment) {
                     $metrics = [];
                     $seriesIndices = [];
-                    $originalCompareRow = $this->findComparisonRow($comparisonRows, $segment, $comparePeriods[0], $compareDates[0]);
-                    $originalPeriodPretty = $originalCompareRow ? $originalCompareRow->getMetadata('comparePeriodPretty') : '';
 
                     foreach ($comparePeriods as $periodIndex => $period) {
                         $date = $compareDates[$periodIndex];
@@ -283,7 +282,7 @@ class Sparklines extends ViewDataTable
                             ];
 
                             if (isset($evolutions[$i])) {
-                                $originalValue = $originalCompareRow ? $originalCompareRow->getColumn($columnToUse[$i]) : 0;
+                                $originalValue = $firstRow ? $firstRow->getColumn($columnToUse[$i]) : 0;
                                 if ($originalValue === false) {
                                     $originalValue = 0;
                                 }
