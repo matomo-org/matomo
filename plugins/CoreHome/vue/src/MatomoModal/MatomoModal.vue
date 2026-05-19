@@ -9,7 +9,7 @@
   <Teleport to="body">
     <div
       v-if="modelValue"
-      class="modal-overlay open"
+      class="modal-overlay matomo-modal-overlay open"
       @click="close"
     />
     <div

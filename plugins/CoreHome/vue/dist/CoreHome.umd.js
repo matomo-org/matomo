@@ -2970,19 +2970,19 @@ function MatomoDialogvue_type_template_id_1791e7fd_render(_ctx, _cache, $props, 
 MatomoDialogvue_type_script_lang_ts.render = MatomoDialogvue_type_template_id_1791e7fd_render
 
 /* harmony default export */ var MatomoDialog = (MatomoDialogvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoModal/MatomoModal.vue?vue&type=template&id=68c8843d
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoModal/MatomoModal.vue?vue&type=template&id=7a1657f1
 
-const MatomoModalvue_type_template_id_68c8843d_hoisted_1 = ["aria-label"];
-const MatomoModalvue_type_template_id_68c8843d_hoisted_2 = {
+const MatomoModalvue_type_template_id_7a1657f1_hoisted_1 = ["aria-label"];
+const MatomoModalvue_type_template_id_7a1657f1_hoisted_2 = {
   key: 0,
   class: "modal-footer matomo-modal-footer"
 };
-function MatomoModalvue_type_template_id_68c8843d_render(_ctx, _cache, $props, $setup, $data, $options) {
+function MatomoModalvue_type_template_id_7a1657f1_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Teleport"], {
     to: "body"
   }, [_ctx.modelValue ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 0,
-    class: "modal-overlay open",
+    class: "modal-overlay matomo-modal-overlay open",
     onClick: _cache[0] || (_cache[0] = (...args) => _ctx.close && _ctx.close(...args))
   })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     ref: "root",
@@ -2993,9 +2993,9 @@ function MatomoModalvue_type_template_id_68c8843d_render(_ctx, _cache, $props, $
     tabindex: "-1"
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["modal-content matomo-modal-content", _ctx.contentClass])
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 2), _ctx.$slots.footer ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoModalvue_type_template_id_68c8843d_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "footer")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, MatomoModalvue_type_template_id_68c8843d_hoisted_1), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.modelValue]])]);
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 2), _ctx.$slots.footer ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoModalvue_type_template_id_7a1657f1_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "footer")])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, MatomoModalvue_type_template_id_7a1657f1_hoisted_1), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.modelValue]])]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoModal/MatomoModal.vue?vue&type=template&id=68c8843d
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoModal/MatomoModal.vue?vue&type=template&id=7a1657f1
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoModal/MatomoModal.vue?vue&type=script&lang=ts
 
@@ -3054,7 +3054,7 @@ function MatomoModalvue_type_template_id_68c8843d_render(_ctx, _cache, $props, $
       this.close();
     },
     activate() {
-      let rootElement = this.$refs.root;
+      const rootElement = this.$refs.root;
       this.previousBodyOverflow = document.body.style.overflow;
       this.previousFocus = document.activeElement;
       document.body.style.overflow = 'hidden';
@@ -3099,7 +3099,7 @@ function MatomoModalvue_type_template_id_68c8843d_render(_ctx, _cache, $props, $
 
 
 
-MatomoModalvue_type_script_lang_ts.render = MatomoModalvue_type_template_id_68c8843d_render
+MatomoModalvue_type_script_lang_ts.render = MatomoModalvue_type_template_id_7a1657f1_render
 
 /* harmony default export */ var MatomoModal = (MatomoModalvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ExpandOnClick/ExpandOnClick.ts

@@ -419,7 +419,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
                     $('.' + settings.widgetlistClass, widgetPreview).css({
                         top: position,
-                        marginBottom: position
+                        marginBottom: position + 10
                     });
                 }
 
@@ -531,7 +531,11 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                         var widgetElement = previewElement.children('.widget').first();
                         $('.widgetContent', widgetElement).html($(response));
                         piwikHelper.compileVueEntryComponents($('.widgetContent', widgetElement));
-                        $('.widgetContent', widgetElement).trigger('widget:create');
+                        // `widget:create` handlers should only rely on `.element`, the widget's
+                        // root jQuery node. Dashboard widgets pass their full plugin instance;
+                        // previews pass `{ element }` so handlers scope to this preview instead
+                        // of grabbing the first matching node in the document.
+                        $('.widgetContent', widgetElement).trigger('widget:create', [{ element: widgetElement }]);
                         settings.onPreviewLoaded(widgetUniqueId, widgetElement);
                         $('.' + settings.widgetpreviewClass + ' .widgetTop', widgetPreview).on('click', function () {
                             settings.onSelect(widgetUniqueId);

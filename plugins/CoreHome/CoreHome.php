@@ -162,7 +162,6 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/vue-transitions.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.less";
-        $stylesheets[] = "plugins/CoreHome/vue/src/MatomoModal/MatomoModal.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.less";
     }

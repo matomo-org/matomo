@@ -326,9 +326,15 @@ ul.widgetpreview-widgetlist li {
   color: @theme-color-text-contrast;
 }
 
-.widgetpreview-base li.widgetpreview-unavailable {
+.widgetpreview-base li.widgetpreview-unavailable,
+.add-widget-modal li.widgetpreview-unavailable {
   color: @theme-color-text-disabled;
   cursor: default;
+}
+
+.widgetpreview-base li.widgetpreview-unavailable.widgetpreview-choosen,
+.add-widget-modal li.widgetpreview-unavailable.widgetpreview-choosen {
+  color: @theme-color-text-light;
 }
 
 ul.widgetpreview-widgetlist {
