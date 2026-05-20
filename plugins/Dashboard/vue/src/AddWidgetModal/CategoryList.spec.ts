@@ -13,18 +13,17 @@ jest.mock('CoreHome', () => ({}), { virtual: true });
 const CategoryList = require('./CategoryList.vue').default;
 
 describe('Dashboard/AddWidgetModal/CategoryList', () => {
-  const longCategoryName = 'A very long category name that should wrap onto another line in the modal';
-  const longCategory = { id: 'long-category', label: longCategoryName, widgets: [] };
+  const longCategory = 'A very long category name that should wrap onto another line in the modal';
 
   it('renders one <li> per category and applies the chosen class', () => {
     const wrapper = mount(CategoryList as any, {
       props: {
         categories: [
-          { id: 'visitors', label: 'Visitors', widgets: [] },
+          'Visitors',
           longCategory,
-          { id: 'live', label: 'Live', widgets: [] },
+          'Live',
         ],
-        chosenCategory: 'long-category',
+        chosenCategory: longCategory,
       },
     });
 
@@ -33,26 +32,26 @@ describe('Dashboard/AddWidgetModal/CategoryList', () => {
     expect(items[0].classes()).not.toContain('widgetpreview-choosen');
     expect(items[1].classes()).toContain('widgetpreview-choosen');
     expect(items[2].classes()).not.toContain('widgetpreview-choosen');
-    expect(items.map((i) => i.text())).toEqual(['Visitors', longCategoryName, 'Live']);
+    expect(items.map((i) => i.text())).toEqual(['Visitors', longCategory, 'Live']);
   });
 
   it('renders the full category text for long labels', () => {
     const wrapper = mount(CategoryList as any, {
       props: {
         categories: [longCategory],
-        chosenCategory: 'long-category',
+        chosenCategory: longCategory,
       },
     });
 
-    expect(wrapper.find('li').text()).toBe(longCategoryName);
+    expect(wrapper.find('li').text()).toBe(longCategory);
   });
 
   it('emits update:chosenCategory on mouseover', async () => {
     const wrapper = mount(CategoryList as any, {
       props: {
         categories: [
-          { id: 'visitors', label: 'Visitors', widgets: [] },
-          { id: 'goals', label: 'Goals', widgets: [] },
+          'Visitors',
+          'Goals',
         ],
         chosenCategory: null,
       },
@@ -60,6 +59,6 @@ describe('Dashboard/AddWidgetModal/CategoryList', () => {
 
     await wrapper.findAll('li')[1].trigger('mouseover');
 
-    expect(wrapper.emitted()['update:chosenCategory']).toEqual([['goals']]);
+    expect(wrapper.emitted()['update:chosenCategory']).toEqual([['Goals']]);
   });
 });

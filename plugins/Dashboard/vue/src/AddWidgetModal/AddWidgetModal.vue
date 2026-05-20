@@ -33,7 +33,7 @@
       <div class="add-widget-modal-widgets">
         <widgets-list
           :widgets="widgetsInCategory"
-          :chosen-widget="hoveredWidget"
+          :chosen-widget-id="hoveredWidgetId"
           :added-widgets="addedWidgetIds"
           @hover="onWidgetHover"
           @select="onSelect"
@@ -67,7 +67,7 @@ const OPEN_EVENT = 'Dashboard.AddWidget.open';
 interface AddWidgetModalState {
   isOpen: boolean;
   chosenCategory: string | null;
-  hoveredWidget: string | null;
+  hoveredWidgetId: string | null;
   addedWidgetIds: Set<string>;
 }
 
@@ -84,7 +84,7 @@ export default defineComponent({
     return {
       isOpen: false,
       chosenCategory: null,
-      hoveredWidget: null,
+      hoveredWidgetId: null,
       addedWidgetIds: new Set<string>(),
     };
   },
@@ -101,24 +101,20 @@ export default defineComponent({
       }
       return this.widgets[this.chosenCategory] || [];
     },
-    widgetIndex(): Map<string, WidgetType> {
+    widgetsById(): Map<string, WidgetType> {
       // Rebuilds only when `WidgetsStore.widgets` mutates; `previewWidget` and
       // `onSelect` both consult this in O(1) instead of scanning every category.
-      const index = new Map<string, WidgetType>();
-      Object.values(this.widgets).forEach((list) => {
-        list.forEach((widget) => {
-          if (widget.uniqueId) {
-            index.set(widget.uniqueId, widget);
-          }
-        });
-      });
-      return index;
+      return new Map(
+        Object.values(this.widgets).flat()
+          .filter((w): w is WidgetType & { uniqueId: string } => !!w.uniqueId)
+          .map((w) => [w.uniqueId, w]),
+      );
     },
     previewWidget(): WidgetType | null {
-      if (!this.hoveredWidget) {
+      if (!this.hoveredWidgetId) {
         return null;
       }
-      return this.widgetIndex.get(this.hoveredWidget) || null;
+      return this.widgetsById.get(this.hoveredWidgetId) || null;
     },
   },
   methods: {
@@ -129,7 +125,7 @@ export default defineComponent({
 
     onClosed() {
       this.chosenCategory = null;
-      this.hoveredWidget = null;
+      this.hoveredWidgetId = null;
       this.addedWidgetIds = new Set<string>();
     },
 
@@ -138,22 +134,20 @@ export default defineComponent({
         return;
       }
       this.chosenCategory = category;
-      this.hoveredWidget = null;
+      this.hoveredWidgetId = null;
     },
 
     onWidgetHover(uniqueId: string) {
-      this.hoveredWidget = uniqueId;
+      this.hoveredWidgetId = uniqueId;
     },
 
     onSelect(uniqueId: string) {
-      const widget = this.widgetIndex.get(uniqueId);
+      const widget = this.widgetsById.get(uniqueId);
 
       if (widget) {
         // Keep the modal open so the user can add more widgets in one session;
         // the added row is greyed out via the `added-widgets` set on WidgetsList.
-        const next = new Set(this.addedWidgetIds);
-        next.add(uniqueId);
-        this.addedWidgetIds = next;
+        this.addedWidgetIds.add(uniqueId);
         this.$emit('select', widget);
         return;
       }

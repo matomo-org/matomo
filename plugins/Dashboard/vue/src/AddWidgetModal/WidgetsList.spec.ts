@@ -43,6 +43,8 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
   let dashboardArea: HTMLElement;
   let originalMatchMedia: typeof window.matchMedia;
 
+  // Scoped helper for the two `supportsHover` initialization tests. Other tests
+  // override `wrapper.vm.supportsHover` directly after mount and don't need this.
   const setAnyHoverMatch = (matches: boolean) => {
     Object.defineProperty(window, 'matchMedia', {
       configurable: true,
@@ -63,7 +65,6 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
   beforeEach(() => {
     jest.useFakeTimers();
     originalMatchMedia = window.matchMedia;
-    setAnyHoverMatch(true);
     dashboardArea = document.createElement('div');
     dashboardArea.id = 'dashboardWidgetsArea';
     const placed = document.createElement('div');
@@ -91,6 +92,23 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     expect(items[0].classes()).not.toContain('widgetpreview-unavailable');
     expect(items[1].classes()).not.toContain('widgetpreview-unavailable');
     expect(items[2].classes()).toContain('widgetpreview-unavailable');
+  });
+
+  it('re-reads the dashboard DOM when deciding availability', () => {
+    // Guards against regressing to a cached availability lookup: reopening the
+    // modal after adding a widget in a previous session must still grey out the
+    // widget that is now actually on the dashboard.
+    const wrapper = mount(WidgetsList as any, {
+      props: { widgets: [widgetVisits] },
+    });
+
+    expect((wrapper.vm as any).isUnavailable(widgetVisits)).toBe(false);
+
+    const placed = document.createElement('div');
+    placed.setAttribute('widgetId', 'widgetVisits');
+    dashboardArea.appendChild(placed);
+
+    expect((wrapper.vm as any).isUnavailable(widgetVisits)).toBe(true);
   });
 
   it('emits hover with a 400ms debounce', async () => {
@@ -124,12 +142,14 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     const wrapper = mount(WidgetsList as any, {
       props: { widgets: [widgetVisits] },
     });
+    (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
 
     await wrapper.findAll('li')[0].trigger('click');
     expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
   });
 
   it('treats any-hover environments as hover-capable at initialization', () => {
+    setAnyHoverMatch(true);
     const wrapper = mount(WidgetsList as any, {
       props: { widgets: [widgetVisits] },
     });
@@ -142,6 +162,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     const wrapper = mount(WidgetsList as any, {
       props: { widgets: [widgetBlocked] },
     });
+    (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
 
     expect(wrapper.findAll('li')[0].classes()).toContain('widgetpreview-unavailable');
 
@@ -156,6 +177,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
         addedWidgets: new Set(['widgetVisits']),
       },
     });
+    (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
 
     expect(wrapper.findAll('li')[0].classes()).toContain('widgetpreview-unavailable');
 
@@ -179,12 +201,12 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     expect(wrapper.find('.widgetpreview-widgetname').text()).toBe(widgetLongName.name);
   });
 
-  describe('on pure no-hover devices', () => {
+  describe('on touch / no-hover devices', () => {
     it('emits hover on the first tap of a new row instead of select', async () => {
-      setAnyHoverMatch(false);
       const wrapper = mount(WidgetsList as any, {
         props: { widgets: [widgetVisits] },
       });
+      (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = false;
 
       await wrapper.findAll('li')[0].trigger('click');
 
@@ -203,10 +225,10 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     });
 
     it('emits select on the second tap of the already-chosen row', async () => {
-      setAnyHoverMatch(false);
       const wrapper = mount(WidgetsList as any, {
-        props: { widgets: [widgetVisits], chosenWidget: 'widgetVisits' },
+        props: { widgets: [widgetVisits], chosenWidgetId: 'widgetVisits' },
       });
+      (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = false;
 
       await wrapper.findAll('li')[0].trigger('click');
 
@@ -215,10 +237,10 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     });
 
     it('emits hover (not select) when tapping a different row than the chosen one', async () => {
-      setAnyHoverMatch(false);
       const wrapper = mount(WidgetsList as any, {
-        props: { widgets: [widgetVisits, widgetKpi], chosenWidget: 'widgetVisits' },
+        props: { widgets: [widgetVisits, widgetKpi], chosenWidgetId: 'widgetVisits' },
       });
+      (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = false;
 
       await wrapper.findAll('li')[1].trigger('click');
 

@@ -13,11 +13,11 @@
       :class="{ 'widgetpreview-choosen': category === chosenCategory }"
       role="button"
       tabindex="0"
-      @mouseover="$emit('update:chosenCategory', category)"
-      @click="$emit('update:chosenCategory', category)"
-      @focus="$emit('update:chosenCategory', category)"
-      @keydown.enter.prevent="$emit('update:chosenCategory', category)"
-      @keydown.space.prevent="$emit('update:chosenCategory', category)"
+      @mouseover="selectCategory(category)"
+      @click="selectCategory(category)"
+      @focus="selectCategory(category)"
+      @keydown.enter.prevent="selectCategory(category)"
+      @keydown.space.prevent="selectCategory(category)"
     >{{ category }}</li>
   </ul>
 </template>
@@ -38,5 +38,10 @@ export default defineComponent({
     },
   },
   emits: ['update:chosenCategory'],
+  methods: {
+    selectCategory(category: string) {
+      this.$emit('update:chosenCategory', category);
+    },
+  },
 });
 </script>

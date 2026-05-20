@@ -67,7 +67,7 @@ describe('Dashboard/AddWidgetModal', () => {
     (wrapper.vm as any).onCategoryChosen('Visitors');
 
     expect((wrapper.vm as any).widgetsInCategory).toEqual([widget]);
-    expect((wrapper.vm as any).hoveredWidget).toBeNull();
+    expect((wrapper.vm as any).hoveredWidgetId).toBeNull();
   });
 
   it('updates the preview when a widget hover is emitted', () => {
@@ -110,13 +110,13 @@ describe('Dashboard/AddWidgetModal', () => {
     const wrapper = mountComponent();
     const vm = wrapper.vm as any;
     vm.chosenCategory = 'Visitors';
-    vm.hoveredWidget = 'Widget.unique';
+    vm.hoveredWidgetId = 'Widget.unique';
     vm.addedWidgetIds = new Set(['Widget.unique']);
 
     vm.onClosed();
 
     expect(vm.chosenCategory).toBeNull();
-    expect(vm.hoveredWidget).toBeNull();
+    expect(vm.hoveredWidgetId).toBeNull();
     expect(vm.addedWidgetIds.size).toBe(0);
   });
 

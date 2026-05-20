@@ -76,13 +76,6 @@
     overflow: hidden;
   }
 
-  // The <Widget> component renders the full report HTML which includes its
-  // own .card-title — that duplicates the "Widget preview" header above the
-  // preview pane. Hide it so only the modal header labels the preview.
-  .widgetpreview-preview .card-title {
-    display: none;
-  }
-
   // Re-apply the global `.widget div.dataTable…` cell-level padding rules
   // (CoreHome/stylesheets/dataTable/_dataTable.less:194 and :498) with higher
   // specificity scoped to the preview pane, so they always take precedence
@@ -90,6 +83,10 @@
   .widgetpreview-preview .widget .card-content div.dataTable:not(.isComparing) table.dataTable th,
   .widgetpreview-preview .widget .card-content div.dataTable:not(.isComparing) table.dataTable tbody > tr > td:not(.cellSubDataTable):first-child {
     padding-left: 30px !important;
+  }
+
+  .add-widget-modal-preview .select-wrapper.cohorts-metric-picker {
+    min-width: 16rem;
   }
 
   .widgetpreview-categorylist,
@@ -134,6 +131,13 @@
 
   ul.widgetpreview-categorylist li {
     white-space: normal;
+  }
+
+  // Keep the focus ring for keyboard users but suppress it after a mouse click,
+  // otherwise the category <li> (focusable via tabindex) keeps a dashed outline
+  // after selection and leaks into screenshot tests.
+  ul.widgetpreview-categorylist li:focus:not(:focus-visible) {
+    outline: none;
   }
 
   ul.widgetpreview-widgetlist .widgetpreview-add-hint {

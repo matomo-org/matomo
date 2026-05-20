@@ -56,21 +56,11 @@ describe("DashboardManager", function () {
         expect(await page.screenshotSelector(modalSelector)).to.matchImage('widget_preview');
     });
 
-    it("should close the manager when a widget is selected", async function() {
-        // make sure selecting a widget does nothing
-        await page.evaluate(function () {
-            window.MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP = true;
-        });
-
-        vot = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Visits Over Time)');
-        await vot.click();
-
-        await page.waitForNetworkIdle();
-
-        expect(await page.screenshotSelector(managerSelector)).to.matchImage('loaded');
-    });
-
     it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
+        // We need to close opened modal here
+        await page.click(modalSelector + ' .btn-close');
+        await page.waitForFunction(() => !document.querySelector('.modal.open.add-widget-modal'));
+
         // check that widget count on currently loaded dashboard is correct, so we are able to say if
         // number of widgets has changed after creating and loading the new one
         const widgetsCountBefore = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);

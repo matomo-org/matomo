@@ -12,7 +12,7 @@
       :key="widget.uniqueId"
       :uniqueid="widget.uniqueId"
       :class="{
-        'widgetpreview-choosen': widget.uniqueId === chosenWidget,
+        'widgetpreview-choosen': widget.uniqueId === chosenWidgetId,
         'widgetpreview-unavailable': isUnavailable(widget),
       }"
       @mouseenter="onMouseEnter(widget)"
@@ -48,7 +48,7 @@ export default defineComponent({
       type: Array as PropType<WidgetType[]>,
       required: true,
     },
-    chosenWidget: {
+    chosenWidgetId: {
       type: String as PropType<string | null>,
       default: null,
     },
@@ -66,25 +66,30 @@ export default defineComponent({
       supportsHover: hasHoverCapablePointer(),
     };
   },
-  computed: {
-    placedWidgetIds(): Set<string> {
-      // Reference `widgets` so the Set rebuilds on category switch — the
-      // dashboard DOM is stable while the modal is open, and session-added
-      // widgets are tracked separately via the `addedWidgets` prop.
-      void this.widgets;
-      const placed = document.querySelectorAll('#dashboardWidgetsArea [widgetId]');
-      const ids = new Set<string>();
-      placed.forEach((el) => {
-        const id = el.getAttribute('widgetId');
-        if (id) {
-          ids.add(id);
-        }
-      });
-      return ids;
-    },
-  },
   methods: {
     translate,
+
+    isRepeatableWidget(widget: WidgetType): boolean {
+      return widget.category?.id === KPI_METRIC_CATEGORY_ID;
+    },
+
+    // Read fresh on every call rather than caching: Vue cannot track the
+    // dashboard DOM as a reactive dependency, so any cache here risks going
+    // stale across modal close→reopen cycles (MatomoModal keeps WidgetsList
+    // mounted via v-show, so a one-shot computed would never invalidate and
+    // the user could pick the same widget twice).
+    occupiedDashboardIds(): Set<string> {
+      const ids = new Set<string>();
+      document
+        .querySelectorAll('#dashboardWidgetsArea [widgetId]')
+        .forEach((el) => {
+          const id = el.getAttribute('widgetId');
+          if (id) {
+            ids.add(id);
+          }
+        });
+      return ids;
+    },
 
     isUnavailable(widget: WidgetType): boolean {
       if (!widget.uniqueId) {
@@ -93,11 +98,10 @@ export default defineComponent({
       if (this.addedWidgets.has(widget.uniqueId)) {
         return true;
       }
-      const { category } = widget as { category?: { id?: string } };
-      if (category && category.id === KPI_METRIC_CATEGORY_ID) {
+      if (this.isRepeatableWidget(widget)) {
         return false;
       }
-      return this.placedWidgetIds.has(widget.uniqueId);
+      return this.occupiedDashboardIds().has(widget.uniqueId);
     },
 
     onMouseEnter(widget: WidgetType) {
@@ -133,7 +137,7 @@ export default defineComponent({
       this.clearHoverTimer();
 
       // Touch / non-hover devices: first tap previews; second tap on the same row adds.
-      if (!this.supportsHover && widget.uniqueId !== this.chosenWidget) {
+      if (!this.supportsHover && widget.uniqueId !== this.chosenWidgetId) {
         this.$emit('hover', widget.uniqueId);
         return;
       }

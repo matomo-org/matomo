@@ -153,6 +153,10 @@ describe("WidgetizedDashboard", function () {
 
         var pages = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Pages):first');
         await pages.hover();
+        // WidgetsList uses a 400ms hover timer before promoting a click to "select" on
+        // non-hover (touch-like) inputs - which is how headless Chrome reports itself.
+        // Wait the timer out so the following click adds the widget instead of just previewing.
+        await page.waitForTimeout(500);
         await pages.click();
 
         await page.waitForNetworkIdle();
