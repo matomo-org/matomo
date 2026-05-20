@@ -20,7 +20,7 @@ describe('SingleMetricView', function () {
         await page.waitForNetworkIdle();
         await page.click('.dashboard-manager .title');
         await page.waitForTimeout(50);
-        await page.click('.dashboard-manager .addWidget');
+        await page.click('.dashboard-manager .addWidget-button');
         await page.waitForSelector(modalSelector);
         await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li');
 
