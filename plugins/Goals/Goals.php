@@ -482,6 +482,10 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_ClickToViewThisGoal';
         $translationKeys[] = 'Goals_ManageGoals';
         $translationKeys[] = 'Goals_GoalName';
+        $translationKeys[] = 'Goals_GoalNameHelpText';
+        $translationKeys[] = 'Goals_GoalNamePlaceholder';
+        $translationKeys[] = 'Goals_GoalDescriptionHelpText';
+        $translationKeys[] = 'Goals_GoalDescriptionPlaceholder';
         $translationKeys[] = 'Goals_GoalIsTriggeredWhen';
         $translationKeys[] = 'Goals_ThereIsNoGoalToManage';
         $translationKeys[] = 'Goals_ManuallyTriggeredUsingJavascriptFunction';

@@ -62,4 +62,31 @@ describe("VisitorMap", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('cities');
     });
+
+    it("should render with a positive svg height inside the AddWidget preview", async function () {
+        // Regression: the resize clamp previously fired on any `.widget` ancestor,
+        // including the AddWidget preview, which made maxHeight negative and
+        // collapsed the SVG. The clamp now only fires for the Widgetize iframe.
+        const dashboardParams = 'idSite=1&period=year&date=2012-08-09';
+        const modalSelector = '.modal.open.add-widget-modal';
+
+        await page.goto('?module=CoreHome&action=index&' + dashboardParams
+            + '#?' + dashboardParams + '&category=Dashboard_Dashboard&subcategory=1');
+        await page.waitForNetworkIdle();
+
+        await page.click('.dashboard-manager .title');
+        await page.waitForTimeout(50);
+        await page.click('.dashboard-manager .addWidget');
+        await page.waitForSelector(modalSelector);
+        await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li');
+
+        await (await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li:contains(Visitors - Locations):first')).hover();
+        await (await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Visitor Map):first')).hover();
+        await page.waitForNetworkIdle();
+
+        const svg = await page.waitForSelector(modalSelector + ' .widgetpreview-preview .UserCountryMap_map svg');
+        const box = await svg.boundingBox();
+
+        expect(box.height).to.be.above(0);
+    });
 });

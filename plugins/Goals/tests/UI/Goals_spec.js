@@ -155,4 +155,27 @@ describe("Goals", function () {
           var report = await page.$('.reporting-page');
           expect(await report.screenshot()).to.matchImage('individual_xss');
       });
+
+      it('should show the revenue sparkline on the goals overview for a non-ecommerce site with goal revenue', async function() {
+          await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=General_Overview");
+          await page.waitForNetworkIdle();
+          await page.waitForSelector('.dataTableVizGoals');
+          await page.waitForSelector('.sparkline');
+
+          const hasRevenueSparkline = await page.evaluate(() =>
+              $('.sparkline').text().toLowerCase().includes('revenue')
+          );
+          expect(hasRevenueSparkline).to.equal(true);
+      });
+
+      it('should show the revenue sparkline on a single goal page for a non-ecommerce site with goal revenue', async function() {
+          await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=1");
+          await page.waitForNetworkIdle();
+          await page.waitForSelector('.sparkline');
+
+          const hasRevenueSparkline = await page.evaluate(() =>
+              $('.sparkline').text().toLowerCase().includes('revenue')
+          );
+          expect(hasRevenueSparkline).to.equal(true);
+      });
 });

@@ -378,6 +378,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'Actions_SubmenuSitesearch';
         $translationKeys[] = 'General_Actions';
         $translationKeys[] = 'General_Cancel';
+        $translationKeys[] = 'General_Description';
         $translationKeys[] = 'General_ClickToSearch';
         $translationKeys[] = 'General_Loading';
         $translationKeys[] = 'General_Measurables';
@@ -444,6 +445,10 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites';
         $translationKeys[] = 'SitesManager_ListOfQueryParametersToExclude';
         $translationKeys[] = 'SitesManager_MainDescription';
+        $translationKeys[] = 'SitesManager_MeasurableNameHelpText';
+        $translationKeys[] = 'SitesManager_MeasurableNamePlaceholder';
+        $translationKeys[] = 'SitesManager_MeasurableDescriptionHelpText';
+        $translationKeys[] = 'SitesManager_MeasurableDescriptionPlaceholder';
         $translationKeys[] = 'SitesManager_NotAnEcommerceSite';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'SitesManager_OnlyMatchedUrlsAllowed';

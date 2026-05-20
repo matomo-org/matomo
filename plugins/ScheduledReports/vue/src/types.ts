@@ -12,6 +12,7 @@ export interface Report {
   idsite: string|number;
   login: string;
   description: string;
+  reportDescription: string;
   idsegment: string|number|null;
   period: string;
   hour: string|number;

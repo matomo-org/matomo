@@ -4,6 +4,7 @@
 		<idcustomdimension>1</idcustomdimension>
 		<idsite>1</idsite>
 		<name>MyName1</name>
+		<description />
 		<index>1</index>
 		<scope>visit</scope>
 		<active>1</active>
@@ -15,6 +16,7 @@
 		<idcustomdimension>2</idcustomdimension>
 		<idsite>1</idsite>
 		<name>MyName2</name>
+		<description />
 		<index>2</index>
 		<scope>visit</scope>
 		<active>1</active>
@@ -26,6 +28,7 @@
 		<idcustomdimension>3</idcustomdimension>
 		<idsite>1</idsite>
 		<name>MyName3</name>
+		<description />
 		<index>1</index>
 		<scope>action</scope>
 		<active>1</active>
@@ -41,6 +44,7 @@
 		<idcustomdimension>4</idcustomdimension>
 		<idsite>1</idsite>
 		<name>MyName4</name>
+		<description />
 		<index>2</index>
 		<scope>action</scope>
 		<active>0</active>
@@ -52,6 +56,7 @@
 		<idcustomdimension>5</idcustomdimension>
 		<idsite>1</idsite>
 		<name>MyName5</name>
+		<description />
 		<index>3</index>
 		<scope>action</scope>
 		<active>1</active>
@@ -71,6 +76,7 @@
 		<idcustomdimension>6</idcustomdimension>
 		<idsite>1</idsite>
 		<name>MyName6</name>
+		<description />
 		<index>4</index>
 		<scope>visit</scope>
 		<active>1</active>
