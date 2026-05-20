@@ -55,11 +55,13 @@
   .add-widget-modal-categories,
   .add-widget-modal-widgets {
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .add-widget-modal-preview {
     overflow-x: hidden;
     overflow-y: auto;
+    overscroll-behavior: contain;
     align-self: start;
     max-height: 100%;
   }
@@ -113,12 +115,12 @@
   }
 
   // Overrides the global `ul.widgetpreview-widgetlist li { padding: 0 25px 0 5px }`
-  // so the row can host the ellipsised widget name and the "+ Add" hint as
+  // so the row can host a wrapping widget name and the "+ Add" hint as
   // flex children. Scoping to `.add-widget-modal` leaves Widgetize's plain-text
   // widget list using the global block layout.
   ul.widgetpreview-widgetlist li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 8px;
     padding: 0 5px;
@@ -127,9 +129,11 @@
   ul.widgetpreview-widgetlist .widgetpreview-widgetname {
     flex: 1 1 auto;
     min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: normal;
+  }
+
+  ul.widgetpreview-categorylist li {
+    white-space: normal;
   }
 
   ul.widgetpreview-widgetlist .widgetpreview-add-hint {

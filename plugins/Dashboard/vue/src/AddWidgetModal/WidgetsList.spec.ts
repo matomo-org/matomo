@@ -8,7 +8,6 @@
 import { mount } from '@vue/test-utils';
 
 jest.mock('CoreHome', () => ({
-  WidgetType: {},
   translate: (key: string) => key,
 }), { virtual: true });
 
@@ -30,6 +29,12 @@ const widgetKpi = {
 const widgetBlocked = {
   uniqueId: 'widgetBlocked',
   name: 'Already On Dashboard',
+  parameters: {},
+  category: { id: 'Visitors' },
+};
+const widgetLongName = {
+  uniqueId: 'widgetLongName',
+  name: 'This is a very long widget name that should wrap instead of truncating in the modal',
   parameters: {},
   category: { id: 'Visitors' },
 };
@@ -133,5 +138,13 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     });
 
     expect(wrapper.find('.widgetpreview-add-hint').text()).toBe('+ General_Add');
+  });
+
+  it('renders the full widget name text for long labels', () => {
+    const wrapper = mount(WidgetsList as any, {
+      props: { widgets: [widgetLongName] },
+    });
+
+    expect(wrapper.find('.widgetpreview-widgetname').text()).toBe(widgetLongName.name);
   });
 });

@@ -11,7 +11,6 @@
     classes="add-widget-modal"
     content-class="add-widget-modal-content"
     :aria-label="translate('Dashboard_AddAWidget')"
-    @opened="onOpened"
     @closed="onClosed"
   >
     <button
@@ -23,53 +22,109 @@
       <i class="icon-close"></i>
     </button>
     <h3 class="add-widget-modal-title">{{ translate('Dashboard_AddAWidget') }}</h3>
-    <div class="add-widget-modal-body">
+    <div class="add-widget-modal-body widgetpreview-base">
       <div class="add-widget-modal-categories">
-        <ul class="widgetpreview-categorylist"></ul>
+        <category-list
+          :categories="categoryNames"
+          :chosen-category="chosenCategory"
+          @update:chosen-category="onCategoryChosen"
+        />
       </div>
-      <div class="add-widget-modal-details">
-        <ul class="widgetpreview-widgetlist"></ul>
-        <div class="widgetpreview-preview"></div>
+      <div class="add-widget-modal-widgets">
+        <widgets-list
+          :widgets="widgetsInCategory"
+          :chosen-widget="hoveredWidget"
+          :added-widgets="addedWidgetIds"
+          @hover="onWidgetHover"
+          @select="onSelect"
+        />
+      </div>
+      <div class="add-widget-modal-preview">
+        <widget-preview
+          :widget="previewWidget"
+          @select="onSelect"
+        />
       </div>
     </div>
   </matomo-modal>
 </template>
 
 <script lang="ts">
-import { defineComponent, markRaw } from 'vue';
+import { defineComponent } from 'vue';
 import {
   Matomo,
   MatomoModal,
   translate,
+  WidgetsStore,
   WidgetType,
 } from 'CoreHome';
+import CategoryList from './CategoryList.vue';
+import WidgetsList from './WidgetsList.vue';
+import WidgetPreview from './WidgetPreview.vue';
 
-const { $, widgetsHelper } = window;
 const OPEN_EVENT = 'Dashboard.AddWidget.open';
-
-function isWidgetAvailable(uniqueId: string) {
-  return !$('#dashboardWidgetsArea').find(`[widgetId="${uniqueId}"]`).length;
-}
 
 interface AddWidgetModalState {
   isOpen: boolean;
-  // $.widgetPreview stores its state (settings, widgetAjaxRequest) on the
-  // jQuery wrapper, so we keep the same one for the component's lifetime —
-  // a fresh $(elem) on close would lose settings and crash widgetPreview('reset').
-  // markRaw() prevents Vue from trying to make the wrapper reactive.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jqRoot: any;
+  chosenCategory: string | null;
+  hoveredWidget: string | null;
+  addedWidgetIds: Set<string>;
+}
+
+function findWidget(
+  widgets: Record<string, WidgetType[]>,
+  uniqueId: string | null,
+): WidgetType | null {
+  if (!uniqueId) {
+    return null;
+  }
+
+  const categories = Object.keys(widgets);
+  for (let i = 0; i < categories.length; i += 1) {
+    const { [categories[i]]: list = [] } = widgets;
+    for (let j = 0; j < list.length; j += 1) {
+      if (list[j].uniqueId === uniqueId) {
+        return list[j];
+      }
+    }
+  }
+
+  return null;
 }
 
 export default defineComponent({
   name: 'AddWidgetModal',
-  components: { MatomoModal },
+  components: {
+    MatomoModal,
+    CategoryList,
+    WidgetsList,
+    WidgetPreview,
+  },
   emits: ['select'],
   data(): AddWidgetModalState {
     return {
       isOpen: false,
-      jqRoot: null,
+      chosenCategory: null,
+      hoveredWidget: null,
+      addedWidgetIds: new Set<string>(),
     };
+  },
+  computed: {
+    widgets(): Record<string, WidgetType[]> {
+      return (WidgetsStore.widgets.value || {}) as Record<string, WidgetType[]>;
+    },
+    categoryNames(): string[] {
+      return Object.keys(this.widgets);
+    },
+    widgetsInCategory(): WidgetType[] {
+      if (!this.chosenCategory) {
+        return [];
+      }
+      return this.widgets[this.chosenCategory] || [];
+    },
+    previewWidget(): WidgetType | null {
+      return findWidget(this.widgets, this.hoveredWidget);
+    },
   },
   methods: {
     translate,
@@ -77,49 +132,49 @@ export default defineComponent({
     open() { this.isOpen = true; },
     close() { this.isOpen = false; },
 
-    onOpened(modalRoot: HTMLElement) {
-      if (!this.jqRoot) {
-        this.jqRoot = markRaw($(modalRoot));
-      }
-      this.buildPreview();
+    onClosed() {
+      this.chosenCategory = null;
+      this.hoveredWidget = null;
+      this.addedWidgetIds = new Set<string>();
     },
 
-    onClosed() {
-      if (this.jqRoot) {
-        this.jqRoot.widgetPreview('reset');
+    onCategoryChosen(category: string) {
+      if (this.chosenCategory === category) {
+        return;
       }
+      this.chosenCategory = category;
+      this.hoveredWidget = null;
+    },
+
+    onWidgetHover(uniqueId: string) {
+      this.hoveredWidget = uniqueId;
     },
 
     onSelect(uniqueId: string) {
-      this.close();
-      widgetsHelper.getWidgetObjectFromUniqueId(uniqueId, (widget: unknown) => {
-        if (widget) {
-          this.$emit('select', widget as WidgetType);
-        }
-      });
-    },
+      const widget = findWidget(this.widgets, uniqueId);
 
-    buildPreview() {
-      this.jqRoot.widgetPreview({
-        isWidgetAvailable,
-        onSelect: this.onSelect,
-        resetOnSelect: true,
-      });
-    },
-
-    onWidgetsReloaded() {
-      if (this.isOpen) {
-        this.buildPreview();
+      if (widget) {
+        // Keep the modal open so the user can add more widgets in one session;
+        // the added row is greyed out via the `added-widgets` set on WidgetsList.
+        const next = new Set(this.addedWidgetIds);
+        next.add(uniqueId);
+        this.addedWidgetIds = next;
+        this.$emit('select', widget);
+        return;
       }
+
+      // WidgetsStore drives both the list and the lookup; a miss here means the cache
+      // was unexpectedly cleared between render and click. Close anyway so the modal
+      // cannot block follow-up interactions.
+      console.warn(`Could not resolve dashboard widget "${uniqueId}" from cached metadata.`);
+      this.close();
     },
   },
   mounted() {
     Matomo.on(OPEN_EVENT, this.open);
-    Matomo.on('WidgetsStore.reloaded', this.onWidgetsReloaded);
   },
   unmounted() {
     Matomo.off(OPEN_EVENT, this.open);
-    Matomo.off('WidgetsStore.reloaded', this.onWidgetsReloaded);
   },
 });
 </script>

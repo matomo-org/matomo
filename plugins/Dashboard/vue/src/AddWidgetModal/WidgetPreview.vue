@@ -27,6 +27,7 @@
           :key="widget.uniqueId"
           :widget="widget"
           :widgetized="true"
+          :suppress-notifications="true"
         />
       </div>
     </div>

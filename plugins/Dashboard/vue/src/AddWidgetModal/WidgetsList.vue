@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <ul class="widgetpreview-widgetlist">
+  <ul class="widgetpreview-base widgetpreview-widgetlist">
     <li
       v-for="widget in widgets"
       :key="widget.uniqueId"
