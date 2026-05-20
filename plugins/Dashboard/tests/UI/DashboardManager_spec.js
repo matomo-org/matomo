@@ -28,7 +28,7 @@ describe("DashboardManager", function () {
     });
 
     it("should show widget for a category when category label hovered", async function() {
-        await page.click('.dashboard-manager .addWidget');
+        await page.click('.dashboard-manager .addWidget-button');
         await page.waitForSelector(modalSelector);
         await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li');
 
