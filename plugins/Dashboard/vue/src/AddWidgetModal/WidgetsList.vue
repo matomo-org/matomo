@@ -105,9 +105,13 @@ export default defineComponent({
     },
 
     onRowClick(widget: WidgetType) {
-      if (!widget.uniqueId || this.isUnavailable(widget)) {
+      if (!widget.uniqueId) {
         return;
       }
+      // Rows flagged as `widgetpreview-unavailable` (already on the dashboard, or
+      // added earlier in this modal session) stay clickable — the class is a
+      // visual hint, not a hard block. Matches 5.x-dev's widgetMenu.js behaviour
+      // where the click handler ignores the unavailable class.
       this.clearHoverTimer();
 
       // Touch / non-hover devices: first tap previews; second tap on the same row adds.

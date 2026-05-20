@@ -7,7 +7,10 @@
 
 import { mount } from '@vue/test-utils';
 
-jest.mock('CoreHome', () => ({ WidgetType: {} }), { virtual: true });
+jest.mock('CoreHome', () => ({
+  WidgetType: {},
+  translate: (key: string) => key,
+}), { virtual: true });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const WidgetsList = require('./WidgetsList.vue').default;
@@ -91,18 +94,44 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     const wrapper = mount(WidgetsList as any, {
       props: { widgets: [widgetVisits] },
     });
+    (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
 
     await wrapper.findAll('li')[0].trigger('click');
     expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
   });
 
-  it('applies inline top/marginBottom from offsetTop', () => {
+  it('still emits select when clicking a widget already on the dashboard', async () => {
     const wrapper = mount(WidgetsList as any, {
-      props: { widgets: [widgetVisits], offsetTop: 42 },
+      props: { widgets: [widgetBlocked] },
+    });
+    (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
+
+    expect(wrapper.findAll('li')[0].classes()).toContain('widgetpreview-unavailable');
+
+    await wrapper.findAll('li')[0].trigger('click');
+    expect(wrapper.emitted().select).toEqual([['widgetBlocked']]);
+  });
+
+  it('still emits select when clicking a widget added earlier in the session', async () => {
+    const wrapper = mount(WidgetsList as any, {
+      props: {
+        widgets: [widgetVisits],
+        addedWidgets: new Set(['widgetVisits']),
+      },
+    });
+    (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
+
+    expect(wrapper.findAll('li')[0].classes()).toContain('widgetpreview-unavailable');
+
+    await wrapper.findAll('li')[0].trigger('click');
+    expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
+  });
+
+  it('renders the add hint using the shared translation key', () => {
+    const wrapper = mount(WidgetsList as any, {
+      props: { widgets: [widgetVisits] },
     });
 
-    const ul = wrapper.find('ul');
-    expect((ul.element as HTMLElement).style.top).toBe('42px');
-    expect((ul.element as HTMLElement).style.marginBottom).toBe('42px');
+    expect(wrapper.find('.widgetpreview-add-hint').text()).toBe('+ General_Add');
   });
 });
