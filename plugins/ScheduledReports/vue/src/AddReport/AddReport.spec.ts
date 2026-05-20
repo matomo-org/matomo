@@ -14,8 +14,7 @@ const mockTranslate = (key: string, ...values: Array<string|number>) => {
     ScheduledReports_CreateTooltip: 'Create tooltip',
     General_Website: 'Website',
     General_Description: 'Description',
-    ScheduledReports_DescriptionOnReportAndReportsList: 'Description help',
-    ScheduledReports_ReportMissingDescription: 'To create a report, please include a %1$sDescription%2$s.',
+    ScheduledReports_ReportMissingName: 'To create a report, please include a %1$sName%2$s.',
     ScheduledReports_ReportsIncluded: 'Select the reports to include',
     ScheduledReports_ReportsIncludedHelp: 'Choose at least one report to include in this scheduled report.',
     ScheduledReports_CreateAndScheduleReport: 'Create and Schedule a report',
@@ -104,7 +103,7 @@ const defaultProps = {
   savedSegmentsById: {},
   periods: {},
   validationErrors: {
-    description: false,
+    name: false,
     reports: false,
   },
 };
@@ -156,15 +155,15 @@ describe('ScheduledReports/AddReport', () => {
     });
   }
 
-  it('renders inline description validation without link placeholders', () => {
+  it('renders inline name validation without link placeholders', () => {
     const wrapper = mountComponent({
       validationErrors: {
-        description: true,
+        name: true,
         reports: false,
       },
     });
 
-    expect(wrapper.text()).toContain('To create a report, please include a Description.');
+    expect(wrapper.text()).toContain('To create a report, please include a Name.');
     expect(wrapper.text()).not.toContain('%1$s');
     expect(wrapper.text()).not.toContain('%2$s');
   });
@@ -172,7 +171,7 @@ describe('ScheduledReports/AddReport', () => {
   it('applies the error class to the existing reports help text', () => {
     const wrapper = mountComponent({
       validationErrors: {
-        description: false,
+        name: false,
         reports: true,
       },
     });

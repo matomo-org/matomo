@@ -800,7 +800,7 @@ class API extends \Piwik\Plugin\API
         $reportRenderer->setReport($report);
 
         // render report
-        $description = str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue($report['description']));
+        $reportName = str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) $report['description']));
 
         [$reportSubject, $reportTitle] = self::getReportSubjectAndReportTitle(Common::unsanitizeInputValue(Site::getNameFor((int)$idSite)), $report['reports']);
 
@@ -808,9 +808,9 @@ class API extends \Piwik\Plugin\API
         if (is_array($segment) && strlen($segment['name'])) {
             $reportTitle .= " - " . $segment['name'];
         }
-        $filename = "$reportTitle - $prettyDate - $description";
+        $filename = "$reportTitle - $prettyDate - $reportName";
 
-        $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment ?? []);
+        $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $reportName, $reportMetadata, $segment ?? []);
         array_walk($processedReports, [$reportRenderer, 'renderReport']);
 
         switch ($outputType) {

@@ -320,6 +320,8 @@ class RowEvolution
         }
 
         $view->requestConfig->request_parameters_to_modify['label'] = '';
+        $view->config->export_parameters_to_modify['label'] = $this->label;
+        $view->config->show_flatten_table_export = false;
         $view->config->show_goals = false;
         $view->config->show_search = false;
         $view->config->show_all_views_icons = false;

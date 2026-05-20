@@ -42,6 +42,8 @@ class GetPlugin extends Base
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
+        $view->config->show_flatten_table_export = false;
         $this->getBasicDevicePluginsDisplayProperties($view);
 
         $view->config->addTranslations(array(

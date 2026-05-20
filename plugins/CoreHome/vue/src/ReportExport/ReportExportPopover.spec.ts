@@ -168,4 +168,61 @@ describe('CoreHome/ReportExportPopover', () => {
 
     expect((wrapper.vm as any).reportFormat).toBe('JSON');
   });
+
+  it('should keep flat export available without visible subtables when the report supports flattening', () => {
+    const wrapper = createWrapper({
+      hasSubtables: false,
+      canExportFlat: true,
+      initialReportFormat: 'TSV',
+      initialOptionFlat: true,
+    });
+
+    expect((wrapper.vm as any).effectiveSubtableOptions).toEqual({
+      optionFlat: true,
+      optionExpanded: false,
+    });
+
+    const exportLink = wrapper.vm.exportLink as string;
+    expect(exportLink).toContain('encoded=params');
+
+    const stringifyMock = MatomoUrl.stringify as jest.Mock;
+    const calls = stringifyMock.mock.calls.map((call) => call[0]);
+    const exportCall = calls.find(
+      (params) => params.method === 'Actions.getPageUrls' && params.format === 'TSV',
+    );
+
+    expect(exportCall.flat).toBe(1);
+    expect(exportCall.expanded).toBeUndefined();
+  });
+
+  it('should include requestParams label in graph evolution export links', () => {
+    createWrapper({
+      initialReportType: 'default',
+      initialReportFormat: 'CSV',
+      dataTable: {
+        param: {
+          idSite: 1,
+          date: '2025-01-01,2025-01-31',
+          period: 'range',
+          viewDataTable: 'graphEvolution',
+        },
+        props: {},
+        getReportMetadata: () => ({ dimensions: {} }),
+      },
+      requestParams: {
+        label: '@referrer.com',
+      },
+      apiMethod: 'Referrers.getWebsites',
+    });
+
+    const stringifyMock = MatomoUrl.stringify as jest.Mock;
+    const calls = stringifyMock.mock.calls.map((call) => call[0]);
+    const exportCall = calls.find(
+      (params) => params.method === 'Referrers.getWebsites' && params.format === 'CSV',
+    );
+
+    expect(exportCall).toBeDefined();
+    expect(exportCall.period).toBe('day');
+    expect(exportCall.label).toBe('@referrer.com');
+  });
 });

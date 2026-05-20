@@ -61,7 +61,27 @@ use Piwik\Validators\WhitelistedValue;
  * The existing values can be fetched via "getExcludedIpsGlobal" and "getExcludedQueryParametersGlobal".
  * See also the documentation about <a href='https://matomo.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Matomo.
  *
- * @phpstan-type SiteData array{idsite: int, name: string, main_url: string, ts_created: string, timezone: string, currency: string, ecommerce: int, sitesearch: int, exclude_unknown_urls: int, excluded_ips: string, excluded_parameters: string, excluded_user_agents: string, group: string, type: string, keep_url_fragment: int, creator_login?: string, timezone_name?: string, currency_name?: string}
+ * @phpstan-type SiteData array{
+ *     idsite: int,
+ *     name: string,
+ *     description: string,
+ *     main_url: string,
+ *     ts_created: string,
+ *     timezone: string,
+ *     currency: string,
+ *     ecommerce: int,
+ *     sitesearch: int,
+ *     exclude_unknown_urls: int,
+ *     excluded_ips: string,
+ *     excluded_parameters: string,
+ *     excluded_user_agents: string,
+ *     group: string,
+ *     type: string,
+ *     keep_url_fragment: int,
+ *     creator_login?: string,
+ *     timezone_name?: string,
+ *     currency_name?: string
+ * }
  * @phpstan-type SettingValues array<string, list<array{name: string, value: mixed}>>
  *
  * @method static \Piwik\Plugins\SitesManager\API getInstance()
@@ -748,6 +768,8 @@ class API extends \Piwik\Plugin\API
      *                                         of `['name' => string, 'value' => mixed]` pairs.
      * @param bool|null $excludeUnknownUrls Whether to track only URLs matching one of the website's registered URLs.
      * @param string|null $excludedReferrers Comma-separated list of hosts/URLs to exclude from referrer detection.
+     * @param string|null $description Optional description providing additional context about this site, such as its
+     *                                 purpose or usage.
      * @return int The ID of the newly created website.
      * @see getKeepURLFragmentsGlobal
      */
@@ -769,7 +791,8 @@ class API extends \Piwik\Plugin\API
         $type = null,
         $settingValues = null,
         $excludeUnknownUrls = null,
-        $excludedReferrers = null
+        $excludedReferrers = null,
+        $description = null
     ): int {
         Piwik::checkUserHasSuperUserAccess();
         SitesManager::dieIfSitesAdminIsDisabled();
@@ -806,6 +829,7 @@ class API extends \Piwik\Plugin\API
         $this->checkValidCurrency($currency);
 
         $bind = ['name' => $siteName];
+        $bind['description'] = $this->checkAndReturnDescription($description);
         $bind['timezone']   = $timezone;
         $bind['currency']   = $currency;
         $bind['main_url']   = '';
@@ -1615,6 +1639,8 @@ class API extends \Piwik\Plugin\API
      *                                         of `['name' => string, 'value' => mixed]` pairs.
      * @param bool|null $excludeUnknownUrls Whether to track only URLs matching one of the website's registered URLs.
      * @param string|null $excludedReferrers Comma-separated list of hosts/URLs to exclude from referrer detection.
+     * @param string|null $description Optional description providing additional context about this site, such as its
+     *                                 purpose or usage.
      * @see getKeepURLFragmentsGlobal
      */
     public function updateSite(
@@ -1636,7 +1662,8 @@ class API extends \Piwik\Plugin\API
         $type = null,
         $settingValues = null,
         $excludeUnknownUrls = null,
-        $excludedReferrers = null
+        $excludedReferrers = null,
+        $description = null
     ): void {
         Piwik::checkUserHasAdminAccess($idSite);
         SitesManager::dieIfSitesAdminIsDisabled();
@@ -1653,6 +1680,10 @@ class API extends \Piwik\Plugin\API
         if (!is_null($siteName)) {
             $this->checkName($siteName);
             $bind['name'] = $siteName;
+        }
+
+        if (!is_null($description)) {
+            $bind['description'] = $this->checkAndReturnDescription($description);
         }
 
         if (!isset($settingValues)) {
@@ -1981,6 +2012,20 @@ class API extends \Piwik\Plugin\API
         if (empty($siteName)) {
             throw new Exception($this->translator->translate("SitesManager_ExceptionEmptyName"));
         }
+    }
+
+    /**
+     * Normalises the site description and ensures it does not exceed the allowed length.
+     */
+    private function checkAndReturnDescription(?string $description): string
+    {
+        $description = trim((string) $description);
+
+        if (mb_strlen($description) > 255) {
+            throw new Exception(Piwik::translate('SitesManager_ExceptionInvalidWebsiteDescription'));
+        }
+
+        return $description;
     }
 
     /**

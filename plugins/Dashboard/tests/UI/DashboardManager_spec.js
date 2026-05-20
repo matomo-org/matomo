@@ -40,11 +40,14 @@ describe("DashboardManager", function () {
         await visitors.click();
 
         await page.waitForNetworkIdle();
+        await page.waitForSelector(modalSelector + ' .widgetpreview-widgetlist>li', { visible: true });
 
         expect(await page.screenshotSelector(modalSelector)).to.matchImage('widget_list_shown');
     });
 
     it("should load a widget preview when a widget is hovered", async function() {
+        await page.waitForSelector(modalSelector + ' .widgetpreview-widgetlist>li', { visible: true });
+
         vot = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Visits Over Time)');
         await vot.hover();
 

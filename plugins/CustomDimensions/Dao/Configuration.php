@@ -28,7 +28,7 @@ class Configuration
         return Db::get();
     }
 
-    public function configureNewDimension($idSite, $name, $scope, $index, $active, $extractions, $caseSensitive)
+    public function configureNewDimension($idSite, $name, $scope, $index, $active, $extractions, $caseSensitive, $description = '')
     {
         $extractions = $this->encodeExtractions($extractions);
         $active = $active ? '1' : '0';
@@ -41,6 +41,7 @@ class Configuration
             'index'       => $index,
             'scope'       => $scope,
             'name'        => $name,
+            'description' => (string) $description,
             'active'      => $active,
             'extractions' => $extractions,
             'case_sensitive' => $caseSensitive,
@@ -51,7 +52,7 @@ class Configuration
         return $id;
     }
 
-    public function configureExistingDimension($idCustomDimension, $idSite, $name, $active, $extractions, $caseSensitive)
+    public function configureExistingDimension($idCustomDimension, $idSite, $name, $active, $extractions, $caseSensitive, $description = '')
     {
         $extractions = $this->encodeExtractions($extractions);
         $active = $active ? '1' : '0';
@@ -61,6 +62,7 @@ class Configuration
             $this->tableNamePrefixed,
             array(
                 'name'        => $name,
+                'description' => (string) $description,
                 'active'      => $active,
                 'extractions' => $extractions,
                 'case_sensitive' => $caseSensitive,
@@ -131,6 +133,7 @@ class Configuration
         $dimension['idcustomdimension'] = (string) $dimension['idcustomdimension'];
         $dimension['idsite'] = (string) $dimension['idsite'];
         $dimension['index'] = (string) $dimension['index'];
+        $dimension['description'] = isset($dimension['description']) ? (string) $dimension['description'] : '';
 
         $dimension['extractions'] = $this->decodeExtractions($dimension['extractions']);
         $dimension['active'] = (bool) $dimension['active'];
@@ -157,6 +160,7 @@ class Configuration
         $table = "`idcustomdimension` BIGINT UNSIGNED NOT NULL,
                   `idsite` BIGINT UNSIGNED NOT NULL ,
                   `name` VARCHAR(100) NOT NULL ,
+                  `description` VARCHAR(1000) NOT NULL DEFAULT '',
                   `index` SMALLINT UNSIGNED NOT NULL ,
                   `scope` VARCHAR(10) NOT NULL ,
                   `active` TINYINT UNSIGNED NOT NULL DEFAULT 0,

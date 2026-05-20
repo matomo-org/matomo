@@ -29,16 +29,29 @@
       </div>
       <div>
         <Field
-          uicontrol="textarea"
+          uicontrol="text"
           name="report_description"
-          :title="translate('General_Description')"
+          :title="translate('General_Name')"
           :model-value="report.description"
           @update:model-value="$emit('change', { prop: 'description', value: $event })"
-          :ui-control-attributes="{ class: 'compact-textarea' }"
-          :inline-help="translate('ScheduledReports_DescriptionOnReportAndReportsList')"
-          :error-message="validationErrors.description
-            ? translate('ScheduledReports_ReportMissingDescription', '', '')
+          :placeholder="translate('ScheduledReports_ReportNamePlaceholder')"
+          :inline-help="translate('ScheduledReports_ReportNameHelpText')"
+          :error-message="validationErrors.name
+            ? translate('ScheduledReports_ReportMissingName', '', '')
             : ''"
+        >
+        </Field>
+      </div>
+      <div>
+        <Field
+          uicontrol="textarea"
+          name="report_custom_description"
+          :title="`${translate('General_Description')} ${translate('Goals_Optional')}`"
+          :model-value="report.reportDescription"
+          @update:model-value="$emit('change', { prop: 'reportDescription', value: $event })"
+          :placeholder="translate('ScheduledReports_ReportDescriptionPlaceholder')"
+          :inline-help="translate('ScheduledReports_ReportDescriptionHelpText')"
+          :ui-control-attributes="{ class: 'compact-textarea' }"
         >
         </Field>
       </div>
@@ -420,7 +433,7 @@ export default defineComponent({
     validationErrors: {
       type: Object,
       default: () => ({
-        description: false,
+        name: false,
         reports: false,
       }),
     },

@@ -105,12 +105,25 @@
               type="text"
               v-model="theSite.name"
               maxlength="90"
-              :placeholder="translate('General_Name')"
+              :placeholder="translate('SitesManager_MeasurableNamePlaceholder')"
             />
             <label>{{ translate('General_Name') }}</label>
+            <span class="helper-text">{{ translate('SitesManager_MeasurableNameHelpText') }}</span>
           </div>
           <div class="col s12 m6"></div>
         </div>
+
+        <Field
+          uicontrol="textarea"
+          name="siteDescription"
+          v-model="theSite.description"
+          :maxlength="255"
+          autocomplete="off"
+          :title="`${translate('General_Description')} ${translate('Goals_Optional')}`"
+          :placeholder="translate('SitesManager_MeasurableDescriptionPlaceholder')"
+          :inline-help="translate('SitesManager_MeasurableDescriptionHelpText')"
+          :ui-control-attributes="{ class: 'compact-textarea' }"
+        />
 
         <ActivityIndicator :loading="isLoading"/>
 
@@ -407,6 +420,7 @@ export default defineComponent({
 
       const values: Record<string, unknown> = {
         siteName: this.theSite.name,
+        description: this.theSite.description ?? '',
         timezone: this.theSite.timezone,
         currency: this.theSite.currency,
         type: this.theSite.type,

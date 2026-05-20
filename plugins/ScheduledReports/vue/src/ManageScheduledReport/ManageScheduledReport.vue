@@ -91,7 +91,7 @@ import {
 import { Form } from 'CorePluginsAdmin';
 import AddReport from '../AddReport/AddReport.vue';
 import ListReports from '../ListReports/ListReports.vue';
-import { Report } from '../types';
+import type { Report } from '../types';
 import { adjustHourToTimezone } from '../utilities';
 import {
   consumeStoredValue,
@@ -108,7 +108,7 @@ interface ManageScheduledReportState {
   sendingReports: Array<string|number>;
   isDashboardExportInfoVisible: boolean;
   validationErrors: {
-    description: boolean;
+    name: boolean;
     reports: boolean;
   };
 }
@@ -266,7 +266,7 @@ export default defineComponent({
       sendingReports: [],
       isDashboardExportInfoVisible: false,
       validationErrors: {
-        description: false,
+        name: false,
         reports: false,
       },
     };
@@ -306,6 +306,7 @@ export default defineComponent({
         type: ReportPlugin.defaultReportType,
         format: ReportPlugin.defaultReportFormat,
         description: '',
+        reportDescription: '',
         period: ReportPlugin.defaultPeriod,
         hour: ReportPlugin.defaultHour,
         reports: [],
@@ -342,6 +343,14 @@ export default defineComponent({
 
       this.report = report;
       this.report.description = Matomo.helper.htmlDecode(report.description);
+      this.report.reportDescription = Matomo.helper.htmlDecode(
+        report.parameters && Object.prototype.hasOwnProperty.call(
+          report.parameters,
+          'reportDescription',
+        )
+          ? `${report.parameters.reportDescription || ''}`
+          : '',
+      );
     },
     showNotificationMessage(
       selector: HTMLElement,
@@ -490,7 +499,7 @@ export default defineComponent({
       }
 
       const validationErrors = this.getValidationErrors(reports);
-      if (validationErrors.description || validationErrors.reports) {
+      if (validationErrors.name || validationErrors.reports) {
         this.validationErrors = validationErrors;
         scrollToTop();
         this.showValidationErrors(validationErrors);
@@ -498,6 +507,7 @@ export default defineComponent({
       }
 
       const reportParams = window.getReportParametersFunctions[this.report.type](this.report);
+      reportParams.reportDescription = this.report.reportDescription || '';
       apiParameters.parameters = reportParams as unknown as QueryParameters;
 
       const isUpdate = this.report.idreport > 0;
@@ -564,15 +574,15 @@ export default defineComponent({
       const reportType = this.report.type as string;
       const selectedReports = selectedReportIds || this.getSelectedReportIds(reportType);
       return {
-        description: !String(this.report.description || '').trim(),
+        name: !String(this.report.description || '').trim(),
         reports: selectedReports.length === 0,
       };
     },
-    showValidationErrors(validationErrors: { description: boolean; reports: boolean }) {
+    showValidationErrors(validationErrors: { name: boolean; reports: boolean }) {
       const messages = [];
-      if (validationErrors.description) {
+      if (validationErrors.name) {
         messages.push(translate(
-          'ScheduledReports_ReportMissingDescription',
+          'ScheduledReports_ReportMissingName',
           '<a href="#report_description">',
           '</a>',
         ));
@@ -605,14 +615,14 @@ export default defineComponent({
       });
     },
     refreshValidationErrors() {
-      if (!this.validationErrors.description && !this.validationErrors.reports) {
+      if (!this.validationErrors.name && !this.validationErrors.reports) {
         return;
       }
 
       const validationErrors = this.getValidationErrors();
       this.validationErrors = validationErrors;
 
-      if (validationErrors.description || validationErrors.reports) {
+      if (validationErrors.name || validationErrors.reports) {
         this.showValidationErrors(validationErrors);
       } else {
         NotificationsStore.remove(VALIDATION_NOTIFICATION_ID);
@@ -620,7 +630,7 @@ export default defineComponent({
     },
     resetValidationErrors() {
       this.validationErrors = {
-        description: false,
+        name: false,
         reports: false,
       };
       NotificationsStore.remove(VALIDATION_NOTIFICATION_ID);

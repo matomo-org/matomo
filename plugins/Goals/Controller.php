@@ -69,7 +69,11 @@ class Controller extends \Piwik\Plugin\Controller
 
         $this->translator = $translator;
 
-        $this->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1', 'orderByName' => true], $default = []);
+        if (!empty($this->idSite)) {
+            $this->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1', 'orderByName' => true], $default = []);
+        } else {
+            $this->goals = [];
+        }
     }
 
     public function manage()

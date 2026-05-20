@@ -2934,16 +2934,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 2
-			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
-
-		-
-			message: "#^Variable \\$comparisonRows might not be defined\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
-
-		-
 			message: "#^Variable \\$segmentPretty might not be defined\\.$#"
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
@@ -3167,11 +3157,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between false and float\\|int will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/Ecommerce/Columns/BaseConversion.php
-
-		-
-			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Controller.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\Columns\\\\TotalEvents\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"

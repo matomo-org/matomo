@@ -12,7 +12,7 @@ import {
   DeepReadonly,
 } from 'vue';
 import { AjaxHelper } from 'CoreHome';
-import { CustomDimension, AvailableScope, ExtractionDimension } from './types';
+import type { CustomDimension, AvailableScope, ExtractionDimension } from './types';
 
 interface CustomDimensionsStoreState {
   isLoading: boolean;
@@ -118,6 +118,7 @@ class CustomDimensionsStore {
         idDimension: dimension.idcustomdimension,
         idSite: dimension.idsite,
         name: dimension.name,
+        description: dimension.description,
         active: dimension.active ? '1' : '0',
         caseSensitive: dimension.case_sensitive ? '1' : '0',
       },

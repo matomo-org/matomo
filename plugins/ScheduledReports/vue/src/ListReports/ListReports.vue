@@ -28,7 +28,7 @@
     <table v-content-table>
       <thead>
       <tr>
-        <th class="first">{{ translate('General_Description') }}</th>
+        <th class="first">{{ translate('General_Name') }}</th>
         <th>{{ translate('ScheduledReports_ReportSchedule') }}</th>
         <th>{{ translate('ScheduledReports_ReportFormat') }}</th>
         <th>{{ translate('ScheduledReports_SendReportTo') }}</th>
@@ -201,7 +201,7 @@ import {
   translate,
   externalLink,
 } from 'CoreHome';
-import { Report } from '../types';
+import type { Report } from '../types';
 
 export default defineComponent({
   props: {

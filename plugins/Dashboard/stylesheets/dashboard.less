@@ -307,17 +307,34 @@ ul.widgetpreview-widgetlist li {
   border-radius: 2px;
 }
 
-.modal.add-widget-modal li.widgetpreview-choosen {
+.add-widget-modal li.widgetpreview-choosen {
   background-color: @theme-color-background-lowContrast;
+  position: relative;
+}
+
+.add-widget-modal li.widgetpreview-choosen::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 4px solid transparent;
+  border-left-color: @theme-color-brand;
 }
 
 .widgetpreview-categorylist li.widgetpreview-choosen {
   color: @theme-color-text-contrast;
 }
 
-.widgetpreview-base li.widgetpreview-unavailable {
+.widgetpreview-base li.widgetpreview-unavailable,
+.add-widget-modal li.widgetpreview-unavailable {
   color: @theme-color-text-disabled;
   cursor: default;
+}
+
+.widgetpreview-base li.widgetpreview-unavailable.widgetpreview-choosen,
+.add-widget-modal li.widgetpreview-unavailable.widgetpreview-choosen {
+  color: @theme-color-text-light;
 }
 
 ul.widgetpreview-widgetlist {

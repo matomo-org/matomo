@@ -41,6 +41,7 @@ export { default as FocusAnywhereButHere } from './FocusAnywhereButHere/FocusAny
 export { default as FocusIf } from './FocusIf/FocusIf';
 export { default as Tooltips } from './Tooltips/Tooltips';
 export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
+export { default as MatomoModal } from './MatomoModal/MatomoModal.vue';
 export { default as ExpandOnClick } from './ExpandOnClick/ExpandOnClick';
 export { default as ExpandOnHover } from './ExpandOnHover/ExpandOnHover';
 export { default as ShowSensitiveData } from './ShowSensitiveData/ShowSensitiveData';

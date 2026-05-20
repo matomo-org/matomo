@@ -27,6 +27,8 @@ class GetLanguage extends Base
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
+        $view->config->show_flatten_table_export = false;
         $view->config->show_search = false;
         $view->config->columns_to_display = array('label', 'nb_visits');
         $view->config->show_exclude_low_population = false;
