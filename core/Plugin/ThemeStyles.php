@@ -71,212 +71,212 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $fontFamilyBase = '-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Oxygen-Sans, Cantarell, \'Helvetica Neue\', sans-serif';
+    protected $fontFamilyBase = '-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Oxygen-Sans, Cantarell, \'Helvetica Neue\', sans-serif';
 
     /**
      * @var string|array<string>
      */
-    public $colorBrand = ['#43a047', '#778fd4'];
+    protected $colorBrand = ['#43a047', '#778fd4'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBrandContrast = ['#fff', '#ffffff'];
+    protected $colorBrandContrast = ['#fff', '#ffffff'];
 
     /**
      * @var string|array<string>
      */
-    public $colorFocusRing = '#0969da';
+    protected $colorFocusRing = '#0969da';
 
     /**
      * @var string|array<string>
      */
-    public $colorFocusRingAlternative;
+    protected $colorFocusRingAlternative;
 
     /**
      * @var string|array<string>
      */
-    public $colorTextHighContrast = ['#000', '#d9d9d9'];
+    protected $colorTextHighContrast = ['#000', '#d9d9d9'];
 
     /**
      * @var string|array<string>
      */
-    public $colorText = ['#212121', '#ccc'];
+    protected $colorText = ['#212121', '#ccc'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextContrast = ['#37474f', '#bbb'];
+    protected $colorTextContrast = ['#37474f', '#bbb'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextLight = ['#444', '#aaa'];
+    protected $colorTextLight = ['#444', '#aaa'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextLighter = ['#646464', '#999'];
+    protected $colorTextLighter = ['#646464', '#999'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextOnDisabled = ['#666666', '#999'];
+    protected $colorTextOnDisabled = ['#666666', '#999'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextInvert = ['#ccc', '#555'];
+    protected $colorTextInvert = ['#ccc', '#555'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextInvertContrast = ['#fff', '#000'];
+    protected $colorTextInvertContrast = ['#fff', '#000'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextInvertLight = ['#b9b9b9', '#666'];
+    protected $colorTextInvertLight = ['#b9b9b9', '#666'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextDisabled = ['#aaa', '#666'];
+    protected $colorTextDisabled = ['#aaa', '#666'];
 
     /**
      * @var string|array<string>
      */
-    public $colorLink = ['#1976D2', '#778fd4'];
+    protected $colorLink = ['#1976D2', '#778fd4'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBaseSeries = '#ee3024';
+    protected $colorBaseSeries = '#ee3024';
 
     /**
      * @var string|array<string>
      */
-    public $colorHeadlineAlternative = ['#4E4E4E', '#aaa'];
+    protected $colorHeadlineAlternative = ['#4E4E4E', '#aaa'];
 
     /**
      * @var string|array<string>
      */
-    public $colorHeaderBackground;
+    protected $colorHeaderBackground;
 
     /**
      * @var string|array<string>
      */
-    public $colorHeaderText;
+    protected $colorHeaderText;
 
     /**
      * @var string|array<string>
      */
-    public $colorMenuContrastText;
+    protected $colorMenuContrastText;
 
     /**
      * @var string|array<string>
      */
-    public $colorMenuContrastTextSelected;
+    protected $colorMenuContrastTextSelected;
 
     /**
      * @var string|array<string>
      */
-    public $colorMenuContrastTextActive = ['#1976D2', '#fff'];
+    protected $colorMenuContrastTextActive = ['#1976D2', '#fff'];
 
     /**
      * @var string|array<string>
      */
-    public $colorMenuContrastBackgroundHover = ['#eff0f1', '#151819'];
+    protected $colorMenuContrastBackgroundHover = ['#eff0f1', '#151819'];
 
     /**
      * @var string|array<string>
      */
-    public $colorMenuContrastBackground;
+    protected $colorMenuContrastBackground;
 
     /**
      * @var string|array<string>
      */
-    public $colorWidgetExportedBackgroundBase;
+    protected $colorWidgetExportedBackgroundBase;
 
     /**
      * @var string|array<string>
      */
-    public $colorWidgetTitleText;
+    protected $colorWidgetTitleText;
 
     /**
      * @var string|array<string>
      */
-    public $colorWidgetTitleBackground;
+    protected $colorWidgetTitleBackground;
 
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundBase = ['#f5f5f5', '#151819'];
+    protected $colorBackgroundBase = ['#f5f5f5', '#151819'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundTinyContrast = ['#f2f2f2', '#182c32'];
+    protected $colorBackgroundTinyContrast = ['#f2f2f2', '#182c32'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundLowContrast = ['#d9d9d9', '#192d33'];
+    protected $colorBackgroundLowContrast = ['#d9d9d9', '#192d33'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundContrast = ['#fff', '#202329'];
+    protected $colorBackgroundContrast = ['#fff', '#202329'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundHighContrast = ['#202020', '#404349'];
+    protected $colorBackgroundHighContrast = ['#202020', '#404349'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundDisabled = ['#d9d9d9', '#303339'];
+    protected $colorBackgroundDisabled = ['#d9d9d9', '#303339'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBorderLight = ['#a9a399', '#645e54'];
+    protected $colorBorderLight = ['#a9a399', '#645e54'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBorder = ['#cccccc', '#555555'];
+    protected $colorBorder = ['#cccccc', '#555555'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBoxShadow = ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'];
+    protected $colorBoxShadow = ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'];
 
     /**
      * @var string|array<string>
      */
-    public $colorCode = '#f3f3f3';
+    protected $colorCode = '#f3f3f3';
 
     /**
      * @var string|array<string>
      */
-    public $colorCodeBackground = '#4d4d4d';
+    protected $colorCodeBackground = '#4d4d4d';
 
     /**
      * @var string|array<string>
      */
-    public $colorWidgetBackground;
+    protected $colorWidgetBackground;
 
     /**
      * @var string|array<string>
      */
-    public $colorWidgetBorder;
+    protected $colorWidgetBorder;
 
     /**
      * @var string|array<string>
      */
-    public $filterOnIllustration = ['none', 'brightness(89%) invert(100%) hue-rotate(180deg)'];
+    protected $filterOnIllustration = ['none', 'brightness(89%) invert(100%) hue-rotate(180deg)'];
 
     public function __construct(string $themeMode)
     {
@@ -322,6 +322,23 @@ class ThemeStyles
     public function getThemeMode(): string
     {
         return $this->themeMode;
+    }
+
+    public function __get(string $name): string
+    {
+        return $this->getPropertyValue($name);
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function __set(string $name, $value): void
+    {
+        if (!property_exists($this, $name)) {
+            return;
+        }
+
+        $this->$name = $value;
     }
 
     public function getPropertyValue(string $name): string

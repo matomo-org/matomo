@@ -24,6 +24,13 @@ class ThemeStylesTest extends TestCase
         $this->assertSame('#43a047', $styles->getPropertyValue('colorBrand'));
     }
 
+    public function testMagicGetterReturnsResolvedPropertyValue()
+    {
+        $styles = new ThemeStyles(ThemeStyles::LIGHT_MODE);
+
+        $this->assertSame('#43a047', $styles->colorBrand);
+    }
+
     public function testGetPropertyValueReturnsDarkModeArrayValue()
     {
         $styles = new ThemeStyles(ThemeStyles::DARK_MODE);
@@ -53,6 +60,14 @@ class ThemeStylesTest extends TestCase
         $this->assertSame('#123456', $styles->getPropertyValue('colorBrand'));
     }
 
+    public function testMagicSetterAllowsOverridingProtectedProperty()
+    {
+        $styles = new ThemeStyles(ThemeStyles::DARK_MODE);
+        $styles->colorBrand = ['#123456'];
+
+        $this->assertSame('#123456', $styles->colorBrand);
+    }
+
     public function testGetPropertyValueFallsBackToDarkValueWhenLightValueIsMissing()
     {
         $styles = new ThemeStyles(ThemeStyles::LIGHT_MODE);
@@ -67,6 +82,13 @@ class ThemeStylesTest extends TestCase
         $styles->colorCode = null;
 
         $this->assertSame('', $styles->getPropertyValue('colorCode'));
+    }
+
+    public function testMagicGetterReturnsEmptyStringForUnknownProperty()
+    {
+        $styles = new ThemeStyles(ThemeStyles::LIGHT_MODE);
+
+        $this->assertSame('', $styles->unknownProperty);
     }
 
     public function testGetPropertyValueReturnsEmptyStringWhenArrayEntriesAreUnusable()
