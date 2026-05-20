@@ -2,7 +2,6 @@
     "Dashboard": {
         "AddAWidget": "Add widget to this dashboard",
         "AddPreviewedWidget": "Click to add widget to the dashboard",
-        "AddWidget": "Add widget",
         "ChangeDashboardLayout": "Change dashboard layout",
         "CopyDashboardToUser": "Copy dashboard to user",
         "CreateNewDashboard": "Create new dashboard",
