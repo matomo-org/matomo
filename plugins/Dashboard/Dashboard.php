@@ -298,6 +298,7 @@ class Dashboard extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
         $stylesheets[] = "plugins/Dashboard/stylesheets/dashboard.less";
         $stylesheets[] = "plugins/Dashboard/stylesheets/widget.less";
+        $stylesheets[] = "plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.less";
     }
 
     public function deleteDashboardLayout($userLogin)
