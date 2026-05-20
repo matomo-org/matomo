@@ -230,8 +230,10 @@ export default defineComponent({
       root.classList.remove('expanded');
     },
     onClosed(event: MouseEvent|KeyboardEvent) {
-      // Return focus to the trigger when the dropdown was closed via keyboard
-      // (Escape or Enter/Space on the trigger), so keyboard users keep their place.
+      // Return focus to the trigger when the dropdown was dismissed via the Escape
+      // key, so keyboard users keep their place. Enter/Space activation of buttons
+      // produces a MouseEvent (synthetic click) and is handled by the browser
+      // leaving focus on the activated element.
       if (!(event instanceof KeyboardEvent)) {
         return;
       }
