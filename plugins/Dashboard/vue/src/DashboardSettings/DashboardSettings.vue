@@ -9,7 +9,7 @@
   <div
     ref="root"
     class="dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings"
-    v-expand-on-click="{expander: 'expander', onExpand: onExpand}"
+    v-expand-on-click="{expander: 'expander', onExpand: onExpand, onClosed: onClosed}"
     @click="onOpen()"
     @focusout="onFocusOut"
   >
@@ -228,6 +228,17 @@ export default defineComponent({
         return;
       }
       root.classList.remove('expanded');
+    },
+    onClosed(event: MouseEvent|KeyboardEvent) {
+      // Return focus to the trigger when the dropdown was closed via keyboard
+      // (Escape or Enter/Space on the trigger), so keyboard users keep their place.
+      if (!(event instanceof KeyboardEvent)) {
+        return;
+      }
+      const expander = this.$refs.expander as HTMLElement | undefined;
+      if (expander) {
+        expander.focus();
+      }
     },
     openAddWidget() {
       // close the dashboard-manager dropdown when opening the modal

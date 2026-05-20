@@ -282,7 +282,7 @@ function onLoadDashboard(idDashboard) {
     external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=17e97412
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=98f7ba2c
 
 const _hoisted_1 = ["title"];
 const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
@@ -357,10 +357,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onSelect: _ctx.onWidgetSelected
   }, null, 8, ["onSelect"])], 32)), [[_directive_expand_on_click, {
     expander: 'expander',
-    onExpand: _ctx.onExpand
+    onExpand: _ctx.onExpand,
+    onClosed: _ctx.onClosed
   }]]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=17e97412
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=98f7ba2c
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue?vue&type=template&id=46aadb37
 
@@ -569,6 +570,17 @@ const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
         return;
       }
       root.classList.remove('expanded');
+    },
+    onClosed(event) {
+      // Return focus to the trigger when the dropdown was closed via keyboard
+      // (Escape or Enter/Space on the trigger), so keyboard users keep their place.
+      if (!(event instanceof KeyboardEvent)) {
+        return;
+      }
+      const expander = this.$refs.expander;
+      if (expander) {
+        expander.focus();
+      }
     },
     openAddWidget() {
       // close the dashboard-manager dropdown when opening the modal
