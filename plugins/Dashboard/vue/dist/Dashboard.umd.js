@@ -282,7 +282,7 @@ function onLoadDashboard(idDashboard) {
     external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=0c1ebb51
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=17e97412
 
 const _hoisted_1 = ["title"];
 const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
@@ -322,6 +322,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: actionName
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
       type: "button",
+      tabindex: "4",
       onClick: $event => _ctx.onClickAction($event, actionName),
       class: "generalAction",
       disabled: _ctx.isActionDisabled[actionName] ? 'disabled' : undefined,
@@ -330,6 +331,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(title)), 9, _hoisted_5)]);
   }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
     type: "button",
+    tabindex: "4",
     class: "exportDashboard",
     "data-action": "exportDashboard",
     onClick: _cache[0] || (_cache[0] = $event => _ctx.onClickExportDashboard())
@@ -338,6 +340,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: actionName
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
       type: "button",
+      tabindex: "4",
       onClick: $event => _ctx.onClickAction($event, actionName),
       disabled: _ctx.isActionDisabled[actionName] ? 'disabled' : undefined,
       title: _ctx.actionTooltips[actionName] || undefined,
@@ -345,6 +348,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(title)), 9, _hoisted_6)]);
   }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
     type: "button",
+    tabindex: "4",
     class: "addWidget-button",
     onClick: _cache[1] || (_cache[1] = $event => _ctx.openAddWidget())
   }, [_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Dashboard_AddAWidget')), 1)])])])])), [[_directive_tooltips, {
@@ -356,7 +360,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onExpand: _ctx.onExpand
   }]]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=0c1ebb51
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=17e97412
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue?vue&type=template&id=46aadb37
 

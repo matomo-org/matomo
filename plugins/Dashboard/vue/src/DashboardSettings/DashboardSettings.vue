@@ -35,6 +35,7 @@
         >
           <button
             type="button"
+            tabindex="4"
             @click="onClickAction($event, actionName)"
             class="generalAction"
             :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
@@ -47,6 +48,7 @@
         <li>
           <button
             type="button"
+            tabindex="4"
             class="exportDashboard"
             data-action="exportDashboard"
             @click="onClickExportDashboard()"
@@ -60,6 +62,7 @@
         >
           <button
             type="button"
+            tabindex="4"
             @click="onClickAction($event, actionName)"
             :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
             :title="actionTooltips[actionName] || undefined"
@@ -71,6 +74,7 @@
         <li class="addWidget">
           <button
             type="button"
+            tabindex="4"
             class="addWidget-button"
             @click="openAddWidget()"
           >
