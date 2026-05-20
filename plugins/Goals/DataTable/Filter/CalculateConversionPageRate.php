@@ -87,7 +87,7 @@ class CalculateConversionPageRate extends BaseFilter
                         $goalsCol[$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE] = $rate;
                     }
                 }
-                $row->setColumn(Metrics::INDEX_GOALS, $goalsCol);
+                $row->setColumn((string) Metrics::INDEX_GOALS, $goalsCol);
             }
 
             $subTable = $row->getSubtable();
