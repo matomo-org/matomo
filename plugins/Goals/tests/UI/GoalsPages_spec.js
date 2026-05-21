@@ -33,6 +33,25 @@ describe("GoalsPages", function () {
     }, text, childSelector);
   };
 
+  const trackRequests = async function (action) {
+    const requests = [];
+    const requestHandler = (request) => {
+      requests.push({
+        resourceType: request.resourceType(),
+        url: request.url(),
+      });
+    };
+
+    page.webpage.on('request', requestHandler);
+    try {
+      await action();
+    } finally {
+      page.webpage.removeListener('request', requestHandler);
+    }
+
+    return requests;
+  };
+
   // goals pages
   it('should load the goals > ecommerce page correctly', async function () {
     await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=General_Overview")
@@ -132,6 +151,30 @@ describe("GoalsPages", function () {
     const dataSrc = await page.evaluate((element) => element.getAttribute('data-src'), sparklineImage);
 
     expect(dataSrc).to.contain('idGoal=ecommerceAbandonedCart');
+
+    await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
+    await page.waitForNetworkIdle();
+  });
+
+  it('should reload the main evolution graph with the abandoned cart goal when an abandoned cart sparkline is clicked', async function () {
+    var monthParams = 'idSite=1&period=month&date=2012-01-09';
+    await page.goto("?" + urlBase + "#?" + monthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
+    await page.waitForNetworkIdle();
+
+    const requests = await trackRequests(async () => {
+      const sparkline = await findSparkline('left in cart');
+      await sparkline.click();
+      await page.waitForNetworkIdle();
+    });
+
+    const evolutionGraphRequest = requests.find((request) => {
+      return request.resourceType === 'xhr'
+        && request.url.indexOf('module=Goals') !== -1
+        && request.url.indexOf('action=getEvolutionGraph') !== -1
+        && request.url.indexOf('idGoal=ecommerceAbandonedCart') !== -1;
+    });
+
+    expect(evolutionGraphRequest).to.be.ok;
 
     await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
     await page.waitForNetworkIdle();
