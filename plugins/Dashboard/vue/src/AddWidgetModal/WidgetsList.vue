@@ -35,6 +35,12 @@ import { translate, WidgetType } from 'CoreHome';
 const HOVER_DELAY_MS = 400;
 const KPI_METRIC_CATEGORY_ID = 'General_KpiMetric';
 
+function hasHoverCapablePointer() {
+  return typeof window !== 'undefined'
+    && typeof window.matchMedia === 'function'
+    && window.matchMedia('(any-hover: hover)').matches;
+}
+
 export default defineComponent({
   name: 'WidgetsList',
   props: {
@@ -55,31 +61,43 @@ export default defineComponent({
   data() {
     return {
       hoverTimer: null as number | null,
-      // Cached once: on devices whose primary input has no hover (touch),
-      // a row click previews first and only adds on a second tap.
-      supportsHover: typeof window !== 'undefined'
-        && typeof window.matchMedia === 'function'
-        && window.matchMedia('(hover: hover)').matches,
+      // Cached once: any hover-capable pointer gets desktop-like click-to-add
+      // behaviour. Only pure no-hover environments use preview-first double-tap.
+      supportsHover: hasHoverCapablePointer(),
     };
+  },
+  computed: {
+    placedWidgetIds(): Set<string> {
+      // Reference `widgets` so the Set rebuilds on category switch — the
+      // dashboard DOM is stable while the modal is open, and session-added
+      // widgets are tracked separately via the `addedWidgets` prop.
+      void this.widgets;
+      const placed = document.querySelectorAll('#dashboardWidgetsArea [widgetId]');
+      const ids = new Set<string>();
+      placed.forEach((el) => {
+        const id = el.getAttribute('widgetId');
+        if (id) {
+          ids.add(id);
+        }
+      });
+      return ids;
+    },
   },
   methods: {
     translate,
 
     isUnavailable(widget: WidgetType): boolean {
-      if (widget.uniqueId && this.addedWidgets.has(widget.uniqueId)) {
+      if (!widget.uniqueId) {
+        return false;
+      }
+      if (this.addedWidgets.has(widget.uniqueId)) {
         return true;
       }
       const { category } = widget as { category?: { id?: string } };
       if (category && category.id === KPI_METRIC_CATEGORY_ID) {
         return false;
       }
-      if (!widget.uniqueId) {
-        return false;
-      }
-      const placed = document.querySelectorAll('#dashboardWidgetsArea [widgetId]');
-      return Array.from(placed).some(
-        (el) => el.getAttribute('widgetId') === widget.uniqueId,
-      );
+      return this.placedWidgetIds.has(widget.uniqueId);
     },
 
     onMouseEnter(widget: WidgetType) {

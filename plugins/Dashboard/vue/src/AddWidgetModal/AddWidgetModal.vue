@@ -71,27 +71,6 @@ interface AddWidgetModalState {
   addedWidgetIds: Set<string>;
 }
 
-function findWidget(
-  widgets: Record<string, WidgetType[]>,
-  uniqueId: string | null,
-): WidgetType | null {
-  if (!uniqueId) {
-    return null;
-  }
-
-  const categories = Object.keys(widgets);
-  for (let i = 0; i < categories.length; i += 1) {
-    const { [categories[i]]: list = [] } = widgets;
-    for (let j = 0; j < list.length; j += 1) {
-      if (list[j].uniqueId === uniqueId) {
-        return list[j];
-      }
-    }
-  }
-
-  return null;
-}
-
 export default defineComponent({
   name: 'AddWidgetModal',
   components: {
@@ -122,8 +101,24 @@ export default defineComponent({
       }
       return this.widgets[this.chosenCategory] || [];
     },
+    widgetIndex(): Map<string, WidgetType> {
+      // Rebuilds only when `WidgetsStore.widgets` mutates; `previewWidget` and
+      // `onSelect` both consult this in O(1) instead of scanning every category.
+      const index = new Map<string, WidgetType>();
+      Object.values(this.widgets).forEach((list) => {
+        list.forEach((widget) => {
+          if (widget.uniqueId) {
+            index.set(widget.uniqueId, widget);
+          }
+        });
+      });
+      return index;
+    },
     previewWidget(): WidgetType | null {
-      return findWidget(this.widgets, this.hoveredWidget);
+      if (!this.hoveredWidget) {
+        return null;
+      }
+      return this.widgetIndex.get(this.hoveredWidget) || null;
     },
   },
   methods: {
@@ -151,7 +146,7 @@ export default defineComponent({
     },
 
     onSelect(uniqueId: string) {
-      const widget = findWidget(this.widgets, uniqueId);
+      const widget = this.widgetIndex.get(uniqueId);
 
       if (widget) {
         // Keep the modal open so the user can add more widgets in one session;

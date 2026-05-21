@@ -41,9 +41,29 @@ const widgetLongName = {
 
 describe('Dashboard/AddWidgetModal/WidgetsList', () => {
   let dashboardArea: HTMLElement;
+  let originalMatchMedia: typeof window.matchMedia;
+
+  const setAnyHoverMatch = (matches: boolean) => {
+    Object.defineProperty(window, 'matchMedia', {
+      configurable: true,
+      writable: true,
+      value: jest.fn().mockImplementation((query: string) => ({
+        matches: query === '(any-hover: hover)' ? matches : false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    });
+  };
 
   beforeEach(() => {
     jest.useFakeTimers();
+    originalMatchMedia = window.matchMedia;
+    setAnyHoverMatch(true);
     dashboardArea = document.createElement('div');
     dashboardArea.id = 'dashboardWidgetsArea';
     const placed = document.createElement('div');
@@ -54,6 +74,11 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
 
   afterEach(() => {
     jest.useRealTimers();
+    Object.defineProperty(window, 'matchMedia', {
+      configurable: true,
+      writable: true,
+      value: originalMatchMedia,
+    });
     document.body.removeChild(dashboardArea);
   });
 
@@ -99,17 +124,24 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     const wrapper = mount(WidgetsList as any, {
       props: { widgets: [widgetVisits] },
     });
-    (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
 
     await wrapper.findAll('li')[0].trigger('click');
     expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
+  });
+
+  it('treats any-hover environments as hover-capable at initialization', () => {
+    const wrapper = mount(WidgetsList as any, {
+      props: { widgets: [widgetVisits] },
+    });
+
+    expect((wrapper.vm as unknown as { supportsHover: boolean }).supportsHover).toBe(true);
+    expect(window.matchMedia).toHaveBeenCalledWith('(any-hover: hover)');
   });
 
   it('still emits select when clicking a widget already on the dashboard', async () => {
     const wrapper = mount(WidgetsList as any, {
       props: { widgets: [widgetBlocked] },
     });
-    (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
 
     expect(wrapper.findAll('li')[0].classes()).toContain('widgetpreview-unavailable');
 
@@ -124,7 +156,6 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
         addedWidgets: new Set(['widgetVisits']),
       },
     });
-    (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
 
     expect(wrapper.findAll('li')[0].classes()).toContain('widgetpreview-unavailable');
 
@@ -146,5 +177,53 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     });
 
     expect(wrapper.find('.widgetpreview-widgetname').text()).toBe(widgetLongName.name);
+  });
+
+  describe('on pure no-hover devices', () => {
+    it('emits hover on the first tap of a new row instead of select', async () => {
+      setAnyHoverMatch(false);
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [widgetVisits] },
+      });
+
+      await wrapper.findAll('li')[0].trigger('click');
+
+      expect(wrapper.emitted().hover).toEqual([['widgetVisits']]);
+      expect(wrapper.emitted().select).toBeUndefined();
+    });
+
+    it('treats no-hover environments as touch-like at initialization', () => {
+      setAnyHoverMatch(false);
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [widgetVisits] },
+      });
+
+      expect((wrapper.vm as unknown as { supportsHover: boolean }).supportsHover).toBe(false);
+      expect(window.matchMedia).toHaveBeenCalledWith('(any-hover: hover)');
+    });
+
+    it('emits select on the second tap of the already-chosen row', async () => {
+      setAnyHoverMatch(false);
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [widgetVisits], chosenWidget: 'widgetVisits' },
+      });
+
+      await wrapper.findAll('li')[0].trigger('click');
+
+      expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
+      expect(wrapper.emitted().hover).toBeUndefined();
+    });
+
+    it('emits hover (not select) when tapping a different row than the chosen one', async () => {
+      setAnyHoverMatch(false);
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [widgetVisits, widgetKpi], chosenWidget: 'widgetVisits' },
+      });
+
+      await wrapper.findAll('li')[1].trigger('click');
+
+      expect(wrapper.emitted().hover).toEqual([['widgetKpi']]);
+      expect(wrapper.emitted().select).toBeUndefined();
+    });
   });
 });
