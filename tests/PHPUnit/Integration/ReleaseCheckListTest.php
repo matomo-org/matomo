@@ -700,19 +700,10 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $files = array();
         }
 
-        // Strip the pre-release suffix (-alpha, -b1, -rc1, ...) from Version::VERSION before
-        // comparing. Update files for the upcoming release are routinely added while
-        // Version::VERSION still carries the prior pre-release marker (e.g. 5.11.0-b1.php
-        // exists while Version::VERSION is 5.11.0-alpha), and Updater::getComponentUpdateFiles
-        // intentionally runs migrations whose file version is greater than the installed
-        // version. The guardrail here is for files that target a version beyond the upcoming
-        // stable release.
-        [$currentStableVersion] = explode('-', Version::VERSION, 2);
-
         $futureUpdateFiles = array();
         foreach ($files as $file) {
             $fileVersion = basename($file, '.php');
-            if (version_compare($fileVersion, $currentStableVersion) === 1) {
+            if (version_compare($fileVersion, Version::VERSION) === 1) {
                 $futureUpdateFiles[] = sprintf(
                     '%s targets %s, but core/Version.php is %s',
                     $file,
