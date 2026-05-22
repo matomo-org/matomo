@@ -40,7 +40,6 @@ const widgetLongName = {
 };
 
 describe('Dashboard/AddWidgetModal/WidgetsList', () => {
-  let dashboardArea: HTMLElement;
   let originalMatchMedia: typeof window.matchMedia;
 
   // Scoped helper for the two `supportsHover` initialization tests. Other tests
@@ -65,12 +64,6 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
   beforeEach(() => {
     jest.useFakeTimers();
     originalMatchMedia = window.matchMedia;
-    dashboardArea = document.createElement('div');
-    dashboardArea.id = 'dashboardWidgetsArea';
-    const placed = document.createElement('div');
-    placed.setAttribute('widgetId', 'widgetBlocked');
-    dashboardArea.appendChild(placed);
-    document.body.appendChild(dashboardArea);
   });
 
   afterEach(() => {
@@ -80,35 +73,20 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       writable: true,
       value: originalMatchMedia,
     });
-    document.body.removeChild(dashboardArea);
   });
 
-  it('renders unavailable class for widgets already on the dashboard, except for KPI metrics', () => {
+  it('renders unavailable class for widgets in existingWidgetIds, except for KPI metrics', () => {
     const wrapper = mount(WidgetsList as any, {
-      props: { widgets: [widgetVisits, widgetKpi, widgetBlocked] },
+      props: {
+        widgets: [widgetVisits, widgetKpi, widgetBlocked],
+        existingWidgetIds: new Set(['widgetKpi', 'widgetBlocked']),
+      },
     });
 
     const items = wrapper.findAll('li');
     expect(items[0].classes()).not.toContain('widgetpreview-unavailable');
     expect(items[1].classes()).not.toContain('widgetpreview-unavailable');
     expect(items[2].classes()).toContain('widgetpreview-unavailable');
-  });
-
-  it('re-reads the dashboard DOM when deciding availability', () => {
-    // Guards against regressing to a cached availability lookup: reopening the
-    // modal after adding a widget in a previous session must still grey out the
-    // widget that is now actually on the dashboard.
-    const wrapper = mount(WidgetsList as any, {
-      props: { widgets: [widgetVisits] },
-    });
-
-    expect((wrapper.vm as any).isUnavailable(widgetVisits)).toBe(false);
-
-    const placed = document.createElement('div');
-    placed.setAttribute('widgetId', 'widgetVisits');
-    dashboardArea.appendChild(placed);
-
-    expect((wrapper.vm as any).isUnavailable(widgetVisits)).toBe(true);
   });
 
   it('emits hover with a 400ms debounce', async () => {
@@ -160,7 +138,10 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
 
   it('still emits select when clicking a widget already on the dashboard', async () => {
     const wrapper = mount(WidgetsList as any, {
-      props: { widgets: [widgetBlocked] },
+      props: {
+        widgets: [widgetBlocked],
+        existingWidgetIds: new Set(['widgetBlocked']),
+      },
     });
     (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
 
@@ -233,7 +214,10 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       // Mirrors the mouseleave carve-out: leaving an unavailable row should still
       // let the user see the preview rather than swallowing it.
       const wrapper = mount(WidgetsList as any, {
-        props: { widgets: [widgetBlocked] },
+        props: {
+          widgets: [widgetBlocked],
+          existingWidgetIds: new Set(['widgetBlocked']),
+        },
       });
 
       await wrapper.findAll('li')[0].trigger('focus');

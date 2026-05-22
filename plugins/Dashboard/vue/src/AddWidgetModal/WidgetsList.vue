@@ -62,6 +62,10 @@ export default defineComponent({
       type: Object as PropType<Set<string>>,
       default: () => new Set<string>(),
     },
+    existingWidgetIds: {
+      type: Object as PropType<Set<string>>,
+      default: () => new Set<string>(),
+    },
   },
   emits: ['hover', 'select'],
   data() {
@@ -79,24 +83,6 @@ export default defineComponent({
       return widget.category?.id === KPI_METRIC_CATEGORY_ID;
     },
 
-    // Read fresh on every call rather than caching: Vue cannot track the
-    // dashboard DOM as a reactive dependency, so any cache here risks going
-    // stale across modal close→reopen cycles (MatomoModal keeps WidgetsList
-    // mounted via v-show, so a one-shot computed would never invalidate and
-    // the user could pick the same widget twice).
-    occupiedDashboardIds(): Set<string> {
-      const ids = new Set<string>();
-      document
-        .querySelectorAll('#dashboardWidgetsArea [widgetId]')
-        .forEach((el) => {
-          const id = el.getAttribute('widgetId');
-          if (id) {
-            ids.add(id);
-          }
-        });
-      return ids;
-    },
-
     isUnavailable(widget: WidgetType): boolean {
       if (!widget.uniqueId) {
         return false;
@@ -107,7 +93,7 @@ export default defineComponent({
       if (this.isRepeatableWidget(widget)) {
         return false;
       }
-      return this.occupiedDashboardIds().has(widget.uniqueId);
+      return this.existingWidgetIds.has(widget.uniqueId);
     },
 
     onMouseEnter(widget: WidgetType) {

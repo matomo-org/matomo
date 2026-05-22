@@ -49,6 +49,27 @@ describe('Dashboard/AddWidgetModal', () => {
     expect((wrapper.vm as any).isOpen).toBe(true);
   });
 
+  it('snapshots the dashboard widget IDs on open', () => {
+    const dashboardArea = document.createElement('div');
+    dashboardArea.id = 'dashboardWidgetsArea';
+    ['widget.one', 'widget.two'].forEach((id) => {
+      const el = document.createElement('div');
+      el.setAttribute('widgetId', id);
+      dashboardArea.appendChild(el);
+    });
+    document.body.appendChild(dashboardArea);
+
+    try {
+      const wrapper = mountComponent();
+      getHandler('Dashboard.AddWidget.open')!();
+
+      const ids = (wrapper.vm as any).existingWidgetIds as Set<string>;
+      expect(Array.from(ids).sort()).toEqual(['widget.one', 'widget.two']);
+    } finally {
+      document.body.removeChild(dashboardArea);
+    }
+  });
+
   it('exposes category names directly from the WidgetsStore', () => {
     mockWidgets.value = {
       Visitors: [{ uniqueId: 'Widget.unique' }],
@@ -112,12 +133,14 @@ describe('Dashboard/AddWidgetModal', () => {
     vm.chosenCategory = 'Visitors';
     vm.hoveredWidgetId = 'Widget.unique';
     vm.addedWidgetIds = new Set(['Widget.unique']);
+    vm.existingWidgetIds = new Set(['Widget.placed']);
 
     vm.onClosed();
 
     expect(vm.chosenCategory).toBeNull();
     expect(vm.hoveredWidgetId).toBeNull();
     expect(vm.addedWidgetIds.size).toBe(0);
+    expect(vm.existingWidgetIds.size).toBe(0);
   });
 
   it('unregisters Matomo listeners on unmount', () => {

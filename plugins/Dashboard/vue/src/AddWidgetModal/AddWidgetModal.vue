@@ -37,6 +37,7 @@
           :widgets="widgetsInCategory"
           :chosen-widget-id="hoveredWidgetId"
           :added-widgets="addedWidgetIds"
+          :existing-widget-ids="existingWidgetIds"
           @hover="onWidgetHover"
           @select="onSelect"
         />
@@ -71,6 +72,7 @@ interface AddWidgetModalState {
   chosenCategory: string | null;
   hoveredWidgetId: string | null;
   addedWidgetIds: Set<string>;
+  existingWidgetIds: Set<string>;
 }
 
 export default defineComponent({
@@ -88,6 +90,7 @@ export default defineComponent({
       chosenCategory: null,
       hoveredWidgetId: null,
       addedWidgetIds: new Set<string>(),
+      existingWidgetIds: new Set<string>(),
     };
   },
   computed: {
@@ -122,13 +125,28 @@ export default defineComponent({
   methods: {
     translate,
 
-    open() { this.isOpen = true; },
+    open() {
+      // Snapshot the dashboard's currently-placed widget IDs once per open so
+      // WidgetsList can flag them as unavailable without hitting the DOM on
+      // every render. Refreshed each open; within-session additions are tracked
+      // separately via `addedWidgetIds`.
+      const ids = new Set<string>();
+      document.querySelectorAll('#dashboardWidgetsArea [widgetId]').forEach((el) => {
+        const id = el.getAttribute('widgetId');
+        if (id) {
+          ids.add(id);
+        }
+      });
+      this.existingWidgetIds = ids;
+      this.isOpen = true;
+    },
     close() { this.isOpen = false; },
 
     onClosed() {
       this.chosenCategory = null;
       this.hoveredWidgetId = null;
       this.addedWidgetIds = new Set<string>();
+      this.existingWidgetIds = new Set<string>();
     },
 
     onCategoryChosen(category: string) {
