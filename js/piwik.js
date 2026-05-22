@@ -2799,28 +2799,6 @@ if (typeof window.Matomo !== 'object') {
                 return false;
             }
 
-            /**
-             * Returns if the current landing URL contains campaign-style parameters that should be treated as AI assistant sources.
-             * This covers cases where AI assistants append values like utm_source=chatgpt.com without sending a document referrer.
-             *
-             * @param currentUrl
-             * @returns {boolean}
-             */
-            function shouldIgnoreCampaignForCurrentUrl(currentUrl) {
-                var i,
-                    campaignParameterValue;
-
-                for (i = 0; i < configCampaignNameParameters.length; i++) {
-                    campaignParameterValue = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
-
-                    if (campaignParameterValue.length && shouldIgnoreCampaignForReferrer(campaignParameterValue)) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
             /*
              * Removes hash tag from the URL
              * Removes ignore_referrer/ignore_referer
@@ -3990,8 +3968,7 @@ if (typeof window.Matomo !== 'object') {
                     if ((!configConversionAttributionFirstReferrer
                         || !campaignNameDetected.length)
                         && (configEnableCampaignParameters || configConsentRequired)
-                        && !shouldIgnoreCampaignForReferrer(configReferrerUrl)
-                        && !shouldIgnoreCampaignForCurrentUrl(currentUrl)) {
+                        && !shouldIgnoreCampaignForReferrer(configReferrerUrl)) {
                           for (i in configCampaignNameParameters) {
                               if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
                                   campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);

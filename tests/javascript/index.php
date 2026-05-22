@@ -3769,7 +3769,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(192);
+        expect(189);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -4283,15 +4283,6 @@ if ($mysql) {
         equal(attributionInfos[1], ['']);
         equal(attributionInfos[3], ['https://chatgpt.com/c/683cd223-11f8-8r0c-a463-9b0606688162']);
 
-        icTracker.deleteCookies();
-        icTracker.setReferrerUrl('');
-        icTracker.setCustomUrl('https://matomo.org/blog/?utm_source=chatgpt.com');
-        icTracker.trackPageView('ignoreCampaignNoReferrer');
-        attributionInfos = icTracker.getAttributionInfo();
-        equal(attributionInfos[0], ['']);
-        equal(attributionInfos[1], ['']);
-        equal(attributionInfos[3], ['']);
-
         // delete existing onerror handler and setup tracking again
         window.onerror = customOnErrorInvoked = false;
         tracker2.enableJSErrorTracking();
@@ -4331,7 +4322,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal(countTrackingEvents[1], "61", "count tracking events");
+                equal(countTrackingEvents[1], "60", "count tracking events");
             }
 
             // firing callback
