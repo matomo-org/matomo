@@ -97,7 +97,7 @@
 						<revenue>0</revenue>
 						<nb_conv_pages_before>3</nb_conv_pages_before>
 						<nb_conversions_attrib>0.6666</nb_conversions_attrib>
-						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_rate>1</nb_conversions_page_rate>
 						<nb_conversions_page_uniq>2</nb_conversions_page_uniq>
 						<revenue_attrib>0</revenue_attrib>
 					</row>
