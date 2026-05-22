@@ -257,6 +257,25 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $this->assertConversionReferrers([$this->buildConversion($shouldCreateNewVisit ? 2 : 1, $conversionReferrer)]);
     }
 
+    public function testConversionCampaignCookieDoesNotOverrideAIAssistantVisitReferrer(): void
+    {
+        $idSite = Fixture::createWebsite('2020-01-01 02:00:00', true, 'test', 'https://matomo.org/');
+        $tracker = Fixture::getTracker($idSite, '2020-01-01 05:00:00');
+
+        $tracker->setUrl('https://matomo.org/?utm_source=chatgpt.com');
+        Fixture::checkResponse($tracker->doTrackPageView('Home'));
+
+        $aiAssistantVisit = $this->buildVisit(1, 1, self::$AIAssistantReferrer2);
+        $aiAssistantVisit['referer_url'] = '';
+        $this->assertVisitReferrers([$aiAssistantVisit]);
+
+        $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
+        $tracker->setCustomTrackingParameter('_rcn', 'chatgpt.com');
+        Fixture::checkResponse($tracker->doTrackEcommerceOrder('TestingOrder', 124.5));
+
+        $this->assertConversionReferrers([$this->buildConversion(1, self::$AIAssistantReferrer2)]);
+    }
+
     public function getReferrerAttributionUsingLastReferrerTestCases(): iterable
     {
         $possibleFirstReferrers = [
