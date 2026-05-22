@@ -72,9 +72,26 @@ var matomoAnalytics = {initialize: function (options) {
                     }
 
                     if (cursor.value.url.includes('?')) {
+                        // Singleton GET-style URL: stamp cdo on the URL.
                         cursor.value.url += '&cdo=' + secondsQueuedAgo;
+                    } else if (init.body && init.body.indexOf('"requests"') !== -1) {
+                        // Bulk: JSON body of the form {"requests":["?...","?..."],"send_image":0}.
+                        // Stamp cdo into each inner request so every event is backdated, not
+                        // just the first one (String.prototype.replace with a string needle
+                        // replaces only the first occurrence).
+                        try {
+                            var bulk = JSON.parse(init.body);
+                            if (bulk && Array.isArray(bulk.requests)) {
+                                bulk.requests = bulk.requests.map(function (q) {
+                                    return q + '&cdo=' + secondsQueuedAgo;
+                                });
+                                init.body = JSON.stringify(bulk);
+                            }
+                        } catch (e) {
+                            // Malformed body — leave it alone rather than corrupt it.
+                        }
                     } else if (init.body) {
-                        // todo test if this actually works for bulk requests
+                        // Form-encoded singleton via body (rare; preserved for compatibility).
                         init.body = init.body.replace('&idsite=', '&cdo=' + secondsQueuedAgo + '&idsite=');
                     }
 
