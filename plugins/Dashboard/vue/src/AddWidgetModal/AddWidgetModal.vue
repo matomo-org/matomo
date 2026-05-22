@@ -28,10 +28,12 @@
           :categories="categoryNames"
           :chosen-category="chosenCategory"
           @update:chosen-category="onCategoryChosen"
+          @confirm="focusWidgetList"
         />
       </div>
       <div class="add-widget-modal-widgets">
         <widgets-list
+          ref="widgetsList"
           :widgets="widgetsInCategory"
           :chosen-widget-id="hoveredWidgetId"
           :added-widgets="addedWidgetIds"
@@ -135,6 +137,17 @@ export default defineComponent({
       }
       this.chosenCategory = category;
       this.hoveredWidgetId = null;
+    },
+
+    async focusWidgetList() {
+      // Wait for the widgets list to re-render under the newly chosen category
+      // before focusing — the prior li elements may have unmounted.
+      await this.$nextTick();
+      const widgetsList = this.$refs.widgetsList as
+        { focusFirst?: () => void } | undefined;
+      if (widgetsList && typeof widgetsList.focusFirst === 'function') {
+        widgetsList.focusFirst();
+      }
     },
 
     onWidgetHover(uniqueId: string) {

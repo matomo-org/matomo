@@ -61,4 +61,40 @@ describe('Dashboard/AddWidgetModal/CategoryList', () => {
 
     expect(wrapper.emitted()['update:chosenCategory']).toEqual([['Goals']]);
   });
+
+  describe('keyboard', () => {
+    it('emits update:chosenCategory and confirm on Enter', async () => {
+      const wrapper = mount(CategoryList as any, {
+        props: { categories: ['Visitors', 'Goals'], chosenCategory: null },
+      });
+
+      await wrapper.findAll('li')[1].trigger('keydown', { key: 'Enter' });
+
+      expect(wrapper.emitted()['update:chosenCategory']).toEqual([['Goals']]);
+      expect(wrapper.emitted().confirm).toEqual([[]]);
+    });
+
+    it('emits update:chosenCategory and confirm on Space', async () => {
+      const wrapper = mount(CategoryList as any, {
+        props: { categories: ['Visitors', 'Goals'], chosenCategory: null },
+      });
+
+      await wrapper.findAll('li')[0].trigger('keydown', { key: ' ' });
+
+      expect(wrapper.emitted()['update:chosenCategory']).toEqual([['Visitors']]);
+      expect(wrapper.emitted().confirm).toEqual([[]]);
+    });
+
+    it('does not emit confirm on mouse / focus paths', async () => {
+      const wrapper = mount(CategoryList as any, {
+        props: { categories: ['Visitors'], chosenCategory: null },
+      });
+
+      await wrapper.findAll('li')[0].trigger('mouseover');
+      await wrapper.findAll('li')[0].trigger('click');
+      await wrapper.findAll('li')[0].trigger('focus');
+
+      expect(wrapper.emitted().confirm).toBeUndefined();
+    });
+  });
 });

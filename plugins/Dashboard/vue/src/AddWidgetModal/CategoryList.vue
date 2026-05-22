@@ -16,8 +16,8 @@
       @mouseover="selectCategory(category)"
       @click="selectCategory(category)"
       @focus="selectCategory(category)"
-      @keydown.enter.prevent="selectCategory(category)"
-      @keydown.space.prevent="selectCategory(category)"
+      @keydown.enter.prevent="confirmCategory(category)"
+      @keydown.space.prevent="confirmCategory(category)"
     >{{ category }}</li>
   </ul>
 </template>
@@ -37,10 +37,17 @@ export default defineComponent({
       default: null,
     },
   },
-  emits: ['update:chosenCategory'],
+  emits: ['update:chosenCategory', 'confirm'],
   methods: {
     selectCategory(category: string) {
       this.$emit('update:chosenCategory', category);
+    },
+    // Keyboard-only: selecting via Enter/Space also signals "advance focus to
+    // the widgets list", so a keyboard user isn't stranded on the category
+    // they just confirmed. Mouse/touch paths intentionally don't emit this.
+    confirmCategory(category: string) {
+      this.selectCategory(category);
+      this.$emit('confirm');
     },
   },
 });

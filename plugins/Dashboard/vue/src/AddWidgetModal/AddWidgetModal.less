@@ -134,10 +134,19 @@
   }
 
   // Keep the focus ring for keyboard users but suppress it after a mouse click,
-  // otherwise the category <li> (focusable via tabindex) keeps a dashed outline
-  // after selection and leaks into screenshot tests.
-  ul.widgetpreview-categorylist li:focus:not(:focus-visible) {
+  // otherwise the <li> (focusable via tabindex) keeps a dashed outline after
+  // selection and leaks into screenshot tests.
+  ul.widgetpreview-categorylist li:focus:not(:focus-visible),
+  ul.widgetpreview-widgetlist li:focus:not(:focus-visible) {
     outline: none;
+  }
+
+  // Match the themed focus ring used on dashboard buttons/links rather than
+  // the browser default dashed outline.
+  ul.widgetpreview-categorylist li:focus-visible,
+  ul.widgetpreview-widgetlist li:focus-visible {
+    outline: 2px solid @theme-color-focus-ring;
+    outline-offset: -2px;
   }
 
   ul.widgetpreview-widgetlist .widgetpreview-add-hint {

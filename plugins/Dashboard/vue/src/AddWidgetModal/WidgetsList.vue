@@ -6,18 +6,24 @@
 -->
 
 <template>
-  <ul class="widgetpreview-base widgetpreview-widgetlist">
+  <ul ref="list" class="widgetpreview-base widgetpreview-widgetlist">
     <li
       v-for="widget in widgets"
       :key="widget.uniqueId"
       :uniqueid="widget.uniqueId"
+      role="button"
+      tabindex="0"
       :class="{
         'widgetpreview-choosen': widget.uniqueId === chosenWidgetId,
         'widgetpreview-unavailable': isUnavailable(widget),
       }"
       @mouseenter="onMouseEnter(widget)"
       @mouseleave="onMouseLeave(widget)"
+      @focus="onMouseEnter(widget)"
+      @blur="onMouseLeave(widget)"
       @click.prevent="onRowClick(widget)"
+      @keydown.enter.prevent="onActivate(widget)"
+      @keydown.space.prevent="onActivate(widget)"
     >
       <span class="widgetpreview-widgetname">{{ widget.name }}</span>
       <span
@@ -143,6 +149,25 @@ export default defineComponent({
       }
 
       this.$emit('select', widget.uniqueId);
+    },
+
+    // Keyboard activation (Enter / Space). Bypasses the touch double-tap branch in
+    // onRowClick on purpose — a keypress is not a touch interaction, so a focused
+    // row should add immediately even when supportsHover is false.
+    onActivate(widget: WidgetType) {
+      if (!widget.uniqueId) {
+        return;
+      }
+      this.clearHoverTimer();
+      this.$emit('select', widget.uniqueId);
+    },
+
+    focusFirst() {
+      const list = this.$refs.list as HTMLUListElement | undefined;
+      const first = list?.querySelector('li');
+      if (first instanceof HTMLElement) {
+        first.focus();
+      }
     },
 
     clearHoverTimer() {

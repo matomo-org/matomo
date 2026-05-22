@@ -201,6 +201,107 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     expect(wrapper.find('.widgetpreview-widgetname').text()).toBe(widgetLongName.name);
   });
 
+  describe('keyboard navigation', () => {
+    it('emits hover with the same 400ms debounce on focus', async () => {
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [widgetVisits] },
+      });
+
+      await wrapper.findAll('li')[0].trigger('focus');
+      expect(wrapper.emitted().hover).toBeUndefined();
+
+      jest.advanceTimersByTime(399);
+      expect(wrapper.emitted().hover).toBeUndefined();
+
+      jest.advanceTimersByTime(1);
+      expect(wrapper.emitted().hover).toEqual([['widgetVisits']]);
+    });
+
+    it('cancels the debounced hover on blur', async () => {
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [widgetVisits] },
+      });
+
+      await wrapper.findAll('li')[0].trigger('focus');
+      await wrapper.findAll('li')[0].trigger('blur');
+
+      jest.advanceTimersByTime(500);
+      expect(wrapper.emitted().hover).toBeUndefined();
+    });
+
+    it('keeps the pending preview alive on blur for unavailable rows', async () => {
+      // Mirrors the mouseleave carve-out: leaving an unavailable row should still
+      // let the user see the preview rather than swallowing it.
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [widgetBlocked] },
+      });
+
+      await wrapper.findAll('li')[0].trigger('focus');
+      await wrapper.findAll('li')[0].trigger('blur');
+
+      jest.advanceTimersByTime(400);
+      expect(wrapper.emitted().hover).toEqual([['widgetBlocked']]);
+    });
+
+    it('emits select on Enter and clears any pending preview', async () => {
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [widgetVisits] },
+      });
+
+      await wrapper.findAll('li')[0].trigger('focus');
+      await wrapper.findAll('li')[0].trigger('keydown', { key: 'Enter' });
+
+      expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
+      jest.advanceTimersByTime(500);
+      expect(wrapper.emitted().hover).toBeUndefined();
+    });
+
+    it('emits select on Space', async () => {
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [widgetVisits] },
+      });
+
+      await wrapper.findAll('li')[0].trigger('keydown', { key: ' ' });
+      expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
+    });
+
+    it('emits select on Enter immediately on no-hover devices, bypassing the touch double-tap branch', async () => {
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [widgetVisits] },
+      });
+      (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = false;
+
+      await wrapper.findAll('li')[0].trigger('keydown', { key: 'Enter' });
+
+      expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
+      expect(wrapper.emitted().hover).toBeUndefined();
+    });
+
+    it('focusFirst() focuses the first widget row', () => {
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [widgetVisits, widgetKpi] },
+        attachTo: document.body,
+      });
+
+      (wrapper.vm as unknown as { focusFirst: () => void }).focusFirst();
+
+      expect(document.activeElement).toBe(wrapper.findAll('li')[0].element);
+      wrapper.unmount();
+    });
+
+    it('focusFirst() is a no-op when the widget list is empty', () => {
+      const wrapper = mount(WidgetsList as any, {
+        props: { widgets: [] },
+        attachTo: document.body,
+      });
+
+      expect(() => {
+        (wrapper.vm as unknown as { focusFirst: () => void }).focusFirst();
+      }).not.toThrow();
+      wrapper.unmount();
+    });
+  });
+
   describe('on touch / no-hover devices', () => {
     it('emits hover on the first tap of a new row instead of select', async () => {
       const wrapper = mount(WidgetsList as any, {
