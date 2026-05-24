@@ -95,6 +95,7 @@ describe("Live", function () {
     it('should show visit details', async function() {
         await (await page.jQuery('.visitor-profile-visit-title:eq(0)')).click();
 
+        await page.mouse.move(-10, -10);
         var dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('visitor_profile_visit_details');
     });
