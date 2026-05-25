@@ -73,6 +73,15 @@ describe("Live", function () {
         expect(await dialog.screenshot()).to.matchImage('visitor_profile');
     });
 
+    it('should show XML export tooltip in visitor profile', async function() {
+        const exportTooltip = await page.$eval(
+            '.visitor-profile-export',
+            (element) => element.getAttribute('title'),
+        );
+
+        expect(exportTooltip).to.equal('Export this dataset to XML');
+    });
+
     it('should load additional visits in visitor log', async function() {
 
         await page.click('.visitor-profile-more-info a');
