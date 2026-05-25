@@ -27,7 +27,10 @@
     background: @theme-color-background-contrast;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 0;
+    -webkit-overflow-scrolling: touch;
   }
 
   // Modal title sits flush with the modal top and is left-aligned.
@@ -43,6 +46,8 @@
     gap: @add-widget-gap;
     flex: 1 1 auto;
     min-height: 0;
+    width: max-content;
+    min-width: 100%;
   }
 
   .add-widget-modal-categories,
