@@ -19,6 +19,8 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Period;
+use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\CoreVisualizations\Metrics\Formatter\Numeric;
 
 /**
  * Fetches the additional historical data {@see ForecastBuilder} consumes for seasonal
@@ -302,13 +304,54 @@ class ForecastSubPeriodFetcher
             'segment'                 => $segment,
             'filter_limit'            => -1,
             'disable_generic_filters' => 1,
+            // Pin raw, number-valued metrics regardless of the outer URL's format_metrics.
+            // With format_metrics=1 the inner request would run the *base* string formatter
+            // (e.g. bandwidth -> "3 G", a string unusable for the decomposition arithmetic)
+            // and stamp the PROCESSED_METRICS_FORMATTED_FLAG, which would then suppress the
+            // Numeric pass below. format_metrics=0 keeps every column a raw numeric value
+            // and leaves the flag unset so the Numeric pass is free to run.
+            'format_metrics'          => 0,
         ]);
 
         if (!$result instanceof DataTable\Map) {
             return [];
         }
 
+        // Bring the inner samples onto the same scale the outer evolution chart plots in. The
+        // outer is rendered by {@see \Piwik\Plugins\CoreVisualizations\Visualizations\Graph},
+        // which formats with the {@see Numeric} formatter (format-as-number, not as string):
+        // {@see \Piwik\Plugin\ProcessedMetric} columns are rewritten in place -- bandwidth
+        // bytes divided by 1024^3 onto the chart's fixed 'G' axis, percent quotients scaled
+        // to whole percent, etc. The inner request above is pinned to raw numeric units, so
+        // without this pass the forecast would sum analog bytes-per-day against an outer
+        // current value already in gigabytes, the ~10^9 blowup seen on bandwidth forecasts.
+        // Running the identical Numeric pass here mirrors that transformation row-for-row so
+        // the seasonal decomposition stays in one unit system.
+        $report = $this->resolveReportForFormatting($apiMethod);
+        $formatter = new Numeric();
+        foreach ($result->getDataTables() as $subTable) {
+            $formatter->formatMetrics($subTable, $report);
+        }
+
         return $this->extractSamples($result, $seriesState, $subPeriod);
+    }
+
+    /**
+     * Resolve the {@see \Piwik\Plugin\Report} the formatter consults to discover which
+     * columns carry a {@see \Piwik\Plugin\ProcessedMetric} (and therefore need format()
+     * applied). API methods without a registered report (custom dimensions, plugin-defined
+     * report-less endpoints) yield null; {@see Numeric::formatMetrics()} then only acts on
+     * processed metrics carried in the table's own EXTRA_PROCESSED_METRICS_METADATA_NAME,
+     * which is the same surface the outer formatter sees.
+     */
+    private function resolveReportForFormatting(string $apiMethod): ?\Piwik\Plugin\Report
+    {
+        $parts = explode('.', $apiMethod, 2);
+        if (count($parts) !== 2) {
+            return null;
+        }
+
+        return ReportsProvider::factory($parts[0], $parts[1]);
     }
 
     /**

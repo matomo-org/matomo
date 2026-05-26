@@ -15,8 +15,11 @@ use PHPUnit\Framework\TestCase;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Log\LoggerInterface;
+use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastMetricClassifier;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSeriesState;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSubPeriodFetcher;
@@ -621,6 +624,95 @@ class ForecastSubPeriodFetcherTest extends TestCase
             ],
             $samples
         );
+    }
+
+    public function testCollectAppliesNumericFormatterToInnerSubPeriodSamples(): void
+    {
+        // Reproduce the bandwidth-shape units mismatch that hides behind any ProcessedMetric
+        // whose format() is non-identity: the outer evolution chart runs the Numeric
+        // formatter over every ProcessedMetric column (raw bytes -> gigabytes, raw quotients
+        // -> percent points), but the inner sub-period fetch goes through processRequest()
+        // with format_metrics=0 and would otherwise return the same column in raw archive
+        // units. The fetcher mirrors the outer formatter on each inner sub-table so the
+        // seasonal decomposition stays in a single unit system; without it the inner samples
+        // ride into the builder ~10^9 too large and the rendered forecast lands as a
+        // bytes-domain integer wearing the chart's 'G' suffix.
+        $bandwidthMetric = $this->createBandwidthLikeProcessedMetric();
+        $rawBytes = 100000000000; // ~100 GB-per-day in raw bytes (= 93.13 G after /1024^3)
+
+        $fetcher = $this->createFetcher(function () use ($bandwidthMetric, $rawBytes) {
+            $map = new DataTable\Map();
+            foreach (['2026-02-28', '2026-04-29'] as $date) {
+                $sub = new DataTable();
+                $sub->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('day', $date));
+                // Attach the ProcessedMetric via the table's own metadata so the formatter
+                // discovers it without needing a real Report registered for the apiMethod.
+                // In production Bandwidth.get's processedMetrics flow into API.get via the
+                // *.get-merge in {@see \Piwik\Plugins\API\Reports\Get}, and the formatter
+                // finds OverallBandwidth through the report's getProcessedMetricsById().
+                $sub->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, [$bandwidthMetric]);
+                $sub->addRowFromArray([Row::COLUMNS => ['nb_total_overall_bandwidth' => $rawBytes]]);
+                $map->addTable($sub, $date);
+            }
+            return $map;
+        });
+
+        $monthTable = new DataTable();
+        $monthTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('month', '2026-04-01'));
+
+        $result = $fetcher->collect(
+            [$monthTable],
+            $this->createSeriesState(
+                ['Bytes' => 'nb_total_overall_bandwidth'],
+                [],
+                ['Bytes' => ForecastMetricClassifier::MONOTONICITY_UP]
+            ),
+            'VisitsSummary.get',
+            1,
+            ''
+        );
+
+        // 100,000,000,000 bytes / 1024^3 ≈ 93.13 with Numeric's precision=2 fixed 'G' unit.
+        self::assertSame(
+            ['Bytes' => ['2026-02-28' => 93.13, '2026-04-29' => 93.13]],
+            $result['daily']
+        );
+    }
+
+    /**
+     * Anonymous {@see ProcessedMetric} that mirrors the bandwidth-overall metric's format
+     * surface ({@see \Piwik\Metrics\Formatter::getPrettySizeFromBytes()}) without pulling in
+     * a Bandwidth plugin dependency. Numeric pins the size unit at 'G', so the test asserts
+     * the exact gigabyte value the production formatter would produce for the same bytes.
+     */
+    private function createBandwidthLikeProcessedMetric(): ProcessedMetric
+    {
+        return new class () extends ProcessedMetric {
+            public function getName()
+            {
+                return 'nb_total_overall_bandwidth';
+            }
+
+            public function getTranslatedName()
+            {
+                return 'Bytes transferred overall';
+            }
+
+            public function compute(Row $row)
+            {
+                return $row->getColumn($this->getName());
+            }
+
+            public function getDependentMetrics()
+            {
+                return [$this->getName()];
+            }
+
+            public function format($value, Formatter $formatter)
+            {
+                return $formatter->getPrettySizeFromBytes($value, null, 2);
+            }
+        };
     }
 
     /**
