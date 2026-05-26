@@ -11,14 +11,18 @@
       v-for="category in categories"
       :key="category"
       :class="{ 'widgetpreview-choosen': category === chosenCategory }"
-      role="button"
-      tabindex="0"
-      @mouseover="selectCategory(category)"
-      @click="selectCategory(category)"
-      @focus="selectCategory(category)"
-      @keydown.enter.prevent="confirmCategory(category)"
-      @keydown.space.prevent="confirmCategory(category)"
-    >{{ category }}</li>
+      class="category-list-item"
+    >
+      <button
+        type="button"
+        class="category-button-item"
+        @mouseover="selectCategory(category)"
+        @click="selectCategory(category)"
+        @focus="selectCategory(category)"
+        @keydown.enter.prevent="confirmCategory(category)"
+        @keydown.space.prevent="confirmCategory(category)"
+      >{{ category }}</button>
+    </li>
   </ul>
 </template>
 

@@ -11,25 +11,29 @@
       v-for="widget in widgets"
       :key="widget.uniqueId"
       :uniqueid="widget.uniqueId"
-      role="button"
-      tabindex="0"
       :class="{
         'widgetpreview-choosen': widget.uniqueId === chosenWidgetId,
         'widgetpreview-unavailable': isUnavailable(widget),
       }"
-      @mouseenter="onMouseEnter(widget)"
-      @mouseleave="onMouseLeave(widget)"
-      @focus="onMouseEnter(widget)"
-      @blur="onMouseLeave(widget)"
-      @click.prevent="onRowClick(widget)"
-      @keydown.enter.prevent="onActivate(widget)"
-      @keydown.space.prevent="onActivate(widget)"
+      class="widget-list-item"
     >
-      <span class="widgetpreview-widgetname">{{ widget.name }}</span>
-      <span
-        class="widgetpreview-add-hint"
-        aria-hidden="true"
-      >+ {{ translate('General_Add') }}</span>
+      <button
+        type="button"
+        class="widget-button-item"
+        @mouseenter="onMouseEnter(widget)"
+        @mouseleave="onMouseLeave(widget)"
+        @focus="onMouseEnter(widget)"
+        @blur="onMouseLeave(widget)"
+        @click.prevent="onRowClick(widget)"
+        @keydown.enter.prevent="onActivate(widget)"
+        @keydown.space.prevent="onActivate(widget)"
+      >
+        <span class="widgetpreview-widgetname">{{ widget.name }}</span>
+        <span
+          class="widgetpreview-add-hint"
+          aria-hidden="true"
+        >+ {{ translate('General_Add') }}</span>
+      </button>
     </li>
   </ul>
 </template>
@@ -150,7 +154,7 @@ export default defineComponent({
 
     focusFirst() {
       const list = this.$refs.list as HTMLUListElement | undefined;
-      const first = list?.querySelector('li');
+      const first = list?.querySelector('li button');
       if (first instanceof HTMLElement) {
         first.focus();
       }
