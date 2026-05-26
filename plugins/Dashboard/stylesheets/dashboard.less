@@ -307,34 +307,13 @@ ul.widgetpreview-widgetlist li {
   border-radius: 2px;
 }
 
-.add-widget-modal li.widgetpreview-choosen {
-  background-color: @theme-color-background-lowContrast;
-  position: relative;
-}
-
-.add-widget-modal li.widgetpreview-choosen::after {
-  content: '';
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 4px solid transparent;
-  border-left-color: @theme-color-brand;
-}
-
 .widgetpreview-categorylist li.widgetpreview-choosen {
   color: @theme-color-text-contrast;
 }
 
-.widgetpreview-base li.widgetpreview-unavailable,
-.add-widget-modal li.widgetpreview-unavailable {
+.widgetpreview-base li.widgetpreview-unavailable {
   color: @theme-color-text-disabled;
   cursor: default;
-}
-
-.widgetpreview-base li.widgetpreview-unavailable.widgetpreview-choosen,
-.add-widget-modal li.widgetpreview-unavailable.widgetpreview-choosen {
-  color: @theme-color-text-light;
 }
 
 ul.widgetpreview-widgetlist {
@@ -394,64 +373,6 @@ div.widgetpreview-preview {
   margin-right: 8px;
   font-size: inherit;
   line-height: inherit;
-}
-
-@add-widget-col: 220px;
-@add-widget-preview: 500px;
-@add-widget-gap: 16px;
-
-// Size the modal to fit the columns rather than the other way round.
-// 48px allows for Materialize's default `.modal-content` padding (24px each side).
-.modal.add-widget-modal {
-  width: @add-widget-col + @add-widget-preview + @add-widget-gap + 48px;
-  max-width: 90%;
-  border-radius: 8px;
-}
-.add-widget-modal .add-widget-modal-content {
-  background: @theme-color-background-contrast;
-}
-
-// Modal title sits flush with the modal top and is left-aligned.
-.add-widget-modal-title {
-  margin-bottom: 10px;
-  text-align: left;
-}
-
-.add-widget-modal-body {
-  display: grid;
-  grid-template-columns: @add-widget-col @add-widget-preview;
-  gap: @add-widget-gap;
-}
-
-.add-widget-modal {
-  .add-widget-modal-categories,
-  .add-widget-modal-details {
-    min-width: 0;
-  }
-
-  .widgetpreview-categorylist,
-  .widgetpreview-widgetlist {
-    width: @add-widget-col;
-    float: none;
-    margin-right: 0;
-  }
-
-  // widgetMenu.js sets inline `top` / `margin-bottom` on the widget list so it
-  // aligns vertically with the hovered category — keep that behaviour, just
-  // strip the float and the `margin-right: 20px` from the global rule.
-  .widgetpreview-widgetlist {
-    font-weight: normal;
-  }
-
-  .widgetpreview-preview {
-    float: none;
-    width: @add-widget-preview;
-    margin-top: 10px;
-  }
-
-  .widgetTop {
-    cursor: pointer;
-  }
 }
 
 .widgetPlaceholder {

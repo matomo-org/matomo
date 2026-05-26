@@ -112,7 +112,7 @@
 							<revenue>620</revenue>
 							<nb_conv_pages_before>30</nb_conv_pages_before>
 							<nb_conversions_attrib>120</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.295</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>120</nb_conversions_page_uniq>
 							<revenue_attrib>620</revenue_attrib>
 							<revenue_entry>620</revenue_entry>
@@ -125,7 +125,7 @@
 							<revenue>465</revenue>
 							<nb_conv_pages_before>30</nb_conv_pages_before>
 							<nb_conversions_attrib>90</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.31</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>90</nb_conversions_page_uniq>
 							<revenue_attrib>465</revenue_attrib>
 							<revenue_entry>465</revenue_entry>
@@ -177,7 +177,7 @@
 									<revenue>160</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>30</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.076</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>30</nb_conversions_page_uniq>
 									<revenue_attrib>160</revenue_attrib>
 									<revenue_entry>160</revenue_entry>
@@ -190,7 +190,7 @@
 									<revenue>120</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>20</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.08</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 									<revenue_attrib>120</revenue_attrib>
 									<revenue_entry>120</revenue_entry>
@@ -246,7 +246,7 @@
 									<revenue>160</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>30</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.076</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>30</nb_conversions_page_uniq>
 									<revenue_attrib>160</revenue_attrib>
 									<revenue_entry>160</revenue_entry>
@@ -259,7 +259,7 @@
 									<revenue>120</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>20</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.08</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 									<revenue_attrib>120</revenue_attrib>
 									<revenue_entry>120</revenue_entry>
@@ -315,7 +315,7 @@
 									<revenue>160</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>30</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.076</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>30</nb_conversions_page_uniq>
 									<revenue_attrib>160</revenue_attrib>
 									<revenue_entry>160</revenue_entry>
@@ -328,7 +328,7 @@
 									<revenue>120</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>20</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.08</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 									<revenue_attrib>120</revenue_attrib>
 									<revenue_entry>120</revenue_entry>
@@ -384,7 +384,7 @@
 									<revenue>140</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>30</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.067</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>30</nb_conversions_page_uniq>
 									<revenue_attrib>140</revenue_attrib>
 									<revenue_entry>140</revenue_entry>
@@ -397,7 +397,7 @@
 									<revenue>105</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>20</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.07</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 									<revenue_attrib>105</revenue_attrib>
 									<revenue_entry>105</revenue_entry>
@@ -530,7 +530,7 @@
 							<revenue>180</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>40</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.086</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>40</nb_conversions_page_uniq>
 							<revenue_attrib>180</revenue_attrib>
 							<revenue_entry>140</revenue_entry>
@@ -543,7 +543,7 @@
 							<revenue>180</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>40</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.12</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>40</nb_conversions_page_uniq>
 							<revenue_attrib>180</revenue_attrib>
 							<revenue_entry>140</revenue_entry>
@@ -810,7 +810,7 @@
 							<revenue>2666.64</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>1</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 							<revenue_attrib>777.77</revenue_attrib>
 							<revenue_entry>777.77</revenue_entry>
@@ -823,7 +823,7 @@
 							<revenue>170</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>30</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.081</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>30</nb_conversions_page_uniq>
 							<revenue_attrib>170</revenue_attrib>
 							<revenue_entry>130</revenue_entry>
@@ -836,7 +836,7 @@
 							<revenue>170</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>30</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.113</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>30</nb_conversions_page_uniq>
 							<revenue_attrib>170</revenue_attrib>
 							<revenue_entry>130</revenue_entry>
@@ -889,7 +889,7 @@
 									<revenue>2666.64</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>1</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 									<revenue_attrib>777.77</revenue_attrib>
 									<revenue_entry>777.77</revenue_entry>
@@ -902,7 +902,7 @@
 									<revenue>170</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>30</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.081</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>30</nb_conversions_page_uniq>
 									<revenue_attrib>170</revenue_attrib>
 									<revenue_entry>130</revenue_entry>
@@ -915,7 +915,7 @@
 									<revenue>170</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>30</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.113</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>30</nb_conversions_page_uniq>
 									<revenue_attrib>170</revenue_attrib>
 									<revenue_entry>130</revenue_entry>
@@ -1048,7 +1048,7 @@
 							<revenue>110</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>20</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.052</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 							<revenue_attrib>110</revenue_attrib>
 							<revenue_entry>55</revenue_entry>
@@ -1061,7 +1061,7 @@
 							<revenue>110</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>20</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.073</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 							<revenue_attrib>110</revenue_attrib>
 							<revenue_entry>55</revenue_entry>
@@ -1113,7 +1113,7 @@
 									<revenue>100</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>20</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.048</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 									<revenue_attrib>100</revenue_attrib>
 									<revenue_entry>50</revenue_entry>
@@ -1126,7 +1126,7 @@
 									<revenue>100</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>20</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.067</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 									<revenue_attrib>100</revenue_attrib>
 									<revenue_entry>50</revenue_entry>
@@ -1178,7 +1178,7 @@
 											<revenue>100</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>20</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.048</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 											<revenue_attrib>100</revenue_attrib>
 											<revenue_entry>50</revenue_entry>
@@ -1191,7 +1191,7 @@
 											<revenue>100</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>20</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.067</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 											<revenue_attrib>100</revenue_attrib>
 											<revenue_entry>50</revenue_entry>
@@ -1249,7 +1249,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -1262,7 +1262,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -1314,7 +1314,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>5</revenue_entry>
@@ -1327,7 +1327,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>5</revenue_entry>
@@ -1387,7 +1387,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -1400,7 +1400,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -1452,7 +1452,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -1465,7 +1465,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -1517,7 +1517,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>5</revenue_entry>
@@ -1530,7 +1530,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>5</revenue_entry>
@@ -1582,7 +1582,7 @@
 													<revenue>10</revenue>
 													<nb_conv_pages_before>10</nb_conv_pages_before>
 													<nb_conversions_attrib>10</nb_conversions_attrib>
-													<nb_conversions_page_rate>0</nb_conversions_page_rate>
+													<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 													<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 													<revenue_attrib>10</revenue_attrib>
 													<revenue_entry>5</revenue_entry>
@@ -1595,7 +1595,7 @@
 													<revenue>10</revenue>
 													<nb_conv_pages_before>10</nb_conv_pages_before>
 													<nb_conversions_attrib>10</nb_conversions_attrib>
-													<nb_conversions_page_rate>0</nb_conversions_page_rate>
+													<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 													<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 													<revenue_attrib>10</revenue_attrib>
 													<revenue_entry>5</revenue_entry>
@@ -1731,7 +1731,7 @@
 							<revenue>35</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.017</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>35</revenue_attrib>
 							<revenue_entry>35</revenue_entry>
@@ -1744,7 +1744,7 @@
 							<revenue>35</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.023</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>35</revenue_attrib>
 							<revenue_entry>35</revenue_entry>
@@ -2059,7 +2059,7 @@
 							<revenue>500</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>20</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.238</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>100</nb_conversions_page_uniq>
 							<revenue_attrib>112.64</revenue_attrib>
 							<revenue_entry>110</revenue_entry>
@@ -2072,7 +2072,7 @@
 							<revenue>35</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.023</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>35</revenue_attrib>
 							<revenue_entry>25</revenue_entry>
@@ -2123,7 +2123,7 @@
 							<revenue>15</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>3.92</revenue_attrib>
 						</row>
@@ -2168,7 +2168,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>2.25</revenue_attrib>
 						</row>
@@ -2213,7 +2213,7 @@
 							<revenue>20</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.01</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>6.42</revenue_attrib>
 						</row>
@@ -2414,7 +2414,7 @@
 							<revenue>35</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.017</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>35</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -2427,7 +2427,7 @@
 							<revenue>35</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.023</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>35</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -2479,7 +2479,7 @@
 									<revenue>30</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.014</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>30</revenue_attrib>
 									<revenue_entry>10</revenue_entry>
@@ -2492,7 +2492,7 @@
 									<revenue>30</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.02</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>30</revenue_attrib>
 									<revenue_entry>10</revenue_entry>
@@ -2544,7 +2544,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>10</revenue_entry>
@@ -2557,7 +2557,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>10</revenue_entry>
@@ -2607,7 +2607,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -2616,7 +2616,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -2662,7 +2662,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -2671,7 +2671,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -2719,7 +2719,7 @@
 									<revenue>5</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>5</revenue_attrib>
 								</row>
@@ -2728,7 +2728,7 @@
 									<revenue>5</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>5</revenue_attrib>
 								</row>
@@ -2771,7 +2771,7 @@
 											<revenue>5</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>5</revenue_attrib>
 										</row>
@@ -2780,7 +2780,7 @@
 											<revenue>5</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>5</revenue_attrib>
 										</row>
@@ -2829,7 +2829,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 						</row>
@@ -2838,7 +2838,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 						</row>
@@ -3171,7 +3171,7 @@
 							<revenue>30</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.014</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>30</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -3184,7 +3184,7 @@
 							<revenue>30</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.02</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>30</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -3236,7 +3236,7 @@
 									<revenue>30</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.014</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>30</revenue_attrib>
 									<revenue_entry>10</revenue_entry>
@@ -3249,7 +3249,7 @@
 									<revenue>30</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.02</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>30</revenue_attrib>
 									<revenue_entry>10</revenue_entry>
@@ -3301,7 +3301,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>10</revenue_entry>
@@ -3314,7 +3314,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>10</revenue_entry>
@@ -3364,7 +3364,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -3373,7 +3373,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -3419,7 +3419,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -3428,7 +3428,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -3557,7 +3557,7 @@
 							<revenue>30</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.014</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>30</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -3570,7 +3570,7 @@
 							<revenue>30</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.02</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>30</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -3622,7 +3622,7 @@
 									<revenue>30</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.014</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>30</revenue_attrib>
 									<revenue_entry>10</revenue_entry>
@@ -3635,7 +3635,7 @@
 									<revenue>30</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.02</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>30</revenue_attrib>
 									<revenue_entry>10</revenue_entry>
@@ -3687,7 +3687,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>10</revenue_entry>
@@ -3700,7 +3700,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>10</revenue_entry>
@@ -3750,7 +3750,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -3759,7 +3759,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -3805,7 +3805,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -3814,7 +3814,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 										</row>
@@ -3944,7 +3944,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -3957,7 +3957,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4013,7 +4013,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4026,7 +4026,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4082,7 +4082,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4095,7 +4095,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4151,7 +4151,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4164,7 +4164,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4220,7 +4220,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4233,7 +4233,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4364,7 +4364,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4377,7 +4377,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4433,7 +4433,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4446,7 +4446,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4502,7 +4502,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4515,7 +4515,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4571,7 +4571,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4584,7 +4584,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4640,7 +4640,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4653,7 +4653,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4784,7 +4784,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4797,7 +4797,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4853,7 +4853,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4866,7 +4866,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4922,7 +4922,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4935,7 +4935,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -4991,7 +4991,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5004,7 +5004,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5060,7 +5060,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5073,7 +5073,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5204,7 +5204,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5217,7 +5217,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5273,7 +5273,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5286,7 +5286,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5342,7 +5342,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5355,7 +5355,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5411,7 +5411,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5424,7 +5424,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5480,7 +5480,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5493,7 +5493,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5624,7 +5624,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5637,7 +5637,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5693,7 +5693,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5706,7 +5706,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5762,7 +5762,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5775,7 +5775,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5831,7 +5831,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5844,7 +5844,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5900,7 +5900,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -5913,7 +5913,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -6044,7 +6044,7 @@
 							<revenue>20</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.01</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>20</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -6057,7 +6057,7 @@
 							<revenue>20</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.013</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>20</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -6109,7 +6109,7 @@
 									<revenue>20</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.01</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>20</revenue_attrib>
 									<revenue_entry>10</revenue_entry>
@@ -6122,7 +6122,7 @@
 									<revenue>20</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.013</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>20</revenue_attrib>
 									<revenue_entry>10</revenue_entry>
@@ -6180,7 +6180,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -6193,7 +6193,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -6249,7 +6249,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -6262,7 +6262,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -6314,7 +6314,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -6327,7 +6327,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -6460,7 +6460,7 @@
 							<revenue>20</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.01</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>20</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -6473,7 +6473,7 @@
 							<revenue>20</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.013</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>20</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -6529,7 +6529,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -6542,7 +6542,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -6594,7 +6594,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -6607,7 +6607,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -6665,7 +6665,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -6678,7 +6678,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -6730,7 +6730,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -6743,7 +6743,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -6881,7 +6881,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -6894,7 +6894,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -7052,13 +7052,14 @@
 							<nb_conversions>10</nb_conversions>
 							<revenue>100</revenue>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
+							<nb_conversions_page_rate>0.2</nb_conversions_page_rate>
 						</row>
 						<row idgoal='1'>
 							<nb_conversions>10</nb_conversions>
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -7071,7 +7072,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -7286,7 +7287,7 @@
 							<revenue>65</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.031</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>15.9</revenue_attrib>
 							<revenue_entry>65</revenue_entry>
@@ -7299,7 +7300,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -7349,7 +7350,7 @@
 							<revenue>60</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.029</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10.9</revenue_attrib>
 						</row>
@@ -7394,7 +7395,7 @@
 							<revenue>105</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.05</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 							<revenue_attrib>15.13</revenue_attrib>
 						</row>
@@ -7439,7 +7440,7 @@
 							<revenue>120</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.057</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 							<revenue_attrib>13.62</revenue_attrib>
 						</row>
@@ -7546,7 +7547,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 						</row>
@@ -7555,7 +7556,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 						</row>
@@ -7600,7 +7601,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 						</row>
@@ -7609,7 +7610,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 						</row>
@@ -7830,7 +7831,7 @@
 							<revenue>110</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.052</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 							<revenue_attrib>31.49</revenue_attrib>
 							<revenue_entry>20</revenue_entry>
@@ -7843,7 +7844,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -7898,7 +7899,7 @@
 									<revenue>105</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.05</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 									<revenue_attrib>26.49</revenue_attrib>
 									<revenue_entry>20</revenue_entry>
@@ -7911,7 +7912,7 @@
 									<revenue>5</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>5</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -7961,7 +7962,7 @@
 									<revenue>5</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>5</revenue_attrib>
 								</row>
@@ -7970,7 +7971,7 @@
 									<revenue>5</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>5</revenue_attrib>
 								</row>
@@ -8013,7 +8014,7 @@
 											<revenue>5</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>5</revenue_attrib>
 										</row>
@@ -8022,7 +8023,7 @@
 											<revenue>5</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>5</revenue_attrib>
 										</row>
@@ -8125,7 +8126,7 @@
 							<revenue>185</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.088</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>40</nb_conversions_page_uniq>
 							<revenue_attrib>23.3</revenue_attrib>
 						</row>
@@ -8171,7 +8172,7 @@
 							<revenue>85</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.04</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>20</nb_conversions_page_uniq>
 							<revenue_attrib>7.27</revenue_attrib>
 						</row>
@@ -8752,7 +8753,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -8765,7 +8766,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -8896,7 +8897,7 @@
 							<revenue>52</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>52</revenue_attrib>
 							<revenue_entry>52</revenue_entry>
@@ -8909,7 +8910,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>10</revenue_entry>
@@ -11211,7 +11212,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.002</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -11224,7 +11225,7 @@
 							<revenue>5</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.003</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>5</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -11355,7 +11356,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -11368,7 +11369,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -11420,7 +11421,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -11433,7 +11434,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -11566,7 +11567,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -11579,7 +11580,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -11710,7 +11711,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -11723,7 +11724,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -11854,7 +11855,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -11867,7 +11868,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -11998,7 +11999,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -12011,7 +12012,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -12063,7 +12064,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -12076,7 +12077,7 @@
 									<revenue>10</revenue>
 									<nb_conv_pages_before>10</nb_conv_pages_before>
 									<nb_conversions_attrib>10</nb_conversions_attrib>
-									<nb_conversions_page_rate>0</nb_conversions_page_rate>
+									<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 									<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 									<revenue_attrib>10</revenue_attrib>
 									<revenue_entry>5</revenue_entry>
@@ -12128,7 +12129,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>5</revenue_entry>
@@ -12141,7 +12142,7 @@
 											<revenue>10</revenue>
 											<nb_conv_pages_before>10</nb_conv_pages_before>
 											<nb_conversions_attrib>10</nb_conversions_attrib>
-											<nb_conversions_page_rate>0</nb_conversions_page_rate>
+											<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 											<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 											<revenue_attrib>10</revenue_attrib>
 											<revenue_entry>5</revenue_entry>
@@ -12193,7 +12194,7 @@
 													<revenue>10</revenue>
 													<nb_conv_pages_before>10</nb_conv_pages_before>
 													<nb_conversions_attrib>10</nb_conversions_attrib>
-													<nb_conversions_page_rate>0</nb_conversions_page_rate>
+													<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 													<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 													<revenue_attrib>10</revenue_attrib>
 													<revenue_entry>5</revenue_entry>
@@ -12206,7 +12207,7 @@
 													<revenue>10</revenue>
 													<nb_conv_pages_before>10</nb_conv_pages_before>
 													<nb_conversions_attrib>10</nb_conversions_attrib>
-													<nb_conversions_page_rate>0</nb_conversions_page_rate>
+													<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 													<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 													<revenue_attrib>10</revenue_attrib>
 													<revenue_entry>5</revenue_entry>
@@ -12258,7 +12259,7 @@
 															<revenue>10</revenue>
 															<nb_conv_pages_before>10</nb_conv_pages_before>
 															<nb_conversions_attrib>10</nb_conversions_attrib>
-															<nb_conversions_page_rate>0</nb_conversions_page_rate>
+															<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 															<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 															<revenue_attrib>10</revenue_attrib>
 															<revenue_entry>5</revenue_entry>
@@ -12271,7 +12272,7 @@
 															<revenue>10</revenue>
 															<nb_conv_pages_before>10</nb_conv_pages_before>
 															<nb_conversions_attrib>10</nb_conversions_attrib>
-															<nb_conversions_page_rate>0</nb_conversions_page_rate>
+															<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 															<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 															<revenue_attrib>10</revenue_attrib>
 															<revenue_entry>5</revenue_entry>
@@ -12323,7 +12324,7 @@
 																	<revenue>10</revenue>
 																	<nb_conv_pages_before>10</nb_conv_pages_before>
 																	<nb_conversions_attrib>10</nb_conversions_attrib>
-																	<nb_conversions_page_rate>0</nb_conversions_page_rate>
+																	<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 																	<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 																	<revenue_attrib>10</revenue_attrib>
 																	<revenue_entry>5</revenue_entry>
@@ -12336,7 +12337,7 @@
 																	<revenue>10</revenue>
 																	<nb_conv_pages_before>10</nb_conv_pages_before>
 																	<nb_conversions_attrib>10</nb_conversions_attrib>
-																	<nb_conversions_page_rate>0</nb_conversions_page_rate>
+																	<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 																	<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 																	<revenue_attrib>10</revenue_attrib>
 																	<revenue_entry>5</revenue_entry>
@@ -12388,7 +12389,7 @@
 																			<revenue>10</revenue>
 																			<nb_conv_pages_before>10</nb_conv_pages_before>
 																			<nb_conversions_attrib>10</nb_conversions_attrib>
-																			<nb_conversions_page_rate>0</nb_conversions_page_rate>
+																			<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 																			<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 																			<revenue_attrib>10</revenue_attrib>
 																			<revenue_entry>5</revenue_entry>
@@ -12401,7 +12402,7 @@
 																			<revenue>10</revenue>
 																			<nb_conv_pages_before>10</nb_conv_pages_before>
 																			<nb_conversions_attrib>10</nb_conversions_attrib>
-																			<nb_conversions_page_rate>0</nb_conversions_page_rate>
+																			<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 																			<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 																			<revenue_attrib>10</revenue_attrib>
 																			<revenue_entry>5</revenue_entry>
@@ -12453,7 +12454,7 @@
 																					<revenue>10</revenue>
 																					<nb_conv_pages_before>10</nb_conv_pages_before>
 																					<nb_conversions_attrib>10</nb_conversions_attrib>
-																					<nb_conversions_page_rate>0</nb_conversions_page_rate>
+																					<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 																					<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 																					<revenue_attrib>10</revenue_attrib>
 																					<revenue_entry>5</revenue_entry>
@@ -12466,7 +12467,7 @@
 																					<revenue>10</revenue>
 																					<nb_conv_pages_before>10</nb_conv_pages_before>
 																					<nb_conversions_attrib>10</nb_conversions_attrib>
-																					<nb_conversions_page_rate>0</nb_conversions_page_rate>
+																					<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 																					<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 																					<revenue_attrib>10</revenue_attrib>
 																					<revenue_entry>5</revenue_entry>
@@ -12518,7 +12519,7 @@
 																							<revenue>10</revenue>
 																							<nb_conv_pages_before>10</nb_conv_pages_before>
 																							<nb_conversions_attrib>10</nb_conversions_attrib>
-																							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+																							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 																							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 																							<revenue_attrib>10</revenue_attrib>
 																							<revenue_entry>5</revenue_entry>
@@ -12531,7 +12532,7 @@
 																							<revenue>10</revenue>
 																							<nb_conv_pages_before>10</nb_conv_pages_before>
 																							<nb_conversions_attrib>10</nb_conversions_attrib>
-																							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+																							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 																							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 																							<revenue_attrib>10</revenue_attrib>
 																							<revenue_entry>5</revenue_entry>
@@ -12678,7 +12679,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.005</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -12691,7 +12692,7 @@
 							<revenue>10</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.007</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>10</revenue_attrib>
 							<revenue_entry>5</revenue_entry>
@@ -12797,7 +12798,7 @@
 							<revenue>40</revenue>
 							<nb_conv_pages_before>10</nb_conv_pages_before>
 							<nb_conversions_attrib>10</nb_conversions_attrib>
-							<nb_conversions_page_rate>0</nb_conversions_page_rate>
+							<nb_conversions_page_rate>0.019</nb_conversions_page_rate>
 							<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
 							<revenue_attrib>12.92</revenue_attrib>
 						</row>
