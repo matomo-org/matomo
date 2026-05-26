@@ -36,6 +36,10 @@ use Piwik\Site;
  *   can only equal or fall below the current partial value as more samples arrive, so the
  *   forecast is the historical same-period prior, suppressed (and finally clamped) if it would
  *   project above the current value.
+ * - MONOTONICITY_MAX — running-max series (max_actions, max_event_value): the mirror of the
+ *   running-min case. The period value is the max over its sub-periods (never their sum), so
+ *   the seasonal decomposition combines sub-periods with max(); the "forecast >= current" gate
+ *   matches the additive case because a running max can only rise within the period.
  * - MONOTONICITY_FREE — ratio/rate/percentage/average series: the forecast is the historical
  *   same-period prior with no directional gate, because the period's value can move either way
  *   during the remaining time.
@@ -330,6 +334,17 @@ class ForecastBuilder
                     continue;
                 }
 
+                // A running max's final-period value is at least the max already observed this
+                // period, so a decomposition or prior landing below the current partial means
+                // "the max will not grow further" -- floor it at current so the point renders
+                // flat instead of being suppressed by the >= gate below. This is the mirror of
+                // the min_* clamp further down, but applied BEFORE the gate: for max_* "below
+                // current" is a legitimate (no-further-growth) outcome to render at current,
+                // whereas for min_* "above current" is an impossible value to suppress.
+                if (ForecastMetricClassifier::MONOTONICITY_MAX === $monotonicity) {
+                    $forecastValue = max($forecastValue, $currentValue);
+                }
+
                 if (!$this->shouldRenderForecastValue($forecastValue, $currentValue, $monotonicity)) {
                     $seriesForecasts[] = null;
                     $previousForecastValue = null;
@@ -575,6 +590,8 @@ class ForecastBuilder
                 return $this->decomposeAndAverageRate($dayAnchors, $todayIdx, self::WEEK_ANALOG_CHUNK, $window);
             case ForecastMetricClassifier::MONOTONICITY_DOWN:
                 return $this->decomposeAndMinimize($dayAnchors, $todayIdx, self::WEEK_ANALOG_CHUNK, $window);
+            case ForecastMetricClassifier::MONOTONICITY_MAX:
+                return $this->decomposeAndMaximize($dayAnchors, $todayIdx, self::WEEK_ANALOG_CHUNK, $window);
             case ForecastMetricClassifier::MONOTONICITY_UP:
             default:
                 return $this->decomposeAndForecast(
@@ -622,6 +639,11 @@ class ForecastBuilder
                 return $this->decomposeAndAverageRate($dayAnchors, $todayIdx, self::MONTH_ANALOG_CHUNK, $window);
             case ForecastMetricClassifier::MONOTONICITY_DOWN:
                 return $this->decomposeAndMinimize($dayAnchors, $todayIdx, self::MONTH_ANALOG_CHUNK, $window);
+            case ForecastMetricClassifier::MONOTONICITY_MAX:
+                // No month-of-year scaling: like MIN/AVG, a running max does not scale
+                // proportionally with monthly traffic volume (a 0.8 traffic ratio does not
+                // imply max_actions * 0.8).
+                return $this->decomposeAndMaximize($dayAnchors, $todayIdx, self::MONTH_ANALOG_CHUNK, $window);
             case ForecastMetricClassifier::MONOTONICITY_UP:
             default:
                 $monthAnchor = $monthStart->toString('Y-m');
@@ -793,9 +815,7 @@ class ForecastBuilder
         if ($currentMonthEstimate === null) {
             $samples = $this->recentSameMoYValues($monthlySamples, $monthAnchors[$todayMonthIdx], self::YEAR_ANALOG_CHUNK);
             if (!empty($samples)) {
-                $currentMonthEstimate = ForecastMetricClassifier::MONOTONICITY_DOWN === $monotonicity
-                    ? min($samples)
-                    : array_sum($samples) / count($samples);
+                $currentMonthEstimate = $this->reduceMonthlySamples($samples, $monotonicity);
             }
         }
         if ($currentMonthEstimate !== null) {
@@ -808,9 +828,7 @@ class ForecastBuilder
             if (empty($samples)) {
                 continue;
             }
-            $projected = ForecastMetricClassifier::MONOTONICITY_DOWN === $monotonicity
-                ? min($samples)
-                : array_sum($samples) / count($samples);
+            $projected = $this->reduceMonthlySamples($samples, $monotonicity);
             $monthlyValues[] = $projected;
             $window->projectMonth($monthAnchors[$i], $projected);
         }
@@ -819,9 +837,28 @@ class ForecastBuilder
             return null;
         }
 
-        return ForecastMetricClassifier::MONOTONICITY_DOWN === $monotonicity
-            ? min($monthlyValues)
-            : array_sum($monthlyValues) / count($monthlyValues);
+        return $this->reduceMonthlySamples($monthlyValues, $monotonicity);
+    }
+
+    /**
+     * Combine same-month-of-year analog samples (and the per-month estimates derived from them)
+     * for the year-aggregate path, by the reducer the monotonicity implies: MIN for running
+     * mins, MAX for running maxes, and the unweighted mean for the FREE rate/average case.
+     * MONOTONICITY_UP never reaches this helper -- additive year forecasts take the dedicated
+     * {@see self::forecastYearSeasonalUp()} sum path instead.
+     *
+     * @param array<int, float> $samples Non-empty.
+     */
+    private function reduceMonthlySamples(array $samples, string $monotonicity): float
+    {
+        switch ($monotonicity) {
+            case ForecastMetricClassifier::MONOTONICITY_DOWN:
+                return min($samples);
+            case ForecastMetricClassifier::MONOTONICITY_MAX:
+                return max($samples);
+            default:
+                return array_sum($samples) / count($samples);
+        }
     }
 
     /**
@@ -950,6 +987,36 @@ class ForecastBuilder
         }
 
         return min($dailyValues);
+    }
+
+    /**
+     * Max-of-daily-maxes decomposition for the MAX (running-max) week and month paths. Mirror
+     * of {@see self::decomposeAndMinimize()}: a running max over a period is the max of the
+     * per-sub-period running maxes by construction, so the combining operator is `max`. The
+     * in-progress day is analog-projected (no partial-floor); the completed days contribute
+     * their archived daily maxes.
+     *
+     * @param array<int, string> $dayAnchors
+     */
+    private function decomposeAndMaximize(
+        array $dayAnchors,
+        int $todayIdx,
+        int $analogChunk,
+        ForecastSampleWindow $window
+    ): ?float {
+        $dailySamples = $window->getDailySamples();
+        $dailyValues = $this->collectCompletedAndProjectedDailyValues(
+            $dayAnchors,
+            $todayIdx,
+            $dailySamples,
+            $analogChunk,
+            $window
+        );
+        if (empty($dailyValues)) {
+            return null;
+        }
+
+        return max($dailyValues);
     }
 
     /**
@@ -1434,8 +1501,11 @@ class ForecastBuilder
                 return true;
             case ForecastMetricClassifier::MONOTONICITY_DOWN:
                 return $forecastValue <= $currentDisplayValue;
+            case ForecastMetricClassifier::MONOTONICITY_MAX:
             case ForecastMetricClassifier::MONOTONICITY_UP:
             default:
+                // A running max can only rise within the period, so the final value cannot fall
+                // below the current partial max -- same gate as the additive UP case.
                 return $forecastValue >= $currentDisplayValue;
         }
     }

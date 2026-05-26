@@ -53,7 +53,8 @@ class ForecastMetricClassifierTest extends TestCase
         yield 'duration sum metric stays monotonic up' => ['sum_time_spent', false, ForecastMetricClassifier::MONOTONICITY_UP];
         yield 'min_ prefix is monotonic down' => ['min_bandwidth', false, ForecastMetricClassifier::MONOTONICITY_DOWN];
         yield 'min_ prefix on event value is monotonic down' => ['min_event_value', false, ForecastMetricClassifier::MONOTONICITY_DOWN];
-        yield 'max_ prefix stays monotonic up by default' => ['max_actions', false, ForecastMetricClassifier::MONOTONICITY_UP];
+        yield 'max_ prefix is monotonic max' => ['max_actions', false, ForecastMetricClassifier::MONOTONICITY_MAX];
+        yield 'max_ prefix on event value is monotonic max' => ['max_event_value', false, ForecastMetricClassifier::MONOTONICITY_MAX];
     }
 
     /**
@@ -84,6 +85,8 @@ class ForecastMetricClassifierTest extends TestCase
         yield 'no semantic type defaults to monotonic up' => ['custom_metric_no_signal', null, ForecastMetricClassifier::MONOTONICITY_UP];
         yield 'min_ prefix wins even with TYPE_NUMBER semantic' => ['min_custom', Dimension::TYPE_NUMBER, ForecastMetricClassifier::MONOTONICITY_DOWN];
         yield 'min_ prefix yields to percent semantic type' => ['min_rate_custom', Dimension::TYPE_PERCENT, ForecastMetricClassifier::MONOTONICITY_FREE];
+        yield 'max_ prefix wins even with TYPE_NUMBER semantic' => ['max_custom', Dimension::TYPE_NUMBER, ForecastMetricClassifier::MONOTONICITY_MAX];
+        yield 'max_ prefix yields to percent semantic type' => ['max_rate_custom', Dimension::TYPE_PERCENT, ForecastMetricClassifier::MONOTONICITY_FREE];
     }
 
     /**
@@ -122,6 +125,16 @@ class ForecastMetricClassifierTest extends TestCase
         self::assertSame(
             0,
             $classifier->getForecastPrecisionForColumn('min_event_value', false, ForecastMetricClassifier::MONOTONICITY_DOWN)
+        );
+    }
+
+    public function testForecastPrecisionForMonotonicMaxIntegerMetricRoundsToZeroDecimals(): void
+    {
+        $classifier = new ForecastMetricClassifier(['max_actions' => Dimension::TYPE_NUMBER]);
+
+        self::assertSame(
+            0,
+            $classifier->getForecastPrecisionForColumn('max_actions', false, ForecastMetricClassifier::MONOTONICITY_MAX)
         );
     }
 }

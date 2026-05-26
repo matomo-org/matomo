@@ -119,6 +119,90 @@ class ForecastSubPeriodFetcherTest extends IntegrationTestCase
         self::assertEqualsWithDelta(3.0, $sample, 0.01);
     }
 
+    public function testInnerSubPeriodMaxMetricReturnsDailyMaxNotSum(): void
+    {
+        // max_actions is the maximum action count in any single visit within the period -- an
+        // extremum, not an additive total. Five pageviews from one visitor make a single visit
+        // with five actions, so the day's archived max_actions = 5 (regardless of how many
+        // other one-pageview visits also occur). The inner sub-period fetch must return that
+        // daily max unchanged, not anything resembling a sum (the pre-MONOTONICITY_MAX
+        // decomposition summed ~30 daily maxes and inflated the forecast an order of
+        // magnitude; this regression test guards the fetched sample at the source).
+        $tracker = Fixture::getTracker(1, self::TRACKING_DATE . ' 00:01:01', true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+        foreach (['/a', '/b', '/c', '/d', '/e'] as $url) {
+            $tracker->setUrl('http://example.org' . $url);
+            $tracker->doTrackPageView($url);
+        }
+
+        \Piwik\API\Request::processRequest('API.get', [
+            'idSite' => 1,
+            'period' => 'day',
+            'date'   => self::TRACKING_DATE,
+            'format' => 'original',
+            'serialize' => '0',
+        ]);
+
+        $monthTable = new DataTable();
+        $monthTable->setMetadata(
+            DataTableFactory::TABLE_METADATA_PERIOD_INDEX,
+            PeriodFactory::build('month', self::TRACKING_DATE)
+        );
+
+        $fetcher = new ForecastSubPeriodFetcher();
+        $result = $fetcher->collect(
+            [$monthTable],
+            $this->createSeriesState(
+                ['Max actions' => 'max_actions'],
+                [],
+                ['Max actions' => ForecastMetricClassifier::MONOTONICITY_MAX]
+            ),
+            'API.get',
+            1,
+            ''
+        );
+
+        self::assertArrayHasKey('Max actions', $result['daily']);
+        self::assertArrayHasKey(
+            self::TRACKING_DATE,
+            $result['daily']['Max actions'],
+            'Inner daily map is missing the tracked day for max_actions'
+        );
+
+        $sample = $result['daily']['Max actions'][self::TRACKING_DATE];
+        // 5 actions in one visit. Any value substantially larger would mean the fetcher (or
+        // some upstream pass) is summing/scaling the column instead of returning the raw
+        // archived max per day -- the original max_actions blowup shape.
+        self::assertLessThan(
+            10.0,
+            $sample,
+            sprintf(
+                'Inner max_actions sample is larger than the per-day archived max (%s) -- the'
+                . ' fetcher is producing a non-max-shaped value for an extremum metric, which'
+                . ' would feed the seasonal decomposition into the bytes-domain-style blowup'
+                . ' MONOTONICITY_MAX exists to prevent.',
+                var_export($sample, true)
+            )
+        );
+        self::assertSame(5.0, $sample);
+    }
+
+    public function testForecastClassifierMapsMaxActionsToMaxWithDefaultSemanticTypes(): void
+    {
+        // The classifier reads the real Metrics::getDefaultMetricSemanticTypes() map when no
+        // explicit override is supplied. This catches the case where a plugin registers
+        // max_actions (or a sibling max_*) with a semantic type that would route the name
+        // through MONOTONICITY_FREE before the max_ prefix check fires (TYPE_PERCENT,
+        // TYPE_FLOAT). Pinning the classification end-to-end means the runtime monotonicity
+        // and the unit-tested reducer are exercised against the same map the production
+        // evolution graph sees.
+        $classifier = new ForecastMetricClassifier();
+        self::assertSame(
+            ForecastMetricClassifier::MONOTONICITY_MAX,
+            $classifier->getColumnMonotonicity('max_actions', false)
+        );
+    }
+
     /**
      * @param array<string, string> $columns
      * @param array<string, mixed> $rows
