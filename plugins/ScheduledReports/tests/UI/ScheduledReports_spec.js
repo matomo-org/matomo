@@ -10,6 +10,13 @@
 describe("ScheduledReports", function () {
     this.fixture = "Piwik\\Plugins\\ScheduledReports\\tests\\Fixtures\\ReportSubscription";
 
+    it("should center the unsubscribe form relative to the header", async function () {
+        await page.goto("?module=ScheduledReports&action=unsubscribe&token=mycustomtoken");
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('unsubscribe_form_centered');
+    });
+
     it("should show an error if no token was provided", async function () {
         await page.goto("?module=ScheduledReports&action=unsubscribe&token=");
 
