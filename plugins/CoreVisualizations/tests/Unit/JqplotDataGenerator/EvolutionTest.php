@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Period\Factory;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Evolution;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastMetricClassifier;
@@ -153,6 +154,134 @@ class EvolutionTest extends TestCase
     }
 
     /**
+     * @dataProvider getIsIncompleteTickTestData
+     * @param array{date: string, archiveState?: string}|null $tableSpec
+     */
+    public function testIsIncompleteTick(?array $tableSpec, string $siteToday, bool $expected): void
+    {
+        if (null === $tableSpec) {
+            $childTable = new DataTable();
+        } else {
+            $childTable = $this->createDataTableForDay(
+                $tableSpec['date'],
+                $this->createSiteMock(),
+                null,
+                [],
+                $tableSpec['archiveState'] ?? null
+            );
+        }
+
+        self::assertSame(
+            $expected,
+            Evolution::isIncompleteTick($childTable, strtotime($siteToday))
+        );
+    }
+
+    /**
+     * @return iterable<string, array{?array{date: string, archiveState?: string}, string, bool}>
+     */
+    public function getIsIncompleteTickTestData(): iterable
+    {
+        // siteToday far past the period; if the helper looked only at the period it would
+        // say "complete", so a true result proves the INCOMPLETE archive_state metadata wins.
+        yield 'archive_state INCOMPLETE wins over far-past period' => [
+            ['date' => '2026-04-10', 'archiveState' => ArchiveState::INCOMPLETE],
+            '2099-01-01 00:00:00 UTC',
+            true,
+        ];
+
+        // siteToday equals the period's start; the day ends 23:59:59 later, so the period
+        // covers siteToday and the helper must return true even without metadata.
+        yield 'period covers siteToday without metadata' => [
+            ['date' => '2026-05-21'],
+            '2026-05-21 00:00:00 UTC',
+            true,
+        ];
+
+        // siteToday is one second after the period ended, so the helper must classify the
+        // tick as complete despite the absent archive_state metadata.
+        yield 'past period without metadata is complete' => [
+            ['date' => '2026-05-20'],
+            '2026-05-21 00:00:00 UTC',
+            false,
+        ];
+
+        // Defensive case: a bare child table with neither archive_state nor period metadata.
+        // The helper must not call getDateEnd() on a non-object.
+        yield 'bare datatable without period metadata is complete' => [
+            null,
+            '2026-05-21 00:00:00 UTC',
+            false,
+        ];
+    }
+
+    /**
+     * @dataProvider getComputeDataStatesTimezoneTestData
+     * @param array<int, string> $periodDates
+     * @param array<int, string> $expectedStates
+     */
+    public function testComputeDataStatesHonoursSiteTimezone(
+        string $pinnedNow,
+        string $siteTimezone,
+        array $periodDates,
+        array $expectedStates
+    ): void {
+        // Pin "now" so the test stays deterministic regardless of when it runs. Without
+        // archive_state metadata each row's state is derived from the period boundary
+        // measured in the site's timezone, which is the surface this test exercises (the
+        // case Goals/Ecommerce evolutions hit on days without events).
+        $originalNow = Date::$now;
+        Date::$now = strtotime($pinnedNow);
+
+        try {
+            $site = $this->createSiteMock($siteTimezone);
+            $evolution = $this->createEvolution([], false);
+
+            $childTables = [];
+            foreach ($periodDates as $date) {
+                $childTables[$date] = $this->createDataTableForDay($date, $site);
+            }
+
+            self::assertSame($expectedStates, $evolution->computeDataStates($childTables));
+        } finally {
+            Date::$now = $originalNow;
+        }
+    }
+
+    /**
+     * @return iterable<string, array{string, string, array<int, string>, array<int, string>}>
+     */
+    public function getComputeDataStatesTimezoneTestData(): iterable
+    {
+        yield 'UTC site marks current day INCOMPLETE without metadata' => [
+            '2026-05-21 12:00:00 UTC',
+            'UTC',
+            ['2026-05-19', '2026-05-20', '2026-05-21'],
+            [ArchiveState::COMPLETE, ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
+        ];
+
+        // 00:30 UTC on 2026-05-22 — Pacific/Auckland is on NZST (UTC+12) in May, so its
+        // local time is already 12:30 on 2026-05-22. The 2026-05-22 period is the site's
+        // "today" even though UTC has barely rolled over.
+        yield 'UTC+12 (Auckland NZST) treats site-local today as INCOMPLETE' => [
+            '2026-05-22 00:30:00 UTC',
+            'Pacific/Auckland',
+            ['2026-05-20', '2026-05-21', '2026-05-22'],
+            [ArchiveState::COMPLETE, ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
+        ];
+
+        // Same UTC instant as the UTC+12 case, but Pacific/Pago_Pago sits at UTC-11 (no
+        // DST) so its local time is still 13:30 on 2026-05-21. The 2026-05-21 period is
+        // the site's "today" even though UTC has already moved on to 2026-05-22.
+        yield 'UTC-11 (Pago_Pago) treats site-local today as INCOMPLETE despite UTC rollover' => [
+            '2026-05-22 00:30:00 UTC',
+            'Pacific/Pago_Pago',
+            ['2026-05-19', '2026-05-20', '2026-05-21'],
+            [ArchiveState::COMPLETE, ArchiveState::COMPLETE, ArchiveState::INCOMPLETE],
+        ];
+    }
+
+    /**
      * @param array<string, mixed> $properties
      * @param array<string, string> $semanticTypes
      */
@@ -206,14 +335,14 @@ class EvolutionTest extends TestCase
         };
     }
 
-    private function createSiteMock(): Site
+    private function createSiteMock(string $timezone = 'UTC'): Site
     {
         $site = $this->getMockBuilder(Site::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getTimezone'])
             ->getMock();
 
-        $site->method('getTimezone')->willReturn('UTC');
+        $site->method('getTimezone')->willReturn($timezone);
 
         return $site;
     }

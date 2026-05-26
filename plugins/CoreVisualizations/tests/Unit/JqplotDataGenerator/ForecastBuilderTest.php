@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Period\Factory;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastMetricClassifier;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastBuilder;
@@ -103,6 +104,62 @@ class ForecastBuilderTest extends TestCase
         yield 'down, higher than current' => [12.5, 10.0, ForecastMetricClassifier::MONOTONICITY_DOWN, false];
         yield 'down, equal to current' => [10.0, 10.0, ForecastMetricClassifier::MONOTONICITY_DOWN, true];
         yield 'down, below current' => [9.99, 10.0, ForecastMetricClassifier::MONOTONICITY_DOWN, true];
+    }
+
+    public function testResolveSubPeriodTodayIndexLooksUpAnchorInSiteLocalDate(): void
+    {
+        // 2026-04-19 13:00 UTC is 2026-04-20 01:00 NZST (Pacific/Auckland is UTC+12 in
+        // April). The site-local anchor for the reference instant is 2026-04-20 even
+        // though the UTC instant still falls on the 19th; the calendar-aligned lookup
+        // must reflect the site's local date, not the process timezone.
+        $site = $this->createSiteMock('Pacific/Auckland');
+        $dataTable = $this->createDataTableForWeek('2026-04-19', $site, '2026-04-19 13:00:00');
+
+        $dayAnchors = [
+            '2026-04-19', '2026-04-20', '2026-04-21', '2026-04-22',
+            '2026-04-23', '2026-04-24', '2026-04-25',
+        ];
+
+        $index = $this->invokePrivateMethod(
+            new ForecastBuilder(),
+            'resolveSubPeriodTodayIndex',
+            [$dataTable, $dayAnchors, 'Pacific/Auckland']
+        );
+
+        self::assertSame(1, $index);
+    }
+
+    public function testResolveSubPeriodTodayIndexHandlesDstFallBackDayWithoutSlipping(): void
+    {
+        // 2026-11-02 07:30 UTC is 2026-11-01 23:30 PST. November 1 is the
+        // America/Los_Angeles fall-back day -- 25 wall-clock hours long, so a naive
+        // (referenceTs - weekStartTs)/86400 implementation lands on index 1 (Nov 2).
+        // The calendar-aligned 'Y-m-d' lookup against the anchor list must return 0,
+        // pinning the property the inline comment on resolveSubPeriodTodayIndex calls
+        // out as the reason for not using seconds arithmetic. Date::$now is pinned to
+        // a far-future instant so the archived metadata stays the minimum reference.
+        $originalNow = Date::$now;
+        Date::$now = strtotime('2027-01-01 00:00:00 UTC');
+
+        try {
+            $site = $this->createSiteMock('America/Los_Angeles');
+            $dataTable = $this->createDataTableForWeek('2026-11-01', $site, '2026-11-02 07:30:00');
+
+            $dayAnchors = [
+                '2026-11-01', '2026-11-02', '2026-11-03', '2026-11-04',
+                '2026-11-05', '2026-11-06', '2026-11-07',
+            ];
+
+            $index = $this->invokePrivateMethod(
+                new ForecastBuilder(),
+                'resolveSubPeriodTodayIndex',
+                [$dataTable, $dayAnchors, 'America/Los_Angeles']
+            );
+
+            self::assertSame(0, $index);
+        } finally {
+            Date::$now = $originalNow;
+        }
     }
 
     public function testBuildUsesSameDoWPriorForDayTargetIncompleteTick(): void
@@ -1953,14 +2010,14 @@ class ForecastBuilderTest extends TestCase
         return $samples;
     }
 
-    private function createSiteMock(): Site
+    private function createSiteMock(string $timezone = 'UTC'): Site
     {
         $site = $this->getMockBuilder(Site::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getTimezone'])
             ->getMock();
 
-        $site->method('getTimezone')->willReturn('UTC');
+        $site->method('getTimezone')->willReturn($timezone);
 
         return $site;
     }
