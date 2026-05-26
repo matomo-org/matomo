@@ -103,6 +103,51 @@ describe('Dashboard/AddWidgetModal/WidgetPreview', () => {
     wrapper.unmount();
   });
 
+  it('propagates widget=1 and the parent containerId into child widgets for container previews', () => {
+    // Regression for "widget preview not showing sub/child widgets correctly":
+    // container widgets must hand each child the widgetized flag and the
+    // parent's containerId so nested AJAX renders match the legacy widgetMenu.js
+    // path. The non-container shape is covered by the parameter-shape test above.
+    const incoming = {
+      uniqueId: 'GoalsOverview',
+      isContainer: true,
+      parameters: { containerId: 'GoalsOverview' },
+      widgets: [
+        { uniqueId: 'GoalsOverview_child1', parameters: { module: 'Goals', action: 'a' } },
+        { uniqueId: 'GoalsOverview_child2', parameters: { module: 'Goals', action: 'b' } },
+      ],
+    };
+    const wrapper = mount(WidgetPreview as any, {
+      props: { widget: incoming },
+      attachTo: document.body,
+    });
+
+    const { previewWidget } = wrapper.vm as unknown as {
+      previewWidget: {
+        widgets: Array<{ parameters: Record<string, unknown> }>;
+      };
+    };
+    expect(previewWidget.widgets).toHaveLength(2);
+    expect(previewWidget.widgets[0].parameters).toEqual({
+      module: 'Goals',
+      action: 'a',
+      widget: '1',
+      containerId: 'GoalsOverview',
+    });
+    expect(previewWidget.widgets[1].parameters).toEqual({
+      module: 'Goals',
+      action: 'b',
+      widget: '1',
+      containerId: 'GoalsOverview',
+    });
+    // The original child widgets must not be mutated — the dashboard's
+    // persisted metadata is shared with the catalog.
+    expect(incoming.widgets[0].parameters).toEqual({ module: 'Goals', action: 'a' });
+    expect(incoming.widgets[1].parameters).toEqual({ module: 'Goals', action: 'b' });
+
+    wrapper.unmount();
+  });
+
   it('forces disableLink=1 when the page is body#standalone', () => {
     document.body.id = 'standalone';
     const wrapper = mount(WidgetPreview as any, {
