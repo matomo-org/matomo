@@ -123,7 +123,6 @@ describe('ForecastPeriodVisualisation', function () {
         }, scenario);
 
         await page.waitForSelector('.piwik-graph canvas');
-        await page.waitForTimeout(500);
     }
 
     const scenarios = {
@@ -176,6 +175,20 @@ describe('ForecastPeriodVisualisation', function () {
                 { offset: 2, value: { type: 'absolute', value: 5 } },
             ],
             targetTickOffset: 2,
+        },
+        forecast_matches_actual_keeps_tooltip: {
+            name: 'forecast_matches_actual_keeps_tooltip',
+            incompleteOffsets: [0],
+            actualValues: [
+                { offset: 0, value: 7 },
+            ],
+            // Forecast equals the tracked value exactly (the "flat at current" case): the
+            // renderer skips the redundant dashed connector/diamond, but the forecast value
+            // must still be reported in the tooltip.
+            forecastValues: [
+                { offset: 0, value: { type: 'currentPlus', delta: 0 } },
+            ],
+            targetTickOffset: 0,
         },
         carry_forward_forecast_on_zero_data: {
             name: 'carry_forward_forecast_on_zero_data',
@@ -235,5 +248,23 @@ describe('ForecastPeriodVisualisation', function () {
 
         const graph = await page.$('.piwik-graph');
         expect(await graph.screenshot()).to.matchImage('carry_forward_forecast_on_zero_data');
+    });
+
+    it('should still report the forecast in the tooltip when it matches the tracked value', async function () {
+        // when the forecast equals the tracked value, the redundant dashed connector
+        // (drawn over the incomplete-period segment) is suppressed, but the forecast readout in
+        // the tooltip is preserved -- so the "flat at current" projection is still communicated.
+        await loadForecastScenario(scenarios.forecast_matches_actual_keeps_tooltip);
+
+        await page.evaluate(() => {
+            const target = $('#' + window.__forecastTest.targetDivId);
+            target.trigger('jqplotPiwikTickOver', [window.__forecastTest.targetTick]);
+        });
+
+        await page.waitForFunction(() => $('.ui-tooltip:visible').length > 0);
+
+        const tooltipContent = await page.evaluate(() => $('.ui-tooltip').text().trim());
+        expect(tooltipContent).to.contain('Incomplete Period');
+        expect(tooltipContent).to.contain('Forecast');
     });
 });
