@@ -30,6 +30,7 @@ class ForecastMetricClassifier
     public const MONOTONICITY_UP = 'up';
     public const MONOTONICITY_DOWN = 'down';
     public const MONOTONICITY_FREE = 'free';
+    public const MONOTONICITY_MAX = 'max';
 
     /** @var array<string, string> */
     private $semanticTypes;
@@ -51,6 +52,9 @@ class ForecastMetricClassifier
      *   ("forecast >= current" gate applies).
      * - MONOTONICITY_DOWN: running mins that can only fall within the period
      *   ("forecast <= current" gate applies).
+     * - MONOTONICITY_MAX: running maxes that can only rise within the period (same
+     *   "forecast >= current" gate as UP), but whose period value is the max -- not the sum --
+     *   of its sub-periods, so the seasonal decomposition combines sub-periods with max().
      * - MONOTONICITY_FREE: ratios, rates, percentages, averages whose value can move in either
      *   direction within the period (no gate).
      *
@@ -93,6 +97,15 @@ class ForecastMetricClassifier
             return self::MONOTONICITY_DOWN;
         }
 
+        // max_* metrics (max_actions, max_event_value, …) are the mirror of min_*: the period
+        // value is the max over its sub-periods, not their sum. The default UP path would
+        // SUM the per-day maxes (≈ days × per-day max), inflating the forecast by an order of
+        // magnitude. The "forecast >= current" gate still holds (a running max only rises),
+        // so MAX shares UP's gate but combines sub-periods with max() instead of sum().
+        if (strpos($columnName, 'max_') === 0) {
+            return self::MONOTONICITY_MAX;
+        }
+
         // Default unknown metrics to monotonic-up count behaviour. The "forecast >= current"
         // gate then suppresses obviously-wrong forecasts on metrics whose semantics we cannot
         // classify, which is safer than emitting a downward forecast on a metric that turns
@@ -106,10 +119,11 @@ class ForecastMetricClassifier
      * Integer/count-like metrics should not emit fractional forecast values. Ratios, averages,
      * durations, money, bytes, floats, and unknown numeric metrics keep up to two decimals.
      *
-     * Both MONOTONICITY_UP and MONOTONICITY_DOWN are treated as "monotonic" for precision —
-     * a min_* count metric should round to integers the same way an additive nb_* count does.
-     * Only MONOTONICITY_FREE (ratios/averages/percentages) keeps the two-decimal default for
-     * TYPE_NUMBER metrics, which is the original allowsDownward = true behaviour.
+     * MONOTONICITY_UP, MONOTONICITY_DOWN, and MONOTONICITY_MAX are all treated as "monotonic"
+     * for precision — a running min_ or max_ count metric should round to integers the same way
+     * an additive nb_ count does. Only MONOTONICITY_FREE (ratios/averages/percentages) keeps the
+     * two-decimal default for TYPE_NUMBER metrics, which is the original allowsDownward = true
+     * behaviour.
      *
      * @param string|false $columnUnit
      * @param self::MONOTONICITY_* $monotonicity

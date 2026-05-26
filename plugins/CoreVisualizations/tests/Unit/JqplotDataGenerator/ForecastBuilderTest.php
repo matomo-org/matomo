@@ -878,6 +878,43 @@ class ForecastBuilderTest extends TestCase
         self::assertGreaterThan(700.0, $forecastData[0][1]);
     }
 
+    public function testBuildMaxSeriesCombinesSubPeriodsWithMaxNotSum(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Running-max metric (max_actions) on an incomplete week: today = Wed Apr 29, so
+        // Mon/Tue are completed and Wed-Sun are analog-projected. The period value of a max
+        // metric is the max over its days, never their sum. With eight prior weeks of flat-10
+        // same-DoW history every analog projection is 10, and Tue's archived max of 15 is the
+        // single high day. A correct MAX decomposition returns max(10, 15, 10, 10, 10, 10, 10)
+        // = 15; the pre-fix MONOTONICITY_UP path would SUM the seven days (~75), an order of
+        // magnitude too large and the exact shape of the reported max_actions blowup.
+        $dataTables = [
+            $this->createDataTableForWeek('2026-04-27', $site, '2026-04-29 12:00:00'),
+        ];
+
+        $dailySamples = $this->buildFlatDailySamples('2026-03-02', 8, 10.0);
+        $dailySamples['2026-04-27'] = 10.0; // Mon completed
+        $dailySamples['2026-04-28'] = 15.0; // Tue completed -- the period max
+        // Wed (today) and Thu-Sun are future-dated for the fetch; analog walk supplies 10 each.
+        foreach (['2026-04-29', '2026-04-30', '2026-05-01', '2026-05-02', '2026-05-03'] as $day) {
+            $dailySamples[$day] = 0.0;
+        }
+
+        $forecastData = $this->buildForecast(
+            ['Max actions' => [15.0]], // displayed week-to-date max
+            $dataTables,
+            [ArchiveState::INCOMPLETE],
+            ['Max actions' => false],
+            [],
+            ['Max actions' => ForecastMetricClassifier::MONOTONICITY_MAX],
+            [],
+            ['Max actions' => $dailySamples]
+        );
+
+        self::assertSame(15.0, $forecastData[0][0]);
+    }
+
     public function testBuildSuppressesForecastWhenTwoMostRecentPriorTicksHaveNoData(): void
     {
         $site = $this->createSiteMock();
@@ -1392,6 +1429,43 @@ class ForecastBuilderTest extends TestCase
         );
 
         self::assertSame([[null, null, null, null]], $forecastData);
+    }
+
+    public function testBuildMaxSeriesFloorsForecastBelowCurrentUpToCurrent(): void
+    {
+        $site = $this->createSiteMock();
+
+        // The reported scenario: historical same-period maxes sit flat at 11 while the
+        // in-progress period has already observed a higher max of 15. A running max cannot
+        // fall back below what has already been seen, so the forecast must render flat at 15.
+        // Before the max-floor the prior (11) failed the "forecast >= current" gate (11 < 15)
+        // and the point was suppressed -- the forecast went missing from the chart entirely,
+        // which is what the bug report described. The floor mirrors the min_* clamp but
+        // upward: "below current" is a no-further-growth outcome to render at current, not an
+        // impossible value to drop.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-03', $site),
+            $this->createDataTableForDay('2026-04-10', $site),
+            $this->createDataTableForDay('2026-04-17', $site),
+            $this->createDataTableForDay('2026-04-24', $site, '2026-04-24 12:00:00'),
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Max actions' => [11.0, 11.0, 11.0, 15.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Max actions' => false],
+            [],
+            ['Max actions' => ForecastMetricClassifier::MONOTONICITY_MAX],
+            ['Max actions' => 0]
+        );
+
+        self::assertSame([[null, null, null, 15.0]], $forecastData);
     }
 
     public function testBuildMonotonicDownSeriesSkipsLinearExtrapolationOfPartialValue(): void
