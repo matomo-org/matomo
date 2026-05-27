@@ -497,16 +497,24 @@ DataTable_RowActions_RowEvolution.prototype.doOpenPopover = function (urlParam) 
     var apiMethod = urlParamParts.shift();
 
     var extraParamsString = urlParamParts.shift(),
+        parsed,
         extraParams = {}; // 0/1 or "0"/"1"
     try {
-        extraParams = JSON.parse(decodeURIComponent(extraParamsString));
+        parsed = JSON.parse(decodeURIComponent(extraParamsString));
+        // Reject anything that is not a plain object — arrays, strings, numbers,
+        // null all succeed in JSON.parse but must not be merged into request params.
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+            extraParams = parsed;
+        } else {
+            throw new Error('extraParams must be a JSON object');
+        }
     } catch (e) {
         // assume the parameter is an int/string describing whether to use multi row evolution
         if (extraParamsString == '1') {
             extraParams.action = 'getMultiRowEvolutionPopover';
         } else if (extraParamsString != '0') {
             extraParams.action = 'getMultiRowEvolutionPopover';
-            extraParams.column = extraParamsString;
+            extraParams.column = String(extraParamsString);
         }
     }
 
@@ -616,8 +624,6 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         });
     };
 
-    requestParams.module = 'CoreHome';
-    requestParams.action = 'getRowEvolutionPopover';
     requestParams.colors = JSON.stringify(piwik.getSparklineColors());
 
     var idDimension;
@@ -636,7 +642,27 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         }
     }
 
+    // Capture the only attacker-controllable extraParams field that influences
+    // routing — the legitimate multi-row-evolution toggle.
+    var wantMultiRowEvolution = extraParams && extraParams.action === 'getMultiRowEvolutionPopover';
+
+    // Strip routing- and auth-sensitive keys from popover-supplied params before
+    // merging. The popover hash is attacker-controllable (CSPT via #popover=...),
+    // so it must not influence dispatch or attached credentials.
+    if (extraParams && typeof extraParams === 'object') {
+        delete extraParams.module;
+        delete extraParams.action;
+        delete extraParams.token_auth;
+        delete extraParams.force_api_session;
+        delete extraParams.format;
+    }
+
     $.extend(requestParams, extraParams);
+
+    // Pin routing AFTER the merge so it cannot be overridden by any path.
+    requestParams.module = 'CoreHome';
+    requestParams.action = wantMultiRowEvolution ? 'getMultiRowEvolutionPopover' : 'getRowEvolutionPopover';
+
     this.popoverRequestParams = $.extend(true, {}, requestParams);
 
     if (this._themeModeChangeListener) {
