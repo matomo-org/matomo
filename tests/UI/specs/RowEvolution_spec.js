@@ -199,6 +199,7 @@ describe("RowEvolution", function () {
             expect(url).to.not.contain('action=setMailSettings');
             expect(url).to.not.contain('force_api_session=0');
             expect(url).to.not.match(/[?&]format=json(&|$)/);
+            expect(url).to.not.contain('mailHost=');
         });
     });
 });

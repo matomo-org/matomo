@@ -339,7 +339,7 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
 
     $.each(this.dataTable.param, function (index, value) {
         // we automatically add fields like idDimension, idGoal etc.
-        if (index !== 'idSite' && index.indexOf('id') === 0 && ($.isNumeric(value) || value.indexOf('ecommerce') === 0)) {
+        if (DataTable_RowActions_RowEvolution.isAllowedIdExtraParam(index, value)) {
             extraParams[index] = value;
         }
     });
@@ -491,25 +491,80 @@ DataTable_RowActions_RowEvolution.prototype.openPopover = function (apiMethod, e
     DataTable_RowAction.prototype.openPopover.apply(this, [urlParam]);
 };
 
+// Allowlist of `extraParams` keys that may flow from the popover URL hash into
+// the Row Evolution XHR.
+DataTable_RowActions_RowEvolution.allowedExtraParamKeys = [
+    'column',
+    'action',
+    'labelPretty',
+    'labelSeries',
+    'showGoalMetricsForGoal',
+    'abandonedCarts',
+    'secondaryDimension',
+    'flat',
+    'compareDates',
+    'comparePeriods',
+    'compareSegments',
+    'segment',
+    'period',
+    'date'
+];
+
+// Dynamic `id*` keys (idGoal, idDimension, idSubtable, ...). Used both when
+// building the row-evolution URL in `performAction` and when parsing it back
+// in `doOpenPopover`, so both sides accept the same set of params.
+DataTable_RowActions_RowEvolution.isAllowedIdExtraParam = function (key, value) {
+    return key !== 'idSite'
+        && key.indexOf('id') === 0
+        && ($.isNumeric(value) || (typeof value === 'string' && value.indexOf('ecommerce') === 0));
+};
+
+// Filter a parsed extraParams object against the allowlist. Returns a new
+// object containing only keys that are either in `allowedExtraParamKeys` or
+// accepted by `isAllowedIdExtraParam`. The `action` key is additionally pinned
+// to the multi-row marker value.
+DataTable_RowActions_RowEvolution.filterAllowedExtraParams = function (parsed) {
+    var result = {};
+    var allowed = DataTable_RowActions_RowEvolution.allowedExtraParamKeys;
+
+    for (var key in parsed) {
+        if (!Object.prototype.hasOwnProperty.call(parsed, key)) {
+            continue;
+        }
+
+        var value = parsed[key];
+
+        // `action` is allowed only as the multi-row marker. Layer 2 in
+        // showRowEvolution unconditionally pins requestParams.action, but
+        // the value-check keeps the in-memory extraParams honest.
+        if (key === 'action' && value !== 'getMultiRowEvolutionPopover') {
+            continue;
+        }
+
+        if (allowed.indexOf(key) !== -1
+            || DataTable_RowActions_RowEvolution.isAllowedIdExtraParam(key, value)) {
+            result[key] = value;
+        }
+    }
+
+    return result;
+};
+
 DataTable_RowActions_RowEvolution.prototype.doOpenPopover = function (urlParam) {
     var urlParamParts = urlParam.split(':');
-
     var apiMethod = urlParamParts.shift();
+    var extraParamsString = urlParamParts.shift();
+    var label = urlParamParts.join(':');
 
-    var extraParamsString = urlParamParts.shift(),
-        parsed,
-        extraParams = {}; // 0/1 or "0"/"1"
+    var extraParams = {};
     try {
-        parsed = JSON.parse(decodeURIComponent(extraParamsString));
-        // Reject anything that is not a plain object — arrays, strings, numbers,
-        // null all succeed in JSON.parse but must not be merged into request params.
-        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
-            extraParams = parsed;
-        } else {
+        var parsed = JSON.parse(decodeURIComponent(extraParamsString));
+        if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
             throw new Error('extraParams must be a JSON object');
         }
+        extraParams = DataTable_RowActions_RowEvolution.filterAllowedExtraParams(parsed);
     } catch (e) {
-        // assume the parameter is an int/string describing whether to use multi row evolution
+        // Legacy short-form: bare "0"/"1"/<column-name> instead of a JSON envelope.
         if (extraParamsString == '1') {
             extraParams.action = 'getMultiRowEvolutionPopover';
         } else if (extraParamsString != '0') {
@@ -517,8 +572,6 @@ DataTable_RowActions_RowEvolution.prototype.doOpenPopover = function (urlParam) 
             extraParams.column = String(extraParamsString);
         }
     }
-
-    var label = urlParamParts.join(':');
 
     this.showRowEvolution(apiMethod, label, extraParams);
 };
@@ -642,21 +695,9 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         }
     }
 
-    // Capture the only attacker-controllable extraParams field that influences
-    // routing — the legitimate multi-row-evolution toggle.
     var wantMultiRowEvolution = extraParams && extraParams.action === 'getMultiRowEvolutionPopover';
 
-    // Sanitize into a copy and remove unsafe params that an attacker can exploit
-    var safeExtraParams = {};
-    if (extraParams && typeof extraParams === 'object') {
-        safeExtraParams = $.extend({}, extraParams);
-        delete safeExtraParams.module;
-        delete safeExtraParams.action;
-        delete safeExtraParams.force_api_session;
-        delete safeExtraParams.format;
-    }
-
-    $.extend(requestParams, safeExtraParams);
+    $.extend(requestParams, extraParams);
 
     // Pin routing AFTER the merge so it cannot be overridden by any path.
     requestParams.module = 'CoreHome';
