@@ -172,7 +172,11 @@ describe("RowEvolution", function () {
             + '#?popover=' + hashValue;
 
         const popoverRequests = [];
+        let listening = true;
         const onRequest = (req) => {
+            if (!listening) {
+                return;
+            }
             const url = req.url();
             if (url.indexOf('apiMethod=Actions.getPageUrls') !== -1) {
                 popoverRequests.push(url);
@@ -185,7 +189,7 @@ describe("RowEvolution", function () {
             await page.goto(attackUrl);
             await page.waitForNetworkIdle();
         } finally {
-            page.off('request', onRequest);
+            listening = false;
         }
 
         expect(popoverRequests.length).to.be.above(0);
