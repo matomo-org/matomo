@@ -31,8 +31,9 @@ describe("WidgetizedDashboard", function () {
     };
 
     var clickDashboardMenuItem = async function (item) {
+        await page.waitForSelector('.dashboard-manager .title', { visible: true });
         await page.click('.dashboard-manager .title');
-        await page.waitForTimeout(50);
+        await page.waitForSelector('button[data-action="' + item + '"]', { visible: true });
         await page.click('button[data-action="' + item + '"]');
     }
 
@@ -152,8 +153,18 @@ describe("WidgetizedDashboard", function () {
 
         var pages = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Pages):first');
         await pages.hover();
+        // Wait for the hover timer in WidgetsList.vue to fire and mark the row as the
+        // chosen widget — that's the signal the next click will select rather than just
+        // preview. Reading the rendered state avoids hard-coding the timer duration.
+        await page.waitForSelector(modalSelector + ' .widgetpreview-widgetlist>li.widgetpreview-choosen');
         await pages.click();
 
+        await page.waitForNetworkIdle();
+
+        // The modal now stays open after a widget is selected so the user can add more
+        // widgets in the same session; close it before screenshotting the dashboard.
+        await page.click(modalSelector + ' .btn-close');
+        await page.waitForFunction(() => !document.querySelector('.modal.open.add-widget-modal'));
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_add_widget');

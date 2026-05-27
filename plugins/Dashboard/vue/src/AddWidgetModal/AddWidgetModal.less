@@ -1,0 +1,176 @@
+@add-widget-categories: 200px;
+@add-widget-widgets: 200px;
+@add-widget-preview: 500px;
+@add-widget-gap: 32px;
+@add-widget-height: 560px;
+
+// Size the modal to fit the three columns. 48px allows for Materialize's
+// default `.modal-content` padding (24px each side).
+// `.modal.add-widget-modal` keeps two-class specificity so the chosen-row
+// background below still beats the global `.widgetpreview-base
+// li.widgetpreview-choosen` rule in Morpheus/main.less.
+.modal.add-widget-modal {
+  width: @add-widget-categories + @add-widget-widgets + @add-widget-preview
+    + (@add-widget-gap * 2) + 48px;
+  max-width: 90%;
+  height: @add-widget-height;
+  max-height: 90vh;
+  border-radius: 8px;
+
+  li.widgetpreview-choosen {
+    background-color: @theme-color-background-lowContrast;
+  }
+}
+
+.add-widget-modal {
+  .add-widget-modal-content {
+    background: @theme-color-background-contrast;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  // Modal title sits flush with the modal top and is left-aligned.
+  .add-widget-modal-title {
+    margin-bottom: 10px;
+    text-align: left;
+    flex: none;
+  }
+
+  .add-widget-modal-body {
+    display: grid;
+    grid-template-columns: @add-widget-categories @add-widget-widgets @add-widget-preview;
+    gap: @add-widget-gap;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .add-widget-modal-categories,
+  .add-widget-modal-widgets,
+  .add-widget-modal-preview {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .add-widget-modal-categories,
+  .add-widget-modal-widgets {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .add-widget-modal-preview {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    align-self: start;
+    max-height: 100%;
+  }
+
+  // The preview widget hosts arbitrary reports; datatables and other content
+  // can be intrinsically wider than the 500px column. Box it in so the widget
+  // border stays flush with the column edges and any overflow scrolls inside
+  // the inner report rather than stretching the column.
+  .widgetpreview-preview .widget {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  // Re-apply the global `.widget div.dataTable…` cell-level padding rules
+  // (CoreHome/stylesheets/dataTable/_dataTable.less:194 and :498) with higher
+  // specificity scoped to the preview pane, so they always take precedence
+  // over any layout shrinks the preview column imposes.
+  .widgetpreview-preview .widget .card-content div.dataTable:not(.isComparing) table.dataTable th,
+  .widgetpreview-preview .widget .card-content div.dataTable:not(.isComparing) table.dataTable tbody > tr > td:not(.cellSubDataTable):first-child {
+    padding-left: 30px !important;
+  }
+
+  .add-widget-modal-preview .select-wrapper.cohorts-metric-picker {
+    min-width: 16rem;
+  }
+
+  .widgetpreview-categorylist,
+  .widgetpreview-widgetlist {
+    width: 100%;
+    float: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .widgetpreview-widgetlist {
+    font-weight: normal;
+  }
+
+  .widgetpreview-preview {
+    float: none;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .widgetTop {
+    cursor: pointer;
+  }
+
+  // Overrides the global `ul.widgetpreview-widgetlist li { padding: 0 25px 0 5px }`
+  // so the row can host a wrapping widget name and the "+ Add" hint as
+  // flex children. Scoping to `.add-widget-modal` leaves Widgetize's plain-text
+  // widget list using the global block layout.
+  ul.widgetpreview-widgetlist li {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 0 5px;
+  }
+
+  ul.widgetpreview-widgetlist .widgetpreview-widgetname {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: normal;
+  }
+
+  ul.widgetpreview-categorylist li {
+    white-space: normal;
+  }
+
+  // Keep the focus ring for keyboard users but suppress it after a mouse click,
+  // otherwise the <li> (focusable via tabindex) keeps a dashed outline after
+  // selection and leaks into screenshot tests.
+  ul.widgetpreview-categorylist li:focus:not(:focus-visible),
+  ul.widgetpreview-widgetlist li:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  // Match the themed focus ring used on dashboard buttons/links rather than
+  // the browser default dashed outline.
+  ul.widgetpreview-categorylist li:focus-visible,
+  ul.widgetpreview-widgetlist li:focus-visible {
+    outline: 2px solid @theme-color-focus-ring;
+    outline-offset: -2px;
+  }
+
+  ul.widgetpreview-widgetlist .widgetpreview-add-hint {
+    flex: 0 0 auto;
+    padding: 0 6px;
+    color: inherit;
+    opacity: 0;
+    transition: opacity 80ms linear;
+  }
+
+  ul.widgetpreview-widgetlist li.widgetpreview-choosen .widgetpreview-add-hint {
+    opacity: 1;
+  }
+
+  // The "+ Add" hint replaces the green-triangle ::after defined at
+  // plugins/Morpheus/stylesheets/main.less:615 for chosen widget rows in the
+  // modal only. The triangle continues to mark the chosen category on the
+  // categories list, and Widgetize's widget list keeps it too.
+  ul.widgetpreview-widgetlist li.widgetpreview-choosen::after {
+    display: none;
+  }
+}

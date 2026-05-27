@@ -56,25 +56,35 @@ describe("DashboardManager", function () {
         expect(await page.screenshotSelector(modalSelector)).to.matchImage('widget_preview');
     });
 
-    it("should close the manager when a widget is selected", async function() {
-        // make sure selecting a widget does nothing
-        await page.evaluate(function () {
-            window.MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP = true;
-        });
+    it("should add the widget to the dashboard and keep the modal open when a widget is selected", async function() {
+        const widgetsCountBefore = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
 
         vot = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Visits Over Time)');
         await vot.click();
 
         await page.waitForNetworkIdle();
+        await page.waitForFunction(
+            (before) => $('#dashboardWidgetsArea .widget').length > before,
+            {},
+            widgetsCountBefore,
+        );
 
-        expect(await page.screenshotSelector(managerSelector)).to.matchImage('loaded');
+        const widgetsCountAfter = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
+        expect(widgetsCountAfter).to.equal(widgetsCountBefore + 1);
+
+        const modalStillOpen = await page.evaluate(() => !!document.querySelector('.modal.open.add-widget-modal'));
+        expect(modalStillOpen).to.equal(true);
+
+        // close manually so the next test starts clean
+        await page.click(modalSelector + ' .btn-close');
+        await page.waitForFunction(() => !document.querySelector('.modal.open.add-widget-modal'));
     });
 
     it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
         // check that widget count on currently loaded dashboard is correct, so we are able to say if
         // number of widgets has changed after creating and loading the new one
         const widgetsCountBefore = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
-        expect(widgetsCountBefore).to.equal(1);
+        expect(widgetsCountBefore).to.equal(2);
 
         await page.click('.dashboard-manager .title');
         await page.click('button[data-action="createDashboard"]');
@@ -139,9 +149,11 @@ describe("DashboardManager", function () {
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
-        // check initial dashboard was loaded again, which should have 1 widget only
+        // check initial dashboard was loaded again, which should have 2 widgets
+        // (1 default widget plus the one added in the "should add the widget…" test)
         const widgetsCount = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
-        expect(widgetsCount).to.equal(1);
+        // should also count the widget we added in the previous test
+        expect(widgetsCount).to.equal(2);
 
         // check dashboard has been removed from menu, causing menu to switch from selector to listing
         expect(await page.screenshotSelector('#secondNavBar .menuTab.active')).to.matchImage('removed');
