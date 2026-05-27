@@ -43,74 +43,83 @@ var matomoAnalytics = {initialize: function (options) {
     }
 
     function syncQueue () {
-        // check something in indexdb
+        // Returns a promise that resolves only after the cursor walk has
+        // exhausted the queue AND every in-flight fetch has settled. The
+        // service worker's `sync` handler relies on this so `event.waitUntil`
+        // keeps the worker alive through the full replay on slow devices.
         return getQueue().then(function (queue) {
-            queue.openCursor().onsuccess = function(event) {
-                var cursor = event.target.result;
-                if (cursor && navigator.onLine) {
-                    cursor.continue();
-                    var queueId = cursor.value.id;
+            return new Promise(function (resolveAll) {
+                var inFlight = [];
 
-                    var secondsQueuedAgo = ((Date.now() - cursor.value.created) / 1000);
-                    secondsQueuedAgo = parseInt(secondsQueuedAgo, 10);
-                    if (secondsQueuedAgo > maxTimeLimit) {
-                        // too old
-                        getQueue().then(function (queue) {
-                            queue.delete(queueId);
-                        });
-                        return;
-                    }
+                queue.openCursor().onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor && navigator.onLine) {
+                        cursor.continue();
+                        var queueId = cursor.value.id;
 
-                    console.log("Cursor " + cursor.key);
-
-                    var init = {
-                        headers: cursor.value.headers,
-                        method: cursor.value.method,
-                    }
-                    if (cursor.value.body) {
-                        init.body = cursor.value.body;
-                    }
-
-                    if (cursor.value.url.includes('?')) {
-                        // Singleton GET-style URL: stamp cdo on the URL.
-                        cursor.value.url += '&cdo=' + secondsQueuedAgo;
-                    } else if (init.body && init.body.indexOf('"requests"') !== -1) {
-                        // Bulk: JSON body of the form {"requests":["?...","?..."],"send_image":0}.
-                        // Stamp cdo into each inner request so every event is backdated, not
-                        // just the first one (String.prototype.replace with a string needle
-                        // replaces only the first occurrence).
-                        try {
-                            var bulk = JSON.parse(init.body);
-                            if (bulk && Array.isArray(bulk.requests)) {
-                                bulk.requests = bulk.requests.map(function (q) {
-                                    return q + '&cdo=' + secondsQueuedAgo;
-                                });
-                                init.body = JSON.stringify(bulk);
-                            }
-                        } catch (e) {
-                            // Malformed body — leave it alone rather than corrupt it.
-                        }
-                    } else if (init.body) {
-                        // Form-encoded singleton via body (rare; preserved for compatibility).
-                        init.body = init.body.replace('&idsite=', '&cdo=' + secondsQueuedAgo + '&idsite=');
-                    }
-
-                    fetch(cursor.value.url, init).then(function (response) {
-                        console.log('server response', response);
-                        if (response.status < 400) {
-                            getQueue().then(function (queue) {
+                        var secondsQueuedAgo = ((Date.now() - cursor.value.created) / 1000);
+                        secondsQueuedAgo = parseInt(secondsQueuedAgo, 10);
+                        if (secondsQueuedAgo > maxTimeLimit) {
+                            // too old
+                            inFlight.push(getQueue().then(function (queue) {
                                 queue.delete(queueId);
-                            });
+                            }));
+                            return;
                         }
-                    }).catch(function (error) {
-                        console.error('Send to Server failed:', error);
-                        throw error
-                    })
-                }
-                else {
-                    console.log("No more entries!");
-                }
-            };
+
+                        console.log("Cursor " + cursor.key);
+
+                        var init = {
+                            headers: cursor.value.headers,
+                            method: cursor.value.method,
+                        }
+                        if (cursor.value.body) {
+                            init.body = cursor.value.body;
+                        }
+
+                        if (cursor.value.url.includes('?')) {
+                            // Singleton GET-style URL: stamp cdo on the URL.
+                            cursor.value.url += '&cdo=' + secondsQueuedAgo;
+                        } else if (init.body && init.body.indexOf('"requests"') !== -1) {
+                            // Bulk: JSON body of the form {"requests":["?...","?..."],"send_image":0}.
+                            // Stamp cdo into each inner request so every event is backdated, not
+                            // just the first one (String.prototype.replace with a string needle
+                            // replaces only the first occurrence).
+                            try {
+                                var bulk = JSON.parse(init.body);
+                                if (bulk && Array.isArray(bulk.requests)) {
+                                    bulk.requests = bulk.requests.map(function (q) {
+                                        return q + '&cdo=' + secondsQueuedAgo;
+                                    });
+                                    init.body = JSON.stringify(bulk);
+                                }
+                            } catch (e) {
+                                // Malformed body — leave it alone rather than corrupt it.
+                            }
+                        } else if (init.body) {
+                            // Form-encoded singleton via body (rare; preserved for compatibility).
+                            init.body = init.body.replace('&idsite=', '&cdo=' + secondsQueuedAgo + '&idsite=');
+                        }
+
+                        inFlight.push(fetch(cursor.value.url, init).then(function (response) {
+                            console.log('server response', response);
+                            if (response.status < 400) {
+                                return getQueue().then(function (queue) {
+                                    queue.delete(queueId);
+                                });
+                            }
+                        }).catch(function (error) {
+                            console.error('Send to Server failed:', error);
+                        }));
+                    }
+                    else {
+                        console.log("No more entries!");
+                        // Cursor exhausted: wait for every queued fetch/delete
+                        // to settle before resolving the outer promise.
+                        resolveAll(Promise.allSettled(inFlight));
+                    }
+                };
+            });
         });
     }
 
@@ -133,7 +142,10 @@ var matomoAnalytics = {initialize: function (options) {
 
     self.addEventListener('sync', function(event) {
         if (event.tag === 'matomoSync') {
-            syncQueue();
+            // waitUntil keeps the service worker alive until the full replay
+            // (cursor walk + every fetch) completes — on slow phones or large
+            // offline queues the worker could otherwise be terminated mid-sync.
+            event.waitUntil(syncQueue());
         }
     });
 
