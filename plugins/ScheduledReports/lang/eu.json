@@ -37,7 +37,6 @@
         "SegmentAppliedToReports": "'%s' segmentua aplikatzen zaie txostenei.",
         "SegmentDeleted": "Segmentua ezabatuta",
         "Segment_Deletion_Error": "Segmentu hau ezin da ezabatu edo beste erabiltzaileentzat ikusezin egin, e-posta txostena(k) sortzeko erabiltzen delako %s. Saiatu berriz segmentu hau txosten(eta)tik kendu ondoren.",
-        "SendReportNow": "Bidali txostena orain",
         "SendReportTo": "Bidali txostena honi",
         "SentFromX": "%s(e)tik bidalita.",
         "SentToMe": "Bidali niri",
