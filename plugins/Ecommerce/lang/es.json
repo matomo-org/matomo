@@ -5,7 +5,7 @@
         "EcommerceLogSubcategoryHelp2": "Los datos de esta página se actualizan en tiempo real.",
         "EcommerceOverviewSubcategoryHelp2": "Haga clic en una métrica individual dentro del gráfico de destellos para centrarse en ella dentro del gráfico de evolución a tamaño completo.",
         "LifeTimeValue": "Ingresos atribuidos al cliente durante el tiempo que fue cliente: \"Ecommerce Life Time Value\"",
-        "LifeTimeValueDescription": "Ingresos totales por Ecommerce atribuidos a este cliente a lo largo de todas las visitas: la suma de los ingresos de todas las compras para el visitante %s",
+        "LifeTimeValueDescription": "Ingresos totales por Ecommerce atribuidos a este cliente a lo largo de todas las visitas: la suma de los ingresos de todas las compras para el ID Visitante %s.",
         "NumberOfItems": "Número de elementos en el carrito",
         "Order": "Pedido",
         "OrderId": "ID Pedido",
