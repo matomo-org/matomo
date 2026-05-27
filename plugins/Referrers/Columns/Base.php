@@ -717,7 +717,7 @@ abstract class Base extends VisitDimension
         ) {
             // Use default values per above
             Common::printDebug("Invalid Referrer information found: current visitor seems to have used a campaign, but campaign name was not found in the request.");
-        } elseif ($this->isCampaignCookieValueActuallyAIAssistant($type, $name, $referrerCampaignName)) {
+        } elseif ($this->isCampaignCookieValueActuallyAIAssistant($type, $referrerCampaignName)) {
             Common::printDebug("Campaign information from 1st party cookie matches the AI assistant already attributed to the visit and is ignored.");
         } elseif (!empty($referrerCampaignName)) {
             // 1) Campaigns from 1st party cookie
@@ -817,18 +817,13 @@ abstract class Base extends VisitDimension
         return trim(urldecode($request->getParam($paramName)));
     }
 
-    private function isCampaignCookieValueActuallyAIAssistant($type, $visitReferrerName, string $referrerCampaignName): bool
+    private function isCampaignCookieValueActuallyAIAssistant($type, string $referrerCampaignName): bool
     {
-        if ((int) $type !== Common::REFERRER_TYPE_AI_ASSISTANT || empty($visitReferrerName)) {
+        if ((int) $type !== Common::REFERRER_TYPE_AI_ASSISTANT) {
             return false;
         }
 
-        $aiAssistantName = AIAssistantDetection::getInstance()->getAIAssistantFromDomain($referrerCampaignName);
-        if (empty($aiAssistantName)) {
-            return false;
-        }
-
-        return Common::mb_strtolower($aiAssistantName) === Common::mb_strtolower($visitReferrerName);
+        return AIAssistantDetection::getInstance()->isAIAssistantUrl($referrerCampaignName);
     }
 
     private function truncateReferrerName($name)
