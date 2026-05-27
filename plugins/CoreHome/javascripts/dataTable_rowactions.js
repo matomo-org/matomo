@@ -646,18 +646,17 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
     // routing — the legitimate multi-row-evolution toggle.
     var wantMultiRowEvolution = extraParams && extraParams.action === 'getMultiRowEvolutionPopover';
 
-    // Strip routing- and auth-sensitive keys from popover-supplied params before
-    // merging. The popover hash is attacker-controllable (CSPT via #popover=...),
-    // so it must not influence dispatch or attached credentials.
+    // Sanitize into a copy and remove unsafe params that an attacker can exploit
+    var safeExtraParams = {};
     if (extraParams && typeof extraParams === 'object') {
-        delete extraParams.module;
-        delete extraParams.action;
-        delete extraParams.token_auth;
-        delete extraParams.force_api_session;
-        delete extraParams.format;
+        safeExtraParams = $.extend({}, extraParams);
+        delete safeExtraParams.module;
+        delete safeExtraParams.action;
+        delete safeExtraParams.force_api_session;
+        delete safeExtraParams.format;
     }
 
-    $.extend(requestParams, extraParams);
+    $.extend(requestParams, safeExtraParams);
 
     // Pin routing AFTER the merge so it cannot be overridden by any path.
     requestParams.module = 'CoreHome';

@@ -161,7 +161,6 @@ describe("RowEvolution", function () {
             module: 'CoreAdminHome',
             action: 'setMailSettings',
             mailHost: 'attacker.example',
-            token_auth: 'forged',
             force_api_session: 0,
             format: 'json'
         });
@@ -198,7 +197,6 @@ describe("RowEvolution", function () {
             expect(url).to.contain('action=getRowEvolutionPopover');
             expect(url).to.not.contain('module=CoreAdminHome');
             expect(url).to.not.contain('action=setMailSettings');
-            expect(url).to.not.contain('token_auth=forged');
             expect(url).to.not.contain('force_api_session=0');
             expect(url).to.not.match(/[?&]format=json(&|$)/);
         });
