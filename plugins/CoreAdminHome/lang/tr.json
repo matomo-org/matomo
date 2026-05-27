@@ -40,6 +40,8 @@
         "ImportingServerLogsDesc": "Ziyaretçileri tarayıcı ile izlemenin (JavaScript ya da görsel bağlantısı ile) bir alternatifi sürekli olarak sunucu günlüklerini içe aktarmaktır. Ayrıntılı bilgi almak için %1$ssunucu günlüğü dosya istatistikleri%2$s bölümüne bakabilirsiniz.",
         "InvalidPluginsWarning": "Şu eklentiler %1$s ile uyumlu olmadığından yüklenemedi: %2$s.",
         "InvalidPluginsYouCanUninstall": "Bu eklentileri %1$sEklenti yönetimi%2$s sayfasından güncelleyebilir ya da kaldırabilirsiniz.",
+        "InvalidSiteUrlError": "Bu adres geçerli değil. İçerik taşınmış, silinmiş ya da artık kullanılamıyor (adresteki site kimliği '%s' olarak ayarlanmıştı).",
+        "InvalidSiteUrlErrorHelp": "Lütfen önceki sayfaya dönün ya da bir site seçmek için panoya dönün.",
         "JSTrackingDocumentationHelp": "Kolay erişim için, sık kullanılan gelişmiş ayaları aşağıda bulabilirsiniz. Diğer ayarlar için (hedeflerin, özel değişkenlerin, e-ticaret siparişlerinin ve terk edilmiş alışveriş sepetlerinin nasıl izleneceği gibi) %1$sMatomo Javascript izleme belgelerine%2$s bakabilirsiniz.",
         "JSTrackingIntro1": "Siteye gelen ziyaretçileri birkaç farklı yolla izleyebilirsiniz. JavaScript yönteminin kullanılması önerilir. Bu yöntemi kullanabilmek için, buradan üretebileceğiniz JavaScript kodunun sitenin tüm sayfalarına ekleneceğinden emin olmalısınız.",
         "JSTrackingIntro2": "JavaScript izleme kodunu Matomo ile izlemek istediğiniz sitenin tüm sayfalarına ya da içerik yönetimi sistemindeki uygun bölüme yapıştırın.",

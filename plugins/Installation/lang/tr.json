@@ -102,7 +102,7 @@
         "SystemCheckDatabaseSSLNotWorking": "%s '1' olarak ayarlanmış ancak SSL bağlantısı çalışmıyor",
         "SystemCheckDatabaseSSLOn": "Veri tabanınız SSL bağlantısı kullanmıyor ancak SSL bağlantılarını destekliyor. Matomo yapılandırma dosyanızdan veri tabanınızın SSL ayarlarını denetleyin",
         "SystemCheckDebugBacktraceHelp": "View::factory çağıran modül için görünümleri eklenemedi.",
-        "SystemCheckError": "Bir sorun çıktı. İlerlemeden önce bu sorunu gidermelisiniz",
+        "SystemCheckError": "Bir sorun çıktı ve ilerlemeden önce bu sorun çözülmeli",
         "SystemCheckEvalHelp": "HTML QuickForm ve Twig kalıp sistemi için gerekli.",
         "SystemCheckExtensions": "Gerekli diğer eklentiler",
         "SystemCheckFileIntegrity": "Dosya bütünlüğü",
