@@ -11,7 +11,7 @@
         "CronArchivingHasNotRunInAWhile": "L'archivage s'est exécuté avec succès le %1$s soit il y a %2$s.",
         "CronArchivingLastRunCheck": "Dernière exécution d'archivage réussie",
         "CronArchivingRanSuccessfullyXAgo": "Le processus d'archivage s'est terminé avec succès il y a %1$s.",
-        "CronArchivingRunDetails": "Veuillez vérifier que vous avez une entrée dans la table de CRON en exécutant la commande %1$s depuis la console, et que vous avez configuré un %2$s afin de recevoir les erreurs par courriel si l'archivage échoue. Vous pouvez aussi essayer d'exécuter la commande manuellement depuis la console pour archiver vos rapports manuellement : %3$s. %4$sEn apprendre plus.%5$s",
+        "CronArchivingRunDetails": "Veuillez vérifier que vous avez une entrée dans la table de CRON en exécutant la commande %1$s depuis la console, et que vous avez configuré un %2$s afin de recevoir les erreurs par courriel si l'archivage échoue. Vous pouvez aussi essayer d'exécuter la commande manuellement depuis la console pour archiver vos rapports manuellement : %3$s. %4$sEn apprendre plus.%5$s",
         "DatabaseCollationCharset": "La collation par défaut pour le charset que vous avez configuré est : <code>%1$s</code>",
         "DatabaseCollationConnection": "La collation de connexion actuellement utilisée est : <code>%1$s</code>",
         "DatabaseCollationNotConfigured": "Votre connexion à la base de données est configurée sans une collation explicite. Veuillez mettre à jour <code>[database] collation = ''</code> dans le fichier \"config/config.ini.php\" avec la collation à utiliser, afin de garantir que toutes les fonctionnalités de la base de données fonctionnent comme prévu.",

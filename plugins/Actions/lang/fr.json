@@ -1,7 +1,7 @@
 {
     "Actions": {
         "ActionType": "Type d'action",
-        "ActionTypeSegmentHelp": "Un type d'action tel que: %s",
+        "ActionTypeSegmentHelp": "Un type d'action tel que : %s",
         "ActionTypes": "Types d'action",
         "ActionsInVisit": "Nombre d'actions de la visite",
         "AvgGenerationTimeTooltip": "Moyenne basée sur %1$s entrée(s) %2$s entre %3$s et %4$s",

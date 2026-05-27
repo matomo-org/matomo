@@ -12,7 +12,7 @@
         "DefaultLocationProviderDesc1": "Le fournisseur de localisation par défaut détermine le pays depuis lequel les visiteurs se connectent en fonction de la langue qu'ils ont sélectionnée.",
         "DefaultLocationProviderDesc2": "Ce n'est pas très précis, alors %1$sinstallez et utilisez une %2$sbase de données de géolocalisation%3$s%4$s.",
         "DefaultLocationProviderExplanation": "Vous utilisez le fournisseur de localisation par défaut ; le pays de connexion des visiteurs est donc déterminé en fonction de la langue sélectionnée. %1$sApprenez à configurer une géolocalisation plus précise%2$s.",
-        "DisabledLocationProvider": "Désactiver la géolocalisation",
+        "DisabledLocationProvider": "Désactiver la géolocalisation.",
         "DistinctCountries": "%s pays différents",
         "FromDifferentCities": "villes différentes",
         "GeoIPDocumentationSuffix": "Configurez la géolocalisation IP dans l'onglet d'administration pour fournir les données de ce rapport. Les bases de données commerciales de %1$sMaxMind%2$s GeoIP sont plus précises que les bases de données gratuites. %3$sCliquez ici%4$s pour voir leur niveau de précision.",
