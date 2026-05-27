@@ -119,6 +119,92 @@ class ForecastSubPeriodFetcherTest extends IntegrationTestCase
         self::assertEqualsWithDelta(3.0, $sample, 0.01);
     }
 
+    public function testInnerSubPeriodPercentMetricArrivesInChartUnits(): void
+    {
+        // conversion_rate is a percentage ProcessedMetric. The displayed chart scales it to
+        // whole percent (e.g. 25.0 for "25%") through Goals.getMetrics, whose report declares
+        // the ConversionRate object. The inner sub-period fetch resolves Goals.get, whose
+        // report lists conversion_rate only as a string, so before the fix the sample arrived
+        // as the raw 0..1 quotient (0.25) and the forecast rendered ~100x too small. The fix
+        // seeds the delegated metric object so the inner Numeric pass scales identically.
+        Plugin\Manager::getInstance()->loadPlugin('Goals');
+        try {
+            Plugin\Manager::getInstance()->activatePlugin('Goals');
+        } catch (\Exception $e) {
+            // Already active.
+        }
+
+        \Piwik\Plugins\Goals\API::getInstance()->addGoal(
+            1,
+            'Thank You',
+            'url',
+            'thankyou',
+            'contains'
+        );
+
+        // Four distinct visits, one of which converts the goal: nb_visits = 4,
+        // nb_visits_converted = 1, so conversion_rate = 25% (raw quotient 0.25, whole 25.0).
+        for ($visit = 0; $visit < 4; $visit++) {
+            $tracker = Fixture::getTracker(1, self::TRACKING_DATE . ' 0' . $visit . ':10:00', true, true);
+            $tracker->setTokenAuth(Fixture::getTokenAuth());
+            $tracker->setVisitorId(substr(md5('visitor' . $visit), 0, 16));
+            $tracker->setUrl('http://example.org/page' . $visit);
+            $tracker->doTrackPageView('page' . $visit);
+            if ($visit === 0) {
+                $tracker->setUrl('http://example.org/thankyou');
+                $tracker->doTrackPageView('thankyou');
+            }
+        }
+
+        \Piwik\API\Request::processRequest('Goals.get', [
+            'idSite'    => 1,
+            'period'    => 'day',
+            'date'      => self::TRACKING_DATE,
+            'format'    => 'original',
+            'serialize' => '0',
+        ]);
+
+        $monthTable = new DataTable();
+        $monthTable->setMetadata(
+            DataTableFactory::TABLE_METADATA_PERIOD_INDEX,
+            PeriodFactory::build('month', self::TRACKING_DATE)
+        );
+
+        $fetcher = new ForecastSubPeriodFetcher();
+        $result = $fetcher->collect(
+            [$monthTable],
+            $this->createSeriesState(
+                ['Conversion Rate' => 'conversion_rate'],
+                [],
+                ['Conversion Rate' => ForecastMetricClassifier::MONOTONICITY_FREE]
+            ),
+            'Goals.get',
+            1,
+            ''
+        );
+
+        self::assertArrayHasKey('Conversion Rate', $result['daily']);
+        self::assertArrayHasKey(
+            self::TRACKING_DATE,
+            $result['daily']['Conversion Rate'],
+            'Inner daily map is missing the tracked day'
+        );
+
+        $sample = $result['daily']['Conversion Rate'][self::TRACKING_DATE];
+        self::assertGreaterThan(
+            1.5,
+            $sample,
+            sprintf(
+                'Inner conversion_rate sample arrived as a raw 0..1 quotient (%s) -- the Numeric'
+                . ' formatter pass did not scale the percentage to whole percent, so the forecast'
+                . ' would render ~100x too small.',
+                var_export($sample, true)
+            )
+        );
+        // 1 converted visit / 4 visits = 25%, whole-percent 25.0 (matching the displayed chart).
+        self::assertEqualsWithDelta(25.0, $sample, 0.5);
+    }
+
     public function testInnerSubPeriodMaxMetricReturnsDailyMaxNotSum(): void
     {
         // max_actions is the maximum action count in any single visit within the period -- an

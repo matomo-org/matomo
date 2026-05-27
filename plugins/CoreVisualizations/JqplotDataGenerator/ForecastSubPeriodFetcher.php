@@ -328,8 +328,25 @@ class ForecastSubPeriodFetcher
         // Running the identical Numeric pass here mirrors that transformation row-for-row so
         // the seasonal decomposition stays in one unit system.
         $report = $this->resolveReportForFormatting($apiMethod);
+        // Some `Module.get` reports (Goals.get is the canonical case) list a percent/ratio
+        // ProcessedMetric only by its string name in $processedMetrics, which
+        // Report::getProcessedMetricsById() drops -- the metric *object* that knows how to
+        // scale the raw quotient to whole percent lives on the sibling `Module.getMetrics`
+        // report the outer request delegates to. Without it, formatMetrics() cannot recognise
+        // e.g. conversion_rate and leaves the inner sample as the raw 0..1 quotient while the
+        // chart shows whole percent -- a forecast ~100x too small. Seed those metric objects
+        // onto each sub-table's metadata (the same surface AddColumnsProcessedMetrics uses) so
+        // the Numeric pass recognises and scales them exactly as the displayed chart does.
+        $extraMetrics = $this->resolveDelegatedProcessedMetrics($apiMethod);
         $formatter = new Numeric();
         foreach ($result->getDataTables() as $subTable) {
+            if ([] !== $extraMetrics) {
+                $existing = $subTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
+                $subTable->setMetadata(
+                    DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME,
+                    array_merge($extraMetrics, $existing)
+                );
+            }
             $formatter->formatMetrics($subTable, $report);
         }
 
@@ -352,6 +369,31 @@ class ForecastSubPeriodFetcher
         }
 
         return ReportsProvider::factory($parts[0], $parts[1]);
+    }
+
+    /**
+     * Object-declared ProcessedMetrics from the `Module.getMetrics` report a `Module.get`
+     * report delegates its metric computation to. These carry the format() logic (e.g. the
+     * percent-quotient scaling) that the `Module.get` report exposes only as a string name and
+     * therefore hides from {@see \Piwik\Plugin\Report::getProcessedMetricsById()}. Returns an
+     * empty array for non-`get` methods or modules without a `getMetrics` sibling, so reports
+     * that already declare their metrics as objects (e.g. Bandwidth) are unaffected.
+     *
+     * @return array<string, \Piwik\Plugin\ProcessedMetric>
+     */
+    private function resolveDelegatedProcessedMetrics(string $apiMethod): array
+    {
+        $parts = explode('.', $apiMethod, 2);
+        if (count($parts) !== 2 || 'get' !== $parts[1]) {
+            return [];
+        }
+
+        $metricsReport = ReportsProvider::factory($parts[0], 'getMetrics');
+        if (null === $metricsReport) {
+            return [];
+        }
+
+        return $metricsReport->getProcessedMetricsById();
     }
 
     /**
