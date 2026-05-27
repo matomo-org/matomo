@@ -58,6 +58,7 @@
         "InjectedHostNonSuperUserWarning": "%1$sCliceáil anseo chun Matomo a rochtain go sábháilte%2$s agus bain an rabhadh seo. B'fhéidir gur mhaith leat teagmháil a dhéanamh le do riarthóir Matomo agus iad a chur ar an eolas faoin gceist seo (%3$sclick here to email%4$s).",
         "InjectedHostSuperUserWarning": "D'fhéadfadh Matomo a bheith míchumraithe (mar shampla, má aistríodh Matomo le déanaí chuig freastalaí nó URL nua). Is féidir leat %1$sclick anseo agus %2$s a chur leis mar óstainm bhailí Matomo (má tá muinín agat as)%3$s, nó %4$sclick anseo agus téigh go dtí%5$s chun rochtain a fháil ar Matomo go sábháilte%6$s.",
         "InjectedHostWarningIntro": "Tá Matomo á rochtain agat anois ó %1$s, ach tá Matomo cumraithe le rith ag an seoladh seo:%2$s.",
+        "InvalidComparisonDateRange": "Cuir isteach raon dáta comparáide bailí.",
         "JavascriptDisabled": "Ní mór JavaScript a chumasú ionas gur féidir leat Matomo a úsáid san amharc caighdeánach.<br>Mar sin féin, tá an chuma ar an scéal go bhfuil JavaScript díchumasaithe nó nach dtacaíonn do bhrabhsálaí leis.<br>Chun an t-amharc caighdeánach a úsáid, cumasaigh JavaScript trí do roghanna brabhsálaí a athrú , ansin %1$s déan iarracht eile %2$s.<br>",
         "JsDidntLoad": "Ní raibh do bhrabhsálaí in ann scripteanna an leathanaigh seo a luchtú.",
         "LeadingAnalyticsPlatformRespectsYourPrivacy": "An t-ardán anailísíochta oscailte tosaigh a léiríonn meas ar do phríobháideacht.",

@@ -11,6 +11,7 @@
         "DisableVisitorProfileDescription": "Feidhmíonn gach gné a bhaineann le logáil cuairte i gcónaí.",
         "DisableVisitsLogAndProfile": "Múch loga cuairteanna agus próifílí cuairteoirí",
         "DisableVisitsLogAndProfileDescription": "Baintear freisin gnéithe a bhraitheann orthu seo, amhail an loga ríomhthráchtála, an loga cuairteanna deighilte, an léarscáil fíor-ama nó an ghiuirléid fíor-ama. D’fhéadfadh go gcaithfí cloí le dlíthe/treoirlínte príobháideachais áitiúla.",
+        "ExportThisDatasetToXml": "Easpórtáil an tacar sonraí seo chuig XML",
         "FirstVisit": "An chéad chuairt",
         "GoalType": "Cineál",
         "HideMap": "cheilt léarscáil",
