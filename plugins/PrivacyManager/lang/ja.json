@@ -174,7 +174,6 @@
         "PurgingData": "データを削除しています…",
         "RawDataNeverRemoved": "ビジットとアクションの生データは<strong>決して</strong>削除されません。",
         "RawDataRemovedAfter": "すべてのビジットとアクションの生データは%1$s後に削除されます。",
-        "RecommendedForPrivacy": "プライバシー推奨",
         "ReportsDataSavedEstimate": "データベースサイズ",
         "ReportsNeverRemoved": "集約されたレポートは<strong>削除されません</strong>。",
         "ReportsRemovedAfter": "集約されたすべてのレポートは、%1$sの後に削除されます。",
