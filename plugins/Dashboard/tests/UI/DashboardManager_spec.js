@@ -32,9 +32,6 @@ describe("DashboardManager", function () {
         await page.waitForSelector(modalSelector);
         await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li button');
 
-        live = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li button:contains(Goals)');
-        await live.hover();
-
         visitors = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li button:contains(Visitors):first');
         await visitors.hover();
         await visitors.click();
@@ -42,7 +39,7 @@ describe("DashboardManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForSelector(modalSelector + ' .widgetpreview-widgetlist>li button', { visible: true });
 
-        expect(await page.screenshotSelector(modalSelector)).to.matchImage('widget_list_shown');
+        expect(await page.screenshotSelector(modalSelector, false)).to.matchImage('widget_list_shown');
     });
 
     it("should load a widget preview when a widget is hovered", async function() {
@@ -52,6 +49,7 @@ describe("DashboardManager", function () {
         await vot.hover();
 
         await page.waitForNetworkIdle();
+        await page.waitForSelector(modalSelector + '  .widgetpreview-widgetlist>li.widgetpreview-choosen > button > .widgetpreview-add-hint', { visible: true });
 
         expect(await page.screenshotSelector(modalSelector)).to.matchImage('widget_preview');
     });
