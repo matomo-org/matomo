@@ -21,6 +21,7 @@
         "NewActions": "działania podejmowane przez nowych odwiedzających",
         "NewAverageVisitDuration": "średni czas trwania wizyty dla nowych odwiedzających",
         "NewAvgActions": "Działania na nową wizytę",
+        "NewBounceRate": "nowe odwiedziny się odbiły (opuszczono witrynę po jednej podstronie)",
         "NewVisits": "nowe wizyty",
         "PluginDescription": "Zestawienie wskaźników dotyczących Twoich nowych i powracających odwiedzających.",
         "ReturnActions": "akcje powracających użytkowników",
