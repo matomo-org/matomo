@@ -37,7 +37,6 @@
         "PurgeNow": "지금 DB 삭제",
         "PurgeNowConfirm": "영구적으로 데이터베이스의 데이터를 삭제하려고합니다. 계속 하시겠습니까?",
         "PurgingData": "데이터를 삭제합니다…",
-        "RecommendedForPrivacy": "프라이버시를 위해 권장함",
         "ReportsDataSavedEstimate": "데이터베이스 크기",
         "SaveSettingsBeforePurge": "데이터 삭제 설정을 변경했습니다. 삭제가 시작되기 전에 저장하세요.",
         "SeeAlsoOurOfficialGuidePrivacy": "공식 가이드인 %1$sWeb Analytics Privacy%2$s을 참고해주세요.",
