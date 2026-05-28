@@ -16,11 +16,6 @@ ul.browser-default {
   background-color: @theme-color-header-background;
   box-shadow: none;
 
-  a:focus-visible,
-  button:focus-visible {
-    outline-color: @theme-color-focus-ring-alternative;
-  }
-
   .brand-logo {
     font-size: 30px;
   }
@@ -68,12 +63,11 @@ ul.browser-default {
   ul.right.hide-on-med-and-down {
     margin-right: 4px;
 
-    .navbar-icon {
+    .navbar-icon,
+    .navbar-label{
       padding: 8px;
     }
-    .navbar-label {
-      padding: 4px;
-    }
+
     .navbar-label, .navbar-icon {
       position: relative;
       z-index: 1;
@@ -100,10 +94,11 @@ ul.browser-default {
 
       .navbar-icon,
       .navbar-label {
-        &::after {
-          // contrast + opacity to create an effect that work in light and dark mode, with our without white-label customization
-          background: @color-mode-black;
-        }
+        outline: 2px solid @theme-color-focus-ring;
+        outline-offset: -2px;
+      }
+      .navbar-label {
+        color: @theme-color-menu-contrast-textActive
       }
     }
 
@@ -113,16 +108,25 @@ ul.browser-default {
       &:hover,
       &:focus {
         background: transparent;
+        outline: none;
       }
 
-      &:hover .navbar-icon,
-      &:hover .navbar-label,
-      &:focus .navbar-icon,
-      &:focus .navbar-label {
+      &:hover .navbar-icon {
         &::after {
           // contrast + opacity to create an effect that work in light and dark mode, with our without white-label customization
           background: light-dark(black, white);
         }
+      }
+
+      &:hover .navbar-label,
+      &:focus-visible .navbar-label {
+        color: @theme-color-menu-contrast-textActive;
+      }
+
+      &:focus-visible .navbar-icon,
+      &:focus-visible .navbar-label {
+        outline: 2px solid @theme-color-focus-ring;
+        outline-offset: -2px;
       }
     }
   }
@@ -564,11 +568,11 @@ ul.browser-default {
   background-color: rgba(212, 19, 13, 1);
   color: #fff;
   border-radius: 999px; // hack to produce a circle
-  padding: 4px 6px;
+  padding: 3px 5px;
 
   line-height: 1;
-  font-size: 9px;
-  font-weight: bold;
+  font-size: 11px;
+  font-weight: normal;
 }
 
 #root, #standalone {
