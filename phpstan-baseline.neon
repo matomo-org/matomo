@@ -3949,16 +3949,6 @@ parameters:
 			path: plugins/Tour/Engagement/Challenges.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\Tour\\\\Widgets\\\\GetEngagement\\:\\:\\$challenges is never read, only written\\.$#"
-			count: 1
-			path: plugins/Tour/Widgets/GetEngagement.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Tour\\\\Widgets\\\\GetEngagement\\:\\:\\$levels is never read, only written\\.$#"
-			count: 1
-			path: plugins/Tour/Widgets/GetEngagement.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\TwoFactorAuth\\\\Controller\\:\\:setupTwoFactorAuth\\(\\) should return string but empty return statement found\\.$#"
 			count: 1
 			path: plugins/TwoFactorAuth/Controller.php

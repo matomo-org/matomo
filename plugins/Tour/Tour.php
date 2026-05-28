@@ -32,7 +32,6 @@ class Tour extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Dashboard.changeDefaultDashboardLayout' => 'changeDefaultDashboardLayout',
             'API.Annotations.add.end' => 'onAnnotationAdded',
@@ -136,11 +135,6 @@ class Tour extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Tour/stylesheets/engagement.less";
-    }
-
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/Tour/javascripts/engagement.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
