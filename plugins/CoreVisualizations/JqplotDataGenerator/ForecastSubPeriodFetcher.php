@@ -288,15 +288,13 @@ class ForecastSubPeriodFetcher
         string $endDate,
         ForecastSeriesState $seriesState
     ): array {
-        // Use processRequest() rather than `new ApiRequest([...])` so the inner fetch picks
-        // up its `compare=0` / `format=original` / `serialize=0` defaults and stays aligned
-        // with the recent core convention for inner API calls. Inheritance from $_GET + $_POST
-        // is intentional: this code path runs inside an already-authorized evolution-graph
-        // render, so outer-URL scoping params (idGoal for Goals reports, idDimension for
-        // CustomDimensions, and similar plugin-specific selectors) must reach the inner
-        // request for the historical samples to come from the same series the user is
-        // looking at. The `isComparing` guard upstream prevents comparison-mode leakage;
-        // the explicit overrides below pin everything else the forecast needs in fixed form.
+        // processRequest() picks up the core convention's compare=0 / format=original /
+        // serialize=0 defaults. $_GET + $_POST inheritance is asymmetric on purpose: scope
+        // params (idGoal, idDimension, future plugin selectors) inherit so the inner sample
+        // hits the same series the chart plots -- the set is open-ended and an allowlist
+        // would have to predict every plugin. Framework result-shape mutators are a closed
+        // set, pinned below: inheriting them would silently shift which rows the inner
+        // samples come from. isComparing upstream guards against comparison leakage.
         $result = ($this->apiRequestProcessor)($apiMethod, [
             'idSite'                  => $idSite,
             'period'                  => $subPeriod,
@@ -304,13 +302,22 @@ class ForecastSubPeriodFetcher
             'segment'                 => $segment,
             'filter_limit'            => -1,
             'disable_generic_filters' => 1,
-            // Pin raw, number-valued metrics regardless of the outer URL's format_metrics.
-            // With format_metrics=1 the inner request would run the *base* string formatter
-            // (e.g. bandwidth -> "3 G", a string unusable for the decomposition arithmetic)
-            // and stamp the PROCESSED_METRICS_FORMATTED_FLAG, which would then suppress the
-            // Numeric pass below. format_metrics=0 keeps every column a raw numeric value
-            // and leaves the flag unset so the Numeric pass is free to run.
+            // format_metrics=1 replaces numeric values with display strings (bandwidth -> "3 G")
+            // and stamps PROCESSED_METRICS_FORMATTED_FLAG so the Numeric pass below cannot
+            // re-run. Pin raw so the decomposition has numbers to work with.
             'format_metrics'          => 0,
+            // Framework result-shape pins -- inheriting these would mismatch the chart's rows:
+            'flat'                     => 0,    // flattens subtables; row matcher hits wrong labels
+            'expanded'                 => 0,    // same risk as flat=1
+            'idSubtable'               => '',   // would point at an unrelated subtable
+            'pivotBy'                  => '',   // transposes rows around a dimension
+            'filter_offset'            => 0,    // skips rows; shifts getFirstRow()
+            'filter_sort_column'       => '',   // outer sort reorders the inner first row
+            'filter_sort_order'        => '',
+            'filter_pattern'           => '',   // outer UI search shrinks the inner result
+            'filter_pattern_recursive' => '',
+            'filter_column'            => '',
+            'keep_summary_row'         => 0,    // belt-and-braces; disable_generic_filters=1 already gates this
         ]);
 
         if (!$result instanceof DataTable\Map) {
