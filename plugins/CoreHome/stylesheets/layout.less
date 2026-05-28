@@ -1,4 +1,5 @@
 @_layout-pageWrap-margin: 18px;
+@top-menu-nav-color: @theme-color-focus-ring-alternative;
 
 .card-content > .row:last-child {
   margin-bottom: 0;
@@ -15,6 +16,16 @@ ul.browser-default {
 #root nav {
   background-color: @theme-color-header-background;
   box-shadow: none;
+
+  a:focus-visible,
+  button:focus-visible {
+    outline-color: @theme-color-focus-ring-alternative;
+  }
+
+  .nav-wrapper {
+    border-bottom: 1px solid @theme-color-border-alternative;
+  }
+
 
   .brand-logo {
     font-size: 30px;
@@ -64,11 +75,8 @@ ul.browser-default {
     margin-right: 4px;
 
     .navbar-icon,
-    .navbar-label{
+    .navbar-label {
       padding: 8px;
-    }
-
-    .navbar-label, .navbar-icon {
       position: relative;
       z-index: 1;
       border-radius: 8px;
@@ -91,21 +99,14 @@ ul.browser-default {
       > a {
         background: transparent;
       }
-
-      .navbar-icon,
-      .navbar-label {
-        box-shadow: inset 0 0 0 2px @theme-color-focus-ring;
-      }
-      .navbar-label {
-        color: @theme-color-menu-contrast-textActive
-      }
     }
 
     > li[role="menuitem"] a {
       background: transparent;
 
       &:hover,
-      &:focus {
+      &:focus,
+      &:focus-visible {
         background: transparent;
         outline: none;
       }
@@ -119,12 +120,12 @@ ul.browser-default {
 
       &:hover .navbar-label,
       &:focus-visible .navbar-label {
-        color: @theme-color-menu-contrast-textActive;
+        color: @top-menu-nav-color;
       }
 
       &:focus-visible .navbar-icon,
       &:focus-visible .navbar-label {
-        outline: 2px solid @theme-color-focus-ring;
+        outline: 2px solid @theme-color-focus-ring-alternative;
         outline-offset: -2px;
       }
     }
@@ -146,7 +147,7 @@ ul.browser-default {
   ul a {
     text-decoration: none;
     font-size: 14px;
-    padding: 0 8px;
+    padding: 0;
 
     &:hover {
       text-decoration: none;
@@ -561,7 +562,7 @@ ul.browser-default {
 .badge-menu-item {
   position: absolute;
   top: 12px;
-  left: 23px;
+  left: 15px;
   z-index: 2;
 
   background-color: rgba(212, 19, 13, 1);
