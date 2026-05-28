@@ -498,7 +498,7 @@ class RowEvolution
             $labelPretty = array_filter($labelPretty, 'strlen');
             $labelPretty = current($labelPretty);
             if (!empty($labelPretty)) {
-                return $labelPretty;
+                return Common::unsanitizeInputValue($labelPretty);
             }
         }
         return $rowLabel;

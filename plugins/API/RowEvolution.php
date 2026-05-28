@@ -586,7 +586,7 @@ class RowEvolution
 
                     $prettyLabel = $labelRow->getColumn('label_html');
                     if ($prettyLabel !== false) {
-                        $actualLabels[$labelIdx] = $prettyLabel;
+                        $actualLabels[$labelIdx] = Common::unsanitizeInputValue($prettyLabel);
                     } elseif (!empty($labelPretty[$labelIdx])) {
                         $actualLabels[$labelIdx] = $labelPretty[$labelIdx];
                     }
