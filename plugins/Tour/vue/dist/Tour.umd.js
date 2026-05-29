@@ -139,7 +139,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Tour/vue/src/BecomeMatomoExpert/BecomeMatomoExpert.vue?vue&type=template&id=2ac94f19
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Tour/vue/src/BecomeMatomoExpert/BecomeMatomoExpert.vue?vue&type=template&id=35659f6a
 
 const _hoisted_1 = {
   class: "widgetBody tourEngagement"
@@ -216,9 +216,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "skip-challenge",
       title: _ctx.translate('Tour_SkipThisChallenge'),
       onClick: $event => _ctx.skipChallenge(challenge.id)
-    }, _hoisted_18, 8, _hoisted_16)), challenge.url ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+    }, _hoisted_18, 8, _hoisted_16)), _ctx.$sanitizeUrl(challenge.url) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
       key: 2,
-      href: challenge.url,
+      href: _ctx.$sanitizeUrl(challenge.url),
       target: "_blank",
       rel: "noreferrer noopener"
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(challenge.name), 9, _hoisted_19)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
@@ -239,7 +239,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     innerHTML: _ctx.$sanitize(_ctx.superUserNoteHtml)
   }, null, 8, _hoisted_23)]))], 64)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/Tour/vue/src/BecomeMatomoExpert/BecomeMatomoExpert.vue?vue&type=template&id=2ac94f19
+// CONCATENATED MODULE: ./plugins/Tour/vue/src/BecomeMatomoExpert/BecomeMatomoExpert.vue?vue&type=template&id=35659f6a
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");

@@ -68,8 +68,8 @@
             </a>
 
             <a
-              v-if="challenge.url"
-              :href="challenge.url"
+              v-if="$sanitizeUrl(challenge.url)"
+              :href="$sanitizeUrl(challenge.url)"
               target="_blank"
               rel="noreferrer noopener"
             >

@@ -2403,6 +2403,7 @@ function calculateAndFormatEvolution(valCur, valPrev, noSign) {
 function createVueApp(...args) {
   const app = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"])(...args);
   app.config.globalProperties.$sanitize = window.vueSanitize;
+  app.config.globalProperties.$sanitizeUrl = window.vueSanitizeUrl;
   app.config.globalProperties.translate = translate;
   app.config.globalProperties.translateOrDefault = translateOrDefault;
   app.config.globalProperties.externalLink = externalLink;
