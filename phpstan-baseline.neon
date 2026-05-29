@@ -906,11 +906,6 @@ parameters:
 			path: core/DataTable/Renderer.php
 
 		-
-			message: "#^Instanceof between Piwik\\\\DataTable and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Csv.php
-
-		-
 			message: "#^Parameter \\#1 \\$table of method Piwik\\\\DataTable\\\\Renderer\\\\Html\\:\\:buildTableStructure\\(\\) expects Piwik\\\\DataTable\\|Piwik\\\\DataTable\\\\Map, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
 			count: 1
 			path: core/DataTable/Renderer/Html.php
