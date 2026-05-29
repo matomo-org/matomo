@@ -4310,6 +4310,10 @@
 		</parameters>
 		<uniqueId>widgetTourgetEngagement</uniqueId>
 		<isWide>0</isWide>
+		<clientComponent>
+			<plugin>Tour</plugin>
+			<name>BecomeMatomoExpert</name>
+		</clientComponent>
 	</row>
 	<row>
 		<name>Latest Marketplace Updates</name>
