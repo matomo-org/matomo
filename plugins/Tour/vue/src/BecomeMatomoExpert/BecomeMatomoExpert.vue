@@ -194,13 +194,9 @@ export default defineComponent({
       }
       return translate(
         'Tour_StatusLevel',
-        // eslint-disable-next-line prefer-template
-        '<strong>' + this.level.currentLevelName
-          + '</strong>',
+        `<strong>${this.level.currentLevelName}</strong>`,
         String(this.level.challengesNeededForNextLevel),
-        // eslint-disable-next-line prefer-template
-        '<strong>' + this.level.nextLevelName
-          + '</strong>',
+        `<strong>${this.level.nextLevelName}</strong>`,
       );
     },
     youCanCallYourselfHtml(): string {
@@ -221,15 +217,10 @@ export default defineComponent({
         ),
       );
       const url = encodeURIComponent('https://matomo.org');
-      // eslint-disable-next-line prefer-template
-      const twitterLink = '<a target="_blank"'
-        + ' rel="noreferrer noopener"'
-        + ' href="http://twitter.com/share?text='
-        + shareText + '&url=' + url
-        + '">Twitter</a>';
+      const shareUrl = `http://twitter.com/share?text=${shareText}&url=${url}`;
       return translate(
         'Tour_ShareYourAchievementOn',
-        twitterLink,
+        `<a target="_blank" rel="noreferrer noopener" href="${shareUrl}">Twitter</a>`,
       );
     },
     superUserNoteHtml(): string {

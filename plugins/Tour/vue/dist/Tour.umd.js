@@ -139,7 +139,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Tour/vue/src/BecomeMatomoExpert/BecomeMatomoExpert.vue?vue&type=template&id=2a49613c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Tour/vue/src/BecomeMatomoExpert/BecomeMatomoExpert.vue?vue&type=template&id=78131424
 
 const _hoisted_1 = {
   class: "widgetBody tourEngagement"
@@ -240,7 +240,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     innerHTML: _ctx.$sanitize(_ctx.superUserNoteHtml)
   }, null, 8, _hoisted_23)]))], 64)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/Tour/vue/src/BecomeMatomoExpert/BecomeMatomoExpert.vue?vue&type=template&id=2a49613c
+// CONCATENATED MODULE: ./plugins/Tour/vue/src/BecomeMatomoExpert/BecomeMatomoExpert.vue?vue&type=template&id=78131424
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -282,11 +282,7 @@ const PER_PAGE = 5;
       if (!this.level) {
         return '';
       }
-      return Object(external_CoreHome_["translate"])('Tour_StatusLevel',
-      // eslint-disable-next-line prefer-template
-      '<strong>' + this.level.currentLevelName + '</strong>', String(this.level.challengesNeededForNextLevel),
-      // eslint-disable-next-line prefer-template
-      '<strong>' + this.level.nextLevelName + '</strong>');
+      return Object(external_CoreHome_["translate"])('Tour_StatusLevel', `<strong>${this.level.currentLevelName}</strong>`, String(this.level.challengesNeededForNextLevel), `<strong>${this.level.nextLevelName}</strong>`);
     },
     youCanCallYourselfHtml() {
       return Object(external_CoreHome_["translate"])('Tour_YouCanCallYourselfExpert', '<strong class="successStar">', '</strong>');
@@ -297,9 +293,8 @@ const PER_PAGE = 5;
       }
       const shareText = encodeURIComponent(Object(external_CoreHome_["translate"])('Tour_ShareAllChallengesCompleted', this.level.currentLevelName));
       const url = encodeURIComponent('https://matomo.org');
-      // eslint-disable-next-line prefer-template
-      const twitterLink = '<a target="_blank"' + ' rel="noreferrer noopener"' + ' href="http://twitter.com/share?text=' + shareText + '&url=' + url + '">Twitter</a>';
-      return Object(external_CoreHome_["translate"])('Tour_ShareYourAchievementOn', twitterLink);
+      const shareUrl = `http://twitter.com/share?text=${shareText}&url=${url}`;
+      return Object(external_CoreHome_["translate"])('Tour_ShareYourAchievementOn', `<a target="_blank" rel="noreferrer noopener" href="${shareUrl}">Twitter</a>`);
     },
     superUserNoteHtml() {
       const faqUrl = 'https://matomo.org/faq/' + 'general/faq_35/';
