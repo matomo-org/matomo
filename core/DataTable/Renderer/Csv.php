@@ -215,7 +215,7 @@ class Csv extends Renderer
         $value = $this->formatFormulas($value);
 
         if (is_string($value)) {
-            $value = str_replace(["\t"], ' ', $value);
+            $value = str_replace(["\t", "\r"], ' ', $value);
 
             // surround value with double quotes if it contains a double quote or a commonly used separator
             if (
