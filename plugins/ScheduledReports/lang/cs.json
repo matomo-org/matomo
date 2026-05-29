@@ -37,7 +37,6 @@
         "SegmentAppliedToReports": "Segment %s je aplikován na hlášení.",
         "SegmentDeleted": "Segment odstraněn",
         "Segment_Deletion_Error": "Tento segment nemůže být smazán nebo zneviditelněn, protože se používá k vytváření e-mailových hlášení %s. Zkuste to znovu poté, co ho z těchto hlášení odstraníte.",
-        "SendReportNow": "Odeslat hlášení ihned",
         "SendReportTo": "Odeslat hlášení",
         "SentFromX": "Odesláno z %s.",
         "SentToMe": "Odeslat hlášení mně",

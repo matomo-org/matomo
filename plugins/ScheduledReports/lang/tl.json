@@ -28,7 +28,6 @@
         "ReportsIncluded": "Kasamang mga Istatistika",
         "SegmentAppliedToReports": "Ang bahagi ng '%s' ay ginamit sa mga ulat.",
         "Segment_Deletion_Error": "Ang segment na ito ay hindi matatanggal o makikita ng ibang user dahil ito ay ginagamit para bumuo ng ulat sa email %s. Mangyaring subukan ulit pagkatapos itong alisin sa segment na mula sa ulat na ito.",
-        "SendReportNow": "Magpadala ng Ulat ngayon",
         "SendReportTo": "Ipadala ang ulat upang",
         "SentToMe": "Ipadala sa akin",
         "TableOfContent": "Listahan ng ulat",

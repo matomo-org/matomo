@@ -27,7 +27,6 @@
         "ReportsIncluded": "Statistici incluse",
         "SegmentAppliedToReports": "Segmentul '%s' este aplicat la rapoarte.",
         "Segment_Deletion_Error": "Acest segment nu poate fi șters sau făcut invizibil pentru alți utilizatori, deoarece este folosit pentru a genera un raport de e-mail (e)%s. Vă rugăm să încercați din nou după eliminarea acestui segment din acest raport .",
-        "SendReportNow": "Expediază raportul imediat",
         "SendReportTo": "Exediază raportul către",
         "SentToMe": "Expediază mie",
         "TableOfContent": "Lista raport",

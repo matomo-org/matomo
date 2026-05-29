@@ -177,7 +177,6 @@
         "RandomizeConfigIdNote": "Randomizzando il config_ID per ogni richiesta, questa funzionalità garantisce che il tracciamento dei visitatori sia conforme alle più severe normative sulla privacy. Questa impostazione disabilita i meccanismi che si basano su dati user-agent, cookie o altri identificatori che richiedono il consenso esplicito, consentendo un tracciamento anonimizzato nel rispetto della privacy dell'utente.",
         "RawDataNeverRemoved": "le righe di dati visite e azioni <strong>non</strong> vengono mai eliminate.",
         "RawDataRemovedAfter": "tutte le righe di dati visite e azioni vengono eliminate a partire da %1$s.",
-        "RecommendedForPrivacy": "Raccomandato per la privacy",
         "ReportsDataSavedEstimate": "Dimensioni database",
         "ReportsNeverRemoved": "i report aggregati <strong>non</strong> vengono mai eliminati.",
         "ReportsRemovedAfter": "tutti i report aggregati vengono eliminati a partire da %1$s.",

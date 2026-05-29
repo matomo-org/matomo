@@ -30,7 +30,6 @@
         "ReportsIncluded": "Statistika uključena",
         "SegmentAppliedToReports": "Segment '%s' je primenjen na izveštaje.",
         "Segment_Deletion_Error": "Ovaj segment nije moguće obrisati ili učiniti nevidljivim ostalim korisnicima pošto se on koristi za generisanje elektronskih izveštaja %s. Pokušajte ponovo nakon što ga uklonite iz izveštaja.",
-        "SendReportNow": "Pošalji sad",
         "SendReportTo": "Pošalji na",
         "SentFromX": "Poslato od strane %s.",
         "SentToMe": "Pošalji meni",

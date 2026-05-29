@@ -652,39 +652,39 @@ function hasHoverCapablePointer() {
 WidgetsListvue_type_script_lang_ts.render = WidgetsListvue_type_template_id_48f10d76_render
 
 /* harmony default export */ var WidgetsList = (WidgetsListvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=db18b34a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=307f9336
 
-const WidgetPreviewvue_type_template_id_db18b34a_hoisted_1 = {
+const WidgetPreviewvue_type_template_id_307f9336_hoisted_1 = {
   class: "widgetpreview-preview"
 };
-const WidgetPreviewvue_type_template_id_db18b34a_hoisted_2 = {
+const WidgetPreviewvue_type_template_id_307f9336_hoisted_2 = {
   key: 0,
   class: "widget"
 };
-const WidgetPreviewvue_type_template_id_db18b34a_hoisted_3 = ["title"];
-const WidgetPreviewvue_type_template_id_db18b34a_hoisted_4 = {
+const WidgetPreviewvue_type_template_id_307f9336_hoisted_3 = ["title"];
+const WidgetPreviewvue_type_template_id_307f9336_hoisted_4 = {
   class: "widgetName"
 };
-const WidgetPreviewvue_type_template_id_db18b34a_hoisted_5 = {
+const WidgetPreviewvue_type_template_id_307f9336_hoisted_5 = {
   class: "widgetContent"
 };
-function WidgetPreviewvue_type_template_id_db18b34a_render(_ctx, _cache, $props, $setup, $data, $options) {
+function WidgetPreviewvue_type_template_id_307f9336_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Widget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Widget");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_db18b34a_hoisted_1, [_ctx.previewWidget ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_db18b34a_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_307f9336_hoisted_1, [_ctx.previewWidget ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_307f9336_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: "widgetTop",
     title: _ctx.translate('Dashboard_AddPreviewedWidget'),
     role: "button",
     tabindex: "0",
     onClick: _cache[0] || (_cache[0] = $event => _ctx.$emit('select', _ctx.previewWidget.uniqueId)),
     onKeydown: [_cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.$emit('select', _ctx.previewWidget.uniqueId), ["prevent"]), ["enter"])), _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.$emit('select', _ctx.previewWidget.uniqueId), ["prevent"]), ["space"]))]
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", WidgetPreviewvue_type_template_id_db18b34a_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Dashboard_WidgetPreview')), 1)], 40, WidgetPreviewvue_type_template_id_db18b34a_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetPreviewvue_type_template_id_db18b34a_hoisted_5, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", WidgetPreviewvue_type_template_id_307f9336_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Dashboard_WidgetPreview')), 1)], 40, WidgetPreviewvue_type_template_id_307f9336_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetPreviewvue_type_template_id_307f9336_hoisted_5, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
     key: _ctx.previewWidget.uniqueId,
     widget: _ctx.previewWidget,
     widgetized: true,
     "suppress-notifications": true
   }, null, 8, ["widget"]))])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=db18b34a
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=307f9336
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=script&lang=ts
 
@@ -702,33 +702,17 @@ function WidgetPreviewvue_type_template_id_db18b34a_render(_ctx, _cache, $props,
   },
   emits: ['select'],
   computed: {
-    // The legacy `widgetMenu.js` preview path forced `widget=1` on every
-    // preview request (see plugins/Dashboard/javascripts/widgetMenu.js
-    // loadWidgetAjax). The Vue Widget component only injects `widget=1` on
-    // the containerid branch, so re-add it here so the preview renders in
-    // widgetized layout. `disableLink` is mirrored from the legacy logic:
-    // only forced on Widgetize embeds (URL carries disableLink) or
-    // `body#standalone`. On a normal dashboard page the preview must keep
-    // links enabled so it matches the widget the user actually adds.
     previewWidget() {
       if (!this.widget) {
         return null;
       }
-      const parameters = Object.assign(Object.assign({}, this.widget.parameters), {}, {
-        widget: '1',
-        // Suppress the server-side title: with `widget=1` the response would
-        // otherwise carry a bare `<h2>` (see _dataTable.twig `showOnlyTitleWithoutCard`)
-        // that duplicates the modal's own "Widget preview" header above the pane.
-        // Scoped to this preview-only parameter object — the widget added to the
-        // dashboard uses its original metadata parameters and keeps its title.
-        showtitle: '0'
+      const result = Object.assign(Object.assign({}, this.widget), {}, {
+        parameters: this.getPreviewParameters(this.widget.parameters)
       });
-      if (this.shouldDisableLink()) {
-        parameters.disableLink = '1';
+      if (this.isContainerWidget(result)) {
+        result.widgets = this.getPreviewChildren(result);
       }
-      return Object.assign(Object.assign({}, this.widget), {}, {
-        parameters
-      });
+      return result;
     }
   },
   mounted() {
@@ -740,21 +724,44 @@ function WidgetPreviewvue_type_template_id_db18b34a_render(_ctx, _cache, $props,
   methods: {
     translate: external_CoreHome_["translate"],
     shouldDisableLink() {
-      // Mirror legacy widgetMenu.js loadWidgetAjax: only set disableLink when
-      // the URL already carries it (Widgetize embed) or the page is
-      // body#standalone. Otherwise the preview must render with links enabled
-      // so it matches what the user will actually add to the dashboard.
+      // disableLink is only forced for Widgetize embeds and the standalone body
+      // matching widgetMenu.js.
       const urlFlag = external_CoreHome_["Matomo"].broadcast.getValueFromUrl('disableLink');
       if (urlFlag && urlFlag.length) {
         return true;
       }
       return !!document.querySelector('body#standalone');
     },
+    getPreviewParameters(parameters = {}) {
+      // Force widget=1 so previews render in widgetized layout, matching legacy widgetMenu.js.
+      // showtitle=0 suppresses the server-rendered <h2>
+      return Object.assign(Object.assign({}, parameters), {}, {
+        widget: '1',
+        showtitle: '0'
+      }, this.shouldDisableLink() ? {
+        disableLink: '1'
+      } : {});
+    },
+    isContainerWidget(widget) {
+      return !!widget.isContainer && Array.isArray(widget.widgets);
+    },
+    getPreviewChildren(widget) {
+      var _widget$parameters;
+      // Child widgets need the same widgetized parameters as the container preview.
+      // Without this, nested widgets render as non-widgetized and may show titles again.
+      const containerId = (_widget$parameters = widget.parameters) === null || _widget$parameters === void 0 ? void 0 : _widget$parameters.containerId;
+      return widget.widgets.map(child => Object.assign(Object.assign({}, child), {}, {
+        parameters: Object.assign(Object.assign({}, child.parameters), {}, {
+          widget: '1'
+        }, containerId ? {
+          containerId
+        } : {})
+      }));
+    },
     onWidgetLoaded(payload) {
       var _payload$parameters, _payload$element;
-      // Nested widget loads inside a container preview also emit
-      // widget:loaded; without this guard widget:create re-fires and
-      // dashboard-mode handlers re-initialize.
+      // Only re-fire widget:create for the top-level preview;
+      // nested container loads emit widget:loaded too.
       if (!this.widget || ((_payload$parameters = payload.parameters) === null || _payload$parameters === void 0 ? void 0 : _payload$parameters.uniqueId) !== this.widget.uniqueId) {
         return;
       }
@@ -780,7 +787,7 @@ function WidgetPreviewvue_type_template_id_db18b34a_render(_ctx, _cache, $props,
 
 
 
-WidgetPreviewvue_type_script_lang_ts.render = WidgetPreviewvue_type_template_id_db18b34a_render
+WidgetPreviewvue_type_script_lang_ts.render = WidgetPreviewvue_type_template_id_307f9336_render
 
 /* harmony default export */ var WidgetPreview = (WidgetPreviewvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue?vue&type=script&lang=ts

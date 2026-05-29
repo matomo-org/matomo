@@ -36,7 +36,6 @@
         "ReportsIncluded": "Estadísticas incluidas",
         "SegmentAppliedToReports": "El segmento \"%s\" está siendo aplicado a los informes.",
         "Segment_Deletion_Error": "Este segmento no se puede eliminar o hacer invisible para otros usuarios porque es usado para generar informes por correo electrónico %s. Por favor, intentá de nuevo después de quitar este segmento de el/los informe/s.",
-        "SendReportNow": "Enviar informe ahora",
         "SendReportTo": "Enviar informe a",
         "SentFromX": "Enviado desde %s.",
         "SentToMe": "Enviarme una copia",

@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Añadir un módulo",
+        "AddAWidget": "Añadir widget a este tablero",
         "AddPreviewedWidget": "Añade el módulo al panel de control",
         "ChangeDashboardLayout": "Modificar distribución del tablero",
         "CopyDashboardToUser": "Copiar tablero al usuario",
@@ -14,8 +14,9 @@
         "DefaultDashboard": "Panel de control por defecto - Usando la selección por defecto de módulos y la disposición de columnas",
         "DeleteWidgetConfirm": "¿Está seguro que desea borrar este módulo de su panel de control?",
         "EmptyDashboard": "Panel de control vacío - Elija sus módulos preferidos",
+        "ExportThisDashboard": "Exportar tablero",
         "LoadingWidget": "Cargando módulo, por favor espere…",
-        "ManageDashboard": "Configurar el tablero",
+        "ManageDashboard": "Gestionar tablero",
         "Maximise": "Maximizar",
         "Minimise": "Minimizar",
         "NotUndo": "No podrá deshacer esta operación.",

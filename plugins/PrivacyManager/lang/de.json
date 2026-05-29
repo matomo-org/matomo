@@ -189,7 +189,6 @@
         "RandomizeConfigIdNote": "Durch die Zufallsvergabe der config_ID für jede Anfrage stellt dieses Feature sicher, dass die Besucheraufzeichnung mit den strengsten Datenschutzinterpretationen übereinstimmt. Diese Einstellung deaktiviert Mechanismen, die auf User-Agent-Daten, Cookies oder anderen Identifikatoren basieren, die eine ausdrückliche Zustimmung erfordern, und ermöglicht eine anonymisierte Aufzeichnung unter Wahrung der Privatsphäre der Nutzer.",
         "RawDataNeverRemoved": "Rohdaten von Besuchen und Aktionen werden <strong>nie</strong> gelöscht.",
         "RawDataRemovedAfter": "Rohdaten aller Besuche und Aktionen werden gelöscht nach %1$s.",
-        "RecommendedForPrivacy": "Für den Datenschutz empfohlen",
         "ReportsDataSavedEstimate": "Größe der Datenbank",
         "ReportsNeverRemoved": "Aggregierte Berichte werden <strong>nie</strong> gelöscht.",
         "ReportsRemovedAfter": "Alle aggregierten Berichte werden gelöscht nach %1$s.",

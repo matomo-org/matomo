@@ -68,7 +68,6 @@
         "PurgeNow": "Purgar base de datos ahora",
         "PurgeNowConfirm": "Estás a punto de eliminar datos permanentemente de tu base de datos. ¿Estás seguro que querés continuar?",
         "PurgingData": "Purgando datos…",
-        "RecommendedForPrivacy": "Recomendado para la privacidad",
         "ReportsDataSavedEstimate": "Tamaño de la base de datos",
         "SaveSettingsBeforePurge": "Cambiaste la configuración de eliminación de datos. Por favor, guardalas antes de iniciar la purga.",
         "SeeAlsoOurOfficialGuidePrivacy": "También lee nuestra guía oficial: %1$sPrivacidad de los análisis web%2$s",

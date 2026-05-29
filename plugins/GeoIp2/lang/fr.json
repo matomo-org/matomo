@@ -47,7 +47,7 @@
         "MalFormedUpdateUrl": "L'url %1$s semble invalide. Veuillez vous assurer de saisir une URL valide commençant par http:// ou https://",
         "NotManagingGeoIPDBs": "Matomo ne gère actuellement aucune base de données DBIP ou MaxMind.",
         "PluginDescription": "Fournit des fournisseurs de localisation DBIP / GeoIP2.",
-        "ServerBasedVariablesConfiguration": "Configuration des variables serveur utilisées par le module GeoIP 2.",
+        "ServerBasedVariablesConfiguration": "Configuration des variables serveur utilisées par le module GeoIP 2",
         "ServerVariableFor": "Variable serveur pour %s",
         "SetupAutomaticUpdatesOfGeoIP": "Configurer les mises à jour automatiques des bases de données de géolocalisation",
         "ShowCustomServerVariablesConfig": "J'utilise le module serveur Goip2 (Nginx, Apache...) et je veux configurer les variables du serveur",
