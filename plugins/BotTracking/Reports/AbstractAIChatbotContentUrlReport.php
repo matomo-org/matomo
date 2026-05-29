@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\Reports;
 
+use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
@@ -61,6 +62,20 @@ abstract class AbstractAIChatbotContentUrlReport extends Report
         // Disable the "show all columns" toggle: it switches the table to the Visitor Engagement
         // preset, which doesn't match the BotTracking column schema and would render empty data.
         $view->config->show_table_all_columns = false;
+
+        // Render URL labels as clickable links. Labels are Matomo-normalized URLs without scheme
+        // (e.g. example.com/article/2); prepend https:// to form a valid link target.
+        $view->config->filters[] = function (DataTable $table) {
+            foreach ($table->getRows() as $row) {
+                if ($row->isSummaryRow()) {
+                    continue;
+                }
+                $label = $row->getColumn('label');
+                if (is_string($label) && $label !== '') {
+                    $row->setMetadata('url', 'https://' . $label);
+                }
+            }
+        };
 
         SegmentNotSupportedMessageHelper::addSegmentNotSupportedMessage($view);
     }
