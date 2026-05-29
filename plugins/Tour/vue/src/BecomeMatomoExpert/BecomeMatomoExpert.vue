@@ -13,13 +13,18 @@
     />
     <template v-else-if="level">
       <p aria-hidden="true">
-        <span
+        <template
           v-for="i in level.numLevelsTotal"
           :key="i"
-          class="icon-star"
-          :class="level.currentLevel >= i
-            ? 'successStar' : 'upgradeStar'"
-        />
+        >
+          <span
+            class="icon-star"
+            :class="level.currentLevel >= i
+              ? 'successStar' : 'upgradeStar'"
+          />
+          <!-- keep the space the server-rendered template had between stars -->
+          {{ ' ' }}
+        </template>
       </p>
 
       <div v-if="isCompleted">
@@ -66,7 +71,9 @@
             >
               <span class="icon-hide" />
             </a>
-
+            <!-- keep the space the server-rendered template had between
+              the status icon and the challenge link -->
+            {{ ' ' }}
             <a
               v-if="$sanitizeUrl(challenge.url)"
               :href="$sanitizeUrl(challenge.url)"
