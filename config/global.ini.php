@@ -646,6 +646,8 @@ datatable_archiving_maximum_rows_products = 10000
 datatable_archiving_maximum_rows_bots = 250
 ; maximum number of page/document rows listed per AI Assistant in Bot Tracking reports
 datatable_archiving_maximum_rows_subtable_bots = 250
+; maximum number of content URLs (pages/documents) listed in the AI Chatbots Content Requests reports
+datatable_archiving_maximum_rows_ai_chatbot_content = 20000
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
