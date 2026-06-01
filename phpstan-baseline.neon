@@ -3574,11 +3574,6 @@ parameters:
 			path: plugins/Login/Controller.php
 
 		-
-			message: "#^Default value of the parameter \\#3 \\$urlToRedirect \\(false\\) of method Piwik\\\\Plugins\\\\Login\\\\Controller\\:\\:authenticateAndRedirect\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: plugins/Login/Controller.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Login\\\\Controller\\:\\:resetPasswordFirstStep\\(\\) should return array but returns null\\.$#"
 			count: 2
 			path: plugins/Login/Controller.php
@@ -3607,16 +3602,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$password of method Piwik\\\\Plugins\\\\UsersManager\\\\UserUpdater\\:\\:updateUserWithoutCurrentPassword\\(\\) expects bool, string given\\.$#"
 			count: 1
 			path: plugins/Login/PasswordResetter.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Login\\\\PasswordVerifier\\:\\:requirePasswordVerified\\(\\) should return true\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/Login/PasswordVerifier.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Login\\\\PasswordVerifier\\:\\:requirePasswordVerifiedRecently\\(\\) should return true\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/Login/PasswordVerifier.php
 
 		-
 			message: "#^Parameter \\#1 \\$passwordHash of method Piwik\\\\Auth\\:\\:setPasswordHash\\(\\) expects string, null given\\.$#"
