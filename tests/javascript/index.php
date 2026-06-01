@@ -4455,6 +4455,33 @@ if ($mysql) {
         }, 5000);
     });
 
+    test("ignored AI campaign does not overwrite attribution cookie on a new session", function () {
+        expect(5);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+        tracker.setCustomData({ "token" : getToken() });
+        tracker.deleteCookies();
+        tracker.setConversionAttributionFirstReferrer(false);
+
+        tracker.setReferrerUrl('https://example.com/referrer');
+        tracker.setCustomUrl('https://matomo.org/?pk_campaign=Initial%20Campaign&pk_kwd=Initial%20Keyword');
+        tracker.trackPageView('initialCampaign');
+
+        equal(tracker.getAttributionCampaignName(), 'Initial Campaign', 'initial campaign is stored');
+        equal(tracker.getAttributionCampaignKeyword(), 'Initial Keyword', 'initial campaign keyword is stored');
+
+        tracker.hook.test._setCookie(tracker.hook.test._getCookieName('ses'), '', -129600000);
+        tracker.setReferrerUrl('');
+        tracker.setCustomUrl('https://matomo.org/blog/?utm_source=chatgpt.com');
+        tracker.trackPageView('ignoredCampaign');
+
+        equal(tracker.getAttributionCampaignName(), 'Initial Campaign', 'AI-style source does not overwrite campaign name');
+        equal(tracker.getAttributionCampaignKeyword(), 'Initial Keyword', 'AI-style source does not overwrite campaign keyword');
+        equal(tracker.getAttributionReferrerUrl(), 'https://example.com/referrer', 'AI-style source does not overwrite referrer url');
+    });
+
     // heartbeat tests
     test("trackingHeartBeat", function () {
         expect(13);
