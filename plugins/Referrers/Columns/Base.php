@@ -717,8 +717,6 @@ abstract class Base extends VisitDimension
         ) {
             // Use default values per above
             Common::printDebug("Invalid Referrer information found: current visitor seems to have used a campaign, but campaign name was not found in the request.");
-        } elseif ($this->isCampaignCookieValueActuallyAIAssistant($type, $referrerCampaignName)) {
-            Common::printDebug("Campaign information from 1st party cookie matches the AI assistant already attributed to the visit and is ignored.");
         } elseif (!empty($referrerCampaignName)) {
             // 1) Campaigns from 1st party cookie
             $type    = Common::REFERRER_TYPE_CAMPAIGN;
@@ -815,15 +813,6 @@ abstract class Base extends VisitDimension
     protected function getReferrerCampaignQueryParam(Request $request, $paramName)
     {
         return trim(urldecode($request->getParam($paramName)));
-    }
-
-    private function isCampaignCookieValueActuallyAIAssistant($type, string $referrerCampaignName): bool
-    {
-        if ((int) $type !== Common::REFERRER_TYPE_AI_ASSISTANT) {
-            return false;
-        }
-
-        return AIAssistantDetection::getInstance()->isAIAssistantUrl($referrerCampaignName);
     }
 
     private function truncateReferrerName($name)
