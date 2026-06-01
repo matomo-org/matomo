@@ -268,10 +268,10 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        $youMustUpgradePHP = Piwik::translate('General_YouMustUpgradePhpVersionToReceiveNextMajorPiwik');
-        $message =  Piwik::translate('General_PiwikCannotBeUpgradedToNextMajorBecausePhpIsTooOld')
+        $youMustUpgradePHP = Piwik::translate('General_YouMustUpgradePhpVersionToReceiveNextMajorMatomo');
+        $message =  Piwik::translate('General_MatomoCannotBeUpgradedToNextMajorBecausePhpIsTooOld')
             .     ' '
-            .  sprintf(Piwik::translate('General_PleaseUpgradeYourPhpVersionForNextMajorPiwik'), self::getNextRequiredMinimumPHP())
+            .  sprintf(Piwik::translate('General_PleaseUpgradeYourPhpVersionForNextMajorMatomo'), self::getNextRequiredMinimumPHP())
         ;
 
         $notification = new Notification($message);
@@ -355,15 +355,15 @@ abstract class ControllerAdmin extends Controller
             ? 'MariaDB'
             : 'MySQL';
 
-        $message = Piwik::translate('General_PiwikCannotBeUpgradedToNextMajorBecauseDatabaseIsTooOld')
+        $message = Piwik::translate('General_MatomoCannotBeUpgradedToNextMajorBecauseDatabaseIsTooOld')
             . ' '
             . Piwik::translate(
-                'General_PleaseUpgradeYourDatabaseVersionForNextMajorPiwik',
+                'General_PleaseUpgradeYourDatabaseVersionForNextMajorMatomo',
                 [$databaseType, $requiredVersion]
             );
 
         $notification = new Notification($message);
-        $notification->title = Piwik::translate('General_YouMustUpgradeDatabaseVersionToReceiveNextMajorPiwik');
+        $notification->title = Piwik::translate('General_YouMustUpgradeDatabaseVersionToReceiveNextMajorMatomo');
         $notification->priority = Notification::PRIORITY_LOW;
         $notification->context = Notification::CONTEXT_WARNING;
         $notification->type = Notification::TYPE_TRANSIENT;
