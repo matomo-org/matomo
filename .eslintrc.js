@@ -39,5 +39,8 @@ module.exports = {
     'no-restricted-imports': ['error', {
       patterns: ['**/vue/src'],
     }],
+    'vue/component-tags-order': ['warn', {
+      order: ['template', 'script', 'style'],
+    }],
   },
 };
