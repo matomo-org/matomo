@@ -63,7 +63,7 @@ class PartialArchiveTest extends IntegrationTestCase
         // check archive is all plugins archive as expected
         [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', Range::PERIOD_ID, false);
         $this->assertEquals([
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'blob_count' => 62],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'blob_count' => 65],
         ], $archiveInfo);
 
         $maxIdArchive = $this->getMaxIdArchive('2020_04');
@@ -124,7 +124,7 @@ class PartialArchiveTest extends IntegrationTestCase
         // check archive is all plugins archive as expected
         [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', Range::PERIOD_ID, false);
         $this->assertEquals([
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'blob_count' => 62],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'blob_count' => 65],
         ], $archiveInfo);
 
         $maxIdArchive = $this->getMaxIdArchive('2020_04');
@@ -187,7 +187,12 @@ class PartialArchiveTest extends IntegrationTestCase
 
         $idArchives = [];
         foreach ($archiveNumericInfo as &$row) {
-            $row['blob_count'] = $archiveBlobInfo[$row['idarchive']] ?? 0;
+            // Cast integer columns so assertions don't drift between PHP/PDO configurations
+            // that stringify integer fetches.
+            $row['idsite'] = (int) $row['idsite'];
+            $row['period'] = (int) $row['period'];
+            $row['value']  = (int) $row['value'];
+            $row['blob_count'] = (int) ($archiveBlobInfo[$row['idarchive']] ?? 0);
 
             // archives can randomly be created out of order despite not using core:archive, so we don't check their
             // value. we still need to use it, though, so we return the values.

@@ -52,6 +52,67 @@
 		</widgets>
 	</row>
 	<row>
+		<uniqueId>General_AIAssistants.BotTracking_AIChatbotsContentRequests</uniqueId>
+		<category>
+			<id>General_AIAssistants</id>
+			<name>AI Assistants</name>
+			<order>80</order>
+			<icon>icon-ai-assistants</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>BotTracking_AIChatbotsContentRequests</id>
+			<name>AI Chatbots Content Requests</name>
+			<order>15</order>
+			<help>&lt;p&gt;This reporting page shows which pages and documents on your website have been requested by AI chatbots such as ChatGPT and similar large language model–based bots. These reports detail which HTML pages and downloadable files (like PDFs, Word, or Excel documents) were accessed, along with those that could not be retrieved due to errors. This helps you understand which content AI systems are referencing, identify broken or inaccessible resources, and ensure your website provides reliable access to information used by AI-driven tools.&lt;/p&gt;&lt;p&gt;It’s important to note that none of these pages or documents were actually viewed by humans in the traditional way — all requests originate from AI assistants fetching content automatically.&lt;/p&gt;&lt;p&gt;Currently, these reports only include requests from AI bots that do not execute JavaScript, and exclude traffic from AI crawlers used for model training or AI agents capable of running JavaScript.&lt;/p&gt;</help>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Pages</name>
+				<module>BotTracking</module>
+				<action>getAIChatbotContentPages</action>
+				<order>110</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIChatbotContentPages</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIChatbotContentPages</uniqueId>
+				<isWide>1</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>Documents</name>
+				<module>BotTracking</module>
+				<action>getAIChatbotContentDocuments</action>
+				<order>120</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIChatbotContentDocuments</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIChatbotContentDocuments</uniqueId>
+				<isWide>1</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>Broken Pages and Documents</name>
+				<module>BotTracking</module>
+				<action>getAIChatbotBrokenContent</action>
+				<order>130</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIChatbotBrokenContent</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIChatbotBrokenContent</uniqueId>
+				<isWide>1</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+		</widgets>
+	</row>
+	<row>
 		<uniqueId>General_AIAssistants.BotTracking_AIChatbotsOverview</uniqueId>
 		<category>
 			<id>General_AIAssistants</id>

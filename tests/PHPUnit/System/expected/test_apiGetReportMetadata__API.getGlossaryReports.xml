@@ -25,6 +25,10 @@
 		<documentation>This report gives you an informational overview for each of your websites, containing the most general metrics about your visitors.</documentation>
 	</row>
 	<row>
+		<name>Broken Pages and Documents (AI Assistants)</name>
+		<documentation>This report lists broken page URLs and document URLs (such as PDFs, Word, or Excel files) that were accessed by AI Chatbots (like ChatGPT) but returned errors or were unavailable. It helps identify missing or inaccessible content that LLMs attempted to fetch, allowing you to fix broken links and improve your site’s reliability and discoverability.</documentation>
+	</row>
+	<row>
 		<name>Browser Plugins (Visitors)</name>
 		<documentation>This report shows which browser plugins your visitors had enabled. This information might be important for choosing the right way to deliver your content.</documentation>
 	</row>
@@ -100,6 +104,12 @@
 	<row>
 		<name>Device type (Visitors)</name>
 		<documentation>This report shows the types of devices your visitors were using. This report will always show all device types Matomo is able to detect, even if there were no visits with a specific type.</documentation>
+	</row>
+	<row>
+		<name>Documents (AI Assistants)</name>
+		<documentation>This report shows which document URLs were accessed by AI Chatbots (like ChatGPT) to retrieve real-time information during user chats. It helps you identify which parts of your website are being referenced by AI systems, offering insights into your site’s visibility in AI-assisted interactions and potential content opportunities. It focuses only on visits to documents and media files like PDF, Word, Excel and MP4, excluding HTML page URLs — which are covered in a separate report dedicated to pages.
+It’s important to note that none of these documents were actually viewed by humans in the traditional way — all requests originate from AI assistants fetching content automatically.
+Currently, these reports exclusively include requests from AI chatbots that do not execute JavaScript. They do not include traffic from AI crawlers used for training AI models or from AI agents capable of executing JavaScript.</documentation>
 	</row>
 	<row>
 		<name>Downloads (Behaviour)</name>
@@ -231,6 +241,12 @@
 	<row>
 		<name>Page titles (Behaviour)</name>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
+	</row>
+	<row>
+		<name>Pages (AI Assistants)</name>
+		<documentation>This report shows which HTML page URLs were accessed by AI Assistants (like ChatGPT) to retrieve real-time information during user chats. It helps you identify which parts of your website are being referenced by AI systems, offering insights into your site’s visibility in AI-assisted interactions and potential content opportunities. It focuses only on visits to standard web pages, excluding file downloads such as PDFs, Word, or Excel documents — which are covered in a separate report dedicated to document access.
+It’s important to note that none of these pages were actually viewed by humans in the traditional way — all requests originate from AI assistants fetching content automatically.
+Currently, these reports exclusively include requests from AI bots that do not execute JavaScript. They do not include traffic from AI crawlers used for training AI models or from AI agents capable of executing JavaScript.</documentation>
 	</row>
 	<row>
 		<name>Pages Following a Site Search (Behaviour)</name>
