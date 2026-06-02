@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Integration;
 
 use Piwik\Changes\Model as ChangesModel;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Db;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Plugins\CoreAdminHome\CoreAdminHome;
@@ -36,14 +37,28 @@ class ControllerTest extends IntegrationTestCase
     /** @var array */
     private $backupGet;
     /** @var array */
+    private $backupPost;
+    /** @var array */
     private $backupRequest;
+    /** @var array */
+    private $backupServer;
+    /** @var array */
+    private $backupMail;
+    /** @var array */
+    private $backupGeneral;
+    /** @var bool */
+    private $mailSettingsSaved = false;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->backupGet = $_GET;
+        $this->backupPost = $_POST;
         $this->backupRequest = $_REQUEST;
+        $this->backupServer = $_SERVER;
+        $this->backupMail = Config::getInstance()->mail;
+        $this->backupGeneral = Config::getInstance()->General;
 
         Fixture::createSuperUser();
         if (!Fixture::siteCreated(1)) {
@@ -73,6 +88,38 @@ class ControllerTest extends IntegrationTestCase
             new Translator(new DevelopmentLoader(new JsonFileLoader())),
             new OptOutManager()
         );
+    }
+
+    public function testSetMailSettingsRejectsGetRequests(): void
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_GET = $this->getMailSettingsRequest('get.example.test');
+        $_POST = [];
+        $_REQUEST = $_GET;
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid HTTP method.');
+
+        $this->controller->setMailSettings();
+    }
+
+    public function testSetMailSettingsUsesPostParametersOnly(): void
+    {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_GET = $this->getMailSettingsRequest('get.example.test');
+        $_POST = $this->getMailSettingsRequest('post.example.test');
+        $_REQUEST = $_GET + $_POST;
+
+        $controller = $this->getControllerSkippingTokenCheck();
+
+        $controller->setMailSettings();
+        $this->mailSettingsSaved = true;
+
+        $this->assertSame('post.example.test', Config::getInstance()->mail['host']);
+        $this->assertSame('smtp-user-post', Config::getInstance()->mail['username']);
+        $this->assertSame('smtp-password-post', Config::getInstance()->mail['password']);
+        $this->assertSame('mail-post@example.test', Config::getInstance()->General['noreply_email_address']);
+        $this->assertSame('Acme <Team> & "post"', Config::getInstance()->General['noreply_email_name']);
     }
 
     public function testWhatIsNewDoesNotPrefixBundledPluginsAndPrefixesThirdPartyPlugins(): void
@@ -266,7 +313,14 @@ class ControllerTest extends IntegrationTestCase
     {
         $this->deleteAllChanges();
         $_GET = $this->backupGet;
+        $_POST = $this->backupPost;
         $_REQUEST = $this->backupRequest;
+        $_SERVER = $this->backupServer;
+        Config::getInstance()->mail = $this->backupMail;
+        Config::getInstance()->General = $this->backupGeneral;
+        if ($this->mailSettingsSaved) {
+            Config::getInstance()->forceSave();
+        }
         parent::tearDown();
     }
 
@@ -289,5 +343,35 @@ class ControllerTest extends IntegrationTestCase
         $method->setAccessible(true);
 
         return $method->invoke($this->controller, $changes);
+    }
+
+    private function getControllerSkippingTokenCheck(): Controller
+    {
+        $controller = $this->getMockBuilder(Controller::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['checkTokenInUrl'])
+            ->getMock();
+
+        $controller->expects($this->once())
+            ->method('checkTokenInUrl');
+
+        return $controller;
+    }
+
+    private function getMailSettingsRequest(string $mailHost): array
+    {
+        $hostPrefix = explode('.', $mailHost)[0];
+
+        return [
+            'mailUseSmtp' => '1',
+            'mailPort' => '25',
+            'mailHost' => $mailHost,
+            'mailType' => '',
+            'mailUsername' => 'smtp-user-' . $hostPrefix,
+            'mailPassword' => 'smtp-password-' . $hostPrefix,
+            'mailEncryption' => 'none',
+            'mailFromAddress' => 'mail-' . $hostPrefix . '@example.test',
+            'mailFromName' => 'Acme <Team> & "' . $hostPrefix . '"',
+        ];
     }
 }

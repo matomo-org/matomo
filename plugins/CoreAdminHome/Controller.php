@@ -154,12 +154,16 @@ class Controller extends ControllerAdmin
             return '';
         }
 
+        if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+            throw new Exception('Invalid HTTP method.');
+        }
+
         $response = new ResponseBuilder('json');
         try {
             $this->checkTokenInUrl();
 
             // Update email settings
-            $request = Request::fromRequest();
+            $request = Request::fromPost();
             $mail = [];
             $mail['transport'] = $request->getBoolParameter('mailUseSmtp') ? 'smtp' : '';
             $mail['port'] = $request->getStringParameter('mailPort', '');
@@ -168,7 +172,7 @@ class Controller extends ControllerAdmin
             $mail['username'] = $request->getStringParameter('mailUsername', '');
             $mail['password'] = $request->getStringParameter('mailPassword', '');
 
-            if (!array_key_exists('mailPassword', $_POST) && Config::getInstance()->mail['host'] === $mail['host']) {
+            if (!array_key_exists('mailPassword', $request->getParameters()) && Config::getInstance()->mail['host'] === $mail['host']) {
                 // use old password if it wasn't set in request (and the host wasn't changed)
                 $mail['password'] = Config::getInstance()->mail['password'];
             }
@@ -178,14 +182,11 @@ class Controller extends ControllerAdmin
             Config::getInstance()->mail = $mail;
 
             $general = Config::getInstance()->General;
-            $fromName = Common::getRequestVar('mailFromName', '');
-            $general['noreply_email_name'] = Common::unsanitizeInputValue($fromName);
+            $general['noreply_email_name'] = $request->getStringParameter('mailFromName', '');
 
-            $mailFrom = Common::getRequestVar('mailFromAddress', '');
+            $mailFrom = $request->getStringParameter('mailFromAddress', '');
             if (empty($mailFrom)) {
                 $mailFrom = 'noreply@{DOMAIN}';
-            } else {
-                $mailFrom = Common::unsanitizeInputValue($mailFrom);
             }
             if (!Piwik::isValidEmailString($mailFrom) && !Common::stringEndsWith($mailFrom, '@{DOMAIN}')) {
                 throw new Exception(Piwik::translate('CoreAdminHome_ErrorEmailFromAddressNotValid'));
