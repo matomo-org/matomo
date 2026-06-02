@@ -197,7 +197,7 @@ jobs:
             10 \
             --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@redis_pin
         with:
           test-type: 'IntegrationTestsPlugins'
           phpunit-test-options: >-
@@ -239,7 +239,7 @@ jobs:
             10 \
             --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@redis_pin
         with:
           test-type: 'SystemTestsPlugins'
           phpunit-test-options: >-
@@ -343,7 +343,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@redis_pin
         with:
           ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
