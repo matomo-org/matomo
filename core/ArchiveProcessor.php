@@ -11,9 +11,11 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Archive\DataTableFactory;
+use Piwik\ArchiveProcessor\ArchiveBlobRowCap;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
@@ -253,7 +255,20 @@ class ArchiveProcessor
                 }
             }
 
-            $blob = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
+            $effectiveMaxRows = $maximumRowsInDataTableLevelZero;
+            $effectiveMaxSubtableRows = $maximumRowsInSubDataTable;
+
+            // Only look up the blob table name when the MEDIUMBLOB cap flag is set; fresh
+            // installs pay zero I/O overhead via this guard.
+            if (ArchiveBlobRowCap::isCapPossiblyNeeded()) {
+                $blobTable = ArchiveTableCreator::getBlobTable($this->params->getPeriod()->getDateStart(), false);
+                if ($blobTable !== null) {
+                    $effectiveMaxRows = ArchiveBlobRowCap::capMaxRows($effectiveMaxRows, $blobTable);
+                    $effectiveMaxSubtableRows = ArchiveBlobRowCap::capMaxSubtableRows($effectiveMaxSubtableRows, $blobTable);
+                }
+            }
+
+            $blob = $table->getSerialized($effectiveMaxRows, $effectiveMaxSubtableRows, $columnToSortByBeforeTruncation);
             Common::destroy($table);
             $this->insertBlobRecord($recordName, $blob);
 
