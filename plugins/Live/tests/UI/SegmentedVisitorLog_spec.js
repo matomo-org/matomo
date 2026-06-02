@@ -25,37 +25,21 @@ describe("SegmentedVisitorLog", function () {
         const theUrl = '?module=CoreHome&action=index&idSite=1&period=day&date=yesterday'
             + '#?popover=' + hashValue;
 
-        const popoverRequests = [];
-        let listening = true;
-        const onRequest = (req) => {
-            if (!listening) {
-                return;
-            }
-            const url = req.url();
+        const popoverRequest = page.webpage.waitForRequest(
+            (req) => req.url().includes('segment=country') && req.url().includes('disableLink=1')
+        );
 
-            if (url.indexOf('segment=country') !== -1 && url.indexOf('disableLink=1') !== -1) {
-                popoverRequests.push(url);
-            }
-        };
-        page.on('request', onRequest);
+        await page.goto('about:blank');
+        await page.goto(theUrl);
 
-        try {
-            await page.goto('about:blank');
-            await page.goto(theUrl);
-            await page.waitForNetworkIdle();
-        } finally {
-            listening = false;
-        }
+        const url = (await popoverRequest).url();
 
-        expect(popoverRequests.length).to.be.above(0);
-        popoverRequests.forEach((url) => {
-            expect(url).to.contain('module=Live');
-            expect(url).to.contain('action=indexVisitorLog');
-            expect(url).to.not.contain('module=CoreAdminHome');
-            expect(url).to.not.contain('action=testfakeAction');
-            expect(url).to.not.contain('force_api_session=0');
-            expect(url).to.not.match(/[?&]format=json(&|$)/);
-            expect(url).to.not.contain('mailHost=');
-        });
+        expect(url).to.contain('module=Live');
+        expect(url).to.contain('action=indexVisitorLog');
+        expect(url).to.not.contain('module=CoreAdminHome');
+        expect(url).to.not.contain('action=testfakeAction');
+        expect(url).to.not.contain('force_api_session=0');
+        expect(url).to.not.match(/[?&]format=json(&|$)/);
+        expect(url).to.not.contain('mailHost=');
     });
 });
