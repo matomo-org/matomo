@@ -43,6 +43,10 @@ class CoreVisualizations extends \Piwik\Plugin
 
     public function addBodyClass(&$out, $type)
     {
+        if (!in_array($type, ['dashboard', 'widgetized'], true)) {
+            return;
+        }
+
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
 
         if ($featureFlagManager->isFeatureActive(PlotLinesTweaks::class)) {

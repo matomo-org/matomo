@@ -107,7 +107,6 @@ function rowEvolutionGetMetricNameFromRow(tr)
         _setJqplotParameters: function (params) {
             defaultParams = {
                 grid: {
-                    drawGridLines: false,
                     borderWidth: 0,
                     shadow: false
                 },
@@ -704,10 +703,8 @@ function rowEvolutionGetMetricNameFromRow(tr)
                     + tickRgb[2] + ', ' + TICK_OPACITY + ')';
             }
 
-            // Use the same colour for the horizontal y-axis gridlines (drawn by
-            // jqPlot's grid renderer) so they stay in sync with the vertical
-            // ticks drawn by the PiwikTicks plugin. Canvas accepts rgba/hex
-            // identically.
+            // PiwikTicks draws the vertical ticks from this.tickColor; reuse it for
+            // the horizontal gridlines so both match (including the opacity above).
             this.jqplotParams.grid.gridLineColor = this.tickColor;
             this.singleMetricColor = colorManager.getColor(namespace, 'single-metric-label');
 
