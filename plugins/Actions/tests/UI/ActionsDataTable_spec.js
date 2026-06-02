@@ -94,6 +94,11 @@ describe("ActionsDataTable", function () {
         await page.mouse.move(-10, -10);
         await page.waitForSelector('.ui-dialog');
         await page.waitForNetworkIdle();
+        const title = await page.$eval('.ui-dialog .ui-dialog-title', (el) => el.textContent.trim());
+        expect(title).to.contain('Page URL');
+        expect(title).to.contain('index.htm');
+        expect(title).to.not.contain('pageUrl==');
+        expect(title).to.not.contain('pageTitle==');
         const element = await page.$('.ui-dialog');
         expect(await element.screenshot()).to.matchImage('segmented_visitor_log');
     });
