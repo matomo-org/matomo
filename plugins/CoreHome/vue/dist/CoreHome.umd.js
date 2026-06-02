@@ -4226,6 +4226,15 @@ function wrapArray(values) {
   }
   return Array.isArray(values) ? values : [values];
 }
+function normalizeUrlState(value) {
+  if (Array.isArray(value)) {
+    return value.map(normalizeUrlState);
+  }
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)).map(([key, nestedValue]) => [key, normalizeUrlState(nestedValue)]));
+  }
+  return value;
+}
 class Comparisons_store_ComparisonsStore {
   constructor() {
     Comparisons_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
@@ -4247,9 +4256,11 @@ class Comparisons_store_ComparisonsStore {
     $(() => {
       this.colors = this.getAllSeriesColors();
     });
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => this.getComparisons(), () => Matomo_Matomo.postEvent('piwikComparisonsChanged'), {
-      deep: true
-    });
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => this.getUrlStateWithoutPopoverKey(), () => Matomo_Matomo.postEvent('piwikComparisonsChanged'));
+  }
+  getUrlStateWithoutPopoverKey() {
+    const parsedWithoutPopover = Object.fromEntries(Object.entries(src_MatomoUrl_MatomoUrl.parsed.value).filter(([key]) => key !== 'popover'));
+    return JSON.stringify(normalizeUrlState(parsedWithoutPopover));
   }
   getComparisons() {
     return this.getSegmentComparisons().concat(this.getPeriodComparisons());

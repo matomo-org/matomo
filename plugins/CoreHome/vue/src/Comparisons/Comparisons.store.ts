@@ -61,6 +61,22 @@ function wrapArray<T>(values: T | T[]): T[] {
   return Array.isArray(values) ? values : [values];
 }
 
+function normalizeUrlState(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    return value.map(normalizeUrlState);
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([key, nestedValue]) => [key, normalizeUrlState(nestedValue)]),
+    );
+  }
+
+  return value;
+}
+
 export default class ComparisonsStore {
   private privateState = reactive<ComparisonsStoreState>({
     comparisonsDisabledFor: [],
@@ -91,10 +107,17 @@ export default class ComparisonsStore {
     });
 
     watch(
-      () => this.getComparisons(),
+      () => this.getUrlStateWithoutPopoverKey(),
       () => Matomo.postEvent('piwikComparisonsChanged'),
-      { deep: true },
     );
+  }
+
+  private getUrlStateWithoutPopoverKey(): string {
+    const parsedWithoutPopover = Object.fromEntries(
+      Object.entries(MatomoUrl.parsed.value).filter(([key]) => key !== 'popover'),
+    );
+
+    return JSON.stringify(normalizeUrlState(parsedWithoutPopover));
   }
 
   getComparisons(): AnyComparison[] {
