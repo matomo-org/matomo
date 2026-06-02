@@ -168,12 +168,41 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
   });
 
-  it('renders the add hint using the shared translation key', () => {
+  it('renders the add hint with a "+" symbol and the shared translation key', () => {
     const wrapper = mount(WidgetsList as any, {
       props: { widgets: [widgetVisits] },
     });
 
-    expect(wrapper.find('.widgetpreview-add-hint').text()).toBe('+ General_Add');
+    const hint = wrapper.find('.widgetpreview-add-hint');
+    expect(hint.find('.widgetpreview-add-plus').exists()).toBe(true);
+    expect(hint.find('.icon-ok').exists()).toBe(false);
+    expect(hint.text()).toBe('+ General_Add');
+  });
+
+  it('swaps the "+" for a green check on the just-added row and reverts when the hover moves', async () => {
+    const wrapper = mount(WidgetsList as any, {
+      props: {
+        widgets: [widgetVisits, widgetKpi],
+        chosenWidgetId: 'widgetVisits',
+      },
+    });
+    (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
+
+    await wrapper.findAll('li button')[0].trigger('click');
+    expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
+
+    let hint = wrapper.findAll('li')[0].find('.widgetpreview-add-hint');
+    expect(hint.find('.icon-ok').exists()).toBe(true);
+    expect(hint.find('.widgetpreview-add-plus').exists()).toBe(false);
+    expect(hint.text()).toBe('General_Added');
+
+    // Hovering another widget reverts the check and label back to "+ Add".
+    await wrapper.setProps({ chosenWidgetId: 'widgetKpi' });
+
+    hint = wrapper.findAll('li')[0].find('.widgetpreview-add-hint');
+    expect(hint.find('.icon-ok').exists()).toBe(false);
+    expect(hint.find('.widgetpreview-add-plus').exists()).toBe(true);
+    expect(hint.text()).toBe('+ General_Add');
   });
 
   it('renders the full widget name text for long labels', () => {

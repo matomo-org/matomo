@@ -25,6 +25,16 @@
       color: @theme-color-text;
     }
   }
+  .widgetpreview-widgetlist .widgetpreview-unavailable .widget-button-item {
+    color: @theme-color-text-disabled;
+  }
+  // Hovering an already-added row restores the hovered/chosen text colour, so the
+  // row reads as focusable rather than staying greyed while it's under the cursor.
+  // Two classes give this higher specificity than the disabled rule above, which
+  // a same-element hovered+added row would otherwise win.
+  .widgetpreview-widgetlist .widgetpreview-choosen.widgetpreview-unavailable .widget-button-item {
+    color: @theme-color-text;
+  }
 }
 
 .add-widget-modal {
@@ -212,5 +222,11 @@
 
   .widgetpreview-widgetlist .widgetpreview-choosen .widgetpreview-add-hint {
     opacity: 1;
+  }
+
+  // Transient "added" confirmation: the leading "+" becomes a green check on the
+  // row just added, reverting once the hover moves elsewhere (see WidgetsList).
+  .widgetpreview-widgetlist .widgetpreview-add-check {
+    color: @color-green-matomo;
   }
 }

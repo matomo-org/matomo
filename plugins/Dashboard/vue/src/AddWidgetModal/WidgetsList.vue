@@ -32,7 +32,13 @@
         <span
           class="widgetpreview-add-hint"
           aria-hidden="true"
-        >+ {{ translate('General_Add') }}</span>
+        ><i
+          v-if="isJustAdded(widget)"
+          class="icon-ok widgetpreview-add-check"
+        ></i><span
+          v-else
+          class="widgetpreview-add-plus"
+        >+</span> {{ translate(isJustAdded(widget) ? 'General_Added' : 'General_Add') }}</span>
       </button>
     </li>
   </ul>
@@ -78,13 +84,31 @@ export default defineComponent({
       // Cached once: any hover-capable pointer gets desktop-like click-to-add
       // behaviour. Only pure no-hover environments use preview-first double-tap.
       supportsHover: hasHoverCapablePointer(),
+      // The row most recently added in this session. Drives the transient green
+      // check in the add hint; cleared as soon as the hover moves elsewhere (see
+      // the chosenWidgetId watcher) so re-hovering an added row shows "+" again.
+      justAddedId: null as string | null,
     };
+  },
+  watch: {
+    chosenWidgetId(newId: string | null) {
+      // Revert the green check the moment the preview/hover moves off the
+      // just-added row. The add hint is only visible on the chosen row, so
+      // tying the reset to chosenWidgetId matches what the user actually sees.
+      if (newId !== this.justAddedId) {
+        this.justAddedId = null;
+      }
+    },
   },
   methods: {
     translate,
 
     isRepeatableWidget(widget: WidgetType): boolean {
       return widget.category?.id === KPI_METRIC_CATEGORY_ID;
+    },
+
+    isJustAdded(widget: WidgetType): boolean {
+      return !!widget.uniqueId && widget.uniqueId === this.justAddedId;
     },
 
     isUnavailable(widget: WidgetType): boolean {
@@ -138,6 +162,7 @@ export default defineComponent({
         return;
       }
 
+      this.justAddedId = widget.uniqueId;
       this.$emit('select', widget.uniqueId);
     },
 
@@ -149,6 +174,7 @@ export default defineComponent({
         return;
       }
       this.clearHoverTimer();
+      this.justAddedId = widget.uniqueId;
       this.$emit('select', widget.uniqueId);
     },
 
