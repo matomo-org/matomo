@@ -158,6 +158,8 @@ class API extends \Piwik\Plugin\API
      * @param string|null|false $segment Custom segment to filter the visits.
      *                                   Example: "referrerName==example.com"
      *                                   Supports AND (;) and OR (,) operators.
+     *                                   Supports the optional request parameter `additionalSegment`
+     *                                   to intersect an extra segment at the visit level.
      * @param int|false $countVisitorsToFetch Deprecated explicit row limit. Prefer `filter_offset` and `filter_limit`.
      * @param int|false $minTimestamp Optional minimum timestamp for incremental refreshes or pagination.
      * @param bool $flat Whether to flatten action details into the visit rows.
@@ -202,12 +204,12 @@ class API extends \Piwik\Plugin\API
         }
 
         $filterSortOrder = \Piwik\Request::fromRequest()->getStringParameter('filter_sort_order', '');
-        $segmentVisitorLogRow = \Piwik\Request::fromRequest()->getStringParameter('segmentVisitorLogRow', '');
-        if ($segmentVisitorLogRow === '') {
-            $segmentVisitorLogRow = false;
+        $additionalSegment = \Piwik\Request::fromRequest()->getStringParameter('additionalSegment', '');
+        if ($additionalSegment === '') {
+            $additionalSegment = false;
         }
 
-        $dataTable = $this->loadLastVisitsDetailsFromDatabase($idSites, $period, $date, $segment, $filterOffset, $filterLimit, $minTimestamp, $filterSortOrder, $visitorId = false, $segmentVisitorLogRow);
+        $dataTable = $this->loadLastVisitsDetailsFromDatabase($idSites, $period, $date, $segment, $filterOffset, $filterLimit, $minTimestamp, $filterSortOrder, $visitorId = false, $additionalSegment);
         $this->addFilterToCleanVisitors($dataTable, $flat, $doNotFetchActions);
 
         $filterSortColumn = \Piwik\Request::fromRequest()->getStringParameter('filter_sort_column', '');
@@ -452,13 +454,14 @@ class API extends \Piwik\Plugin\API
      * @param int $offset
      * @param int $limit
      * @param int|false $minTimestamp
-     * @param string|false $filterSortOrder
-     * @param string|false $visitorId
+     * @param string|false $filterSortOrder Sort order for visits.
+     * @param string|false $visitorId Optional visitor ID filter.
+     * @param string|false $additionalSegment Optional extra segment to intersect at the visit level.
      */
-    private function loadLastVisitsDetailsFromDatabase($idSite, $period, $date, $segment = false, $offset = 0, $limit = 100, $minTimestamp = false, $filterSortOrder = false, $visitorId = false, $segmentVisitorLogRow = false): DataTable
+    private function loadLastVisitsDetailsFromDatabase($idSite, $period, $date, $segment = false, $offset = 0, $limit = 100, $minTimestamp = false, $filterSortOrder = false, $visitorId = false, $additionalSegment = false): DataTable
     {
         $model = new Model();
-        [$data, $hasMoreVisits] = $model->queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, true, $segmentVisitorLogRow);
+        [$data, $hasMoreVisits] = $model->queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, true, $additionalSegment);
         return $this->makeVisitorTableFromArray($data, $hasMoreVisits);
     }
 

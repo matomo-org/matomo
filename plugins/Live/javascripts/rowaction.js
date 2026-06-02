@@ -96,7 +96,7 @@
 
         if (currentSegment) {
             segment = decodeURIComponent(currentSegment);
-            extraParams.segmentVisitorLogRow = clickedSegment;
+            extraParams.additionalSegment = clickedSegment;
         } else {
             segment = clickedSegment;
         }
@@ -109,7 +109,7 @@
             }
 
             if (!currentSegment) {
-                extraParams.segmentVisitorLogRow = clickedSegment;
+                extraParams.additionalSegment = clickedSegment;
             }
         }
 
