@@ -690,6 +690,25 @@ function rowEvolutionGetMetricNameFromRow(tr)
             this.jqplotParams.grid.background = colorManager.getColor(namespace, 'grid-background');
             this.jqplotParams.grid.borderColor = colorManager.getColor(namespace, 'grid-border');
             this.tickColor = colorManager.getColor(namespace, 'ticks');
+
+            // PlotLinesTweaks: ticks/gridlines render at reduced opacity. The CSS
+            // colour is kept solid (hex) so ColorManager keeps returning hex; the
+            // opacity is applied here by composing the rgba string. Change
+            // TICK_OPACITY to adjust how translucent the ticks/gridlines are.
+            var plotLinesTweaksEnabled = document.body
+                && document.body.classList.contains('plotlines-tweaks-enabled');
+            if (plotLinesTweaksEnabled) {
+                var TICK_OPACITY = 0.5;
+                var tickRgb = colorManager.getRgb(this.tickColor);
+                this.tickColor = 'rgba(' + tickRgb[0] + ', ' + tickRgb[1] + ', '
+                    + tickRgb[2] + ', ' + TICK_OPACITY + ')';
+            }
+
+            // Use the same colour for the horizontal y-axis gridlines (drawn by
+            // jqPlot's grid renderer) so they stay in sync with the vertical
+            // ticks drawn by the PiwikTicks plugin. Canvas accepts rgba/hex
+            // identically.
+            this.jqplotParams.grid.gridLineColor = this.tickColor;
             this.singleMetricColor = colorManager.getColor(namespace, 'single-metric-label');
 
             if (this.jqplotParams.pieLegend) {
@@ -705,8 +724,10 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
         _setSeriesColors: function (namespace) {
             var colorManager = piwik.ColorManager,
-                seriesColorNames = ['series0', 'series1', 'series2', 'series3', 'series4', 'series5',
-                    'series6', 'series7', 'series8', 'series9', 'series10'];
+                seriesColorNames;
+
+            var plotLinesTweaksEnabled = document.body
+                && document.body.classList.contains('plotlines-tweaks-enabled');
 
             var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             if (comparisonService.isComparing() && typeof this.jqplotParams.series[0].seriesIndex !== 'undefined') {
@@ -717,6 +738,20 @@ function rowEvolutionGetMetricNameFromRow(tr)
                     var seriesColorName = comparisonService.getSeriesColorName(s.seriesIndex, s.metricIndex);
                     seriesColorNames.push(seriesColorName);
                 });
+            } else if (plotLinesTweaksEnabled && namespace === 'evolution-graph-colors') {
+                // 32-color cycle: all 8 bases, then shade1 across all 8, then shade2, then shade3
+                seriesColorNames = [];
+                for (var s = 0; s < 8; s++) {
+                    seriesColorNames.push('series' + s);
+                }
+                for (var shade = 1; shade <= 3; shade++) {
+                    for (var s2 = 0; s2 < 8; s2++) {
+                        seriesColorNames.push('series' + s2 + '-shade' + shade);
+                    }
+                }
+            } else {
+                seriesColorNames = ['series0', 'series1', 'series2', 'series3', 'series4', 'series5',
+                    'series6', 'series7', 'series8', 'series9', 'series10'];
             }
 
             this.jqplotParams.seriesColors = colorManager.getColors(namespace, seriesColorNames, true);
@@ -1099,11 +1134,16 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             var seriesMarkerRenderer = series.markerRenderer;
 
             c.markerRenderer.style = seriesMarkerRenderer.style;
-            c.markerRenderer.size = seriesMarkerRenderer.size + 5;
+            var plotLinesTweaksEnabled = document.body
+                && document.body.classList.contains('plotlines-tweaks-enabled');
+            c.markerRenderer.size = plotLinesTweaksEnabled ? 8 : seriesMarkerRenderer.size + 5;
 
             var rgba = $.jqplot.getColorComponents(seriesMarkerRenderer.color);
             var newrgb = [rgba[0], rgba[1], rgba[2]];
-            var alpha = rgba[3] * .4;
+            // Flag on: hover dot uses the series colour at full opacity so it
+            // matches the line exactly. Flag off: keep the historical lighter
+            // (40% alpha) highlight.
+            var alpha = plotLinesTweaksEnabled ? rgba[3] : rgba[3] * .4;
             c.markerRenderer.color = 'rgba(' + newrgb[0] + ',' + newrgb[1] + ',' + newrgb[2] + ',' + alpha + ')';
             c.markerRenderer.init();
 
