@@ -202,7 +202,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $filterSortOrder = \Piwik\Request::fromRequest()->getStringParameter('filter_sort_order', '');
-        $segmentVisitorLogRow = \Piwik\Request::fromRequest()->getStringParameter('segmentVisitorLogRow', '', false);
+        $segmentVisitorLogRow = \Piwik\Request::fromRequest()->getStringParameter('segmentVisitorLogRow', '');
         if ($segmentVisitorLogRow === '') {
             $segmentVisitorLogRow = false;
         }

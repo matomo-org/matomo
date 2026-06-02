@@ -695,6 +695,8 @@ class Model
             return [$whereBind, $where];
         }
 
+        // The clicked row segment needs to be intersected at the visit level. Appending it to the
+        // main segment string would evaluate both same-dimension conditions on a single action row.
         $rowSegment = new Segment($segmentVisitorLogRow, $idSite, $startDate, $endDate);
         $rowSegmentQuery = $rowSegment->getSelectQuery(
             'log_visit.idvisit',
