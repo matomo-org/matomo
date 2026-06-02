@@ -45,7 +45,7 @@ class Model
      * @param $checkforMoreEntries
      * @return array
      */
-    public function queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, $checkforMoreEntries = false)
+    public function queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, $checkforMoreEntries = false, $segmentVisitorLogRow = false)
     {
         // to check for more entries increase the limit by one, but cut off the last entry before returning the result
         if ((int)$limit > -1 && $checkforMoreEntries) {
@@ -80,13 +80,13 @@ class Model
                 }
             }
 
-            [$sql, $bind] = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $remainingOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
+            [$sql, $bind] = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $remainingOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder, $segmentVisitorLogRow);
             $visits = $this->executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
 
             if (!empty($remainingOffset)) {
                 if (empty($visits)) {
                     // No visits returned - need to count total in range to adjust offset
-                    $totalInRange = $this->countLogVisitsInRange($idSite, $queryRange[0], $queryRange[1], $segment, $visitorId, $minTimestamp);
+                    $totalInRange = $this->countLogVisitsInRange($idSite, $queryRange[0], $queryRange[1], $segment, $visitorId, $minTimestamp, $segmentVisitorLogRow);
                     $remainingOffset = max(0, $remainingOffset - $totalInRange);
                     continue;
                 } else {
@@ -133,12 +133,13 @@ class Model
      * @return int
      * @throws Exception
      */
-    private function countLogVisitsInRange($idSite, $dateStart, $dateEnd, $segment, $visitorId, $minTimestamp)
+    private function countLogVisitsInRange($idSite, $dateStart, $dateEnd, $segment, $visitorId, $minTimestamp, $segmentVisitorLogRow = false)
     {
         [$whereClause, $bindIdSites] = $this->getIdSitesWhereClause($idSite);
         [$whereBind, $where] = $this->getWhereClauseAndBind($whereClause, $bindIdSites, $dateStart, $dateEnd, $visitorId, $minTimestamp);
 
         $segment = new Segment($segment, $idSite, $dateStart, $dateEnd);
+        [$whereBind, $where] = $this->addSegmentVisitorLogRowFilter($idSite, $dateStart, $dateEnd, $segmentVisitorLogRow, $whereBind, $where);
 
         // Use COUNT(*), do not load all data
         $select = "COUNT(*) as count";
@@ -635,11 +636,12 @@ class Model
      * @return array
      * @throws Exception
      */
-    public function makeLogVisitsQueryString($idSite, $startDate, $endDate, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder)
+    public function makeLogVisitsQueryString($idSite, $startDate, $endDate, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, $segmentVisitorLogRow = false)
     {
         [$whereClause, $bindIdSites] = $this->getIdSitesWhereClause($idSite);
 
         [$whereBind, $where] = $this->getWhereClauseAndBind($whereClause, $bindIdSites, $startDate, $endDate, $visitorId, $minTimestamp);
+        [$whereBind, $where] = $this->addSegmentVisitorLogRowFilter($idSite, $startDate, $endDate, $segmentVisitorLogRow, $whereBind, $where);
 
         if (strtolower($filterSortOrder) !== 'asc') {
             $filterSortOrder = 'DESC';
@@ -685,6 +687,31 @@ class Model
         }
 
         return array($innerQuery['sql'], $bind);
+    }
+
+    private function addSegmentVisitorLogRowFilter($idSite, $startDate, $endDate, $segmentVisitorLogRow, array $whereBind, $where)
+    {
+        if (empty($segmentVisitorLogRow)) {
+            return [$whereBind, $where];
+        }
+
+        $rowSegment = new Segment($segmentVisitorLogRow, $idSite, $startDate, $endDate);
+        $rowSegmentQuery = $rowSegment->getSelectQuery(
+            'log_visit.idvisit',
+            'log_visit',
+            $where,
+            $whereBind,
+            '',
+            'log_visit.idvisit',
+            0,
+            0,
+            true
+        );
+
+        $where .= ' AND log_visit.idvisit IN (' . $rowSegmentQuery['sql'] . ')';
+        $whereBind = array_merge($whereBind, $rowSegmentQuery['bind']);
+
+        return [$whereBind, $where];
     }
 
     /**

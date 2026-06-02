@@ -748,6 +748,39 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals('2011-01-01 03:00:00', $visits[1]['visit_last_action_time']);
     }
 
+    public function testQueryLogVisitsCanIntersectCurrentSegmentWithClickedRowAtVisitLevel()
+    {
+        $dateTime = '2012-01-01 10:00:00';
+        $this->trackVisitWithActions($dateTime, [
+            'https://example.org/category/exampleblue-travel-tips/essential-example/',
+            'https://example.org/exampleblue-travel-tips/essential-example/best-of-example-1/',
+        ]);
+        $this->trackVisitWithActions('2012-01-01 11:00:00', [
+            'https://example.org/category/exampleblue-travel-tips/essential-example/',
+        ]);
+
+        $model = new Model();
+        $currentSegment = 'pageUrl==https%253A%252F%252Fexample.org%252Fexampleblue-travel-tips%252Fessential-example%252Fbest-of-example-1%252F';
+        $clickedRowSegment = 'pageUrl=^https%253A%252F%252Fexample.org%252Fcategory';
+
+        $visits = $model->queryLogVisits(
+            1,
+            'day',
+            '2012-01-01',
+            $currentSegment,
+            0,
+            10,
+            false,
+            false,
+            'desc',
+            false,
+            $clickedRowSegment
+        );
+
+        $this->assertCount(1, $visits);
+        $this->assertEquals('2012-01-01 10:00:01', $visits[0]['visit_last_action_time']);
+    }
+
     protected function setSuperUser()
     {
         FakeAccess::$superUser = true;
@@ -791,6 +824,20 @@ class ModelTest extends IntegrationTestCase
         $t->setForceVisitDateTime($dateTime);
         $t->setUrl('http://example.org/' . str_replace([' ', ':'], '-', $dateTime));
         Fixture::checkResponse($t->doTrackPageView('Visit at ' . $dateTime));
+    }
+
+    private function trackVisitWithActions(string $dateTime, array $urls): void
+    {
+        $tracker = Fixture::getTracker(1, $dateTime, $defaultInit = true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+        $tracker->setNewVisitorId();
+
+        foreach ($urls as $index => $url) {
+            $actionTime = Date::factory($dateTime)->addPeriod($index, 'second')->getDatetime();
+            $tracker->setForceVisitDateTime($actionTime);
+            $tracker->setUrl($url);
+            Fixture::checkResponse($tracker->doTrackPageView('Visit action ' . $index));
+        }
     }
 
     private function countVisitsBetween(string $startDate, string $endDate): int

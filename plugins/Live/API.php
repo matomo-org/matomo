@@ -202,8 +202,12 @@ class API extends \Piwik\Plugin\API
         }
 
         $filterSortOrder = \Piwik\Request::fromRequest()->getStringParameter('filter_sort_order', '');
+        $segmentVisitorLogRow = \Piwik\Request::fromRequest()->getStringParameter('segmentVisitorLogRow', '', false);
+        if ($segmentVisitorLogRow === '') {
+            $segmentVisitorLogRow = false;
+        }
 
-        $dataTable = $this->loadLastVisitsDetailsFromDatabase($idSites, $period, $date, $segment, $filterOffset, $filterLimit, $minTimestamp, $filterSortOrder, $visitorId = false);
+        $dataTable = $this->loadLastVisitsDetailsFromDatabase($idSites, $period, $date, $segment, $filterOffset, $filterLimit, $minTimestamp, $filterSortOrder, $visitorId = false, $segmentVisitorLogRow);
         $this->addFilterToCleanVisitors($dataTable, $flat, $doNotFetchActions);
 
         $filterSortColumn = \Piwik\Request::fromRequest()->getStringParameter('filter_sort_column', '');
@@ -451,10 +455,10 @@ class API extends \Piwik\Plugin\API
      * @param string|false $filterSortOrder
      * @param string|false $visitorId
      */
-    private function loadLastVisitsDetailsFromDatabase($idSite, $period, $date, $segment = false, $offset = 0, $limit = 100, $minTimestamp = false, $filterSortOrder = false, $visitorId = false): DataTable
+    private function loadLastVisitsDetailsFromDatabase($idSite, $period, $date, $segment = false, $offset = 0, $limit = 100, $minTimestamp = false, $filterSortOrder = false, $visitorId = false, $segmentVisitorLogRow = false): DataTable
     {
         $model = new Model();
-        [$data, $hasMoreVisits] = $model->queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, true);
+        [$data, $hasMoreVisits] = $model->queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, true, $segmentVisitorLogRow);
         return $this->makeVisitorTableFromArray($data, $hasMoreVisits);
     }
 

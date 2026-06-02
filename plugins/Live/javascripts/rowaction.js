@@ -89,27 +89,42 @@
     };
 
     DataTable_RowActions_SegmentVisitorLog.prototype.trigger = function (tr, e, subTableLabel) {
-        var segment = getRawSegmentValueFromRow(tr);
+        var clickedSegment = getRawSegmentValueFromRow(tr);
+        var currentSegment = this.dataTable.param.segment || '';
+        var segment = '';
+        var extraParams = {};
 
-        if (this.dataTable.param.segment) {
-            segment = decodeURIComponent(this.dataTable.param.segment) + ';' + segment;
+        if (currentSegment) {
+            segment = decodeURIComponent(currentSegment);
+            extraParams.segmentVisitorLogRow = clickedSegment;
+        } else {
+            segment = clickedSegment;
         }
 
         if (this.dataTable.props.segmented_visitor_log_segment_suffix) {
-            segment = segment + ';' + this.dataTable.props.segmented_visitor_log_segment_suffix;
+            if (segment) {
+                segment = segment + ';' + this.dataTable.props.segmented_visitor_log_segment_suffix;
+            } else {
+                segment = this.dataTable.props.segmented_visitor_log_segment_suffix;
+            }
+
+            if (!currentSegment) {
+                extraParams.segmentVisitorLogRow = clickedSegment;
+            }
         }
 
-        this.performAction(segment, tr, e);
+        this.performAction(segment, tr, e, null, extraParams);
     };
 
-    DataTable_RowActions_SegmentVisitorLog.prototype.performAction = function (segment, tr, e, originalRow) {
+    DataTable_RowActions_SegmentVisitorLog.prototype.performAction = function (segment, tr, e, originalRow, extraParamsOverride) {
 
         var apiMethod = this.dataTable.param.module + '.' + this.dataTable.param.action;
 
-        var extraParams = {};
+        var extraParams = extraParamsOverride || {};
 
         if (this.dataTable.param.date && this.dataTable.param.period) {
-            extraParams = {date: this.dataTable.param.date, period: this.dataTable.param.period};
+            extraParams.date = this.dataTable.param.date;
+            extraParams.period = this.dataTable.param.period;
         }
 
         var paramOverride = $(originalRow || tr).data('param-override');
