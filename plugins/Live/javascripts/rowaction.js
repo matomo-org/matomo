@@ -62,30 +62,19 @@
         'date',
         'period',
         'segment',
-        'compareSegments',
-        'comparePeriods',
-        'compareDates'
     ];
 
-    // Dynamic `id*` keys (idGoal, idDimension, idSubtable, ...). Used both
-    // when building the popover URL in `performAction` and when parsing it
-    // back in `doOpenPopover`, so both sides accept the same set of params.
-    DataTable_RowActions_SegmentVisitorLog.isAllowedIdExtraParam = function (key, value) {
-        return key !== 'idSite'
-            && key.indexOf('id') === 0
-            && $.isNumeric(value);
-    };
-
     // Filter a parsed extraParams object against the allowlist. Returns a new
-    // object containing only keys that are either in `allowedExtraParamKeys`
-    // or accepted by `isAllowedIdExtraParam`.
+    // object containing only keys in `allowedExtraParamKeys`. The visitor log
+    // request only consumes these keys; everything else (idGoal, idDimension,
+    // idSite, compare*, ...) is inert and is dropped so a crafted popover URL
+    // cannot smuggle parameters into the Live.indexVisitorLog request.
     DataTable_RowActions_SegmentVisitorLog.filterAllowedExtraParams = function (parsed) {
         var allowed = DataTable_RowActions_SegmentVisitorLog.allowedExtraParamKeys;
-        var isAllowedId = DataTable_RowActions_SegmentVisitorLog.isAllowedIdExtraParam;
         var result = {};
 
         Object.keys(parsed).forEach(function (key) {
-            if (allowed.indexOf(key) !== -1 || isAllowedId(key, parsed[key])) {
+            if (allowed.indexOf(key) !== -1) {
                 result[key] = parsed[key];
             }
         });
@@ -127,14 +116,7 @@
         if (typeof paramOverride !== 'object') {
             paramOverride = {};
         }
-        $.extend(extraParams, paramOverride);
-
-        $.each(this.dataTable.param, function (index, value) {
-            // we automatically add fields like idDimension, idGoal etc.
-            if (DataTable_RowActions_SegmentVisitorLog.isAllowedIdExtraParam(index, value)) {
-                extraParams[index] = value;
-            }
-        });
+        $.extend(extraParams, DataTable_RowActions_SegmentVisitorLog.filterAllowedExtraParams(paramOverride));
 
         this.openPopover(apiMethod, segment, extraParams);
     };
