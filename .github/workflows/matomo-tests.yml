@@ -239,7 +239,9 @@ jobs:
             10 \
             --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        # TEMPORARY: pinned to branch `system_test_artifacts_bundling` for CI verification of
+        # the artifact-name-suffix fix. Revert to `@main` once the action-tests PR is merged.
+        uses: matomo-org/github-action-tests@system_test_artifacts_bundling
         with:
           test-type: 'SystemTestsPlugins'
           phpunit-test-options: >-
@@ -252,6 +254,7 @@ jobs:
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          artifact-name-suffix: bucket-${{ matrix.bucket }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
   Javascript:
