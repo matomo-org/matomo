@@ -82,18 +82,20 @@
 @graph-series7-shade2-color: #FF3D00; // (A400)
 @graph-series7-shade3-color: #DD2C00; // (A700)
 
-// Plotline (evolution graph) base colors — used when the PlotLinesTweaks feature
-// flag is on. Light/dark mode use identical values by design.
+// Graph data-series base colors. Currently used for evolution-graph plotlines
+// (and their comparison series) when the PlotLinesTweaks feature flag is on;
+// intended to become the shared base palette for all graph types. Light/dark
+// mode use identical values by design.
 // Shades (shade1/shade2/shade3) reuse the existing @graph-seriesN-shadeM-color
 // variables above — values match exactly, so we don't redeclare them.
-@plotline-series0: #57B1FF;
-@plotline-series1: #FF8F00;
-@plotline-series2: #A60F58;
-@plotline-series3: #7A45E6;
-@plotline-series4: #56CA00;
-@plotline-series5: #35C4C4;
-@plotline-series6: #283593;
-@plotline-series7: #F56E2F;
+@graph-series0-color: #57B1FF;
+@graph-series1-color: #FF8F00;
+@graph-series2-color: #A60F58;
+@graph-series3-color: #7A45E6;
+@graph-series4-color: #56CA00;
+@graph-series5-color: #35C4C4;
+@graph-series6-color: #283593;
+@graph-series7-color: #F56E2F;
 
 @default-box-shade: 0 2px 3px 0 rgba(0,0,0,0.16), 0 0px 3px 0 rgba(0,0,0,0.12);
 
