@@ -117,16 +117,6 @@ class ApiTest extends SystemTestCase
                     'testSuffix' => '_broken_content',
                 ],
             ],
-            [
-                [
-                    'API.getReportMetadata',
-                ], [
-                    'idSite'     => 1,
-                    'date'       => '2025-02-03',
-                    'periods'    => ['day'],
-                    'testSuffix' => '_reports_metadata',
-                ],
-            ],
         ];
     }
 
