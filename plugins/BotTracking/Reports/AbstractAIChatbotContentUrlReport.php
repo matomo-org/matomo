@@ -63,6 +63,10 @@ abstract class AbstractAIChatbotContentUrlReport extends Report
         // preset, which doesn't match the BotTracking column schema and would render empty data.
         $view->config->show_table_all_columns = false;
 
+        // Disable the Insights visualization: it expects visit-based metrics (nb_visits etc.)
+        // that this report does not provide, so the rendered output would be empty.
+        $view->config->show_insights = false;
+
         // Render URL labels as clickable links. Labels are Matomo-normalized URLs without scheme
         // (e.g. example.com/article/2); prepend https:// to form a valid link target.
         $view->config->filters[] = function (DataTable $table) {
