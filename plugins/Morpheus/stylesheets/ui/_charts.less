@@ -309,20 +309,20 @@
 }
 
 body.plotlines-tweaks-enabled {
-  // evolution graph colors — under the feature flag PlotLinesTweaks.
-  // We can remove the check for the class .plotlines-tweaks-enabled when we have released the feature in production
-  // NOTE: comparison colours will only change when Bar Graph is already using the new colours
+  // evolution + bar + pie graph colours — under the feature flag PlotLinesTweaks.
+  // Remove the .plotlines-tweaks-enabled gate once the feature ships to production.
   .plotline-series-palette(evolution-graph-colors);
+  .plotline-series-palette(bar-graph-colors);
+  .plotline-series-palette(pie-graph-colors);
 
   // Tick / gridline base color. Kept solid here so ColorManager.getColor()
   // returns a plain hex value (no rgba); the opacity is applied in jqplot.js
-  // (see TICK_OPACITY in _setColors)
+  // (see TICK_OPACITY in _setColors). Evolution only — bar/pie ticks stay solid.
   .evolution-graph-colors[data-name=ticks] { color: #E0E0E0; }
 
-  // We just need to add this here for now so that we do not affect comparison colours for the Bar Graph.
-  // We will need to remove this and use the base `comparison-series-color` above when we have also changed the colour
-  // of the bar graph
-  .plotline-series-palette(comparison-series-color-plotlines);
+  // Comparison series palette: override the base namespace under the flag so the
+  // comparison chips, evolution lines and bar series all share one palette.
+  .plotline-series-palette(comparison-series-color);
 }
 
 .evolution-graph-colors[data-name=grid-background] {

@@ -694,9 +694,11 @@ function rowEvolutionGetMetricNameFromRow(tr)
             // colour is kept solid (hex) so ColorManager keeps returning hex; the
             // opacity is applied here by composing the rgba string. Change
             // TICK_OPACITY to adjust how translucent the ticks/gridlines are.
+            // Only evolution/line plots get the translucent ticks — pie and bar
+            // charts keep their solid tick colour even when the flag is on.
             var plotLinesTweaksEnabled = document.body
                 && document.body.classList.contains('plotlines-tweaks-enabled');
-            if (plotLinesTweaksEnabled) {
+            if (plotLinesTweaksEnabled && graphType === 'evolution') {
                 var TICK_OPACITY = 0.5;
                 var tickRgb = colorManager.getRgb(this.tickColor);
                 this.tickColor = 'rgba(' + tickRgb[0] + ', ' + tickRgb[1] + ', '
@@ -728,6 +730,10 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             if (comparisonService.isComparing() && typeof this.jqplotParams.series[0].seriesIndex !== 'undefined') {
+                // Comparison-capable graphs (evolution + bar) all read from
+                // `comparison-series-color`. Under PlotLinesTweaks the CSS for that
+                // namespace is overridden (see _charts.less), keeping graphs and the
+                // comparison selector chips on one shared palette.
                 namespace = 'comparison-series-color';
 
                 seriesColorNames = [];
@@ -735,7 +741,10 @@ function rowEvolutionGetMetricNameFromRow(tr)
                     var seriesColorName = comparisonService.getSeriesColorName(s.seriesIndex, s.metricIndex);
                     seriesColorNames.push(seriesColorName);
                 });
-            } else if (plotLinesTweaksEnabled && namespace === 'evolution-graph-colors') {
+            } else if (plotLinesTweaksEnabled
+                && (namespace === 'evolution-graph-colors'
+                    || namespace === 'bar-graph-colors'
+                    || namespace === 'pie-graph-colors')) {
                 // 32-color cycle: all 8 bases, then shade1 across all 8, then shade2, then shade3
                 seriesColorNames = [];
                 for (var s = 0; s < 8; s++) {
