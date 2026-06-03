@@ -28,13 +28,6 @@ class Metrics
     public const COLUMN_DOCUMENT_REQUESTS = 'document_requests';
     public const COLUMN_PAGE_REQUESTS = 'page_requests';
     public const COLUMN_ACQUIRED_VISITS = 'visits_acquired';
-
-    // Column constants for the AI Chatbots Content Requests reports (Pages, Documents, Broken).
-    // Translations, documentation and semantic types for these column-named metrics live on their
-    // respective Metric classes (not in the legacy maps below). Glossary presence relies on the
-    // Glossary::metricsGlossary() heuristic that all reports exposing a given metric name share
-    // identical documentation — which holds here because each Metric class returns a single fixed
-    // doc string.
     public const COLUMN_AVG_SERVER_TIME = 'avg_server_time';
     public const COLUMN_AVG_RESPONSE_SIZE = 'avg_response_size';
     public const COLUMN_PAGE_NOT_FOUND_404_REQUESTS = 'page_not_found_404_requests';

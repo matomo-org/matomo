@@ -159,6 +159,10 @@ class BotTracking extends Plugin
         $types = array_merge($types, BotMetrics::getMetricSemanticTypes());
     }
 
+    /**
+     * @param string[] $translationKeys
+     * @return void
+     */
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'BotTracking_DetectingYourSite';
@@ -178,6 +182,10 @@ class BotTracking extends Plugin
         $translationKeys[] = 'BotTracking_NoRecentAIBotRequests';
     }
 
+    /**
+     * @param string[] $stylesheets
+     * @return void
+     */
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/BotTracking/stylesheets/BotTracking.less";

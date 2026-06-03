@@ -496,11 +496,6 @@ parameters:
 			path: core/CliMulti/RequestCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, float given\\.$#"
-			count: 1
-			path: core/Columns/Dimension.php
-
-		-
 			message: "#^Property Piwik\\\\Columns\\\\Updater\\:\\:\\$actionDimensions \\(array\\<Piwik\\\\Plugin\\\\Dimension\\\\ActionDimension\\>\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: core/Columns/Updater.php
@@ -1239,21 +1234,6 @@ parameters:
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: core/Plugin.php
-
-		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, float given\\.$#"
-			count: 1
-			path: core/Plugin/ArchivedMetric.php
-
-		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, \\(float\\|false\\) given\\.$#"
-			count: 1
-			path: core/Plugin/ComputedMetric.php
-
-		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, float given\\.$#"
-			count: 1
-			path: core/Plugin/ComputedMetric.php
 
 		-
 			message: "#^Call to function is_null\\(\\) with Piwik\\\\Site will always evaluate to false\\.$#"

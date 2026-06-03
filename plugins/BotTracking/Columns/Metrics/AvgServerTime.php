@@ -37,11 +37,11 @@ class AvgServerTime extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        // Both arms of the original hasColumn check resolved to the same column name because
-        // Metrics::COLUMN_SUM_SERVER_TIME IS 'sum_server_time'. Unlike Bandwidth/AvgBandwidth
-        // where the literal and constant truly differ, no two-branch fallback is needed here.
-        $sum = (int)$this->getMetric($row, Metrics::COLUMN_SUM_SERVER_TIME);
-        $nb  = (int)$this->getMetric($row, Metrics::COLUMN_NB_SERVER_TIME);
+        $rawSum = $this->getMetric($row, Metrics::COLUMN_SUM_SERVER_TIME);
+        $rawNb  = $this->getMetric($row, Metrics::COLUMN_NB_SERVER_TIME);
+
+        $sum = is_numeric($rawSum) ? (int) $rawSum : 0;
+        $nb  = is_numeric($rawNb)  ? (int) $rawNb  : 0;
 
         if (empty($nb)) {
             return false;
@@ -65,8 +65,6 @@ class AvgServerTime extends ProcessedMetric
      */
     public function format($value, Formatter $formatter)
     {
-        // Deliberate: `true` (sentence form) chosen over `false` (AverageTimeOnPage convention) so that
-        // sub-second values render as "0.25 s" instead of a bare "0:00:00" clock string.
         return $formatter->getPrettyTimeFromSeconds($value, true);
     }
 

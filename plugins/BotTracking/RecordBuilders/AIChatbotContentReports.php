@@ -216,11 +216,13 @@ class AIChatbotContentReports extends RecordBuilder
 
         $table = new DataTable();
         while ($row = $stmt->fetch()) {
-            $label = $row['url'];
+            /** @var array<string, int|string|null> $row */
+            $label = (string) $row['url'];
 
             $metrics = [];
             foreach ($columns as $column => $op) {
-                $metrics[$column] = (int)$row[$column];
+                $raw = $row[$column] ?? 0;
+                $metrics[$column] = is_numeric($raw) ? (int) $raw : 0;
             }
 
             $table->sumRowWithLabel($label, $metrics);
@@ -233,11 +235,7 @@ class AIChatbotContentReports extends RecordBuilder
     {
         $configLimit = GeneralConfig::getIntegerConfigValue('archiving_ranking_query_row_limit', 0);
 
-        // NOTE: Unlike AIChatbotReports::getRankingQueryLimit(), this intentionally does NOT honour
-        // "0 = unlimited". For flat content-URL reports, no 10× multiplier is needed either — the
-        // ranking limit is simply the larger of the two configured values, and always caps.
-        // @see AIChatbotReports::getRankingQueryLimit() for the per-bot subtable variant where the
-        // 10× multiplier accounts for bot × url cross-products.
+        // As we are querying flat data, use `maxRowsInTable` as ranking query limit as it would be pointless to query more
         return max($configLimit, $this->maxRowsInTable);
     }
 }

@@ -37,11 +37,11 @@ class AvgResponseSize extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        // Both arms of the original hasColumn check resolved to the same column name because
-        // Metrics::COLUMN_SUM_RESPONSE_SIZE IS 'sum_response_size'. Unlike Bandwidth/AvgBandwidth
-        // where the literal and constant truly differ, no two-branch fallback is needed here.
-        $sum = (int)$this->getMetric($row, Metrics::COLUMN_SUM_RESPONSE_SIZE);
-        $nb  = (int)$this->getMetric($row, Metrics::COLUMN_NB_RESPONSE_SIZE);
+        $rawSum = $this->getMetric($row, Metrics::COLUMN_SUM_RESPONSE_SIZE);
+        $rawNb  = $this->getMetric($row, Metrics::COLUMN_NB_RESPONSE_SIZE);
+
+        $sum = is_numeric($rawSum) ? (int) $rawSum : 0;
+        $nb  = is_numeric($rawNb)  ? (int) $rawNb  : 0;
 
         if (empty($nb)) {
             return false;
