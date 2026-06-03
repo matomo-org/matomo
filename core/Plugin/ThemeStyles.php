@@ -92,7 +92,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorFocusRingAlternative = '#00B4BE';
+    public $colorFocusRingAlternative = '#00b4bE';
 
     /**
      * @var string|array<string>
@@ -246,17 +246,16 @@ class ThemeStyles
 
     /**
      * @var string|array<string>
-     *
-     * Use $colorBorderAlternative. This only remains for legacy use, and we will be phasing
-     * this out once we have changed everything to use the alternative
+     * @deprecated Use $colorBorderAlternative instead. Retained only for legacy use and will be
+     *             phased out once everything has moved to the alternative.
      */
     public $colorBorder = ['#cccccc', '#555555'];
 
     /**
-     * @var string|array<string>
-     *
      * Use this as the new border color. $colorBorder only remains so that we don't need to update
      * screenshots unless we really need to
+     *
+     * @var string|array<string>
      */
     public $colorBorderAlternative = ['#E0E0E0', '#555555'];
 
