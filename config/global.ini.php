@@ -1606,4 +1606,8 @@ CommonPIIParams[] = website
 CommonPIIParams[] = zip
 CommonPIIParams[] = zipcode
 
+; [CI-ONLY DO NOT MERGE] Force PlotLinesTweaks on for CI screenshot runs.
+[FeatureFlags]
+PlotLinesTweaks_feature = enabled
+
 ; NOTE: do not directly edit this file! See notice at the top
