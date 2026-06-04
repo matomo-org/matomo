@@ -257,6 +257,32 @@ jobs:
           artifact-name-suffix: bucket-${{ matrix.bucket }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+  PHP-system-plugins-collect:
+    name: PHP (SystemTestsPlugins, collect)
+    runs-on: ubuntu-24.04
+    needs: [ PHP-system-plugins ]
+    # Run even if some buckets failed — partial processed/ uploads are still
+    # useful and match the if: always() upload semantics in upload_artifacts.sh.
+    # Skip only when the matrix was cancelled outright (user abort, branch
+    # protection cancel-in-progress, etc.).
+    if: ${{ always() && needs.PHP-system-plugins.result != 'cancelled' }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: false
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Aggregate per-bucket archives and re-upload as system.plugin
+        shell: bash
+        env:
+          ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_BRANCH: ${{ github.head_ref || github.ref_name }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+        run: bash matomo/.github/scripts/aggregate-bucket-artifacts.sh
   Javascript:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
@@ -388,7 +414,7 @@ jobs:
   ci-required:
     name: All required tests passed
     if: ${{ always() }}
-    needs: [ PHP, PHP-integration-core, PHP-integration-plugins, PHP-system-plugins, Javascript, Client, generate-plugin-ui-matrices, UI-plugins, UI-core ]
+    needs: [ PHP, PHP-integration-core, PHP-integration-plugins, PHP-system-plugins, PHP-system-plugins-collect, Javascript, Client, generate-plugin-ui-matrices, UI-plugins, UI-core ]
     runs-on: ubuntu-24.04
     steps:
       - name: Verify required jobs succeeded
