@@ -262,12 +262,9 @@
 }
 
 
-// Plotlines palette (PlotLinesTweaks): maps the 8 base series + 3 shades to the
-// shared @graph-series* variables for a given ColorManager namespace class.
-// The evolution lines and their comparison series share the same palette, so
-// emitting it once here keeps the two namespaces guaranteed in sync.
-.plotline-series-palette(@ns) {
-  // Bases (slots 1–8)
+// Shared graph palette used while PlotLinesTweaks is enabled.
+.graph-series-palette(@ns) {
+  // Base colors
   .@{ns}[data-name=series0] { color: @graph-series0-color; }
   .@{ns}[data-name=series1] { color: @graph-series1-color; }
   .@{ns}[data-name=series2] { color: @graph-series2-color; }
@@ -277,7 +274,7 @@
   .@{ns}[data-name=series6] { color: @graph-series6-color; }
   .@{ns}[data-name=series7] { color: @graph-series7-color; }
 
-  // Shade 1 (slots 9–16)
+  // Shade 1
   .@{ns}[data-name=series0-shade1] { color: @graph-series0-shade1-color; }
   .@{ns}[data-name=series1-shade1] { color: @graph-series1-shade1-color; }
   .@{ns}[data-name=series2-shade1] { color: @graph-series2-shade1-color; }
@@ -287,7 +284,7 @@
   .@{ns}[data-name=series6-shade1] { color: @graph-series6-shade1-color; }
   .@{ns}[data-name=series7-shade1] { color: @graph-series7-shade1-color; }
 
-  // Shade 2 (slots 17–24)
+  // Shade 2
   .@{ns}[data-name=series0-shade2] { color: @graph-series0-shade2-color; }
   .@{ns}[data-name=series1-shade2] { color: @graph-series1-shade2-color; }
   .@{ns}[data-name=series2-shade2] { color: @graph-series2-shade2-color; }
@@ -297,7 +294,7 @@
   .@{ns}[data-name=series6-shade2] { color: @graph-series6-shade2-color; }
   .@{ns}[data-name=series7-shade2] { color: @graph-series7-shade2-color; }
 
-  // Shade 3 (slots 25–32)
+  // Shade 3
   .@{ns}[data-name=series0-shade3] { color: @graph-series0-shade3-color; }
   .@{ns}[data-name=series1-shade3] { color: @graph-series1-shade3-color; }
   .@{ns}[data-name=series2-shade3] { color: @graph-series2-shade3-color; }
@@ -309,20 +306,17 @@
 }
 
 body.plotlines-tweaks-enabled {
-  // evolution + bar + pie graph colours — under the feature flag PlotLinesTweaks.
-  // Remove the .plotlines-tweaks-enabled gate once the feature ships to production.
-  .plotline-series-palette(evolution-graph-colors);
-  .plotline-series-palette(bar-graph-colors);
-  .plotline-series-palette(pie-graph-colors);
+  // Apply the new palette only when the feature flag is active.
+  .graph-series-palette(evolution-graph-colors);
+  .graph-series-palette(bar-graph-colors);
+  .graph-series-palette(pie-graph-colors);
 
-  // Tick / gridline base color. Kept solid here so ColorManager.getColor()
-  // returns a plain hex value (no rgba); the opacity is applied in jqplot.js
-  // (see TICK_OPACITY in _setColors). Evolution only — bar/pie ticks stay solid.
+  // Lighter tick color for PlotLinesTweaks charts.
   .evolution-graph-colors[data-name=ticks] { color: #E0E0E0; }
+  .bar-graph-colors[data-name=ticks] { color: #E0E0E0; }
 
-  // Comparison series palette: override the base namespace under the flag so the
-  // comparison chips, evolution lines and bar series all share one palette.
-  .plotline-series-palette(comparison-series-color);
+  // Keep comparison colors aligned with the graph palette.
+  .graph-series-palette(comparison-series-color);
 }
 
 .evolution-graph-colors[data-name=grid-background] {

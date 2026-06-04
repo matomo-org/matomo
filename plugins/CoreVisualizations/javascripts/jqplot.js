@@ -28,6 +28,22 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
     exports.getLabelFontFamily = getLabelFontFamily;
 
+    function getPlotLinesSeriesColorNames() {
+        var seriesColorNames = [];
+
+        for (var seriesIndex = 0; seriesIndex < 8; seriesIndex++) {
+            seriesColorNames.push('series' + seriesIndex);
+        }
+
+        for (var shade = 1; shade <= 3; shade++) {
+            for (var shadedSeriesIndex = 0; shadedSeriesIndex < 8; shadedSeriesIndex++) {
+                seriesColorNames.push('series' + shadedSeriesIndex + '-shade' + shade);
+            }
+        }
+
+        return seriesColorNames;
+    }
+
     /**
      * DataTable UI class for jqPlot graph datatable visualizations.
      *
@@ -665,6 +681,11 @@ function rowEvolutionGetMetricNameFromRow(tr)
             }
         },
 
+        _isPlotLinesTweaksEnabled: function () {
+            return !!(document.body
+                && document.body.classList.contains('plotlines-tweaks-enabled'));
+        },
+
         /**
          * Sets the colors used to render this graph.
          */
@@ -690,24 +711,18 @@ function rowEvolutionGetMetricNameFromRow(tr)
             this.jqplotParams.grid.borderColor = colorManager.getColor(namespace, 'grid-border');
             this.tickColor = colorManager.getColor(namespace, 'ticks');
 
-            // PlotLinesTweaks: ticks/gridlines render at reduced opacity. The CSS
-            // colour is kept solid (hex) so ColorManager keeps returning hex; the
-            // opacity is applied here by composing the rgba string. Change
-            // TICK_OPACITY to adjust how translucent the ticks/gridlines are.
-            // Only evolution/line plots get the translucent ticks — pie and bar
-            // charts keep their solid tick colour even when the flag is on.
-            var plotLinesTweaksEnabled = document.body
-                && document.body.classList.contains('plotlines-tweaks-enabled');
-            if (plotLinesTweaksEnabled && graphType === 'evolution') {
+            // Under PlotLinesTweaks, evolution and bar gridlines use a lighter tick color.
+            if (this._isPlotLinesTweaksEnabled()
+                && (graphType === 'evolution' || graphType === 'bar')) {
                 var TICK_OPACITY = 0.5;
                 var tickRgb = colorManager.getRgb(this.tickColor);
                 this.tickColor = 'rgba(' + tickRgb[0] + ', ' + tickRgb[1] + ', '
                     + tickRgb[2] + ', ' + TICK_OPACITY + ')';
+
+                // Keep gridlines and tick marks the same color.
+                this.jqplotParams.grid.gridLineColor = this.tickColor;
             }
 
-            // PiwikTicks draws the vertical ticks from this.tickColor; reuse it for
-            // the horizontal gridlines so both match (including the opacity above).
-            this.jqplotParams.grid.gridLineColor = this.tickColor;
             this.singleMetricColor = colorManager.getColor(namespace, 'single-metric-label');
 
             if (this.jqplotParams.pieLegend) {
@@ -725,15 +740,9 @@ function rowEvolutionGetMetricNameFromRow(tr)
             var colorManager = piwik.ColorManager,
                 seriesColorNames;
 
-            var plotLinesTweaksEnabled = document.body
-                && document.body.classList.contains('plotlines-tweaks-enabled');
-
             var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             if (comparisonService.isComparing() && typeof this.jqplotParams.series[0].seriesIndex !== 'undefined') {
-                // Comparison-capable graphs (evolution + bar) all read from
-                // `comparison-series-color`. Under PlotLinesTweaks the CSS for that
-                // namespace is overridden (see _charts.less), keeping graphs and the
-                // comparison selector chips on one shared palette.
+                // Use the shared comparison palette when comparing rows.
                 namespace = 'comparison-series-color';
 
                 seriesColorNames = [];
@@ -741,20 +750,11 @@ function rowEvolutionGetMetricNameFromRow(tr)
                     var seriesColorName = comparisonService.getSeriesColorName(s.seriesIndex, s.metricIndex);
                     seriesColorNames.push(seriesColorName);
                 });
-            } else if (plotLinesTweaksEnabled
+            } else if (this._isPlotLinesTweaksEnabled()
                 && (namespace === 'evolution-graph-colors'
                     || namespace === 'bar-graph-colors'
                     || namespace === 'pie-graph-colors')) {
-                // 32-color cycle: all 8 bases, then shade1 across all 8, then shade2, then shade3
-                seriesColorNames = [];
-                for (var s = 0; s < 8; s++) {
-                    seriesColorNames.push('series' + s);
-                }
-                for (var shade = 1; shade <= 3; shade++) {
-                    for (var s2 = 0; s2 < 8; s2++) {
-                        seriesColorNames.push('series' + s2 + '-shade' + shade);
-                    }
-                }
+                seriesColorNames = getPlotLinesSeriesColorNames();
             } else {
                 seriesColorNames = ['series0', 'series1', 'series2', 'series3', 'series4', 'series5',
                     'series6', 'series7', 'series8', 'series9', 'series10'];
@@ -1135,20 +1135,19 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         unHighlight(plot);
 
+        var plotLinesTweaksEnabled = document.body
+            && document.body.classList.contains('plotlines-tweaks-enabled');
+
         for (var i = 0; i < plot.series.length; i++) {
             var series = plot.series[i];
             var seriesMarkerRenderer = series.markerRenderer;
 
             c.markerRenderer.style = seriesMarkerRenderer.style;
-            var plotLinesTweaksEnabled = document.body
-                && document.body.classList.contains('plotlines-tweaks-enabled');
             c.markerRenderer.size = plotLinesTweaksEnabled ? 8 : seriesMarkerRenderer.size + 5;
 
             var rgba = $.jqplot.getColorComponents(seriesMarkerRenderer.color);
             var newrgb = [rgba[0], rgba[1], rgba[2]];
-            // Flag on: hover dot uses the series colour at full opacity so it
-            // matches the line exactly. Flag off: keep the historical lighter
-            // (40% alpha) highlight.
+            // Use a stronger hover dot with PlotLinesTweaks enabled.
             var alpha = plotLinesTweaksEnabled ? rgba[3] : rgba[3] * .4;
             c.markerRenderer.color = 'rgba(' + newrgb[0] + ',' + newrgb[1] + ',' + newrgb[2] + ',' + alpha + ')';
             c.markerRenderer.init();
