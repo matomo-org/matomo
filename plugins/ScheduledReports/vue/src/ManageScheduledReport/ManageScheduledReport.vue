@@ -392,7 +392,7 @@ export default defineComponent({
       dashboardName: string, reload = true,
     ) {
       let dashboardInfoMessage = `${translate('ScheduledReports_ExportDashboardTitle')}
-        <br/><br/>${translate('ScheduledReports_ExportDashboardPrepare', dashboardName)}
+        <br/><br/>${translate('ScheduledReports_ExportDashboardPrepare', Matomo.helper.htmlEntities(dashboardName))}
         <br/><br/>${translate('ScheduledReports_ExportDashboardWidgetsConvertedAutomatically')}
         <br/><br/>${translate('ScheduledReports_ExportDashboardEmailEnabledByDefault', translate('ScheduledReports_ReportSchedule'), translate('General_Never'))}
         <br/><br/>${translate('ScheduledReports_ExportDashboardDownload')}`;
@@ -715,7 +715,6 @@ export default defineComponent({
         return;
       }
       const dashName = Matomo.helper.htmlDecode(mapping.dashboardName);
-      const escapedDashName = Matomo.helper.escape(dashName);
       this.selectedReports = { email: { ...mapping.email } };
       this.selectedReportsOrder = { email: Object.keys(mapping.email || {}) };
       if (mapping.idSegment) {
@@ -740,7 +739,7 @@ export default defineComponent({
       this.showDashboardExportInfo(
         this.$refs.reportUpdatedSuccess as HTMLElement,
         unmappedWidgetsForDisplay,
-        escapedDashName,
+        dashName,
         false,
       );
     },
