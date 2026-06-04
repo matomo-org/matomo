@@ -139,7 +139,7 @@ class AIChatbotContentReports extends RecordBuilder
     }
 
     /**
-     * Queries page and document URLs that returned HTTP errors (4xx/5xx) to AI chatbots.
+     * Queries page and document URLs that returned HTTP errors (404/410/5xx) to AI chatbots.
      * The HAVING clause in the inner query ensures only URLs with at least one error row appear.
      */
     private function queryBrokenContent(ArchiveProcessor $archiveProcessor): DataTable
