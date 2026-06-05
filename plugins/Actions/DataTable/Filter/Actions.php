@@ -21,6 +21,15 @@ use Piwik\Tracker\PageUrl;
 class Actions extends BaseFilter
 {
     private $actionType;
+
+    /**
+     * Per-instance cache of the host list resolved for an idSite. `null` marks a site
+     * we already tried to resolve and could not (so we don't retry on every row).
+     *
+     * @var array<int, array<int, array{scheme: string, host: string}>|null>
+     */
+    private $siteHostsCache = [];
+
     /**
      * @param DataTable $table The table to eventually filter.
      * @param int $actionType The action type being processed.
@@ -142,7 +151,7 @@ class Actions extends BaseFilter
     {
         $original = 'pageUrl=^' . urlencode(urlencode($folderUrlStart));
 
-        if (!$site || !is_callable([$site, 'getId']) || !is_callable([$site, 'getMainUrl'])) {
+        if (!$site) {
             return $original;
         }
 
@@ -160,22 +169,15 @@ class Actions extends BaseFilter
         }
         $folderPath = substr($folderUrlStart, strlen($mainUrlNormalized));
 
-        try {
-            $allUrls = SitesManagerAPI::getInstance()->getSiteUrlsFromId((int) $site->getId());
-        } catch (\Exception $e) {
+        $hosts = $this->getResolvedHosts((int) $site->getId());
+        if ($hosts === null) {
             return $original;
         }
 
-        $seenHosts = [];
         $clauses = [];
-        foreach ($allUrls as $url) {
-            $host = parse_url($url, PHP_URL_HOST);
-            if (!$host || isset($seenHosts[$host])) {
-                continue;
-            }
-            $seenHosts[$host] = true;
-            $scheme = parse_url($url, PHP_URL_SCHEME) ?: 'https';
-            $clauses[] = 'pageUrl=^' . urlencode(urlencode($scheme . '://' . $host . '/' . $folderPath));
+        foreach ($hosts as $entry) {
+            $clauses[] = 'pageUrl=^'
+                . urlencode(urlencode($entry['scheme'] . '://' . $entry['host'] . '/' . $folderPath));
         }
 
         if (empty($clauses)) {
@@ -183,5 +185,37 @@ class Actions extends BaseFilter
         }
 
         return implode(',', $clauses);
+    }
+
+    /**
+     * @return array<int, array{scheme: string, host: string}>|null Null on API failure.
+     */
+    private function getResolvedHosts(int $idSite): ?array
+    {
+        if (array_key_exists($idSite, $this->siteHostsCache)) {
+            return $this->siteHostsCache[$idSite];
+        }
+
+        try {
+            $allUrls = SitesManagerAPI::getInstance()->getSiteUrlsFromId($idSite);
+        } catch (\Exception $e) {
+            return $this->siteHostsCache[$idSite] = null;
+        }
+
+        $seenHosts = [];
+        $hosts = [];
+        foreach ($allUrls as $url) {
+            $host = parse_url($url, PHP_URL_HOST);
+            if (!$host || isset($seenHosts[$host])) {
+                continue;
+            }
+            $seenHosts[$host] = true;
+            $hosts[] = [
+                'scheme' => parse_url($url, PHP_URL_SCHEME) ?: 'https',
+                'host' => $host,
+            ];
+        }
+
+        return $this->siteHostsCache[$idSite] = $hosts;
     }
 }

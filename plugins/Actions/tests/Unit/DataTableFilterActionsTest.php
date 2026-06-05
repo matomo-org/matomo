@@ -94,6 +94,38 @@ class DataTableFilterActionsTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($mainClause . ',' . $aliasClause, $segment);
     }
 
+    public function testFilterResolvesSiteUrlsOncePerIdSiteAcrossMultipleFolderRows()
+    {
+        ArchivingHelper::reloadConfig();
+
+        $site = $this->createMock(Site::class);
+        $site->method('getId')->willReturn(1);
+        $site->method('getMainUrl')->willReturn('https://main.example.com');
+
+        $sitesManager = $this->getMockBuilder(SitesManagerAPI::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getSiteUrlsFromId'])
+            ->getMock();
+        $sitesManager->expects($this->once())
+            ->method('getSiteUrlsFromId')
+            ->with(1)
+            ->willReturn([
+                'https://main.example.com',
+                'https://alias.example.com',
+            ]);
+        SitesManagerAPI::setSingletonInstance($sitesManager);
+
+        $table = new DataTable();
+        $table->setMetadata('site', $site);
+        foreach (['products', 'blog', 'docs'] as $folder) {
+            $row = new Row([Row::COLUMNS => ['label' => $folder]]);
+            $row->setMetadata('folder_url_start', 'https://main.example.com/' . $folder);
+            $table->addRow($row);
+        }
+
+        (new ActionsFilter($table, Action::TYPE_PAGE_URL))->filter($table);
+    }
+
     public function testFilterFallsBackToSingleClauseWhenSiteMetadataIsMissing()
     {
         ArchivingHelper::reloadConfig();
