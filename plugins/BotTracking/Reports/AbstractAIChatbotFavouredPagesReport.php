@@ -150,11 +150,19 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
         $view->config->show_exclude_low_population = true;
 
         if (Common::getRequestVar('enable_filter_excludelowpop', '1', 'string') === '0') {
+            // User explicitly disabled the filter via the UI toggle. Surface that state to the
+            // client too so the toggle keeps showing "Exclude Rows With Low Population".
+            $view->config->custom_parameters['enable_filter_excludelowpop'] = '0';
             return;
         }
 
         $view->requestConfig->filter_excludelowpop       = $this->getExcludeLowPopulationColumn();
         $view->requestConfig->filter_excludelowpop_value = '1';
+
+        // Surface the default-on state to the client so the toggle in the data-table footer
+        // renders as "Include Rows With Low Population" (i.e. the filter is currently active)
+        // without the user having to interact with it first.
+        $view->config->custom_parameters['enable_filter_excludelowpop'] = '1';
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
