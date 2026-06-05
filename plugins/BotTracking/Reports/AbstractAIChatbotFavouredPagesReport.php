@@ -1,0 +1,172 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+declare(strict_types=1);
+
+namespace Piwik\Plugins\BotTracking\Reports;
+
+use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
+use Piwik\Piwik;
+use Piwik\Plugin\Report;
+use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\Actions\Columns\PageUrl;
+use Piwik\Plugins\BotTracking\Columns\Metrics\AIChatbotRequests;
+use Piwik\Plugins\BotTracking\Columns\Metrics\DiscrepancyScore;
+use Piwik\Plugins\BotTracking\Columns\Metrics\UniqueHumanPageviews;
+use Piwik\Plugins\BotTracking\FeatureFlags\AIChatbotsContentReports;
+use Piwik\Plugins\BotTracking\Metrics;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
+
+/**
+ * Shared base for the Human-Favoured and AI-Favoured Pages reports.
+ *
+ * Both reports expose the same flat URL dimension, the same Unique Human Pageviews +
+ * AI Chatbot Requests metric pair, and a Discrepancy Score processed metric whose variant
+ * (human-favoured vs ai-favoured) is provided by the concrete subclass. The reports are
+ * derived from the existing Actions/BotTracking blobs at API time (see API::buildFavouredPagesTable),
+ * so no archive record is involved — but every report-level UI surface (Custom Alerts,
+ * Scheduled Reports, Row Evolution, glossary) treats them as ordinary reports.
+ */
+abstract class AbstractAIChatbotFavouredPagesReport extends Report
+{
+    protected function init(): void
+    {
+        parent::init();
+
+        $this->categoryId       = 'General_AIAssistants';
+        $this->subcategoryId    = 'BotTracking_AIChatbotsContentRequests';
+        $this->dimension        = new PageUrl();
+        $this->metrics          = [new UniqueHumanPageviews(), new AIChatbotRequests()];
+        $this->processedMetrics = [new DiscrepancyScore($this->getDiscrepancyScoreVariant())];
+    }
+
+    /**
+     * @return DiscrepancyScore::VARIANT_HUMAN_FAVOURED|DiscrepancyScore::VARIANT_AI_FAVOURED
+     */
+    abstract protected function getDiscrepancyScoreVariant(): string;
+
+    /**
+     * Column to gate the standard `ExcludeLowPopulation` filter on. Per the DEV-19843 design each
+     * report low-pops on its strong side (Human-Favoured → human pageviews, AI-Favoured → AI requests).
+     */
+    abstract protected function getExcludeLowPopulationColumn(): string;
+
+    /**
+     * Gates this report behind the AIChatbotsContentReports feature flag.
+     * When the flag is off the report is hidden from every UI surface and
+     * direct API calls throw "Report not enabled".
+     */
+    public function isEnabled()
+    {
+        return StaticContainer::get(FeatureFlagManager::class)
+            ->isFeatureActive(AIChatbotsContentReports::class);
+    }
+
+    public function configureView(ViewDataTable $view): void
+    {
+        parent::configureView($view);
+
+        $view->config->setDefaultColumnsToDisplay(
+            [
+                'label',
+                Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS,
+                Metrics::COLUMN_AI_CHATBOT_REQUESTS,
+                Metrics::COLUMN_DISCREPANCY_SCORE,
+            ],
+            false,
+            false
+        );
+
+        // Disable the "show all columns" toggle: it switches the table to the Visitor Engagement
+        // preset, which doesn't match the column schema of these reports and would render empty data.
+        $view->config->show_table_all_columns = false;
+
+        // Disable the Insights visualization: it expects visit-based metrics (nb_visits etc.)
+        // that this report does not provide, so the rendered output would be empty.
+        $view->config->show_insights = false;
+
+        // Disable the bar/pie/tag-cloud visualizations: they don't make sense for a long list of
+        // URLs with discrepancy-score metrics — the table view is the only useful one.
+        $view->config->show_bar_chart = false;
+        $view->config->show_pie_chart = false;
+        $view->config->show_tag_cloud = false;
+
+        // Render URL labels as clickable links. Labels are Matomo-normalized URLs without scheme
+        // (e.g. example.com/article/2); prepend https:// to form a valid link target.
+        $view->config->filters[] = function (DataTable $table) {
+            foreach ($table->getRows() as $row) {
+                if ($row->isSummaryRow()) {
+                    continue;
+                }
+                $label = $row->getColumn('label');
+                if (is_string($label) && $label !== '') {
+                    $row->setMetadata('url', 'https://' . $label);
+                }
+            }
+        };
+
+        $this->configureExcludeLowPopulation($view);
+
+        SegmentNotSupportedMessageHelper::addSegmentNotSupportedMessage($view);
+    }
+
+    /**
+     * Wires the standard ExcludeLowPopulation filter on the report's strong-side column.
+     * Defaults the toggle to ON (matching the DEV-19843 design) — users can pass
+     * `enable_filter_excludelowpop=0` to see every row.
+     */
+    private function configureExcludeLowPopulation(ViewDataTable $view): void
+    {
+        $view->config->show_exclude_low_population = true;
+
+        if (Common::getRequestVar('enable_filter_excludelowpop', '1', 'string') === '0') {
+            return;
+        }
+
+        $view->requestConfig->filter_excludelowpop = $this->getExcludeLowPopulationColumn();
+        $view->requestConfig->filter_excludelowpop_value = function () {
+            // Reuse the Actions Pages threshold so "low population" means the same thing across
+            // every report on this page: 2% of total tracked actions, capped by max_actions - 1.
+            $visitsInfo = \Piwik\Plugins\VisitsSummary\Controller::getVisitsSummary()->getFirstRow();
+            if (!$visitsInfo) {
+                return 0;
+            }
+            $nbActions = (int) $visitsInfo->getColumn('nb_actions');
+            $threshold = (int) floor(0.02 * $nbActions);
+            $maxActions = (int) $visitsInfo->getColumn('max_actions');
+            return max(0, min($maxActions - 1, $threshold - 1));
+        };
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
+    {
+        $widgetsList->addWidgetConfig($factory->createWidget()->setIsWide());
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getMetricsDocumentation(): array
+    {
+        $docs = parent::getMetricsDocumentation();
+
+        // Scope the Discrepancy Score tooltip per variant.
+        $key = $this->getDiscrepancyScoreVariant() === DiscrepancyScore::VARIANT_HUMAN_FAVOURED
+            ? 'BotTracking_ColumnDiscrepancyScoreHumanFavouredDocumentation'
+            : 'BotTracking_ColumnDiscrepancyScoreAIFavouredDocumentation';
+
+        $docs[Metrics::COLUMN_DISCREPANCY_SCORE] = Piwik::translate($key);
+
+        return $docs;
+    }
+}
