@@ -124,6 +124,11 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
      * Wires the standard ExcludeLowPopulation filter on the report's strong-side column.
      * Defaults the toggle to ON (matching the DEV-19843 design) — users can pass
      * `enable_filter_excludelowpop=0` to see every row.
+     *
+     * The threshold is fixed at 1: rows with the strong-side column at 0 are dropped (a
+     * Human-Favoured page with 0 human pageviews or an AI-Favoured page with 0 AI requests
+     * isn't meaningful here). Passing 0 instead would let ExcludeLowPopulation fall back to
+     * its 2%-of-column-sum heuristic, which silently filters every row on small datasets.
      */
     private function configureExcludeLowPopulation(ViewDataTable $view): void
     {
@@ -133,19 +138,8 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
             return;
         }
 
-        $view->requestConfig->filter_excludelowpop = $this->getExcludeLowPopulationColumn();
-        $view->requestConfig->filter_excludelowpop_value = function () {
-            // Reuse the Actions Pages threshold so "low population" means the same thing across
-            // every report on this page: 2% of total tracked actions, capped by max_actions - 1.
-            $visitsInfo = \Piwik\Plugins\VisitsSummary\Controller::getVisitsSummary()->getFirstRow();
-            if (!$visitsInfo) {
-                return 0;
-            }
-            $nbActions = (int) $visitsInfo->getColumn('nb_actions');
-            $threshold = (int) floor(0.02 * $nbActions);
-            $maxActions = (int) $visitsInfo->getColumn('max_actions');
-            return max(0, min($maxActions - 1, $threshold - 1));
-        };
+        $view->requestConfig->filter_excludelowpop       = $this->getExcludeLowPopulationColumn();
+        $view->requestConfig->filter_excludelowpop_value = '1';
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
