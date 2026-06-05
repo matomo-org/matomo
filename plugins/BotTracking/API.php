@@ -312,6 +312,11 @@ class API extends \Piwik\Plugin\API
         $botData     = $this->getAIChatbotContentPages($idSite, $period, $date);
         $actionsData = ActionsApi::getInstance()->getPageUrls($idSite, $period, $date, false, false, false, false, true);
 
+        // Actions.getPageUrls returns columns indexed by Metrics::INDEX_* constants when called
+        // directly via PHP (ReplaceColumnNames runs later in the API render pipeline). Apply it
+        // here so we can read 'nb_visits' by name during the merge.
+        $actionsData->filter('ReplaceColumnNames');
+
         return $this->mergeFavouredTables($botData, $actionsData);
     }
 
