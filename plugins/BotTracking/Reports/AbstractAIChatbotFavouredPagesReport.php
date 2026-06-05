@@ -62,6 +62,15 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
     abstract protected function getExcludeLowPopulationColumn(): string;
 
     /**
+     * Column to sort the report by when no explicit `filter_sort_column` is passed.
+     * Mirrors $defaultSortColumn but is also applied at the ViewDataTable layer — the View runs
+     * its own setDefaultSort before the API generic filters and would otherwise pick the first
+     * non-label column from the merged DataTable (which happens to be ai_chatbot_requests for
+     * bot rows after the merge), ignoring the Report-level default.
+     */
+    abstract protected function getDefaultViewSortColumn(): string;
+
+    /**
      * Gates this report behind the AIChatbotsContentReports feature flag.
      * When the flag is off the report is hidden from every UI surface and
      * direct API calls throw "Report not enabled".
@@ -114,6 +123,12 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
                 }
             }
         };
+
+        // Force the per-report default sort: the ViewDataTable layer otherwise falls back to
+        // 'nb_visits' (absent) and then to the first non-label column it finds on the first row,
+        // which is ai_chatbot_requests for both reports because of the bot-rows-first merge order.
+        $view->requestConfig->filter_sort_column = $this->getDefaultViewSortColumn();
+        $view->requestConfig->filter_sort_order  = 'desc';
 
         $this->configureExcludeLowPopulation($view);
 

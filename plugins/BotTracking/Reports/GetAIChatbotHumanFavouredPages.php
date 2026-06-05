@@ -36,4 +36,9 @@ class GetAIChatbotHumanFavouredPages extends AbstractAIChatbotFavouredPagesRepor
     {
         return Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS;
     }
+
+    protected function getDefaultViewSortColumn(): string
+    {
+        return Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS;
+    }
 }
