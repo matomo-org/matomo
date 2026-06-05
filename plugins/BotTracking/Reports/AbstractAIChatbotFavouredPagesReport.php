@@ -150,7 +150,11 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
     {
-        $widgetsList->addWidgetConfig($factory->createWidget()->setIsWide());
+        // Intentionally not calling setIsWide(): the reporting page auto-pairs consecutive
+        // non-wide widgets into a 2-column row (see CoreHome ReportingPage.store). Ordering
+        // the two favoured-pages reports after the existing wide reports yields the
+        // Human-Favoured + AI-Favoured side-by-side row required by DEV-19843.
+        $widgetsList->addWidgetConfig($factory->createWidget());
     }
 
     /**
