@@ -308,7 +308,6 @@ class BlobReportLimitingTest extends SystemTestCase
             $params['testSuffix'] = '';
         }
         $params['testSuffix'] .= '_flatFirst';
-        $params['xmlFieldsToRemove'] = ['url', 'segment'];
 
         $this->runApiTests($api, $params);
     }
@@ -325,7 +324,6 @@ class BlobReportLimitingTest extends SystemTestCase
             $params['testSuffix'] = '';
         }
         $params['testSuffix'] .= '_flatFirst_flattened';
-        $params['xmlFieldsToRemove'] = ['url', 'segment'];
 
         // keep flattened assertions focused on day archives
         $params['periods'] = ['day'];
@@ -353,7 +351,6 @@ class BlobReportLimitingTest extends SystemTestCase
                 $params['testSuffix'] = '';
             }
             $params['testSuffix'] .= '_flatFirst_rankingQuery';
-            $params['xmlFieldsToRemove'] = ['url', 'segment'];
 
             $this->runApiTests($apiToCall, $params);
         }

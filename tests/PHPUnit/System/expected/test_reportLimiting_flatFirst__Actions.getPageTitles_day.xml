@@ -62,4 +62,24 @@
 		<exit_rate>13%</exit_rate>
 		<segment>pageTitle==title_8%2B%252F%2Btitle_34</segment>
 	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>145</nb_visits>
+		<nb_hits>145</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_visits>42</entry_nb_visits>
+		<entry_nb_actions>167</entry_nb_actions>
+		<entry_sum_visit_length>15</entry_sum_visit_length>
+		<entry_bounce_count>27</entry_bounce_count>
+		<exit_nb_visits>40</exit_nb_visits>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>64%</bounce_rate>
+		<exit_rate>28%</exit_rate>
+	</row>
 </result>

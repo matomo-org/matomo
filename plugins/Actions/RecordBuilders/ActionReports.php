@@ -209,7 +209,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($dataTable);
         }
         foreach ($flatPageTablesByType as $flatDataTable) {
-            ArchivingHelper::removeEmptyColumns($flatDataTable);
+            // also removes unique visitor columns from the summary row, as those cannot
+            // be summed and would otherwise be aggregated into non-day periods
+            ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($flatDataTable);
         }
 
         $nbSearches = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));

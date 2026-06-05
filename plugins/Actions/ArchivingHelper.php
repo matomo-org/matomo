@@ -731,9 +731,10 @@ class ArchivingHelper
         $row = new Row(array(
             Row::COLUMNS => array('label' => $flatLabel) + self::getDefaultFlatRowColumns(),
         ));
-        $table->addRow($row);
 
-        return $row;
+        // when the table is full, addRow() aggregates the row into the summary row and
+        // returns the summary row instead, so metrics of truncated actions accumulate there
+        return $table->addRow($row);
     }
 
     public static function buildBestEffortActionLabelFromPath(array $actionPath, int $actionType): string
