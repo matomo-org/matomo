@@ -54,7 +54,18 @@ return array(
         $dontUseTestConfig = $c->get('test.vars.dontUseTestConfig');
         if (!$dontUseTestConfig) {
             $settingsProvider = $c->get('Piwik\Application\Kernel\GlobalSettingsProvider');
-            return new TestConfig($settingsProvider, $testingEnvironment, $allowSave = false, $doSetTestEnvironment = true);
+            $config = new TestConfig($settingsProvider, $testingEnvironment, $allowSave = false, $doSetTestEnvironment = true);
+
+            // Enable the AIChatbotsContentReports feature flag for all test runs so
+            // cross-suite tests (WidgetsListTest, ApiGetReportMetadataTest, etc.) and
+            // BotTracking-specific tests stay valid with the flag-on assertions in place.
+            if (!isset($config->FeatureFlags['AIChatbotsContentReports_feature'])) {
+                $featureFlags = $config->FeatureFlags;
+                $featureFlags['AIChatbotsContentReports_feature'] = 'enabled';
+                $config->FeatureFlags = $featureFlags;
+            }
+
+            return $config;
         } else {
             return $previous;
         }
