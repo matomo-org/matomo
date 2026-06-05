@@ -126,6 +126,37 @@ class DataTableFilterActionsTest extends \PHPUnit\Framework\TestCase
         (new ActionsFilter($table, Action::TYPE_PAGE_URL))->filter($table);
     }
 
+    public function testFilterPreservesMainUrlPathPrefixWhenRebuildingFolderSegment()
+    {
+        ArchivingHelper::reloadConfig();
+
+        $site = $this->createMock(Site::class);
+        $site->method('getId')->willReturn(1);
+        $site->method('getMainUrl')->willReturn('https://example.com/section');
+
+        $sitesManager = $this->getMockBuilder(SitesManagerAPI::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getSiteUrlsFromId'])
+            ->getMock();
+        $sitesManager->method('getSiteUrlsFromId')->willReturn([
+            'https://example.com/section',
+            'https://alias.example.com/branch/',
+        ]);
+        SitesManagerAPI::setSingletonInstance($sitesManager);
+
+        $table = new DataTable();
+        $table->setMetadata('site', $site);
+        $row = new Row([Row::COLUMNS => ['label' => 'products']]);
+        $row->setMetadata('folder_url_start', 'https://example.com/section/products');
+        $table->addRow($row);
+
+        (new ActionsFilter($table, Action::TYPE_PAGE_URL))->filter($table);
+
+        $mainClause = 'pageUrl=^' . urlencode(urlencode('https://example.com/section/products'));
+        $aliasClause = 'pageUrl=^' . urlencode(urlencode('https://alias.example.com/branch/products'));
+        $this->assertSame($mainClause . ',' . $aliasClause, $row->getMetadata('segment'));
+    }
+
     public function testFilterFallsBackToSingleClauseWhenSiteMetadataIsMissing()
     {
         ArchivingHelper::reloadConfig();

@@ -23,12 +23,13 @@ class Actions extends BaseFilter
     private $actionType;
 
     /**
-     * Per-instance cache of the host list resolved for an idSite. `null` marks a site
-     * we already tried to resolve and could not (so we don't retry on every row).
+     * Per-instance cache of the normalized base URL list resolved for an idSite.
+     * `null` marks a site we already tried to resolve and could not (so we don't
+     * retry on every row).
      *
-     * @var array<int, array<int, array{scheme: string, host: string}>|null>
+     * @var array<int, list<string>|null>
      */
-    private $siteHostsCache = [];
+    private $siteBaseUrlsCache = [];
 
     /**
      * @param DataTable $table The table to eventually filter.
@@ -169,15 +170,14 @@ class Actions extends BaseFilter
         }
         $folderPath = substr($folderUrlStart, strlen($mainUrlNormalized));
 
-        $hosts = $this->getResolvedHosts((int) $site->getId());
-        if ($hosts === null) {
+        $baseUrls = $this->getResolvedBaseUrls((int) $site->getId());
+        if ($baseUrls === null) {
             return $original;
         }
 
         $clauses = [];
-        foreach ($hosts as $entry) {
-            $clauses[] = 'pageUrl=^'
-                . urlencode(urlencode($entry['scheme'] . '://' . $entry['host'] . '/' . $folderPath));
+        foreach ($baseUrls as $baseUrl) {
+            $clauses[] = 'pageUrl=^' . urlencode(urlencode($baseUrl . $folderPath));
         }
 
         if (empty($clauses)) {
@@ -188,34 +188,40 @@ class Actions extends BaseFilter
     }
 
     /**
-     * @return array<int, array{scheme: string, host: string}>|null Null on API failure.
+     * Returns the site's main URL and aliases as a list of normalized base URLs
+     * (each ending with `/`). Preserves any path component carried on `main_url`
+     * or on individual aliases so the rebuilt segment still matches the archived
+     * folder rows. Returns `null` if the API failed for this site (callers fall
+     * back to the single-clause original segment).
+     *
+     * @return list<string>|null
      */
-    private function getResolvedHosts(int $idSite): ?array
+    private function getResolvedBaseUrls(int $idSite): ?array
     {
-        if (array_key_exists($idSite, $this->siteHostsCache)) {
-            return $this->siteHostsCache[$idSite];
+        if (array_key_exists($idSite, $this->siteBaseUrlsCache)) {
+            return $this->siteBaseUrlsCache[$idSite];
         }
 
         try {
             $allUrls = SitesManagerAPI::getInstance()->getSiteUrlsFromId($idSite);
         } catch (\Exception $e) {
-            return $this->siteHostsCache[$idSite] = null;
+            return $this->siteBaseUrlsCache[$idSite] = null;
         }
 
-        $seenHosts = [];
-        $hosts = [];
+        $seen = [];
+        $baseUrls = [];
         foreach ($allUrls as $url) {
-            $host = parse_url($url, PHP_URL_HOST);
-            if (!$host || isset($seenHosts[$host])) {
+            if (!parse_url($url, PHP_URL_HOST)) {
                 continue;
             }
-            $seenHosts[$host] = true;
-            $hosts[] = [
-                'scheme' => parse_url($url, PHP_URL_SCHEME) ?: 'https',
-                'host' => $host,
-            ];
+            $normalized = rtrim($url, '/') . '/';
+            if (isset($seen[$normalized])) {
+                continue;
+            }
+            $seen[$normalized] = true;
+            $baseUrls[] = $normalized;
         }
 
-        return $this->siteHostsCache[$idSite] = $hosts;
+        return $this->siteBaseUrlsCache[$idSite] = $baseUrls;
     }
 }
