@@ -135,7 +135,9 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       max-parallel: ${{ fromJson(vars.MATOMO_INTEGRATION_CORE_MAX_PARALLEL || '10') }}
       matrix:
-        bucket: &php-buckets [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+        # TEMPORARY: shrunk from [1..10] to [1, 2] for fast iteration while
+        # verifying the bucket-artifact aggregation fix. Revert before merge.
+        bucket: &php-buckets [ 1, 2 ]
         environment: *php-environments
     steps:
       - uses: actions/checkout@v6
@@ -282,6 +284,9 @@ jobs:
           GITHUB_BRANCH: ${{ github.head_ref || github.ref_name }}
           GITHUB_RUN_ID: ${{ github.run_id }}
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          # Must be >= the matrix size in PHP-system-plugins. Buckets above the
+          # actual matrix size 404 quickly and are tolerated as "missing".
+          BUCKET_COUNT: '2'
         run: bash matomo/.github/scripts/aggregate-bucket-artifacts.sh
   Javascript:
     runs-on: ubuntu-24.04
