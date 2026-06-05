@@ -117,6 +117,34 @@ class ApiTest extends SystemTestCase
                     'testSuffix' => '_broken_content',
                 ],
             ],
+            [
+                [
+                    'BotTracking.getAIChatbotHumanFavouredPages',
+                ], [
+                    'idSite'     => 1,
+                    'date'       => '2025-02-03',
+                    'periods'    => ['day', 'week'],
+                    'testSuffix' => '_human_favoured',
+                    'otherRequestParameters' => [
+                        // Ensure the low-pop filter is disabled so the fixture's low-volume rows
+                        // remain visible in the expected output.
+                        'enable_filter_excludelowpop' => 0,
+                    ],
+                ],
+            ],
+            [
+                [
+                    'BotTracking.getAIChatbotAIFavouredPages',
+                ], [
+                    'idSite'     => 1,
+                    'date'       => '2025-02-03',
+                    'periods'    => ['day', 'week'],
+                    'testSuffix' => '_ai_favoured',
+                    'otherRequestParameters' => [
+                        'enable_filter_excludelowpop' => 0,
+                    ],
+                ],
+            ],
         ];
     }
 
