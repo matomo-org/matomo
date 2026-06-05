@@ -36,4 +36,9 @@ class GetAIChatbotAIFavouredPages extends AbstractAIChatbotFavouredPagesReport
     {
         return Metrics::COLUMN_AI_CHATBOT_REQUESTS;
     }
+
+    protected function getDefaultViewSortColumn(): string
+    {
+        return Metrics::COLUMN_AI_CHATBOT_REQUESTS;
+    }
 }
