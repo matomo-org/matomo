@@ -14,6 +14,7 @@ use Piwik\Config\GeneralConfig;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 
@@ -74,7 +75,7 @@ class Actions extends BaseFilter
                             }
                         }
                     } elseif ($folderUrlStart) {
-                        $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($folderUrlStart)));
+                        $row->setMetadata('segment', $this->buildFolderUrlSegment($folderUrlStart, $site));
                     } elseif ($pageTitlePath) {
                         if ($row->getIdSubDataTable()) {
                             $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim($pageTitlePath))));
@@ -98,7 +99,10 @@ class Actions extends BaseFilter
                             // segmenting by an "empty" value is currently broken for actions, so we do not set a segment value to hide row actions like segmented visit log
                             $row->setMetadata('segment', null);
                         } elseif ($urlPrefix) {
-                            $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($urlPrefix . '/' . $label)));
+                            $row->setMetadata(
+                                'segment',
+                                $this->buildFolderUrlSegment($urlPrefix . '/' . $label, $site)
+                            );
                         }
                     }
                 }
@@ -126,5 +130,58 @@ class Actions extends BaseFilter
                 $this->filter($subtable);
             }
         }
+    }
+
+    /**
+     * Builds the `pageUrl=^` segment for a folder row. If the site has additional URL
+     * aliases registered, the segment is an OR-joined list with one `pageUrl=^` clause
+     * per host so the visitor log query matches rows tracked under any of the site's
+     * known hosts, not only `main_url`.
+     */
+    private function buildFolderUrlSegment(string $folderUrlStart, $site): string
+    {
+        $original = 'pageUrl=^' . urlencode(urlencode($folderUrlStart));
+
+        if (!$site || !is_callable([$site, 'getId']) || !is_callable([$site, 'getMainUrl'])) {
+            return $original;
+        }
+
+        $mainUrl = $site->getMainUrl();
+        if (empty($mainUrl)) {
+            return $original;
+        }
+
+        // `folder_url_start` (and the legacy fallback) is always built as
+        // `<main_url>/<path-to-folder>`. Strip the main URL to get the path-only portion
+        // that we can re-attach to each known host.
+        $mainUrlNormalized = rtrim($mainUrl, '/') . '/';
+        if (strpos($folderUrlStart, $mainUrlNormalized) !== 0) {
+            return $original;
+        }
+        $folderPath = substr($folderUrlStart, strlen($mainUrlNormalized));
+
+        try {
+            $allUrls = SitesManagerAPI::getInstance()->getSiteUrlsFromId((int) $site->getId());
+        } catch (\Exception $e) {
+            return $original;
+        }
+
+        $seenHosts = [];
+        $clauses = [];
+        foreach ($allUrls as $url) {
+            $host = parse_url($url, PHP_URL_HOST);
+            if (!$host || isset($seenHosts[$host])) {
+                continue;
+            }
+            $seenHosts[$host] = true;
+            $scheme = parse_url($url, PHP_URL_SCHEME) ?: 'https';
+            $clauses[] = 'pageUrl=^' . urlencode(urlencode($scheme . '://' . $host . '/' . $folderPath));
+        }
+
+        if (empty($clauses)) {
+            return $original;
+        }
+
+        return implode(',', $clauses);
     }
 }
