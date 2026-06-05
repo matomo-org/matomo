@@ -67,6 +67,12 @@ abstract class AbstractAIChatbotContentUrlReport extends Report
         // that this report does not provide, so the rendered output would be empty.
         $view->config->show_insights = false;
 
+        // Disable the bar/pie/tag-cloud visualizations: they don't make meaningful sense for a
+        // long list of URLs with byte and time metrics — the table view is the only useful one.
+        $view->config->show_bar_chart = false;
+        $view->config->show_pie_chart = false;
+        $view->config->show_tag_cloud = false;
+
         // Render URL labels as clickable links. Labels are Matomo-normalized URLs without scheme
         // (e.g. example.com/article/2); prepend https:// to form a valid link target.
         $view->config->filters[] = function (DataTable $table) {
