@@ -5,6 +5,7 @@ use Piwik\Piwik;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\FakeChangesModel;
 use Piwik\Tests\Framework\Mock\TestConfig;
+use Piwik\Tests\Framework\Mock\TestFeatureFlagStorage;
 
 return array(
 
@@ -54,21 +55,23 @@ return array(
         $dontUseTestConfig = $c->get('test.vars.dontUseTestConfig');
         if (!$dontUseTestConfig) {
             $settingsProvider = $c->get('Piwik\Application\Kernel\GlobalSettingsProvider');
-            $config = new TestConfig($settingsProvider, $testingEnvironment, $allowSave = false, $doSetTestEnvironment = true);
-
-            // Enable the AIChatbotsContentReports feature flag for all test runs so
-            // cross-suite tests (WidgetsListTest, ApiGetReportMetadataTest, etc.) and
-            // BotTracking-specific tests stay valid with the flag-on assertions in place.
-            if (!isset($config->FeatureFlags['AIChatbotsContentReports_feature'])) {
-                $featureFlags = $config->FeatureFlags;
-                $featureFlags['AIChatbotsContentReports_feature'] = 'enabled';
-                $config->FeatureFlags = $featureFlags;
-            }
-
-            return $config;
+            return new TestConfig($settingsProvider, $testingEnvironment, $allowSave = false, $doSetTestEnvironment = true);
         } else {
             return $previous;
         }
+    }),
+
+    // Force-enable feature flags for all test runs so cross-suite tests (WidgetsListTest,
+    // ApiGetReportMetadataTest, etc.) and feature-specific tests run with the gated features
+    // visible. Done at the storage level instead of mutating the config: a config change
+    // would surface as a "changed value" on the Diagnostics config-file page and therefore
+    // on its UI test screenshot.
+    'featureflag.storages' => \Piwik\DI::decorate(function ($previous) {
+        $previous[] = new TestFeatureFlagStorage([
+            'AIChatbotsContentReports',
+        ]);
+
+        return $previous;
     }),
 
     'Piwik\Access' => \Piwik\DI::decorate(function ($previous, Container $c) {
