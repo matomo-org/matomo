@@ -241,9 +241,7 @@ jobs:
             10 \
             --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
       - name: running tests
-        # TEMPORARY: pinned to branch `system_test_artifacts_bundling` for CI verification of
-        # the artifact-name-suffix fix. Revert to `@main` once the action-tests PR is merged.
-        uses: matomo-org/github-action-tests@system_test_artifacts_bundling
+        uses: matomo-org/github-action-tests@main
         with:
           test-type: 'SystemTestsPlugins'
           phpunit-test-options: >-
@@ -254,19 +252,28 @@ jobs:
           mysql-version: ${{ matrix.environment.mysql-version }}
           php-version: ${{ matrix.environment.php }}
           redis-service: true
-          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
-          artifact-name-suffix: bucket-${{ matrix.bucket }}
+          # Per-bucket POSTs to the artifacts server collide on the same
+          # filename and the server overwrites — the canonical merged archive
+          # is produced by the PHP-system-plugins-collect job from these
+          # GHA-native intermediate artifacts instead.
+          upload-artifacts: false
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Upload bucket processed-files for aggregation
+        if: ${{ always() && matrix.environment.php == '7.2' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: system-plugin-bucket-${{ matrix.bucket }}
+          path: matomo/plugins/*/tests/System/processed/
+          retention-days: 1
+          if-no-files-found: warn
   PHP-system-plugins-collect:
     name: PHP (SystemTestsPlugins, collect)
     runs-on: ubuntu-24.04
     needs: [ PHP-system-plugins ]
-    # Run even if some buckets failed — partial processed/ uploads are still
-    # useful and match the if: always() upload semantics in upload_artifacts.sh.
-    # Skip only when the matrix was cancelled outright (user abort, branch
-    # protection cancel-in-progress, etc.).
+    # Run even if some buckets failed — partial processed/ trees are still
+    # useful (each bucket uploads if: always()). Skip only when the matrix was
+    # cancelled outright.
     if: ${{ always() && needs.PHP-system-plugins.result != 'cancelled' }}
     steps:
       - uses: actions/checkout@v6
@@ -276,7 +283,13 @@ jobs:
           submodules: false
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
-      - name: Aggregate per-bucket archives and re-upload as system.plugin
+      - name: Download per-bucket processed files
+        uses: actions/download-artifact@v4
+        with:
+          pattern: system-plugin-bucket-*
+          merge-multiple: true
+          path: bucket-files
+      - name: Merge and upload as artifact_name=system.plugin
         shell: bash
         env:
           ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
@@ -284,9 +297,7 @@ jobs:
           GITHUB_BRANCH: ${{ github.head_ref || github.ref_name }}
           GITHUB_RUN_ID: ${{ github.run_id }}
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
-          # Must be >= the matrix size in PHP-system-plugins. Buckets above the
-          # actual matrix size 404 quickly and are tolerated as "missing".
-          BUCKET_COUNT: '2'
+          BUCKET_FILES_DIR: bucket-files
         run: bash matomo/.github/scripts/aggregate-bucket-artifacts.sh
   Javascript:
     runs-on: ubuntu-24.04
