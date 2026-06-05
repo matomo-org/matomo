@@ -269,6 +269,8 @@ jobs:
     name: PHP (SystemTestsPlugins, collect)
     runs-on: ubuntu-24.04
     needs: [ PHP-system-plugins ]
+    env:
+      ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
     # Run even if some buckets failed — partial processed/ trees are still
     # useful (each bucket uploads if: always()). Skip only when the matrix was
     # cancelled outright.
@@ -287,10 +289,14 @@ jobs:
           pattern: system-plugin-bucket-*
           merge-multiple: true
           path: bucket-files
+      - name: Skip artifact-server upload without credentials
+        if: ${{ env.ARTIFACTS_PASS == '' }}
+        shell: bash
+        run: echo "ARTIFACTS_PASS is unavailable; skipping system.plugin artifact-server upload."
       - name: Merge and upload as artifact_name=system.plugin
+        if: ${{ env.ARTIFACTS_PASS != '' }}
         shell: bash
         env:
-          ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
           GITHUB_REPO: ${{ github.repository }}
           GITHUB_BRANCH: ${{ github.head_ref || github.ref_name }}
           GITHUB_RUN_ID: ${{ github.run_id }}
