@@ -15,7 +15,7 @@ describe('BotTrackingSiteWithoutData', function () {
     const urlOverview = `?${urlBase}#?${generalParams}&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview`;
 
     before(function () {
-        testEnvironment.detectedContentDetections = [];
+        testEnvironment.detectedContentDetections = ['WordPress', 'AmazonCloudFront'];
         testEnvironment.connectedConsentManagers = [];
         testEnvironment.save();
     });
