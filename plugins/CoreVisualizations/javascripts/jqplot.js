@@ -468,7 +468,18 @@ function rowEvolutionGetMetricNameFromRow(tr)
             var pixelRatio = window.devicePixelRatio || 1;
             var dataTable = container.closest('.dataTable');
             var legendFooter = dataTable.find('.jqplot-legend-footer.has-legend');
-            var legendHeight = legendFooter.length ? legendFooter.outerHeight(true) : 0;
+            var legendHeight = 0;
+            var legendLayout = null;
+            if (legendFooter.length) {
+                var measureCanvas = document.createElement('canvas');
+                var measureCtx = measureCanvas.getContext && measureCanvas.getContext('2d');
+                if (measureCtx) {
+                    legendLayout = this.getLegendExportLayout(measureCtx, legendFooter, pixelRatio);
+                    legendHeight = Math.max(legendFooter.outerHeight(true), Math.ceil(legendLayout.totalHeight / pixelRatio));
+                } else {
+                    legendHeight = legendFooter.outerHeight(true);
+                }
+            }
             var exportCanvas = document.createElement('canvas');
             exportCanvas.width = Math.round(container.width() * pixelRatio);
             exportCanvas.height = Math.round((container.height() + legendHeight) * pixelRatio);
@@ -496,7 +507,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
             }
 
             if (legendFooter.length) {
-                this.drawLegendForExport(exportCtx, legendFooter, container.height(), pixelRatio);
+                this.drawLegendForExport(exportCtx, legendLayout, container.height(), pixelRatio);
             }
 
             var exported = exportCanvas.toDataURL("image/png");
@@ -531,13 +542,76 @@ function rowEvolutionGetMetricNameFromRow(tr)
             });
         },
 
-        drawLegendForExport: function (ctx, legendFooter, topOffset, pixelRatio) {
-            var legendItems = legendFooter.find('.jqplot-legend-item');
-            var self = this;
-            if (!legendItems.length) {
+        drawLegendForExport: function (ctx, legendLayout, topOffset, pixelRatio) {
+            if (!legendLayout || !legendLayout.rows.length) {
                 return;
             }
 
+            var rows = legendLayout.rows;
+            var contentWidth = legendLayout.contentWidth;
+            var swatchSize = legendLayout.swatchSize;
+            var itemGap = legendLayout.itemGap;
+            var rowGap = legendLayout.rowGap;
+            var lineGap = legendLayout.lineGap;
+            var paddingTop = legendLayout.paddingTop;
+            var currentY = topOffset * pixelRatio + paddingTop;
+
+            for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+                var row = rows[rowIndex];
+                var rowWidth = 0;
+                var rowHeight = 0;
+
+                for (var itemIndex = 0; itemIndex < row.length; itemIndex++) {
+                    rowWidth += row[itemIndex].width;
+                    rowHeight = Math.max(rowHeight, row[itemIndex].height);
+                }
+
+                rowWidth += rowGap * Math.max(row.length - 1, 0);
+
+                var currentX = Math.round((contentWidth - rowWidth) / 2);
+
+                for (var drawIndex = 0; drawIndex < row.length; drawIndex++) {
+                    var legendItem = row[drawIndex];
+                    var swatchCenterY = currentY + Math.round(rowHeight / 2);
+                    var lineOffset = legendItem.lines.length > 1 ? ((legendItem.lines.length - 1) * legendItem.lineHeight * pixelRatio) / 2 : 0;
+
+                    ctx.save();
+
+                    ctx.fillStyle = legendItem.swatchColor;
+                    ctx.beginPath();
+                    ctx.arc(
+                        currentX + Math.round(swatchSize / 2),
+                        swatchCenterY,
+                        Math.round(swatchSize / 2),
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fill();
+
+                    ctx.font = legendItem.fontWeight + ' ' + Math.round(legendItem.fontSize * pixelRatio) + 'px ' + legendItem.fontFamily;
+                    ctx.fillStyle = legendItem.labelColor;
+                    ctx.textBaseline = 'middle';
+
+                    for (var lineIndex = 0; lineIndex < legendItem.lines.length; lineIndex++) {
+                        ctx.fillText(
+                            legendItem.lines[lineIndex],
+                            currentX + swatchSize + itemGap,
+                            Math.round(swatchCenterY - lineOffset + lineIndex * legendItem.lineHeight * pixelRatio)
+                        );
+                    }
+
+                    ctx.restore();
+
+                    currentX += legendItem.width + rowGap;
+                }
+
+                currentY += rowHeight + lineGap;
+            }
+        },
+
+        getLegendExportLayout: function (ctx, legendFooter, pixelRatio) {
+            var legendItems = legendFooter.find('.jqplot-legend-item');
+            var self = this;
             var footerWidth = legendFooter.innerWidth();
             var contentWidth = Math.max(footerWidth || 0, 1) * pixelRatio;
             var swatchSize = 12 * pixelRatio;
@@ -550,6 +624,20 @@ function rowEvolutionGetMetricNameFromRow(tr)
             var rows = [];
             var currentRow = [];
             var currentRowWidth = 0;
+
+            if (!legendItems.length) {
+                return {
+                    rows: rows,
+                    contentWidth: contentWidth,
+                    swatchSize: swatchSize,
+                    itemGap: itemGap,
+                    rowGap: rowGap,
+                    lineGap: lineGap,
+                    paddingTop: paddingTop,
+                    paddingBottom: paddingBottom,
+                    totalHeight: 0
+                };
+            }
 
             legendItems.each(function () {
                 var item = $(this);
@@ -612,59 +700,33 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 rows.push(currentRow);
             }
 
-            var currentY = topOffset * pixelRatio + paddingTop;
+            var totalHeight = paddingTop + paddingBottom;
 
             for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
                 var row = rows[rowIndex];
-                var rowWidth = 0;
                 var rowHeight = 0;
 
                 for (var itemIndex = 0; itemIndex < row.length; itemIndex++) {
-                    rowWidth += row[itemIndex].width;
                     rowHeight = Math.max(rowHeight, row[itemIndex].height);
                 }
 
-                rowWidth += rowGap * Math.max(row.length - 1, 0);
-
-                var currentX = Math.round((contentWidth - rowWidth) / 2);
-
-                for (var drawIndex = 0; drawIndex < row.length; drawIndex++) {
-                    var legendItem = row[drawIndex];
-                    var swatchCenterY = currentY + Math.round(rowHeight / 2);
-                    var lineOffset = legendItem.lines.length > 1 ? ((legendItem.lines.length - 1) * legendItem.lineHeight * pixelRatio) / 2 : 0;
-
-                    ctx.save();
-
-                    ctx.fillStyle = legendItem.swatchColor;
-                    ctx.beginPath();
-                    ctx.arc(
-                        currentX + Math.round(swatchSize / 2),
-                        swatchCenterY,
-                        Math.round(swatchSize / 2),
-                        0,
-                        Math.PI * 2
-                    );
-                    ctx.fill();
-
-                    ctx.font = legendItem.fontWeight + ' ' + Math.round(legendItem.fontSize * pixelRatio) + 'px ' + legendItem.fontFamily;
-                    ctx.fillStyle = legendItem.labelColor;
-                    ctx.textBaseline = 'middle';
-
-                    for (var lineIndex = 0; lineIndex < legendItem.lines.length; lineIndex++) {
-                        ctx.fillText(
-                            legendItem.lines[lineIndex],
-                            currentX + swatchSize + itemGap,
-                            Math.round(swatchCenterY - lineOffset + lineIndex * legendItem.lineHeight * pixelRatio)
-                        );
-                    }
-
-                    ctx.restore();
-
-                    currentX += legendItem.width + rowGap;
+                totalHeight += rowHeight;
+                if (rowIndex < rows.length - 1) {
+                    totalHeight += lineGap;
                 }
-
-                currentY += rowHeight + lineGap;
             }
+
+            return {
+                rows: rows,
+                contentWidth: contentWidth,
+                swatchSize: swatchSize,
+                itemGap: itemGap,
+                rowGap: rowGap,
+                lineGap: lineGap,
+                paddingTop: paddingTop,
+                paddingBottom: paddingBottom,
+                totalHeight: totalHeight
+            };
         },
 
         wrapLegendText: function (ctx, text, maxWidth, fontWeight, fontSize, fontFamily, pixelRatio) {
