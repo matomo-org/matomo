@@ -3693,6 +3693,36 @@ if ($mysql) {
         equal( tracker2.getAttributionReferrerUrl(), 'http://www.google.fr/?query=test', "getAttributionReferrerUrl() should be read from cookie in new tracker")
     });
 
+    test("ignored AI campaign does not overwrite attribution cookie on a new session", function() {
+        expect(8);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+        tracker.setReferrerUrl('');
+        tracker.setCustomUrl('https://matomo.org/blog/?utm_campaign=newsletter&utm_term=spring');
+        tracker.trackPageView('seedAttributionCookie');
+
+        var attributionInfos = tracker.getAttributionInfo();
+        equal(attributionInfos[0], ['newsletter'], "initial campaign is stored in the attribution cookie");
+        equal(attributionInfos[1], ['spring'], "initial campaign keyword is stored in the attribution cookie");
+
+        var sessionCookieName = tracker.hook.test._getCookieName('ses');
+        document.cookie = sessionCookieName + '=;expires=Sun, 01 Dec 2019 00:00:01 GMT;path=/';
+
+        var tracker2 = Piwik.getTracker();
+        tracker2.setTrackerUrl("matomo.php");
+        tracker2.setSiteId(1);
+        tracker2.setReferrerUrl('');
+        tracker2.setCustomUrl('https://matomo.org/blog/?utm_source=chatgpt.com');
+        tracker2.trackPageView('ignoredAiCampaignNewSession');
+
+        attributionInfos = tracker2.getAttributionInfo();
+        equal(attributionInfos[0], ['newsletter'], "AI campaign does not overwrite the existing campaign on a new session");
+        equal(attributionInfos[1], ['spring'], "AI campaign does not overwrite the existing campaign keyword on a new session");
+        equal(attributionInfos[3], [''], "AI campaign does not inject a referrer URL on a new session");
+    });
+
     test("referrer ignore list", function() {
         expect(25);
 
