@@ -69,6 +69,7 @@
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, setPageViewId, getPageViewId, getPiwikUrl, getMatomoUrl, getCurrentUrl,
     setExcludedReferrers, getExcludedReferrers,
     setIgnoreCampaignsForReferrers, getIgnoreCampaignsForReferrers,
+    setIgnoreCampaignValues, getIgnoreCampaignValues,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
@@ -2325,6 +2326,9 @@ if (typeof window.Matomo !== 'object') {
                 // An initial list of known referrers that are sending unexpected/unwanted campaign parameters. Matomo will ignore such campaigns if the referring URL matches one of the hosts defined below.
                 configIgnoreCampaignsForReferrers = [ 'chatgpt.com', 'chat.openai.com' ],
 
+                // An initial list of known campaign values that should be ignored even when no referrer URL is available.
+                configIgnoreCampaignValues = [ 'chatgpt.com', 'chat.openai.com' ],
+
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
 
@@ -2813,7 +2817,7 @@ if (typeof window.Matomo !== 'object') {
                 for (i = 0; i < configCampaignNameParameters.length; i++) {
                     campaignParameterValue = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
 
-                    if (campaignParameterValue.length && shouldIgnoreCampaignForReferrer(campaignParameterValue)) {
+                    if (campaignParameterValue.length && indexOfArray(configIgnoreCampaignValues, campaignParameterValue) !== -1) {
                         return true;
                     }
                 }
@@ -5315,6 +5319,9 @@ if (typeof window.Matomo !== 'object') {
             this.getIgnoreCampaignsForReferrers = function () {
                 return configIgnoreCampaignsForReferrers;
             };
+            this.getIgnoreCampaignValues = function () {
+                return configIgnoreCampaignValues;
+            };
             this.getConfigIdPageView = function () {
                 return configIdPageView;
             };
@@ -6177,6 +6184,15 @@ if (typeof window.Matomo !== 'object') {
            */
             this.setIgnoreCampaignsForReferrers = function (referrers) {
                 configIgnoreCampaignsForReferrers = isString(referrers) ? [referrers] : referrers;
+            };
+
+            /**
+             * Set array of campaign values where campaign parameters should be ignored
+             *
+             * @param {string|Array} campaignValues
+             */
+            this.setIgnoreCampaignValues = function (campaignValues) {
+                configIgnoreCampaignValues = isString(campaignValues) ? [campaignValues] : campaignValues;
             };
 
             /**

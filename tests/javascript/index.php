@@ -3768,6 +3768,19 @@ if ($mysql) {
         }
     });
 
+    test("ignore campaign values", function () {
+        var tracker = Piwik.getTracker();
+
+        deepEqual(tracker.getIgnoreCampaignValues(), ['chatgpt.com', 'chat.openai.com'], "default ignored campaign values");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignForCurrentUrl('https://matomo.org/blog/?utm_source=chatgpt.com'), true, "default ignored campaign value matches");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignForCurrentUrl('https://matomo.org/blog/?utm_source=newsletter'), false, "other campaign values are not ignored");
+
+        tracker.setIgnoreCampaignValues(['perplexity.ai']);
+        deepEqual(tracker.getIgnoreCampaignValues(), ['perplexity.ai'], "custom ignored campaign values are returned");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignForCurrentUrl('https://matomo.org/blog/?utm_source=perplexity.ai'), true, "custom ignored campaign value matches");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignForCurrentUrl('https://matomo.org/blog/?utm_source=chatgpt.com'), false, "default ignored campaign values can be replaced");
+    });
+
     test("tracking", function() {
         expect(189);
 
