@@ -1193,6 +1193,12 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         // add plugin as an attribute to the plot
         var options = opts || {};
         this.plugins.canvasLegend = new $.jqplot.CanvasLegendRenderer(options.canvasLegend);
+
+        if (this.plugins.canvasLegend.show) {
+            options.gridPadding = $.extend({}, options.gridPadding, {
+                top: Math.max((options.gridPadding && options.gridPadding.top) || 0, 21)
+            });
+        }
     };
 
     // render the legend
