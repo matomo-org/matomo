@@ -18,6 +18,28 @@ function isPlotLinesTweaksEnabled()
     return $('body').hasClass('plot-lines-tweaks-enabled');
 }
 
+function getOrCreateLegendFooter($dataTable)
+{
+    var $legendFooter = $dataTable.find('.jqplot-legend-footer');
+    if ($legendFooter.length) {
+        return $legendFooter;
+    }
+
+    $legendFooter = $('<div class="jqplot-legend-footer"><div class="jqplot-legend-items"></div></div>');
+    var $dataTableFeatures = $dataTable.find('.dataTableFeatures');
+    var $footerNavigation = $dataTableFeatures.find('.dataTableFooterNavigation');
+
+    if ($footerNavigation.length) {
+        $legendFooter.insertBefore($footerNavigation);
+    } else if ($dataTableFeatures.length) {
+        $dataTableFeatures.append($legendFooter);
+    } else {
+        $dataTable.append($legendFooter);
+    }
+
+    return $legendFooter;
+}
+
 (function ($, require) {
     var exports = require('piwik/UI'),
         DataTable = exports.DataTable,
@@ -304,10 +326,12 @@ function isPlotLinesTweaksEnabled()
             var legendFooter = dataTable.find('.jqplot-legend-footer');
 
             target.trigger('piwikDestroyPlot');
-            legendFooter
-                .removeClass('has-legend')
-                .find('.jqplot-legend-items')
-                .empty();
+            if (legendFooter.length) {
+                legendFooter
+                    .removeClass('has-legend')
+                    .find('.jqplot-legend-items')
+                    .empty();
+            }
             if (target.data('oldHeight') > 0) {
                 // handle replot after empty report
                 target.height(target.data('oldHeight'));
@@ -1462,9 +1486,15 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         this.plugins.canvasLegend = new $.jqplot.CanvasLegendRenderer(options.canvasLegend);
 
         if (this.plugins.canvasLegend.show) {
-            options.gridPadding = $.extend({}, options.gridPadding, {
-                top: Math.max((options.gridPadding && options.gridPadding.top) || 0, 21)
-            });
+            if (isPlotLinesTweaksEnabled()) {
+                options.gridPadding = $.extend({}, options.gridPadding, {
+                    top: Math.max((options.gridPadding && options.gridPadding.top) || 0, 21)
+                });
+            } else {
+                options.gridPadding = {
+                    top: 21, right: 0
+                };
+            }
         }
     };
 
@@ -1484,16 +1514,10 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         var $target = $(plot.targetId);
         var $dataTable = $target.closest('.dataTable');
-        var $legendFooter = $dataTable.find('.jqplot-legend-footer');
+        var $legendFooter = getOrCreateLegendFooter($dataTable);
         var $legendContainer = $legendFooter.find('.jqplot-legend-items');
         if (!$legendContainer.length) {
             return;
-        }
-
-        var $dataTableFeatures = $dataTable.find('.dataTableFeatures');
-        var $footerNavigation = $dataTableFeatures.find('.dataTableFooterNavigation');
-        if ($footerNavigation.length) {
-            $legendFooter.insertBefore($footerNavigation);
         }
 
         $legendFooter.removeClass('has-legend');
