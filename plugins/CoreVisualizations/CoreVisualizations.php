@@ -36,6 +36,14 @@ class CoreVisualizations extends \Piwik\Plugin
         );
     }
 
+    public function addBodyClass(&$out, $type)
+    {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PlotLinesTweaks::class)) {
+            $out .= ' plot-lines-tweaks-enabled';
+        }
+    }
+
     public function deleteUser($userLogin)
     {
         ViewDataTableManager::clearUserViewDataTableParameters($userLogin);

@@ -13,6 +13,11 @@ function rowEvolutionGetMetricNameFromRow(tr)
     return $(tr).find('td [data-name]').text().trim();
 }
 
+function isPlotLinesTweaksEnabled()
+{
+    return $('body').hasClass('plot-lines-tweaks-enabled');
+}
+
 (function ($, require) {
     var exports = require('piwik/UI'),
         DataTable = exports.DataTable,
@@ -470,7 +475,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
             var legendFooter = dataTable.find('.jqplot-legend-footer.has-legend');
             var legendHeight = 0;
             var legendLayout = null;
-            if (legendFooter.length) {
+            if (isPlotLinesTweaksEnabled() && legendFooter.length) {
                 var measureCanvas = document.createElement('canvas');
                 var measureCtx = measureCanvas.getContext && measureCanvas.getContext('2d');
                 if (measureCtx) {
@@ -506,7 +511,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 exportCtx.drawImage(canvas[0], Math.round(position.left * pixelRatio), Math.round(position.top * pixelRatio));
             }
 
-            if (legendFooter.length) {
+            if (isPlotLinesTweaksEnabled() && legendFooter.length) {
                 this.drawLegendForExport(exportCtx, legendLayout, container.height(), pixelRatio);
             }
 
@@ -1472,6 +1477,11 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             return;
         }
 
+        if (!isPlotLinesTweaksEnabled()) {
+            $.jqplot.CanvasLegendRenderer.renderLegacyLegend.call(this, plot, legend);
+            return;
+        }
+
         var $target = $(plot.targetId);
         var $dataTable = $target.closest('.dataTable');
         var $legendFooter = $dataTable.find('.jqplot-legend-footer');
@@ -1521,6 +1531,56 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         }
     };
 
+    $.jqplot.CanvasLegendRenderer.renderLegacyLegend = function (plot, legend) {
+        var padding = {top: 0, right: this._gridPadding.right, bottom: 0, left: this._gridPadding.left};
+        var dimensions = {width: this._plotDimensions.width, height: this._gridPadding.top};
+        var width = this._plotDimensions.width - this._gridPadding.left - this._gridPadding.right;
+
+        legend.legendCanvas = new $.jqplot.GenericCanvas();
+        this.eventCanvas._elem.before(legend.legendCanvas.createElement(
+            padding, 'jqplot-legend-canvas', dimensions, plot));
+        legend.legendCanvas.setContext();
+
+        var ctx = legend.legendCanvas._ctx;
+        ctx.save();
+        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily();
+
+        var x = 0;
+        var series = plot.legend && plot.legend._series ? plot.legend._series : [];
+        for (var i = 0; i < series.length; i++) {
+            var s = series[i];
+            var label;
+            if (legend.labels && legend.labels[i]) {
+                label = legend.labels[i];
+            } else {
+                label = s.label.toString();
+            }
+
+            ctx.fillStyle = s.color;
+            if (legend.singleMetric) {
+                ctx.fillStyle = legend.singleMetricColor;
+            }
+
+            ctx.fillRect(x, 10, 10, 2);
+            x += 15;
+
+            var nextX = x + ctx.measureText(label).width + 20;
+
+            if (nextX + 70 > width) {
+                ctx.fillText("[...]", x, 15);
+                x += ctx.measureText("[...]").width + 20;
+                break;
+            }
+
+            ctx.fillText(label, x, 15);
+            x = nextX;
+        }
+
+        legend.width = x;
+
+        ctx.restore();
+    };
+
     $.jqplot.preInitHooks.push($.jqplot.CanvasLegendRenderer.init);
     $.jqplot.postDrawHooks.push($.jqplot.CanvasLegendRenderer.postDraw);
 
@@ -1545,6 +1605,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var plot = this;
         $(seriesPicker).bind('placeSeriesPicker', function () {
             this.domElem.css('margin-left', plot._gridPadding.left + 'px');
+            if (!isPlotLinesTweaksEnabled()) {
+                $('.jqplot-legend-canvas', $(plot.targetId)).css({paddingLeft: '34px'});
+            }
             plot.baseCanvas._elem.before(this.domElem);
         });
 

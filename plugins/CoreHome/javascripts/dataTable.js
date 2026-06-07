@@ -1102,9 +1102,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     piwik.annotations.placeEvolutionIcons(annotations, domElem);
 
-                    // add annotations before the legend when it exists, otherwise before the footer navigation
+                    // add annotations before the legend when the plot lines tweaks are enabled, otherwise before the footer navigation
                     var legendFooter = $('.jqplot-legend-footer', domElem);
-                    if (legendFooter.length) {
+                    if ($('body').hasClass('plot-lines-tweaks-enabled') && legendFooter.length) {
                         annotations.insertBefore(legendFooter);
                     } else {
                         annotations.insertBefore($('.dataTableFooterNavigation', domElem));
