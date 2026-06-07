@@ -295,9 +295,11 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
         destroyPlot: function () {
             var target = $('#' + this.targetDivId);
+            var dataTable = target.closest('.dataTable');
+            var legendFooter = dataTable.find('.jqplot-legend-footer');
 
             target.trigger('piwikDestroyPlot');
-            target.siblings('.jqplot-legend-footer')
+            legendFooter
                 .removeClass('has-legend')
                 .find('.jqplot-legend-items')
                 .empty();
@@ -1211,10 +1213,17 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         }
 
         var $target = $(plot.targetId);
-        var $legendFooter = $target.siblings('.jqplot-legend-footer');
+        var $dataTable = $target.closest('.dataTable');
+        var $legendFooter = $dataTable.find('.jqplot-legend-footer');
         var $legendContainer = $legendFooter.find('.jqplot-legend-items');
         if (!$legendContainer.length) {
             return;
+        }
+
+        var $dataTableFeatures = $dataTable.find('.dataTableFeatures');
+        var $footerNavigation = $dataTableFeatures.find('.dataTableFooterNavigation');
+        if ($footerNavigation.length) {
+            $legendFooter.insertBefore($footerNavigation);
         }
 
         $legendFooter.removeClass('has-legend');

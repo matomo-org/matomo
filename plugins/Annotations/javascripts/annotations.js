@@ -550,8 +550,13 @@
 
                 loading.css('visibility', 'hidden');
 
-                // add & show annotation manager
-                manager.insertAfter($('.evolution-annotations', domElem));
+                // add & show annotation manager before the legend when it exists
+                var legendFooter = $('.jqplot-legend-footer', domElem);
+                if (legendFooter.length) {
+                    manager.insertBefore(legendFooter);
+                } else {
+                    manager.insertAfter($('.evolution-annotations', domElem));
+                }
 
                 manager.slideDown('slow', function () {
                     loading.hide().css('visibility', 'visible');
