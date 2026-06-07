@@ -466,15 +466,20 @@ function rowEvolutionGetMetricNameFromRow(tr)
         /** Export the chart as an image */
         exportAsImage: function (container, lang) {
             var pixelRatio = window.devicePixelRatio || 1;
+            var dataTable = container.closest('.dataTable');
+            var legendFooter = dataTable.find('.jqplot-legend-footer.has-legend');
+            var legendHeight = legendFooter.length ? legendFooter.outerHeight(true) : 0;
             var exportCanvas = document.createElement('canvas');
             exportCanvas.width = Math.round(container.width() * pixelRatio);
-            exportCanvas.height = Math.round(container.height() * pixelRatio);
+            exportCanvas.height = Math.round((container.height() + legendHeight) * pixelRatio);
 
             if (!exportCanvas.getContext) {
                 alert("Sorry, not supported in your browser. Please upgrade your browser :)");
                 return;
             }
             var exportCtx = exportCanvas.getContext('2d');
+            exportCtx.fillStyle = '#ffffff';
+            exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
 
             var canvases = container.find('canvas');
 
@@ -488,6 +493,10 @@ function rowEvolutionGetMetricNameFromRow(tr)
                     position.top += addPosition.top + parseInt(parent.css('marginTop'), 10);
                 }
                 exportCtx.drawImage(canvas[0], Math.round(position.left * pixelRatio), Math.round(position.top * pixelRatio));
+            }
+
+            if (legendFooter.length) {
+                this.drawLegendForExport(exportCtx, legendFooter, container.height(), pixelRatio);
             }
 
             var exported = exportCanvas.toDataURL("image/png");
@@ -520,6 +529,195 @@ function rowEvolutionGetMetricNameFromRow(tr)
                     $(this).dialog("destroy").remove();
                 }
             });
+        },
+
+        drawLegendForExport: function (ctx, legendFooter, topOffset, pixelRatio) {
+            var legendItems = legendFooter.find('.jqplot-legend-item');
+            var self = this;
+            if (!legendItems.length) {
+                return;
+            }
+
+            var footerWidth = legendFooter.innerWidth();
+            var contentWidth = Math.max(footerWidth || 0, 1) * pixelRatio;
+            var swatchSize = 12 * pixelRatio;
+            var itemGap = 8 * pixelRatio;
+            var rowGap = 24 * pixelRatio;
+            var lineGap = 8 * pixelRatio;
+            var paddingTop = 8 * pixelRatio;
+            var paddingBottom = 8 * pixelRatio;
+            var maxItemWidth = Math.max(Math.floor(contentWidth * 0.45), 120 * pixelRatio);
+            var rows = [];
+            var currentRow = [];
+            var currentRowWidth = 0;
+
+            legendItems.each(function () {
+                var item = $(this);
+                var swatch = item.find('.jqplot-legend-swatch');
+                var label = item.find('.jqplot-legend-label');
+
+                if (!swatch.length || !label.length) {
+                    return;
+                }
+
+                var swatchColor = swatch.css('background-color');
+                var labelText = label.text();
+                var fontSize = parseFloat(label.css('font-size')) || 12;
+                var lineHeight = parseFloat(label.css('line-height')) || 16;
+                var fontFamily = label.css('font-family') || require('piwik/UI').getLabelFontFamily();
+                var fontWeight = label.css('font-weight') || '400';
+                var labelColor = label.css('color') || '#666666';
+                var lines = self.wrapLegendText(
+                    ctx,
+                    labelText,
+                    maxItemWidth - swatchSize - itemGap,
+                    fontWeight,
+                    fontSize,
+                    fontFamily,
+                    pixelRatio
+                );
+
+                ctx.save();
+                ctx.font = fontWeight + ' ' + Math.round(fontSize * pixelRatio) + 'px ' + fontFamily;
+
+                var textWidth = 0;
+                for (var i = 0; i < lines.length; i++) {
+                    textWidth = Math.max(textWidth, ctx.measureText(lines[i]).width);
+                }
+                ctx.restore();
+
+                var exportItem = {
+                    swatchColor: swatchColor,
+                    labelColor: labelColor,
+                    fontSize: fontSize,
+                    lineHeight: lineHeight,
+                    fontFamily: fontFamily,
+                    fontWeight: fontWeight,
+                    lines: lines,
+                    width: swatchSize + itemGap + textWidth,
+                    height: Math.max(swatchSize, lines.length * lineHeight * pixelRatio)
+                };
+
+                if (currentRow.length && currentRowWidth + rowGap + exportItem.width > contentWidth) {
+                    rows.push(currentRow);
+                    currentRow = [];
+                    currentRowWidth = 0;
+                }
+
+                currentRow.push(exportItem);
+                currentRowWidth += exportItem.width + (currentRow.length > 1 ? rowGap : 0);
+            });
+
+            if (currentRow.length) {
+                rows.push(currentRow);
+            }
+
+            var currentY = topOffset * pixelRatio + paddingTop;
+
+            for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+                var row = rows[rowIndex];
+                var rowWidth = 0;
+                var rowHeight = 0;
+
+                for (var itemIndex = 0; itemIndex < row.length; itemIndex++) {
+                    rowWidth += row[itemIndex].width;
+                    rowHeight = Math.max(rowHeight, row[itemIndex].height);
+                }
+
+                rowWidth += rowGap * Math.max(row.length - 1, 0);
+
+                var currentX = Math.round((contentWidth - rowWidth) / 2);
+
+                for (var drawIndex = 0; drawIndex < row.length; drawIndex++) {
+                    var legendItem = row[drawIndex];
+                    var swatchCenterY = currentY + Math.round(rowHeight / 2);
+                    var lineOffset = legendItem.lines.length > 1 ? ((legendItem.lines.length - 1) * legendItem.lineHeight * pixelRatio) / 2 : 0;
+
+                    ctx.save();
+
+                    ctx.fillStyle = legendItem.swatchColor;
+                    ctx.beginPath();
+                    ctx.arc(
+                        currentX + Math.round(swatchSize / 2),
+                        swatchCenterY,
+                        Math.round(swatchSize / 2),
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fill();
+
+                    ctx.font = legendItem.fontWeight + ' ' + Math.round(legendItem.fontSize * pixelRatio) + 'px ' + legendItem.fontFamily;
+                    ctx.fillStyle = legendItem.labelColor;
+                    ctx.textBaseline = 'middle';
+
+                    for (var lineIndex = 0; lineIndex < legendItem.lines.length; lineIndex++) {
+                        ctx.fillText(
+                            legendItem.lines[lineIndex],
+                            currentX + swatchSize + itemGap,
+                            Math.round(swatchCenterY - lineOffset + lineIndex * legendItem.lineHeight * pixelRatio)
+                        );
+                    }
+
+                    ctx.restore();
+
+                    currentX += legendItem.width + rowGap;
+                }
+
+                currentY += rowHeight + lineGap;
+            }
+        },
+
+        wrapLegendText: function (ctx, text, maxWidth, fontWeight, fontSize, fontFamily, pixelRatio) {
+            if (!text || maxWidth <= 0) {
+                return [];
+            }
+
+            ctx.save();
+            ctx.font = fontWeight + ' ' + Math.round(fontSize * pixelRatio) + 'px ' + fontFamily;
+
+            var words = text.split(/\s+/);
+            var lines = [];
+            var currentLine = '';
+
+            for (var i = 0; i < words.length; i++) {
+                var word = words[i];
+                var nextLine = currentLine ? currentLine + ' ' + word : word;
+
+                if (ctx.measureText(nextLine).width <= maxWidth) {
+                    currentLine = nextLine;
+                    continue;
+                }
+
+                if (currentLine) {
+                    lines.push(currentLine);
+                    currentLine = '';
+                }
+
+                if (ctx.measureText(word).width <= maxWidth) {
+                    currentLine = word;
+                    continue;
+                }
+
+                var fragment = '';
+                for (var j = 0; j < word.length; j++) {
+                    var nextFragment = fragment + word[j];
+                    if (ctx.measureText(nextFragment).width > maxWidth && fragment) {
+                        lines.push(fragment);
+                        fragment = word[j];
+                    } else {
+                        fragment = nextFragment;
+                    }
+                }
+                currentLine = fragment;
+            }
+
+            if (currentLine) {
+                lines.push(currentLine);
+            }
+
+            ctx.restore();
+
+            return lines;
         },
 
         // ------------------------------------------------------------
