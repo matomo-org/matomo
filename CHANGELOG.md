@@ -4,6 +4,26 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 5.11.0
+
+### New APIs
+* `SitesManager.addSite` and `SitesManager.updateSite` now accept an optional `description` parameter (up to 255 characters). Site entities
+  returned by the SitesManager APIs now include a `description` field.
+* `CustomDimensions.configureNewCustomDimension` and `CustomDimensions.configureExistingCustomDimension` now accept an optional `description`
+  parameter (up to 1000 characters) to provide additional context for a custom dimension.
+* New ViewDataTable display properties were added: `Config::$report_supports_flatten`, `Config::$show_flatten_table_export` and
+  `Config::$export_parameters_to_modify` / `RequestConfig::$export_parameters_to_modify`, allowing reports to control flattening availability and
+  export link parameters independently of the UI.
+* New Vue components are exported from CoreHome for use by plugins: `MatomoModal`, `DraggableList` and `SearchInput`.
+* Themes can now customize the alternative border color using `@theme-color-border-alternative`.
+
+### HTTP API
+* `ScheduledReports.sendReport` now accepts `range` as `period` parameter.
+* CSV/TSV exports now replace carriage return characters in values with spaces (in addition to tabs).
+
+### Deprecations
+* The theme variable `@theme-color-border` (`ThemeStyles::$colorBorder`) is deprecated; use `@theme-color-border-alternative` instead.
+
 ## Matomo 5.10.0
 
 ### New APIs
