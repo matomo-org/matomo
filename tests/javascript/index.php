@@ -4499,7 +4499,7 @@ if ($mysql) {
     });
 
     test("ignored AI campaign does not overwrite attribution cookie on a new session", function () {
-        expect(5);
+        expect(8);
 
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("matomo.php");
