@@ -297,6 +297,10 @@ function rowEvolutionGetMetricNameFromRow(tr)
             var target = $('#' + this.targetDivId);
 
             target.trigger('piwikDestroyPlot');
+            target.siblings('.jqplot-legend-footer')
+                .removeClass('has-legend')
+                .find('.jqplot-legend-items')
+                .empty();
             if (target.data('oldHeight') > 0) {
                 // handle replot after empty report
                 target.height(target.data('oldHeight'));
@@ -1171,14 +1175,12 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
 // ------------------------------------------------------------
 //  LEGEND PLUGIN FOR JQPLOT
-//  Render legend on canvas
+//  Render legend below the graph
 // ------------------------------------------------------------
 
 (function ($) {
 
     $.jqplot.CanvasLegendRenderer = function (options) {
-        // canvas for the legend
-        this.legendCanvas = null;
         // is it a legend for a single metric only (pie chart)?
         this.singleMetric = false;
         // render the legend?
@@ -1191,15 +1193,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         // add plugin as an attribute to the plot
         var options = opts || {};
         this.plugins.canvasLegend = new $.jqplot.CanvasLegendRenderer(options.canvasLegend);
-
-        // add padding above the grid
-        // legend will be put there
-        if (this.plugins.canvasLegend.show) {
-            options.gridPadding = {
-                top: 21, right: 0
-            };
-        }
-
     };
 
     // render the legend
@@ -1211,55 +1204,46 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             return;
         }
 
-        // initialize legend canvas
-        var padding = {top: 0, right: this._gridPadding.right, bottom: 0, left: this._gridPadding.left};
-        var dimensions = {width: this._plotDimensions.width, height: this._gridPadding.top};
-        var width = this._plotDimensions.width - this._gridPadding.left - this._gridPadding.right;
+        var $target = $(plot.targetId);
+        var $legendFooter = $target.siblings('.jqplot-legend-footer');
+        var $legendContainer = $legendFooter.find('.jqplot-legend-items');
+        if (!$legendContainer.length) {
+            return;
+        }
 
-        legend.legendCanvas = new $.jqplot.GenericCanvas();
-        this.eventCanvas._elem.before(legend.legendCanvas.createElement(
-            padding, 'jqplot-legend-canvas', dimensions, plot));
-        legend.legendCanvas.setContext();
+        $legendFooter.removeClass('has-legend');
+        $legendContainer.empty();
 
-        var ctx = legend.legendCanvas._ctx;
-        ctx.save();
-        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily()
-
-        // render series names
-        var x = 0;
-        var series = plot.legend._series;
+        var series = plot.legend && plot.legend._series ? plot.legend._series : [];
         for (var i = 0; i < series.length; i++) {
             var s = series[i];
-            var label;
+            var label = '';
             if (legend.labels && legend.labels[i]) {
                 label = legend.labels[i];
-            } else {
+            } else if (typeof s.label !== 'undefined' && s.label !== null) {
                 label = s.label.toString();
             }
 
-            ctx.fillStyle = s.color;
-            if (legend.singleMetric) {
-                ctx.fillStyle = legend.singleMetricColor;
+            if (!label) {
+                continue;
             }
 
-            ctx.fillRect(x, 10, 10, 2);
-            x += 15;
-
-            var nextX = x + ctx.measureText(label).width + 20;
-
-            if (nextX + 70 > width) {
-                ctx.fillText("[...]", x, 15);
-                x += ctx.measureText("[...]").width + 20;
-                break;
+            var color = s.color;
+            if (legend.singleMetric && legend.singleMetricColor) {
+                color = legend.singleMetricColor;
             }
 
-            ctx.fillText(label, x, 15);
-            x = nextX;
+            $('<div/>', {'class': 'jqplot-legend-item'})
+                .append(
+                    $('<span/>', {'class': 'jqplot-legend-swatch'}).css('background-color', color),
+                    $('<span/>', {'class': 'jqplot-legend-label'}).text(label)
+                )
+                .appendTo($legendContainer);
         }
 
-        legend.width = x;
-
-        ctx.restore();
+        if ($legendContainer.children().length) {
+            $legendFooter.addClass('has-legend');
+        }
     };
 
     $.jqplot.preInitHooks.push($.jqplot.CanvasLegendRenderer.init);
@@ -1286,7 +1270,6 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var plot = this;
         $(seriesPicker).bind('placeSeriesPicker', function () {
             this.domElem.css('margin-left', plot._gridPadding.left + 'px');
-            $('.jqplot-legend-canvas', $('#' + target)).css({paddingLeft: '34px'});
             plot.baseCanvas._elem.before(this.domElem);
         });
 
