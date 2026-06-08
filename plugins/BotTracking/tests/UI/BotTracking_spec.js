@@ -199,11 +199,11 @@ describe("BotTracking", function () {
         expect(humanHeaders[2]).to.equal('AI Chatbot Requests');
         expect(humanHeaders[3]).to.equal('Discrepancy Score');
 
-        // Default sort on Unique Human Pageviews for the Human-Favoured widget.
+        // Default sort on Discrepancy Score for the Human-Favoured widget.
         const humanSortedThText = await page.$eval(humanWidgetId + ' thead th.columnSorted .thDIV', function (div) {
             return (div.textContent || '').trim();
         });
-        expect(humanSortedThText).to.equal('Unique Human Pageviews');
+        expect(humanSortedThText).to.equal('Discrepancy Score');
 
         // Assert per-widget column counts and header text for AI-Favoured widget.
         const aiWidgetId = '#widgetBotTrackinggetAIChatbotAIFavouredPages';
@@ -216,11 +216,11 @@ describe("BotTracking", function () {
         expect(aiHeaders[2]).to.equal('AI Chatbot Requests');
         expect(aiHeaders[3]).to.equal('Discrepancy Score');
 
-        // Default sort on AI Chatbot Requests for the AI-Favoured widget.
+        // Default sort on Discrepancy Score for the AI-Favoured widget.
         const aiSortedThText = await page.$eval(aiWidgetId + ' thead th.columnSorted .thDIV', function (div) {
             return (div.textContent || '').trim();
         });
-        expect(aiSortedThText).to.equal('AI Chatbot Requests');
+        expect(aiSortedThText).to.equal('Discrepancy Score');
 
         // Both new widgets must render in the same .row container (the reporting page
         // auto-pairs consecutive non-wide widgets into a 2-column row — see

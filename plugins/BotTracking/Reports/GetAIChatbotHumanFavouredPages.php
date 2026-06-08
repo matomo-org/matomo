@@ -21,10 +21,12 @@ class GetAIChatbotHumanFavouredPages extends AbstractAIChatbotFavouredPagesRepor
     {
         parent::init();
 
-        $this->name              = Piwik::translate('BotTracking_AIChatbotsHumanFavouredPagesTitle');
-        $this->documentation     = Piwik::translate('BotTracking_AIChatbotsHumanFavouredPagesDocumentation');
-        $this->order             = 40;
-        $this->defaultSortColumn = Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS;
+        $this->name          = Piwik::translate('BotTracking_AIChatbotsHumanFavouredPagesTitle');
+        $this->documentation = Piwik::translate('BotTracking_AIChatbotsHumanFavouredPagesDocumentation');
+        // Order 40 keeps this the second-to-last widget so it pairs with AI-Favoured (order 50)
+        // into the side-by-side row — see the layout contract in
+        // AbstractAIChatbotFavouredPagesReport::configureWidgets().
+        $this->order         = 40;
     }
 
     protected function getDiscrepancyScoreVariant(): string
@@ -33,11 +35,6 @@ class GetAIChatbotHumanFavouredPages extends AbstractAIChatbotFavouredPagesRepor
     }
 
     protected function getExcludeLowPopulationColumn(): string
-    {
-        return Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS;
-    }
-
-    protected function getDefaultViewSortColumn(): string
     {
         return Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS;
     }
