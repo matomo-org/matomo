@@ -11,12 +11,12 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking;
 
+use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
-use Piwik\DataTable\Row;
 use Piwik\Piwik;
-use Piwik\Plugins\Actions\API as ActionsApi;
+use Piwik\Plugins\BotTracking\DataTable\FavouredPagesMerger;
 use Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotReports;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\BotTracking\Reports\Get;
@@ -256,6 +256,11 @@ class API extends \Piwik\Plugin\API
      * Each row carries Unique Human Pageviews, AI Chatbot Requests and the Human-Favoured
      * Discrepancy Score (computed by the report's processed metric on read).
      *
+     * Note: the "exclude low population" filter that the UI applies by default is a ViewDataTable
+     * decoration only — a direct API call returns every row (including pages with no human
+     * pageviews). Segmentation is not supported: any `segment` parameter is ignored and the
+     * standard, unsegmented data is returned.
+     *
      * @param int|string|int[] $idSite Website ID(s) to query.
      *                         - Single site ID (e.g. 1)
      *                         - Multiple site IDs (e.g. [1, 4, 5])
@@ -277,6 +282,11 @@ class API extends \Piwik\Plugin\API
      * Each row carries Unique Human Pageviews, AI Chatbot Requests and the AI-Favoured
      * Discrepancy Score (computed by the report's processed metric on read).
      *
+     * Note: the "exclude low population" filter that the UI applies by default is a ViewDataTable
+     * decoration only — a direct API call returns every row (including pages with no AI chatbot
+     * requests). Segmentation is not supported: any `segment` parameter is ignored and the
+     * standard, unsegmented data is returned.
+     *
      * @param int|string|int[] $idSite Website ID(s) to query.
      *                         - Single site ID (e.g. 1)
      *                         - Multiple site IDs (e.g. [1, 4, 5])
@@ -293,106 +303,38 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Builds the merged source table that backs both favoured-pages reports.
+     * Builds the merged source table that backs both favoured-pages reports by combining the AI
+     * chatbot content-pages blob with the Actions page-URLs report. See {@see FavouredPagesMerger}
+     * for the merge algorithm.
      *
-     * Strategy (per the DEV-19843 technical notes):
-     *  1. Start from the AI chatbot content-pages table, strip every column except `requests`
-     *     and rename it to `ai_chatbot_requests`.
-     *  2. Walk the (flat) Actions.getPageUrls table; for each row, look up the matching bot row
-     *     by URL label and patch `unique_human_pageviews`, or append a fresh row when the URL is
-     *     human-only.
-     *  3. Default `unique_human_pageviews` to 0 on rows that the Actions walk didn't touch so the
-     *     processed-metric formula always has both inputs.
+     * The Actions data is fetched through the API request pipeline ({@see Request::processRequest})
+     * rather than a direct `Actions\API::getPageUrls()` call. This matters: flattening and the
+     * per-row `url` metadata that the merge keys on are applied by the request manipulators and
+     * queued filters, which a direct in-process call would skip — leaving nested page rows without
+     * a `url` and silently un-merged. Going through the pipeline also yields name-keyed columns
+     * (so the merge can read `nb_visits`) without a manual `ReplaceColumnNames` pass. This is a
+     * deliberate cross-plugin coupling to the Actions page-URL report (these reports archive no
+     * record of their own).
      *
      * @param int|string|int[] $idSite
      * @return DataTable|DataTable\Map
      */
     private function buildFavouredPagesTable($idSite, string $period, string $date): DataTableInterface
     {
-        $botData     = $this->getAIChatbotContentPages($idSite, $period, $date);
-        $actionsData = ActionsApi::getInstance()->getPageUrls($idSite, $period, $date, false, false, false, false, true);
+        $botData = $this->getAIChatbotContentPages($idSite, $period, $date);
 
-        // Actions.getPageUrls returns columns indexed by Metrics::INDEX_* constants when called
-        // directly via PHP (ReplaceColumnNames runs later in the API render pipeline). Apply it
-        // here so we can read 'nb_visits' by name during the merge.
-        $actionsData->filter('ReplaceColumnNames');
+        // filter_limit=-1 keeps every URL; segment is intentionally not forwarded (these reports
+        // declare no segment support and the bot side is unsegmented, so honouring it on one side
+        // only would be misleading).
+        $actionsData = Request::processRequest('Actions.getPageUrls', [
+            'idSite'       => $idSite,
+            'period'       => $period,
+            'date'         => $date,
+            'flat'         => 1,
+            'filter_limit' => -1,
+            'segment'      => false,
+        ]);
 
-        return $this->mergeFavouredTables($botData, $actionsData);
-    }
-
-    /**
-     * @param DataTable|DataTable\Map $botData
-     * @param DataTable|DataTable\Map $actionsData
-     * @return DataTable|DataTable\Map
-     */
-    private function mergeFavouredTables(DataTableInterface $botData, DataTableInterface $actionsData): DataTableInterface
-    {
-        if ($botData instanceof DataTable\Map) {
-            $actionsChildren = $actionsData instanceof DataTable\Map ? $actionsData->getDataTables() : [];
-
-            foreach ($botData->getDataTables() as $key => $botChild) {
-                $actionsChild = $actionsChildren[$key] ?? new DataTable();
-                $botData->addTable($this->mergeFavouredTables($botChild, $actionsChild), $key);
-            }
-
-            return $botData;
-        }
-
-        // After the early return $botData is necessarily a flat DataTable. Guard the Actions side
-        // anyway in case the period/site shape diverges between the two APIs.
-        $actionsTable = $actionsData instanceof DataTable ? $actionsData : new DataTable();
-        return $this->mergeFavouredTable($botData, $actionsTable);
-    }
-
-    private function mergeFavouredTable(DataTable $botTable, DataTable $actionsTable): DataTable
-    {
-        // Step 1: keep only `requests` on the bot table and rename it to ai_chatbot_requests.
-        foreach ($botTable->getRows() as $row) {
-            $requests = (int) $row->getColumn(Metrics::COLUMN_REQUESTS);
-            $row->setColumns([
-                'label'                            => $row->getColumn('label'),
-                Metrics::COLUMN_AI_CHATBOT_REQUESTS => $requests,
-            ]);
-            // Drop any metadata that was carried over from the bot blob (segment hints etc.).
-            $row->deleteMetadata();
-        }
-        $botTable->setLabelsHaveChanged();
-
-        // Step 2: walk Actions rows and patch / append into the bot table.
-        foreach ($actionsTable->getRows() as $actionsRow) {
-            $url = $actionsRow->getMetadata('url');
-            if (!is_string($url) || $url === '') {
-                continue;
-            }
-            $label = preg_replace('#^https?://#', '', $url);
-            if (!is_string($label) || $label === '') {
-                continue;
-            }
-
-            $nbVisits = (int) $actionsRow->getColumn('nb_visits');
-
-            $matchingBotRow = $botTable->getRowFromLabel($label);
-            if ($matchingBotRow !== false) {
-                $matchingBotRow->setColumn(Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS, $nbVisits);
-                continue;
-            }
-
-            $botTable->addRow(new Row([
-                Row::COLUMNS => [
-                    'label'                                => $label,
-                    Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS => $nbVisits,
-                    Metrics::COLUMN_AI_CHATBOT_REQUESTS    => 0,
-                ],
-            ]));
-        }
-
-        // Step 3: rows that the Actions walk didn't touch still need unique_human_pageviews = 0.
-        foreach ($botTable->getRows() as $row) {
-            if ($row->getColumn(Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS) === false) {
-                $row->setColumn(Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS, 0);
-            }
-        }
-
-        return $botTable;
+        return (new FavouredPagesMerger())->merge($botData, $actionsData);
     }
 }

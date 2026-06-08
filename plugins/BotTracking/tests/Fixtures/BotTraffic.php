@@ -28,6 +28,7 @@ class BotTraffic extends Fixture
         $this->setUpWebsite();
         $this->trackBotRequests();
         $this->trackAcquiredVisits();
+        $this->trackHumanPageOverlaps();
     }
 
     public function tearDown(): void
@@ -170,6 +171,33 @@ class BotTraffic extends Fixture
             $tracker->setUrl('https://example.com/article-' . (($index % 4) + 1));
             $tracker->setUrlReferrer($referrer);
             self::checkResponse($tracker->doTrackPageView('Article From AI Chatbot ' . ($index + 1)));
+        }
+    }
+
+    /**
+     * Tracks ordinary human pageviews to URLs that AI chatbots also request, so the
+     * Human/AI-Favoured Pages merge has rows where BOTH metrics are non-zero. Includes a
+     * "www." URL whose normalized action name collides with the bot label (example.com/article/3),
+     * exercising the PageUrl::normalizeUrl-based merge key in FavouredPagesMerger.
+     */
+    private function trackHumanPageOverlaps(): void
+    {
+        // [url, number of human visits] — both URLs are also requested by bots in trackBotRequests().
+        $overlaps = [
+            ['https://example.com/article/2', 2],
+            ['https://www.example.com/article/3', 1],
+        ];
+
+        foreach ($overlaps as [$url, $visits]) {
+            for ($i = 0; $i < $visits; $i++) {
+                $date = Date::factory($this->dateTime)
+                    ->addDay(1) // 2025-02-03, the date the system tests query
+                    ->addHour($i + 1)
+                    ->getDatetime();
+                $tracker = self::getTracker($this->idSite, $date, true);
+                $tracker->setUrl($url);
+                self::checkResponse($tracker->doTrackPageView('Human Overlap Page ' . ($i + 1)));
+            }
         }
     }
 
