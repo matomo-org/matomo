@@ -614,11 +614,11 @@ class DataRounding
                 $idSite = $requestObject->getParameter('idsite', null);
             }
 
-            if (!is_scalar($idSite) || trim((string) $idSite) === '') {
+            if (!is_array($idSite) && !is_scalar($idSite)) {
                 return [];
             }
 
-            return Site::getIdSitesFromIdSitesString((string) $idSite, false, false);
+            return Site::getIdSitesFromIdSitesString($idSite, false, false);
         } catch (Throwable $e) {
             return [];
         }
