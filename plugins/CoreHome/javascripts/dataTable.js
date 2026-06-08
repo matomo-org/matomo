@@ -1104,7 +1104,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     // add annotations before the legend when the plot lines tweaks are enabled, otherwise before the footer navigation
                     var legendFooter = $('.jqplot-legend-footer', domElem);
-                    if ($('body').hasClass('plot-lines-tweaks-enabled') && legendFooter.length) {
+                    if ($('body').hasClass('plotlines-tweaks-enabled') && legendFooter.length) {
                         annotations.insertBefore(legendFooter);
                     } else {
                         annotations.insertBefore($('.dataTableFooterNavigation', domElem));

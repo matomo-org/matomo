@@ -15,7 +15,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
 function isPlotLinesTweaksEnabled()
 {
-    return $('body').hasClass('plot-lines-tweaks-enabled');
+    return $('body').hasClass('plotlines-tweaks-enabled');
 }
 
 function getOrCreateLegendFooter($dataTable)
