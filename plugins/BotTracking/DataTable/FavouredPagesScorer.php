@@ -93,6 +93,13 @@ class FavouredPagesScorer
 
             $row->setColumn(Metrics::COLUMN_DISCREPANCY_SCORE, self::score($strong, $weak, $maxStrong));
         }
+
+        // The score is a per-page 0–100 index, so summing it for the report totals row is
+        // meaningless — mark it 'skip' so the totals calculator leaves it blank. The two traffic
+        // columns keep the default 'sum'.
+        $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME) ?: [];
+        $ops[Metrics::COLUMN_DISCREPANCY_SCORE] = 'skip';
+        $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $ops);
     }
 
     /**
