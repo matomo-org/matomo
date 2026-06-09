@@ -16,7 +16,9 @@ use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Piwik;
+use Piwik\Plugins\BotTracking\Columns\Metrics\DiscrepancyScore;
 use Piwik\Plugins\BotTracking\DataTable\FavouredPagesMerger;
+use Piwik\Plugins\BotTracking\DataTable\FavouredPagesScorer;
 use Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotReports;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\BotTracking\Reports\Get;
@@ -254,7 +256,7 @@ class API extends \Piwik\Plugin\API
      * Returns page URLs visited far more by humans than requested by AI chatbots.
      *
      * Each row carries Unique Human Pageviews, AI Chatbot Requests and the Human-Favoured
-     * Discrepancy Score (computed by the report's processed metric on read).
+     * Discrepancy Score (a bounded 0–100 index materialised on the table).
      *
      * Note: the "exclude low population" filter that the UI applies by default is a ViewDataTable
      * decoration only — a direct API call returns every row (including pages with no human
@@ -267,20 +269,23 @@ class API extends \Piwik\Plugin\API
      *                         - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process.
      * @param string $date The date or date range to process.
-     * @return DataTable|DataTable\Map Flat table of URLs with the two source metrics.
+     * @return DataTable|DataTable\Map Flat table of URLs with the two source metrics and the score.
      */
     public function getAIChatbotHumanFavouredPages($idSite, string $period, string $date): DataTableInterface
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        return $this->buildFavouredPagesTable($idSite, $period, $date);
+        $table = $this->buildFavouredPagesTable($idSite, $period, $date);
+        (new FavouredPagesScorer(DiscrepancyScore::VARIANT_HUMAN_FAVOURED))->addScores($table);
+
+        return $table;
     }
 
     /**
      * Returns page URLs requested far more by AI chatbots than visited by humans.
      *
      * Each row carries Unique Human Pageviews, AI Chatbot Requests and the AI-Favoured
-     * Discrepancy Score (computed by the report's processed metric on read).
+     * Discrepancy Score (a bounded 0–100 index materialised on the table).
      *
      * Note: the "exclude low population" filter that the UI applies by default is a ViewDataTable
      * decoration only — a direct API call returns every row (including pages with no AI chatbot
@@ -293,13 +298,16 @@ class API extends \Piwik\Plugin\API
      *                         - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process.
      * @param string $date The date or date range to process.
-     * @return DataTable|DataTable\Map Flat table of URLs with the two source metrics.
+     * @return DataTable|DataTable\Map Flat table of URLs with the two source metrics and the score.
      */
     public function getAIChatbotAIFavouredPages($idSite, string $period, string $date): DataTableInterface
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        return $this->buildFavouredPagesTable($idSite, $period, $date);
+        $table = $this->buildFavouredPagesTable($idSite, $period, $date);
+        (new FavouredPagesScorer(DiscrepancyScore::VARIANT_AI_FAVOURED))->addScores($table);
+
+        return $table;
     }
 
     /**
@@ -325,7 +333,10 @@ class API extends \Piwik\Plugin\API
 
         // filter_limit=-1 keeps every URL; segment is intentionally not forwarded (these reports
         // declare no segment support and the bot side is unsegmented, so honouring it on one side
-        // only would be misleading).
+        // only would be misleading). The empty $defaultRequest ([]) is essential: it stops the
+        // inner Actions request from inheriting the outer favoured-report's generic filters — in
+        // particular filter_excludelowpop=discrepancy_score / filter_sort_column, which name a
+        // column Actions doesn't have and would otherwise delete or mis-sort all the human rows.
         $actionsData = Request::processRequest('Actions.getPageUrls', [
             'idSite'       => $idSite,
             'period'       => $period,
@@ -333,7 +344,7 @@ class API extends \Piwik\Plugin\API
             'flat'         => 1,
             'filter_limit' => -1,
             'segment'      => false,
-        ]);
+        ], []);
 
         return (new FavouredPagesMerger())->merge($botData, $actionsData);
     }

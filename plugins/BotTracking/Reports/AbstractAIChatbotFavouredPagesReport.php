@@ -45,8 +45,13 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
         $this->categoryId        = 'General_AIAssistants';
         $this->subcategoryId     = 'BotTracking_AIChatbotsContentRequests';
         $this->dimension         = new PageUrl();
-        $this->metrics           = [new UniqueHumanPageviews(), new AIChatbotRequests()];
-        $this->processedMetrics  = [new DiscrepancyScore($this->getDiscrepancyScoreVariant())];
+        // discrepancy_score is materialised on the table by the API (see FavouredPagesScorer), so
+        // it is an ordinary column here rather than a recomputed processed metric.
+        $this->metrics           = [
+            new UniqueHumanPageviews(),
+            new AIChatbotRequests(),
+            new DiscrepancyScore($this->getDiscrepancyScoreVariant()),
+        ];
         // Both reports sort by the Discrepancy Score — that's the headline insight, and it already
         // encodes traffic weighting, so sorting by it surfaces the genuinely (human/AI)-favoured
         // pages rather than just the busiest ones.
