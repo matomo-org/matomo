@@ -25,6 +25,7 @@ use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Request;
@@ -48,10 +49,14 @@ class Controller extends ControllerAdmin
     /** @var OptOutManager */
     private $optOutManager;
 
-    public function __construct(Translator $translator, OptOutManager $optOutManager)
+    /** @var PasswordVerifier */
+    private $passwordVerify;
+
+    public function __construct(Translator $translator, OptOutManager $optOutManager, PasswordVerifier $passwordVerify)
     {
         $this->translator = $translator;
         $this->optOutManager = $optOutManager;
+        $this->passwordVerify = $passwordVerify;
 
         parent::__construct();
     }
@@ -162,8 +167,21 @@ class Controller extends ControllerAdmin
         try {
             $this->checkTokenInUrl();
 
-            // Update email settings
             $request = Request::fromPost();
+
+            // require password re-authentication before applying any changes
+            $login = Piwik::getCurrentUserLogin();
+            if (Piwik::doesUserRequirePasswordConfirmation($login)) {
+                $passwordConfirmation = $request->getStringParameter('passwordConfirmation', '');
+                if (
+                    $passwordConfirmation === ''
+                    || !$this->passwordVerify->isPasswordCorrect($login, $passwordConfirmation)
+                ) {
+                    throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
+                }
+            }
+
+            // Update email settings
             $mail = [];
             $mail['transport'] = $request->getBoolParameter('mailUseSmtp') ? 'smtp' : '';
             $mail['port'] = $request->getStringParameter('mailPort', '');

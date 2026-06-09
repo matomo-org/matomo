@@ -17,6 +17,8 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Plugins\CoreAdminHome\CoreAdminHome;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CoreAdminHome\OptOutManager;
+use Piwik\Piwik;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -86,7 +88,8 @@ class ControllerTest extends IntegrationTestCase
 
         $this->controller = new Controller(
             new Translator(new DevelopmentLoader(new JsonFileLoader())),
-            new OptOutManager()
+            new OptOutManager(),
+            new PasswordVerifier()
         );
     }
 
@@ -120,6 +123,42 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame('smtp-password-post', Config::getInstance()->mail['password']);
         $this->assertSame('mail-post@example.test', Config::getInstance()->General['noreply_email_address']);
         $this->assertSame('Acme <Team> & "post"', Config::getInstance()->General['noreply_email_name']);
+    }
+
+    public function testSetMailSettingsRejectsIncorrectPasswordConfirmation(): void
+    {
+        $originalHost = Config::getInstance()->mail['host'];
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $this->getMailSettingsRequest('reject.example.test');
+        $_REQUEST = $_POST;
+
+        $controller = $this->getControllerSkippingTokenCheck($passwordCorrect = false);
+
+        $response = $controller->setMailSettings();
+
+        $this->assertStringContainsString(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'), $response);
+        // nothing must have been persisted
+        $this->assertSame($originalHost, Config::getInstance()->mail['host']);
+    }
+
+    public function testSetMailSettingsRejectsMissingPasswordConfirmation(): void
+    {
+        $originalHost = Config::getInstance()->mail['host'];
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $request = $this->getMailSettingsRequest('reject.example.test');
+        unset($request['passwordConfirmation']);
+        $_POST = $request;
+        $_REQUEST = $_POST;
+
+        $controller = $this->getControllerSkippingTokenCheck();
+
+        $response = $controller->setMailSettings();
+
+        $this->assertStringContainsString(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'), $response);
+        // nothing must have been persisted
+        $this->assertSame($originalHost, Config::getInstance()->mail['host']);
     }
 
     public function testWhatIsNewDoesNotPrefixBundledPluginsAndPrefixesThirdPartyPlugins(): void
@@ -345,7 +384,7 @@ class ControllerTest extends IntegrationTestCase
         return $method->invoke($this->controller, $changes);
     }
 
-    private function getControllerSkippingTokenCheck(): Controller
+    private function getControllerSkippingTokenCheck(bool $passwordCorrect = true): Controller
     {
         $controller = $this->getMockBuilder(Controller::class)
             ->disableOriginalConstructor()
@@ -354,6 +393,13 @@ class ControllerTest extends IntegrationTestCase
 
         $controller->expects($this->once())
             ->method('checkTokenInUrl');
+
+        $passwordVerify = $this->createMock(PasswordVerifier::class);
+        $passwordVerify->method('isPasswordCorrect')->willReturn($passwordCorrect);
+
+        $property = new \ReflectionProperty(Controller::class, 'passwordVerify');
+        $property->setAccessible(true);
+        $property->setValue($controller, $passwordVerify);
 
         return $controller;
     }
@@ -372,6 +418,7 @@ class ControllerTest extends IntegrationTestCase
             'mailEncryption' => 'none',
             'mailFromAddress' => 'mail-' . $hostPrefix . '@example.test',
             'mailFromName' => 'Acme <Team> & "' . $hostPrefix . '"',
+            'passwordConfirmation' => 'super-user-password',
         ];
     }
 }
