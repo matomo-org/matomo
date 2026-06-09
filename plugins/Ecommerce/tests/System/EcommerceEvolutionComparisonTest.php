@@ -62,6 +62,47 @@ class EcommerceEvolutionComparisonTest extends SystemTestCase
         // but it must still be numeric — the original bug formatted it into a currency string too.
         $this->assertIsNumeric($rows[1]->getColumn('revenue'), 'Comparison-series revenue must be numeric, not a formatted currency string');
     }
+
+    public function testEvolutionComparisonReturnsConversionRateAsRawQuotient()
+    {
+        $idSite      = self::$fixture->idSite;
+        $mainDate    = '2011-04-05,2011-04-05';
+        $compareDate = '2011-04-04,2011-04-04';
+
+        $result = Request::processRequest('Goals.get', [
+            'idSite'                     => $idSite,
+            'period'                     => 'day',
+            'date'                       => $mainDate,
+            'idGoal'                     => 'ecommerceOrder',
+            'columns'                    => 'conversion_rate',
+            'showAllGoalSpecificMetrics' => 1,
+            'format_metrics'             => 0,
+            'compareDates'               => [$compareDate],
+            'comparePeriods'             => ['day'],
+            'compareSegments'            => [''],
+            'compare'                    => 1,
+        ]);
+
+        $tables = $result->getDataTables();
+        $rows = reset($tables)->getFirstRow()->getComparisons()->getRows();
+
+        $mainConversionRate = $rows[0]->getColumn('conversion_rate');
+        $this->assertIsNumeric(
+            $mainConversionRate,
+            'Main-series conversion_rate must be a raw numeric quotient (e.g. 0.0984), not a formatted "x%" string — '
+            . 'the evolution chart\'s Chart.php multiplies the raw quotient by 100 itself, so a pre-formatted string '
+            . 'would render as 984%. Actual value: ' . var_export($mainConversionRate, true)
+        );
+        $this->assertGreaterThan(0, $mainConversionRate, 'Fixture tracked conversions on 2011-04-05');
+        $this->assertLessThan(1, $mainConversionRate, 'A conversion-rate quotient is always in [0, 1]');
+
+        $comparisonConversionRate = $rows[1]->getColumn('conversion_rate');
+        $this->assertIsNumeric(
+            $comparisonConversionRate,
+            'Comparison-series conversion_rate must also be numeric, not a "0%" / "x%" string. Actual: '
+            . var_export($comparisonConversionRate, true)
+        );
+    }
 }
 
 EcommerceEvolutionComparisonTest::$fixture = new TwoSitesEcommerceOrderWithItems();
