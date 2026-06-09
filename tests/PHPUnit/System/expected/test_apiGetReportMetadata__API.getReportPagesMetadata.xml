@@ -110,6 +110,34 @@
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
+			<row>
+				<name>Human-Favoured Pages</name>
+				<module>BotTracking</module>
+				<action>getAIChatbotHumanFavouredPages</action>
+				<order>140</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIChatbotHumanFavouredPages</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIChatbotHumanFavouredPages</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>AI-Favoured Pages</name>
+				<module>BotTracking</module>
+				<action>getAIChatbotAIFavouredPages</action>
+				<order>150</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIChatbotAIFavouredPages</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIChatbotAIFavouredPages</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
 		</widgets>
 	</row>
 	<row>
