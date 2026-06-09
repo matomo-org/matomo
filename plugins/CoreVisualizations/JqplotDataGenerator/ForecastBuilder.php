@@ -159,6 +159,12 @@ class ForecastBuilder
      * @param array<string, array<string, float>> $allSeriesMonthlySamples Per-series map of
      *        YYYY-MM → final monthly value, used by MONOTONICITY_UP year forecasts to project
      *        remaining months from same-month-of-year analogs.
+     * @param string|null $earliestDataDate Earliest 'Y-m-d' the site/segment can hold data
+     *        (site creation date, raised to an auto-archived segment's re-archive start). Analog
+     *        samples dated before it are dropped from the day-period prior so a wide displayed
+     *        range cannot resurrect pre-creation history the sub-period fetch already floors away
+     *        — without it the day forecast flips on/off with the "rows to display" width. Null
+     *        disables the floor (no resolvable creation date).
      * @return array<int, array<int, float|null>>
      */
     public function build(
@@ -167,7 +173,8 @@ class ForecastBuilder
         array $dataStates,
         array $seriesUnits,
         array $allSeriesDailySamples = [],
-        array $allSeriesMonthlySamples = []
+        array $allSeriesMonthlySamples = [],
+        ?string $earliestDataDate = null
     ): array {
         $allSeriesData = $seriesState->getAllSeriesData();
         $allSeriesDataAvailability = $seriesState->getAllSeriesDataAvailability();
@@ -313,7 +320,8 @@ class ForecastBuilder
                     $dataTable,
                     $seriesDataAvailability,
                     $monotonicity,
-                    $runningDailySamples
+                    $runningDailySamples,
+                    $earliestDataDate
                 );
 
                 $tickWindow = new ForecastSampleWindow($runningDailySamples, $runningMonthlySamples);
@@ -1332,6 +1340,13 @@ class ForecastBuilder
      *        target, the prior is built from same-DoW analogs walked back through this map
      *        instead of from the displayed range alone — short displays (4-7 day charts)
      *        otherwise carry at most one same-DoW history tick.
+     * @param string|null $earliestDataDate Earliest 'Y-m-d' the site/segment can hold data.
+     *        Same-period analog samples dated before it are dropped so the day prior does not
+     *        depend on how far back the displayed range happens to reach: the sub-period fetch
+     *        already floors its own window here, but the displayed-range map and the legacy
+     *        dataTableList walk are not fetched through that floor, so a wide "rows to display"
+     *        would otherwise pull in pre-creation history and flip the forecast on. Null skips
+     *        the floor.
      * @return array<int, float>
      */
     private function getHistoricalSamplesForSeries(
@@ -1342,13 +1357,21 @@ class ForecastBuilder
         DataTable $currentDataTable,
         array $seriesDataAvailability = [],
         string $monotonicity = ForecastMetricClassifier::MONOTONICITY_UP,
-        array $dailySamples = []
+        array $dailySamples = [],
+        ?string $earliestDataDate = null
     ): array {
         $allSamples = [];
         $alignedSamples = [];
         $periodLabel = $this->getPeriodLabel($currentDataTable);
 
         if ('day' === $periodLabel && [] !== $dailySamples) {
+            if (null !== $earliestDataDate) {
+                foreach (array_keys($dailySamples) as $sampleDate) {
+                    if (strcmp((string) $sampleDate, $earliestDataDate) < 0) {
+                        unset($dailySamples[$sampleDate]);
+                    }
+                }
+            }
             $todayAnchor = $this->getPeriod($currentDataTable)->getDateStart()->toString('Y-m-d');
             $samples = $this->recentSameDoWValues(
                 $dailySamples,
@@ -1380,6 +1403,18 @@ class ForecastBuilder
             $dataTable = $dataTableList[$tickIndex] ?? null;
 
             if (empty($dataTable)) {
+                continue;
+            }
+
+            // Floor the walk at the earliest date the site/segment can hold data. The displayed
+            // range is not fetched through the sub-period fetcher's creation-date clamp, so
+            // without this a wide "rows to display" pulls pre-creation ticks into the prior and
+            // makes the forecast depend on the displayed width. Compared on the period start so a
+            // period straddling the creation date is kept.
+            if (
+                null !== $earliestDataDate
+                && strcmp($this->getPeriod($dataTable)->getDateStart()->toString('Y-m-d'), $earliestDataDate) < 0
+            ) {
                 continue;
             }
 

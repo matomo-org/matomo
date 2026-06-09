@@ -553,6 +553,41 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[75.0]], $forecastData);
     }
 
+    public function testBuildDayTargetDropsSameDoWSamplesBeforeEarliestDataDate(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Sunday 2026-06-07 forecast on a site created 2026-06-02. Every same-DoW Sunday in the
+        // supplied window (05-31, 05-24, 05-17, 05-10) predates creation, so all four are dropped
+        // by the earliest-data floor and the day prior has no samples left -> suppressed. Without
+        // the floor these pre-creation Sundays would produce a prior, which is exactly the leak
+        // that made the forecast flip on once the displayed "rows to display" reached back far
+        // enough to include them.
+        $dailySamples = [
+            '2026-05-10' => 200.0,
+            '2026-05-17' => 200.0,
+            '2026-05-24' => 200.0,
+            '2026-05-31' => 200.0,
+        ];
+
+        $arguments = [
+            ['Visits' => [5.0]],
+            [$this->createDataTableForDay('2026-06-07', $site, '2026-06-07 12:00:00')],
+            [ArchiveState::INCOMPLETE],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples],
+        ];
+
+        // Without the floor the pre-creation Sundays carry the prior (flat 200).
+        self::assertSame([[200.0]], $this->buildForecast(...$arguments));
+
+        // With the floor they are all dropped, leaving no same-DoW history -> no forecast.
+        self::assertSame([[null]], $this->buildForecast(...array_merge($arguments, [[], '2026-06-02'])));
+    }
+
     public function testBuildDayTargetWithDailySamplesStripsLeadingZeroForMonotonicUp(): void
     {
         $site = $this->createSiteMock();
@@ -2154,7 +2189,8 @@ class ForecastBuilderTest extends TestCase
         array $allSeriesMonotonicity = [],
         array $allSeriesForecastPrecision = [],
         array $allSeriesDailySamples = [],
-        array $allSeriesMonthlySamples = []
+        array $allSeriesMonthlySamples = [],
+        ?string $earliestDataDate = null
     ): array {
         $seriesState = new ForecastSeriesState(
             $allSeriesData,
@@ -2169,7 +2205,8 @@ class ForecastBuilderTest extends TestCase
             $dataStates,
             $seriesUnits,
             $allSeriesDailySamples,
-            $allSeriesMonthlySamples
+            $allSeriesMonthlySamples,
+            $earliestDataDate
         );
     }
 
