@@ -33,8 +33,9 @@ use Piwik\Widget\WidgetsList;
  * AI Chatbot Requests metric pair, and a Discrepancy Score processed metric whose variant
  * (human-favoured vs ai-favoured) is provided by the concrete subclass. The reports are
  * derived from the existing Actions/BotTracking blobs at API time (see API::buildFavouredPagesTable),
- * so no archive record is involved — but every report-level UI surface (Custom Alerts,
- * Scheduled Reports, Row Evolution, glossary) treats them as ordinary reports.
+ * so no archive record is involved — report-level surfaces (Custom Alerts, Scheduled Reports,
+ * glossary) treat them as ordinary reports. Row Evolution is deliberately disabled (see
+ * configureView) because it would re-run the live merge for every data point.
  */
 abstract class AbstractAIChatbotFavouredPagesReport extends Report
 {
@@ -130,6 +131,11 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
         $view->config->show_bar_chart = false;
         $view->config->show_pie_chart = false;
         $view->config->show_tag_cloud = false;
+
+        // Disable Row Evolution for now: each evolution data point re-runs the full live merge
+        // (Actions page URLs + bot content pages) for its period, which is too costly to offer
+        // per row until the underlying data is archived.
+        $view->config->disable_row_evolution = true;
 
         // Render URL labels as clickable links. Labels are Matomo-normalized URLs without scheme
         // (e.g. example.com/article/2); prepend https:// to form a valid link target.
