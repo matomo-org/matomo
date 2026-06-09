@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Ecommerce\tests\System;
 
 use Piwik\API\Request;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Tests\Fixtures\TwoSitesEcommerceOrderWithItems;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -101,6 +102,24 @@ class EcommerceEvolutionComparisonTest extends SystemTestCase
             $comparisonConversionRate,
             'Comparison-series conversion_rate must also be numeric, not a "0%" / "x%" string. Actual: '
             . var_export($comparisonConversionRate, true)
+        );
+    }
+
+    public function testGoalsGetReportRegistersConversionRateAsProcessedMetric()
+    {
+        // The Ecommerce Overview sparklines call formatSparklineMetricValue, which only formats
+        // conversion_rate if it's registered as a ProcessedMetric instance on the Goals.get report.
+        // Pre-DEV-20289, the queued Goals formatter coincidentally pre-formatted the value so the
+        // sparkline displayed correctly. With format_metrics=0 honoured, the sparkline now depends
+        // on this registration being present — otherwise it renders the raw quotient (e.g. "0.1"
+        // instead of "9.84%").
+        $report = ReportsProvider::factory('Goals', 'get');
+        $processedMetrics = $report->getProcessedMetricsById();
+
+        $this->assertArrayHasKey(
+            'conversion_rate',
+            $processedMetrics,
+            'Goals.get must register conversion_rate as a ProcessedMetric instance so sparkline + compare formatting works'
         );
     }
 }
