@@ -394,6 +394,16 @@
                     </a>
                 </li>
                             <li style="font-size:15px;line-height:24px;">
+                    <a href="#BotTracking_getAIChatbotHumanFavouredPages" style="text-decoration:none; color: #0d0d0d;">
+                        Human-Favoured Pages
+                    </a>
+                </li>
+                            <li style="font-size:15px;line-height:24px;">
+                    <a href="#BotTracking_getAIChatbotAIFavouredPages" style="text-decoration:none; color: #0d0d0d;">
+                        AI-Favoured Pages
+                    </a>
+                </li>
+                            <li style="font-size:15px;line-height:24px;">
                     <a href="#AIAgents_get" style="text-decoration:none; color: #0d0d0d;">
                         AI Agent Visits
                     </a>
@@ -6098,6 +6108,258 @@
 </h2>
 
     There is no data for this report.
+
+<h2 id="BotTracking_getAIChatbotHumanFavouredPages" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
+    Human-Favoured Pages
+</h2>
+
+            <img alt=""
+                                    src="data:image/png;base64,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"
+                                height="200"
+                width="700"
+                margin="0 auto"/>
+    
+            <br/>
+        <br/>
+    
+            <table style="border-collapse:collapse; display:block; overflow-x:auto;">
+            <thead style="background-color: #f2f2f2;border:1px solid rgb(231,231,231);">
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                    &nbsp;Page URL&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Unique Human Pageviews&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;AI Chatbot Requests&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Discrepancy Score&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Actions per Visit&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Avg. Time on Website&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Bounce Rate&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Conversion Rate&nbsp;&nbsp;
+                </th>
+                        </thead>
+            <tbody>
+                                                    
+                                                                    <tr style=";border:1px solid rgb(231,231,231);border-top: 0px;">
+                                                                <td style="padding:17px 15px;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        example.org/index.htm                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                9
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                100
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;border:1px solid rgb(231,231,231);border-top: 0px;">
+                                                                <td style="padding:17px 15px;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        example.org/thankyou                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                8
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                95.4
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";border:1px solid rgb(231,231,231);border-top: 0px;">
+                                                                <td style="padding:17px 15px;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        example.org/products                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                1
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                30.1
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                    </tr>
+                        </tbody>
+        </table>
+        <p style="width: 100%; text-align:center;">
+      <a style="color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;; text-decoration:none; font-size: 9pt;" href="#reportTop">
+          Back to top &#8593;
+    </a></p>
+
+<h2 id="BotTracking_getAIChatbotAIFavouredPages" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
+    AI-Favoured Pages
+</h2>
+
+            <img alt=""
+                                    src="data:image/png;base64,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"
+                                height="200"
+                width="700"
+                margin="0 auto"/>
+    
+            <br/>
+        <br/>
+    
+            <table style="border-collapse:collapse; display:block; overflow-x:auto;">
+            <thead style="background-color: #f2f2f2;border:1px solid rgb(231,231,231);">
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                    &nbsp;Page URL&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Unique Human Pageviews&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;AI Chatbot Requests&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Discrepancy Score&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Actions per Visit&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Avg. Time on Website&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Bounce Rate&nbsp;&nbsp;
+                </th>
+                            <th style="font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; text-align:right;">
+                    &nbsp;Conversion Rate&nbsp;&nbsp;
+                </th>
+                        </thead>
+            <tbody>
+                                                    
+                                                                    <tr style=";border:1px solid rgb(231,231,231);border-top: 0px;">
+                                                                <td style="padding:17px 15px;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        example.org/index.htm                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                9
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style="background-color: #f2f2f2;border:1px solid rgb(231,231,231);border-top: 0px;">
+                                                                <td style="padding:17px 15px;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        example.org/products                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                1
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                    </tr>
+                            
+                                                                    <tr style=";border:1px solid rgb(231,231,231);border-top: 0px;">
+                                                                <td style="padding:17px 15px;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                                                                                        example.org/thankyou                                                                                                                        </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                8
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                00:00:00
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                            <td style="padding:17px 15px; text-align:right;;font-size: 15px;font-variant-numeric: tabular-nums;padding:17px 15px;color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;">
+                                                                                                0%
+                                                                                    </td>
+                                    </tr>
+                        </tbody>
+        </table>
+        <p style="width: 100%; text-align:center;">
+      <a style="color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif;; text-decoration:none; font-size: 9pt;" href="#reportTop">
+          Back to top &#8593;
+    </a></p>
 
 <h2 id="AIAgents_get" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
     AI Agent Visits
