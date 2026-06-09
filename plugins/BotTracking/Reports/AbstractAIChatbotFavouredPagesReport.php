@@ -59,12 +59,6 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
     abstract protected function getDiscrepancyScoreVariant(): string;
 
     /**
-     * Column the "exclude low population" filter gates on. Per the DEV-19843 design each report
-     * low-pops on its strong side (Human-Favoured → human pageviews, AI-Favoured → AI requests).
-     */
-    abstract protected function getExcludeLowPopulationColumn(): string;
-
-    /**
      * Gates this report behind the AIChatbotsContentReports feature flag.
      * When the flag is off the report is hidden from every UI surface and
      * direct API calls throw "Report not enabled".
@@ -131,17 +125,17 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
     }
 
     /**
-     * Excludes "low population" pages: those whose strong-side metric is below 3% of the top
-     * page's value (per the DEV-19843 technical notes). The toggle defaults to ON; users can pass
-     * `enable_filter_excludelowpop=0` to see every row.
+     * Excludes pages that aren't meaningfully favoured by dropping rows whose Discrepancy Score is
+     * below 1. Because the score is `lean × volume`, this removes balanced and opposite-leaning
+     * pages (lean = 0 → score 0) as well as the near-zero-volume tail, so each report shows only
+     * pages leaning its own way. The toggle defaults to ON; `enable_filter_excludelowpop=0` shows
+     * every row.
      *
-     * Implemented as a custom priority filter rather than the core ExcludeLowPopulation filter:
-     * the threshold is relative to the table's own maximum (the "top page"), which the core
-     * filter's percentage mode can't express (it uses a percentage of the column sum), and a
-     * naive 0 minimum there would trigger its 2%-of-sum fallback and silently drop every row.
-     * Running as a priority filter means the removal happens before sort/limit, so truncation and
-     * the row count reflect the filtered set. The closure runs per table, so it is correct for
-     * `DataTable\Map` (range / multi-period) results too.
+     * Wired through the standard ExcludeLowPopulation generic filter targeting the score column.
+     * The framework computes processed metrics before generic filters when the filter targets a
+     * processed-metric column (the same path that lets us sort by the score), so the score exists
+     * by the time the filter runs. The minimum value must stay > 0 — passing 0 makes
+     * ExcludeLowPopulation fall back to its 2%-of-sum heuristic and empty the table.
      */
     private function configureExcludeLowPopulation(ViewDataTable $view): void
     {
@@ -158,42 +152,8 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
             return;
         }
 
-        $column = $this->getExcludeLowPopulationColumn();
-
-        $view->config->filters[] = [
-            function (DataTable $table) use ($column) {
-                $max = 0;
-                foreach ($table->getRows() as $row) {
-                    if ($row->isSummaryRow()) {
-                        continue;
-                    }
-                    $max = max($max, (int) $row->getColumn($column));
-                }
-
-                // Nothing meaningful to filter (empty table or all-zero strong side); leaving the
-                // threshold at 0 here also avoids deleting every row.
-                if ($max <= 0) {
-                    return;
-                }
-
-                $threshold = 0.03 * $max;
-
-                $keysToDelete = [];
-                foreach ($table->getRows() as $key => $row) {
-                    if ($row->isSummaryRow()) {
-                        continue;
-                    }
-                    if ((float) $row->getColumn($column) < $threshold) {
-                        $keysToDelete[] = $key;
-                    }
-                }
-                foreach ($keysToDelete as $key) {
-                    $table->deleteRow($key);
-                }
-            },
-            [],
-            $isPriority = true,
-        ];
+        $view->requestConfig->filter_excludelowpop       = Metrics::COLUMN_DISCREPANCY_SCORE;
+        $view->requestConfig->filter_excludelowpop_value = '1';
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void

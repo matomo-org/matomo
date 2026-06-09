@@ -4,25 +4,25 @@
 		<label>example.com/article-1</label>
 		<unique_human_pageviews>2</unique_human_pageviews>
 		<ai_chatbot_requests>0</ai_chatbot_requests>
-		<discrepancy_score>0.46</discrepancy_score>
+		<discrepancy_score>100</discrepancy_score>
 	</row>
 	<row>
 		<label>example.com/article-2</label>
 		<unique_human_pageviews>2</unique_human_pageviews>
 		<ai_chatbot_requests>0</ai_chatbot_requests>
-		<discrepancy_score>0.46</discrepancy_score>
+		<discrepancy_score>100</discrepancy_score>
 	</row>
 	<row>
 		<label>example.com/article-3</label>
 		<unique_human_pageviews>2</unique_human_pageviews>
 		<ai_chatbot_requests>0</ai_chatbot_requests>
-		<discrepancy_score>0.46</discrepancy_score>
+		<discrepancy_score>100</discrepancy_score>
 	</row>
 	<row>
 		<label>example.com/article-4</label>
 		<unique_human_pageviews>2</unique_human_pageviews>
 		<ai_chatbot_requests>0</ai_chatbot_requests>
-		<discrepancy_score>0.46</discrepancy_score>
+		<discrepancy_score>100</discrepancy_score>
 	</row>
 	<row>
 		<label>example.com/article/1/page/1</label>
@@ -40,13 +40,13 @@
 		<label>example.com/article/2</label>
 		<unique_human_pageviews>2</unique_human_pageviews>
 		<ai_chatbot_requests>4</ai_chatbot_requests>
-		<discrepancy_score>0.11</discrepancy_score>
+		<discrepancy_score>0</discrepancy_score>
 	</row>
 	<row>
 		<label>example.com/article/3</label>
 		<unique_human_pageviews>1</unique_human_pageviews>
 		<ai_chatbot_requests>4</ai_chatbot_requests>
-		<discrepancy_score>0.02</discrepancy_score>
+		<discrepancy_score>0</discrepancy_score>
 	</row>
 	<row>
 		<label>example.com/article/4/page/1</label>

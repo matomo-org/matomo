@@ -13,7 +13,6 @@ namespace Piwik\Plugins\BotTracking\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugins\BotTracking\Columns\Metrics\DiscrepancyScore;
-use Piwik\Plugins\BotTracking\Metrics;
 
 class GetAIChatbotAIFavouredPages extends AbstractAIChatbotFavouredPagesReport
 {
@@ -32,10 +31,5 @@ class GetAIChatbotAIFavouredPages extends AbstractAIChatbotFavouredPagesReport
     protected function getDiscrepancyScoreVariant(): string
     {
         return DiscrepancyScore::VARIANT_AI_FAVOURED;
-    }
-
-    protected function getExcludeLowPopulationColumn(): string
-    {
-        return Metrics::COLUMN_AI_CHATBOT_REQUESTS;
     }
 }
