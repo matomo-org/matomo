@@ -81,16 +81,14 @@ class EcommerceEvolutionComparisonTest extends SystemTestCase
             $mainRevenue,
             'Main-series revenue must reflect the day\'s tracked orders, not 0'
         );
-    }
 
-    public static function getOutputPrefix()
-    {
-        return 'ecommerce_evolution_comparison';
-    }
-
-    public static function getPathToTestDirectory()
-    {
-        return dirname(__FILE__);
+        // The comparison row may legitimately be 0 (the fixture has no orders on 2011-04-04),
+        // but it must still be numeric — the original bug formatted it into a currency string too.
+        $comparisonRow = $rows[1];
+        $this->assertIsNumeric(
+            $comparisonRow->getColumn('revenue'),
+            'Comparison-series revenue must also be numeric, not a formatted currency string'
+        );
     }
 }
 

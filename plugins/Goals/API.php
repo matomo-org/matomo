@@ -737,8 +737,8 @@ class API extends \Piwik\Plugin\API
         // formatting via format_metrics=0 (e.g. the evolution chart, which then plots the raw numbers itself), we must not
         // format the comparison rows either — formatting them turns revenue into a currency string and the chart cannot plot
         // it as a number.
-        $formatMetricsRequest = Common::getRequestVar('format_metrics', 'bc');
-        if (!empty($compare) && $formatMetricsRequest !== '0' && $formatMetricsRequest !== 0) {
+        $formatMetricsRequest = Common::getRequestVar('format_metrics', 'bc', 'string');
+        if (!empty($compare) && $formatMetricsRequest !== '0') {
             $getMetricsReport = ReportsProvider::factory('Goals', 'getMetrics');
             $table->queueFilter(function (DataTable $t) use ($getMetricsReport) {
                 $t->setMetadata(Metrics\Formatter::PROCESSED_METRICS_FORMATTED_FLAG, false);
