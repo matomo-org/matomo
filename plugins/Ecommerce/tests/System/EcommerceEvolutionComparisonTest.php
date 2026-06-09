@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\Ecommerce\tests\System;
 
 use Piwik\API\Request;
-use Piwik\DataTable;
 use Piwik\Tests\Fixtures\TwoSitesEcommerceOrderWithItems;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -52,43 +51,16 @@ class EcommerceEvolutionComparisonTest extends SystemTestCase
             'compare'                    => 1,
         ]);
 
-        $this->assertInstanceOf(DataTable\Map::class, $result, 'Expected a Map of period DataTables');
+        $tables = $result->getDataTables();
+        $rows = reset($tables)->getFirstRow()->getComparisons()->getRows();
 
-        $childTables = $result->getDataTables();
-        $this->assertNotEmpty($childTables, 'Expected at least one child DataTable in the period Map');
-
-        $firstTable = reset($childTables);
-        $this->assertInstanceOf(DataTable::class, $firstTable);
-
-        $firstRow = $firstTable->getFirstRow();
-        $this->assertNotFalse($firstRow, 'Expected a row for the selected day');
-
-        $comparisons = $firstRow->getComparisons();
-        $this->assertInstanceOf(DataTable::class, $comparisons, 'Expected comparison subtable on the main row');
-
-        $rows = $comparisons->getRows();
-        $this->assertGreaterThanOrEqual(2, count($rows), 'Expected at least main + one comparison row');
-
-        $mainSeriesRow = $rows[0];
-        $mainRevenue   = $mainSeriesRow->getColumn('revenue');
-
-        $this->assertIsNumeric(
-            $mainRevenue,
-            'Main-series revenue must be numeric (not a formatted currency string) so the evolution chart can plot it'
-        );
-        $this->assertGreaterThan(
-            0,
-            $mainRevenue,
-            'Main-series revenue must reflect the day\'s tracked orders, not 0'
-        );
+        $mainRevenue = $rows[0]->getColumn('revenue');
+        $this->assertIsNumeric($mainRevenue, 'Main-series revenue must be numeric, not a formatted currency string');
+        $this->assertGreaterThan(0, $mainRevenue, 'Main-series revenue must reflect the day\'s tracked orders');
 
         // The comparison row may legitimately be 0 (the fixture has no orders on 2011-04-04),
         // but it must still be numeric — the original bug formatted it into a currency string too.
-        $comparisonRow = $rows[1];
-        $this->assertIsNumeric(
-            $comparisonRow->getColumn('revenue'),
-            'Comparison-series revenue must also be numeric, not a formatted currency string'
-        );
+        $this->assertIsNumeric($rows[1]->getColumn('revenue'), 'Comparison-series revenue must be numeric, not a formatted currency string');
     }
 }
 
