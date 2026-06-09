@@ -289,39 +289,36 @@ function getSelected(optionStates) {
 SeriesPickervue_type_script_lang_ts.render = render
 
 /* harmony default export */ var SeriesPicker = (SeriesPickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=2757a028
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=21624034
 
-const SingleMetricViewvue_type_template_id_2757a028_hoisted_1 = {
+const SingleMetricViewvue_type_template_id_21624034_hoisted_1 = {
   class: "metric-sparkline"
 };
-const SingleMetricViewvue_type_template_id_2757a028_hoisted_2 = {
+const SingleMetricViewvue_type_template_id_21624034_hoisted_2 = {
   class: "metric-value"
 };
-const SingleMetricViewvue_type_template_id_2757a028_hoisted_3 = ["title"];
-const SingleMetricViewvue_type_template_id_2757a028_hoisted_4 = ["title"];
-function SingleMetricViewvue_type_template_id_2757a028_render(_ctx, _cache, $props, $setup, $data, $options) {
+const SingleMetricViewvue_type_template_id_21624034_hoisted_3 = ["title"];
+const SingleMetricViewvue_type_template_id_21624034_hoisted_4 = ["title"];
+function SingleMetricViewvue_type_template_id_21624034_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["singleMetricView", {
       'loading': _ctx.isLoading
     }]),
     ref: "root"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_2757a028_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_21624034_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
     params: _ctx.sparklineParams
-  }, null, 8, ["params"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_2757a028_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, null, 8, ["params"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_21624034_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     title: _ctx.metricDocumentation
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricValue), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])((_ctx.metricTranslation || '').toLowerCase()), 1)], 8, SingleMetricViewvue_type_template_id_2757a028_hoisted_3), _ctx.pastValue !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricValue), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])((_ctx.metricTranslation || '').toLowerCase()), 1)], 8, SingleMetricViewvue_type_template_id_21624034_hoisted_3), _ctx.pastValue !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     class: "metricEvolution",
     title: _ctx.translate('General_EvolutionSummaryGeneric', _ctx.metricValue, _ctx.currentPeriod, _ctx.pastValue, _ctx.pastPeriod, _ctx.metricChangePercent)
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
-      'positive-evolution': _ctx.metricValueUnformatted > _ctx.pastValueUnformatted,
-      'negative-evolution': _ctx.metricValueUnformatted < _ctx.pastValueUnformatted
-    })
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricChangePercent), 3)], 8, SingleMetricViewvue_type_template_id_2757a028_hoisted_4)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 2);
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.evolutionClass)
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricChangePercent), 3)], 8, SingleMetricViewvue_type_template_id_21624034_hoisted_4)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 2);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=2757a028
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=21624034
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts
 
@@ -353,7 +350,11 @@ const {
       type: Object,
       required: true
     },
-    goalMetrics: Array
+    goalMetrics: Array,
+    lowerIsBetterMetrics: {
+      type: Array,
+      default: () => []
+    }
   },
   components: {
     Sparkline: external_CoreHome_["Sparkline"]
@@ -370,7 +371,9 @@ const {
       if (!((_responses$value = responses.value) !== null && _responses$value !== void 0 && _responses$value[1])) {
         return null;
       }
-      return responses.value[1][actualMetric.value];
+      // a metric that is missing for the current period is treated as 0, just like
+      // the past value below, so an evolution down to zero is still calculated
+      return responses.value[1][actualMetric.value] || 0;
     });
     const pastValueUnformatted = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
       var _responses$value2;
@@ -379,12 +382,23 @@ const {
       }
       return responses.value[2][actualMetric.value] || 0;
     });
+    const isLowerValueBetter = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.lowerIsBetterMetrics.indexOf(actualMetric.value) !== -1);
+    const evolutionClass = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      if (metricValueUnformatted.value === null || pastValueUnformatted.value === null || metricValueUnformatted.value === pastValueUnformatted.value) {
+        return [];
+      }
+      // arrow direction always reflects the actual value change, while the colour
+      // (positive/negative) reflects whether that change is good or bad for the metric
+      const increased = metricValueUnformatted.value > pastValueUnformatted.value;
+      const isPositive = isLowerValueBetter.value ? !increased : increased;
+      return [increased ? 'evolution-up' : 'evolution-down', isPositive ? 'positive-evolution' : 'negative-evolution'];
+    });
     const metricChangePercent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      if (!metricValueUnformatted.value) {
+      if (metricValueUnformatted.value === null || metricValueUnformatted.value === undefined || pastValueUnformatted.value === null || pastValueUnformatted.value === undefined) {
         return null;
       }
-      const currentValue = typeof metricValueUnformatted.value === 'string' ? parseInt(metricValueUnformatted.value, 10) : metricValueUnformatted.value;
-      const pastValue = typeof pastValueUnformatted.value === 'string' ? parseInt(pastValueUnformatted.value, 10) : pastValueUnformatted.value;
+      const currentValue = typeof metricValueUnformatted.value === 'string' ? parseFloat(metricValueUnformatted.value) : metricValueUnformatted.value;
+      const pastValue = typeof pastValueUnformatted.value === 'string' ? parseFloat(pastValueUnformatted.value) : pastValueUnformatted.value;
       const evolution = external_CoreHome_["Matomo"].helper.calculateEvolution(currentValue, pastValue);
       return `${(evolution * 100).toFixed(2)} %`;
     });
@@ -585,6 +599,7 @@ const {
       responses,
       metricValueUnformatted,
       pastValueUnformatted,
+      evolutionClass,
       metricChangePercent,
       pastValue,
       metricTranslation,
@@ -602,7 +617,7 @@ const {
 
 
 
-SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_2757a028_render
+SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_21624034_render
 
 /* harmony default export */ var SingleMetricView = (SingleMetricViewvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/index.ts
