@@ -64,6 +64,34 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
     abstract protected function getDiscrepancyScoreVariant(): string;
 
     /**
+     * The report's strong-side traffic column (human pageviews for Human-Favoured, AI requests for
+     * AI-Favoured).
+     */
+    private function getStrongSideColumn(): string
+    {
+        return $this->getDiscrepancyScoreVariant() === DiscrepancyScore::VARIANT_HUMAN_FAVOURED
+            ? Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS
+            : Metrics::COLUMN_AI_CHATBOT_REQUESTS;
+    }
+
+    /**
+     * Breaks ties on the Discrepancy Score by the report's strong-side traffic, so pages with the
+     * same score (notably the many score=0 rows when the low-population filter is off) are ordered
+     * by how much human / AI traffic they have instead of arbitrarily. If the user sorts by a
+     * different column, the score becomes the tie-breaker.
+     */
+    public function getSecondarySortColumnCallback()
+    {
+        $strongColumn = $this->getStrongSideColumn();
+
+        return function ($primaryColumn) use ($strongColumn) {
+            return $primaryColumn === Metrics::COLUMN_DISCREPANCY_SCORE
+                ? $strongColumn
+                : Metrics::COLUMN_DISCREPANCY_SCORE;
+        };
+    }
+
+    /**
      * Gates this report behind the AIChatbotsContentReports feature flag.
      * When the flag is off the report is hidden from every UI surface and
      * direct API calls throw "Report not enabled".
