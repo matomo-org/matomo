@@ -20,7 +20,7 @@ describe("UserSettings", function () {
 
     async function getAuthTokenDescriptions() {
         return page.evaluate(() => $('table.listAuthTokens tbody tr:has(.creationDate)').map(function () {
-            return $(this).find('td:nth-child(2)').text().trim();
+            return $(this).find('td:nth-child(2)').html().trim();
         }).get());
     }
 
@@ -92,6 +92,11 @@ describe("UserSettings", function () {
 
         const descriptions = await getAuthTokenDescriptions();
         expect(descriptions.some((d) => d.indexOf('test description') !== -1)).to.eq(true);
+
+        const matchingRow = descriptions.find((d) => d.indexOf('test description') !== -1);
+        expect(matchingRow).to.contain('&lt;img');
+        expect(matchingRow).to.not.match(/<img\b/i);
+        expect(matchingRow).to.not.match(/<script\b/i);
     });
 
     it('should not ask for password when trying to add a second token in quick succession', async function () {
