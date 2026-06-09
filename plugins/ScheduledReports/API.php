@@ -662,29 +662,6 @@ class API extends \Piwik\Plugin\API
                     $apiParameters = $action['parameters'];
                 }
 
-                $mustRestoreGET = false;
-
-                // all Websites dashboard should not be truncated in the report
-                if ($apiModule == 'MultiSites') {
-                    $mustRestoreGET = $_GET;
-                    $_GET['enhanced'] = true;
-
-                    if ($apiAction == 'getAll') {
-                        $_GET['filter_truncate'] = false;
-                        $_GET['filter_limit'] = -1; // show all websites in all websites report
-
-                        // when a view/admin user created a report, workaround the fact that "Super User"
-                        // is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access
-                        $userLogin = $report['login'];
-                        if (
-                            !empty($userLogin)
-                            && !Piwik::hasTheUserSuperUserAccess($userLogin)
-                        ) {
-                            $_GET['_restrictSitesToLogin'] = $userLogin;
-                        }
-                    }
-                }
-
                 $params = [
                     'idSite' => $idSite,
                     'period' => $period,
@@ -697,7 +674,31 @@ class API extends \Piwik\Plugin\API
                     'language' => $language,
                     'serialize' => 0,
                     'format' => 'original',
+                    // Always process report data with the default filters when generating a report,
+                    // regardless of the parameters present in the original request.
+                    'disable_queued_filters' => 0,
+                    'disable_generic_filters' => 0,
                 ];
+
+                // all Websites dashboard should not be truncated in the report
+                if ($apiModule == 'MultiSites') {
+                    $params['enhanced'] = true;
+
+                    if ($apiAction == 'getAll') {
+                        $params['filter_truncate'] = false;
+                        $params['filter_limit'] = -1; // show all websites in all websites report
+
+                        // when a view/admin user created a report, workaround the fact that "Super User"
+                        // is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access
+                        $userLogin = $report['login'];
+                        if (
+                            !empty($userLogin)
+                            && !Piwik::hasTheUserSuperUserAccess($userLogin)
+                        ) {
+                            $params['_restrictSitesToLogin'] = $userLogin;
+                        }
+                    }
+                }
 
                 if ($segment != null) {
                     $params['segment'] = urlencode($segment['definition']);
@@ -724,10 +725,6 @@ class API extends \Piwik\Plugin\API
 
                 // TODO add static method getPrettyDate($period, $date) in Period
                 $prettyDate = $processedReport['prettyDate'];
-
-                if ($mustRestoreGET) {
-                    $_GET = $mustRestoreGET;
-                }
 
                 $processedReports[] = $processedReport;
             }
