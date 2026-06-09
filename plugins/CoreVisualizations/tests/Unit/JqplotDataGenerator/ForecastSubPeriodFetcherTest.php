@@ -36,7 +36,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $fetcher = $this->createFetcher();
 
         self::assertSame(
-            ['daily' => [], 'monthly' => []],
+            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
             $fetcher->collect([], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '')
         );
     }
@@ -46,7 +46,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $fetcher = $this->createFetcher();
 
         self::assertSame(
-            ['daily' => [], 'monthly' => []],
+            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
             $fetcher->collect([$this->createDayDataTable('2026-04-10')], $this->createSeriesState([], [], []), 'VisitsSummary.get', 1, '')
         );
     }
@@ -57,11 +57,11 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $dataTables = [$this->createDayDataTable('2026-04-10')];
 
         self::assertSame(
-            ['daily' => [], 'monthly' => []],
+            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
             $fetcher->collect($dataTables, $this->createSeriesState(['Visits' => 'nb_visits'], [], []), '', 1, '')
         );
         self::assertSame(
-            ['daily' => [], 'monthly' => []],
+            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
             $fetcher->collect($dataTables, $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'NoDotMethod', 1, '')
         );
     }
@@ -72,7 +72,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $dataTables = [$this->createDayDataTable('2026-04-10')];
 
         self::assertSame(
-            ['daily' => [], 'monthly' => []],
+            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
             $fetcher->collect($dataTables, $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 0, '')
         );
     }
@@ -86,7 +86,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $rangeTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('range', '2026-04-01,2026-04-10'));
 
         self::assertSame(
-            ['daily' => [], 'monthly' => []],
+            ['daily' => [], 'monthly' => [], 'earliestDataDate' => null],
             $fetcher->collect([$rangeTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '')
         );
     }
@@ -154,6 +154,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
                     ],
                 ],
                 'monthly' => [],
+                'earliestDataDate' => null,
             ],
             $result
         );
@@ -375,6 +376,167 @@ class ForecastSubPeriodFetcherTest extends TestCase
         self::assertSame('2018-01-01,2026-12-30', $captured[1][1]);
     }
 
+    public function testCollectClampsGapDayFetchStartToEarliestDataDate(): void
+    {
+        // Day target, short display: the gap fetch would naturally reach analogWindowStart
+        // (2026-01-29). A site/segment that only has data from 2026-02-15 makes everything
+        // before that a guaranteed-empty archive lookup, so the gap request must start at the
+        // clamped floor instead -- the displayed range still supplies its own days unchanged.
+        $captured = [];
+        $fetcher = $this->createFetcher(
+            function (string $apiMethod, array $params) use (&$captured) {
+                $captured[] = $params['date'];
+                return $this->createSampleResultMap(['2026-02-15' => ['nb_visits' => 5.0]]);
+            },
+            null,
+            static function (int $idSite, string $segment): ?string {
+                return '2026-02-15';
+            }
+        );
+
+        // 2026-04-05 .. 2026-04-10, last day INCOMPLETE. endDate = 2026-04-09;
+        // analogWindowStart = 2026-01-29; firstDisplayedDate = 2026-04-05; gapEndDate = 2026-04-04.
+        $dataTables = $this->buildDailyDisplayRange('2026-04-05', 6, [5]);
+
+        $result = $fetcher->collect(
+            $dataTables,
+            $this->createSeriesState(['Visits' => 'nb_visits'], [], ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP]),
+            'VisitsSummary.get',
+            42,
+            ''
+        );
+
+        self::assertSame(['2026-02-15,2026-04-04'], $captured);
+        self::assertArrayHasKey('2026-02-15', $result['daily']['Visits']);
+    }
+
+    public function testCollectSkipsGapDayFetchWhenEarliestDataDateIsAfterTheGap(): void
+    {
+        // The site/segment came into existence inside the displayed range (after the gap end),
+        // so the entire pre-display gap predates any possible data. No inner request fires; the
+        // displayed range alone feeds the analog walk. createFetcher's default stub fails if the
+        // inner request is issued.
+        $fetcher = $this->createFetcher(
+            null,
+            null,
+            static function (int $idSite, string $segment): ?string {
+                return '2026-04-05'; // gapEndDate is 2026-04-04, so the whole gap is excluded
+            }
+        );
+
+        $dataTables = $this->buildDailyDisplayRange('2026-04-05', 6, [5]);
+
+        $result = $fetcher->collect(
+            $dataTables,
+            $this->createSeriesState(['Visits' => 'nb_visits'], [], ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP]),
+            'VisitsSummary.get',
+            42,
+            ''
+        );
+
+        self::assertSame([], $result['monthly']);
+        // Only the complete displayed days survive (the INCOMPLETE 2026-04-10 target is absent).
+        self::assertSame(
+            ['2026-04-05', '2026-04-06', '2026-04-07', '2026-04-08', '2026-04-09'],
+            array_keys($result['daily']['Visits'])
+        );
+    }
+
+    public function testCollectClampsDailyAndMonthlyWindowsToEarliestDataDateForMonthPeriod(): void
+    {
+        // Month target on a young site/segment (data from 2026-03-10). The daily window would
+        // naturally start at 2026-02-28 and the monthly window two years back at 2024-01-01;
+        // both are raised to the data floor so neither inner request asks for pre-existence
+        // sub-periods.
+        $captured = [];
+        $fetcher = $this->createFetcher(
+            function (string $apiMethod, array $params) use (&$captured) {
+                $captured[] = [$params['period'], $params['date']];
+                return $this->createSampleResultMap([]);
+            },
+            null,
+            static function (int $idSite, string $segment): ?string {
+                return '2026-03-10';
+            }
+        );
+
+        $monthTable = new DataTable();
+        $monthTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('month', '2026-04-01'));
+
+        $fetcher->collect(
+            [$monthTable],
+            $this->createSeriesState(['Visits' => 'nb_visits'], [], ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP]),
+            'VisitsSummary.get',
+            1,
+            ''
+        );
+
+        self::assertSame(
+            [
+                ['day', '2026-03-10,2026-04-29'],
+                ['month', '2026-03-10,2026-04-29'],
+            ],
+            $captured
+        );
+    }
+
+    public function testCollectSkipsAllFetchesWhenEarliestDataDateIsAfterThePeriod(): void
+    {
+        // The site/segment did not exist until after the displayed period ends, so every
+        // fan-out window is empty. Both the daily and monthly inner requests are skipped;
+        // the default stub fails if either fires.
+        $fetcher = $this->createFetcher(
+            null,
+            null,
+            static function (int $idSite, string $segment): ?string {
+                return '2026-12-01'; // after the 2026-04-29 endDate
+            }
+        );
+
+        $monthTable = new DataTable();
+        $monthTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('month', '2026-04-01'));
+
+        $result = $fetcher->collect(
+            [$monthTable],
+            $this->createSeriesState(['Visits' => 'nb_visits'], [], ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP]),
+            'VisitsSummary.get',
+            1,
+            ''
+        );
+
+        self::assertSame(['daily' => [], 'monthly' => [], 'earliestDataDate' => '2026-12-01'], $result);
+    }
+
+    public function testCollectPassesIdSiteAndSegmentToEarliestDataDateResolver(): void
+    {
+        // The clamp floor is site- and segment-specific, so the resolver must receive both the
+        // idSite and the raw segment expression the displayed series was requested with.
+        $seen = [];
+        $fetcher = $this->createFetcher(
+            function () {
+                return $this->createSampleResultMap([]);
+            },
+            null,
+            static function (int $idSite, string $segment) use (&$seen): ?string {
+                $seen[] = [$idSite, $segment];
+                return null;
+            }
+        );
+
+        $monthTable = new DataTable();
+        $monthTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('month', '2026-04-01'));
+
+        $fetcher->collect(
+            [$monthTable],
+            $this->createSeriesState(['Visits' => 'nb_visits'], [], ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP]),
+            'VisitsSummary.get',
+            77,
+            'countryCode==de'
+        );
+
+        self::assertSame([[77, 'countryCode==de']], $seen);
+    }
+
     public function testCollectLogsAndReturnsEmptyWhenInnerRequestThrows(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
@@ -399,7 +561,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
             ''
         );
 
-        self::assertSame(['daily' => [], 'monthly' => []], $result);
+        self::assertSame(['daily' => [], 'monthly' => [], 'earliestDataDate' => null], $result);
     }
 
     public function testCollectReturnsEmptyWhenInnerRequestReturnsNonMapResult(): void
@@ -419,7 +581,7 @@ class ForecastSubPeriodFetcherTest extends TestCase
             ''
         );
 
-        self::assertSame(['daily' => [], 'monthly' => []], $result);
+        self::assertSame(['daily' => [], 'monthly' => [], 'earliestDataDate' => null], $result);
     }
 
     public function testExtractSamplesLooksUpRawColumnAndStoresUnderSeriesLabel(): void
@@ -732,13 +894,21 @@ class ForecastSubPeriodFetcherTest extends TestCase
         return new ForecastSeriesState([], [], $monotonicity, [], $columns, $rows);
     }
 
-    private function createFetcher(?callable $apiRequestProcessor = null, ?LoggerInterface $logger = null): ForecastSubPeriodFetcher
-    {
+    private function createFetcher(
+        ?callable $apiRequestProcessor = null,
+        ?LoggerInterface $logger = null,
+        ?callable $earliestDataDateResolver = null
+    ): ForecastSubPeriodFetcher {
         return new ForecastSubPeriodFetcher(
             $apiRequestProcessor ?? static function () {
                 self::fail('Inner API request should not have fired for this case.');
             },
-            $logger ?? $this->createMock(LoggerInterface::class)
+            $logger ?? $this->createMock(LoggerInterface::class),
+            // Default to no floor so window-sizing assertions exercise the unclamped windows
+            // and unit tests never touch the site/segment lookups the real resolver performs.
+            $earliestDataDateResolver ?? static function (): ?string {
+                return null;
+            }
         );
     }
 
