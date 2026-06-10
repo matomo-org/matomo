@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Piwik\Plugins\BotTracking\Reports;
 
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
@@ -20,9 +19,7 @@ use Piwik\Plugins\Actions\Columns\PageUrl;
 use Piwik\Plugins\BotTracking\Columns\Metrics\AIChatbotRequests;
 use Piwik\Plugins\BotTracking\Columns\Metrics\DiscrepancyScore;
 use Piwik\Plugins\BotTracking\Columns\Metrics\UniqueHumanPageviews;
-use Piwik\Plugins\BotTracking\FeatureFlags\AIChatbotsContentReports;
 use Piwik\Plugins\BotTracking\Metrics;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 
@@ -90,17 +87,6 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
                 ? $strongColumn
                 : Metrics::COLUMN_DISCREPANCY_SCORE;
         };
-    }
-
-    /**
-     * Gates this report behind the AIChatbotsContentReports feature flag.
-     * When the flag is off the report is hidden from every UI surface and
-     * direct API calls throw "Report not enabled".
-     */
-    public function isEnabled()
-    {
-        return StaticContainer::get(FeatureFlagManager::class)
-            ->isFeatureActive(AIChatbotsContentReports::class);
     }
 
     public function configureView(ViewDataTable $view): void
