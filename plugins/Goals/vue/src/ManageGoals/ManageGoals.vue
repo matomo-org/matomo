@@ -123,6 +123,12 @@
         </ContentBlock>
       </div>
 
+      <RecommendGoals
+        v-show="showGoalList"
+        :goals="goals"
+        :user-can-edit-goals="userCanEditGoals"
+      />
+
       <div class="ui-confirm" ref="confirm">
         <h2>{{ translate('Goals_DeleteGoalConfirm', `"${goalToDelete?.name}"`) }}</h2>
         <input role="yes" type="button" :value="translate('General_Yes')"/>
@@ -131,6 +137,12 @@
     </div>
 
     <div v-show="userCanEditGoals">
+      <RecommendGoals
+        v-show="onlyShowAddNewGoal"
+        :goals="goals"
+        :user-can-edit-goals="userCanEditGoals"
+      />
+
       <div class="addEditGoal" v-show="showEditGoal">
         <ContentBlock
           :content-title="goal.idgoal
@@ -421,6 +433,7 @@ import {
 } from 'CorePluginsAdmin';
 import Goal from '../Goal';
 import ManageGoalsStore from './ManageGoals.store';
+import RecommendGoals from '../RecommendGoals/RecommendGoals.vue';
 
 const notificationKey = 'Goals.ManageGoals.Notification';
 interface ManageGoalsState {
@@ -484,6 +497,7 @@ export default defineComponent({
     Field,
     Alert,
     VueEntryContainer,
+    RecommendGoals,
   },
   directives: {
     ContentTable,

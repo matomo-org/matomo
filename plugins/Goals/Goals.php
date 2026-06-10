@@ -506,6 +506,7 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_Filename';
         $translationKeys[] = 'Goals_ExternalWebsiteUrl';
         $translationKeys[] = 'Goals_VisitDuration';
+        $translationKeys[] = 'Goals_VisitDurationMatchAttr';
         $translationKeys[] = 'Goals_AtLeastMinutes';
         $translationKeys[] = 'Goals_VisitPageTitle';
         $translationKeys[] = 'Intl_NMinutes';
@@ -537,6 +538,21 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_GoalCreated';
         $translationKeys[] = 'Goals_GoalUpdated';
         $translationKeys[] = 'Goals_ViewGoalReport';
+        $translationKeys[] = 'Goals_RecommendedGoals';
+        $translationKeys[] = 'Goals_RecommendedGoalsIntro';
+        $translationKeys[] = 'Goals_RecommendUseAi';
+        $translationKeys[] = 'Goals_RecommendAiToggleHelp';
+        $translationKeys[] = 'Goals_RecommendGoals';
+        $translationKeys[] = 'Goals_RecommendWhy';
+        $translationKeys[] = 'Goals_RecommendCreate';
+        $translationKeys[] = 'Goals_RecommendCreateAll';
+        $translationKeys[] = 'Goals_RecommendDebugDetails';
+        $translationKeys[] = 'Goals_RecommendDismiss';
+        $translationKeys[] = 'Goals_RecommendNoneFound';
+        $translationKeys[] = 'Goals_RecommendError';
+        $translationKeys[] = 'Goals_RecommendManualTitle';
+        $translationKeys[] = 'Goals_RecommendManualIntro';
+        $translationKeys[] = 'Goals_RecommendManualHowTo';
     }
 
     public function filterSegments(SegmentsList &$list, array $idSites)

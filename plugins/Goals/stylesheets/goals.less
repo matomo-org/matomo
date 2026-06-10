@@ -66,3 +66,111 @@ ul.ulGoalTopElements img {
         width: 170px;
     }
 }
+
+.recommendGoals {
+    .recommendGoals-intro,
+    .recommendGoals-disclosure,
+    .recommendGoals-empty {
+        max-width: 760px;
+    }
+
+    .recommendGoals-controls,
+    .recommendGoals-actions {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 16px 0;
+    }
+
+    .recommendGoals-aiToggle {
+        align-items: flex-start;
+        display: flex;
+        gap: 10px;
+        max-width: 560px;
+    }
+
+    .recommendGoals-aiToggleTitle {
+        font-weight: 600;
+        line-height: 20px;
+    }
+
+    .recommendGoals-aiToggleHelp {
+        color: #666;
+        font-size: 13px;
+        line-height: 18px;
+        margin: 2px 0 0;
+    }
+
+    .recommendGoals-switch {
+        background: #b0bec5;
+        border: 0;
+        border-radius: 10px;
+        cursor: pointer;
+        flex: 0 0 auto;
+        height: 20px;
+        margin-top: 1px;
+        padding: 2px;
+        transition: background-color 120ms ease;
+        width: 38px;
+
+        span {
+            background: #fff;
+            border-radius: 50%;
+            display: block;
+            height: 16px;
+            transform: translateX(0);
+            transition: transform 120ms ease;
+            width: 16px;
+        }
+    }
+
+    .recommendGoals-switchEnabled {
+        background: @theme-color-brand;
+
+        span {
+            transform: translateX(18px);
+        }
+    }
+
+    .recommendGoals-actionCell {
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .recommendGoals-pattern {
+        display: inline-block;
+        margin-top: 2px;
+        overflow-wrap: anywhere;
+        white-space: normal;
+    }
+
+    .recommendGoals-note {
+        color: #666;
+        font-size: 12px;
+        line-height: 18px;
+        margin-top: 4px;
+    }
+
+    .recommendGoals-manual {
+        border-top: 1px solid #e0e0e0;
+        margin-top: 24px;
+        padding-top: 16px;
+    }
+
+    .recommendGoals-manualTitle {
+        font-size: 15px;
+        font-weight: 600;
+        margin: 0 0 4px;
+    }
+
+    .recommendGoals-debug {
+        margin-top: 16px;
+
+        pre {
+            max-height: 260px;
+            overflow: auto;
+            white-space: pre-wrap;
+        }
+    }
+}

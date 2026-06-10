@@ -26,6 +26,7 @@ use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalConversionRate;
 use Piwik\Plugins\Goals\Reports\GetMetrics;
+use Piwik\Plugins\Goals\Recommendations\GoalRecommendationService;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
@@ -160,6 +161,48 @@ class API extends \Piwik\Plugin\API
         }
 
         return $goals;
+    }
+
+    /**
+     * Returns recommended goals for a site, derived from its homepage and same-origin crawl.
+     *
+     * Rule-based suggestions are always produced. When `$useAi` is true (opt-in)
+     * and an AI provider is configured through the AIProviders plugin, AI is used
+     * for richer suggestions, falling back to the rule-based ones on any failure.
+     *
+     * @param int $idSite The numeric ID of the website to analyse.
+     * @param bool $useAi Whether to use AI (opt-in). Rule-based suggestions are used when false.
+     * @return array Recommendation result with `mode` ("ai" or "deterministic"), a `goals` list of
+     *               Matomo-compatible goal suggestions, a `manualGoals` list of
+     *               non-URL `{name, howTo, category}` ideas the user must create manually, an optional
+     *               `aiError`, and temporary debug metadata.
+     * @phpstan-return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, debug: array<string, mixed>}
+     * @throws Exception
+     */
+    public function getRecommendedGoals(int $idSite, bool $useAi = false): array
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        return $this->getRecommendationService()->getRecommendations($idSite, $useAi, $this->getGoals($idSite));
+    }
+
+    /**
+     * Dismisses currently displayed goal recommendations for a site.
+     *
+     * @param int $idSite The numeric ID of the website whose recommendations should be dismissed.
+     * @return array Success response for API clients.
+     * @phpstan-return array{success: true}
+     */
+    public function dismissRecommendedGoals(int $idSite): array
+    {
+        Piwik::checkUserHasWriteAccess($idSite);
+
+        return ['success' => true];
+    }
+
+    private function getRecommendationService(): GoalRecommendationService
+    {
+        return new GoalRecommendationService();
     }
 
     /**
