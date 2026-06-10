@@ -15,6 +15,7 @@ use Piwik\Auth;
 use Piwik\AuthResult;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\TwoFactorAuth\SystemSettings;
@@ -47,6 +48,11 @@ class TwoFactorAuthTest extends IntegrationTestCase
      */
     private $twoFa;
 
+    /**
+     * @var BruteForceDetection
+     */
+    private $bruteForceDetection;
+
     private $userWith2Fa = 'myloginWith';
     private $userWithout2Fa = 'myloginWithout';
     private $userPassword = '123abcDk3_l3';
@@ -74,11 +80,16 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->dao->createRecoveryCodesForLogin($this->otherUserWith2Fa);
         $this->twoFa->saveSecret($this->userWith2Fa, $this->user2faSecret);
         $this->twoFa->saveSecret($this->otherUserWith2Fa, $this->otherUser2faSecret);
+
+        $this->bruteForceDetection = StaticContainer::get(BruteForceDetection::class);
+        $this->bruteForceDetection->deleteAll();
+
         unset($_GET['authCode']);
     }
 
     public function tearDown(): void
     {
+        $this->bruteForceDetection->deleteAll();
         unset($_GET['authCode']);
     }
 
@@ -221,6 +232,60 @@ class TwoFactorAuthTest extends IntegrationTestCase
             'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test',
         ));
+    }
+
+    public function testOnCreateAppSpecificTokenAuthRecordsFailedAttemptWhenInvalidAuthCode()
+    {
+        $this->assertCount(0, $this->bruteForceDetection->getAll());
+
+        $_GET['authCode'] = '111222';
+        try {
+            Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+                'userLogin' => $this->userWith2Fa,
+                'passwordConfirmation' => $this->userPassword,
+                'description' => 'twofa test',
+            ));
+            $this->fail('Expected an exception to be thrown for the invalid auth code');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('TwoFactorAuth_InvalidAuthCode', $e->getMessage());
+        }
+
+        $attempts = $this->bruteForceDetection->getAll();
+        $this->assertCount(1, $attempts);
+        $this->assertSame($this->userWith2Fa, $attempts[0]['login']);
+    }
+
+    public function testOnCreateAppSpecificTokenAuthRecordsFailedAttemptWhenMissingAuthCode()
+    {
+        $this->assertCount(0, $this->bruteForceDetection->getAll());
+
+        try {
+            Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+                'userLogin' => $this->userWith2Fa,
+                'passwordConfirmation' => $this->userPassword,
+                'description' => 'twofa test',
+            ));
+            $this->fail('Expected an exception to be thrown for the missing auth code');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('TwoFactorAuth_MissingAuthCodeAPI', $e->getMessage());
+        }
+
+        $attempts = $this->bruteForceDetection->getAll();
+        $this->assertCount(1, $attempts);
+        $this->assertSame($this->userWith2Fa, $attempts[0]['login']);
+    }
+
+    public function testOnCreateAppSpecificTokenAuthDoesNotRecordFailedAttemptWhenAuthCodeIsValid()
+    {
+        $_GET['authCode'] = $this->generateValidAuthCode($this->user2faSecret);
+        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+            'userLogin' => $this->userWith2Fa,
+            'passwordConfirmation' => $this->userPassword,
+            'description' => 'twofa test',
+        ));
+
+        $this->assertEquals(32, strlen($token));
+        $this->assertCount(0, $this->bruteForceDetection->getAll());
     }
 
     public function testOnCreateAppSpecificTokenAuthReturnsCorrectTokenWhenProvidingCorrectAuthTokenOnAuthenticationUsingEmail()
