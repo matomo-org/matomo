@@ -662,14 +662,15 @@ const {
 BrandingSettingsvue_type_script_lang_ts.render = BrandingSettingsvue_type_template_id_68734f11_render
 
 /* harmony default export */ var BrandingSettings = (BrandingSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=3c9826aa
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=3c763ca6
 
-const SmtpSettingsvue_type_template_id_3c9826aa_hoisted_1 = {
+const SmtpSettingsvue_type_template_id_3c763ca6_hoisted_1 = {
   id: "smtpSettings"
 };
-function SmtpSettingsvue_type_template_id_3c9826aa_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SmtpSettingsvue_type_template_id_3c763ca6_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   const _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
+  const _component_PasswordConfirmation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PasswordConfirmation");
   const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
   const _directive_auto_clear_password = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("auto-clear-password");
   const _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
@@ -684,7 +685,7 @@ function SmtpSettingsvue_type_template_id_3c9826aa_render(_ctx, _cache, $props, 
       "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.enabled = $event),
       title: _ctx.translate('General_UseSMTPServerForEmail'),
       "inline-help": _ctx.translate('General_SelectYesIfYouWantToSendEmailsViaServer')
-    }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SmtpSettingsvue_type_template_id_3c9826aa_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SmtpSettingsvue_type_template_id_3c763ca6_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       uicontrol: "text",
       name: "mailHost",
       "model-value": _ctx.mailHost,
@@ -749,13 +750,17 @@ function SmtpSettingsvue_type_template_id_3c9826aa_render(_ctx, _cache, $props, 
       options: _ctx.mailEncryptions,
       "inline-help": _ctx.translate('General_EncryptedSmtpTransport')
     }, null, 8, ["modelValue", "title", "options", "inline-help"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.enabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-      onConfirm: _cache[10] || (_cache[10] = $event => _ctx.save()),
+      onConfirm: _cache[10] || (_cache[10] = $event => _ctx.showPasswordConfirmation = true),
       saving: _ctx.isLoading
-    }, null, 8, ["saving"])])), [[_directive_form]])]),
+    }, null, 8, ["saving"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
+      modelValue: _ctx.showPasswordConfirmation,
+      "onUpdate:modelValue": _cache[11] || (_cache[11] = $event => _ctx.showPasswordConfirmation = $event),
+      onConfirmed: _cache[12] || (_cache[12] = $event => _ctx.save($event))
+    }, null, 8, ["modelValue"])])), [[_directive_form]])]),
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=3c9826aa
+// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=3c763ca6
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=script&lang=ts
 
@@ -780,6 +785,7 @@ function SmtpSettingsvue_type_template_id_3c9826aa_render(_ctx, _cache, $props, 
     const mail = this.mail;
     return {
       isLoading: false,
+      showPasswordConfirmation: false,
       enabled: mail.transport === 'smtp',
       mailHost: mail.host,
       passwordChanged: false,
@@ -795,7 +801,8 @@ function SmtpSettingsvue_type_template_id_3c9826aa_render(_ctx, _cache, $props, 
   components: {
     ContentBlock: external_CoreHome_["ContentBlock"],
     Field: external_CorePluginsAdmin_["Field"],
-    SaveButton: external_CorePluginsAdmin_["SaveButton"]
+    SaveButton: external_CorePluginsAdmin_["SaveButton"],
+    PasswordConfirmation: external_CorePluginsAdmin_["PasswordConfirmation"]
   },
   directives: {
     Form: external_CorePluginsAdmin_["Form"],
@@ -821,7 +828,7 @@ function SmtpSettingsvue_type_template_id_3c9826aa_render(_ctx, _cache, $props, 
       this.mailPassword = newValue;
       this.passwordChanged = true;
     },
-    save() {
+    save(password) {
       this.isLoading = true;
       const mailSettings = {
         mailUseSmtp: this.enabled ? '1' : '0',
@@ -831,7 +838,8 @@ function SmtpSettingsvue_type_template_id_3c9826aa_render(_ctx, _cache, $props, 
         mailUsername: this.mailUsername,
         mailFromAddress: this.mailFromAddress,
         mailFromName: this.mailFromName,
-        mailEncryption: this.mailEncryption
+        mailEncryption: this.mailEncryption,
+        passwordConfirmation: password
       };
       if (this.passwordChanged) {
         mailSettings.mailPassword = this.mailPassword;
@@ -861,7 +869,7 @@ function SmtpSettingsvue_type_template_id_3c9826aa_render(_ctx, _cache, $props, 
 
 
 
-SmtpSettingsvue_type_script_lang_ts.render = SmtpSettingsvue_type_template_id_3c9826aa_render
+SmtpSettingsvue_type_script_lang_ts.render = SmtpSettingsvue_type_template_id_3c763ca6_render
 
 /* harmony default export */ var SmtpSettings = (SmtpSettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=template&id=259cef04
