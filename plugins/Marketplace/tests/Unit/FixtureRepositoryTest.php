@@ -215,6 +215,56 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertStringContainsString('plugins/Marketplace/tests/resources/images/img/categories/insights.png', $result);
     }
 
+    public function testInterceptSkipsUnknownHostsAndReturnsNull(): void
+    {
+        $this->writeManifest([
+            '/api/2.0/plugins' => 'plugins.json',
+        ]);
+        file_put_contents($this->tmpDir . '/plugins.json', '{}');
+
+        $result = $this->repository->intercept(
+            'http://notexisting49.plugins.piwk.org/api/2.0/plugins',
+            null,
+            null,
+            false
+        );
+
+        $this->assertNull($result);
+    }
+
+    public function testInterceptPassesThroughBinaryDownloadsWithoutFixture(): void
+    {
+        $this->writeManifest([]);
+
+        $result = $this->repository->intercept(
+            'http://plugins.piwik.org/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=4.16.2',
+            '/tmp/whatever.zip',
+            null,
+            false
+        );
+
+        $this->assertNull($result);
+    }
+
+    public function testInterceptStillServesDownloadFromManifestWhenMatched(): void
+    {
+        $this->writeManifest([
+            '/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=4.16.2' => 'fake.zip',
+        ]);
+        file_put_contents($this->tmpDir . '/fake.zip', 'ZIP-BYTES');
+
+        $destination = $this->tmpDir . '/out.zip';
+        $result = $this->repository->intercept(
+            'http://plugins.piwik.org/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=4.16.2',
+            $destination,
+            null,
+            false
+        );
+
+        $this->assertTrue($result);
+        $this->assertSame('ZIP-BYTES', file_get_contents($destination));
+    }
+
     public function testMissingFixtureFileThrowsClearError(): void
     {
         $this->writeManifest([

@@ -37,6 +37,15 @@ class FixtureRepository
         'num_websites',
     ];
 
+    private const MARKETPLACE_HOSTS = [
+        'plugins.matomo.org',
+        'plugins.piwik.org',
+        'themes.matomo.org',
+        'themes.piwik.org',
+    ];
+
+    private const DOWNLOAD_PATH_PATTERN = '@/api/2\.0/plugins/[^/]+/download/@';
+
     /**
      * @var string
      */
@@ -102,15 +111,30 @@ class FixtureRepository
     /**
      * Attempt to serve a request from recorded fixtures.
      *
-     * @return string|array|bool Same shape as Http::sendHttpRequestBy.
-     * @throws \Exception when no fixture matches (fail loud instead of leaking outbound).
+     * Returns null when the request is not subject to fixture interception (unknown
+     * host, or binary plugin-zip download without a manifest entry); callers should
+     * fall through to real HTTP in that case. Throws on miss for everything else so
+     * CI fails loudly instead of leaking outbound to a WAF-protected marketplace.
+     *
+     * @return string|array|bool|null Same shape as Http::sendHttpRequestBy, or null to skip.
+     * @throws \Exception when no fixture matches an API call we expected to mock.
      */
     public function intercept(string $url, ?string $destinationPath, ?array $postData, bool $getExtendedInfo)
     {
+        if (!$this->shouldIntercept($url)) {
+            return null;
+        }
+
         $key = $this->buildCanonicalKey($url, $postData);
         $entry = $this->lookup($key);
 
         if ($entry === null) {
+            // Binary plugin-zip downloads aren't bundled as fixtures by default — let
+            // the caller try real HTTP. (LastForcedInstall etc. installs a real plugin.)
+            if (preg_match(self::DOWNLOAD_PATH_PATTERN, $url) === 1) {
+                return null;
+            }
+
             throw new \Exception(sprintf(
                 'No Marketplace fixture for URL "%s" (canonical key: "%s"). '
                 . 'Add an entry to %s/manifest.json or re-record with '
@@ -261,6 +285,15 @@ class FixtureRepository
     public function getDirectory(): string
     {
         return $this->directory;
+    }
+
+    private function shouldIntercept(string $url): bool
+    {
+        $host = strtolower((string) (@parse_url($url, PHP_URL_HOST) ?? ''));
+        if ($host === '') {
+            return false;
+        }
+        return in_array($host, self::MARKETPLACE_HOSTS, true);
     }
 
     private function isJsonFixture(string $filename): bool

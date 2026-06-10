@@ -110,7 +110,10 @@ class Service
             $repositoryClass = '\\Piwik\\Plugins\\Marketplace\\tests\\Framework\\Mock\\FixtureRepository';
             if (class_exists($repositoryClass)) {
                 $repository = new $repositoryClass();
-                return $repository->intercept($url, $destinationPath, $postData, $getExtendedInfo);
+                $intercepted = $repository->intercept($url, $destinationPath, $postData, $getExtendedInfo);
+                if ($intercepted !== null) {
+                    return $intercepted;
+                }
             }
         }
 
