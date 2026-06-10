@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\Reports;
 
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -21,9 +20,7 @@ use Piwik\Plugins\BotTracking\Columns\Metrics\AvgServerTime;
 use Piwik\Plugins\BotTracking\Columns\Metrics\PageNotFound404Requests;
 use Piwik\Plugins\BotTracking\Columns\Metrics\Requests;
 use Piwik\Plugins\BotTracking\Columns\Metrics\ServerError5xxRequests;
-use Piwik\Plugins\BotTracking\FeatureFlags\AIChatbotsContentReports;
 use Piwik\Plugins\BotTracking\Metrics;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 
@@ -50,17 +47,6 @@ abstract class AbstractAIChatbotContentUrlReport extends Report
         $this->metrics          = [new Requests(), new ServerError5xxRequests(), new PageNotFound404Requests()];
         $this->processedMetrics = [new AvgServerTime(), new AvgResponseSize()];
         $this->defaultSortColumn = Metrics::COLUMN_REQUESTS;
-    }
-
-    /**
-     * Gates this report behind the AIChatbotsContentReports feature flag.
-     * When the flag is off the report is hidden from every UI surface and
-     * direct API calls throw "Report not enabled".
-     */
-    public function isEnabled()
-    {
-        return StaticContainer::get(FeatureFlagManager::class)
-            ->isFeatureActive(AIChatbotsContentReports::class);
     }
 
     public function configureView(ViewDataTable $view): void
