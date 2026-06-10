@@ -552,7 +552,7 @@
 
                 // add & show annotation manager before the legend when the plot lines tweaks are enabled
                 var legendFooter = $('.jqplot-legend-footer', domElem);
-                if ($('body').hasClass('plot-lines-tweaks-enabled') && legendFooter.length) {
+                if ($('body').hasClass('plotlines-tweaks-enabled') && legendFooter.length) {
                     manager.insertBefore(legendFooter);
                 } else {
                     manager.insertAfter($('.evolution-annotations', domElem));
