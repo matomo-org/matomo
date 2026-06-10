@@ -63,5 +63,6 @@
     "/api/2.0/plugins?purchase_type=paid&sort=lastupdated": "system_v2.0_plugins_purchase_type-paid_sort-lastupdated.json",
     "/api/2.0/plugins?sort=lastupdated": "system_v2.0_plugins_sort-lastupdated.json",
     "/api/2.0/themes": "system_v2.0_themes.json",
+    "/api/2.0/themes?sort=lastupdated": "system_v2.0_themes_sort-lastupdated.json",
     "__comment__": "Maps canonical Marketplace request URLs to fixture files in this directory. Used by FixtureRepository under PIWIK_TEST_MODE. Refresh with `./console marketplace:record-fixtures`. Canonical keys are: path + sorted query (significant params only). Environment noise (piwik/php/mysql/release_channel/prefer_stable/num_users/num_websites) and empty params are dropped. The access_token POST param is included in the key. Entry values are either a filename (HTTP 200) or {\"file\": \"x.json\", \"status\": 400} for non-2xx."
 }

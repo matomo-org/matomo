@@ -129,14 +129,21 @@ class FixtureRepository
         $entry = $this->lookup($key);
 
         if ($entry === null) {
-            throw new \Exception(sprintf(
+            $message = sprintf(
                 'No Marketplace fixture for URL "%s" (canonical key: "%s"). '
                 . 'Add an entry to %s/manifest.json or re-record with '
                 . '`./console marketplace:record-fixtures`.',
                 $url,
                 $key,
                 $this->directory
-            ));
+            );
+            // Application code sometimes catches \Exception broadly (e.g.
+            // CorePluginsAdmin\Controller::createPluginsOrThemesView for offline
+            // graceful degradation) and the test screenshot ends up rendering
+            // without marketplace data without the trace appearing anywhere.
+            // Log to stderr so CI can grep for it.
+            error_log('[Marketplace FixtureRepository] ' . $message);
+            throw new \Exception($message);
         }
 
         [$filename, $status] = $this->parseEntry($entry);
