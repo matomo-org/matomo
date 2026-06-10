@@ -13,11 +13,9 @@ use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
-use Piwik\Date;
 use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
-use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Evolution as JqplotEvolutionData;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSeriesState;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\EvolutionPeriodSelector;
@@ -34,9 +32,9 @@ class Evolution extends JqplotGraph
     public const SERIES_COLOR_COUNT = 8;
 
     /**
-     * Precomputed forecast values, keyed by series index then tick index. Populated
-     * by afterAllFiltersAreApplied() so beforeRender() can decide whether to expose
-     * the forecast toggle, and so the data generator can reuse the same result.
+     * Precomputed forecast values, keyed by series index then tick index. Populated by
+     * afterAllFiltersAreApplied() so the data generator can reuse the same result instead
+     * of recomputing it during render.
      *
      * @var array<int, array<int, float|null>>
      */
@@ -82,16 +80,6 @@ class Evolution extends JqplotGraph
 
         $this->config->show_flatten_table = false;
         $this->config->datatable_js_type = 'JqplotEvolutionGraphDataTable';
-
-        if (!$this->isComparing() && $this->shouldShowForecastToggle()) {
-            $this->config->datatable_actions[] = [
-                'id' => 'dataTableShowForecast',
-                'title' => $this->config->show_forecast
-                    ? \Piwik\Piwik::translate('CoreHome_HideForecast')
-                    : \Piwik\Piwik::translate('CoreHome_ShowForecast'),
-                'icon' => $this->config->show_forecast ? 'icon-show' : 'icon-hide',
-            ];
-        }
     }
 
     public function beforeLoadDataTable()
@@ -124,14 +112,13 @@ class Evolution extends JqplotGraph
         }
 
         // Forecast values can only be drawn by the LineRenderer. Force-off when the viz is in
-        // bar mode (subclass override or ?show_line_graph=0 query param) so a stale
-        // show_forecast=1 cannot sneak forecast computation into a bar-mode render.
+        // bar mode (subclass override or ?show_line_graph=0 query param) so the always-on
+        // forecast cannot sneak forecast computation into a bar-mode render.
         if (!$this->config->show_line_graph) {
             $this->config->show_forecast = false;
         }
 
         $this->config->custom_parameters['columns'] = $this->config->columns_to_display;
-        $this->config->custom_parameters['show_forecast'] = (int) $this->config->show_forecast;
 
         if ($this->isComparing() && $isComparingDatesOrPeriods) {
             $this->config->show_limit_control = false; // since we always show the evolution over the period, there's no point in changing the limit
@@ -174,10 +161,10 @@ class Evolution extends JqplotGraph
             $this->config->x_axis_step_size = $this->getDefaultXAxisStepSize($rowCount);
         }
 
-        // Only pay for the per-series builder when the user has the forecast turned on.
-        // When it is off, the toggle visibility falls back to the cheap "any incomplete tick"
-        // check below so dashboards full of evolution widgets do not run the regression on
-        // every render just to size an action button.
+        // The forecast is always active for line charts, but the per-series builder only runs
+        // when there is something to forecast: precomputeForecast() bails cheaply unless at
+        // least one tick is incomplete, so dashboards full of historical-only evolution
+        // widgets do not pay for the regression on every render.
         if ($this->config->show_forecast && !$this->config->disable_forecast) {
             $this->forecastData = $this->precomputeForecastData();
         }
@@ -216,81 +203,6 @@ class Evolution extends JqplotGraph
         $dataGenerator = $this->makeDataGenerator($properties);
 
         return $dataGenerator->precomputeForecast($dataTable);
-    }
-
-    private function shouldShowForecastToggle(): bool
-    {
-        // Forecast values are only meaningful for line charts. Bar-mode evolution (either via
-        // ?show_line_graph=0 on this viz, or a bar-rendering subclass like StackedBarEvolution)
-        // has no LineRenderer to draw forecast points onto, so suppress the toggle entirely.
-        if (!$this->config->show_line_graph) {
-            return false;
-        }
-
-        // Contexts that fan out into label-filtered inner API calls (row evolution popovers)
-        // opt out of forecast entirely: each forecast render would trigger 70 days of daily
-        // plus multi-year monthly sub-period fetches with the label filter still attached,
-        // pulling subtable blobs for every tick.
-        if ($this->config->disable_forecast) {
-            return false;
-        }
-
-        // When forecast is on we already paid for precompute; honour its verdict so the
-        // "Hide forecast" action does not appear on graphs where every value got suppressed.
-        // The asymmetry with the show_forecast=0 branch below is intentional: when every
-        // forecast value is null there is nothing rendered for "Hide forecast" to hide, so a
-        // visible action would be a no-op click. The saved show_forecast=1 param survives and
-        // re-engages automatically once the user navigates to a graph or date range where the
-        // algorithm produces at least one renderable value.
-        if ($this->config->show_forecast) {
-            return $this->hasAnyForecastValue();
-        }
-
-        // When forecast is off, decide visibility from the cheapest possible signal.
-        // Feasibility is re-checked at render time once the user toggles the action on.
-        return $this->hasAnyIncompleteTick();
-    }
-
-    private function hasAnyForecastValue(): bool
-    {
-        foreach ($this->forecastData as $seriesValues) {
-            foreach ($seriesValues as $value) {
-                if (null !== $value) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private function hasAnyIncompleteTick(): bool
-    {
-        /** @var DataTable|DataTable\Map|null $dataTable */
-        $dataTable = $this->dataTable;
-
-        if (!$dataTable instanceof DataTable\Map) {
-            return false;
-        }
-
-        // Defer to the shared classifier so the toggle-visibility check uses the same
-        // rule as the per-tick state computed during render. Without the siteToday
-        // branch the toggle stays hidden on low-volume reports (Goals/Ecommerce on
-        // days with no qualifying events yet) where archive_state metadata is absent
-        // even though the period covering today is, by definition, still in progress.
-        $idSite = Common::getRequestVar('idSite', 0, 'int');
-        if ($idSite <= 0) {
-            return false;
-        }
-        $siteToday = Date::factoryInTimezone('today', Site::getTimezoneFor($idSite))->getTimestamp();
-
-        foreach ($dataTable->getDataTables() as $childTable) {
-            if (JqplotEvolutionData::isIncompleteTick($childTable, $siteToday)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
