@@ -106,6 +106,14 @@ class Service
             $postData['access_token'] = $this->accessToken;
         }
 
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            $repositoryClass = '\\Piwik\\Plugins\\Marketplace\\tests\\Framework\\Mock\\FixtureRepository';
+            if (class_exists($repositoryClass)) {
+                $repository = new $repositoryClass();
+                return $repository->intercept($url, $destinationPath, $postData, $getExtendedInfo);
+            }
+        }
+
         $file = Http::ensureDestinationDirectoryExists($destinationPath);
 
         return Http::sendHttpRequestBy(

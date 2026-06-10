@@ -1,5 +1,1 @@
-{
-  "pluginsUrl": "http:\/\/plugins.piwik.org\/",
-  "themesUrl": "http:\/\/themes.piwik.org\/",
-  "loginUrl": "https:\/\/shop.piwik.org\/my-account"
-}
+{"pluginsUrl":"https:\/\/plugins.matomo.org\/","themesUrl":"https:\/\/themes.matomo.org\/","loginUrl":"https:\/\/shop.matomo.org\/my-account"}
