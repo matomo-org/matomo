@@ -129,6 +129,76 @@ class BotRequestProcessorTest extends IntegrationTestCase
         self::assertEquals(Action::TYPE_DOWNLOAD, $action[0]['type']);
     }
 
+    public function testExcludedQueryParametersAreStrippedFromPageUrl(): void
+    {
+        $idSite = Fixture::createWebsite(
+            '2025-01-01 00:00:00',
+            $ecommerce = 0,
+            $siteName = false,
+            $siteUrl = false,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $timezone = null,
+            $type = null,
+            $excludeUnknownUrls = 0,
+            $excludedParameters = 'excluded'
+        );
+
+        $request = $this->makeRequest([
+            'idsite' => $idSite,
+            'url' => 'https://example.com/test?keep=1&excluded=secret',
+            'ua' => 'ChatGPT-User/1.0',
+        ]);
+
+        $this->requestProcessor->handleRequest($request);
+
+        self::assertEquals('example.com/test?keep=1', $this->getStoredActionName($idSite));
+    }
+
+    public function testGloballyExcludedQueryParametersAreStripped(): void
+    {
+        // gclid ships in the global url_query_parameter_to_exclude_from_url config
+        $request = $this->makeRequest([
+            'idsite' => $this->idSite,
+            'url' => 'https://example.com/page?gclid=abc&x=1',
+            'ua' => 'Claude-User/2.0',
+        ]);
+
+        $this->requestProcessor->handleRequest($request);
+
+        self::assertEquals('example.com/page?x=1', $this->getStoredActionName($this->idSite));
+    }
+
+    public function testDownloadUrlQueryParametersAreNotExcluded(): void
+    {
+        $idSite = Fixture::createWebsite(
+            '2025-01-01 00:00:00',
+            $ecommerce = 0,
+            $siteName = false,
+            $siteUrl = false,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $timezone = null,
+            $type = null,
+            $excludeUnknownUrls = 0,
+            $excludedParameters = 'excluded'
+        );
+
+        $request = $this->makeRequest([
+            'idsite' => $idSite,
+            'url' => 'https://example.com/page',
+            'download' => 'https://example.com/document.pdf?excluded=secret',
+            'ua' => 'Claude-User/2.0',
+        ]);
+
+        $this->requestProcessor->handleRequest($request);
+
+        // Downloads must behave like normal tracking, which does not exclude parameters
+        self::assertEquals('example.com/document.pdf?excluded=secret', $this->getStoredActionName($idSite));
+    }
+
     /**
      * @dataProvider getBotUserAgents
      */
@@ -171,5 +241,22 @@ class BotRequestProcessorTest extends IntegrationTestCase
         ], $params);
 
         return new Request($params);
+    }
+
+    private function getStoredActionName(int $idSite): ?string
+    {
+        $tableName = BotRequestsDao::getPrefixedTableName();
+        $idActionUrl = Db::fetchOne(
+            "SELECT idaction_url FROM `{$tableName}` WHERE idsite = ? ORDER BY idrequest DESC LIMIT 1",
+            [$idSite]
+        );
+
+        if (empty($idActionUrl)) {
+            return null;
+        }
+
+        $actionTable = Common::prefixTable('log_action');
+
+        return Db::fetchOne("SELECT name FROM `{$actionTable}` WHERE idaction = ?", [$idActionUrl]);
     }
 }
