@@ -106,10 +106,13 @@ class Evolution extends JqplotDataGenerator
             );
         } else {
             // Reuse the per-series state precomputed in
-            // JqplotGraph\Evolution::afterAllFiltersAreApplied() when forecast is on, instead
-            // of running the same row × column collection loop again.
+            // JqplotGraph\Evolution::afterAllFiltersAreApplied() whenever a forecast was
+            // produced, instead of running the same row × column collection loop again. When
+            // no state was stashed the forecast is not being rendered (no incomplete tick, bar
+            // mode, or disabled), so the fallback collects data-only series and skips the
+            // forecast classifier work.
             $seriesState = $this->graph->getForecastSeriesState()
-                ?? $this->collectForecastSeriesState($rowsToDisplay, $columnsToDisplay, $units, $dataTable);
+                ?? $this->collectForecastSeriesState($rowsToDisplay, $columnsToDisplay, $units, $dataTable, false);
 
             $allSeriesData = $seriesState->getAllSeriesData();
         }
@@ -323,29 +326,30 @@ class Evolution extends JqplotDataGenerator
 
     /**
      * Run the row × column collection loop and produce the per-series state. Shared by
-     * initChartObjectData() (render path) and precomputeForecast() (toggle-visibility path)
-     * so the two paths produce identical state. Comparing graphs go through
-     * {@see self::collectComparisonSeriesData()} instead — they only need the chart-rendering
-     * series data and never consume the forecast-state fields.
+     * initChartObjectData() (render path) and precomputeForecast() so the two paths produce
+     * identical state. Comparing graphs go through {@see self::collectComparisonSeriesData()}
+     * instead — they only need the chart-rendering series data and never consume the
+     * forecast-state fields.
      *
      * @param array<int, mixed> $rowsToDisplay
      * @param array<int, string> $columnsToDisplay
      * @param array<string, string|false> $units
+     * @param bool $forecastEnabled When false, only the per-series chart data is collected and
+     *                              the forecast precision/monotonicity classifiers are skipped.
+     *                              Those classifiers touch the metric semantic-type registry and
+     *                              run a cluster of string searches per column, so the render
+     *                              fallback (which is only reached when no forecast was produced)
+     *                              passes false to keep dashboards full of historical-only
+     *                              evolution graphs from paying for a feature they are not
+     *                              rendering. precomputeForecast() passes true.
      */
     private function collectForecastSeriesState(
         array $rowsToDisplay,
         array $columnsToDisplay,
         array $units,
-        DataTable\Map $dataTable
+        DataTable\Map $dataTable,
+        bool $forecastEnabled
     ): ForecastSeriesState {
-        // The render path always needs the per-series data to seed the chart's y-axis values,
-        // but the forecast precision/monotonicity classifiers are forecast-only signals that
-        // touch the metric semantic-type registry and run a cluster of string searches per
-        // column. Skip them on the show_forecast=0 hot path so dashboards full of evolution
-        // graphs do not pay for a feature they are not rendering. precomputeForecast() always
-        // sets show_forecast=1, so the toggle-visibility path keeps the full classifier work.
-        $forecastEnabled = !empty($this->properties['show_forecast']);
-
         $builder = new ForecastSeriesStateBuilder();
 
         foreach ($rowsToDisplay as $rowIdentifier) {
@@ -589,10 +593,7 @@ class Evolution extends JqplotDataGenerator
      * period is, by definition, still in progress.
      *
      * Called from {@see computeDataStates()} as the override that forces the
-     * per-tick state to INCOMPLETE, and from
-     * {@see \Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution::hasAnyIncompleteTick()}
-     * to gate the forecast toggle visibility on whether any tick is incomplete.
-     * Both consumers must agree on the rule, so the comparison lives in one place.
+     * per-tick state to INCOMPLETE.
      */
     public static function isIncompleteTick(DataTable $childTable, int $siteToday): bool
     {
@@ -607,8 +608,8 @@ class Evolution extends JqplotDataGenerator
 
     /**
      * Compute forecast values for the given DataTable\Map without rendering a chart.
-     * Used by the visualization in afterAllFiltersAreApplied() to gate the forecast
-     * toggle action on whether the algorithm actually yields any renderable values.
+     * Called by the visualization in afterAllFiltersAreApplied() so the always-on forecast
+     * is computed once, ahead of render.
      *
      * The collected per-series state is stashed on the visualization so the later
      * initChartObjectData() call can reuse it instead of running the same loop again.
@@ -628,8 +629,8 @@ class Evolution extends JqplotDataGenerator
 
         // Cheap gate: without at least one incomplete tick the builder cannot
         // produce a forecast value, so skip the per-series construction below.
-        // This runs on every evolution graph render to size the toggle action,
-        // so the early exit matters for dashboards full of historical-only graphs.
+        // This runs on every evolution graph render, so the early exit matters
+        // for dashboards full of historical-only graphs.
         $dataStates = $this->computeDataStates($dataTables);
         if (!in_array(ArchiveState::INCOMPLETE, $dataStates, true)) {
             return [];
@@ -645,7 +646,7 @@ class Evolution extends JqplotDataGenerator
 
         [, $seriesUnits] = $this->getSeriesMetadata($rowsToDisplay, $columnsToDisplay, $units, $dataTables);
 
-        $seriesState = $this->collectForecastSeriesState($rowsToDisplay, $columnsToDisplay, $units, $dataTable);
+        $seriesState = $this->collectForecastSeriesState($rowsToDisplay, $columnsToDisplay, $units, $dataTable, true);
 
         $this->graph->setForecastSeriesState($seriesState);
 

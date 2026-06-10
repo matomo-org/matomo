@@ -345,7 +345,7 @@ class RowEvolution
         if ($view->config instanceof EvolutionVizConfig) {
             // Row evolution applies a label filter, so the forecast's 70-day daily and
             // multi-year monthly sub-period fetches would pull subtable blobs for every tick.
-            // Suppress both the toggle and the precompute path so the popover stays cheap.
+            // Suppress the precompute path entirely so the popover stays cheap.
             $view->config->show_forecast    = false;
             $view->config->disable_forecast = true;
         }

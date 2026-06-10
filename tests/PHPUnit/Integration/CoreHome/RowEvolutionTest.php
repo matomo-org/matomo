@@ -117,9 +117,9 @@ class RowEvolutionTest extends IntegrationTestCase
         // Row evolution popovers run with a label filter, so letting the forecast
         // precompute fire would trigger 70 days of daily (plus multi-year monthly)
         // sub-period API fetches per render -- each pulling subtable blobs for the
-        // selected row. Both flags must be set: show_forecast=false hides the
-        // toggle, disable_forecast=true gates the precompute path so the popover
-        // stays cheap even if a saved show_forecast=1 user param re-engages it.
+        // selected row. The forecast is otherwise always active, so disable_forecast=true
+        // is the hard gate that keeps the popover cheap; show_forecast=false is set
+        // alongside it so the empty payload short-circuit also holds.
         $this->assertInstanceOf(EvolutionVizConfig::class, $view->config);
         $this->assertFalse($view->config->show_forecast);
         $this->assertTrue($view->config->disable_forecast);
