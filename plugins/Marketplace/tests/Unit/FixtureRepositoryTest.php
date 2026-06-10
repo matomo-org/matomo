@@ -61,6 +61,26 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testBuildCanonicalKeyStripsPiwikWhenCurrentMajor(): void
+    {
+        $url = 'https://plugins.matomo.org/api/2.0/plugins?piwik=5.12.0-alpha&sort=alpha';
+
+        $this->assertSame(
+            '/api/2.0/plugins?sort=alpha',
+            $this->repository->buildCanonicalKey($url, null)
+        );
+    }
+
+    public function testBuildCanonicalKeyKeepsPiwikForOlderMajor(): void
+    {
+        $url = 'https://plugins.matomo.org/api/2.0/plugins/TreemapVisualization/info?piwik=4.16.2';
+
+        $this->assertSame(
+            '/api/2.0/plugins/TreemapVisualization/info?piwik=4.16.2',
+            $this->repository->buildCanonicalKey($url, null)
+        );
+    }
+
     public function testBuildCanonicalKeyDropsNumUsersAsNoise(): void
     {
         $url = 'https://plugins.matomo.org/api/2.0/plugins?purchase_type=paid&num_users=201&piwik=5.1.0';
@@ -156,18 +176,19 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('{"plugins":[]}', file_get_contents($destination));
     }
 
-    public function testInterceptReturnsNullOnMissSoCallerFallsThroughToRealHttp(): void
+    public function testInterceptThrowsOnMissForMarketplaceHosts(): void
     {
         $this->writeManifest([]);
 
-        $result = $this->repository->intercept(
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageMatches('/No Marketplace fixture/');
+
+        $this->repository->intercept(
             'https://plugins.matomo.org/api/2.0/plugins',
             null,
             null,
             false
         );
-
-        $this->assertNull($result);
     }
 
     public function testOverrideTakesPrecedenceOverManifest(): void
@@ -231,21 +252,7 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($result);
     }
 
-    public function testInterceptPassesThroughBinaryDownloadsWithoutFixture(): void
-    {
-        $this->writeManifest([]);
-
-        $result = $this->repository->intercept(
-            'http://plugins.piwik.org/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=4.16.2',
-            '/tmp/whatever.zip',
-            null,
-            false
-        );
-
-        $this->assertNull($result);
-    }
-
-    public function testInterceptStillServesDownloadFromManifestWhenMatched(): void
+    public function testInterceptServesDownloadFromManifestWhenMatched(): void
     {
         $this->writeManifest([
             '/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=4.16.2' => 'fake.zip',
@@ -264,38 +271,7 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('ZIP-BYTES', file_get_contents($destination));
     }
 
-    public function testInterceptPassesThroughInfoUrlsWithoutFixture(): void
-    {
-        $this->writeManifest([]);
-
-        $result = $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/plugins/AbTesting/info?piwik=5.12.0',
-            null,
-            null,
-            false
-        );
-
-        $this->assertNull($result);
-    }
-
-    public function testInterceptPassesThroughInfoUrlsForOlderPiwikMajor(): void
-    {
-        $this->writeManifest([
-            '/api/2.0/plugins/TreemapVisualization/info' => 'whatever.json',
-        ]);
-        file_put_contents($this->tmpDir . '/whatever.json', '{}');
-
-        $result = $this->repository->intercept(
-            'https://plugins.piwik.org/api/2.0/plugins/TreemapVisualization/info?piwik=4.16.2',
-            null,
-            null,
-            false
-        );
-
-        $this->assertNull($result);
-    }
-
-    public function testInterceptStillServesInfoUrlsWhenMatchedInManifest(): void
+    public function testInterceptServesInfoUrlsWhenMatchedInManifest(): void
     {
         $this->writeManifest([
             '/api/2.0/plugins/SecurityInfo/info' => 'security.json',

@@ -28,7 +28,6 @@ use Piwik\Filesystem;
 class FixtureRepository
 {
     private const NOISE_PARAMS = [
-        'piwik',
         'php',
         'mysql',
         'prefer_stable',
@@ -37,6 +36,9 @@ class FixtureRepository
         'num_websites',
     ];
 
+    /** Major Matomo version the test environment normally runs against; piwik=5.x is treated as noise so we don't need per-minor fixtures. */
+    private const CURRENT_PIWIK_MAJOR = '5';
+
     private const MARKETPLACE_HOSTS = [
         'plugins.matomo.org',
         'plugins.piwik.org',
@@ -44,7 +46,6 @@ class FixtureRepository
         'themes.piwik.org',
     ];
 
-    private const CURRENT_MAJOR = '5';
 
     /**
      * @var string
@@ -111,15 +112,12 @@ class FixtureRepository
     /**
      * Attempt to serve a request from recorded fixtures.
      *
-     * Manifest entry hit → serve the fixture. Anything else → return null and let
-     * the caller fall through to real HTTP. We don't throw on misses because a
-     * loud failure renders as a visible "No fixture" error inside marketplace
-     * widgets/pages (caught by the page's error boundary, not the test runner)
-     * which breaks every screenshot that depends on those widgets. The manifest
-     * is the authoritative "must-mock" list; unmocked URLs use the real network
-     * as they always have.
+     * Manifest entry hit → serve the fixture. Manifest miss inside a known
+     * marketplace host → throw, so CI fails loudly the first time a new
+     * marketplace request appears, preventing silent live-network calls.
      *
-     * @return string|array|bool|null Same shape as Http::sendHttpRequestBy, or null to skip.
+     * @return string|array|bool|null Same shape as Http::sendHttpRequestBy, or null when the URL isn't ours.
+     * @throws \Exception when no fixture matches a marketplace URL.
      */
     public function intercept(string $url, ?string $destinationPath, ?array $postData, bool $getExtendedInfo)
     {
@@ -127,18 +125,18 @@ class FixtureRepository
             return null;
         }
 
-        // Requests pinned to an older Matomo major (e.g. LastForcedInstall sets
-        // piwik=4.16.2 to install an older-compatible plugin version). Version-
-        // specific data isn't pre-recorded; let the caller use real HTTP.
-        if ($this->hasOlderPiwikVersion($url)) {
-            return null;
-        }
-
         $key = $this->buildCanonicalKey($url, $postData);
         $entry = $this->lookup($key);
 
         if ($entry === null) {
-            return null;
+            throw new \Exception(sprintf(
+                'No Marketplace fixture for URL "%s" (canonical key: "%s"). '
+                . 'Add an entry to %s/manifest.json or re-record with '
+                . '`./console marketplace:record-fixtures`.',
+                $url,
+                $key,
+                $this->directory
+            ));
         }
 
         [$filename, $status] = $this->parseEntry($entry);
@@ -196,6 +194,13 @@ class FixtureRepository
 
         foreach (self::NOISE_PARAMS as $noise) {
             unset($params[$noise]);
+        }
+
+        // Strip piwik when it targets the current major (the common case) so we
+        // don't need one fixture per Matomo minor version. Keep it for older
+        // majors (e.g. LastForcedInstall pins piwik=4.16.2 which needs different data).
+        if (isset($params['piwik']) && $this->isCurrentMatomoMajor((string) $params['piwik'])) {
+            unset($params['piwik']);
         }
 
         foreach ($params as $name => $value) {
@@ -283,6 +288,15 @@ class FixtureRepository
         return $this->directory;
     }
 
+    private function isCurrentMatomoMajor(string $piwikVersion): bool
+    {
+        if ($piwikVersion === '') {
+            return true;
+        }
+        return $piwikVersion === self::CURRENT_PIWIK_MAJOR
+            || strpos($piwikVersion, self::CURRENT_PIWIK_MAJOR . '.') === 0;
+    }
+
     private function shouldIntercept(string $url): bool
     {
         $host = strtolower((string) (@parse_url($url, PHP_URL_HOST) ?? ''));
@@ -290,22 +304,6 @@ class FixtureRepository
             return false;
         }
         return in_array($host, self::MARKETPLACE_HOSTS, true);
-    }
-
-    private function hasOlderPiwikVersion(string $url): bool
-    {
-        $query = parse_url($url, PHP_URL_QUERY);
-        if (!is_string($query) || $query === '') {
-            return false;
-        }
-        $params = [];
-        parse_str($query, $params);
-        $piwik = $params['piwik'] ?? null;
-        if (!is_string($piwik) || $piwik === '') {
-            return false;
-        }
-        return strpos($piwik, self::CURRENT_MAJOR . '.') !== 0
-            && $piwik[0] !== self::CURRENT_MAJOR;
     }
 
     private function isJsonFixture(string $filename): bool
