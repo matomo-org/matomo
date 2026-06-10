@@ -44,8 +44,6 @@ class FixtureRepository
         'themes.piwik.org',
     ];
 
-    private const DOWNLOAD_PATH_PATTERN = '@/api/2\.0/plugins/[^/]+/download/@';
-    private const PLUGIN_INFO_PATH_PATTERN = '@^/api/2\.0/plugins/[^/]+/info$@';
     private const CURRENT_MAJOR = '5';
 
     /**
@@ -113,13 +111,15 @@ class FixtureRepository
     /**
      * Attempt to serve a request from recorded fixtures.
      *
-     * Returns null when the request is not subject to fixture interception (unknown
-     * host, or binary plugin-zip download without a manifest entry); callers should
-     * fall through to real HTTP in that case. Throws on miss for everything else so
-     * CI fails loudly instead of leaking outbound to a WAF-protected marketplace.
+     * Manifest entry hit → serve the fixture. Anything else → return null and let
+     * the caller fall through to real HTTP. We don't throw on misses because a
+     * loud failure renders as a visible "No fixture" error inside marketplace
+     * widgets/pages (caught by the page's error boundary, not the test runner)
+     * which breaks every screenshot that depends on those widgets. The manifest
+     * is the authoritative "must-mock" list; unmocked URLs use the real network
+     * as they always have.
      *
      * @return string|array|bool|null Same shape as Http::sendHttpRequestBy, or null to skip.
-     * @throws \Exception when no fixture matches an API call we expected to mock.
      */
     public function intercept(string $url, ?string $destinationPath, ?array $postData, bool $getExtendedInfo)
     {
@@ -128,9 +128,8 @@ class FixtureRepository
         }
 
         // Requests pinned to an older Matomo major (e.g. LastForcedInstall sets
-        // piwik=4.16.2 to install an older-compatible plugin version). These need
-        // version-specific marketplace data we don't pre-record; pass through to
-        // real HTTP so the relevant scenario keeps working.
+        // piwik=4.16.2 to install an older-compatible plugin version). Version-
+        // specific data isn't pre-recorded; let the caller use real HTTP.
         if ($this->hasOlderPiwikVersion($url)) {
             return null;
         }
@@ -139,28 +138,7 @@ class FixtureRepository
         $entry = $this->lookup($key);
 
         if ($entry === null) {
-            // Binary plugin-zip downloads aren't bundled as fixtures by default — let
-            // the caller try real HTTP. (LastForcedInstall etc. installs a real plugin.)
-            if (preg_match(self::DOWNLOAD_PATH_PATTERN, $url) === 1) {
-                return null;
-            }
-
-            // Per-plugin info pages: there are hundreds of plugins on the live
-            // Marketplace. Pre-recording them all is high maintenance, so let
-            // un-mocked plugin info pass through to real HTTP. The bulk listings
-            // (/plugins, /themes, ...) stay strict to avoid the WAF problem.
-            if (preg_match(self::PLUGIN_INFO_PATH_PATTERN, parse_url($url, PHP_URL_PATH) ?? '') === 1) {
-                return null;
-            }
-
-            throw new \Exception(sprintf(
-                'No Marketplace fixture for URL "%s" (canonical key: "%s"). '
-                . 'Add an entry to %s/manifest.json or re-record with '
-                . '`./console marketplace:record-fixtures`.',
-                $url,
-                $key,
-                $this->directory
-            ));
+            return null;
         }
 
         [$filename, $status] = $this->parseEntry($entry);

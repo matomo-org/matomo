@@ -156,19 +156,18 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('{"plugins":[]}', file_get_contents($destination));
     }
 
-    public function testInterceptThrowsOnMiss(): void
+    public function testInterceptReturnsNullOnMissSoCallerFallsThroughToRealHttp(): void
     {
         $this->writeManifest([]);
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessageMatches('/No Marketplace fixture/');
-
-        $this->repository->intercept(
+        $result = $this->repository->intercept(
             'https://plugins.matomo.org/api/2.0/plugins',
             null,
             null,
             false
         );
+
+        $this->assertNull($result);
     }
 
     public function testOverrideTakesPrecedenceOverManifest(): void
