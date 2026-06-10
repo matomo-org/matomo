@@ -45,6 +45,8 @@ class FixtureRepository
     ];
 
     private const DOWNLOAD_PATH_PATTERN = '@/api/2\.0/plugins/[^/]+/download/@';
+    private const PLUGIN_INFO_PATH_PATTERN = '@^/api/2\.0/plugins/[^/]+/info$@';
+    private const CURRENT_MAJOR = '5';
 
     /**
      * @var string
@@ -125,6 +127,14 @@ class FixtureRepository
             return null;
         }
 
+        // Requests pinned to an older Matomo major (e.g. LastForcedInstall sets
+        // piwik=4.16.2 to install an older-compatible plugin version). These need
+        // version-specific marketplace data we don't pre-record; pass through to
+        // real HTTP so the relevant scenario keeps working.
+        if ($this->hasOlderPiwikVersion($url)) {
+            return null;
+        }
+
         $key = $this->buildCanonicalKey($url, $postData);
         $entry = $this->lookup($key);
 
@@ -132,6 +142,14 @@ class FixtureRepository
             // Binary plugin-zip downloads aren't bundled as fixtures by default — let
             // the caller try real HTTP. (LastForcedInstall etc. installs a real plugin.)
             if (preg_match(self::DOWNLOAD_PATH_PATTERN, $url) === 1) {
+                return null;
+            }
+
+            // Per-plugin info pages: there are hundreds of plugins on the live
+            // Marketplace. Pre-recording them all is high maintenance, so let
+            // un-mocked plugin info pass through to real HTTP. The bulk listings
+            // (/plugins, /themes, ...) stay strict to avoid the WAF problem.
+            if (preg_match(self::PLUGIN_INFO_PATH_PATTERN, parse_url($url, PHP_URL_PATH) ?? '') === 1) {
                 return null;
             }
 
@@ -294,6 +312,22 @@ class FixtureRepository
             return false;
         }
         return in_array($host, self::MARKETPLACE_HOSTS, true);
+    }
+
+    private function hasOlderPiwikVersion(string $url): bool
+    {
+        $query = parse_url($url, PHP_URL_QUERY);
+        if (!is_string($query) || $query === '') {
+            return false;
+        }
+        $params = [];
+        parse_str($query, $params);
+        $piwik = $params['piwik'] ?? null;
+        if (!is_string($piwik) || $piwik === '') {
+            return false;
+        }
+        return strpos($piwik, self::CURRENT_MAJOR . '.') !== 0
+            && $piwik[0] !== self::CURRENT_MAJOR;
     }
 
     private function isJsonFixture(string $filename): bool

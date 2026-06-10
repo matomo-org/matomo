@@ -265,6 +265,54 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('ZIP-BYTES', file_get_contents($destination));
     }
 
+    public function testInterceptPassesThroughInfoUrlsWithoutFixture(): void
+    {
+        $this->writeManifest([]);
+
+        $result = $this->repository->intercept(
+            'https://plugins.matomo.org/api/2.0/plugins/AbTesting/info?piwik=5.12.0',
+            null,
+            null,
+            false
+        );
+
+        $this->assertNull($result);
+    }
+
+    public function testInterceptPassesThroughInfoUrlsForOlderPiwikMajor(): void
+    {
+        $this->writeManifest([
+            '/api/2.0/plugins/TreemapVisualization/info' => 'whatever.json',
+        ]);
+        file_put_contents($this->tmpDir . '/whatever.json', '{}');
+
+        $result = $this->repository->intercept(
+            'https://plugins.piwik.org/api/2.0/plugins/TreemapVisualization/info?piwik=4.16.2',
+            null,
+            null,
+            false
+        );
+
+        $this->assertNull($result);
+    }
+
+    public function testInterceptStillServesInfoUrlsWhenMatchedInManifest(): void
+    {
+        $this->writeManifest([
+            '/api/2.0/plugins/SecurityInfo/info' => 'security.json',
+        ]);
+        file_put_contents($this->tmpDir . '/security.json', '{"name":"SecurityInfo"}');
+
+        $result = $this->repository->intercept(
+            'https://plugins.matomo.org/api/2.0/plugins/SecurityInfo/info?piwik=5.12.0',
+            null,
+            null,
+            false
+        );
+
+        $this->assertSame('{"name":"SecurityInfo"}', $result);
+    }
+
     public function testMissingFixtureFileThrowsClearError(): void
     {
         $this->writeManifest([
