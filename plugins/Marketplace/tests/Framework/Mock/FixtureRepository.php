@@ -128,9 +128,14 @@ class FixtureRepository
         [$filename, $status] = $this->parseEntry($entry);
 
         // Defensive: the manifest is committed source so a path-traversal value
-        // shouldn't reach here, but reject anything that escapes the fixtures
-        // directory so a malformed entry can't read arbitrary files.
-        if (strpos($filename, '/') !== false || strpos($filename, '\\') !== false || strpos($filename, '..') !== false) {
+        // shouldn't reach here, but reject filenames that could escape the
+        // fixtures directory so a malformed entry can't read arbitrary files.
+        // Any directory separator is rejected, plus the bare "parent" name.
+        if (
+            $filename === '..'
+            || strpos($filename, '/') !== false
+            || strpos($filename, '\\') !== false
+        ) {
             throw new \Exception(sprintf(
                 'Marketplace manifest entry for "%s" contains an unsafe filename: "%s".',
                 $key,
@@ -148,6 +153,12 @@ class FixtureRepository
         }
 
         $data = file_get_contents($path);
+        if ($data === false) {
+            throw new \Exception(sprintf(
+                'Marketplace fixture "%s" could not be read (permissions or I/O error).',
+                $path
+            ));
+        }
 
         if ($this->isJsonFixture($filename)) {
             // Compact the JSON to mimic what the live Marketplace API returns
@@ -283,12 +294,30 @@ class FixtureRepository
             ));
         }
 
-        // Strip non-URL keys (e.g. "__comment__") so lookups never accidentally
-        // match documentation entries in the manifest file.
+        // Manifest keys must be canonical URLs starting with "/". The only
+        // exception is documentation entries prefixed with "__" (e.g.
+        // "__comment__"), which are stripped from the lookup table so they
+        // can't accidentally match a request. Anything else is likely a typo
+        // (missing leading slash) — throw so it surfaces at load time.
         foreach (array_keys($decoded) as $key) {
-            if (!is_string($key) || strpos($key, '/') !== 0) {
-                unset($decoded[$key]);
+            if (!is_string($key) || $key === '') {
+                throw new \Exception(sprintf(
+                    'Marketplace fixture manifest "%s" has a non-string or empty key.',
+                    $path
+                ));
             }
+            if (strpos($key, '/') === 0) {
+                continue;
+            }
+            if (strpos($key, '__') === 0) {
+                unset($decoded[$key]);
+                continue;
+            }
+            throw new \Exception(sprintf(
+                'Marketplace fixture manifest "%s" has an unrecognised key "%s" — URL keys must start with "/", documentation keys with "__".',
+                $path,
+                $key
+            ));
         }
 
         $this->manifest = $decoded;

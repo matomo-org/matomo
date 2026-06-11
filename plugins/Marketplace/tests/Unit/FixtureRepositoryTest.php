@@ -247,6 +247,25 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testManifestRejectsTypoKeysMissingLeadingSlash(): void
+    {
+        file_put_contents(
+            $this->tmpDir . '/manifest.json',
+            json_encode(['api/2.0/info' => 'info.json'])
+        );
+        $this->repository->reloadManifest();
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageMatches('/unrecognised key/');
+
+        $this->repository->intercept(
+            'https://plugins.matomo.org/api/2.0/info',
+            null,
+            null,
+            false
+        );
+    }
+
     public function testManifestNonUrlKeysAreIgnored(): void
     {
         file_put_contents(
