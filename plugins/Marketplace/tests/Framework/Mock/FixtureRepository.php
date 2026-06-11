@@ -131,8 +131,7 @@ class FixtureRepository
         if ($entry === null) {
             $message = sprintf(
                 'No Marketplace fixture for URL "%s" (canonical key: "%s"). '
-                . 'Add an entry to %s/manifest.json or re-record with '
-                . '`./console marketplace:record-fixtures`.',
+                . 'Add a hand-written entry to %s/manifest.json (see README.md).',
                 $url,
                 $key,
                 $this->directory
@@ -160,6 +159,14 @@ class FixtureRepository
         $data = file_get_contents($path);
 
         if ($this->isJsonFixture($filename)) {
+            // Compact the JSON to mimic what the live Marketplace API returns
+            // (single-line). Lets fixtures stay pretty-printed on disk while
+            // still satisfying tests that assert on raw response shape, e.g.
+            // assertStringStartsWith('{"plugins"', $response).
+            $decoded = json_decode($data, true);
+            if ($decoded !== null || trim($data) === 'null') {
+                $data = json_encode($decoded, JSON_UNESCAPED_SLASHES);
+            }
             $data = $this->applyPostProcessors($data);
         }
 
