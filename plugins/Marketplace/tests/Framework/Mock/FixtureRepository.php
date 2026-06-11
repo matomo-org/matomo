@@ -62,11 +62,6 @@ class FixtureRepository
      */
     private static $overrides = [];
 
-    /**
-     * @var array<string, callable>
-     */
-    private static $postProcessors = [];
-
     public function __construct(?string $directory = null)
     {
         if ($directory === null) {
@@ -92,21 +87,6 @@ class FixtureRepository
     public static function clearOverrides(): void
     {
         self::$overrides = [];
-    }
-
-    /**
-     * Register a post-processor that mutates JSON fixture bodies before they are
-     * returned. Multiple processors run in registration order. Used by tests/config
-     * to rewrite plugin image URLs to local paths.
-     */
-    public static function registerPostProcessor(string $name, callable $processor): void
-    {
-        self::$postProcessors[$name] = $processor;
-    }
-
-    public static function clearPostProcessors(): void
-    {
-        self::$postProcessors = [];
     }
 
     /**
@@ -164,10 +144,14 @@ class FixtureRepository
             // still satisfying tests that assert on raw response shape, e.g.
             // assertStringStartsWith('{"plugins"', $response).
             $decoded = json_decode($data, true);
-            if ($decoded !== null || trim($data) === 'null') {
-                $data = json_encode($decoded, JSON_UNESCAPED_SLASHES);
+            if ($decoded === null && trim($data) !== 'null') {
+                throw new \Exception(sprintf(
+                    'Marketplace fixture "%s" is not valid JSON: %s',
+                    $path,
+                    json_last_error_msg()
+                ));
             }
-            $data = $this->applyPostProcessors($data);
+            $data = json_encode($decoded, JSON_UNESCAPED_SLASHES);
         }
 
         if ($destinationPath !== null) {
@@ -323,16 +307,5 @@ class FixtureRepository
     private function isJsonFixture(string $filename): bool
     {
         return substr($filename, -5) === '.json';
-    }
-
-    private function applyPostProcessors(string $data): string
-    {
-        foreach (self::$postProcessors as $processor) {
-            $result = $processor($data);
-            if (is_string($result)) {
-                $data = $result;
-            }
-        }
-        return $data;
     }
 }

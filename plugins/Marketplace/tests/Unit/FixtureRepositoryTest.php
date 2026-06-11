@@ -35,13 +35,11 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->repository = new FixtureRepository($this->tmpDir);
 
         FixtureRepository::clearOverrides();
-        FixtureRepository::clearPostProcessors();
     }
 
     public function tearDown(): void
     {
         FixtureRepository::clearOverrides();
-        FixtureRepository::clearPostProcessors();
 
         if (is_dir($this->tmpDir)) {
             foreach (glob($this->tmpDir . '/*') as $file) {
@@ -196,8 +194,8 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->writeManifest([
             '/api/2.0/info' => 'info.json',
         ]);
-        file_put_contents($this->tmpDir . '/info.json', 'manifest body');
-        file_put_contents($this->tmpDir . '/override.json', 'override body');
+        file_put_contents($this->tmpDir . '/info.json', '"manifest body"');
+        file_put_contents($this->tmpDir . '/override.json', '"override body"');
 
         FixtureRepository::setOverride('/api/2.0/info', 'override.json');
 
@@ -208,31 +206,46 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
             false
         );
 
-        $this->assertSame('override body', $result);
+        $this->assertSame('"override body"', $result);
     }
 
-    public function testPostProcessorMutatesJsonBody(): void
+    public function testClearOverridesRemovesPriorOverride(): void
     {
         $this->writeManifest([
-            '/api/2.0/plugins' => 'plugins.json',
+            '/api/2.0/info' => 'info.json',
         ]);
-        file_put_contents(
-            $this->tmpDir . '/plugins.json',
-            '{"coverImage":"https://plugins.matomo.org/img/categories/insights.png"}'
-        );
+        file_put_contents($this->tmpDir . '/info.json', '"manifest body"');
+        file_put_contents($this->tmpDir . '/override.json', '"override body"');
 
-        FixtureRepository::registerPostProcessor('rewriteImages', function ($json) {
-            return str_replace('https://plugins.matomo.org', 'plugins/Marketplace/tests/resources/images', $json);
-        });
+        FixtureRepository::setOverride('/api/2.0/info', 'override.json');
+        FixtureRepository::clearOverrides();
 
         $result = $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/plugins',
+            'https://plugins.matomo.org/api/2.0/info',
             null,
             null,
             false
         );
 
-        $this->assertStringContainsString('plugins/Marketplace/tests/resources/images/img/categories/insights.png', $result);
+        $this->assertSame('"manifest body"', $result);
+    }
+
+    public function testInterceptThrowsOnMalformedJsonFixture(): void
+    {
+        $this->writeManifest([
+            '/api/2.0/info' => 'broken.json',
+        ]);
+        file_put_contents($this->tmpDir . '/broken.json', '{ this is not json');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageMatches('/is not valid JSON/');
+
+        $this->repository->intercept(
+            'https://plugins.matomo.org/api/2.0/info',
+            null,
+            null,
+            false
+        );
     }
 
     public function testInterceptSkipsUnknownHostsAndReturnsNull(): void
