@@ -87,6 +87,36 @@ class ApiTest extends SystemTestCase
                     'testSuffix'             => '_documents',
                 ],
             ],
+            [
+                [
+                    'BotTracking.getAIChatbotContentPages',
+                ], [
+                    'idSite'     => 1,
+                    'date'       => '2025-02-03',
+                    'periods'    => ['day', 'week'],
+                    'testSuffix' => '_content_pages',
+                ],
+            ],
+            [
+                [
+                    'BotTracking.getAIChatbotContentDocuments',
+                ], [
+                    'idSite'     => 1,
+                    'date'       => '2025-02-03',
+                    'periods'    => ['day', 'week'],
+                    'testSuffix' => '_content_documents',
+                ],
+            ],
+            [
+                [
+                    'BotTracking.getAIChatbotBrokenContent',
+                ], [
+                    'idSite'     => 1,
+                    'date'       => '2025-02-03',
+                    'periods'    => ['day', 'week'],
+                    'testSuffix' => '_broken_content',
+                ],
+            ],
         ];
     }
 

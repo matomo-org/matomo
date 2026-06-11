@@ -5,6 +5,7 @@ use Piwik\Piwik;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\FakeChangesModel;
 use Piwik\Tests\Framework\Mock\TestConfig;
+use Piwik\Tests\Framework\Mock\TestFeatureFlagStorage;
 
 return array(
 
@@ -58,6 +59,19 @@ return array(
         } else {
             return $previous;
         }
+    }),
+
+    // Force-enable feature flags for all test runs so cross-suite tests (WidgetsListTest,
+    // ApiGetReportMetadataTest, etc.) and feature-specific tests run with the gated features
+    // visible. Done at the storage level instead of mutating the config: a config change
+    // would surface as a "changed value" on the Diagnostics config-file page and therefore
+    // on its UI test screenshot.
+    'featureflag.storages' => \Piwik\DI::decorate(function ($previous) {
+        $previous[] = new TestFeatureFlagStorage([
+            'AIChatbotsContentReports',
+        ]);
+
+        return $previous;
     }),
 
     'Piwik\Access' => \Piwik\DI::decorate(function ($previous, Container $c) {
