@@ -36,10 +36,4 @@
 		<ai_chatbot_requests>1</ai_chatbot_requests>
 		<discrepancy_score>43.1</discrepancy_score>
 	</row>
-	<row>
-		<label>example.com/article/2</label>
-		<unique_human_pageviews>2</unique_human_pageviews>
-		<ai_chatbot_requests>4</ai_chatbot_requests>
-		<discrepancy_score>33.3</discrepancy_score>
-	</row>
 </result>

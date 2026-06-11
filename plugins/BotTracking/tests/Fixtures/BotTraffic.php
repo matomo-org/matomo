@@ -176,22 +176,28 @@ class BotTraffic extends Fixture
 
     /**
      * Tracks ordinary human pageviews to URLs that AI chatbots also request, so the
-     * Human/AI-Favoured Pages merge has rows where BOTH metrics are non-zero. Includes a
-     * "www." URL whose normalized action name collides with the bot label (example.com/article/3),
-     * exercising the PageUrl::normalizeUrl-based merge key in FavouredPagesMerger.
+     * Human/AI-Favoured Pages records have rows where BOTH metrics are non-zero. example.com/article/2
+     * is spread across several consecutive days (Feb 3-5) — and the bots also request it on those days
+     * — so Row Evolution has a real multi-point series for both the human and AI sides. Includes a
+     * "www." URL whose action name, once Matomo normalizes it, collides with the bot label
+     * example.com/article/3, confirming both sides key on the same log_action.name.
      */
     private function trackHumanPageOverlaps(): void
     {
-        // [url, number of human visits] — both URLs are also requested by bots in trackBotRequests().
+        // [url, dayOffset, number of human visits] — these URLs are also requested by bots in
+        // trackBotRequests(). Day offset 1 = 2025-02-03 (the date the system tests query for `day`);
+        // offsets 1-3 all fall inside the queried `week`.
         $overlaps = [
-            ['https://example.com/article/2', 2],
-            ['https://www.example.com/article/3', 1],
+            ['https://example.com/article/2', 1, 2],
+            ['https://example.com/article/2', 2, 2],
+            ['https://example.com/article/2', 3, 1],
+            ['https://www.example.com/article/3', 1, 1],
         ];
 
-        foreach ($overlaps as [$url, $visits]) {
+        foreach ($overlaps as [$url, $dayOffset, $visits]) {
             for ($i = 0; $i < $visits; $i++) {
                 $date = Date::factory($this->dateTime)
-                    ->addDay(1) // 2025-02-03, the date the system tests query
+                    ->addDay($dayOffset)
                     ->addHour($i + 1)
                     ->getDatetime();
                 $tracker = self::getTracker($this->idSite, $date, true);
