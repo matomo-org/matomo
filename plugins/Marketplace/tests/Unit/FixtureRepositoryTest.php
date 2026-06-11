@@ -247,6 +247,33 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testManifestRejectsInvalidStatusValue(): void
+    {
+        $this->writeManifest([
+            '/api/2.0/info' => ['file' => 'info.json', 'status' => 'oops'],
+        ]);
+        file_put_contents($this->tmpDir . '/info.json', '{}');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageMatches('/invalid HTTP status/');
+
+        $this->repository->intercept(
+            'https://plugins.matomo.org/api/2.0/info',
+            null,
+            null,
+            false
+        );
+    }
+
+    public function testBuildCanonicalKeyHandlesMalformedUrlWithoutWarning(): void
+    {
+        // parse_url returns false for severely malformed URLs (e.g. with a
+        // bare colon scheme). The key builder must coerce to [] so callers
+        // don't trip PHP 8 "array offset on bool" warnings.
+        $key = $this->repository->buildCanonicalKey('http://:80', null);
+        $this->assertSame('', $key);
+    }
+
     public function testManifestRejectsTypoKeysMissingLeadingSlash(): void
     {
         file_put_contents(

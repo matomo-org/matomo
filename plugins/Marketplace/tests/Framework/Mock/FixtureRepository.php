@@ -173,7 +173,15 @@ class FixtureRepository
                     json_last_error_msg()
                 ));
             }
-            $data = json_encode($decoded, JSON_UNESCAPED_SLASHES);
+            $encoded = json_encode($decoded, JSON_UNESCAPED_SLASHES);
+            if ($encoded === false) {
+                throw new \Exception(sprintf(
+                    'Marketplace fixture "%s" could not be re-encoded as JSON: %s',
+                    $path,
+                    json_last_error_msg()
+                ));
+            }
+            $data = $encoded;
         }
 
         if ($destinationPath !== null) {
@@ -200,7 +208,10 @@ class FixtureRepository
      */
     public function buildCanonicalKey(string $url, ?array $postData): string
     {
-        $parsed = @parse_url($url);
+        // parse_url returns false for severely malformed URLs; coerce to [] so
+        // the offset access below is well-defined (avoids PHP 8 "array offset
+        // on value of type bool" warnings).
+        $parsed = @parse_url($url) ?: [];
         $path = $parsed['path'] ?? '';
 
         $params = [];
@@ -256,10 +267,22 @@ class FixtureRepository
     {
         if (is_array($entry)) {
             $filename = $entry['file'] ?? null;
-            $status = isset($entry['status']) ? (int) $entry['status'] : 200;
 
             if (!is_string($filename) || $filename === '') {
                 throw new \Exception('Marketplace fixture manifest entry missing "file".');
+            }
+
+            if (!array_key_exists('status', $entry)) {
+                $status = 200;
+            } else {
+                $rawStatus = $entry['status'];
+                if (!is_int($rawStatus) || $rawStatus < 100 || $rawStatus > 599) {
+                    throw new \Exception(sprintf(
+                        'Marketplace fixture manifest entry has invalid HTTP status %s; expected integer in [100,599].',
+                        var_export($rawStatus, true)
+                    ));
+                }
+                $status = $rawStatus;
             }
 
             return [$filename, $status];
@@ -285,6 +308,12 @@ class FixtureRepository
         }
 
         $contents = file_get_contents($path);
+        if ($contents === false) {
+            throw new \Exception(sprintf(
+                'Marketplace fixture manifest "%s" could not be read (permissions or I/O error).',
+                $path
+            ));
+        }
         $decoded = json_decode($contents, true);
 
         if (!is_array($decoded)) {
