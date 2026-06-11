@@ -57,8 +57,9 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     public function testMinimumPhpVersionIsDefinedInComposerJson()
     {
         $composerJson = $this->getComposerJsonAsArray();
-        // platform value is currently higher than minimum required php version to circumvent minimum requirement of wikimedia/less.php
-        $this->assertEquals('7.2.9' /*self::MINIMUM_PHP_VERSION*/, $composerJson['config']['platform']['php']);
+        // dependencies are resolved against a newer PHP version and automatically
+        // downgraded to the minimum required php version (see tools/rector/README.md)
+        $this->assertEquals('8.1.31', $composerJson['config']['platform']['php']);
 
         $expectedRequirePhp = '>=' . self::MINIMUM_PHP_VERSION;
         $this->assertEquals($expectedRequirePhp, $composerJson['require']['php']);
@@ -1124,7 +1125,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             }
 
             if (
-                strpos($file, 'vendor/php-di/php-di/website/') !== false
+                strpos($file, 'tools/rector/vendor/') !== false
+                || strpos($file, 'vendor/php-di/php-di/website/') !== false
                 || strpos($file, 'vendor/phpmailer/phpmailer/language/') !== false
                 || strpos($file, 'vendor/wikimedia/less.php/') !== false
                 || strpos($file, 'node_modules/') !== false
