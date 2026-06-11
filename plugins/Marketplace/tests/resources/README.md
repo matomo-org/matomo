@@ -28,6 +28,10 @@ JSON fixtures are minified by the interceptor before being returned, so pretty-p
 3. Keep the payload minimal — only fields the calling code actually reads. No real author names, emails, owner handles, marketing copy, or shop variations.
 4. Run the affected test group to confirm.
 
+## Binary fixtures
+
+The single `.zip` fixture (`TreemapVisualization-4.0.2.zip`) is committed directly because it is small (~83 KB) and `LastForcedInstall` needs a real Piwik-4-compatible plugin archive to extract. Keep binary fixtures tiny; move them to Git LFS rather than this directory if you ever need anything larger.
+
 ## Per-test overrides
 
 Tests that need a different response for a known endpoint (e.g. `createAccount` returning 409 instead of 200) register a temporary override:

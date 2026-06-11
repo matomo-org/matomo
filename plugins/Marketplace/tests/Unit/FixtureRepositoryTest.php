@@ -230,6 +230,45 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('"manifest body"', $result);
     }
 
+    public function testInterceptRejectsPathTraversalInManifestFilename(): void
+    {
+        $this->writeManifest([
+            '/api/2.0/info' => '../escaped.json',
+        ]);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageMatches('/unsafe filename/');
+
+        $this->repository->intercept(
+            'https://plugins.matomo.org/api/2.0/info',
+            null,
+            null,
+            false
+        );
+    }
+
+    public function testManifestNonUrlKeysAreIgnored(): void
+    {
+        file_put_contents(
+            $this->tmpDir . '/manifest.json',
+            json_encode([
+                '__comment__' => 'docs',
+                '/api/2.0/info' => 'info.json',
+            ])
+        );
+        $this->repository->reloadManifest();
+        file_put_contents($this->tmpDir . '/info.json', '{"ok":true}');
+
+        $result = $this->repository->intercept(
+            'https://plugins.matomo.org/api/2.0/info',
+            null,
+            null,
+            false
+        );
+
+        $this->assertSame('{"ok":true}', $result);
+    }
+
     public function testInterceptThrowsOnMalformedJsonFixture(): void
     {
         $this->writeManifest([

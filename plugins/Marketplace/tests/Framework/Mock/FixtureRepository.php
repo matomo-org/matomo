@@ -96,7 +96,7 @@ class FixtureRepository
      * marketplace host → throw, so CI fails loudly the first time a new
      * marketplace request appears, preventing silent live-network calls.
      *
-     * @return string|array|bool|null Same shape as Http::sendHttpRequestBy, or null when the URL isn't ours.
+     * @return string|array|true|null Same shape as Http::sendHttpRequestBy (true on destinationPath write), or null when the URL isn't ours.
      * @throws \Exception when no fixture matches a marketplace URL.
      */
     public function intercept(string $url, ?string $destinationPath, ?array $postData, bool $getExtendedInfo)
@@ -126,6 +126,17 @@ class FixtureRepository
         }
 
         [$filename, $status] = $this->parseEntry($entry);
+
+        // Defensive: the manifest is committed source so a path-traversal value
+        // shouldn't reach here, but reject anything that escapes the fixtures
+        // directory so a malformed entry can't read arbitrary files.
+        if (strpos($filename, '/') !== false || strpos($filename, '\\') !== false || strpos($filename, '..') !== false) {
+            throw new \Exception(sprintf(
+                'Marketplace manifest entry for "%s" contains an unsafe filename: "%s".',
+                $key,
+                $filename
+            ));
+        }
 
         $path = $this->directory . '/' . $filename;
         if (!file_exists($path)) {
@@ -270,6 +281,14 @@ class FixtureRepository
                 'Marketplace fixture manifest "%s" is not valid JSON.',
                 $path
             ));
+        }
+
+        // Strip non-URL keys (e.g. "__comment__") so lookups never accidentally
+        // match documentation entries in the manifest file.
+        foreach (array_keys($decoded) as $key) {
+            if (!is_string($key) || strpos($key, '/') !== 0) {
+                unset($decoded[$key]);
+            }
         }
 
         $this->manifest = $decoded;
