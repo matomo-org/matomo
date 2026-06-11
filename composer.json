@@ -120,6 +120,13 @@
         }
     },
     "scripts": {
-        "phpstan": "phpstan analyse -c phpstan.neon"
+        "phpstan": "phpstan analyse -c phpstan.neon",
+        "downgrade-vendor": "@php .github/scripts/vendor-downgrade/downgrade-vendor.php",
+        "post-install-cmd": [
+            "@downgrade-vendor"
+        ],
+        "post-update-cmd": [
+            "@downgrade-vendor"
+        ]
     }
 }

@@ -1,0 +1,10 @@
+{
+    "description": "Self-contained tooling project used to downgrade composer dependencies to PHP 7.2 syntax. Kept separate from the main composer.json so the release build (--no-dev) and the PHP 7.2 platform resolution are not affected. See .github/scripts/vendor-downgrade/downgrade-vendor.php.",
+    "require": {
+        "rector/rector": "2.4.*",
+        "php-parallel-lint/php-parallel-lint": "^1.4"
+    },
+    "config": {
+        "platform-check": false
+    }
+}
