@@ -90,7 +90,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
     public function tearDown(): void
     {
         $this->bruteForceDetection->deleteAll();
-        unset($_GET['authCode']);
+        unset($_GET['authCode'], $_GET['module'], $_GET['action']);
     }
 
     public function testLoginTwoFactorAuthRequiresFreshLoginWhenCurrentUserDoesNotMatchPendingSessionUser()
@@ -308,6 +308,33 @@ class TwoFactorAuthTest extends IntegrationTestCase
             'description' => 'twofa test',
         ));
         $this->assertEquals(32, strlen($token));
+    }
+
+    public function testOnSuccessfulSessionRecordsFailedAttemptWhenInvalidAuthCodeDuringLogme()
+    {
+        $_GET['module'] = 'Login';
+        $_GET['action'] = 'logme';
+        $_GET['authCode'] = '111222';
+
+        $this->assertCount(0, $this->bruteForceDetection->getAll());
+
+        $plugin = new TwoFactorAuth();
+        $plugin->onSuccessfulSession($this->userWith2Fa);
+
+        $attempts = $this->bruteForceDetection->getAll();
+        $this->assertCount(1, $attempts);
+        $this->assertSame($this->userWith2Fa, $attempts[0]['login']);
+    }
+
+    public function testOnSuccessfulSessionDoesNotRecordFailedAttemptWhenNoAuthCodeDuringLogme()
+    {
+        $_GET['module'] = 'Login';
+        $_GET['action'] = 'logme';
+
+        $plugin = new TwoFactorAuth();
+        $plugin->onSuccessfulSession($this->userWith2Fa);
+
+        $this->assertCount(0, $this->bruteForceDetection->getAll());
     }
 
     public function testOnDeleteUserRemovesAllRecoveryCodesWhenUsingTwoFa()

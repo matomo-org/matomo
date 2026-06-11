@@ -152,13 +152,13 @@ class TwoFactorAuth extends \Piwik\Plugin
             $authCode = Common::getRequestVar('authCode', '', 'string');
             $twoFa = $this->getTwoFa();
 
-            if (
-                $authCode
-                && TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)
-                && $twoFa->validateAuthCode($login, $authCode)
-            ) {
-                $sessionFingerprint = new SessionFingerprint();
-                $sessionFingerprint->setTwoFactorAuthenticationVerified($login);
+            if ($authCode && TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)) {
+                if ($twoFa->validateAuthCode($login, $authCode)) {
+                    $sessionFingerprint = new SessionFingerprint();
+                    $sessionFingerprint->setTwoFactorAuthenticationVerified($login);
+                } else {
+                    $this->recordFailedTwoFactorAttempt($login);
+                }
             }
         }
     }
