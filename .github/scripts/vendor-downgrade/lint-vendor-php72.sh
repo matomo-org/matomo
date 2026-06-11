@@ -24,15 +24,17 @@ excludes=(--exclude vendor/bin)
 # - symfony polyfill bootstrap8*.php files (required only when PHP_VERSION_ID >= 80000)
 # - symfony PHP attribute classes (attributes are only used on PHP >= 8; on PHP 7.2
 #   rector downgrades attribute usages to annotations)
-# - vendor test/doc/example files (not autoloaded, also skipped by rector-downgrade.php)
+# - package test/doc/example directories (not autoloaded, also skipped by the downgrade;
+#   only matched at package root level, as deeper directories with these names can be
+#   real code, e.g. twig's src/Node/Expression/Test classes)
 while IFS= read -r path; do
     excludes+=(--exclude "$path")
 done < <(
     find vendor -type f -name 'bootstrap8*.php' -path '*/polyfill-*'
     find vendor -mindepth 3 -maxdepth 3 -type d -name 'Attribute' -path 'vendor/symfony/*'
-    find vendor -type d \( -iname 'tests' -o -iname 'test' -o -iname 'doc' -o -iname 'docs' -o -iname 'examples' \)
+    find vendor -mindepth 3 -maxdepth 3 -type d \( -name 'tests' -o -name 'Tests' -o -name 'test' -o -name 'Test' -o -name 'doc' -o -name 'docs' -o -name 'examples' \)
 )
 
 "$PHP_BIN" -v | head -1
 
-"$PHP_BIN" tools/rector/vendor/bin/parallel-lint --no-progress "${excludes[@]}" vendor/
+"$PHP_BIN" tools/rector/vendor/bin/parallel-lint --no-progress -e php "${excludes[@]}" vendor/

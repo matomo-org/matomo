@@ -67,6 +67,56 @@ function matomo_downgrade_stamp_hash(string $rootDir, array $packages): string
 }
 
 /**
+ * Detects enum declarations in the packages to be downgraded.
+ *
+ * Rector converts enums to constant-list classes, but several related downgrades
+ * (type declarations, ->value fetches) cannot rely on rector's reflection, since it
+ * breaks once the enum declaration was converted on disk within the same rector run.
+ * The custom rules in tools/rector/rules are therefore configured with this statically
+ * detected list (passed via the MATOMO_DOWNGRADE_ENUMS environment variable).
+ *
+ * @param array<string, array{path: string, version: string, php: string}> $packages
+ * @return string[] fully qualified enum class names
+ */
+function matomo_downgrade_find_enums(array $packages): array
+{
+    $enums = [];
+
+    foreach ($packages as $package) {
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($package['path'], FilesystemIterator::SKIP_DOTS)
+        );
+
+        foreach ($files as $file) {
+            if ($file->getExtension() !== 'php') {
+                continue;
+            }
+
+            $code = (string) file_get_contents((string) $file);
+
+            if (
+                strpos($code, 'enum ') === false
+                || !preg_match_all('/^\s*(?:final\s+|abstract\s+)?enum\s+([A-Za-z_]\w*)/m', $code, $matches)
+            ) {
+                continue;
+            }
+
+            $namespace = preg_match('/^namespace\s+([^;{\s]+)/m', $code, $namespaceMatch)
+                ? $namespaceMatch[1] . '\\'
+                : '';
+
+            foreach ($matches[1] as $enumName) {
+                $enums[] = $namespace . $enumName;
+            }
+        }
+    }
+
+    sort($enums);
+
+    return $enums;
+}
+
+/**
  * Returns the path to a PHP CLI binary that can run Rector (PHP >= 7.4).
  */
 function matomo_downgrade_find_php(): ?string
@@ -203,13 +253,40 @@ foreach ($packages as $package) {
     $pathArgs[] = escapeshellarg($package['path']);
 }
 
-matomo_downgrade_run(
-    escapeshellarg($phpBinary) . ' ' . escapeshellarg($rectorBinary)
-        . ' process ' . implode(' ', $pathArgs)
-        . ' --config=' . escapeshellarg($rootDir . '/rector-downgrade.php')
-        . ' --no-diffs 2>&1',
-    'Rector failed to downgrade the vendor code to PHP 7.2'
-);
+$enums = matomo_downgrade_find_enums($packages);
+
+if (!empty($enums)) {
+    matomo_downgrade_log('Detected enums to downgrade: ' . implode(', ', $enums));
+}
+
+// top-level test and doc directories of each package are skipped by rector
+// (precise paths instead of glob patterns, which would also match real code
+// directories like twig's src/Node/Expression/Test)
+$skipPaths = [];
+
+foreach ($packages as $package) {
+    foreach (['tests', 'Tests', 'test', 'Test', 'doc', 'docs', 'examples'] as $directory) {
+        if (is_dir($package['path'] . '/' . $directory)) {
+            $skipPaths[] = $package['path'] . '/' . $directory;
+        }
+    }
+}
+
+// the downgrade runs in multiple passes (see rector-downgrade.php): enums and promoted
+// constructor properties must already be downgraded on disk before the PHP 8.0 named
+// argument downgrade can resolve parameter default values across files
+foreach (['php80', 'php72-prep', 'php72', 'variance'] as $downgradeSet) {
+    matomo_downgrade_run(
+        'MATOMO_DOWNGRADE_SET=' . $downgradeSet . ' '
+            . 'MATOMO_DOWNGRADE_ENUMS=' . escapeshellarg(implode(',', $enums)) . ' '
+            . 'MATOMO_DOWNGRADE_SKIP=' . escapeshellarg(implode(',', $skipPaths)) . ' '
+            . escapeshellarg($phpBinary) . ' ' . escapeshellarg($rectorBinary)
+            . ' process ' . implode(' ', $pathArgs)
+            . ' --config=' . escapeshellarg($rootDir . '/rector-downgrade.php')
+            . ' --no-diffs 2>&1',
+        'Rector failed to downgrade the vendor code (set: ' . $downgradeSet . ')'
+    );
+}
 
 $writeStamp();
 
