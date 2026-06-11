@@ -1022,6 +1022,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'libs/jqplot/plugins/jqplot.pieRenderer.js',
             'config/config.php',
             'bootstrap-phpstan.php',
+            'tools/',
+            'rector-downgrade.php',
             '*.gitignore',
             '*.gitmodules',
             '*.gitattributes',

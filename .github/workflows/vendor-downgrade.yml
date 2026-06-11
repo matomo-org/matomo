@@ -1,0 +1,63 @@
+# Verifies that the composer dependencies installed by the current composer.lock
+# run on PHP 7.2 after the automated vendor downgrade
+# (see .github/scripts/vendor-downgrade/downgrade-vendor.php)
+
+name: Vendor PHP 7.2 downgrade
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - 'composer.json'
+      - 'composer.lock'
+      - 'rector-downgrade.php'
+      - 'tools/rector/**'
+      - '.github/scripts/vendor-downgrade/**'
+      - '.github/workflows/vendor-downgrade.yml'
+  push:
+    branches:
+      - '**.x-dev'
+      - 'next_release'
+  workflow_dispatch:
+
+permissions:
+  actions: none
+  checks: none
+  contents: read
+  deployments: none
+  issues: none
+  packages: none
+  pull-requests: none
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+concurrency:
+  group: vendor-downgrade-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-downgraded-vendor:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: false
+          persist-credentials: false
+      - name: Install composer dependencies (runs the vendor downgrade)
+        run: composer install --ignore-platform-reqs
+      - name: Report downgraded packages
+        run: |
+          {
+            echo '### Vendor PHP 7.2 downgrade'
+            echo '```json'
+            cat vendor/.rector-downgraded
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Set up PHP 7.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.2'
+          coverage: none
+      - name: Lint vendor with PHP 7.2
+        run: .github/scripts/vendor-downgrade/lint-vendor-php72.sh

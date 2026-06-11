@@ -57,6 +57,18 @@ jobs:
             echo '```'
           } > COMPOSER_LOG
 
+          # report which packages were downgraded to PHP 7.2 after the update
+          if [ -f vendor/.rector-downgraded ]
+          then
+            {
+              echo ''
+              echo 'PHP 7.2 vendor downgrade report (see .github/scripts/vendor-downgrade):'
+              echo '```json'
+              cat vendor/.rector-downgraded
+              echo '```'
+            } >> COMPOSER_LOG
+          fi
+
           # abort here if no change available
           if git diff --quiet -- composer.lock
           then
@@ -66,6 +78,15 @@ jobs:
           git add "composer.lock"
           echo "message=$(jq -aRs < COMPOSER_LOG)" >> "$GITHUB_OUTPUT"
       shell: bash
+    - name: Set up PHP 7.2
+      if: steps.update.outputs.message
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.2'
+        coverage: none
+    - name: Lint downgraded vendor with PHP 7.2
+      if: steps.update.outputs.message
+      run: .github/scripts/vendor-downgrade/lint-vendor-php72.sh
     - name: Push changes
       run: |
           git commit -m "Update composer dependencies"

@@ -187,6 +187,10 @@ rm -f config/config.php
 rm -rf tmp/*
 rm -f bootstrap-phpstan.php
 
+# Delete the PHP 7.2 vendor downgrade tooling (the downgrade was already applied to vendor/ during the build)
+rm -rf tools/
+rm -f rector-downgrade.php
+
 # Delete unwanted git folders, recursively
 for x in .git .github ; do
     find . -name "$x" -exec rm -rf {} \; 2>/dev/null

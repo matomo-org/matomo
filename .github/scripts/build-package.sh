@@ -90,6 +90,10 @@ function organizePackage() {
     # --ignore-platform-reqs in case the building machine does not have one of the packages required ie. GD required by cpchart
     php composer.phar install --no-dev -o -q --ignore-platform-reqs || die "Error installing composer packages"
 
+    # ensure dependencies requiring PHP > 7.2 were downgraded to PHP 7.2
+    # (already runs as composer post-install hook; this makes a failure visible despite the quiet install)
+    php composer.phar run downgrade-vendor || die "Error downgrading composer packages to PHP 7.2"
+
     # delete most submodules
     for P in $(git submodule status | egrep -v $SUBMODULES_PACKAGED_WITH_CORE | awk '{print $2}')
     do
