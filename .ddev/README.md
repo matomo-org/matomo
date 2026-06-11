@@ -44,6 +44,11 @@ ddev matomo:init:dev
 
 This command will set up the environment for development, installing the additional dependencies required.
 
+NOTE: Some composer dependencies require a newer PHP version than Matomo's minimum (PHP 7.2). After
+every `composer install`/`update` the installed code is automatically downgraded to PHP 7.2 syntax,
+so the application keeps running on the container's default PHP 7.2. See `tools/rector/README.md`
+for details.
+
 We have also added a parameter to the `ddev matomo:init:dev` command to enable source maps for Vue components. 
 To enable them, you can run:
 ```
