@@ -118,11 +118,6 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
         $view->config->show_pie_chart = false;
         $view->config->show_tag_cloud = false;
 
-        // Disable Row Evolution for now: each evolution data point re-runs the full live merge
-        // (Actions page URLs + bot content pages) for its period, which is too costly to offer
-        // per row until the underlying data is archived.
-        $view->config->disable_row_evolution = true;
-
         // Render URL labels as clickable links. Labels are Matomo-normalized URLs without scheme
         // (e.g. example.com/article/2); prepend https:// to form a valid link target.
         $view->config->filters[] = function (DataTable $table) {
