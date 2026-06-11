@@ -21,10 +21,10 @@ use Piwik\Plugins\BotTracking\Metrics;
  * Column metric for the human-side pageview count on the Human/AI-Favoured Pages reports.
  *
  * Extends AggregatedMetric purely to supply the column's name/translation/format/semantic-type
- * metadata. Unlike a typical AggregatedMetric this value is NOT aggregated from an archive — it is
- * injected at API time by {@see \Piwik\Plugins\BotTracking\DataTable\FavouredPagesMerger} from the
- * Actions page-URLs report. AggregatedMetric is simply the closest base for "a plain column that
- * isn't a processed metric".
+ * metadata. The value is materialised during archiving by
+ * {@see \Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotFavouredPages} (human pageviews =
+ * distinct visits per page URL, matching the Actions Pages report's nb_visits). AggregatedMetric is
+ * simply the closest base for "a plain column that isn't a processed metric".
  */
 class UniqueHumanPageviews extends AggregatedMetric
 {

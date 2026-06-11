@@ -11,14 +11,11 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking;
 
-use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Piwik;
-use Piwik\Plugins\BotTracking\Columns\Metrics\DiscrepancyScore;
-use Piwik\Plugins\BotTracking\DataTable\FavouredPagesMerger;
-use Piwik\Plugins\BotTracking\DataTable\FavouredPagesScorer;
+use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotReports;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\BotTracking\Reports\Get;
@@ -275,10 +272,12 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $table = $this->buildFavouredPagesTable($idSite, $period, $date);
-        (new FavouredPagesScorer(DiscrepancyScore::VARIANT_HUMAN_FAVOURED))->addScores($table);
+        // The merged, scored data is archived (see AIChatbotFavouredPages); just read it back. The
+        // empty segment is intentional: these reports are unsegmented (the record is only archived
+        // for the empty segment), so any requested segment is ignored and the standard data returned.
+        $table = Archive::createDataTableFromArchive(Archiver::AI_CHATBOTS_HUMAN_FAVOURED_PAGES_RECORD, $idSite, $period, $date, '', false, false);
 
-        return $table;
+        return $this->skipScoreInReportTotals($table);
     }
 
     /**
@@ -304,48 +303,37 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $table = $this->buildFavouredPagesTable($idSite, $period, $date);
-        (new FavouredPagesScorer(DiscrepancyScore::VARIANT_AI_FAVOURED))->addScores($table);
+        // See getAIChatbotHumanFavouredPages: the scored data is archived; read it back unsegmented.
+        $table = Archive::createDataTableFromArchive(Archiver::AI_CHATBOTS_AI_FAVOURED_PAGES_RECORD, $idSite, $period, $date, '', false, false);
 
-        return $table;
+        return $this->skipScoreInReportTotals($table);
     }
 
     /**
-     * Builds the merged source table that backs both favoured-pages reports by combining the AI
-     * chatbot content-pages blob with the Actions page-URLs report. See {@see FavouredPagesMerger}
-     * for the merge algorithm.
+     * Marks the discrepancy_score column 'skip' so the report totals row leaves it blank — summing a
+     * per-page 0–100 index is meaningless. The scorer sets this op at archive time, but the column
+     * aggregation metadata does not survive blob serialisation, so it is re-applied here on read.
+     * Recurses into DataTable\Map (multi-period / multi-site).
      *
-     * The Actions data is fetched through the API request pipeline ({@see Request::processRequest})
-     * rather than a direct `Actions\API::getPageUrls()` call. This matters: flattening and the
-     * per-row `url` metadata that the merge keys on are applied by the request manipulators and
-     * queued filters, which a direct in-process call would skip — leaving nested page rows without
-     * a `url` and silently un-merged. Going through the pipeline also yields name-keyed columns
-     * (so the merge can read `nb_visits`) without a manual `ReplaceColumnNames` pass. This is a
-     * deliberate cross-plugin coupling to the Actions page-URL report (these reports archive no
-     * record of their own).
-     *
-     * @param int|string|int[] $idSite
+     * @param DataTable|DataTable\Map $table
      * @return DataTable|DataTable\Map
      */
-    private function buildFavouredPagesTable($idSite, string $period, string $date): DataTableInterface
+    private function skipScoreInReportTotals(DataTableInterface $table): DataTableInterface
     {
-        $botData = $this->getAIChatbotContentPages($idSite, $period, $date);
+        if ($table instanceof DataTable\Map) {
+            foreach ($table->getDataTables() as $childTable) {
+                $this->skipScoreInReportTotals($childTable);
+            }
 
-        // filter_limit=-1 keeps every URL; segment is intentionally not forwarded (these reports
-        // declare no segment support and the bot side is unsegmented, so honouring it on one side
-        // only would be misleading). The empty $defaultRequest ([]) is essential: it stops the
-        // inner Actions request from inheriting the outer favoured-report's generic filters — in
-        // particular filter_excludelowpop=discrepancy_score / filter_sort_column, which name a
-        // column Actions doesn't have and would otherwise delete or mis-sort all the human rows.
-        $actionsData = Request::processRequest('Actions.getPageUrls', [
-            'idSite'       => $idSite,
-            'period'       => $period,
-            'date'         => $date,
-            'flat'         => 1,
-            'filter_limit' => -1,
-            'segment'      => false,
-        ], []);
+            return $table;
+        }
 
-        return (new FavouredPagesMerger())->merge($botData, $actionsData);
+        if ($table instanceof DataTable) {
+            $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME) ?: [];
+            $ops[Metrics::COLUMN_DISCREPANCY_SCORE] = 'skip';
+            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $ops);
+        }
+
+        return $table;
     }
 }

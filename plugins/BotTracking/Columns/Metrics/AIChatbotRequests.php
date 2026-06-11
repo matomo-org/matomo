@@ -21,9 +21,9 @@ use Piwik\Plugins\BotTracking\Metrics;
  * Column metric for the AI-chatbot request count on the Human/AI-Favoured Pages reports.
  *
  * Extends AggregatedMetric purely to supply the column's name/translation/format/semantic-type
- * metadata. The value is NOT aggregated from an archive — it is injected at API time by
- * {@see \Piwik\Plugins\BotTracking\DataTable\FavouredPagesMerger} from the AI chatbot
- * content-pages record. AggregatedMetric is simply the closest base for "a plain column that
+ * metadata. The value is materialised during archiving by
+ * {@see \Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotFavouredPages} (the AI chatbot
+ * page-request count). AggregatedMetric is simply the closest base for "a plain column that
  * isn't a processed metric".
  */
 class AIChatbotRequests extends AggregatedMetric
