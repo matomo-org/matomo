@@ -1,6 +1,6 @@
 # Marketplace test fixtures
 
-Tests must not hit the live Marketplace (CI parallelism trips the WAF). This directory holds hand-maintained, anonymised response stubs; `Service::download()` serves them automatically whenever `PIWIK_TEST_MODE` is on, via `plugins/Marketplace/tests/Framework/Mock/FixtureRepository.php`.
+Tests must not hit the live Marketplace (CI parallelism trips the WAF). This directory holds hand-maintained, anonymised response stubs; under `PIWIK_TEST_MODE` they are served via `plugins/Marketplace/tests/Framework/Mock/FixtureRepository.php`, registered as an `Http.sendHttpRequest` listener from `plugins/Marketplace/config/test.php`. `Service.php` is unaware of the interception — the network is short-circuited at the HTTP layer.
 
 The fixtures are intentionally synthetic — third-party plugin/theme developer data has been stripped — so they should be edited by hand when a new endpoint or scenario is needed rather than re-recorded from production.
 
@@ -8,7 +8,7 @@ The fixtures are intentionally synthetic — third-party plugin/theme developer 
 
 `FixtureRepository` builds a canonical key from each request: `path + sorted query (significant params only) + access_token from POST`. Environment noise (`piwik` matching the current major, `php`, `mysql`, `prefer_stable`, `release_channel`, `num_users`, `num_websites`) and empty params are dropped. `manifest.json` maps the resulting keys to fixture filenames.
 
-A miss inside a known marketplace host (`plugins.matomo.org` / `plugins.piwik.org` / themes equivalents) throws `\Exception` and logs to stderr — no silent passes, no outbound HTTP. Hosts outside that list are not intercepted.
+A miss on a known marketplace host (`plugins.matomo.org` / `plugins.piwik.org` / themes equivalents) emits an `E_USER_DEPRECATED` and a stderr line prefixed `[Marketplace FixtureRepository]`, then lets the real HTTP transport proceed. The deprecation will graduate back to a hard throw once all in-tree and external plugin tests provide fixtures (see PR #24624). Repeated misses for the same canonical key are logged once per process. Hosts outside the marketplace list are not intercepted.
 
 Manifest entry value formats:
 
@@ -41,3 +41,21 @@ FixtureRepository::setOverride('/api/2.0/createAccount', ['file' => 'v2.0_create
 // ... run assertion ...
 FixtureRepository::clearOverrides();
 ```
+
+Overrides resolve fixture filenames against the Marketplace base directory.
+
+## Extending the manifest from another plugin
+
+A plugin outside Marketplace can contribute its own fixtures without editing this directory. From the plugin's own `config/test.php`:
+
+```php
+use Piwik\Plugins\Marketplace\tests\Framework\Mock\FixtureRepository;
+
+FixtureRepository::registerManifestDirectory(__DIR__ . '/../tests/resources');
+```
+
+- The directory must contain its own `manifest.json` plus fixture files (same shape as this one).
+- Manifest entries are merged with the Marketplace base manifest. Later registrations win on key collision, so a plugin can redirect an existing canonical URL to its own fixture.
+- Fixture filenames are resolved against the directory the winning entry came from — so plugin fixtures stay in the plugin's directory.
+- Per-test overrides set via `setOverride()` still take highest precedence and resolve against the Marketplace base directory.
+- For isolated unit tests that register temporary directories, call `FixtureRepository::clearRegisteredManifestDirectories()` in `tearDown()`.

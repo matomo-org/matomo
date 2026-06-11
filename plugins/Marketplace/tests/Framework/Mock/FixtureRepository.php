@@ -14,13 +14,21 @@ use Piwik\Filesystem;
 /**
  * Serves Marketplace HTTP responses from a directory of recorded fixtures.
  *
- * Used by Service::download() under PIWIK_TEST_MODE so tests never touch the
- * live Marketplace. Lookup is by canonical URL (path + significant query +
- * access_token from POST) via manifest.json. A miss throws so CI fails loudly
- * instead of leaking outbound requests.
+ * Registered as an `Http.sendHttpRequest` listener from
+ * `plugins/Marketplace/config/test.php` so tests never touch the live
+ * Marketplace. Lookup is by canonical URL (path + significant query +
+ * access_token from the request body) via manifest.json.
+ *
+ * A miss on a known Marketplace host currently emits an `E_USER_DEPRECATED`
+ * notice plus an `error_log` line prefixed `[Marketplace FixtureRepository]`
+ * and lets the real HTTP transport run. The throw will return once all
+ * in-tree and external plugin tests provide fixtures.
  *
  * Manifest entries are either a string (filename, served as HTTP 200) or an
  * object `{"file": "name.json", "status": 400}` for non-2xx responses.
+ *
+ * Plugins outside Marketplace can register their own manifest directories via
+ * `registerManifestDirectory()`; later registrations win on key collisions.
  *
  * Per-test overrides (createAccount response code, freeTrial success, etc.) are
  * registered via setOverride() and cleared between tests.
@@ -53,7 +61,11 @@ class FixtureRepository
     private $directory;
 
     /**
-     * @var array<string, string|array>|null
+     * Resolved manifest entries keyed by canonical URL. Each value carries the
+     * source directory the entry came from so plugin-registered fixtures are
+     * read from the plugin directory, not the Marketplace base directory.
+     *
+     * @var array<string, array{dir: string, entry: string|array}>|null
      */
     private $manifest;
 
@@ -61,6 +73,16 @@ class FixtureRepository
      * @var array<string, string|array>
      */
     private static $overrides = [];
+
+    /**
+     * @var array<string> absolute directory paths, in registration order
+     */
+    private static $extraManifestDirs = [];
+
+    /**
+     * @var array<string, true> canonical keys we've already logged a miss for in this process
+     */
+    private static $loggedMisses = [];
 
     public function __construct(?string $directory = null)
     {
@@ -76,6 +98,9 @@ class FixtureRepository
      * of the current test. Pass either a filename string or
      * `['file' => 'x.json', 'status' => 400]`.
      *
+     * Overrides resolve fixture filenames against the base directory of the
+     * FixtureRepository instance handling the request.
+     *
      * @param string $canonicalKey eg "/api/2.0/createAccount"
      * @param string|array $value
      */
@@ -90,42 +115,60 @@ class FixtureRepository
     }
 
     /**
-     * Attempt to serve a request from recorded fixtures.
+     * Register an extra directory whose `manifest.json` is merged into the
+     * lookup table. Intended for use from another plugin's `config/test.php`
+     * so plugin tests can contribute their own Marketplace fixtures without
+     * editing the Marketplace plugin.
      *
-     * Manifest entry hit → serve the fixture. Manifest miss inside a known
-     * marketplace host → throw, so CI fails loudly the first time a new
-     * marketplace request appears, preventing silent live-network calls.
-     *
-     * @return string|array|true|null Same shape as Http::sendHttpRequestBy (true on destinationPath write), or null when the URL isn't ours.
-     * @throws \Exception when no fixture matches a marketplace URL.
+     * Later registrations override earlier entries for the same canonical key.
+     * Fixture files are read from the directory the winning entry came from.
      */
-    public function intercept(string $url, ?string $destinationPath, ?array $postData, bool $getExtendedInfo)
+    public static function registerManifestDirectory(string $absoluteDirectory): void
+    {
+        self::$extraManifestDirs[] = rtrim($absoluteDirectory, '/');
+    }
+
+    public static function clearRegisteredManifestDirectories(): void
+    {
+        self::$extraManifestDirs = [];
+    }
+
+    public static function clearLoggedMisses(): void
+    {
+        self::$loggedMisses = [];
+    }
+
+    /**
+     * `Http.sendHttpRequest` listener.
+     *
+     * Sets the reference outputs to short-circuit the network call when a
+     * fixture matches. Returns without touching anything when the URL is not a
+     * Marketplace host, or on a soft miss (see class docblock).
+     *
+     * @param array $httpEventParams as built in Http::sendHttpRequestBy() — keys 'httpMethod', 'body', 'destinationPath', etc.
+     * @param string|null $response Set on hit. Will be the fixture body, or '' when a destinationPath write succeeds.
+     * @param int|null    $status   Set on hit to the manifest's status code (default 200).
+     * @param array       $headers  Set on hit to an empty array; fixtures don't carry response headers.
+     */
+    public function respond(string $url, array $httpEventParams, &$response, &$status, &$headers): void
     {
         if (!$this->shouldIntercept($url)) {
-            return null;
+            return;
         }
+
+        $destinationPath = $httpEventParams['destinationPath'] ?? null;
+        $postData = $this->extractPostData($httpEventParams['body'] ?? null);
 
         $key = $this->buildCanonicalKey($url, $postData);
-        $entry = $this->lookup($key);
+        $resolved = $this->lookup($key);
 
-        if ($entry === null) {
-            $message = sprintf(
-                'No Marketplace fixture for URL "%s" (canonical key: "%s"). '
-                . 'Add a hand-written entry to %s/manifest.json (see README.md).',
-                $url,
-                $key,
-                $this->directory
-            );
-            // Application code sometimes catches \Exception broadly (e.g.
-            // CorePluginsAdmin\Controller::createPluginsOrThemesView for offline
-            // graceful degradation) and the test screenshot ends up rendering
-            // without marketplace data without the trace appearing anywhere.
-            // Log to stderr so CI can grep for it.
-            error_log('[Marketplace FixtureRepository] ' . $message);
-            throw new \Exception($message);
+        if ($resolved === null) {
+            // TODO: switch back to throwing once all in-tree and plugin Marketplace tests provide fixtures. See PR #24624.
+            $this->emitMissDeprecation($url, $key);
+            return;
         }
 
-        [$filename, $status] = $this->parseEntry($entry);
+        [$filename, $statusCode] = $this->parseEntry($resolved['entry']);
 
         // Defensive: the manifest is committed source so a path-traversal value
         // shouldn't reach here, but reject filenames that could escape the
@@ -143,7 +186,7 @@ class FixtureRepository
             ));
         }
 
-        $path = $this->directory . '/' . $filename;
+        $path = $resolved['dir'] . '/' . $filename;
         if (!file_exists($path)) {
             throw new \Exception(sprintf(
                 'Marketplace fixture file "%s" referenced by manifest entry for "%s" is missing.',
@@ -187,18 +230,18 @@ class FixtureRepository
         if ($destinationPath !== null) {
             Filesystem::mkdir(@dirname($destinationPath));
             file_put_contents($destinationPath, $data);
-            return true;
+            // Sentinel: Http.php treats the event as handled when any of
+            // response/status/headers is set and returns true on the
+            // destinationPath branch when the file now exists on disk.
+            $response = '';
+            $status = $statusCode;
+            $headers = [];
+            return;
         }
 
-        if ($getExtendedInfo) {
-            return [
-                'status' => $status,
-                'headers' => [],
-                'data' => $data,
-            ];
-        }
-
-        return $data;
+        $response = $data;
+        $status = $statusCode;
+        $headers = [];
     }
 
     /**
@@ -247,12 +290,31 @@ class FixtureRepository
     }
 
     /**
-     * @return string|array|null
+     * @param mixed $body
+     * @return array<string, mixed>|null
+     */
+    private function extractPostData($body): ?array
+    {
+        if (is_array($body)) {
+            return $body;
+        }
+
+        if (is_string($body) && $body !== '') {
+            $parsed = [];
+            parse_str($body, $parsed);
+            return $parsed;
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array{dir: string, entry: string|array}|null
      */
     private function lookup(string $key)
     {
         if (array_key_exists($key, self::$overrides)) {
-            return self::$overrides[$key];
+            return ['dir' => $this->directory, 'entry' => self::$overrides[$key]];
         }
 
         $manifest = $this->loadManifest();
@@ -292,7 +354,11 @@ class FixtureRepository
     }
 
     /**
-     * @return array<string, string|array>
+     * Build the lookup table from the base directory and any extra directories
+     * registered via registerManifestDirectory(). Later directories override
+     * earlier entries for the same canonical key.
+     *
+     * @return array<string, array{dir: string, entry: string|array}>
      */
     private function loadManifest(): array
     {
@@ -300,11 +366,29 @@ class FixtureRepository
             return $this->manifest;
         }
 
-        $path = $this->directory . '/manifest.json';
+        $merged = $this->loadManifestFile($this->directory);
+
+        foreach (self::$extraManifestDirs as $extraDir) {
+            $extraEntries = $this->loadManifestFile($extraDir);
+            foreach ($extraEntries as $key => $value) {
+                // Later registration wins on collision.
+                $merged[$key] = $value;
+            }
+        }
+
+        $this->manifest = $merged;
+        return $this->manifest;
+    }
+
+    /**
+     * @return array<string, array{dir: string, entry: string|array}>
+     */
+    private function loadManifestFile(string $directory): array
+    {
+        $path = $directory . '/manifest.json';
 
         if (!file_exists($path)) {
-            $this->manifest = [];
-            return $this->manifest;
+            return [];
         }
 
         $contents = file_get_contents($path);
@@ -328,29 +412,28 @@ class FixtureRepository
         // "__comment__"), which are stripped from the lookup table so they
         // can't accidentally match a request. Anything else is likely a typo
         // (missing leading slash) — throw so it surfaces at load time.
-        foreach (array_keys($decoded) as $key) {
+        $entries = [];
+        foreach ($decoded as $key => $value) {
             if (!is_string($key) || $key === '') {
                 throw new \Exception(sprintf(
                     'Marketplace fixture manifest "%s" has a non-string or empty key.',
                     $path
                 ));
             }
-            if (strpos($key, '/') === 0) {
-                continue;
-            }
             if (strpos($key, '__') === 0) {
-                unset($decoded[$key]);
                 continue;
             }
-            throw new \Exception(sprintf(
-                'Marketplace fixture manifest "%s" has an unrecognised key "%s" — URL keys must start with "/", documentation keys with "__".',
-                $path,
-                $key
-            ));
+            if (strpos($key, '/') !== 0) {
+                throw new \Exception(sprintf(
+                    'Marketplace fixture manifest "%s" has an unrecognised key "%s" — URL keys must start with "/", documentation keys with "__".',
+                    $path,
+                    $key
+                ));
+            }
+            $entries[$key] = ['dir' => $directory, 'entry' => $value];
         }
 
-        $this->manifest = $decoded;
-        return $this->manifest;
+        return $entries;
     }
 
     public function reloadManifest(): void
@@ -384,5 +467,28 @@ class FixtureRepository
     private function isJsonFixture(string $filename): bool
     {
         return substr($filename, -5) === '.json';
+    }
+
+    private function emitMissDeprecation(string $url, string $key): void
+    {
+        if (isset(self::$loggedMisses[$key])) {
+            return;
+        }
+        self::$loggedMisses[$key] = true;
+
+        $message = sprintf(
+            'No Marketplace fixture for URL "%s" (canonical key: "%s"). '
+            . 'Add a hand-written entry to %s/manifest.json (see README.md). '
+            . 'This will become a hard error in a future version (see PR #24624).',
+            $url,
+            $key,
+            $this->directory
+        );
+
+        // Application code sometimes catches \Exception broadly so the
+        // deprecation alone can be swallowed; log to stderr too so CI grep
+        // for "[Marketplace FixtureRepository]" still surfaces the miss.
+        error_log('[Marketplace FixtureRepository] ' . $message);
+        trigger_error($message, E_USER_DEPRECATED);
     }
 }

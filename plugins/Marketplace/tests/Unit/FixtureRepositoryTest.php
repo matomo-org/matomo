@@ -35,18 +35,17 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->repository = new FixtureRepository($this->tmpDir);
 
         FixtureRepository::clearOverrides();
+        FixtureRepository::clearRegisteredManifestDirectories();
+        FixtureRepository::clearLoggedMisses();
     }
 
     public function tearDown(): void
     {
         FixtureRepository::clearOverrides();
+        FixtureRepository::clearRegisteredManifestDirectories();
+        FixtureRepository::clearLoggedMisses();
 
-        if (is_dir($this->tmpDir)) {
-            foreach (glob($this->tmpDir . '/*') as $file) {
-                @unlink($file);
-            }
-            @rmdir($this->tmpDir);
-        }
+        $this->cleanDir($this->tmpDir);
     }
 
     public function testBuildCanonicalKeyDropsEnvironmentNoise(): void
@@ -117,44 +116,35 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testInterceptReturnsRawStringForJsonFixture(): void
+    public function testRespondReturnsRawStringForJsonFixture(): void
     {
         $this->writeManifest([
             '/api/2.0/info' => 'info.json',
         ]);
         file_put_contents($this->tmpDir . '/info.json', '{"version":"2.0"}');
 
-        $result = $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/info',
-            null,
-            null,
-            false
-        );
+        [$response, $status, $headers] = $this->respond('https://plugins.matomo.org/api/2.0/info');
 
-        $this->assertSame('{"version":"2.0"}', $result);
+        $this->assertSame('{"version":"2.0"}', $response);
+        $this->assertSame(200, $status);
+        $this->assertSame([], $headers);
     }
 
-    public function testInterceptReturnsExtendedShapeWhenRequested(): void
+    public function testRespondSetsManifestStatusForNon200Entry(): void
     {
         $this->writeManifest([
             '/api/2.0/consumer' => ['file' => 'consumer.json', 'status' => 401],
         ]);
         file_put_contents($this->tmpDir . '/consumer.json', '{"error":"Not authenticated"}');
 
-        $result = $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/consumer',
-            null,
-            null,
-            true
-        );
+        [$response, $status, $headers] = $this->respond('https://plugins.matomo.org/api/2.0/consumer');
 
-        $this->assertSame(
-            ['status' => 401, 'headers' => [], 'data' => '{"error":"Not authenticated"}'],
-            $result
-        );
+        $this->assertSame('{"error":"Not authenticated"}', $response);
+        $this->assertSame(401, $status);
+        $this->assertSame([], $headers);
     }
 
-    public function testInterceptWritesToDestinationPathAndReturnsTrue(): void
+    public function testRespondWritesToDestinationPathAndSetsHandledSentinel(): void
     {
         $this->writeManifest([
             '/api/2.0/plugins' => 'plugins.json',
@@ -163,30 +153,82 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
 
         $destination = $this->tmpDir . '/download.json';
 
-        $result = $this->repository->intercept(
+        [$response, $status] = $this->respond(
             'https://plugins.matomo.org/api/2.0/plugins',
-            $destination,
-            null,
-            false
+            ['destinationPath' => $destination]
         );
 
-        $this->assertTrue($result);
+        // Sentinel: a non-null reference marks the event as handled in
+        // core/Http.php so the real transport is skipped.
+        $this->assertSame('', $response);
+        $this->assertSame(200, $status);
         $this->assertSame('{"plugins":[]}', file_get_contents($destination));
     }
 
-    public function testInterceptThrowsOnMissForMarketplaceHosts(): void
+    public function testRespondOnMarketplaceMissEmitsDeprecationAndLeavesReferencesUntouched(): void
     {
         $this->writeManifest([]);
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessageMatches('/No Marketplace fixture/');
+        $error = null;
+        $response = null;
+        $status = null;
+        $headers = [];
 
-        $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/plugins',
-            null,
-            null,
-            false
-        );
+        set_error_handler(function ($errno, $errstr) use (&$error) {
+            if ($errno === E_USER_DEPRECATED) {
+                $error = $errstr;
+                return true;
+            }
+            return false;
+        });
+
+        try {
+            $this->repository->respond(
+                'https://plugins.matomo.org/api/2.0/plugins',
+                [],
+                $response,
+                $status,
+                $headers
+            );
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertNotNull($error);
+        $this->assertRegExp('/No Marketplace fixture/', (string) $error);
+        $this->assertNull($response);
+        $this->assertNull($status);
+        $this->assertSame([], $headers);
+    }
+
+    public function testRespondDeduplicatesMissesByCanonicalKey(): void
+    {
+        $this->writeManifest([]);
+
+        $callCount = 0;
+        set_error_handler(function ($errno) use (&$callCount) {
+            if ($errno === E_USER_DEPRECATED) {
+                $callCount++;
+                return true;
+            }
+            return false;
+        });
+
+        try {
+            $response = null;
+            $status = null;
+            $headers = [];
+            $this->repository->respond('https://plugins.matomo.org/api/2.0/plugins', [], $response, $status, $headers);
+
+            $response = null;
+            $status = null;
+            $headers = [];
+            $this->repository->respond('https://plugins.matomo.org/api/2.0/plugins', [], $response, $status, $headers);
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame(1, $callCount);
     }
 
     public function testOverrideTakesPrecedenceOverManifest(): void
@@ -199,14 +241,9 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
 
         FixtureRepository::setOverride('/api/2.0/info', 'override.json');
 
-        $result = $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/info',
-            null,
-            null,
-            false
-        );
+        [$response] = $this->respond('https://plugins.matomo.org/api/2.0/info');
 
-        $this->assertSame('"override body"', $result);
+        $this->assertSame('"override body"', $response);
     }
 
     public function testClearOverridesRemovesPriorOverride(): void
@@ -220,17 +257,12 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         FixtureRepository::setOverride('/api/2.0/info', 'override.json');
         FixtureRepository::clearOverrides();
 
-        $result = $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/info',
-            null,
-            null,
-            false
-        );
+        [$response] = $this->respond('https://plugins.matomo.org/api/2.0/info');
 
-        $this->assertSame('"manifest body"', $result);
+        $this->assertSame('"manifest body"', $response);
     }
 
-    public function testInterceptRejectsPathTraversalInManifestFilename(): void
+    public function testRespondRejectsPathTraversalInManifestFilename(): void
     {
         $this->writeManifest([
             '/api/2.0/info' => '../escaped.json',
@@ -239,11 +271,15 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageMatches('/unsafe filename/');
 
-        $this->repository->intercept(
+        $response = null;
+        $status = null;
+        $headers = [];
+        $this->repository->respond(
             'https://plugins.matomo.org/api/2.0/info',
-            null,
-            null,
-            false
+            [],
+            $response,
+            $status,
+            $headers
         );
     }
 
@@ -257,12 +293,7 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageMatches('/invalid HTTP status/');
 
-        $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/info',
-            null,
-            null,
-            false
-        );
+        $this->respond('https://plugins.matomo.org/api/2.0/info');
     }
 
     public function testBuildCanonicalKeyHandlesMalformedUrlWithoutWarning(): void
@@ -285,12 +316,7 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageMatches('/unrecognised key/');
 
-        $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/info',
-            null,
-            null,
-            false
-        );
+        $this->respond('https://plugins.matomo.org/api/2.0/info');
     }
 
     public function testManifestNonUrlKeysAreIgnored(): void
@@ -305,17 +331,12 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->repository->reloadManifest();
         file_put_contents($this->tmpDir . '/info.json', '{"ok":true}');
 
-        $result = $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/info',
-            null,
-            null,
-            false
-        );
+        [$response] = $this->respond('https://plugins.matomo.org/api/2.0/info');
 
-        $this->assertSame('{"ok":true}', $result);
+        $this->assertSame('{"ok":true}', $response);
     }
 
-    public function testInterceptThrowsOnMalformedJsonFixture(): void
+    public function testRespondThrowsOnMalformedJsonFixture(): void
     {
         $this->writeManifest([
             '/api/2.0/info' => 'broken.json',
@@ -325,32 +346,34 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageMatches('/is not valid JSON/');
 
-        $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/info',
-            null,
-            null,
-            false
-        );
+        $this->respond('https://plugins.matomo.org/api/2.0/info');
     }
 
-    public function testInterceptSkipsUnknownHostsAndReturnsNull(): void
+    public function testRespondLeavesReferencesUntouchedForUnknownHosts(): void
     {
         $this->writeManifest([
             '/api/2.0/plugins' => 'plugins.json',
         ]);
         file_put_contents($this->tmpDir . '/plugins.json', '{}');
 
-        $result = $this->repository->intercept(
+        $response = null;
+        $status = null;
+        $headers = [];
+
+        $this->repository->respond(
             'http://notexisting49.plugins.piwk.org/api/2.0/plugins',
-            null,
-            null,
-            false
+            [],
+            $response,
+            $status,
+            $headers
         );
 
-        $this->assertNull($result);
+        $this->assertNull($response);
+        $this->assertNull($status);
+        $this->assertSame([], $headers);
     }
 
-    public function testInterceptServesDownloadFromManifestWhenMatched(): void
+    public function testRespondServesDownloadFromManifestWhenMatched(): void
     {
         $this->writeManifest([
             '/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=4.16.2' => 'fake.zip',
@@ -358,32 +381,26 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         file_put_contents($this->tmpDir . '/fake.zip', 'ZIP-BYTES');
 
         $destination = $this->tmpDir . '/out.zip';
-        $result = $this->repository->intercept(
+        [$response, $status] = $this->respond(
             'http://plugins.piwik.org/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=4.16.2',
-            $destination,
-            null,
-            false
+            ['destinationPath' => $destination]
         );
 
-        $this->assertTrue($result);
+        $this->assertSame('', $response);
+        $this->assertSame(200, $status);
         $this->assertSame('ZIP-BYTES', file_get_contents($destination));
     }
 
-    public function testInterceptServesInfoUrlsWhenMatchedInManifest(): void
+    public function testRespondServesInfoUrlsWhenMatchedInManifest(): void
     {
         $this->writeManifest([
             '/api/2.0/plugins/SecurityInfo/info' => 'security.json',
         ]);
         file_put_contents($this->tmpDir . '/security.json', '{"name":"SecurityInfo"}');
 
-        $result = $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/plugins/SecurityInfo/info?piwik=5.12.0',
-            null,
-            null,
-            false
-        );
+        [$response] = $this->respond('https://plugins.matomo.org/api/2.0/plugins/SecurityInfo/info?piwik=5.12.0');
 
-        $this->assertSame('{"name":"SecurityInfo"}', $result);
+        $this->assertSame('{"name":"SecurityInfo"}', $response);
     }
 
     public function testMissingFixtureFileThrowsClearError(): void
@@ -395,12 +412,128 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageMatches('/fixture file.*is missing/');
 
-        $this->repository->intercept(
-            'https://plugins.matomo.org/api/2.0/plugins',
-            null,
-            null,
-            false
+        $this->respond('https://plugins.matomo.org/api/2.0/plugins');
+    }
+
+    public function testRespondFoldsAccessTokenFromArrayBody(): void
+    {
+        $this->writeManifest([
+            '/api/2.0/consumer?access_token=abc' => 'consumer.json',
+        ]);
+        file_put_contents($this->tmpDir . '/consumer.json', '{"who":"abc"}');
+
+        [$response] = $this->respond(
+            'https://plugins.matomo.org/api/2.0/consumer',
+            ['body' => ['access_token' => 'abc']]
         );
+
+        $this->assertSame('{"who":"abc"}', $response);
+    }
+
+    public function testRespondFoldsAccessTokenFromUrlEncodedStringBody(): void
+    {
+        $this->writeManifest([
+            '/api/2.0/consumer?access_token=abc' => 'consumer.json',
+        ]);
+        file_put_contents($this->tmpDir . '/consumer.json', '{"who":"abc"}');
+
+        [$response] = $this->respond(
+            'https://plugins.matomo.org/api/2.0/consumer',
+            ['body' => 'access_token=abc&other=ignored']
+        );
+
+        $this->assertSame('{"who":"abc"}', $response);
+    }
+
+    public function testRegisteredPluginManifestOverridesCoreEntryAndIsResolvedAgainstPluginDir(): void
+    {
+        $pluginDir = $this->tmpDir . '/plugin_fixtures';
+        mkdir($pluginDir, 0777, true);
+
+        $this->writeManifest([
+            '/api/2.0/info' => 'info.json',
+        ]);
+        file_put_contents($this->tmpDir . '/info.json', '"core body"');
+
+        file_put_contents(
+            $pluginDir . '/manifest.json',
+            json_encode(['/api/2.0/info' => 'plugin-info.json'])
+        );
+        file_put_contents($pluginDir . '/plugin-info.json', '"plugin body"');
+
+        FixtureRepository::registerManifestDirectory($pluginDir);
+        $this->repository->reloadManifest();
+
+        [$response] = $this->respond('https://plugins.matomo.org/api/2.0/info');
+
+        $this->assertSame('"plugin body"', $response);
+    }
+
+    public function testRegisteredPluginManifestFillsGapsForCoreKeys(): void
+    {
+        $pluginDir = $this->tmpDir . '/plugin_fixtures';
+        mkdir($pluginDir, 0777, true);
+
+        $this->writeManifest([]);
+
+        file_put_contents(
+            $pluginDir . '/manifest.json',
+            json_encode(['/api/2.0/plugins/MyPlugin/info' => 'my-plugin.json'])
+        );
+        file_put_contents($pluginDir . '/my-plugin.json', '"my plugin body"');
+
+        FixtureRepository::registerManifestDirectory($pluginDir);
+        $this->repository->reloadManifest();
+
+        [$response] = $this->respond('https://plugins.matomo.org/api/2.0/plugins/MyPlugin/info');
+
+        $this->assertSame('"my plugin body"', $response);
+    }
+
+    public function testClearRegisteredManifestDirectoriesRemovesPluginEntries(): void
+    {
+        $pluginDir = $this->tmpDir . '/plugin_fixtures';
+        mkdir($pluginDir, 0777, true);
+
+        $this->writeManifest([]);
+
+        file_put_contents(
+            $pluginDir . '/manifest.json',
+            json_encode(['/api/2.0/plugins/MyPlugin/info' => 'my-plugin.json'])
+        );
+        file_put_contents($pluginDir . '/my-plugin.json', '"x"');
+
+        FixtureRepository::registerManifestDirectory($pluginDir);
+        FixtureRepository::clearRegisteredManifestDirectories();
+        $this->repository->reloadManifest();
+
+        $error = null;
+        $response = null;
+        $status = null;
+        $headers = [];
+
+        set_error_handler(function ($errno, $errstr) use (&$error) {
+            if ($errno === E_USER_DEPRECATED) {
+                $error = $errstr;
+                return true;
+            }
+            return false;
+        });
+
+        try {
+            $this->repository->respond(
+                'https://plugins.matomo.org/api/2.0/plugins/MyPlugin/info',
+                [],
+                $response,
+                $status,
+                $headers
+            );
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertNotNull($error);
+        $this->assertNull($response);
     }
 
     /**
@@ -413,5 +546,43 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
             json_encode($entries)
         );
         $this->repository->reloadManifest();
+    }
+
+    /**
+     * Convenience wrapper that drives the by-reference event API and returns
+     * the resulting references for assertion.
+     *
+     * @param array<string, mixed> $eventParams
+     * @return array{0: string|null, 1: int|null, 2: array}
+     */
+    private function respond(string $url, array $eventParams = []): array
+    {
+        $response = null;
+        $status = null;
+        $headers = [];
+
+        $this->repository->respond($url, $eventParams, $response, $status, $headers);
+
+        return [$response, $status, $headers];
+    }
+
+    private function cleanDir(string $dir): void
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+        foreach (
+            new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::CHILD_FIRST
+            ) as $file
+        ) {
+            if ($file->isDir()) {
+                @rmdir($file->getPathname());
+            } else {
+                @unlink($file->getPathname());
+            }
+        }
+        @rmdir($dir);
     }
 }
