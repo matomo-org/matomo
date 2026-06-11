@@ -17,6 +17,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Tracker\GoalManager;
 use Piwik\Translation\Translator;
 use Piwik\Twig\Extension\EscapeFilter;
+use Piwik\Twig\Php72CompatibleEnvironment;
 use Piwik\View\RenderTokenParser;
 use Piwik\Visualization\Sparkline;
 use Twig\Environment;
@@ -136,7 +137,7 @@ class Twig
         // Create new Twig Environment and set cache dir
         $cache = StaticContainer::get('twig.cache');
 
-        $this->twig = new Environment(
+        $this->twig = new Php72CompatibleEnvironment(
             $chainLoader,
             [
                 'debug'            => true, // to use {{ dump(var) }} in twig templates
