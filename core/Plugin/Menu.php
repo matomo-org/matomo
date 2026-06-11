@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
+use Piwik\Menu\MenuAi;
 use Piwik\Menu\MenuTop;
 use Piwik\Period;
 use Piwik\Plugin\Manager as PluginManager;
@@ -253,6 +254,15 @@ class Menu
      * "Websites", "Users" or "Settings".
      */
     public function configureAdminMenu(MenuAdmin $menu)
+    {
+    }
+
+    /**
+     * Configures the AI Insights menu which is supposed to contain AI related reporting items,
+     * such as "AI Traffic". Implement this method to add, rename or remove categories and submenu
+     * items shown in the AI Insights section.
+     */
+    public function configureAiInsightsMenu(MenuAi $menu)
     {
     }
 

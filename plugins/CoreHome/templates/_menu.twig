@@ -1,4 +1,4 @@
-{% macro menu(menu, anchorlink, cssClass, currentModule, currentAction, collapsible, isSuperUser, renderQuickAccess) %}
+{% macro menu(menu, anchorlink, cssClass, currentModule, currentAction, collapsible, isSuperUser, renderQuickAccess, currentUrlParams) %}
     <div id="secondNavBar" class="{{ cssClass }} z-depth-1">
         {% if renderQuickAccess|default(false) %}
             <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl"></div>
@@ -25,7 +25,14 @@
                         <ul role="menu" {% if collapsible %}class="collapsible-body"{% endif %}>
                             {% for name,urlParameters in level2 %}
                                 {% if name|slice(0,1) != '_' %}
-                                    {% set isActive = urlParameters._url.module is defined and urlParameters._url.module == currentModule and urlParameters._url.action is defined and urlParameters._url.action == currentAction %}
+                                    {% set urlMatches = urlParameters._url.module is defined and urlParameters._url.module == currentModule
+                                        and urlParameters._url.action is defined and urlParameters._url.action == currentAction %}
+                                    {% set paramsMatch = not currentUrlParams
+                                        or (
+                                            (urlParameters._url.category is not defined or urlParameters._url.category == currentUrlParams.category|default(''))
+                                            and (urlParameters._url.subcategory is not defined or urlParameters._url.subcategory == currentUrlParams.subcategory|default(''))
+                                        ) %}
+                                    {% set isActive = urlMatches and paramsMatch %}
                                     {% set hasActive = hasActive or isActive %}
                                     <li {% if isActive %}class="active"{% endif %}
                                         role="menuitem"

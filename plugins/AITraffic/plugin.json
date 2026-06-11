@@ -1,0 +1,22 @@
+{
+  "name": "AITraffic",
+  "description": "AI Traffic reports in the AI Insights section",
+  "version": "5.0.0",
+  "theme": false,
+  "require": {
+    "matomo": ">=5.11.0-b1,<6.0.0-b1"
+  },
+  "authors": [
+    {
+      "name": "InnoCraft",
+      "email": "contact@innocraft.com",
+      "homepage": "https://www.innocraft.com"
+    }
+  ],
+  "homepage": "https://www.innocraft.com",
+  "keywords": [
+    "ai",
+    "traffic",
+    "insights"
+  ]
+}

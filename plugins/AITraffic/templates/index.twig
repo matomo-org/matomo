@@ -1,0 +1,11 @@
+{% extends 'aiInsights.twig' %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+    {{ postEvent("Template.nextToCalendar") }}
+{% endblock %}
+
+{% block content %}
+    <div vue-entry="CoreHome.ReportingPage"></div>
+{% endblock %}

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome;
 
+use Piwik\Menu\MenuAi;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 
@@ -16,6 +17,11 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureTopMenu(MenuTop $menu)
     {
+        $aiInsightsUrl = MenuAi::getInstance()->getDefaultUrl();
+        if (!empty($aiInsightsUrl)) {
+            $menu->addItem('CoreHome_AIInsights', null, $aiInsightsUrl, 2);
+        }
+
         $module = $this->getLoginModule();
         if (Piwik::isUserIsAnonymous()) {
             $menu->registerMenuIcon('Login_LogIn', 'icon-sign-in');

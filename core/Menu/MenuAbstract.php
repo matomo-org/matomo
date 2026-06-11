@@ -18,7 +18,7 @@ use Piwik\Plugin\Manager as PluginManager;
 /**
  * Base class for classes that manage one of Piwik's menus.
  *
- * There are three menus in Piwik, the main menu, the top menu and the admin menu.
+ * There are several menus in Piwik, including the reporting menu, top menu, admin menu and AI Insights menu.
  * Each menu has a class that manages the menu's content. Each class invokes
  * a different event to allow plugins to add new menu items.
  *

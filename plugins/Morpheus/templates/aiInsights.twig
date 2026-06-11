@@ -1,0 +1,62 @@
+{% extends 'layout.twig' %}
+
+{% set categoryTitle %}{{ 'CoreHome_AIInsights'|translate }}{% endset %}
+
+{% set bodyClass = postEvent('Template.bodyClass', 'aiInsights') %}
+
+{% block body %}
+    {% set topMenuModule = topMenuModule|default(currentModule) %}
+    {% set topMenuAction = topMenuAction|default(currentAction) %}
+    {{ postEvent("Template.header", "aiInsights") }}
+    {{ parent() }}
+    {{ postEvent("Template.footer", "aiInsights") }}
+{% endblock %}
+
+{% block root %}
+    {% include "@CoreHome/_topScreen.twig" %}
+
+    {% set hasSidebar = showMenu is not defined or showMenu %}
+
+    <div class="layoutWithSidebar{% if hasSidebar %} layoutWithSidebar--hasSidebar{% endif %}">
+        {% if hasSidebar %}
+            {% import '@CoreHome/_menu.twig' as menu %}
+            {{ menu.menu(aiMenu, false, 'Menu--admin Menu--aiInsights', currentModule, currentAction, true, isSuperUser, true, {category: currentCategory|default(''), subcategory: currentSubcategory|default('')}) }}
+        {% endif %}
+
+        <div class="layoutWithSidebarContent">
+            <div class="top_controls">
+                {% block topcontrols %}
+                {% endblock %}
+
+                {% include "@CoreHome/_headerMessage.twig" %}
+            </div>
+
+            <div class="page">
+                <div class="pageWrap">
+                    {% import 'ajaxMacros.twig' as ajax %}
+                    {{ ajax.requestErrorDiv(contactEmail|default(''), areAdsForProfessionalServicesEnabled|default(false), currentModule, showMoreFaqInfo|default(false)) }}
+                    {{ postEvent("Template.beforeContent", "aiInsights", currentModule, currentAction) }}
+
+                    <a name="main"></a>
+                    {% block notification %}
+                        {% include "@CoreHome/_notifications.twig" %}
+                    {% endblock %}
+                    {% include "@CoreHome/_warningInvalidHost.twig" %}
+
+                    <div class="admin aiInsights" id="content">
+
+                        <div class="ui-confirm" id="alert">
+                            <h2></h2>
+                            <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
+                        </div>
+
+                        {% block content %}
+                        {% endblock %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
