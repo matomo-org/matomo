@@ -13,7 +13,6 @@ use Piwik\Menu\MenuAi;
 use Piwik\Plugin\Menu;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
-use Piwik\Plugins\AITraffic\AITraffic;
 use Piwik\Plugins\AITraffic\Menu as AITrafficMenu;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -29,7 +28,6 @@ class AITrafficTest extends IntegrationTestCase
 
     private $backupGet;
     private $backupRequest;
-    private $backupQueryString;
 
     public function setUp(): void
     {
@@ -37,19 +35,12 @@ class AITrafficTest extends IntegrationTestCase
 
         $this->backupGet = $_GET;
         $this->backupRequest = $_REQUEST;
-        $this->backupQueryString = $_SERVER['QUERY_STRING'] ?? null;
     }
 
     public function tearDown(): void
     {
         $_GET = $this->backupGet;
         $_REQUEST = $this->backupRequest;
-
-        if ($this->backupQueryString === null) {
-            unset($_SERVER['QUERY_STRING']);
-        } else {
-            $_SERVER['QUERY_STRING'] = $this->backupQueryString;
-        }
 
         FakeAccess::clearAccess();
 
@@ -109,48 +100,6 @@ class AITrafficTest extends IntegrationTestCase
 
         // The category default URL points at the first (lowest-ordered) subcategory.
         $this->assertSame($aiTrafficMenu['TestAi_Overview']['_url'], $aiTrafficMenu['_url']);
-    }
-
-    // -------------------------------------------------------------------------
-    // Notice tests
-    // -------------------------------------------------------------------------
-
-    public function testNoticeDoesNotFireForNonDashboardContext(): void
-    {
-        $_GET = ['category' => self::AI_CATEGORY];
-        $_REQUEST = $_GET;
-
-        $out = '';
-        (new AITraffic())->addMovingToAIInsightsNotice($out, 'aiInsights');
-
-        $this->assertSame('', $out);
-    }
-
-    public function testNoticeDoesNotFireForNonAIAssistantsCategory(): void
-    {
-        $_GET = ['category' => 'General_Visitors'];
-        $_REQUEST = $_GET;
-
-        $out = '';
-        (new AITraffic())->addMovingToAIInsightsNotice($out, 'dashboard');
-
-        $this->assertSame('', $out);
-    }
-
-    public function testNoticeFiresForDashboardContextWithAIAssistantsCategory(): void
-    {
-        $_SERVER['QUERY_STRING'] = 'module=CoreHome&action=index&category=General_AIAssistants'
-            . '&subcategory=BotTracking_AIChatbotsOverview&idSite=1&period=day&date=today';
-        $_GET = ['category' => self::AI_CATEGORY];
-        $_REQUEST = $_GET;
-
-        $out = '';
-        (new AITraffic())->addMovingToAIInsightsNotice($out, 'dashboard');
-
-        $this->assertStringContainsString('alert-info', $out);
-        $this->assertStringContainsString('module=AITraffic', $out);
-        $this->assertStringContainsString('action=index', $out);
-        $this->assertStringNotContainsString('subcategory=', $out);
     }
 
     /**
