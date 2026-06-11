@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreVisualizations\Widgets;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Metrics;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugin\Manager as PluginManager;
 
@@ -65,6 +66,13 @@ class SingleMetricView extends \Piwik\Widget\Widget
             $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
         }
 
+        $lowerIsBetterMetrics = [];
+        foreach (array_merge(array_keys($metricTranslations), $goalMetrics) as $metricName) {
+            if (Metrics::isLowerValueBetter($metricName)) {
+                $lowerIsBetterMetrics[] = $metricName;
+            }
+        }
+
         return '<div vue-entry="CoreVisualizations.SingleMetricView"
             metric="' . $this->getVueEntryValue($column) . '"
             id-goal="' . $this->getVueEntryValue($idGoal === false ? null : $idGoal) . '"
@@ -72,6 +80,7 @@ class SingleMetricView extends \Piwik\Widget\Widget
             goals="' . $this->getVueEntryValue($goals) . '"
             metric-translations="' . $this->getVueEntryValue($metricTranslations) . '"
             metric-documentations="' . $this->getVueEntryValue($metricDocumentations) . '"
+            lower-is-better-metrics="' . $this->getVueEntryValue($lowerIsBetterMetrics) . '"
         ></div>';
     }
 

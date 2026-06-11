@@ -32,8 +32,8 @@
 	</row>
 	<row>
 		<label>Claude</label>
-		<requests>3</requests>
-		<document_requests>3</document_requests>
+		<requests>1</requests>
+		<document_requests>1</document_requests>
 		<page_requests>0</page_requests>
 		<visits_acquired>0</visits_acquired>
 		<url>claude.ai</url>
@@ -41,21 +41,20 @@
 	</row>
 	<row>
 		<label>Le Chat</label>
-		<requests>2</requests>
-		<document_requests>0</document_requests>
+		<requests>3</requests>
+		<document_requests>1</document_requests>
 		<page_requests>2</page_requests>
 		<visits_acquired>0</visits_acquired>
 		<url>chat.mistral.ai</url>
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/chat.mistral.ai.png</logo>
-		<subtable>
-			<row>
-				<label>example.com/article/2</label>
-				<requests>1</requests>
-			</row>
-			<row>
-				<label>Others</label>
-				<requests>1</requests>
-			</row>
-		</subtable>
+	</row>
+	<row>
+		<label>Others</label>
+		<requests>2</requests>
+		<document_requests>1</document_requests>
+		<page_requests>1</page_requests>
+		<visits_acquired>0</visits_acquired>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 </result>

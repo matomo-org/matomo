@@ -3631,6 +3631,107 @@
 	</row>
 	<row>
 		<category>AI Assistants</category>
+		<subcategory>AI Chatbots Content Requests</subcategory>
+		<name>Pages</name>
+		<module>BotTracking</module>
+		<action>getAIChatbotContentPages</action>
+		<dimension>Page URL</dimension>
+		<documentation>This report shows which HTML page URLs were accessed by AI Assistants (like ChatGPT) to retrieve real-time information during user chats. It helps you identify which parts of your website are being referenced by AI systems, offering insights into your site’s visibility in AI-assisted interactions and potential content opportunities. It focuses only on visits to standard web pages, excluding file downloads such as PDFs, Word, or Excel documents — which are covered in a separate report dedicated to document access.
+It’s important to note that none of these pages were actually viewed by humans in the traditional way — all requests originate from AI assistants fetching content automatically.
+Currently, these reports exclusively include requests from AI bots that do not execute JavaScript. They do not include traffic from AI crawlers used for training AI models or from AI agents capable of executing JavaScript.</documentation>
+		<metrics>
+			<requests>Requests</requests>
+			<server_error_5xx_requests>5XX Requests</server_error_5xx_requests>
+			<page_not_found_404_requests>Page Not Found (404) Requests</page_not_found_404_requests>
+		</metrics>
+		<metricsDocumentation>
+			<requests>Total number of bot requests to page URLs recorded during the selected period.</requests>
+			<server_error_5xx_requests>Number of bot requests that returned an HTTP 5xx (server error) response.</server_error_5xx_requests>
+			<page_not_found_404_requests>Number of bot requests that returned an HTTP 404 (Not Found) or 410 (Gone) response.</page_not_found_404_requests>
+			<avg_server_time>Average time the server took to respond to these requests. This relies on server or CDN tracking and may be empty if it is not configured, or empty for a URL when none of its requests carried this data.</avg_server_time>
+			<avg_response_size>Average size of the responses returned for these requests. This relies on server or CDN tracking and may be empty if it is not configured, or empty for a URL when none of its requests carried this data.</avg_response_size>
+		</metricsDocumentation>
+		<processedMetrics>
+			<avg_server_time>Avg. Server Time</avg_server_time>
+			<avg_response_size>Avg. Response Size</avg_response_size>
+		</processedMetrics>
+		<metricTypes>
+			<requests>number</requests>
+			<server_error_5xx_requests>number</server_error_5xx_requests>
+			<page_not_found_404_requests>number</page_not_found_404_requests>
+			<avg_server_time>duration_s</avg_server_time>
+			<avg_response_size>byte</avg_response_size>
+		</metricTypes>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotContentPages&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotContentPages&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>BotTracking_getAIChatbotContentPages</uniqueId>
+	</row>
+	<row>
+		<category>AI Assistants</category>
+		<subcategory>AI Chatbots Content Requests</subcategory>
+		<name>Documents</name>
+		<module>BotTracking</module>
+		<action>getAIChatbotContentDocuments</action>
+		<dimension>Document URL</dimension>
+		<documentation>This report shows which document URLs were accessed by AI Chatbots (like ChatGPT) to retrieve real-time information during user chats. It helps you identify which parts of your website are being referenced by AI systems, offering insights into your site’s visibility in AI-assisted interactions and potential content opportunities. It focuses only on visits to documents and media files like PDF, Word, Excel and MP4, excluding HTML page URLs — which are covered in a separate report dedicated to pages.
+It’s important to note that none of these documents were actually viewed by humans in the traditional way — all requests originate from AI assistants fetching content automatically.
+Currently, these reports exclusively include requests from AI chatbots that do not execute JavaScript. They do not include traffic from AI crawlers used for training AI models or from AI agents capable of executing JavaScript.</documentation>
+		<metrics>
+			<requests>Requests</requests>
+			<server_error_5xx_requests>5XX Requests</server_error_5xx_requests>
+			<page_not_found_404_requests>Page Not Found (404) Requests</page_not_found_404_requests>
+		</metrics>
+		<metricsDocumentation>
+			<requests>Total number of bot requests to document URLs recorded during the selected period.</requests>
+			<server_error_5xx_requests>Number of bot requests that returned an HTTP 5xx (server error) response.</server_error_5xx_requests>
+			<page_not_found_404_requests>Number of bot requests that returned an HTTP 404 (Not Found) or 410 (Gone) response.</page_not_found_404_requests>
+			<avg_server_time>Average time the server took to respond to these requests. This relies on server or CDN tracking and may be empty if it is not configured, or empty for a URL when none of its requests carried this data.</avg_server_time>
+			<avg_response_size>Average size of the responses returned for these requests. This relies on server or CDN tracking and may be empty if it is not configured, or empty for a URL when none of its requests carried this data.</avg_response_size>
+		</metricsDocumentation>
+		<processedMetrics>
+			<avg_server_time>Avg. Server Time</avg_server_time>
+			<avg_response_size>Avg. Response Size</avg_response_size>
+		</processedMetrics>
+		<metricTypes>
+			<requests>number</requests>
+			<server_error_5xx_requests>number</server_error_5xx_requests>
+			<page_not_found_404_requests>number</page_not_found_404_requests>
+			<avg_server_time>duration_s</avg_server_time>
+			<avg_response_size>byte</avg_response_size>
+		</metricTypes>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotContentDocuments&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotContentDocuments&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>BotTracking_getAIChatbotContentDocuments</uniqueId>
+	</row>
+	<row>
+		<category>AI Assistants</category>
+		<subcategory>AI Chatbots Content Requests</subcategory>
+		<name>Broken Pages and Documents</name>
+		<module>BotTracking</module>
+		<action>getAIChatbotBrokenContent</action>
+		<dimension>URL</dimension>
+		<documentation>This report lists broken page URLs and document URLs (such as PDFs, Word, or Excel files) that were accessed by AI Chatbots (like ChatGPT) but returned errors or were unavailable. It helps identify missing or inaccessible content that LLMs attempted to fetch, allowing you to fix broken links and improve your site’s reliability and discoverability.</documentation>
+		<metrics>
+			<total_broken_requests>Total Broken Requests</total_broken_requests>
+			<server_error_5xx_requests>5XX Requests</server_error_5xx_requests>
+			<page_not_found_404_requests>Page Not Found (404) Requests</page_not_found_404_requests>
+		</metrics>
+		<metricsDocumentation>
+			<total_broken_requests>Number of bot requests that returned an HTTP 404 (Not Found), 410 (Gone), or 5xx (server error) response.</total_broken_requests>
+			<server_error_5xx_requests>Number of bot requests that returned an HTTP 5xx (server error) response.</server_error_5xx_requests>
+			<page_not_found_404_requests>Number of bot requests that returned an HTTP 404 (Not Found) or 410 (Gone) response.</page_not_found_404_requests>
+		</metricsDocumentation>
+		<metricTypes>
+			<total_broken_requests>number</total_broken_requests>
+			<server_error_5xx_requests>number</server_error_5xx_requests>
+			<page_not_found_404_requests>number</page_not_found_404_requests>
+		</metricTypes>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotBrokenContent&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotBrokenContent&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>BotTracking_getAIChatbotBrokenContent</uniqueId>
+	</row>
+	<row>
+		<category>AI Assistants</category>
 		<subcategory>AI Agents Overview</subcategory>
 		<name>AI Agent Visits</name>
 		<module>AIAgents</module>

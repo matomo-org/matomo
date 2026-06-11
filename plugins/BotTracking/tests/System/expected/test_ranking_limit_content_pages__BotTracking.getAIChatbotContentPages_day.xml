@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>example.com/article/2</label>
+		<requests>3</requests>
+		<sum_server_time>7700</sum_server_time>
+		<nb_server_time>3</nb_server_time>
+		<sum_response_size>106455</sum_response_size>
+		<nb_response_size>3</nb_response_size>
+		<page_not_found_404_requests>0</page_not_found_404_requests>
+		<server_error_5xx_requests>0</server_error_5xx_requests>
+		<avg_server_time>2.5666666666667</avg_server_time>
+		<avg_response_size>35485</avg_response_size>
+	</row>
+	<row>
+		<label>Others</label>
+		<requests>3</requests>
+		<sum_server_time>1520</sum_server_time>
+		<nb_server_time>2</nb_server_time>
+		<sum_response_size>114894</sum_response_size>
+		<nb_response_size>2</nb_response_size>
+		<page_not_found_404_requests>0</page_not_found_404_requests>
+		<server_error_5xx_requests>1</server_error_5xx_requests>
+		<avg_server_time>0.76</avg_server_time>
+		<avg_response_size>57447</avg_response_size>
+	</row>
+</result>

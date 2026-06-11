@@ -184,4 +184,67 @@ class API extends \Piwik\Plugin\API
 
         return Archive::createDataTableFromArchive(Archiver::AI_CHATBOTS_DOCUMENTS_RECORD, $idSite, $period, $date, '', false, false, $idSubtable);
     }
+
+    /**
+     * Returns page URLs accessed by AI chatbots across all chatbots, with server time and response size metrics.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @return DataTable|DataTable\Map Flat table of page URLs with Requests, Avg. Server Time, and Avg. Response Size.
+     */
+    public function getAIChatbotContentPages($idSite, string $period, string $date): DataTableInterface
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        return Archive::createDataTableFromArchive(Archiver::AI_CHATBOTS_REQUESTED_PAGES_RECORD, $idSite, $period, $date, '', false, false);
+    }
+
+    /**
+     * Returns document URLs accessed by AI chatbots across all chatbots, with server time and response size metrics.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @return DataTable|DataTable\Map Flat table of document URLs with Requests, Avg. Server Time, and Avg. Response Size.
+     */
+    public function getAIChatbotContentDocuments($idSite, string $period, string $date): DataTableInterface
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        return Archive::createDataTableFromArchive(Archiver::AI_CHATBOTS_REQUESTED_DOCUMENTS_RECORD, $idSite, $period, $date, '', false, false);
+    }
+
+    /**
+     * Returns page and document URLs accessed by AI chatbots that returned HTTP errors (4xx/5xx).
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @return DataTable|DataTable\Map Flat table of broken URLs with 5XX Requests and Page Not Found (404) Requests counts.
+     */
+    public function getAIChatbotBrokenContent($idSite, string $period, string $date): DataTableInterface
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        return Archive::createDataTableFromArchive(Archiver::AI_CHATBOTS_BROKEN_CONTENT_RECORD, $idSite, $period, $date, '', false, false);
+    }
 }

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<name>5XX Requests</name>
+		<id>server_error_5xx_requests</id>
+		<documentation>Number of bot requests that returned an HTTP 5xx (server error) response.</documentation>
+	</row>
+	<row>
 		<name>Acquired visits</name>
 		<id>BotTracking_AIChatbotsAcquiredVisits</id>
 		<documentation>Visits that started after someone clicked from an AI chatbot (Referrers → AI Assistants).</documentation>
@@ -34,6 +39,16 @@
 		<name>Avg. DOM processing time</name>
 		<id>avg_time_dom_processing</id>
 		<documentation>Average time (in seconds) the browser spends loading the webpage after the response was fully received and before the user can start interacting with it.</documentation>
+	</row>
+	<row>
+		<name>Avg. Response Size</name>
+		<id>avg_response_size</id>
+		<documentation>Average size of the responses returned for these requests. This relies on server or CDN tracking and may be empty if it is not configured, or empty for a URL when none of its requests carried this data.</documentation>
+	</row>
+	<row>
+		<name>Avg. Server Time</name>
+		<id>avg_server_time</id>
+		<documentation>Average time the server took to respond to these requests. This relies on server or CDN tracking and may be empty if it is not configured, or empty for a URL when none of its requests carried this data.</documentation>
 	</row>
 	<row>
 		<name>Avg. Time on Website</name>
@@ -181,6 +196,11 @@
 		<documentation>The number of times this link was clicked.</documentation>
 	</row>
 	<row>
+		<name>Page Not Found (404) Requests</name>
+		<id>page_not_found_404_requests</id>
+		<documentation>Number of bot requests that returned an HTTP 404 (Not Found) or 410 (Gone) response.</documentation>
+	</row>
+	<row>
 		<name>Page Requests</name>
 		<id>page_requests</id>
 		<documentation>Total number of bot requests to page URLs recorded during the selected period.</documentation>
@@ -224,6 +244,11 @@
 		<name>Server error (5xx) requests</name>
 		<id>BotTracking_AIChatbotsServerErrorRequests</id>
 		<documentation>Number of bot requests that returned an HTTP 5xx response, including document URLs.</documentation>
+	</row>
+	<row>
+		<name>Total Broken Requests</name>
+		<id>total_broken_requests</id>
+		<documentation>Number of bot requests that returned an HTTP 404 (Not Found), 410 (Gone), or 5xx (server error) response.</documentation>
 	</row>
 	<row>
 		<name>Unique AI chatbots</name>
