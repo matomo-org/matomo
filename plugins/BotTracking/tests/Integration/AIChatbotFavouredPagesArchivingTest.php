@@ -62,6 +62,14 @@ class AIChatbotFavouredPagesArchivingTest extends IntegrationTestCase
         );
     }
 
+    public function testNoRecordsWhenPeriodHasNoBotActivity(): void
+    {
+        // 2025-02-20 has a human pageview but no AI chatbot requests: the human-pageviews scan is
+        // skipped and the favoured records are empty (nothing to favour against).
+        self::assertSame(0, API::getInstance()->getAIChatbotHumanFavouredPages(1, 'day', '2025-02-20')->getRowsCount());
+        self::assertSame(0, API::getInstance()->getAIChatbotAIFavouredPages(1, 'day', '2025-02-20')->getRowsCount());
+    }
+
     public function testWeekReprocessesScoreOverSummedTraffic(): void
     {
         $week = API::getInstance()->getAIChatbotHumanFavouredPages(1, 'week', '2025-02-03');

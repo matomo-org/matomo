@@ -82,9 +82,17 @@ class AIChatbotFavouredPages extends RecordBuilder
      */
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
-        $humanTable = $this->queryHumanPageviews($archiveProcessor);
         // Only the request count is needed here; the shared query's other metrics are for the Content report.
-        $aiTable    = $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_PAGE_URL, $this->rankingQueryLimit, [Metrics::COLUMN_REQUESTS]);
+        $aiTable = $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_PAGE_URL, $this->rankingQueryLimit, [Metrics::COLUMN_REQUESTS]);
+
+        // With no AI chatbot page requests there is nothing to favour against, so skip the (expensive)
+        // human-pageviews scan and store empty records.
+        if ($aiTable->getRowsCount() === 0) {
+            Common::destroy($aiTable);
+            return $this->emptyRecords();
+        }
+
+        $humanTable = $this->queryHumanPageviews($archiveProcessor);
 
         $records = [];
         foreach ($this->variantByRecord() as $recordName => $variant) {
@@ -97,6 +105,19 @@ class AIChatbotFavouredPages extends RecordBuilder
 
         Common::destroy($humanTable);
         Common::destroy($aiTable);
+
+        return $records;
+    }
+
+    /**
+     * @return array<string, DataTable> an empty record per variant
+     */
+    private function emptyRecords(): array
+    {
+        $records = [];
+        foreach ($this->variantByRecord() as $recordName => $variant) {
+            $records[$recordName] = new DataTable();
+        }
 
         return $records;
     }

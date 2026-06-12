@@ -391,16 +391,10 @@ Broken Pages and Documents
 No data available
 
 Human-Favoured Pages
-label,unique_human_pageviews,ai_chatbot_requests,discrepancy_score
-example.org/index.htm,9,0,100
-example.org/thankyou,8,0,95.4
-example.org/products,1,0,30.1
+No data available
 
 AI-Favoured Pages
-label,unique_human_pageviews,ai_chatbot_requests,discrepancy_score
-example.org/index.htm,9,0,0
-example.org/products,1,0,0
-example.org/thankyou,8,0,0
+No data available
 
 AI Agent Visits
 nb_uniq_visitors_ai_agent,nb_users_ai_agent,nb_visits_ai_agent,nb_actions_ai_agent,max_actions_ai_agent,bounce_rate_ai_agent,nb_actions_per_visit_ai_agent,avg_time_on_site_ai_agent,nb_uniq_visitors_human,nb_users_human,nb_visits_human,nb_actions_human,max_actions_human,bounce_rate_human,nb_actions_per_visit_human,avg_time_on_site_human

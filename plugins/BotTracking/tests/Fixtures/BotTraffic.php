@@ -30,6 +30,7 @@ class BotTraffic extends Fixture
         $this->trackAcquiredVisits();
         $this->trackHumanPageOverlaps();
         $this->trackEventOnlyPage();
+        $this->trackHumanPageviewInBotFreePeriod();
     }
 
     public function tearDown(): void
@@ -221,6 +222,19 @@ class BotTraffic extends Fixture
         $tracker = self::getTracker($this->idSite, $date, true);
         $tracker->setUrl('https://example.com/event-only');
         self::checkResponse($tracker->doTrackEvent('Media', 'Play'));
+    }
+
+    /**
+     * A human pageview on 2025-02-20 — well after the bot requests (Feb 2-6), so that period has no
+     * AI chatbot activity. Used to assert the Favoured Pages records stay empty there (the human
+     * pageviews scan is skipped when there are no bot requests).
+     */
+    private function trackHumanPageviewInBotFreePeriod(): void
+    {
+        $date = Date::factory($this->dateTime)->addDay(18)->getDatetime();
+        $tracker = self::getTracker($this->idSite, $date, true);
+        $tracker->setUrl('https://example.com/bot-free-page');
+        self::checkResponse($tracker->doTrackPageView('Bot Free Page'));
     }
 
     private function logBot(string $userAgent, string $url, int $statusCode, ?int $bytes, string $dateTime, ?int $serverTimeMs): void
