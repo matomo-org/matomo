@@ -19,10 +19,13 @@ use Piwik\Filesystem;
  * Marketplace. Lookup is by canonical URL (path + significant query +
  * access_token from the request body) via manifest.json.
  *
- * A miss on a known Marketplace host currently emits an `E_USER_DEPRECATED`
- * notice plus an `error_log` line prefixed `[Marketplace FixtureRepository]`
- * and lets the real HTTP transport run. The throw will return once all
- * in-tree and external plugin tests provide fixtures.
+ * A miss on a known Marketplace host writes an `error_log` line prefixed
+ * `[Marketplace FixtureRepository]` (deduplicated per canonical key) and
+ * lets the real HTTP transport run. We deliberately do not raise a PHP
+ * deprecation here — PHPUnit's `convertDeprecationsToExceptions` default
+ * would otherwise turn that into a thrown exception in downstream plugin
+ * CI runs that hit un-cached Marketplace URLs. The miss will graduate to a
+ * hard throw once all in-tree and external plugin tests provide fixtures.
  *
  * Manifest entries are either a string (filename, served as HTTP 200) or an
  * object `{"file": "name.json", "status": 400}` for non-2xx responses.
@@ -164,7 +167,7 @@ class FixtureRepository
 
         if ($resolved === null) {
             // TODO: switch back to throwing once all in-tree and plugin Marketplace tests provide fixtures. See PR #24624.
-            $this->emitMissDeprecation($url, $key);
+            $this->logMiss($url, $key);
             return;
         }
 
@@ -469,7 +472,7 @@ class FixtureRepository
         return substr($filename, -5) === '.json';
     }
 
-    private function emitMissDeprecation(string $url, string $key): void
+    private function logMiss(string $url, string $key): void
     {
         if (isset(self::$loggedMisses[$key])) {
             return;
@@ -485,10 +488,10 @@ class FixtureRepository
             $this->directory
         );
 
-        // Application code sometimes catches \Exception broadly so the
-        // deprecation alone can be swallowed; log to stderr too so CI grep
-        // for "[Marketplace FixtureRepository]" still surfaces the miss.
+        // stderr only — never trigger_error here. PHPUnit's
+        // convertDeprecationsToExceptions default would otherwise turn this
+        // into a thrown exception in any downstream plugin's CI that hits an
+        // un-cached Marketplace URL.
         error_log('[Marketplace FixtureRepository] ' . $message);
-        trigger_error($message, E_USER_DEPRECATED);
     }
 }

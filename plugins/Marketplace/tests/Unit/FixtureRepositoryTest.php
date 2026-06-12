@@ -165,61 +165,41 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('{"plugins":[]}', file_get_contents($destination));
     }
 
-    public function testRespondOnMarketplaceMissEmitsDeprecationAndLeavesReferencesUntouched(): void
+    public function testRespondOnMarketplaceMissLeavesReferencesUntouched(): void
     {
         $this->writeManifest([]);
 
-        $error = null;
         $response = null;
         $status = null;
         $headers = [];
 
-        set_error_handler(function ($errno, $errstr) use (&$error) {
-            if ($errno === E_USER_DEPRECATED) {
-                $error = $errstr;
-                return true;
-            }
-            return false;
-        });
+        $this->repository->respond(
+            'https://plugins.matomo.org/api/2.0/plugins',
+            [],
+            $response,
+            $status,
+            $headers
+        );
 
-        try {
-            $this->repository->respond(
-                'https://plugins.matomo.org/api/2.0/plugins',
-                [],
-                $response,
-                $status,
-                $headers
-            );
-        } finally {
-            restore_error_handler();
-        }
-
-        $this->assertNotNull($error);
-        $this->assertRegExp('/No Marketplace fixture/', (string) $error);
+        // No fixture, no thrown exception, no deprecation. Http.php must see
+        // unset references so it falls through to the real transport — that's
+        // what keeps downstream plugin CI green when they hit un-cached URLs.
         $this->assertNull($response);
         $this->assertNull($status);
         $this->assertSame([], $headers);
     }
 
-    public function testRespondDeduplicatesMissesByCanonicalKey(): void
+    public function testRespondMissDoesNotRaiseAnyPhpError(): void
     {
         $this->writeManifest([]);
 
-        $callCount = 0;
-        set_error_handler(function ($errno) use (&$callCount) {
-            if ($errno === E_USER_DEPRECATED) {
-                $callCount++;
-                return true;
-            }
-            return false;
+        $captured = [];
+        set_error_handler(function ($errno, $errstr) use (&$captured) {
+            $captured[] = [$errno, $errstr];
+            return true;
         });
 
         try {
-            $response = null;
-            $status = null;
-            $headers = [];
-            $this->repository->respond('https://plugins.matomo.org/api/2.0/plugins', [], $response, $status, $headers);
-
             $response = null;
             $status = null;
             $headers = [];
@@ -228,7 +208,11 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
             restore_error_handler();
         }
 
-        $this->assertSame(1, $callCount);
+        // We must never raise an E_USER_DEPRECATED (or any other PHP error)
+        // on a miss — PHPUnit's convertDeprecationsToExceptions default would
+        // turn that into a thrown exception in plugin CI runs that hit
+        // un-cached Marketplace URLs.
+        $this->assertSame([], $captured);
     }
 
     public function testOverrideTakesPrecedenceOverManifest(): void
@@ -507,33 +491,12 @@ class FixtureRepositoryTest extends \PHPUnit\Framework\TestCase
         FixtureRepository::clearRegisteredManifestDirectories();
         $this->repository->reloadManifest();
 
-        $error = null;
-        $response = null;
-        $status = null;
-        $headers = [];
+        // After clearing, the previously registered key reverts to a miss:
+        // references stay unset so Http.php falls through to the real transport.
+        [$response, $status] = $this->respond('https://plugins.matomo.org/api/2.0/plugins/MyPlugin/info');
 
-        set_error_handler(function ($errno, $errstr) use (&$error) {
-            if ($errno === E_USER_DEPRECATED) {
-                $error = $errstr;
-                return true;
-            }
-            return false;
-        });
-
-        try {
-            $this->repository->respond(
-                'https://plugins.matomo.org/api/2.0/plugins/MyPlugin/info',
-                [],
-                $response,
-                $status,
-                $headers
-            );
-        } finally {
-            restore_error_handler();
-        }
-
-        $this->assertNotNull($error);
         $this->assertNull($response);
+        $this->assertNull($status);
     }
 
     /**
