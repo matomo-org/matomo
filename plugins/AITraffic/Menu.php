@@ -10,10 +10,11 @@
 namespace Piwik\Plugins\AITraffic;
 
 use Piwik\Category\CategoryList;
+use Piwik\Common;
 use Piwik\Menu\MenuAi;
 use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
-use Piwik\Request;
+use Piwik\Plugins\UsersManager\UserPreferences;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -33,7 +34,12 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureAiInsightsMenu(MenuAi $menu)
     {
-        $idSite = Request::fromRequest()->getIntegerParameter('idSite', 0);
+        // Fall back to the user's default site when idSite is not in the URL (e.g. the All Websites
+        // page or admin pages), so the AI Insights entry stays in the top menu and links somewhere
+        // usable, mirroring how the Dashboard ("Analytics") top-menu entry behaves.
+        $userPreferences = new UserPreferences();
+        $idSite = $userPreferences->getDefaultWebsiteId();
+        $idSite = Common::getRequestVar('idSite', $idSite, 'int');
         if (!$idSite || !Piwik::isUserHasViewAccess($idSite)) {
             return;
         }
@@ -44,7 +50,7 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         $firstSubcategory = (string) array_key_first($subcategories);
-        $firstUrl = $this->urlForSubcategory($firstSubcategory);
+        $firstUrl = $this->urlForSubcategory($firstSubcategory, $idSite);
         if (empty($firstUrl)) {
             return;
         }
@@ -54,7 +60,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         foreach ($subcategories as $subcategory => $order) {
             $subcategory = (string) $subcategory;
-            $url = $subcategory === $firstSubcategory ? $firstUrl : $this->urlForSubcategory($subcategory);
+            $url = $subcategory === $firstSubcategory ? $firstUrl : $this->urlForSubcategory($subcategory, $idSite);
             if (empty($url)) {
                 continue;
             }
@@ -94,13 +100,15 @@ class Menu extends \Piwik\Plugin\Menu
 
     /**
      * @param string $subcategory
+     * @param int $idSite
      * @return array|null
      */
-    private function urlForSubcategory($subcategory)
+    private function urlForSubcategory($subcategory, $idSite)
     {
         $params = [
             'category' => self::CATEGORY_ID,
             'subcategory' => $subcategory,
+            'idSite' => $idSite,
         ];
 
         try {

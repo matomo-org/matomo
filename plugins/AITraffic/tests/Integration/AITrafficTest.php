@@ -58,8 +58,13 @@ class AITrafficTest extends IntegrationTestCase
     // Menu tests
     // -------------------------------------------------------------------------
 
-    public function testConfigureAiInsightsMenuDoesNothingWithoutSite(): void
+    public function testConfigureAiInsightsMenuDoesNothingWhenUserHasNoSiteAccess(): void
     {
+        // No idSite in the request and the user can access no site, so there is no default site to
+        // fall back to and the menu stays empty.
+        $_GET = [];
+        $_REQUEST = [];
+
         $menu = new AITrafficTestMenuAi([new AITrafficMenu($this->makeReportsProvider())]);
 
         $result = $menu->getMenu();
@@ -97,9 +102,31 @@ class AITrafficTest extends IntegrationTestCase
         $this->assertSame('index', $overviewUrl['action']);
         $this->assertSame(self::AI_CATEGORY, $overviewUrl['category']);
         $this->assertSame('TestAi_Overview', $overviewUrl['subcategory']);
+        $this->assertSame($idSite, $overviewUrl['idSite']);
 
         // The category default URL points at the first (lowest-ordered) subcategory.
         $this->assertSame($aiTrafficMenu['TestAi_Overview']['_url'], $aiTrafficMenu['_url']);
+    }
+
+    public function testConfigureAiInsightsMenuFallsBackToDefaultSiteWhenIdSiteNotInRequest(): void
+    {
+        $idSite = Fixture::createWebsite('2020-01-01 00:00:00');
+        FakeAccess::clearAccess(false, [], [$idSite], 'viewUser');
+
+        // No idSite in the request (e.g. the All Websites page or an admin page): the menu must
+        // still build, falling back to the user's default site, so AI Insights stays reachable.
+        $_GET = [];
+        $_REQUEST = [];
+
+        $reportsProvider = $this->makeReportsProvider([
+            ['category' => self::AI_CATEGORY, 'subcategory' => 'TestAi_Overview', 'order' => 10],
+        ]);
+
+        $menu = new AITrafficTestMenuAi([new AITrafficMenu($reportsProvider)]);
+        $result = $menu->getMenu();
+
+        $this->assertArrayHasKey('AITraffic_AITraffic', $result);
+        $this->assertSame($idSite, $result['AITraffic_AITraffic']['_url']['idSite']);
     }
 
     /**

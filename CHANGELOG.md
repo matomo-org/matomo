@@ -4,6 +4,16 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 5.12.0
+
+### New APIs
+* A new top-level "AI Insights" menu section was added for AI-related reporting. Plugins can register categories and
+  submenu items into it by implementing `Piwik\Plugin\Menu::configureAiInsightsMenu()` in their plugin's `Menu` class
+  and calling `addItem()` / `registerMenuIcon()` on the provided `Piwik\Menu\MenuAi` instance (the same API as the
+  reporting, top and admin menus).
+* `Piwik\Plugin\ControllerAi` was added as a base controller for plugins that render pages within the AI Insights
+  section. Extending it assigns the AI Insights menu and the active top-menu route to the view automatically.
+
 ## Matomo 5.11.0
 
 ### New APIs
