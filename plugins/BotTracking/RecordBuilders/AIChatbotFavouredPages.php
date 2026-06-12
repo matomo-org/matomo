@@ -27,20 +27,15 @@ use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 
 /**
- * Builds the two flat blob records backing the Human-Favoured and AI-Favoured Pages reports, keyed
- * by full page URL with `unique_human_pageviews`, `ai_chatbot_requests` and `discrepancy_score`.
+ * Builds the two flat blob records backing the Human-Favoured and AI-Favoured Pages reports, keyed by
+ * page URL with `unique_human_pageviews`, `ai_chatbot_requests` and `discrepancy_score`.
  *
- * Each row pairs the human pageviews a URL received (distinct visits, matching the Actions Pages
- * report's `nb_visits`) with the AI chatbot requests it received. Both sides are aggregated straight
- * from the log tables and keyed on the same `log_action.name`, so the union is an exact label match
- * (no URL reconstruction/normalisation needed). The bounded 0–100 {@see DiscrepancyScore} is then
- * materialised per variant and used as the truncation sort column, so each record keeps the pages
- * that rank highest for its own report.
+ * Both sides are aggregated from the log tables on the same `log_action.name`, so the union is an
+ * exact label match. The 0–100 {@see DiscrepancyScore} is materialised per variant and used as the
+ * truncation sort, so each record keeps the pages that rank highest for its own report.
  *
- * One record per variant is required because the score is variant-specific (Human/AI swap the strong
- * side) and truncation must keep each report's own top pages. This costs ~2x the storage of a single
- * shared record, accepted deliberately: a single record truncated by one variant's score would drop
- * the other variant's most-relevant rows.
+ * One record per variant (~2x storage) is needed because the score is variant-specific: a single
+ * record truncated by one variant's score would drop the other variant's most-relevant rows.
  */
 class AIChatbotFavouredPages extends RecordBuilder
 {
@@ -107,14 +102,11 @@ class AIChatbotFavouredPages extends RecordBuilder
     }
 
     /**
-     * Non-day archiving: the score is table-relative (anchored to the period's busiest page) and so
-     * cannot be summed across child periods. We therefore override the standard "sum the day blobs"
-     * path: sum the additive traffic columns from the child blobs, then re-run the scorer on the
-     * period's full union so the stored score is exact, and truncate by that real score.
+     * Non-day archiving: the score is table-relative, so unlike the traffic columns it cannot be
+     * summed across child periods. We override the default "sum the day blobs" path to sum the
+     * additive traffic, re-run the scorer on the period's full union, and truncate by that score.
      *
-     * This is the only RecordBuilder in the codebase that overrides this method; it does so because
-     * a per-row, table-normalised metric has no valid blob-aggregation operation. If core changes
-     * the non-day aggregation contract, this override must be revisited.
+     * No other RecordBuilder overrides this; revisit if core changes the non-day aggregation contract.
      */
     public function buildForNonDayPeriod(ArchiveProcessor $archiveProcessor): void
     {
@@ -160,19 +152,14 @@ class AIChatbotFavouredPages extends RecordBuilder
     }
 
     /**
-     * Merges the human-pageviews table and the AI-requests table into the flat per-URL union that
-     * backs the favoured-pages records. Both inputs are keyed by the same `log_action.name` label;
-     * the human table carries {@see Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS} and the AI table carries
-     * {@see Metrics::COLUMN_REQUESTS}. Every URL on either side appears once, with the missing side
-     * defaulting to 0.
+     * Merges the human-pageviews and AI-requests tables (both keyed on `log_action.name`) into the
+     * flat per-URL union: every URL on either side appears once, the missing side defaulting to 0.
      *
-     * The two per-side truncation tails are combined into a single "Others" summary row carrying the
-     * summed human pageviews and AI requests of the pages beyond the cap. That row is left UNSCORED on
-     * purpose — a discrepancy score over an aggregate of many URLs is meaningless — so the default
-     * exclude-low-population filter (score < 1) hides it, while it stays visible (pinned at the foot of
-     * the table) when that filter is turned off.
+     * The two per-side truncation tails are combined into one "Others" summary row, left UNSCORED — a
+     * discrepancy score over an aggregate of many URLs is meaningless — so the default exclude-low-
+     * population filter hides it while it stays visible when that filter is off.
      *
-     * Pure (DataTable in / DataTable out) so it is unit-testable without a database.
+     * Pure (DataTable in / out) so it is unit-testable without a database.
      */
     public static function mergeHumanAndAiTables(DataTable $humanTable, DataTable $aiTable): DataTable
     {
@@ -266,13 +253,10 @@ class AIChatbotFavouredPages extends RecordBuilder
     }
 
     /**
-     * Queries human pageviews (distinct visits, matching Actions' page `nb_visits`) per page URL,
-     * keyed by `log_action.name` so it merges directly with the AI-side request counts.
-     *
-     * The `idaction_event_category IS NULL` filter mirrors the Actions Pages report
-     * (see ActionReports::getWhereClauseActionIsNotEvent): a page URL that only appears as the
-     * context of an event is not a pageview, so it must not be counted here — otherwise the human
-     * pageviews would diverge from the Pages report.
+     * Human pageviews (distinct visits, matching Actions' page `nb_visits`) per page URL, keyed on
+     * `log_action.name` to merge directly with the AI-side counts. The `idaction_event_category IS
+     * NULL` clause mirrors the Actions Pages report: a URL seen only as an event context is not a
+     * pageview, so it must not be counted here.
      */
     private function queryHumanPageviews(ArchiveProcessor $archiveProcessor): DataTable
     {

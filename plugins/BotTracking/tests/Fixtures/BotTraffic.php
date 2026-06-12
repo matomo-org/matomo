@@ -176,12 +176,11 @@ class BotTraffic extends Fixture
     }
 
     /**
-     * Tracks ordinary human pageviews to URLs that AI chatbots also request, so the
-     * Human/AI-Favoured Pages records have rows where BOTH metrics are non-zero. example.com/article/2
-     * is spread across several consecutive days (Feb 3-5) — and the bots also request it on those days
-     * — so Row Evolution has a real multi-point series for both the human and AI sides. Includes a
-     * "www." URL whose action name, once Matomo normalizes it, collides with the bot label
-     * example.com/article/3, confirming both sides key on the same log_action.name.
+     * Tracks human pageviews to URLs the bots also request, so the Favoured Pages records have rows
+     * where BOTH metrics are non-zero. example.com/article/2 spans Feb 3-5 on the human side and is
+     * also bot-requested on several of those days, giving Row Evolution a real multi-day series for
+     * both sides. The "www." URL collides, after Matomo's action-name normalization, with the bot
+     * label example.com/article/3 — confirming both sides key on the same log_action.name.
      */
     private function trackHumanPageOverlaps(): void
     {

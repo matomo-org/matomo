@@ -272,9 +272,8 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        // The merged, scored data is archived (see AIChatbotFavouredPages); just read it back. The
-        // empty segment is intentional: these reports are unsegmented (the record is only archived
-        // for the empty segment), so any requested segment is ignored and the standard data returned.
+        // The scored data is archived (see AIChatbotFavouredPages); just read it back. The empty
+        // segment is intentional — these reports are unsegmented, so a requested segment is ignored.
         $table = Archive::createDataTableFromArchive(Archiver::AI_CHATBOTS_HUMAN_FAVOURED_PAGES_RECORD, $idSite, $period, $date, '', false, false);
 
         return $this->skipScoreInReportTotals($table);

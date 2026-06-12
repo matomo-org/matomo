@@ -23,14 +23,12 @@ use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\RankingQuery;
 
 /**
- * Shared AI-chatbot page/document URL aggregation, used by both the Content Requests record builder
- * ({@see AIChatbotContentReports}) and the Favoured Pages record builder ({@see AIChatbotFavouredPages}).
+ * Shared AI-chatbot page/document URL aggregation, used by the Content Requests
+ * ({@see AIChatbotContentReports}) and Favoured Pages ({@see AIChatbotFavouredPages}) builders.
  *
- * Keeping the per-URL request query in one place means the "how AI chatbot requests are counted"
- * predicate (join on idaction_url, bot_type = AI chatbot, action type, request-time window) has a
- * single source of truth, so the two reports can never drift apart on what an "AI chatbot request" is.
- * Each consumer passes the metric columns it actually needs (the Content report wants the full set;
- * Favoured Pages only needs the request count), so no caller computes columns it discards.
+ * Keeping the per-URL request query here gives the "what counts as an AI chatbot request" predicate a
+ * single source of truth. Each consumer passes only the metric columns it needs, so no caller computes
+ * columns it discards.
  */
 trait AIChatbotPageMetricsTrait
 {
@@ -54,10 +52,8 @@ trait AIChatbotPageMetricsTrait
     }
 
     /**
-     * Queries page or document URLs requested by AI chatbots for the requested metric columns only.
-     * The Content report selects the full set (server-time and response-size raw columns for the
-     * display-time averages, plus error-status columns for Row Evolution / "show all columns");
-     * Favoured Pages selects just the request count.
+     * Queries page or document URLs requested by AI chatbots, selecting only the requested metric
+     * columns (Content the full set, Favoured Pages just the request count).
      *
      * @param string[] $columnNames metric columns to select, from {@see pageUrlMetricExpressions} keys
      */
@@ -106,17 +102,13 @@ trait AIChatbotPageMetricsTrait
     }
 
     /**
-     * Shared query helper: wraps an already-built inner SQL with a RankingQuery, executes it,
-     * and populates a DataTable via sumRowWithLabel. The RankingQuery "Others" summary row label
-     * is passed through as-is (matching the AIChatbotReports / AIReferrers patterns); the
-     * framework's sumRowWithLabel handles the summary row routing via the string sentinel.
+     * Wraps an already-built inner SQL with a RankingQuery and populates a DataTable; the "Others"
+     * summary row is routed by sumRowWithLabel.
      *
      * @param string                $innerSql Already-interpolated SQL (bot_type bind placeholder kept as `?`).
-     * @param array<string, string> $columns  Map of column name → RankingQuery aggregation op ('sum').
-     *                                        These must match the SELECT aliases in $innerSql exactly.
-     *                                        NOTE: (int) casts are safe for NULL-able sum/nb columns:
-     *                                        NULL→0 is harmless because nb_* == 0 gates the avg computation
-     *                                        in AvgServerTime::compute() / AvgResponseSize::compute().
+     * @param array<string, string> $columns  column name → RankingQuery aggregation op; must match the
+     *                                        SELECT aliases. (int) casts are safe: NULL→0 only hits the
+     *                                        nb_* columns, where 0 already gates the avg computation.
      */
     protected function executeUrlQuery(ArchiveProcessor $archiveProcessor, string $innerSql, array $columns, int $rankingQueryLimit): DataTable
     {
