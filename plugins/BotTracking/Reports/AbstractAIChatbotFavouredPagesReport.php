@@ -49,6 +49,8 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
             new AIChatbotRequests(),
             new DiscrepancyScore($this->getDiscrepancyScoreVariant()),
         ];
+        // No processed metrics; don't inherit Report's core visitor defaults.
+        $this->processedMetrics  = [];
         // Both reports sort by the Discrepancy Score — that's the headline insight, and it already
         // encodes traffic weighting, so sorting by it surfaces the genuinely (human/AI)-favoured
         // pages rather than just the busiest ones.

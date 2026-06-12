@@ -3747,25 +3747,11 @@ Currently, these reports exclusively include requests from AI chatbots that do n
 			<unique_human_pageviews>The number of visits during which real users viewed this URL at least once. Traffic from AI chatbots and other bots is excluded.</unique_human_pageviews>
 			<ai_chatbot_requests>The total number of times this URL was requested by AI chatbots during the selected period.</ai_chatbot_requests>
 			<discrepancy_score>A score from 0 to 100 that combines how strongly this page leans towards humans (how much more it is visited by humans than requested by AI chatbots) with how much human traffic it has relative to the most-visited page. Higher means humans engage with it far more than AI chatbots do; pages that are balanced or AI-leaning score 0.</discrepancy_score>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a conversion. The conversion rate is calculated using the number of visits that converted at least one goal. Visits converting multiple goals are only counted once in the conversion rate.</conversion_rate>
 		</metricsDocumentation>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
-		</processedMetrics>
 		<metricTypes>
 			<unique_human_pageviews>number</unique_human_pageviews>
 			<ai_chatbot_requests>number</ai_chatbot_requests>
 			<discrepancy_score>number</discrepancy_score>
-			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration_s</avg_time_on_site>
-			<bounce_rate>percent</bounce_rate>
-			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotHumanFavouredPages&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotHumanFavouredPages&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -3788,25 +3774,11 @@ Currently, these reports exclusively include requests from AI chatbots that do n
 			<unique_human_pageviews>The number of visits during which real users viewed this URL at least once. Traffic from AI chatbots and other bots is excluded.</unique_human_pageviews>
 			<ai_chatbot_requests>The total number of times this URL was requested by AI chatbots during the selected period.</ai_chatbot_requests>
 			<discrepancy_score>A score from 0 to 100 that combines how strongly this page leans towards AI chatbots (how much more it is requested by chatbots than visited by humans) with how much chatbot traffic it has relative to the most-requested page. Higher means AI chatbots focus on it far more than humans do; pages that are balanced or human-leaning score 0.</discrepancy_score>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a conversion. The conversion rate is calculated using the number of visits that converted at least one goal. Visits converting multiple goals are only counted once in the conversion rate.</conversion_rate>
 		</metricsDocumentation>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
-		</processedMetrics>
 		<metricTypes>
 			<unique_human_pageviews>number</unique_human_pageviews>
 			<ai_chatbot_requests>number</ai_chatbot_requests>
 			<discrepancy_score>number</discrepancy_score>
-			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration_s</avg_time_on_site>
-			<bounce_rate>percent</bounce_rate>
-			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotAIFavouredPages&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotAIFavouredPages&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
