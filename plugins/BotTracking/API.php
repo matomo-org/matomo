@@ -311,9 +311,9 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Marks the discrepancy_score column 'skip' so the report totals row leaves it blank — summing a
-     * per-page 0–100 index is meaningless. The scorer sets this op at archive time, but the column
-     * aggregation metadata does not survive blob serialisation, so it is re-applied here on read.
-     * Recurses into DataTable\Map (multi-period / multi-site).
+     * per-page 0–100 index is meaningless. The scorer sets this op at archive time, but a DataTable's
+     * column-aggregation metadata is transient and is not part of the serialised blob, so it is lost on
+     * load and must be re-applied here on read. Recurses into DataTable\Map (multi-period / multi-site).
      *
      * @param DataTable|DataTable\Map $table
      * @return DataTable|DataTable\Map

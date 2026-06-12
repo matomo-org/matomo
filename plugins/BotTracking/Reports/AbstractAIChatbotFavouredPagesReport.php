@@ -27,12 +27,11 @@ use Piwik\Widget\WidgetsList;
  * Shared base for the Human-Favoured and AI-Favoured Pages reports.
  *
  * Both reports expose the same flat URL dimension, the same Unique Human Pageviews +
- * AI Chatbot Requests metric pair, and a Discrepancy Score processed metric whose variant
- * (human-favoured vs ai-favoured) is provided by the concrete subclass. The reports are
- * derived from the existing Actions/BotTracking blobs at API time (see API::buildFavouredPagesTable),
- * so no archive record is involved — report-level surfaces (Custom Alerts, Scheduled Reports,
- * glossary) treat them as ordinary reports. Row Evolution is deliberately disabled (see
- * configureView) because it would re-run the live merge for every data point.
+ * AI Chatbot Requests metric pair, and a Discrepancy Score whose variant (human-favoured vs
+ * ai-favoured) is provided by the concrete subclass. Each variant is backed by its own archived
+ * blob record built and scored during archiving (see {@see \Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotFavouredPages});
+ * the API just reads it. Report-level surfaces (Custom Alerts, Scheduled Reports, glossary) treat
+ * them as ordinary reports, and Row Evolution is supported because the per-period data is pre-computed.
  */
 abstract class AbstractAIChatbotFavouredPagesReport extends Report
 {

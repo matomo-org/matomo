@@ -29,6 +29,7 @@ class BotTraffic extends Fixture
         $this->trackBotRequests();
         $this->trackAcquiredVisits();
         $this->trackHumanPageOverlaps();
+        $this->trackEventOnlyPage();
     }
 
     public function tearDown(): void
@@ -205,6 +206,22 @@ class BotTraffic extends Fixture
                 self::checkResponse($tracker->doTrackPageView('Human Overlap Page ' . ($i + 1)));
             }
         }
+    }
+
+    /**
+     * Tracks a human event on a page that gets NO pageview (and no bot request). The Favoured Pages
+     * reports must not count this URL as a human pageview — events are excluded, mirroring the Actions
+     * Pages report (see AIChatbotFavouredPages::queryHumanPageviews / Actions' not-an-event clause).
+     */
+    private function trackEventOnlyPage(): void
+    {
+        $date = Date::factory($this->dateTime)
+            ->addDay(1) // 2025-02-03, the date the system tests query
+            ->addHour(5)
+            ->getDatetime();
+        $tracker = self::getTracker($this->idSite, $date, true);
+        $tracker->setUrl('https://example.com/event-only');
+        self::checkResponse($tracker->doTrackEvent('Media', 'Play'));
     }
 
     private function logBot(string $userAgent, string $url, int $statusCode, ?int $bytes, string $dateTime, ?int $serverTimeMs): void

@@ -50,6 +50,18 @@ class AIChatbotFavouredPagesArchivingTest extends IntegrationTestCase
         self::assertSame('skip', $ops[Metrics::COLUMN_DISCREPANCY_SCORE] ?? null);
     }
 
+    public function testEventOnlyPageIsNotCountedAsHumanPageview(): void
+    {
+        $table = API::getInstance()->getAIChatbotHumanFavouredPages(1, 'day', '2025-02-03');
+
+        // example.com/event-only was tracked with an event but never a pageview (and no bot request).
+        // It must be absent: events are not human pageviews (mirrors the Actions Pages report).
+        self::assertFalse(
+            $table->getRowFromLabel('example.com/event-only'),
+            'a page seen only as an event context must not appear as a human pageview'
+        );
+    }
+
     public function testWeekReprocessesScoreOverSummedTraffic(): void
     {
         $week = API::getInstance()->getAIChatbotHumanFavouredPages(1, 'week', '2025-02-03');
