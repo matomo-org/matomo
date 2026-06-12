@@ -19,7 +19,8 @@ use Piwik\Plugins\BotTracking\Metrics;
 
 /**
  * Materialises the bounded 0–100 Discrepancy Score as a real column on the merged favoured-pages
- * table.
+ * table. Invoked during archiving by {@see \Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotFavouredPages}
+ * — for the day record and, re-run, for each higher period's recomputed union.
  *
  * The score is deliberately computed here (once, over the full table) rather than as a
  * ProcessedMetric: it is table-relative (the `volume` term is anchored to the busiest page's
@@ -70,9 +71,14 @@ class FavouredPagesScorer
             ? Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS
             : Metrics::COLUMN_AI_CHATBOT_REQUESTS;
 
-        // Volume anchor: the busiest page's strong-side value across the whole table.
+        // Volume anchor: the busiest page's strong-side value across the whole table. The "Others"
+        // summary row is excluded — its aggregate of the truncated tail could otherwise hijack the
+        // anchor and deflate every real page's score.
         $maxStrong = 0;
         foreach ($table->getRows() as $row) {
+            if ($row->isSummaryRow()) {
+                continue;
+            }
             $value = (int) $row->getColumn($strongColumn);
             if ($value > $maxStrong) {
                 $maxStrong = $value;
@@ -80,6 +86,12 @@ class FavouredPagesScorer
         }
 
         foreach ($table->getRows() as $row) {
+            // Leave the "Others" summary row unscored: a discrepancy score over an aggregate of many
+            // URLs is meaningless (and an absent score keeps it out of the default low-population view).
+            if ($row->isSummaryRow()) {
+                continue;
+            }
+
             $human = (int) $row->getColumn(Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS);
             $ai    = (int) $row->getColumn(Metrics::COLUMN_AI_CHATBOT_REQUESTS);
 

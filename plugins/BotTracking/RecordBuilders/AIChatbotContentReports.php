@@ -74,9 +74,12 @@ class AIChatbotContentReports extends RecordBuilder
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
+        // The content reports expose the full metric set (requests + avg server-time/response-size + errors).
+        $columns = array_keys($this->pageUrlMetricExpressions());
+
         $tables = [
-            Archiver::AI_CHATBOTS_REQUESTED_PAGES_RECORD     => $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_PAGE_URL, $this->rankingQueryLimit),
-            Archiver::AI_CHATBOTS_REQUESTED_DOCUMENTS_RECORD => $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_DOWNLOAD, $this->rankingQueryLimit),
+            Archiver::AI_CHATBOTS_REQUESTED_PAGES_RECORD     => $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_PAGE_URL, $this->rankingQueryLimit, $columns),
+            Archiver::AI_CHATBOTS_REQUESTED_DOCUMENTS_RECORD => $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_DOWNLOAD, $this->rankingQueryLimit, $columns),
             Archiver::AI_CHATBOTS_BROKEN_CONTENT_RECORD      => $this->queryBrokenContent($archiveProcessor),
         ];
 

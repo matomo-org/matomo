@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\RecordBuilders;
 
+use InvalidArgumentException;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
@@ -27,32 +28,63 @@ use Piwik\RankingQuery;
  *
  * Keeping the per-URL request query in one place means the "how AI chatbot requests are counted"
  * predicate (join on idaction_url, bot_type = AI chatbot, action type, request-time window) has a
- * single source of truth: the Favoured Pages builder reuses the same `requests` count the Content
- * report exposes, so the two reports can never drift apart on what an "AI chatbot request" is.
+ * single source of truth, so the two reports can never drift apart on what an "AI chatbot request" is.
+ * Each consumer passes the metric columns it actually needs (the Content report wants the full set;
+ * Favoured Pages only needs the request count), so no caller computes columns it discards.
  */
 trait AIChatbotPageMetricsTrait
 {
     /**
-     * Queries page or document URLs requested by AI chatbots, including server-time and response-size raw
-     * columns needed to compute averages at display time. Error-status columns are also stored so they are
-     * available in Row Evolution and the "show all columns" toggle (hidden by default in configureView).
+     * The available per-URL metric columns, mapped to the SQL expression that produces them from the
+     * AI-chatbot request rows (the `bot` alias in {@see queryPageOrDocumentUrls}). All are summable.
+     *
+     * @return array<string, string> column name => SQL select expression
      */
-    protected function queryPageOrDocumentUrls(ArchiveProcessor $archiveProcessor, int $actionType, int $rankingQueryLimit): DataTable
+    protected function pageUrlMetricExpressions(): array
+    {
+        return [
+            Metrics::COLUMN_REQUESTS                    => 'COUNT(*)',
+            Metrics::COLUMN_SUM_SERVER_TIME             => 'SUM(bot.response_time_ms)',
+            Metrics::COLUMN_NB_SERVER_TIME              => 'SUM(CASE WHEN bot.response_time_ms IS NOT NULL THEN 1 ELSE 0 END)',
+            Metrics::COLUMN_SUM_RESPONSE_SIZE           => 'SUM(bot.response_size_bytes)',
+            Metrics::COLUMN_NB_RESPONSE_SIZE            => 'SUM(CASE WHEN bot.response_size_bytes IS NOT NULL THEN 1 ELSE 0 END)',
+            Metrics::COLUMN_PAGE_NOT_FOUND_404_REQUESTS => 'SUM(bot.http_status_code IN (404, 410))',
+            Metrics::COLUMN_SERVER_ERROR_5XX_REQUESTS   => 'SUM(bot.http_status_code BETWEEN 500 AND 599)',
+        ];
+    }
+
+    /**
+     * Queries page or document URLs requested by AI chatbots for the requested metric columns only.
+     * The Content report selects the full set (server-time and response-size raw columns for the
+     * display-time averages, plus error-status columns for Row Evolution / "show all columns");
+     * Favoured Pages selects just the request count.
+     *
+     * @param string[] $columnNames metric columns to select, from {@see pageUrlMetricExpressions} keys
+     */
+    protected function queryPageOrDocumentUrls(ArchiveProcessor $archiveProcessor, int $actionType, int $rankingQueryLimit, array $columnNames): DataTable
     {
         $logAggregator = $archiveProcessor->getLogAggregator();
         $where         = $logAggregator->getWhereStatement('bot', 'server_time');
         $botTable      = BotRequestsDao::getPrefixedTableName();
         $actionTable   = Common::prefixTable('log_action');
 
+        $expressions = $this->pageUrlMetricExpressions();
+        $selects     = ['log_action.name AS url'];
+        $columns     = [];
+        foreach ($columnNames as $columnName) {
+            if (!isset($expressions[$columnName])) {
+                throw new InvalidArgumentException('Unknown AI chatbot page metric column: ' . $columnName);
+            }
+            $selects[$columnName] = $expressions[$columnName] . ' AS ' . $columnName;
+            $columns[$columnName] = 'sum';
+        }
+
+        // Truncate by the request count when present (every consumer selects it); otherwise the first
+        // requested column, so the RankingQuery keeps the highest-volume rows.
+        $orderColumn = isset($columns[Metrics::COLUMN_REQUESTS]) ? Metrics::COLUMN_REQUESTS : (string) array_key_first($columns);
+
         $innerSql = sprintf(
-            "SELECT log_action.name AS url,
-                    COUNT(*) AS %s,
-                    SUM(bot.response_time_ms) AS %s,
-                    SUM(CASE WHEN bot.response_time_ms IS NOT NULL THEN 1 ELSE 0 END) AS %s,
-                    SUM(bot.response_size_bytes) AS %s,
-                    SUM(CASE WHEN bot.response_size_bytes IS NOT NULL THEN 1 ELSE 0 END) AS %s,
-                    SUM(bot.http_status_code IN (404, 410)) AS %s,
-                    SUM(bot.http_status_code BETWEEN 500 AND 599) AS %s
+            "SELECT %s
              FROM `%s` AS bot
              INNER JOIN `%s` AS log_action ON log_action.idaction = bot.idaction_url
              WHERE log_action.name IS NOT NULL
@@ -62,29 +94,13 @@ trait AIChatbotPageMetricsTrait
                AND %s
              GROUP BY log_action.name
              ORDER BY %s DESC",
-            Metrics::COLUMN_REQUESTS,
-            Metrics::COLUMN_SUM_SERVER_TIME,
-            Metrics::COLUMN_NB_SERVER_TIME,
-            Metrics::COLUMN_SUM_RESPONSE_SIZE,
-            Metrics::COLUMN_NB_RESPONSE_SIZE,
-            Metrics::COLUMN_PAGE_NOT_FOUND_404_REQUESTS,
-            Metrics::COLUMN_SERVER_ERROR_5XX_REQUESTS,
+            implode(",\n                    ", $selects),
             $botTable,
             $actionTable,
             $actionType,
             $where,
-            Metrics::COLUMN_REQUESTS
+            $orderColumn
         );
-
-        $columns = [
-            Metrics::COLUMN_REQUESTS                    => 'sum',
-            Metrics::COLUMN_SUM_SERVER_TIME             => 'sum',
-            Metrics::COLUMN_NB_SERVER_TIME              => 'sum',
-            Metrics::COLUMN_SUM_RESPONSE_SIZE           => 'sum',
-            Metrics::COLUMN_NB_RESPONSE_SIZE            => 'sum',
-            Metrics::COLUMN_PAGE_NOT_FOUND_404_REQUESTS => 'sum',
-            Metrics::COLUMN_SERVER_ERROR_5XX_REQUESTS   => 'sum',
-        ];
 
         return $this->executeUrlQuery($archiveProcessor, $innerSql, $columns, $rankingQueryLimit);
     }

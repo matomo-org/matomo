@@ -38,7 +38,9 @@ use Piwik\Tracker\Action;
  * that rank highest for its own report.
  *
  * One record per variant is required because the score is variant-specific (Human/AI swap the strong
- * side) and truncation must keep each report's own top pages.
+ * side) and truncation must keep each report's own top pages. This costs ~2x the storage of a single
+ * shared record, accepted deliberately: a single record truncated by one variant's score would drop
+ * the other variant's most-relevant rows.
  */
 class AIChatbotFavouredPages extends RecordBuilder
 {
@@ -86,7 +88,8 @@ class AIChatbotFavouredPages extends RecordBuilder
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $humanTable = $this->queryHumanPageviews($archiveProcessor);
-        $aiTable    = $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_PAGE_URL, $this->rankingQueryLimit);
+        // Only the request count is needed here; the shared query's other metrics are for the Content report.
+        $aiTable    = $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_PAGE_URL, $this->rankingQueryLimit, [Metrics::COLUMN_REQUESTS]);
 
         $records = [];
         foreach ($this->variantByRecord() as $recordName => $variant) {
@@ -161,8 +164,13 @@ class AIChatbotFavouredPages extends RecordBuilder
      * backs the favoured-pages records. Both inputs are keyed by the same `log_action.name` label;
      * the human table carries {@see Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS} and the AI table carries
      * {@see Metrics::COLUMN_REQUESTS}. Every URL on either side appears once, with the missing side
-     * defaulting to 0. Summary ("Others") rows are skipped — a score over an aggregate of many URLs
-     * would be meaningless — matching the previous API-time behaviour.
+     * defaulting to 0.
+     *
+     * The two per-side truncation tails are combined into a single "Others" summary row carrying the
+     * summed human pageviews and AI requests of the pages beyond the cap. That row is left UNSCORED on
+     * purpose — a discrepancy score over an aggregate of many URLs is meaningless — so the default
+     * exclude-low-population filter (score < 1) hides it, while it stays visible (pinned at the foot of
+     * the table) when that filter is turned off.
      *
      * Pure (DataTable in / DataTable out) so it is unit-testable without a database.
      */
@@ -214,7 +222,36 @@ class AIChatbotFavouredPages extends RecordBuilder
             ]));
         }
 
+        self::addCombinedOthersRow($table, $humanTable, $aiTable);
+
         return $table;
+    }
+
+    /**
+     * Combines the human and AI tables' "Others" summary rows (the truncated tail of each side) into a
+     * single summary row on $table, with no discrepancy_score (see mergeHumanAndAiTables). Does nothing
+     * when neither side was truncated.
+     */
+    private static function addCombinedOthersRow(DataTable $table, DataTable $humanTable, DataTable $aiTable): void
+    {
+        $humanOthers = $humanTable->getSummaryRow();
+        $aiOthers    = $aiTable->getSummaryRow();
+
+        if (!$humanOthers instanceof Row && !$aiOthers instanceof Row) {
+            return;
+        }
+
+        $label = ($humanOthers instanceof Row ? $humanOthers : $aiOthers)->getColumn('label');
+
+        $summary = new Row([
+            Row::COLUMNS => [
+                'label'                                => $label,
+                Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS => $humanOthers instanceof Row ? (int) $humanOthers->getColumn(Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS) : 0,
+                Metrics::COLUMN_AI_CHATBOT_REQUESTS    => $aiOthers instanceof Row ? (int) $aiOthers->getColumn(Metrics::COLUMN_REQUESTS) : 0,
+            ],
+        ]);
+        $summary->setIsSummaryRow();
+        $table->addSummaryRow($summary);
     }
 
     /**

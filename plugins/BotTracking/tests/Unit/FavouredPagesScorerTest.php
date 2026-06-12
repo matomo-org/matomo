@@ -162,4 +162,27 @@ class FavouredPagesScorerTest extends TestCase
             self::scores($children['2025-02-03'])
         );
     }
+
+    public function testSummaryRowExcludedFromAnchorAndLeftUnscored(): void
+    {
+        // One real fully-human page (100, 0): on its own it anchors maxStrong at 100 → score 100.
+        $table = self::table([[100, 0]]);
+
+        // An "Others" summary row aggregating a far larger human tail must NOT become the anchor.
+        $others = new Row([Row::COLUMNS => [
+            'label'                                => 'Others',
+            Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS => 100000,
+            Metrics::COLUMN_AI_CHATBOT_REQUESTS    => 0,
+        ]]);
+        $others->setIsSummaryRow();
+        $table->addSummaryRow($others);
+
+        (new FavouredPagesScorer(DiscrepancyScore::VARIANT_HUMAN_FAVOURED))->addScores($table);
+
+        // The real page still scores 100 (maxStrong = 100, not 100000): the summary aggregate did not
+        // hijack the volume anchor.
+        self::assertSame(100.0, (float) $table->getRowFromLabel('example.com/100-0')->getColumn(Metrics::COLUMN_DISCREPANCY_SCORE));
+        // The summary row itself is left unscored.
+        self::assertFalse($table->getSummaryRow()->getColumn(Metrics::COLUMN_DISCREPANCY_SCORE));
+    }
 }

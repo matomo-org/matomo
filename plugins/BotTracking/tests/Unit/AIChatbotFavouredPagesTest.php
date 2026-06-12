@@ -40,12 +40,17 @@ class AIChatbotFavouredPagesTest extends TestCase
     }
 
     /**
-     * @return array<string, array{int, int}> label => [human, ai]
+     * The normal (non-summary) rows as label => [human, ai].
+     *
+     * @return array<string, array{int, int}>
      */
     private static function asMap(DataTable $table): array
     {
         $out = [];
         foreach ($table->getRows() as $row) {
+            if ($row->isSummaryRow()) {
+                continue;
+            }
             $out[(string) $row->getColumn('label')] = [
                 (int) $row->getColumn(Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS),
                 (int) $row->getColumn(Metrics::COLUMN_AI_CHATBOT_REQUESTS),
@@ -94,7 +99,7 @@ class AIChatbotFavouredPagesTest extends TestCase
         self::assertSame(['example.com/h' => [3, 0]], self::asMap($merged));
     }
 
-    public function testSummaryRowsAreExcluded(): void
+    public function testCombinesTruncationTailIntoUnscoredOthersRow(): void
     {
         $human = self::table(Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS, [['example.com/h', 3]]);
         $humanSummary = new Row([Row::COLUMNS => ['label' => 'Others', Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS => 999]]);
@@ -108,10 +113,16 @@ class AIChatbotFavouredPagesTest extends TestCase
 
         $merged = AIChatbotFavouredPages::mergeHumanAndAiTables($human, $ai);
 
-        // The truncation "Others" rows must not leak into the union (a score over an aggregate of
-        // many URLs would be meaningless).
+        // The normal per-URL union is unaffected by the truncation tails.
         self::assertSame(['example.com/a' => [0, 4], 'example.com/h' => [3, 0]], self::asMap($merged));
-        self::assertFalse($merged->getRowFromLabel('Others'));
+
+        // Both per-side "Others" tails combine into one summary row carrying both sums...
+        $others = $merged->getSummaryRow();
+        self::assertInstanceOf(Row::class, $others);
+        self::assertSame(999, (int) $others->getColumn(Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS));
+        self::assertSame(888, (int) $others->getColumn(Metrics::COLUMN_AI_CHATBOT_REQUESTS));
+        // ...and it is left unscored (no discrepancy score is computed for an aggregate of many URLs).
+        self::assertFalse($others->getColumn(Metrics::COLUMN_DISCREPANCY_SCORE));
     }
 
     public function testProducesCanonicalColumnSet(): void
