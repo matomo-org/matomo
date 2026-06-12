@@ -240,6 +240,15 @@ var Piwik_Overlay = (function () {
                 return;
             }
 
+            params.idSite = idSite;
+            params.period = period;
+            params.date = date;
+            if (segment) {
+                params.segment = decodeURIComponent(segment);
+            } else {
+                delete params.segment;
+            }
+
             var AjaxHelper = window.CoreHome.AjaxHelper;
             AjaxHelper
               .fetch(params, { withTokenInUrl: true })
