@@ -231,6 +231,11 @@ class AIChatbotFavouredPages extends RecordBuilder
     /**
      * Queries human pageviews (distinct visits, matching Actions' page `nb_visits`) per page URL,
      * keyed by `log_action.name` so it merges directly with the AI-side request counts.
+     *
+     * The `idaction_event_category IS NULL` filter mirrors the Actions Pages report
+     * (see ActionReports::getWhereClauseActionIsNotEvent): a page URL that only appears as the
+     * context of an event is not a pageview, so it must not be counted here — otherwise the human
+     * pageviews would diverge from the Pages report.
      */
     private function queryHumanPageviews(ArchiveProcessor $archiveProcessor): DataTable
     {
@@ -247,6 +252,7 @@ class AIChatbotFavouredPages extends RecordBuilder
              WHERE log_action.name IS NOT NULL
                AND log_action.name <> ''
                AND log_action.type = %d
+               AND log_link_visit_action.idaction_event_category IS NULL
                AND %s
              GROUP BY log_action.name
              ORDER BY %s DESC",
