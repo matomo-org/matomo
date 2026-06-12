@@ -10,11 +10,11 @@
 namespace Piwik\Plugins\AITraffic;
 
 use Piwik\Category\CategoryList;
-use Piwik\Common;
 use Piwik\Menu\MenuAi;
 use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\UsersManager\UserPreferences;
+use Piwik\Request;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -39,7 +39,7 @@ class Menu extends \Piwik\Plugin\Menu
         // usable, mirroring how the Dashboard ("Analytics") top-menu entry behaves.
         $userPreferences = new UserPreferences();
         $idSite = $userPreferences->getDefaultWebsiteId();
-        $idSite = Common::getRequestVar('idSite', $idSite, 'int');
+        $idSite = Request::fromRequest()->getIntegerParameter('idSite', (int) $idSite);
         if (!$idSite || !Piwik::isUserHasViewAccess($idSite)) {
             return;
         }

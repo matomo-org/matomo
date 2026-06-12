@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugin;
 
-use Piwik\Common;
 use Piwik\Menu\MenuAi;
+use Piwik\Request;
 
 /**
  * Base class of plugin controllers that render pages within the AI Insights section.
@@ -45,8 +45,8 @@ abstract class ControllerAi extends Controller
 
         $view->aiMenu = $menu->getMenu();
         $view->aiTopMenuUrl = $defaultUrl;
-        $view->currentCategory = Request::getStringParameter('category', '');
-        $view->currentSubcategory = Request::getStringParameter('subcategory', '');
+        $view->currentCategory = Request::fromRequest()->getStringParameter('category', '');
+        $view->currentSubcategory = Request::fromRequest()->getStringParameter('subcategory', '');
 
         if (is_array($defaultUrl)) {
             $view->topMenuModule = $defaultUrl['module'] ?? null;
