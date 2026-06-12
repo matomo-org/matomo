@@ -45,8 +45,8 @@ abstract class ControllerAi extends Controller
 
         $view->aiMenu = $menu->getMenu();
         $view->aiTopMenuUrl = $defaultUrl;
-        $view->currentCategory = Common::getRequestVar('category', '', 'string');
-        $view->currentSubcategory = Common::getRequestVar('subcategory', '', 'string');
+        $view->currentCategory = Request::getStringParameter('category', '');
+        $view->currentSubcategory = Request::getStringParameter('subcategory', '');
 
         if (is_array($defaultUrl)) {
             $view->topMenuModule = $defaultUrl['module'] ?? null;
