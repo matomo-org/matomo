@@ -36,16 +36,4 @@ class GetCampaignUrlBuilder extends \Piwik\Widget\Widget
     {
         return Common::getRequestVar('idSite', 0, 'int');
     }
-
-    public function render()
-    {
-        $idSite = self::getIdSite();
-        Piwik::checkUserHasViewAccess($idSite);
-
-        $hasExtraPlugin = Plugin\Manager::getInstance()->isPluginActivated('MarketingCampaignsReporting');
-
-        return $this->renderTemplate('campaignBuilder', array(
-            'hasExtraPlugin' => $hasExtraPlugin,
-        ));
-    }
 }
