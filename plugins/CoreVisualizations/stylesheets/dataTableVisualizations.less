@@ -28,7 +28,7 @@ a.rowevolution-startmulti {
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-footer.has-legend {
-    min-height: 38px;
+    height: 38px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,7 +38,10 @@ body.plotlines-tweaks-enabled .jqplot-legend-items {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 8px 24px;
+    align-content: safe center;
+    gap: 6px 24px;
+    height: 38px;
+    overflow: hidden;
     width: 100%;
 }
 
@@ -48,6 +51,10 @@ body.plotlines-tweaks-enabled .jqplot-legend-item {
     gap: 8px;
     max-width: 100%;
     min-width: 0;
+}
+
+body.plotlines-tweaks-enabled .jqplot-legend-item.jqplot-legend-item-hidden {
+    display: none;
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-swatch {
@@ -62,8 +69,10 @@ body.plotlines-tweaks-enabled .jqplot-legend-label {
     color: @theme-color-text-lighter;
     font-size: 12px;
     line-height: 16px;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+    min-width: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .dataTableVizEvolution {
