@@ -1102,13 +1102,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     piwik.annotations.placeEvolutionIcons(annotations, domElem);
 
-                    // add annotations before the legend when the plot lines tweaks are enabled, otherwise before the footer navigation
-                    var legendFooter = $('.jqplot-legend-footer', domElem);
-                    if ($('body').hasClass('plotlines-tweaks-enabled') && legendFooter.length) {
-                        annotations.insertBefore(legendFooter);
-                    } else {
-                        annotations.insertBefore($('.dataTableFooterNavigation', domElem));
-                    }
+                    piwik.annotations.placeEvolutionAnnotations(annotations, domElem);
 
                     // reposition annotation icons every time the graph is resized
                     $('.piwik-graph', domElem).on('resizeGraph', function () {

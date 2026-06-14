@@ -550,13 +550,7 @@
 
                 loading.css('visibility', 'hidden');
 
-                // add & show annotation manager before the legend when the plot lines tweaks are enabled
-                var legendFooter = $('.jqplot-legend-footer', domElem);
-                if ($('body').hasClass('plotlines-tweaks-enabled') && legendFooter.length) {
-                    manager.insertBefore(legendFooter);
-                } else {
-                    manager.insertAfter($('.evolution-annotations', domElem));
-                }
+                placeAnnotationManager(manager, domElem);
 
                 manager.slideDown('slow', function () {
                     loading.hide().css('visibility', 'visible');
@@ -596,10 +590,43 @@
         });
     };
 
-// make showAnnotationViewer, placeEvolutionIcons & annotationsApi globally accessible
+    var getPlotLinesLegendFooter = function (graphElem) {
+        var legendFooter = $('.jqplot-legend-footer', graphElem);
+
+        if ($('body').hasClass('plotlines-tweaks-enabled') && legendFooter.length) {
+            return legendFooter;
+        }
+
+        return $();
+    };
+
+    var placeEvolutionAnnotations = function (annotations, graphElem) {
+        var legendFooter = getPlotLinesLegendFooter(graphElem);
+
+        if (legendFooter.length) {
+            annotations.insertBefore(legendFooter);
+            return;
+        }
+
+        annotations.insertBefore($('.dataTableFooterNavigation', graphElem));
+    };
+
+    var placeAnnotationManager = function (manager, graphElem) {
+        var legendFooter = getPlotLinesLegendFooter(graphElem);
+
+        if (legendFooter.length) {
+            manager.insertBefore(legendFooter);
+            return;
+        }
+
+        manager.insertAfter($('.evolution-annotations', graphElem));
+    };
+
+    // make annotation helpers globally accessible
     piwik.annotations = {
         showAnnotationViewer: showAnnotationViewer,
         placeEvolutionIcons: placeEvolutionIcons,
+        placeEvolutionAnnotations: placeEvolutionAnnotations,
         api: annotationsApi
     };
 

@@ -603,14 +603,15 @@ function limitLegendRows($legendContainer, maxRows)
         /** Export the chart as an image */
         exportAsImage: function (container, lang) {
             var pixelRatio = window.devicePixelRatio || 1;
+            var plotLinesTweaksEnabled = isPlotLinesTweaksEnabled();
             var dataTable = container.closest('.dataTable');
             var legendFooter = dataTable.find('.jqplot-legend-footer.has-legend');
-            var legendHeight = isPlotLinesTweaksEnabled() && legendFooter.length ? FOOTER_LEGEND_HEIGHT : 0;
+            var legendHeight = plotLinesTweaksEnabled && legendFooter.length ? FOOTER_LEGEND_HEIGHT : 0;
             var legendLayout = null;
             var exportCanvas = document.createElement('canvas');
-            var exportWidth = container.outerWidth();
+            var exportWidth = plotLinesTweaksEnabled ? container.outerWidth() : container.width();
             var dataTableWidth = dataTable.innerWidth();
-            if (dataTableWidth) {
+            if (plotLinesTweaksEnabled && dataTableWidth) {
                 exportWidth = Math.max(exportWidth, dataTableWidth);
             }
             exportCanvas.width = Math.round(exportWidth * pixelRatio);
@@ -621,10 +622,12 @@ function limitLegendRows($legendContainer, maxRows)
                 return;
             }
             var exportCtx = exportCanvas.getContext('2d');
-            exportCtx.fillStyle = '#ffffff';
-            exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+            if (plotLinesTweaksEnabled) {
+                exportCtx.fillStyle = '#ffffff';
+                exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+            }
 
-            if (isPlotLinesTweaksEnabled() && legendFooter.length) {
+            if (plotLinesTweaksEnabled && legendFooter.length) {
                 legendLayout = this.getLegendExportLayout(exportCtx, legendFooter, exportCanvas.width, pixelRatio);
             }
 
@@ -642,7 +645,7 @@ function limitLegendRows($legendContainer, maxRows)
                 exportCtx.drawImage(canvas[0], Math.round(position.left * pixelRatio), Math.round(position.top * pixelRatio));
             }
 
-            if (isPlotLinesTweaksEnabled() && legendFooter.length) {
+            if (plotLinesTweaksEnabled && legendFooter.length) {
                 this.drawLegendForExport(exportCtx, legendLayout, container.height(), pixelRatio);
             }
 
@@ -1074,11 +1077,6 @@ function limitLegendRows($legendContainer, maxRows)
             }
         },
 
-        _isPlotLinesTweaksEnabled: function () {
-            return !!(document.body
-                && document.body.classList.contains('plotlines-tweaks-enabled'));
-        },
-
         /**
          * Sets the colors used to render this graph.
          */
@@ -1105,7 +1103,7 @@ function limitLegendRows($legendContainer, maxRows)
             this.tickColor = colorManager.getColor(namespace, 'ticks');
 
             // Under PlotLinesTweaks, evolution and bar gridlines use a lighter tick color.
-            if (this._isPlotLinesTweaksEnabled()
+            if (isPlotLinesTweaksEnabled()
                 && (graphType === 'evolution' || graphType === 'bar')) {
                 var TICK_OPACITY = 0.5;
                 var tickRgb = colorManager.getRgb(this.tickColor);
@@ -1143,7 +1141,7 @@ function limitLegendRows($legendContainer, maxRows)
                     var seriesColorName = comparisonService.getSeriesColorName(s.seriesIndex, s.metricIndex);
                     seriesColorNames.push(seriesColorName);
                 });
-            } else if (this._isPlotLinesTweaksEnabled()
+            } else if (isPlotLinesTweaksEnabled()
                 && (namespace === 'evolution-graph-colors'
                     || namespace === 'bar-graph-colors'
                     || namespace === 'pie-graph-colors')) {
@@ -1528,8 +1526,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         unHighlight(plot);
 
-        var plotLinesTweaksEnabled = document.body
-            && document.body.classList.contains('plotlines-tweaks-enabled');
+        var plotLinesTweaksEnabled = isPlotLinesTweaksEnabled();
 
         for (var i = 0; i < plot.series.length; i++) {
             var series = plot.series[i];
