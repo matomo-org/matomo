@@ -28,7 +28,15 @@ a.rowevolution-startmulti {
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-footer.has-legend {
-    height: 38px;
+    // Used by jqplot.js to match the exported image legend layout.
+    --jqplot-legend-footer-height: 38px;
+    --jqplot-legend-swatch-size: 12px;
+    --jqplot-legend-item-gap: 8px;
+    --jqplot-legend-row-gap: 24px;
+    --jqplot-legend-line-gap: 6px;
+    --jqplot-legend-horizontal-padding: 12px;
+
+    height: var(--jqplot-legend-footer-height);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,8 +47,8 @@ body.plotlines-tweaks-enabled .jqplot-legend-items {
     justify-content: center;
     flex-wrap: wrap;
     align-content: safe center;
-    gap: 6px 24px;
-    height: 38px;
+    gap: var(--jqplot-legend-line-gap) var(--jqplot-legend-row-gap);
+    height: var(--jqplot-legend-footer-height);
     overflow: hidden;
     width: 100%;
 }
@@ -48,7 +56,7 @@ body.plotlines-tweaks-enabled .jqplot-legend-items {
 body.plotlines-tweaks-enabled .jqplot-legend-item {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--jqplot-legend-item-gap);
     max-width: 100%;
     min-width: 0;
 }
@@ -58,9 +66,9 @@ body.plotlines-tweaks-enabled .jqplot-legend-item.jqplot-legend-item-hidden {
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-swatch {
-    width: 12px;
-    height: 12px;
-    min-width: 12px;
+    width: var(--jqplot-legend-swatch-size);
+    height: var(--jqplot-legend-swatch-size);
+    min-width: var(--jqplot-legend-swatch-size);
     border-radius: 50%;
     flex: 0 0 auto;
 }

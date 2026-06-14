@@ -41,14 +41,31 @@ function getOrCreateLegendFooter($dataTable)
 }
 
 var MAX_FOOTER_LEGEND_ROWS = 2;
-var FOOTER_LEGEND_HEIGHT = 38;
 var FOOTER_LEGEND_ROW_TOLERANCE = 1;
-var FOOTER_LEGEND_SWATCH_SIZE = 12;
-var FOOTER_LEGEND_ITEM_GAP = 8;
-var FOOTER_LEGEND_ROW_GAP = 24;
-var FOOTER_LEGEND_LINE_GAP = 6;
-var FOOTER_LEGEND_HORIZONTAL_PADDING = 12;
-var FOOTER_LEGEND_VERTICAL_PADDING = 7;
+var FOOTER_LEGEND_EXPORT_GRAPH_GAP = 12;
+
+function getCssPixelValue(element, propertyName)
+{
+    if (!element) {
+        return 0;
+    }
+
+    return parseFloat(window.getComputedStyle(element).getPropertyValue(propertyName)) || 0;
+}
+
+function getLegendLayoutDimensions($legendFooter)
+{
+    var legendFooter = $legendFooter[0];
+
+    return {
+        height: getCssPixelValue(legendFooter, '--jqplot-legend-footer-height'),
+        swatchSize: getCssPixelValue(legendFooter, '--jqplot-legend-swatch-size'),
+        itemGap: getCssPixelValue(legendFooter, '--jqplot-legend-item-gap'),
+        rowGap: getCssPixelValue(legendFooter, '--jqplot-legend-row-gap'),
+        lineGap: getCssPixelValue(legendFooter, '--jqplot-legend-line-gap'),
+        horizontalPadding: getCssPixelValue(legendFooter, '--jqplot-legend-horizontal-padding')
+    };
+}
 
 function resetLegendItems($legendItems)
 {
@@ -606,7 +623,11 @@ function limitLegendRows($legendContainer, maxRows)
             var plotLinesTweaksEnabled = isPlotLinesTweaksEnabled();
             var dataTable = container.closest('.dataTable');
             var legendFooter = dataTable.find('.jqplot-legend-footer.has-legend');
-            var legendHeight = plotLinesTweaksEnabled && legendFooter.length ? FOOTER_LEGEND_HEIGHT : 0;
+            var legendDimensions = plotLinesTweaksEnabled && legendFooter.length
+                ? getLegendLayoutDimensions(legendFooter)
+                : null;
+            var legendHeight = legendDimensions ? legendDimensions.height : 0;
+            var legendGraphGap = legendDimensions ? FOOTER_LEGEND_EXPORT_GRAPH_GAP : 0;
             var legendLayout = null;
             var exportCanvas = document.createElement('canvas');
             var exportWidth = plotLinesTweaksEnabled ? container.outerWidth() : container.width();
@@ -615,7 +636,7 @@ function limitLegendRows($legendContainer, maxRows)
                 exportWidth = Math.max(exportWidth, dataTableWidth);
             }
             exportCanvas.width = Math.round(exportWidth * pixelRatio);
-            exportCanvas.height = Math.round((container.height() + legendHeight) * pixelRatio);
+            exportCanvas.height = Math.round((container.height() + legendGraphGap + legendHeight) * pixelRatio);
 
             if (!exportCanvas.getContext) {
                 alert("Sorry, not supported in your browser. Please upgrade your browser :)");
@@ -628,7 +649,13 @@ function limitLegendRows($legendContainer, maxRows)
             }
 
             if (plotLinesTweaksEnabled && legendFooter.length) {
-                legendLayout = this.getLegendExportLayout(exportCtx, legendFooter, exportCanvas.width, pixelRatio);
+                legendLayout = this.getLegendExportLayout(
+                    exportCtx,
+                    legendFooter,
+                    exportCanvas.width,
+                    pixelRatio,
+                    legendDimensions
+                );
             }
 
             var canvases = container.find('canvas');
@@ -646,7 +673,7 @@ function limitLegendRows($legendContainer, maxRows)
             }
 
             if (plotLinesTweaksEnabled && legendFooter.length) {
-                this.drawLegendForExport(exportCtx, legendLayout, container.height(), pixelRatio);
+                this.drawLegendForExport(exportCtx, legendLayout, container.height() + legendGraphGap, pixelRatio);
             }
 
             var exported = exportCanvas.toDataURL("image/png");
@@ -691,19 +718,19 @@ function limitLegendRows($legendContainer, maxRows)
             var itemGap = legendLayout.itemGap;
             var rowGap = legendLayout.rowGap;
             var lineGap = legendLayout.lineGap;
-            var paddingTop = legendLayout.paddingTop;
             var contentWidth = legendLayout.contentWidth;
             var contentOffsetX = legendLayout.contentOffsetX;
-            var currentY = topOffset * pixelRatio + paddingTop;
+            var rowsHeight = this.getLegendExportRowsHeight(rows, swatchSize, lineGap);
+            var contentOffsetY = Math.max(0, Math.round((legendLayout.totalHeight - rowsHeight) / 2));
+            var currentY = topOffset * pixelRatio + contentOffsetY;
 
             for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
                 var row = rows[rowIndex];
                 var rowWidth = 0;
-                var rowHeight = 0;
+                var rowHeight = this.getLegendExportRowHeight(row, swatchSize);
 
                 for (var itemIndex = 0; itemIndex < row.length; itemIndex++) {
                     rowWidth += row[itemIndex].width;
-                    rowHeight = Math.max(rowHeight, Math.max(swatchSize, row[itemIndex].lineHeight));
                 }
 
                 rowWidth += rowGap * Math.max(row.length - 1, 0);
@@ -745,19 +772,18 @@ function limitLegendRows($legendContainer, maxRows)
             }
         },
 
-        getLegendExportLayout: function (ctx, legendFooter, exportWidth, pixelRatio) {
-            var legendItems = this.getLegendExportItems(ctx, legendFooter, pixelRatio);
-            var swatchSize = FOOTER_LEGEND_SWATCH_SIZE * pixelRatio;
-            var itemGap = FOOTER_LEGEND_ITEM_GAP * pixelRatio;
-            var rowGap = FOOTER_LEGEND_ROW_GAP * pixelRatio;
-            var lineGap = FOOTER_LEGEND_LINE_GAP * pixelRatio;
-            var paddingTop = FOOTER_LEGEND_VERTICAL_PADDING * pixelRatio;
-            var paddingX = FOOTER_LEGEND_HORIZONTAL_PADDING * pixelRatio;
+        getLegendExportLayout: function (ctx, legendFooter, exportWidth, pixelRatio, legendDimensions) {
+            var legendItems = this.getLegendExportItems(ctx, legendFooter, pixelRatio, legendDimensions);
+            var swatchSize = legendDimensions.swatchSize * pixelRatio;
+            var itemGap = legendDimensions.itemGap * pixelRatio;
+            var rowGap = legendDimensions.rowGap * pixelRatio;
+            var lineGap = legendDimensions.lineGap * pixelRatio;
+            var paddingX = legendDimensions.horizontalPadding * pixelRatio;
             var contentWidth = Math.max(exportWidth - (paddingX * 2), 1);
             // Keep export legend layout separate from the DOM footer legend logic.
             // Browsers handle wrapping, centering and ellipsis more reliably in the UI,
             // while reusing that behavior for canvas export made exported images unstable.
-            var rows = this.buildLegendExportRows(legendItems, contentWidth, rowGap);
+            var rows = this.buildLegendExportRows(legendItems, contentWidth, rowGap, ctx, pixelRatio);
 
             return {
                 rows: rows,
@@ -767,16 +793,15 @@ function limitLegendRows($legendContainer, maxRows)
                 itemGap: itemGap,
                 rowGap: rowGap,
                 lineGap: lineGap,
-                paddingTop: paddingTop,
-                totalHeight: FOOTER_LEGEND_HEIGHT * pixelRatio
+                totalHeight: legendDimensions.height * pixelRatio
             };
         },
 
-        getLegendExportItems: function (ctx, legendFooter, pixelRatio) {
+        getLegendExportItems: function (ctx, legendFooter, pixelRatio, legendDimensions) {
             var legendItems = legendFooter.find('.jqplot-legend-item');
             var items = [];
-            var swatchSize = FOOTER_LEGEND_SWATCH_SIZE * pixelRatio;
-            var itemGap = FOOTER_LEGEND_ITEM_GAP * pixelRatio;
+            var swatchSize = legendDimensions.swatchSize * pixelRatio;
+            var itemGap = legendDimensions.itemGap * pixelRatio;
             var defaultLabel = {
                 fontSize: 12,
                 lineHeight: 16,
@@ -827,7 +852,7 @@ function limitLegendRows($legendContainer, maxRows)
             return items;
         },
 
-        buildLegendExportRows: function (items, contentWidth, rowGap) {
+        buildLegendExportRows: function (items, contentWidth, rowGap, ctx, pixelRatio) {
             var rows = [];
             var overflowIndex = -1;
 
@@ -858,11 +883,35 @@ function limitLegendRows($legendContainer, maxRows)
                 var overflowItem = $.extend({}, items[overflowIndex], {
                     text: '…'
                 });
-                overflowItem.width = overflowItem.swatchWidth + overflowItem.itemGapWidth + this.measureLegendExportTextWidth(overflowItem);
+                overflowItem.width = overflowItem.swatchWidth
+                    + overflowItem.itemGapWidth
+                    + this.measureLegendExportTextWidth(ctx, overflowItem, pixelRatio);
                 this.appendLegendOverflowItem(rows, overflowItem, contentWidth, rowGap);
             }
 
             return rows;
+        },
+
+        getLegendExportRowsHeight: function (rows, swatchSize, lineGap) {
+            var height = 0;
+
+            for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+                height += this.getLegendExportRowHeight(rows[rowIndex], swatchSize);
+            }
+
+            height += Math.max(rows.length - 1, 0) * lineGap;
+
+            return height;
+        },
+
+        getLegendExportRowHeight: function (row, swatchSize) {
+            var height = 0;
+
+            for (var itemIndex = 0; itemIndex < row.length; itemIndex++) {
+                height = Math.max(height, Math.max(swatchSize, row[itemIndex].lineHeight));
+            }
+
+            return height;
         },
 
         appendLegendOverflowItem: function (rows, overflowItem, contentWidth, rowGap) {
@@ -900,16 +949,17 @@ function limitLegendRows($legendContainer, maxRows)
             return width;
         },
 
-        measureLegendExportTextWidth: function (item) {
-            var canvas = document.createElement('canvas');
-            var ctx = canvas.getContext('2d');
-
+        measureLegendExportTextWidth: function (ctx, item, pixelRatio) {
             if (!ctx) {
                 return 0;
             }
 
-            ctx.font = item.fontWeight + ' ' + Math.round(item.fontSize * (window.devicePixelRatio || 1)) + 'px ' + item.fontFamily;
-            return ctx.measureText(item.text).width;
+            ctx.save();
+            ctx.font = item.fontWeight + ' ' + Math.round(item.fontSize * pixelRatio) + 'px ' + item.fontFamily;
+            var width = ctx.measureText(item.text).width;
+            ctx.restore();
+
+            return width;
         },
 
         // ------------------------------------------------------------
