@@ -11,6 +11,8 @@ describe("EvolutionGraph", function () {
     const url = "?module=Widgetize&action=iframe&idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30"
               + "&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&viewDataTable=graphEvolution"
               + "&isFooterExpandedInDashboard=1";
+    const plotLinesTweaksColumns = "nb_visits,nb_actions,avg_time_on_site,bounce_rate";
+    const plotLinesTweaksUrl = url + "&columns=" + plotLinesTweaksColumns + "&filter_add_columns_when_show_all_columns=0";
 
     before(function () {
         return testEnvironment.callApi("Annotations.deleteAll", {idSite: 3});
@@ -212,5 +214,57 @@ describe("EvolutionGraph", function () {
         // check that add annotation link is not shown
         const element = await page.$('.add-annotation');
         expect(element).to.be.not.ok;
+    });
+
+    describe("with PlotLinesTweaks enabled", function () {
+        before(function () {
+            delete testEnvironment.idSitesViewAccess;
+            delete testEnvironment.testUseMockAuth;
+            testEnvironment.overrideConfig('FeatureFlags', 'PlotLinesTweaks_feature', 'enabled');
+            testEnvironment.save();
+        });
+
+        after(function () {
+            delete testEnvironment.configOverride.FeatureFlags;
+            testEnvironment.save();
+        });
+
+        it("should render the evolution graph footer legend correctly", async function () {
+            await page.webpage.setViewport({ width: 1350, height: 768 });
+            await page.goto(plotLinesTweaksUrl);
+            await page.waitForNetworkIdle();
+
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('plot_lines_tweaks_initial');
+        });
+
+        it("should show graph as image with footer legend when export as image icon clicked", async function () {
+            await page.goto(plotLinesTweaksUrl);
+            await page.waitForNetworkIdle();
+            await page.click('#dataTableFooterExportAsImageIcon');
+            await page.waitForNetworkIdle();
+
+            const dialog = await page.$('.ui-dialog');
+            expect(await dialog.screenshot()).to.matchImage('plot_lines_tweaks_export_image');
+        });
+
+        it("should overflow footer legend labels cleanly in a narrow viewport", async function () {
+            await page.webpage.setViewport({ width: 320, height: 480 });
+            await page.goto(plotLinesTweaksUrl);
+            await page.waitForNetworkIdle();
+
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('plot_lines_tweaks_narrow_overflow');
+        });
+
+        it("should show annotations above the footer legend", async function () {
+            await page.webpage.setViewport({ width: 1350, height: 768 });
+            await page.goto(plotLinesTweaksUrl);
+            await page.waitForNetworkIdle();
+
+            const element = await page.jQuery('.evolution-annotations>span[data-count!=0]');
+            await element.click();
+            await page.waitForNetworkIdle();
+
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('plot_lines_tweaks_annotations');
+        });
     });
 });

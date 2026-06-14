@@ -41,7 +41,7 @@ function getOrCreateLegendFooter($dataTable)
 }
 
 var MAX_FOOTER_LEGEND_ROWS = 2;
-var FOOTER_LEGEND_HEIGHT = 52;
+var FOOTER_LEGEND_HEIGHT = 38;
 var FOOTER_LEGEND_ROW_TOLERANCE = 1;
 var FOOTER_LEGEND_SWATCH_SIZE = 12;
 var FOOTER_LEGEND_ITEM_GAP = 8;
@@ -751,6 +751,9 @@ function limitLegendRows($legendContainer, maxRows)
             var paddingTop = FOOTER_LEGEND_VERTICAL_PADDING * pixelRatio;
             var paddingX = FOOTER_LEGEND_HORIZONTAL_PADDING * pixelRatio;
             var contentWidth = Math.max(exportWidth - (paddingX * 2), 1);
+            // Keep export legend layout separate from the DOM footer legend logic.
+            // Browsers handle wrapping, centering and ellipsis more reliably in the UI,
+            // while reusing that behavior for canvas export made exported images unstable.
             var rows = this.buildLegendExportRows(legendItems, contentWidth, rowGap);
 
             return {
