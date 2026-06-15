@@ -13,6 +13,7 @@ describe('BotTrackingSiteWithoutData', function () {
     const generalParams = 'idSite=1&period=day&date=today';
     const urlBase = `module=CoreHome&action=index&${generalParams}`;
     const urlOverview = `?${urlBase}#?${generalParams}&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview`;
+    const urlContentRequests = `?${urlBase}#?${generalParams}&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsContentRequests`;
 
     before(function () {
         testEnvironment.detectedContentDetections = ['WordPress', 'AmazonCloudFront'];
@@ -34,6 +35,19 @@ describe('BotTrackingSiteWithoutData', function () {
         const notification = await page.$('.bot-tracking-no-recent-requests-message');
 
         expect(await notification.getProperty('textContent')).to.match(/No data collected/i);
+    });
+
+    it('should show the same message on the Content Requests page', async function () {
+        await page.goto(urlContentRequests);
+        await page.waitForSelector('.bot-tracking-no-recent-requests-message');
+
+        const notification = await page.$('.bot-tracking-no-recent-requests-message');
+
+        expect(await notification.getProperty('textContent')).to.match(/No data collected/i);
+
+        // Back to the overview so the click-through flow below starts from the same place.
+        await page.goto(urlOverview);
+        await page.waitForSelector('.bot-tracking-no-recent-requests-message');
     });
 
     it('should show the no data page', async function () {

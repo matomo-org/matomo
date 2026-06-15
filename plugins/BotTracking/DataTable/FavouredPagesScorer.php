@@ -19,15 +19,12 @@ use Piwik\Plugins\BotTracking\Metrics;
 
 /**
  * Materialises the bounded 0–100 Discrepancy Score as a real column on the merged favoured-pages
- * table.
+ * table. Invoked during archiving by {@see \Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotFavouredPages}
+ * — for the day record and, re-run, for each higher period's recomputed union.
  *
- * The score is deliberately computed here (once, over the full table) rather than as a
- * ProcessedMetric: it is table-relative (the `volume` term is anchored to the busiest page's
- * strong-side value), and a ProcessedMetric is recomputed at display time after row-deleting
- * filters such as ExcludeLowPopulation have run — which would shrink the anchor and corrupt the
- * scores, and leaves the column absent when the exclusion filter itself runs (emptying the report).
- * Writing a stable column up front lets the standard sort and ExcludeLowPopulation filters operate
- * on it deterministically.
+ * A stored column rather than a ProcessedMetric: the score is table-relative (the `volume` term is
+ * anchored to the busiest page), so a ProcessedMetric recomputed at display time would see a shrunken
+ * anchor once ExcludeLowPopulation has deleted rows (and be absent while that filter itself runs).
  *
  * @see DiscrepancyScore for the column metadata (label, documentation, formatting).
  */
@@ -49,7 +46,8 @@ class FavouredPagesScorer
 
     /**
      * Adds the `discrepancy_score` column to every row of the table (recursing into
-     * `DataTable\Map` children so each period self-calibrates).
+     * `DataTable\Map` children so each period self-calibrates), and marks the column 'skip' so it is
+     * never summed into a summary row.
      *
      * @param DataTable|DataTable\Map $table
      */
@@ -70,9 +68,13 @@ class FavouredPagesScorer
             ? Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS
             : Metrics::COLUMN_AI_CHATBOT_REQUESTS;
 
-        // Volume anchor: the busiest page's strong-side value across the whole table.
+        // Volume anchor = the busiest page's strong-side value. Exclude the "Others" summary row,
+        // whose aggregate tail would otherwise hijack the anchor and deflate every real score.
         $maxStrong = 0;
         foreach ($table->getRows() as $row) {
+            if ($row->isSummaryRow()) {
+                continue;
+            }
             $value = (int) $row->getColumn($strongColumn);
             if ($value > $maxStrong) {
                 $maxStrong = $value;
@@ -80,6 +82,11 @@ class FavouredPagesScorer
         }
 
         foreach ($table->getRows() as $row) {
+            // Leave the "Others" summary row unscored — a score over an aggregate of URLs is meaningless.
+            if ($row->isSummaryRow()) {
+                continue;
+            }
+
             $human = (int) $row->getColumn(Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS);
             $ai    = (int) $row->getColumn(Metrics::COLUMN_AI_CHATBOT_REQUESTS);
 
@@ -94,9 +101,9 @@ class FavouredPagesScorer
             $row->setColumn(Metrics::COLUMN_DISCREPANCY_SCORE, self::score($strong, $weak, $maxStrong));
         }
 
-        // The score is a per-page 0–100 index, so summing it for the report totals row is
-        // meaningless — mark it 'skip' so the totals calculator leaves it blank. The two traffic
-        // columns keep the default 'sum'.
+        // Mark the score 'skip' so the Truncate filter leaves it out of the "Others" summary row it
+        // builds while archiving — a score over an aggregate of URLs is meaningless. (Not serialised
+        // with the blob, so readers re-apply 'skip' for the report totals row; see API.)
         $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME) ?: [];
         $ops[Metrics::COLUMN_DISCREPANCY_SCORE] = 'skip';
         $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $ops);

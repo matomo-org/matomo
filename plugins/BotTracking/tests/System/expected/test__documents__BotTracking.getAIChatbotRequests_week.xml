@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<label>ChatGPT</label>
+		<requests>5</requests>
+		<document_requests>1</document_requests>
+		<page_requests>4</page_requests>
+		<visits_acquired>2</visits_acquired>
+		<url>chatgpt.com</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/chatgpt.com.png</logo>
+		<subtable>
+			<row>
+				<label>example.com/resources/guide.pdf</label>
+				<requests>1</requests>
+			</row>
+		</subtable>
+	</row>
+	<row>
 		<label>Claude</label>
 		<requests>5</requests>
 		<document_requests>3</document_requests>
@@ -55,26 +70,11 @@
 		</subtable>
 	</row>
 	<row>
-		<label>ChatGPT</label>
-		<requests>5</requests>
-		<document_requests>1</document_requests>
-		<page_requests>4</page_requests>
-		<visits_acquired>1</visits_acquired>
-		<url>chatgpt.com</url>
-		<logo>plugins/Morpheus/icons/dist/aiAssistants/chatgpt.com.png</logo>
-		<subtable>
-			<row>
-				<label>example.com/resources/guide.pdf</label>
-				<requests>1</requests>
-			</row>
-		</subtable>
-	</row>
-	<row>
 		<label>Gemini</label>
 		<requests>4</requests>
 		<document_requests>0</document_requests>
 		<page_requests>4</page_requests>
-		<visits_acquired>1</visits_acquired>
+		<visits_acquired>0</visits_acquired>
 		<url>gemini.google.com</url>
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/gemini.google.com.png</logo>
 	</row>

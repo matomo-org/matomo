@@ -38,13 +38,13 @@
 	</row>
 	<row>
 		<label>example.com/article/2</label>
-		<unique_human_pageviews>2</unique_human_pageviews>
+		<unique_human_pageviews>5</unique_human_pageviews>
 		<ai_chatbot_requests>4</ai_chatbot_requests>
-		<discrepancy_score>33.3</discrepancy_score>
+		<discrepancy_score>0</discrepancy_score>
 	</row>
 	<row>
 		<label>example.com/article-1</label>
-		<unique_human_pageviews>2</unique_human_pageviews>
+		<unique_human_pageviews>1</unique_human_pageviews>
 		<ai_chatbot_requests>0</ai_chatbot_requests>
 		<discrepancy_score>0</discrepancy_score>
 	</row>
@@ -56,13 +56,13 @@
 	</row>
 	<row>
 		<label>example.com/article-3</label>
-		<unique_human_pageviews>2</unique_human_pageviews>
+		<unique_human_pageviews>3</unique_human_pageviews>
 		<ai_chatbot_requests>0</ai_chatbot_requests>
 		<discrepancy_score>0</discrepancy_score>
 	</row>
 	<row>
 		<label>example.com/article-4</label>
-		<unique_human_pageviews>2</unique_human_pageviews>
+		<unique_human_pageviews>4</unique_human_pageviews>
 		<ai_chatbot_requests>0</ai_chatbot_requests>
 		<discrepancy_score>0</discrepancy_score>
 	</row>

@@ -19,14 +19,11 @@ use Piwik\Plugin\AggregatedMetric;
 use Piwik\Plugins\BotTracking\Metrics;
 
 /**
- * Column metadata for the bounded 0–100 Discrepancy Score on the Human/AI-Favoured Pages reports.
- *
- * Supplies the column's name / translation / per-variant documentation / formatting only. The
- * value itself is materialised on the merged table by
- * {@see \Piwik\Plugins\BotTracking\DataTable\FavouredPagesScorer} at API time — not as a
- * ProcessedMetric — because the score is table-relative and must not be recomputed after
- * row-deleting filters run. AggregatedMetric is the closest base for "a plain column that isn't a
- * processed metric" (same as the two source-metric columns).
+ * Column metadata (name / translation / per-variant documentation / formatting) for the bounded
+ * 0–100 Discrepancy Score on the Human/AI-Favoured Pages reports. The value is materialised during
+ * archiving by {@see \Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotFavouredPages} (via
+ * {@see \Piwik\Plugins\BotTracking\DataTable\FavouredPagesScorer}). AggregatedMetric is the closest
+ * base for "a plain column that isn't a processed metric" (as for the two source-metric columns).
  */
 class DiscrepancyScore extends AggregatedMetric
 {

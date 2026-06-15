@@ -648,6 +648,9 @@ datatable_archiving_maximum_rows_bots = 250
 datatable_archiving_maximum_rows_subtable_bots = 250
 ; maximum number of content URLs (pages/documents) listed in the AI Chatbots Content Requests reports
 datatable_archiving_maximum_rows_ai_chatbot_content = 20000
+; maximum number of page URLs listed in the Human-Favoured / AI-Favoured Pages reports
+; (these span the full human page-URL set, so the cap is higher than the content reports)
+datatable_archiving_maximum_rows_ai_chatbot_favoured_pages = 50000
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500

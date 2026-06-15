@@ -15,6 +15,15 @@ describe("BotTracking", function () {
     var generalParams = 'idSite=1&period=day&date=2025-02-02',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
+    async function waitForRowEvolutionPopover() {
+        await page.waitForFunction('$(".ui-dialog:visible .rowevolution").length > 0');
+        await page.waitForFunction(
+            '$(".ui-dialog:visible .rowevolution table.metrics tr").length > 0'
+            + ' && $(".ui-dialog:visible .rowevolution .jqplot-target").length > 0'
+        );
+        await page.waitForTimeout(250);
+    }
+
     it('should render AI Assistants > AI Chatbots Overview page with evolution and sparkline', async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
         await page.waitForNetworkIdle();
@@ -239,6 +248,31 @@ describe("BotTracking", function () {
 
         var elem = await page.$('.pageWrap');
         expect(await elem.screenshot()).to.matchImage('bot_content_requests');
+    });
+
+    it('should offer Row Evolution on the Favoured Pages reports and render its chart', async function () {
+        // Use a date inside the human/AI overlap window (Feb 3-5) so the evolution chart has a real
+        // multi-day series. Row Evolution is only available now the reports are archived.
+        await page.goto("?" + urlBase + "#?idSite=1&period=day&date=2025-02-03&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsContentRequests");
+        await page.waitForNetworkIdle();
+
+        const humanWidgetId = '#widgetBotTrackinggetAIChatbotHumanFavouredPages';
+        const row = await page.waitForSelector(humanWidgetId + ' table.dataTable tbody tr:first-child');
+        await row.hover();
+        await page.waitForTimeout(100);
+
+        // The Row Evolution row action must now be offered (disable_row_evolution was removed once the
+        // data is archived, so the icon is no longer suppressed).
+        const icon = await row.$('a.actionRowEvolution');
+        expect(icon).to.not.equal(null);
+
+        await icon.hover();
+        await icon.click();
+        await page.mouse.move(-10, -10);
+
+        await waitForRowEvolutionPopover();
+
+        expect(await page.screenshotSelector('.ui-dialog:visible')).to.matchImage('row_evolution_favoured_pages');
     });
 
     it('should show segment not supported footer message on AI Chatbots Content Requests page when segmented', async function () {

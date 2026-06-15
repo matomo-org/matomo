@@ -49,14 +49,24 @@ class FavouredPagesScorerTest extends TestCase
         return round(100 * $lean * $volume, 1);
     }
 
-    public function testScoreIsBoundedZeroToHundred(): void
+    public function testScoreAtBoundaryInputs(): void
     {
+        // Exact values at edge inputs (pins the formula, not just the [0,100] bound): a fully
+        // one-sided page that is itself the anchor (→100), partial leans, balanced (→0), and a
+        // near-zero-volume page (strong=1 against a far larger anchor).
         $cases = [[5000, 0, 5000], [2000, 100, 2000], [50, 1, 2000], [500, 500, 5000], [1, 0, 10000]];
         foreach ($cases as [$strong, $weak, $max]) {
-            $score = FavouredPagesScorer::score($strong, $weak, $max);
-            self::assertGreaterThanOrEqual(0, $score);
-            self::assertLessThanOrEqual(100, $score);
+            self::assertSame(
+                self::expected($strong, $weak, $max),
+                FavouredPagesScorer::score($strong, $weak, $max),
+                "score($strong, $weak, $max)"
+            );
         }
+
+        // Spot-check the two most informative edges against hand-computed literals so the test is not
+        // purely self-referential: the anchor page scores exactly 100, and strong=1/anchor=10000 is tiny.
+        self::assertSame(100.0, FavouredPagesScorer::score(5000, 0, 5000));
+        self::assertSame(7.5, FavouredPagesScorer::score(1, 0, 10000));
     }
 
     public function testBalancedAndOppositeLeaningScoreZero(): void
@@ -137,13 +147,14 @@ class FavouredPagesScorerTest extends TestCase
         ], self::scores($table));
     }
 
-    public function testAddScoresMarksScoreToSkipInTotals(): void
+    public function testAddScoresMarksScoreToSkipInSummaryRows(): void
     {
         $table = self::table([[2000, 100], [50, 1]]);
         (new FavouredPagesScorer(DiscrepancyScore::VARIANT_HUMAN_FAVOURED))->addScores($table);
 
+        // The per-page 0-100 index must not be summed into any summary row (the Truncate "Others"
+        // row during archiving, or the report totals row): the score column is marked 'skip'.
         $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
-        // The per-page 0–100 index must not be summed into the report totals row.
         self::assertSame('skip', $ops[Metrics::COLUMN_DISCREPANCY_SCORE] ?? null);
     }
 
@@ -161,5 +172,28 @@ class FavouredPagesScorerTest extends TestCase
             [self::expected(100, 0, 10000), self::expected(10000, 0, 10000)],
             self::scores($children['2025-02-03'])
         );
+    }
+
+    public function testSummaryRowExcludedFromAnchorAndLeftUnscored(): void
+    {
+        // One real fully-human page (100, 0): on its own it anchors maxStrong at 100 → score 100.
+        $table = self::table([[100, 0]]);
+
+        // An "Others" summary row aggregating a far larger human tail must NOT become the anchor.
+        $others = new Row([Row::COLUMNS => [
+            'label'                                => 'Others',
+            Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS => 100000,
+            Metrics::COLUMN_AI_CHATBOT_REQUESTS    => 0,
+        ]]);
+        $others->setIsSummaryRow();
+        $table->addSummaryRow($others);
+
+        (new FavouredPagesScorer(DiscrepancyScore::VARIANT_HUMAN_FAVOURED))->addScores($table);
+
+        // The real page still scores 100 (maxStrong = 100, not 100000): the summary aggregate did not
+        // hijack the volume anchor.
+        self::assertSame(100.0, (float) $table->getRowFromLabel('example.com/100-0')->getColumn(Metrics::COLUMN_DISCREPANCY_SCORE));
+        // The summary row itself is left unscored.
+        self::assertFalse($table->getSummaryRow()->getColumn(Metrics::COLUMN_DISCREPANCY_SCORE));
     }
 }

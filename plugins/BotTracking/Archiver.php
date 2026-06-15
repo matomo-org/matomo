@@ -18,6 +18,8 @@ class Archiver extends \Piwik\Plugin\Archiver
     public const AI_CHATBOTS_REQUESTED_PAGES_RECORD = 'BotTracking_AIChatbotsRequestedPages';
     public const AI_CHATBOTS_REQUESTED_DOCUMENTS_RECORD = 'BotTracking_AIChatbotsRequestedDocuments';
     public const AI_CHATBOTS_BROKEN_CONTENT_RECORD = 'BotTracking_AIChatbotsBrokenContent';
+    public const AI_CHATBOTS_HUMAN_FAVOURED_PAGES_RECORD = 'BotTracking_AIChatbotsHumanFavouredPages';
+    public const AI_CHATBOTS_AI_FAVOURED_PAGES_RECORD = 'BotTracking_AIChatbotsAIFavouredPages';
 
     public static function shouldRunEvenWhenNoVisits(): bool
     {

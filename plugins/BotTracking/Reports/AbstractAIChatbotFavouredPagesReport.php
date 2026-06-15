@@ -27,12 +27,11 @@ use Piwik\Widget\WidgetsList;
  * Shared base for the Human-Favoured and AI-Favoured Pages reports.
  *
  * Both reports expose the same flat URL dimension, the same Unique Human Pageviews +
- * AI Chatbot Requests metric pair, and a Discrepancy Score processed metric whose variant
- * (human-favoured vs ai-favoured) is provided by the concrete subclass. The reports are
- * derived from the existing Actions/BotTracking blobs at API time (see API::buildFavouredPagesTable),
- * so no archive record is involved — report-level surfaces (Custom Alerts, Scheduled Reports,
- * glossary) treat them as ordinary reports. Row Evolution is deliberately disabled (see
- * configureView) because it would re-run the live merge for every data point.
+ * AI Chatbot Requests metric pair, and a Discrepancy Score whose variant (human-favoured vs
+ * ai-favoured) is provided by the concrete subclass. Each variant is backed by its own archived
+ * blob record built and scored during archiving (see {@see \Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotFavouredPages});
+ * the API just reads it. Report-level surfaces (Custom Alerts, Scheduled Reports, glossary) treat
+ * them as ordinary reports, and Row Evolution is supported because the per-period data is pre-computed.
  */
 abstract class AbstractAIChatbotFavouredPagesReport extends Report
 {
@@ -43,13 +42,16 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
         $this->categoryId        = 'General_AIAssistants';
         $this->subcategoryId     = 'BotTracking_AIChatbotsContentRequests';
         $this->dimension         = new PageUrl();
-        // discrepancy_score is materialised on the table by the API (see FavouredPagesScorer), so
-        // it is an ordinary column here rather than a recomputed processed metric.
+        // discrepancy_score is materialised during archiving (see AIChatbotFavouredPages /
+        // FavouredPagesScorer) and read straight back, so it is an ordinary column here rather than a
+        // recomputed processed metric.
         $this->metrics           = [
             new UniqueHumanPageviews(),
             new AIChatbotRequests(),
             new DiscrepancyScore($this->getDiscrepancyScoreVariant()),
         ];
+        // No processed metrics; don't inherit Report's core visitor defaults.
+        $this->processedMetrics  = [];
         // Both reports sort by the Discrepancy Score — that's the headline insight, and it already
         // encodes traffic weighting, so sorting by it surfaces the genuinely (human/AI)-favoured
         // pages rather than just the busiest ones.
@@ -118,11 +120,6 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
         $view->config->show_pie_chart = false;
         $view->config->show_tag_cloud = false;
 
-        // Disable Row Evolution for now: each evolution data point re-runs the full live merge
-        // (Actions page URLs + bot content pages) for its period, which is too costly to offer
-        // per row until the underlying data is archived.
-        $view->config->disable_row_evolution = true;
-
         // Render URL labels as clickable links. Labels are Matomo-normalized URLs without scheme
         // (e.g. example.com/article/2); prepend https:// to form a valid link target.
         $view->config->filters[] = function (DataTable $table) {
@@ -157,10 +154,9 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
      * every row.
      *
      * Wired through the standard ExcludeLowPopulation generic filter targeting the score column.
-     * The framework computes processed metrics before generic filters when the filter targets a
-     * processed-metric column (the same path that lets us sort by the score), so the score exists
-     * by the time the filter runs. The minimum value must stay > 0 — passing 0 makes
-     * ExcludeLowPopulation fall back to its 2%-of-sum heuristic and empty the table.
+     * The score is a stored column (materialised during archiving), so it is present on every row by
+     * the time the filter runs. The minimum value must stay > 0 — passing 0 makes ExcludeLowPopulation
+     * fall back to its 2%-of-sum heuristic and empty the table.
      */
     private function configureExcludeLowPopulation(ViewDataTable $view): void
     {
