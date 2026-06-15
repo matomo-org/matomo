@@ -359,21 +359,37 @@ const {
 CampaignBuildervue_type_script_lang_ts.render = render
 
 /* harmony default export */ var CampaignBuilder = (CampaignBuildervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Referrers/vue/src/CampaignBuilderWidget/CampaignBuilderWidget.vue?vue&type=template&id=70986e78
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Referrers/vue/src/CampaignBuilderWidget/CampaignBuilderWidget.vue?vue&type=template&id=63be7106
 
-const CampaignBuilderWidgetvue_type_template_id_70986e78_hoisted_1 = {
+const CampaignBuilderWidgetvue_type_template_id_63be7106_hoisted_1 = {
   class: "widgetBody"
 };
-const CampaignBuilderWidgetvue_type_template_id_70986e78_hoisted_2 = ["innerHTML"];
-function CampaignBuilderWidgetvue_type_template_id_70986e78_render(_ctx, _cache, $props, $setup, $data, $options) {
+const CampaignBuilderWidgetvue_type_template_id_63be7106_hoisted_2 = ["innerHTML"];
+const CampaignBuilderWidgetvue_type_template_id_63be7106_hoisted_3 = {
+  key: 1,
+  class: "widgetBody"
+};
+const _hoisted_4 = ["innerHTML"];
+function CampaignBuilderWidgetvue_type_template_id_63be7106_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_CampaignBuilder = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("CampaignBuilder");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", CampaignBuilderWidgetvue_type_template_id_70986e78_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+  const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+  return !_ctx.isWidget ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
+    key: 0,
+    "content-title": _ctx.translate('Referrers_URLCampaignBuilder')
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", CampaignBuilderWidgetvue_type_template_id_63be7106_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+      innerHTML: _ctx.$sanitize(_ctx.introHtml)
+    }, null, 8, CampaignBuilderWidgetvue_type_template_id_63be7106_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_CampaignBuilder, {
+      "has-extra-plugin": _ctx.hasExtraPlugin
+    }, null, 8, ["has-extra-plugin"])])]),
+    _: 1
+  }, 8, ["content-title"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", CampaignBuilderWidgetvue_type_template_id_63be7106_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
     innerHTML: _ctx.$sanitize(_ctx.introHtml)
-  }, null, 8, CampaignBuilderWidgetvue_type_template_id_70986e78_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_CampaignBuilder, {
+  }, null, 8, _hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_CampaignBuilder, {
     "has-extra-plugin": _ctx.hasExtraPlugin
-  }, null, 8, ["has-extra-plugin"])]);
+  }, null, 8, ["has-extra-plugin"])]));
 }
-// CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilderWidget/CampaignBuilderWidget.vue?vue&type=template&id=70986e78
+// CONCATENATED MODULE: ./plugins/Referrers/vue/src/CampaignBuilderWidget/CampaignBuilderWidget.vue?vue&type=template&id=63be7106
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Referrers/vue/src/CampaignBuilderWidget/CampaignBuilderWidget.vue?vue&type=script&lang=ts
 
@@ -383,10 +399,12 @@ const docsBuilderUrl = 'https://matomo.org/docs/' + 'tracking-campaigns-url-buil
 const docsCampaignsUrl = 'https://matomo.org/docs/' + 'tracking-campaigns/';
 /* harmony default export */ var CampaignBuilderWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
     CampaignBuilder: CampaignBuilder
   },
   props: {
-    hasExtraPlugin: Boolean
+    hasExtraPlugin: Boolean,
+    isWidget: Boolean
   },
   computed: {
     introHtml() {
@@ -400,7 +418,7 @@ const docsCampaignsUrl = 'https://matomo.org/docs/' + 'tracking-campaigns/';
 
 
 
-CampaignBuilderWidgetvue_type_script_lang_ts.render = CampaignBuilderWidgetvue_type_template_id_70986e78_render
+CampaignBuilderWidgetvue_type_script_lang_ts.render = CampaignBuilderWidgetvue_type_template_id_63be7106_render
 
 /* harmony default export */ var CampaignBuilderWidget = (CampaignBuilderWidgetvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/Referrers/vue/src/index.ts

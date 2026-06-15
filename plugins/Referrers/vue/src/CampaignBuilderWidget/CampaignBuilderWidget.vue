@@ -6,7 +6,20 @@
 -->
 
 <template>
-  <div class="widgetBody">
+  <ContentBlock
+    v-if="!isWidget"
+    :content-title="translate('Referrers_URLCampaignBuilder')"
+  >
+    <div class="widgetBody">
+      <p v-html="$sanitize(introHtml)" />
+      <CampaignBuilder :has-extra-plugin="hasExtraPlugin" />
+    </div>
+  </ContentBlock>
+
+  <div
+    v-else
+    class="widgetBody"
+  >
     <p v-html="$sanitize(introHtml)" />
     <CampaignBuilder :has-extra-plugin="hasExtraPlugin" />
   </div>
@@ -14,7 +27,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { translate, externalLink } from 'CoreHome';
+import { translate, externalLink, ContentBlock } from 'CoreHome';
 import CampaignBuilder from '../CampaignBuilder/CampaignBuilder.vue';
 
 const docsBuilderUrl = 'https://matomo.org/docs/'
@@ -24,10 +37,12 @@ const docsCampaignsUrl = 'https://matomo.org/docs/'
 
 export default defineComponent({
   components: {
+    ContentBlock,
     CampaignBuilder,
   },
   props: {
     hasExtraPlugin: Boolean,
+    isWidget: Boolean,
   },
   computed: {
     introHtml(): string {
