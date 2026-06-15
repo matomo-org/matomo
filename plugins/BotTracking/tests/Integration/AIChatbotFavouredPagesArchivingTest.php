@@ -44,8 +44,9 @@ class AIChatbotFavouredPagesArchivingTest extends IntegrationTestCase
         $row = $table->getFirstRow();
         self::assertNotFalse($row->getColumn(Metrics::COLUMN_DISCREPANCY_SCORE));
 
-        // The per-page 0-100 index must not be summed into the report totals row: the 'skip' op set
-        // by the scorer at archive time has to survive serialisation into and out of the blob.
+        // The per-page 0-100 index must not be summed into the report totals row. The aggregation op
+        // is not stored in the blob; the API re-applies it on read (skipScoreInReportTotals) — that
+        // read-time behaviour is what this asserts.
         $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
         self::assertSame('skip', $ops[Metrics::COLUMN_DISCREPANCY_SCORE] ?? null);
     }
@@ -70,6 +71,15 @@ class AIChatbotFavouredPagesArchivingTest extends IntegrationTestCase
         self::assertSame(0, API::getInstance()->getAIChatbotAIFavouredPages(1, 'day', '2025-02-20')->getRowsCount());
     }
 
+    public function testNoRecordsForWeekWithNoBotActivity(): void
+    {
+        // The week of 2025-02-20 (Feb 17-23) has a human pageview but no AI chatbot requests on any
+        // day, so the non-day aggregation sums empty day blobs into empty week records — the skip
+        // propagates through buildForNonDayPeriod, not just the daily aggregate().
+        self::assertSame(0, API::getInstance()->getAIChatbotHumanFavouredPages(1, 'week', '2025-02-20')->getRowsCount());
+        self::assertSame(0, API::getInstance()->getAIChatbotAIFavouredPages(1, 'week', '2025-02-20')->getRowsCount());
+    }
+
     public function testWeekReprocessesScoreOverSummedTraffic(): void
     {
         $week = API::getInstance()->getAIChatbotHumanFavouredPages(1, 'week', '2025-02-03');
@@ -84,6 +94,23 @@ class AIChatbotFavouredPagesArchivingTest extends IntegrationTestCase
         // is the busiest human page of the week (anchor), so for human=5 / ai=4 the bounded index is
         // 100 * max(0,(5-4)/9) * 1 = 11.1 — never the sum of the per-day scores.
         self::assertSame(11.1, (float) $row->getColumn(Metrics::COLUMN_DISCREPANCY_SCORE));
+    }
+
+    public function testMonthReprocessesScoreOverSummedTraffic(): void
+    {
+        $month = API::getInstance()->getAIChatbotHumanFavouredPages(1, 'month', '2025-02-03');
+        $row   = $month->getRowFromLabel('example.com/article/2');
+
+        self::assertNotFalse($row, 'expected example.com/article/2 in the monthly favoured-pages record');
+
+        // Human pageviews sum across the month from the week blobs (all 5 land in Feb 3-5).
+        self::assertSame(5, (int) $row->getColumn(Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS));
+
+        // The score is reprocessed on the month union built from the WEEK blobs, never summed from
+        // them: article/2 is bot-requested in two different weeks (Feb 2 and Feb 3-9), so over the
+        // month its AI requests meet or exceed its 5 human pageviews and the human-favoured lean
+        // clamps to 0 — a recomputed 0.0, not the weekly 11.1 and not the sum of the weekly scores.
+        self::assertSame(0.0, (float) $row->getColumn(Metrics::COLUMN_DISCREPANCY_SCORE));
     }
 
     public function testAiFavouredRecordIsArchivedSeparately(): void
