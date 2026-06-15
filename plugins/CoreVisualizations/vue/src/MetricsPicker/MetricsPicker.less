@@ -1,0 +1,139 @@
+@_drop_down-shadow:~"0 10px 40px 0 #A5B1CA4D, 0 0 3px 0 #A5B1CA4D";
+@_drop_down-shadow-dark: ~"0 10px 40px 0 #00000080, 0 0 3px 0 #00000080";
+@_metrics-border-size: ~"1px solid";
+@_metrics-border: ~"@{_metrics-border-size} @{theme-color-border-alternative}";
+
+.metrics-picker {
+  display: inline-block;
+  position: relative;
+
+  .metrics-picker-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: @theme-color-background-contrast;
+    color: @theme-color-text;
+    border: @_metrics-border;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 20px;
+    cursor: pointer;
+
+
+    &:hover, &:focus-visible {
+      border-color: @theme-color-focus-ring-alternative;
+    }
+    &:focus-visible {
+      outline: @_metrics-border-size @theme-color-focus-ring-alternative;
+    }
+
+    &:focus, &:hover {
+      outline: none;
+    }
+  }
+  .metrics-picker-label {
+      height: 18px;
+  }
+
+  .metrics-picker-chevron {
+    font-size: 12px;
+    transition: transform .15s ease;
+  }
+
+  &.expanded .metrics-picker-chevron {
+    transform: rotate(180deg);
+  }
+
+  .metrics-picker-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 1010; /* must be above ui dialog, matches series picker popover */
+    overflow-y: auto;
+    padding: 8px;
+    /* the legend footer lives inside .dataTableFeatures (text-align: center) -
+       reset so the metric checkboxes align to the left */
+    text-align: left;
+    background: @theme-color-background-contrast;
+    border: 1px solid @theme-color-border-alternative;
+    border-radius: 8px;
+    box-shadow: @_drop_down-shadow;
+
+    .inDarkMode({
+      box-shadow: @_drop_down-shadow-dark;
+    })
+  }
+
+  &.expanded .metrics-picker-dropdown {
+    display: block;
+  }
+
+  .series-picker-options p {
+    margin: 0;
+  }
+
+  .pickColumn {
+    padding: 2px 8px;
+    cursor: pointer;
+    width: 236px;
+
+    :hover {
+      cursor: pointer;
+    }
+  }
+
+  .pickColumn > label {
+    display: flex;
+    align-items: flex-start;
+    min-height: 28px;
+  }
+
+  [type="checkbox"] + span:not(.lever) {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    padding: 0;
+  }
+
+  .pick-label {
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 8px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+
+  [type="checkbox"].filled-in:checked + span:not(.lever):after {
+    border-color: @theme-color-focus-ring-alternative;
+    background-color: @theme-color-focus-ring-alternative;
+  }
+
+  // The check
+  [type="checkbox"].filled-in:checked + span:not(.lever):before {
+    border-right-color: @color-white;
+    border-bottom-color: @color-white;
+    width: 7px;
+    height: 10px;
+  }
+  [type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
+    border: 1px solid @theme-color-border-alternative;
+  }
+
+  /* compact 18px box with rounded corners (Materialize defaults to 20px / 2px) */
+  [type="checkbox"].filled-in:checked + span:not(.lever):after,
+  [type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+  }
+
+  .headline.recordsToPlot {
+    padding: 10px 16px 4px;
+    font-weight: bold;
+    font-size: 12px;
+    color: @theme-color-text-light;
+  }
+}

@@ -7,4 +7,5 @@
 
 export { default as MetricValue } from './MetricValue/MetricValue.vue';
 export { default as SeriesPicker } from './SeriesPicker/SeriesPicker.vue';
+export { default as MetricsPicker } from './MetricsPicker/MetricsPicker.vue';
 export { default as SingleMetricView } from './SingleMetricView/SingleMetricView.vue';
