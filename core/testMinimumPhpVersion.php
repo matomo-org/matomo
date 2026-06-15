@@ -15,13 +15,13 @@
 
 $piwik_errorMessage = '';
 
-// Minimum requirement: stream_resolve_include_path, working json_encode in 5.3.3, namespaces in 5.3
+// Minimum requirement: PHP 8.1 is required by our dependencies (Symfony, Twig, etc.)
 // NOTE: when changing this variable, we also need to update
 // 1) api.matomo.org
 // 2) composer.json (in two places)
 // 3) tests/PHPUnit/Integration/ReleaseCheckListTest.php
 global $piwik_minimumPHPVersion;
-$piwik_minimumPHPVersion = '7.2.5';
+$piwik_minimumPHPVersion = '8.1.0';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
 if ($minimumPhpInvalid) {
