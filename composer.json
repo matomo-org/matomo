@@ -66,7 +66,7 @@
         "symfony/polyfill-iconv": "^1.20",
         "symfony/polyfill-mbstring": "^1.20",
         "symfony/process": "~5.4.0",
-        "szymach/c-pchart": "~3.0.13",
+        "szymach/c-pchart": "^3.0",
         "tecnickcom/tcpdf": "~6.0",
         "tedivm/jshrink": "^1.7.0",
         "twig/twig": "^3.11.3",
