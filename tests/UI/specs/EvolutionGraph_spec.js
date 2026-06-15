@@ -219,7 +219,7 @@ describe("EvolutionGraph", function () {
     describe("with PlotLinesTweaks enabled", function () {
         before(function () {
             delete testEnvironment.idSitesViewAccess;
-            delete testEnvironment.testUseMockAuth;
+            testEnvironment.testUseMockAuth = 1;
             testEnvironment.overrideConfig('FeatureFlags', 'PlotLinesTweaks_feature', 'enabled');
             testEnvironment.save();
         });
