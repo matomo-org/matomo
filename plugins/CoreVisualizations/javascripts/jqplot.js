@@ -44,43 +44,13 @@ var MAX_FOOTER_LEGEND_ROWS = 2;
 var FOOTER_LEGEND_ROW_TOLERANCE = 1;
 var FOOTER_LEGEND_EXPORT_GRAPH_GAP = 12;
 
-function getCssPixelValue(element, propertyName)
-{
-    if (!element) {
-        return 0;
-    }
-
-    return parseFloat(window.getComputedStyle(element).getPropertyValue(propertyName)) || 0;
-}
-
-function getLegendLayoutDimensions($legendFooter)
-{
-    var legendFooter = $legendFooter[0];
-
-    return {
-        height: getCssPixelValue(legendFooter, '--jqplot-legend-footer-height'),
-        swatchSize: getCssPixelValue(legendFooter, '--jqplot-legend-swatch-size'),
-        itemGap: getCssPixelValue(legendFooter, '--jqplot-legend-item-gap'),
-        rowGap: getCssPixelValue(legendFooter, '--jqplot-legend-row-gap'),
-        lineGap: getCssPixelValue(legendFooter, '--jqplot-legend-line-gap'),
-        horizontalPadding: getCssPixelValue(legendFooter, '--jqplot-legend-horizontal-padding')
-    };
-}
-
 function resetLegendItems($legendItems)
 {
     $legendItems
         .removeClass('jqplot-legend-item-hidden jqplot-legend-item-overflow')
         .each(function () {
-            var $item = $(this);
-            var $swatch = $item.find('.jqplot-legend-swatch');
-            var $label = $item.find('.jqplot-legend-label');
-            var originalColor = $swatch.attr('data-original-color');
+            var $label = $(this).find('.jqplot-legend-label');
             var originalLabel = $label.attr('data-original-label');
-
-            if (typeof originalColor !== 'undefined') {
-                $swatch.css('background-color', originalColor);
-            }
 
             if (typeof originalLabel !== 'undefined') {
                 $label.text(originalLabel);
@@ -623,12 +593,9 @@ function limitLegendRows($legendContainer, maxRows)
             var plotLinesTweaksEnabled = isPlotLinesTweaksEnabled();
             var dataTable = container.closest('.dataTable');
             var legendFooter = dataTable.find('.jqplot-legend-footer.has-legend');
-            var legendDimensions = plotLinesTweaksEnabled && legendFooter.length
-                ? getLegendLayoutDimensions(legendFooter)
-                : null;
-            var legendHeight = legendDimensions ? legendDimensions.height : 0;
-            var legendGraphGap = legendDimensions ? FOOTER_LEGEND_EXPORT_GRAPH_GAP : 0;
-            var legendLayout = null;
+            var hasFooterLegend = plotLinesTweaksEnabled && legendFooter.length > 0;
+            var legendHeight = hasFooterLegend ? legendFooter[0].getBoundingClientRect().height : 0;
+            var legendGraphGap = hasFooterLegend ? FOOTER_LEGEND_EXPORT_GRAPH_GAP : 0;
             var exportCanvas = document.createElement('canvas');
             var exportWidth = plotLinesTweaksEnabled ? container.outerWidth() : container.width();
             var dataTableWidth = dataTable.innerWidth();
@@ -648,16 +615,6 @@ function limitLegendRows($legendContainer, maxRows)
                 exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
             }
 
-            if (plotLinesTweaksEnabled && legendFooter.length) {
-                legendLayout = this.getLegendExportLayout(
-                    exportCtx,
-                    legendFooter,
-                    exportCanvas.width,
-                    pixelRatio,
-                    legendDimensions
-                );
-            }
-
             var canvases = container.find('canvas');
 
             for (var i = 0; i < canvases.length; i++) {
@@ -672,8 +629,14 @@ function limitLegendRows($legendContainer, maxRows)
                 exportCtx.drawImage(canvas[0], Math.round(position.left * pixelRatio), Math.round(position.top * pixelRatio));
             }
 
-            if (plotLinesTweaksEnabled && legendFooter.length) {
-                this.drawLegendForExport(exportCtx, legendLayout, container.height() + legendGraphGap, pixelRatio);
+            if (hasFooterLegend) {
+                this.drawLegendForExport(
+                    exportCtx,
+                    legendFooter,
+                    exportWidth,
+                    container.height() + legendGraphGap,
+                    pixelRatio
+                );
             }
 
             var exported = exportCanvas.toDataURL("image/png");
@@ -708,258 +671,71 @@ function limitLegendRows($legendContainer, maxRows)
             });
         },
 
-        drawLegendForExport: function (ctx, legendLayout, topOffset, pixelRatio) {
-            if (!legendLayout || !legendLayout.rows.length) {
-                return;
-            }
+        // Draw the footer legend onto the export canvas by replaying its DOM geometry.
+        // The browser has already wrapped, centered and (where needed) ellipsised the
+        // legend, so reading the final positions keeps the exported image identical to
+        // the page instead of maintaining a second, divergent layout engine here.
+        drawLegendForExport: function (ctx, legendFooter, exportWidth, topOffset, pixelRatio) {
+            var footerRect = legendFooter[0].getBoundingClientRect();
+            // center the legend block when the export canvas is wider than the footer
+            var offsetX = Math.max(0, (exportWidth - footerRect.width) / 2);
 
-            var rows = legendLayout.rows;
-            var swatchSize = legendLayout.swatchSize;
-            var itemGap = legendLayout.itemGap;
-            var rowGap = legendLayout.rowGap;
-            var lineGap = legendLayout.lineGap;
-            var contentWidth = legendLayout.contentWidth;
-            var contentOffsetX = legendLayout.contentOffsetX;
-            var rowsHeight = this.getLegendExportRowsHeight(rows, swatchSize, lineGap);
-            var contentOffsetY = Math.max(0, Math.round((legendLayout.totalHeight - rowsHeight) / 2));
-            var currentY = topOffset * pixelRatio + contentOffsetY;
-
-            for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-                var row = rows[rowIndex];
-                var rowWidth = 0;
-                var rowHeight = this.getLegendExportRowHeight(row, swatchSize);
-
-                for (var itemIndex = 0; itemIndex < row.length; itemIndex++) {
-                    rowWidth += row[itemIndex].width;
-                }
-
-                rowWidth += rowGap * Math.max(row.length - 1, 0);
-
-                var currentX = contentOffsetX + Math.round((contentWidth - rowWidth) / 2);
-
-                for (var drawIndex = 0; drawIndex < row.length; drawIndex++) {
-                    var legendItem = row[drawIndex];
-                    var swatchCenterY = currentY + Math.round(rowHeight / 2);
-
-                    ctx.save();
-
-                    ctx.fillStyle = legendItem.swatchColor;
-                    ctx.beginPath();
-                    ctx.arc(
-                        currentX + Math.round(swatchSize / 2),
-                        swatchCenterY,
-                        Math.round(swatchSize / 2),
-                        0,
-                        Math.PI * 2
-                    );
-                    ctx.fill();
-
-                    ctx.font = legendItem.fontWeight + ' ' + Math.round(legendItem.fontSize * pixelRatio) + 'px ' + legendItem.fontFamily;
-                    ctx.fillStyle = legendItem.labelColor;
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(
-                        legendItem.text,
-                        currentX + swatchSize + itemGap,
-                        Math.round(currentY + rowHeight / 2)
-                    );
-
-                    ctx.restore();
-
-                    currentX += legendItem.width + rowGap;
-                }
-
-                currentY += rowHeight + lineGap;
-            }
-        },
-
-        getLegendExportLayout: function (ctx, legendFooter, exportWidth, pixelRatio, legendDimensions) {
-            var legendItems = this.getLegendExportItems(ctx, legendFooter, pixelRatio, legendDimensions);
-            var swatchSize = legendDimensions.swatchSize * pixelRatio;
-            var itemGap = legendDimensions.itemGap * pixelRatio;
-            var rowGap = legendDimensions.rowGap * pixelRatio;
-            var lineGap = legendDimensions.lineGap * pixelRatio;
-            var paddingX = legendDimensions.horizontalPadding * pixelRatio;
-            var contentWidth = Math.max(exportWidth - (paddingX * 2), 1);
-            // Keep export legend layout separate from the DOM footer legend logic.
-            // Browsers handle wrapping, centering and ellipsis more reliably in the UI,
-            // while reusing that behavior for canvas export made exported images unstable.
-            var rows = this.buildLegendExportRows(legendItems, contentWidth, rowGap, ctx, pixelRatio);
-
-            return {
-                rows: rows,
-                contentWidth: contentWidth,
-                contentOffsetX: paddingX,
-                swatchSize: swatchSize,
-                itemGap: itemGap,
-                rowGap: rowGap,
-                lineGap: lineGap,
-                totalHeight: legendDimensions.height * pixelRatio
-            };
-        },
-
-        getLegendExportItems: function (ctx, legendFooter, pixelRatio, legendDimensions) {
-            var legendItems = legendFooter.find('.jqplot-legend-item');
-            var items = [];
-            var swatchSize = legendDimensions.swatchSize * pixelRatio;
-            var itemGap = legendDimensions.itemGap * pixelRatio;
-            var defaultLabel = {
-                fontSize: 12,
-                lineHeight: 16,
-                fontFamily: require('piwik/UI').getLabelFontFamily(),
-                fontWeight: '400',
-                labelColor: '#666666'
-            };
-
-            legendItems.each(function () {
-                var item = $(this);
-                var swatch = item.find('.jqplot-legend-swatch');
-                var label = item.find('.jqplot-legend-label');
-
-                if (!swatch.length || !label.length) {
+            legendFooter.find('.jqplot-legend-item').each(function () {
+                var $item = $(this);
+                if ($item.hasClass('jqplot-legend-item-hidden') || $item.css('display') === 'none') {
                     return;
                 }
 
-                var labelText = label.attr('data-original-label') || label.text();
-                if (!labelText) {
+                var $swatch = $item.find('.jqplot-legend-swatch');
+                var $label = $item.find('.jqplot-legend-label');
+                var labelText = $label.text();
+                if (!$swatch.length || !$label.length || !labelText) {
                     return;
                 }
 
-                var fontSize = parseFloat(label.css('font-size')) || defaultLabel.fontSize;
-                var lineHeight = parseFloat(label.css('line-height')) || defaultLabel.lineHeight;
-                var fontFamily = label.css('font-family') || defaultLabel.fontFamily;
-                var fontWeight = label.css('font-weight') || defaultLabel.fontWeight;
-                var labelColor = label.css('color') || defaultLabel.labelColor;
-
+                // swatch: a circle, positioned and coloured from its rendered box
+                var swatchRect = $swatch[0].getBoundingClientRect();
                 ctx.save();
-                ctx.font = fontWeight + ' ' + Math.round(fontSize * pixelRatio) + 'px ' + fontFamily;
-                var textWidth = ctx.measureText(labelText).width;
+                ctx.fillStyle = $swatch.css('background-color');
+                ctx.beginPath();
+                ctx.arc(
+                    (offsetX + (swatchRect.left - footerRect.left) + swatchRect.width / 2) * pixelRatio,
+                    (topOffset + (swatchRect.top - footerRect.top) + swatchRect.height / 2) * pixelRatio,
+                    (Math.min(swatchRect.width, swatchRect.height) / 2) * pixelRatio,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
                 ctx.restore();
 
-                items.push({
-                    swatchColor: swatch.css('background-color'),
-                    labelColor: labelColor,
-                    fontSize: fontSize,
-                    lineHeight: lineHeight * pixelRatio,
-                    fontFamily: fontFamily,
-                    fontWeight: fontWeight,
-                    swatchWidth: swatchSize,
-                    itemGapWidth: itemGap,
-                    text: labelText,
-                    width: swatchSize + itemGap + textWidth
-                });
+                // label: drawn at its rendered box and clipped to it, so any CSS
+                // truncation of a long label is preserved in the exported image
+                var labelRect = $label[0].getBoundingClientRect();
+                var labelLeft = offsetX + (labelRect.left - footerRect.left);
+                var labelTop = topOffset + (labelRect.top - footerRect.top);
+                var fontSize = parseFloat($label.css('font-size')) || 12;
+
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(
+                    labelLeft * pixelRatio,
+                    labelTop * pixelRatio,
+                    labelRect.width * pixelRatio,
+                    labelRect.height * pixelRatio
+                );
+                ctx.clip();
+                ctx.font = ($label.css('font-weight') || '400') + ' '
+                    + Math.round(fontSize * pixelRatio) + 'px '
+                    + ($label.css('font-family') || require('piwik/UI').getLabelFontFamily());
+                ctx.fillStyle = $label.css('color') || '#666666';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(
+                    labelText,
+                    labelLeft * pixelRatio,
+                    (labelTop + labelRect.height / 2) * pixelRatio
+                );
+                ctx.restore();
             });
-
-            return items;
-        },
-
-        buildLegendExportRows: function (items, contentWidth, rowGap, ctx, pixelRatio) {
-            var rows = [];
-            var overflowIndex = -1;
-
-            if (!items.length || contentWidth <= 0) {
-                return rows;
-            }
-
-            for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
-                var row = rows.length ? rows[rows.length - 1] : null;
-                var rowWidth = row ? this.getLegendExportRowWidth(row, rowGap) : 0;
-                var nextItem = items[itemIndex];
-                var nextWidth = row && row.length ? rowWidth + rowGap + nextItem.width : nextItem.width;
-
-                if (!row || nextWidth > contentWidth) {
-                    if (rows.length >= MAX_FOOTER_LEGEND_ROWS) {
-                        overflowIndex = itemIndex;
-                        break;
-                    }
-
-                    rows.push([nextItem]);
-                    continue;
-                }
-
-                row.push(nextItem);
-            }
-
-            if (overflowIndex !== -1) {
-                var overflowItem = $.extend({}, items[overflowIndex], {
-                    text: '…'
-                });
-                overflowItem.width = overflowItem.swatchWidth
-                    + overflowItem.itemGapWidth
-                    + this.measureLegendExportTextWidth(ctx, overflowItem, pixelRatio);
-                this.appendLegendOverflowItem(rows, overflowItem, contentWidth, rowGap);
-            }
-
-            return rows;
-        },
-
-        getLegendExportRowsHeight: function (rows, swatchSize, lineGap) {
-            var height = 0;
-
-            for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-                height += this.getLegendExportRowHeight(rows[rowIndex], swatchSize);
-            }
-
-            height += Math.max(rows.length - 1, 0) * lineGap;
-
-            return height;
-        },
-
-        getLegendExportRowHeight: function (row, swatchSize) {
-            var height = 0;
-
-            for (var itemIndex = 0; itemIndex < row.length; itemIndex++) {
-                height = Math.max(height, Math.max(swatchSize, row[itemIndex].lineHeight));
-            }
-
-            return height;
-        },
-
-        appendLegendOverflowItem: function (rows, overflowItem, contentWidth, rowGap) {
-            var row = rows[MAX_FOOTER_LEGEND_ROWS - 1];
-
-            if (!row) {
-                rows.push([overflowItem]);
-                return;
-            }
-
-            while (row.length) {
-                var widthWithOverflow = this.getLegendExportRowWidth(row, rowGap) + rowGap + overflowItem.width;
-                if (widthWithOverflow <= contentWidth) {
-                    row.push(overflowItem);
-                    return;
-                }
-
-                row.pop();
-            }
-
-            if (overflowItem.width <= contentWidth) {
-                row.push(overflowItem);
-            }
-        },
-
-        getLegendExportRowWidth: function (row, rowGap) {
-            var width = 0;
-
-            for (var itemIndex = 0; itemIndex < row.length; itemIndex++) {
-                width += row[itemIndex].width;
-            }
-
-            width += Math.max(row.length - 1, 0) * rowGap;
-
-            return width;
-        },
-
-        measureLegendExportTextWidth: function (ctx, item, pixelRatio) {
-            if (!ctx) {
-                return 0;
-            }
-
-            ctx.save();
-            ctx.font = item.fontWeight + ' ' + Math.round(item.fontSize * pixelRatio) + 'px ' + item.fontFamily;
-            var width = ctx.measureText(item.text).width;
-            ctx.restore();
-
-            return width;
         },
 
         // ------------------------------------------------------------
@@ -1689,10 +1465,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
             $('<div/>', {'class': 'jqplot-legend-item'})
                 .append(
-                    $('<span/>', {
-                        'class': 'jqplot-legend-swatch',
-                        'data-original-color': color
-                    }).css('background-color', color),
+                    $('<span/>', {'class': 'jqplot-legend-swatch'}).css('background-color', color),
                     $('<span/>', {
                         'class': 'jqplot-legend-label',
                         'data-original-label': label
