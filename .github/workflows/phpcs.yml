@@ -28,7 +28,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.2'
+          php-version: '8.1'
           tools: cs2pr
       - name: Check PHP code styles
         id: phpcs

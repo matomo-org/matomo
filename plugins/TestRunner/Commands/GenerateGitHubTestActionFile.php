@@ -20,7 +20,7 @@ use Piwik\View;
 class GenerateGitHubTestActionFile extends ConsoleCommand
 {
     public const COMMAND_NAME = 'generate:test-action';
-    public const LATEST_PHP_VERSION = '8.1';
+    public const LATEST_PHP_VERSION = '8.4';
 
     protected $plugin = null;
     protected $phpVersions = null;
