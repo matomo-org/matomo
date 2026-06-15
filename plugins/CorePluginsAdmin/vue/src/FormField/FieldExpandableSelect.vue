@@ -136,6 +136,10 @@ export default defineComponent({
     modelModifiers: Object,
     availableOptions: Array,
     title: String,
+    searchOnGroup: {
+      type: Boolean,
+      default: false,
+    },
   },
   directives: {
     FocusAnywhereButHere,
@@ -187,7 +191,7 @@ export default defineComponent({
         || stringValue.toLowerCase().indexOf(this.searchTermLowercase) !== -1;
     },
     visibleChildren(options: OptionGroup) {
-      if (this.isSearchMatch(options.group)) {
+      if (this.searchOnGroup && this.isSearchMatch(options.group)) {
         return options.values;
       }
       return options.values.filter((x) => this.isSearchMatch(x.value));
