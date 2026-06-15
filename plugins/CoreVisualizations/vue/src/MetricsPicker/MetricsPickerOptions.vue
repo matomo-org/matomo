@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <div class="series-picker-options">
+  <div class="metrics-picker-options">
     <p
       class="pickColumn"
       @click="optionSelected(columnConfig.column, columnStates)"
@@ -62,15 +62,17 @@ interface SelectableRowInfo {
   label: string;
 }
 
-interface SeriesPickerOptionsState {
+interface MetricsPickerOptionsState {
   columnStates: Record<string, boolean>;
   rowStates: Record<string, boolean>;
 }
 
+// Declared outside the component because it is needed inside data(), before the
+// component's methods are available.
 function getInitialOptionStates(
   allOptions: (SelectableColumnInfo | SelectableRowInfo)[],
   selectedOptions: string[],
-) {
+): Record<string, boolean> {
   const states: Record<string, boolean> = {};
   allOptions.forEach((columnConfig) => {
     const name = (columnConfig as SelectableColumnInfo).column
@@ -81,16 +83,6 @@ function getInitialOptionStates(
     states[column] = true;
   });
   return states;
-}
-
-function unselectOptions(optionStates: Record<string, boolean>) {
-  Object.keys(optionStates).forEach((optionName) => {
-    optionStates[optionName] = false;
-  });
-}
-
-function getSelected(optionStates: Record<string, boolean>) {
-  return Object.keys(optionStates).filter((optionName) => !!optionStates[optionName]);
 }
 
 export default defineComponent({
@@ -113,7 +105,7 @@ export default defineComponent({
       default: () => [],
     },
   },
-  data(): SeriesPickerOptionsState {
+  data(): MetricsPickerOptionsState {
     return {
       columnStates: getInitialOptionStates(
         this.selectableColumns as SelectableColumnInfo[],
@@ -130,17 +122,25 @@ export default defineComponent({
     this.optionSelected = debounce(this.optionSelected, 0);
   },
   methods: {
+    unselectOptions(optionStates: Record<string, boolean>) {
+      Object.keys(optionStates).forEach((optionName) => {
+        optionStates[optionName] = false;
+      });
+    },
+    getSelected(optionStates: Record<string, boolean>) {
+      return Object.keys(optionStates).filter((optionName) => !!optionStates[optionName]);
+    },
     optionSelected(optionValue: string, optionStates: Record<string, boolean>) {
       if (!this.multiselect) {
-        unselectOptions(this.columnStates);
-        unselectOptions(this.rowStates);
+        this.unselectOptions(this.columnStates);
+        this.unselectOptions(this.rowStates);
       }
 
       optionStates[optionValue] = !optionStates[optionValue];
 
       this.$emit('select', {
-        columns: getSelected(this.columnStates),
-        rows: getSelected(this.rowStates),
+        columns: this.getSelected(this.columnStates),
+        rows: this.getSelected(this.rowStates),
       });
     },
   },

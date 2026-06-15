@@ -20,7 +20,7 @@
       <span class="icon-chevron-down metrics-picker-chevron" />
     </button>
     <div class="metrics-picker-dropdown">
-      <SeriesPickerOptions
+      <MetricsPickerOptions
         :multiselect="multiselect"
         :selectable-columns="selectableColumns"
         :selectable-rows="selectableRows"
@@ -35,7 +35,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { ExpandOnClick } from 'CoreHome';
-import SeriesPickerOptions from '../SeriesPicker/SeriesPickerOptions.vue';
+import MetricsPickerOptions from './MetricsPickerOptions.vue';
 
 interface SelectedOptions {
   columns: string[];
@@ -63,7 +63,7 @@ export default defineComponent({
     },
   },
   components: {
-    SeriesPickerOptions,
+    MetricsPickerOptions,
   },
   directives: {
     ExpandOnClick,

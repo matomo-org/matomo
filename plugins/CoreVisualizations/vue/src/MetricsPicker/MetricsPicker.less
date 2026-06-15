@@ -1,9 +1,20 @@
-@_drop_down-shadow:~"0 10px 40px 0 #A5B1CA4D, 0 0 3px 0 #A5B1CA4D";
-@_drop_down-shadow-dark: ~"0 10px 40px 0 #00000080, 0 0 3px 0 #00000080";
-@_metrics-border-size: ~"1px solid";
-@_metrics-border: ~"@{_metrics-border-size} @{theme-color-border-alternative}";
-
 .metrics-picker {
+  // Declared inside the selector so they stay scoped to .metrics-picker.
+  @_dropdown-shadow: ~"0 10px 40px 0 #A5B1CA4D, 0 0 3px 0 #A5B1CA4D";
+  @_dropdown-shadow-dark: ~"0 10px 40px 0 #00000080, 0 0 3px 0 #00000080";
+
+  // 1px solid — shared by the toggle/dropdown/checkbox borders and the focus outline
+  @_border-stroke: ~"1px solid";
+  @_border: ~"@{_border-stroke} @{theme-color-border-alternative}";
+
+  // hover, focus and checked states
+  @_accent-color: @theme-color-focus-ring-alternative;
+
+  @_corner-radius: 8px;
+  @_checkbox-size: 18px;
+  @_text-size: 14px;
+  @_text-line-height: 20px;
+
   display: inline-block;
   position: relative;
 
@@ -14,19 +25,18 @@
     padding: 10px 16px;
     background: @theme-color-background-contrast;
     color: @theme-color-text;
-    border: @_metrics-border;
-    border-radius: 8px;
-    font-size: 14px;
-    line-height: 20px;
+    border: @_border;
+    border-radius: @_corner-radius;
+    font-size: @_text-size;
+    line-height: @_text-line-height;
     cursor: pointer;
     height: 38px;
 
-
     &:hover, &:focus-visible {
-      border-color: @theme-color-focus-ring-alternative;
+      border-color: @_accent-color;
     }
     &:focus-visible {
-      outline: @_metrics-border-size @theme-color-focus-ring-alternative;
+      outline: @_border-stroke @_accent-color;
     }
 
     &:focus, &:hover {
@@ -58,12 +68,12 @@
        reset so the metric checkboxes align to the left */
     text-align: left;
     background: @theme-color-background-contrast;
-    border: 1px solid @theme-color-border-alternative;
-    border-radius: 8px;
-    box-shadow: @_drop_down-shadow;
+    border: @_border;
+    border-radius: @_corner-radius;
+    box-shadow: @_dropdown-shadow;
 
     .inDarkMode({
-      box-shadow: @_drop_down-shadow-dark;
+      box-shadow: @_dropdown-shadow-dark;
     })
   }
 
@@ -71,7 +81,7 @@
     display: block;
   }
 
-  .series-picker-options p {
+  .metrics-picker-options p {
     margin: 0;
   }
 
@@ -94,24 +104,23 @@
   }
 
   [type="checkbox"] + span:not(.lever) {
-    width: 18px;
-    height: 18px;
+    width: @_checkbox-size;
+    height: @_checkbox-size;
     margin-top: 1px;
     padding: 0;
   }
 
   .pick-label {
-    font-size: 14px;
-    line-height: 20px;
+    font-size: @_text-size;
+    line-height: @_text-line-height;
     margin-left: 8px;
     overflow-wrap: anywhere;
     word-break: break-word;
   }
 
-
   [type="checkbox"].filled-in:checked + span:not(.lever):after {
-    border-color: @theme-color-focus-ring-alternative;
-    background-color: @theme-color-focus-ring-alternative;
+    border-color: @_accent-color;
+    background-color: @_accent-color;
   }
 
   // The check
@@ -122,14 +131,14 @@
     height: 10px;
   }
   [type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
-    border: 1px solid @theme-color-border-alternative;
+    border: @_border;
   }
 
   /* compact 18px box with rounded corners (Materialize defaults to 20px / 2px) */
   [type="checkbox"].filled-in:checked + span:not(.lever):after,
   [type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
-    width: 18px;
-    height: 18px;
+    width: @_checkbox-size;
+    height: @_checkbox-size;
     border-radius: 6px;
   }
 
