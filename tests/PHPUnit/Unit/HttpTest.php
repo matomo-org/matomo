@@ -25,10 +25,6 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     {
         $getProxyConfiguration = new ReflectionMethod('\\Piwik\\Http', 'getProxyConfiguration');
 
-        if (PHP_VERSION_ID < 80100) {
-            $getProxyConfiguration->setAccessible(true);
-        }
-
         Config::getInstance()->proxy['host'] = $proxyConfiguration[0];
         Config::getInstance()->proxy['port'] = $proxyConfiguration[1];
         Config::getInstance()->proxy['username'] = '';
