@@ -3799,7 +3799,7 @@
 			<action>getAIChatbotBrokenContent</action>
 		</parameters>
 		<uniqueId>widgetBotTrackinggetAIChatbotBrokenContent</uniqueId>
-		<isWide>1</isWide>
+		<isWide>0</isWide>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
 	</row>
@@ -3827,7 +3827,7 @@
 			<action>getAIChatbotContentDocuments</action>
 		</parameters>
 		<uniqueId>widgetBotTrackinggetAIChatbotContentDocuments</uniqueId>
-		<isWide>1</isWide>
+		<isWide>0</isWide>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
 	</row>
