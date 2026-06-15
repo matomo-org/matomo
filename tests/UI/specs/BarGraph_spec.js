@@ -9,9 +9,10 @@
 
 describe("BarGraph", function () {
     var tokenAuth = "c4ca4238a0b923820dcc509a6f75849b",
+        viewTokenAuth = "a4ca4238a0b92382" + "0dcc509a6f75849f",
         url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=graphVerticalBar&isFooterExpandedInDashboard=1&";
-    const plotLinesTweaksUrl = url + "columns=nb_visits,nb_actions,bounce_rate&filter_add_columns_when_show_all_columns=0&token_auth=a4ca4238a0b923820dcc509a6f75849f";
+    const plotLinesTweaksUrl = url + "columns=nb_visits,nb_actions,bounce_rate&filter_add_columns_when_show_all_columns=0&token_auth=" + viewTokenAuth;
 
     before(function () {
         // use real auth + token auth to test that auth works when widgetizing reports in an iframe
@@ -25,7 +26,7 @@ describe("BarGraph", function () {
     });
 
     it("should load correctly", async function () {
-        await page.goto(url + 'token_auth=a4ca4238a0b923820dcc509a6f75849f');
+        await page.goto(url + 'token_auth=' + viewTokenAuth);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('load');
     });
 
