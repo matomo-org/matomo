@@ -157,28 +157,27 @@
         },
         {
             "name": "davaxi/sparkline",
-            "version": "2.3.0",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/davaxi/Sparkline.git",
-                "reference": "096dc8b68c95f1173e42177ed3e2d4ccb40c3fd1"
+                "reference": "b168ab30379268abe9185dc163143e443cd1cba3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/096dc8b68c95f1173e42177ed3e2d4ccb40c3fd1",
-                "reference": "096dc8b68c95f1173e42177ed3e2d4ccb40c3fd1",
+                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/b168ab30379268abe9185dc163143e443cd1cba3",
+                "reference": "b168ab30379268abe9185dc163143e443cd1cba3",
                 "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.0"
+                "php": ">=8.0"
             },
             "require-dev": {
-                "codeclimate/php-test-reporter": "dev-master",
                 "ext-xdebug": "*",
-                "phpunit/php-code-coverage": "^3.3.0",
-                "phpunit/phpunit": "^5.3"
+                "phpunit/php-code-coverage": "^9.0.0",
+                "phpunit/phpunit": "^9.6.31"
             },
             "type": "library",
             "autoload": {
@@ -208,7 +207,7 @@
                 "issues": "https://github.com/davaxi/Sparkline/issues",
                 "source": "https://github.com/davaxi/Sparkline/releases"
             },
-            "time": "2025-12-29T09:55:02+00:00"
+            "time": "2026-03-08T12:27:20+00:00"
         },
         {
             "name": "geoip2/geoip2",
