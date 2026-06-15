@@ -49,14 +49,24 @@ class FavouredPagesScorerTest extends TestCase
         return round(100 * $lean * $volume, 1);
     }
 
-    public function testScoreIsBoundedZeroToHundred(): void
+    public function testScoreAtBoundaryInputs(): void
     {
+        // Exact values at edge inputs (pins the formula, not just the [0,100] bound): a fully
+        // one-sided page that is itself the anchor (→100), partial leans, balanced (→0), and a
+        // near-zero-volume page (strong=1 against a far larger anchor).
         $cases = [[5000, 0, 5000], [2000, 100, 2000], [50, 1, 2000], [500, 500, 5000], [1, 0, 10000]];
         foreach ($cases as [$strong, $weak, $max]) {
-            $score = FavouredPagesScorer::score($strong, $weak, $max);
-            self::assertGreaterThanOrEqual(0, $score);
-            self::assertLessThanOrEqual(100, $score);
+            self::assertSame(
+                self::expected($strong, $weak, $max),
+                FavouredPagesScorer::score($strong, $weak, $max),
+                "score($strong, $weak, $max)"
+            );
         }
+
+        // Spot-check the two most informative edges against hand-computed literals so the test is not
+        // purely self-referential: the anchor page scores exactly 100, and strong=1/anchor=10000 is tiny.
+        self::assertSame(100.0, FavouredPagesScorer::score(5000, 0, 5000));
+        self::assertSame(7.5, FavouredPagesScorer::score(1, 0, 10000));
     }
 
     public function testBalancedAndOppositeLeaningScoreZero(): void
