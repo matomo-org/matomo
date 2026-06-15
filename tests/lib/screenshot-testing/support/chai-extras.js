@@ -36,7 +36,7 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
             let { imageName, compareAgainst, comparisonThreshold, prefix } = params;
 
             if (!prefix) {
-                prefix = app.runner.suite.title; // note: runner is made global by run-tests.js
+                prefix = getScreenshotPrefix(); // note: runner is made global by run-tests.js
             }
 
             imageName = prefix + '_' + imageName;
@@ -195,14 +195,14 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
 };
 
 expect.file = function (filename) {
-    prefix = app.runner.suite.title; // note: runner is made global by run-tests.js
+    const prefix = getScreenshotPrefix(); // note: runner is made global by run-tests.js
     filename = prefix + '_' + filename;
 
     return chai.expect(chaiFiles.file(getExpectedFilePath(filename)));
 };
 
 expect.fileMatchesContent = function (filename, content) {
-    prefix = app.runner.suite.title; // note: runner is made global by run-tests.js
+    const prefix = getScreenshotPrefix(); // note: runner is made global by run-tests.js
     filename = prefix + '_' + filename;
 
     fs.writeFileSync(getProcessedFilePath(filename), content);
@@ -214,6 +214,10 @@ expect.fileMatchesContent = function (filename, content) {
 function isCommandNotFound(result) {
     return result.status === 127
         || (result.error != null && result.error.code === 'ENOENT');
+}
+
+function getScreenshotPrefix() {
+    return sanitizeScreenshotNamePart(app.runner.suite.title);
 }
 
 function getExpectedScreenshotPath() {
@@ -258,6 +262,12 @@ function assumeFileIsImageIfNotSpecified(filename) {
 function endsWith(string, needle)
 {
     return needle.length === 0 || string.slice(-needle.length) === needle;
+}
+
+function sanitizeScreenshotNamePart(name) {
+    return name
+        .replace(/(\s|[^a-zA-Z0-9_])+/g, '_')
+        .replace(/^_+|_+$/g, '');
 }
 
 // other automatically run assertions
