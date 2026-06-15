@@ -137,6 +137,17 @@ class FavouredPagesScorerTest extends TestCase
         ], self::scores($table));
     }
 
+    public function testAddScoresMarksScoreToSkipInSummaryRows(): void
+    {
+        $table = self::table([[2000, 100], [50, 1]]);
+        (new FavouredPagesScorer(DiscrepancyScore::VARIANT_HUMAN_FAVOURED))->addScores($table);
+
+        // The per-page 0-100 index must not be summed into any summary row (the Truncate "Others"
+        // row during archiving, or the report totals row): the score column is marked 'skip'.
+        $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+        self::assertSame('skip', $ops[Metrics::COLUMN_DISCREPANCY_SCORE] ?? null);
+    }
+
     public function testAddScoresRecursesIntoMap(): void
     {
         $map = new DataTable\Map();
