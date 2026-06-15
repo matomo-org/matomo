@@ -22,7 +22,7 @@ class Password
     /**
      * Choose the used algorithm for password_hash depending on the config option
      *
-     * @return string|int depending on PHP version
+     * @return string
      * @throws Exception
      */
     private function preferredAlgorithm()
