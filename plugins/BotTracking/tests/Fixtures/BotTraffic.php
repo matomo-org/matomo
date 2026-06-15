@@ -164,15 +164,33 @@ class BotTraffic extends Fixture
             'https://claude.ai/share/1111',
         ];
 
-        foreach ($sources as $index => $referrer) {
-            $date = Date::factory($this->dateTime)
-                ->addDay($index % 5)
-                ->addHour(($index % 4) * 3)
-                ->getDatetime();
-            $tracker = self::getTracker($this->idSite, $date, true);
-            $tracker->setUrl('https://example.com/article-' . (($index % 4) + 1));
-            $tracker->setUrlReferrer($referrer);
-            self::checkResponse($tracker->doTrackPageView('Article From AI Chatbot ' . ($index + 1)));
+        // Each in-week AI-landing page gets a DISTINCT number of acquired visits on a single day, so
+        // every Favoured Pages row has a unique Discrepancy Score (no ties). Core truncates these
+        // records by score and its sort leaves tied scores in a PHP/DB-dependent order, so distinct
+        // scores keep the ranking-limit tests deterministic; keeping each page on one day also makes
+        // its weekly count unambiguous when day blobs are summed. There is also a visit on every bot
+        // day (Feb 2-6) so each day is archived and its bot requests count in the week/month totals.
+        $plans = [
+            [0, 'https://example.com/article-1', 1], // 2025-02-02 (prior week; keeps Feb 2 archived)
+            [1, 'https://example.com/article-1', 1], // 2025-02-03
+            [2, 'https://example.com/article-2', 2], // 2025-02-04
+            [3, 'https://example.com/article-3', 3], // 2025-02-05
+            [4, 'https://example.com/article-4', 4], // 2025-02-06
+        ];
+
+        $referrerIndex = 0;
+        foreach ($plans as [$dayOffset, $url, $visits]) {
+            for ($i = 0; $i < $visits; $i++) {
+                $date = Date::factory($this->dateTime)
+                    ->addDay($dayOffset)
+                    ->addHour($referrerIndex + 1)
+                    ->getDatetime();
+                $tracker = self::getTracker($this->idSite, $date, true);
+                $tracker->setUrl($url);
+                $tracker->setUrlReferrer($sources[$referrerIndex % count($sources)]);
+                self::checkResponse($tracker->doTrackPageView('Article From AI Chatbot ' . ($referrerIndex + 1)));
+                $referrerIndex++;
+            }
         }
     }
 
