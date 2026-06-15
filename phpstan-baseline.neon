@@ -2386,12 +2386,12 @@ parameters:
 			path: plugins/ImageGraph/ImageGraph.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
+			message: "#^Method Piwik\\\\Plugins\\\\ImageGraph\\\\StaticGraph\\:\\:getRenderedImage\\(\\) should return resource but returns GdImage\\.$#"
 			count: 1
 			path: plugins/ImageGraph/StaticGraph.php
 
 		-
-			message: "#^Parameter \\#3 \\$Format of method CpChart\\\\Data\\:\\:setAxisDisplay\\(\\) expects array\\|null, string given\\.$#"
+			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: plugins/ImageGraph/StaticGraph.php
 
