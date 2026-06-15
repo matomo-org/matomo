@@ -40,7 +40,7 @@ describe("PieGraph", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('other_metric');
     });
 
-    describe("with PlotLinesTweaks enabled", function () {
+    describe("with_PlotLinesTweaks_enabled", function () {
         before(function () {
             testEnvironment.overrideConfig('FeatureFlags', 'PlotLinesTweaks_feature', 'enabled');
             testEnvironment.save();

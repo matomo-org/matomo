@@ -232,7 +232,7 @@ describe("EvolutionGraph", function () {
         expect(element).to.be.not.ok;
     });
 
-    describe("with PlotLinesTweaks enabled", function () {
+    describe("with_PlotLinesTweaks_enabled", function () {
         before(function () {
             delete testEnvironment.idSitesViewAccess;
             testEnvironment.testUseMockAuth = 1;
