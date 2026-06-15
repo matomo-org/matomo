@@ -56,7 +56,6 @@ describe("GoalsPages", function () {
   it('should load the goals > ecommerce page correctly', async function () {
     await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=General_Overview")
     await page.waitForNetworkIdle();
-    await page.mouse.move(-10, -10); // move cursor away so the report title link isn't hovered (would underline it)
 
     expect(await page.screenshotSelector('.pageWrap')).to.matchImage('ecommerce');
   });
