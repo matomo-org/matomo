@@ -120,6 +120,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "MetricValue", function() { return /* reexport */ MetricValue; });
 __webpack_require__.d(__webpack_exports__, "SeriesPicker", function() { return /* reexport */ SeriesPicker; });
+__webpack_require__.d(__webpack_exports__, "MetricsPicker", function() { return /* reexport */ MetricsPicker; });
 __webpack_require__.d(__webpack_exports__, "SingleMetricView", function() { return /* reexport */ SingleMetricView; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
@@ -368,6 +369,215 @@ function getSelected(optionStates) {
 SeriesPickervue_type_script_lang_ts.render = SeriesPickervue_type_template_id_7c1adaf7_render
 
 /* harmony default export */ var SeriesPicker = (SeriesPickervue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=template&id=9f6b65a4
+
+const MetricsPickervue_type_template_id_9f6b65a4_hoisted_1 = {
+  ref: "root",
+  class: "metrics-picker"
+};
+const MetricsPickervue_type_template_id_9f6b65a4_hoisted_2 = {
+  ref: "expander",
+  type: "button",
+  class: "metrics-picker-toggle"
+};
+const MetricsPickervue_type_template_id_9f6b65a4_hoisted_3 = {
+  class: "metrics-picker-label"
+};
+const MetricsPickervue_type_template_id_9f6b65a4_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-chevron-down metrics-picker-chevron"
+}, null, -1);
+const MetricsPickervue_type_template_id_9f6b65a4_hoisted_5 = {
+  class: "metrics-picker-dropdown"
+};
+function MetricsPickervue_type_template_id_9f6b65a4_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_SeriesPickerOptions = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SeriesPickerOptions");
+  const _directive_expand_on_click = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("expand-on-click");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricsPickervue_type_template_id_9f6b65a4_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", MetricsPickervue_type_template_id_9f6b65a4_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricsPickervue_type_template_id_9f6b65a4_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ChooseMetrics')), 1), MetricsPickervue_type_template_id_9f6b65a4_hoisted_4], 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MetricsPickervue_type_template_id_9f6b65a4_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SeriesPickerOptions, {
+    multiselect: _ctx.multiselect,
+    "selectable-columns": _ctx.selectableColumns,
+    "selectable-rows": _ctx.selectableRows,
+    "selected-columns": _ctx.selectedColumns,
+    "selected-rows": _ctx.selectedRows,
+    onSelect: _cache[0] || (_cache[0] = $event => _ctx.onSelect($event))
+  }, null, 8, ["multiselect", "selectable-columns", "selectable-rows", "selected-columns", "selected-rows"])])])), [[_directive_expand_on_click, {
+    expander: 'expander'
+  }]]);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=template&id=9f6b65a4
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPickerOptions.vue?vue&type=template&id=0547f97c
+
+const SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_1 = {
+  class: "series-picker-options"
+};
+const SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_2 = ["onClick"];
+const SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_3 = ["type", "checked"];
+const SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  "aria-hidden": "true"
+}, null, -1);
+const SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_5 = {
+  class: "pick-label"
+};
+const SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_6 = {
+  key: 0,
+  class: "headline recordsToPlot"
+};
+const SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_7 = ["onClick"];
+const _hoisted_8 = ["type", "checked"];
+const _hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  "aria-hidden": "true"
+}, null, -1);
+const _hoisted_10 = {
+  class: "pick-label"
+};
+function SeriesPickerOptionsvue_type_template_id_0547f97c_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableColumns, columnConfig => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+      class: "pickColumn",
+      onClick: $event => _ctx.optionSelected(columnConfig.column, _ctx.columnStates),
+      key: columnConfig.column
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      class: "select filled-in",
+      type: _ctx.multiselect ? 'checkbox' : 'radio',
+      checked: !!_ctx.columnStates[columnConfig.column]
+    }, null, 8, SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_3), SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(columnConfig.translation), 1)])], 8, SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_2);
+  }), 128)), _ctx.selectableRows.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_RecordsToPlot')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableRows, rowConfig => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+      class: "pickRow",
+      onClick: $event => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates),
+      key: rowConfig.matcher
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      class: "select filled-in",
+      type: _ctx.multiselect ? 'checkbox' : 'radio',
+      checked: !!_ctx.rowStates[rowConfig.matcher]
+    }, null, 8, _hoisted_8), _hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rowConfig.label), 1)])], 8, SeriesPickerOptionsvue_type_template_id_0547f97c_hoisted_7);
+  }), 128))]);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPickerOptions.vue?vue&type=template&id=0547f97c
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPickerOptions.vue?vue&type=script&lang=ts
+
+
+function SeriesPickerOptionsvue_type_script_lang_ts_getInitialOptionStates(allOptions, selectedOptions) {
+  const states = {};
+  allOptions.forEach(columnConfig => {
+    const name = columnConfig.column || columnConfig.matcher;
+    states[name] = false;
+  });
+  selectedOptions.forEach(column => {
+    states[column] = true;
+  });
+  return states;
+}
+function SeriesPickerOptionsvue_type_script_lang_ts_unselectOptions(optionStates) {
+  Object.keys(optionStates).forEach(optionName => {
+    optionStates[optionName] = false;
+  });
+}
+function SeriesPickerOptionsvue_type_script_lang_ts_getSelected(optionStates) {
+  return Object.keys(optionStates).filter(optionName => !!optionStates[optionName]);
+}
+/* harmony default export */ var SeriesPickerOptionsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    multiselect: Boolean,
+    selectableColumns: {
+      type: Array,
+      default: () => []
+    },
+    selectableRows: {
+      type: Array,
+      default: () => []
+    },
+    selectedColumns: {
+      type: Array,
+      default: () => []
+    },
+    selectedRows: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data() {
+    return {
+      columnStates: SeriesPickerOptionsvue_type_script_lang_ts_getInitialOptionStates(this.selectableColumns, this.selectedColumns),
+      rowStates: SeriesPickerOptionsvue_type_script_lang_ts_getInitialOptionStates(this.selectableRows, this.selectedRows)
+    };
+  },
+  emits: ['select'],
+  created() {
+    this.optionSelected = Object(external_CoreHome_["debounce"])(this.optionSelected, 0);
+  },
+  methods: {
+    optionSelected(optionValue, optionStates) {
+      if (!this.multiselect) {
+        SeriesPickerOptionsvue_type_script_lang_ts_unselectOptions(this.columnStates);
+        SeriesPickerOptionsvue_type_script_lang_ts_unselectOptions(this.rowStates);
+      }
+      optionStates[optionValue] = !optionStates[optionValue];
+      this.$emit('select', {
+        columns: SeriesPickerOptionsvue_type_script_lang_ts_getSelected(this.columnStates),
+        rows: SeriesPickerOptionsvue_type_script_lang_ts_getSelected(this.rowStates)
+      });
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPickerOptions.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPickerOptions.vue
+
+
+
+SeriesPickerOptionsvue_type_script_lang_ts.render = SeriesPickerOptionsvue_type_template_id_0547f97c_render
+
+/* harmony default export */ var SeriesPickerOptions = (SeriesPickerOptionsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=script&lang=ts
+
+
+
+/* harmony default export */ var MetricsPickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    multiselect: Boolean,
+    selectableColumns: {
+      type: Array,
+      default: () => []
+    },
+    selectableRows: {
+      type: Array,
+      default: () => []
+    },
+    selectedColumns: {
+      type: Array,
+      default: () => []
+    },
+    selectedRows: {
+      type: Array,
+      default: () => []
+    }
+  },
+  components: {
+    SeriesPickerOptions: SeriesPickerOptions
+  },
+  directives: {
+    ExpandOnClick: external_CoreHome_["ExpandOnClick"]
+  },
+  emits: ['select'],
+  methods: {
+    onSelect(selected) {
+      this.$emit('select', selected);
+      // selecting a metric applies the change and closes the dropdown
+      this.$refs.root.classList.remove('expanded');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue
+
+
+
+MetricsPickervue_type_script_lang_ts.render = MetricsPickervue_type_template_id_9f6b65a4_render
+
+/* harmony default export */ var MetricsPicker = (MetricsPickervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=21624034
 
 const SingleMetricViewvue_type_template_id_21624034_hoisted_1 = {

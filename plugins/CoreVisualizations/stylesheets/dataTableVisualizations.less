@@ -27,7 +27,8 @@ a.rowevolution-startmulti {
     display: none;
 }
 
-body.plotlines-tweaks-enabled .jqplot-legend-footer.has-legend {
+body.plotlines-tweaks-enabled .jqplot-legend-footer.has-legend,
+body.plotlines-tweaks-enabled .jqplot-legend-footer.has-picker {
     // Used by jqplot.js to match the exported image legend layout.
     --jqplot-legend-footer-height: 38px;
     --jqplot-legend-swatch-size: 12px;
@@ -37,8 +38,18 @@ body.plotlines-tweaks-enabled .jqplot-legend-footer.has-legend {
     --jqplot-legend-horizontal-padding: 12px;
 
     height: var(--jqplot-legend-footer-height);
+    position: relative;
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+body.plotlines-tweaks-enabled .jqplot-legend-picker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
     align-items: center;
 }
 

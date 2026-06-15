@@ -55,6 +55,10 @@
 
         // can multiple rows we selected?
         this.multiSelect = !! dataTable.props.allow_multi_select_series_picker;
+
+        // render the new "Choose metrics" button variant instead of the legacy "+" popover.
+        // Opted into by jqplot graphs when the PlotLinesTweaks feature flag is enabled.
+        this.useChooseMetricsButton = false;
     };
 
     SeriesPicker.prototype = {
@@ -89,11 +93,13 @@
 
             var createVNode = Vue.createVNode;
             var createVueApp = CoreHome.createVueApp;
-            var SeriesPicker = CoreVisualizations.SeriesPicker;
+            var PickerComponent = self.useChooseMetricsButton
+                ? CoreVisualizations.MetricsPicker
+                : CoreVisualizations.SeriesPicker;
 
             var app = createVueApp({
               render: function () {
-                return createVNode(SeriesPicker, {
+                return createVNode(PickerComponent, {
                   multiselect: self.multiSelect,
                   selectableColumns: self.selectableColumns,
                   selectableRows: self.selectableRows,

@@ -1614,13 +1614,28 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var SeriesPicker = require('piwik/DataTableVisualizations/Widgets').SeriesPicker;
         var seriesPicker = new SeriesPicker(dataTable);
 
+        // when the PlotLinesTweaks feature flag is enabled, render the "Choose metrics"
+        // button variant and place it in the legend footer instead of above the chart
+        seriesPicker.useChooseMetricsButton = isPlotLinesTweaksEnabled();
+
         // handle placeSeriesPicker event
         var plot = this;
         $(seriesPicker).bind('placeSeriesPicker', function () {
-            this.domElem.css('margin-left', plot._gridPadding.left + 'px');
-            if (!isPlotLinesTweaksEnabled()) {
-                $('.jqplot-legend-canvas', $(plot.targetId)).css({paddingLeft: '34px'});
+            if (isPlotLinesTweaksEnabled()) {
+                var $dataTable = $(plot.targetId).closest('.dataTable');
+                var $legendFooter = getOrCreateLegendFooter($dataTable);
+                var $pickerSlot = $legendFooter.find('.jqplot-legend-picker');
+                if (!$pickerSlot.length) {
+                    $pickerSlot = $('<div class="jqplot-legend-picker"></div>').prependTo($legendFooter);
+                }
+                // replace any previously rendered picker so redraws don't stack duplicates
+                $pickerSlot.empty().append(this.domElem);
+                $legendFooter.addClass('has-picker');
+                return;
             }
+
+            this.domElem.css('margin-left', plot._gridPadding.left + 'px');
+            $('.jqplot-legend-canvas', $(plot.targetId)).css({paddingLeft: '34px'});
             plot.baseCanvas._elem.before(this.domElem);
         });
 
