@@ -137,6 +137,39 @@ function limitLegendRows($legendContainer, maxRows)
     });
 }
 
+function getLegendLabelTextForExport(ctx, labelElement, originalLabel, maxWidth)
+{
+    var labelText = labelElement.textContent || '';
+
+    if (!originalLabel || maxWidth <= 0 || labelElement.scrollWidth <= labelElement.clientWidth) {
+        return labelText;
+    }
+
+    var ellipsis = '…';
+    var ellipsisWidth = ctx.measureText(ellipsis).width;
+    if (ellipsisWidth >= maxWidth) {
+        return ellipsis;
+    }
+
+    var low = 0;
+    var high = originalLabel.length;
+    var bestFit = '';
+
+    while (low <= high) {
+        var middle = Math.floor((low + high) / 2);
+        var candidate = originalLabel.slice(0, middle) + ellipsis;
+
+        if (ctx.measureText(candidate).width <= maxWidth) {
+            bestFit = candidate;
+            low = middle + 1;
+        } else {
+            high = middle - 1;
+        }
+    }
+
+    return bestFit || ellipsis;
+}
+
 (function ($, require) {
     var exports = require('piwik/UI'),
         DataTable = exports.DataTable,
@@ -673,10 +706,12 @@ function limitLegendRows($legendContainer, maxRows)
             });
         },
 
-        // Draw the footer legend onto the export canvas by replaying its DOM geometry.
-        // The browser has already wrapped, centered and (where needed) ellipsised the
-        // legend, so reading the final positions keeps the exported image identical to
-        // the page instead of maintaining a second, divergent layout engine here.
+        // Draw the footer legend onto the export canvas by replaying its rendered DOM
+        // geometry. This preserves browser-resolved item positioning, wrapping,
+        // centering and hidden overflow state without maintaining a second legend
+        // layout implementation for export. Text is redrawn onto canvas, so the
+        // export follows the rendered label bounds but does not reproduce CSS text
+        // overflow behaviour pixel-for-pixel.
         drawLegendForExport: function (ctx, legendFooter, exportWidth, topOffset, pixelRatio) {
             var footerRect = legendFooter[0].getBoundingClientRect();
             // center the legend block when the export canvas is wider than the footer
@@ -690,6 +725,8 @@ function limitLegendRows($legendContainer, maxRows)
 
                 var $swatch = $item.find('.jqplot-legend-swatch');
                 var $label = $item.find('.jqplot-legend-label');
+                var labelElement = $label[0];
+                var originalLabel = $label.attr('data-original-label') || $label.text();
                 var labelText = $label.text();
                 if (!$swatch.length || !$label.length || !labelText) {
                     return;
@@ -731,6 +768,12 @@ function limitLegendRows($legendContainer, maxRows)
                     + ($label.css('font-family') || require('piwik/UI').getLabelFontFamily());
                 ctx.fillStyle = $label.css('color') || '#666666';
                 ctx.textBaseline = 'middle';
+                labelText = getLegendLabelTextForExport(
+                    ctx,
+                    labelElement,
+                    originalLabel,
+                    labelRect.width * pixelRatio
+                );
                 ctx.fillText(
                     labelText,
                     labelLeft * pixelRatio,

@@ -225,7 +225,9 @@ describe("EvolutionGraph", function () {
         });
 
         after(function () {
-            delete testEnvironment.configOverride.FeatureFlags;
+            if (testEnvironment.configOverride.FeatureFlags) {
+                delete testEnvironment.configOverride.FeatureFlags.PlotLinesTweaks_feature;
+            }
             testEnvironment.save();
         });
 
