@@ -796,6 +796,58 @@ function getLegendLabelTextForExport(ctx, labelElement, originalLabel, maxWidth)
             for (var i = 2; typeof this.jqplotParams.axes['y' + i + 'axis'] != 'undefined'; i++) {
                 this.setYTicksForAxis('y' + i + 'axis', this.jqplotParams.axes['y' + i + 'axis']);
             }
+
+            this.adjustWidthForLegacyRightAxes();
+        },
+
+        adjustWidthForLegacyRightAxes: function () {
+            var $graph = $('.piwik-graph', this.$element);
+
+            if (
+                isPlotLinesTweaksEnabled()
+                || !this.jqplotParams.canvasLegend
+                || !this.jqplotParams.canvasLegend.show
+            ) {
+                $graph.css('width', '');
+                return;
+            }
+
+            var axesShown = {};
+            this.jqplotParams.series.forEach(function (series) {
+                axesShown[series.yaxis] = true;
+            });
+
+            if (Object.keys(axesShown).length <= 1) {
+                $graph.css('width', '');
+                return;
+            }
+
+            // The legacy canvas legend pins gridPadding.right to 0. In that
+            // mode jqPlot draws extra right axes outside the target, so shrink
+            // the target by the rendered axis width to avoid page overflow.
+            var $tempAxisElement = $('<div>')
+                .attr('class', 'jqplot-axis jqplot-y2axis')
+                .css({'visibility': 'hidden', 'display': 'inline-block'});
+            $('<span>').appendTo($tempAxisElement);
+            $('body').append($tempAxisElement);
+
+            var axisLength = 10;
+            for (var i = 2; typeof this.jqplotParams.axes['y' + i + 'axis'] != 'undefined'; i++) {
+                axisLength += getAxisWidth(this.jqplotParams.axes['y' + i + 'axis']);
+            }
+
+            $graph.css('width', 'calc(100% - ' + axisLength + 'px)');
+            $tempAxisElement.remove();
+
+            function getAxisWidth(axis) {
+                var maxWidth = 0;
+                axis.ticks.forEach(function (tick) {
+                    var tickFormatted = $.jqplot.NumberFormatter(axis.tickOptions.formatString || '%s', tick);
+                    $tempAxisElement.find('span').text(tickFormatted);
+                    maxWidth = Math.max(maxWidth, $tempAxisElement.width());
+                });
+                return maxWidth;
+            }
         },
 
         setYTicksForAxis: function (axisName, axis) {
