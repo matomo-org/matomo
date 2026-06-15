@@ -1,95 +1,95 @@
 All Websites dashboard
-label	nb_visits	nb_actions	nb_pageviews	hits	ai_chatbots_requests	revenue	nb_conversions	visits_evolution	actions_evolution	pageviews_evolution	hits_evolution	ai_chatbots_requests_evolution	revenue_evolution	nb_conversions_evolution	orders	ecommerce_revenue	orders_evolution	ecommerce_revenue_evolution
+Label	Visits	Actions	Pageviews	Hits	AI Chatbots Requests	Revenue	Conversions	Visits Evolution	Actions Evolution	Pageviews Evolution	Hits Evolution	AI Chatbots Requests Evolution	Revenue Evolution	Conversions Evolution	Ecommerce Orders	Product Revenue	Ecommerce Orders Evolution	Product Revenue Evolution
 Site 1	11	43	43	43	0	$0	0	100%	100%	100%	100%	0%	0%	0%	0	$0	0	0
 Site 2	1	3	3	3	0	$0	0	100%	100%	100%	100%	0%	0%	0%	0	$0	0	0
 
 Visits Summary
-nb_uniq_visitors	nb_visits	nb_actions	max_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Unique visitors	Visits	Actions	Maximum actions in one visit	Actions per Visit	Avg. Visit Duration (in seconds)	Bounce Rate
 2	11	43	5	3.9	00:10:55	27%
 
 Country
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 Unknown	8	40	5	00:15:01	0%	$0
 France	3	3	1	00:00:00	100%	$0
 
 Continent
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 Unknown	8	40	5	00:15:01	0%	$0
 Europe	3	3	1	00:00:00	100%	$0
 
 Region
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 Unknown	11	43	3.9	00:10:55	27%	$0
 
 Web-browser language
-label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Label	Visits	Actions	Conversion Rate	Actions per Visit	Avg. Time on Website	Bounce Rate
 Unknown	8	40	0%	5	00:15:01	0%
 French	3	3	0%	1	00:00:00	100%
 
 City
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 Unknown	11	43	3.9	00:10:55	27%	$0
 
 Language code
-label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Label	Visits	Actions	Conversion Rate	Actions per Visit	Avg. Time on Website	Bounce Rate
 Unknown (xx)	8	40	0%	5	00:15:01	0%
 French (fr)	3	3	0%	1	00:00:00	100%
 
 Device type
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 Unknown	8	40	5	00:15:01	0%	$0
 Desktop	3	3	1	00:00:00	100%	$0
 
 Device model
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 Unknown	8	40	5	00:15:01	0%	$0
 Generic Desktop	3	3	1	00:00:00	100%	$0
 
 Device brand
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 Unknown	11	43	3.9	00:10:55	27%	$0
 
 Screen Resolution
-label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Label	Visits	Actions	Conversion Rate	Actions per Visit	Avg. Time on Website	Bounce Rate
 800x300	9	41	0%	4.6	00:13:21	11%
 1024x768	2	2	0%	1	00:00:00	100%
 
 Operating System versions
-label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Label	Visits	Actions	Conversion Rate	Actions per Visit	Avg. Time on Website	Bounce Rate
 Unknown	8	40	0%	5	00:15:01	0%
 Windows XP	3	3	0%	1	00:00:00	100%
 
 Browsers
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 Unknown	8	40	5	00:15:01	0%	$0
 Firefox	2	2	1	00:00:00	100%	$0
 Opera	1	1	1	00:00:00	100%	$0
 
 Browser version
-label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Label	Visits	Actions	Conversion Rate	Actions per Visit	Avg. Time on Website	Bounce Rate
 Unknown	8	40	0%	5	00:15:01	0%
 Firefox 3.6	2	2	0%	1	00:00:00	100%
 Opera 9.63	1	1	0%	1	00:00:00	100%
 
 Configurations
-label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Label	Visits	Actions	Conversion Rate	Actions per Visit	Avg. Time on Website	Bounce Rate
 Unknown / Unknown / 800x300	8	40	0%	5	00:15:01	0%
 Windows / Firefox / 1024x768	2	2	0%	1	00:00:00	100%
 Windows / Opera / 800x300	1	1	0%	1	00:00:00	100%
 
 Operating System families
-label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Label	Visits	Actions	Conversion Rate	Actions per Visit	Avg. Time on Website	Bounce Rate
 Unknown	8	40	0%	5	00:15:01	0%
 Windows	3	3	0%	1	00:00:00	100%
 
 Browser engines
-label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Label	Visits	Actions	Conversion Rate	Actions per Visit	Avg. Time on Website	Bounce Rate
 Unknown	8	40	0%	5	00:15:01	0%
 Gecko (Firefox)	2	2	0%	1	00:00:00	100%
 Presto (Opera)	1	1	0%	1	00:00:00	100%
 
 Browser Plugins
-label	nb_visits	nb_visits_percentage
+Label	Visits	% Visits
 Cookie	11	100%
 Flash	11	100%
 Java	11	100%
@@ -100,7 +100,7 @@ Silverlight	0	0%
 Windowsmedia	0	0%
 
 Visits per local time
-label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Label	Visits	Actions	Conversion Rate	Actions per Visit	Avg. Time on Website	Bounce Rate
 00	0	0	0%	0	00:00:00	0%
 01	0	0	0%	0	00:00:00	0%
 02	0	0	0%	0	00:00:00	0%
@@ -127,7 +127,7 @@ label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site
 23	0	0	0%	0	00:00:00	0%
 
 Visits per hour in the site's timezone
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 00	1	1	1	00:00:00	100%	$0
 01	0	0	0	00:00:00	0%	$0
 02	0	0	0	00:00:00	0%	$0
@@ -154,7 +154,7 @@ label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	rev
 23	1	1	1	00:00:00	100%	$0
 
 Visits by day of the week
-label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Label	Visits	Actions	Conversion Rate	Actions per Visit	Avg. Time on Website	Bounce Rate
 Monday	2	6	0%	3	00:07:31	50%
 Tuesday	2	10	0%	5	00:15:01	0%
 Wednesday	1	5	0%	5	00:15:01	0%
@@ -170,43 +170,43 @@ Custom Variables
 No data available
 
 Actions - Main metrics
-nb_pageviews	nb_uniq_pageviews	nb_downloads	nb_uniq_downloads	nb_outlinks	nb_uniq_outlinks	nb_searches	nb_keywords	hits
+Pageviews	Unique Pageviews	Downloads	Unique Downloads	Outlinks	Unique Outlinks	Searches	Unique Keywords	Hits
 43	27	0	0	0	0	0	0	43
 
 Bandwidth - Main metrics
-nb_total_overall_bandwidth	nb_total_pageview_bandwidth	nb_total_download_bandwidth
+Bytes transferred overall	Bytes transferred pageviews	Bytes transferred downloads
 0	0	0
 
 Page URLs
-label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate
+Label	Unique Pageviews	Pageviews	Bounce Rate	Avg. time on page	Exit rate
 /index.htm	9	9	11%	00:05:20	11%
 Page URL not defined	9	17	0%	00:00:00	0%
 /thankyou	8	16	0%	00:04:30	100%
 /products	1	1	100%	00:00:00	100%
 
 Entry pages
-label	entry_nb_visits	entry_bounce_count	bounce_rate
+Label	Entrances	Bounces	Bounce Rate
 /index.htm	9	1	11%
 /products	1	1	100%
 
 Entry page titles
-label	entry_nb_visits	entry_bounce_count	bounce_rate
+Label	Entrances	Bounces	Bounce Rate
 second visitor/two days later/a new visit	8	0	0%
 first page view	2	2	100%
 
 Exit pages
-label	nb_visits	exit_nb_visits	exit_rate
+Label	Unique Pageviews	Exits	Exit rate
 /index.htm	9	1	11%
 /thankyou	8	8	100%
 /products	1	1	100%
 
 Exit page titles
-label	nb_visits	exit_nb_visits	exit_rate
+Label	Unique Pageviews	Exits	Exit rate
 Checkout / Purchasing...	8	8	100%
 first page view	2	2	100%
 
 Page titles
-label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate
+Label	Unique Pageviews	Pageviews	Bounce Rate	Avg. time on page	Exit rate
 Checkout / Purchasing...	8	8	0%	00:00:00	100%
 second visitor/two days later/a new visit	8	8	0%	00:06:00	0%
 second visitor/two days later/second page view😀💩😀💩	8	8	0%	00:09:00	0%
@@ -250,7 +250,7 @@ Content Piece
 No data available
 
 Length of visits
-label	nb_visits
+Label	Visits
 0–10s	3
 11–30s	0
 31–60s	0
@@ -263,7 +263,7 @@ label	nb_visits
 30+ min	0
 
 Pages per visit
-label	nb_visits
+Label	Visits
 1 page	3
 2 pages	0
 3 pages	0
@@ -276,7 +276,7 @@ label	nb_visits
 21+ pages	0
 
 Visits by visit number
-label	nb_visits	nb_visits_percentage
+Label	Visits	% Visits
 1 visit	2	18%
 2 visits	2	18%
 3 visits	1	9%
@@ -293,7 +293,7 @@ label	nb_visits	nb_visits_percentage
 201+ visits	0	0%
 
 Visits by days since last visit
-label	nb_visits
+Label	Visits
 New visits	2
 0 days	1
 1 day	8
@@ -311,25 +311,25 @@ New visits	2
 365+ days	0
 
 Returning Visits
-nb_uniq_visitors_new	nb_users_new	nb_visits_new	nb_actions_new	max_actions_new	bounce_rate_new	nb_actions_per_visit_new	avg_time_on_site_new	nb_uniq_visitors_returning	nb_users_returning	nb_visits_returning	nb_actions_returning	max_actions_returning	bounce_rate_returning	nb_actions_per_visit_returning	avg_time_on_site_returning
+Unique new visitors	New Users	New Visits	Actions by New Visits	max_actions_new	Bounce Rate for New Visits	Avg. Actions per New Visit	Avg. Duration of a New Visit (in sec)	Unique returning visitors	Returning Users	Returning Visits	Actions by Returning Visits	Maximum actions in one returning visit	Bounce Rate for Returning Visits	Avg. Actions per Returning Visit	Avg. Duration of a Returning Visit (in sec)
 2	0	2	2	1	100%	1	00:00:00	2	0	9	41	5	11%	4.6	00:13:21
 
 Performance overview
-avg_time_network	avg_time_server	avg_time_transfer	avg_time_dom_processing	avg_time_dom_completion	avg_time_on_load	avg_page_load_time
+Avg. network time	Avg. server time	Avg. transfer time	Avg. DOM processing time	Avg. DOM completion time	Avg. on load time	Avg. page load time
 0.02s	0.27s	0.37s	1.17s	0.28s	0.31s	2.42s
 
 Referrers Overview
-Referrers_visitorsFromSearchEngines	Referrers_visitorsFromSocialNetworks	Referrers_visitorsFromAIAssistants	Referrers_visitorsFromDirectEntry	Referrers_visitorsFromWebsites	Referrers_visitorsFromCampaigns	Referrers_distinctSearchEngines	Referrers_distinctSocialNetworks	Referrers_distinctAIAssistants	Referrers_distinctKeywords	Referrers_distinctWebsites	Referrers_distinctCampaigns	Referrers_visitorsFromDirectEntry_percent	Referrers_visitorsFromSearchEngines_percent	Referrers_visitorsFromAIAssistants_percent	Referrers_visitorsFromCampaigns_percent	Referrers_visitorsFromSocialNetworks_percent	Referrers_visitorsFromWebsites_percent
+Visitors from Search Engines	Visitors from Social Networks	Visitors from AI Assistants	Visitors from Direct Entry	Visitors from Websites	Visitors from Campaigns	Distinct search engines	Distinct social networks	Distinct AI assistants	Distinct keywords	Distinct websites	Distinct campaigns	Percent of Visitors from Direct Entry	Percent of Visitors from Search Engines	Percent of Visitors from AI Assistants	Percent of Visitors from Campaigns	Percent of Visitors from Social Networks	Percent of Visitors from Websites
 0	0	0	1	6	4	0	0	0	0	1	1	9%	0%	0%	36%	0%	55%
 
 Channel Type
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 Websites	6	22	3.7	00:10:01	33%	$0
 Campaigns	4	20	5	00:15:01	0%	$0
 Direct Entry	1	1	1	00:00:00	100%	$0
 
 All Channels
-label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
+Label	Visits	Actions	Conversion Rate	Actions per Visit	Avg. Time on Website	Bounce Rate
 referrer.com	6	22	0%	3.7	00:10:01	33%
 goal-matching-url-parameter	4	20	0%	5	00:15:01	0%
 
@@ -340,7 +340,7 @@ Search Engines
 No data available
 
 Websites
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 referrer.com/Other_Page.htm	4	20	5	00:15:01	0%	$0
 referrer.com/page.htm?param=valuewith some spaces	2	2	1	00:00:00	100%	$0
 
@@ -351,11 +351,11 @@ AI Assistants
 No data available
 
 Campaigns
-label	nb_visits	nb_actions	nb_actions_per_visit	avg_time_on_site	bounce_rate	revenue
+Label	Visits	Actions	Actions per Visit	Avg. Time on Website	Bounce Rate	Revenue
 goal-matching-url-parameter - referrer.com	4	20	5	00:15:01	0%	$0
 
 Goals
-nb_conversions	nb_visits_converted	revenue	conversion_rate
+Conversions	Visits with Conversions	Revenue	Conversion Rate
 0	0	$0	0%
 
 Visits to Conversion
@@ -365,7 +365,7 @@ Days to Conversion
 No data available
 
 Goals Overview
-nb_conversions	nb_visits_converted	revenue	conversion_rate
+Conversions	Visits with Conversions	Revenue	Conversion Rate
 0	0	$0	0%
 
 Goals Overview - Visits to Conversion
@@ -375,7 +375,7 @@ Goals Overview - Days to Conversion
 No data available
 
 AI Chatbots Overview
-BotTracking_AIChatbotsRequests	BotTracking_AIChatbotsAcquiredVisits	BotTracking_AIChatbotsNotFoundRequests	BotTracking_AIChatbotsUniqueChatbots	BotTracking_AIChatbotsServerErrorRequests	BotTracking_AIChatbotsClickThroughRate	BotTracking_AIChatbotsUniquePageUrls	BotTracking_AIChatbotsUniqueDocumentUrls
+Requests	Acquired visits	Not found requests	Unique AI chatbots	Server error (5xx) requests	Click-through rate	Unique page URLs	Unique document URLs
 0	0	0	0	0	0	0	0
 
 AI Chatbots
@@ -391,7 +391,7 @@ Broken Pages and Documents
 No data available
 
 AI Agent Visits
-nb_uniq_visitors_ai_agent	nb_users_ai_agent	nb_visits_ai_agent	nb_actions_ai_agent	max_actions_ai_agent	bounce_rate_ai_agent	nb_actions_per_visit_ai_agent	avg_time_on_site_ai_agent	nb_uniq_visitors_human	nb_users_human	nb_visits_human	nb_actions_human	max_actions_human	bounce_rate_human	nb_actions_per_visit_human	avg_time_on_site_human
+Unique AI Agent Visitors	AI Agent Users	AI Agent Visits	Actions by AI Agent Visits	Maximum Actions in AI Agent Visit	Bounce Rate for AI Agent Visits	Avg. Actions per AI Agent Visit	Avg. Duration of an AI Agent Visit (in sec)	Unique Human Visitors	Human Users	Human Visits	Actions by Human Visits	Maximum Actions in one Human Visit	Bounce Rate for Human Visits	Avg. Actions per Human Visit	Avg. Duration of a Human Visit (in sec)
 0	0	0	0	0	0%	0	00:00:00	2	0	11	43	5	27%	3.9	00:10:55
 
 Data tables

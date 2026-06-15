@@ -1,81 +1,81 @@
 All Websites dashboard
-label,nb_visits,nb_actions,nb_pageviews,hits,ai_chatbots_requests,revenue,nb_conversions,orders,ecommerce_revenue,visits_evolution,actions_evolution,pageviews_evolution,hits_evolution,ai_chatbots_requests_evolution,revenue_evolution,nb_conversions_evolution,orders_evolution,ecommerce_revenue_evolution
+Label,Visits,Actions,Pageviews,Hits,AI Chatbots Requests,Revenue,Conversions,Ecommerce Orders,Product Revenue,Visits Evolution,Actions Evolution,Pageviews Evolution,Hits Evolution,AI Chatbots Requests Evolution,Revenue Evolution,Conversions Evolution,Ecommerce Orders Evolution,Product Revenue Evolution
 "A very long name for a very tiny test site, that also reaches the 90 character limit fully",5,16,16,16,0,"$13,361.11",5,4,"$13,351.11",100%,100%,100%,100%,0%,100%,100%,100%,100%
 Piwik test,2,1,1,1,0,$0,0,0,$0,100%,100%,100%,100%,0%,0%,0%,0,0
 
 Visits Summary
-nb_uniq_visitors,nb_visits,nb_actions,max_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unique visitors,Visits,Actions,Maximum actions in one visit,Actions per Visit,Avg. Visit Duration (in seconds),Bounce Rate
 1,5,16,6,3.2,00:22:50,20%
 
 Country
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Revenue,Actions per Visit,Avg. Time on Website,Bounce Rate
 Poland,4,12,"$13,351.11",3,00:25:32,25%
 France,1,4,$10,4,00:12:02,0%
 
 Continent
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Revenue,Actions per Visit,Avg. Time on Website,Bounce Rate
 Europe,5,16,"$13,361.11",3.2,00:22:50,20%
 
 Region
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Revenue,Actions per Visit,Avg. Time on Website,Bounce Rate
 Unknown,5,16,"$13,361.11",3.2,00:22:50,20%
 
 Web-browser language
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Conversion Rate,Actions per Visit,Avg. Time on Website,Bounce Rate
 Polish,4,12,75%,3,00:25:32,25%
 French,1,4,100%,4,00:12:02,0%
 
 City
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Revenue,Actions per Visit,Avg. Time on Website,Bounce Rate
 Unknown,5,16,"$13,361.11",3.2,00:22:50,20%
 
 Language code
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Conversion Rate,Actions per Visit,Avg. Time on Website,Bounce Rate
 Polish (pl),4,12,75%,3,00:25:32,25%
 French (fr),1,4,100%,4,00:12:02,0%
 
 Device type
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Revenue,Actions per Visit,Avg. Time on Website,Bounce Rate
 Desktop,5,16,"$13,361.11",3.2,00:22:50,20%
 
 Device model
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Revenue,Actions per Visit,Avg. Time on Website,Bounce Rate
 Generic Desktop,5,16,"$13,361.11",3.2,00:22:50,20%
 
 Device brand
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Revenue,Actions per Visit,Avg. Time on Website,Bounce Rate
 Unknown,5,16,"$13,361.11",3.2,00:22:50,20%
 
 Screen Resolution
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Conversion Rate,Actions per Visit,Avg. Time on Website,Bounce Rate
 1024x768,5,16,80%,3.2,00:22:50,20%
 
 Operating System versions
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Conversion Rate,Actions per Visit,Avg. Time on Website,Bounce Rate
 Windows XP,5,16,80%,3.2,00:22:50,20%
 
 Browsers
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Revenue,Actions per Visit,Avg. Time on Website,Bounce Rate
 Firefox,5,16,"$13,361.11",3.2,00:22:50,20%
 
 Browser version
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Conversion Rate,Actions per Visit,Avg. Time on Website,Bounce Rate
 Firefox 3.6,5,16,80%,3.2,00:22:50,20%
 
 Configurations
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Conversion Rate,Actions per Visit,Avg. Time on Website,Bounce Rate
 Windows / Firefox / 1024x768,5,16,80%,3.2,00:22:50,20%
 
 Operating System families
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Conversion Rate,Actions per Visit,Avg. Time on Website,Bounce Rate
 Windows,5,16,80%,3.2,00:22:50,20%
 
 Browser engines
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Conversion Rate,Actions per Visit,Avg. Time on Website,Bounce Rate
 Gecko (Firefox),5,16,80%,3.2,00:22:50,20%
 
 Browser Plugins
-label,nb_visits,nb_visits_percentage
+Label,Visits,% Visits
 Cookie,5,100%
 Flash,5,100%
 Java,5,100%
@@ -86,7 +86,7 @@ Silverlight,0,0%
 Windowsmedia,0,0%
 
 Visits per local time
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Conversion Rate,Actions per Visit,Avg. Time on Website,Bounce Rate
 00,0,0,0%,0,00:00:00,0%
 01,0,0,0%,0,00:00:00,0%
 02,0,0,0%,0,00:00:00,0%
@@ -113,7 +113,7 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 23,0,0,0%,0,00:00:00,0%
 
 Visits per hour in the site's timezone
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Revenue,Actions per Visit,Avg. Time on Website,Bounce Rate
 00,1,4,$10,4,00:12:02,0%
 01,1,6,$0,6,01:06:01,0%
 02,1,3,"$3,111.11",3,00:18:01,0%
@@ -140,7 +140,7 @@ label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_
 23,0,0,$0,0,00:00:00,0%
 
 Visits by day of the week
-label,nb_visits,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate,nb_actions
+Label,Visits,Conversion Rate,Actions per Visit,Avg. Time on Website,Bounce Rate,Actions
 Monday,0,0%,0,00:00:00,0%,0
 Tuesday,3,66.67%,4.3,00:30:01,0%,13
 Wednesday,2,100%,1.5,00:12:02,50%,3
@@ -153,44 +153,44 @@ User IDs
 No data available
 
 Custom Variables
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Revenue,Actions per Visit,Avg. Time on Website,Bounce Rate
 ValueIsZero - 0,5,16,"$13,361.11",3.2,00:22:50,20%
 VisitorType - NewLoggedOut,5,16,"$13,361.11",3.2,00:22:50,20%
 VisitorName - Great name!,4,12,"$13,351.11",3,00:25:32,25%
 
 Actions - Main metrics
-nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uniq_outlinks,nb_searches,nb_keywords,hits
+Pageviews,Unique Pageviews,Downloads,Unique Downloads,Outlinks,Unique Outlinks,Searches,Unique Keywords,Hits
 16,4,0,0,0,0,0,0,16
 
 Bandwidth - Main metrics
-nb_total_overall_bandwidth,nb_total_pageview_bandwidth,nb_total_download_bandwidth
+Bytes transferred overall,Bytes transferred pageviews,Bytes transferred downloads
 0,0,0
 
 Page URLs
-label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate
+Label,Unique Pageviews,Pageviews,Bounce Rate,Avg. time on page,Exit rate
 /index.htm,4,16,0%,00:03:23,100%
 
 Entry pages
-label,entry_nb_visits,entry_bounce_count,bounce_rate
+Label,Entrances,Bounces,Bounce Rate
 /index.htm,4,0,0%
 
 Entry page titles
-label,entry_nb_visits,entry_bounce_count,bounce_rate
+Label,Entrances,Bounces,Bounce Rate
 View product left in cart,1,0,0%
 incredible title!,1,0,0%
 Looking at Electronics & Cameras page with a page level custom variable,1,0,0%
 
 Exit pages
-label,nb_visits,exit_nb_visits,exit_rate
+Label,Unique Pageviews,Exits,Exit rate
 /index.htm,4,4,100%
 
 Exit page titles
-label,nb_visits,exit_nb_visits,exit_rate
+Label,Unique Pageviews,Exits,Exit rate
 View product left in cart,3,3,100%
 Another Product page with multiple categories,1,1,100%
 
 Page titles
-label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate
+Label,Unique Pageviews,Pageviews,Bounce Rate,Avg. time on page,Exit rate
 View product left in cart,3,9,0%,00:02:00,100%
 Another Product page,1,1,0%,00:06:00,0%
 Another Product page with multiple categories,1,1,0%,00:00:00,100%
@@ -237,7 +237,7 @@ Content Piece
 No data available
 
 Length of visits
-label,nb_visits
+Label,Visits
 0–10s,0
 11–30s,0
 31–60s,0
@@ -250,7 +250,7 @@ label,nb_visits
 30+ min,1
 
 Pages per visit
-label,nb_visits
+Label,Visits
 1 page,0
 2 pages,0
 3 pages,2
@@ -263,7 +263,7 @@ label,nb_visits
 21+ pages,0
 
 Visits by visit number
-label,nb_visits,nb_visits_percentage
+Label,Visits,% Visits
 1 visit,1,20%
 2 visits,1,20%
 3 visits,1,20%
@@ -280,7 +280,7 @@ label,nb_visits,nb_visits_percentage
 201+ visits,0,0%
 
 Visits by days since last visit
-label,nb_visits
+Label,Visits
 New visits,1
 0 days,2
 1 day,0
@@ -298,19 +298,19 @@ New visits,1
 365+ days,0
 
 Returning Visits
-nb_uniq_visitors_new,nb_users_new,nb_visits_new,nb_actions_new,max_actions_new,bounce_rate_new,nb_actions_per_visit_new,avg_time_on_site_new,nb_uniq_visitors_returning,nb_users_returning,nb_visits_returning,nb_actions_returning,max_actions_returning,bounce_rate_returning,nb_actions_per_visit_returning,avg_time_on_site_returning
+Unique new visitors,New Users,New Visits,Actions by New Visits,max_actions_new,Bounce Rate for New Visits,Avg. Actions per New Visit,Avg. Duration of a New Visit (in sec),Unique returning visitors,Returning Users,Returning Visits,Actions by Returning Visits,Maximum actions in one returning visit,Bounce Rate for Returning Visits,Avg. Actions per Returning Visit,Avg. Duration of a Returning Visit (in sec)
 1,0,1,4,4,0%,4,00:12:02,1,0,4,12,6,25%,3,00:25:32
 
 Performance overview
-avg_time_network,avg_time_server,avg_time_transfer,avg_time_dom_processing,avg_time_dom_completion,avg_time_on_load,avg_page_load_time
+Avg. network time,Avg. server time,Avg. transfer time,Avg. DOM processing time,Avg. DOM completion time,Avg. on load time,Avg. page load time
 0s,0s,0s,0s,0s,0s,0s
 
 Referrers Overview
-Referrers_visitorsFromSearchEngines,Referrers_visitorsFromSocialNetworks,Referrers_visitorsFromAIAssistants,Referrers_visitorsFromDirectEntry,Referrers_visitorsFromWebsites,Referrers_visitorsFromCampaigns,Referrers_distinctSearchEngines,Referrers_distinctSocialNetworks,Referrers_distinctAIAssistants,Referrers_distinctKeywords,Referrers_distinctWebsites,Referrers_distinctCampaigns,Referrers_visitorsFromDirectEntry_percent,Referrers_visitorsFromSearchEngines_percent,Referrers_visitorsFromAIAssistants_percent,Referrers_visitorsFromCampaigns_percent,Referrers_visitorsFromSocialNetworks_percent,Referrers_visitorsFromWebsites_percent
+Visitors from Search Engines,Visitors from Social Networks,Visitors from AI Assistants,Visitors from Direct Entry,Visitors from Websites,Visitors from Campaigns,Distinct search engines,Distinct social networks,Distinct AI assistants,Distinct keywords,Distinct websites,Distinct campaigns,Percent of Visitors from Direct Entry,Percent of Visitors from Search Engines,Percent of Visitors from AI Assistants,Percent of Visitors from Campaigns,Percent of Visitors from Social Networks,Percent of Visitors from Websites
 0,0,0,5,0,0,0,0,0,0,0,0,100%,0%,0%,0%,0%,0%
 
 Channel Type
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Label,Visits,Actions,Revenue,Actions per Visit,Avg. Time on Website,Bounce Rate
 Direct Entry,5,16,"$13,361.11",3.2,00:22:50,20%
 
 All Channels
@@ -335,11 +335,11 @@ Campaigns
 No data available
 
 Ecommerce Orders
-nb_conversions,nb_visits_converted,revenue,revenue_subtotal,revenue_tax,revenue_shipping,revenue_discount,items,avg_order_revenue,conversion_rate
+Conversions,Visits with Conversions,Revenue,Subtotal,Tax,Shipping,Discount,Purchased Products,Average Order Value,Conversion Rate
 4,2,"$13,351.11","$2,700",$531,$120.11,$686,12,"$3,337.78",40%
 
 Ecommerce Orders - Visits to Conversion
-label,nb_conversions
+Label,Conversions
 1 visit,0
 2 visits,2
 3 visits,0
@@ -355,7 +355,7 @@ label,nb_conversions
 101+ visits,0
 
 Ecommerce Orders - Days to Conversion
-label,nb_conversions
+Label,Conversions
 0 days,2
 1 day,2
 2 days,0
@@ -372,11 +372,11 @@ label,nb_conversions
 365+ days,0
 
 Abandoned Carts
-nb_conversions,revenue,items,avg_order_revenue,conversion_rate
+Conversions,Revenue,Purchased Products,Average Order Value,Conversion Rate
 3,"$7,530.33",12,"$2,510.11",60%
 
 Abandoned Carts - Visits to Conversion
-label,nb_conversions
+Label,Conversions
 1 visit,0
 2 visits,1
 3 visits,1
@@ -392,7 +392,7 @@ label,nb_conversions
 101+ visits,0
 
 Abandoned Carts - Days to Conversion
-label,nb_conversions
+Label,Conversions
 0 days,2
 1 day,1
 2 days,0
@@ -409,7 +409,7 @@ label,nb_conversions
 365+ days,0
 
 Product Name
-label,revenue,quantity,orders,avg_price,avg_quantity,conversion_rate,nb_visits
+Label,Revenue,Quantity,Ecommerce Orders,Average Price,Average Quantity,Conversion Rate,Visits
 Canon SLR,"$1,500",1,1,"$1,500",1,0%,0
 PRODUCT name,"$1,011.22",3,2,$255.61,1.5,100%,2
 PRODUCT name BIS,$600,6,1,$100,6,0%,0
@@ -418,7 +418,7 @@ PRODUCT THREE LEFT in cart,$0,0,0,"$1,332",0,0%,3
 PRODUCT TWO LEFT in cart,$0,0,0,$0,0,0%,3
 
 Product SKU
-label,revenue,quantity,orders,nb_visits,avg_price,avg_quantity,conversion_rate
+Label,Revenue,Quantity,Ecommerce Orders,Visits,Average Price,Average Quantity,Conversion Rate
 SKU2,"$1,500",1,1,1,"$1,500",1,100%
 SKU VERY nice indeed,"$1,011.22",3,2,4,$255.61,1.5,50%
 ANOTHER SKU HERE,$600,6,1,0,$100,6,0%
@@ -426,7 +426,7 @@ TRIPOD SKU,$200,2,1,0,$100,2,0%
 SKU IN ABANDONED CART TWO,$0,0,0,3,$0,0,0%
 
 Product Category
-label,revenue,quantity,orders,nb_visits,avg_price,avg_quantity,conversion_rate
+Label,Revenue,Quantity,Ecommerce Orders,Visits,Average Price,Average Quantity,Conversion Rate
 Electronics & Cameras,"$2,500",3,2,3,"$1,000",1.5,66.67%
 Multiple Category 1,"$1,000",2,1,1,$500,2,100%
 Multiple Category 2,"$1,000",2,1,1,$500,2,100%
@@ -438,11 +438,11 @@ Category TWO LEFT in cart,$0,0,0,3,$0,0,0%
 second category,$0,0,0,3,$0,0,0%
 
 Goals
-nb_conversions,nb_visits_converted,revenue,conversion_rate
+Conversions,Visits with Conversions,Revenue,Conversion Rate
 5,4,"$13,361.11",80%
 
 Visits to Conversion
-label,nb_conversions,revenue
+Label,Conversions,Revenue
 1 visit,1,$0
 2 visits,0,$0
 3 visits,0,$0
@@ -458,7 +458,7 @@ label,nb_conversions,revenue
 101+ visits,0,$0
 
 Days to Conversion
-label,nb_conversions,revenue
+Label,Conversions,Revenue
 0 days,1,$0
 1 day,0,$0
 2 days,0,$0
@@ -475,11 +475,11 @@ label,nb_conversions,revenue
 365+ days,0,$0
 
 Goals Overview
-nb_conversions,nb_visits_converted,revenue,conversion_rate
+Conversions,Visits with Conversions,Revenue,Conversion Rate
 4,2,"$13,351.11",40%
 
 Goals Overview - Visits to Conversion
-label,nb_conversions
+Label,Conversions
 1 visit,1
 2 visits,0
 3 visits,0
@@ -495,7 +495,7 @@ label,nb_conversions
 101+ visits,0
 
 Goals Overview - Days to Conversion
-label,nb_conversions
+Label,Conversions
 0 days,1
 1 day,0
 2 days,0
@@ -512,11 +512,11 @@ label,nb_conversions
 365+ days,0
 
 "Goal title match, triggered ONCE"
-nb_conversions,nb_visits_converted,revenue,conversion_rate
+Conversions,Visits with Conversions,Revenue,Conversion Rate
 1,1,$10,20%
 
 "title match, triggered ONCE - Visits to Conversion"
-label,nb_conversions
+Label,Conversions
 1 visit,1
 2 visits,0
 3 visits,0
@@ -532,7 +532,7 @@ label,nb_conversions
 101+ visits,0
 
 "title match, triggered ONCE - Days to Conversion"
-label,nb_conversions
+Label,Conversions
 0 days,1
 1 day,0
 2 days,0
@@ -549,7 +549,7 @@ label,nb_conversions
 365+ days,0
 
 AI Chatbots Overview
-BotTracking_AIChatbotsRequests,BotTracking_AIChatbotsAcquiredVisits,BotTracking_AIChatbotsNotFoundRequests,BotTracking_AIChatbotsUniqueChatbots,BotTracking_AIChatbotsServerErrorRequests,BotTracking_AIChatbotsClickThroughRate,BotTracking_AIChatbotsUniquePageUrls,BotTracking_AIChatbotsUniqueDocumentUrls
+Requests,Acquired visits,Not found requests,Unique AI chatbots,Server error (5xx) requests,Click-through rate,Unique page URLs,Unique document URLs
 0,0,0,0,0,0,0,0
 
 AI Chatbots
@@ -565,7 +565,7 @@ Broken Pages and Documents
 No data available
 
 AI Agent Visits
-nb_uniq_visitors_ai_agent,nb_users_ai_agent,nb_visits_ai_agent,nb_actions_ai_agent,max_actions_ai_agent,bounce_rate_ai_agent,nb_actions_per_visit_ai_agent,avg_time_on_site_ai_agent,nb_uniq_visitors_human,nb_users_human,nb_visits_human,nb_actions_human,max_actions_human,bounce_rate_human,nb_actions_per_visit_human,avg_time_on_site_human
+Unique AI Agent Visitors,AI Agent Users,AI Agent Visits,Actions by AI Agent Visits,Maximum Actions in AI Agent Visit,Bounce Rate for AI Agent Visits,Avg. Actions per AI Agent Visit,Avg. Duration of an AI Agent Visit (in sec),Unique Human Visitors,Human Users,Human Visits,Actions by Human Visits,Maximum Actions in one Human Visit,Bounce Rate for Human Visits,Avg. Actions per Human Visit,Avg. Duration of a Human Visit (in sec)
 0,0,0,0,0,0%,0,00:00:00,1,0,5,16,6,20%,3.2,00:22:50
 
 Data tables
