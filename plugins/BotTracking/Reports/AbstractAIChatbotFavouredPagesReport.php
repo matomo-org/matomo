@@ -42,8 +42,9 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
         $this->categoryId        = 'General_AIAssistants';
         $this->subcategoryId     = 'BotTracking_AIChatbotsContentRequests';
         $this->dimension         = new PageUrl();
-        // discrepancy_score is materialised on the table by the API (see FavouredPagesScorer), so
-        // it is an ordinary column here rather than a recomputed processed metric.
+        // discrepancy_score is materialised during archiving (see AIChatbotFavouredPages /
+        // FavouredPagesScorer) and read straight back, so it is an ordinary column here rather than a
+        // recomputed processed metric.
         $this->metrics           = [
             new UniqueHumanPageviews(),
             new AIChatbotRequests(),
@@ -153,10 +154,9 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
      * every row.
      *
      * Wired through the standard ExcludeLowPopulation generic filter targeting the score column.
-     * The framework computes processed metrics before generic filters when the filter targets a
-     * processed-metric column (the same path that lets us sort by the score), so the score exists
-     * by the time the filter runs. The minimum value must stay > 0 — passing 0 makes
-     * ExcludeLowPopulation fall back to its 2%-of-sum heuristic and empty the table.
+     * The score is a stored column (materialised during archiving), so it is present on every row by
+     * the time the filter runs. The minimum value must stay > 0 — passing 0 makes ExcludeLowPopulation
+     * fall back to its 2%-of-sum heuristic and empty the table.
      */
     private function configureExcludeLowPopulation(ViewDataTable $view): void
     {

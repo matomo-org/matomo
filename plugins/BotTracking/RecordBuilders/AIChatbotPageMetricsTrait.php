@@ -107,8 +107,7 @@ trait AIChatbotPageMetricsTrait
      *
      * @param string                $innerSql Already-interpolated SQL (bot_type bind placeholder kept as `?`).
      * @param array<string, string> $columns  column name → RankingQuery aggregation op; must match the
-     *                                        SELECT aliases. (int) casts are safe: NULL→0 only hits the
-     *                                        nb_* columns, where 0 already gates the avg computation.
+     *                                        SELECT aliases.
      */
     protected function executeUrlQuery(ArchiveProcessor $archiveProcessor, string $innerSql, array $columns, int $rankingQueryLimit): DataTable
     {

@@ -62,7 +62,7 @@ class AIChatbotFavouredPages extends RecordBuilder
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         $records = [];
-        foreach ($this->variantByRecord() as $recordName => $variant) {
+        foreach (array_keys($this->variantByRecord()) as $recordName) {
             $records[] = Record::make(Record::TYPE_BLOB, $recordName)
                 ->setColumnToSortByBeforeTruncation(Metrics::COLUMN_DISCREPANCY_SCORE);
         }
@@ -115,7 +115,7 @@ class AIChatbotFavouredPages extends RecordBuilder
     private function emptyRecords(): array
     {
         $records = [];
-        foreach ($this->variantByRecord() as $recordName => $variant) {
+        foreach (array_keys($this->variantByRecord()) as $recordName) {
             $records[$recordName] = new DataTable();
         }
 
@@ -126,8 +126,6 @@ class AIChatbotFavouredPages extends RecordBuilder
      * Non-day archiving: the score is table-relative, so unlike the traffic columns it cannot be
      * summed across child periods. We override the default "sum the day blobs" path to sum the
      * additive traffic, re-run the scorer on the period's full union, and truncate by that score.
-     *
-     * No other RecordBuilder overrides this; revisit if core changes the non-day aggregation contract.
      */
     public function buildForNonDayPeriod(ArchiveProcessor $archiveProcessor): void
     {

@@ -22,9 +22,9 @@ class NoRecentRequests extends Widget
     }
 
     /**
-     * Shared config for the "no recent AI bot requests" message. It tops every AI Assistants page as
-     * its own widget (see {@see NoRecentRequestsContentRequests}); the showNoRecentRequestsMessage
-     * middleware hides it once recent requests exist.
+     * Shared config for the "no recent AI bot requests" message. It tops the Overview and Content
+     * Requests pages as its own widget (see {@see NoRecentRequestsContentRequests}); the
+     * showNoRecentRequestsMessage middleware hides it once recent requests exist.
      */
     public static function configureMessageWidget(WidgetConfig $config, string $subcategoryId, string $action): void
     {
