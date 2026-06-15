@@ -5,7 +5,7 @@
 		<requests>4</requests>
 		<document_requests>1</document_requests>
 		<page_requests>3</page_requests>
-		<visits_acquired>1</visits_acquired>
+		<visits_acquired>2</visits_acquired>
 		<url>chatgpt.com</url>
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/chatgpt.com.png</logo>
 		<subtable>
@@ -20,7 +20,7 @@
 		<requests>5</requests>
 		<document_requests>3</document_requests>
 		<page_requests>2</page_requests>
-		<visits_acquired>1</visits_acquired>
+		<visits_acquired>2</visits_acquired>
 		<url>perplexity.ai</url>
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/perplexity.ai.png</logo>
 		<subtable>
@@ -54,7 +54,7 @@
 		<requests>17</requests>
 		<document_requests>8</document_requests>
 		<page_requests>9</page_requests>
-		<visits_acquired>4</visits_acquired>
+		<visits_acquired>2</visits_acquired>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
