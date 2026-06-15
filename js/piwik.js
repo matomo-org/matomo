@@ -69,7 +69,7 @@
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, setPageViewId, getPageViewId, getPiwikUrl, getMatomoUrl, getCurrentUrl,
     setExcludedReferrers, getExcludedReferrers,
     setIgnoreCampaignsForReferrers, getIgnoreCampaignsForReferrers,
-    setIgnoreCampaignValues, getIgnoreCampaignValues,
+    setIgnoreCampaignAttributionForSources, getIgnoreCampaignAttributionForSources,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
@@ -2323,11 +2323,37 @@ if (typeof window.Matomo !== 'object') {
                   'mtm_placement', 'pk_placement' // campaign placement
                 ],
 
-                // An initial list of known referrers that are sending unexpected/unwanted campaign parameters. Matomo will ignore such campaigns if the referring URL matches one of the hosts defined below.
+                // An initial list of known referrers whose campaign parameters should be ignored for attribution.
                 configIgnoreCampaignsForReferrers = [ 'chatgpt.com', 'chat.openai.com' ],
 
-                // An initial list of known campaign values that should be ignored even when no referrer URL is available.
-                configIgnoreCampaignValues = [ 'chatgpt.com', 'chat.openai.com' ],
+                // An initial list of known sources whose campaign values in the current URL should be ignored for attribution.
+                // Matching parameters are still kept in the tracked URL/request, so Matomo can still detect them as campaigns later.
+                configIgnoreCampaignAttributionForSources = [
+                    'yiyan.baidu.com',
+                    'ai.baidu.com',
+                    'chatplus.com',
+                    'chat-gpt.org',
+                    'chatgpt.com',
+                    'chat.openai.com',
+                    'labs.openai.com',
+                    'claude.ai',
+                    'copilot.microsoft.com',
+                    'chatglm.cn',
+                    'chat.deepseek.com',
+                    'gemini.google.com',
+                    'bard.google.com',
+                    'grok.com',
+                    'x.com/i/grok',
+                    'iask.ai',
+                    'app.jasper.ai',
+                    'chat.mistral.ai',
+                    'meta.ai',
+                    'notebooklm.google.com',
+                    'perplexity.ai',
+                    'chat.qwen.ai',
+                    'app.writesonic.com',
+                    'you.com'
+                ],
 
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
@@ -2769,11 +2795,11 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /**
-             * Returns if the given referrer is on the list of referrers to ignore campaign parameters from
+             * Returns if the given referrer is on the list of referrers whose campaign parameters should be ignored for attribution.
              * @param referrerUrl
              * @returns {boolean}
              */
-            function shouldIgnoreCampaignForReferrer(referrerUrl) {
+            function shouldIgnoreCampaignAttributionForReferrer(referrerUrl) {
                 var i,
                   aliasHost,
                   aliasPath,
@@ -2804,20 +2830,23 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /**
-             * Returns if the current landing URL contains campaign-style parameters that should be treated as AI assistant sources.
-             * This covers cases where AI assistants append values like utm_source=chatgpt.com without sending a document referrer.
+             * Returns if campaign parameters on the current landing URL should be ignored for attribution.
+             * This covers source values like utm_source=chatgpt.com, including cases where another referrer URL exists.
+             *
+             * This does not remove the matching parameters from the URL or tracker request. It only prevents those
+             * values from becoming the visit attribution campaign in the attribution cookie.
              *
              * @param currentUrl
              * @returns {boolean}
              */
-            function shouldIgnoreCampaignForCurrentUrl(currentUrl) {
+            function shouldIgnoreCampaignAttributionForCurrentUrl(currentUrl) {
                 var i,
                     campaignParameterValue;
 
                 for (i = 0; i < configCampaignNameParameters.length; i++) {
                     campaignParameterValue = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
 
-                    if (campaignParameterValue.length && indexOfArray(configIgnoreCampaignValues, campaignParameterValue) !== -1) {
+                    if (campaignParameterValue.length && indexOfArray(configIgnoreCampaignAttributionForSources, campaignParameterValue) !== -1) {
                         return true;
                     }
                 }
@@ -2838,7 +2867,7 @@ if (typeof window.Matomo !== 'object') {
                 var targetPattern, i;
 
                 // Remove campaign names/keywords from URL
-                if (shouldIgnoreCampaignForReferrer(configReferrerUrl)
+                if (shouldIgnoreCampaignAttributionForReferrer(configReferrerUrl)
                   || (configEnableCampaignParameters !== true && !configConsentRequired)) {
                     for (i = 0; i < configCampaignNameParameters.length; i++) {
                       url = removeUrlParameter(url, configCampaignNameParameters[i]);
@@ -3994,8 +4023,8 @@ if (typeof window.Matomo !== 'object') {
                     if ((!configConversionAttributionFirstReferrer
                         || !campaignNameDetected.length)
                         && (configEnableCampaignParameters || configConsentRequired)
-                        && !shouldIgnoreCampaignForReferrer(configReferrerUrl)
-                        && !shouldIgnoreCampaignForCurrentUrl(currentUrl)) {
+                        && !shouldIgnoreCampaignAttributionForReferrer(configReferrerUrl)
+                        && !shouldIgnoreCampaignAttributionForCurrentUrl(currentUrl)) {
                           for (i in configCampaignNameParameters) {
                               if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
                                   campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
@@ -5319,8 +5348,8 @@ if (typeof window.Matomo !== 'object') {
             this.getIgnoreCampaignsForReferrers = function () {
                 return configIgnoreCampaignsForReferrers;
             };
-            this.getIgnoreCampaignValues = function () {
-                return configIgnoreCampaignValues;
+            this.getIgnoreCampaignAttributionForSources = function () {
+                return configIgnoreCampaignAttributionForSources;
             };
             this.getConfigIdPageView = function () {
                 return configIdPageView;
@@ -6177,22 +6206,23 @@ if (typeof window.Matomo !== 'object') {
                 configLinkClasses = isString(linkClasses) ? [linkClasses] : linkClasses;
             };
 
-          /**
-           * Set array of referrers where campaign parameters should be ignored
-           *
-           * @param {string|Array} referrers
-           */
+            /**
+             * Set array of referrers whose campaign parameters should be ignored for attribution.
+             *
+             * @param {string|Array} referrers
+             */
             this.setIgnoreCampaignsForReferrers = function (referrers) {
                 configIgnoreCampaignsForReferrers = isString(referrers) ? [referrers] : referrers;
             };
 
             /**
-             * Set array of campaign values where campaign parameters should be ignored
+             * Set array of sources whose campaign values in the current URL should be ignored for attribution.
+             * Matching parameters are still kept in the tracked URL/request.
              *
-             * @param {string|Array} campaignValues
+              * @param {string|Array} sources
              */
-            this.setIgnoreCampaignValues = function (campaignValues) {
-                configIgnoreCampaignValues = isString(campaignValues) ? [campaignValues] : campaignValues;
+            this.setIgnoreCampaignAttributionForSources = function (sources) {
+                configIgnoreCampaignAttributionForSources = isString(sources) ? [sources] : sources;
             };
 
             /**

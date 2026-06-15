@@ -140,8 +140,8 @@ The new API parameter `showMetadata` was introduced. In can be used to toggle di
 
 #### New APIs
 
-* The methods `setIgnoreCampaignsForReferrers` and `getIgnoreCampaignsForReferrers` have been added to the JavaScript tracker. They allow to set/get referrers for which campaign parameters should be ignored. For more details see [Configuration of JavaScript tracker](https://developer.matomo.org/api-reference/tracking-javascript#configuration-of-the-tracker-object) documentation.
-* The methods `setIgnoreCampaignValues` and `getIgnoreCampaignValues` have been added to the JavaScript tracker. They allow to set/get campaign values for which campaign parameters should be ignored even when no referrer URL is available.
+* The methods `setIgnoreCampaignsForReferrers` and `getIgnoreCampaignsForReferrers` have been added to the JavaScript tracker. They allow setting/getting referrers for which campaign parameters should be ignored for attribution.
+* The methods `setIgnoreCampaignAttributionForSources` and `getIgnoreCampaignAttributionForSources` have been added to the JavaScript tracker. They allow setting/getting sources whose campaign values in the current URL should be ignored for attribution. Matching campaign parameters are still kept in the tracked URL/request.
 
 
 ## Matomo 5.3.0

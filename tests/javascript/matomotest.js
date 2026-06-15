@@ -22,8 +22,8 @@ Matomo.addPlugin('testPlugin', {
 				'_isSiteHostName : isSiteHostName,' +
 				'_isSiteHostPath : isSiteHostPath,' +
 				'_isReferrerExcluded : isReferrerExcluded,' +
-				'_shouldIgnoreCampaignForReferrer : shouldIgnoreCampaignForReferrer,' +
-				'_shouldIgnoreCampaignForCurrentUrl : shouldIgnoreCampaignForCurrentUrl,' +
+				'_shouldIgnoreCampaignAttributionForReferrer : shouldIgnoreCampaignAttributionForReferrer,' +
+				'_shouldIgnoreCampaignAttributionForCurrentUrl : shouldIgnoreCampaignAttributionForCurrentUrl,' +
 				'_getClassesRegExp : getClassesRegExp,' +
 				'_hasCookies : hasCookies,' +
 				'_getCookie : getCookie,' +

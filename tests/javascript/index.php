@@ -3762,9 +3762,36 @@ if ($mysql) {
         }
     });
 
-    test("ignore campaigns for referrer", function () {
-        expect(25);
+    var defaultIgnoredCampaignAttributionSources = [
+        'yiyan.baidu.com',
+        'ai.baidu.com',
+        'chatplus.com',
+        'chat-gpt.org',
+        'chatgpt.com',
+        'chat.openai.com',
+        'labs.openai.com',
+        'claude.ai',
+        'copilot.microsoft.com',
+        'chatglm.cn',
+        'chat.deepseek.com',
+        'gemini.google.com',
+        'bard.google.com',
+        'grok.com',
+        'x.com/i/grok',
+        'iask.ai',
+        'app.jasper.ai',
+        'chat.mistral.ai',
+        'meta.ai',
+        'notebooklm.google.com',
+        'perplexity.ai',
+        'chat.qwen.ai',
+        'app.writesonic.com',
+        'you.com'
+    ];
 
+    var defaultIgnoredCampaignReferrers = ['chatgpt.com', 'chat.openai.com'];
+
+    test("ignore campaign attribution for referrer", function () {
         var testCases = [
             ['no exclusion', 'https://www.google.fr/?query=test', '', false],
             ['host exclusion matches', 'https://www.google.fr/?query=test', 'www.google.fr', true],
@@ -3779,36 +3806,51 @@ if ($mysql) {
             ['host with wild card path exclusion matches again', 'https://www.paypal.com/proceed-my-payment/', 'www.paypal.com/proceed*', true],
         ];
 
+        expect(25);
+
         for (var i = 0; i < testCases.length; i++) {
             var testName = testCases[i][0];
             var referrerUrl = testCases[i][1];
-            var excludedReferrer = testCases[i][2];
+            var ignoredCampaignReferrers = testCases[i][2];
             var result = testCases[i][3];
-            var expectedExcludedReferrer = [];
+            var expectedIgnoredCampaignReferrers = [];
 
             var tracker = Piwik.getTracker();
-            if (excludedReferrer) {
-                tracker.setIgnoreCampaignsForReferrers(excludedReferrer);
-                expectedExcludedReferrer = tracker.hook.test._isString(excludedReferrer) ? [excludedReferrer] : excludedReferrer;
+            if (ignoredCampaignReferrers) {
+                tracker.setIgnoreCampaignsForReferrers(ignoredCampaignReferrers);
+                expectedIgnoredCampaignReferrers = tracker.hook.test._isString(ignoredCampaignReferrers) ? [ignoredCampaignReferrers] : ignoredCampaignReferrers;
             } else {
-                expectedExcludedReferrer = ['chatgpt.com', 'chat.openai.com'];
+                expectedIgnoredCampaignReferrers = defaultIgnoredCampaignReferrers;
             }
-            deepEqual(tracker.getIgnoreCampaignsForReferrers(), expectedExcludedReferrer, testName + " - check getIgnoreCampaignsForReferrers()");
-            deepEqual(tracker.hook.test._shouldIgnoreCampaignForReferrer(referrerUrl), result, testName + " - check shouldIgnoreCampaignForReferrer()");
+            deepEqual(tracker.getIgnoreCampaignsForReferrers(), expectedIgnoredCampaignReferrers, testName + " - check getIgnoreCampaignsForReferrers()");
+            deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForReferrer(referrerUrl), result, testName + " - check shouldIgnoreCampaignAttributionForReferrer()");
         }
     });
 
-    test("ignore campaign values", function () {
+    test("ignore campaign attribution for sources", function () {
         var tracker = Piwik.getTracker();
 
-        deepEqual(tracker.getIgnoreCampaignValues(), ['chatgpt.com', 'chat.openai.com'], "default ignored campaign values");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignForCurrentUrl('https://matomo.org/blog/?utm_source=chatgpt.com'), true, "default ignored campaign value matches");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignForCurrentUrl('https://matomo.org/blog/?utm_source=newsletter'), false, "other campaign values are not ignored");
+        deepEqual(tracker.getIgnoreCampaignAttributionForSources(), defaultIgnoredCampaignAttributionSources, "default ignored campaign attribution sources");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=chatgpt.com'), true, "default campaign value is ignored for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=perplexity.ai'), true, "additional default campaign value is ignored for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=newsletter'), false, "other campaign values can be used for attribution");
+        deepEqual(tracker.hook.test._purify('https://matomo.org/blog/?utm_source=chatgpt.com'), 'https://matomo.org/blog/?utm_source=chatgpt.com', "campaign values ignored for attribution are kept in tracked URLs");
 
-        tracker.setIgnoreCampaignValues(['perplexity.ai']);
-        deepEqual(tracker.getIgnoreCampaignValues(), ['perplexity.ai'], "custom ignored campaign values are returned");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignForCurrentUrl('https://matomo.org/blog/?utm_source=perplexity.ai'), true, "custom ignored campaign value matches");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignForCurrentUrl('https://matomo.org/blog/?utm_source=chatgpt.com'), false, "default ignored campaign values can be replaced");
+        var trackerWithReferrer = Piwik.getTracker();
+        trackerWithReferrer.setTrackerUrl("matomo.php");
+        trackerWithReferrer.setSiteId(1);
+        trackerWithReferrer.deleteCookies();
+        trackerWithReferrer.setReferrerUrl('https://example.com/referrer');
+        trackerWithReferrer.setCustomUrl('https://matomo.org/blog/?utm_source=chatgpt.com');
+        trackerWithReferrer.trackPageView('ignoredCampaignAttributionWithReferrer');
+        var attributionInfos = trackerWithReferrer.getAttributionInfo();
+        equal(attributionInfos[0], '', "ignored campaign value does not set campaign attribution when another referrer exists");
+        equal(attributionInfos[3], 'https://example.com/referrer', "non-ignored referrer is still stored when campaign value is ignored for attribution");
+
+        tracker.setIgnoreCampaignAttributionForSources(['perplexity.ai']);
+        deepEqual(tracker.getIgnoreCampaignAttributionForSources(), ['perplexity.ai'], "custom ignored campaign attribution sources are returned");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=perplexity.ai'), true, "custom campaign value is ignored for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=chatgpt.com'), false, "default campaign values ignored for attribution can be replaced");
     });
 
     test("tracking", function() {
