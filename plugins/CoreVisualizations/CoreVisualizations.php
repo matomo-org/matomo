@@ -66,6 +66,7 @@ class CoreVisualizations extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.less";
         $stylesheets[] = "plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.less";
         $stylesheets[] = "plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.less";
 
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/dataTableVisualizations.less";
@@ -86,6 +87,7 @@ class CoreVisualizations extends \Piwik\Plugin
     {
         $translationKeys[] = 'General_MetricsToPlot';
         $translationKeys[] = 'General_MetricToPlot';
+        $translationKeys[] = 'General_ChooseMetrics';
         $translationKeys[] = 'General_RecordsToPlot';
         $translationKeys[] = 'General_SaveImageOnYourComputer';
         $translationKeys[] = 'General_ExportAsImage';
