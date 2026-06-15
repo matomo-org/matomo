@@ -13,6 +13,22 @@ describe("EvolutionGraph", function () {
               + "&isFooterExpandedInDashboard=1";
     const plotLinesTweaksColumns = "nb_visits,nb_actions,avg_time_on_site,bounce_rate";
     const plotLinesTweaksUrl = url + "&columns=" + plotLinesTweaksColumns + "&filter_add_columns_when_show_all_columns=0";
+    const getFooterLegendState = async function () {
+        return page.evaluate(function () {
+            const footer = document.querySelector('.jqplot-legend-footer.has-legend');
+            const items = footer ? footer.querySelectorAll('.jqplot-legend-item') : [];
+            const hiddenItems = footer ? footer.querySelectorAll('.jqplot-legend-item-hidden') : [];
+            const overflowItem = footer ? footer.querySelector('.jqplot-legend-item-overflow .jqplot-legend-label') : null;
+
+            return {
+                hasLegend: !!footer,
+                itemCount: items.length,
+                hiddenItemCount: hiddenItems.length,
+                visibleItemCount: footer ? footer.querySelectorAll('.jqplot-legend-item:not(.jqplot-legend-item-hidden)').length : 0,
+                overflowLabel: overflowItem ? overflowItem.textContent.trim() : null,
+            };
+        });
+    };
 
     before(function () {
         return testEnvironment.callApi("Annotations.deleteAll", {idSite: 3});
@@ -253,6 +269,13 @@ describe("EvolutionGraph", function () {
             await page.webpage.setViewport({ width: 320, height: 480 });
             await page.goto(plotLinesTweaksUrl);
             await page.waitForNetworkIdle();
+
+            const legendState = await getFooterLegendState();
+            expect(legendState.hasLegend).to.equal(true);
+            expect(legendState.itemCount).to.be.above(legendState.visibleItemCount);
+            expect(legendState.visibleItemCount).to.be.at.least(1);
+            expect(legendState.hiddenItemCount).to.be.above(0);
+            expect(legendState.overflowLabel).to.equal('…');
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('plot_lines_tweaks_narrow_overflow');
         });
