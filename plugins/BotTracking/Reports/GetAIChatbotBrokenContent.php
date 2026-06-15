@@ -88,6 +88,8 @@ class GetAIChatbotBrokenContent extends Report
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
     {
-        $widgetsList->addWidgetConfig($factory->createWidget()->setIsWide());
+        // Rendered non-wide so it pairs side by side with the Documents report on the
+        // Content Requests page (consecutive non-wide widgets are grouped into two columns).
+        $widgetsList->addWidgetConfig($factory->createWidget());
     }
 }

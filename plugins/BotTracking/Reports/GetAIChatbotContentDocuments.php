@@ -13,6 +13,8 @@ namespace Piwik\Plugins\BotTracking\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugins\BotTracking\Columns\DocumentUrl;
+use Piwik\Widget\WidgetsList;
+use Piwik\Report\ReportWidgetFactory;
 
 class GetAIChatbotContentDocuments extends AbstractAIChatbotContentUrlReport
 {
@@ -30,5 +32,13 @@ class GetAIChatbotContentDocuments extends AbstractAIChatbotContentUrlReport
     {
         // Scope the "Requests" tooltip to document URLs since this report covers only download actions.
         return 'BotTracking_ColumnDocumentRequestsDocumentation';
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
+    {
+        // Override the wide layout used by the shared base class (which keeps the Pages report
+        // full width) so this report pairs side by side with the Broken Pages & Documents report
+        // on the Content Requests page.
+        $widgetsList->addWidgetConfig($factory->createWidget());
     }
 }

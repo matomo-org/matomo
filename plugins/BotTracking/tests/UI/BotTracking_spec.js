@@ -121,8 +121,9 @@ describe("BotTracking", function () {
         });
         expect(helpNotificationText.length).to.be.above(0);
 
-        // Assert exactly 5 report widgets are present on the page (3 wide stacked reports
-        // + the Human-Favoured / AI-Favoured pair side-by-side).
+        // Assert exactly 5 report widgets are present on the page (the wide Pages report on top,
+        // then the Documents / Broken pair side-by-side, then the Human-Favoured / AI-Favoured
+        // pair side-by-side).
         const widgets = await page.$$('.matomo-widget');
         expect(widgets.length).to.equal(5);
 
@@ -231,20 +232,23 @@ describe("BotTracking", function () {
         });
         expect(aiSortedThText).to.equal('Discrepancy Score');
 
-        // Both new widgets must render in the same .row container (the reporting page
-        // auto-pairs consecutive non-wide widgets into a 2-column row — see
-        // CoreHome ReportingPage.store).
-        const pairedRowCount = await page.evaluate(function (humanSel, aiSel) {
-            const human = document.querySelector(humanSel);
-            const ai = document.querySelector(aiSel);
-            if (!human || !ai) {
-                return 0;
-            }
-            const humanRow = human.closest('.row');
-            const aiRow = ai.closest('.row');
-            return humanRow && humanRow === aiRow ? 1 : 0;
-        }, humanWidgetId, aiWidgetId);
-        expect(pairedRowCount).to.equal(1);
+        // The reporting page auto-pairs consecutive non-wide widgets into a 2-column row (see
+        // CoreHome ReportingPage.store). The Documents + Broken reports must share one row, and the
+        // Human-Favoured + AI-Favoured reports must share one row.
+        const sameRow = function (firstSel, secondSel) {
+            return page.evaluate(function (a, b) {
+                const first = document.querySelector(a);
+                const second = document.querySelector(b);
+                if (!first || !second) {
+                    return 0;
+                }
+                const firstRow = first.closest('.row');
+                const secondRow = second.closest('.row');
+                return firstRow && firstRow === secondRow ? 1 : 0;
+            }, firstSel, secondSel);
+        };
+        expect(await sameRow(docsWidgetId, brokenWidgetId)).to.equal(1);
+        expect(await sameRow(humanWidgetId, aiWidgetId)).to.equal(1);
 
         var elem = await page.$('.pageWrap');
         expect(await elem.screenshot()).to.matchImage('bot_content_requests');

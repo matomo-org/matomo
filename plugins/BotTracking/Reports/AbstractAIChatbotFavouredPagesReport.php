@@ -180,15 +180,17 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
     {
         // Side-by-side layout contract (DEV-19843): the Human-Favoured and AI-Favoured reports must
-        // render next to each other in a single 2-column row at the bottom of the
-        // AIChatbotsContentRequests page. Matomo has no 2-equal-column widget-container primitive,
-        // so this relies on the reporting page auto-pairing two CONSECUTIVE NON-WIDE widgets into a
-        // row (see CoreHome ReportingPage.store::widgets). For that to hold, all of the following
-        // must stay true (the BotTracking_spec.js pairing assertion is the load-bearing guard):
-        //   - neither report calls setIsWide() (hence the bare createWidget() below);
-        //   - they keep orders 40 and 50 so they remain the last two widgets on the page;
-        //   - the three sibling content reports (orders 10/20/30) stay wide so they don't get
-        //     pulled into the pairing;
+        // render next to each other in a 2-column row on the AIChatbotsContentRequests page. Matomo
+        // has no 2-equal-column widget-container primitive, so this relies on the reporting page
+        // auto-pairing CONSECUTIVE NON-WIDE widgets into columns (see CoreHome
+        // ReportingPage.store::widgets). On this page the non-wide widgets are Documents, Broken,
+        // Human-Favoured and AI-Favoured (orders 20/30/40/50); the auto-pairing distributes them
+        // across two columns so Documents sits beside Broken and Human-Favoured beside AI-Favoured.
+        // For that to hold, all of the following must stay true (the BotTracking_spec.js pairing
+        // assertions are the load-bearing guard):
+        //   - none of those four reports call setIsWide() (hence the bare createWidget() below);
+        //   - they keep orders 40 and 50 so they stay paired with each other (after Documents/Broken);
+        //   - the Pages report (order 10) stays wide so it remains a full-width row on top;
         //   - no other plugin injects a non-wide widget between/around them in this subcategory.
         $widgetsList->addWidgetConfig($factory->createWidget());
     }
