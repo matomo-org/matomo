@@ -324,6 +324,21 @@ class Updater
                 $this->executeListenerHook('onError', array($componentName, $fileVersion, $e));
                 throw $e;
             } catch (\Exception $e) {
+                if ($componentName === 'core') {
+                    $updateName = isset($className) ? $className : $file;
+                    $message = sprintf(
+                        "%s:\nError trying to execute the update '%s'.\nThe error was: %s",
+                        $file,
+                        $updateName,
+                        $e->getMessage()
+                    );
+
+                    $updaterError = new UpdaterErrorException($message, $e->getCode(), $e);
+                    $this->executeListenerHook('onError', array($componentName, $fileVersion, $updaterError));
+
+                    throw $updaterError;
+                }
+
                 $warningMessages[] = $e->getMessage();
 
                 $this->executeListenerHook('onWarning', array($componentName, $fileVersion, $e));
@@ -491,7 +506,7 @@ class Updater
 
                 // if error in any core update, show message + help message + EXIT
                 // if errors in any plugins updates, show them on screen, disable plugins that errored + CONTINUE
-                // if warning in any core update or in any plugins update, show message + CONTINUE
+                // if warning in any plugin update, show message + CONTINUE
                 // if no error or warning, success message + CONTINUE
                 foreach ($componentsWithUpdateFile as $name => $filenames) {
                     try {
