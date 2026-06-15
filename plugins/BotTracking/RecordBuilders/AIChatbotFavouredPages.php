@@ -184,6 +184,8 @@ class AIChatbotFavouredPages extends RecordBuilder
     {
         $byLabel = [];
 
+        // The AI table comes from the shared page-metrics query, which names the request count
+        // COLUMN_REQUESTS (the Content report's column); read it here as this report's AI requests.
         foreach ($aiTable->getRows() as $row) {
             if ($row->isSummaryRow()) {
                 continue;
@@ -247,7 +249,7 @@ class AIChatbotFavouredPages extends RecordBuilder
             return;
         }
 
-        $label = ($humanOthers instanceof Row ? $humanOthers : $aiOthers)->getColumn('label');
+        $label = ($humanOthers instanceof Row ? $humanOthers : $aiOthers)->getColumn('label') ?: DataTable::LABEL_SUMMARY_ROW;
 
         $summary = new Row([
             Row::COLUMNS => [

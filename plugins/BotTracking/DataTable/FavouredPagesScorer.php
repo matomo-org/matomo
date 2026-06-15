@@ -46,7 +46,9 @@ class FavouredPagesScorer
 
     /**
      * Adds the `discrepancy_score` column to every row of the table (recursing into
-     * `DataTable\Map` children so each period self-calibrates).
+     * `DataTable\Map` children so each period self-calibrates). Excluding the score from the report
+     * totals is the readers' job (API::skipScoreInReportTotals and the non-day aggregation ops): the
+     * table-level 'skip' op is not serialised into the blob, so setting it here would be dead.
      *
      * @param DataTable|DataTable\Map $table
      */
@@ -99,11 +101,6 @@ class FavouredPagesScorer
 
             $row->setColumn(Metrics::COLUMN_DISCREPANCY_SCORE, self::score($strong, $weak, $maxStrong));
         }
-
-        // Don't sum the per-page index into the totals row ('skip'); the traffic columns keep 'sum'.
-        $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME) ?: [];
-        $ops[Metrics::COLUMN_DISCREPANCY_SCORE] = 'skip';
-        $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $ops);
     }
 
     /**
