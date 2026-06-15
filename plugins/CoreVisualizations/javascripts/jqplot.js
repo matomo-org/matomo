@@ -112,7 +112,9 @@ function limitLegendRows($legendContainer, maxRows)
         return;
     }
 
-    overflowSource = rows[maxRows] && rows[maxRows][0];
+    // Reserve the last visible legend slot for the overflow marker so the
+    // ellipsis stays within the allowed rows instead of landing on a hidden row.
+    overflowSource = rows[maxRows - 1] && rows[maxRows - 1][rows[maxRows - 1].length - 1];
 
     if (!overflowSource) {
         return;
