@@ -42,15 +42,19 @@ body.plotlines-tweaks-enabled .jqplot-legend-footer.has-picker {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
+}
+
+// When evolution annotations are shown they sit above the legend footer and add
+// their own spacing, so drop the default margin to avoid doubling the gap.
+body.plotlines-tweaks-enabled .evolution-annotations ~ .jqplot-legend-footer {
+    margin-top: 0;
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-picker {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
     display: flex;
     align-items: center;
+    flex: 0 0 auto;
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-items {
@@ -61,7 +65,7 @@ body.plotlines-tweaks-enabled .jqplot-legend-items {
     gap: var(--jqplot-legend-line-gap) var(--jqplot-legend-row-gap);
     height: var(--jqplot-legend-footer-height);
     overflow: hidden;
-    width: 100%;
+    flex: 1 1 auto;
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-item {
@@ -92,6 +96,41 @@ body.plotlines-tweaks-enabled .jqplot-legend-label {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+// On narrow viewports the "Choose metrics" button and the legend cannot sit side
+// by side, so stack them: the legend keeps its row(s) on top and the picker drops
+// onto its own full-width line below.
+@media screen and (max-width: 600px) {
+    body.plotlines-tweaks-enabled .jqplot-legend-footer.has-legend,
+    body.plotlines-tweaks-enabled .jqplot-legend-footer.has-picker {
+        height: auto;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--jqplot-legend-line-gap);
+    }
+
+    body.plotlines-tweaks-enabled .jqplot-legend-items {
+        order: 1;
+    }
+
+    body.plotlines-tweaks-enabled .jqplot-legend-picker {
+        order: 2;
+        display: block;
+        width: 100%;
+    }
+
+    // The series picker wraps the Vue component in an inline-block <div>, so every
+    // level down to the button needs to stretch for the toggle to fill the line.
+    body.plotlines-tweaks-enabled .jqplot-legend-picker > div,
+    body.plotlines-tweaks-enabled .jqplot-legend-picker .metrics-picker,
+    body.plotlines-tweaks-enabled .jqplot-legend-picker .metrics-picker-toggle {
+        width: 100%;
+    }
+
+    body.plotlines-tweaks-enabled .jqplot-legend-picker .metrics-picker-toggle {
+        justify-content: center;
+    }
 }
 
 .dataTableVizEvolution {
