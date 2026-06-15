@@ -159,8 +159,8 @@ PHP
             Filesystem::unlinkRecursive($updatesDir, true);
         }
     }
-    
-private function assertDryRunExecuted($output)
+
+    private function assertDryRunExecuted($output)
     {
         self::assertStringContainsString("Note: this is a Dry Run", $output);
         self::assertStringContainsString(self::EXPECTED_SQL_FROM_2_10, $output);
