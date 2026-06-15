@@ -581,6 +581,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the ecommerce overview page', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
 
+            await page.mouse.move(-10, -10); // move cursor away so the report title link isn't hovered (would underline it)
+
             expect(await page.screenshotSelector('.pageWrap,.dataTable')).to.matchImage('ecommerce_overview');
         });
 
