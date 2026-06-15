@@ -2313,6 +2313,9 @@ if (typeof window.Matomo !== 'object') {
                 // Campaign keywords
                 configCampaignKeywordParameters = [ 'pk_kwd', 'mtm_kwd', 'piwik_kwd', 'matomo_kwd', 'utm_term' ],
 
+                // Campaign sources
+                configCampaignSourceParameters = [ 'mtm_source', 'pk_source', 'utm_source' ],
+
                 // All known parameters used for campaign tracking, this list will be used when removing campaign parameters from url
                 configCampaignKnownParameters = [
                   'mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign', // campaign name
@@ -2843,10 +2846,47 @@ if (typeof window.Matomo !== 'object') {
                 var i,
                     campaignParameterValue;
 
-                for (i = 0; i < configCampaignNameParameters.length; i++) {
-                    campaignParameterValue = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
+                for (i = 0; i < configCampaignSourceParameters.length; i++) {
+                    campaignParameterValue = getUrlParameter(currentUrl, configCampaignSourceParameters[i]);
 
-                    if (campaignParameterValue.length && indexOfArray(configIgnoreCampaignAttributionForSources, campaignParameterValue) !== -1) {
+                    if (campaignParameterValue.length && isIgnoredCampaignAttributionSource(campaignParameterValue)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function normalizeCampaignAttributionSourceValue(sourceValue) {
+                sourceValue = trim(sourceValue);
+
+                if (!sourceValue) {
+                    return '';
+                }
+
+                sourceValue = sourceValue.toLowerCase();
+                sourceValue = sourceValue.replace(/^https?:\/\//, '');
+                sourceValue = sourceValue.replace(/^\/\//, '');
+                sourceValue = sourceValue.replace(/[?#].*$/, '');
+                sourceValue = sourceValue.replace(/\/+$/, '');
+
+                return sourceValue;
+            }
+
+            function isIgnoredCampaignAttributionSource(sourceValue) {
+                var normalizedSourceValue = normalizeCampaignAttributionSourceValue(sourceValue),
+                    normalizedConfiguredSource,
+                    i;
+
+                if (!normalizedSourceValue.length) {
+                    return false;
+                }
+
+                for (i = 0; i < configIgnoreCampaignAttributionForSources.length; i++) {
+                    normalizedConfiguredSource = normalizeCampaignAttributionSourceValue(configIgnoreCampaignAttributionForSources[i]);
+
+                    if (normalizedSourceValue === normalizedConfiguredSource
+                        || stringStartsWith(normalizedSourceValue, normalizedConfiguredSource + '/')) {
                         return true;
                     }
                 }
