@@ -2102,7 +2102,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(125);
+        expect(126);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2137,6 +2137,7 @@ function PiwikTest() {
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
         equal( typeof tracker.getCustomData, 'function', 'getCustomData' );
         equal( typeof tracker.setCustomRequestProcessing, 'function', 'setCustomRequestProcessing' );
+        equal( typeof tracker.setCookieStorage, 'function', 'setCookieStorage' );
         equal( typeof tracker.setCustomDimension, 'function', 'setCustomDimension' );
         equal( typeof tracker.getCustomDimension, 'function', 'getCustomDimension' );
         equal( typeof tracker.deleteCustomDimension, 'function', 'deleteCustomDimension' );
@@ -3345,6 +3346,37 @@ function PiwikTest() {
         equal( json.idsite, '42' );
         equal( json.rec, 1);
         ok( json.r.length > 0 );
+    });
+	
+    // support for setCookieStorage( cookieStorage ) using localStorage
+    test("Tracker setCookieStorage() with localStorage", function() {
+        expect(2);
+
+        var tracker = Piwik.getTracker("trackerUrl", "42");
+
+        // Ensure a clean state before testing
+        localStorage.removeItem('cookie');
+
+        tracker.setCookieStorage({
+            get: function () { 
+                return localStorage.getItem('cookie') || ''; 
+            },
+            set: function (v) { 
+                localStorage.setItem('cookie', v); 
+            }
+        });
+
+        // Trigger an action using the specific visitor ID
+        tracker.setVisitorId('082ea0f319e784f6');
+
+        // Retrieve the stored value to run assertions
+        var storedCookie = localStorage.getItem('cookie') || '';
+
+        ok( storedCookie.length > 0 );
+        ok( storedCookie.indexOf('082ea0f319e784f6') > -1 );
+
+        // Clean up after the test finishes
+        localStorage.removeItem('cookie');
     });
 
     // support for addPlugin( pluginName, pluginObj )
