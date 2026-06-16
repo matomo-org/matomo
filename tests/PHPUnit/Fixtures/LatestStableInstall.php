@@ -40,6 +40,7 @@ class LatestStableInstall extends Fixture
 
         // install latest stable
         $this->downloadAndUnzipLatestStable();
+        $this->preloadRelocatedClassesBeforeFileSwap();
         $tokenAuth = $this->installSubdirectoryInstall();
         $this->placeAndActivateIncompatibleExamplePlugin();
         $this->verifyInstall($tokenAuth);
@@ -96,6 +97,51 @@ class LatestStableInstall extends Fixture
     {
         $latestStableChannel = new LatestStable();
         return 'http' . $latestStableChannel->getDownloadUrlWithoutScheme(null);
+    }
+
+    /**
+     * Emulates the fix that needs to ship in the Matomo version we update *from* (5.x).
+     *
+     * psr/log relocated its class files (Psr/Log -> src) between its major versions. During a one click
+     * update the running (pre-update) process replaces the files via Updater::installNewFiles() but keeps
+     * its already-initialised composer autoloader, which can then no longer resolve the relocated psr/log
+     * classes from their old paths. Rendering the updater result therefore fatals with
+     * "Class Psr\Log\NullLogger not found" before the request finishes.
+     *
+     * Loading those classes before the files are swapped keeps them available in memory for the rest of
+     * that request. We patch the downloaded stable install accordingly so the one click update test can
+     * verify the 5 -> 6 upgrade path. The actual fix has to be released in a 5.x version.
+     */
+    private function preloadRelocatedClassesBeforeFileSwap(): void
+    {
+        $updaterFile = $this->getInstallSubdirectoryPath() . '/plugins/CoreUpdater/Updater.php';
+
+        if (!file_exists($updaterFile)) {
+            throw new \Exception("Could not find CoreUpdater Updater.php in the stable install to patch.");
+        }
+
+        $contents = file_get_contents($updaterFile);
+
+        $preload = <<<'PHP'
+foreach (['Psr\Log\LoggerInterface', 'Psr\Log\AbstractLogger', 'Psr\Log\NullLogger', 'Psr\Log\LoggerTrait', 'Psr\Log\LogLevel', 'Psr\Log\InvalidArgumentException', 'Psr\Log\LoggerAwareInterface', 'Psr\Log\LoggerAwareTrait'] as $classToPreload) { class_exists($classToPreload) || interface_exists($classToPreload) || trait_exists($classToPreload); }
+PHP;
+
+        $count = 0;
+        $patched = preg_replace_callback(
+            '/^([ \t]*)(\$this->installNewFiles\(.*?\);)/m',
+            function ($matches) use ($preload) {
+                return $matches[1] . $preload . "\n" . $matches[1] . $matches[2];
+            },
+            $contents,
+            1,
+            $count
+        );
+
+        if (1 !== $count) {
+            throw new \Exception("Could not patch the stable install Updater.php to preload relocated classes.");
+        }
+
+        file_put_contents($updaterFile, $patched);
     }
 
     private function installSubdirectoryInstall()
