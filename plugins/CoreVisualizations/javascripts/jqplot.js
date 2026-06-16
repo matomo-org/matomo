@@ -455,6 +455,11 @@ function getLegendLabelTextForExport(ctx, labelElement, originalLabel, maxWidth)
             var dataTable = target.closest('.dataTable');
             var legendFooter = dataTable.find('.jqplot-legend-footer');
 
+            // tear down the outgoing picker before its DOM is removed, so it can't leak
+            if (this._plot && this._plot.plugins && this._plot.plugins.seriesPicker) {
+                this._plot.plugins.seriesPicker.destroy();
+            }
+
             target.trigger('piwikDestroyPlot');
             if (legendFooter.length) {
                 legendFooter

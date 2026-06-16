@@ -41,6 +41,7 @@
      */
     var SeriesPicker = function (dataTable) {
         this.domElem = null;
+        this.app = null;
         this.dataTableId = dataTable.workingDivId;
 
         // the columns that can be selected
@@ -97,7 +98,7 @@
                 ? CoreVisualizations.MetricsPicker
                 : CoreVisualizations.SeriesPicker;
 
-            var app = createVueApp({
+            this.app = createVueApp({
               render: function () {
                 return createVNode(PickerComponent, {
                   multiselect: self.multiSelect,
@@ -130,10 +131,26 @@
                 });
               }
             });
-            app.mount(this.domElem.children()[0]);
+            this.app.mount(this.domElem.children()[0]);
 
             function isItemDisplayed(columnOrRowConfig) {
                 return columnOrRowConfig.displayed;
+            }
+        },
+
+        /**
+         * Unmounts the picker's Vue app so directive listeners (e.g. ExpandOnClick)
+         * are removed and it can be garbage collected. Safe to call when unmounted.
+         */
+        destroy: function () {
+            if (this.app) {
+                this.app.unmount();
+                this.app = null;
+            }
+            $(this).off();
+            if (this.domElem) {
+                this.domElem.remove();
+                this.domElem = null;
             }
         },
 
