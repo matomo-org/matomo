@@ -220,10 +220,11 @@ describe("BotTracking", function () {
         const aiHeaders = await page.$$eval(aiWidgetId + ' thead th .thDIV', function (divs) {
             return divs.map(function (d) { return (d.textContent || '').trim(); });
         });
+        // The AI-Favoured report leads with its strong-side metric (AI Chatbot Requests), then human.
         expect(aiHeaders.length).to.equal(4);
         expect(aiHeaders[0]).to.equal('Page URL');
-        expect(aiHeaders[1]).to.equal('Unique Human Pageviews');
-        expect(aiHeaders[2]).to.equal('AI Chatbot Requests');
+        expect(aiHeaders[1]).to.equal('AI Chatbot Requests');
+        expect(aiHeaders[2]).to.equal('Unique Human Pageviews');
         expect(aiHeaders[3]).to.equal('Discrepancy Score');
 
         // Default sort on Discrepancy Score for the AI-Favoured widget.

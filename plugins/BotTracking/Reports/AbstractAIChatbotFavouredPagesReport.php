@@ -44,12 +44,17 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
         $this->dimension         = new PageUrl();
         // discrepancy_score is materialised during archiving (see AIChatbotFavouredPages /
         // FavouredPagesScorer) and read straight back, so it is an ordinary column here rather than a
-        // recomputed processed metric.
-        $this->metrics           = [
-            new UniqueHumanPageviews(),
-            new AIChatbotRequests(),
-            new DiscrepancyScore($this->getDiscrepancyScoreVariant()),
-        ];
+        // recomputed processed metric. The two traffic metrics are ordered strong-side first (the
+        // column the report favours leads), so AI-Favoured leads with AI Chatbot Requests.
+        $human                   = new UniqueHumanPageviews();
+        $ai                      = new AIChatbotRequests();
+        $trafficMetrics          = $this->getDiscrepancyScoreVariant() === DiscrepancyScore::VARIANT_AI_FAVOURED
+            ? [$ai, $human]
+            : [$human, $ai];
+        $this->metrics           = array_merge(
+            $trafficMetrics,
+            [new DiscrepancyScore($this->getDiscrepancyScoreVariant())]
+        );
         // No processed metrics; don't inherit Report's core visitor defaults.
         $this->processedMetrics  = [];
         // Both reports sort by the Discrepancy Score — that's the headline insight, and it already
@@ -75,6 +80,19 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
     }
 
     /**
+     * The two traffic columns ordered strong-side first, so each report leads with the metric it
+     * favours (AI Chatbot Requests for AI-Favoured, Unique Human Pageviews for Human-Favoured).
+     *
+     * @return string[]
+     */
+    private function getTrafficColumnsInDisplayOrder(): array
+    {
+        return $this->getDiscrepancyScoreVariant() === DiscrepancyScore::VARIANT_AI_FAVOURED
+            ? [Metrics::COLUMN_AI_CHATBOT_REQUESTS, Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS]
+            : [Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS, Metrics::COLUMN_AI_CHATBOT_REQUESTS];
+    }
+
+    /**
      * Breaks ties on the Discrepancy Score by the report's strong-side traffic, so pages with the
      * same score (notably the many score=0 rows when the low-population filter is off) are ordered
      * by how much human / AI traffic they have instead of arbitrarily. If the user sorts by a
@@ -96,12 +114,11 @@ abstract class AbstractAIChatbotFavouredPagesReport extends Report
         parent::configureView($view);
 
         $view->config->setDefaultColumnsToDisplay(
-            [
-                'label',
-                Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS,
-                Metrics::COLUMN_AI_CHATBOT_REQUESTS,
-                Metrics::COLUMN_DISCREPANCY_SCORE,
-            ],
+            array_merge(
+                ['label'],
+                $this->getTrafficColumnsInDisplayOrder(),
+                [Metrics::COLUMN_DISCREPANCY_SCORE]
+            ),
             false,
             false
         );
