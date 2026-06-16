@@ -132,7 +132,9 @@ class OverlayTest extends \PHPUnit\Framework\TestCase
      *
      * The matching pattern intentionally requires the `?`/`&` prefix and the `=` suffix so it
      * only fires on URL query-string appends, not on incidental identifier references in
-     * comments or in the JS object literal that builds the POST-handoff body.
+     * comments or in the JS object literal that builds the POST-handoff body. The optional
+     * `amp;` group also covers the case where a future refactor moves the URL into an HTML
+     * attribute and the Twig auto-escape rewrites `&` to `&amp;`.
      *
      * @dataProvider getOverlayNavigationTemplates
      */
@@ -142,7 +144,7 @@ class OverlayTest extends \PHPUnit\Framework\TestCase
         self::assertNotFalse($contents, 'Could not read template ' . $relativeTemplatePath);
 
         self::assertNotRegExp(
-            '/[?&](token_auth|force_api_session)=/',
+            '/[?&](?:amp;)?(token_auth|force_api_session)=/',
             $contents,
             $relativeTemplatePath . ' must not append token_auth or force_api_session to the startOverlaySession URL'
                 . ' as a query-string parameter.'

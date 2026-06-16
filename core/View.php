@@ -508,7 +508,7 @@ class View implements ViewInterface
     }
 
     /**
-     * Sets whether a strict Referrer-Policy header will be sent (if not, nothing is sent).
+     * Sets whether a strict Referrer-Policy header will be sent.
      *
      * Passing `false` relaxes the response policy to `no-referrer-when-downgrade`, which exposes
      * the full request URL — including its query string — as the outgoing `Referer` header on the
