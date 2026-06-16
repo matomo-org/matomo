@@ -122,8 +122,10 @@ class LatestStableInstall extends Fixture
 
         $contents = file_get_contents($updaterFile);
 
+        // Loading Psr\Log\NullLogger also loads its parent (AbstractLogger), the interface it implements
+        // (LoggerInterface) and the trait it uses (LoggerTrait), which covers what the updater resolves.
         $preload = <<<'PHP'
-foreach (['Psr\Log\LoggerInterface', 'Psr\Log\AbstractLogger', 'Psr\Log\NullLogger', 'Psr\Log\LoggerTrait', 'Psr\Log\LogLevel', 'Psr\Log\InvalidArgumentException', 'Psr\Log\LoggerAwareInterface', 'Psr\Log\LoggerAwareTrait'] as $classToPreload) { class_exists($classToPreload) || interface_exists($classToPreload) || trait_exists($classToPreload); }
+class_exists('Psr\Log\NullLogger');
 PHP;
 
         $count = 0;
