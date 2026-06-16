@@ -1,0 +1,764 @@
+{
+    "plugins": [
+        {
+            "name": "StubTheme1",
+            "displayName": "Stub Theme 1",
+            "owner": "matomo-org",
+            "description": "Anonymised theme stub for fixture data.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2020-01-01 00:00:00",
+            "donate": [],
+            "support": [],
+            "isTheme": true,
+            "keywords": [
+                "theme"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2024-01-01 00:00:00",
+            "latestVersion": "1.0.0",
+            "numDownloads": 100,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/visualization.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "visualization",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2024-01-01 00:00:00",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/StubTheme1/download/1.0.0"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "StubTheme2",
+            "displayName": "Stub Theme 2",
+            "owner": "matomo-org",
+            "description": "Anonymised theme stub for fixture data.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2020-01-01 00:00:00",
+            "donate": [],
+            "support": [],
+            "isTheme": true,
+            "keywords": [
+                "theme"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2024-01-01 00:00:00",
+            "latestVersion": "1.0.0",
+            "numDownloads": 100,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/visualization.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "visualization",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2024-01-01 00:00:00",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/StubTheme2/download/1.0.0"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "StubTheme3",
+            "displayName": "Stub Theme 3",
+            "owner": "matomo-org",
+            "description": "Anonymised theme stub for fixture data.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2020-01-01 00:00:00",
+            "donate": [],
+            "support": [],
+            "isTheme": true,
+            "keywords": [
+                "theme"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2024-01-01 00:00:00",
+            "latestVersion": "1.0.0",
+            "numDownloads": 100,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/visualization.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "visualization",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2024-01-01 00:00:00",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/StubTheme3/download/1.0.0"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "StubTheme4",
+            "displayName": "Stub Theme 4",
+            "owner": "matomo-org",
+            "description": "Anonymised theme stub for fixture data.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2020-01-01 00:00:00",
+            "donate": [],
+            "support": [],
+            "isTheme": true,
+            "keywords": [
+                "theme"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2024-01-01 00:00:00",
+            "latestVersion": "1.0.0",
+            "numDownloads": 100,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/visualization.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "visualization",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2024-01-01 00:00:00",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/StubTheme4/download/1.0.0"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "StubTheme5",
+            "displayName": "Stub Theme 5",
+            "owner": "matomo-org",
+            "description": "Anonymised theme stub for fixture data.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2020-01-01 00:00:00",
+            "donate": [],
+            "support": [],
+            "isTheme": true,
+            "keywords": [
+                "theme"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2024-01-01 00:00:00",
+            "latestVersion": "1.0.0",
+            "numDownloads": 100,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/visualization.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "visualization",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2024-01-01 00:00:00",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/StubTheme5/download/1.0.0"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "StubTheme6",
+            "displayName": "Stub Theme 6",
+            "owner": "matomo-org",
+            "description": "Anonymised theme stub for fixture data.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2020-01-01 00:00:00",
+            "donate": [],
+            "support": [],
+            "isTheme": true,
+            "keywords": [
+                "theme"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2024-01-01 00:00:00",
+            "latestVersion": "1.0.0",
+            "numDownloads": 100,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/visualization.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "visualization",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2024-01-01 00:00:00",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/StubTheme6/download/1.0.0"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "StubTheme7",
+            "displayName": "Stub Theme 7",
+            "owner": "matomo-org",
+            "description": "Anonymised theme stub for fixture data.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2020-01-01 00:00:00",
+            "donate": [],
+            "support": [],
+            "isTheme": true,
+            "keywords": [
+                "theme"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2024-01-01 00:00:00",
+            "latestVersion": "1.0.0",
+            "numDownloads": 100,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/visualization.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "visualization",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2024-01-01 00:00:00",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/StubTheme7/download/1.0.0"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "StubTheme8",
+            "displayName": "Stub Theme 8",
+            "owner": "matomo-org",
+            "description": "Anonymised theme stub for fixture data.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2020-01-01 00:00:00",
+            "donate": [],
+            "support": [],
+            "isTheme": true,
+            "keywords": [
+                "theme"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2024-01-01 00:00:00",
+            "latestVersion": "1.0.0",
+            "numDownloads": 100,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/visualization.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "visualization",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2024-01-01 00:00:00",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/StubTheme8/download/1.0.0"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "StubTheme9",
+            "displayName": "Stub Theme 9",
+            "owner": "matomo-org",
+            "description": "Anonymised theme stub for fixture data.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2020-01-01 00:00:00",
+            "donate": [],
+            "support": [],
+            "isTheme": true,
+            "keywords": [
+                "theme"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2024-01-01 00:00:00",
+            "latestVersion": "1.0.0",
+            "numDownloads": 100,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/visualization.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "visualization",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2024-01-01 00:00:00",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/StubTheme9/download/1.0.0"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "StubTheme10",
+            "displayName": "Stub Theme 10",
+            "owner": "matomo-org",
+            "description": "Anonymised theme stub for fixture data.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2020-01-01 00:00:00",
+            "donate": [],
+            "support": [],
+            "isTheme": true,
+            "keywords": [
+                "theme"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2024-01-01 00:00:00",
+            "latestVersion": "1.0.0",
+            "numDownloads": 100,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/visualization.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "visualization",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2024-01-01 00:00:00",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/StubTheme10/download/1.0.0"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        }
+    ]
+}

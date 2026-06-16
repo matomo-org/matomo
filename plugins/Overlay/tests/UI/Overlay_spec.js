@@ -175,6 +175,49 @@ describe("Overlay", function () {
         })(testCases[index]);
     }
 
+    async function captureForwardedApiRequest(withSegment) {
+        await page.goto(getUrl(true, withSegment));
+        await page.waitForSelector('#overlaySidebar', {visible: true});
+        await page.waitForSelector('#overlayIframe');
+        await page.waitForNetworkIdle();
+
+        const iframeOrigin = new URL(testEnvironment.overlayUrl).origin;
+        const frame = page.frames().find(f => f.url().startsWith(iframeOrigin));
+
+        const apiRequest = page.webpage.waitForRequest(function (request) {
+            const url = request.url();
+            return url.indexOf('method=Overlay.getFollowingPages') !== -1
+                && url.indexOf('example.com') !== -1;
+        });
+
+        await frame.evaluate(function () {
+            var query = 'index.php?module=API&action=index&method=Overlay.getFollowingPages'
+                + '&idSite=1&period=range&date=2010-01-01,2010-12-31'
+                + '&segment=' + encodeURIComponent('pageUrl==http://example.com')
+                + '&url=' + encodeURIComponent('http://example.com/')
+                + '&format=JSON';
+            window.parent.postMessage('overlay.call:t1:' + encodeURIComponent(query), '*');
+        });
+
+        return new URL((await apiRequest).url()).searchParams;
+    }
+
+    it("should forward overlay's own site/period/date", async function () {
+        const params = await captureForwardedApiRequest(false);
+
+        // Test that overlay still uses its own parameters
+        expect(params.get('idSite')).to.equal('3');
+        expect(params.get('period')).to.equal('year');
+        expect(params.get('date')).to.equal('today');
+        expect(params.get('segment')).to.equal(null);
+    });
+
+    it("should forward the overlay's own segment to the API", async function () {
+        const params = await captureForwardedApiRequest(true);
+
+        expect(params.get('segment')).to.equal('visitIp==50.112.3.5');
+    });
+
     it("should load overlay correctly when coming from an widgetized action report", async function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.overrideConfig('General', 'enable_framed_pages', 1);

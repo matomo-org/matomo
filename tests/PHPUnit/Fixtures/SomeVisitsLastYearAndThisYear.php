@@ -23,10 +23,9 @@ class SomeVisitsLastYearAndThisYear extends Fixture
     public function setUp(): void
     {
         Fixture::createSuperUser();
+        $this->year = Date::today()->toString('Y');
         $this->setUpWebsites();
         $this->trackVisits();
-
-        $this->year = Date::today()->toString('Y');
     }
 
     public function tearDown(): void
@@ -45,19 +44,18 @@ class SomeVisitsLastYearAndThisYear extends Fixture
     private function trackVisits()
     {
 
-        // This year, 5 visits
-        for ($i = 0; $i < 5; $i++) {
-            $dateTime = Date::factory($this->year . '-01-01')->toString();
-            $t = self::getTracker($this->idSite, $dateTime, $defaultInit = true);
+        // This year, one visit with 5 page views
+        $this->trackVisitWithFivePageViews(Date::factory($this->year . '-01-01'));
 
-            $t->setUrl('http://example.org/index.htm');
-            self::checkResponse($t->doTrackPageView('0'));
-        }
+        // Last year, one visit with 5 page views
+        $this->trackVisitWithFivePageViews(Date::factory($this->year . '-01-01')->subYear(1));
+    }
 
-        // Last Year
+    private function trackVisitWithFivePageViews(Date $visitDateTime)
+    {
         for ($i = 0; $i < 5; $i++) {
-            $dateTime = Date::factory($this->year . '-01-01')->subYear(1)->toString();
-            $t = self::getTracker($this->idSite, $dateTime, $defaultInit = true);
+            // All page views share the same timestamp so the average visit duration is a stable 1s
+            $t = self::getTracker($this->idSite, $visitDateTime->getDatetime(), $defaultInit = true);
 
             $t->setUrl('http://example.org/index.htm');
             self::checkResponse($t->doTrackPageView('0'));

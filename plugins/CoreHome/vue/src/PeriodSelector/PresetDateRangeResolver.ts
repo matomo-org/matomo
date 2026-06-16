@@ -5,7 +5,13 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { format } from '../Periods';
+import {
+  Periods,
+  datesAreInTheSamePeriod,
+  format,
+  getToday,
+  parseDate,
+} from '../Periods';
 
 export type PresetDateRangeId =
   | 'today'
@@ -31,6 +37,8 @@ export interface PresetDateRangeSelection {
   id: PresetDateRangeId;
   period: 'day'|'week'|'month'|'year'|'range';
   date: string;
+  urlDate: string;
+  selectedDate: Date;
   startDate: Date;
   endDate: Date;
 }
@@ -79,6 +87,20 @@ const PRESET_TOKEN_TO_ID_MAP: Record<string, PresetDateRangeId> = {
   'week|today': 'thisWeekMonToday',
   'month|today': 'thisMonth',
   'year|today': 'thisYear',
+};
+
+const PRESET_ID_TO_URL_DATE_MAP: Partial<Record<PresetDateRangeId, string>> = {
+  today: 'today',
+  yesterday: 'yesterday',
+  last7days: 'last7',
+  last30days: 'last30',
+  last90days: 'last90',
+  lastWeekMonSun: 'lastweek',
+  lastMonth: 'lastmonth',
+  lastYear: 'lastyear',
+  thisWeekMonToday: 'today',
+  thisMonth: 'today',
+  thisYear: 'today',
 };
 
 export function getTokenPresetIdFromPeriodAndDate(
@@ -139,147 +161,200 @@ export function resolvePresetDateRange(
 ): PresetDateRangeSelection {
   const today = cloneDate(todayInput);
 
+  const withUrlDate = (
+    selection: Omit<PresetDateRangeSelection, 'urlDate'>,
+  ): PresetDateRangeSelection => ({
+    ...selection,
+    urlDate: PRESET_ID_TO_URL_DATE_MAP[presetId] || selection.date,
+  });
+
   switch (presetId) {
     case 'today':
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'day',
-        date: 'today',
+        date: format(today),
+        selectedDate: today,
         startDate: today,
         endDate: today,
-      };
+      });
     case 'yesterday': {
       const yesterday = addDays(today, -1);
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'day',
-        date: 'yesterday',
+        date: format(yesterday),
+        selectedDate: yesterday,
         startDate: yesterday,
         endDate: yesterday,
-      };
+      });
     }
     case 'last7days': {
       const startDate = addDays(today, -6);
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'range',
-        date: 'last7',
+        date: makeRangeDateParam(startDate, today),
+        selectedDate: today,
         startDate,
         endDate: today,
-      };
+      });
     }
     case 'last30days': {
       const startDate = addDays(today, -29);
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'range',
-        date: 'last30',
+        date: makeRangeDateParam(startDate, today),
+        selectedDate: today,
         startDate,
         endDate: today,
-      };
+      });
     }
     case 'last90days': {
       const startDate = addDays(today, -89);
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'range',
-        date: 'last90',
+        date: makeRangeDateParam(startDate, today),
+        selectedDate: today,
         startDate,
         endDate: today,
-      };
+      });
     }
     case 'lastWeekMonSun': {
       const thisWeekStart = startOfWeekMonday(today);
       const startDate = addDays(thisWeekStart, -7);
       const endDate = addDays(startDate, 6);
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'week',
-        date: 'lastweek',
+        date: format(startDate),
+        selectedDate: startDate,
         startDate,
         endDate,
-      };
+      });
     }
     case 'lastMonth': {
       const lastMonthDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
       const startDate = startOfMonth(lastMonthDate);
       const endDate = endOfMonth(lastMonthDate);
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'month',
-        date: 'lastmonth',
+        date: format(startDate),
+        selectedDate: startDate,
         startDate,
         endDate,
-      };
+      });
     }
     case 'lastQuarter': {
       const thisQuarterStart = startOfQuarter(today);
       const endDate = addDays(thisQuarterStart, -1);
       const startDate = startOfQuarter(endDate);
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'range',
         date: makeRangeDateParam(startDate, endDate),
+        selectedDate: endDate,
         startDate,
         endDate,
-      };
+      });
     }
     case 'lastYear': {
       const year = today.getFullYear() - 1;
       const startDate = new Date(year, 0, 1);
       const endDate = new Date(year, 11, 31);
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'year',
-        date: 'lastyear',
+        date: format(startDate),
+        selectedDate: startDate,
         startDate,
         endDate,
-      };
+      });
     }
     case 'thisWeekMonToday': {
       const startDate = startOfWeekMonday(today);
-      // Intentionally keep compatibility with existing URL semantics:
-      // period=week&date=today remains the canonical "this week (Mon - Today)" selection.
-      // The selector derives the visible effective range from the current max-date bounds.
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'week',
-        date: 'today',
+        date: format(today),
+        selectedDate: today,
         startDate,
         endDate: today,
-      };
+      });
     }
     case 'thisMonth': {
       const startDate = startOfMonth(today);
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'month',
-        date: 'today',
+        date: format(today),
+        selectedDate: today,
         startDate,
         endDate: today,
-      };
+      });
     }
     case 'thisQuarter': {
       const startDate = startOfQuarter(today);
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'range',
         date: makeRangeDateParam(startDate, today),
+        selectedDate: today,
         startDate,
         endDate: today,
-      };
+      });
     }
     case 'thisYear': {
       const startDate = new Date(today.getFullYear(), 0, 1);
-      return {
+      return withUrlDate({
         id: presetId,
         period: 'year',
-        date: 'today',
+        date: format(today),
+        selectedDate: today,
         startDate,
         endDate: today,
-      };
+      });
     }
     default:
       throw new Error(`Unknown preset date range: ${presetId as string}`);
+  }
+}
+
+export function getPresetIdFromPeriodAndDate(
+  period: string,
+  date: string,
+  todayInput: Date = getToday(),
+): PresetDateRangeId|null {
+  try {
+    let selectedDate: Date|null = null;
+    let selectedDateRange: Date[]|null = null;
+    const matchingPreset = PRESET_DATE_RANGES.find((preset) => {
+      const resolvedPreset = resolvePresetDateRange(preset.id, todayInput);
+      if (resolvedPreset.period !== period) {
+        return false;
+      }
+
+      if (resolvedPreset.date === date) {
+        return true;
+      }
+
+      if (period !== 'range') {
+        selectedDate = selectedDate || parseDate(date);
+        return datesAreInTheSamePeriod(selectedDate, resolvedPreset.selectedDate, period);
+      }
+
+      selectedDateRange = selectedDateRange || Periods.parse(period, date).getDateRange();
+      const presetDateRange = [resolvedPreset.startDate, resolvedPreset.endDate];
+
+      return selectedDateRange[0].getTime() === presetDateRange[0].getTime()
+        && selectedDateRange[1].getTime() === presetDateRange[1].getTime();
+    });
+
+    return matchingPreset?.id || getTokenPresetIdFromPeriodAndDate(period, date);
+  } catch {
+    return getTokenPresetIdFromPeriodAndDate(period, date);
   }
 }
