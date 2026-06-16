@@ -62,9 +62,20 @@ class AIChatbotFavouredPages extends RecordBuilder
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         $records = [];
-        foreach (array_keys($this->variantByRecord()) as $recordName) {
+        foreach ($this->variantByRecord() as $recordName => $variant) {
+            // The discrepancy_score is table-relative (see FavouredPagesScorer), so it can't be summed
+            // across child periods: sum the additive traffic, skip the score, then recompute it on the
+            // aggregated union via the transform below. Core then truncates by the recomputed score.
             $records[] = Record::make(Record::TYPE_BLOB, $recordName)
-                ->setColumnToSortByBeforeTruncation(Metrics::COLUMN_DISCREPANCY_SCORE);
+                ->setColumnToSortByBeforeTruncation(Metrics::COLUMN_DISCREPANCY_SCORE)
+                ->setBlobColumnAggregationOps([
+                    Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS => 'sum',
+                    Metrics::COLUMN_AI_CHATBOT_REQUESTS    => 'sum',
+                    Metrics::COLUMN_DISCREPANCY_SCORE      => 'skip',
+                ])
+                ->setAggregatedRecordTransform(function (DataTable $table) use ($variant): void {
+                    (new FavouredPagesScorer($variant))->addScores($table);
+                });
         }
 
         return $records;
@@ -120,54 +131,6 @@ class AIChatbotFavouredPages extends RecordBuilder
         }
 
         return $records;
-    }
-
-    /**
-     * Non-day archiving: the score is table-relative, so unlike the traffic columns it cannot be
-     * summed across child periods. We override the default "sum the day blobs" path to sum the
-     * additive traffic, re-run the scorer on the period's full union, and truncate by that score.
-     */
-    public function buildForNonDayPeriod(ArchiveProcessor $archiveProcessor): void
-    {
-        if (!$this->isEnabled($archiveProcessor)) {
-            return;
-        }
-
-        $requestedReports     = $archiveProcessor->getParams()->getArchiveOnlyReportAsArray();
-        $foundRequestedReports = $archiveProcessor->getParams()->getFoundRequestedReports();
-
-        $columnAggregationOps = [
-            Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS => 'sum',
-            Metrics::COLUMN_AI_CHATBOT_REQUESTS    => 'sum',
-            // skipped: recomputed from the summed traffic columns below, never summed
-            Metrics::COLUMN_DISCREPANCY_SCORE      => 'skip',
-        ];
-
-        foreach ($this->variantByRecord() as $recordName => $variant) {
-            // honour partial archiving (eg core:archive --force-report / single-report invalidation):
-            // only (re)build the record(s) actually requested, and skip ones already found.
-            if (
-                !empty($requestedReports)
-                && (!in_array($recordName, $requestedReports) || in_array($recordName, $foundRequestedReports))
-            ) {
-                continue;
-            }
-
-            [$table] = $this->aggregateRootDataTableFromBlobs($archiveProcessor, $recordName, $columnAggregationOps, null);
-
-            (new FavouredPagesScorer($variant))->addScores($table);
-
-            $this->insertBlobRecord(
-                $archiveProcessor,
-                $recordName,
-                $table,
-                $this->maxRowsInTable,
-                null,
-                Metrics::COLUMN_DISCREPANCY_SCORE
-            );
-
-            Common::destroy($table);
-        }
     }
 
     /**

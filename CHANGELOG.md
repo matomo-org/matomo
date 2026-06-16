@@ -4,6 +4,16 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 5.12.0
+
+### New APIs
+* `Record::setAggregatedRecordTransform()` lets a blob record register a callback that is applied to its aggregated
+  table during non-day archiving, after the day blobs are aggregated together and before the table is truncated and
+  stored. Use it together with `Record::setBlobColumnAggregationOps()` (marking a column `'skip'`) to recompute columns
+  that cannot be summed across child periods — for example a table-relative ratio, index or score — so they can also be
+  used as the sort column for truncation. A matching optional `$postAggregationTransform` parameter was added to
+  `ArchiveProcessor::aggregateDataTableRecords()`.
+
 ## Matomo 5.11.0
 
 ### New APIs

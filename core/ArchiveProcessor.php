@@ -195,6 +195,11 @@ class ArchiveProcessor
      *                                               `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
      * @param string[]|bool $countRowsRecursive array of recordNames that defines for which ones you need a recursive row count, or true if it should be done for all
      * @param string[] $countLeafRows array of recordNames that defines for which ones you need a leaf row count.
+     * @param callable|null $postAggregationTransform Optional callback applied to each aggregated DataTable after the
+     *                                                subperiods have been aggregated together and before it is truncated
+     *                                                and stored. Signature: function (DataTable $table): void; the
+     *                                                callback mutates $table in place. Use it to recompute columns that
+     *                                                cannot be summed across periods.
      * @return array Returns the row counts of each aggregated report before truncation, eg,
      *
      *                   array(
@@ -214,7 +219,8 @@ class ArchiveProcessor
         &$columnsAggregationOperation = null,
         $columnsToRenameAfterAggregation = null,
         $countRowsRecursive = true,
-        array $countLeafRows = []
+        array $countLeafRows = [],
+        ?callable $postAggregationTransform = null
     ) {
         /** @var LoggerInterface $logger */
         $logger = StaticContainer::get(LoggerInterface::class);
@@ -235,6 +241,10 @@ class ArchiveProcessor
             ]);
 
             $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
+
+            if (null !== $postAggregationTransform) {
+                $postAggregationTransform($table);
+            }
 
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
             if ($countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive))) {

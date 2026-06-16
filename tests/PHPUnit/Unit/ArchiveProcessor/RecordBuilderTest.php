@@ -481,6 +481,110 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
+    public function testBuildForNonDayPeriodAppliesAggregatedRecordTransformAndLeavesOtherRecordsUntouched()
+    {
+        $received = (object) ['recordName' => null, 'hasArchiveProcessor' => false];
+
+        $recordBuilder = new class ($received) extends ArchiveProcessor\RecordBuilder {
+            private $received;
+
+            public function __construct(object $received)
+            {
+                parent::__construct();
+                $this->received = $received;
+            }
+
+            public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
+            {
+                $received = $this->received;
+
+                return [
+                    Record::make(Record::TYPE_BLOB, 'TestPlugin_scored')
+                        ->setAggregatedRecordTransform(
+                            function (DataTable $table, ArchiveProcessor $ap, Record $record) use ($received): void {
+                                // Record the contextual args to prove they were passed through.
+                                $received->recordName = $record->getName();
+                                $received->hasArchiveProcessor = $ap instanceof ArchiveProcessor;
+
+                                // Recompute a column from the aggregated (summed) values.
+                                foreach ($table->getRows() as $row) {
+                                    $row->setColumn('score', 1000 - (int) $row->getColumn('nb_visits'));
+                                }
+                            }
+                        ),
+                    Record::make(Record::TYPE_BLOB, 'TestPlugin_plain'),
+                ];
+            }
+
+            protected function aggregate(ArchiveProcessor $archiveProcessor): array
+            {
+                return [];
+            }
+        };
+
+        $mockArchiveProcessor = $this->getMockArchiveProcessor('week');
+        $recordBuilder->buildForNonDayPeriod($mockArchiveProcessor);
+
+        // The callback received the full contextual signature.
+        $this->assertSame('TestPlugin_scored', $received->recordName);
+        $this->assertTrue($received->hasArchiveProcessor);
+
+        $expectedBlobRecords = [
+            // The transform ran on the aggregated table (nb_visits are the summed values) and the
+            // recomputed 'score' column was stored.
+            'TestPlugin_scored' => [
+                [
+                    [Row::COLUMNS => ['label' => '[aggregated] the thing', 'nb_visits' => 140, 'score' => 860], Row::METADATA => [], Row::DATATABLE_ASSOCIATED => null],
+                    [Row::COLUMNS => ['label' => '[aggregated] another thing', 'nb_visits' => 150, 'score' => 850], Row::METADATA => [], Row::DATATABLE_ASSOCIATED => null],
+                    [Row::COLUMNS => ['label' => '[aggregated] a third thing', 'nb_visits' => 30, 'score' => 970], Row::METADATA => [], Row::DATATABLE_ASSOCIATED => null],
+                ],
+            ],
+            // A record without a transform is unaffected.
+            'TestPlugin_plain' => [
+                [
+                    [Row::COLUMNS => ['label' => '[aggregated] the thing', 'nb_visits' => 140], Row::METADATA => [], Row::DATATABLE_ASSOCIATED => null],
+                    [Row::COLUMNS => ['label' => '[aggregated] another thing', 'nb_visits' => 150], Row::METADATA => [], Row::DATATABLE_ASSOCIATED => null],
+                    [Row::COLUMNS => ['label' => '[aggregated] a third thing', 'nb_visits' => 30], Row::METADATA => [], Row::DATATABLE_ASSOCIATED => null],
+                ],
+            ],
+        ];
+
+        $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
+    }
+
+    public function testBuildForNonDayPeriodTruncatesUsingColumnRecomputedByAggregatedRecordTransform()
+    {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
+            public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
+            {
+                return [
+                    Record::make(Record::TYPE_BLOB, 'TestPlugin_scored')
+                        ->setColumnToSortByBeforeTruncation('score')
+                        ->setMaxRowsInTable(2)
+                        ->setAggregatedRecordTransform(function (DataTable $table): void {
+                            // Inverse of nb_visits, so the score order differs from the physical nb_visits order.
+                            foreach ($table->getRows() as $row) {
+                                $row->setColumn('score', 1000 - (int) $row->getColumn('nb_visits'));
+                            }
+                        }),
+                ];
+            }
+
+            protected function aggregate(ArchiveProcessor $archiveProcessor): array
+            {
+                return [];
+            }
+        };
+
+        $mockArchiveProcessor = $this->getMockArchiveProcessor('week');
+        $recordBuilder->buildForNonDayPeriod($mockArchiveProcessor);
+
+        // "a third thing" has the highest score (970) but the lowest nb_visits (30); it survives
+        // truncation, proving the sort-before-truncation used the transform-computed 'score' column.
+        $labels = $this->getTopLevelLabelsOfInsertedBlobRecord('TestPlugin_scored');
+        $this->assertSame('[aggregated] a third thing', $labels[0]);
+    }
+
     public function testBuildForNonDayPeriodBuildsHierarchyFromFlatBlobWhenFlatBlobIsRequested()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
