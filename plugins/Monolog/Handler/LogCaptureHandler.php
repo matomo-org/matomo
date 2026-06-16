@@ -18,7 +18,7 @@ class LogCaptureHandler extends AbstractHandler
      */
     private $allLogs;
 
-    public function handle(array $record)
+    public function handle(array $record): bool
     {
         $this->allLogs[] = $record;
 

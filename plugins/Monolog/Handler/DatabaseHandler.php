@@ -18,7 +18,7 @@ use Piwik\Db;
  */
 class DatabaseHandler extends AbstractProcessingHandler
 {
-    protected function write(array $record)
+    protected function write(array $record): void
     {
         $sql = sprintf(
             'INSERT INTO `%s` (tag, timestamp, level, message) VALUES (?, ?, ?, ?)',

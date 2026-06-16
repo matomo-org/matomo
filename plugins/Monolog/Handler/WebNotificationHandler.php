@@ -23,7 +23,7 @@ class WebNotificationHandler extends AbstractProcessingHandler
 {
     public const MAX_NOTIFICATION_MESSAGE_LENGTH = 512;
 
-    public function isHandling(array $record)
+    public function isHandling(array $record): bool
     {
         if (!empty($record['context']['ignoreInScreenWriter'])) {
             return false;
@@ -32,7 +32,7 @@ class WebNotificationHandler extends AbstractProcessingHandler
         return parent::isHandling($record);
     }
 
-    protected function write(array $record)
+    protected function write(array $record): void
     {
         switch ($record['level']) {
             case Logger::EMERGENCY:

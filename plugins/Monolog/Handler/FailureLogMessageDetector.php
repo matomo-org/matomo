@@ -27,7 +27,7 @@ class FailureLogMessageDetector extends AbstractHandler
         parent::__construct($level, $bubble = true);
     }
 
-    public function handle(array $record)
+    public function handle(array $record): bool
     {
         if ($this->isHandling($record)) {
             $this->hasEncounteredImportantLog = true;
