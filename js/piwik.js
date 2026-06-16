@@ -2832,32 +2832,11 @@ if (typeof window.Matomo !== 'object') {
                 return false;
             }
 
-            /**
-             * Returns if campaign parameters on the current landing URL should be ignored for attribution.
-             * This covers source values like utm_source=chatgpt.com, including cases where another referrer URL exists.
-             *
-             * This does not remove the matching parameters from the URL or tracker request. It only prevents those
-             * values from becoming the visit attribution campaign in the attribution cookie.
-             *
-             * @param currentUrl
-             * @returns {boolean}
-             */
-            function shouldIgnoreCampaignAttributionForCurrentUrl(currentUrl) {
-                var i,
-                    campaignParameterValue;
-
-                for (i = 0; i < configCampaignSourceParameters.length; i++) {
-                    campaignParameterValue = getUrlParameter(currentUrl, configCampaignSourceParameters[i]);
-
-                    if (campaignParameterValue.length && isIgnoredCampaignAttributionSource(campaignParameterValue)) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
             function normalizeCampaignAttributionSourceValue(sourceValue) {
+                var queryPos,
+                    hashPos,
+                    endPos;
+
                 sourceValue = trim(sourceValue);
 
                 if (!sourceValue) {
@@ -2867,7 +2846,20 @@ if (typeof window.Matomo !== 'object') {
                 sourceValue = sourceValue.toLowerCase();
                 sourceValue = sourceValue.replace(/^https?:\/\//, '');
                 sourceValue = sourceValue.replace(/^\/\//, '');
-                sourceValue = sourceValue.replace(/[?#].*$/, '');
+
+                queryPos = sourceValue.indexOf('?');
+                hashPos = sourceValue.indexOf('#');
+                endPos = sourceValue.length;
+
+                if (queryPos !== -1 && queryPos < endPos) {
+                    endPos = queryPos;
+                }
+
+                if (hashPos !== -1 && hashPos < endPos) {
+                    endPos = hashPos;
+                }
+
+                sourceValue = sourceValue.substr(0, endPos);
                 sourceValue = sourceValue.replace(/\/+$/, '');
 
                 return sourceValue;
@@ -2887,6 +2879,31 @@ if (typeof window.Matomo !== 'object') {
 
                     if (normalizedSourceValue === normalizedConfiguredSource
                         || stringStartsWith(normalizedSourceValue, normalizedConfiguredSource + '/')) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            /**
+             * Returns if campaign parameters on the current landing URL should be ignored for attribution.
+             * This covers source values like utm_source=chatgpt.com, including cases where another referrer URL exists.
+             *
+             * This does not remove the matching parameters from the URL or tracker request. It only prevents those
+             * values from becoming the visit attribution campaign in the attribution cookie.
+             *
+             * @param currentUrl
+             * @returns {boolean}
+             */
+            function shouldIgnoreCampaignAttributionForCurrentUrl(currentUrl) {
+                var i,
+                    campaignParameterValue;
+
+                for (i = 0; i < configCampaignSourceParameters.length; i++) {
+                    campaignParameterValue = getUrlParameter(currentUrl, configCampaignSourceParameters[i]);
+
+                    if (campaignParameterValue.length && isIgnoredCampaignAttributionSource(campaignParameterValue)) {
                         return true;
                     }
                 }
