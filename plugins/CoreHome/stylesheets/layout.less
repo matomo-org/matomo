@@ -370,14 +370,14 @@ ul.browser-default {
         }
 
         .item-help-icon {
-          display:none;
+          display: none;
           opacity: 0.2;
           position: absolute;
           right: 0;
           top: 0;
           padding: 10px;
           line-height: 13px;
-          height: calc(100%);
+          height: 100%;
           align-items: center;
           justify-content: center;
 
@@ -389,11 +389,11 @@ ul.browser-default {
 
         &.menuTab li:hover {
           .item-help-icon:not(.active) {
-            display:inline-flex;
-            color: @color-black-matomo;
+            display: inline-flex;
+            color: @theme-color-text;
 
             &:hover {
-              color: @theme-color-help-background-color;
+              color: @theme-color-link;
               opacity: 0.75;
             }
           }
@@ -401,7 +401,7 @@ ul.browser-default {
 
         .item-help-icon.active {
           display: inline-flex;
-          color: @theme-color-help-background-color;
+          color: @theme-color-link;
           opacity: 0.75;
         }
 
