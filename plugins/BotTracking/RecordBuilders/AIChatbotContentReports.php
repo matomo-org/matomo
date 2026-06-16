@@ -50,7 +50,7 @@ class AIChatbotContentReports extends RecordBuilder
     {
         parent::__construct();
 
-        $this->maxRowsInTable    = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_ai_chatbot_content', 20000);
+        $this->maxRowsInTable    = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_ai_chatbot_content', 50000);
         $this->rankingQueryLimit = $this->getRankingQueryLimit($this->maxRowsInTable);
     }
 
