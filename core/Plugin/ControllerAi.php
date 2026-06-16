@@ -11,6 +11,7 @@ namespace Piwik\Plugin;
 
 use Piwik\Menu\MenuAi;
 use Piwik\Request;
+use Piwik\View;
 
 /**
  * Base class of plugin controllers that render pages within the AI Insights section.
@@ -26,19 +27,14 @@ abstract class ControllerAi extends Controller
      * Assigns the standard page variables plus AI Insights menu variables.
      *
      * @param \Piwik\View $view
-     * @return void
      */
-    protected function setGeneralVariablesView($view)
+    protected function setGeneralVariablesView($view): void
     {
         parent::setGeneralVariablesView($view);
         $this->setAiInsightsVariablesView($view);
     }
 
-    /**
-     * @param \Piwik\View $view
-     * @return void
-     */
-    protected function setAiInsightsVariablesView($view)
+    protected function setAiInsightsVariablesView(View $view): void
     {
         $menu = MenuAi::getInstance();
         $defaultUrl = $menu->getDefaultUrl();

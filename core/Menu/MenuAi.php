@@ -29,10 +29,8 @@ class MenuAi extends MenuAbstract
 
     /**
      * Triggers the AI Insights menu hook and returns the menu.
-     *
-     * @return array
      */
-    public function getMenu()
+    public function getMenu(): array
     {
         if ($this->menu === null) {
             foreach ($this->getAllMenus() as $menu) {
@@ -91,9 +89,8 @@ class MenuAi extends MenuAbstract
 
     /**
      * @param mixed $url
-     * @return bool
      */
-    private function isUsableUrl($url)
+    private function isUsableUrl($url): bool
     {
         if (is_array($url)) {
             return !empty($url);

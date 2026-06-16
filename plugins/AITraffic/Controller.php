@@ -13,7 +13,7 @@ use Piwik\View;
 
 class Controller extends \Piwik\Plugin\ControllerAi
 {
-    public function index()
+    public function index(): string
     {
         $this->checkSitePermission();
         $view = new View('@AITraffic/index');

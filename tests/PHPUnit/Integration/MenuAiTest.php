@@ -55,7 +55,7 @@ class MenuAiTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function provideContainerConfig()
+    public function provideContainerConfig(): array
     {
         return [
             'Piwik\Access' => new FakeAccess(),
@@ -167,10 +167,7 @@ class MenuAiTest extends IntegrationTestCase
         $this->assertSame('', $vars['currentSubcategory']);
     }
 
-    /**
-     * @return MenuAiTestTopMenu
-     */
-    private function buildTopMenuWithDashboard()
+    private function buildTopMenuWithDashboard(): MenuAiTestTopMenu
     {
         $topMenu = new MenuAiTestTopMenu();
         $topMenu->addItem('Dashboard_Dashboard', null, ['module' => 'CoreHome', 'action' => 'index'], 1);
@@ -178,11 +175,7 @@ class MenuAiTest extends IntegrationTestCase
         return $topMenu;
     }
 
-    /**
-     * @param int $idSite
-     * @return void
-     */
-    private function setRequestForSite($idSite)
+    private function setRequestForSite(int $idSite): void
     {
         $_GET = [
             'idSite' => (string) $idSite,
@@ -194,11 +187,7 @@ class MenuAiTest extends IntegrationTestCase
         $_REQUEST = $_GET;
     }
 
-    /**
-     * @param array $menu
-     * @return array
-     */
-    private function getVisibleMenuKeys(array $menu)
+    private function getVisibleMenuKeys(array $menu): array
     {
         $keys = [];
         foreach (array_keys($menu) as $key) {
@@ -229,7 +218,7 @@ class MenuAiTestMenuAi extends MenuAi
     /**
      * @return Menu[]
      */
-    protected function getAllMenus()
+    protected function getAllMenus(): array
     {
         return $this->menus;
     }
@@ -244,7 +233,7 @@ class MenuAiTestTopMenu extends MenuTop
     /**
      * @return Menu[]
      */
-    protected function getAllMenus()
+    protected function getAllMenus(): array
     {
         return [];
     }
@@ -252,7 +241,7 @@ class MenuAiTestTopMenu extends MenuTop
 
 class MenuAiTestConfiguredMenu extends Menu
 {
-    public function configureAiInsightsMenu(MenuAi $menu)
+    public function configureAiInsightsMenu(MenuAi $menu): void
     {
         $menu->addItem('TestAi_Reports', 'TestAi_Details', ['module' => 'TestAi', 'action' => 'details'], 20);
         $menu->addItem('TestAi_Reports', 'TestAi_Overview', ['module' => 'TestAi', 'action' => 'overview'], 10);
@@ -262,7 +251,7 @@ class MenuAiTestConfiguredMenu extends Menu
 
 class MenuAiTestSubmenuOnlyMenu extends Menu
 {
-    public function configureAiInsightsMenu(MenuAi $menu)
+    public function configureAiInsightsMenu(MenuAi $menu): void
     {
         $menu->addItem('TestAi_Reports', 'TestAi_Details', ['module' => 'TestAi', 'action' => 'details'], 20);
         $menu->addItem('TestAi_Reports', 'TestAi_Overview', ['module' => 'TestAi', 'action' => 'overview'], 10);
@@ -271,10 +260,7 @@ class MenuAiTestSubmenuOnlyMenu extends Menu
 
 class MenuAiTestController extends ControllerAi
 {
-    /**
-     * @return void
-     */
-    public function assignGeneralVariables(View $view)
+    public function assignGeneralVariables(View $view): void
     {
         $this->setGeneralVariablesView($view);
     }

@@ -32,7 +32,7 @@ class Menu extends \Piwik\Plugin\Menu
         $this->reportsProvider = $reportsProvider ?: new ReportsProvider();
     }
 
-    public function configureAiInsightsMenu(MenuAi $menu)
+    public function configureAiInsightsMenu(MenuAi $menu): void
     {
         // Fall back to the user's default site when idSite is not in the URL (e.g. the All Websites
         // page or admin pages), so the AI Insights entry stays in the top menu and links somewhere
@@ -98,12 +98,7 @@ class Menu extends \Piwik\Plugin\Menu
         return $subcategories;
     }
 
-    /**
-     * @param string $subcategory
-     * @param int $idSite
-     * @return array|null
-     */
-    private function urlForSubcategory($subcategory, $idSite)
+    private function urlForSubcategory(string $subcategory, int $idSite): ?array
     {
         $params = [
             'category' => self::CATEGORY_ID,
@@ -118,7 +113,7 @@ class Menu extends \Piwik\Plugin\Menu
         }
     }
 
-    private function getCategoryIcon()
+    private function getCategoryIcon(): string
     {
         $category = CategoryList::get()->getCategory(self::CATEGORY_ID);
         return $category ? $category->getIcon() : 'icon-ai-assistants';

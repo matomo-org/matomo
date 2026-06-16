@@ -1,5 +1,6 @@
 {
   "AITraffic": {
-    "AITraffic": "AI Traffic"
+    "AITraffic": "AI Traffic",
+    "PluginDescription": "AI Traffic reports in the AI Insights section."
   }
 }

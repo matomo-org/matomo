@@ -47,7 +47,7 @@ class AITrafficTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function provideContainerConfig()
+    public function provideContainerConfig(): array
     {
         return [
             'Piwik\Access' => new FakeAccess(),
@@ -186,7 +186,7 @@ class AITrafficTestMenuAi extends MenuAi
     /**
      * @return Menu[]
      */
-    protected function getAllMenus()
+    protected function getAllMenus(): array
     {
         return $this->menus;
     }
@@ -207,7 +207,7 @@ class AITrafficTestReportsProvider extends ReportsProvider
         $this->reports = $reports;
     }
 
-    public function getAllReports()
+    public function getAllReports(): array
     {
         return $this->reports;
     }
