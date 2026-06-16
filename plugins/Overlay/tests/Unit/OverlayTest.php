@@ -127,7 +127,12 @@ class OverlayTest extends \PHPUnit\Framework\TestCase
 
     /**
      * The Overlay parent templates build the startOverlaySession navigation URL. Keep that URL
-     * limited to the canonical handshake parameters.
+     * limited to the canonical handshake parameters — no `token_auth` or `force_api_session`
+     * may appear as a query-string parameter (either prefixed with `?` or `&`).
+     *
+     * The matching pattern intentionally requires the `?`/`&` prefix and the `=` suffix so it
+     * only fires on URL query-string appends, not on incidental identifier references in
+     * comments or in the JS object literal that builds the POST-handoff body.
      *
      * @dataProvider getOverlayNavigationTemplates
      */
@@ -136,18 +141,22 @@ class OverlayTest extends \PHPUnit\Framework\TestCase
         $contents = file_get_contents(__DIR__ . '/../../templates/' . $relativeTemplatePath);
         self::assertNotFalse($contents, 'Could not read template ' . $relativeTemplatePath);
 
-        self::assertStringNotContainsString(
-            '&token_auth',
+        self::assertNotRegExp(
+            '/[?&](token_auth|force_api_session)=/',
             $contents,
-            $relativeTemplatePath . ' must not append disallowed credential parameters to the startOverlaySession URL.'
-        );
-        self::assertStringNotContainsString(
-            '&force_api_session',
-            $contents,
-            $relativeTemplatePath . ' must not append session bootstrap parameters to the startOverlaySession URL.'
+            $relativeTemplatePath . ' must not append token_auth or force_api_session to the startOverlaySession URL'
+                . ' as a query-string parameter.'
         );
     }
 
+    /**
+     * The credential propagation that previously rode on the URL must now travel via the POST
+     * handoff. These assertions intentionally couple to the specific helper/identifier names in
+     * the JS: a future maintainer renaming `submitPostNavigation`, `submitIframePost`, or
+     * `iframePostParams` should re-pin these assertions to the new names rather than delete
+     * them. The pinning ensures a refactor that accidentally drops the POST hand-off path
+     * (and falls back to URL propagation) will fail this test.
+     */
     public function testOverlayNavigationUsesPostHandoffWhenRequestAuthPropagationIsEnabled()
     {
         $indexContents = file_get_contents(__DIR__ . '/../../templates/index.twig');
