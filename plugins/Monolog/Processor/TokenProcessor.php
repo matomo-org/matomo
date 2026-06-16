@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\Monolog\Processor;
 
+use Monolog\LogRecord;
+
 /**
  * Removes any token_auth that might appear in the logs.
  *
@@ -16,10 +18,8 @@ namespace Piwik\Plugins\Monolog\Processor;
  */
 class TokenProcessor
 {
-    public function __invoke(array $record)
+    public function __invoke(LogRecord $record): LogRecord
     {
-        $record['message'] = preg_replace('/token_auth=[0-9a-h]+/', 'token_auth=removed', $record['message']);
-
-        return $record;
+        return $record->with(message: preg_replace('/token_auth=[0-9a-h]+/', 'token_auth=removed', $record['message']));
     }
 }

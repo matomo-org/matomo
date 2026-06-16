@@ -12,13 +12,14 @@ namespace Piwik\Plugins\Monolog\Handler;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\LogRecord;
 
 /**
  * Simply echos all messages.
  */
 class EchoHandler extends AbstractProcessingHandler
 {
-    protected function write(array $record): void
+    protected function write(LogRecord $record): void
     {
         if (isset($record['formatted'])) {
             $message = $record['formatted'];

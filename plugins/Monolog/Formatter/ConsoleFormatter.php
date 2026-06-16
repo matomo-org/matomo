@@ -9,11 +9,12 @@
 
 namespace Piwik\Plugins\Monolog\Formatter;
 
+use Monolog\LogRecord;
 use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter as SymfonyConsoleFormatter;
 
 class ConsoleFormatter extends SymfonyConsoleFormatter
 {
-    public function format(array $record): mixed
+    public function format(LogRecord $record): mixed
     {
         $formatted = parent::format($record);
 

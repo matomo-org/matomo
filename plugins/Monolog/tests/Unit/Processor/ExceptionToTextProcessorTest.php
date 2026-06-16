@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
 
+use DateTimeImmutable;
+use Monolog\Level;
+use Monolog\LogRecord;
 use PHPUnit\Runner\Version;
 use Piwik\Access;
 use Piwik\Common;
@@ -45,7 +48,14 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
     {
         $processor = new ExceptionToTextProcessor();
 
-        $record = array('message' => 'Hello world');
+        $record = new LogRecord(
+            new DateTimeImmutable(),
+            'logger',
+            Level::Debug,
+            'Hello world',
+            array(),
+            array()
+        );
 
         $this->assertEquals($record, $processor($record));
     }
@@ -56,10 +66,15 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         Log::$debugBacktraceForTests = '[message and stack trace]';
 
         $exception = new \Exception('Hello world');
-        $record = array(
-            'context' => array(
+        $record = new LogRecord(
+            new DateTimeImmutable(),
+            'logger',
+            Level::Debug,
+            '',
+            array(
                 'exception' => $exception,
             ),
+            array()
         );
 
         $result = $processor($record);
@@ -73,7 +88,6 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
 
         $this->assertStringMatchesFormat($expected['message'], $result['message']);
         $this->assertEquals($expected['context'], $result['context']);
-        $this->assertEquals(['context', 'message'], array_keys($result));
     }
 
     public function testItShouldAddSeverityForErrors()
@@ -82,10 +96,15 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
         Log::$debugBacktraceForTests = '[message and stack trace]';
 
         $exception = new \ErrorException('Hello world', 0, 1, 'file.php', 123);
-        $record = array(
-            'context' => array(
+        $record = new LogRecord(
+            new DateTimeImmutable(),
+            'logger',
+            Level::Debug,
+            '',
+            array(
                 'exception' => $exception,
             ),
+            array()
         );
 
         $result = $processor($record);
@@ -97,7 +116,8 @@ class ExceptionToTextProcessorTest extends \PHPUnit\Framework\TestCase
             ),
         );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected['message'], $result['message']);
+        $this->assertEquals($expected['context'], $result['context']);
     }
 
     public function testGetMessageAndWholeBacktraceDoesNotPrintBacktraceIfInCliModeAndNotCoreArchive()

@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Monolog\Handler;
 
 use Monolog\Handler\StreamHandler;
+use Monolog\LogRecord;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
 
@@ -20,7 +21,7 @@ use Piwik\Filechecks;
  */
 class FileHandler extends StreamHandler
 {
-    protected function write(array $record): void
+    protected function write(LogRecord $record): void
     {
         try {
             parent::write($record);

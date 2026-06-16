@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Monolog\Processor;
 
+use Monolog\LogRecord;
 use Piwik\Common;
 use Piwik\FrontController;
 
@@ -19,7 +20,7 @@ class RequestIdProcessor
 {
     private $currentRequestKey;
 
-    public function __invoke(array $record)
+    public function __invoke(LogRecord $record): LogRecord
     {
         if (empty($this->currentRequestKey)) {
             if (Common::isPhpCliMode()) {

@@ -1,6 +1,15 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Class Piwik\\\\Log\\\\Logger extends @final class Monolog\\\\Logger\\.$#"
+			count: 1
+			path: core/Log/Logger.php
+
+		-
+			message: "#^Class Piwik\\\\Plugins\\\\Monolog\\\\Formatter\\\\ConsoleFormatter extends @final class Symfony\\\\Bridge\\\\Monolog\\\\Formatter\\\\ConsoleFormatter\\.$#"
+			count: 1
+			path: plugins/Monolog/Formatter/ConsoleFormatter.php
+		-
 			message: "#^Instanceof between Piwik\\\\DataTable and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
 			count: 1
 			path: core/API/DataTableGenericFilter.php
