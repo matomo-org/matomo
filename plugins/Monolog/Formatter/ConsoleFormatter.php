@@ -13,7 +13,7 @@ use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter as SymfonyConsoleFormatter
 
 class ConsoleFormatter extends SymfonyConsoleFormatter
 {
-    public function format(array $record)
+    public function format(array $record): mixed
     {
         $formatted = parent::format($record);
 

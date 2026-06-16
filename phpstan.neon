@@ -9,6 +9,10 @@ parameters:
         - plugins
     excludePaths:
         - plugins/*/tests/*
+        # TODO: revisit after the monolog 3 upgrade. The symfony/monolog-bridge ConsoleFormatter
+        # is @final and its version-conditional CompatibilityFormatter trait resolves to the
+        # monolog 3 LogRecord signature under static analysis, while monolog 1.x is installed.
+        - plugins/Monolog/Formatter/ConsoleFormatter.php
         - plugins/ScheduledReports/config/tcpdf_config.php
         - plugins/AnonymousPiwikUsageMeasurement
         - plugins/Bandwidth

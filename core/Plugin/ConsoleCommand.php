@@ -184,9 +184,11 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      *
      * Will only have an effect if the "SystemSignals" feature flag is enabled.
      */
-    final public function handleSignal(int $signal): void
+    final public function handleSignal(int $signal): int|false
     {
         $this->handleSystemSignal($signal);
+
+        return 0;
     }
 
     /**
@@ -277,7 +279,7 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
         ?int $mode = null,
         string $description = '',
         $default = null
-    ) {
+    ): static {
         throw new \LogicException('addOption should not be used.');
     }
 
@@ -321,7 +323,7 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      *
      * @see addOptionalArgument, addRequiredArgument
      */
-    public function addArgument(string $name, ?int $mode = null, string $description = '', $default = null)
+    public function addArgument(string $name, ?int $mode = null, string $description = '', $default = null): static
     {
         throw new \LogicException('addArgument can not be used.');
     }
@@ -398,7 +400,7 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      *
      * @see askAndValidate(), askForConfirmation(), ask(), initProgressBar(), startProgressBar(), advanceProgressBar(), finishProgressBar(), renderTable()
      */
-    public function getHelper(string $name)
+    public function getHelper(string $name): mixed
     {
         throw new \LogicException('getHelper can not be used');
     }
