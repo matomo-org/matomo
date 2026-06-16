@@ -3737,7 +3737,7 @@ Currently, these reports exclusively include requests from AI chatbots that do n
 		<module>BotTracking</module>
 		<action>getAIChatbotHumanFavouredPages</action>
 		<dimension>Page URL</dimension>
-		<documentation>Shows pages that receive significantly more visits from humans than from AI assistants (bots). Useful for identifying content that resonates strongly with real users but is underrepresented in AI-driven traffic or recommendations.</documentation>
+		<documentation>Shows pages that receive significantly more visits from humans than from AI chatbots. Useful for identifying content that resonates strongly with real users but is underrepresented in AI-driven traffic or recommendations.</documentation>
 		<metrics>
 			<unique_human_pageviews>Unique Human Pageviews</unique_human_pageviews>
 			<ai_chatbot_requests>AI Chatbot Requests</ai_chatbot_requests>
@@ -3764,7 +3764,7 @@ Currently, these reports exclusively include requests from AI chatbots that do n
 		<module>BotTracking</module>
 		<action>getAIChatbotAIFavouredPages</action>
 		<dimension>Page URL</dimension>
-		<documentation>Shows pages that are frequently requested by AI assistants (bots) but less often visited by humans. Useful for discovering content that AI systems surface or reference but that doesn't yet attract much direct human engagement.</documentation>
+		<documentation>Shows pages that are frequently requested by AI chatbots but less often visited by humans. Useful for discovering content that AI systems surface or reference but that doesn't yet attract much direct human engagement.</documentation>
 		<metrics>
 			<unique_human_pageviews>Unique Human Pageviews</unique_human_pageviews>
 			<ai_chatbot_requests>AI Chatbot Requests</ai_chatbot_requests>
