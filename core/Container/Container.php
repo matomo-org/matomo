@@ -37,7 +37,7 @@ class Container extends DIContainer implements ContainerInterface
      * @param class-string<T>|string $name Container entry name.
      * @return ($name is class-string<T> ? T : mixed)
      */
-    public function get($name)
+    public function get(string $name): mixed
     {
         try {
             return parent::get($name);
@@ -51,7 +51,7 @@ class Container extends DIContainer implements ContainerInterface
      * @param class-string<T>|string $name Container entry name.
      * @return ($name is class-string<T> ? T : mixed)
      */
-    public function make($name, array $parameters = [])
+    public function make(string $name, array $parameters = []): mixed
     {
         try {
             return parent::make($name, $parameters);
@@ -62,7 +62,7 @@ class Container extends DIContainer implements ContainerInterface
         }
     }
 
-    public function injectOn($instance)
+    public function injectOn(object $instance): object
     {
         try {
             return parent::injectOn($instance);

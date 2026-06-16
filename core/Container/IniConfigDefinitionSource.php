@@ -45,7 +45,7 @@ class IniConfigDefinitionSource implements DefinitionSource
     /**
      * {@inheritdoc}
      */
-    public function getDefinition($name)
+    public function getDefinition(string $name): ?\DI\Definition\Definition
     {
         if (strpos($name, $this->prefix) !== 0) {
             return null;

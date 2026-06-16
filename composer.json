@@ -57,7 +57,7 @@
         "monolog/monolog": "~1.11",
         "mustangostang/spyc": "^0.6.0",
         "pear/pear_exception": "~1.0.0",
-        "php-di/php-di": "^6.0.0",
+        "php-di/php-di": "^7.0",
         "phpmailer/phpmailer": "^7.0",
         "psr/log": "~1.0",
         "symfony/console": "~5.4.0",
