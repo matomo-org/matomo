@@ -23,6 +23,10 @@ class WebNotificationHandler extends AbstractProcessingHandler
 {
     public const MAX_NOTIFICATION_MESSAGE_LENGTH = 512;
 
+    /**
+     * @param array $record The full log record, including its context (monolog narrows the inherited
+     *                       type hint to the level only, but the full record is available at runtime).
+     */
     public function isHandling(array $record): bool
     {
         if (!empty($record['context']['ignoreInScreenWriter'])) {
