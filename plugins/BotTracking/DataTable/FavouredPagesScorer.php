@@ -104,7 +104,10 @@ class FavouredPagesScorer
         // Mark the score 'skip' so the Truncate filter leaves it out of the "Others" summary row it
         // builds while archiving — a score over an aggregate of URLs is meaningless. (Not serialised
         // with the blob, so readers re-apply 'skip' for the report totals row; see API.)
-        $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME) ?: [];
+        $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+        if (!is_array($ops)) {
+            $ops = [];
+        }
         $ops[Metrics::COLUMN_DISCREPANCY_SCORE] = 'skip';
         $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $ops);
     }

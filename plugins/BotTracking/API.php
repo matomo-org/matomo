@@ -328,7 +328,10 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($table instanceof DataTable) {
-            $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME) ?: [];
+            $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+            if (!is_array($ops)) {
+                $ops = [];
+            }
             $ops[Metrics::COLUMN_DISCREPANCY_SCORE] = 'skip';
             $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $ops);
         }
