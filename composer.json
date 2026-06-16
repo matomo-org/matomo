@@ -70,7 +70,7 @@
         "tecnickcom/tcpdf": "~6.0",
         "tedivm/jshrink": "^1.7.0",
         "twig/twig": "^3.11.3",
-        "wikimedia/less.php": "^3.0"
+        "wikimedia/less.php": "^4.0"
     },
     "require-dev": {
         "matomo-org/matomo-coding-standards": "dev-master",
