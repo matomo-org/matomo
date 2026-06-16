@@ -188,7 +188,11 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
     {
         $this->handleSystemSignal($signal);
 
-        return 0;
+        // Returning false keeps the command running after the signal has been handled. Matomo's
+        // signalable commands use signals to request a graceful shutdown (e.g. the scheduler and
+        // archiver finish their current unit of work and then abort), so the process must not be
+        // terminated immediately by Symfony as it would for an int return value.
+        return false;
     }
 
     /**
