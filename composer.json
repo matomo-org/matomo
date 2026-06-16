@@ -44,7 +44,7 @@
         "composer/ca-bundle": "^1.2",
         "composer/semver": "^3.0",
         "davaxi/sparkline": "~2.0",
-        "geoip2/geoip2": "^2.8",
+        "geoip2/geoip2": "^3.0",
         "lox/xhprof": "dev-master",
         "matomo/cache": "~3.0",
         "matomo/decompress": "^3.0",
