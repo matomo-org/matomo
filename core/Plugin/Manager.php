@@ -113,6 +113,7 @@ class Manager
         'Proxy',
         'LanguagesManager',
         'WebsiteMeasurable',
+        'AITraffic',
 
         // default Piwik theme, always enabled
         self::DEFAULT_THEME,
