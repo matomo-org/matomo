@@ -48,7 +48,6 @@
             window.history.replaceState(null, '', cleanedUrl);
         } catch (e) {
             // history.replaceState can throw in unusual sandboxed contexts; fall through so the
-            // history.replaceState can throw in unusual sandboxed contexts; fall through so the
             // redirect still happens.
         }
     }

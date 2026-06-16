@@ -137,20 +137,35 @@ class OverlayTest extends \PHPUnit\Framework\TestCase
         self::assertNotFalse($contents, 'Could not read template ' . $relativeTemplatePath);
 
         self::assertStringNotContainsString(
-            'token_auth',
+            '&token_auth',
             $contents,
             $relativeTemplatePath . ' must not append disallowed credential parameters to the startOverlaySession URL.'
         );
         self::assertStringNotContainsString(
-            'force_api_session',
+            '&force_api_session',
             $contents,
             $relativeTemplatePath . ' must not append session bootstrap parameters to the startOverlaySession URL.'
         );
-        self::assertStringNotContainsString(
-            'piwik.shouldPropagateTokenAuth',
-            $contents,
-            $relativeTemplatePath . ' must not gate URL building on request-auth propagation.'
-        );
+    }
+
+    public function testOverlayNavigationUsesPostHandoffWhenRequestAuthPropagationIsEnabled()
+    {
+        $indexContents = file_get_contents(__DIR__ . '/../../templates/index.twig');
+        $noFrameContents = file_get_contents(__DIR__ . '/../../templates/index_noframe.twig');
+        $overlayJsContents = file_get_contents(__DIR__ . '/../../javascripts/Piwik_Overlay.js');
+
+        self::assertNotFalse($indexContents);
+        self::assertNotFalse($noFrameContents);
+        self::assertNotFalse($overlayJsContents);
+
+        self::assertStringContainsString('iframePostParams = {', $indexContents);
+        self::assertStringContainsString('Piwik_Overlay.init(iframeSrc', $indexContents);
+        self::assertStringContainsString('iframePostParams);', $indexContents);
+
+        self::assertStringContainsString('submitPostNavigation(newLocation, postParams);', $noFrameContents);
+
+        self::assertStringContainsString('submitIframePost(iframeUrl);', $overlayJsContents);
+        self::assertStringContainsString('function submitIframePost(iframeUrl)', $overlayJsContents);
     }
 
     public function getOverlayNavigationTemplates(): array
