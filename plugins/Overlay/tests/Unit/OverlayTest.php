@@ -124,4 +124,77 @@ class OverlayTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * The Overlay parent templates build the startOverlaySession navigation URL. Keep that URL
+     * limited to the canonical handshake parameters.
+     *
+     * @dataProvider getOverlayNavigationTemplates
+     */
+    public function testOverlayNavigationTemplateKeepsCanonicalHandshakeUrl(string $relativeTemplatePath)
+    {
+        $contents = file_get_contents(__DIR__ . '/../../templates/' . $relativeTemplatePath);
+        self::assertNotFalse($contents, 'Could not read template ' . $relativeTemplatePath);
+
+        self::assertStringNotContainsString(
+            'token_auth',
+            $contents,
+            $relativeTemplatePath . ' must not append disallowed credential parameters to the startOverlaySession URL.'
+        );
+        self::assertStringNotContainsString(
+            'force_api_session',
+            $contents,
+            $relativeTemplatePath . ' must not append session bootstrap parameters to the startOverlaySession URL.'
+        );
+        self::assertStringNotContainsString(
+            'piwik.shouldPropagateTokenAuth',
+            $contents,
+            $relativeTemplatePath . ' must not gate URL building on request-auth propagation.'
+        );
+    }
+
+    public function getOverlayNavigationTemplates(): array
+    {
+        return [
+            ['index.twig'],
+            ['index_noframe.twig'],
+        ];
+    }
+
+    /**
+     * piwik.js::isOverlaySession() matches the canonical handshake fields. The
+     * startOverlaySession template canonicalizes its URL before continuing, and the resulting
+     * shape must still match.
+     *
+     * The regex below is the one in js/piwik.js. If it changes there, this test must change too.
+     *
+     * @dataProvider getCanonicalOverlayReferrers
+     */
+    public function testCanonicalOverlayReferrerMatchesPiwikJsRegex(string $referrer, bool $expectMatch)
+    {
+        $piwikJsRegex = '#index\.php\?module=Overlay&action=startOverlaySession&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)(&segment=[^&]*)?#';
+        self::assertSame($expectMatch, (bool) preg_match($piwikJsRegex, $referrer));
+    }
+
+    public function getCanonicalOverlayReferrers(): array
+    {
+        return [
+            'canonical URL without segment matches' => [
+                'https://matomo.example/index.php?module=Overlay&action=startOverlaySession&idSite=1&period=day&date=today',
+                true,
+            ],
+            'canonical URL with segment matches' => [
+                'https://matomo.example/index.php?module=Overlay&action=startOverlaySession&idSite=2&period=range&date=2020-01-01,2020-12-31&segment=visitIp%3D%3D1.2.3.4',
+                true,
+            ],
+            'canonical URL with empty segment still matches' => [
+                'https://matomo.example/index.php?module=Overlay&action=startOverlaySession&idSite=3&period=day&date=today&segment=',
+                true,
+            ],
+            'reordered parameters do not match' => [
+                'https://matomo.example/index.php?action=startOverlaySession&module=Overlay&idSite=1&period=day&date=today',
+                false,
+            ],
+        ];
+    }
 }
