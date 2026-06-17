@@ -486,9 +486,11 @@ function getLegendLabelTextForExport(ctx, labelElement, originalLabel, maxWidth)
             var target = $('#' + this.targetDivId);
 
             var loading = $(document.createElement('div')).addClass('jqplot-loading');
+            loading.append('<span class="matomo-loader"><span></span><span></span><span></span></span>');
             loading.css({
                 width: target.innerWidth() + 'px',
                 height: target.innerHeight() + 'px',
+                backgroundColor: (this.jqplotParams.grid && this.jqplotParams.grid.background) || '',
                 opacity: 0
             });
             target.prepend(loading);
@@ -646,7 +648,7 @@ function getLegendLabelTextForExport(ctx, labelElement, originalLabel, maxWidth)
             }
             var exportCtx = exportCanvas.getContext('2d');
             if (plotLinesTweaksEnabled) {
-                exportCtx.fillStyle = '#ffffff';
+                exportCtx.fillStyle = (this.jqplotParams.grid && this.jqplotParams.grid.background) || '#ffffff';
                 exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
             }
 

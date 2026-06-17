@@ -13,6 +13,62 @@ describe("EvolutionGraph", function () {
               + "&isFooterExpandedInDashboard=1";
     const plotLinesTweaksColumns = "nb_visits,nb_actions,avg_time_on_site,bounce_rate";
     const plotLinesTweaksUrl = url + "&columns=" + plotLinesTweaksColumns + "&filter_add_columns_when_show_all_columns=0";
+    const setThemeMode = async function (themeMode) {
+        await page.evaluate((mode) => {
+            window.piwik.setThemeMode(mode);
+        }, themeMode);
+        await page.waitForFunction((mode) => window.piwik.getThemeMode() === mode, {}, themeMode);
+    };
+    const getResolvedBackgroundColor = async function (selector) {
+        return page.evaluate(function (targetSelector) {
+            var target = document.querySelector(targetSelector);
+            var dataTable = target && target.closest('.dataTable');
+            var uiControlObject = dataTable ? $(dataTable).data('uiControlObject') : null;
+            var configuredColor = (uiControlObject
+                && uiControlObject.jqplotParams
+                && uiControlObject.jqplotParams.grid
+                && uiControlObject.jqplotParams.grid.background)
+                || '#ffffff';
+            var colorProbe = document.createElement('div');
+
+            colorProbe.style.display = 'none';
+            colorProbe.style.color = configuredColor;
+            document.body.appendChild(colorProbe);
+
+            var resolvedColor = window.getComputedStyle(colorProbe).color;
+            colorProbe.remove();
+
+            return resolvedColor || 'rgb(255, 255, 255)';
+        }, selector);
+    };
+    const getImagePixelColor = async function (selector, offset) {
+        return page.evaluate(async function (targetSelector, pixelOffset) {
+            const exportImage = document.querySelector(targetSelector);
+            const image = new Image();
+            image.src = exportImage.src;
+
+            await new Promise((resolve, reject) => {
+                image.onload = resolve;
+                image.onerror = reject;
+            });
+
+            const canvas = document.createElement('canvas');
+            canvas.width = image.width;
+            canvas.height = image.height;
+
+            const context = canvas.getContext('2d');
+            context.drawImage(image, 0, 0);
+
+            const pixel = context.getImageData(
+                image.width - pixelOffset,
+                image.height - pixelOffset,
+                1,
+                1
+            ).data;
+
+            return 'rgb(' + pixel[0] + ', ' + pixel[1] + ', ' + pixel[2] + ')';
+        }, selector, offset);
+    };
     const getFooterLegendState = async function () {
         return page.evaluate(function () {
             const footer = document.querySelector('.jqplot-legend-footer.has-legend');
@@ -32,6 +88,10 @@ describe("EvolutionGraph", function () {
 
     before(function () {
         return testEnvironment.callApi("Annotations.deleteAll", {idSite: 3});
+    });
+
+    afterEach(async function () {
+        await setThemeMode('light');
     });
 
     it("should load correctly", async function () {
@@ -265,6 +325,18 @@ describe("EvolutionGraph", function () {
             expect(await dialog.screenshot()).to.matchImage('plot_lines_tweaks_export_image');
         });
 
+        it("should export the graph image using the active dark theme background", async function () {
+            await page.goto(plotLinesTweaksUrl);
+            await page.waitForNetworkIdle();
+            await setThemeMode('dark');
+            await page.waitForTimeout(250);
+            await page.click('#dataTableFooterExportAsImageIcon');
+            await page.waitForSelector('.ui-dialog img');
+
+            expect(await getImagePixelColor('.ui-dialog img', 5))
+                .to.equal(await getResolvedBackgroundColor('.jqplot-target'));
+        });
+
         it("should overflow footer legend labels cleanly in a narrow viewport", async function () {
             await page.webpage.setViewport({ width: 320, height: 480 });
             await page.goto(plotLinesTweaksUrl);
@@ -290,6 +362,51 @@ describe("EvolutionGraph", function () {
             await page.waitForNetworkIdle();
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('plot_lines_tweaks_annotations');
+        });
+
+        it("should use the active dark theme background for the graph loading overlay", async function () {
+            await page.goto(plotLinesTweaksUrl);
+            await page.waitForNetworkIdle();
+            await setThemeMode('dark');
+            await page.waitForTimeout(250);
+
+            await page.evaluate(function () {
+                var dataTable = $('.dataTable').data('uiControlObject');
+                var originalReloadAjaxDataTable = dataTable.reloadAjaxDataTable.bind(dataTable);
+
+                dataTable.reloadAjaxDataTable = function () {
+                    return null;
+                };
+
+                dataTable.__restoreReloadAjaxDataTable = function () {
+                    dataTable.reloadAjaxDataTable = originalReloadAjaxDataTable;
+                };
+            });
+
+            await page.hover('.jqplot-seriespicker');
+            await page.waitForSelector('.jqplot-seriespicker-popover input');
+            const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first');
+            await element.click();
+            await page.waitForSelector('.jqplot-loading');
+
+            expect(await page.evaluate(function () {
+                return window.getComputedStyle(document.querySelector('.jqplot-loading')).backgroundColor;
+            })).to.equal(await getResolvedBackgroundColor('.jqplot-loading'));
+            expect(await page.evaluate(function () {
+                return !!document.querySelector('.jqplot-loading .matomo-loader');
+            })).to.equal(true);
+            expect(await page.evaluate(function () {
+                return window.getComputedStyle(document.querySelector('.jqplot-loading')).opacity;
+            })).to.equal('0.7');
+
+            await page.evaluate(function () {
+                var dataTable = $('.dataTable').data('uiControlObject');
+                if (dataTable && dataTable.__restoreReloadAjaxDataTable) {
+                    dataTable.__restoreReloadAjaxDataTable();
+                    delete dataTable.__restoreReloadAjaxDataTable;
+                }
+                $('.jqplot-loading').remove();
+            });
         });
     });
 });
