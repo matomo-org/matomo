@@ -388,18 +388,18 @@ function parseDate(date) {
     yesterday.setDate(yesterday.getDate() - 1);
     return yesterday;
   }
-  if (strDate.match(/last[ -]?week/i)) {
+  if (strDate.match(/^last[ -]?week$/i)) {
     const lastWeek = getToday();
     lastWeek.setDate(lastWeek.getDate() - 7);
     return lastWeek;
   }
-  if (strDate.match(/last[ -]?month/i)) {
+  if (strDate.match(/^last[ -]?month$/i)) {
     const lastMonth = getToday();
     lastMonth.setDate(1);
     lastMonth.setMonth(lastMonth.getMonth() - 1);
     return lastMonth;
   }
-  if (strDate.match(/last[ -]?year/i)) {
+  if (strDate.match(/^last[ -]?year$/i)) {
     const lastYear = getToday();
     lastYear.setFullYear(lastYear.getFullYear() - 1);
     return lastYear;
@@ -1140,6 +1140,7 @@ function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.d
 
 
 
+
 const {
   $: AjaxHelper_$
 } = window;
@@ -1335,12 +1336,15 @@ class AjaxHelper_AjaxHelper {
     }
     return chunks;
   }
-  handleApiErrorResponseOrCallback(response,
-  // eslint-disable-line @typescript-eslint/no-explicit-any
-  status, request) {
+  hideLoadingElement() {
     if (this.loadingElement) {
       AjaxHelper_$(this.loadingElement).hide();
     }
+  }
+  handleApiErrorResponseOrCallback(response,
+  // eslint-disable-line @typescript-eslint/no-explicit-any
+  status, request) {
+    this.hideLoadingElement();
     const results = this.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
     const errors = results.filter(r => r.result === 'error').map(r => r.message).filter(e => e.length)
     // count occurrences of error messages
@@ -1398,7 +1402,31 @@ class AjaxHelper_AjaxHelper {
       }
     }
     if (parameters.date) {
-      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
+      const dateStr = parameters.date.toString();
+      const period = parameters.period;
+      // Bound the date string to the character set Matomo date syntax uses.
+      // This runs unconditionally, so even requests without a recognized period can't
+      // push unexpected characters into the query string.
+      if (!/^[a-z0-9, -]+$/i.test(dateStr)) {
+        throw new Error(`Invalid date '${dateStr}'.`);
+      }
+      // Reject date values that don't match the selected period. Skip when no period is present
+      // (some API requests omit it) and skip unrecognized periods so we don't reject periods the
+      // backend supports but the frontend doesn't register.
+      if (period && Periods_Periods.isRecognizedPeriod(period)) {
+        // only the numeric lastN/previousN and comma-range forms are multiple-period requests.
+        const isMultiplePeriod = /^(last|previous)\d/i.test(dateStr) || dateStr.indexOf(',') !== -1;
+        try {
+          if (isMultiplePeriod && period !== 'range') {
+            Range_RangePeriod.parse(dateStr, period);
+          } else {
+            Periods_Periods.parse(period, dateStr);
+          }
+        } catch (e) {
+          throw new Error(`Invalid date '${dateStr}' for period '${period}'.`);
+        }
+      }
+      url = `${url}date=${encodeURIComponent(dateStr).replace(/%2C/g, ',')}&`;
       delete parameters.date;
     }
     url += AjaxHelper_$.param(parameters);
@@ -1444,6 +1472,13 @@ class AjaxHelper_AjaxHelper {
     const bulkRequestLimit = AjaxHelper_AjaxHelper.getBulkRequestLimit();
     if (bulkRequestLimit <= 0) {
       return Promise.resolve([]);
+    }
+    // Validate before queueing so invalid requests reject without consuming a queue slot.
+    try {
+      this.buildRequestUrl(Object.assign({}, this.getParams));
+    } catch (e) {
+      this.hideLoadingElement();
+      return Promise.reject(e);
     }
     const chunkedAbortController = this.abortController || new AbortController();
     this.abortController = chunkedAbortController;
@@ -1823,7 +1858,12 @@ class AjaxHelper_AjaxHelper {
     if (this.shouldSendBulkRequestInChunks()) {
       return this.sendBulkRequestInChunks();
     }
-    this.requestHandle = this.buildAjaxCall();
+    try {
+      this.requestHandle = this.buildAjaxCall();
+    } catch (e) {
+      this.hideLoadingElement();
+      return Promise.reject(e);
+    }
     if (this.abortable) {
       window.globalAjaxQueue.push(this.requestHandle);
     }
