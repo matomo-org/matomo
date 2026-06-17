@@ -8,7 +8,7 @@
 <template>
   <div class="metrics-picker-options">
     <p
-      class="pickColumn"
+      class="metrics-picker__column"
       @click="optionSelected(columnConfig.column, columnStates)"
       v-for="columnConfig in selectableColumns"
       :key="columnConfig.column"
@@ -30,7 +30,7 @@
       {{ translate('General_RecordsToPlot') }}
     </p>
     <p
-      class="pickRow"
+      class="metrics-picker__row"
       @click="optionSelected(rowConfig.matcher, rowStates)"
       v-for="rowConfig in selectableRows"
       :key="rowConfig.matcher"

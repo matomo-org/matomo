@@ -14,7 +14,7 @@
     <button
       ref="expander"
       type="button"
-      class="metrics-picker-toggle"
+      class="metrics-picker__toggle"
     >
       <span class="metrics-picker-label">{{ translate('General_ChooseMetrics') }}</span>
       <span class="icon-chevron-down metrics-picker-chevron" />
