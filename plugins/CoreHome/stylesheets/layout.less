@@ -560,12 +560,15 @@ ul.browser-default {
 .badge-menu-item-container {
   line-height: inherit;
   position: relative;
-  padding: 0 32px;
+
+  .sidenav & {
+    padding: 0 32px;
+  }
 }
 .badge-menu-item {
   position: absolute;
   top: 12px;
-  left: 0;
+  left: 15px;
   z-index: 2;
 
   background-color: rgba(212, 19, 13, 1);
@@ -576,6 +579,10 @@ ul.browser-default {
   line-height: 1;
   font-size: 11px;
   font-weight: normal;
+
+  .sidenav & {
+    left: 0;
+  }
 }
 
 #root, #standalone {
