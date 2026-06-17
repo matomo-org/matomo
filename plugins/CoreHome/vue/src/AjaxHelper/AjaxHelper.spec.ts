@@ -392,11 +392,17 @@ describe('CoreHome/AjaxHelper', () => {
       ['year + lastyear', { period: 'year', date: 'lastyear' }],
       // unrecognized periods are left to the backend to validate
       ['unrecognized period', { period: 'bogusperiod', date: '2024-01-01' }],
+      // the character-set guard still allows dates with no period present
+      ['no period + ISO date', { date: '2024-01-15' }],
+      ['no period + range', { date: '2024-01-01,2024-01-31' }],
     ];
 
     const invalidCases: Array<[string, QueryParameters]> = [
       ['day + string', { period: 'day', date: 'not-a-date' }],
       ['day + comma range with invalid part', { period: 'day', date: '2024-01-01,gibberish' }],
+      // the character-set guard catches odd characters even without a recognized period
+      ['no period + slash date', { date: '2024/01/15' }],
+      ['unrecognized period + illegal chars', { period: 'bogusperiod', date: '<script>' }],
     ];
 
     it.each(validCases)('does not throw for a valid date/period (%s)', async (_label, params) => {

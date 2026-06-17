@@ -1404,6 +1404,12 @@ class AjaxHelper_AjaxHelper {
     if (parameters.date) {
       const dateStr = parameters.date.toString();
       const period = parameters.period;
+      // Bound the date string to the character set Matomo date syntax uses.
+      // This runs unconditionally, so even requests without a recognized period can't
+      // push unexpected characters into the query string.
+      if (!/^[a-z0-9, -]+$/i.test(dateStr)) {
+        throw new Error(`Invalid date '${dateStr}'.`);
+      }
       // Reject date values that don't match the selected period. Skip when no period is present
       // (some API requests omit it) and skip unrecognized periods so we don't reject periods the
       // backend supports but the frontend doesn't register.
