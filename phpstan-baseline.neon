@@ -907,12 +907,6 @@ parameters:
 			path: core/FileIntegrity.php
 
 		-
-			message: '#^Path in require_once\(\) "/var/www/html/config/manifest\.inc\.php" is not a file or it does not exist\.$#'
-			identifier: requireOnce.fileNotFound
-			count: 1
-			path: core/FileIntegrity.php
-
-		-
 			message: '#^Strict comparison using \!\=\= between string and false will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 1
@@ -2377,12 +2371,6 @@ parameters:
 			path: core/Visualization/Sparkline.php
 
 		-
-			message: '#^Path in require_once\(\) "/var/www/html/\.\./\.\./autoload\.php" is not a file or it does not exist\.$#'
-			identifier: requireOnce.fileNotFound
-			count: 1
-			path: core/bootstrap.php
-
-		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1
@@ -3395,12 +3383,6 @@ parameters:
 			identifier: property.onlyWritten
 			count: 1
 			path: plugins/Diagnostics/Diagnostic/ArchiveInvalidationsInformational.php
-
-		-
-			message: '#^Loose comparison using \!\= between ''/var/www/html'' and ''/var/www/html'' will always evaluate to false\.$#'
-			identifier: notEqual.alwaysFalse
-			count: 2
-			path: plugins/Diagnostics/Diagnostic/ConfigInformational.php
 
 		-
 			message: '#^Parameter \#2 \$comment of static method Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult\:\:informationalResult\(\) expects string, bool given\.$#'

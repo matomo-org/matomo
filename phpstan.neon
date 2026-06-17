@@ -30,6 +30,18 @@ parameters:
         - bootstrap-phpstan.php
     ignoreErrors:
         - "#Unsafe usage of new static#"
+        # These messages embed an absolute path that differs between environments (local/ddev vs CI),
+        # so they cannot live in the baseline; ignore them by identifier + relative path instead.
+        # The required files are generated at build/install time and are absent from a plain checkout.
+        -
+            identifier: requireOnce.fileNotFound
+            path: core/FileIntegrity.php
+        -
+            identifier: requireOnce.fileNotFound
+            path: core/bootstrap.php
+        -
+            identifier: notEqual.alwaysFalse
+            path: plugins/Diagnostics/Diagnostic/ConfigInformational.php
     universalObjectCratesClasses:
         - Piwik\Config
         - Piwik\View
