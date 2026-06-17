@@ -1102,8 +1102,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     piwik.annotations.placeEvolutionIcons(annotations, domElem);
 
-                    // add new section under axis
-                    annotations.insertBefore($('.dataTableFooterNavigation', domElem));
+                    piwik.annotations.placeEvolutionAnnotations(annotations, domElem);
 
                     // reposition annotation icons every time the graph is resized
                     $('.piwik-graph', domElem).on('resizeGraph', function () {
