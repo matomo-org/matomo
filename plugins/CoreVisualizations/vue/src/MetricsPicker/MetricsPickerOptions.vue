@@ -7,7 +7,7 @@
 
 <template>
   <div
-    class="metrics-picker-options"
+    class="metrics-picker__options"
     :role="multiselect ? 'group' : 'radiogroup'"
     :aria-label="translate('General_ChooseMetrics')"
   >
@@ -17,7 +17,7 @@
       :key="columnConfig.column"
     >
       <input
-        class="select filled-in"
+        class="filled-in"
         :type="multiselect ? 'checkbox' : 'radio'"
         :checked="!!columnStates[columnConfig.column]"
         @change="optionSelected(columnConfig.column, columnStates)"
@@ -27,7 +27,7 @@
       <span class="metrics-picker__title">{{ columnConfig.translation }}</span>
     </label>
     <p
-      class="headline recordsToPlot"
+      class="metrics-picker__headline"
       v-if="selectableRows.length"
     >
       {{ translate('General_RecordsToPlot') }}
@@ -38,7 +38,7 @@
       :key="rowConfig.matcher"
     >
       <input
-        class="select filled-in"
+        class="filled-in"
         :type="multiselect ? 'checkbox' : 'radio'"
         :checked="!!rowStates[rowConfig.matcher]"
         @change="optionSelected(rowConfig.matcher, rowStates)"

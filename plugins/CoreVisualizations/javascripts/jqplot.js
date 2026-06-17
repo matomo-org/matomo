@@ -40,6 +40,26 @@ function getOrCreateLegendFooter($dataTable)
     return $legendFooter;
 }
 
+// The legend footer stacks the legend above the "Choose metrics" picker once the report is
+// narrower than this. We can't use a CSS container query here — Matomo's LESS compiler
+// (less.php) can't parse @container — so we measure the footer width and toggle the
+// `is-narrow` class the stylesheet targets. This tracks the report's own width, so it also
+// kicks in when a report is shown as a narrow dashboard widget rather than full screen.
+var FOOTER_STACK_MAX_WIDTH = 321;
+
+function updateLegendFooterStacking($legendFooter)
+{
+    if (!$legendFooter || !$legendFooter.length) {
+        return;
+    }
+
+    // 0 when the footer isn't laid out yet (e.g. display:none); skip so we don't flip-flop
+    var width = $legendFooter[0].clientWidth;
+    if (width > 0) {
+        $legendFooter.toggleClass('is-narrow', width < FOOTER_STACK_MAX_WIDTH);
+    }
+}
+
 var MAX_FOOTER_LEGEND_ROWS = 2;
 var FOOTER_LEGEND_ROW_TOLERANCE = 1;
 var FOOTER_LEGEND_EXPORT_GRAPH_GAP = 12;
@@ -107,6 +127,10 @@ function limitLegendRows($legendContainer, maxRows)
     }
 
     rows = getLegendRows($legendItems);
+
+    // Left-align the legend (via CSS) once it wraps past a single row; a single row stays centered.
+    $legendContainer.closest('.jqplot-legend-footer')
+        .toggleClass('is-multi-row', rows.length >= 2);
 
     if (rows.length <= maxRows) {
         return;
@@ -1576,6 +1600,8 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             $legendFooter.addClass('has-legend');
             limitLegendRows($legendContainer, MAX_FOOTER_LEGEND_ROWS);
         }
+
+        updateLegendFooterStacking($legendFooter);
     };
 
     $.jqplot.CanvasLegendRenderer.renderLegacyLegend = function (plot, legend) {
@@ -1665,6 +1691,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 // replace any previously rendered picker so redraws don't stack duplicates
                 $pickerSlot.empty().append(this.domElem);
                 $legendFooter.addClass('has-picker');
+                updateLegendFooterStacking($legendFooter);
                 return;
             }
 

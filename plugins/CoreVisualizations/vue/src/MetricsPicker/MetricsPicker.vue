@@ -16,10 +16,10 @@
       type="button"
       class="metrics-picker__toggle"
     >
-      <span class="metrics-picker-label">{{ translate('General_ChooseMetrics') }}</span>
-      <span class="icon-chevron-down metrics-picker-chevron" />
+      <span class="metrics-picker__toggle-label">{{ translate('General_ChooseMetrics') }}</span>
+      <span class="icon-chevron-down metrics-picker__chevron" />
     </button>
-    <div class="metrics-picker-dropdown">
+    <div class="metrics-picker__dropdown">
       <MetricsPickerOptions
         :multiselect="multiselect"
         :selectable-columns="selectableColumns"

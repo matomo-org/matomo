@@ -44,17 +44,24 @@
       outline: none;
     }
   }
-
-  .metrics-picker-chevron {
-    font-size: 12px;
-    transition: transform .15s ease;
+  .metrics-picker__toggle-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;        // the important one — see below
   }
 
-  &.expanded .metrics-picker-chevron {
+  .metrics-picker__chevron {
+    font-size: 12px;
+    transition: transform .15s ease;
+    flex-shrink: 0;      // keep the chevron from being squashed
+  }
+
+  &.expanded .metrics-picker__chevron {
     transform: rotate(180deg);
   }
 
-  .metrics-picker-dropdown {
+  .metrics-picker__dropdown {
     display: none;
     position: absolute;
     top: 100%;
@@ -76,12 +83,8 @@
     })
   }
 
-  &.expanded .metrics-picker-dropdown {
+  &.expanded .metrics-picker__dropdown {
     display: block;
-  }
-
-  .metrics-picker-options p {
-    margin: 0;
   }
 
   .metrics-picker__column,
@@ -195,7 +198,8 @@
     border-radius: 6px;
   }
 
-  .headline.recordsToPlot {
+  .metrics-picker__headline {
+    margin: 0; // reset the default <p> margin
     padding: 10px 16px 4px;
     font-weight: bold;
     font-size: 12px;

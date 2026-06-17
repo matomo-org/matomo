@@ -383,9 +383,9 @@ describe("EvolutionGraph", function () {
                 };
             });
 
-            await page.hover('.jqplot-seriespicker');
-            await page.waitForSelector('.jqplot-seriespicker-popover input');
-            const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first');
+            await page.click('.metrics-picker__toggle');
+            await page.waitForSelector('.metrics-picker__options input');
+            const element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
             await element.click();
             await page.waitForSelector('.jqplot-loading');
 
