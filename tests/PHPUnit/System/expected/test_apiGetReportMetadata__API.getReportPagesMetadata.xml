@@ -1767,6 +1767,13 @@
 				</parameters>
 				<uniqueId>widgetReferrersgetCampaignUrlBuilder</uniqueId>
 				<isWide>0</isWide>
+				<clientComponent>
+					<plugin>Referrers</plugin>
+					<name>CampaignBuilderWidget</name>
+					<props>
+						<hasExtraPlugin>0</hasExtraPlugin>
+					</props>
+				</clientComponent>
 			</row>
 		</widgets>
 	</row>

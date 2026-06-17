@@ -23,6 +23,8 @@ interface PresetDateRangeSelection {
   id: string;
   period: string;
   date: string;
+  urlDate: string;
+  selectedDate: Date;
   startDate: Date;
   endDate: Date;
 }
@@ -36,7 +38,6 @@ describe('PresetDateRanges', () => {
   function mountComponent(customProps = {}) {
     return mount(PresetDateRanges, {
       props: {
-        modelValue: null,
         checkedPresetId: null,
         minDate: new Date('2000-01-01'),
         maxDate: new Date('2100-12-31'),
@@ -94,17 +95,17 @@ describe('PresetDateRanges', () => {
     ]);
   });
 
-  it('should emit update:modelValue and select payload when preset is selected', async () => {
+  it('should emit select payload when preset is selected', async () => {
     const wrapper = mountComponent();
 
     await wrapper.find('#preset_date_lastMonth').trigger('change');
 
-    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['lastMonth']);
-
     const selectPayload = getSelectPayload(wrapper);
     expect(selectPayload.id).toBe('lastMonth');
     expect(selectPayload.period).toBe('month');
-    expect(selectPayload.date).toBe('lastmonth');
+    expect(selectPayload.date).toBe('2026-01-01');
+    expect(selectPayload.urlDate).toBe('lastmonth');
+    expect(format(selectPayload.selectedDate)).toBe('2026-01-01');
     expect(format(selectPayload.startDate)).toBe('2026-01-01');
     expect(format(selectPayload.endDate)).toBe('2026-01-31');
   });
@@ -116,7 +117,23 @@ describe('PresetDateRanges', () => {
 
     const selectPayload = getSelectPayload(wrapper);
     expect(selectPayload.period).toBe('range');
-    expect(selectPayload.date).toBe('last7');
+    expect(selectPayload.date).toBe('2026-02-10,2026-02-16');
+    expect(selectPayload.urlDate).toBe('last7');
+    expect(format(selectPayload.selectedDate)).toBe('2026-02-16');
+  });
+
+  it('should emit select when clicking an already checked preset', async () => {
+    const wrapper = mountComponent({
+      checkedPresetId: 'last7days',
+    });
+
+    await wrapper.find('#preset_date_last7days').trigger('click');
+
+    const selectPayload = getSelectPayload(wrapper);
+    expect(selectPayload.id).toBe('last7days');
+    expect(selectPayload.period).toBe('range');
+    expect(selectPayload.date).toBe('2026-02-10,2026-02-16');
+    expect(selectPayload.urlDate).toBe('last7');
   });
 
   it('should emit dblclick payload for presets', async () => {
@@ -127,7 +144,8 @@ describe('PresetDateRanges', () => {
     expect(wrapper.emitted('dblclick')?.[0]?.[0]).toMatchObject({
       id: 'last7days',
       period: 'range',
-      date: 'last7',
+      date: '2026-02-10,2026-02-16',
+      urlDate: 'last7',
     });
   });
 
@@ -139,6 +157,7 @@ describe('PresetDateRanges', () => {
     const selectPayload = getSelectPayload(wrapper);
     expect(format(selectPayload.startDate)).toBe('2026-02-02');
     expect(format(selectPayload.endDate)).toBe('2026-02-08');
+    expect(format(selectPayload.selectedDate)).toBe('2026-02-02');
   });
 
   it('should resolve quarter boundary behavior correctly', async () => {
@@ -149,6 +168,7 @@ describe('PresetDateRanges', () => {
     const selectPayload = getSelectPayload(wrapper);
     expect(selectPayload.period).toBe('range');
     expect(selectPayload.date).toBe('2026-01-01,2026-03-31');
+    expect(selectPayload.urlDate).toBe('2026-01-01,2026-03-31');
   });
 
   it('should clamp payload date range to min/max dates', async () => {
@@ -163,25 +183,25 @@ describe('PresetDateRanges', () => {
     const selectPayload = getSelectPayload(wrapper);
     expect(format(selectPayload.startDate)).toBe('2026-02-14');
     expect(format(selectPayload.endDate)).toBe('2026-02-15');
-    expect(selectPayload.date).toBe('last7');
+    expect(selectPayload.date).toBe('2026-02-10,2026-02-16');
+    expect(selectPayload.urlDate).toBe('last7');
   });
 
   it('should resolve period and date values for all presets', async () => {
     const testCases = [
-      { id: 'today', period: 'day', date: 'today' },
-      { id: 'yesterday', period: 'day', date: 'yesterday' },
-      { id: 'last7days', period: 'range', date: 'last7' },
-      { id: 'last30days', period: 'range', date: 'last30' },
-      { id: 'last90days', period: 'range', date: 'last90' },
-      { id: 'lastWeekMonSun', period: 'week', date: 'lastweek' },
-      { id: 'lastMonth', period: 'month', date: 'lastmonth' },
+      { id: 'today', period: 'day', date: '2026-02-16' },
+      { id: 'yesterday', period: 'day', date: '2026-02-15' },
+      { id: 'last7days', period: 'range', date: '2026-02-10,2026-02-16' },
+      { id: 'last30days', period: 'range', date: '2026-01-18,2026-02-16' },
+      { id: 'last90days', period: 'range', date: '2025-11-19,2026-02-16' },
+      { id: 'lastWeekMonSun', period: 'week', date: '2026-02-09' },
+      { id: 'lastMonth', period: 'month', date: '2026-01-01' },
       { id: 'lastQuarter', period: 'range', date: '2025-10-01,2025-12-31' },
-      { id: 'lastYear', period: 'year', date: 'lastyear' },
-      // Intentional compatibility behavior: week + today remains canonical here.
-      { id: 'thisWeekMonToday', period: 'week', date: 'today' },
-      { id: 'thisMonth', period: 'month', date: 'today' },
+      { id: 'lastYear', period: 'year', date: '2025-01-01' },
+      { id: 'thisWeekMonToday', period: 'week', date: '2026-02-16' },
+      { id: 'thisMonth', period: 'month', date: '2026-02-16' },
       { id: 'thisQuarter', period: 'range', date: '2026-01-01,2026-02-16' },
-      { id: 'thisYear', period: 'year', date: 'today' },
+      { id: 'thisYear', period: 'year', date: '2026-02-16' },
     ];
 
     const wrapper = mountComponent();
@@ -203,7 +223,6 @@ describe('PresetDateRanges', () => {
 
   it('should check presets only when preset owner is active', async () => {
     const wrapper = mountComponent({
-      modelValue: 'lastMonth',
       checkedPresetId: null,
     });
 
