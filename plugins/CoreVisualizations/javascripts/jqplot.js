@@ -2125,11 +2125,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 if (this.renderer.smooth) {
                     gd = this.gridData;
                 }
-                let previousForecastPoint = null;
 
                 for (i = 0; i < gd.length; i++) {
                     if (gd[i][0] === null || gd[i][1] === null) {
-                        previousForecastPoint = null;
                         continue;
                     }
 
@@ -2139,6 +2137,25 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                     markerOptions.incompleteFillColor = plot.grid.background;
 
                     this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, markerOptions);
+                }
+            }
+
+            // Draw the forecast indicator independently of the regular markers. The dashed
+            // connector to the forecast value is always rendered when a forecast is available,
+            // so it stays visible even though evolution line graphs hide the per-point markers.
+            // The static diamond is only drawn alongside the regular markers; when markers are
+            // hidden the diamond is reserved for the hover highlight.
+            if (!fill) {
+                if (this.renderer.smooth) {
+                    gd = this.gridData;
+                }
+                let previousForecastPoint = null;
+
+                for (i = 0; i < gd.length; i++) {
+                    if (gd[i][0] === null || gd[i][1] === null) {
+                        previousForecastPoint = null;
+                        continue;
+                    }
 
                     const forecastValue = Array.isArray(opts.forecastData) ? opts.forecastData[i] : null;
 
@@ -2149,6 +2166,18 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                             Math.max(this._yaxis.min, forecastValue)
                         );
                         const forecastY = this._yaxis.series_u2p(boundedForecastValue);
+
+                        // When the forecast coincides with the tick's tracked value (e.g. an
+                        // additive metric rendered "flat at current"), the incomplete-period
+                        // dashed segment already covers this exact path, so the forecast
+                        // connector and diamond would only overdraw it. Skip the drawing, but
+                        // keep the point in the chain so a later diverging forecast still
+                        // connects from here -- the tooltip continues to report the value.
+                        if (Math.abs(forecastY - gd[i][1]) < 0.5) {
+                            previousForecastPoint = [forecastX, forecastY];
+                            continue;
+                        }
+
                         const forecastColor = opts.color || this.color;
                         let connectorStart = previousForecastPoint;
 
@@ -2177,13 +2206,15 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                             );
                         }
 
-                        drawForecastMarker(
-                            ctx,
-                            forecastX,
-                            forecastY,
-                            forecastColor,
-                            plot.grid.background
-                        );
+                        if (this.markerRenderer.show) {
+                            drawForecastMarker(
+                                ctx,
+                                forecastX,
+                                forecastY,
+                                forecastColor,
+                                plot.grid.background
+                            );
+                        }
 
                         previousForecastPoint = [forecastX, forecastY];
                     } else {
