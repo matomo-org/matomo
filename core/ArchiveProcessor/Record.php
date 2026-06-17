@@ -271,6 +271,10 @@ class Record
      * Only used for non-day periods; the day archive builds the record from logs via the
      * RecordBuilder's aggregate() and should apply any equivalent computation there.
      *
+     * Applies on both the standard blob path and the built-from-flat path ({@see setBuiltFromFlatRecord()}):
+     * each record's transform runs on that record's own aggregated table, so a flat base record and the
+     * hierarchy rebuilt from it are each transformed (the hierarchy after it is built) before being stored.
+     *
      * @param callable|null $transform Signature:
      *                                 function (\Piwik\DataTable $table, ArchiveProcessor $archiveProcessor, Record $record): void
      *                                 The callback mutates $table in place.

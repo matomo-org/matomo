@@ -379,6 +379,11 @@ abstract class RecordBuilder
             return false;
         }
 
+        $flatTransform = $flatRecord->getAggregatedRecordTransform();
+        if (null !== $flatTransform) {
+            $flatTransform($flatTable, $archiveProcessor, $flatRecord);
+        }
+
         $flatSerialized = $flatTable->getSerialized(
             $flatMaxRowsInTable,
             null,
@@ -397,6 +402,11 @@ abstract class RecordBuilder
         );
 
         $this->beforeInsertBuiltFromFlatHierarchyRecord($archiveProcessor, $hierarchicalRecord, $hierarchicalTable, $flatTable);
+
+        $hierarchicalTransform = $hierarchicalRecord->getAggregatedRecordTransform();
+        if (null !== $hierarchicalTransform) {
+            $hierarchicalTransform($hierarchicalTable, $archiveProcessor, $hierarchicalRecord);
+        }
 
         $hierarchicalSerialized = $hierarchicalTable->getSerialized(
             null,
