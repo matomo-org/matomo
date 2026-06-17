@@ -106,7 +106,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertEquals(1, $result, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertNotRegExp("/Successfully deleted [0-9]+ rows from all log tables/", $this->applicationTester->getDisplay());
+        $this->assertDoesNotMatchRegularExpression("/Successfully deleted [0-9]+ rows from all log tables/", $this->applicationTester->getDisplay());
     }
 
     public function testCommandCorrectlyDeletesRequestedLogFiles()

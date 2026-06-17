@@ -269,7 +269,7 @@ class VisitDimensionTest extends IntegrationTestCase
 
         foreach ($dimensions as $dimension) {
             $this->assertInstanceOf('\Piwik\Plugin\Dimension\VisitDimension', $dimension);
-            $this->assertRegExp('/Piwik.Plugins.(DevicesDetection|Actions).Columns/', get_class($dimension));
+            $this->assertMatchesRegularExpression('/Piwik.Plugins.(DevicesDetection|Actions).Columns/', get_class($dimension));
         }
     }
 }

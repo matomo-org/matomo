@@ -77,7 +77,7 @@ class TrackerLoggingTest extends SystemTestCase
     {
         $response = $t->doTrackPageView('incredible title!');
 
-        $this->assertRegExp('/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] ' . preg_quote("piwik.DEBUG: Debug enabled - Input parameters: array (   'idsite' => '1',   'rec' => '1',   'apiv' => '1',") . "/", $response);
+        $this->assertMatchesRegularExpression('/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] ' . preg_quote("piwik.DEBUG: Debug enabled - Input parameters: array (   'idsite' => '1',   'rec' => '1',   'apiv' => '1',") . "/", $response);
     }
 
     private function setTrackerConfig($trackerConfig)

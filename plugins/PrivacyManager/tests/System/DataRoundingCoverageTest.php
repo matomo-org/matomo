@@ -192,7 +192,7 @@ class DataRoundingCoverageTest extends SystemTestCase
                 $response,
                 sprintf('Expected reportTotal in API.getProcessedReport response for "%s".', $requestId)
             );
-            $this->assertRegExp(
+            $this->assertMatchesRegularExpression(
                 '/<reportTotal>[\s\S]*<nb_[a-z0-9_]+>/i',
                 $response,
                 sprintf('Expected count metrics inside reportTotal for "%s".', $requestId)

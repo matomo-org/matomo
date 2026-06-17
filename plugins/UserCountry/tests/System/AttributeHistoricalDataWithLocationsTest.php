@@ -78,7 +78,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
 
     public function testExecuteShouldReturnEmptyWorkingProcessLogsIfThereIsNoData()
     {
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/Re-attribution for date range: 2014-06-01 to 2014-06-06. 0 visits to process with provider "geoip2php"./',
             $this->executeCommand('2014-06-01,2014-06-06')
         );
@@ -93,7 +93,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
             $result
         );
 
-        $this->assertRegExp('/100% processed. Time elapsed: [0-9.]+s/', $result);
+        $this->assertMatchesRegularExpression('/100% processed. Time elapsed: [0-9.]+s/', $result);
 
         $queryParams = array(
             'idSite'  => self::$fixture->idSite,
