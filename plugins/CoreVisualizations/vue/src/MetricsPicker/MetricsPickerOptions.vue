@@ -6,51 +6,52 @@
 -->
 
 <template>
-  <div class="metrics-picker-options">
-    <p
-      class="metrics-picker__column"
-      @click="optionSelected(columnConfig.column, columnStates)"
+  <div
+    class="metrics-picker-options"
+    :role="multiselect ? 'group' : 'radiogroup'"
+    :aria-label="translate('General_ChooseMetrics')"
+  >
+    <label
+      class="metrics-picker__column metrics-picker__label"
       v-for="columnConfig in selectableColumns"
       :key="columnConfig.column"
     >
-      <label>
-        <input
-          class="select filled-in"
-          :type="multiselect ? 'checkbox' : 'radio'"
-          :checked="!!columnStates[columnConfig.column]"
-        />
-        <span aria-hidden="true"></span>
-        <span class="pick-label">{{ columnConfig.translation }}</span>
-      </label>
-    </p>
+      <input
+        class="select filled-in"
+        :type="multiselect ? 'checkbox' : 'radio'"
+        :checked="!!columnStates[columnConfig.column]"
+        @change="optionSelected(columnConfig.column, columnStates)"
+        @keydown.enter.prevent="optionSelected(columnConfig.column, columnStates)"
+      />
+      <span aria-hidden="true"></span>
+      <span class="metrics-picker__title">{{ columnConfig.translation }}</span>
+    </label>
     <p
       class="headline recordsToPlot"
       v-if="selectableRows.length"
     >
       {{ translate('General_RecordsToPlot') }}
     </p>
-    <p
-      class="metrics-picker__row"
-      @click="optionSelected(rowConfig.matcher, rowStates)"
+    <label
+      class="metrics-picker__row metrics-picker__label"
       v-for="rowConfig in selectableRows"
       :key="rowConfig.matcher"
     >
-      <label>
-        <input
-          class="select filled-in"
-          :type="multiselect ? 'checkbox' : 'radio'"
-          :checked="!!rowStates[rowConfig.matcher]"
-        />
-        <span aria-hidden="true"></span>
-        <span class="pick-label">{{ rowConfig.label }}</span>
-      </label>
-    </p>
+      <input
+        class="select filled-in"
+        :type="multiselect ? 'checkbox' : 'radio'"
+        :checked="!!rowStates[rowConfig.matcher]"
+        @change="optionSelected(rowConfig.matcher, rowStates)"
+        @keydown.enter.prevent="optionSelected(rowConfig.matcher, rowStates)"
+      />
+      <span aria-hidden="true"></span>
+      <span class="metrics-picker__title">{{ rowConfig.label }}</span>
+    </label>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { debounce } from 'CoreHome';
 
 interface SelectableColumnInfo {
   column: string;
@@ -118,9 +119,6 @@ export default defineComponent({
     };
   },
   emits: ['select'],
-  created() {
-    this.optionSelected = debounce(this.optionSelected, 0);
-  },
   methods: {
     unselectOptions(optionStates: Record<string, boolean>) {
       Object.keys(optionStates).forEach((optionName) => {

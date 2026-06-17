@@ -7,9 +7,8 @@
 
 import { mount } from '@vue/test-utils';
 
-// debounce is a passthrough so clicks emit synchronously; translate just echoes the key.
+// translate just echoes the key.
 jest.mock('CoreHome', () => ({
-  debounce: (fn: (...args: unknown[]) => unknown) => fn,
   translate: (key: string) => key,
 }), { virtual: true });
 
@@ -42,7 +41,7 @@ describe('CoreVisualizations/MetricsPickerOptions.vue', () => {
   it('in single-select mode, picking an option clears any other selection and emits just that one', async () => {
     const wrapper = mountOptions({ multiselect: false, selectedColumns: ['nb_visits'] });
 
-    await wrapper.findAll('.metrics-picker__row')[0].trigger('click');
+    await wrapper.findAll('.metrics-picker__row')[0].find('input').trigger('change');
 
     expect(lastSelect(wrapper)).toEqual({ columns: [], rows: ['Row 1'] });
   });
@@ -50,8 +49,8 @@ describe('CoreVisualizations/MetricsPickerOptions.vue', () => {
   it('in multiselect mode, selections accumulate across columns and rows', async () => {
     const wrapper = mountOptions({ multiselect: true, selectedColumns: ['nb_visits'] });
 
-    await wrapper.findAll('.metrics-picker__column')[1].trigger('click');
-    await wrapper.findAll('.metrics-picker__row')[0].trigger('click');
+    await wrapper.findAll('.metrics-picker__column')[1].find('input').trigger('change');
+    await wrapper.findAll('.metrics-picker__row')[0].find('input').trigger('change');
 
     expect(lastSelect(wrapper)).toEqual({
       columns: ['nb_visits', 'nb_uniq_visitors'],
@@ -62,7 +61,7 @@ describe('CoreVisualizations/MetricsPickerOptions.vue', () => {
   it('in multiselect mode, clicking a selected option toggles it off', async () => {
     const wrapper = mountOptions({ multiselect: true, selectedColumns: ['nb_visits'] });
 
-    await wrapper.findAll('.metrics-picker__column')[0].trigger('click');
+    await wrapper.findAll('.metrics-picker__column')[0].find('input').trigger('change');
 
     expect(lastSelect(wrapper)).toEqual({ columns: [], rows: [] });
   });

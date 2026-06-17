@@ -9,6 +9,7 @@
 
   // hover, focus and checked states
   @_accent-color: @theme-color-focus-ring-alternative;
+  @_option-hover-bg: @theme-color-code;
 
   @_corner-radius: 8px;
   @_checkbox-size: 18px;
@@ -88,32 +89,46 @@
     padding: 2px 8px;
     cursor: pointer;
     width: 236px;
-
-    :hover {
-      cursor: pointer;
-    }
   }
 
-  .metrics-picker__column > label,
-  .metrics-picker__row > label {
+  .metrics-picker__label {
     display: flex;
     align-items: flex-start;
-    min-height: 28px;
+    min-height: 32px;
+    color: @theme-color-text-lighter;
+    border-radius: 5px;
   }
 
-  [type="checkbox"] + span:not(.lever) {
+  // hover just tints the option's background
+  .metrics-picker__label:hover {
+    background-color: @_option-hover-bg;
+  }
+
+  // keyboard navigation also draws a focus ring (the real radio/checkbox is visually
+  // hidden by .filled-in, so the affordance lives on the option itself)
+  .metrics-picker__label:has(input:focus-visible) {
+    background-color: @_option-hover-bg;
+    outline: 2px solid @_accent-color;
+    outline-offset: 0;
+  }
+
+  // Materialize gives both the checkbox and radio "+ span" a padding-left: 35px; reset it
+  // to a compact box so the marker sits tight against the title in either select mode.
+  [type="checkbox"] + span:not(.lever),
+  [type="radio"] + span:not(.lever) {
     width: @_checkbox-size;
     height: @_checkbox-size;
-    margin-top: 1px;
     padding: 0;
+    margin-top: 4px;
   }
 
-  .pick-label {
+  .metrics-picker__title {
     font-size: @_text-size;
     line-height: @_text-line-height;
     margin-left: 8px;
     overflow-wrap: anywhere;
     word-break: break-word;
+    margin-top: 3px;
   }
 
   [type="checkbox"].filled-in:checked + span:not(.lever):after {
@@ -137,6 +152,46 @@
   [type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
     width: @_checkbox-size;
     height: @_checkbox-size;
+    border-radius: 6px;
+  }
+
+  // Radio marker — match the checkbox box: a 18px circle aligned to the same top-left
+  // origin (Materialize insets the circle by margin: 4px and sizes it 16px), with the
+  // same border colour when empty and accent fill when selected.
+  [type="radio"] + span:not(.lever):before,
+  [type="radio"] + span:not(.lever):after {
+    margin: 0;
+    width: @_checkbox-size;
+    height: @_checkbox-size;
+  }
+
+  [type="radio"]:not(:checked) + span:not(.lever):before {
+    border: @_border;
+  }
+
+  [type="radio"]:checked + span:not(.lever):after {
+    border-color: @_accent-color;
+    background-color: @_accent-color;
+  }
+
+  // The option's focus affordance is the label outline (see
+  // .metrics-picker__label:has(input:focus-visible)). Neutralise Materialize's per-marker
+  // focus styling — the 10px halo, grey/secondary fill and squared corners it adds on
+  // .tabbed:focus — so the box/circle looks identical whether focused or not.
+  [type="checkbox"].filled-in.tabbed:focus + span:not(.lever):after,
+  [type="radio"].tabbed:focus + span:not(.lever):before {
+    box-shadow: none;
+  }
+
+  [type="checkbox"].filled-in:not(:checked).tabbed:focus + span:not(.lever):after {
+    border: @_border;
+    border-radius: 6px;
+    background-color: transparent;
+  }
+
+  [type="checkbox"].filled-in:checked.tabbed:focus + span:not(.lever):after {
+    border-color: @_accent-color;
+    background-color: @_accent-color;
     border-radius: 6px;
   }
 
