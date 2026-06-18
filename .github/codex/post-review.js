@@ -53,10 +53,10 @@ function validateReview(review) {
   assertInteger(findings.medium, 'findings.medium');
   assertInteger(findings.low_polish, 'findings.low_polish');
 
-  const expected = expectedHighestSeverity(findings);
-  if (review.highest_severity !== expected) {
-    throw new Error(`highest_severity "${review.highest_severity}" does not match finding counts; expected "${expected}"`);
-  }
+  // Treat the finding counts as authoritative and recompute highest_severity from them rather than
+  // rejecting the whole review over a trivial model inconsistency. Downstream consumers
+  // (reviewEventForSeverity) then use the trustworthy value.
+  review.highest_severity = expectedHighestSeverity(findings);
 
   if (!Array.isArray(review.inline_comments)) {
     throw new Error('inline_comments must be an array');
@@ -156,10 +156,13 @@ function appendUnplacedFindings(body, findings) {
 }
 
 function reviewEventForSeverity(severity) {
-  if (severity === 'none' || severity === 'low') {
-    return 'APPROVE';
+  // Never emit APPROVE: the verdict is produced by an LLM reading the untrusted PR diff, so the
+  // workflow must not stamp a green approval it cannot guarantee. Non-blocking outcomes are posted
+  // as a plain COMMENT instead.
+  if (severity === 'medium' || severity === 'blocking') {
+    return 'REQUEST_CHANGES';
   }
-  return 'REQUEST_CHANGES';
+  return 'COMMENT';
 }
 
 async function createIssueComment({ github, context, body, core }) {
@@ -228,6 +231,9 @@ module.exports = async function postReview({ github, context, core }) {
     per_page: 100,
   });
 
+  // listFiles returns patches for at most ~300 files and omits patches for very large or binary
+  // files. Inline comments targeting those paths get an empty patch here and fall through to
+  // unplaced_findings below by design (see the `valid` check) -- this degradation is expected.
   const patchesByPath = new Map();
   for (const file of files) {
     patchesByPath.set(file.filename, parsePatchLines(file.patch));

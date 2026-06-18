@@ -68,8 +68,6 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: read
-    outputs:
-      final_message: ${{ steps.run_codex.outputs.final-message }}
     steps:
       - name: Checkout trusted workflow assets
         uses: actions/checkout@v5
