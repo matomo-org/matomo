@@ -1,5 +1,12 @@
 [
     {
+        "title": "New: AI Chatbot Tracking - Content Requests",
+        "description": "Gain deeper visibility into how AI chatbots interact with your content. See which pages and documents AI systems access, compare AI and human content engagement, and identify content that attracts different levels of interest from each audience.",
+        "link_name": "Explore AI Content Requests or set up AI Chatbot tracking",
+        "link": "/index.php?module=CoreHome&action=index&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsContentRequests&idSite=1",
+        "version": "5.12.0"
+    },
+    {
         "title": "AI Chatbot Tracking",
         "description":  "Matomo introduces AI Chatbot tracking. See how AI Chatbots such as ChatGPT access your site and content, and gain insights that traditional analytics usually miss. These reports use server-side logs to identify chatbot traffic. To enable this feature, setup via a supported server integration is required.",
         "link_name": "Learn here how to set up chatbot tracking",
