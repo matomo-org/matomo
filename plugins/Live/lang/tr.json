@@ -11,6 +11,7 @@
         "DisableVisitorProfileDescription": "Ziyaretçi günlükleri ile ilgili tüm özellikler çalışmayı sürdürür.",
         "DisableVisitsLogAndProfile": "Ziyaret günlüğü ve ziyaretçi profilleri kapatılsın",
         "DisableVisitsLogAndProfileDescription": "Ayrıca e-ticaret günlüğü, dilimli ziyaret günlüğü, gerçek zamanlı harita ya da gerçek zamanlı pano bileşeni gibi özellikleri de kapatır. Yerel kişisel veri gizliliği kanun ve uygulamalarına uygun olması gerekebilir.",
+        "ExportThisDatasetToXml": "Bu veri kümesini XML olarak dışa aktar",
         "FirstVisit": "İlk ziyaret",
         "GoalType": "Tür",
         "HideMap": "haritayı gizle",
