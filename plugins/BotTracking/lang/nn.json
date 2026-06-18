@@ -1,6 +1,8 @@
 {
     "BotTracking": {
         "PageUrl": "Side-URL",
-        "SiteWithoutDataBackToMatomo": "Attende til Matomo"
+        "SiteWithoutDataBackToMatomo": "Attende til Matomo",
+        "AIChatbotsContentPagesTitle": "Sider",
+        "ContentUrl": "URL"
     }
 }
