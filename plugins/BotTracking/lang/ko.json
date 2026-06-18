@@ -1,6 +1,8 @@
 {
     "BotTracking": {
         "PageUrl": "페이지 URL",
-        "SiteWithoutDataBackToMatomo": "Matomo으로 돌아가기"
+        "SiteWithoutDataBackToMatomo": "Matomo으로 돌아가기",
+        "AIChatbotsContentPagesTitle": "페이지",
+        "ContentUrl": "URL"
     }
 }
