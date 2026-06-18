@@ -34,9 +34,9 @@ function isNumeric(text: string) {
  * Identifier of the default reporting menu group (the main "Analytics" reporting menu). Must match
  * Piwik\Category\Category::DEFAULT_GROUP on the backend.
  */
-const DEFAULT_GROUP = '';
+export const DEFAULT_GROUP = '';
 
-function getCategoryGroupIds(category: Category): readonly string[] {
+export function getCategoryGroupIds(category: Category): readonly string[] {
   const { groups } = category;
   return groups && groups.length ? groups : [DEFAULT_GROUP];
 }
@@ -83,6 +83,13 @@ export class ReportingMenuStore {
   readonly menu = computed(() => this.buildMenuFromPages(
     (MatomoUrl.parsed.value.group as string) || DEFAULT_GROUP,
   ));
+
+  /**
+   * The full reporting menu across all top-level sections (groups), ignoring the active group
+   * filter. Used by quick search so users can find any reporting page regardless of the section
+   * they are currently in.
+   */
+  readonly fullMenu = computed(() => this.buildMenuFromPages(null));
 
   fetchMenuItems(): Promise<ReportingMenuStore['menu']['value']> {
     return ReportingPagesStoreInstance.getAllPages().then(() => this.menu.value);
