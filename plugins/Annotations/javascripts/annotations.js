@@ -46,6 +46,8 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
+            // Do not need to include the period parameter as this is not used in the endpoint
+            ajaxRequest.removeDefaultParameter('period');
             ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
@@ -69,6 +71,8 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
+            // Do not need to include the period parameter as this is not used in the endpoint
+            ajaxRequest.removeDefaultParameter('period');
             ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
