@@ -15,6 +15,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (`Record::setBuiltFromFlatRecord()`), where the flat base record and the hierarchy rebuilt from it are each
   transformed on their own table. A matching optional `$postAggregationTransform` parameter was added to
   `ArchiveProcessor::aggregateDataTableRecords()`.
+* The reporting menu can now be split into several top-level sections (in addition to the default
+  "Analytics" menu). A category declares which section(s) it belongs to via `Category::setGroups()`
+  (and the protected `$groups` property); `API.getReportPagesMetadata` now exposes a `groups` field per
+  category. Each non-default group automatically gets a top-menu entry that opens the regular reporting
+  single-page-app filtered to that group (the active section is carried in the URL hash), so reports stay
+  within the same SPA and quick search. The first such section, "AI Insights", surfaces the existing
+  AI Assistants reports.
 
 ## Matomo 5.11.0
 

@@ -65,6 +65,29 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(), $this->category->getSubcategories());
     }
 
+    public function testGetGroupsShouldReturnTheDefaultGroupByDefault()
+    {
+        $this->assertSame(array(Category::DEFAULT_GROUP), $this->category->getGroups());
+    }
+
+    public function testGroupsSetGet()
+    {
+        $this->category->setGroups(array(Category::DEFAULT_GROUP, 'CoreHome_AIInsights'));
+        $this->assertSame(array(Category::DEFAULT_GROUP, 'CoreHome_AIInsights'), $this->category->getGroups());
+    }
+
+    public function testSetGroupsShouldRemoveDuplicatesAndCastToString()
+    {
+        $this->category->setGroups(array('CoreHome_AIInsights', 'CoreHome_AIInsights', 123));
+        $this->assertSame(array('CoreHome_AIInsights', '123'), $this->category->getGroups());
+    }
+
+    public function testSetGroupsShouldFallBackToDefaultGroupWhenEmpty()
+    {
+        $this->category->setGroups(array());
+        $this->assertSame(array(Category::DEFAULT_GROUP), $this->category->getGroups());
+    }
+
     public function testAddSubcategoryShouldActuallyAddAndReturnSubcategories()
     {
         $subcategory1 = $this->createSubcategory('id1', 'name1');
