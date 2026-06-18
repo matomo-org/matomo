@@ -43,10 +43,10 @@ describe("Annotations", function () {
         await page.waitForNetworkIdle();
 
         await page.click(".evolution-annotations span[title^=\"View and add annotations\"]");
-        await page.waitForTimeout(200);
+        await page.waitForSelector(".add-annotation", { visible: true });
 
         await page.click(".add-annotation");
-        await page.waitForTimeout(100);
+        await page.waitForSelector(".new-annotation-edit", { visible: true });
 
         await page.type(".new-annotation-edit", "range period annotation");
         await page.click(".new-annotation-save");
@@ -65,7 +65,7 @@ describe("Annotations", function () {
         const annotation = ".isFirstWidgetInPage .annotation-manager .annotation";
 
         await page.click(annotation + " .annotation-value .annotation-enter-edit-mode");
-        await page.waitForTimeout(100);
+        await page.waitForSelector(annotation + " .annotation-edit", { visible: true });
 
         // change the note text so the save isn't skipped as a no-op
         await page.click(annotation + " .annotation-edit", { clickCount: 3 });
