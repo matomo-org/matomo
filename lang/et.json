@@ -257,7 +257,6 @@
         "Password": "Salasõna",
         "Period": "Periood",
         "Piechart": "Sektordiagramm",
-        "PiwikCannotBeUpgradedBecausePhpIsTooOld": "Kuna kasutada olev PHP versioon on liiga vana siis ei saa Matomot uuendada.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s on saadaval. %2$sPalun uuenda kohe!%3$s (vaata %4$smuudatusi%5$s).",
         "PleaseSpecifyValue": "Palun täpsusta '%s' väärtust.",
         "PleaseTryAgain": "Palun proovi uuesti",
