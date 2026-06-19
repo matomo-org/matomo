@@ -552,7 +552,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
               ])
             ]),
             _: 1
-          }, 8, ["modelValue", "options"])
+          }, 8, ["modelValue"])
         ], 512)
       ]),
       _: 1

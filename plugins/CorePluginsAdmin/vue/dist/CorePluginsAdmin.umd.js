@@ -7830,7 +7830,8 @@ var __async = (__this, __arguments, generator) => {
             vue.createElementVNode("input", vue.mergeProps({
               value: checkboxModel.key,
               checked: !!_ctx.checkboxStates[$index],
-              onChange: ($event) => _ctx.onChange($index)
+              onChange: ($event) => _ctx.onChange($index),
+              ref_for: true
             }, _ctx.uiControlAttributes, {
               type: "checkbox",
               id: `${_ctx.id}${checkboxModel.key}`,
@@ -8384,7 +8385,8 @@ var __async = (__this, __arguments, generator) => {
               type: "radio",
               id: `${_ctx.id}${radioModel.key}`,
               name: _ctx.name,
-              disabled: radioModel.disabled || _ctx.disabled
+              disabled: radioModel.disabled || _ctx.disabled,
+              ref_for: true
             }, _ctx.uiControlAttributes, {
               checked: _ctx.modelValue === radioModel.key || `${_ctx.modelValue}` === radioModel.key
             }), null, 16, _hoisted_2$h),

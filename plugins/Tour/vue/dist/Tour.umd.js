@@ -206,7 +206,7 @@
               vue.createElementVNode("span", {
                 class: vue.normalizeClass(["icon-star", _ctx.level.currentLevel >= i ? "successStar" : "upgradeStar"])
               }, null, 2),
-              vue.createTextVNode(vue.toDisplayString(" "))
+              vue.createTextVNode(" " + vue.toDisplayString(" "))
             ], 64);
           }), 128))
         ]),
@@ -248,7 +248,7 @@
                   title: _ctx.translate("Tour_SkipThisChallenge"),
                   onClick: ($event) => _ctx.skipChallenge(challenge.id)
                 }, _hoisted_18, 8, _hoisted_16)),
-                vue.createTextVNode(vue.toDisplayString(" ") + " "),
+                vue.createTextVNode(" " + vue.toDisplayString(" ") + " "),
                 _ctx.$sanitizeUrl(challenge.url) ? (vue.openBlock(), vue.createElementBlock("a", {
                   key: 2,
                   href: _ctx.$sanitizeUrl(challenge.url),

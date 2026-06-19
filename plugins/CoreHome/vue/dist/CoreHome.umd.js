@@ -2793,19 +2793,20 @@ var __async = (__this, __arguments, generator) => {
     }
   };
   const _hoisted_1$B = ["data-item-id", "draggable", "aria-grabbed", "onDragstart", "onDragover"];
+  const SORT_TRIGGER_OFFSET = 0.1;
   const _sfc_main$E = /* @__PURE__ */ vue.defineComponent({
     __name: "DraggableList",
     props: {
-      items: null,
-      itemKey: null,
+      items: {},
+      itemKey: {},
       disabled: { type: Boolean, default: false },
       handle: { default: "" },
       axis: { default: "y" }
     },
     emits: ["reorder"],
-    setup(__props, { emit }) {
+    setup(__props, { emit: __emit }) {
       const props = __props;
-      const SORT_TRIGGER_OFFSET = 0.1;
+      const emit = __emit;
       const orderedItems = vue.ref([]);
       const draggedId = vue.ref(null);
       const dragTargetId = vue.ref(null);
@@ -2938,7 +2939,7 @@ var __async = (__this, __arguments, generator) => {
         return vue.openBlock(), vue.createElementBlock("ul", {
           class: vue.normalizeClass(["draggableList", {
             isDragging: draggedId.value !== null,
-            isDisabled: __props.disabled
+            isDisabled: _ctx.disabled
           }])
         }, [
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(orderedItems.value, (orderedItem, index) => {
@@ -2946,7 +2947,7 @@ var __async = (__this, __arguments, generator) => {
               key: orderedItem.id,
               class: vue.normalizeClass(["draggableListItem", { isDragged: orderedItem.id === placeholderId.value }]),
               "data-item-id": orderedItem.id,
-              draggable: vue.unref(canDrag),
+              draggable: canDrag.value,
               "aria-grabbed": orderedItem.id === draggedId.value,
               onDragstart: ($event) => onDragStartForIndex($event, index),
               onDragover: ($event) => onDragOverForIndex($event, index),

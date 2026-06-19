@@ -1091,7 +1091,7 @@ var __async = (__this, __arguments, generator) => {
                       _ctx.savedSegmentsById[report.idsegment] ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_20, vue.toDisplayString(_ctx.savedSegmentsById[report.idsegment]), 1)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_21, vue.toDisplayString(_ctx.translate("ScheduledReports_SegmentDeleted")), 1))
                     ])) : vue.createCommentVNode("", true)
                   ]),
-                  vue.createElementVNode("td", null, vue.toDisplayString(_ctx.periods[report.period]) + " ", 1),
+                  vue.createElementVNode("td", null, vue.toDisplayString(_ctx.periods[report.period]), 1),
                   vue.createElementVNode("td", null, [
                     report.format ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_22, vue.toDisplayString(report.format.toUpperCase()), 1)) : vue.createCommentVNode("", true)
                   ]),
