@@ -105,6 +105,16 @@ class ReferrerAttributionTest extends IntegrationTestCase
         'attributionCookieValues' => [],
     ];
 
+    public static $AIAssistantReferrerPerplexityUtmSource = [
+        'siteUrl'            => '',
+        'referrerUrl'        => '',
+        'campaignParameters' => 'utm_source=perplexity',
+        'referrerName'       => 'Perplexity',
+        'referrerKeyword'    => '',
+        'referrerType' => Common::REFERRER_TYPE_AI_ASSISTANT,
+        'attributionCookieValues' => [],
+    ];
+
     public static $campaignReferrer = [
         'siteUrl' => 'https://some.external.page/',
         'referrerUrl' => 'https://some.external.page/referrer',
@@ -130,6 +140,31 @@ class ReferrerAttributionTest extends IntegrationTestCase
             '_rck' => 'Another Keyword',
         ],
     ];
+
+
+    public function testUtmSourcePerplexityWithEmptyReferrerIsAIAssistant(): void
+    {
+        $this->trackSingleVisit(self::$AIAssistantReferrerPerplexityUtmSource);
+
+        $this->assertVisitReferrers([$this->buildVisit(1, 1, self::$AIAssistantReferrerPerplexityUtmSource)]);
+    }
+
+    public function testGenericUtmSourceWithEmptyReferrerRemainsCampaign(): void
+    {
+        $genericCampaignReferrer = [
+            'siteUrl'            => '',
+            'referrerUrl'        => '',
+            'campaignParameters' => 'utm_source=not-an-ai-assistant',
+            'referrerName'       => 'not-an-ai-assistant',
+            'referrerKeyword'    => '',
+            'referrerType'       => Common::REFERRER_TYPE_CAMPAIGN,
+            'attributionCookieValues' => [],
+        ];
+
+        $this->trackSingleVisit($genericCampaignReferrer);
+
+        $this->assertVisitReferrers([$this->buildVisit(1, 1, $genericCampaignReferrer)]);
+    }
 
     /**
      * @dataProvider getReferrerAttributionUsingLastReferrerTestCases
@@ -359,6 +394,21 @@ class ReferrerAttributionTest extends IntegrationTestCase
                 }
             }
         }
+    }
+
+    private function trackSingleVisit(array $referrer): void
+    {
+        $idSite = Fixture::createWebsite('2020-01-01 02:00:00', true, 'test', 'https://matomo.org/');
+        $tracker = Fixture::getTracker($idSite, '2020-01-01 05:00:00');
+        $tracker->setUrlReferrer($referrer['referrerUrl']);
+
+        $url = 'https://matomo.org/';
+        if (isset($referrer['campaignParameters'])) {
+            $url .= '?' . $referrer['campaignParameters'];
+        }
+        $tracker->setUrl($url);
+
+        Fixture::checkResponse($tracker->doTrackPageView('Home'));
     }
 
     private function setReferrerAttributionCookieValuesToTracker(\MatomoTracker $tracker, array $cookieValues): void
