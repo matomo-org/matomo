@@ -532,90 +532,69 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_3 = { class: "contentHelp" };
   const _hoisted_4 = ["innerHTML"];
   const _hoisted_5 = { key: 0 };
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_8 = ["innerHTML"];
-  const _hoisted_9 = { class: "first" };
-  const _hoisted_10 = { class: "manageGoals-descriptionColumn" };
-  const _hoisted_11 = { class: "manageGoals-triggerColumn" };
-  const _hoisted_12 = {
+  const _hoisted_6 = ["innerHTML"];
+  const _hoisted_7 = { class: "first" };
+  const _hoisted_8 = { class: "manageGoals-descriptionColumn" };
+  const _hoisted_9 = { class: "manageGoals-triggerColumn" };
+  const _hoisted_10 = {
     key: 1,
     class: "manageGoals-actionsColumn"
   };
-  const _hoisted_13 = { key: 0 };
-  const _hoisted_14 = { colspan: "8" };
-  const _hoisted_15 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_16 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_17 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_18 = ["id"];
-  const _hoisted_19 = { class: "first" };
-  const _hoisted_20 = { class: "manageGoals-descriptionColumn" };
-  const _hoisted_21 = { class: "manageGoals-triggerColumn" };
-  const _hoisted_22 = { class: "matchAttribute" };
-  const _hoisted_23 = { key: 0 };
-  const _hoisted_24 = { key: 1 };
-  const _hoisted_25 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_26 = ["innerHTML"];
-  const _hoisted_27 = {
+  const _hoisted_11 = { key: 0 };
+  const _hoisted_12 = { colspan: "8" };
+  const _hoisted_13 = ["id"];
+  const _hoisted_14 = { class: "first" };
+  const _hoisted_15 = { class: "manageGoals-descriptionColumn" };
+  const _hoisted_16 = { class: "manageGoals-triggerColumn" };
+  const _hoisted_17 = { class: "matchAttribute" };
+  const _hoisted_18 = { key: 0 };
+  const _hoisted_19 = { key: 1 };
+  const _hoisted_20 = ["innerHTML"];
+  const _hoisted_21 = {
     key: 1,
     class: "entityTable_ActionCell entityTable_ActionCell-3 manageGoals-actionsColumn"
   };
-  const _hoisted_28 = ["href", "title", "aria-label"];
-  const _hoisted_29 = ["onClick", "title"];
-  const _hoisted_30 = ["onClick", "title"];
-  const _hoisted_31 = {
+  const _hoisted_22 = ["href", "title", "aria-label"];
+  const _hoisted_23 = ["onClick", "title"];
+  const _hoisted_24 = ["onClick", "title"];
+  const _hoisted_25 = {
     key: 0,
     class: "tableActionBar"
   };
-  const _hoisted_32 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-add" }, null, -1);
-  const _hoisted_33 = {
+  const _hoisted_26 = {
     class: "ui-confirm",
     ref: "confirm"
   };
-  const _hoisted_34 = ["value"];
-  const _hoisted_35 = ["value"];
-  const _hoisted_36 = { class: "addEditGoal" };
-  const _hoisted_37 = ["innerHTML"];
-  const _hoisted_38 = { class: "row goalIsTriggeredWhen" };
-  const _hoisted_39 = { class: "col s12" };
-  const _hoisted_40 = { class: "row" };
-  const _hoisted_41 = { class: "col s12 m6 goalTriggerType" };
-  const _hoisted_42 = { class: "col s12 m6" };
-  const _hoisted_43 = ["innerHTML"];
-  const _hoisted_44 = { class: "row whereTheMatchAttrbiute" };
-  const _hoisted_45 = { class: "col s12" };
-  const _hoisted_46 = { class: "row" };
-  const _hoisted_47 = { class: "col s12 m6 l4" };
-  const _hoisted_48 = {
+  const _hoisted_27 = ["value"];
+  const _hoisted_28 = ["value"];
+  const _hoisted_29 = { class: "addEditGoal" };
+  const _hoisted_30 = ["innerHTML"];
+  const _hoisted_31 = { class: "row goalIsTriggeredWhen" };
+  const _hoisted_32 = { class: "col s12" };
+  const _hoisted_33 = { class: "row" };
+  const _hoisted_34 = { class: "col s12 m6 goalTriggerType" };
+  const _hoisted_35 = { class: "col s12 m6" };
+  const _hoisted_36 = ["innerHTML"];
+  const _hoisted_37 = { class: "row whereTheMatchAttrbiute" };
+  const _hoisted_38 = { class: "col s12" };
+  const _hoisted_39 = { class: "row" };
+  const _hoisted_40 = { class: "col s12 m6 l4" };
+  const _hoisted_41 = {
     key: 0,
     class: "col s12 m6 l4"
   };
-  const _hoisted_49 = {
+  const _hoisted_42 = {
     key: 1,
     class: "col s12 m6 l4"
   };
-  const _hoisted_50 = { class: "col s12 m6 l4" };
-  const _hoisted_51 = {
+  const _hoisted_43 = { class: "col s12 m6 l4" };
+  const _hoisted_44 = {
     id: "examples_pattern",
     class: "col s12"
   };
-  const _hoisted_52 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_53 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_54 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_55 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_56 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_57 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_58 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_59 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_60 = { ref: "endedittable" };
-  const _hoisted_61 = /* @__PURE__ */ vue.createElementVNode("input", {
-    type: "hidden",
-    name: "goalIdUpdate",
-    value: ""
-  }, null, -1);
-  const _hoisted_62 = { key: 0 };
-  const _hoisted_63 = ["innerHTML"];
-  const _hoisted_64 = /* @__PURE__ */ vue.createElementVNode("a", { id: "bottom" }, null, -1);
+  const _hoisted_45 = { ref: "endedittable" };
+  const _hoisted_46 = { key: 0 };
+  const _hoisted_47 = ["innerHTML"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     var _a;
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
@@ -639,33 +618,33 @@ var __async = (__this, __arguments, generator) => {
                   innerHTML: _ctx.$sanitize(_ctx.learnMoreAboutGoalTracking)
                 }, null, 8, _hoisted_4),
                 !_ctx.ecommerceEnabled ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_5, [
-                  _hoisted_6,
-                  _hoisted_7,
+                  _cache[15] || (_cache[15] = vue.createElementVNode("br", null, null, -1)),
+                  _cache[16] || (_cache[16] = vue.createElementVNode("br", null, null, -1)),
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Goals_Optional")) + " " + vue.toDisplayString(_ctx.translate("Goals_Ecommerce")) + ": ", 1),
                   vue.createElementVNode("span", {
                     innerHTML: _ctx.$sanitize(_ctx.youCanEnableEcommerceReports)
-                  }, null, 8, _hoisted_8)
+                  }, null, 8, _hoisted_6)
                 ])) : vue.createCommentVNode("", true)
               ]),
               vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", null, [
                 vue.createElementVNode("thead", null, [
                   vue.createElementVNode("tr", null, [
-                    vue.createElementVNode("th", _hoisted_9, vue.toDisplayString(_ctx.translate("General_Id")), 1),
+                    vue.createElementVNode("th", _hoisted_7, vue.toDisplayString(_ctx.translate("General_Id")), 1),
                     vue.createElementVNode("th", null, vue.toDisplayString(_ctx.translate("Goals_GoalName")), 1),
-                    vue.createElementVNode("th", _hoisted_10, vue.toDisplayString(_ctx.translate("General_Description")), 1),
-                    vue.createElementVNode("th", _hoisted_11, vue.toDisplayString(_ctx.translate("Goals_GoalIsTriggeredWhen")), 1),
+                    vue.createElementVNode("th", _hoisted_8, vue.toDisplayString(_ctx.translate("General_Description")), 1),
+                    vue.createElementVNode("th", _hoisted_9, vue.toDisplayString(_ctx.translate("Goals_GoalIsTriggeredWhen")), 1),
                     vue.createElementVNode("th", null, vue.toDisplayString(_ctx.translate("General_ColumnRevenue")), 1),
                     _ctx.beforeGoalListActionsHeadComponent ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.beforeGoalListActionsHeadComponent), { key: 0 })) : vue.createCommentVNode("", true),
-                    _ctx.userCanEditGoals ? (vue.openBlock(), vue.createElementBlock("th", _hoisted_12, vue.toDisplayString(_ctx.translate("General_Actions")), 1)) : vue.createCommentVNode("", true)
+                    _ctx.userCanEditGoals ? (vue.openBlock(), vue.createElementBlock("th", _hoisted_10, vue.toDisplayString(_ctx.translate("General_Actions")), 1)) : vue.createCommentVNode("", true)
                   ])
                 ]),
                 vue.createElementVNode("tbody", null, [
-                  !Object.keys(_ctx.goals || {}).length ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_13, [
-                    vue.createElementVNode("td", _hoisted_14, [
-                      _hoisted_15,
+                  !Object.keys(_ctx.goals || {}).length ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_11, [
+                    vue.createElementVNode("td", _hoisted_12, [
+                      _cache[17] || (_cache[17] = vue.createElementVNode("br", null, null, -1)),
                       vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Goals_ThereIsNoGoalToManage", _ctx.siteName)) + " ", 1),
-                      _hoisted_16,
-                      _hoisted_17
+                      _cache[18] || (_cache[18] = vue.createElementVNode("br", null, null, -1)),
+                      _cache[19] || (_cache[19] = vue.createElementVNode("br", null, null, -1))
                     ])
                   ])) : vue.createCommentVNode("", true),
                   (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.goals || [], (goal) => {
@@ -673,13 +652,13 @@ var __async = (__this, __arguments, generator) => {
                       id: goal.idgoal,
                       key: goal.idgoal
                     }, [
-                      vue.createElementVNode("td", _hoisted_19, vue.toDisplayString(goal.idgoal), 1),
+                      vue.createElementVNode("td", _hoisted_14, vue.toDisplayString(goal.idgoal), 1),
                       vue.createElementVNode("td", null, vue.toDisplayString(goal.name), 1),
-                      vue.createElementVNode("td", _hoisted_20, vue.toDisplayString(goal.description), 1),
-                      vue.createElementVNode("td", _hoisted_21, [
-                        vue.createElementVNode("span", _hoisted_22, vue.toDisplayString(_ctx.goalMatchAttributeTranslations[goal.match_attribute] || goal.match_attribute), 1),
-                        goal.match_attribute === "visit_duration" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_23, vue.toDisplayString(_ctx.lcfirst(_ctx.translate("General_OperationGreaterThan"))) + " " + vue.toDisplayString(_ctx.translate("Intl_NMinutes", goal.pattern)), 1)) : !!goal.pattern_type ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_24, [
-                          _hoisted_25,
+                      vue.createElementVNode("td", _hoisted_15, vue.toDisplayString(goal.description), 1),
+                      vue.createElementVNode("td", _hoisted_16, [
+                        vue.createElementVNode("span", _hoisted_17, vue.toDisplayString(_ctx.goalMatchAttributeTranslations[goal.match_attribute] || goal.match_attribute), 1),
+                        goal.match_attribute === "visit_duration" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_18, vue.toDisplayString(_ctx.lcfirst(_ctx.translate("General_OperationGreaterThan"))) + " " + vue.toDisplayString(_ctx.translate("Intl_NMinutes", goal.pattern)), 1)) : !!goal.pattern_type ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_19, [
+                          _cache[20] || (_cache[20] = vue.createElementVNode("br", null, null, -1)),
                           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Goals_Pattern")) + " " + vue.toDisplayString(goal.pattern_type) + ": " + vue.toDisplayString(goal.pattern), 1)
                         ])) : vue.createCommentVNode("", true)
                       ]),
@@ -688,38 +667,38 @@ var __async = (__this, __arguments, generator) => {
                         innerHTML: _ctx.$sanitize(
                           goal.revenue === 0 || goal.revenue === "0" ? "-" : goal.revenue_pretty
                         )
-                      }, null, 8, _hoisted_26),
+                      }, null, 8, _hoisted_20),
                       _ctx.beforeGoalListActionsBodyComponent[goal.idgoal] ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.beforeGoalListActionsBodyComponent[goal.idgoal]), { key: 0 })) : vue.createCommentVNode("", true),
-                      _ctx.userCanEditGoals ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_27, [
+                      _ctx.userCanEditGoals ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_21, [
                         vue.createElementVNode("a", {
                           class: "table-action icon-show",
                           href: _ctx.getGoalReportUrl(goal.idgoal),
                           title: _ctx.translate("Goals_ViewGoalReport"),
                           "aria-label": _ctx.translate("Goals_ViewGoalReport")
-                        }, null, 8, _hoisted_28),
+                        }, null, 8, _hoisted_22),
                         vue.createElementVNode("button", {
                           onClick: ($event) => _ctx.editGoal(goal.idgoal),
                           class: "table-action icon-edit",
                           title: _ctx.translate("General_Edit")
-                        }, null, 8, _hoisted_29),
+                        }, null, 8, _hoisted_23),
                         vue.createElementVNode("button", {
                           onClick: ($event) => _ctx.deleteGoal(goal.idgoal),
                           class: "table-action icon-delete",
                           title: _ctx.translate("General_Delete")
-                        }, null, 8, _hoisted_30)
+                        }, null, 8, _hoisted_24)
                       ])) : vue.createCommentVNode("", true)
-                    ], 8, _hoisted_18);
+                    ], 8, _hoisted_13);
                   }), 128))
                 ])
               ])), [
                 [_directive_content_table]
               ]),
-              _ctx.userCanEditGoals && !_ctx.onlyShowAddNewGoal ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_31, [
+              _ctx.userCanEditGoals && !_ctx.onlyShowAddNewGoal ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_25, [
                 vue.createElementVNode("button", {
                   id: "add-goal",
                   onClick: _cache[0] || (_cache[0] = ($event) => _ctx.createGoal())
                 }, [
-                  _hoisted_32,
+                  _cache[21] || (_cache[21] = vue.createElementVNode("span", { class: "icon-add" }, null, -1)),
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Goals_AddNewGoal")), 1)
                 ])
               ])) : vue.createCommentVNode("", true)
@@ -729,31 +708,31 @@ var __async = (__this, __arguments, generator) => {
         ], 512), [
           [vue.vShow, _ctx.showGoalList]
         ]),
-        vue.createElementVNode("div", _hoisted_33, [
+        vue.createElementVNode("div", _hoisted_26, [
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("Goals_DeleteGoalConfirm", `"${(_a = _ctx.goalToDelete) == null ? void 0 : _a.name}"`)), 1),
           vue.createElementVNode("input", {
             role: "yes",
             type: "button",
             value: _ctx.translate("General_Yes")
-          }, null, 8, _hoisted_34),
+          }, null, 8, _hoisted_27),
           vue.createElementVNode("input", {
             role: "no",
             type: "button",
             value: _ctx.translate("General_No")
-          }, null, 8, _hoisted_35)
+          }, null, 8, _hoisted_28)
         ], 512)
       ], 512), [
         [vue.vShow, !_ctx.onlyShowAddNewGoal]
       ]),
       vue.withDirectives(vue.createElementVNode("div", null, [
-        vue.withDirectives(vue.createElementVNode("div", _hoisted_36, [
+        vue.withDirectives(vue.createElementVNode("div", _hoisted_29, [
           vue.createVNode(_component_ContentBlock, {
             "content-title": _ctx.goal.idgoal ? _ctx.translate("Goals_UpdateGoal") : _ctx.translate("Goals_AddNewGoal")
           }, {
             default: vue.withCtx(() => [
               vue.createElementVNode("div", {
                 innerHTML: _ctx.$sanitize(_ctx.addNewGoalIntro)
-              }, null, 8, _hoisted_37),
+              }, null, 8, _hoisted_30),
               vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", null, [
                 vue.createElementVNode("div", null, [
                   vue.createVNode(_component_Field, {
@@ -783,13 +762,13 @@ var __async = (__this, __arguments, generator) => {
                     "ui-control-attributes": { class: "compact-textarea" }
                   }, null, 8, ["modelValue", "title", "placeholder", "inline-help"])
                 ]),
-                vue.createElementVNode("div", _hoisted_38, [
-                  vue.createElementVNode("div", _hoisted_39, [
+                vue.createElementVNode("div", _hoisted_31, [
+                  vue.createElementVNode("div", _hoisted_32, [
                     vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("Goals_GoalIsTriggered")), 1)
                   ])
                 ]),
-                vue.createElementVNode("div", _hoisted_40, [
-                  vue.createElementVNode("div", _hoisted_41, [
+                vue.createElementVNode("div", _hoisted_33, [
+                  vue.createElementVNode("div", _hoisted_34, [
                     vue.createElementVNode("div", null, [
                       vue.createVNode(_component_Field, {
                         uicontrol: "select",
@@ -804,12 +783,12 @@ var __async = (__this, __arguments, generator) => {
                       }, null, 8, ["model-value", "options"])
                     ])
                   ]),
-                  vue.createElementVNode("div", _hoisted_42, [
+                  vue.createElementVNode("div", _hoisted_35, [
                     vue.withDirectives(vue.createVNode(_component_Alert, { severity: "info" }, {
                       default: vue.withCtx(() => [
                         vue.createElementVNode("span", {
                           innerHTML: _ctx.$sanitize(_ctx.whereVisitedPageManuallyCallsJsTrackerText)
-                        }, null, 8, _hoisted_43)
+                        }, null, 8, _hoisted_36)
                       ]),
                       _: 1
                     }, 512), [
@@ -832,8 +811,8 @@ var __async = (__this, __arguments, generator) => {
                     ])
                   ])
                 ]),
-                vue.withDirectives(vue.createElementVNode("div", _hoisted_44, [
-                  vue.createElementVNode("h3", _hoisted_45, [
+                vue.withDirectives(vue.createElementVNode("div", _hoisted_37, [
+                  vue.createElementVNode("h3", _hoisted_38, [
                     vue.createTextVNode(vue.toDisplayString(_ctx.translate("Goals_WhereThe")) + " ", 1),
                     vue.withDirectives(vue.createElementVNode("span", null, vue.toDisplayString(_ctx.translate("Goals_URL")), 513), [
                       [vue.vShow, _ctx.goal.match_attribute === "url"]
@@ -854,8 +833,8 @@ var __async = (__this, __arguments, generator) => {
                 ], 512), [
                   [vue.vShow, _ctx.triggerType !== "manually"]
                 ]),
-                vue.withDirectives(vue.createElementVNode("div", _hoisted_46, [
-                  vue.withDirectives(vue.createElementVNode("div", _hoisted_47, [
+                vue.withDirectives(vue.createElementVNode("div", _hoisted_39, [
+                  vue.withDirectives(vue.createElementVNode("div", _hoisted_40, [
                     vue.createElementVNode("div", null, [
                       vue.createVNode(_component_Field, {
                         uicontrol: "select",
@@ -869,7 +848,7 @@ var __async = (__this, __arguments, generator) => {
                   ], 512), [
                     [vue.vShow, _ctx.goal.match_attribute === "event"]
                   ]),
-                  !_ctx.isMatchAttributeNumeric ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_48, [
+                  !_ctx.isMatchAttributeNumeric ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_41, [
                     vue.createElementVNode("div", null, [
                       vue.createVNode(_component_Field, {
                         uicontrol: "select",
@@ -881,7 +860,7 @@ var __async = (__this, __arguments, generator) => {
                       }, null, 8, ["modelValue", "options"])
                     ])
                   ])) : vue.createCommentVNode("", true),
-                  _ctx.isMatchAttributeNumeric ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_49, [
+                  _ctx.isMatchAttributeNumeric ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_42, [
                     vue.createElementVNode("div", null, [
                       vue.createVNode(_component_Field, {
                         uicontrol: "select",
@@ -893,7 +872,7 @@ var __async = (__this, __arguments, generator) => {
                       }, null, 8, ["modelValue", "options"])
                     ])
                   ])) : vue.createCommentVNode("", true),
-                  vue.createElementVNode("div", _hoisted_50, [
+                  vue.createElementVNode("div", _hoisted_43, [
                     vue.createElementVNode("div", null, [
                       vue.createVNode(_component_Field, {
                         uicontrol: "text",
@@ -908,14 +887,14 @@ var __async = (__this, __arguments, generator) => {
                       }, null, 8, ["modelValue", "title", "error-message"])
                     ])
                   ]),
-                  vue.createElementVNode("div", _hoisted_51, [
+                  vue.createElementVNode("div", _hoisted_44, [
                     vue.createVNode(_component_Alert, { severity: "info" }, {
                       default: vue.withCtx(() => [
                         vue.withDirectives(vue.createElementVNode("span", null, [
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.translate("Goals_Contains", "'checkout/confirmation'")) + " ", 1),
-                          _hoisted_52,
+                          _cache[22] || (_cache[22] = vue.createElementVNode("br", null, null, -1)),
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.translate("Goals_IsExactly", "'http://example.com/thank-you.html'")) + " ", 1),
-                          _hoisted_53,
+                          _cache[23] || (_cache[23] = vue.createElementVNode("br", null, null, -1)),
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.translate("Goals_MatchesExpression", "'(.*)\\/demo\\/(.*)'")), 1)
                         ], 512), [
                           [vue.vShow, _ctx.goal.match_attribute === "url"]
@@ -925,27 +904,27 @@ var __async = (__this, __arguments, generator) => {
                         ]),
                         vue.withDirectives(vue.createElementVNode("span", null, [
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.translate("Goals_Contains", "'files/brochure.pdf'")) + " ", 1),
-                          _hoisted_54,
+                          _cache[24] || (_cache[24] = vue.createElementVNode("br", null, null, -1)),
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.translate("Goals_IsExactly", "'http://example.com/files/brochure.pdf'")) + " ", 1),
-                          _hoisted_55,
+                          _cache[25] || (_cache[25] = vue.createElementVNode("br", null, null, -1)),
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.translate("Goals_MatchesExpression", "'(.*)\\.zip'")), 1)
                         ], 512), [
                           [vue.vShow, _ctx.goal.match_attribute === "file"]
                         ]),
                         vue.withDirectives(vue.createElementVNode("span", null, [
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.translate("Goals_Contains", "'amazon.com'")) + " ", 1),
-                          _hoisted_56,
+                          _cache[26] || (_cache[26] = vue.createElementVNode("br", null, null, -1)),
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.translate("Goals_IsExactly", "'http://mypartner.com/landing.html'")) + " ", 1),
-                          _hoisted_57,
+                          _cache[27] || (_cache[27] = vue.createElementVNode("br", null, null, -1)),
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.matchesExpressionExternal), 1)
                         ], 512), [
                           [vue.vShow, _ctx.goal.match_attribute === "external_website"]
                         ]),
                         vue.withDirectives(vue.createElementVNode("span", null, [
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.translate("Goals_Contains", "'video'")) + " ", 1),
-                          _hoisted_58,
+                          _cache[28] || (_cache[28] = vue.createElementVNode("br", null, null, -1)),
                           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.translate("Goals_IsExactly", "'click'")) + " ", 1),
-                          _hoisted_59,
+                          _cache[29] || (_cache[29] = vue.createElementVNode("br", null, null, -1)),
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ForExampleShort")) + " " + vue.toDisplayString(_ctx.translate("Goals_MatchesExpression", "'(.*)_banner'")) + '" ', 1)
                         ], 512), [
                           [vue.vShow, _ctx.goal.match_attribute === "event"]
@@ -1006,24 +985,28 @@ var __async = (__this, __arguments, generator) => {
                     [vue.vShow, _ctx.goal.match_attribute === "event"]
                   ])
                 ]),
-                vue.createElementVNode("div", _hoisted_60, [
+                vue.createElementVNode("div", _hoisted_45, [
                   _ctx.endEditTable ? (vue.openBlock(), vue.createBlock(_component_VueEntryContainer, {
                     key: 0,
                     html: _ctx.endEditTable
                   }, null, 8, ["html"])) : vue.createCommentVNode("", true)
                 ], 512),
-                _hoisted_61,
+                _cache[30] || (_cache[30] = vue.createElementVNode("input", {
+                  type: "hidden",
+                  name: "goalIdUpdate",
+                  value: ""
+                }, null, -1)),
                 vue.createVNode(_component_SaveButton, {
                   saving: _ctx.isLoading,
                   onConfirm: _cache[13] || (_cache[13] = ($event) => _ctx.save()),
                   value: _ctx.submitText
                 }, null, 8, ["saving", "value"]),
-                !_ctx.onlyShowAddNewGoal ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_62, [
+                !_ctx.onlyShowAddNewGoal ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_46, [
                   vue.withDirectives(vue.createElementVNode("div", {
                     class: "entityCancel",
                     onClick: _cache[14] || (_cache[14] = ($event) => _ctx.showListOfReports()),
                     innerHTML: _ctx.$sanitize(_ctx.cancelText)
-                  }, null, 8, _hoisted_63), [
+                  }, null, 8, _hoisted_47), [
                     [vue.vShow, _ctx.showEditGoal]
                   ])
                 ])) : vue.createCommentVNode("", true)
@@ -1039,7 +1022,7 @@ var __async = (__this, __arguments, generator) => {
       ], 512), [
         [vue.vShow, _ctx.userCanEditGoals]
       ]),
-      _hoisted_64
+      _cache[31] || (_cache[31] = vue.createElementVNode("a", { id: "bottom" }, null, -1))
     ]);
   }
   const ManageGoals = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);

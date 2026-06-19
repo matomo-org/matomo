@@ -137,32 +137,29 @@ var __spreadValues = (a, b) => {
     action: "",
     method: "POST"
   };
-  const _hoisted_3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4 = {
+  const _hoisted_3 = {
     key: 0,
     class: "checkbox-container usech"
   };
-  const _hoisted_5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7 = ["value"];
-  const _hoisted_8 = { key: 0 };
-  const _hoisted_9 = { key: 1 };
+  const _hoisted_4 = ["value"];
+  const _hoisted_5 = { key: 0 };
+  const _hoisted_6 = { key: 1 };
+  const _hoisted_7 = { class: "detection" };
+  const _hoisted_8 = ["src"];
+  const _hoisted_9 = ["src"];
   const _hoisted_10 = { class: "detection" };
   const _hoisted_11 = ["src"];
   const _hoisted_12 = ["src"];
   const _hoisted_13 = { class: "detection" };
   const _hoisted_14 = ["src"];
   const _hoisted_15 = ["src"];
-  const _hoisted_16 = { class: "detection" };
-  const _hoisted_17 = ["src"];
-  const _hoisted_18 = ["src"];
-  const _hoisted_19 = {
+  const _hoisted_16 = {
     class: "ui-confirm",
     id: "deviceDetectionItemList",
     ref: "deviceDetectionItemList"
   };
-  const _hoisted_20 = ["innerHTML"];
-  const _hoisted_21 = ["value"];
+  const _hoisted_17 = ["innerHTML"];
+  const _hoisted_18 = ["value"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
     const _directive_content_table = vue.resolveDirective("content-table");
@@ -179,9 +176,9 @@ var __spreadValues = (a, b) => {
             }, null, 512), [
               [vue.vModelText, _ctx.userAgentText]
             ]),
-            _hoisted_3,
+            _cache[10] || (_cache[10] = vue.createElementVNode("br", null, null, -1)),
             vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("DevicesDetection_ClientHints")), 1),
-            _ctx.isClientHintsSupported ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4, [
+            _ctx.isClientHintsSupported ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_3, [
               vue.createElementVNode("label", null, [
                 vue.withDirectives(vue.createElementVNode("input", {
                   type: "checkbox",
@@ -208,28 +205,28 @@ var __spreadValues = (a, b) => {
             }, vue.toDisplayString(_ctx.translate("DevicesDetection_ClientHintsNotSupported")), 513), [
               [vue.vShow, !_ctx.isClientHintsSupported]
             ]),
-            _hoisted_5,
-            _hoisted_6,
+            _cache[11] || (_cache[11] = vue.createElementVNode("br", null, null, -1)),
+            _cache[12] || (_cache[12] = vue.createElementVNode("br", null, null, -1)),
             vue.createElementVNode("input", {
               type: "submit",
               value: _ctx.translate("General_Refresh"),
               class: "btn"
-            }, null, 8, _hoisted_7)
+            }, null, 8, _hoisted_4)
           ]),
-          _ctx.bot_info ? (vue.openBlock(), vue.createElementBlock("h3", _hoisted_8, vue.toDisplayString(_ctx.translate("DevicesDetection_BotDetected", _ctx.bot_info.name)), 1)) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_9, [
+          _ctx.bot_info ? (vue.openBlock(), vue.createElementBlock("h3", _hoisted_5, vue.toDisplayString(_ctx.translate("DevicesDetection_BotDetected", _ctx.bot_info.name)), 1)) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_6, [
             vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("DevicesDetection_ColumnOperatingSystem")), 1),
-            vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_10, [
+            vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_7, [
               vue.createElementVNode("tbody", null, [
                 vue.createElementVNode("tr", null, [
                   vue.createElementVNode("td", null, [
                     vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_Name")) + " ", 1),
                     vue.createElementVNode("small", null, [
-                      vue.createTextVNode(" ("),
+                      _cache[13] || (_cache[13] = vue.createTextVNode(" (", -1)),
                       vue.createElementVNode("a", {
                         href: "",
                         onClick: _cache[4] || (_cache[4] = vue.withModifiers(($event) => _ctx.showList("os"), ["prevent"]))
                       }, vue.toDisplayString(_ctx.translate("Mobile_ShowAll")), 1),
-                      vue.createTextVNode(") ")
+                      _cache[14] || (_cache[14] = vue.createTextVNode(") ", -1))
                     ])
                   ]),
                   vue.createElementVNode("td", null, [
@@ -237,7 +234,7 @@ var __spreadValues = (a, b) => {
                       height: 16,
                       width: 16,
                       src: _ctx.os_logo
-                    }, null, 8, _hoisted_11),
+                    }, null, 8, _hoisted_8),
                     vue.createTextVNode(vue.toDisplayString(_ctx.os_name), 1)
                   ])
                 ]),
@@ -249,12 +246,12 @@ var __spreadValues = (a, b) => {
                   vue.createElementVNode("td", null, [
                     vue.createTextVNode(vue.toDisplayString(_ctx.translate("DevicesDetection_OperatingSystemFamily")) + " ", 1),
                     vue.createElementVNode("small", null, [
-                      vue.createTextVNode(" ("),
+                      _cache[15] || (_cache[15] = vue.createTextVNode(" (", -1)),
                       vue.createElementVNode("a", {
                         href: "",
                         onClick: _cache[5] || (_cache[5] = vue.withModifiers(($event) => _ctx.showList("osfamilies"), ["prevent"]))
                       }, vue.toDisplayString(_ctx.translate("Mobile_ShowAll")), 1),
-                      vue.createTextVNode(") ")
+                      _cache[16] || (_cache[16] = vue.createTextVNode(") ", -1))
                     ])
                   ]),
                   vue.createElementVNode("td", null, [
@@ -262,7 +259,7 @@ var __spreadValues = (a, b) => {
                       height: 16,
                       width: 16,
                       src: _ctx.os_family_logo
-                    }, null, 8, _hoisted_12),
+                    }, null, 8, _hoisted_9),
                     vue.createTextVNode(vue.toDisplayString(_ctx.os_family), 1)
                   ])
                 ])
@@ -271,18 +268,18 @@ var __spreadValues = (a, b) => {
               [_directive_content_table]
             ]),
             vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("DevicesDetection_ColumnBrowser")), 1),
-            vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_13, [
+            vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_10, [
               vue.createElementVNode("tbody", null, [
                 vue.createElementVNode("tr", null, [
                   vue.createElementVNode("td", null, [
                     vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_Name")) + " ", 1),
                     vue.createElementVNode("small", null, [
-                      vue.createTextVNode(" ("),
+                      _cache[17] || (_cache[17] = vue.createTextVNode(" (", -1)),
                       vue.createElementVNode("a", {
                         href: "",
                         onClick: _cache[6] || (_cache[6] = vue.withModifiers(($event) => _ctx.showList("browsers"), ["prevent"]))
                       }, vue.toDisplayString(_ctx.translate("Mobile_ShowAll")), 1),
-                      vue.createTextVNode(") ")
+                      _cache[18] || (_cache[18] = vue.createTextVNode(") ", -1))
                     ])
                   ]),
                   vue.createElementVNode("td", null, [
@@ -290,7 +287,7 @@ var __spreadValues = (a, b) => {
                       height: 16,
                       width: 16,
                       src: _ctx.browser_logo
-                    }, null, 8, _hoisted_14),
+                    }, null, 8, _hoisted_11),
                     vue.createTextVNode(vue.toDisplayString(_ctx.browser_name), 1)
                   ])
                 ]),
@@ -302,12 +299,12 @@ var __spreadValues = (a, b) => {
                   vue.createElementVNode("td", null, [
                     vue.createTextVNode(vue.toDisplayString(_ctx.translate("DevicesDetection_BrowserFamily")) + " ", 1),
                     vue.createElementVNode("small", null, [
-                      vue.createTextVNode(" ("),
+                      _cache[19] || (_cache[19] = vue.createTextVNode(" (", -1)),
                       vue.createElementVNode("a", {
                         href: "",
                         onClick: _cache[7] || (_cache[7] = vue.withModifiers(($event) => _ctx.showList("browserfamilies"), ["prevent"]))
                       }, vue.toDisplayString(_ctx.translate("Mobile_ShowAll")), 1),
-                      vue.createTextVNode(") ")
+                      _cache[20] || (_cache[20] = vue.createTextVNode(") ", -1))
                     ])
                   ]),
                   vue.createElementVNode("td", null, [
@@ -315,7 +312,7 @@ var __spreadValues = (a, b) => {
                       height: 16,
                       width: 16,
                       src: _ctx.browser_family_logo
-                    }, null, 8, _hoisted_15),
+                    }, null, 8, _hoisted_12),
                     vue.createTextVNode(vue.toDisplayString(_ctx.browser_family), 1)
                   ])
                 ])
@@ -324,18 +321,18 @@ var __spreadValues = (a, b) => {
               [_directive_content_table]
             ]),
             vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("DevicesDetection_Device")), 1),
-            vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_16, [
+            vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_13, [
               vue.createElementVNode("tbody", null, [
                 vue.createElementVNode("tr", null, [
                   vue.createElementVNode("td", null, [
                     vue.createTextVNode(vue.toDisplayString(_ctx.translate("DevicesDetection_dataTableLabelTypes")) + " ", 1),
                     vue.createElementVNode("small", null, [
-                      vue.createTextVNode(" ("),
+                      _cache[21] || (_cache[21] = vue.createTextVNode(" (", -1)),
                       vue.createElementVNode("a", {
                         href: "",
                         onClick: _cache[8] || (_cache[8] = vue.withModifiers(($event) => _ctx.showList("devicetypes"), ["prevent"]))
                       }, vue.toDisplayString(_ctx.translate("Mobile_ShowAll")), 1),
-                      vue.createTextVNode(") ")
+                      _cache[22] || (_cache[22] = vue.createTextVNode(") ", -1))
                     ])
                   ]),
                   vue.createElementVNode("td", null, [
@@ -343,7 +340,7 @@ var __spreadValues = (a, b) => {
                       height: 16,
                       width: 16,
                       src: _ctx.device_type_logo
-                    }, null, 8, _hoisted_17),
+                    }, null, 8, _hoisted_14),
                     vue.createTextVNode(vue.toDisplayString(_ctx.device_type), 1)
                   ])
                 ]),
@@ -351,12 +348,12 @@ var __spreadValues = (a, b) => {
                   vue.createElementVNode("td", null, [
                     vue.createTextVNode(vue.toDisplayString(_ctx.translate("DevicesDetection_dataTableLabelBrands")) + " ", 1),
                     vue.createElementVNode("small", null, [
-                      vue.createTextVNode(" ("),
+                      _cache[23] || (_cache[23] = vue.createTextVNode(" (", -1)),
                       vue.createElementVNode("a", {
                         href: "",
                         onClick: _cache[9] || (_cache[9] = vue.withModifiers(($event) => _ctx.showList("brands"), ["prevent"]))
                       }, vue.toDisplayString(_ctx.translate("Mobile_ShowAll")), 1),
-                      vue.createTextVNode(") ")
+                      _cache[24] || (_cache[24] = vue.createTextVNode(") ", -1))
                     ])
                   ]),
                   vue.createElementVNode("td", null, [
@@ -364,7 +361,7 @@ var __spreadValues = (a, b) => {
                       height: 16,
                       width: 16,
                       src: _ctx.device_brand_logo
-                    }, null, 8, _hoisted_18),
+                    }, null, 8, _hoisted_15),
                     vue.createTextVNode(vue.toDisplayString(_ctx.device_brand), 1)
                   ])
                 ]),
@@ -380,16 +377,16 @@ var __spreadValues = (a, b) => {
         ]),
         _: 1
       }, 8, ["content-title"]),
-      vue.createElementVNode("div", _hoisted_19, [
+      vue.createElementVNode("div", _hoisted_16, [
         vue.createElementVNode("div", {
           class: "itemList",
           innerHTML: _ctx.$sanitize(_ctx.itemListHtml)
-        }, null, 8, _hoisted_20),
+        }, null, 8, _hoisted_17),
         vue.createElementVNode("input", {
           role: "close",
           type: "button",
           value: _ctx.translate("General_Close")
-        }, null, 8, _hoisted_21)
+        }, null, 8, _hoisted_18)
       ], 512)
     ]);
   }

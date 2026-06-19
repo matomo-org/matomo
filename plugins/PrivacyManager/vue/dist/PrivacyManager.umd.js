@@ -273,71 +273,59 @@ var __async = (__this, __arguments, generator) => {
   };
   const _hoisted_1$g = { class: "manageGdpr" };
   const _hoisted_2$f = { class: "intro" };
-  const _hoisted_3$f = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4$d = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_5$d = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6$b = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7$a = ["innerHTML"];
-  const _hoisted_8$8 = { class: "form-group row" };
-  const _hoisted_9$6 = { class: "col s12 input-field" };
-  const _hoisted_10$6 = {
+  const _hoisted_3$e = ["innerHTML"];
+  const _hoisted_4$d = { class: "form-group row" };
+  const _hoisted_5$b = { class: "col s12 input-field" };
+  const _hoisted_6$9 = {
     for: "gdprsite",
     class: "siteSelectorLabel"
   };
-  const _hoisted_11$6 = { class: "sites_autocomplete" };
-  const _hoisted_12$6 = {
+  const _hoisted_7$8 = { class: "sites_autocomplete" };
+  const _hoisted_8$6 = {
     key: 0,
     class: "form-group row segmentFilterGroup"
   };
-  const _hoisted_13$6 = { class: "col s12" };
-  const _hoisted_14$5 = { style: { "margin": "8px 0", "display": "inline-block" } };
-  const _hoisted_15$5 = {
+  const _hoisted_9$6 = { class: "col s12" };
+  const _hoisted_10$6 = { style: { "margin": "8px 0", "display": "inline-block" } };
+  const _hoisted_11$5 = {
     key: 2,
     class: "dataUnavailable system notification notification-icon notification-info"
   };
-  const _hoisted_16$5 = ["innerHTML"];
-  const _hoisted_17$4 = {
+  const _hoisted_12$5 = ["innerHTML"];
+  const _hoisted_13$3 = {
     key: 0,
     class: "system notification notification-icon notification-info"
   };
-  const _hoisted_18$4 = { class: "notification-body" };
-  const _hoisted_19$3 = ["innerHTML"];
-  const _hoisted_20$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_21$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_22$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_23$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_24$2 = { class: "checkInclude" };
-  const _hoisted_25$2 = { colspan: "8" };
-  const _hoisted_26$2 = ["title"];
-  const _hoisted_27$1 = { class: "checkInclude" };
+  const _hoisted_14$3 = { class: "notification-body" };
+  const _hoisted_15$3 = ["innerHTML"];
+  const _hoisted_16$3 = { class: "checkInclude" };
+  const _hoisted_17$3 = { colspan: "8" };
+  const _hoisted_18$3 = ["title"];
+  const _hoisted_19$2 = { class: "checkInclude" };
+  const _hoisted_20$2 = ["title"];
+  const _hoisted_21$1 = { class: "visitId" };
+  const _hoisted_22$1 = { class: "visitorId" };
+  const _hoisted_23$1 = ["title", "onClick"];
+  const _hoisted_24$1 = { class: "visitorIp" };
+  const _hoisted_25$1 = ["title", "onClick"];
+  const _hoisted_26$1 = { class: "userId" };
+  const _hoisted_27$1 = ["title", "onClick"];
   const _hoisted_28$1 = ["title"];
-  const _hoisted_29$1 = { class: "visitId" };
-  const _hoisted_30$1 = { class: "visitorId" };
-  const _hoisted_31$1 = ["title", "onClick"];
-  const _hoisted_32$1 = { class: "visitorIp" };
-  const _hoisted_33$1 = ["title", "onClick"];
-  const _hoisted_34$1 = { class: "userId" };
-  const _hoisted_35 = ["title", "onClick"];
-  const _hoisted_36 = ["title"];
-  const _hoisted_37 = ["src"];
-  const _hoisted_38 = ["title"];
-  const _hoisted_39 = ["src"];
-  const _hoisted_40 = ["title"];
-  const _hoisted_41 = ["src"];
-  const _hoisted_42 = ["title"];
-  const _hoisted_43 = ["src"];
-  const _hoisted_44 = ["onClick"];
-  const _hoisted_45 = /* @__PURE__ */ vue.createElementVNode("img", {
-    src: "plugins/Live/images/visitorProfileLaunch.png",
-    style: { "margin-right": "3.5px" }
-  }, null, -1);
-  const _hoisted_46 = {
+  const _hoisted_29$1 = ["src"];
+  const _hoisted_30$1 = ["title"];
+  const _hoisted_31$1 = ["src"];
+  const _hoisted_32$1 = ["title"];
+  const _hoisted_33$1 = ["src"];
+  const _hoisted_34 = ["title"];
+  const _hoisted_35 = ["src"];
+  const _hoisted_36 = ["onClick"];
+  const _hoisted_37 = {
     class: "ui-confirm",
     id: "confirmDeleteDataSubject",
     ref: "confirmDeleteDataSubject"
   };
-  const _hoisted_47 = ["value"];
-  const _hoisted_48 = ["value"];
+  const _hoisted_38 = ["value"];
+  const _hoisted_39 = ["value"];
   function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_SiteSelector = vue.resolveComponent("SiteSelector");
     const _component_SegmentGenerator = vue.resolveComponent("SegmentGenerator");
@@ -353,28 +341,28 @@ var __async = (__this, __arguments, generator) => {
           vue.createElementVNode("div", _hoisted_2$f, [
             vue.createElementVNode("p", null, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_GdprToolsPageIntro1")) + " ", 1),
-              _hoisted_3$f,
-              _hoisted_4$d,
+              _cache[7] || (_cache[7] = vue.createElementVNode("br", null, null, -1)),
+              _cache[8] || (_cache[8] = vue.createElementVNode("br", null, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_GdprToolsPageIntro2")) + " ", 1),
-              _hoisted_5$d
+              _cache[9] || (_cache[9] = vue.createElementVNode("br", null, null, -1))
             ]),
             vue.createElementVNode("ul", null, [
               vue.createElementVNode("li", null, vue.toDisplayString(_ctx.translate("PrivacyManager_GdprToolsPageIntroAccessRight")), 1),
               vue.createElementVNode("li", null, vue.toDisplayString(_ctx.translate("PrivacyManager_GdprToolsPageIntroEraseRight")), 1)
             ]),
             vue.createElementVNode("p", null, [
-              _hoisted_6$b,
+              _cache[10] || (_cache[10] = vue.createElementVNode("br", null, null, -1)),
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.overviewHintText)
-              }, null, 8, _hoisted_7$a)
+              }, null, 8, _hoisted_3$e)
             ])
           ]),
           vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("PrivacyManager_SearchForDataSubject")), 1),
-          vue.createElementVNode("div", _hoisted_8$8, [
-            vue.createElementVNode("div", _hoisted_9$6, [
+          vue.createElementVNode("div", _hoisted_4$d, [
+            vue.createElementVNode("div", _hoisted_5$b, [
               vue.createElementVNode("div", null, [
-                vue.createElementVNode("label", _hoisted_10$6, vue.toDisplayString(_ctx.translate("PrivacyManager_SelectWebsite")), 1),
-                vue.createElementVNode("div", _hoisted_11$6, [
+                vue.createElementVNode("label", _hoisted_6$9, vue.toDisplayString(_ctx.translate("PrivacyManager_SelectWebsite")), 1),
+                vue.createElementVNode("div", _hoisted_7$8, [
                   vue.createVNode(_component_SiteSelector, {
                     id: "gdprsite",
                     modelValue: _ctx.site,
@@ -390,10 +378,10 @@ var __async = (__this, __arguments, generator) => {
               ])
             ])
           ]),
-          _ctx.isVisitorLogAndProfileEnabled ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_12$6, [
-            vue.createElementVNode("div", _hoisted_13$6, [
+          _ctx.isVisitorLogAndProfileEnabled ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_8$6, [
+            vue.createElementVNode("div", _hoisted_9$6, [
               vue.createElementVNode("div", null, [
-                vue.createElementVNode("label", _hoisted_14$5, vue.toDisplayString(_ctx.translate("PrivacyManager_FindDataSubjectsBy")), 1),
+                vue.createElementVNode("label", _hoisted_10$6, vue.toDisplayString(_ctx.translate("PrivacyManager_FindDataSubjectsBy")), 1),
                 vue.createElementVNode("div", null, [
                   vue.createVNode(_component_SegmentGenerator, {
                     modelValue: _ctx.segment_filter,
@@ -413,23 +401,23 @@ var __async = (__this, __arguments, generator) => {
             onConfirm: _cache[3] || (_cache[3] = ($event) => _ctx.findDataSubjects()),
             disabled: !_ctx.segment_filter,
             saving: _ctx.isLoading
-          }, null, 8, ["value", "disabled", "saving"])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_15$5, [
+          }, null, 8, ["value", "disabled", "saving"])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_11$5, [
             vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.translate("PrivacyManager_SiteDataNotAvailable")), 1),
             vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("PrivacyManager_VisitorLogsProfilesDisabledMessage")), 1),
             vue.createElementVNode("p", {
               innerHTML: _ctx.$sanitize(_ctx.siteSettingsTextSingle)
-            }, null, 8, _hoisted_16$5)
+            }, null, 8, _hoisted_12$5)
           ]))
         ]),
         _: 1
       }, 8, ["content-title"]),
-      _ctx.allWebsitesContainsDisabledSite ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_17$4, [
+      _ctx.allWebsitesContainsDisabledSite ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_13$3, [
         vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.translate("PrivacyManager_SiteDataNotAvailableCertainSites")), 1),
-        vue.createElementVNode("div", _hoisted_18$4, [
+        vue.createElementVNode("div", _hoisted_14$3, [
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("PrivacyManager_VisitorLogsProfilesSiteNamesDisabledMessage")), 1),
           vue.createElementVNode("p", {
             innerHTML: _ctx.$sanitize(_ctx.siteSettingsText)
-          }, null, 8, _hoisted_19$3)
+          }, null, 8, _hoisted_15$3)
         ])
       ])) : vue.createCommentVNode("", true),
       vue.withDirectives(vue.createElementVNode("div", null, [
@@ -441,18 +429,18 @@ var __async = (__this, __arguments, generator) => {
         vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("PrivacyManager_MatchingDataSubjects")), 1),
         vue.createElementVNode("p", null, [
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_VisitsMatchedCriteria")) + " " + vue.toDisplayString(_ctx.translate("PrivacyManager_ExportingNote")) + " ", 1),
-          _hoisted_20$3,
-          vue.createTextVNode(),
-          _hoisted_21$3,
+          _cache[11] || (_cache[11] = vue.createElementVNode("br", null, null, -1)),
+          _cache[12] || (_cache[12] = vue.createTextVNode()),
+          _cache[13] || (_cache[13] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_DeletionFromMatomoOnly")) + " ", 1),
-          _hoisted_22$2,
-          _hoisted_23$2,
+          _cache[14] || (_cache[14] = vue.createElementVNode("br", null, null, -1)),
+          _cache[15] || (_cache[15] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_ResultIncludesAllVisits")), 1)
         ]),
         vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", null, [
           vue.createElementVNode("thead", null, [
             vue.createElementVNode("tr", null, [
-              vue.createElementVNode("th", _hoisted_24$2, [
+              vue.createElementVNode("th", _hoisted_16$3, [
                 vue.createElementVNode("div", null, [
                   vue.createVNode(_component_Field, {
                     uicontrol: "checkbox",
@@ -479,7 +467,7 @@ var __async = (__this, __arguments, generator) => {
           ]),
           vue.createElementVNode("tbody", null, [
             vue.withDirectives(vue.createElementVNode("tr", null, [
-              vue.createElementVNode("td", _hoisted_25$2, vue.toDisplayString(_ctx.translate("PrivacyManager_ResultTruncated", "400")), 1)
+              vue.createElementVNode("td", _hoisted_17$3, vue.toDisplayString(_ctx.translate("PrivacyManager_ResultTruncated", "400")), 1)
             ], 512), [
               [vue.vShow, _ctx.dataSubjects.length > 400]
             ]),
@@ -488,7 +476,7 @@ var __async = (__this, __arguments, generator) => {
                 title: `${_ctx.translate("PrivacyManager_LastAction")}: ${dataSubject.lastActionDateTime}`,
                 key: index
               }, [
-                vue.createElementVNode("td", _hoisted_27$1, [
+                vue.createElementVNode("td", _hoisted_19$2, [
                   vue.createElementVNode("div", null, [
                     vue.createVNode(_component_Field, {
                       uicontrol: "checkbox",
@@ -502,25 +490,25 @@ var __async = (__this, __arguments, generator) => {
                 vue.createElementVNode("td", {
                   class: "site",
                   title: `(${_ctx.translate("General_Id")} ${dataSubject.idSite})`
-                }, vue.toDisplayString(dataSubject.siteName), 9, _hoisted_28$1),
-                vue.createElementVNode("td", _hoisted_29$1, vue.toDisplayString(dataSubject.idVisit), 1),
-                vue.createElementVNode("td", _hoisted_30$1, [
+                }, vue.toDisplayString(dataSubject.siteName), 9, _hoisted_20$2),
+                vue.createElementVNode("td", _hoisted_21$1, vue.toDisplayString(dataSubject.idVisit), 1),
+                vue.createElementVNode("td", _hoisted_22$1, [
                   vue.createElementVNode("a", {
                     title: _ctx.translate("PrivacyManager_AddVisitorIdToSearch"),
                     onClick: ($event) => _ctx.addFilter("visitorId", dataSubject.visitorId)
-                  }, vue.toDisplayString(dataSubject.visitorId), 9, _hoisted_31$1)
+                  }, vue.toDisplayString(dataSubject.visitorId), 9, _hoisted_23$1)
                 ]),
-                vue.createElementVNode("td", _hoisted_32$1, [
+                vue.createElementVNode("td", _hoisted_24$1, [
                   vue.createElementVNode("a", {
                     title: _ctx.translate("PrivacyManager_AddVisitorIPToSearch"),
                     onClick: ($event) => _ctx.addFilter("visitIp", dataSubject.visitIp)
-                  }, vue.toDisplayString(dataSubject.visitIp), 9, _hoisted_33$1)
+                  }, vue.toDisplayString(dataSubject.visitIp), 9, _hoisted_25$1)
                 ]),
-                vue.createElementVNode("td", _hoisted_34$1, [
+                vue.createElementVNode("td", _hoisted_26$1, [
                   vue.createElementVNode("a", {
                     title: _ctx.translate("PrivacyManager_AddUserIdToSearch"),
                     onClick: ($event) => _ctx.addFilter("userId", dataSubject.userId)
-                  }, vue.toDisplayString(dataSubject.userId), 9, _hoisted_35)
+                  }, vue.toDisplayString(dataSubject.userId), 9, _hoisted_27$1)
                 ]),
                 vue.createElementVNode("td", null, [
                   vue.createElementVNode("span", {
@@ -530,8 +518,8 @@ var __async = (__this, __arguments, generator) => {
                     vue.createElementVNode("img", {
                       height: "16",
                       src: dataSubject.deviceTypeIcon
-                    }, null, 8, _hoisted_37)
-                  ], 8, _hoisted_36),
+                    }, null, 8, _hoisted_29$1)
+                  ], 8, _hoisted_28$1),
                   vue.createElementVNode("span", {
                     title: dataSubject.operatingSystem,
                     style: { "margin-right": "3.5px" }
@@ -539,8 +527,8 @@ var __async = (__this, __arguments, generator) => {
                     vue.createElementVNode("img", {
                       height: "16",
                       src: dataSubject.operatingSystemIcon
-                    }, null, 8, _hoisted_39)
-                  ], 8, _hoisted_38),
+                    }, null, 8, _hoisted_31$1)
+                  ], 8, _hoisted_30$1),
                   vue.createElementVNode("span", {
                     title: `${dataSubject.browser} ${dataSubject.browserFamilyDescription}`,
                     style: { "margin-right": "3.5px" }
@@ -548,16 +536,16 @@ var __async = (__this, __arguments, generator) => {
                     vue.createElementVNode("img", {
                       height: "16",
                       src: dataSubject.browserIcon
-                    }, null, 8, _hoisted_41)
-                  ], 8, _hoisted_40),
+                    }, null, 8, _hoisted_33$1)
+                  ], 8, _hoisted_32$1),
                   vue.createElementVNode("span", {
                     title: `${dataSubject.country} ${dataSubject.region || ""}`
                   }, [
                     vue.createElementVNode("img", {
                       height: "16",
                       src: dataSubject.countryFlag
-                    }, null, 8, _hoisted_43)
-                  ], 8, _hoisted_42)
+                    }, null, 8, _hoisted_35)
+                  ], 8, _hoisted_34)
                 ]),
                 vue.withDirectives(vue.createElementVNode("td", null, [
                   vue.createElementVNode("a", {
@@ -565,13 +553,16 @@ var __async = (__this, __arguments, generator) => {
                     title: "View visitor profile",
                     onClick: ($event) => _ctx.showProfile(dataSubject.visitorId, dataSubject.idSite)
                   }, [
-                    _hoisted_45,
+                    _cache[16] || (_cache[16] = vue.createElementVNode("img", {
+                      src: "plugins/Live/images/visitorProfileLaunch.png",
+                      style: { "margin-right": "3.5px" }
+                    }, null, -1)),
                     vue.createElementVNode("span", null, vue.toDisplayString(_ctx.translate("Live_ViewVisitorProfile")), 1)
-                  ], 8, _hoisted_44)
+                  ], 8, _hoisted_36)
                 ], 512), [
                   [vue.vShow, _ctx.profileEnabled]
                 ])
-              ], 8, _hoisted_26$2);
+              ], 8, _hoisted_18$3);
             }), 128))
           ])
         ])), [
@@ -593,18 +584,18 @@ var __async = (__this, __arguments, generator) => {
       ], 512), [
         [vue.vShow, _ctx.dataSubjects.length]
       ]),
-      vue.createElementVNode("div", _hoisted_46, [
+      vue.createElementVNode("div", _hoisted_37, [
         vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("PrivacyManager_DeleteVisitsConfirm")), 1),
         vue.createElementVNode("input", {
           role: "yes",
           type: "button",
           value: _ctx.translate("General_Yes")
-        }, null, 8, _hoisted_47),
+        }, null, 8, _hoisted_38),
         vue.createElementVNode("input", {
           role: "no",
           type: "button",
           value: _ctx.translate("General_No")
-        }, null, 8, _hoisted_48)
+        }, null, 8, _hoisted_39)
       ], 512)
     ]);
   }
@@ -822,25 +813,19 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$f = { class: "anonymizeSettings" };
   const _hoisted_2$e = { class: "anonymizeIpSettingsField" };
-  const _hoisted_3$e = { class: "maskLengthField" };
+  const _hoisted_3$d = { class: "maskLengthField" };
   const _hoisted_4$c = { class: "useAnonymizedIpForVisitEnrichmentField" };
-  const _hoisted_5$c = { class: "anonymizeUserIdField" };
-  const _hoisted_6$a = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7$9 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_8$7 = { class: "anonymizeOrderIdField" };
-  const _hoisted_9$5 = {
+  const _hoisted_5$a = { class: "anonymizeUserIdField" };
+  const _hoisted_6$8 = { class: "anonymizeOrderIdField" };
+  const _hoisted_7$7 = {
     key: 0,
     class: "forceCookielessTrackingField"
   };
-  const _hoisted_10$5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_11$5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_12$5 = { key: 0 };
-  const _hoisted_13$5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_14$4 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_15$4 = { class: "alert-warning alert" };
-  const _hoisted_16$4 = { class: "anonymizeReferrerField" };
-  const _hoisted_17$3 = { class: "randomizeConfigIdField" };
-  const _hoisted_18$3 = {
+  const _hoisted_8$5 = { key: 0 };
+  const _hoisted_9$5 = { class: "alert-warning alert" };
+  const _hoisted_10$5 = { class: "anonymizeReferrerField" };
+  const _hoisted_11$4 = { class: "randomizeConfigIdField" };
+  const _hoisted_12$4 = {
     key: 2,
     class: "footer-buttons"
   };
@@ -873,7 +858,7 @@ var __async = (__this, __arguments, generator) => {
           }, null, 8, ["name", "title", "modelValue", "inline-help", "extra-metadata"])
         ]),
         vue.withDirectives(vue.createElementVNode("div", null, [
-          vue.createElementVNode("div", _hoisted_3$e, [
+          vue.createElementVNode("div", _hoisted_3$d, [
             vue.createVNode(_component_Field, {
               uicontrol: "radio",
               name: `maskLength${_ctx.idSiteSpecific}`,
@@ -900,7 +885,7 @@ var __async = (__this, __arguments, generator) => {
         ], 512), [
           [vue.vShow, _ctx.actualEnabled]
         ]),
-        vue.createElementVNode("div", _hoisted_5$c, [
+        vue.createElementVNode("div", _hoisted_5$a, [
           vue.createVNode(_component_Field, {
             uicontrol: "checkbox",
             name: `anonymizeUserId${_ctx.idSiteSpecific}`,
@@ -911,14 +896,14 @@ var __async = (__this, __arguments, generator) => {
           }, {
             "inline-help": vue.withCtx(() => [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_PseudonymizeUserIdNote")) + " ", 1),
-              _hoisted_6$a,
-              _hoisted_7$9,
+              _cache[11] || (_cache[11] = vue.createElementVNode("br", null, null, -1)),
+              _cache[12] || (_cache[12] = vue.createElementVNode("br", null, null, -1)),
               vue.createElementVNode("em", null, vue.toDisplayString(_ctx.translate("PrivacyManager_PseudonymizeUserIdNote2")), 1)
             ]),
             _: 1
           }, 8, ["name", "title", "modelValue", "extra-metadata"])
         ]),
-        vue.createElementVNode("div", _hoisted_8$7, [
+        vue.createElementVNode("div", _hoisted_6$8, [
           vue.createVNode(_component_Field, {
             uicontrol: "checkbox",
             name: `anonymizeOrderId${_ctx.idSiteSpecific}`,
@@ -929,7 +914,7 @@ var __async = (__this, __arguments, generator) => {
             "extra-metadata": _ctx.getExtraMetadataForField("anonymizeOrderId")
           }, null, 8, ["name", "title", "modelValue", "inline-help", "extra-metadata"])
         ]),
-        !_ctx.idSiteSpecific ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_9$5, [
+        !_ctx.idSiteSpecific ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_7$7, [
           vue.createVNode(_component_Field, {
             uicontrol: "checkbox",
             name: "forceCookielessTracking",
@@ -940,13 +925,13 @@ var __async = (__this, __arguments, generator) => {
           }, {
             "inline-help": vue.withCtx(() => [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_ForceCookielessTrackingDescription", _ctx.trackerFileName)) + " ", 1),
-              _hoisted_10$5,
-              _hoisted_11$5,
+              _cache[15] || (_cache[15] = vue.createElementVNode("br", null, null, -1)),
+              _cache[16] || (_cache[16] = vue.createElementVNode("br", null, null, -1)),
               vue.createElementVNode("em", null, vue.toDisplayString(_ctx.translate("PrivacyManager_ForceCookielessTrackingDescription2")), 1),
-              !_ctx.trackerWritable ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_12$5, [
-                _hoisted_13$5,
-                _hoisted_14$4,
-                vue.createElementVNode("p", _hoisted_15$4, vue.toDisplayString(_ctx.translate(
+              !_ctx.trackerWritable ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_8$5, [
+                _cache[13] || (_cache[13] = vue.createElementVNode("br", null, null, -1)),
+                _cache[14] || (_cache[14] = vue.createElementVNode("br", null, null, -1)),
+                vue.createElementVNode("p", _hoisted_9$5, vue.toDisplayString(_ctx.translate(
                   "PrivacyManager_ForceCookielessTrackingDescriptionNotWritable",
                   _ctx.trackerFileName
                 )), 1)
@@ -955,7 +940,7 @@ var __async = (__this, __arguments, generator) => {
             _: 1
           }, 8, ["title", "modelValue", "extra-metadata"])
         ])) : vue.createCommentVNode("", true),
-        vue.createElementVNode("div", _hoisted_16$4, [
+        vue.createElementVNode("div", _hoisted_10$5, [
           vue.createVNode(_component_Field, {
             uicontrol: "select",
             name: `anonymizeReferrer${_ctx.idSiteSpecific}`,
@@ -967,7 +952,7 @@ var __async = (__this, __arguments, generator) => {
             "extra-metadata": _ctx.getExtraMetadataForField("anonymizeReferrer")
           }, null, 8, ["name", "title", "modelValue", "options", "inline-help", "extra-metadata"])
         ]),
-        vue.createElementVNode("div", _hoisted_17$3, [
+        vue.createElementVNode("div", _hoisted_11$4, [
           vue.createVNode(_component_Field, {
             uicontrol: "checkbox",
             name: `randomizeConfigId${_ctx.idSiteSpecific}`,
@@ -979,7 +964,7 @@ var __async = (__this, __arguments, generator) => {
           }, null, 8, ["name", "title", "modelValue", "inline-help", "extra-metadata"])
         ])
       ], 64)) : vue.createCommentVNode("", true),
-      !_ctx.idSiteSpecific ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_18$3, [
+      !_ctx.idSiteSpecific ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_12$4, [
         vue.createVNode(_component_SaveButton, {
           onConfirm: _cache[9] || (_cache[9] = ($event) => _ctx.shouldSave()),
           saving: _ctx.isLoading
@@ -1161,31 +1146,27 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$e = { class: "optOutCustomizer" };
   const _hoisted_2$d = ["innerHTML"];
-  const _hoisted_3$d = {
+  const _hoisted_3$c = {
     key: 0,
     id: "opt-out-styling"
   };
   const _hoisted_4$b = ["value"];
-  const _hoisted_5$b = ["value"];
-  const _hoisted_6$9 = ["value"];
-  const _hoisted_7$8 = ["value"];
-  const _hoisted_8$6 = /* @__PURE__ */ vue.createStaticVNode('<option value="px">px</option><option value="pt">pt</option><option value="em">em</option><option value="rem">rem</option><option value="%">%</option>', 5);
-  const _hoisted_13$4 = [
-    _hoisted_8$6
-  ];
-  const _hoisted_14$3 = ["value"];
-  const _hoisted_15$3 = ["src"];
-  const _hoisted_16$3 = { class: "form-group row" };
-  const _hoisted_17$2 = { class: "col s12 m6" };
-  const _hoisted_18$2 = { for: "codeType1" };
-  const _hoisted_19$2 = { for: "codeType2" };
-  const _hoisted_20$2 = { key: 0 };
-  const _hoisted_21$2 = { class: "col s12 m6" };
-  const _hoisted_22$1 = ["innerHTML"];
-  const _hoisted_23$1 = { ref: "pre" };
-  const _hoisted_24$1 = ["innerHTML"];
-  const _hoisted_25$1 = { class: "system notification notification-info optOutTestReminder" };
-  const _hoisted_26$1 = ["innerHTML"];
+  const _hoisted_5$9 = ["value"];
+  const _hoisted_6$7 = ["value"];
+  const _hoisted_7$6 = ["value"];
+  const _hoisted_8$4 = ["value"];
+  const _hoisted_9$4 = ["src"];
+  const _hoisted_10$4 = { class: "form-group row" };
+  const _hoisted_11$3 = { class: "col s12 m6" };
+  const _hoisted_12$3 = { for: "codeType1" };
+  const _hoisted_13$2 = { for: "codeType2" };
+  const _hoisted_14$2 = { key: 0 };
+  const _hoisted_15$2 = { class: "col s12 m6" };
+  const _hoisted_16$2 = ["innerHTML"];
+  const _hoisted_17$2 = { ref: "pre" };
+  const _hoisted_18$2 = ["innerHTML"];
+  const _hoisted_19$1 = { class: "system notification notification-info optOutTestReminder" };
+  const _hoisted_20$1 = ["innerHTML"];
   function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _directive_copy_to_clipboard = vue.resolveDirective("copy-to-clipboard");
@@ -1212,7 +1193,7 @@ var __async = (__this, __arguments, generator) => {
             ])
           ])
         ]),
-        _ctx.applyStyling ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$d, [
+        _ctx.applyStyling ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$c, [
           vue.createElementVNode("p", null, [
             vue.createElementVNode("span", null, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_FontColor")) + ": ", 1),
@@ -1230,7 +1211,7 @@ var __async = (__this, __arguments, generator) => {
                 value: _ctx.backgroundColor,
                 onKeydown: _cache[5] || (_cache[5] = ($event) => _ctx.onBgColorChange($event)),
                 onChange: _cache[6] || (_cache[6] = ($event) => _ctx.onBgColorChange($event))
-              }, null, 40, _hoisted_5$b)
+              }, null, 40, _hoisted_5$9)
             ]),
             vue.createElementVNode("span", null, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_FontSize")) + ": ", 1),
@@ -1242,7 +1223,7 @@ var __async = (__this, __arguments, generator) => {
                 value: _ctx.fontSize,
                 onKeydown: _cache[7] || (_cache[7] = ($event) => _ctx.onFontSizeChange($event)),
                 onChange: _cache[8] || (_cache[8] = ($event) => _ctx.onFontSizeChange($event))
-              }, null, 40, _hoisted_6$9)
+              }, null, 40, _hoisted_6$7)
             ]),
             vue.createElementVNode("span", null, [
               vue.createElementVNode("select", {
@@ -1250,7 +1231,9 @@ var __async = (__this, __arguments, generator) => {
                 value: _ctx.fontSizeUnit,
                 onKeydown: _cache[9] || (_cache[9] = ($event) => _ctx.onFontSizeUnitChange($event)),
                 onChange: _cache[10] || (_cache[10] = ($event) => _ctx.onFontSizeUnitChange($event))
-              }, _hoisted_13$4, 40, _hoisted_7$8)
+              }, [..._cache[25] || (_cache[25] = [
+                vue.createStaticVNode('<option value="px">px</option><option value="pt">pt</option><option value="em">em</option><option value="rem">rem</option><option value="%">%</option>', 5)
+              ])], 40, _hoisted_7$6)
             ]),
             vue.createElementVNode("span", null, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_FontFamily")) + ": ", 1),
@@ -1260,7 +1243,7 @@ var __async = (__this, __arguments, generator) => {
                 value: _ctx.fontFamily,
                 onKeydown: _cache[11] || (_cache[11] = ($event) => _ctx.onFontFamilyChange($event)),
                 onChange: _cache[12] || (_cache[12] = ($event) => _ctx.onFontFamilyChange($event))
-              }, null, 40, _hoisted_14$3)
+              }, null, 40, _hoisted_8$4)
             ])
           ])
         ])) : vue.createCommentVNode("", true),
@@ -1287,14 +1270,14 @@ var __async = (__this, __arguments, generator) => {
           style: { "border": "1px solid #333", "height": "200px", "width": "600px" },
           src: _ctx.iframeUrl,
           class: vue.normalizeClass({ withBg: _ctx.withBg })
-        }, null, 10, _hoisted_15$3)
+        }, null, 10, _hoisted_9$4)
       ]),
       vue.createElementVNode("div", null, [
-        vue.createElementVNode("div", _hoisted_16$3, [
-          vue.createElementVNode("div", _hoisted_17$2, [
+        vue.createElementVNode("div", _hoisted_10$4, [
+          vue.createElementVNode("div", _hoisted_11$3, [
             vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("PrivacyManager_OptOutHtmlCode")), 1),
             vue.createElementVNode("p", null, [
-              vue.createElementVNode("label", _hoisted_18$2, [
+              vue.createElementVNode("label", _hoisted_12$3, [
                 vue.withDirectives(vue.createElementVNode("input", {
                   type: "radio",
                   id: "codeType1",
@@ -1310,7 +1293,7 @@ var __async = (__this, __arguments, generator) => {
               ])
             ]),
             vue.createElementVNode("p", null, [
-              vue.createElementVNode("label", _hoisted_19$2, [
+              vue.createElementVNode("label", _hoisted_13$2, [
                 vue.withDirectives(vue.createElementVNode("input", {
                   type: "radio",
                   id: "codeType2",
@@ -1325,7 +1308,7 @@ var __async = (__this, __arguments, generator) => {
                 vue.createElementVNode("span", null, vue.toDisplayString(_ctx.translate("PrivacyManager_OptOutUseStandalone")), 1)
               ])
             ]),
-            _ctx.codeType === "selfContained" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_20$2, [
+            _ctx.codeType === "selfContained" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_14$2, [
               vue.createElementVNode("div", null, [
                 vue.createVNode(_component_Field, {
                   uicontrol: "select",
@@ -1340,17 +1323,17 @@ var __async = (__this, __arguments, generator) => {
               ])
             ])) : vue.createCommentVNode("", true)
           ]),
-          vue.createElementVNode("div", _hoisted_21$2, [
+          vue.createElementVNode("div", _hoisted_15$2, [
             vue.createElementVNode("div", {
               class: "form-help",
               innerHTML: _ctx.$sanitize(_ctx.codeTypeHelp)
-            }, null, 8, _hoisted_22$1)
+            }, null, 8, _hoisted_16$2)
           ])
         ])
       ]),
       vue.createElementVNode("div", null, [
         vue.createElementVNode("div", null, [
-          vue.withDirectives((vue.openBlock(), vue.createElementBlock("pre", _hoisted_23$1, [
+          vue.withDirectives((vue.openBlock(), vue.createElementBlock("pre", _hoisted_17$2, [
             vue.createTextVNode("" + vue.toDisplayString(_ctx.codeBox) + "\n      ", 1)
           ])), [
             [_directive_copy_to_clipboard, {}]
@@ -1358,10 +1341,10 @@ var __async = (__this, __arguments, generator) => {
         ]),
         vue.createElementVNode("p", {
           innerHTML: _ctx.$sanitize(_ctx.optOutExplanationIntro)
-        }, null, 8, _hoisted_24$1),
+        }, null, 8, _hoisted_18$2),
         vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("PrivacyManager_OptOutExplanationCookieDeletion")), 1),
         vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("PrivacyManager_OptOutExplanationCookieDeletionCheck")), 1),
-        vue.createElementVNode("div", _hoisted_25$1, [
+        vue.createElementVNode("div", _hoisted_19$1, [
           vue.createElementVNode("p", null, [
             vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.translate("PrivacyManager_OptOutRememberToTest")), 1)
           ]),
@@ -1378,7 +1361,7 @@ var __async = (__this, __arguments, generator) => {
         vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("PrivacyManager_BuildYourOwn")), 1),
         vue.createElementVNode("p", {
           innerHTML: _ctx.$sanitize(_ctx.optOutCustomOptOutLink)
-        }, null, 8, _hoisted_26$1)
+        }, null, 8, _hoisted_20$1)
       ])
     ], 64);
   }
@@ -1533,37 +1516,37 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$d = { class: "anonymizeLogData" };
   const _hoisted_2$c = { class: "form-group row" };
-  const _hoisted_3$c = { class: "col s12 input-field" };
+  const _hoisted_3$b = { class: "col s12 input-field" };
   const _hoisted_4$a = {
     for: "anonymizeSite",
     class: "siteSelectorLabel"
   };
-  const _hoisted_5$a = { class: "sites_autocomplete" };
-  const _hoisted_6$8 = { class: "form-group row" };
-  const _hoisted_7$7 = { class: "col s6 input-field" };
-  const _hoisted_8$5 = {
+  const _hoisted_5$8 = { class: "sites_autocomplete" };
+  const _hoisted_6$6 = { class: "form-group row" };
+  const _hoisted_7$5 = { class: "col s6 input-field" };
+  const _hoisted_8$3 = {
     for: "anonymizeStartDate",
     class: "active"
   };
-  const _hoisted_9$4 = ["value"];
-  const _hoisted_10$4 = { class: "col s6 input-field" };
-  const _hoisted_11$4 = {
+  const _hoisted_9$3 = ["value"];
+  const _hoisted_10$3 = { class: "col s6 input-field" };
+  const _hoisted_11$2 = {
     for: "anonymizeEndDate",
     class: "active"
   };
-  const _hoisted_12$4 = ["value"];
-  const _hoisted_13$3 = { name: "anonymizeIp" };
-  const _hoisted_14$2 = { name: "anonymizeLocation" };
-  const _hoisted_15$2 = { name: "anonymizeTheUserId" };
-  const _hoisted_16$2 = { class: "form-group row" };
+  const _hoisted_12$2 = ["value"];
+  const _hoisted_13$1 = { name: "anonymizeIp" };
+  const _hoisted_14$1 = { name: "anonymizeLocation" };
+  const _hoisted_15$1 = { name: "anonymizeTheUserId" };
+  const _hoisted_16$1 = { class: "form-group row" };
   const _hoisted_17$1 = { class: "col s12 m6" };
   const _hoisted_18$1 = { for: "visit_columns" };
-  const _hoisted_19$1 = {
+  const _hoisted_19 = {
     class: "innerFormField",
     name: "visit_columns"
   };
-  const _hoisted_20$1 = ["onClick", "title"];
-  const _hoisted_21$1 = { class: "col s12 m6" };
+  const _hoisted_20 = ["onClick", "title"];
+  const _hoisted_21 = { class: "col s12 m6" };
   const _hoisted_22 = { class: "form-help" };
   const _hoisted_23 = { class: "inline-help" };
   const _hoisted_24 = { class: "form-group row" };
@@ -1579,7 +1562,6 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_31 = { class: "col s12 m6" };
   const _hoisted_32 = { class: "form-help" };
   const _hoisted_33 = { class: "inline-help" };
-  const _hoisted_34 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-info" }, null, -1);
   function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_SiteSelector = vue.resolveComponent("SiteSelector");
     const _component_Field = vue.resolveComponent("Field");
@@ -1587,10 +1569,10 @@ var __async = (__this, __arguments, generator) => {
     const _component_PasswordConfirmation = vue.resolveComponent("PasswordConfirmation");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$d, [
       vue.createElementVNode("div", _hoisted_2$c, [
-        vue.createElementVNode("div", _hoisted_3$c, [
+        vue.createElementVNode("div", _hoisted_3$b, [
           vue.createElementVNode("div", null, [
             vue.createElementVNode("label", _hoisted_4$a, vue.toDisplayString(_ctx.translate("PrivacyManager_AnonymizeSites")), 1),
-            vue.createElementVNode("div", _hoisted_5$a, [
+            vue.createElementVNode("div", _hoisted_5$8, [
               vue.createVNode(_component_SiteSelector, {
                 id: "anonymizeSite",
                 modelValue: _ctx.site,
@@ -1603,10 +1585,10 @@ var __async = (__this, __arguments, generator) => {
           ])
         ])
       ]),
-      vue.createElementVNode("div", _hoisted_6$8, [
-        vue.createElementVNode("div", _hoisted_7$7, [
+      vue.createElementVNode("div", _hoisted_6$6, [
+        vue.createElementVNode("div", _hoisted_7$5, [
           vue.createElementVNode("div", null, [
-            vue.createElementVNode("label", _hoisted_8$5, vue.toDisplayString(_ctx.translate("PrivacyManager_AnonymizeRowDataFrom")), 1),
+            vue.createElementVNode("label", _hoisted_8$3, vue.toDisplayString(_ctx.translate("PrivacyManager_AnonymizeRowDataFrom")), 1),
             vue.createElementVNode("input", {
               type: "text",
               id: "anonymizeStartDate",
@@ -1616,12 +1598,12 @@ var __async = (__this, __arguments, generator) => {
               value: _ctx.startDate,
               onKeydown: _cache[1] || (_cache[1] = ($event) => _ctx.onKeydownStartDate($event)),
               onChange: _cache[2] || (_cache[2] = ($event) => _ctx.onKeydownStartDate($event))
-            }, null, 40, _hoisted_9$4)
+            }, null, 40, _hoisted_9$3)
           ])
         ]),
-        vue.createElementVNode("div", _hoisted_10$4, [
+        vue.createElementVNode("div", _hoisted_10$3, [
           vue.createElementVNode("div", null, [
-            vue.createElementVNode("label", _hoisted_11$4, vue.toDisplayString(_ctx.translate("PrivacyManager_AnonymizeRowDataTo")), 1),
+            vue.createElementVNode("label", _hoisted_11$2, vue.toDisplayString(_ctx.translate("PrivacyManager_AnonymizeRowDataTo")), 1),
             vue.createElementVNode("input", {
               type: "text",
               class: "anonymizeEndDate",
@@ -1631,11 +1613,11 @@ var __async = (__this, __arguments, generator) => {
               value: _ctx.endDate,
               onKeydown: _cache[3] || (_cache[3] = ($event) => _ctx.onKeydownEndDate($event)),
               onChange: _cache[4] || (_cache[4] = ($event) => _ctx.onKeydownEndDate($event))
-            }, null, 40, _hoisted_12$4)
+            }, null, 40, _hoisted_12$2)
           ])
         ])
       ]),
-      vue.createElementVNode("div", _hoisted_13$3, [
+      vue.createElementVNode("div", _hoisted_13$1, [
         vue.createVNode(_component_Field, {
           uicontrol: "checkbox",
           name: "anonymizeIp",
@@ -1646,7 +1628,7 @@ var __async = (__this, __arguments, generator) => {
           "inline-help": _ctx.translate("PrivacyManager_AnonymizeIpHelp")
         }, null, 8, ["title", "modelValue", "introduction", "inline-help"])
       ]),
-      vue.createElementVNode("div", _hoisted_14$2, [
+      vue.createElementVNode("div", _hoisted_14$1, [
         vue.createVNode(_component_Field, {
           uicontrol: "checkbox",
           name: "anonymizeLocation",
@@ -1656,7 +1638,7 @@ var __async = (__this, __arguments, generator) => {
           "inline-help": _ctx.translate("PrivacyManager_AnonymizeLocationHelp")
         }, null, 8, ["title", "modelValue", "inline-help"])
       ]),
-      vue.createElementVNode("div", _hoisted_15$2, [
+      vue.createElementVNode("div", _hoisted_15$1, [
         vue.createVNode(_component_Field, {
           uicontrol: "checkbox",
           name: "anonymizeTheUserId",
@@ -1666,7 +1648,7 @@ var __async = (__this, __arguments, generator) => {
           "inline-help": _ctx.translate("PrivacyManager_AnonymizeUserIdHelp")
         }, null, 8, ["title", "modelValue", "inline-help"])
       ]),
-      vue.createElementVNode("div", _hoisted_16$2, [
+      vue.createElementVNode("div", _hoisted_16$1, [
         vue.createElementVNode("div", _hoisted_17$1, [
           vue.createElementVNode("div", null, [
             vue.createElementVNode("label", _hoisted_18$1, vue.toDisplayString(_ctx.translate("PrivacyManager_UnsetVisitColumns")), 1),
@@ -1675,7 +1657,7 @@ var __async = (__this, __arguments, generator) => {
                 class: vue.normalizeClass(`selectedVisitColumns selectedVisitColumns${index} multiple valign-wrapper`),
                 key: index
               }, [
-                vue.createElementVNode("div", _hoisted_19$1, [
+                vue.createElementVNode("div", _hoisted_19, [
                   vue.createVNode(_component_Field, {
                     uicontrol: "select",
                     name: "visit_columns",
@@ -1692,14 +1674,14 @@ var __async = (__this, __arguments, generator) => {
                   class: "icon-minus valign",
                   onClick: ($event) => _ctx.removeVisitColumn(index),
                   title: _ctx.translate("General_Remove")
-                }, null, 8, _hoisted_20$1), [
+                }, null, 8, _hoisted_20), [
                   [vue.vShow, index + 1 !== _ctx.selectedVisitColumns.length]
                 ])
               ], 2);
             }), 128))
           ])
         ]),
-        vue.createElementVNode("div", _hoisted_21$1, [
+        vue.createElementVNode("div", _hoisted_21, [
           vue.createElementVNode("div", _hoisted_22, [
             vue.createElementVNode("span", _hoisted_23, vue.toDisplayString(_ctx.translate("PrivacyManager_UnsetVisitColumnsHelp")), 1)
           ])
@@ -1750,7 +1732,7 @@ var __async = (__this, __arguments, generator) => {
         ])
       ]),
       vue.createElementVNode("p", null, [
-        _hoisted_34,
+        _cache[10] || (_cache[10] = vue.createElementVNode("span", { class: "icon-info" }, null, -1)),
         vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_AnonymizeProcessInfo")), 1)
       ]),
       vue.createVNode(_component_SaveButton, {
@@ -1998,14 +1980,14 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$c = { id: "formDeleteSettings" };
   const _hoisted_2$b = { id: "deleteLogSettingEnabled" };
-  const _hoisted_3$b = {
+  const _hoisted_3$a = {
     class: "alert alert-warning deleteOldLogsWarning",
     style: { "width": "50%" }
   };
   const _hoisted_4$9 = ["href"];
-  const _hoisted_5$9 = { id: "deleteLogSettings" };
-  const _hoisted_6$7 = { key: 0 };
-  const _hoisted_7$6 = { key: 1 };
+  const _hoisted_5$7 = { id: "deleteLogSettings" };
+  const _hoisted_6$5 = { key: 0 };
+  const _hoisted_7$4 = { key: 1 };
   function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _component_SaveButton = vue.resolveComponent("SaveButton");
@@ -2026,7 +2008,7 @@ var __async = (__this, __arguments, generator) => {
             "inline-help": _ctx.translate("PrivacyManager_DeleteRawDataInfo")
           }, null, 8, ["model-value", "title", "inline-help"])
         ]),
-        vue.withDirectives(vue.createElementVNode("div", _hoisted_3$b, [
+        vue.withDirectives(vue.createElementVNode("div", _hoisted_3$a, [
           vue.createElementVNode("a", {
             href: _ctx.externalRawLink("https://matomo.org/faq/general/faq_125"),
             rel: "noreferrer noopener",
@@ -2036,7 +2018,7 @@ var __async = (__this, __arguments, generator) => {
           [vue.vShow, _ctx.enabled]
         ])
       ]),
-      vue.withDirectives(vue.createElementVNode("div", _hoisted_5$9, [
+      vue.withDirectives(vue.createElementVNode("div", _hoisted_5$7, [
         vue.createElementVNode("div", null, [
           vue.createVNode(_component_Field, {
             uicontrol: "text",
@@ -2063,8 +2045,8 @@ var __async = (__this, __arguments, generator) => {
         onConfirmed: _ctx.saveSettings
       }, {
         default: vue.withCtx(() => [
-          _ctx.enabled && !_ctx.enableDeleteReports ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_6$7, vue.toDisplayString(_ctx.translate("PrivacyManager_DeleteLogsConfirm")), 1)) : vue.createCommentVNode("", true),
-          _ctx.enabled && _ctx.enableDeleteReports ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_7$6, vue.toDisplayString(_ctx.translate("PrivacyManager_DeleteBothConfirm")), 1)) : vue.createCommentVNode("", true)
+          _ctx.enabled && !_ctx.enableDeleteReports ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_6$5, vue.toDisplayString(_ctx.translate("PrivacyManager_DeleteLogsConfirm")), 1)) : vue.createCommentVNode("", true),
+          _ctx.enabled && _ctx.enableDeleteReports ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_7$4, vue.toDisplayString(_ctx.translate("PrivacyManager_DeleteBothConfirm")), 1)) : vue.createCommentVNode("", true)
         ]),
         _: 1
       }, 8, ["modelValue", "onConfirmed"])
@@ -2169,15 +2151,13 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$b = { id: "formDeleteSettings" };
   const _hoisted_2$a = { id: "deleteReportsSettingEnabled" };
-  const _hoisted_3$a = {
+  const _hoisted_3$9 = {
     class: "alert alert-warning",
     style: { "width": "50%" }
   };
-  const _hoisted_4$8 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_5$8 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6$6 = { id: "deleteReportsSettings" };
-  const _hoisted_7$5 = { key: 0 };
-  const _hoisted_8$4 = { key: 1 };
+  const _hoisted_4$8 = { id: "deleteReportsSettings" };
+  const _hoisted_5$6 = { key: 0 };
+  const _hoisted_6$4 = { key: 1 };
   function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _component_SaveButton = vue.resolveComponent("SaveButton");
@@ -2198,18 +2178,18 @@ var __async = (__this, __arguments, generator) => {
             "inline-help": _ctx.translate("PrivacyManager_DeleteAggregateReportsDetailedInfo")
           }, null, 8, ["model-value", "title", "inline-help"])
         ]),
-        vue.withDirectives(vue.createElementVNode("div", _hoisted_3$a, [
+        vue.withDirectives(vue.createElementVNode("div", _hoisted_3$9, [
           vue.createElementVNode("span", null, [
             vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_DeleteReportsInfo2", _ctx.deleteOldLogsText)), 1),
-            _hoisted_4$8,
-            _hoisted_5$8,
+            _cache[11] || (_cache[11] = vue.createElementVNode("br", null, null, -1)),
+            _cache[12] || (_cache[12] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_DeleteReportsInfo3", _ctx.deleteOldLogsText)), 1)
           ])
         ], 512), [
           [vue.vShow, _ctx.enabled]
         ])
       ]),
-      vue.withDirectives(vue.createElementVNode("div", _hoisted_6$6, [
+      vue.withDirectives(vue.createElementVNode("div", _hoisted_4$8, [
         vue.createElementVNode("div", null, [
           vue.createVNode(_component_Field, {
             uicontrol: "text",
@@ -2324,8 +2304,8 @@ var __async = (__this, __arguments, generator) => {
         onConfirmed: _ctx.saveSettings
       }, {
         default: vue.withCtx(() => [
-          _ctx.enabled && !_ctx.enableDeleteLogs ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_7$5, vue.toDisplayString(_ctx.translate("PrivacyManager_DeleteReportsConfirm")), 1)) : vue.createCommentVNode("", true),
-          _ctx.enabled && _ctx.enableDeleteLogs ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_8$4, vue.toDisplayString(_ctx.translate("PrivacyManager_DeleteBothConfirm")), 1)) : vue.createCommentVNode("", true)
+          _ctx.enabled && !_ctx.enableDeleteLogs ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_5$6, vue.toDisplayString(_ctx.translate("PrivacyManager_DeleteReportsConfirm")), 1)) : vue.createCommentVNode("", true),
+          _ctx.enabled && _ctx.enableDeleteLogs ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_6$4, vue.toDisplayString(_ctx.translate("PrivacyManager_DeleteBothConfirm")), 1)) : vue.createCommentVNode("", true)
         ]),
         _: 1
       }, 8, ["modelValue", "onConfirmed"])
@@ -2428,36 +2408,32 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$a = { id: "formDeleteSettings" };
   const _hoisted_2$9 = { id: "deleteSchedulingSettings" };
-  const _hoisted_3$9 = {
+  const _hoisted_3$8 = {
     id: "deleteSchedulingSettingsInlineHelp",
     class: "inline-help-node"
   };
   const _hoisted_4$7 = { key: 0 };
-  const _hoisted_5$7 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6$5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7$4 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_8$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_9$3 = {
+  const _hoisted_5$5 = {
     key: 0,
     id: "deleteDataEstimateSect",
     class: "form-group row"
   };
-  const _hoisted_10$3 = {
+  const _hoisted_6$3 = {
     class: "col s12",
     id: "databaseSizeHeadline"
   };
-  const _hoisted_11$3 = { class: "col s12 m6" };
-  const _hoisted_12$3 = ["innerHTML"];
-  const _hoisted_13$2 = { class: "col s12 m6" };
-  const _hoisted_14$1 = {
+  const _hoisted_7$3 = { class: "col s12 m6" };
+  const _hoisted_8$2 = ["innerHTML"];
+  const _hoisted_9$2 = { class: "col s12 m6" };
+  const _hoisted_10$2 = {
     key: 0,
     class: "form-help"
   };
-  const _hoisted_15$1 = {
+  const _hoisted_11$1 = {
     class: "ui-confirm",
     id: "saveSettingsBeforePurge"
   };
-  const _hoisted_16$1 = ["value"];
+  const _hoisted_12$1 = ["value"];
   function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
     const _component_Field = vue.resolveComponent("Field");
@@ -2483,17 +2459,17 @@ var __async = (__this, __arguments, generator) => {
                   options: _ctx.scheduleDeletionOptions
                 }, {
                   "inline-help": vue.withCtx(() => [
-                    vue.createElementVNode("div", _hoisted_3$9, [
+                    vue.createElementVNode("div", _hoisted_3$8, [
                       _ctx.deleteData.lastRun ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$7, [
                         vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.translate("PrivacyManager_LastDelete")) + ":", 1),
                         vue.createTextVNode(" " + vue.toDisplayString(_ctx.deleteData.lastRunPretty) + " ", 1),
-                        _hoisted_5$7,
-                        _hoisted_6$5
+                        _cache[6] || (_cache[6] = vue.createElementVNode("br", null, null, -1)),
+                        _cache[7] || (_cache[7] = vue.createElementVNode("br", null, null, -1))
                       ])) : vue.createCommentVNode("", true),
                       vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.translate("PrivacyManager_NextDelete")) + ":", 1),
                       vue.createTextVNode(" " + vue.toDisplayString(_ctx.deleteData.nextRunPretty) + " ", 1),
-                      _hoisted_7$4,
-                      _hoisted_8$3,
+                      _cache[8] || (_cache[8] = vue.createElementVNode("br", null, null, -1)),
+                      _cache[9] || (_cache[9] = vue.createElementVNode("br", null, null, -1)),
                       vue.withDirectives(vue.createElementVNode("a", {
                         id: "purgeDataNowLink",
                         href: "#",
@@ -2514,20 +2490,20 @@ var __async = (__this, __arguments, generator) => {
                 }, 8, ["title", "modelValue", "options"])
               ])
             ]),
-            _ctx.deleteData.config.enable_database_size_estimate === "1" || _ctx.deleteData.config.enable_database_size_estimate === 1 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_9$3, [
-              vue.createElementVNode("h3", _hoisted_10$3, vue.toDisplayString(_ctx.translate("PrivacyManager_ReportsDataSavedEstimate")), 1),
-              vue.createElementVNode("div", _hoisted_11$3, [
+            _ctx.deleteData.config.enable_database_size_estimate === "1" || _ctx.deleteData.config.enable_database_size_estimate === 1 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$5, [
+              vue.createElementVNode("h3", _hoisted_6$3, vue.toDisplayString(_ctx.translate("PrivacyManager_ReportsDataSavedEstimate")), 1),
+              vue.createElementVNode("div", _hoisted_7$3, [
                 vue.withDirectives(vue.createElementVNode("div", {
                   id: "deleteDataEstimate",
                   innerHTML: _ctx.$sanitize(_ctx.estimation)
-                }, null, 8, _hoisted_12$3), [
+                }, null, 8, _hoisted_8$2), [
                   [vue.vShow, _ctx.showEstimate]
                 ]),
-                vue.createTextVNode(" "),
+                _cache[10] || (_cache[10] = vue.createTextVNode(" ", -1)),
                 vue.createVNode(_component_ActivityIndicator, { loading: _ctx.loadingEstimation }, null, 8, ["loading"])
               ]),
-              vue.createElementVNode("div", _hoisted_13$2, [
-                _ctx.deleteData.config.enable_auto_database_size_estimate !== "1" && _ctx.deleteData.config.enable_auto_database_size_estimate !== 1 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_14$1, [
+              vue.createElementVNode("div", _hoisted_9$2, [
+                _ctx.deleteData.config.enable_auto_database_size_estimate !== "1" && _ctx.deleteData.config.enable_auto_database_size_estimate !== 1 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_10$2, [
                   vue.createElementVNode("a", {
                     id: "getPurgeEstimateLink",
                     href: "#",
@@ -2563,13 +2539,13 @@ var __async = (__this, __arguments, generator) => {
       ])), [
         [_directive_form]
       ]),
-      vue.createElementVNode("div", _hoisted_15$1, [
+      vue.createElementVNode("div", _hoisted_11$1, [
         vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("PrivacyManager_SaveSettingsBeforePurge")), 1),
         vue.createElementVNode("input", {
           role: "yes",
           type: "button",
           value: _ctx.translate("General_Ok")
-        }, null, 8, _hoisted_16$1)
+        }, null, 8, _hoisted_12$1)
       ])
     ], 64);
   }
@@ -2627,9 +2603,8 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$9 = ["innerHTML"];
   const _hoisted_2$8 = ["innerHTML"];
-  const _hoisted_3$8 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
+  const _hoisted_3$7 = ["innerHTML"];
   const _hoisted_4$6 = ["innerHTML"];
-  const _hoisted_5$6 = ["innerHTML"];
   function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
     const _directive_content_intro = vue.resolveDirective("content-intro");
@@ -2678,7 +2653,7 @@ var __async = (__this, __arguments, generator) => {
             vue.createElementVNode("li", null, vue.toDisplayString(_ctx.translate("PrivacyManager_DetermineConsentNeedAction1")), 1),
             vue.createElementVNode("li", null, vue.toDisplayString(_ctx.translate("PrivacyManager_DetermineConsentNeedAction2")), 1)
           ]),
-          _hoisted_3$8,
+          _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("PrivacyManager_ConsentNotRequiredIntro")), 1),
           vue.createElementVNode("ul", null, [
             vue.createElementVNode("li", null, vue.toDisplayString(_ctx.translate("PrivacyManager_ConsentNotRequiredCondition1")), 1),
@@ -2727,10 +2702,10 @@ var __async = (__this, __arguments, generator) => {
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("PrivacyManager_ConsentManagementPlatformsIntro")), 1),
           vue.createElementVNode("ul", {
             innerHTML: _ctx.$sanitize(_ctx.consentManagersList)
-          }, null, 8, _hoisted_4$6),
+          }, null, 8, _hoisted_3$7),
           vue.createElementVNode("p", {
             innerHTML: _ctx.$sanitize(_ctx.consentManagementPlatformsOutro)
-          }, null, 8, _hoisted_5$6)
+          }, null, 8, _hoisted_4$6)
         ]),
         _: 1
       }, 8, ["content-title"])
@@ -2826,25 +2801,22 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$8 = { class: "gdprOverview" };
   const _hoisted_2$7 = ["innerHTML"];
-  const _hoisted_3$7 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4$5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_5$5 = ["innerHTML"];
-  const _hoisted_6$4 = ["innerHTML"];
-  const _hoisted_7$3 = ["innerHTML"];
-  const _hoisted_8$2 = ["innerHTML"];
-  const _hoisted_9$2 = ["innerHTML"];
-  const _hoisted_10$2 = ["innerHTML"];
-  const _hoisted_11$2 = ["innerHTML"];
-  const _hoisted_12$2 = ["innerHTML"];
-  const _hoisted_13$1 = ["innerHTML"];
+  const _hoisted_3$6 = ["innerHTML"];
+  const _hoisted_4$5 = ["innerHTML"];
+  const _hoisted_5$4 = ["innerHTML"];
+  const _hoisted_6$2 = ["innerHTML"];
+  const _hoisted_7$2 = ["innerHTML"];
+  const _hoisted_8$1 = ["innerHTML"];
+  const _hoisted_9$1 = ["innerHTML"];
+  const _hoisted_10$1 = ["innerHTML"];
+  const _hoisted_11 = ["innerHTML"];
+  const _hoisted_12 = ["innerHTML"];
+  const _hoisted_13 = ["innerHTML"];
   const _hoisted_14 = ["innerHTML"];
   const _hoisted_15 = ["innerHTML"];
   const _hoisted_16 = ["innerHTML"];
   const _hoisted_17 = ["innerHTML"];
   const _hoisted_18 = ["innerHTML"];
-  const _hoisted_19 = ["innerHTML"];
-  const _hoisted_20 = ["innerHTML"];
-  const _hoisted_21 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
   function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_VueEntryContainer = vue.resolveComponent("VueEntryContainer");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
@@ -2894,11 +2866,11 @@ var __async = (__this, __arguments, generator) => {
         default: vue.withCtx(() => [
           vue.createElementVNode("p", null, [
             vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_GdprChecklistDesc1")) + " ", 1),
-            _hoisted_3$7,
-            _hoisted_4$5,
+            _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
+            _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.gdprChecklistDesc2)
-            }, null, 8, _hoisted_5$5)
+            }, null, 8, _hoisted_3$6)
           ])
         ]),
         _: 1
@@ -2912,19 +2884,19 @@ var __async = (__this, __arguments, generator) => {
             vue.createElementVNode("li", null, vue.toDisplayString(_ctx.translate("PrivacyManager_IndividualsRightsInform")), 1),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.rightsLinkText("IndividualsRightsAccess"))
-            }, null, 8, _hoisted_6$4),
+            }, null, 8, _hoisted_4$5),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.rightsLinkText("IndividualsRightsErasure"))
-            }, null, 8, _hoisted_7$3),
+            }, null, 8, _hoisted_5$4),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.rightsLinkText("IndividualsRightsRectification"))
-            }, null, 8, _hoisted_8$2),
+            }, null, 8, _hoisted_6$2),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.rightsLinkText("IndividualsRightsPortability"))
-            }, null, 8, _hoisted_9$2),
+            }, null, 8, _hoisted_7$2),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.rightsLinkText("IndividualsRightsObject", "usersOptOut"))
-            }, null, 8, _hoisted_10$2),
+            }, null, 8, _hoisted_8$1),
             vue.createElementVNode("li", null, vue.toDisplayString(_ctx.translate("PrivacyManager_IndividualsRightsChildren")), 1)
           ])
         ]),
@@ -2940,10 +2912,10 @@ var __async = (__this, __arguments, generator) => {
             vue.createElementVNode("li", null, vue.toDisplayString(_ctx.translate("PrivacyManager_AwarenessDocumentationDesc2")), 1),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.awarenessDocumentationDesc3)
-            }, null, 8, _hoisted_11$2),
+            }, null, 8, _hoisted_9$1),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.awarenessDocumentationDesc4)
-            }, null, 8, _hoisted_12$2)
+            }, null, 8, _hoisted_10$1)
           ])
         ]),
         _: 1
@@ -2956,16 +2928,16 @@ var __async = (__this, __arguments, generator) => {
           vue.createElementVNode("ol", null, [
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc1)
-            }, null, 8, _hoisted_13$1),
+            }, null, 8, _hoisted_11),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc2)
-            }, null, 8, _hoisted_14),
+            }, null, 8, _hoisted_12),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc3)
-            }, null, 8, _hoisted_15),
+            }, null, 8, _hoisted_13),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.securityProceduresDesc4)
-            }, null, 8, _hoisted_16)
+            }, null, 8, _hoisted_14)
           ])
         ]),
         _: 1
@@ -2982,23 +2954,23 @@ var __async = (__this, __arguments, generator) => {
                 "PrivacyManager_RawDataRemovedAfter",
                 `<strong>${_ctx.rawDataRetention}</strong>`
               ))
-            }, null, 8, _hoisted_17)) : (vue.openBlock(), vue.createElementBlock("li", {
+            }, null, 8, _hoisted_15)) : (vue.openBlock(), vue.createElementBlock("li", {
               key: 1,
               innerHTML: _ctx.$sanitize(_ctx.translate("PrivacyManager_RawDataNeverRemoved"))
-            }, null, 8, _hoisted_18)),
+            }, null, 8, _hoisted_16)),
             _ctx.deleteReportsEnable ? (vue.openBlock(), vue.createElementBlock("li", {
               key: 2,
               innerHTML: _ctx.$sanitize(_ctx.translate(
                 "PrivacyManager_ReportsRemovedAfter",
                 `<strong>${_ctx.reportRetention}</strong>`
               ))
-            }, null, 8, _hoisted_19)) : (vue.openBlock(), vue.createElementBlock("li", {
+            }, null, 8, _hoisted_17)) : (vue.openBlock(), vue.createElementBlock("li", {
               key: 3,
               innerHTML: _ctx.$sanitize(_ctx.translate("PrivacyManager_ReportsNeverRemoved"))
-            }, null, 8, _hoisted_20))
+            }, null, 8, _hoisted_18))
           ]),
           vue.createElementVNode("p", null, [
-            _hoisted_21,
+            _cache[2] || (_cache[2] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_DataRetentionOverall")), 1)
           ])
         ]),
@@ -3013,24 +2985,22 @@ var __async = (__this, __arguments, generator) => {
     }
   });
   const _hoisted_1$7 = { class: "eprivacyLaws" };
-  const _hoisted_2$6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_3$6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4$4 = {
+  const _hoisted_2$6 = {
     href: "https://matomo.org/faq/general/eprivacy-directive-national-implementations-and-website-analytics/",
     target: "_blank",
     rel: "noreferrer noopener"
   };
-  const _hoisted_5$4 = {
+  const _hoisted_3$5 = {
     href: "https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/",
     target: "_blank",
     rel: "noreferrer noopener"
   };
-  const _hoisted_6$3 = {
+  const _hoisted_4$4 = {
     href: "https://matomo.org/faq/new-to-piwik/configure-matomo-analytics-for-tdddg-ttdsg-compliance/",
     target: "_blank",
     rel: "noreferrer noopener"
   };
-  const _hoisted_7$2 = {
+  const _hoisted_5$3 = {
     href: "https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-without-consent-or-cookie-banner/",
     target: "_blank",
     rel: "noreferrer noopener"
@@ -3044,8 +3014,8 @@ var __async = (__this, __arguments, generator) => {
         default: vue.withCtx(() => [
           vue.createElementVNode("p", null, [
             vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_EPrivacyIntro")) + " ", 1),
-            _hoisted_2$6,
-            _hoisted_3$6,
+            _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
+            _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_EPrivacyDirectiveArticle53Intro")), 1)
           ]),
           vue.createElementVNode("ul", null, [
@@ -3089,16 +3059,16 @@ var __async = (__this, __arguments, generator) => {
         default: vue.withCtx(() => [
           vue.createElementVNode("ul", null, [
             vue.createElementVNode("li", null, [
-              vue.createElementVNode("a", _hoisted_4$4, vue.toDisplayString(_ctx.translate("PrivacyManager_EPrivacyFurtherInfoDirectiveAndAnalytics")), 1)
+              vue.createElementVNode("a", _hoisted_2$6, vue.toDisplayString(_ctx.translate("PrivacyManager_EPrivacyFurtherInfoDirectiveAndAnalytics")), 1)
             ]),
             vue.createElementVNode("li", null, [
-              vue.createElementVNode("a", _hoisted_5$4, vue.toDisplayString(_ctx.translate("PrivacyManager_EPrivacyFurtherInfoFrenchVisitors")), 1)
+              vue.createElementVNode("a", _hoisted_3$5, vue.toDisplayString(_ctx.translate("PrivacyManager_EPrivacyFurtherInfoFrenchVisitors")), 1)
             ]),
             vue.createElementVNode("li", null, [
-              vue.createElementVNode("a", _hoisted_6$3, vue.toDisplayString(_ctx.translate("PrivacyManager_EPrivacyFurtherInfoTdddgCompliance")), 1)
+              vue.createElementVNode("a", _hoisted_4$4, vue.toDisplayString(_ctx.translate("PrivacyManager_EPrivacyFurtherInfoTdddgCompliance")), 1)
             ]),
             vue.createElementVNode("li", null, [
-              vue.createElementVNode("a", _hoisted_7$2, vue.toDisplayString(_ctx.translate("PrivacyManager_EPrivacyFurtherInfoWithoutConsent")), 1)
+              vue.createElementVNode("a", _hoisted_5$3, vue.toDisplayString(_ctx.translate("PrivacyManager_EPrivacyFurtherInfoWithoutConsent")), 1)
             ])
           ])
         ]),
@@ -3119,17 +3089,15 @@ var __async = (__this, __arguments, generator) => {
     }
   });
   const _hoisted_1$6 = { key: 0 };
-  const _hoisted_2$5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_3$5 = { key: 1 };
-  const _hoisted_4$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_5$3 = { key: 2 };
-  const _hoisted_6$2 = { key: 3 };
-  const _hoisted_7$1 = { key: 0 };
-  const _hoisted_8$1 = ["title"];
-  const _hoisted_9$1 = { key: 1 };
-  const _hoisted_10$1 = ["title"];
-  const _hoisted_11$1 = { key: 2 };
-  const _hoisted_12$1 = ["title"];
+  const _hoisted_2$5 = { key: 1 };
+  const _hoisted_3$4 = { key: 2 };
+  const _hoisted_4$3 = { key: 3 };
+  const _hoisted_5$2 = { key: 0 };
+  const _hoisted_6$1 = ["title"];
+  const _hoisted_7$1 = { key: 1 };
+  const _hoisted_8 = ["title"];
+  const _hoisted_9 = { key: 2 };
+  const _hoisted_10 = ["title"];
   function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_content_table = vue.resolveDirective("content-table");
     return vue.openBlock(), vue.createElementBlock("div", null, [
@@ -3155,35 +3123,35 @@ var __async = (__this, __arguments, generator) => {
               vue.createElementVNode("td", null, [
                 entry.anonymize_ip ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_1$6, [
                   vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_IPAddress")), 1),
-                  _hoisted_2$5
+                  _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1))
                 ])) : vue.createCommentVNode("", true),
-                entry.anonymize_location ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$5, [
+                entry.anonymize_location ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_2$5, [
                   vue.createTextVNode(vue.toDisplayString(_ctx.translate("Overlay_Location")), 1),
-                  _hoisted_4$3
+                  _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1))
                 ])) : vue.createCommentVNode("", true),
-                entry.anonymize_userid ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_5$3, vue.toDisplayString(_ctx.translate("General_UserId")), 1)) : vue.createCommentVNode("", true),
-                !entry.anonymize_ip && !entry.anonymize_location && !entry.anonymize_userid ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_6$2, "-")) : vue.createCommentVNode("", true)
+                entry.anonymize_userid ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$4, vue.toDisplayString(_ctx.translate("General_UserId")), 1)) : vue.createCommentVNode("", true),
+                !entry.anonymize_ip && !entry.anonymize_location && !entry.anonymize_userid ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$3, "-")) : vue.createCommentVNode("", true)
               ]),
               vue.createElementVNode("td", null, vue.toDisplayString(entry.unset_visit_columns.join(", ")), 1),
               vue.createElementVNode("td", null, vue.toDisplayString(entry.unset_link_visit_action_columns.join(", ")), 1),
               vue.createElementVNode("td", null, [
-                !entry.job_start_date ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_7$1, [
+                !entry.job_start_date ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_5$2, [
                   vue.createElementVNode("span", {
                     class: "icon-info",
                     style: { "cursor": "help" },
                     title: `${_ctx.translate("PrivacyManager_ScheduledDate", entry.scheduled_date || "")}`
-                  }, null, 8, _hoisted_8$1),
+                  }, null, 8, _hoisted_6$1),
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_Scheduled")), 1)
-                ])) : entry.job_start_date && !entry.job_finish_date ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_9$1, [
+                ])) : entry.job_start_date && !entry.job_finish_date ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_7$1, [
                   vue.createElementVNode("span", {
                     class: "icon-info",
                     style: { "cursor": "help" },
                     title: `${_ctx.translate("PrivacyManager_ScheduledDate", entry.scheduled_date || "")}.
 ${_ctx.translate("PrivacyManager_JobStartDate", entry.job_start_date)}.
 ${_ctx.translate("PrivacyManager_CurrentOutput", entry.output)}`
-                  }, null, 8, _hoisted_10$1),
+                  }, null, 8, _hoisted_8),
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_InProgress")), 1)
-                ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_11$1, [
+                ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_9, [
                   vue.createElementVNode("span", {
                     class: "icon-info",
                     style: { "cursor": "help" },
@@ -3191,7 +3159,7 @@ ${_ctx.translate("PrivacyManager_CurrentOutput", entry.output)}`
 ${_ctx.translate("PrivacyManager_JobStartDate", entry.job_start_date)}.
 ${_ctx.translate("PrivacyManager_JobFinishDate", entry.job_finish_date)}.
 ${_ctx.translate("PrivacyManager_Output", entry.output)}`
-                  }, null, 8, _hoisted_12$1),
+                  }, null, 8, _hoisted_10),
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_Done")), 1)
                 ]))
               ])
@@ -3292,13 +3260,8 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
   });
   const _hoisted_1$5 = ["innerHTML"];
   const _hoisted_2$4 = ["innerHTML"];
-  const _hoisted_3$4 = { key: 0 };
-  const _hoisted_4$2 = /* @__PURE__ */ vue.createElementVNode("a", {
-    name: "anonymizeHistoricalData",
-    id: "anonymizeHistoricalData"
-  }, null, -1);
-  const _hoisted_5$2 = { key: 1 };
-  const _hoisted_6$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
+  const _hoisted_3$3 = { key: 0 };
+  const _hoisted_4$2 = { key: 1 };
   function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _component_AnonymizeIp = vue.resolveComponent("AnonymizeIp");
@@ -3357,7 +3320,7 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
         ]),
         _: 1
       }, 8, ["content-title"]),
-      _ctx.isDataPurgeSettingsEnabled ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$4, [
+      _ctx.isDataPurgeSettingsEnabled ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$3, [
         vue.createVNode(_component_ContentBlock, {
           id: "deleteLogsAnchor",
           "content-title": _ctx.translate("PrivacyManager_DeleteOldRawData")
@@ -3391,15 +3354,18 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
           "schedule-deletion-options": _ctx.scheduleDeletionOptions
         }, null, 8, ["is-data-purge-settings-enabled", "delete-data", "schedule-deletion-options"])
       ])) : vue.createCommentVNode("", true),
-      _hoisted_4$2,
+      _cache[1] || (_cache[1] = vue.createElementVNode("a", {
+        name: "anonymizeHistoricalData",
+        id: "anonymizeHistoricalData"
+      }, null, -1)),
       vue.createVNode(_component_ContentBlock, {
         "content-title": _ctx.translate("PrivacyManager_AnonymizePreviousData"),
         class: "logDataAnonymizer"
       }, {
         default: vue.withCtx(() => [
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("PrivacyManager_AnonymizePreviousDataDescription")), 1),
-          _ctx.isSuperUser ? (vue.openBlock(), vue.createBlock(_component_AnonymizeLogData, { key: 0 })) : (vue.openBlock(), vue.createElementBlock("p", _hoisted_5$2, vue.toDisplayString(_ctx.translate("PrivacyManager_AnonymizePreviousDataOnlySuperUser")), 1)),
-          _hoisted_6$1,
+          _ctx.isSuperUser ? (vue.openBlock(), vue.createBlock(_component_AnonymizeLogData, { key: 0 })) : (vue.openBlock(), vue.createElementBlock("p", _hoisted_4$2, vue.toDisplayString(_ctx.translate("PrivacyManager_AnonymizePreviousDataOnlySuperUser")), 1)),
+          _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
           vue.createVNode(_component_PreviousAnonymizations, { anonymizations: _ctx.anonymizations }, null, 8, ["anonymizations"])
         ]),
         _: 1
@@ -3528,7 +3494,7 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
   });
   const _hoisted_1$4 = { class: "card-table dataTable compliance" };
   const _hoisted_2$3 = { class: "label" };
-  const _hoisted_3$3 = { class: "label" };
+  const _hoisted_3$2 = { class: "label" };
   const _hoisted_4$1 = { class: "label" };
   const _hoisted_5$1 = ["innerHTML"];
   function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
@@ -3536,7 +3502,7 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
       vue.createElementVNode("thead", null, [
         vue.createElementVNode("tr", null, [
           vue.createElementVNode("th", _hoisted_2$3, vue.toDisplayString(_ctx.translate("PrivacyManager_ComplianceTableSettingName")), 1),
-          vue.createElementVNode("th", _hoisted_3$3, vue.toDisplayString(_ctx.translate("PrivacyManager_ComplianceTableSettingStatus")), 1),
+          vue.createElementVNode("th", _hoisted_3$2, vue.toDisplayString(_ctx.translate("PrivacyManager_ComplianceTableSettingStatus")), 1),
           vue.createElementVNode("th", _hoisted_4$1, vue.toDisplayString(_ctx.translate("PrivacyManager_ComplianceTableSettingNotes")), 1)
         ])
       ]),
@@ -3630,7 +3596,7 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
     key: 0,
     class: "notification system notification-error"
   };
-  const _hoisted_3$2 = {
+  const _hoisted_3$1 = {
     key: 0,
     class: "notification system notification-error"
   };
@@ -3664,7 +3630,7 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
                 modelValue: _ctx.shouldEnforceComplianceMode,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.shouldEnforceComplianceMode = $event)
               }, null, 8, ["name", "title", "introduction", "inline-help", "modelValue"]),
-              _ctx.state.saveComplianceError ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$2, vue.toDisplayString(_ctx.translate("General_ErrorTryAgain")) + " " + vue.toDisplayString(_ctx.translate("General_ExceptionContactSupportGeneric", ["", ""])), 1)) : vue.createCommentVNode("", true),
+              _ctx.state.saveComplianceError ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$1, vue.toDisplayString(_ctx.translate("General_ErrorTryAgain")) + " " + vue.toDisplayString(_ctx.translate("General_ExceptionContactSupportGeneric", ["", ""])), 1)) : vue.createCommentVNode("", true),
               vue.createVNode(_component_SaveButton, {
                 class: vue.normalizeClass("site-" + _ctx.idSite + "-" + _ctx.complianceType + "-save"),
                 onConfirm: _cache[1] || (_cache[1] = ($event) => this.showPasswordConfirmation = true),
@@ -3788,8 +3754,7 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
     }
   });
   const _hoisted_1$1 = { key: 0 };
-  const _hoisted_2$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_3$1 = { key: 1 };
+  const _hoisted_2$1 = { key: 1 };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_OptOutCustomizer = vue.resolveComponent("OptOutCustomizer");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
@@ -3826,9 +3791,9 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
           vue.createElementVNode("p", null, [
             _ctx.dntSupport ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_1$1, [
               vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.translate("PrivacyManager_DoNotTrack_Enabled")), 1),
-              _hoisted_2$1,
+              _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_DoNotTrack_EnabledMoreInfo")), 1)
-            ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$1, vue.toDisplayString(_ctx.translate("PrivacyManager_DoNotTrack_Disabled")) + " " + vue.toDisplayString(_ctx.translate("PrivacyManager_DoNotTrack_DisabledMoreInfo")), 1))
+            ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_2$1, vue.toDisplayString(_ctx.translate("PrivacyManager_DoNotTrack_Disabled")) + " " + vue.toDisplayString(_ctx.translate("PrivacyManager_DoNotTrack_DisabledMoreInfo")), 1))
           ]),
           vue.createVNode(_component_DoNotTrackPreference, {
             "dnt-support": _ctx.dntSupport,
@@ -3860,18 +3825,12 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
     }
   });
   const _hoisted_1 = { class: "understandingYourLegalObligations" };
-  const _hoisted_2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_8 = { class: "browser-default" };
-  const _hoisted_9 = ["innerHTML"];
-  const _hoisted_10 = ["innerHTML"];
-  const _hoisted_11 = ["innerHTML"];
-  const _hoisted_12 = ["innerHTML"];
-  const _hoisted_13 = ["innerHTML"];
+  const _hoisted_2 = { class: "browser-default" };
+  const _hoisted_3 = ["innerHTML"];
+  const _hoisted_4 = ["innerHTML"];
+  const _hoisted_5 = ["innerHTML"];
+  const _hoisted_6 = ["innerHTML"];
+  const _hoisted_7 = ["innerHTML"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
@@ -3881,43 +3840,43 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
         default: vue.withCtx(() => [
           vue.createElementVNode("p", null, [
             vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_UnderstandingYourLegalObligationsIntro1")) + " ", 1),
-            _hoisted_2,
-            _hoisted_3,
+            _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
+            _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_UnderstandingYourLegalObligationsIntro2")) + " ", 1),
-            _hoisted_4,
-            _hoisted_5,
+            _cache[2] || (_cache[2] = vue.createElementVNode("br", null, null, -1)),
+            _cache[3] || (_cache[3] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_UnderstandingYourLegalObligationsIntro3")) + " ", 1),
-            _hoisted_6,
-            _hoisted_7,
+            _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1)),
+            _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("PrivacyManager_UnderstandingYourLegalObligationsIntro4")), 1)
           ]),
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("PrivacyManager_UnderstandingYourLegalObligationsIntro5")), 1),
-          vue.createElementVNode("ul", _hoisted_8, [
+          vue.createElementVNode("ul", _hoisted_2, [
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(
                 _ctx.translate("PrivacyManager_UnderstandingYourLegalObligationsBulletStrictConsent")
               )
-            }, null, 8, _hoisted_9),
+            }, null, 8, _hoisted_3),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(_ctx.exemptionsBullet)
-            }, null, 8, _hoisted_10),
+            }, null, 8, _hoisted_4),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(
                 _ctx.translate("PrivacyManager_UnderstandingYourLegalObligationsBulletPersonalDataOnly")
               )
-            }, null, 8, _hoisted_11),
+            }, null, 8, _hoisted_5),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(
                 _ctx.translate("PrivacyManager_UnderstandingYourLegalObligationsBulletTransparencyOptOut")
               )
-            }, null, 8, _hoisted_12),
+            }, null, 8, _hoisted_6),
             vue.createElementVNode("li", {
               innerHTML: _ctx.$sanitize(
                 _ctx.translate(
                   "PrivacyManager_UnderstandingYourLegalObligationsBulletNoComplianceRequirements"
                 )
               )
-            }, null, 8, _hoisted_13)
+            }, null, 8, _hoisted_7)
           ])
         ]),
         _: 1

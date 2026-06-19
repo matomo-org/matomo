@@ -474,63 +474,57 @@ var __async = (__this, __arguments, generator) => {
       }
     }
   });
-  const _hoisted_1$2 = /* @__PURE__ */ vue.createElementVNode("div", { class: "clear" }, null, -1);
-  const _hoisted_2$2 = { key: 0 };
-  const _hoisted_3$2 = ["innerHTML"];
-  const _hoisted_4$2 = {
+  const _hoisted_1$2 = { key: 0 };
+  const _hoisted_2$2 = ["innerHTML"];
+  const _hoisted_3$2 = {
     id: "emailScheduleInlineHelp",
     class: "inline-help-node"
   };
-  const _hoisted_5$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6$2 = {
+  const _hoisted_4$2 = {
     id: "emailReportPeriodInlineHelp",
     class: "inline-help-node"
   };
-  const _hoisted_7$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_8$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_9$1 = {
+  const _hoisted_5$2 = {
     key: 0,
     id: "reportHourHelpText",
     class: "inline-help-node"
   };
-  const _hoisted_10$1 = ["textContent"];
-  const _hoisted_11$1 = {
+  const _hoisted_6$2 = ["textContent"];
+  const _hoisted_7$1 = {
     id: "deliveryMediumnInlineHelp",
     class: "inline-help-node"
   };
-  const _hoisted_12$1 = ["innerHTML"];
-  const _hoisted_13$1 = { ref: "reportParameters" };
-  const _hoisted_14$1 = { class: "report_evolution_graph" };
-  const _hoisted_15$1 = { class: "row evolution-graph-period" };
+  const _hoisted_8$1 = ["innerHTML"];
+  const _hoisted_9$1 = { ref: "reportParameters" };
+  const _hoisted_10$1 = { class: "report_evolution_graph" };
+  const _hoisted_11$1 = { class: "row evolution-graph-period" };
+  const _hoisted_12$1 = { class: "col s12" };
+  const _hoisted_13$1 = { for: "report_evolution_period_for_each" };
+  const _hoisted_14$1 = ["checked"];
+  const _hoisted_15$1 = ["innerHTML"];
   const _hoisted_16$1 = { class: "col s12" };
-  const _hoisted_17$1 = { for: "report_evolution_period_for_each" };
+  const _hoisted_17$1 = { for: "report_evolution_period_for_prev" };
   const _hoisted_18$1 = ["checked"];
-  const _hoisted_19$1 = ["innerHTML"];
-  const _hoisted_20$1 = { class: "col s12" };
-  const _hoisted_21$1 = { for: "report_evolution_period_for_prev" };
-  const _hoisted_22$1 = ["checked"];
-  const _hoisted_23$1 = ["value"];
-  const _hoisted_24$1 = { class: "row" };
-  const _hoisted_25$1 = {
+  const _hoisted_19$1 = ["value"];
+  const _hoisted_20$1 = { class: "row" };
+  const _hoisted_21$1 = {
     id: "scheduled-reports-selection-heading",
     class: "col s12"
   };
-  const _hoisted_26$1 = { class: "reportCategory" };
-  const _hoisted_27$1 = { class: "listReports" };
-  const _hoisted_28$1 = ["name", "type", "id", "checked", "onChange"];
-  const _hoisted_29$1 = {
+  const _hoisted_22$1 = { class: "reportCategory" };
+  const _hoisted_23$1 = { class: "listReports" };
+  const _hoisted_24$1 = ["name", "type", "id", "checked", "onChange"];
+  const _hoisted_25$1 = {
     key: 0,
     class: "entityInlineHelp"
   };
-  const _hoisted_30$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_31$1 = {
+  const _hoisted_26$1 = {
     key: 1,
     class: "draggableListPanel selectedReportsWrapper"
   };
-  const _hoisted_32$1 = { class: "draggableListHeading selectedReportsHeading" };
-  const _hoisted_33$1 = { class: "draggableListHelp selectedReportsHelp" };
-  const _hoisted_34$1 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-menu-hamburger drag-icon" }, null, -1);
-  const _hoisted_35$1 = ["innerHTML"];
+  const _hoisted_27$1 = { class: "draggableListHeading selectedReportsHeading" };
+  const _hoisted_28$1 = { class: "draggableListHelp selectedReportsHelp" };
+  const _hoisted_29$1 = ["innerHTML"];
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _component_DraggableList = vue.resolveComponent("DraggableList");
@@ -543,7 +537,7 @@ var __async = (__this, __arguments, generator) => {
     }, {
       default: vue.withCtx(() => [
         vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("ScheduledReports_CreateTooltip")), 1),
-        _hoisted_1$2,
+        _cache[20] || (_cache[20] = vue.createElementVNode("div", { class: "clear" }, null, -1)),
         vue.withDirectives((vue.openBlock(), vue.createElementBlock("form", {
           id: "addEditReport",
           onSubmit: _cache[14] || (_cache[14] = ($event) => _ctx.$emit("submit"))
@@ -581,7 +575,7 @@ var __async = (__this, __arguments, generator) => {
               "ui-control-attributes": { class: "compact-textarea" }
             }, null, 8, ["title", "model-value", "placeholder", "inline-help"])
           ]),
-          _ctx.segmentEditorActivated ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$2, [
+          _ctx.segmentEditorActivated ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [
             vue.createVNode(_component_Field, {
               uicontrol: "select",
               name: "report_segment",
@@ -596,7 +590,7 @@ var __async = (__this, __arguments, generator) => {
                   id: "reportSegmentInlineHelp",
                   class: "inline-help-node",
                   innerHTML: _ctx.$sanitize(_ctx.reportSegmentInlineHelp)
-                }, null, 8, _hoisted_3$2)) : vue.createCommentVNode("", true)
+                }, null, 8, _hoisted_2$2)) : vue.createCommentVNode("", true)
               ]),
               _: 1
             }, 8, ["title", "model-value", "options"])
@@ -617,9 +611,9 @@ var __async = (__this, __arguments, generator) => {
               options: _ctx.periods
             }, {
               "inline-help": vue.withCtx(() => [
-                vue.createElementVNode("div", _hoisted_4$2, [
+                vue.createElementVNode("div", _hoisted_3$2, [
                   vue.createTextVNode(vue.toDisplayString(_ctx.translate("ScheduledReports_WeeklyScheduleHelp")) + " ", 1),
-                  _hoisted_5$2,
+                  _cache[15] || (_cache[15] = vue.createElementVNode("br", null, null, -1)),
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("ScheduledReports_MonthlyScheduleHelp")), 1)
                 ])
               ]),
@@ -636,10 +630,10 @@ var __async = (__this, __arguments, generator) => {
               title: _ctx.translate("ScheduledReports_ReportPeriod")
             }, {
               "inline-help": vue.withCtx(() => [
-                vue.createElementVNode("div", _hoisted_6$2, [
+                vue.createElementVNode("div", _hoisted_4$2, [
                   vue.createTextVNode(vue.toDisplayString(_ctx.translate("ScheduledReports_ScheduleReportPeriodHelp")) + " ", 1),
-                  _hoisted_7$2,
-                  _hoisted_8$2,
+                  _cache[16] || (_cache[16] = vue.createElementVNode("br", null, null, -1)),
+                  _cache[17] || (_cache[17] = vue.createElementVNode("br", null, null, -1)),
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("ScheduledReports_ScheduleReportPeriodHelp2")), 1)
                 ])
               ]),
@@ -656,10 +650,10 @@ var __async = (__this, __arguments, generator) => {
               options: _ctx.reportHours
             }, {
               "inline-help": vue.withCtx(() => [
-                _ctx.timezoneOffset !== 0 && _ctx.timezoneOffset !== "0" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_9$1, [
+                _ctx.timezoneOffset !== 0 && _ctx.timezoneOffset !== "0" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$2, [
                   vue.createElementVNode("span", {
                     textContent: vue.toDisplayString(_ctx.reportHourUtcHelpText)
-                  }, null, 8, _hoisted_10$1)
+                  }, null, 8, _hoisted_6$2)
                 ])) : vue.createCommentVNode("", true)
               ]),
               _: 1
@@ -676,16 +670,16 @@ var __async = (__this, __arguments, generator) => {
               options: _ctx.reportTypeOptions
             }, {
               "inline-help": vue.withCtx(() => [
-                vue.createElementVNode("div", _hoisted_11$1, [
+                vue.createElementVNode("div", _hoisted_7$1, [
                   vue.createElementVNode("span", {
                     innerHTML: _ctx.$sanitize(_ctx.getDeliveryMediumInlineTooltip)
-                  }, null, 8, _hoisted_12$1)
+                  }, null, 8, _hoisted_8$1)
                 ])
               ]),
               _: 1
             }, 8, ["disabled", "model-value", "title", "options"])
           ]),
-          vue.createElementVNode("div", _hoisted_13$1, [
+          vue.createElementVNode("div", _hoisted_9$1, [
             vue.renderSlot(_ctx.$slots, "report-parameters")
           ], 512),
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.reportFormatsByReportTypeOptions, (reportFormats, reportType) => {
@@ -716,7 +710,7 @@ var __async = (__this, __arguments, generator) => {
                 introduction: _ctx.translate("ScheduledReports_AggregateReportsFormat")
               }, null, 8, ["model-value", "options", "introduction"])
             ], 2),
-            vue.createElementVNode("div", _hoisted_14$1, [
+            vue.createElementVNode("div", _hoisted_10$1, [
               vue.withDirectives(vue.createVNode(_component_Field, {
                 uicontrol: "checkbox",
                 name: "report_evolution_graph",
@@ -727,9 +721,9 @@ var __async = (__this, __arguments, generator) => {
                 [vue.vShow, [2, "2", 3, "3"].indexOf(_ctx.report.displayFormat) !== -1]
               ])
             ]),
-            vue.withDirectives(vue.createElementVNode("div", _hoisted_15$1, [
-              vue.createElementVNode("div", _hoisted_16$1, [
-                vue.createElementVNode("label", _hoisted_17$1, [
+            vue.withDirectives(vue.createElementVNode("div", _hoisted_11$1, [
+              vue.createElementVNode("div", _hoisted_12$1, [
+                vue.createElementVNode("label", _hoisted_13$1, [
                   vue.createElementVNode("input", {
                     id: "report_evolution_period_for_each",
                     name: "report_evolution_period_for",
@@ -740,14 +734,14 @@ var __async = (__this, __arguments, generator) => {
                       "change",
                       { prop: "evolutionPeriodFor", value: $event.target.value }
                     ))
-                  }, null, 40, _hoisted_18$1),
+                  }, null, 40, _hoisted_14$1),
                   vue.createElementVNode("span", {
                     innerHTML: _ctx.$sanitize(_ctx.evolutionGraphsShowForEachInPeriod)
-                  }, null, 8, _hoisted_19$1)
+                  }, null, 8, _hoisted_15$1)
                 ])
               ]),
-              vue.createElementVNode("div", _hoisted_20$1, [
-                vue.createElementVNode("label", _hoisted_21$1, [
+              vue.createElementVNode("div", _hoisted_16$1, [
+                vue.createElementVNode("label", _hoisted_17$1, [
                   vue.createElementVNode("input", {
                     id: "report_evolution_period_for_prev",
                     name: "report_evolution_period_for",
@@ -758,7 +752,7 @@ var __async = (__this, __arguments, generator) => {
                       "change",
                       { prop: "evolutionPeriodFor", value: $event.target.value }
                     ))
-                  }, null, 40, _hoisted_22$1),
+                  }, null, 40, _hoisted_18$1),
                   vue.createElementVNode("span", null, [
                     vue.createTextVNode(vue.toDisplayString(_ctx.translate(
                       "ScheduledReports_EvolutionGraphsShowForPreviousN",
@@ -770,7 +764,7 @@ var __async = (__this, __arguments, generator) => {
                       value: _ctx.report.evolutionPeriodN,
                       onKeydown: _cache[11] || (_cache[11] = ($event) => _ctx.onEvolutionPeriodN($event)),
                       onChange: _cache[12] || (_cache[12] = ($event) => _ctx.onEvolutionPeriodN($event))
-                    }, null, 40, _hoisted_23$1)
+                    }, null, 40, _hoisted_19$1)
                   ])
                 ])
               ])
@@ -783,8 +777,8 @@ var __async = (__this, __arguments, generator) => {
               _ctx.report[`format${_ctx.report.type}`] === "pdf" || _ctx.report[`format${_ctx.report.type}`] === "html"
             ]
           ]),
-          vue.createElementVNode("div", _hoisted_24$1, [
-            vue.createElementVNode("h3", _hoisted_25$1, vue.toDisplayString(_ctx.translate("ScheduledReports_ReportsIncluded")), 1),
+          vue.createElementVNode("div", _hoisted_20$1, [
+            vue.createElementVNode("h3", _hoisted_21$1, vue.toDisplayString(_ctx.translate("ScheduledReports_ReportsIncluded")), 1),
             vue.createElementVNode("div", {
               class: vue.normalizeClass({
                 "col s12 scheduled-reports-field-help": true,
@@ -805,8 +799,8 @@ var __async = (__this, __arguments, generator) => {
                 }, [
                   (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(reportsByCategory, (reports, category) => {
                     return vue.openBlock(), vue.createElementBlock("div", { key: category }, [
-                      vue.createElementVNode("h3", _hoisted_26$1, vue.toDisplayString(category), 1),
-                      vue.createElementVNode("ul", _hoisted_27$1, [
+                      vue.createElementVNode("h3", _hoisted_22$1, vue.toDisplayString(category), 1),
+                      vue.createElementVNode("ul", _hoisted_23$1, [
                         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(reports, (report) => {
                           var _a2;
                           return vue.openBlock(), vue.createElementBlock("li", {
@@ -822,14 +816,14 @@ var __async = (__this, __arguments, generator) => {
                                   reportType,
                                   uniqueId: report.uniqueId
                                 })
-                              }, null, 40, _hoisted_28$1),
+                              }, null, 40, _hoisted_24$1),
                               vue.createElementVNode("span", null, vue.toDisplayString(_ctx.decode(report.name)), 1),
-                              report.uniqueId === "MultiSites_getAll" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_29$1, vue.toDisplayString(_ctx.translate("ScheduledReports_ReportIncludeNWebsites", _ctx.countWebsites)), 1)) : vue.createCommentVNode("", true)
+                              report.uniqueId === "MultiSites_getAll" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_25$1, vue.toDisplayString(_ctx.translate("ScheduledReports_ReportIncludeNWebsites", _ctx.countWebsites)), 1)) : vue.createCommentVNode("", true)
                             ])
                           ]);
                         }), 128))
                       ]),
-                      _hoisted_30$1
+                      _cache[18] || (_cache[18] = vue.createElementVNode("br", null, null, -1))
                     ]);
                   }), 128))
                 ]);
@@ -838,11 +832,11 @@ var __async = (__this, __arguments, generator) => {
               [vue.vShow, _ctx.report.type === reportType]
             ]);
           }), 128)),
-          _ctx.allowMultipleReportsByReportType[_ctx.report.type] && _ctx.selectedReportsForCurrentType.length ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_31$1, [
-            vue.createElementVNode("div", _hoisted_32$1, [
+          _ctx.allowMultipleReportsByReportType[_ctx.report.type] && _ctx.selectedReportsForCurrentType.length ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_26$1, [
+            vue.createElementVNode("div", _hoisted_27$1, [
               vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("ScheduledReports_SelectedReports")), 1)
             ]),
-            vue.createElementVNode("p", _hoisted_33$1, vue.toDisplayString(_ctx.translate("ScheduledReports_SelectedReportsHelp")), 1),
+            vue.createElementVNode("p", _hoisted_28$1, vue.toDisplayString(_ctx.translate("ScheduledReports_SelectedReportsHelp")), 1),
             vue.createVNode(_component_DraggableList, {
               class: "selectedReportsList",
               items: _ctx.selectedReportsForCurrentType,
@@ -850,7 +844,7 @@ var __async = (__this, __arguments, generator) => {
               onReorder: _ctx.onSelectedReportsReorder
             }, {
               default: vue.withCtx(({ item: reportItem }) => [
-                _hoisted_34$1,
+                _cache[19] || (_cache[19] = vue.createElementVNode("span", { class: "icon-menu-hamburger drag-icon" }, null, -1)),
                 vue.createElementVNode("span", null, vue.toDisplayString(_ctx.decode(reportItem.name)), 1)
               ]),
               _: 1
@@ -863,7 +857,7 @@ var __async = (__this, __arguments, generator) => {
           vue.createElementVNode("div", {
             class: "entityCancel",
             innerHTML: _ctx.$sanitize(_ctx.entityCancelText)
-          }, null, 8, _hoisted_35$1)
+          }, null, 8, _hoisted_29$1)
         ], 32)), [
           [_directive_form]
         ])
@@ -957,67 +951,44 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$1 = { class: "browser-default periodTooltipList" };
   const _hoisted_2$1 = ["innerHTML"];
-  const _hoisted_3$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4$1 = ["innerHTML"];
-  const _hoisted_5$1 = { class: "first" };
-  const _hoisted_6$1 = { key: 0 };
-  const _hoisted_7$1 = { colspan: "7" };
-  const _hoisted_8$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_9 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_10 = ["href"];
-  const _hoisted_11 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_12 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_13 = { key: 1 };
-  const _hoisted_14 = { colspan: "7" };
-  const _hoisted_15 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_16 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_17 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_18 = { class: "first" };
-  const _hoisted_19 = {
+  const _hoisted_3$1 = ["innerHTML"];
+  const _hoisted_4$1 = { class: "first" };
+  const _hoisted_5$1 = { key: 0 };
+  const _hoisted_6$1 = { colspan: "7" };
+  const _hoisted_7 = ["href"];
+  const _hoisted_8 = { key: 1 };
+  const _hoisted_9 = { colspan: "7" };
+  const _hoisted_10 = { class: "first" };
+  const _hoisted_11 = {
     key: 0,
     class: "entityInlineHelp",
     style: { "font-size": "9pt" }
   };
-  const _hoisted_20 = { key: 0 };
-  const _hoisted_21 = { key: 1 };
-  const _hoisted_22 = { key: 0 };
-  const _hoisted_23 = { key: 0 };
-  const _hoisted_24 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_25 = ["onClick"];
-  const _hoisted_26 = ["src"];
-  const _hoisted_27 = {
+  const _hoisted_12 = { key: 0 };
+  const _hoisted_13 = { key: 1 };
+  const _hoisted_14 = { key: 0 };
+  const _hoisted_15 = { key: 0 };
+  const _hoisted_16 = ["onClick"];
+  const _hoisted_17 = ["src"];
+  const _hoisted_18 = {
     href: "#",
     name: "linkSendNow",
     class: "link_but move-left"
   };
-  const _hoisted_28 = {
+  const _hoisted_19 = {
     key: 2,
     class: "loadingPiwik"
   };
-  const _hoisted_29 = ["id", "action"];
-  const _hoisted_30 = ["value"];
-  const _hoisted_31 = /* @__PURE__ */ vue.createElementVNode("input", {
-    type: "hidden",
-    name: "force_api_session",
-    value: "1"
-  }, null, -1);
-  const _hoisted_32 = ["onClick"];
-  const _hoisted_33 = ["src"];
-  const _hoisted_34 = ["id"];
-  const _hoisted_35 = { style: { "text-align": "center", "padding-top": "2px" } };
-  const _hoisted_36 = ["onClick", "title"];
-  const _hoisted_37 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-edit" }, null, -1);
-  const _hoisted_38 = [
-    _hoisted_37
-  ];
-  const _hoisted_39 = { style: { "text-align": "center", "padding-top": "2px" } };
-  const _hoisted_40 = ["onClick", "title"];
-  const _hoisted_41 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-delete" }, null, -1);
-  const _hoisted_42 = [
-    _hoisted_41
-  ];
-  const _hoisted_43 = { class: "tableActionBar" };
-  const _hoisted_44 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-add" }, null, -1);
+  const _hoisted_20 = ["id", "action"];
+  const _hoisted_21 = ["value"];
+  const _hoisted_22 = ["onClick"];
+  const _hoisted_23 = ["src"];
+  const _hoisted_24 = ["id"];
+  const _hoisted_25 = { style: { "text-align": "center", "padding-top": "2px" } };
+  const _hoisted_26 = ["onClick", "title"];
+  const _hoisted_27 = { style: { "text-align": "center", "padding-top": "2px" } };
+  const _hoisted_28 = ["onClick", "title"];
+  const _hoisted_29 = { class: "tableActionBar" };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_MatomoLoader = vue.resolveComponent("MatomoLoader");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
@@ -1043,15 +1014,15 @@ var __async = (__this, __arguments, generator) => {
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.translate("ScheduledReports_ManageTooltip3"))
             }, null, 8, _hoisted_2$1),
-            _hoisted_3$1,
+            _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.learnMoreComputed)
-            }, null, 8, _hoisted_4$1)
+            }, null, 8, _hoisted_3$1)
           ]),
           vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", null, [
             vue.createElementVNode("thead", null, [
               vue.createElementVNode("tr", null, [
-                vue.createElementVNode("th", _hoisted_5$1, vue.toDisplayString(_ctx.translate("General_Name")), 1),
+                vue.createElementVNode("th", _hoisted_4$1, vue.toDisplayString(_ctx.translate("General_Name")), 1),
                 vue.createElementVNode("th", null, vue.toDisplayString(_ctx.translate("ScheduledReports_ReportSchedule")), 1),
                 vue.createElementVNode("th", null, vue.toDisplayString(_ctx.translate("ScheduledReports_ReportFormat")), 1),
                 vue.createElementVNode("th", null, vue.toDisplayString(_ctx.translate("ScheduledReports_SendReportTo")), 1),
@@ -1061,46 +1032,46 @@ var __async = (__this, __arguments, generator) => {
               ])
             ]),
             vue.createElementVNode("tbody", null, [
-              _ctx.userLogin === "anonymous" ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_6$1, [
-                vue.createElementVNode("td", _hoisted_7$1, [
-                  _hoisted_8$1,
+              _ctx.userLogin === "anonymous" ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_5$1, [
+                vue.createElementVNode("td", _hoisted_6$1, [
+                  _cache[2] || (_cache[2] = vue.createElementVNode("br", null, null, -1)),
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("ScheduledReports_MustBeLoggedIn")) + " ", 1),
-                  _hoisted_9,
-                  vue.createTextVNode("› "),
+                  _cache[3] || (_cache[3] = vue.createElementVNode("br", null, null, -1)),
+                  _cache[4] || (_cache[4] = vue.createTextVNode("› ", -1)),
                   vue.createElementVNode("a", {
                     href: `index.php?module=${_ctx.loginModule}`
-                  }, vue.toDisplayString(_ctx.translate("Login_LogIn")), 9, _hoisted_10),
-                  _hoisted_11,
-                  _hoisted_12
+                  }, vue.toDisplayString(_ctx.translate("Login_LogIn")), 9, _hoisted_7),
+                  _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1)),
+                  _cache[6] || (_cache[6] = vue.createElementVNode("br", null, null, -1))
                 ])
-              ])) : !((_a2 = _ctx.reports) == null ? void 0 : _a2.length) ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_13, [
-                vue.createElementVNode("td", _hoisted_14, [
-                  _hoisted_15,
+              ])) : !((_a2 = _ctx.reports) == null ? void 0 : _a2.length) ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_8, [
+                vue.createElementVNode("td", _hoisted_9, [
+                  _cache[7] || (_cache[7] = vue.createElementVNode("br", null, null, -1)),
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("ScheduledReports_ThereIsNoReportToManage", _ctx.siteName)) + ". ", 1),
-                  _hoisted_16,
-                  _hoisted_17
+                  _cache[8] || (_cache[8] = vue.createElementVNode("br", null, null, -1)),
+                  _cache[9] || (_cache[9] = vue.createElementVNode("br", null, null, -1))
                 ])
               ])) : vue.createCommentVNode("", true),
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.decodedReports, (report) => {
                 return vue.openBlock(), vue.createElementBlock("tr", {
                   key: report.idreport
                 }, [
-                  vue.createElementVNode("td", _hoisted_18, [
+                  vue.createElementVNode("td", _hoisted_10, [
                     vue.createTextVNode(vue.toDisplayString(report.description) + " ", 1),
-                    _ctx.segmentEditorActivated && report.idsegment ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_19, [
-                      _ctx.savedSegmentsById[report.idsegment] ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_20, vue.toDisplayString(_ctx.savedSegmentsById[report.idsegment]), 1)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_21, vue.toDisplayString(_ctx.translate("ScheduledReports_SegmentDeleted")), 1))
+                    _ctx.segmentEditorActivated && report.idsegment ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_11, [
+                      _ctx.savedSegmentsById[report.idsegment] ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_12, vue.toDisplayString(_ctx.savedSegmentsById[report.idsegment]), 1)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_13, vue.toDisplayString(_ctx.translate("ScheduledReports_SegmentDeleted")), 1))
                     ])) : vue.createCommentVNode("", true)
                   ]),
                   vue.createElementVNode("td", null, vue.toDisplayString(_ctx.periods[report.period]), 1),
                   vue.createElementVNode("td", null, [
-                    report.format ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_22, vue.toDisplayString(report.format.toUpperCase()), 1)) : vue.createCommentVNode("", true)
+                    report.format ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_14, vue.toDisplayString(report.format.toUpperCase()), 1)) : vue.createCommentVNode("", true)
                   ]),
                   vue.createElementVNode("td", null, [
-                    report.recipients.length === 0 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_23, vue.toDisplayString(_ctx.translate("ScheduledReports_NoRecipients")), 1)) : vue.createCommentVNode("", true),
+                    report.recipients.length === 0 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_15, vue.toDisplayString(_ctx.translate("ScheduledReports_NoRecipients")), 1)) : vue.createCommentVNode("", true),
                     (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(report.recipients, (recipient, index) => {
                       return vue.openBlock(), vue.createElementBlock("span", { key: index }, [
                         vue.createTextVNode(vue.toDisplayString(recipient) + " ", 1),
-                        _hoisted_24
+                        _cache[10] || (_cache[10] = vue.createElementVNode("br", null, null, -1))
                       ]);
                     }), 128)),
                     report.recipients.length !== 0 && !_ctx.sendingReports.includes(report.idreport) ? (vue.openBlock(), vue.createElementBlock("span", {
@@ -1111,10 +1082,10 @@ var __async = (__this, __arguments, generator) => {
                       vue.createElementVNode("img", {
                         border: "0",
                         src: _ctx.reportTypes[report.type]
-                      }, null, 8, _hoisted_26),
-                      vue.createElementVNode("a", _hoisted_27, vue.toDisplayString(_ctx.translate("ScheduledReports_SendPreviewNow")) + " " + vue.toDisplayString(_ctx.translate("ScheduledReports_CurrentPeriod")), 1)
-                    ], 8, _hoisted_25)) : vue.createCommentVNode("", true),
-                    _ctx.sendingReports.includes(report.idreport) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_28, [
+                      }, null, 8, _hoisted_17),
+                      vue.createElementVNode("a", _hoisted_18, vue.toDisplayString(_ctx.translate("ScheduledReports_SendPreviewNow")) + " " + vue.toDisplayString(_ctx.translate("ScheduledReports_CurrentPeriod")), 1)
+                    ], 8, _hoisted_16)) : vue.createCommentVNode("", true),
+                    _ctx.sendingReports.includes(report.idreport) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_19, [
                       vue.createVNode(_component_MatomoLoader),
                       vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("ScheduledReports_SendingReport")), 1)
                     ])) : vue.createCommentVNode("", true)
@@ -1138,9 +1109,13 @@ var __async = (__this, __arguments, generator) => {
                         type: "hidden",
                         name: "token_auth",
                         value: _ctx.token_auth
-                      }, null, 8, _hoisted_30),
-                      _hoisted_31
-                    ], 8, _hoisted_29),
+                      }, null, 8, _hoisted_21),
+                      _cache[11] || (_cache[11] = vue.createElementVNode("input", {
+                        type: "hidden",
+                        name: "force_api_session",
+                        value: "1"
+                      }, null, -1))
+                    ], 8, _hoisted_20),
                     vue.createElementVNode("span", {
                       class: "clickable",
                       onClick: vue.withModifiers(($event) => _ctx.displayReport(report.idreport), ["prevent"])
@@ -1150,29 +1125,33 @@ var __async = (__this, __arguments, generator) => {
                         width: 16,
                         height: 16,
                         src: _ctx.reportFormatsByReportType[report.type][report.format]
-                      }, null, 8, _hoisted_33),
+                      }, null, 8, _hoisted_23),
                       vue.createElementVNode("a", {
                         href: "#",
                         rel: "noreferrer noopener",
                         name: "linkDownloadReport",
                         class: "link_but move-left",
                         id: report.idreport
-                      }, vue.toDisplayString(_ctx.translate("ScheduledReports_DownloadPreview")) + " " + vue.toDisplayString(_ctx.translate("ScheduledReports_CurrentPeriod")), 9, _hoisted_34)
-                    ], 8, _hoisted_32)
+                      }, vue.toDisplayString(_ctx.translate("ScheduledReports_DownloadPreview")) + " " + vue.toDisplayString(_ctx.translate("ScheduledReports_CurrentPeriod")), 9, _hoisted_24)
+                    ], 8, _hoisted_22)
                   ]),
-                  vue.createElementVNode("td", _hoisted_35, [
+                  vue.createElementVNode("td", _hoisted_25, [
                     vue.createElementVNode("button", {
                       class: "table-action",
                       onClick: ($event) => _ctx.$emit("edit", report.idreport),
                       title: _ctx.translate("General_Edit")
-                    }, _hoisted_38, 8, _hoisted_36)
+                    }, [..._cache[12] || (_cache[12] = [
+                      vue.createElementVNode("span", { class: "icon-edit" }, null, -1)
+                    ])], 8, _hoisted_26)
                   ]),
-                  vue.createElementVNode("td", _hoisted_39, [
+                  vue.createElementVNode("td", _hoisted_27, [
                     vue.createElementVNode("button", {
                       class: "table-action",
                       onClick: ($event) => _ctx.$emit("delete", report.idreport),
                       title: _ctx.translate("General_Delete")
-                    }, _hoisted_42, 8, _hoisted_40)
+                    }, [..._cache[13] || (_cache[13] = [
+                      vue.createElementVNode("span", { class: "icon-delete" }, null, -1)
+                    ])], 8, _hoisted_28)
                   ])
                 ]);
               }), 128))
@@ -1180,13 +1159,13 @@ var __async = (__this, __arguments, generator) => {
           ])), [
             [_directive_content_table]
           ]),
-          vue.createElementVNode("div", _hoisted_43, [
+          vue.createElementVNode("div", _hoisted_29, [
             _ctx.userLogin !== "anonymous" ? (vue.openBlock(), vue.createElementBlock("button", {
               key: 0,
               id: "add-report",
               onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("create"))
             }, [
-              _hoisted_44,
+              _cache[14] || (_cache[14] = vue.createElementVNode("span", { class: "icon-add" }, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("ScheduledReports_CreateAndScheduleReport")), 1)
             ])) : vue.createCommentVNode("", true)
           ])
@@ -1807,18 +1786,13 @@ var __async = (__this, __arguments, generator) => {
   };
   const _hoisted_2 = { ref: "reportSentSuccess" };
   const _hoisted_3 = { ref: "reportUpdatedSuccess" };
-  const _hoisted_4 = /* @__PURE__ */ vue.createElementVNode("div", {
-    id: "ajaxError",
-    style: { "display": "none" }
-  }, null, -1);
-  const _hoisted_5 = {
+  const _hoisted_4 = {
     id: "ajaxLoadingDiv",
     ref: "ajaxLoadingDiv",
     style: { "display": "none" }
   };
-  const _hoisted_6 = { class: "loadingPiwik" };
-  const _hoisted_7 = { class: "loadingSegment" };
-  const _hoisted_8 = /* @__PURE__ */ vue.createElementVNode("a", { id: "bottom" }, null, -1);
+  const _hoisted_5 = { class: "loadingPiwik" };
+  const _hoisted_6 = { class: "loadingSegment" };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_MatomoLoader = vue.resolveComponent("MatomoLoader");
     const _component_ListReports = vue.resolveComponent("ListReports");
@@ -1827,13 +1801,16 @@ var __async = (__this, __arguments, generator) => {
       vue.createElementVNode("div", _hoisted_2, null, 512),
       vue.createElementVNode("div", _hoisted_3, null, 512),
       vue.createElementVNode("div", null, [
-        _hoisted_4,
-        vue.createElementVNode("div", _hoisted_5, [
-          vue.createElementVNode("div", _hoisted_6, [
+        _cache[8] || (_cache[8] = vue.createElementVNode("div", {
+          id: "ajaxError",
+          style: { "display": "none" }
+        }, null, -1)),
+        vue.createElementVNode("div", _hoisted_4, [
+          vue.createElementVNode("div", _hoisted_5, [
             vue.createVNode(_component_MatomoLoader),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_LoadingData")), 1)
           ]),
-          vue.createElementVNode("div", _hoisted_7, vue.toDisplayString(_ctx.translate("SegmentEditor_LoadingSegmentedDataMayTakeSomeTime")), 1)
+          vue.createElementVNode("div", _hoisted_6, vue.toDisplayString(_ctx.translate("SegmentEditor_LoadingSegmentedDataMayTakeSomeTime")), 1)
         ], 512),
         vue.withDirectives(vue.createVNode(_component_ListReports, {
           "content-title": _ctx.contentTitle,
@@ -1884,7 +1861,7 @@ var __async = (__this, __arguments, generator) => {
           ]),
           _: 3
         }, 8, ["report", "validation-errors", "periods", "param-periods", "report-type-options", "report-formats-by-report-type-options", "display-formats", "reports-by-category-by-report-type", "allow-multiple-reports-by-report-type", "count-websites", "site-name", "selected-reports", "selected-reports-order", "report-types", "segment-editor-activated", "saved-segments-by-id"])) : vue.createCommentVNode("", true),
-        _hoisted_8
+        _cache[9] || (_cache[9] = vue.createElementVNode("a", { id: "bottom" }, null, -1))
       ])
     ], 512);
   }

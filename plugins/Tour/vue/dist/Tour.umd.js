@@ -172,27 +172,17 @@
   const _hoisted_2 = { "aria-hidden": "true" };
   const _hoisted_3 = { key: 0 };
   const _hoisted_4 = { class: "completed" };
-  const _hoisted_5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7 = ["innerHTML"];
-  const _hoisted_8 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_9 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_10 = ["innerHTML"];
-  const _hoisted_11 = { key: 1 };
-  const _hoisted_12 = { key: 0 };
-  const _hoisted_13 = ["innerHTML"];
-  const _hoisted_14 = ["title"];
-  const _hoisted_15 = ["title"];
-  const _hoisted_16 = ["title", "onClick"];
-  const _hoisted_17 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-hide" }, null, -1);
-  const _hoisted_18 = [
-    _hoisted_17
-  ];
-  const _hoisted_19 = ["href"];
-  const _hoisted_20 = /* @__PURE__ */ vue.createElementVNode("hr", null, null, -1);
-  const _hoisted_21 = { style: { "text-align": "center", "padding-bottom": "0" } };
-  const _hoisted_22 = /* @__PURE__ */ vue.createElementVNode("hr", null, null, -1);
-  const _hoisted_23 = ["innerHTML"];
+  const _hoisted_5 = ["innerHTML"];
+  const _hoisted_6 = ["innerHTML"];
+  const _hoisted_7 = { key: 1 };
+  const _hoisted_8 = { key: 0 };
+  const _hoisted_9 = ["innerHTML"];
+  const _hoisted_10 = ["title"];
+  const _hoisted_11 = ["title"];
+  const _hoisted_12 = ["title", "onClick"];
+  const _hoisted_13 = ["href"];
+  const _hoisted_14 = { style: { "text-align": "center", "padding-bottom": "0" } };
+  const _hoisted_15 = ["innerHTML"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
@@ -206,7 +196,7 @@
               vue.createElementVNode("span", {
                 class: vue.normalizeClass(["icon-star", _ctx.level.currentLevel >= i ? "successStar" : "upgradeStar"])
               }, null, 2),
-              vue.createTextVNode(" " + vue.toDisplayString(" "))
+              _cache[2] || (_cache[2] = vue.createTextVNode(" " + vue.toDisplayString(" "), -1))
             ], 64);
           }), 128))
         ]),
@@ -214,22 +204,22 @@
           vue.createElementVNode("p", null, [
             vue.createElementVNode("strong", _hoisted_4, vue.toDisplayString(_ctx.translate("Tour_CompletionTitle")), 1),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Tour_CompletionMessage")) + " ", 1),
-            _hoisted_5,
-            _hoisted_6,
+            _cache[3] || (_cache[3] = vue.createElementVNode("br", null, null, -1)),
+            _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1)),
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.youCanCallYourselfHtml)
-            }, null, 8, _hoisted_7),
-            _hoisted_8,
-            _hoisted_9,
+            }, null, 8, _hoisted_5),
+            _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1)),
+            _cache[6] || (_cache[6] = vue.createElementVNode("br", null, null, -1)),
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.shareHtml)
-            }, null, 8, _hoisted_10)
+            }, null, 8, _hoisted_6)
           ])
-        ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_11, [
-          _ctx.level.description ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_12, vue.toDisplayString(_ctx.level.description), 1)) : vue.createCommentVNode("", true),
+        ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_7, [
+          _ctx.level.description ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_8, vue.toDisplayString(_ctx.level.description), 1)) : vue.createCommentVNode("", true),
           vue.createElementVNode("p", {
             innerHTML: _ctx.$sanitize(_ctx.statusLevelHtml)
-          }, null, 8, _hoisted_13),
+          }, null, 8, _hoisted_9),
           vue.createElementVNode("ul", null, [
             (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.pagedChallenges, (challenge) => {
               return vue.openBlock(), vue.createElementBlock("li", {
@@ -241,27 +231,29 @@
                   key: 0,
                   class: "icon-ok",
                   title: _ctx.translate("Tour_ChallengeCompleted")
-                }, null, 8, _hoisted_15)) : (vue.openBlock(), vue.createElementBlock("a", {
+                }, null, 8, _hoisted_11)) : (vue.openBlock(), vue.createElementBlock("a", {
                   key: 1,
                   href: "javascript:void 0;",
                   class: "skip-challenge",
                   title: _ctx.translate("Tour_SkipThisChallenge"),
                   onClick: ($event) => _ctx.skipChallenge(challenge.id)
-                }, _hoisted_18, 8, _hoisted_16)),
-                vue.createTextVNode(" " + vue.toDisplayString(" ") + " "),
+                }, [..._cache[7] || (_cache[7] = [
+                  vue.createElementVNode("span", { class: "icon-hide" }, null, -1)
+                ])], 8, _hoisted_12)),
+                _cache[8] || (_cache[8] = vue.createTextVNode(" " + vue.toDisplayString(" ") + " ", -1)),
                 _ctx.$sanitizeUrl(challenge.url) ? (vue.openBlock(), vue.createElementBlock("a", {
                   key: 2,
                   href: _ctx.$sanitizeUrl(challenge.url),
                   target: "_blank",
                   rel: "noreferrer noopener"
-                }, vue.toDisplayString(challenge.name), 9, _hoisted_19)) : (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 3 }, [
+                }, vue.toDisplayString(challenge.name), 9, _hoisted_13)) : (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 3 }, [
                   vue.createTextVNode(vue.toDisplayString(challenge.name), 1)
                 ], 64))
-              ], 10, _hoisted_14);
+              ], 10, _hoisted_10);
             }), 128))
           ]),
-          _hoisted_20,
-          vue.createElementVNode("p", _hoisted_21, [
+          _cache[9] || (_cache[9] = vue.createElementVNode("hr", null, null, -1)),
+          vue.createElementVNode("p", _hoisted_14, [
             _ctx.hasPrevPage ? (vue.openBlock(), vue.createElementBlock("a", {
               key: 0,
               class: "previousChallenges",
@@ -276,11 +268,11 @@
               onClick: _cache[1] || (_cache[1] = ($event) => _ctx.currentPage += 1)
             }, vue.toDisplayString(_ctx.hasPrevPage ? _ctx.translate("General_Next") : _ctx.translate("Tour_NextChallenges")) + " › ", 1)) : vue.createCommentVNode("", true)
           ]),
-          _hoisted_22,
+          _cache[10] || (_cache[10] = vue.createElementVNode("hr", null, null, -1)),
           vue.createElementVNode("p", {
             class: "tourSuperUserNote",
             innerHTML: _ctx.$sanitize(_ctx.superUserNoteHtml)
-          }, null, 8, _hoisted_23)
+          }, null, 8, _hoisted_15)
         ]))
       ], 64)) : vue.createCommentVNode("", true)
     ]);

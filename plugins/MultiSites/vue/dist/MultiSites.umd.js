@@ -368,17 +368,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     ref: "kpiCardTooltipTemplate"
   };
   const _hoisted_4$4 = { role: "tooltip" };
-  const _hoisted_5$4 = ["title"];
-  const _hoisted_6$4 = { class: "kpiCardEvolution" };
+  const _hoisted_5$3 = ["title"];
+  const _hoisted_6$3 = { class: "kpiCardEvolution" };
   const _hoisted_7$3 = {
     key: 1,
     class: "kpiCardEvolution"
   };
-  const _hoisted_8$3 = /* @__PURE__ */ vue.createElementVNode("span", { class: "kpiCardEvolutionTrend" }, " ", -1);
-  const _hoisted_9$3 = [
-    _hoisted_8$3
-  ];
-  const _hoisted_10$3 = ["title", "innerHTML"];
+  const _hoisted_8$3 = ["title", "innerHTML"];
   function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_tooltips = vue.resolveDirective("tooltips");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$4, [
@@ -403,10 +399,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         title: _ctx.kpi.value
       }, [
         vue.createTextVNode(vue.toDisplayString(_ctx.kpi.valueCompact), 1)
-      ], 8, _hoisted_5$4)), [
+      ], 8, _hoisted_5$3)), [
         [_directive_tooltips, { duration: 200, delay: 200, content: _ctx.tooltipContent }]
       ]),
-      vue.createElementVNode("div", _hoisted_6$4, [
+      vue.createElementVNode("div", _hoisted_6$3, [
         _ctx.kpi.evolutionValue !== "" ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
           vue.createElementVNode("span", {
             class: vue.normalizeClass(`kpiCardEvolutionTrend ${_ctx.evolutionTrendClass}`)
@@ -417,14 +413,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.kpi.evolutionValue) + "  ", 1)
           ], 2),
           vue.createElementVNode("span", null, vue.toDisplayString(_ctx.translate(_ctx.evolutionTrendFrom)), 1)
-        ], 64)) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_7$3, _hoisted_9$3))
+        ], 64)) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_7$3, [..._cache[0] || (_cache[0] = [
+          vue.createElementVNode("span", { class: "kpiCardEvolutionTrend" }, " ", -1)
+        ])]))
       ]),
       _ctx.kpi.badge ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", {
         key: 0,
         class: "kpiCardBadge",
         title: _ctx.kpi.badge.title,
         innerHTML: _ctx.$sanitize(_ctx.kpi.badge.label)
-      }, null, 8, _hoisted_10$3)), [
+      }, null, 8, _hoisted_8$3)), [
         [_directive_tooltips, { duration: 200, delay: 200 }]
       ]) : vue.createCommentVNode("", true)
     ]);
@@ -456,12 +454,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     key: 0,
     class: "kpiCard kpiCardLoading"
   };
-  const _hoisted_3$3 = /* @__PURE__ */ vue.createElementVNode("div", { class: "kpiCardTitle" }, " ", -1);
-  const _hoisted_4$3 = { class: "kpiCardValue" };
-  const _hoisted_5$3 = /* @__PURE__ */ vue.createElementVNode("div", { class: "kpiCardEvolution" }, [
-    /* @__PURE__ */ vue.createElementVNode("span", { class: "kpiCardEvolutionTrend" }, " ")
-  ], -1);
-  const _hoisted_6$3 = {
+  const _hoisted_3$3 = { class: "kpiCardValue" };
+  const _hoisted_4$3 = {
     key: 0,
     class: "kpiCardBadge"
   };
@@ -470,12 +464,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const _component_KPICard = vue.resolveComponent("KPICard");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$3, [
       _ctx.isLoading ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$3, [
-        _hoisted_3$3,
-        vue.createElementVNode("div", _hoisted_4$3, [
+        _cache[0] || (_cache[0] = vue.createElementVNode("div", { class: "kpiCardTitle" }, " ", -1)),
+        vue.createElementVNode("div", _hoisted_3$3, [
           vue.createVNode(_component_MatomoLoader)
         ]),
-        _hoisted_5$3,
-        _ctx.hasKpiBadge ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$3, " ")) : vue.createCommentVNode("", true)
+        _cache[1] || (_cache[1] = vue.createElementVNode("div", { class: "kpiCardEvolution" }, [
+          vue.createElementVNode("span", { class: "kpiCardEvolutionTrend" }, " ")
+        ], -1)),
+        _ctx.hasKpiBadge ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$3, " ")) : vue.createCommentVNode("", true)
       ])) : (vue.openBlock(true), vue.createElementBlock(vue.Fragment, { key: 1 }, vue.renderList(_ctx.kpis, (kpi, index) => {
         return vue.openBlock(), vue.createElementBlock(vue.Fragment, {
           key: `kpi-card-${index}`
@@ -581,30 +577,26 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   });
   const _hoisted_1$2 = { class: "label" };
   const _hoisted_2$2 = ["href", "title"];
-  const _hoisted_3$2 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon icon-outlink" }, null, -1);
-  const _hoisted_4$2 = [
-    _hoisted_3$2
-  ];
-  const _hoisted_5$2 = ["href"];
-  const _hoisted_6$2 = {
+  const _hoisted_3$2 = ["href"];
+  const _hoisted_4$2 = {
     key: 1,
     class: "value"
   };
-  const _hoisted_7$2 = { class: "value" };
+  const _hoisted_5$2 = { class: "value" };
+  const _hoisted_6$2 = { class: "value" };
+  const _hoisted_7$2 = { key: 0 };
   const _hoisted_8$2 = { class: "value" };
-  const _hoisted_9$2 = { key: 0 };
-  const _hoisted_10$2 = { class: "value" };
+  const _hoisted_9$2 = { class: "value" };
+  const _hoisted_10$2 = { key: 1 };
   const _hoisted_11$2 = { class: "value" };
-  const _hoisted_12$2 = { key: 1 };
-  const _hoisted_13$2 = { class: "value" };
-  const _hoisted_14$2 = ["colspan"];
-  const _hoisted_15$1 = ["src"];
-  const _hoisted_16$1 = {
+  const _hoisted_12$2 = ["colspan"];
+  const _hoisted_13$1 = ["src"];
+  const _hoisted_14$1 = {
     key: 2,
     class: "sitesTableSparkline"
   };
-  const _hoisted_17$1 = ["href", "title"];
-  const _hoisted_18$1 = ["src"];
+  const _hoisted_15$1 = ["href", "title"];
+  const _hoisted_16$1 = ["src"];
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("tr", {
       class: vue.normalizeClass({
@@ -620,28 +612,30 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             target: "_blank",
             href: _ctx.site.main_url,
             title: _ctx.translate("General_GoTo", _ctx.site.main_url)
-          }, _hoisted_4$2, 8, _hoisted_2$2),
+          }, [..._cache[0] || (_cache[0] = [
+            vue.createElementVNode("span", { class: "icon icon-outlink" }, null, -1)
+          ])], 8, _hoisted_2$2),
           vue.createElementVNode("a", {
             title: "View reports",
             class: "value",
             href: _ctx.dashboardUrl
-          }, vue.toDisplayString(_ctx.siteLabel), 9, _hoisted_5$2)
-        ], 64)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_6$2, vue.toDisplayString(_ctx.siteLabel), 1))
+          }, vue.toDisplayString(_ctx.siteLabel), 9, _hoisted_3$2)
+        ], 64)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$2, vue.toDisplayString(_ctx.siteLabel), 1))
       ]),
       vue.createElementVNode("td", null, [
-        vue.createElementVNode("span", _hoisted_7$2, vue.toDisplayString(_ctx.formatNumber(_ctx.site.nb_visits)), 1)
+        vue.createElementVNode("span", _hoisted_5$2, vue.toDisplayString(_ctx.formatNumber(_ctx.site.nb_visits)), 1)
       ]),
       vue.createElementVNode("td", null, [
-        vue.createElementVNode("span", _hoisted_8$2, vue.toDisplayString(_ctx.formatNumber(_ctx.site.nb_pageviews)), 1)
+        vue.createElementVNode("span", _hoisted_6$2, vue.toDisplayString(_ctx.formatNumber(_ctx.site.nb_pageviews)), 1)
       ]),
-      _ctx.showAiChatbotsRequests ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_9$2, [
-        vue.createElementVNode("span", _hoisted_10$2, vue.toDisplayString(_ctx.formatNumber(_ctx.site.ai_chatbots_requests)), 1)
+      _ctx.showAiChatbotsRequests ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_7$2, [
+        vue.createElementVNode("span", _hoisted_8$2, vue.toDisplayString(_ctx.formatNumber(_ctx.site.ai_chatbots_requests)), 1)
       ])) : vue.createCommentVNode("", true),
       vue.createElementVNode("td", null, [
-        vue.createElementVNode("span", _hoisted_11$2, vue.toDisplayString(_ctx.formatNumber(_ctx.site.hits)), 1)
+        vue.createElementVNode("span", _hoisted_9$2, vue.toDisplayString(_ctx.formatNumber(_ctx.site.hits)), 1)
       ]),
-      _ctx.displayRevenue ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_12$2, [
-        vue.createElementVNode("span", _hoisted_13$2, vue.toDisplayString(_ctx.formatCurrency(_ctx.site.revenue, _ctx.site.currencySymbol || "")), 1)
+      _ctx.displayRevenue ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_10$2, [
+        vue.createElementVNode("span", _hoisted_11$2, vue.toDisplayString(_ctx.formatCurrency(_ctx.site.revenue, _ctx.site.currencySymbol || "")), 1)
       ])) : vue.createCommentVNode("", true),
       vue.createElementVNode("td", {
         colspan: _ctx.displaySparkline ? 1 : 2
@@ -650,7 +644,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           vue.createElementVNode("img", {
             src: _ctx.evolutionIconSrc,
             alt: ""
-          }, null, 8, _hoisted_15$1),
+          }, null, 8, _hoisted_13$1),
           vue.createElementVNode("span", {
             class: vue.normalizeClass(_ctx.evolutionTrendClass)
           }, vue.toDisplayString(_ctx.calculateAndFormatEvolution(
@@ -659,8 +653,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             true
           )), 3)
         ], 64)) : vue.createCommentVNode("", true)
-      ], 8, _hoisted_14$2),
-      _ctx.displaySparkline ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_16$1, [
+      ], 8, _hoisted_12$2),
+      _ctx.displaySparkline ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_14$1, [
         !_ctx.site.isGroup ? (vue.openBlock(), vue.createElementBlock("a", {
           key: 0,
           rel: "noreferrer noopener",
@@ -673,8 +667,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             width: "100",
             height: "25",
             src: _ctx.evolutionSparklineSrc
-          }, null, 8, _hoisted_18$1)
-        ], 8, _hoisted_17$1)) : vue.createCommentVNode("", true)
+          }, null, 8, _hoisted_16$1)
+        ], 8, _hoisted_15$1)) : vue.createCommentVNode("", true)
       ])) : vue.createCommentVNode("", true)
     ], 2);
   }
@@ -823,8 +817,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const _hoisted_10$1 = { class: "sitesTableEvolutionSelector" };
   const _hoisted_11$1 = ["value"];
   const _hoisted_12$1 = { value: "hits_evolution" };
-  const _hoisted_13$1 = { value: "visits_evolution" };
-  const _hoisted_14$1 = { value: "pageviews_evolution" };
+  const _hoisted_13 = { value: "visits_evolution" };
+  const _hoisted_14 = { value: "pageviews_evolution" };
   const _hoisted_15 = {
     key: 0,
     value: "ai_chatbots_requests_evolution"
@@ -929,8 +923,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                   onChange: _cache[7] || (_cache[7] = ($event) => _ctx.changeEvolutionSelector($event.target.value))
                 }, [
                   vue.createElementVNode("option", _hoisted_12$1, vue.toDisplayString(_ctx.translate("General_ColumnHits")), 1),
-                  vue.createElementVNode("option", _hoisted_13$1, vue.toDisplayString(_ctx.translate("General_ColumnNbVisits")), 1),
-                  vue.createElementVNode("option", _hoisted_14$1, vue.toDisplayString(_ctx.translate("General_ColumnPageviews")), 1),
+                  vue.createElementVNode("option", _hoisted_13, vue.toDisplayString(_ctx.translate("General_ColumnNbVisits")), 1),
+                  vue.createElementVNode("option", _hoisted_14, vue.toDisplayString(_ctx.translate("General_ColumnPageviews")), 1),
                   _ctx.showAiChatbotsRequests && !_ctx.isSegmented ? (vue.openBlock(), vue.createElementBlock("option", _hoisted_15, vue.toDisplayString(_ctx.translate("MultiSites_AiChatbotsRequests")), 1)) : vue.createCommentVNode("", true),
                   _ctx.displayRevenue ? (vue.openBlock(), vue.createElementBlock("option", _hoisted_16, vue.toDisplayString(_ctx.translate("General_ColumnRevenue")), 1)) : vue.createCommentVNode("", true)
                 ], 40, _hoisted_11$1)
@@ -1125,16 +1119,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const _hoisted_2 = { class: "card-title" };
   const _hoisted_3 = { key: 0 };
   const _hoisted_4 = { class: "notification system notification-error" };
-  const _hoisted_5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
+  const _hoisted_5 = ["href"];
+  const _hoisted_6 = ["href"];
   const _hoisted_7 = ["href"];
-  const _hoisted_8 = ["href"];
-  const _hoisted_9 = ["href"];
-  const _hoisted_10 = { class: "dashboardControls" };
-  const _hoisted_11 = { class: "siteSearch" };
-  const _hoisted_12 = ["placeholder"];
-  const _hoisted_13 = ["title"];
-  const _hoisted_14 = ["href"];
+  const _hoisted_8 = { class: "dashboardControls" };
+  const _hoisted_9 = { class: "siteSearch" };
+  const _hoisted_10 = ["placeholder"];
+  const _hoisted_11 = ["title"];
+  const _hoisted_12 = ["href"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _component_KPICardContainer = vue.resolveComponent("KPICardContainer");
@@ -1155,54 +1147,54 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       _ctx.errorLoading ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3, [
         vue.createElementVNode("div", _hoisted_4, [
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("MultiSites_AllWebsitesDashboardErrorMessage")) + " ", 1),
-          _hoisted_5,
-          _hoisted_6,
+          _cache[3] || (_cache[3] = vue.createElementVNode("br", null, null, -1)),
+          _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_NeedMoreHelp", "", "")) + " ", 1),
           vue.createElementVNode("a", {
             rel: "noreferrer noopener",
             target: "_blank",
             href: _ctx.externalRawLink("https://matomo.org/faq/troubleshooting/faq_19489/")
-          }, vue.toDisplayString(_ctx.translate("General_Faq")), 9, _hoisted_7),
-          vue.createTextVNode(" – "),
+          }, vue.toDisplayString(_ctx.translate("General_Faq")), 9, _hoisted_5),
+          _cache[5] || (_cache[5] = vue.createTextVNode(" – ", -1)),
           vue.createElementVNode("a", {
             rel: "noreferrer noopener",
             target: "_blank",
             href: _ctx.externalRawLink("https://forum.matomo.org/")
-          }, vue.toDisplayString(_ctx.translate("Feedback_CommunityHelp")), 9, _hoisted_8),
-          vue.createTextVNode(" – "),
+          }, vue.toDisplayString(_ctx.translate("Feedback_CommunityHelp")), 9, _hoisted_6),
+          _cache[6] || (_cache[6] = vue.createTextVNode(" – ", -1)),
           vue.createElementVNode("a", {
             rel: "noreferrer noopener",
             target: "_blank",
             href: _ctx.externalRawLink("https://matomo.org/support-plans/")
-          }, vue.toDisplayString(_ctx.translate("Feedback_ProfessionalHelp")), 9, _hoisted_9),
-          vue.createTextVNode(". ")
+          }, vue.toDisplayString(_ctx.translate("Feedback_ProfessionalHelp")), 9, _hoisted_7),
+          _cache[7] || (_cache[7] = vue.createTextVNode(". ", -1))
         ])
       ])) : vue.createCommentVNode("", true),
       vue.createVNode(_component_KPICardContainer, {
         "is-loading": _ctx.isLoadingKPIs,
         "model-value": _ctx.kpis
       }, null, 8, ["is-loading", "model-value"]),
-      vue.createElementVNode("div", _hoisted_10, [
-        vue.createElementVNode("div", _hoisted_11, [
+      vue.createElementVNode("div", _hoisted_8, [
+        vue.createElementVNode("div", _hoisted_9, [
           vue.withDirectives(vue.createElementVNode("input", {
             type: "text",
             onKeydown: _cache[0] || (_cache[0] = vue.withKeys(($event) => _ctx.searchSite(_ctx.searchTerm), ["enter"])),
             "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.searchTerm = $event),
             placeholder: _ctx.translate("Actions_SubmenuSitesearch")
-          }, null, 40, _hoisted_12), [
+          }, null, 40, _hoisted_10), [
             [vue.vModelText, _ctx.searchTerm]
           ]),
           vue.createElementVNode("span", {
             class: "icon-search",
             onClick: _cache[2] || (_cache[2] = ($event) => _ctx.searchSite(_ctx.searchTerm)),
             title: _ctx.translate("General_ClickToSearch")
-          }, null, 8, _hoisted_13)
+          }, null, 8, _hoisted_11)
         ]),
         !_ctx.isWidgetized && _ctx.isUserAllowedToAddSite ? (vue.openBlock(), vue.createElementBlock("a", {
           key: 0,
           class: "btn",
           href: _ctx.addSiteUrl
-        }, vue.toDisplayString(_ctx.translate("SitesManager_AddSite")), 9, _hoisted_14)) : vue.createCommentVNode("", true)
+        }, vue.toDisplayString(_ctx.translate("SitesManager_AddSite")), 9, _hoisted_12)) : vue.createCommentVNode("", true)
       ]),
       vue.createVNode(_component_SitesTable, {
         "display-revenue": _ctx.displayRevenue,

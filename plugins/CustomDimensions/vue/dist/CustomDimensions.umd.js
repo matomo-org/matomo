@@ -301,10 +301,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const _hoisted_3$2 = { class: "row form-group" };
   const _hoisted_4$2 = { class: "col s12" };
   const _hoisted_5$2 = { class: "col s12 m6" };
-  const _hoisted_6$2 = { class: "row" };
-  const _hoisted_7$2 = { class: "col s12 m6" };
-  const _hoisted_8$2 = { class: "col s12 m6" };
-  const _hoisted_9$2 = { class: "col s12" };
+  const _hoisted_6$1 = { class: "row" };
+  const _hoisted_7$1 = { class: "col s12 m6" };
+  const _hoisted_8$1 = { class: "col s12 m6" };
+  const _hoisted_9$1 = { class: "col s12" };
   const _hoisted_10$1 = ["onClick"];
   const _hoisted_11$1 = { class: "row" };
   const _hoisted_12$1 = { class: "col s12" };
@@ -316,7 +316,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     type: "button",
     href: "#list"
   };
-  const _hoisted_17$1 = { class: "alert alert-info howToTrackInfo" };
+  const _hoisted_17 = { class: "alert alert-info howToTrackInfo" };
   const _hoisted_18 = ["innerHTML"];
   const _hoisted_19 = ["innerHTML"];
   const _hoisted_20 = ["innerHTML"];
@@ -387,8 +387,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                         class: vue.normalizeClass(`extraction${index}`),
                         key: index
                       }, [
-                        vue.createElementVNode("div", _hoisted_6$2, [
-                          vue.createElementVNode("div", _hoisted_7$2, [
+                        vue.createElementVNode("div", _hoisted_6$1, [
+                          vue.createElementVNode("div", _hoisted_7$1, [
                             vue.createElementVNode("div", null, [
                               vue.createVNode(_component_Field, {
                                 uicontrol: "select",
@@ -400,7 +400,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                               }, null, 8, ["name", "modelValue", "onUpdate:modelValue", "options"])
                             ])
                           ]),
-                          vue.createElementVNode("div", _hoisted_8$2, [
+                          vue.createElementVNode("div", _hoisted_8$1, [
                             vue.createElementVNode("div", null, [
                               vue.createVNode(_component_Field, {
                                 uicontrol: "text",
@@ -412,7 +412,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                               }, null, 8, ["name", "modelValue", "onUpdate:modelValue", "title"])
                             ])
                           ]),
-                          vue.createElementVNode("div", _hoisted_9$2, [
+                          vue.createElementVNode("div", _hoisted_9$1, [
                             vue.withDirectives(vue.createElementVNode("span", {
                               class: "icon-plus",
                               onClick: _cache[3] || (_cache[3] = ($event) => _ctx.addExtraction())
@@ -469,7 +469,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                 ]),
                 vue.createElementVNode("a", _hoisted_16$1, vue.toDisplayString(_ctx.translate("General_Cancel")), 1)
               ], 32),
-              vue.withDirectives(vue.createElementVNode("div", _hoisted_17$1, [
+              vue.withDirectives(vue.createElementVNode("div", _hoisted_17, [
                 vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.translate("CustomDimensions_HowToTrackManuallyTitle")), 1),
                 vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("CustomDimensions_HowToTrackManuallyViaJs")), 1),
                 vue.createElementVNode("div", null, [
@@ -596,18 +596,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const _hoisted_3$1 = { class: "index" };
   const _hoisted_4$1 = { class: "name" };
   const _hoisted_5$1 = { class: "active" };
-  const _hoisted_6$1 = { class: "action" };
-  const _hoisted_7$1 = { colspan: "5" };
-  const _hoisted_8$1 = { class: "index" };
-  const _hoisted_9$1 = { class: "name" };
+  const _hoisted_6 = { class: "action" };
+  const _hoisted_7 = { colspan: "5" };
+  const _hoisted_8 = { class: "index" };
+  const _hoisted_9 = { class: "name" };
   const _hoisted_10 = { class: "extractions" };
   const _hoisted_11 = { class: "active" };
   const _hoisted_12 = { class: "action" };
   const _hoisted_13 = ["href"];
   const _hoisted_14 = { class: "tableActionBar" };
   const _hoisted_15 = ["disabled", "onClick"];
-  const _hoisted_16 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-add" }, null, -1);
-  const _hoisted_17 = { class: "info" };
+  const _hoisted_16 = { class: "info" };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _component_MatomoLoader = vue.resolveComponent("MatomoLoader");
@@ -657,12 +656,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                       [vue.vShow, scope.supportsExtractions]
                     ]),
                     vue.createElementVNode("th", _hoisted_5$1, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Active")), 1),
-                    vue.createElementVNode("th", _hoisted_6$1, vue.toDisplayString(_ctx.translate("General_Action")), 1)
+                    vue.createElementVNode("th", _hoisted_6, vue.toDisplayString(_ctx.translate("General_Action")), 1)
                   ])
                 ]),
                 vue.createElementVNode("tbody", null, [
                   vue.withDirectives(vue.createElementVNode("tr", null, [
-                    vue.createElementVNode("td", _hoisted_7$1, vue.toDisplayString(_ctx.translate("CustomDimensions_NoCustomDimensionConfigured")), 1)
+                    vue.createElementVNode("td", _hoisted_7, vue.toDisplayString(_ctx.translate("CustomDimensions_NoCustomDimensionConfigured")), 1)
                   ], 512), [
                     [vue.vShow, scope.numSlotsUsed === 0 && !_ctx.isLoading]
                   ]),
@@ -672,8 +671,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                       class: vue.normalizeClass(["customdimension", `customdimension-${customDimension.idcustomdimension}`]),
                       key: customDimension.idcustomdimension
                     }, [
-                      vue.createElementVNode("td", _hoisted_8$1, vue.toDisplayString(customDimension.idcustomdimension), 1),
-                      vue.createElementVNode("td", _hoisted_9$1, vue.toDisplayString(customDimension.name), 1),
+                      vue.createElementVNode("td", _hoisted_8, vue.toDisplayString(customDimension.idcustomdimension), 1),
+                      vue.createElementVNode("td", _hoisted_9, vue.toDisplayString(customDimension.name), 1),
                       vue.withDirectives(vue.createElementVNode("td", _hoisted_10, [
                         vue.createElementVNode("span", {
                           class: vue.normalizeClass({ "icon-ok": (_a = customDimension.extractions[0]) == null ? void 0 : _a.pattern })
@@ -704,9 +703,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                   disabled: !scope.numSlotsLeft,
                   onClick: ($event) => _ctx.addDimension(scope.value)
                 }, [
-                  _hoisted_16,
+                  _cache[0] || (_cache[0] = vue.createElementVNode("span", { class: "icon-add" }, null, -1)),
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("CustomDimensions_ConfigureNewDimension")) + " ", 1),
-                  vue.createElementVNode("span", _hoisted_17, "(" + vue.toDisplayString(_ctx.translate(
+                  vue.createElementVNode("span", _hoisted_16, "(" + vue.toDisplayString(_ctx.translate(
                     "CustomDimensions_XofYLeft",
                     scope.numSlotsLeft,
                     scope.numSlotsAvailable
@@ -793,13 +792,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   });
   const _hoisted_1 = { class: "manageCustomDimensions" };
   const _hoisted_2 = { key: 0 };
-  const _hoisted_3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7 = ["textContent"];
-  const _hoisted_8 = ["textContent"];
-  const _hoisted_9 = { key: 1 };
+  const _hoisted_3 = ["textContent"];
+  const _hoisted_4 = ["textContent"];
+  const _hoisted_5 = { key: 1 };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_CustomDimensionsList = vue.resolveComponent("CustomDimensionsList");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
@@ -817,17 +812,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           default: vue.withCtx(() => [
             vue.createElementVNode("p", null, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("CustomDimensions_IncreaseAvailableCustomDimensionsTakesLong")) + " ", 1),
-              _hoisted_3,
-              _hoisted_4,
+              _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
+              _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("CustomDimensions_HowToCreateCustomDimension")) + " ", 1),
-              _hoisted_5,
-              _hoisted_6
+              _cache[2] || (_cache[2] = vue.createElementVNode("br", null, null, -1)),
+              _cache[3] || (_cache[3] = vue.createElementVNode("br", null, null, -1))
             ]),
             vue.createElementVNode("div", null, [
               vue.withDirectives((vue.openBlock(), vue.createElementBlock("pre", null, [
                 vue.createElementVNode("code", {
                   textContent: vue.toDisplayString(_ctx.addCustomDimCode)
-                }, null, 8, _hoisted_7)
+                }, null, 8, _hoisted_3)
               ])), [
                 [_directive_copy_to_clipboard, {}]
               ])
@@ -837,7 +832,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               vue.withDirectives((vue.openBlock(), vue.createElementBlock("pre", null, [
                 vue.createElementVNode("code", {
                   textContent: vue.toDisplayString(_ctx.addMultipleCustomDimCode)
-                }, null, 8, _hoisted_8)
+                }, null, 8, _hoisted_4)
               ])), [
                 [_directive_copy_to_clipboard, {}]
               ])
@@ -846,7 +841,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           _: 1
         }, 8, ["content-title"])
       ])) : vue.createCommentVNode("", true),
-      _ctx.editMode ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_9, [
+      _ctx.editMode ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5, [
         vue.createElementVNode("div", null, [
           vue.createVNode(_component_CustomDimensionsEdit, {
             "dimension-id": _ctx.dimensionId,

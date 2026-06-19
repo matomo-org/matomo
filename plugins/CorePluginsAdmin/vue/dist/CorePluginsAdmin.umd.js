@@ -7830,9 +7830,8 @@ var __async = (__this, __arguments, generator) => {
             vue.createElementVNode("input", vue.mergeProps({
               value: checkboxModel.key,
               checked: !!_ctx.checkboxStates[$index],
-              onChange: ($event) => _ctx.onChange($index),
-              ref_for: true
-            }, _ctx.uiControlAttributes, {
+              onChange: ($event) => _ctx.onChange($index)
+            }, { ref_for: true }, _ctx.uiControlAttributes, {
               type: "checkbox",
               id: `${_ctx.id}${checkboxModel.key}`,
               name: checkboxModel.name
@@ -7961,28 +7960,15 @@ var __async = (__this, __arguments, generator) => {
     }
   });
   const _hoisted_1$n = { class: "expandableSelector" };
-  const _hoisted_2$l = /* @__PURE__ */ vue.createElementVNode("svg", {
-    class: "caret",
-    height: "24",
-    viewBox: "0 0 24 24",
-    width: "24",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, [
-    /* @__PURE__ */ vue.createElementVNode("path", { d: "M7 10l5 5 5-5z" }),
-    /* @__PURE__ */ vue.createElementVNode("path", {
-      d: "M0 0h24v24H0z",
-      fill: "none"
-    })
-  ], -1);
-  const _hoisted_3$b = ["value"];
-  const _hoisted_4$b = { class: "expandableList z-depth-2" };
-  const _hoisted_5$a = { class: "searchContainer" };
-  const _hoisted_6$6 = { class: "collection firstLevel" };
-  const _hoisted_7$5 = ["onClick"];
-  const _hoisted_8$5 = { class: "collection secondLevel" };
-  const _hoisted_9$5 = ["onClick"];
-  const _hoisted_10$4 = { class: "primary-content" };
-  const _hoisted_11$3 = ["title"];
+  const _hoisted_2$l = ["value"];
+  const _hoisted_3$b = { class: "expandableList z-depth-2" };
+  const _hoisted_4$9 = { class: "searchContainer" };
+  const _hoisted_5$9 = { class: "collection firstLevel" };
+  const _hoisted_6$5 = ["onClick"];
+  const _hoisted_7$5 = { class: "collection secondLevel" };
+  const _hoisted_8$5 = ["onClick"];
+  const _hoisted_9$5 = { class: "primary-content" };
+  const _hoisted_10$3 = ["title"];
   function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_focus_if = vue.resolveDirective("focus-if");
     const _directive_focus_anywhere_but_here = vue.resolveDirective("focus-anywhere-but-here");
@@ -7991,16 +7977,28 @@ var __async = (__this, __arguments, generator) => {
         onClick: _cache[0] || (_cache[0] = ($event) => _ctx.showSelect = !_ctx.showSelect),
         class: "select-wrapper"
       }, [
-        _hoisted_2$l,
+        _cache[2] || (_cache[2] = vue.createElementVNode("svg", {
+          class: "caret",
+          height: "24",
+          viewBox: "0 0 24 24",
+          width: "24",
+          xmlns: "http://www.w3.org/2000/svg"
+        }, [
+          vue.createElementVNode("path", { d: "M7 10l5 5 5-5z" }),
+          vue.createElementVNode("path", {
+            d: "M0 0h24v24H0z",
+            fill: "none"
+          })
+        ], -1)),
         vue.createElementVNode("input", {
           type: "text",
           class: "select-dropdown",
           readonly: "readonly",
           value: _ctx.modelValueText
-        }, null, 8, _hoisted_3$b)
+        }, null, 8, _hoisted_2$l)
       ]),
-      vue.withDirectives(vue.createElementVNode("div", _hoisted_4$b, [
-        vue.createElementVNode("div", _hoisted_5$a, [
+      vue.withDirectives(vue.createElementVNode("div", _hoisted_3$b, [
+        vue.createElementVNode("div", _hoisted_4$9, [
           vue.withDirectives(vue.createElementVNode("input", {
             type: "text",
             placeholder: "Search",
@@ -8011,7 +8009,7 @@ var __async = (__this, __arguments, generator) => {
             [_directive_focus_if, { focused: _ctx.showSelect }]
           ])
         ]),
-        vue.createElementVNode("ul", _hoisted_6$6, [
+        vue.createElementVNode("ul", _hoisted_5$9, [
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.availableOptions, (options, index) => {
             return vue.withDirectives((vue.openBlock(), vue.createElementBlock("li", {
               class: "collection-item",
@@ -8028,22 +8026,22 @@ var __async = (__this, __arguments, generator) => {
                     "icon-chevron-down": _ctx.showCategory === options.group
                   }])
                 }, null, 2)
-              ], 8, _hoisted_7$5),
-              vue.withDirectives(vue.createElementVNode("ul", _hoisted_8$5, [
+              ], 8, _hoisted_6$5),
+              vue.withDirectives(vue.createElementVNode("ul", _hoisted_7$5, [
                 (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.visibleChildren(options), (children) => {
                   return vue.openBlock(), vue.createElementBlock("li", {
                     class: "expandableListItem collection-item valign-wrapper",
                     key: children.key,
                     onClick: ($event) => _ctx.onValueClicked(children)
                   }, [
-                    vue.createElementVNode("span", _hoisted_10$4, vue.toDisplayString(children.value), 1),
+                    vue.createElementVNode("span", _hoisted_9$5, vue.toDisplayString(children.value), 1),
                     vue.withDirectives(vue.createElementVNode("span", {
                       title: children.tooltip,
                       class: "secondary-content icon-help"
-                    }, null, 8, _hoisted_11$3), [
+                    }, null, 8, _hoisted_10$3), [
                       [vue.vShow, children.tooltip]
                     ])
-                  ], 8, _hoisted_9$5);
+                  ], 8, _hoisted_8$5);
                 }), 128))
               ], 512), [
                 [vue.vShow, _ctx.showCategory === options.group || _ctx.searchTerm]
@@ -8151,8 +8149,8 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$l = { class: "btn" };
   const _hoisted_2$k = ["for", "innerHTML"];
   const _hoisted_3$a = ["name", "id"];
-  const _hoisted_4$a = { class: "file-path-wrapper" };
-  const _hoisted_5$9 = ["value"];
+  const _hoisted_4$8 = { class: "file-path-wrapper" };
+  const _hoisted_5$8 = ["value"];
   function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", null, [
       vue.createElementVNode("div", _hoisted_1$l, [
@@ -8168,12 +8166,12 @@ var __async = (__this, __arguments, generator) => {
           onChange: _cache[0] || (_cache[0] = ($event) => _ctx.onChange($event))
         }, null, 40, _hoisted_3$a)
       ]),
-      vue.createElementVNode("div", _hoisted_4$a, [
+      vue.createElementVNode("div", _hoisted_4$8, [
         vue.createElementVNode("input", {
           class: "file-path validate",
           value: _ctx.filePath,
           type: "text"
-        }, null, 8, _hoisted_5$9)
+        }, null, 8, _hoisted_5$8)
       ])
     ]);
   }
@@ -8385,9 +8383,8 @@ var __async = (__this, __arguments, generator) => {
               type: "radio",
               id: `${_ctx.id}${radioModel.key}`,
               name: _ctx.name,
-              disabled: radioModel.disabled || _ctx.disabled,
-              ref_for: true
-            }, _ctx.uiControlAttributes, {
+              disabled: radioModel.disabled || _ctx.disabled
+            }, { ref_for: true }, _ctx.uiControlAttributes, {
               checked: _ctx.modelValue === radioModel.key || `${_ctx.modelValue}` === radioModel.key
             }), null, 16, _hoisted_2$h),
             vue.createElementVNode("span", null, [
@@ -8611,9 +8608,9 @@ var __async = (__this, __arguments, generator) => {
   };
   const _hoisted_2$g = ["multiple", "name", "id"];
   const _hoisted_3$9 = ["label"];
-  const _hoisted_4$9 = ["value", "selected", "disabled"];
-  const _hoisted_5$8 = ["for", "innerHTML"];
-  const _hoisted_6$5 = {
+  const _hoisted_4$7 = ["value", "selected", "disabled"];
+  const _hoisted_5$7 = ["for", "innerHTML"];
+  const _hoisted_6$4 = {
     key: 1,
     class: "matomo-field-select"
   };
@@ -8642,7 +8639,7 @@ var __async = (__this, __arguments, generator) => {
                   value: `string:${option.key}`,
                   selected: _ctx.multiple ? _ctx.modelValue && _ctx.modelValue.indexOf(option.key) !== -1 : _ctx.modelValue === option.key,
                   disabled: option.disabled
-                }, vue.toDisplayString(option.value), 9, _hoisted_4$9);
+                }, vue.toDisplayString(option.value), 9, _hoisted_4$7);
               }), 128))
             ], 8, _hoisted_3$9);
           }), 128))
@@ -8650,9 +8647,9 @@ var __async = (__this, __arguments, generator) => {
         vue.createElementVNode("label", {
           for: _ctx.id,
           innerHTML: _ctx.$sanitize(_ctx.title)
-        }, null, 8, _hoisted_5$8)
+        }, null, 8, _hoisted_5$7)
       ])) : vue.createCommentVNode("", true),
-      !_ctx.groupedOptions && _ctx.options ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$5, [
+      !_ctx.groupedOptions && _ctx.options ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$4, [
         vue.createElementVNode("select", vue.mergeProps({
           class: "ungrouped",
           ref: "select",
@@ -9407,13 +9404,12 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "form-help"
   };
-  const _hoisted_4$8 = {
+  const _hoisted_4$6 = {
     key: 0,
     class: "inline-help",
     ref: "inlineHelp"
   };
-  const _hoisted_5$7 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6$4 = ["href"];
+  const _hoisted_5$6 = ["href"];
   function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Notification = vue.resolveComponent("Notification");
     return vue.openBlock(), vue.createElementBlock("div", {
@@ -9447,12 +9443,12 @@ var __async = (__this, __arguments, generator) => {
           vue.withDirectives(vue.createElementVNode("div", { class: "form-description" }, vue.toDisplayString(_ctx.formField.description), 513), [
             [vue.vShow, _ctx.formField.description]
           ]),
-          _ctx.formField.inlineHelp || _ctx.hasInlineHelpSlot ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$8, [
+          _ctx.formField.inlineHelp || _ctx.hasInlineHelpSlot ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$6, [
             _ctx.inlineHelpComponent ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.inlineHelpComponent), vue.normalizeProps(vue.mergeProps({ key: 0 }, _ctx.inlineHelpBind)), null, 16)) : vue.createCommentVNode("", true),
             vue.renderSlot(_ctx.$slots, "inline-help")
           ], 512)) : vue.createCommentVNode("", true),
           vue.withDirectives(vue.createElementVNode("span", null, [
-            _hoisted_5$7,
+            _cache[2] || (_cache[2] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_Default")) + ": ", 1),
             vue.createElementVNode("span", null, vue.toDisplayString(_ctx.defaultValuePrettyTruncated), 1)
           ], 512), [
@@ -9466,7 +9462,7 @@ var __async = (__this, __arguments, generator) => {
         }, {
           default: vue.withCtx(() => [
             vue.createTextVNode(vue.toDisplayString(_ctx.translate("PrivacyManager_PolicyControlledSetting")) + " ", 1),
-            vue.createElementVNode("a", { href: _ctx.privacyPolicyLink }, vue.toDisplayString(_ctx.translate("PrivacyManager_ViewPrivacyComplianceOverview")), 9, _hoisted_6$4)
+            vue.createElementVNode("a", { href: _ctx.privacyPolicyLink }, vue.toDisplayString(_ctx.translate("PrivacyManager_ViewPrivacyComplianceOverview")), 9, _hoisted_5$6)
           ]),
           _: 1
         })) : vue.createCommentVNode("", true)
@@ -9811,23 +9807,23 @@ var __async = (__this, __arguments, generator) => {
   };
   const _hoisted_2$8 = { class: "modal-content" };
   const _hoisted_3$7 = { class: "modal-text" };
-  const _hoisted_4$7 = { ref: "content" };
-  const _hoisted_5$6 = { key: 0 };
+  const _hoisted_4$5 = { ref: "content" };
+  const _hoisted_5$5 = { key: 0 };
   const _hoisted_6$3 = { key: 1 };
   const _hoisted_7$3 = { key: 2 };
   const _hoisted_8$3 = { class: "password-confirmation-div" };
   const _hoisted_9$3 = { class: "modal-footer" };
-  const _hoisted_10$3 = ["disabled"];
+  const _hoisted_10$2 = ["disabled"];
   function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _directive_auto_clear_password = vue.resolveDirective("auto-clear-password");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$8, [
       vue.createElementVNode("div", _hoisted_2$8, [
         vue.createElementVNode("div", _hoisted_3$7, [
-          vue.createElementVNode("div", _hoisted_4$7, [
+          vue.createElementVNode("div", _hoisted_4$5, [
             vue.renderSlot(_ctx.$slots, "default")
           ], 512),
-          !_ctx.requiresPasswordConfirmation && !_ctx.slotHasContent ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_5$6, vue.toDisplayString(_ctx.translate("UsersManager_ConfirmThisChange")), 1)) : vue.createCommentVNode("", true),
+          !_ctx.requiresPasswordConfirmation && !_ctx.slotHasContent ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_5$5, vue.toDisplayString(_ctx.translate("UsersManager_ConfirmThisChange")), 1)) : vue.createCommentVNode("", true),
           _ctx.requiresPasswordConfirmation && !_ctx.slotHasContent ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_6$3, vue.toDisplayString(_ctx.translate("UsersManager_ConfirmWithReAuthentication")), 1)) : vue.createCommentVNode("", true),
           _ctx.requiresPasswordConfirmation && _ctx.slotHasContent ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_7$3, vue.toDisplayString(_ctx.translate("UsersManager_ConfirmWithReAuthentication")), 1)) : vue.createCommentVNode("", true)
         ]),
@@ -9859,7 +9855,7 @@ var __async = (__this, __arguments, generator) => {
           class: "modal-action modal-close btn confirm-password-btn",
           disabled: _ctx.requiresPasswordConfirmation && !_ctx.passwordConfirmation ? "disabled" : void 0,
           onClick: _cache[1] || (_cache[1] = ($event) => _ctx.onClickConfirm($event))
-        }, vue.toDisplayString(_ctx.translate("General_Confirm")), 9, _hoisted_10$3),
+        }, vue.toDisplayString(_ctx.translate("General_Confirm")), 9, _hoisted_10$2),
         vue.createElementVNode("a", {
           href: "",
           class: "modal-action modal-close modal-no btn-flat",
@@ -10002,8 +9998,8 @@ var __async = (__this, __arguments, generator) => {
   };
   const _hoisted_2$7 = ["id"];
   const _hoisted_3$6 = { class: "card-content" };
-  const _hoisted_4$6 = ["id"];
-  const _hoisted_5$5 = ["onClick", "disabled", "value"];
+  const _hoisted_4$4 = ["id"];
+  const _hoisted_5$4 = ["onClick", "disabled", "value"];
   function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_GroupedSettings = vue.resolveComponent("GroupedSettings");
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
@@ -10019,7 +10015,7 @@ var __async = (__this, __arguments, generator) => {
             vue.createElementVNode("h2", {
               class: "card-title",
               id: settings.pluginName
-            }, vue.toDisplayString(settings.title), 9, _hoisted_4$6),
+            }, vue.toDisplayString(settings.title), 9, _hoisted_4$4),
             vue.createVNode(_component_GroupedSettings, {
               "group-name": settings.pluginName,
               settings: settings.settings,
@@ -10032,7 +10028,7 @@ var __async = (__this, __arguments, generator) => {
               disabled: _ctx.isLoading,
               class: "pluginsSettingsSubmit btn",
               value: _ctx.translate("General_Save")
-            }, null, 8, _hoisted_5$5),
+            }, null, 8, _hoisted_5$4),
             vue.createVNode(_component_ActivityIndicator, {
               loading: _ctx.isLoading || _ctx.isSaving[settings.pluginName]
             }, null, 8, ["loading"])
@@ -10341,8 +10337,8 @@ var __async = (__this, __arguments, generator) => {
     id: "installAllPaidPluginsAtOnce",
     ref: "installAllPaidPluginsAtOnce"
   };
-  const _hoisted_4$5 = ["data-href", "value"];
-  const _hoisted_5$4 = ["value"];
+  const _hoisted_4$3 = ["data-href", "value"];
+  const _hoisted_5$3 = ["value"];
   function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_MatomoLoader = vue.resolveComponent("MatomoLoader");
     return _ctx.paidPluginsToInstallAtOnce.length ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$5, [
@@ -10371,12 +10367,12 @@ var __async = (__this, __arguments, generator) => {
               "Marketplace_InstallAllPurchasedPluginsAction",
               _ctx.paidPluginsToInstallAtOnce.length
             )
-          }, null, 8, _hoisted_4$5),
+          }, null, 8, _hoisted_4$3),
           vue.createElementVNode("input", {
             role: "cancel",
             type: "button",
             value: _ctx.translate("General_Cancel")
-          }, null, 8, _hoisted_5$4)
+          }, null, 8, _hoisted_5$3)
         ])
       ], 512)
     ])) : vue.createCommentVNode("", true);
@@ -10429,8 +10425,7 @@ var __async = (__this, __arguments, generator) => {
     key: 1,
     style: { "margin-right": "3.5px" }
   };
-  const _hoisted_3$4 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4$4 = ["innerHTML"];
+  const _hoisted_3$4 = ["innerHTML"];
   function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _component_InstallAllPaidPluginsButton = vue.resolveComponent("InstallAllPaidPluginsButton");
@@ -10453,12 +10448,12 @@ var __async = (__this, __arguments, generator) => {
             style: { "margin-right": "3.5px" }
           }, null, 8, _hoisted_1$4)) : vue.createCommentVNode("", true),
           !_ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_2$4, [
-            _hoisted_3$4,
+            _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(vue.toDisplayString(_ctx.translate("CorePluginsAdmin_DoMoreContactPiwikAdmins")), 1)
           ])) : vue.createCommentVNode("", true),
           vue.createElementVNode("span", {
             innerHTML: _ctx.$sanitize(_ctx.changeLookByManageThemesText)
-          }, null, 8, _hoisted_4$4)
+          }, null, 8, _hoisted_3$4)
         ])
       ])), [
         [_directive_content_intro]
@@ -10495,9 +10490,7 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$3 = ["innerHTML"];
   const _hoisted_2$3 = { key: 1 };
-  const _hoisted_3$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4$3 = { key: 2 };
-  const _hoisted_5$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
+  const _hoisted_3$3 = { key: 2 };
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _directive_content_intro = vue.resolveDirective("content-intro");
@@ -10517,15 +10510,15 @@ var __async = (__this, __arguments, generator) => {
           innerHTML: _ctx.$sanitize(_ctx.teaserExtendByThemeText)
         }, null, 8, _hoisted_1$3)) : vue.createCommentVNode("", true),
         _ctx.otherUsersCount > 0 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_2$3, [
-          _hoisted_3$3,
+          _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(
             "CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell",
             _ctx.otherUsersCount,
             _ctx.themeEnabled
           )), 1)
         ])) : vue.createCommentVNode("", true),
-        !_ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$3, [
-          _hoisted_5$3,
+        !_ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$3, [
+          _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("CorePluginsAdmin_DoMoreContactPiwikAdmins")), 1)
         ])) : vue.createCommentVNode("", true)
       ])
@@ -10735,133 +10728,112 @@ var __async = (__this, __arguments, generator) => {
     href: "#",
     class: "active"
   };
-  const _hoisted_5$2 = /* @__PURE__ */ vue.createElementVNode("span", { class: "counter" }, null, -1);
-  const _hoisted_6$2 = {
+  const _hoisted_5$2 = {
     "data-filter-origin": "core",
     href: "#"
   };
-  const _hoisted_7$2 = /* @__PURE__ */ vue.createElementVNode("span", { class: "counter" }, null, -1);
-  const _hoisted_8$2 = {
+  const _hoisted_6$2 = {
     "data-filter-origin": "official",
     href: "#"
   };
-  const _hoisted_9$2 = /* @__PURE__ */ vue.createElementVNode("span", { class: "counter" }, null, -1);
-  const _hoisted_10$2 = {
+  const _hoisted_7$2 = {
     "data-filter-origin": "thirdparty",
     href: "#"
   };
-  const _hoisted_11$2 = /* @__PURE__ */ vue.createElementVNode("span", { class: "counter" }, null, -1);
-  const _hoisted_12$1 = { class: "status" };
-  const _hoisted_13$1 = { style: { "margin-right": "3.5px" } };
-  const _hoisted_14$1 = {
+  const _hoisted_8$2 = { class: "status" };
+  const _hoisted_9$2 = { style: { "margin-right": "3.5px" } };
+  const _hoisted_10$1 = {
     "data-filter-status": "all",
     href: "#",
     class: "active"
   };
-  const _hoisted_15$1 = /* @__PURE__ */ vue.createElementVNode("span", { class: "counter" }, null, -1);
-  const _hoisted_16$1 = {
+  const _hoisted_11$1 = {
     "data-filter-status": "active",
     href: "#"
   };
-  const _hoisted_17$1 = /* @__PURE__ */ vue.createElementVNode("span", { class: "counter" }, null, -1);
-  const _hoisted_18$1 = {
+  const _hoisted_12$1 = {
     "data-filter-status": "inactive",
     href: "#"
   };
-  const _hoisted_19$1 = /* @__PURE__ */ vue.createElementVNode("span", { class: "counter" }, null, -1);
-  const _hoisted_20$1 = {
+  const _hoisted_13$1 = {
     id: "confirmUninstallPlugin",
     class: "ui-confirm"
   };
-  const _hoisted_21$1 = { id: "uninstallPluginConfirm" };
-  const _hoisted_22$1 = ["value"];
-  const _hoisted_23$1 = ["value"];
-  const _hoisted_24 = { class: "status" };
-  const _hoisted_25 = {
+  const _hoisted_14$1 = { id: "uninstallPluginConfirm" };
+  const _hoisted_15$1 = ["value"];
+  const _hoisted_16$1 = ["value"];
+  const _hoisted_17$1 = { class: "status" };
+  const _hoisted_18$1 = {
     key: 0,
     class: "action-links"
   };
-  const _hoisted_26 = { id: "plugins" };
-  const _hoisted_27 = ["data-filter-status", "data-filter-origin"];
-  const _hoisted_28 = { class: "name" };
-  const _hoisted_29 = ["name"];
+  const _hoisted_19$1 = { id: "plugins" };
+  const _hoisted_20$1 = ["data-filter-status", "data-filter-origin"];
+  const _hoisted_21$1 = { class: "name" };
+  const _hoisted_22 = ["name"];
+  const _hoisted_23 = { key: 0 };
+  const _hoisted_24 = { key: 1 };
+  const _hoisted_25 = ["title"];
+  const _hoisted_26 = { key: 2 };
+  const _hoisted_27 = ["href"];
+  const _hoisted_28 = { class: "desc" };
+  const _hoisted_29 = { class: "plugin-desc-missingrequirements" };
   const _hoisted_30 = { key: 0 };
-  const _hoisted_31 = { key: 1 };
-  const _hoisted_32 = ["title"];
-  const _hoisted_33 = { key: 2 };
-  const _hoisted_34 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_35 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_36 = ["href"];
-  const _hoisted_37 = { class: "desc" };
-  const _hoisted_38 = { class: "plugin-desc-missingrequirements" };
-  const _hoisted_39 = { key: 0 };
-  const _hoisted_40 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_41 = { class: "plugin-desc-text" };
-  const _hoisted_42 = {
+  const _hoisted_31 = { class: "plugin-desc-text" };
+  const _hoisted_32 = {
     key: 0,
     class: "plugin-homepage"
   };
-  const _hoisted_43 = ["href"];
-  const _hoisted_44 = {
+  const _hoisted_33 = ["href"];
+  const _hoisted_34 = {
     key: 1,
     class: "plugin-donation"
   };
-  const _hoisted_45 = ["data-overlay-id"];
-  const _hoisted_46 = ["id", "title"];
-  const _hoisted_47 = ["innerHTML"];
-  const _hoisted_48 = { class: "donation-links" };
-  const _hoisted_49 = ["href"];
-  const _hoisted_50 = /* @__PURE__ */ vue.createElementVNode("img", {
-    src: "plugins/CorePluginsAdmin/images/paypal_donate.png",
-    height: "30"
-  }, null, -1);
-  const _hoisted_51 = [
-    _hoisted_50
-  ];
-  const _hoisted_52 = {
+  const _hoisted_35 = ["data-overlay-id"];
+  const _hoisted_36 = ["id", "title"];
+  const _hoisted_37 = ["innerHTML"];
+  const _hoisted_38 = { class: "donation-links" };
+  const _hoisted_39 = ["href"];
+  const _hoisted_40 = {
     key: 1,
     class: "donation-link bitcoin"
   };
-  const _hoisted_53 = /* @__PURE__ */ vue.createElementVNode("span", null, "Donate Bitcoins to:", -1);
-  const _hoisted_54 = ["href"];
-  const _hoisted_55 = ["value"];
-  const _hoisted_56 = {
+  const _hoisted_41 = ["href"];
+  const _hoisted_42 = ["value"];
+  const _hoisted_43 = {
     key: 0,
     class: "plugin-license"
   };
-  const _hoisted_57 = ["title", "href"];
-  const _hoisted_58 = { key: 1 };
-  const _hoisted_59 = {
+  const _hoisted_44 = ["title", "href"];
+  const _hoisted_45 = { key: 1 };
+  const _hoisted_46 = {
     key: 1,
     class: "plugin-author"
   };
-  const _hoisted_60 = ["title", "href"];
-  const _hoisted_61 = { key: 1 };
-  const _hoisted_62 = {
+  const _hoisted_47 = ["title", "href"];
+  const _hoisted_48 = { key: 1 };
+  const _hoisted_49 = {
     key: 2,
     style: { "margin-right": "3.5px" }
   };
-  const _hoisted_63 = { key: 0 };
-  const _hoisted_64 = { key: 0 };
-  const _hoisted_65 = { key: 1 };
-  const _hoisted_66 = { key: 0 };
-  const _hoisted_67 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_68 = ["data-plugin-name", "href"];
-  const _hoisted_69 = { key: 0 };
-  const _hoisted_70 = { key: 0 };
-  const _hoisted_71 = { key: 1 };
-  const _hoisted_72 = ["href"];
-  const _hoisted_73 = { key: 1 };
-  const _hoisted_74 = ["href"];
-  const _hoisted_75 = {
+  const _hoisted_50 = { key: 0 };
+  const _hoisted_51 = { key: 0 };
+  const _hoisted_52 = { key: 1 };
+  const _hoisted_53 = { key: 0 };
+  const _hoisted_54 = ["data-plugin-name", "href"];
+  const _hoisted_55 = { key: 0 };
+  const _hoisted_56 = { key: 0 };
+  const _hoisted_57 = { key: 1 };
+  const _hoisted_58 = ["href"];
+  const _hoisted_59 = { key: 1 };
+  const _hoisted_60 = ["href"];
+  const _hoisted_61 = {
     key: 0,
     class: "tableActionBar"
   };
-  const _hoisted_76 = ["href"];
-  const _hoisted_77 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-add" }, null, -1);
-  const _hoisted_78 = ["href"];
-  const _hoisted_79 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-add" }, null, -1);
-  const _hoisted_80 = { class: "footer-message" };
+  const _hoisted_62 = ["href"];
+  const _hoisted_63 = ["href"];
+  const _hoisted_64 = { class: "footer-message" };
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
     const _directive_plugin_filter = vue.resolveDirective("plugin-filter");
@@ -10878,67 +10850,67 @@ var __async = (__this, __arguments, generator) => {
             vue.createElementVNode("strong", _hoisted_3$2, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Origin")), 1),
             vue.createElementVNode("a", _hoisted_4$2, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_All")), 1),
-              _hoisted_5$2
+              _cache[1] || (_cache[1] = vue.createElementVNode("span", { class: "counter" }, null, -1))
             ]),
-            vue.createTextVNode(" | "),
-            vue.createElementVNode("a", _hoisted_6$2, [
+            _cache[5] || (_cache[5] = vue.createTextVNode(" | ", -1)),
+            vue.createElementVNode("a", _hoisted_5$2, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("CorePluginsAdmin_OriginCore")), 1),
-              _hoisted_7$2
+              _cache[2] || (_cache[2] = vue.createElementVNode("span", { class: "counter" }, null, -1))
             ]),
-            vue.createTextVNode(" | "),
-            vue.createElementVNode("a", _hoisted_8$2, [
+            _cache[6] || (_cache[6] = vue.createTextVNode(" | ", -1)),
+            vue.createElementVNode("a", _hoisted_6$2, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("CorePluginsAdmin_OriginOfficial")), 1),
-              _hoisted_9$2
+              _cache[3] || (_cache[3] = vue.createElementVNode("span", { class: "counter" }, null, -1))
             ]),
-            vue.createTextVNode(" | "),
-            vue.createElementVNode("a", _hoisted_10$2, [
+            _cache[7] || (_cache[7] = vue.createTextVNode(" | ", -1)),
+            vue.createElementVNode("a", _hoisted_7$2, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("CorePluginsAdmin_OriginThirdParty")), 1),
-              _hoisted_11$2
+              _cache[4] || (_cache[4] = vue.createElementVNode("span", { class: "counter" }, null, -1))
             ])
           ]),
-          vue.createElementVNode("span", _hoisted_12$1, [
-            vue.createElementVNode("strong", _hoisted_13$1, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Status")), 1),
-            vue.createElementVNode("a", _hoisted_14$1, [
+          vue.createElementVNode("span", _hoisted_8$2, [
+            vue.createElementVNode("strong", _hoisted_9$2, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Status")), 1),
+            vue.createElementVNode("a", _hoisted_10$1, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_All")), 1),
-              _hoisted_15$1
+              _cache[8] || (_cache[8] = vue.createElementVNode("span", { class: "counter" }, null, -1))
             ]),
-            vue.createTextVNode(" | "),
-            vue.createElementVNode("a", _hoisted_16$1, [
+            _cache[11] || (_cache[11] = vue.createTextVNode(" | ", -1)),
+            vue.createElementVNode("a", _hoisted_11$1, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Active")), 1),
-              _hoisted_17$1
+              _cache[9] || (_cache[9] = vue.createElementVNode("span", { class: "counter" }, null, -1))
             ]),
-            vue.createTextVNode(" | "),
-            vue.createElementVNode("a", _hoisted_18$1, [
+            _cache[12] || (_cache[12] = vue.createTextVNode(" | ", -1)),
+            vue.createElementVNode("a", _hoisted_12$1, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Inactive")), 1),
-              _hoisted_19$1
+              _cache[10] || (_cache[10] = vue.createElementVNode("span", { class: "counter" }, null, -1))
             ])
           ])
         ])), [
           [_directive_plugin_filter]
         ]),
-        vue.createElementVNode("div", _hoisted_20$1, [
-          vue.createElementVNode("h2", _hoisted_21$1, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_UninstallConfirm")), 1),
+        vue.createElementVNode("div", _hoisted_13$1, [
+          vue.createElementVNode("h2", _hoisted_14$1, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_UninstallConfirm")), 1),
           vue.createElementVNode("input", {
             role: "yes",
             type: "button",
             value: _ctx.translate("General_Yes")
-          }, null, 8, _hoisted_22$1),
+          }, null, 8, _hoisted_15$1),
           vue.createElementVNode("input", {
             role: "no",
             type: "button",
             value: _ctx.translate("General_No")
-          }, null, 8, _hoisted_23$1)
+          }, null, 8, _hoisted_16$1)
         ]),
         vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", null, [
           vue.createElementVNode("thead", null, [
             vue.createElementVNode("tr", null, [
               vue.createElementVNode("th", null, vue.toDisplayString(_ctx.isTheme ? _ctx.translate("CorePluginsAdmin_Theme") : _ctx.translate("General_Plugin")), 1),
               vue.createElementVNode("th", null, vue.toDisplayString(_ctx.translate("General_Description")), 1),
-              vue.createElementVNode("th", _hoisted_24, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Status")), 1),
-              _ctx.displayAdminLinks ? (vue.openBlock(), vue.createElementBlock("th", _hoisted_25, vue.toDisplayString(_ctx.translate("General_Action")), 1)) : vue.createCommentVNode("", true)
+              vue.createElementVNode("th", _hoisted_17$1, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Status")), 1),
+              _ctx.displayAdminLinks ? (vue.openBlock(), vue.createElementBlock("th", _hoisted_18$1, vue.toDisplayString(_ctx.translate("General_Action")), 1)) : vue.createCommentVNode("", true)
             ])
           ]),
-          vue.createElementVNode("tbody", _hoisted_26, [
+          vue.createElementVNode("tbody", _hoisted_19$1, [
             (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.pluginsToDisplay, (plugin, name2) => {
               var _a2, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
               return vue.openBlock(), vue.createElementBlock("tr", {
@@ -10947,50 +10919,50 @@ var __async = (__this, __arguments, generator) => {
                 "data-filter-status": plugin.activated ? "active" : "inactive",
                 "data-filter-origin": _ctx.getPluginOrigin(plugin)
               }, [
-                vue.createElementVNode("td", _hoisted_28, [
-                  vue.createElementVNode("a", { name: name2 }, null, 8, _hoisted_29),
-                  !plugin.isCorePlugin && _ctx.marketplacePluginNames.indexOf(name2) !== -1 ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", _hoisted_30, [
+                vue.createElementVNode("td", _hoisted_21$1, [
+                  vue.createElementVNode("a", { name: name2 }, null, 8, _hoisted_22),
+                  !plugin.isCorePlugin && _ctx.marketplacePluginNames.indexOf(name2) !== -1 ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", _hoisted_23, [
                     vue.createTextVNode(vue.toDisplayString(name2), 1)
                   ])), [
                     [_directive_plugin_name, { pluginName: name2 }]
-                  ]) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_31, vue.toDisplayString(name2), 1)),
+                  ]) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_24, vue.toDisplayString(name2), 1)),
                   vue.createElementVNode("span", {
                     class: "plugin-version",
                     title: plugin.isCorePlugin ? _ctx.translate("CorePluginsAdmin_CorePluginTooltip") : void 0
-                  }, " (" + vue.toDisplayString(plugin.isCorePlugin ? _ctx.translate("CorePluginsAdmin_OriginCore") : plugin.info.version) + ") ", 9, _hoisted_32),
-                  _ctx.pluginNamesHavingSettings.indexOf(name2) !== -1 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_33, [
-                    _hoisted_34,
-                    _hoisted_35,
+                  }, " (" + vue.toDisplayString(plugin.isCorePlugin ? _ctx.translate("CorePluginsAdmin_OriginCore") : plugin.info.version) + ") ", 9, _hoisted_25),
+                  _ctx.pluginNamesHavingSettings.indexOf(name2) !== -1 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_26, [
+                    _cache[13] || (_cache[13] = vue.createElementVNode("br", null, null, -1)),
+                    _cache[14] || (_cache[14] = vue.createElementVNode("br", null, null, -1)),
                     vue.createElementVNode("a", {
                       href: `${_ctx.generalSettingsLink}#/${name2}`,
                       class: "settingsLink"
-                    }, vue.toDisplayString(_ctx.translate("General_Settings")), 9, _hoisted_36)
+                    }, vue.toDisplayString(_ctx.translate("General_Settings")), 9, _hoisted_27)
                   ])) : vue.createCommentVNode("", true)
                 ]),
-                vue.createElementVNode("td", _hoisted_37, [
-                  vue.createElementVNode("div", _hoisted_38, [
-                    plugin.missingRequirements ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_39, [
+                vue.createElementVNode("td", _hoisted_28, [
+                  vue.createElementVNode("div", _hoisted_29, [
+                    plugin.missingRequirements ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_30, [
                       vue.createTextVNode(vue.toDisplayString(plugin.missingRequirements) + " ", 1),
-                      _hoisted_40
+                      _cache[15] || (_cache[15] = vue.createElementVNode("br", null, null, -1))
                     ])) : vue.createCommentVNode("", true)
                   ]),
-                  vue.createElementVNode("div", _hoisted_41, [
+                  vue.createElementVNode("div", _hoisted_31, [
                     vue.createTextVNode(vue.toDisplayString(plugin.info.description.replaceAll("\n", "<br/>")) + " ", 1),
-                    ((_a2 = plugin.info) == null ? void 0 : _a2.homepage) && !_ctx.isMatomoUrl((_b = plugin.info) == null ? void 0 : _b.homepage) ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_42, [
+                    ((_a2 = plugin.info) == null ? void 0 : _a2.homepage) && !_ctx.isMatomoUrl((_b = plugin.info) == null ? void 0 : _b.homepage) ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_32, [
                       vue.createElementVNode("a", {
                         target: "_blank",
                         rel: "noreferrer noopener",
                         href: plugin.info.homepage
-                      }, " (" + vue.toDisplayString(_ctx.translate("CorePluginsAdmin_PluginHomepage").replaceAll(" ", " ")) + ") ", 9, _hoisted_43)
+                      }, " (" + vue.toDisplayString(_ctx.translate("CorePluginsAdmin_PluginHomepage").replaceAll(" ", " ")) + ") ", 9, _hoisted_33)
                     ])) : vue.createCommentVNode("", true),
-                    ((_d = (_c = plugin.info) == null ? void 0 : _c.donate) == null ? void 0 : _d.length) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_44, [
+                    ((_d = (_c = plugin.info) == null ? void 0 : _c.donate) == null ? void 0 : _d.length) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_34, [
                       vue.createTextVNode(vue.toDisplayString(_ctx.translate("CorePluginsAdmin_LikeThisPlugin")) + " ", 1),
                       vue.createElementVNode("a", {
                         onClick: _cache[0] || (_cache[0] = vue.withModifiers(() => {
                         }, ["prevent"])),
                         class: "plugin-donation-link",
                         "data-overlay-id": `overlay-${name2}`
-                      }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_ConsiderDonating")), 9, _hoisted_45),
+                      }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_ConsiderDonating")), 9, _hoisted_35),
                       vue.createElementVNode("div", {
                         id: `overlay-${name2}`,
                         class: "donation-overlay ui-confirm",
@@ -11002,41 +10974,46 @@ var __async = (__this, __arguments, generator) => {
                             "CorePluginsAdmin_ConsiderDonatingCreatorOf",
                             `<b>${name2}</b>`
                           ))
-                        }, null, 8, _hoisted_47),
-                        vue.createElementVNode("div", _hoisted_48, [
+                        }, null, 8, _hoisted_37),
+                        vue.createElementVNode("div", _hoisted_38, [
                           ((_f = (_e = plugin.info) == null ? void 0 : _e.donate) == null ? void 0 : _f.paypal) ? (vue.openBlock(), vue.createElementBlock("a", {
                             key: 0,
                             class: "donation-link paypal",
                             target: "_blank",
                             rel: "noreferrer noopener",
                             href: _ctx.getPluginDonateLink(name2, plugin.info.donate.paypal)
-                          }, _hoisted_51, 8, _hoisted_49)) : vue.createCommentVNode("", true),
-                          ((_h = (_g = plugin.info) == null ? void 0 : _g.donate) == null ? void 0 : _h.bitcoin) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_52, [
-                            _hoisted_53,
+                          }, [..._cache[16] || (_cache[16] = [
+                            vue.createElementVNode("img", {
+                              src: "plugins/CorePluginsAdmin/images/paypal_donate.png",
+                              height: "30"
+                            }, null, -1)
+                          ])], 8, _hoisted_39)) : vue.createCommentVNode("", true),
+                          ((_h = (_g = plugin.info) == null ? void 0 : _g.donate) == null ? void 0 : _h.bitcoin) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_40, [
+                            _cache[17] || (_cache[17] = vue.createElementVNode("span", null, "Donate Bitcoins to:", -1)),
                             vue.createElementVNode("a", {
                               href: `bitcoin:${encodeURIComponent(plugin.info.donate.bitcoin)}`
-                            }, vue.toDisplayString(plugin.info.donate.bitcoin), 9, _hoisted_54)
+                            }, vue.toDisplayString(plugin.info.donate.bitcoin), 9, _hoisted_41)
                           ])) : vue.createCommentVNode("", true)
                         ]),
                         vue.createElementVNode("input", {
                           role: "no",
                           type: "button",
                           value: _ctx.translate("General_Close")
-                        }, null, 8, _hoisted_55)
-                      ], 8, _hoisted_46)
+                        }, null, 8, _hoisted_42)
+                      ], 8, _hoisted_36)
                     ])) : vue.createCommentVNode("", true)
                   ]),
-                  ((_i = plugin.info) == null ? void 0 : _i.license) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_56, [
+                  ((_i = plugin.info) == null ? void 0 : _i.license) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_43, [
                     ((_j = plugin.info) == null ? void 0 : _j.license_file) ? (vue.openBlock(), vue.createElementBlock("a", {
                       key: 0,
                       title: _ctx.translate("CorePluginsAdmin_LicenseHomepage"),
                       rel: "noreferrer noopener",
                       target: "_blank",
                       href: `index.php?module=CorePluginsAdmin&action=showLicense&pluginName=${name2}`
-                    }, vue.toDisplayString(plugin.info.license), 9, _hoisted_57)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_58, vue.toDisplayString(plugin.info.license), 1))
+                    }, vue.toDisplayString(plugin.info.license), 9, _hoisted_44)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_45, vue.toDisplayString(plugin.info.license), 1))
                   ])) : vue.createCommentVNode("", true),
-                  ((_k = plugin.info) == null ? void 0 : _k.authors) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_59, [
-                    vue.createTextVNode(" By "),
+                  ((_k = plugin.info) == null ? void 0 : _k.authors) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_46, [
+                    _cache[18] || (_cache[18] = vue.createTextVNode(" By ", -1)),
                     (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(plugin.info.authors.filter((a) => a.name), (author, index) => {
                       return vue.openBlock(), vue.createElementBlock("span", { key: index }, [
                         author.homepage ? (vue.openBlock(), vue.createElementBlock("a", {
@@ -11045,28 +11022,28 @@ var __async = (__this, __arguments, generator) => {
                           href: author.homepage,
                           rel: "noreferrer noopener",
                           target: "_blank"
-                        }, vue.toDisplayString(author.name), 9, _hoisted_60)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_61, vue.toDisplayString(author.name), 1)),
-                        plugin.info.authors.length - 1 > index ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_62, ",")) : vue.createCommentVNode("", true)
+                        }, vue.toDisplayString(author.name), 9, _hoisted_47)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_48, vue.toDisplayString(author.name), 1)),
+                        plugin.info.authors.length - 1 > index ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_49, ",")) : vue.createCommentVNode("", true)
                       ]);
                     }), 128)),
-                    vue.createTextVNode(". ")
+                    _cache[19] || (_cache[19] = vue.createTextVNode(". ", -1))
                   ])) : vue.createCommentVNode("", true)
                 ]),
                 vue.createElementVNode("td", {
                   class: "status",
                   style: vue.normalizeStyle({ "border-left-width": _ctx.isDefaultTheme(name2) ? "0" : void 0 })
                 }, [
-                  !_ctx.isDefaultTheme(name2) ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_63, [
-                    plugin.activated ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_64, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Active")), 1)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_65, [
+                  !_ctx.isDefaultTheme(name2) ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_50, [
+                    plugin.activated ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_51, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Active")), 1)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_52, [
                       vue.createTextVNode(vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Inactive")) + " ", 1),
-                      plugin.uninstallable && _ctx.displayAdminLinks ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_66, [
-                        _hoisted_67,
-                        vue.createTextVNode(" - "),
+                      plugin.uninstallable && _ctx.displayAdminLinks ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_53, [
+                        _cache[20] || (_cache[20] = vue.createElementVNode("br", null, null, -1)),
+                        _cache[21] || (_cache[21] = vue.createTextVNode(" - ", -1)),
                         vue.createElementVNode("a", {
                           "data-plugin-name": name2,
                           class: "uninstall",
                           href: _ctx.getUninstallLink(name2)
-                        }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_ActionUninstall")), 9, _hoisted_68)
+                        }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_ActionUninstall")), 9, _hoisted_54)
                       ])) : vue.createCommentVNode("", true)
                     ]))
                   ])) : vue.createCommentVNode("", true)
@@ -11076,40 +11053,40 @@ var __async = (__this, __arguments, generator) => {
                   class: "togl action-links",
                   style: vue.normalizeStyle({ "border-left-width": _ctx.isDefaultTheme(name2) ? 0 : void 0 })
                 }, [
-                  !_ctx.isDefaultTheme(name2) ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_69, [
-                    plugin.invalid && plugin.alwaysActivated ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_70, "-")) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_71, [
+                  !_ctx.isDefaultTheme(name2) ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_55, [
+                    plugin.invalid && plugin.alwaysActivated ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_56, "-")) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_57, [
                       plugin.activated ? (vue.openBlock(), vue.createElementBlock("a", {
                         key: 0,
                         href: _ctx.getDeactivateLink(name2)
-                      }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Deactivate")), 9, _hoisted_72)) : plugin.missingRequirements ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_73, "-")) : (vue.openBlock(), vue.createElementBlock("a", {
+                      }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Deactivate")), 9, _hoisted_58)) : plugin.missingRequirements ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_59, "-")) : (vue.openBlock(), vue.createElementBlock("a", {
                         key: 2,
                         href: _ctx.getActivateLink(name2)
-                      }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Activate")), 9, _hoisted_74))
+                      }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Activate")), 9, _hoisted_60))
                     ]))
                   ])) : vue.createCommentVNode("", true)
                 ], 4)) : vue.createCommentVNode("", true)
-              ], 10, _hoisted_27);
+              ], 10, _hoisted_20$1);
             }), 128))
           ])
         ])), [
           [_directive_content_table]
         ]),
-        _ctx.displayAdminLinks ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_75, [
+        _ctx.displayAdminLinks ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_61, [
           _ctx.isTheme ? (vue.openBlock(), vue.createElementBlock("a", {
             key: 0,
             href: _ctx.themeOverviewLink
           }, [
-            _hoisted_77,
+            _cache[22] || (_cache[22] = vue.createElementVNode("span", { class: "icon-add" }, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("CorePluginsAdmin_InstallNewThemes")), 1)
-          ], 8, _hoisted_76)) : (vue.openBlock(), vue.createElementBlock("a", {
+          ], 8, _hoisted_62)) : (vue.openBlock(), vue.createElementBlock("a", {
             key: 1,
             href: _ctx.overviewLink
           }, [
-            _hoisted_79,
+            _cache[23] || (_cache[23] = vue.createElementVNode("span", { class: "icon-add" }, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("CorePluginsAdmin_InstallNewPlugins")), 1)
-          ], 8, _hoisted_78))
+          ], 8, _hoisted_63))
         ])) : vue.createCommentVNode("", true),
-        vue.createElementVNode("div", _hoisted_80, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_AlwaysActivatedPluginsList", _ctx.pluginsAlwaysActivated)), 1)
+        vue.createElementVNode("div", _hoisted_64, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_AlwaysActivatedPluginsList", _ctx.pluginsAlwaysActivated)), 1)
       ]),
       _: 1
     }, 8, ["content-title"])), [
@@ -11196,35 +11173,33 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$1 = { key: 0 };
   const _hoisted_2$1 = { key: 0 };
   const _hoisted_3$1 = { class: "checkbox-container" };
-  const _hoisted_4$1 = /* @__PURE__ */ vue.createElementVNode("span", null, null, -1);
-  const _hoisted_5$1 = { class: "num" };
-  const _hoisted_6$1 = { class: "status" };
-  const _hoisted_7$1 = {
+  const _hoisted_4$1 = { class: "num" };
+  const _hoisted_5$1 = { class: "status" };
+  const _hoisted_6$1 = {
     key: 1,
     class: "action-links"
   };
-  const _hoisted_8$1 = { id: "plugins" };
-  const _hoisted_9$1 = {
+  const _hoisted_7$1 = { id: "plugins" };
+  const _hoisted_8$1 = {
     key: 0,
     class: "select-cell"
   };
-  const _hoisted_10$1 = { class: "checkbox-container" };
-  const _hoisted_11$1 = ["id", "disabled", "onUpdate:modelValue"];
-  const _hoisted_12 = /* @__PURE__ */ vue.createElementVNode("span", null, null, -1);
-  const _hoisted_13 = { class: "name" };
-  const _hoisted_14 = { class: "vers" };
-  const _hoisted_15 = ["href", "title"];
-  const _hoisted_16 = { key: 1 };
-  const _hoisted_17 = { class: "desc" };
-  const _hoisted_18 = { class: "status" };
-  const _hoisted_19 = {
+  const _hoisted_9$1 = { class: "checkbox-container" };
+  const _hoisted_10 = ["id", "disabled", "onUpdate:modelValue"];
+  const _hoisted_11 = { class: "name" };
+  const _hoisted_12 = { class: "vers" };
+  const _hoisted_13 = ["href", "title"];
+  const _hoisted_14 = { key: 1 };
+  const _hoisted_15 = { class: "desc" };
+  const _hoisted_16 = { class: "status" };
+  const _hoisted_17 = {
     key: 1,
     class: "togl action-links"
   };
-  const _hoisted_20 = ["title"];
-  const _hoisted_21 = ["href"];
-  const _hoisted_22 = ["href"];
-  const _hoisted_23 = { key: 3 };
+  const _hoisted_18 = ["title"];
+  const _hoisted_19 = ["href"];
+  const _hoisted_20 = ["href"];
+  const _hoisted_21 = { key: 3 };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_MissingReqsNotice = vue.resolveComponent("MissingReqsNotice");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
@@ -11257,40 +11232,40 @@ var __async = (__this, __arguments, generator) => {
                       id: "select-plugin-all",
                       onChange: _cache[1] || (_cache[1] = ($event) => _ctx.selectAll($event.target.checked))
                     }, null, 32),
-                    _hoisted_4$1
+                    _cache[4] || (_cache[4] = vue.createElementVNode("span", null, null, -1))
                   ])
                 ])
               ])) : vue.createCommentVNode("", true),
               vue.createElementVNode("th", null, vue.toDisplayString(_ctx.translate("General_Plugin")), 1),
-              vue.createElementVNode("th", _hoisted_5$1, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Version")), 1),
+              vue.createElementVNode("th", _hoisted_4$1, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Version")), 1),
               vue.createElementVNode("th", null, vue.toDisplayString(_ctx.translate("General_Description")), 1),
-              vue.createElementVNode("th", _hoisted_6$1, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Status")), 1),
-              _ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("th", _hoisted_7$1, vue.toDisplayString(_ctx.translate("General_Action")), 1)) : vue.createCommentVNode("", true)
+              vue.createElementVNode("th", _hoisted_5$1, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Status")), 1),
+              _ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("th", _hoisted_6$1, vue.toDisplayString(_ctx.translate("General_Action")), 1)) : vue.createCommentVNode("", true)
             ])
           ]),
-          vue.createElementVNode("tbody", _hoisted_8$1, [
+          vue.createElementVNode("tbody", _hoisted_7$1, [
             (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.pluginsHavingUpdate, (plugin, name2) => {
               var _a2;
               return vue.openBlock(), vue.createElementBlock("tr", {
                 key: name2,
                 class: vue.normalizeClass(plugin.isActivated ? "active-plugin" : "inactive-plugin")
               }, [
-                _ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_9$1, [
-                  vue.createElementVNode("span", _hoisted_10$1, [
+                _ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_8$1, [
+                  vue.createElementVNode("span", _hoisted_9$1, [
                     vue.createElementVNode("label", null, [
                       vue.withDirectives(vue.createElementVNode("input", {
                         type: "checkbox",
                         id: `select-plugin-${plugin.name}`,
                         disabled: typeof plugin.isDownloadable !== "undefined" && plugin.isDownloadable !== null && !plugin.isDownloadable,
                         "onUpdate:modelValue": ($event) => _ctx.pluginsSelected[name2] = $event
-                      }, null, 8, _hoisted_11$1), [
+                      }, null, 8, _hoisted_10), [
                         [vue.vModelCheckbox, _ctx.pluginsSelected[name2]]
                       ]),
-                      _hoisted_12
+                      _cache[5] || (_cache[5] = vue.createElementVNode("span", null, null, -1))
                     ])
                   ])
                 ])) : vue.createCommentVNode("", true),
-                vue.createElementVNode("td", _hoisted_13, [
+                vue.createElementVNode("td", _hoisted_11, [
                   vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", {
                     onClick: _cache[2] || (_cache[2] = vue.withModifiers(() => {
                     }, ["prevent"])),
@@ -11301,34 +11276,34 @@ var __async = (__this, __arguments, generator) => {
                     [_directive_plugin_name, { pluginName: plugin.name }]
                   ])
                 ]),
-                vue.createElementVNode("td", _hoisted_14, [
+                vue.createElementVNode("td", _hoisted_12, [
                   ((_a2 = plugin.changelog) == null ? void 0 : _a2.url) ? (vue.openBlock(), vue.createElementBlock("a", {
                     key: 0,
                     href: plugin.changelog.url,
                     title: _ctx.translate("CorePluginsAdmin_Changelog"),
                     target: "_blank",
                     rel: "noreferrer noopener"
-                  }, vue.toDisplayString(plugin.currentVersion) + " => " + vue.toDisplayString(plugin.latestVersion), 9, _hoisted_15)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_16, vue.toDisplayString(plugin.currentVersion) + " => " + vue.toDisplayString(plugin.latestVersion), 1))
+                  }, vue.toDisplayString(plugin.currentVersion) + " => " + vue.toDisplayString(plugin.latestVersion), 9, _hoisted_13)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_14, vue.toDisplayString(plugin.currentVersion) + " => " + vue.toDisplayString(plugin.latestVersion), 1))
                 ]),
-                vue.createElementVNode("td", _hoisted_17, [
+                vue.createElementVNode("td", _hoisted_15, [
                   vue.createTextVNode(vue.toDisplayString(plugin.description) + " ", 1),
                   vue.createVNode(_component_MissingReqsNotice, { plugin }, null, 8, ["plugin"])
                 ]),
-                vue.createElementVNode("td", _hoisted_18, vue.toDisplayString(plugin.isActivated ? _ctx.translate("CorePluginsAdmin_Active") : _ctx.translate("CorePluginsAdmin_Inactive")), 1),
-                _ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_19, [
+                vue.createElementVNode("td", _hoisted_16, vue.toDisplayString(plugin.isActivated ? _ctx.translate("CorePluginsAdmin_Active") : _ctx.translate("CorePluginsAdmin_Inactive")), 1),
+                _ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_17, [
                   typeof plugin.isDownloadable !== "undefined" && plugin.isDownloadable !== null && !plugin.isDownloadable ? (vue.openBlock(), vue.createElementBlock("span", {
                     key: 0,
                     title: `${_ctx.translate("CorePluginsAdmin_PluginNotDownloadable")} ${plugin.isPaid ? _ctx.translate("CorePluginsAdmin_PluginNotDownloadablePaidReason") : ""}`
-                  }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_NotDownloadable")), 9, _hoisted_20)) : _ctx.isMultiServerEnvironment ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", {
+                  }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_NotDownloadable")), 9, _hoisted_18)) : _ctx.isMultiServerEnvironment ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", {
                     key: 1,
                     onClick: _cache[3] || (_cache[3] = ($event) => _ctx.isPluginDownloadLinkClicked = true),
                     href: _ctx.downloadPluginLink(plugin)
-                  }, vue.toDisplayString(_ctx.translate("General_Download")), 9, _hoisted_21)), [
+                  }, vue.toDisplayString(_ctx.translate("General_Download")), 9, _hoisted_19)), [
                     [vue.vShow, !_ctx.isPluginDownloadLinkClicked]
                   ]) : plugin.missingRequirements.length === 0 ? (vue.openBlock(), vue.createElementBlock("a", {
                     key: 2,
                     href: _ctx.updatePluginLink(plugin)
-                  }, vue.toDisplayString(_ctx.translate("CoreUpdater_UpdateTitle")), 9, _hoisted_22)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_23, "-"))
+                  }, vue.toDisplayString(_ctx.translate("CoreUpdater_UpdateTitle")), 9, _hoisted_20)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_21, "-"))
                 ])) : vue.createCommentVNode("", true)
               ], 2);
             }), 128))
@@ -11377,12 +11352,10 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_3 = { class: "description" };
   const _hoisted_4 = ["action"];
   const _hoisted_5 = ["data-max-size"];
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7 = ["value"];
-  const _hoisted_8 = { key: 1 };
-  const _hoisted_9 = ["innerHTML"];
-  const _hoisted_10 = /* @__PURE__ */ vue.createElementVNode("pre", null, "[General]\n  enable_plugin_upload = 1", -1);
-  const _hoisted_11 = ["value"];
+  const _hoisted_6 = ["value"];
+  const _hoisted_7 = { key: 1 };
+  const _hoisted_8 = ["innerHTML"];
+  const _hoisted_9 = ["value"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _directive_auto_clear_password = vue.resolveDirective("auto-clear-password");
@@ -11402,7 +11375,7 @@ var __async = (__this, __arguments, generator) => {
             name: "pluginZip",
             "data-max-size": _ctx.uploadLimit
           }, null, 8, _hoisted_5),
-          _hoisted_6,
+          _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
           vue.withDirectives(vue.createVNode(_component_Field, {
             uicontrol: "password",
             name: "confirmPassword",
@@ -11417,19 +11390,19 @@ var __async = (__this, __arguments, generator) => {
             class: "startUpload btn",
             type: "submit",
             value: _ctx.translate("Marketplace_UploadZipFile")
-          }, null, 8, _hoisted_7)
+          }, null, 8, _hoisted_6)
         ], 8, _hoisted_4)
-      ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_8, [
+      ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_7, [
         vue.createElementVNode("p", {
           class: "description",
           innerHTML: _ctx.$sanitize(_ctx.translate("Marketplace_PluginUploadDisabled"))
-        }, null, 8, _hoisted_9),
-        _hoisted_10,
+        }, null, 8, _hoisted_8),
+        _cache[2] || (_cache[2] = vue.createElementVNode("pre", null, "[General]\n  enable_plugin_upload = 1", -1)),
         vue.createElementVNode("input", {
           role: "yes",
           type: "button",
           value: _ctx.translate("General_Ok")
-        }, null, 8, _hoisted_11)
+        }, null, 8, _hoisted_9)
       ]))
     ])), [
       [_directive_plugin_upload]

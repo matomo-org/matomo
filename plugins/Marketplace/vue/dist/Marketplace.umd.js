@@ -208,36 +208,36 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     style: { "white-space": "nowrap" }
   };
   const _hoisted_3$c = ["href"];
-  const _hoisted_4$b = {
+  const _hoisted_4$a = {
     key: 2,
     class: "alert alert-danger alert-no-background"
   };
-  const _hoisted_5$a = {
+  const _hoisted_5$9 = {
     key: 0,
     style: { "white-space": "nowrap" }
   };
-  const _hoisted_6$8 = ["href"];
-  const _hoisted_7$7 = {
+  const _hoisted_6$7 = ["href"];
+  const _hoisted_7$6 = {
     key: 1,
     class: "alert alert-warning alert-no-background"
   };
-  const _hoisted_8$7 = {
+  const _hoisted_8$6 = {
     key: 0,
     style: { "white-space": "nowrap" }
   };
-  const _hoisted_9$7 = {
+  const _hoisted_9$5 = {
     key: 4,
     class: "alert alert-success alert-no-background"
   };
-  const _hoisted_10$6 = ["href"];
-  const _hoisted_11$5 = ["href"];
-  const _hoisted_12$5 = ["title"];
+  const _hoisted_10$5 = ["href"];
+  const _hoisted_11$4 = ["href"];
+  const _hoisted_12$4 = ["title"];
   const _hoisted_13$4 = ["title", "href"];
-  const _hoisted_14$4 = {
+  const _hoisted_14$3 = {
     key: 8,
     class: "alert alert-warning alert-no-background"
   };
-  const _hoisted_15$4 = {
+  const _hoisted_15$3 = {
     key: 0,
     style: { "white-space": "nowrap" }
   };
@@ -251,11 +251,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       _ctx.plugin.isMissingLicense ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$c, [
         vue.createTextVNode(vue.toDisplayString(_ctx.translate("Marketplace_LicenseMissing")) + " ", 1),
         !_ctx.inModal ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_2$c, [
-          vue.createTextVNode("("),
+          _cache[8] || (_cache[8] = vue.createTextVNode("(", -1)),
           vue.createVNode(_component_MoreDetailsAction, {
             onAction: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("openDetailsModal"))
           }),
-          vue.createTextVNode(")")
+          _cache[9] || (_cache[9] = vue.createTextVNode(")", -1))
         ])) : vue.createCommentVNode("", true)
       ])) : _ctx.inModal && _ctx.plugin.hasExceededLicense && _ctx.plugin.consumer.loginUrl ? (vue.openBlock(), vue.createElementBlock("a", {
         key: 1,
@@ -264,14 +264,14 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         target: "_blank",
         rel: "noreferrer noopener",
         href: _ctx.externalRawLink(_ctx.plugin.consumer.loginUrl)
-      }, vue.toDisplayString(_ctx.translate("Marketplace_UpgradeSubscription")), 9, _hoisted_3$c)) : _ctx.plugin.hasExceededLicense ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$b, [
+      }, vue.toDisplayString(_ctx.translate("Marketplace_UpgradeSubscription")), 9, _hoisted_3$c)) : _ctx.plugin.hasExceededLicense ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$a, [
         vue.createTextVNode(vue.toDisplayString(_ctx.translate("Marketplace_LicenseExceeded")) + " ", 1),
-        !_ctx.inModal ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_5$a, [
-          vue.createTextVNode("("),
+        !_ctx.inModal ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_5$9, [
+          _cache[10] || (_cache[10] = vue.createTextVNode("(", -1)),
           vue.createVNode(_component_MoreDetailsAction, {
             onAction: _cache[1] || (_cache[1] = ($event) => _ctx.$emit("openDetailsModal"))
           }),
-          vue.createTextVNode(")")
+          _cache[11] || (_cache[11] = vue.createTextVNode(")", -1))
         ])) : vue.createCommentVNode("", true)
       ])) : _ctx.plugin.canBeUpdated && 0 == _ctx.plugin.missingRequirements.length ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 3 }, [
         _ctx.isAutoUpdatePossible && _ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("a", {
@@ -279,10 +279,10 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           tabindex: "7",
           class: "btn btn-block",
           href: _ctx.linkToUpdate(_ctx.plugin.name)
-        }, vue.toDisplayString(_ctx.translate("CoreUpdater_UpdateTitle")), 9, _hoisted_6$8)) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_7$7, [
+        }, vue.toDisplayString(_ctx.translate("CoreUpdater_UpdateTitle")), 9, _hoisted_6$7)) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_7$6, [
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("Marketplace_CannotUpdate")) + " ", 1),
-          !_ctx.inModal || _ctx.plugin.missingRequirements.length === 0 && _ctx.plugin.isDownloadable && !_ctx.isAutoUpdatePossible ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_8$7, [
-            vue.createTextVNode("("),
+          !_ctx.inModal || _ctx.plugin.missingRequirements.length === 0 && _ctx.plugin.isDownloadable && !_ctx.isAutoUpdatePossible ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_8$6, [
+            _cache[12] || (_cache[12] = vue.createTextVNode("(", -1)),
             !_ctx.inModal ? (vue.openBlock(), vue.createBlock(_component_MoreDetailsAction, {
               key: 0,
               onAction: _cache[2] || (_cache[2] = ($event) => _ctx.$emit("openDetailsModal"))
@@ -292,39 +292,39 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
               "show-or": !_ctx.inModal,
               "is-auto-update-possible": _ctx.isAutoUpdatePossible
             }, null, 8, ["plugin", "show-or", "is-auto-update-possible"]),
-            vue.createTextVNode(")")
+            _cache[13] || (_cache[13] = vue.createTextVNode(")", -1))
           ])) : vue.createCommentVNode("", true)
         ]))
-      ], 64)) : _ctx.plugin.isInstalled ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_9$7, [
+      ], 64)) : _ctx.plugin.isInstalled ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_9$5, [
         vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_Installed")) + " ", 1),
         _ctx.plugin.missingRequirements.length > 0 || !_ctx.isAutoUpdatePossible ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
-          vue.createTextVNode(" ("),
+          _cache[14] || (_cache[14] = vue.createTextVNode(" (", -1)),
           vue.createVNode(_component_DownloadButton, {
             plugin: _ctx.plugin,
             "show-or": false,
             "is-auto-update-possible": _ctx.isAutoUpdatePossible
           }, null, 8, ["plugin", "is-auto-update-possible"]),
-          vue.createTextVNode(") ")
+          _cache[15] || (_cache[15] = vue.createTextVNode(") ", -1))
         ], 64)) : !_ctx.plugin.isInvalid && !_ctx.isMultiServerEnvironment && _ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
-          vue.createTextVNode(" ("),
+          _cache[16] || (_cache[16] = vue.createTextVNode(" (", -1)),
           _ctx.plugin.isActivated ? (vue.openBlock(), vue.createElementBlock("a", {
             key: 0,
             tabindex: "7",
             href: _ctx.linkToDeactivate(_ctx.plugin.name)
-          }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Deactivate")), 9, _hoisted_10$6)) : _ctx.plugin.missingRequirements.length > 0 ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
+          }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Deactivate")), 9, _hoisted_10$5)) : _ctx.plugin.missingRequirements.length > 0 ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
             vue.createTextVNode(" - ")
           ], 64)) : (vue.openBlock(), vue.createElementBlock("a", {
             key: 2,
             tabindex: "7",
             href: _ctx.linkToActivate(_ctx.plugin.name)
-          }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Activate")), 9, _hoisted_11$5)),
-          vue.createTextVNode(") ")
+          }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Activate")), 9, _hoisted_11$4)),
+          _cache[17] || (_cache[17] = vue.createTextVNode(") ", -1))
         ], 64)) : vue.createCommentVNode("", true)
       ])) : _ctx.plugin.isEligibleForFreeTrial && !_ctx.inModal && _ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("div", {
         key: 5,
         class: "btn btn-block purchaseable",
         title: _ctx.translate("Marketplace_StartFreeTrial")
-      }, vue.toDisplayString(_ctx.translate("Marketplace_StartFreeTrial")), 9, _hoisted_12$5)) : _ctx.plugin.isEligibleForFreeTrial && _ctx.inModal ? (vue.openBlock(), vue.createElementBlock("a", {
+      }, vue.toDisplayString(_ctx.translate("Marketplace_StartFreeTrial")), 9, _hoisted_12$4)) : _ctx.plugin.isEligibleForFreeTrial && _ctx.inModal ? (vue.openBlock(), vue.createElementBlock("a", {
         key: 6,
         class: "btn btn-block addToCartLink",
         target: "_blank",
@@ -336,10 +336,10 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         "show-as-button": true,
         label: _ctx.translate("General_MoreDetails"),
         onAction: _cache[3] || (_cache[3] = ($event) => _ctx.$emit("openDetailsModal"))
-      }, null, 8, ["label"])) : _ctx.plugin.missingRequirements.length > 0 || !_ctx.isAutoUpdatePossible ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_14$4, [
+      }, null, 8, ["label"])) : _ctx.plugin.missingRequirements.length > 0 || !_ctx.isAutoUpdatePossible ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_14$3, [
         vue.createTextVNode(vue.toDisplayString(_ctx.translate("Marketplace_CannotInstall")) + " ", 1),
-        !_ctx.inModal || _ctx.plugin.missingRequirements.length === 0 && _ctx.plugin.isDownloadable && !_ctx.isAutoUpdatePossible ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_15$4, [
-          vue.createTextVNode("("),
+        !_ctx.inModal || _ctx.plugin.missingRequirements.length === 0 && _ctx.plugin.isDownloadable && !_ctx.isAutoUpdatePossible ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_15$3, [
+          _cache[18] || (_cache[18] = vue.createTextVNode("(", -1)),
           !_ctx.inModal ? (vue.openBlock(), vue.createBlock(_component_MoreDetailsAction, {
             key: 0,
             onAction: _cache[4] || (_cache[4] = ($event) => _ctx.$emit("openDetailsModal"))
@@ -349,7 +349,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             "show-or": !_ctx.inModal,
             "is-auto-update-possible": _ctx.isAutoUpdatePossible
           }, null, 8, ["plugin", "show-or", "is-auto-update-possible"]),
-          vue.createTextVNode(")")
+          _cache[19] || (_cache[19] = vue.createTextVNode(")", -1))
         ])) : vue.createCommentVNode("", true)
       ])) : _ctx.isPluginsAdminEnabled && _ctx.plugin.hasDownloadLink ? (vue.openBlock(), vue.createElementBlock("a", {
         key: 9,
@@ -685,49 +685,47 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     key: 0,
     class: "btn-close modal-close"
   };
-  const _hoisted_3$a = /* @__PURE__ */ vue.createElementVNode("i", { class: "icon-close" }, null, -1);
-  const _hoisted_4$a = [
-    _hoisted_3$a
-  ];
-  const _hoisted_5$9 = {
+  const _hoisted_3$a = {
     key: 1,
     class: "modal-content trial-start-in-progress"
   };
-  const _hoisted_6$7 = { class: "Piwik_Popover_Loading" };
-  const _hoisted_7$6 = { class: "Piwik_Popover_Loading_Name" };
-  const _hoisted_8$6 = {
+  const _hoisted_4$9 = { class: "Piwik_Popover_Loading" };
+  const _hoisted_5$8 = { class: "Piwik_Popover_Loading_Name" };
+  const _hoisted_6$6 = {
     key: 2,
     class: "modal-content trial-start-error"
   };
-  const _hoisted_9$6 = { class: "modal-text" };
-  const _hoisted_10$5 = {
+  const _hoisted_7$5 = { class: "modal-text" };
+  const _hoisted_8$5 = {
     key: 3,
     class: "modal-content trial-start-no-license"
   };
-  const _hoisted_11$4 = { class: "modal-text" };
-  const _hoisted_12$4 = ["innerHTML"];
+  const _hoisted_9$4 = { class: "modal-text" };
+  const _hoisted_10$4 = ["innerHTML"];
+  const _hoisted_11$3 = ["innerHTML"];
+  const _hoisted_12$3 = ["disabled"];
   const _hoisted_13$3 = ["innerHTML"];
-  const _hoisted_14$3 = ["disabled"];
-  const _hoisted_15$3 = ["innerHTML"];
   function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$a, [
-      !_ctx.trialStartInProgress ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_2$a, _hoisted_4$a)) : vue.createCommentVNode("", true),
-      _ctx.trialStartInProgress ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$9, [
-        vue.createElementVNode("div", _hoisted_6$7, [
-          vue.createElementVNode("div", _hoisted_7$6, [
+      !_ctx.trialStartInProgress ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_2$a, [..._cache[2] || (_cache[2] = [
+        vue.createElementVNode("i", { class: "icon-close" }, null, -1)
+      ])])) : vue.createCommentVNode("", true),
+      _ctx.trialStartInProgress ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$a, [
+        vue.createElementVNode("div", _hoisted_4$9, [
+          vue.createElementVNode("div", _hoisted_5$8, [
             vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("Marketplace_TrialStartInProgressTitle")), 1),
             vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("Marketplace_TrialStartInProgressText")), 1)
           ])
         ])
-      ])) : _ctx.trialStartError ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_8$6, [
-        vue.createElementVNode("div", _hoisted_9$6, [
+      ])) : _ctx.trialStartError ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$6, [
+        vue.createElementVNode("div", _hoisted_7$5, [
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("Marketplace_TrialStartErrorTitle")), 1),
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.trialStartError), 1),
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("Marketplace_TrialStartErrorSupport")), 1)
         ])
-      ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_10$5, [
-        vue.createElementVNode("div", _hoisted_11$4, [
+      ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_8$5, [
+        vue.createElementVNode("div", _hoisted_9$4, [
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("Marketplace_TrialStartNoLicenseTitle")), 1),
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("Marketplace_TrialStartNoLicenseText")), 1),
           vue.createVNode(_component_Field, {
@@ -742,22 +740,22 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             key: 0,
             class: "alert alert-danger",
             innerHTML: _ctx.$sanitize(_ctx.createAccountError)
-          }, null, 8, _hoisted_12$4)) : vue.createCommentVNode("", true),
+          }, null, 8, _hoisted_10$4)) : vue.createCommentVNode("", true),
           vue.createElementVNode("p", {
             class: "trial-start-legal-hint",
             innerHTML: _ctx.$sanitize(_ctx.trialStartNoLicenseLegalHintText)
-          }, null, 8, _hoisted_13$3),
+          }, null, 8, _hoisted_11$3),
           vue.createElementVNode("p", null, [
             vue.createElementVNode("button", {
               class: "btn",
               disabled: !_ctx.createAccountEmail,
               onClick: _cache[1] || (_cache[1] = ($event) => _ctx.createAccountAndStartFreeTrial())
-            }, vue.toDisplayString(_ctx.translate("Marketplace_TrialStartNoLicenseCreateAccount")), 9, _hoisted_14$3)
+            }, vue.toDisplayString(_ctx.translate("Marketplace_TrialStartNoLicenseCreateAccount")), 9, _hoisted_12$3)
           ]),
           vue.createElementVNode("p", {
             class: "add-existing-license",
             innerHTML: _ctx.$sanitize(_ctx.trialStartNoLicenseAddHereText)
-          }, null, 8, _hoisted_15$3)
+          }, null, 8, _hoisted_13$3)
         ])
       ]))
     ]);
@@ -1084,138 +1082,123 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     id: "pluginDetailsModal"
   };
   const _hoisted_2$9 = { class: "modal-content__header" };
-  const _hoisted_3$9 = /* @__PURE__ */ vue.createElementVNode("span", { class: "btn-close modal-close" }, [
-    /* @__PURE__ */ vue.createElementVNode("i", { class: "icon-close" })
-  ], -1);
-  const _hoisted_4$9 = {
+  const _hoisted_3$9 = {
     key: 0,
     class: "plugin-metadata-part1"
   };
-  const _hoisted_5$8 = /* @__PURE__ */ vue.createElementVNode("h3", { class: "sr-only" }, "Plugin details — part 1", -1);
-  const _hoisted_6$6 = {
+  const _hoisted_4$8 = {
     key: 0,
     class: "pair"
   };
-  const _hoisted_7$5 = /* @__PURE__ */ vue.createElementVNode("img", {
-    class: "star-icon reviews-icon",
-    src: "plugins/Marketplace/images/star.svg",
-    alt: ""
-  }, null, -1);
-  const _hoisted_8$5 = {
+  const _hoisted_5$7 = {
     key: 1,
     class: "pair"
   };
-  const _hoisted_9$5 = {
+  const _hoisted_6$5 = {
     key: 2,
     class: "pair"
   };
-  const _hoisted_10$4 = {
+  const _hoisted_7$4 = {
     key: 3,
     class: "pair"
   };
-  const _hoisted_11$3 = {
+  const _hoisted_8$4 = {
     key: 4,
     class: "pair"
   };
-  const _hoisted_12$3 = { class: "plugin-description" };
-  const _hoisted_13$2 = {
+  const _hoisted_9$3 = { class: "plugin-description" };
+  const _hoisted_10$3 = {
     key: 1,
     class: "alert alert-warning"
   };
-  const _hoisted_14$2 = {
+  const _hoisted_11$2 = {
     key: 2,
     class: "alert alert-warning"
   };
-  const _hoisted_15$2 = {
+  const _hoisted_12$2 = {
     key: 3,
     class: "alert alert-danger"
   };
-  const _hoisted_16$2 = {
+  const _hoisted_13$2 = {
     key: 4,
     class: "alert alert-warning"
   };
+  const _hoisted_14$2 = ["innerHTML"];
+  const _hoisted_15$2 = ["innerHTML"];
+  const _hoisted_16$2 = ["innerHTML"];
   const _hoisted_17$2 = ["innerHTML"];
-  const _hoisted_18$2 = ["innerHTML"];
-  const _hoisted_19$2 = ["innerHTML"];
-  const _hoisted_20$2 = ["innerHTML"];
-  const _hoisted_21$2 = { class: "plugin-metadata-part2" };
-  const _hoisted_22$1 = /* @__PURE__ */ vue.createElementVNode("hr", null, null, -1);
-  const _hoisted_23$1 = /* @__PURE__ */ vue.createElementVNode("h3", { class: "sr-only" }, "Plugin details — part 2", -1);
-  const _hoisted_24$1 = {
+  const _hoisted_18$2 = { class: "plugin-metadata-part2" };
+  const _hoisted_19$2 = {
     key: 0,
     class: "pair"
   };
-  const _hoisted_25 = {
+  const _hoisted_20 = {
     key: 1,
     class: "pair"
   };
+  const _hoisted_21 = { class: "pair" };
+  const _hoisted_22 = ["href"];
+  const _hoisted_23 = ["href"];
+  const _hoisted_24 = { key: 2 };
+  const _hoisted_25 = { key: 3 };
   const _hoisted_26 = { class: "pair" };
   const _hoisted_27 = ["href"];
   const _hoisted_28 = ["href"];
-  const _hoisted_29 = { key: 2 };
-  const _hoisted_30 = { key: 3 };
-  const _hoisted_31 = { class: "pair" };
-  const _hoisted_32 = ["href"];
-  const _hoisted_33 = ["href"];
-  const _hoisted_34 = ["href"];
-  const _hoisted_35 = {
+  const _hoisted_29 = ["href"];
+  const _hoisted_30 = {
     key: 0,
     class: "pair"
   };
-  const _hoisted_36 = {
+  const _hoisted_31 = {
     key: 1,
     class: "pair"
   };
-  const _hoisted_37 = ["href"];
-  const _hoisted_38 = { key: 1 };
+  const _hoisted_32 = ["href"];
+  const _hoisted_33 = { key: 1 };
+  const _hoisted_34 = ["innerHTML"];
+  const _hoisted_35 = { key: 0 };
+  const _hoisted_36 = ["href"];
+  const _hoisted_37 = { key: 1 };
+  const _hoisted_38 = ["href"];
   const _hoisted_39 = ["innerHTML"];
-  const _hoisted_40 = { key: 0 };
-  const _hoisted_41 = ["href"];
-  const _hoisted_42 = { key: 1 };
-  const _hoisted_43 = ["href"];
-  const _hoisted_44 = ["innerHTML"];
-  const _hoisted_45 = {
+  const _hoisted_40 = {
     key: 0,
     class: "plugin-screenshots"
   };
-  const _hoisted_46 = /* @__PURE__ */ vue.createElementVNode("hr", null, null, -1);
-  const _hoisted_47 = { class: "thumbnails" };
-  const _hoisted_48 = ["src"];
-  const _hoisted_49 = {
+  const _hoisted_41 = { class: "thumbnails" };
+  const _hoisted_42 = ["src"];
+  const _hoisted_43 = {
     key: 1,
     class: "plugin-documentation"
   };
-  const _hoisted_50 = /* @__PURE__ */ vue.createElementVNode("hr", null, null, -1);
-  const _hoisted_51 = ["innerHTML"];
-  const _hoisted_52 = {
+  const _hoisted_44 = ["innerHTML"];
+  const _hoisted_45 = {
     key: 2,
     class: "plugin-faq"
   };
-  const _hoisted_53 = /* @__PURE__ */ vue.createElementVNode("hr", null, null, -1);
-  const _hoisted_54 = ["innerHTML"];
-  const _hoisted_55 = {
+  const _hoisted_46 = ["innerHTML"];
+  const _hoisted_47 = {
     key: 3,
     class: "plugin-reviews",
     id: "reviews"
   };
-  const _hoisted_56 = /* @__PURE__ */ vue.createElementVNode("hr", null, null, -1);
-  const _hoisted_57 = ["id", "src"];
-  const _hoisted_58 = {
+  const _hoisted_48 = ["id", "src"];
+  const _hoisted_49 = {
     key: 0,
     class: "matomo-badge matomo-badge-modal",
     src: "plugins/Marketplace/images/matomo-badge.png",
     "aria-label": "Matomo plugin",
     alt: ""
   };
-  const _hoisted_59 = { class: "cta-container cta-container-modal" };
-  const _hoisted_60 = {
+  const _hoisted_50 = { class: "cta-container cta-container-modal" };
+  const _hoisted_51 = {
     key: 0,
     class: "free-trial"
   };
-  const _hoisted_61 = { class: "free-trial-lead-in" };
-  const _hoisted_62 = ["title"];
-  const _hoisted_63 = ["value", "title"];
-  const _hoisted_64 = {
+  const _hoisted_52 = { class: "free-trial-lead-in" };
+  const _hoisted_53 = ["title"];
+  const _hoisted_54 = ["value", "title"];
+  const _hoisted_55 = {
     key: 1,
     class: "matomo-badge matomo-badge-modal",
     src: "plugins/Marketplace/images/matomo-badge.png",
@@ -1232,33 +1215,39 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         class: vue.normalizeClass(["modal-content", { "modal-content--simple-header": !_ctx.hasHeaderMetadata }])
       }, [
         vue.createElementVNode("div", _hoisted_2$9, [
-          _hoisted_3$9,
+          _cache[7] || (_cache[7] = vue.createElementVNode("span", { class: "btn-close modal-close" }, [
+            vue.createElementVNode("i", { class: "icon-close" })
+          ], -1)),
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.plugin && _ctx.plugin.displayName ? _ctx.plugin.displayName : "Plugin details"), 1),
-          _ctx.hasHeaderMetadata ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$9, [
-            _hoisted_5$8,
+          _ctx.hasHeaderMetadata ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$9, [
+            _cache[6] || (_cache[6] = vue.createElementVNode("h3", { class: "sr-only" }, "Plugin details — part 1", -1)),
             vue.createElementVNode("dl", null, [
-              _ctx.showReviews ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$6, [
+              _ctx.showReviews ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$8, [
                 vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("Marketplace_Reviews")), 1),
                 vue.createElementVNode("dd", null, [
-                  _hoisted_7$5,
+                  _cache[5] || (_cache[5] = vue.createElementVNode("img", {
+                    class: "star-icon reviews-icon",
+                    src: "plugins/Marketplace/images/star.svg",
+                    alt: ""
+                  }, null, -1)),
                   vue.createElementVNode("a", {
                     onClick: _cache[0] || (_cache[0] = ($event) => _ctx.scrollElementIntoView("#reviews"))
                   }, vue.toDisplayString(_ctx.pluginReviews.averageRating), 1)
                 ])
               ])) : vue.createCommentVNode("", true),
-              !_ctx.plugin.isBundle ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_8$5, [
+              !_ctx.plugin.isBundle ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$7, [
                 vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Version")), 1),
                 vue.createElementVNode("dd", null, vue.toDisplayString(_ctx.plugin.latestVersion), 1)
               ])) : vue.createCommentVNode("", true),
-              _ctx.plugin.numDownloads > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_9$5, [
+              _ctx.plugin.numDownloads > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$5, [
                 vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("General_Downloads")), 1),
                 vue.createElementVNode("dd", null, vue.toDisplayString(_ctx.plugin.numDownloadsPretty), 1)
               ])) : vue.createCommentVNode("", true),
-              _ctx.plugin.lastUpdated && !_ctx.plugin.isBundle ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_10$4, [
+              _ctx.plugin.lastUpdated && !_ctx.plugin.isBundle ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_7$4, [
                 vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("Marketplace_LastUpdated")), 1),
                 vue.createElementVNode("dd", null, vue.toDisplayString(_ctx.plugin.lastUpdated), 1)
               ])) : vue.createCommentVNode("", true),
-              !_ctx.plugin.isBundle ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_11$3, [
+              !_ctx.plugin.isBundle ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_8$4, [
                 vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("Marketplace_Developer")), 1),
                 vue.createElementVNode("dd", null, vue.toDisplayString(_ctx.pluginOwner), 1)
               ])) : vue.createCommentVNode("", true)
@@ -1268,47 +1257,47 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         vue.createElementVNode("div", {
           class: vue.normalizeClass(["modal-content__main", { "modal-content__main--with-free-trial": _ctx.showFreeTrialDropdown }])
         }, [
-          vue.createElementVNode("div", _hoisted_12$3, [
+          vue.createElementVNode("div", _hoisted_9$3, [
             _ctx.showMissingRequirementsNoticeIfApplicable ? (vue.openBlock(), vue.createBlock(_component_MissingReqsNotice, {
               key: 0,
               plugin: _ctx.plugin
             }, null, 8, ["plugin"])) : vue.createCommentVNode("", true),
-            _ctx.isMultiServerEnvironment ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_13$2, vue.toDisplayString(_ctx.translate("Marketplace_MultiServerEnvironmentWarning")), 1)) : !_ctx.isAutoUpdatePossible ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_14$2, vue.toDisplayString(_ctx.translate(
+            _ctx.isMultiServerEnvironment ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_10$3, vue.toDisplayString(_ctx.translate("Marketplace_MultiServerEnvironmentWarning")), 1)) : !_ctx.isAutoUpdatePossible ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_11$2, vue.toDisplayString(_ctx.translate(
               "Marketplace_AutoUpdateDisabledWarning",
               "'[General]enable_auto_update=1'",
               "'config/config.ini.php'"
             )), 1)) : vue.createCommentVNode("", true),
-            _ctx.showMissingLicenseDescription ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_15$2, vue.toDisplayString(_ctx.translate("Marketplace_PluginLicenseMissingDescription")), 1)) : _ctx.showExceededLicenseDescription ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_16$2, vue.toDisplayString(_ctx.translate("Marketplace_PluginLicenseExceededDescription")), 1)) : _ctx.plugin.licenseStatus === "Pending" && !_ctx.isMultiServerEnvironment ? (vue.openBlock(), vue.createElementBlock("div", {
+            _ctx.showMissingLicenseDescription ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_12$2, vue.toDisplayString(_ctx.translate("Marketplace_PluginLicenseMissingDescription")), 1)) : _ctx.showExceededLicenseDescription ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_13$2, vue.toDisplayString(_ctx.translate("Marketplace_PluginLicenseExceededDescription")), 1)) : _ctx.plugin.licenseStatus === "Pending" && !_ctx.isMultiServerEnvironment ? (vue.openBlock(), vue.createElementBlock("div", {
               key: 5,
               class: "alert alert-warning",
               innerHTML: _ctx.$sanitize(_ctx.getPendingLicenseHelpText(_ctx.plugin.displayName))
-            }, null, 8, _hoisted_17$2)) : _ctx.plugin.licenseStatus === "Cancelled" && !_ctx.isMultiServerEnvironment ? (vue.openBlock(), vue.createElementBlock("div", {
+            }, null, 8, _hoisted_14$2)) : _ctx.plugin.licenseStatus === "Cancelled" && !_ctx.isMultiServerEnvironment ? (vue.openBlock(), vue.createElementBlock("div", {
               key: 6,
               class: "alert alert-warning",
               innerHTML: _ctx.$sanitize(_ctx.getCancelledLicenseHelpText(_ctx.plugin.displayName))
-            }, null, 8, _hoisted_18$2)) : !_ctx.plugin.hasDownloadLink && !_ctx.isMultiServerEnvironment && (_ctx.plugin.licenseStatus || !_ctx.plugin.isPaid) ? (vue.openBlock(), vue.createElementBlock("div", {
+            }, null, 8, _hoisted_15$2)) : !_ctx.plugin.hasDownloadLink && !_ctx.isMultiServerEnvironment && (_ctx.plugin.licenseStatus || !_ctx.plugin.isPaid) ? (vue.openBlock(), vue.createElementBlock("div", {
               key: 7,
               class: "alert alert-warning",
               innerHTML: _ctx.$sanitize(_ctx.getDownloadLinkMissingHelpText(_ctx.plugin.displayName))
-            }, null, 8, _hoisted_19$2)) : vue.createCommentVNode("", true),
+            }, null, 8, _hoisted_16$2)) : vue.createCommentVNode("", true),
             vue.createElementVNode("div", {
               innerHTML: _ctx.$sanitize(_ctx.pluginDescription)
-            }, null, 8, _hoisted_20$2)
+            }, null, 8, _hoisted_17$2)
           ]),
-          vue.createElementVNode("div", _hoisted_21$2, [
-            _hoisted_22$1,
-            _hoisted_23$1,
+          vue.createElementVNode("div", _hoisted_18$2, [
+            _cache[8] || (_cache[8] = vue.createElementVNode("hr", null, null, -1)),
+            _cache[9] || (_cache[9] = vue.createElementVNode("h3", { class: "sr-only" }, "Plugin details — part 2", -1)),
             vue.createElementVNode("dl", null, [
-              !_ctx.plugin.isBundle ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_24$1, [
+              !_ctx.plugin.isBundle ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_19$2, [
                 vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Version")), 1),
                 vue.createElementVNode("dd", null, vue.toDisplayString(_ctx.plugin.latestVersion), 1)
               ])) : vue.createCommentVNode("", true),
-              _ctx.pluginKeywords ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_25, [
+              _ctx.pluginKeywords ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_20, [
                 vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("Marketplace_PluginKeywords")), 1),
                 vue.createElementVNode("dd", null, vue.toDisplayString(_ctx.pluginKeywords.join(", ")), 1)
               ])) : vue.createCommentVNode("", true),
               !_ctx.plugin.isBundle ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 2 }, [
-                vue.createElementVNode("div", _hoisted_26, [
+                vue.createElementVNode("div", _hoisted_21, [
                   vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("Marketplace_Authors")), 1),
                   vue.createElementVNode("dd", null, [
                     (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.pluginAuthors, (author, index) => {
@@ -1320,16 +1309,16 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                           target: "_blank",
                           rel: "noreferrer noopener",
                           href: author.homepage
-                        }, vue.toDisplayString(author.name), 9, _hoisted_27)) : author.email && _ctx.isValidEmail(author.email) ? (vue.openBlock(), vue.createElementBlock("a", {
+                        }, vue.toDisplayString(author.name), 9, _hoisted_22)) : author.email && _ctx.isValidEmail(author.email) ? (vue.openBlock(), vue.createElementBlock("a", {
                           key: 1,
                           href: `mailto:${encodeURIComponent(author.email)}`
-                        }, vue.toDisplayString(author.name), 9, _hoisted_28)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_29, vue.toDisplayString(author.name), 1)),
-                        index < _ctx.pluginAuthors.length - 1 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_30, ", ")) : vue.createCommentVNode("", true)
+                        }, vue.toDisplayString(author.name), 9, _hoisted_23)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_24, vue.toDisplayString(author.name), 1)),
+                        index < _ctx.pluginAuthors.length - 1 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_25, ", ")) : vue.createCommentVNode("", true)
                       ], 64);
                     }), 128))
                   ])
                 ]),
-                vue.createElementVNode("div", _hoisted_31, [
+                vue.createElementVNode("div", _hoisted_26, [
                   vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Websites")), 1),
                   vue.createElementVNode("dd", null, [
                     _ctx.plugin.homepage ? (vue.openBlock(), vue.createElementBlock("a", {
@@ -1337,7 +1326,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                       target: "_blank",
                       rel: "noreferrer noopener",
                       href: _ctx.plugin.homepage
-                    }, vue.toDisplayString(_ctx.translate("Marketplace_PluginWebsite")), 9, _hoisted_32)) : vue.createCommentVNode("", true),
+                    }, vue.toDisplayString(_ctx.translate("Marketplace_PluginWebsite")), 9, _hoisted_27)) : vue.createCommentVNode("", true),
                     _ctx.pluginChangelogUrl ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
                       _ctx.plugin.homepage ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
                         vue.createTextVNode(", ")
@@ -1346,7 +1335,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                         target: "_blank",
                         rel: "noreferrer noopener",
                         href: _ctx.externalRawLink(_ctx.pluginChangelogUrl)
-                      }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Changelog")), 9, _hoisted_33)
+                      }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Changelog")), 9, _hoisted_28)
                     ], 64)) : vue.createCommentVNode("", true),
                     _ctx.plugin.repositoryUrl ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 2 }, [
                       _ctx.plugin.homepage || _ctx.pluginChangelogUrl ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
@@ -1356,11 +1345,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                         target: "_blank",
                         rel: "noreferrer noopener",
                         href: _ctx.externalRawLink(_ctx.plugin.repositoryUrl)
-                      }, "GitHub", 8, _hoisted_34)
+                      }, "GitHub", 8, _hoisted_29)
                     ], 64)) : vue.createCommentVNode("", true)
                   ])
                 ]),
-                _ctx.pluginActivity && _ctx.pluginActivity.numCommits ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_35, [
+                _ctx.pluginActivity && _ctx.pluginActivity.numCommits ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_30, [
                   vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Activity")), 1),
                   vue.createElementVNode("dd", null, [
                     vue.createTextVNode(vue.toDisplayString(_ctx.plugin.activity.numCommits) + " commits ", 1),
@@ -1372,7 +1361,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                     ], 64)) : vue.createCommentVNode("", true)
                   ])
                 ])) : vue.createCommentVNode("", true),
-                _ctx.showLicenseName ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_36, [
+                _ctx.showLicenseName ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_31, [
                   vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("Marketplace_License")), 1),
                   vue.createElementVNode("dd", null, [
                     ((_c = _ctx.pluginLatestVersion.license) == null ? void 0 : _c.url) ? (vue.openBlock(), vue.createElementBlock("a", {
@@ -1380,7 +1369,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                       rel: "noreferrer noopener",
                       href: (_d = _ctx.pluginLatestVersion.license) == null ? void 0 : _d.url,
                       target: "_blank"
-                    }, vue.toDisplayString((_e = _ctx.pluginLatestVersion.license) == null ? void 0 : _e.name), 9, _hoisted_37)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_38, vue.toDisplayString((_f = _ctx.pluginLatestVersion.license) == null ? void 0 : _f.name), 1))
+                    }, vue.toDisplayString((_e = _ctx.pluginLatestVersion.license) == null ? void 0 : _e.name), 9, _hoisted_32)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_33, vue.toDisplayString((_f = _ctx.pluginLatestVersion.license) == null ? void 0 : _f.name), 1))
                   ])
                 ])) : vue.createCommentVNode("", true),
                 _ctx.pluginSupport.length ? (vue.openBlock(true), vue.createElementBlock(vue.Fragment, { key: 2 }, vue.renderList(_ctx.pluginSupport, (support, index) => {
@@ -1391,31 +1380,31 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                     support.name && support.value ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
                       vue.createElementVNode("dt", {
                         innerHTML: _ctx.$sanitize(support.name)
-                      }, null, 8, _hoisted_39),
-                      this.isValidHttpUrl(support.value) ? (vue.openBlock(), vue.createElementBlock("dd", _hoisted_40, [
+                      }, null, 8, _hoisted_34),
+                      this.isValidHttpUrl(support.value) ? (vue.openBlock(), vue.createElementBlock("dd", _hoisted_35, [
                         vue.createElementVNode("a", {
                           target: "_blank",
                           rel: "noreferrer noopener",
                           href: _ctx.externalRawLink(_ctx.$sanitize(support.value))
-                        }, vue.toDisplayString(_ctx.$sanitize(support.value)), 9, _hoisted_41)
-                      ])) : this.isValidEmail(support.value) ? (vue.openBlock(), vue.createElementBlock("dd", _hoisted_42, [
+                        }, vue.toDisplayString(_ctx.$sanitize(support.value)), 9, _hoisted_36)
+                      ])) : this.isValidEmail(support.value) ? (vue.openBlock(), vue.createElementBlock("dd", _hoisted_37, [
                         vue.createElementVNode("a", {
                           href: `mailto:${encodeURIComponent(support.value)}`
-                        }, vue.toDisplayString(_ctx.$sanitize(support.value)), 9, _hoisted_43)
+                        }, vue.toDisplayString(_ctx.$sanitize(support.value)), 9, _hoisted_38)
                       ])) : (vue.openBlock(), vue.createElementBlock("dd", {
                         key: 2,
                         innerHTML: _ctx.$sanitize(support.value)
-                      }, null, 8, _hoisted_44))
+                      }, null, 8, _hoisted_39))
                     ], 64)) : vue.createCommentVNode("", true)
                   ]);
                 }), 128)) : vue.createCommentVNode("", true)
               ], 64)) : vue.createCommentVNode("", true)
             ])
           ]),
-          _ctx.pluginScreenshots.length ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_45, [
-            _hoisted_46,
+          _ctx.pluginScreenshots.length ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_40, [
+            _cache[10] || (_cache[10] = vue.createElementVNode("hr", null, null, -1)),
             vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("Marketplace_Screenshots")), 1),
-            vue.createElementVNode("div", _hoisted_47, [
+            vue.createElementVNode("div", _hoisted_41, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.pluginScreenshots, (screenshot) => {
                 return vue.openBlock(), vue.createElementBlock("figure", {
                   key: `screenshot-${screenshot}`
@@ -1424,44 +1413,44 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                     src: `${screenshot}?w=800`,
                     width: "800",
                     alt: ""
-                  }, null, 8, _hoisted_48),
+                  }, null, 8, _hoisted_42),
                   vue.createElementVNode("figcaption", null, vue.toDisplayString(this.getScreenshotBaseName(screenshot)), 1)
                 ]);
               }), 128))
             ])
           ])) : vue.createCommentVNode("", true),
-          _ctx.pluginDocumentation ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_49, [
-            _hoisted_50,
+          _ctx.pluginDocumentation ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_43, [
+            _cache[11] || (_cache[11] = vue.createElementVNode("hr", null, null, -1)),
             vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("General_Documentation")), 1),
             vue.createElementVNode("div", {
               innerHTML: _ctx.$sanitize(_ctx.pluginDocumentation)
-            }, null, 8, _hoisted_51)
+            }, null, 8, _hoisted_44)
           ])) : vue.createCommentVNode("", true),
-          _ctx.pluginFaq ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_52, [
-            _hoisted_53,
+          _ctx.pluginFaq ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_45, [
+            _cache[12] || (_cache[12] = vue.createElementVNode("hr", null, null, -1)),
             vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("General_Faq")), 1),
             vue.createElementVNode("div", {
               innerHTML: _ctx.$sanitize(_ctx.pluginFaq)
-            }, null, 8, _hoisted_54)
+            }, null, 8, _hoisted_46)
           ])) : vue.createCommentVNode("", true),
-          _ctx.showReviews ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_55, [
-            _hoisted_56,
+          _ctx.showReviews ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_47, [
+            _cache[13] || (_cache[13] = vue.createElementVNode("hr", null, null, -1)),
             vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("Marketplace_Reviews")), 1),
             vue.createElementVNode("iframe", {
               class: "reviewIframe",
               style: vue.normalizeStyle(_ctx.pluginReviews.height ? `height: ${_ctx.pluginReviews.height}px;` : ""),
               id: _ctx.pluginReviews.embedUrl.replace(/[\W_]+/g, " "),
               src: _ctx.pluginReviews.embedUrl
-            }, null, 12, _hoisted_57)
+            }, null, 12, _hoisted_48)
           ])) : vue.createCommentVNode("", true)
         ], 2),
         vue.createElementVNode("div", {
           class: vue.normalizeClass(["modal-content__footer", { "modal-content__footer--with-free-trial": _ctx.showFreeTrialDropdown }])
         }, [
-          _ctx.showFreeTrialDropdown && _ctx.isMatomoPlugin ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_58)) : vue.createCommentVNode("", true),
-          vue.createElementVNode("div", _hoisted_59, [
-            _ctx.showFreeTrialDropdown ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_60, [
-              vue.createElementVNode("div", _hoisted_61, vue.toDisplayString(_ctx.translate("Marketplace_TryFreeTrialTitle")), 1),
+          _ctx.showFreeTrialDropdown && _ctx.isMatomoPlugin ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_49)) : vue.createCommentVNode("", true),
+          vue.createElementVNode("div", _hoisted_50, [
+            _ctx.showFreeTrialDropdown ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_51, [
+              vue.createElementVNode("div", _hoisted_52, vue.toDisplayString(_ctx.translate("Marketplace_TryFreeTrialTitle")), 1),
               vue.withDirectives(vue.createElementVNode("select", {
                 class: "free-trial-dropdown",
                 title: `${_ctx.translate("Marketplace_ShownPriceIsExclTax")} ${_ctx.translate(
@@ -1480,9 +1469,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                       variation.price,
                       variation.currency
                     )} ${_ctx.translate("Marketplace_CurrentNumPiwikUsers", _ctx.numUsers)}`
-                  }, vue.toDisplayString(variation.name) + " - " + vue.toDisplayString(variation.prettyPrice) + " / " + vue.toDisplayString(variation.period), 9, _hoisted_63);
+                  }, vue.toDisplayString(variation.name) + " - " + vue.toDisplayString(variation.prettyPrice) + " / " + vue.toDisplayString(variation.period), 9, _hoisted_54);
                 }), 128))
-              ], 40, _hoisted_62), [
+              ], 40, _hoisted_53), [
                 [vue.vModelSelect, _ctx.selectedPluginShopVariationUrl]
               ])
             ])) : vue.createCommentVNode("", true),
@@ -1503,7 +1492,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
               onStartFreeTrial: _cache[4] || (_cache[4] = ($event) => _ctx.emitTrialEvent("startFreeTrial"))
             }, null, 8, ["is-super-user", "is-plugins-admin-enabled", "is-multi-server-environment", "is-valid-consumer", "is-auto-update-possible", "activate-nonce", "deactivate-nonce", "install-nonce", "update-nonce", "plugin", "shop-variation-url"])
           ]),
-          !_ctx.showFreeTrialDropdown && _ctx.isMatomoPlugin ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_64)) : vue.createCommentVNode("", true)
+          !_ctx.showFreeTrialDropdown && _ctx.isMatomoPlugin ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_55)) : vue.createCommentVNode("", true)
         ], 2)
       ], 2)) : vue.createCommentVNode("", true)
     ], 512);
@@ -1700,33 +1689,31 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   };
   const _hoisted_2$8 = ["onClick"];
   const _hoisted_3$8 = { class: "card" };
-  const _hoisted_4$8 = { class: "card-content" };
-  const _hoisted_5$7 = ["src"];
-  const _hoisted_6$5 = { class: "content-container" };
-  const _hoisted_7$4 = { class: "card-content-top" };
-  const _hoisted_8$4 = {
+  const _hoisted_4$7 = { class: "card-content" };
+  const _hoisted_5$6 = ["src"];
+  const _hoisted_6$4 = { class: "content-container" };
+  const _hoisted_7$3 = { class: "card-content-top" };
+  const _hoisted_8$3 = {
     key: 0,
     class: "matomo-badge matomo-badge-top",
     src: "plugins/Marketplace/images/matomo-badge.png",
     "aria-label": "Matomo plugin",
     alt: ""
   };
-  const _hoisted_9$4 = { class: "price" };
-  const _hoisted_10$3 = ["onClick"];
-  const _hoisted_11$2 = /* @__PURE__ */ vue.createElementVNode("div", { class: "card-focus" }, null, -1);
-  const _hoisted_12$2 = { class: "card-title" };
-  const _hoisted_13$1 = /* @__PURE__ */ vue.createElementVNode("span", { class: "card-title-chevron" }, " ›", -1);
-  const _hoisted_14$1 = { class: "card-description" };
-  const _hoisted_15$1 = { class: "card-content-bottom" };
-  const _hoisted_16$1 = {
+  const _hoisted_9$2 = { class: "price" };
+  const _hoisted_10$2 = ["onClick"];
+  const _hoisted_11$1 = { class: "card-title" };
+  const _hoisted_12$1 = { class: "card-description" };
+  const _hoisted_13$1 = { class: "card-content-bottom" };
+  const _hoisted_14$1 = {
     key: 0,
     class: "downloads"
   };
-  const _hoisted_17$1 = { class: "owner" };
-  const _hoisted_18$1 = { key: 0 };
-  const _hoisted_19$1 = { key: 1 };
-  const _hoisted_20$1 = { class: "cta-container" };
-  const _hoisted_21$1 = {
+  const _hoisted_15$1 = { class: "owner" };
+  const _hoisted_16$1 = { key: 0 };
+  const _hoisted_17$1 = { key: 1 };
+  const _hoisted_18$1 = { class: "cta-container" };
+  const _hoisted_19$1 = {
     key: 1,
     class: "matomo-badge matomo-badge-bottom",
     src: "plugins/Marketplace/images/matomo-badge.png",
@@ -1787,16 +1774,16 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
               onClick: ($event) => _ctx.clickCard($event, plugin)
             }, [
               vue.createElementVNode("div", _hoisted_3$8, [
-                vue.createElementVNode("div", _hoisted_4$8, [
+                vue.createElementVNode("div", _hoisted_4$7, [
                   vue.createElementVNode("img", {
                     src: `${plugin.coverImage}?w=880&h=480`,
                     alt: "",
                     class: "cover-image"
-                  }, null, 8, _hoisted_5$7),
-                  vue.createElementVNode("div", _hoisted_6$5, [
-                    vue.createElementVNode("div", _hoisted_7$4, [
-                      "piwik" == plugin.owner || "matomo-org" == plugin.owner ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_8$4)) : vue.createCommentVNode("", true),
-                      vue.createElementVNode("div", _hoisted_9$4, [
+                  }, null, 8, _hoisted_5$6),
+                  vue.createElementVNode("div", _hoisted_6$4, [
+                    vue.createElementVNode("div", _hoisted_7$3, [
+                      "piwik" == plugin.owner || "matomo-org" == plugin.owner ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_8$3)) : vue.createCommentVNode("", true),
+                      vue.createElementVNode("div", _hoisted_9$2, [
                         plugin.priceFrom ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
                           vue.createTextVNode(vue.toDisplayString(_ctx.translate(
                             "Marketplace_PriceFromPerPeriod",
@@ -1813,21 +1800,21 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                         href: "#",
                         tabindex: "7"
                       }, [
-                        _hoisted_11$2,
-                        vue.createElementVNode("h2", _hoisted_12$2, [
+                        _cache[10] || (_cache[10] = vue.createElementVNode("div", { class: "card-focus" }, null, -1)),
+                        vue.createElementVNode("h2", _hoisted_11$1, [
                           vue.createTextVNode(vue.toDisplayString(plugin.displayName), 1),
-                          _hoisted_13$1
+                          _cache[9] || (_cache[9] = vue.createElementVNode("span", { class: "card-title-chevron" }, " ›", -1))
                         ])
-                      ], 8, _hoisted_10$3),
-                      vue.createElementVNode("div", _hoisted_14$1, vue.toDisplayString(plugin.description), 1)
+                      ], 8, _hoisted_10$2),
+                      vue.createElementVNode("div", _hoisted_12$1, vue.toDisplayString(plugin.description), 1)
                     ]),
-                    vue.createElementVNode("div", _hoisted_15$1, [
-                      plugin.numDownloads > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_16$1, vue.toDisplayString(plugin.numDownloadsPretty) + " " + vue.toDisplayString(_ctx.translate("General_Downloads").toLowerCase()), 1)) : vue.createCommentVNode("", true),
-                      vue.createElementVNode("div", _hoisted_17$1, [
+                    vue.createElementVNode("div", _hoisted_13$1, [
+                      plugin.numDownloads > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_14$1, vue.toDisplayString(plugin.numDownloadsPretty) + " " + vue.toDisplayString(_ctx.translate("General_Downloads").toLowerCase()), 1)) : vue.createCommentVNode("", true),
+                      vue.createElementVNode("div", _hoisted_15$1, [
                         vue.createTextVNode(vue.toDisplayString(_ctx.translate("Marketplace_CreatedBy")) + " ", 1),
-                        plugin.owner === "piwik" || plugin.owner === "matomo-org" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_18$1, " Matomo")) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_19$1, vue.toDisplayString(plugin.owner), 1))
+                        plugin.owner === "piwik" || plugin.owner === "matomo-org" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_16$1, " Matomo")) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_17$1, vue.toDisplayString(plugin.owner), 1))
                       ]),
-                      vue.createElementVNode("div", _hoisted_20$1, [
+                      vue.createElementVNode("div", _hoisted_18$1, [
                         vue.createVNode(_component_CTAContainer, {
                           "is-super-user": _ctx.isSuperUser,
                           "is-plugins-admin-enabled": _ctx.isPluginsAdminEnabled,
@@ -1845,7 +1832,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                           onStartFreeTrial: ($event) => this.startFreeTrial(plugin)
                         }, null, 8, ["is-super-user", "is-plugins-admin-enabled", "is-multi-server-environment", "is-valid-consumer", "is-auto-update-possible", "activate-nonce", "deactivate-nonce", "install-nonce", "update-nonce", "plugin", "onOpenDetailsModal", "onRequestTrial", "onStartFreeTrial"])
                       ]),
-                      "piwik" == plugin.owner || "matomo-org" == plugin.owner ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_21$1)) : vue.createCommentVNode("", true)
+                      "piwik" == plugin.owner || "matomo-org" == plugin.owner ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_19$1)) : vue.createCommentVNode("", true)
                     ])
                   ])
                 ])
@@ -2026,12 +2013,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   };
   const _hoisted_2$7 = { class: "col s12 m6 l4" };
   const _hoisted_3$7 = { class: "col s12 m6 l4" };
-  const _hoisted_4$7 = {
+  const _hoisted_4$6 = {
     key: 0,
     class: "col s12 m12 l4"
   };
-  const _hoisted_5$6 = { class: "plugin-search" };
-  const _hoisted_6$4 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-search" }, null, -1);
+  const _hoisted_5$5 = { class: "plugin-search" };
   function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     var _a;
     const _component_Field = vue.resolveComponent("Field");
@@ -2062,8 +2048,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             options: _ctx.pluginSortOptions
           }, null, 8, ["model-value", "onUpdate:modelValue", "title", "options"])
         ]),
-        ((_a = _ctx.pluginsToShow) == null ? void 0 : _a.length) > 20 || _ctx.searchQuery ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$7, [
-          vue.createElementVNode("div", _hoisted_5$6, [
+        ((_a = _ctx.pluginsToShow) == null ? void 0 : _a.length) > 20 || _ctx.searchQuery ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$6, [
+          vue.createElementVNode("div", _hoisted_5$5, [
             vue.createElementVNode("div", null, [
               vue.createVNode(_component_Field, {
                 uicontrol: "text",
@@ -2074,7 +2060,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                 "onUpdate:modelValue": _ctx.updateQuery
               }, null, 8, ["title", "model-value", "onUpdate:modelValue"])
             ]),
-            _hoisted_6$4
+            _cache[3] || (_cache[3] = vue.createElementVNode("span", { class: "icon-search" }, null, -1))
           ])
         ])) : vue.createCommentVNode("", true)
       ], 512),
@@ -2210,8 +2196,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     id: "confirmRemoveLicense",
     ref: "confirmRemoveLicense"
   };
-  const _hoisted_4$6 = ["value"];
-  const _hoisted_5$5 = ["value"];
+  const _hoisted_4$5 = ["value"];
+  const _hoisted_5$4 = ["value"];
   function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_InstallAllPaidPluginsButton = vue.resolveComponent("InstallAllPaidPluginsButton");
     const _component_Field = vue.resolveComponent("Field");
@@ -2262,12 +2248,12 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           role: "yes",
           type: "button",
           value: _ctx.translate("General_Yes")
-        }, null, 8, _hoisted_4$6),
+        }, null, 8, _hoisted_4$5),
         vue.createElementVNode("input", {
           role: "no",
           type: "button",
           value: _ctx.translate("General_No")
-        }, null, 8, _hoisted_5$5)
+        }, null, 8, _hoisted_5$4)
       ], 512)
     ], 64);
   }
@@ -2294,16 +2280,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   const _hoisted_1$5 = { class: "getNewPlugins" };
   const _hoisted_2$5 = { class: "row" };
   const _hoisted_3$5 = { class: "pluginName" };
-  const _hoisted_4$5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_5$4 = { key: 0 };
-  const _hoisted_6$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_8$3 = [
-    _hoisted_6$3,
-    _hoisted_7$3
-  ];
-  const _hoisted_9$3 = { class: "widgetBody" };
-  const _hoisted_10$2 = ["href"];
+  const _hoisted_4$4 = { key: 0 };
+  const _hoisted_5$3 = { class: "widgetBody" };
+  const _hoisted_6$3 = ["href"];
   function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_plugin_name = vue.resolveDirective("plugin-name");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$5, [
@@ -2320,19 +2299,22 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             ]),
             vue.createElementVNode("span", null, [
               vue.createTextVNode(vue.toDisplayString(plugin.description) + " ", 1),
-              _hoisted_4$5,
+              _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
               vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", null, [
                 vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_MoreDetails")), 1)
               ])), [
                 [_directive_plugin_name, { pluginName: plugin.name }]
               ])
             ]),
-            index < _ctx.plugins.length - 1 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_5$4, _hoisted_8$3)) : vue.createCommentVNode("", true)
+            index < _ctx.plugins.length - 1 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$4, [..._cache[1] || (_cache[1] = [
+              vue.createElementVNode("br", null, null, -1),
+              vue.createElementVNode("br", null, null, -1)
+            ])])) : vue.createCommentVNode("", true)
           ]);
         }), 128))
       ]),
-      vue.createElementVNode("div", _hoisted_9$3, [
-        vue.createElementVNode("a", { href: _ctx.overviewLink }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_ViewAllMarketplacePlugins")), 9, _hoisted_10$2)
+      vue.createElementVNode("div", _hoisted_5$3, [
+        vue.createElementVNode("a", { href: _ctx.overviewLink }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_ViewAllMarketplacePlugins")), 9, _hoisted_6$3)
       ])
     ]);
   }
@@ -2362,12 +2344,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   };
   const _hoisted_2$4 = { class: "row" };
   const _hoisted_3$4 = ["title"];
-  const _hoisted_4$4 = ["title"];
-  const _hoisted_5$3 = { key: 0 };
-  const _hoisted_6$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7$2 = ["src"];
-  const _hoisted_8$2 = { class: "widgetBody" };
-  const _hoisted_9$2 = ["href"];
+  const _hoisted_4$3 = ["title"];
+  const _hoisted_5$2 = { key: 0 };
+  const _hoisted_6$2 = ["src"];
+  const _hoisted_7$2 = { class: "widgetBody" };
+  const _hoisted_8$2 = ["href"];
   function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_plugin_name = vue.resolveDirective("plugin-name");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$4, [
@@ -2389,23 +2370,23 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             vue.createElementVNode("p", {
               class: "description",
               title: plugin.description
-            }, vue.toDisplayString(plugin.description), 9, _hoisted_4$4),
-            ((_a = plugin.screenshots) == null ? void 0 : _a.length) ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_5$3, [
-              _hoisted_6$2,
+            }, vue.toDisplayString(plugin.description), 9, _hoisted_4$3),
+            ((_a = plugin.screenshots) == null ? void 0 : _a.length) ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_5$2, [
+              _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
               vue.withDirectives(vue.createElementVNode("img", {
                 class: "screenshot",
                 src: `${plugin.screenshots[0]}?w=600`,
                 style: { "width": "100%" },
                 alt: ""
-              }, null, 8, _hoisted_7$2), [
+              }, null, 8, _hoisted_6$2), [
                 [_directive_plugin_name, { pluginName: plugin.name }]
               ])
             ])) : vue.createCommentVNode("", true)
           ]);
         }), 128))
       ]),
-      vue.createElementVNode("div", _hoisted_8$2, [
-        vue.createElementVNode("a", { href: _ctx.marketplaceOverviewLink }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_ViewAllMarketplacePlugins")), 9, _hoisted_9$2)
+      vue.createElementVNode("div", _hoisted_7$2, [
+        vue.createElementVNode("a", { href: _ctx.marketplaceOverviewLink }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_ViewAllMarketplacePlugins")), 9, _hoisted_8$2)
       ])
     ], 512);
   }
@@ -2452,18 +2433,16 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     class: "col s12 m12"
   };
   const _hoisted_3$3 = ["innerHTML"];
-  const _hoisted_4$3 = { style: { "margin-bottom": "28px", "color": "#5bb75b" } };
-  const _hoisted_5$2 = /* @__PURE__ */ vue.createElementVNode("i", { class: "icon-heart red-text" }, null, -1);
-  const _hoisted_6$1 = { class: "pluginName" };
-  const _hoisted_7$1 = {
+  const _hoisted_4$2 = { style: { "margin-bottom": "28px", "color": "#5bb75b" } };
+  const _hoisted_5$1 = { class: "pluginName" };
+  const _hoisted_6$1 = {
     key: 0,
     class: "pluginSubtitle"
   };
-  const _hoisted_8$1 = { class: "pluginBody" };
-  const _hoisted_9$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_10$1 = { class: "pluginMoreDetails" };
-  const _hoisted_11$1 = { class: "widgetBody" };
-  const _hoisted_12$1 = ["href"];
+  const _hoisted_7$1 = { class: "pluginBody" };
+  const _hoisted_8$1 = { class: "pluginMoreDetails" };
+  const _hoisted_9$1 = { class: "widgetBody" };
+  const _hoisted_10$1 = ["href"];
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_plugin_name = vue.resolveDirective("plugin-name");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$3, [
@@ -2477,9 +2456,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
               style: { "font-weight": "bold", "color": "#5bb75b" },
               innerHTML: _ctx.$sanitize(_ctx.trialHintsText)
             }, null, 8, _hoisted_3$3),
-            vue.createElementVNode("h3", _hoisted_4$3, [
+            vue.createElementVNode("h3", _hoisted_4$2, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("Marketplace_SupportMatomoThankYou")) + " ", 1),
-              _hoisted_5$2
+              _cache[0] || (_cache[0] = vue.createElementVNode("i", { class: "icon-heart red-text" }, null, -1))
             ])
           ])) : vue.createCommentVNode("", true),
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(rowOfPlugins, (plugin) => {
@@ -2487,19 +2466,19 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
               class: "col s12 m4",
               key: plugin.name
             }, [
-              vue.withDirectives((vue.openBlock(), vue.createElementBlock("h3", _hoisted_6$1, [
+              vue.withDirectives((vue.openBlock(), vue.createElementBlock("h3", _hoisted_5$1, [
                 vue.createTextVNode(vue.toDisplayString(plugin.displayName), 1)
               ])), [
                 [_directive_plugin_name, { pluginName: plugin.name }]
               ]),
-              plugin.specialOffer ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_7$1, [
+              plugin.specialOffer ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_6$1, [
                 vue.createElementVNode("span", null, vue.toDisplayString(_ctx.translate("Marketplace_SpecialOffer")) + ":", 1),
                 vue.createTextVNode(" " + vue.toDisplayString(plugin.specialOffer), 1)
               ])) : vue.createCommentVNode("", true),
-              vue.createElementVNode("span", _hoisted_8$1, [
+              vue.createElementVNode("span", _hoisted_7$1, [
                 vue.createTextVNode(vue.toDisplayString(plugin.isBundle ? `${_ctx.translate("Marketplace_SpecialOffer")}: ` : "") + vue.toDisplayString(plugin.description) + " ", 1),
-                _hoisted_9$1,
-                vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", _hoisted_10$1, [
+                _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
+                vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", _hoisted_8$1, [
                   vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_MoreDetails")), 1)
                 ])), [
                   [_directive_plugin_name, { pluginName: plugin.name }]
@@ -2509,8 +2488,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           }), 128))
         ]);
       }), 128)),
-      vue.createElementVNode("div", _hoisted_11$1, [
-        vue.createElementVNode("a", { href: _ctx.overviewLink }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_ViewAllMarketplacePlugins")), 9, _hoisted_12$1)
+      vue.createElementVNode("div", _hoisted_9$1, [
+        vue.createElementVNode("a", { href: _ctx.overviewLink }, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_ViewAllMarketplacePlugins")), 9, _hoisted_10$1)
       ])
     ]);
   }
@@ -2632,7 +2611,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   const _hoisted_1$2 = { class: "marketplaceIntro" };
   const _hoisted_2$2 = { key: 0 };
   const _hoisted_3$2 = { key: 1 };
-  const _hoisted_4$2 = {
+  const _hoisted_4$1 = {
     key: 0,
     class: "installAllPaidPlugins"
   };
@@ -2655,7 +2634,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       vue.createElementVNode("div", _hoisted_1$2, [
         !_ctx.isSuperUser ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_2$2, vue.toDisplayString(_ctx.translate("Marketplace_Intro")), 1)) : (vue.openBlock(), vue.createElementBlock("p", _hoisted_3$2, vue.toDisplayString(_ctx.translate("Marketplace_IntroSuperUser")), 1))
       ]),
-      _ctx.installAllPaidPluginsVisible ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$2, [
+      _ctx.installAllPaidPluginsVisible ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$1, [
         vue.createVNode(_component_InstallAllPaidPluginsButton, { disabled: _ctx.installDisabled }, null, 8, ["disabled"])
       ])) : vue.createCommentVNode("", true),
       vue.createVNode(_component_Marketplace, {
@@ -2742,40 +2721,35 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   });
   const _hoisted_1$1 = { key: 0 };
   const _hoisted_2$1 = ["href"];
-  const _hoisted_3$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_5$1 = ["innerHTML"];
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7 = { class: "subscriptionName" };
-  const _hoisted_8 = ["href"];
-  const _hoisted_9 = { key: 1 };
-  const _hoisted_10 = { class: "subscriptionType" };
-  const _hoisted_11 = ["title"];
-  const _hoisted_12 = {
+  const _hoisted_3$1 = ["innerHTML"];
+  const _hoisted_4 = { class: "subscriptionName" };
+  const _hoisted_5 = ["href"];
+  const _hoisted_6 = { key: 1 };
+  const _hoisted_7 = { class: "subscriptionType" };
+  const _hoisted_8 = ["title"];
+  const _hoisted_9 = {
     key: 0,
     class: "icon-error"
   };
-  const _hoisted_13 = {
+  const _hoisted_10 = {
     key: 1,
     class: "icon-warning"
   };
-  const _hoisted_14 = {
+  const _hoisted_11 = {
     key: 2,
     class: "icon-error"
   };
-  const _hoisted_15 = {
+  const _hoisted_12 = {
     key: 3,
     class: "icon-ok"
   };
-  const _hoisted_16 = ["title"];
-  const _hoisted_17 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-error" }, null, -1);
-  const _hoisted_18 = { key: 0 };
-  const _hoisted_19 = { colspan: "6" };
-  const _hoisted_20 = { class: "tableActionBar" };
-  const _hoisted_21 = ["href"];
-  const _hoisted_22 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-table" }, null, -1);
-  const _hoisted_23 = { key: 1 };
-  const _hoisted_24 = ["innerHTML"];
+  const _hoisted_13 = ["title"];
+  const _hoisted_14 = { key: 0 };
+  const _hoisted_15 = { colspan: "6" };
+  const _hoisted_16 = { class: "tableActionBar" };
+  const _hoisted_17 = ["href"];
+  const _hoisted_18 = { key: 1 };
+  const _hoisted_19 = ["innerHTML"];
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
     const _directive_content_table = vue.resolveDirective("content-table");
@@ -2793,18 +2767,18 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
               rel: "noreferrer noopener",
               href: _ctx.loginUrl
             }, vue.toDisplayString(_ctx.translate("Marketplace_OverviewPluginSubscriptionsAllDetails")), 9, _hoisted_2$1)) : vue.createCommentVNode("", true),
-            _hoisted_3$1,
+            _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Marketplace_OverviewPluginSubscriptionsMissingInfo")) + " ", 1),
-            _hoisted_4$1,
+            _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Marketplace_NoValidSubscriptionNoUpdates")) + " ", 1),
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.translate(
                 "Marketplace_CurrentNumPiwikUsers",
                 `<strong>${_ctx.numUsers}</strong>`
               ))
-            }, null, 8, _hoisted_5$1)
+            }, null, 8, _hoisted_3$1)
           ]),
-          _hoisted_6,
+          _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1)),
           vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", null, [
             vue.createElementVNode("thead", null, [
               vue.createElementVNode("tr", null, [
@@ -2819,55 +2793,55 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             vue.createElementVNode("tbody", null, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.subscriptions || [], (subscription, index) => {
                 return vue.openBlock(), vue.createElementBlock("tr", { key: index }, [
-                  vue.createElementVNode("td", _hoisted_7, [
+                  vue.createElementVNode("td", _hoisted_4, [
                     subscription.plugin.htmlUrl ? (vue.openBlock(), vue.createElementBlock("a", {
                       key: 0,
                       href: subscription.plugin.htmlUrl,
                       rel: "noreferrer noopener",
                       target: "_blank"
-                    }, vue.toDisplayString(subscription.plugin.displayName), 9, _hoisted_8)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_9, vue.toDisplayString(subscription.plugin.displayName), 1))
+                    }, vue.toDisplayString(subscription.plugin.displayName), 9, _hoisted_5)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_6, vue.toDisplayString(subscription.plugin.displayName), 1))
                   ]),
-                  vue.createElementVNode("td", _hoisted_10, vue.toDisplayString(subscription.productType), 1),
+                  vue.createElementVNode("td", _hoisted_7, vue.toDisplayString(subscription.productType), 1),
                   vue.createElementVNode("td", {
                     class: "subscriptionStatus",
                     title: _ctx.getSubscriptionStatusTitle(subscription)
                   }, [
-                    !subscription.isValid ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_12)) : subscription.isExpiredSoon ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_13)) : subscription.status !== "" && subscription.status !== "Active" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_14)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_15)),
+                    !subscription.isValid ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_9)) : subscription.isExpiredSoon ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_10)) : subscription.status !== "" && subscription.status !== "Active" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_11)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_12)),
                     vue.createTextVNode(" " + vue.toDisplayString(subscription.status) + " ", 1),
                     subscription.isExceeded ? (vue.openBlock(), vue.createElementBlock("span", {
                       key: 4,
                       class: "errorMessage",
                       title: _ctx.translate("Marketplace_LicenseExceededPossibleCause")
                     }, [
-                      _hoisted_17,
+                      _cache[2] || (_cache[2] = vue.createElementVNode("span", { class: "icon-error" }, null, -1)),
                       vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Marketplace_Exceeded")), 1)
-                    ], 8, _hoisted_16)) : vue.createCommentVNode("", true)
-                  ], 8, _hoisted_11),
+                    ], 8, _hoisted_13)) : vue.createCommentVNode("", true)
+                  ], 8, _hoisted_8),
                   vue.createElementVNode("td", null, vue.toDisplayString(subscription.start), 1),
                   vue.createElementVNode("td", null, vue.toDisplayString(subscription.isValid && subscription.nextPayment ? _ctx.translate("Marketplace_LicenseRenewsNextPaymentDate") : subscription.end), 1),
                   vue.createElementVNode("td", null, vue.toDisplayString(subscription.nextPayment), 1)
                 ]);
               }), 128)),
-              !_ctx.subscriptions.length ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_18, [
-                vue.createElementVNode("td", _hoisted_19, vue.toDisplayString(_ctx.translate("Marketplace_NoSubscriptionsFound")), 1)
+              !_ctx.subscriptions.length ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_14, [
+                vue.createElementVNode("td", _hoisted_15, vue.toDisplayString(_ctx.translate("Marketplace_NoSubscriptionsFound")), 1)
               ])) : vue.createCommentVNode("", true)
             ])
           ])), [
             [_directive_content_table]
           ]),
-          vue.createElementVNode("div", _hoisted_20, [
+          vue.createElementVNode("div", _hoisted_16, [
             vue.createElementVNode("a", {
               href: _ctx.marketplaceOverviewLink,
               class: ""
             }, [
-              _hoisted_22,
+              _cache[3] || (_cache[3] = vue.createElementVNode("span", { class: "icon-table" }, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Marketplace_BrowseMarketplace")), 1)
-            ], 8, _hoisted_21)
+            ], 8, _hoisted_17)
           ])
-        ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_23, [
+        ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_18, [
           vue.createElementVNode("p", {
             innerHTML: _ctx.$sanitize(_ctx.missingLicenseText)
-          }, null, 8, _hoisted_24)
+          }, null, 8, _hoisted_19)
         ]))
       ]),
       _: 1
@@ -2876,15 +2850,13 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   const SubscriptionOverview = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
   const _sfc_main = vue.defineComponent({});
   const _hoisted_1 = { class: "richMarketplaceMenuButton" };
-  const _hoisted_2 = /* @__PURE__ */ vue.createElementVNode("hr", null, null, -1);
-  const _hoisted_3 = { class: "intro" };
-  const _hoisted_4 = { class: "cta" };
-  const _hoisted_5 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-marketplace" }, " ", -1);
+  const _hoisted_2 = { class: "intro" };
+  const _hoisted_3 = { class: "cta" };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
-      _hoisted_2,
-      vue.createElementVNode("p", _hoisted_3, vue.toDisplayString(_ctx.translate("Marketplace_RichMenuIntro")), 1),
-      vue.createElementVNode("p", _hoisted_4, [
+      _cache[3] || (_cache[3] = vue.createElementVNode("hr", null, null, -1)),
+      vue.createElementVNode("p", _hoisted_2, vue.toDisplayString(_ctx.translate("Marketplace_RichMenuIntro")), 1),
+      vue.createElementVNode("p", _hoisted_3, [
         vue.createElementVNode("a", {
           class: "btn btn-outline",
           tabindex: "5",
@@ -2892,7 +2864,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.$emit("action"), ["prevent"])),
           onKeyup: _cache[1] || (_cache[1] = vue.withKeys(($event) => _ctx.$emit("action"), ["enter"]))
         }, [
-          _hoisted_5,
+          _cache[2] || (_cache[2] = vue.createElementVNode("span", { class: "icon-marketplace" }, " ", -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Marketplace_Marketplace")), 1)
         ], 32)
       ])

@@ -30,17 +30,7 @@
     }
     return target;
   };
-  const _withScopeId = (n) => (vue.pushScopeId("data-v-88b1496f"), n = n(), vue.popScopeId(), n);
   const _hoisted_1 = { class: "example-component" };
-  const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ vue.createElementVNode("div", { class: "ui-confirm exampleDialog" }, [
-    /* @__PURE__ */ vue.createElementVNode("h2", null, "Alert"),
-    /* @__PURE__ */ vue.createElementVNode("p", null, " The count is greater than 15 right now! "),
-    /* @__PURE__ */ vue.createElementVNode("input", {
-      type: "button",
-      value: "OK",
-      role: "yes"
-    })
-  ], -1));
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_MatomoDialog = vue.resolveComponent("MatomoDialog");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
@@ -55,9 +45,17 @@
         modelValue: _ctx.showDialog,
         "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => _ctx.showDialog = $event)
       }, {
-        default: vue.withCtx(() => [
-          _hoisted_2
-        ]),
+        default: vue.withCtx(() => [..._cache[3] || (_cache[3] = [
+          vue.createElementVNode("div", { class: "ui-confirm exampleDialog" }, [
+            vue.createElementVNode("h2", null, "Alert"),
+            vue.createElementVNode("p", null, " The count is greater than 15 right now! "),
+            vue.createElementVNode("input", {
+              type: "button",
+              value: "OK",
+              role: "yes"
+            })
+          ], -1)
+        ])]),
         _: 1
       }, 8, ["modelValue"])
     ]);

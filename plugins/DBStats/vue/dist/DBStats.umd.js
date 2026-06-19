@@ -32,8 +32,7 @@
     }
     return target;
   };
-  const _hoisted_1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_2 = ["innerHTML"];
+  const _hoisted_1 = ["innerHTML"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _directive_content_intro = vue.resolveDirective("content-intro");
@@ -48,10 +47,10 @@
       ]),
       vue.createElementVNode("p", null, [
         vue.createTextVNode(vue.toDisplayString(_ctx.translate("DBStats_MainDescription", _ctx.totalSpaceUsed)), 1),
-        _hoisted_1,
+        _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
         vue.createElementVNode("span", {
           innerHTML: _ctx.$sanitize(_ctx.learnMoreText)
-        }, null, 8, _hoisted_2)
+        }, null, 8, _hoisted_1)
       ])
     ])), [
       [_directive_content_intro]

@@ -61,40 +61,37 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     }
     return target;
   };
-  const _hoisted_1$6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_2$6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_3$6 = { class: "alert alert-warning" };
-  const _hoisted_4$5 = {
+  const _hoisted_1$5 = { class: "alert alert-warning" };
+  const _hoisted_2$5 = {
     key: 0,
     class: "twoFactorRecoveryCodes browser-default"
   };
-  const _hoisted_5$5 = {
+  const _hoisted_3$4 = {
     key: 1,
     class: "alert alert-danger"
   };
-  const _hoisted_6$4 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7$4 = ["value"];
-  const _hoisted_8$3 = ["value"];
-  const _hoisted_9$3 = ["value"];
+  const _hoisted_4$4 = ["value"];
+  const _hoisted_5$4 = ["value"];
+  const _hoisted_6$3 = ["value"];
   function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     var _a;
     const _directive_select_on_focus = vue.resolveDirective("select-on-focus");
     return vue.openBlock(), vue.createElementBlock("div", null, [
       vue.createElementVNode("p", null, [
         vue.createTextVNode(vue.toDisplayString(_ctx.translate("TwoFactorAuth_RecoveryCodesExplanation")), 1),
-        _hoisted_1$6,
-        _hoisted_2$6
+        _cache[3] || (_cache[3] = vue.createElementVNode("br", null, null, -1)),
+        _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1))
       ]),
-      vue.createElementVNode("div", _hoisted_3$6, vue.toDisplayString(_ctx.translate("TwoFactorAuth_RecoveryCodesSecurity")), 1),
-      ((_a = _ctx.codes) == null ? void 0 : _a.length) ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("ul", _hoisted_4$5, [
+      vue.createElementVNode("div", _hoisted_1$5, vue.toDisplayString(_ctx.translate("TwoFactorAuth_RecoveryCodesSecurity")), 1),
+      ((_a = _ctx.codes) == null ? void 0 : _a.length) ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("ul", _hoisted_2$5, [
         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.codes, (code, index) => {
           return vue.openBlock(), vue.createElementBlock("li", { key: index }, vue.toDisplayString(code.toUpperCase().match(/.{1,4}/g).join("-")), 1);
         }), 128))
       ])), [
         [_directive_select_on_focus, {}]
-      ]) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$5, vue.toDisplayString(_ctx.translate("TwoFactorAuth_RecoveryCodesAllUsed")), 1)),
+      ]) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$4, vue.toDisplayString(_ctx.translate("TwoFactorAuth_RecoveryCodesAllUsed")), 1)),
       vue.createElementVNode("p", null, [
-        _hoisted_6$4,
+        _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1)),
         vue.createElementVNode("input", {
           type: "button",
           class: "btn backupRecoveryCode",
@@ -104,7 +101,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           }),
           value: _ctx.translate("General_Download"),
           style: { "margin-right": "3.5px" }
-        }, null, 8, _hoisted_7$4),
+        }, null, 8, _hoisted_4$4),
         vue.createElementVNode("input", {
           type: "button",
           class: "btn backupRecoveryCode",
@@ -114,7 +111,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           }),
           value: _ctx.translate("General_Print"),
           style: { "margin-right": "3.5px" }
-        }, null, 8, _hoisted_8$3),
+        }, null, 8, _hoisted_5$4),
         vue.createElementVNode("input", {
           type: "button",
           class: "btn backupRecoveryCode",
@@ -123,7 +120,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             _ctx.$emit("downloaded");
           }),
           value: _ctx.translate("General_Copy")
-        }, null, 8, _hoisted_9$3)
+        }, null, 8, _hoisted_6$3)
       ])
     ]);
   }
@@ -156,19 +153,17 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       }
     }
   });
-  const _hoisted_1$5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_2$5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_3$5 = {
+  const _hoisted_1$4 = {
     key: 0,
     class: "alert alert-success"
   };
-  const _hoisted_4$4 = {
+  const _hoisted_2$4 = {
     key: 1,
     class: "alert alert-danger"
   };
-  const _hoisted_5$4 = ["action"];
-  const _hoisted_6$3 = ["value"];
-  const _hoisted_7$3 = ["value"];
+  const _hoisted_3$3 = ["action"];
+  const _hoisted_4$3 = ["value"];
+  const _hoisted_5$3 = ["value"];
   function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ShowRecoveryCodes = vue.resolveComponent("ShowRecoveryCodes");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
@@ -178,11 +173,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_GenerateNewRecoveryCodes")), 1),
         vue.createElementVNode("p", null, [
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("TwoFactorAuth_GenerateNewRecoveryCodesInfo")), 1),
-          _hoisted_1$5,
-          _hoisted_2$5
+          _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
+          _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1))
         ]),
-        _ctx.regenerateSuccess ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$5, vue.toDisplayString(_ctx.translate("TwoFactorAuth_RecoveryCodesRegenerated")), 1)) : vue.createCommentVNode("", true),
-        _ctx.regenerateError ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$4, vue.toDisplayString(_ctx.translate("General_ExceptionSecurityCheckFailed")), 1)) : vue.createCommentVNode("", true),
+        _ctx.regenerateSuccess ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$4, vue.toDisplayString(_ctx.translate("TwoFactorAuth_RecoveryCodesRegenerated")), 1)) : vue.createCommentVNode("", true),
+        _ctx.regenerateError ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$4, vue.toDisplayString(_ctx.translate("General_ExceptionSecurityCheckFailed")), 1)) : vue.createCommentVNode("", true),
         vue.createElementVNode("form", {
           method: "post",
           action: _ctx.showRecoveryCodesLink
@@ -191,57 +186,52 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             type: "hidden",
             name: "regenerateNonce",
             value: _ctx.regenerateNonce
-          }, null, 8, _hoisted_6$3),
+          }, null, 8, _hoisted_4$3),
           vue.createElementVNode("input", {
             type: "submit",
             class: "btn",
             value: _ctx.translate("TwoFactorAuth_GenerateNewRecoveryCodes")
-          }, null, 8, _hoisted_7$3)
-        ], 8, _hoisted_5$4)
+          }, null, 8, _hoisted_5$3)
+        ], 8, _hoisted_3$3)
       ]),
       _: 1
     }, 8, ["content-title"]);
   }
   const ShowRecoveryCodesPage = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
   const _sfc_main$4 = vue.defineComponent({});
-  const _hoisted_1$4 = /* @__PURE__ */ vue.createElementVNode("a", {
-    target: "_blank",
-    rel: "noreferrer noopener",
-    href: "https://github.com/andOTP/andOTP#downloads"
-  }, "andOTP", -1);
-  const _hoisted_2$4 = /* @__PURE__ */ vue.createElementVNode("a", {
-    target: "_blank",
-    rel: "noreferrer noopener",
-    href: "https://authy.com/guides/github/"
-  }, "Authy", -1);
-  const _hoisted_3$4 = /* @__PURE__ */ vue.createElementVNode("a", {
-    target: "_blank",
-    rel: "noreferrer noopener",
-    href: "https://support.1password.com/one-time-passwords/"
-  }, "1Password", -1);
-  const _hoisted_4$3 = /* @__PURE__ */ vue.createElementVNode("a", {
-    target: "_blank",
-    rel: "noreferrer noopener",
-    href: "https://helpdesk.lastpass.com/multifactor-authentication-options/lastpass-authenticator/"
-  }, "LastPass Authenticator", -1);
-  const _hoisted_5$3 = /* @__PURE__ */ vue.createElementVNode("a", {
-    target: "_blank",
-    rel: "noreferrer noopener",
-    href: "https://support.google.com/accounts/answer/1066447"
-  }, "Google Authenticator", -1);
   function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("p", null, [
       vue.createTextVNode(vue.toDisplayString(_ctx.translate("TwoFactorAuth_SetupAuthenticatorOnDeviceStep1")) + " ", 1),
-      _hoisted_1$4,
-      vue.createTextVNode(", "),
-      _hoisted_2$4,
-      vue.createTextVNode(", "),
-      _hoisted_3$4,
-      vue.createTextVNode(", "),
-      _hoisted_4$3,
+      _cache[0] || (_cache[0] = vue.createElementVNode("a", {
+        target: "_blank",
+        rel: "noreferrer noopener",
+        href: "https://github.com/andOTP/andOTP#downloads"
+      }, "andOTP", -1)),
+      _cache[1] || (_cache[1] = vue.createTextVNode(", ", -1)),
+      _cache[2] || (_cache[2] = vue.createElementVNode("a", {
+        target: "_blank",
+        rel: "noreferrer noopener",
+        href: "https://authy.com/guides/github/"
+      }, "Authy", -1)),
+      _cache[3] || (_cache[3] = vue.createTextVNode(", ", -1)),
+      _cache[4] || (_cache[4] = vue.createElementVNode("a", {
+        target: "_blank",
+        rel: "noreferrer noopener",
+        href: "https://support.1password.com/one-time-passwords/"
+      }, "1Password", -1)),
+      _cache[5] || (_cache[5] = vue.createTextVNode(", ", -1)),
+      _cache[6] || (_cache[6] = vue.createElementVNode("a", {
+        target: "_blank",
+        rel: "noreferrer noopener",
+        href: "https://helpdesk.lastpass.com/multifactor-authentication-options/lastpass-authenticator/"
+      }, "LastPass Authenticator", -1)),
       vue.createTextVNode(", " + vue.toDisplayString(_ctx.translate("General_Or")) + " ", 1),
-      _hoisted_5$3,
-      vue.createTextVNode(". ")
+      _cache[7] || (_cache[7] = vue.createElementVNode("a", {
+        target: "_blank",
+        rel: "noreferrer noopener",
+        href: "https://support.google.com/accounts/answer/1066447"
+      }, "Google Authenticator", -1)),
+      _cache[8] || (_cache[8] = vue.createTextVNode(". ", -1))
     ]);
   }
   const InstallOTPApp = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
@@ -357,42 +347,30 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     key: 0,
     class: "alert alert-warning"
   };
-  const _hoisted_3$3 = ["disabled"];
-  const _hoisted_4$2 = /* @__PURE__ */ vue.createElementVNode("a", {
-    name: "twoFactorStep2",
-    id: "twoFactorStep2",
-    style: { "opacity": "0" }
-  }, null, -1);
-  const _hoisted_5$2 = ["innerHTML"];
-  const _hoisted_6$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7$2 = /* @__PURE__ */ vue.createElementVNode("a", {
-    name: "twoFactorStep3",
-    id: "twoFactorStep3",
-    style: { "opacity": "0" }
-  }, null, -1);
-  const _hoisted_8$2 = {
+  const _hoisted_3$2 = ["disabled"];
+  const _hoisted_4$2 = ["innerHTML"];
+  const _hoisted_5$2 = {
     key: 0,
     class: "message_container"
   };
-  const _hoisted_9$2 = ["innerHTML"];
-  const _hoisted_10$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_11$2 = ["action"];
-  const _hoisted_12$2 = ["value"];
-  const _hoisted_13$2 = ["disabled", "value"];
-  const _hoisted_14$2 = { class: "ui-confirm two-fa-qr-code-dialog" };
-  const _hoisted_15$2 = { class: "row" };
-  const _hoisted_16$2 = { class: "col l8 offset-l2 m10 offset-m1 s12 center-align" };
-  const _hoisted_17$2 = {
+  const _hoisted_6$2 = ["innerHTML"];
+  const _hoisted_7$2 = ["action"];
+  const _hoisted_8$2 = ["value"];
+  const _hoisted_9$2 = ["disabled", "value"];
+  const _hoisted_10$2 = { class: "ui-confirm two-fa-qr-code-dialog" };
+  const _hoisted_11$2 = { class: "row" };
+  const _hoisted_12$2 = { class: "col l8 offset-l2 m10 offset-m1 s12 center-align" };
+  const _hoisted_13$2 = {
     id: "qrcode",
     ref: "qrcode",
     title: ""
   };
-  const _hoisted_18$2 = { class: "text-code" };
-  const _hoisted_19$2 = ["innerHTML"];
-  const _hoisted_20$2 = { class: "row" };
-  const _hoisted_21$1 = { class: "col l8 offset-l2 m10 offset-m1 s12" };
-  const _hoisted_22 = ["value"];
-  const _hoisted_23 = ["value"];
+  const _hoisted_14$1 = { class: "text-code" };
+  const _hoisted_15$1 = ["innerHTML"];
+  const _hoisted_16$1 = { class: "row" };
+  const _hoisted_17 = { class: "col l8 offset-l2 m10 offset-m1 s12" };
+  const _hoisted_18 = ["value"];
+  const _hoisted_19 = ["value"];
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ShowRecoveryCodes = vue.resolveComponent("ShowRecoveryCodes");
     const _component_InstallOTPApp = vue.resolveComponent("InstallOTPApp");
@@ -421,19 +399,23 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
               class: "btn goToStep2",
               onClick: _cache[1] || (_cache[1] = ($event) => _ctx.nextStep()),
               disabled: !_ctx.hasDownloadedRecoveryCode
-            }, vue.toDisplayString(_ctx.translate("General_Next")), 9, _hoisted_3$3), [
+            }, vue.toDisplayString(_ctx.translate("General_Next")), 9, _hoisted_3$2), [
               [vue.vShow, _ctx.step === 1]
             ])
           ]),
-          _hoisted_4$2,
+          _cache[9] || (_cache[9] = vue.createElementVNode("a", {
+            name: "twoFactorStep2",
+            id: "twoFactorStep2",
+            style: { "opacity": "0" }
+          }, null, -1)),
           vue.withDirectives(vue.createElementVNode("div", null, [
             vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_StepX", 2)) + " - " + vue.toDisplayString(_ctx.translate("TwoFactorAuth_SetupAuthenticatorOnDevice")), 1),
             vue.createVNode(_component_InstallOTPApp),
             vue.createElementVNode("p", {
               innerHTML: _ctx.$sanitize(_ctx.setupAuthenticatorOnDeviceStep2ShowCodes)
-            }, null, 8, _hoisted_5$2),
+            }, null, 8, _hoisted_4$2),
             vue.createElementVNode("p", null, [
-              _hoisted_6$2,
+              _cache[6] || (_cache[6] = vue.createElementVNode("br", null, null, -1)),
               vue.withDirectives(vue.createElementVNode("button", {
                 class: "btn showOtpCodes",
                 onClick: _cache[2] || (_cache[2] = ($event) => _ctx.showQrCodeModal())
@@ -444,11 +426,15 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           ], 512), [
             [vue.vShow, _ctx.step >= 2]
           ]),
-          _hoisted_7$2,
+          _cache[10] || (_cache[10] = vue.createElementVNode("a", {
+            name: "twoFactorStep3",
+            id: "twoFactorStep3",
+            style: { "opacity": "0" }
+          }, null, -1)),
           vue.withDirectives(vue.createElementVNode("div", null, [
             vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_StepX", 3)) + " - " + vue.toDisplayString(_ctx.translate("TwoFactorAuth_ConfirmSetup")), 1),
             vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_VerifyAuthCodeIntro")), 1),
-            _ctx.accessErrorString ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_8$2, [
+            _ctx.accessErrorString ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$2, [
               vue.createElementVNode("div", null, [
                 vue.createVNode(_component_Notification, {
                   noclear: true,
@@ -456,11 +442,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                 }, {
                   default: vue.withCtx(() => [
                     vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.translate("General_Error")), 1),
-                    vue.createTextVNode(": "),
+                    _cache[7] || (_cache[7] = vue.createTextVNode(": ", -1)),
                     vue.createElementVNode("span", {
                       innerHTML: _ctx.$sanitize(_ctx.accessErrorString)
-                    }, null, 8, _hoisted_9$2),
-                    _hoisted_10$2
+                    }, null, 8, _hoisted_6$2),
+                    _cache[8] || (_cache[8] = vue.createElementVNode("br", null, null, -1))
                   ]),
                   _: 1
                 })
@@ -491,14 +477,14 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                 type: "hidden",
                 name: "authCodeNonce",
                 value: _ctx.authCodeNonce
-              }, null, 8, _hoisted_12$2),
+              }, null, 8, _hoisted_8$2),
               vue.createElementVNode("input", {
                 type: "submit",
                 class: "btn confirmAuthCode",
                 disabled: _ctx.authCode.length !== 6,
                 value: _ctx.translate("General_Confirm")
-              }, null, 8, _hoisted_13$2)
-            ], 8, _hoisted_11$2)
+              }, null, 8, _hoisted_9$2)
+            ], 8, _hoisted_7$2)
           ], 512), [
             [vue.vShow, _ctx.step >= 3]
           ]),
@@ -512,16 +498,16 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             options: { focusSelector: ".modal-action.btn" }
           }, {
             default: vue.withCtx(() => [
-              vue.createElementVNode("div", _hoisted_14$2, [
+              vue.createElementVNode("div", _hoisted_10$2, [
                 vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_Your2FaAuthSecret")), 1),
-                vue.createElementVNode("div", _hoisted_15$2, [
-                  vue.createElementVNode("div", _hoisted_16$2, [
+                vue.createElementVNode("div", _hoisted_11$2, [
+                  vue.createElementVNode("div", _hoisted_12$2, [
                     vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_ShowCodeModalInstructions1")), 1),
                     vue.createElementVNode("p", null, [
-                      vue.createElementVNode("span", _hoisted_17$2, null, 512)
+                      vue.createElementVNode("span", _hoisted_13$2, null, 512)
                     ]),
                     vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_ShowCodeModalInstructions2")), 1),
-                    vue.createElementVNode("div", _hoisted_18$2, [
+                    vue.createElementVNode("div", _hoisted_14$1, [
                       vue.withDirectives((vue.openBlock(), vue.createElementBlock("pre", null, [
                         vue.createTextVNode(vue.toDisplayString(_ctx.newSecret), 1)
                       ])), [
@@ -530,11 +516,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                     ]),
                     vue.createElementVNode("p", {
                       innerHTML: _ctx.$sanitize(_ctx.showCodeModalInstructions3)
-                    }, null, 8, _hoisted_19$2)
+                    }, null, 8, _hoisted_15$1)
                   ])
                 ]),
-                vue.createElementVNode("div", _hoisted_20$2, [
-                  vue.createElementVNode("div", _hoisted_21$1, [
+                vue.createElementVNode("div", _hoisted_16$1, [
+                  vue.createElementVNode("div", _hoisted_17, [
                     vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_DontHaveOTPApp")), 1),
                     vue.createVNode(_component_InstallOTPApp)
                   ])
@@ -543,12 +529,12 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                   role: "validation",
                   type: "button",
                   value: _ctx.translate("General_Continue")
-                }, null, 8, _hoisted_22),
+                }, null, 8, _hoisted_18),
                 vue.createElementVNode("input", {
                   role: "no",
                   type: "button",
                   value: _ctx.translate("General_Cancel")
-                }, null, 8, _hoisted_23)
+                }, null, 8, _hoisted_19)
               ])
             ]),
             _: 1
@@ -629,38 +615,17 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   });
   const _hoisted_1$2 = { class: "message_container" };
   const _hoisted_2$2 = ["innerHTML"];
-  const _hoisted_3$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4$1 = { class: "row" };
-  const _hoisted_5$1 = { class: "col s12 input-field" };
-  const _hoisted_6$1 = ["value"];
-  const _hoisted_7$1 = /* @__PURE__ */ vue.createElementVNode("input", {
-    type: "text",
-    name: "form_authcode",
-    placeholder: "",
-    id: "form_authcode",
-    class: "input",
-    value: "",
-    size: "20",
-    autocorrect: "off",
-    autocapitalize: "none",
-    autocomplete: "one-time-code",
-    tabindex: "10",
-    autofocus: "autofocus"
-  }, null, -1);
-  const _hoisted_8$1 = { for: "form_authcode" };
-  const _hoisted_9$1 = /* @__PURE__ */ vue.createElementVNode("i", { class: "icon-user icon" }, null, -1);
-  const _hoisted_10$1 = { class: "row actions" };
-  const _hoisted_11$1 = { class: "col s12" };
-  const _hoisted_12$1 = ["value"];
-  const _hoisted_13$1 = ["innerHTML"];
-  const _hoisted_14$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_15$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_16$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_17$1 = ["href"];
-  const _hoisted_18$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_19$1 = ["href"];
-  const _hoisted_20$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_21 = ["href"];
+  const _hoisted_3$1 = { class: "row" };
+  const _hoisted_4$1 = { class: "col s12 input-field" };
+  const _hoisted_5$1 = ["value"];
+  const _hoisted_6$1 = { for: "form_authcode" };
+  const _hoisted_7$1 = { class: "row actions" };
+  const _hoisted_8$1 = { class: "col s12" };
+  const _hoisted_9$1 = ["value"];
+  const _hoisted_10$1 = ["innerHTML"];
+  const _hoisted_11$1 = ["href"];
+  const _hoisted_12$1 = ["href"];
+  const _hoisted_13$1 = ["href"];
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_FormErrors = vue.resolveComponent("FormErrors");
     const _component_Notification = vue.resolveComponent("Notification");
@@ -680,40 +645,53 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           }, {
             default: vue.withCtx(() => [
               vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.translate("General_Error")), 1),
-              vue.createTextVNode(": "),
+              _cache[0] || (_cache[0] = vue.createTextVNode(": ", -1)),
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.accessErrorString)
               }, null, 8, _hoisted_2$2),
-              _hoisted_3$2
+              _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1))
             ]),
             _: 1
           })) : vue.createCommentVNode("", true)
         ]),
         vue.createElementVNode("form", vue.mergeProps(_ctx.formDataAttributes, { class: "loginTwoFaForm" }), [
-          vue.createElementVNode("div", _hoisted_4$1, [
-            vue.createElementVNode("div", _hoisted_5$1, [
+          vue.createElementVNode("div", _hoisted_3$1, [
+            vue.createElementVNode("div", _hoisted_4$1, [
               vue.createElementVNode("input", {
                 type: "hidden",
                 name: "form_nonce",
                 id: "login_form_nonce",
                 value: _ctx.formNonce
-              }, null, 8, _hoisted_6$1),
-              _hoisted_7$1,
-              vue.createElementVNode("label", _hoisted_8$1, [
-                _hoisted_9$1,
+              }, null, 8, _hoisted_5$1),
+              _cache[3] || (_cache[3] = vue.createElementVNode("input", {
+                type: "text",
+                name: "form_authcode",
+                placeholder: "",
+                id: "form_authcode",
+                class: "input",
+                value: "",
+                size: "20",
+                autocorrect: "off",
+                autocapitalize: "none",
+                autocomplete: "one-time-code",
+                tabindex: "10",
+                autofocus: "autofocus"
+              }, null, -1)),
+              vue.createElementVNode("label", _hoisted_6$1, [
+                _cache[2] || (_cache[2] = vue.createElementVNode("i", { class: "icon-user icon" }, null, -1)),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("TwoFactorAuth_AuthenticationCode")), 1)
               ])
             ])
           ]),
-          vue.createElementVNode("div", _hoisted_10$1, [
-            vue.createElementVNode("div", _hoisted_11$1, [
+          vue.createElementVNode("div", _hoisted_7$1, [
+            vue.createElementVNode("div", _hoisted_8$1, [
               vue.createElementVNode("input", {
                 class: "submit btn btn-block",
                 id: "login_form_submit",
                 type: "submit",
                 value: _ctx.translate("TwoFactorAuth_Verify"),
                 tabindex: "100"
-              }, null, 8, _hoisted_12$1)
+              }, null, 8, _hoisted_9$1)
             ])
           ])
         ], 16),
@@ -721,26 +699,26 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("TwoFactorAuth_VerifyIdentifyExplanation")) + " ", 1),
           vue.createElementVNode("span", {
             innerHTML: _ctx.$sanitize(_ctx.learnMoreText)
-          }, null, 8, _hoisted_13$1),
-          _hoisted_14$1,
-          _hoisted_15$1,
+          }, null, 8, _hoisted_10$1),
+          _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1)),
+          _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1)),
           vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_DontHaveYourMobileDevice")), 1),
-          _hoisted_16$1,
+          _cache[6] || (_cache[6] = vue.createElementVNode("br", null, null, -1)),
           vue.createElementVNode("a", {
             href: _ctx.externalRawLink("https://matomo.org/faq/how-to/faq_27248"),
             rel: "noreferrer noopener",
             target: "_blank"
-          }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_EnterRecoveryCodeInstead")), 9, _hoisted_17$1),
-          _hoisted_18$1,
+          }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_EnterRecoveryCodeInstead")), 9, _hoisted_11$1),
+          _cache[7] || (_cache[7] = vue.createElementVNode("br", null, null, -1)),
           vue.createElementVNode("a", {
             href: _ctx.mailToLink,
             rel: "noreferrer noopener"
-          }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_AskSuperUserResetAuthenticationCode")), 9, _hoisted_19$1),
-          _hoisted_20$1,
+          }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_AskSuperUserResetAuthenticationCode")), 9, _hoisted_12$1),
+          _cache[8] || (_cache[8] = vue.createElementVNode("br", null, null, -1)),
           vue.createElementVNode("a", {
             href: _ctx.logoutLink,
             rel: "noreferrer noopener"
-          }, vue.toDisplayString(_ctx.translate("General_Logout")), 9, _hoisted_21)
+          }, vue.toDisplayString(_ctx.translate("General_Logout")), 9, _hoisted_13$1)
         ])
       ]),
       _: 1
@@ -761,8 +739,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     }
   });
   const _hoisted_1$1 = { class: "successMessage" };
-  const _hoisted_2$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_3$1 = ["href"];
+  const _hoisted_2$1 = ["href"];
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
     return vue.openBlock(), vue.createBlock(_component_ContentBlock, { class: "twoFactorSetupFinished" }, {
@@ -770,11 +747,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         vue.createElementVNode("h2", _hoisted_1$1, vue.toDisplayString(_ctx.translate("TwoFactorAuth_SetupFinishedTitle")), 1),
         vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_SetupFinishedSubtitle")), 1),
         vue.createElementVNode("p", null, [
-          _hoisted_2$1,
+          _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
           vue.createElementVNode("a", {
             class: "btn",
             href: _ctx.userSecurityLink
-          }, vue.toDisplayString(_ctx.translate("General_Continue")), 9, _hoisted_3$1)
+          }, vue.toDisplayString(_ctx.translate("General_Continue")), 9, _hoisted_2$1)
         ])
       ]),
       _: 1
@@ -846,25 +823,21 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   const _hoisted_3 = { class: "twoFaStatusEnabled" };
   const _hoisted_4 = { key: 1 };
   const _hoisted_5 = { key: 0 };
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
+  const _hoisted_6 = ["href"];
+  const _hoisted_7 = { key: 1 };
   const _hoisted_8 = ["href"];
-  const _hoisted_9 = { key: 1 };
-  const _hoisted_10 = ["href"];
+  const _hoisted_9 = ["href"];
+  const _hoisted_10 = ["value"];
   const _hoisted_11 = ["href"];
-  const _hoisted_12 = ["value"];
+  const _hoisted_12 = { key: 2 };
   const _hoisted_13 = ["href"];
-  const _hoisted_14 = { key: 2 };
-  const _hoisted_15 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_16 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_17 = ["href"];
-  const _hoisted_18 = {
+  const _hoisted_14 = {
     id: "confirmDisable2FA",
     class: "ui-confirm",
     ref: "confirmDisable2FA"
   };
-  const _hoisted_19 = ["value"];
-  const _hoisted_20 = ["value"];
+  const _hoisted_15 = ["value"];
+  const _hoisted_16 = ["value"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
     return vue.openBlock(), vue.createBlock(_component_ContentBlock, {
@@ -881,57 +854,57 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         _ctx.isEnabled ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_4, [
           _ctx.isForced ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_5, [
             vue.createTextVNode(vue.toDisplayString(_ctx.translate("TwoFactorAuth_TwoFactorAuthenticationRequired")) + " ", 1),
-            _hoisted_6,
-            _hoisted_7,
+            _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
+            _cache[2] || (_cache[2] = vue.createElementVNode("br", null, null, -1)),
             vue.createElementVNode("a", {
               class: "btn btn-link enable2FaLink",
               href: _ctx.setupTwoFactorAuthLink,
               style: { "margin-right": "3.5px" }
-            }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_ConfigureDifferentDevice")), 9, _hoisted_8)
-          ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_9, [
+            }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_ConfigureDifferentDevice")), 9, _hoisted_6)
+          ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_7, [
             vue.createElementVNode("a", {
               class: "btn btn-link enable2FaLink",
               href: _ctx.setupTwoFactorAuthLink,
               style: { "margin-right": "3.5px" }
-            }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_ConfigureDifferentDevice")), 9, _hoisted_10),
+            }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_ConfigureDifferentDevice")), 9, _hoisted_8),
             vue.createElementVNode("a", {
               href: _ctx.disableTwoFactorAuthLink,
               style: { "display": "none" },
               id: "disable2fa"
-            }, "disable2fa", 8, _hoisted_11),
+            }, "disable2fa", 8, _hoisted_9),
             vue.createElementVNode("input", {
               type: "button",
               class: "btn btn-link disable2FaLink",
               onClick: _cache[0] || (_cache[0] = ($event) => _ctx.onDisable2FaLinkClick()),
               value: _ctx.translate("TwoFactorAuth_DisableTwoFA"),
               style: { "margin-right": "3.5px" }
-            }, null, 8, _hoisted_12)
+            }, null, 8, _hoisted_10)
           ])),
           vue.createElementVNode("a", {
             class: "btn btn-link showRecoveryCodesLink",
             href: _ctx.showRecoveryCodesLink
-          }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_ShowRecoveryCodes")), 9, _hoisted_13)
-        ])) : (vue.openBlock(), vue.createElementBlock("p", _hoisted_14, [
+          }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_ShowRecoveryCodes")), 9, _hoisted_11)
+        ])) : (vue.openBlock(), vue.createElementBlock("p", _hoisted_12, [
           vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_TwoFactorAuthenticationIsDisabled")), 1),
-          _hoisted_15,
-          _hoisted_16,
+          _cache[3] || (_cache[3] = vue.createElementVNode("br", null, null, -1)),
+          _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1)),
           vue.createElementVNode("a", {
             class: "btn btn-link enable2FaLink",
             href: _ctx.setupTwoFactorAuthLink
-          }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_EnableTwoFA")), 9, _hoisted_17)
+          }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_EnableTwoFA")), 9, _hoisted_13)
         ])),
-        vue.createElementVNode("div", _hoisted_18, [
+        vue.createElementVNode("div", _hoisted_14, [
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_ConfirmDisableTwoFA")), 1),
           vue.createElementVNode("input", {
             role: "yes",
             type: "button",
             value: _ctx.translate("General_Yes")
-          }, null, 8, _hoisted_19),
+          }, null, 8, _hoisted_15),
           vue.createElementVNode("input", {
             role: "no",
             type: "button",
             value: _ctx.translate("General_No")
-          }, null, 8, _hoisted_20)
+          }, null, 8, _hoisted_16)
         ], 512)
       ]),
       _: 1

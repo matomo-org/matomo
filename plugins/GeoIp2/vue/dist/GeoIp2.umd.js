@@ -284,45 +284,34 @@ var __spreadValues = (a, b) => {
     id: "geoipdb-screen1"
   };
   const _hoisted_5 = { class: "geoipdb-column-1 col s6" };
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("sup", null, [
-    /* @__PURE__ */ vue.createElementVNode("small", null, "*")
-  ], -1);
-  const _hoisted_7 = { class: "geoipdb-column-2 col s6" };
-  const _hoisted_8 = ["innerHTML"];
-  const _hoisted_9 = { class: "geoipdb-column-1 col s6" };
-  const _hoisted_10 = ["value"];
-  const _hoisted_11 = { class: "geoipdb-column-2 col s6" };
-  const _hoisted_12 = ["value"];
-  const _hoisted_13 = { class: "row" };
-  const _hoisted_14 = ["innerHTML"];
-  const _hoisted_15 = { id: "geoipdb-screen2-download" };
-  const _hoisted_16 = {
+  const _hoisted_6 = { class: "geoipdb-column-2 col s6" };
+  const _hoisted_7 = ["innerHTML"];
+  const _hoisted_8 = { class: "geoipdb-column-1 col s6" };
+  const _hoisted_9 = ["value"];
+  const _hoisted_10 = { class: "geoipdb-column-2 col s6" };
+  const _hoisted_11 = ["value"];
+  const _hoisted_12 = { class: "row" };
+  const _hoisted_13 = ["innerHTML"];
+  const _hoisted_14 = { id: "geoipdb-screen2-download" };
+  const _hoisted_15 = {
     key: 1,
     id: "geoipdb-update-info"
   };
+  const _hoisted_16 = ["innerHTML"];
   const _hoisted_17 = ["innerHTML"];
-  const _hoisted_18 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_19 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_20 = ["innerHTML"];
-  const _hoisted_21 = ["innerHTML"];
-  const _hoisted_22 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_23 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_24 = {
+  const _hoisted_18 = ["innerHTML"];
+  const _hoisted_19 = {
     id: "locationProviderUpdatePeriodInlineHelp",
     class: "inline-help-node",
     ref: "inlineHelpNode"
   };
-  const _hoisted_25 = ["innerHTML"];
-  const _hoisted_26 = { key: 1 };
-  const _hoisted_27 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_28 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_29 = ["innerHTML"];
-  const _hoisted_30 = ["value"];
-  const _hoisted_31 = /* @__PURE__ */ vue.createElementVNode("div", { id: "done-updating-updater" }, null, -1);
-  const _hoisted_32 = /* @__PURE__ */ vue.createElementVNode("div", { id: "geoipdb-update-info-error" }, null, -1);
-  const _hoisted_33 = ["innerHTML"];
-  const _hoisted_34 = { key: 1 };
-  const _hoisted_35 = { class: "form-description" };
+  const _hoisted_20 = ["innerHTML"];
+  const _hoisted_21 = { key: 1 };
+  const _hoisted_22 = ["innerHTML"];
+  const _hoisted_23 = ["value"];
+  const _hoisted_24 = ["innerHTML"];
+  const _hoisted_25 = { key: 1 };
+  const _hoisted_26 = { class: "form-description" };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Progressbar = vue.resolveComponent("Progressbar");
     const _component_Field = vue.resolveComponent("Field");
@@ -341,39 +330,41 @@ var __spreadValues = (a, b) => {
                   vue.createElementVNode("div", _hoisted_5, [
                     vue.createElementVNode("p", null, [
                       vue.createTextVNode(vue.toDisplayString(_ctx.translate("GeoIp2_IWantToDownloadFreeGeoIP")), 1),
-                      _hoisted_6
+                      _cache[6] || (_cache[6] = vue.createElementVNode("sup", null, [
+                        vue.createElementVNode("small", null, "*")
+                      ], -1))
                     ])
                   ]),
-                  vue.createElementVNode("div", _hoisted_7, [
+                  vue.createElementVNode("div", _hoisted_6, [
                     vue.createElementVNode("p", {
                       innerHTML: _ctx.$sanitize(_ctx.purchasedGeoIpText)
-                    }, null, 8, _hoisted_8)
+                    }, null, 8, _hoisted_7)
                   ]),
-                  vue.createElementVNode("div", _hoisted_9, [
+                  vue.createElementVNode("div", _hoisted_8, [
                     vue.createElementVNode("input", {
                       type: "button",
                       class: "btn",
                       onClick: _cache[0] || (_cache[0] = ($event) => _ctx.startDownloadFreeGeoIp()),
                       value: `${_ctx.translate("General_GetStarted")}...`
-                    }, null, 8, _hoisted_10)
+                    }, null, 8, _hoisted_9)
                   ]),
-                  vue.createElementVNode("div", _hoisted_11, [
+                  vue.createElementVNode("div", _hoisted_10, [
                     vue.createElementVNode("input", {
                       type: "button",
                       class: "btn",
                       id: "start-automatic-update-geoip",
                       onClick: _cache[1] || (_cache[1] = ($event) => _ctx.startAutomaticUpdateGeoIp()),
                       value: `${_ctx.translate("General_GetStarted")}...`
-                    }, null, 8, _hoisted_12)
+                    }, null, 8, _hoisted_11)
                   ])
                 ]),
-                vue.createElementVNode("div", _hoisted_13, [
+                vue.createElementVNode("div", _hoisted_12, [
                   vue.createElementVNode("p", null, [
                     vue.createElementVNode("sup", null, [
-                      vue.createTextVNode("* "),
+                      _cache[7] || (_cache[7] = vue.createTextVNode("* ", -1)),
                       vue.createElementVNode("small", {
                         innerHTML: _ctx.$sanitize(_ctx.accuracyNote)
-                      }, null, 8, _hoisted_14)
+                      }, null, 8, _hoisted_13)
                     ])
                   ])
                 ])
@@ -381,7 +372,7 @@ var __spreadValues = (a, b) => {
             ], 512), [
               [vue.vShow, _ctx.showPiwikNotManagingInfo]
             ]),
-            vue.withDirectives(vue.createElementVNode("div", _hoisted_15, [
+            vue.withDirectives(vue.createElementVNode("div", _hoisted_14, [
               vue.createElementVNode("div", null, [
                 vue.createVNode(_component_Progressbar, {
                   label: _ctx.freeProgressbarLabel,
@@ -392,23 +383,23 @@ var __spreadValues = (a, b) => {
               [vue.vShow, _ctx.showFreeDownload]
             ])
           ])) : vue.createCommentVNode("", true),
-          _ctx.geoipDatabaseInstalled && !_ctx.downloadErrorMessage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_16, [
+          _ctx.geoipDatabaseInstalled && !_ctx.downloadErrorMessage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_15, [
             vue.createElementVNode("p", null, [
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.geoIPUpdaterInstructions)
-              }, null, 8, _hoisted_17),
-              _hoisted_18,
-              _hoisted_19,
+              }, null, 8, _hoisted_16),
+              _cache[10] || (_cache[10] = vue.createElementVNode("br", null, null, -1)),
+              _cache[11] || (_cache[11] = vue.createElementVNode("br", null, null, -1)),
               !!_ctx.dbipLiteUrl ? (vue.openBlock(), vue.createElementBlock("span", {
                 key: 0,
                 innerHTML: _ctx.$sanitize(_ctx.geoliteCityLink)
-              }, null, 8, _hoisted_20)) : vue.createCommentVNode("", true),
+              }, null, 8, _hoisted_17)) : vue.createCommentVNode("", true),
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.maxMindLinkExplanation)
-              }, null, 8, _hoisted_21),
+              }, null, 8, _hoisted_18),
               vue.withDirectives(vue.createElementVNode("span", null, [
-                _hoisted_22,
-                _hoisted_23,
+                _cache[8] || (_cache[8] = vue.createElementVNode("br", null, null, -1)),
+                _cache[9] || (_cache[9] = vue.createElementVNode("br", null, null, -1)),
                 vue.createTextVNode(vue.toDisplayString(_ctx.translate("GeoIp2_GeoIPUpdaterIntro")) + ": ", 1)
               ], 512), [
                 [vue.vShow, _ctx.geoipDatabaseInstalled]
@@ -447,19 +438,19 @@ var __spreadValues = (a, b) => {
                 options: _ctx.updatePeriodOptions
               }, {
                 "inline-help": vue.withCtx(() => [
-                  vue.createElementVNode("div", _hoisted_24, [
+                  vue.createElementVNode("div", _hoisted_19, [
                     _ctx.lastTimeUpdaterRun ? (vue.openBlock(), vue.createElementBlock("span", {
                       key: 0,
                       innerHTML: _ctx.$sanitize(
                         _ctx.translate("GeoIp2_UpdaterWasLastRun", _ctx.lastTimeUpdaterRun)
                       )
-                    }, null, 8, _hoisted_25)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_26, vue.toDisplayString(_ctx.translate("GeoIp2_UpdaterHasNotBeenRun")), 1)),
-                    _hoisted_27,
-                    _hoisted_28,
+                    }, null, 8, _hoisted_20)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_21, vue.toDisplayString(_ctx.translate("GeoIp2_UpdaterHasNotBeenRun")), 1)),
+                    _cache[12] || (_cache[12] = vue.createElementVNode("br", null, null, -1)),
+                    _cache[13] || (_cache[13] = vue.createElementVNode("br", null, null, -1)),
                     vue.createElementVNode("div", {
                       id: "geoip-updater-next-run-time",
                       innerHTML: _ctx.$sanitize(_ctx.nextRunTimeText)
-                    }, null, 8, _hoisted_29)
+                    }, null, 8, _hoisted_22)
                   ], 512)
                 ]),
                 _: 1
@@ -470,10 +461,10 @@ var __spreadValues = (a, b) => {
               class: "btn",
               onClick: _cache[5] || (_cache[5] = ($event) => _ctx.saveGeoIpLinks()),
               value: _ctx.buttonUpdateSaveText
-            }, null, 8, _hoisted_30),
+            }, null, 8, _hoisted_23),
             vue.createElementVNode("div", null, [
-              _hoisted_31,
-              _hoisted_32,
+              _cache[14] || (_cache[14] = vue.createElementVNode("div", { id: "done-updating-updater" }, null, -1)),
+              _cache[15] || (_cache[15] = vue.createElementVNode("div", { id: "geoipdb-update-info-error" }, null, -1)),
               vue.createElementVNode("div", null, [
                 vue.withDirectives(vue.createVNode(_component_Progressbar, {
                   progress: _ctx.progressUpdateDownload,
@@ -487,9 +478,9 @@ var __spreadValues = (a, b) => {
           _ctx.downloadErrorMessage ? (vue.openBlock(), vue.createElementBlock("div", {
             key: 2,
             innerHTML: _ctx.$sanitize(_ctx.downloadErrorMessage)
-          }, null, 8, _hoisted_33)) : vue.createCommentVNode("", true)
-        ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_34, [
-          vue.createElementVNode("p", _hoisted_35, vue.toDisplayString(_ctx.translate("GeoIp2_CannotSetupGeoIPAutoUpdating")), 1)
+          }, null, 8, _hoisted_24)) : vue.createCommentVNode("", true)
+        ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_25, [
+          vue.createElementVNode("p", _hoisted_26, vue.toDisplayString(_ctx.translate("GeoIp2_CannotSetupGeoIPAutoUpdating")), 1)
         ]))
       ]),
       _: 1

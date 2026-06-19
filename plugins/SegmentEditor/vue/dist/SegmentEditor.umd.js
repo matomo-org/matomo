@@ -507,17 +507,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     style: { "width": "100%" }
   };
   const _hoisted_13$1 = { class: "input-field col s12" };
-  const _hoisted_14$1 = /* @__PURE__ */ vue.createElementVNode("span", {
-    role: "status",
-    "aria-live": "polite",
-    class: "ui-helper-hidden-accessible"
-  }, null, -1);
-  const _hoisted_15$1 = /* @__PURE__ */ vue.createElementVNode("div", { class: "clear" }, null, -1);
-  const _hoisted_16$1 = { class: "segment-or" };
-  const _hoisted_17$1 = ["onClick"];
-  const _hoisted_18$1 = ["innerHTML"];
-  const _hoisted_19$1 = { class: "segment-and" };
-  const _hoisted_20$1 = ["innerHTML"];
+  const _hoisted_14$1 = { class: "segment-or" };
+  const _hoisted_15$1 = ["onClick"];
+  const _hoisted_16$1 = ["innerHTML"];
+  const _hoisted_17 = { class: "segment-and" };
+  const _hoisted_18 = ["innerHTML"];
   function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
     const _component_MatomoLoader = vue.resolveComponent("MatomoLoader");
@@ -579,7 +573,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                     vue.createElementVNode("div", _hoisted_11$1, [
                       vue.createElementVNode("div", _hoisted_12$1, [
                         vue.createElementVNode("div", _hoisted_13$1, [
-                          _hoisted_14$1,
+                          _cache[1] || (_cache[1] = vue.createElementVNode("span", {
+                            role: "status",
+                            "aria-live": "polite",
+                            class: "ui-helper-hidden-accessible"
+                          }, null, -1)),
                           vue.createVNode(_component_ValueInput, {
                             value: orCondition.value,
                             onUpdate: ($event) => {
@@ -590,10 +588,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                         ])
                       ])
                     ]),
-                    _hoisted_15$1
+                    _cache[2] || (_cache[2] = vue.createElementVNode("div", { class: "clear" }, null, -1))
                   ])
                 ]),
-                vue.createElementVNode("div", _hoisted_16$1, vue.toDisplayString(_ctx.translate("SegmentEditor_OperatorOR")), 1)
+                vue.createElementVNode("div", _hoisted_14$1, vue.toDisplayString(_ctx.translate("SegmentEditor_OperatorOR")), 1)
               ], 2);
             }), 128)),
             vue.createElementVNode("div", {
@@ -603,11 +601,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               vue.createElementVNode("div", null, [
                 vue.createElementVNode("a", {
                   innerHTML: _ctx.$sanitize(_ctx.addNewOrConditionLinkText)
-                }, null, 8, _hoisted_18$1)
+                }, null, 8, _hoisted_16$1)
               ])
-            ], 8, _hoisted_17$1)
+            ], 8, _hoisted_15$1)
           ]),
-          vue.createElementVNode("div", _hoisted_19$1, vue.toDisplayString(_ctx.translate("SegmentEditor_OperatorAND")), 1)
+          vue.createElementVNode("div", _hoisted_17, vue.toDisplayString(_ctx.translate("SegmentEditor_OperatorAND")), 1)
         ], 2);
       }), 128)),
       vue.createElementVNode("div", {
@@ -617,7 +615,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         vue.createElementVNode("div", null, [
           vue.createElementVNode("a", {
             innerHTML: _ctx.$sanitize(_ctx.addNewAndConditionLinkText)
-          }, null, 8, _hoisted_20$1)
+          }, null, 8, _hoisted_18)
         ])
       ])
     ], 512);
@@ -1466,31 +1464,27 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     class: "segmentationContainer listHtml"
   };
   const _hoisted_3 = ["title"];
-  const _hoisted_4 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon icon-segment" }, null, -1);
-  const _hoisted_5 = { class: "dropdown dropdown-body" };
-  const _hoisted_6 = { class: "segmentFilterContainer" };
-  const _hoisted_7 = { class: "submenu" };
-  const _hoisted_8 = { class: "segment-visits-label" };
-  const _hoisted_9 = { class: "segmentList" };
-  const _hoisted_10 = /* @__PURE__ */ vue.createElementVNode("hr", null, null, -1);
-  const _hoisted_11 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_12 = ["data-idsegment", "data-definition", "onClick", "onAnimationend"];
-  const _hoisted_13 = ["title", "onKeyup"];
-  const _hoisted_14 = {
+  const _hoisted_4 = { class: "dropdown dropdown-body" };
+  const _hoisted_5 = { class: "segmentFilterContainer" };
+  const _hoisted_6 = { class: "submenu" };
+  const _hoisted_7 = { class: "segment-visits-label" };
+  const _hoisted_8 = { class: "segmentList" };
+  const _hoisted_9 = ["data-idsegment", "data-definition", "onClick", "onAnimationend"];
+  const _hoisted_10 = ["title", "onKeyup"];
+  const _hoisted_11 = {
     key: 1,
     class: "segmentAction starSegment segmentAction--placeholder",
     "aria-hidden": "true"
   };
-  const _hoisted_15 = {
+  const _hoisted_12 = {
     key: 4,
     class: "segmentAction editSegment segmentAction--placeholder",
     "aria-hidden": "true"
   };
-  const _hoisted_16 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-add" }, null, -1);
-  const _hoisted_17 = ["href"];
-  const _hoisted_18 = { key: 1 };
-  const _hoisted_19 = { class: "youMustBeLoggedIn" };
-  const _hoisted_20 = ["href"];
+  const _hoisted_13 = ["href"];
+  const _hoisted_14 = { key: 1 };
+  const _hoisted_15 = { class: "youMustBeLoggedIn" };
+  const _hoisted_16 = ["href"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_SearchInput = vue.resolveComponent("SearchInput");
     const _component_star_button = vue.resolveComponent("star-button");
@@ -1504,13 +1498,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           title: _ctx.viewModel.currentSegmentTooltip,
           onClick: _cache[0] || (_cache[0] = vue.withModifiers((...args) => _ctx.togglePanel && _ctx.togglePanel(...args), ["prevent"]))
         }, [
-          _hoisted_4,
+          _cache[3] || (_cache[3] = vue.createElementVNode("span", { class: "icon icon-segment" }, null, -1)),
           vue.createElementVNode("span", {
             class: vue.normalizeClass(["segmentationTitle", { "segment-clicked": !!_ctx.viewModel.currentSegmentValue }])
           }, vue.toDisplayString(_ctx.viewModel.currentSegmentTitle), 3)
         ], 8, _hoisted_3),
-        vue.createElementVNode("div", _hoisted_5, [
-          vue.createElementVNode("div", _hoisted_6, [
+        vue.createElementVNode("div", _hoisted_4, [
+          vue.createElementVNode("div", _hoisted_5, [
             vue.createVNode(_component_SearchInput, {
               tabindex: "4",
               modelValue: _ctx.searchInput,
@@ -1518,10 +1512,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               "show-clear": true
             }, null, 8, ["modelValue"])
           ]),
-          vue.createElementVNode("ul", _hoisted_7, [
+          vue.createElementVNode("ul", _hoisted_6, [
             vue.createElementVNode("li", null, [
-              vue.createElementVNode("span", _hoisted_8, vue.toDisplayString(_ctx.translate("SegmentEditor_SelectSegmentOfVisits")), 1),
-              vue.createElementVNode("div", _hoisted_9, [
+              vue.createElementVNode("span", _hoisted_7, vue.toDisplayString(_ctx.translate("SegmentEditor_SelectSegmentOfVisits")), 1),
+              vue.createElementVNode("div", _hoisted_8, [
                 vue.createElementVNode("ul", null, [
                   (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.viewModel.entries, (entry) => {
                     return vue.openBlock(), vue.createElementBlock(vue.Fragment, {
@@ -1531,9 +1525,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                         key: 0,
                         class: vue.normalizeClass(entry.className)
                       }, [
-                        _hoisted_10,
+                        _cache[4] || (_cache[4] = vue.createElementVNode("hr", null, null, -1)),
                         vue.createTextVNode(" " + vue.toDisplayString(entry.label) + ": ", 1),
-                        _hoisted_11
+                        _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1))
                       ], 2)) : entry.type === "no-results" ? (vue.openBlock(), vue.createElementBlock("li", {
                         key: 1,
                         class: vue.normalizeClass(_ctx.getEntryClasses(entry))
@@ -1550,12 +1544,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                           tabindex: "4",
                           title: entry.tooltip,
                           onKeyup: vue.withKeys(vue.withModifiers(($event) => _ctx.selectSegment(entry), ["prevent"]), ["enter"])
-                        }, vue.toDisplayString(entry.label), 41, _hoisted_13),
+                        }, vue.toDisplayString(entry.label), 41, _hoisted_10),
                         entry.type === "segment" ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
                           entry.showStarButton ? (vue.openBlock(), vue.createBlock(_component_star_button, {
                             key: 0,
                             segment: entry
-                          }, null, 8, ["segment"])) : entry.showStarPlaceholder ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_14)) : vue.createCommentVNode("", true),
+                          }, null, 8, ["segment"])) : entry.showStarPlaceholder ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_11)) : vue.createCommentVNode("", true),
                           entry.showCompareButton ? (vue.openBlock(), vue.createBlock(_component_compare_button, {
                             key: 2,
                             segment: entry,
@@ -1566,9 +1560,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                             key: 3,
                             segment: entry,
                             onOpenEditButton: _ctx.openEditSegment
-                          }, null, 8, ["segment", "onOpenEditButton"])) : entry.showEditPlaceholder ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_15)) : vue.createCommentVNode("", true)
+                          }, null, 8, ["segment", "onOpenEditButton"])) : entry.showEditPlaceholder ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_12)) : vue.createCommentVNode("", true)
                         ], 64)) : vue.createCommentVNode("", true)
-                      ], 42, _hoisted_12))
+                      ], 42, _hoisted_9))
                     ], 64);
                   }), 128))
                 ])
@@ -1581,21 +1575,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               class: "add_new_segment btn",
               onClick: _cache[2] || (_cache[2] = vue.withModifiers((...args) => _ctx.openAddSegment && _ctx.openAddSegment(...args), ["stop", "prevent"]))
             }, [
-              _hoisted_16,
+              _cache[6] || (_cache[6] = vue.createElementVNode("span", { class: "icon-add" }, null, -1)),
               vue.createTextVNode("   " + vue.toDisplayString(_ctx.translate("SegmentEditor_AddNewSegment")), 1)
             ]),
             vue.createElementVNode("a", {
               href: _ctx.viewModel.manageSegmentsUrl,
               tabindex: "4",
               class: "btn btn-block btn-outline manage_segment_btn"
-            }, vue.toDisplayString(_ctx.translate("SegmentEditor_ManageSegments")), 9, _hoisted_17)
-          ], 64)) : _ctx.viewModel.isUserAnonymous ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_18, [
-            vue.createElementVNode("span", _hoisted_19, vue.toDisplayString(_ctx.translate("SegmentEditor_YouMustBeLoggedInToCreateSegments")), 1),
+            }, vue.toDisplayString(_ctx.translate("SegmentEditor_ManageSegments")), 9, _hoisted_13)
+          ], 64)) : _ctx.viewModel.isUserAnonymous ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_14, [
+            vue.createElementVNode("span", _hoisted_15, vue.toDisplayString(_ctx.translate("SegmentEditor_YouMustBeLoggedInToCreateSegments")), 1),
             vue.createElementVNode("a", {
               href: _ctx.viewModel.loginUrl,
               tabindex: "4",
               class: "sign_in_segment_btn btn"
-            }, vue.toDisplayString(_ctx.translate("Login_LogIn")), 9, _hoisted_20)
+            }, vue.toDisplayString(_ctx.translate("Login_LogIn")), 9, _hoisted_16)
           ])) : vue.createCommentVNode("", true)
         ])
       ])) : vue.createCommentVNode("", true)

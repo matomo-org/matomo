@@ -11,11 +11,10 @@
     return target;
   };
   const _hoisted_1$2 = { class: "requestReview" };
-  const _hoisted_2$2 = /* @__PURE__ */ vue.createStaticVNode('<br><br><div class="review-links"><div class="review-link"><a href="https://www.softwarereviews.com/6g24l" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/softwarereviews.svg"></div><div class="link">Software Reviews</div></a></div><div class="review-link"><a href="https://www.capterra.com/p/182627/Matomo-Analytics/" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/capterra.svg"></div><div class="link">Capterra</div></a></div><div class="review-link"><a href="https://www.g2crowd.com/products/matomo-formerly-piwik/details" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/g2crowd.svg"></div><div class="link">G2 Crowd</div></a></div><div class="review-link"><a href="https://www.producthunt.com/posts/matomo-2" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/producthunt.svg"></div><div class="link">Product Hunt</div></a></div><div class="review-link"><a href="https://www.saasworthy.com/product/matomo" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/saasworthy.png"></div><div class="link">SaaSworthy</div></a></div><div class="review-link"><a href="https://www.trustradius.com/products/matomo/reviews" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/trustradius.svg"></div><div class="link">TrustRadius</div></a></div></div>', 3);
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [
       vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("Feedback_PleaseLeaveExternalReviewForMatomo")), 1),
-      _hoisted_2$2
+      _cache[0] || (_cache[0] = vue.createStaticVNode('<br><br><div class="review-links"><div class="review-link"><a href="https://www.softwarereviews.com/6g24l" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/softwarereviews.svg"></div><div class="link">Software Reviews</div></a></div><div class="review-link"><a href="https://www.capterra.com/p/182627/Matomo-Analytics/" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/capterra.svg"></div><div class="link">Capterra</div></a></div><div class="review-link"><a href="https://www.g2crowd.com/products/matomo-formerly-piwik/details" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/g2crowd.svg"></div><div class="link">G2 Crowd</div></a></div><div class="review-link"><a href="https://www.producthunt.com/posts/matomo-2" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/producthunt.svg"></div><div class="link">Product Hunt</div></a></div><div class="review-link"><a href="https://www.saasworthy.com/product/matomo" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/saasworthy.png"></div><div class="link">SaaSworthy</div></a></div><div class="review-link"><a href="https://www.trustradius.com/products/matomo/reviews" target="_blank"><div class="image"><img loading="lazy" src="plugins/Feedback/images/trustradius.svg"></div><div class="link">TrustRadius</div></a></div></div>', 3))
     ]);
   }
   const ReviewLinks = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
@@ -100,85 +99,75 @@
   const _hoisted_3$1 = { key: 0 };
   const _hoisted_4$1 = { key: 0 };
   const _hoisted_5$1 = { key: 1 };
-  const _hoisted_6$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7$1 = { class: "row" };
-  const _hoisted_8$1 = { style: { "text-align": "left", "margin-top": "16px" } };
-  const _hoisted_9$1 = {
+  const _hoisted_6$1 = { class: "row" };
+  const _hoisted_7$1 = { style: { "text-align": "left", "margin-top": "16px" } };
+  const _hoisted_8$1 = {
     for: "useful",
     class: "ratelabel"
   };
-  const _hoisted_10$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_11$1 = {
+  const _hoisted_9$1 = {
     for: "easy",
     class: "ratelabel"
   };
-  const _hoisted_12$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_13$1 = {
+  const _hoisted_10$1 = {
     for: "configurable",
     class: "ratelabel"
   };
-  const _hoisted_14$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_15$1 = {
+  const _hoisted_11$1 = {
     for: "likeother",
     class: "ratelabel"
   };
-  const _hoisted_16$1 = { key: 1 };
-  const _hoisted_17$1 = { key: 0 };
-  const _hoisted_18 = { key: 1 };
-  const _hoisted_19 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_20 = { class: "row" };
-  const _hoisted_21 = { style: { "text-align": "left" } };
-  const _hoisted_22 = {
+  const _hoisted_12$1 = { key: 1 };
+  const _hoisted_13 = { key: 0 };
+  const _hoisted_14 = { key: 1 };
+  const _hoisted_15 = { class: "row" };
+  const _hoisted_16 = { style: { "text-align": "left" } };
+  const _hoisted_17 = {
     for: "missingfeatures",
     class: "ratelabel"
   };
-  const _hoisted_23 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_24 = {
+  const _hoisted_18 = {
     for: "makeeasier",
     class: "ratelabel"
   };
-  const _hoisted_25 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_26 = {
+  const _hoisted_19 = {
     for: "speedup",
     class: "ratelabel"
   };
-  const _hoisted_27 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_28 = {
+  const _hoisted_20 = {
     for: "fixbugs",
     class: "ratelabel"
   };
-  const _hoisted_29 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_30 = {
+  const _hoisted_21 = {
     for: "dislikeother",
     class: "ratelabel"
   };
-  const _hoisted_31 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_32 = {
+  const _hoisted_22 = {
     key: 2,
     class: "messageContainer",
     style: { "text-align": "left" }
   };
-  const _hoisted_33 = { key: 0 };
-  const _hoisted_34 = { key: 1 };
-  const _hoisted_35 = { key: 2 };
-  const _hoisted_36 = { key: 3 };
-  const _hoisted_37 = { key: 4 };
-  const _hoisted_38 = { key: 5 };
-  const _hoisted_39 = { key: 6 };
-  const _hoisted_40 = { key: 7 };
-  const _hoisted_41 = { key: 8 };
-  const _hoisted_42 = {
+  const _hoisted_23 = { key: 0 };
+  const _hoisted_24 = { key: 1 };
+  const _hoisted_25 = { key: 2 };
+  const _hoisted_26 = { key: 3 };
+  const _hoisted_27 = { key: 4 };
+  const _hoisted_28 = { key: 5 };
+  const _hoisted_29 = { key: 6 };
+  const _hoisted_30 = { key: 7 };
+  const _hoisted_31 = { key: 8 };
+  const _hoisted_32 = {
     key: 9,
     class: "error-text"
   };
-  const _hoisted_43 = ["innerHTML"];
-  const _hoisted_44 = ["title", "value"];
-  const _hoisted_45 = ["value"];
-  const _hoisted_46 = { class: "ui-confirm ratefeatureDialog" };
-  const _hoisted_47 = ["innerHTML"];
-  const _hoisted_48 = { key: 0 };
-  const _hoisted_49 = { key: 1 };
-  const _hoisted_50 = ["value"];
+  const _hoisted_33 = ["innerHTML"];
+  const _hoisted_34 = ["title", "value"];
+  const _hoisted_35 = ["value"];
+  const _hoisted_36 = { class: "ui-confirm ratefeatureDialog" };
+  const _hoisted_37 = ["innerHTML"];
+  const _hoisted_38 = { key: 0 };
+  const _hoisted_39 = { key: 1 };
+  const _hoisted_40 = ["value"];
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_MatomoDialog = vue.resolveComponent("MatomoDialog");
     const _component_ReviewLinks = vue.resolveComponent("ReviewLinks");
@@ -220,10 +209,10 @@
                 _ctx.title
               )), 1)) : vue.createCommentVNode("", true),
               !_ctx.title ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_5$1, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageLike")), 1)) : vue.createCommentVNode("", true),
-              _hoisted_6$1,
-              vue.createElementVNode("div", _hoisted_7$1, [
-                vue.createElementVNode("div", _hoisted_8$1, [
-                  vue.createElementVNode("label", _hoisted_9$1, [
+              _cache[21] || (_cache[21] = vue.createElementVNode("br", null, null, -1)),
+              vue.createElementVNode("div", _hoisted_6$1, [
+                vue.createElementVNode("div", _hoisted_7$1, [
+                  vue.createElementVNode("label", _hoisted_8$1, [
                     vue.withDirectives(vue.createElementVNode("input", {
                       type: "radio",
                       id: "useful",
@@ -235,8 +224,8 @@
                     ]),
                     vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Feedback_RateFeatureUsefulInfo")), 1)
                   ]),
-                  _hoisted_10$1,
-                  vue.createElementVNode("label", _hoisted_11$1, [
+                  _cache[18] || (_cache[18] = vue.createElementVNode("br", null, null, -1)),
+                  vue.createElementVNode("label", _hoisted_9$1, [
                     vue.withDirectives(vue.createElementVNode("input", {
                       type: "radio",
                       id: "easy",
@@ -248,8 +237,8 @@
                     ]),
                     vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Feedback_RateFeatureEasyToUse")), 1)
                   ]),
-                  _hoisted_12$1,
-                  vue.createElementVNode("label", _hoisted_13$1, [
+                  _cache[19] || (_cache[19] = vue.createElementVNode("br", null, null, -1)),
+                  vue.createElementVNode("label", _hoisted_10$1, [
                     vue.withDirectives(vue.createElementVNode("input", {
                       type: "radio",
                       id: "configurable",
@@ -261,8 +250,8 @@
                     ]),
                     vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Feedback_RateFeatureConfigurable")), 1)
                   ]),
-                  _hoisted_14$1,
-                  vue.createElementVNode("label", _hoisted_15$1, [
+                  _cache[20] || (_cache[20] = vue.createElementVNode("br", null, null, -1)),
+                  vue.createElementVNode("label", _hoisted_11$1, [
                     vue.withDirectives(vue.createElementVNode("input", {
                       type: "radio",
                       id: "likeother",
@@ -277,16 +266,16 @@
                 ])
               ])
             ])) : vue.createCommentVNode("", true),
-            !_ctx.like ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_16$1, [
-              _ctx.title ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_17$1, vue.toDisplayString(_ctx.translate(
+            !_ctx.like ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_12$1, [
+              _ctx.title ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_13, vue.toDisplayString(_ctx.translate(
                 "Feedback_RateFeatureLeaveMessageDislikeNamedFeature",
                 _ctx.title
               )), 1)) : vue.createCommentVNode("", true),
-              !_ctx.title ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_18, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislike")), 1)) : vue.createCommentVNode("", true),
-              _hoisted_19,
-              vue.createElementVNode("div", _hoisted_20, [
-                vue.createElementVNode("div", _hoisted_21, [
-                  vue.createElementVNode("label", _hoisted_22, [
+              !_ctx.title ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_14, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislike")), 1)) : vue.createCommentVNode("", true),
+              _cache[27] || (_cache[27] = vue.createElementVNode("br", null, null, -1)),
+              vue.createElementVNode("div", _hoisted_15, [
+                vue.createElementVNode("div", _hoisted_16, [
+                  vue.createElementVNode("label", _hoisted_17, [
                     vue.withDirectives(vue.createElementVNode("input", {
                       type: "radio",
                       id: "missingfeatures",
@@ -298,8 +287,8 @@
                     ]),
                     vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Feedback_RateFeatureDislikeAddMissingFeatures")), 1)
                   ]),
-                  _hoisted_23,
-                  vue.createElementVNode("label", _hoisted_24, [
+                  _cache[22] || (_cache[22] = vue.createElementVNode("br", null, null, -1)),
+                  vue.createElementVNode("label", _hoisted_18, [
                     vue.withDirectives(vue.createElementVNode("input", {
                       type: "radio",
                       id: "makeeasier",
@@ -311,8 +300,8 @@
                     ]),
                     vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Feedback_RateFeatureDislikeMakeEasier")), 1)
                   ]),
-                  _hoisted_25,
-                  vue.createElementVNode("label", _hoisted_26, [
+                  _cache[23] || (_cache[23] = vue.createElementVNode("br", null, null, -1)),
+                  vue.createElementVNode("label", _hoisted_19, [
                     vue.withDirectives(vue.createElementVNode("input", {
                       type: "radio",
                       id: "speedup",
@@ -324,8 +313,8 @@
                     ]),
                     vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Feedback_RateFeatureDislikeSpeedUp")), 1)
                   ]),
-                  _hoisted_27,
-                  vue.createElementVNode("label", _hoisted_28, [
+                  _cache[24] || (_cache[24] = vue.createElementVNode("br", null, null, -1)),
+                  vue.createElementVNode("label", _hoisted_20, [
                     vue.withDirectives(vue.createElementVNode("input", {
                       type: "radio",
                       id: "fixbugs",
@@ -337,8 +326,8 @@
                     ]),
                     vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Feedback_RateFeatureDislikeFixBugs")), 1)
                   ]),
-                  _hoisted_29,
-                  vue.createElementVNode("label", _hoisted_30, [
+                  _cache[25] || (_cache[25] = vue.createElementVNode("br", null, null, -1)),
+                  vue.createElementVNode("label", _hoisted_21, [
                     vue.withDirectives(vue.createElementVNode("input", {
                       type: "radio",
                       id: "dislikeother",
@@ -350,21 +339,21 @@
                     ]),
                     vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Feedback_RateFeatureOtherReason")), 1)
                   ]),
-                  _hoisted_31
+                  _cache[26] || (_cache[26] = vue.createElementVNode("br", null, null, -1))
                 ])
               ])
             ])) : vue.createCommentVNode("", true),
-            _ctx.likeReason || _ctx.dislikeReason ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_32, [
-              _ctx.likeReason && _ctx.likeReason === "useful" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_33, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageLikeExtraUseful")), 1)) : vue.createCommentVNode("", true),
-              _ctx.likeReason && _ctx.likeReason === "easy" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_34, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageLikeExtraEasy")), 1)) : vue.createCommentVNode("", true),
-              _ctx.likeReason && _ctx.likeReason === "configurable" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_35, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageLikeExtraConfigurable")), 1)) : vue.createCommentVNode("", true),
-              _ctx.likeReason && _ctx.likeReason === "likeother" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_36, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageLikeExtra")), 1)) : vue.createCommentVNode("", true),
-              _ctx.dislikeReason && _ctx.dislikeReason === "missingfeatures" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_37, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislikeExtraMissing")), 1)) : vue.createCommentVNode("", true),
-              _ctx.dislikeReason && _ctx.dislikeReason === "makeeasier" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_38, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislikeExtraEasier")), 1)) : vue.createCommentVNode("", true),
-              _ctx.dislikeReason && _ctx.dislikeReason === "fixbugs" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_39, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislikeExtraBugs")), 1)) : vue.createCommentVNode("", true),
-              _ctx.dislikeReason && _ctx.dislikeReason === "speedup" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_40, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislikeExtraSpeed")), 1)) : vue.createCommentVNode("", true),
-              _ctx.dislikeReason && _ctx.dislikeReason === "dislikeother" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_41, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislikeExtra")), 1)) : vue.createCommentVNode("", true),
-              _ctx.errorMessage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_42, vue.toDisplayString(_ctx.errorMessage), 1)) : vue.createCommentVNode("", true),
+            _ctx.likeReason || _ctx.dislikeReason ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_22, [
+              _ctx.likeReason && _ctx.likeReason === "useful" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_23, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageLikeExtraUseful")), 1)) : vue.createCommentVNode("", true),
+              _ctx.likeReason && _ctx.likeReason === "easy" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_24, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageLikeExtraEasy")), 1)) : vue.createCommentVNode("", true),
+              _ctx.likeReason && _ctx.likeReason === "configurable" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_25, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageLikeExtraConfigurable")), 1)) : vue.createCommentVNode("", true),
+              _ctx.likeReason && _ctx.likeReason === "likeother" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_26, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageLikeExtra")), 1)) : vue.createCommentVNode("", true),
+              _ctx.dislikeReason && _ctx.dislikeReason === "missingfeatures" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_27, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislikeExtraMissing")), 1)) : vue.createCommentVNode("", true),
+              _ctx.dislikeReason && _ctx.dislikeReason === "makeeasier" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_28, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislikeExtraEasier")), 1)) : vue.createCommentVNode("", true),
+              _ctx.dislikeReason && _ctx.dislikeReason === "fixbugs" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_29, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislikeExtraBugs")), 1)) : vue.createCommentVNode("", true),
+              _ctx.dislikeReason && _ctx.dislikeReason === "speedup" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_30, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislikeExtraSpeed")), 1)) : vue.createCommentVNode("", true),
+              _ctx.dislikeReason && _ctx.dislikeReason === "dislikeother" ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_31, vue.toDisplayString(_ctx.translate("Feedback_RateFeatureLeaveMessageDislikeExtra")), 1)) : vue.createCommentVNode("", true),
+              _ctx.errorMessage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_32, vue.toDisplayString(_ctx.errorMessage), 1)) : vue.createCommentVNode("", true),
               vue.withDirectives(vue.createElementVNode("textarea", {
                 ref: "feedbackText",
                 class: vue.normalizeClass(["materialize-textarea", { "has-error": _ctx.errorMessage }]),
@@ -376,7 +365,7 @@
               _ctx.likeReason || _ctx.dislikeReason ? (vue.openBlock(), vue.createElementBlock("p", {
                 key: 10,
                 innerHTML: _ctx.$sanitize(_ctx.translate("Feedback_Policy", _ctx.externalLink("https://matomo.org/privacy-policy/"), "</a>"))
-              }, null, 8, _hoisted_43)) : vue.createCommentVNode("", true)
+              }, null, 8, _hoisted_33)) : vue.createCommentVNode("", true)
             ])) : vue.createCommentVNode("", true),
             vue.createElementVNode("input", {
               class: "btn",
@@ -384,12 +373,12 @@
               role: "validation",
               title: _ctx.translate("Feedback_RateFeatureSendFeedbackInformation"),
               value: _ctx.translate("Feedback_SendFeedback")
-            }, null, 8, _hoisted_44),
+            }, null, 8, _hoisted_34),
             vue.createElementVNode("input", {
               type: "button",
               role: "cancel",
               value: _ctx.translate("General_Cancel")
-            }, null, 8, _hoisted_45)
+            }, null, 8, _hoisted_35)
           ])
         ]),
         _: 1
@@ -399,22 +388,22 @@
         "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => _ctx.ratingDone = $event)
       }, {
         default: vue.withCtx(() => [
-          vue.createElementVNode("div", _hoisted_46, [
+          vue.createElementVNode("div", _hoisted_36, [
             vue.createElementVNode("h2", {
               innerHTML: _ctx.$sanitize(_ctx.translate(
                 "Feedback_ThankYouHeart",
                 `<i class='icon-heart red-text'></i>`
               ))
-            }, null, 8, _hoisted_47),
-            _ctx.like ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_48, [
+            }, null, 8, _hoisted_37),
+            _ctx.like ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_38, [
               vue.createVNode(_component_ReviewLinks)
             ])) : vue.createCommentVNode("", true),
-            !_ctx.like ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_49, vue.toDisplayString(_ctx.translate("Feedback_AppreciateFeedback")), 1)) : vue.createCommentVNode("", true),
+            !_ctx.like ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_39, vue.toDisplayString(_ctx.translate("Feedback_AppreciateFeedback")), 1)) : vue.createCommentVNode("", true),
             vue.createElementVNode("input", {
               type: "button",
               value: _ctx.translate("General_Close"),
               role: "yes"
-            }, null, 8, _hoisted_50)
+            }, null, 8, _hoisted_40)
           ])
         ]),
         _: 1
@@ -522,34 +511,27 @@
     key: 0,
     class: "bannerHeader"
   };
-  const _hoisted_2 = /* @__PURE__ */ vue.createElementVNode("i", { class: "icon-heart red-text" }, null, -1);
-  const _hoisted_3 = /* @__PURE__ */ vue.createElementVNode("i", { class: "icon-close white-text" }, null, -1);
-  const _hoisted_4 = [
-    _hoisted_3
-  ];
-  const _hoisted_5 = { class: "ratefeature" };
-  const _hoisted_6 = { class: "ui-confirm ratefeatureDialog" };
-  const _hoisted_7 = ["innerHTML"];
-  const _hoisted_8 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_9 = { class: "messageContainer" };
-  const _hoisted_10 = {
+  const _hoisted_2 = { class: "ratefeature" };
+  const _hoisted_3 = { class: "ui-confirm ratefeatureDialog" };
+  const _hoisted_4 = ["innerHTML"];
+  const _hoisted_5 = { class: "messageContainer" };
+  const _hoisted_6 = {
     key: 0,
     class: "error-text"
   };
-  const _hoisted_11 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_12 = ["innerHTML"];
-  const _hoisted_13 = ["value"];
-  const _hoisted_14 = ["value"];
-  const _hoisted_15 = { class: "ui-confirm ratefeatureDialog" };
-  const _hoisted_16 = ["innerHTML"];
-  const _hoisted_17 = ["value"];
+  const _hoisted_7 = ["innerHTML"];
+  const _hoisted_8 = ["value"];
+  const _hoisted_9 = ["value"];
+  const _hoisted_10 = { class: "ui-confirm ratefeatureDialog" };
+  const _hoisted_11 = ["innerHTML"];
+  const _hoisted_12 = ["value"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_MatomoDialog = vue.resolveComponent("MatomoDialog");
     return vue.openBlock(), vue.createElementBlock("div", null, [
       !_ctx.isHidden ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
         vue.createElementVNode("span", null, [
           vue.createTextVNode(vue.toDisplayString(_ctx.translate(`Feedback_FeedbackTitle`)) + " ", 1),
-          _hoisted_2
+          _cache[6] || (_cache[6] = vue.createElementVNode("i", { class: "icon-heart red-text" }, null, -1))
         ]),
         vue.createElementVNode("a", {
           onClick: _cache[0] || (_cache[0] = (...args) => _ctx.showQuestion && _ctx.showQuestion(...args)),
@@ -558,26 +540,28 @@
         vue.createElementVNode("a", {
           class: "close-btn",
           onClick: _cache[1] || (_cache[1] = (...args) => _ctx.disableReminder && _ctx.disableReminder(...args))
-        }, _hoisted_4)
+        }, [..._cache[7] || (_cache[7] = [
+          vue.createElementVNode("i", { class: "icon-close white-text" }, null, -1)
+        ])])
       ])) : vue.createCommentVNode("", true),
-      vue.createElementVNode("div", _hoisted_5, [
+      vue.createElementVNode("div", _hoisted_2, [
         vue.createVNode(_component_MatomoDialog, {
           modelValue: _ctx.showFeedbackForm,
           "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => _ctx.showFeedbackForm = $event),
           onValidation: _cache[4] || (_cache[4] = ($event) => _ctx.sendFeedback())
         }, {
           default: vue.withCtx(() => [
-            vue.createElementVNode("div", _hoisted_6, [
+            vue.createElementVNode("div", _hoisted_3, [
               vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate(`Feedback_Question${_ctx.question}`)), 1),
               vue.createElementVNode("p", {
                 innerHTML: _ctx.$sanitize(_ctx.translate(
                   "Feedback_FeedbackSubtitle",
                   `<i class='icon-heart red-text'></i>`
                 ))
-              }, null, 8, _hoisted_7),
-              _hoisted_8,
-              vue.createElementVNode("div", _hoisted_9, [
-                _ctx.errorMessage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_10, vue.toDisplayString(_ctx.errorMessage), 1)) : vue.createCommentVNode("", true),
+              }, null, 8, _hoisted_4),
+              _cache[8] || (_cache[8] = vue.createElementVNode("br", null, null, -1)),
+              vue.createElementVNode("div", _hoisted_5, [
+                _ctx.errorMessage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6, vue.toDisplayString(_ctx.errorMessage), 1)) : vue.createCommentVNode("", true),
                 vue.withDirectives(vue.createElementVNode("textarea", {
                   id: "message",
                   class: vue.normalizeClass({ "has-error": _ctx.errorMessage }),
@@ -586,20 +570,20 @@
                   [vue.vModelText, _ctx.feedbackMessage]
                 ])
               ]),
-              _hoisted_11,
+              _cache[9] || (_cache[9] = vue.createElementVNode("br", null, null, -1)),
               vue.createElementVNode("p", {
                 innerHTML: _ctx.$sanitize(_ctx.feedbackPolicy)
-              }, null, 8, _hoisted_12),
+              }, null, 8, _hoisted_7),
               vue.createElementVNode("input", {
                 type: "button",
                 role: "validation",
                 value: _ctx.translate("Feedback_SendFeedback")
-              }, null, 8, _hoisted_13),
+              }, null, 8, _hoisted_8),
               vue.createElementVNode("input", {
                 type: "button",
                 role: "cancel",
                 value: _ctx.translate("General_Cancel")
-              }, null, 8, _hoisted_14)
+              }, null, 8, _hoisted_9)
             ])
           ]),
           _: 1
@@ -609,19 +593,19 @@
           "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => _ctx.feedbackDone = $event)
         }, {
           default: vue.withCtx(() => [
-            vue.createElementVNode("div", _hoisted_15, [
+            vue.createElementVNode("div", _hoisted_10, [
               vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate(`Feedback_ThankYou`)), 1),
               vue.createElementVNode("p", {
                 innerHTML: _ctx.$sanitize(_ctx.translate(
                   "Feedback_ThankYourForFeedback",
                   `<i class='icon-heart red-text'></i>`
                 ))
-              }, null, 8, _hoisted_16),
+              }, null, 8, _hoisted_11),
               vue.createElementVNode("input", {
                 type: "button",
                 role: "cancel",
                 value: _ctx.translate("General_Close")
-              }, null, 8, _hoisted_17)
+              }, null, 8, _hoisted_12)
             ])
           ]),
           _: 1

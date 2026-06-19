@@ -112,23 +112,27 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     }
     return target;
   };
-  const _hoisted_1$1 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-chevron-left" }, null, -1);
-  const _hoisted_2 = { key: 1 };
-  const _hoisted_3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4 = {
+  const _hoisted_1$1 = { key: 1 };
+  const _hoisted_2 = {
     key: 0,
     class: "row"
   };
-  const _hoisted_5 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-warning" }, null, -1);
-  const _hoisted_6 = {
+  const _hoisted_3 = {
     key: 1,
     class: "row tracking-method-detection"
   };
-  const _hoisted_7 = ["src", "alt"];
-  const _hoisted_8 = ["href"];
-  const _hoisted_9 = { class: "row tracking-method-list" };
-  const _hoisted_10 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-search" }, null, -1);
-  const _hoisted_11 = ["href", "onClick"];
+  const _hoisted_4 = ["src", "alt"];
+  const _hoisted_5 = ["href"];
+  const _hoisted_6 = { class: "row tracking-method-list" };
+  const _hoisted_7 = ["href", "onClick"];
+  const _hoisted_8 = ["src"];
+  const _hoisted_9 = {
+    key: 1,
+    class: "list-entry-icon",
+    "aria-hidden": "true"
+  };
+  const _hoisted_10 = { class: "list-entry-text" };
+  const _hoisted_11 = ["href"];
   const _hoisted_12 = ["src"];
   const _hoisted_13 = {
     key: 1,
@@ -136,18 +140,10 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     "aria-hidden": "true"
   };
   const _hoisted_14 = { class: "list-entry-text" };
-  const _hoisted_15 = ["href"];
-  const _hoisted_16 = ["src"];
-  const _hoisted_17 = {
-    key: 1,
-    class: "list-entry-icon",
-    "aria-hidden": "true"
-  };
-  const _hoisted_18 = { class: "list-entry-text" };
-  const _hoisted_19 = { class: "tracking-method-skip" };
-  const _hoisted_20 = ["href"];
-  const _hoisted_21 = ["data-method"];
-  const _hoisted_22 = ["src", "alt"];
+  const _hoisted_15 = { class: "tracking-method-skip" };
+  const _hoisted_16 = ["href"];
+  const _hoisted_17 = ["data-method"];
+  const _hoisted_18 = ["src", "alt"];
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
     const _component_VueEntryContainer = vue.resolveComponent("VueEntryContainer");
@@ -159,13 +155,13 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           _ctx.showOverview();
         }, ["prevent"]))
       }, [
-        _hoisted_1$1,
+        _cache[3] || (_cache[3] = vue.createElementVNode("span", { class: "icon-chevron-left" }, null, -1)),
         vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Mobile_NavigationBack")), 1)
       ])) : vue.createCommentVNode("", true),
       vue.createElementVNode("h1", null, vue.toDisplayString(_ctx.headline), 1),
-      !_ctx.loading && !_ctx.showMethodDetails ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_2, [
+      !_ctx.loading && !_ctx.showMethodDetails ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_1$1, [
         vue.createTextVNode(vue.toDisplayString(_ctx.translate("BotTracking_SiteWithoutDataChooseTrackingMethodPreamble1")) + " ", 1),
-        _hoisted_3,
+        _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1)),
         vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("BotTracking_SiteWithoutDataChooseTrackingMethodPreamble2")), 1)
       ])) : vue.createCommentVNode("", true),
       vue.createVNode(_component_ActivityIndicator, {
@@ -173,8 +169,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         loading: _ctx.loading
       }, null, 8, ["loading-message", "loading"]),
       !_ctx.loading && !_ctx.showMethodDetails ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 2 }, [
-        _ctx.errorMessage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4, [
-          _hoisted_5,
+        _ctx.errorMessage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2, [
+          _cache[5] || (_cache[5] = vue.createElementVNode("span", { class: "icon-warning" }, null, -1)),
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.errorMessage), 1),
           vue.createElementVNode("a", {
             class: "btn",
@@ -182,11 +178,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             onClick: _cache[1] || (_cache[1] = vue.withModifiers(($event) => _ctx.fetchTrackingMethods(), ["prevent"]))
           }, vue.toDisplayString(_ctx.translate("General_Refresh")), 1)
         ])) : vue.createCommentVNode("", true),
-        _ctx.recommendedMethod ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6, [
+        _ctx.recommendedMethod ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3, [
           vue.createElementVNode("img", {
             src: _ctx.recommendedMethod.icon,
             alt: `${_ctx.recommendedMethod.name} logo`
-          }, null, 8, _hoisted_7),
+          }, null, 8, _hoisted_4),
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate(
             "BotTracking_SiteWithoutDataInstallWithXRecommendation",
             _ctx.recommendedMethod.name
@@ -202,10 +198,10 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           }, vue.toDisplayString(_ctx.translate(
             "BotTracking_SiteWithoutDataInstallWithX",
             _ctx.recommendedMethod.name
-          )), 9, _hoisted_8)
+          )), 9, _hoisted_5)
         ])) : vue.createCommentVNode("", true),
-        vue.createElementVNode("div", _hoisted_9, [
-          _hoisted_10,
+        vue.createElementVNode("div", _hoisted_6, [
+          _cache[6] || (_cache[6] = vue.createElementVNode("span", { class: "icon-search" }, null, -1)),
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("BotTracking_SiteWithoutDataOtherInstallMethods")), 1),
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("BotTracking_SiteWithoutDataOtherInstallMethodsIntro")), 1),
           vue.createElementVNode("ul", null, [
@@ -223,9 +219,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                     key: 0,
                     src: method.icon,
                     class: "list-entry-icon"
-                  }, null, 8, _hoisted_12)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_13)),
-                  vue.createElementVNode("span", _hoisted_14, vue.toDisplayString(method.name), 1)
-                ], 8, _hoisted_11)) : method.link ? (vue.openBlock(), vue.createElementBlock("a", {
+                  }, null, 8, _hoisted_8)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_9)),
+                  vue.createElementVNode("span", _hoisted_10, vue.toDisplayString(method.name), 1)
+                ], 8, _hoisted_7)) : method.link ? (vue.openBlock(), vue.createElementBlock("a", {
                   key: 1,
                   href: method.link,
                   target: "_blank",
@@ -235,16 +231,16 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                     key: 0,
                     src: method.icon,
                     class: "list-entry-icon"
-                  }, null, 8, _hoisted_16)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_17)),
-                  vue.createElementVNode("span", _hoisted_18, vue.toDisplayString(method.name), 1)
-                ], 8, _hoisted_15)) : vue.createCommentVNode("", true)
+                  }, null, 8, _hoisted_12)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_13)),
+                  vue.createElementVNode("span", _hoisted_14, vue.toDisplayString(method.name), 1)
+                ], 8, _hoisted_11)) : vue.createCommentVNode("", true)
               ]);
             }), 128))
           ])
         ]),
-        vue.createElementVNode("div", _hoisted_19, [
+        vue.createElementVNode("div", _hoisted_15, [
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("BotTracking_SiteWithoutDataNotYetReady")), 1),
-          vue.createElementVNode("a", { href: _ctx.backToMatomoLink }, vue.toDisplayString(_ctx.translate("BotTracking_SiteWithoutDataBackToMatomo")), 9, _hoisted_20)
+          vue.createElementVNode("a", { href: _ctx.backToMatomoLink }, vue.toDisplayString(_ctx.translate("BotTracking_SiteWithoutDataBackToMatomo")), 9, _hoisted_16)
         ])
       ], 64)) : vue.createCommentVNode("", true),
       _ctx.showMethodDetails ? (vue.openBlock(), vue.createElementBlock("div", {
@@ -255,11 +251,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         vue.createElementVNode("img", {
           src: _ctx.showMethodDetails.icon,
           alt: `${_ctx.showMethodDetails.name} logo`
-        }, null, 8, _hoisted_22),
+        }, null, 8, _hoisted_18),
         vue.createVNode(_component_VueEntryContainer, {
           html: _ctx.showMethodDetails.content
         }, null, 8, ["html"])
-      ], 8, _hoisted_21)) : vue.createCommentVNode("", true)
+      ], 8, _hoisted_17)) : vue.createCommentVNode("", true)
     ]);
   }
   const SiteWithoutData = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);

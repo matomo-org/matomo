@@ -141,10 +141,8 @@
   const _hoisted_4 = { class: "col s10" };
   const _hoisted_5 = ["disabled", "value"];
   const _hoisted_6 = { class: "system-success success-message" };
-  const _hoisted_7 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-ok" }, null, -1);
-  const _hoisted_8 = { class: "system-errors test-error" };
-  const _hoisted_9 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-warning" }, null, -1);
-  const _hoisted_10 = ["innerHTML"];
+  const _hoisted_7 = { class: "system-errors test-error" };
+  const _hoisted_8 = ["innerHTML"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
@@ -178,17 +176,17 @@
           loadingMessage: _ctx.translate("General_Testing")
         }, null, 8, ["loading", "loadingMessage"]),
         vue.withDirectives(vue.createElementVNode("div", _hoisted_6, [
-          _hoisted_7,
+          _cache[2] || (_cache[2] = vue.createElementVNode("span", { class: "icon-ok" }, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("JsTrackerInstallCheck_JsTrackingCodeInstallCheckSuccessMessage")), 1)
         ], 512), [
           [vue.vShow, _ctx.isTestSuccess]
         ]),
-        vue.withDirectives(vue.createElementVNode("div", _hoisted_8, [
-          _hoisted_9,
-          vue.createTextVNode("  "),
+        vue.withDirectives(vue.createElementVNode("div", _hoisted_7, [
+          _cache[3] || (_cache[3] = vue.createElementVNode("span", { class: "icon-warning" }, null, -1)),
+          _cache[4] || (_cache[4] = vue.createTextVNode("  ", -1)),
           vue.createElementVNode("span", {
             innerHTML: _ctx.$sanitize(_ctx.getTestFailureMessage)
-          }, null, 8, _hoisted_10)
+          }, null, 8, _hoisted_8)
         ], 512), [
           [vue.vShow, _ctx.isTestComplete && !_ctx.isTestSuccess]
         ])

@@ -283,11 +283,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const _hoisted_3$5 = ["value", "placeholder", "disabled"];
   const _hoisted_4$5 = ["title"];
   const _hoisted_5$5 = { class: "paging" };
-  const _hoisted_6$5 = ["disabled"];
-  const _hoisted_7$5 = { style: { "cursor": "pointer" } };
-  const _hoisted_8$5 = { class: "counter" };
-  const _hoisted_9$5 = ["disabled"];
-  const _hoisted_10$5 = {
+  const _hoisted_6$4 = ["disabled"];
+  const _hoisted_7$4 = { style: { "cursor": "pointer" } };
+  const _hoisted_8$4 = { class: "counter" };
+  const _hoisted_9$4 = ["disabled"];
+  const _hoisted_10$4 = {
     style: { "cursor": "pointer" },
     class: "pointer"
   };
@@ -322,9 +322,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           disabled: _ctx.hasPrev && !_ctx.isLoading && !_ctx.siteIsBeingEdited ? void 0 : true,
           onClick: _cache[3] || (_cache[3] = ($event) => _ctx.previousPage())
         }, [
-          vue.createElementVNode("span", _hoisted_7$5, "« " + vue.toDisplayString(_ctx.translate("General_Previous")), 1)
-        ], 8, _hoisted_6$5),
-        vue.withDirectives(vue.createElementVNode("span", _hoisted_8$5, [
+          vue.createElementVNode("span", _hoisted_7$4, "« " + vue.toDisplayString(_ctx.translate("General_Previous")), 1)
+        ], 8, _hoisted_6$4),
+        vue.withDirectives(vue.createElementVNode("span", _hoisted_8$4, [
           vue.createElementVNode("span", null, vue.toDisplayString(_ctx.paginationText), 1)
         ], 512), [
           [vue.vShow, _ctx.hasPrev || _ctx.hasNext]
@@ -334,8 +334,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           disabled: _ctx.hasNext && !_ctx.isLoading && !_ctx.siteIsBeingEdited ? void 0 : true,
           onClick: _cache[4] || (_cache[4] = ($event) => _ctx.nextPage())
         }, [
-          vue.createElementVNode("span", _hoisted_10$5, vue.toDisplayString(_ctx.translate("General_Next")) + " »", 1)
-        ], 8, _hoisted_9$5)
+          vue.createElementVNode("span", _hoisted_10$4, vue.toDisplayString(_ctx.translate("General_Next")) + " »", 1)
+        ], 8, _hoisted_9$4)
       ], 512), [
         [vue.vShow, _ctx.hasPrev || _ctx.hasNext]
       ])
@@ -695,43 +695,33 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const _hoisted_4$4 = { class: "col m3" };
   const _hoisted_5$4 = { class: "title" };
-  const _hoisted_6$4 = { class: "title" };
-  const _hoisted_7$4 = ["target", "title", "href"];
-  const _hoisted_8$4 = { class: "col m4" };
-  const _hoisted_9$4 = { class: "title" };
-  const _hoisted_10$4 = { class: "title" };
-  const _hoisted_11$4 = { class: "title" };
-  const _hoisted_12$3 = { class: "title" };
-  const _hoisted_13$3 = { class: "col m4" };
-  const _hoisted_14$3 = { class: "title" };
-  const _hoisted_15$2 = ["href"];
-  const _hoisted_16$2 = { key: 0 };
-  const _hoisted_17$1 = { class: "title" };
-  const _hoisted_18$1 = { key: 1 };
-  const _hoisted_19$1 = { class: "title" };
-  const _hoisted_20$1 = { key: 2 };
-  const _hoisted_21$1 = { class: "title" };
-  const _hoisted_22$1 = { class: "col m1 right-align" };
+  const _hoisted_6$3 = { class: "title" };
+  const _hoisted_7$3 = ["target", "title", "href"];
+  const _hoisted_8$3 = { class: "col m4" };
+  const _hoisted_9$3 = { class: "title" };
+  const _hoisted_10$3 = { class: "title" };
+  const _hoisted_11$2 = { class: "title" };
+  const _hoisted_12$2 = { class: "title" };
+  const _hoisted_13$1 = { class: "col m4" };
+  const _hoisted_14$1 = { class: "title" };
+  const _hoisted_15 = ["href"];
+  const _hoisted_16 = { key: 0 };
+  const _hoisted_17 = { class: "title" };
+  const _hoisted_18 = { key: 1 };
+  const _hoisted_19 = { class: "title" };
+  const _hoisted_20 = { key: 2 };
+  const _hoisted_21 = { class: "title" };
+  const _hoisted_22 = { class: "col m1 right-align" };
   const _hoisted_23 = ["title"];
-  const _hoisted_24 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-edit" }, null, -1);
-  const _hoisted_25 = [
-    _hoisted_24
-  ];
-  const _hoisted_26 = ["title"];
-  const _hoisted_27 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-delete" }, null, -1);
-  const _hoisted_28 = [
-    _hoisted_27
-  ];
-  const _hoisted_29 = { key: 1 };
-  const _hoisted_30 = ["id"];
-  const _hoisted_31 = { key: 0 };
-  const _hoisted_32 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_33 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_34 = { class: "" };
-  const _hoisted_35 = { class: "editingSiteFooter" };
-  const _hoisted_36 = ["disabled", "value"];
-  const _hoisted_37 = ["disabled"];
-  const _hoisted_38 = ["innerHTML"];
+  const _hoisted_24 = ["title"];
+  const _hoisted_25 = { key: 1 };
+  const _hoisted_26 = ["id"];
+  const _hoisted_27 = { key: 0 };
+  const _hoisted_28 = { class: "" };
+  const _hoisted_29 = { class: "editingSiteFooter" };
+  const _hoisted_30 = ["disabled", "value"];
+  const _hoisted_31 = ["disabled"];
+  const _hoisted_32 = ["innerHTML"];
   function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     var _a, _b, _c;
     const _component_Field = vue.resolveComponent("Field");
@@ -754,7 +744,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.theSite.idsite), 1)
               ]),
               vue.withDirectives(vue.createElementVNode("li", null, [
-                vue.createElementVNode("span", _hoisted_6$4, vue.toDisplayString(_ctx.translate("SitesManager_Type")) + ":", 1),
+                vue.createElementVNode("span", _hoisted_6$3, vue.toDisplayString(_ctx.translate("SitesManager_Type")) + ":", 1),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.currentType.name), 1)
               ], 512), [
                 [vue.vShow, _ctx.availableTypes.length > 1]
@@ -764,81 +754,85 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                   target: _ctx.isInternalSetupUrl ? "_self" : "_blank",
                   title: _ctx.translate("SitesManager_ShowTrackingTag"),
                   href: _ctx.setupUrl
-                }, vue.toDisplayString(_ctx.translate("SitesManager_ShowTrackingTag")), 9, _hoisted_7$4)
+                }, vue.toDisplayString(_ctx.translate("SitesManager_ShowTrackingTag")), 9, _hoisted_7$3)
               ], 512), [
                 [vue.vShow, _ctx.theSite.idsite && _ctx.howToSetupUrl]
               ])
             ])
           ]),
-          vue.createElementVNode("div", _hoisted_8$4, [
+          vue.createElementVNode("div", _hoisted_8$3, [
             vue.createElementVNode("ul", null, [
               vue.createElementVNode("li", null, [
-                vue.createElementVNode("span", _hoisted_9$4, vue.toDisplayString(_ctx.translate("SitesManager_Timezone")) + ":", 1),
+                vue.createElementVNode("span", _hoisted_9$3, vue.toDisplayString(_ctx.translate("SitesManager_Timezone")) + ":", 1),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.theSite.timezone_name), 1)
               ]),
               vue.createElementVNode("li", null, [
-                vue.createElementVNode("span", _hoisted_10$4, vue.toDisplayString(_ctx.translate("SitesManager_Currency")) + ":", 1),
+                vue.createElementVNode("span", _hoisted_10$3, vue.toDisplayString(_ctx.translate("SitesManager_Currency")) + ":", 1),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.theSite.currency_name), 1)
               ]),
               vue.withDirectives(vue.createElementVNode("li", null, [
-                vue.createElementVNode("span", _hoisted_11$4, vue.toDisplayString(_ctx.translate("Goals_Ecommerce")) + ":", 1),
+                vue.createElementVNode("span", _hoisted_11$2, vue.toDisplayString(_ctx.translate("Goals_Ecommerce")) + ":", 1),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_Yes")), 1)
               ], 512), [
                 [vue.vShow, _ctx.theSite.ecommerce === 1 || _ctx.theSite.ecommerce === "1"]
               ]),
               vue.withDirectives(vue.createElementVNode("li", null, [
-                vue.createElementVNode("span", _hoisted_12$3, vue.toDisplayString(_ctx.translate("Actions_SubmenuSitesearch")) + ":", 1),
+                vue.createElementVNode("span", _hoisted_12$2, vue.toDisplayString(_ctx.translate("Actions_SubmenuSitesearch")) + ":", 1),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_Yes")), 1)
               ], 512), [
                 [vue.vShow, _ctx.theSite.sitesearch === 1 || _ctx.theSite.sitesearch === "1"]
               ])
             ])
           ]),
-          vue.createElementVNode("div", _hoisted_13$3, [
+          vue.createElementVNode("div", _hoisted_13$1, [
             vue.createElementVNode("ul", null, [
               vue.createElementVNode("li", null, [
-                vue.createElementVNode("span", _hoisted_14$3, vue.toDisplayString(_ctx.translate("SitesManager_Urls")), 1),
-                vue.createTextVNode(": "),
+                vue.createElementVNode("span", _hoisted_14$1, vue.toDisplayString(_ctx.translate("SitesManager_Urls")), 1),
+                _cache[10] || (_cache[10] = vue.createTextVNode(": ", -1)),
                 (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.theSite.alias_urls, (url, index) => {
                   return vue.openBlock(), vue.createElementBlock("span", { key: url }, [
                     vue.createElementVNode("a", {
                       target: "_blank",
                       rel: "noreferrer noopener",
                       href: url
-                    }, vue.toDisplayString(url) + vue.toDisplayString(index === _ctx.theSite.alias_urls.length - 1 ? "" : ", "), 9, _hoisted_15$2)
+                    }, vue.toDisplayString(url) + vue.toDisplayString(index === _ctx.theSite.alias_urls.length - 1 ? "" : ", "), 9, _hoisted_15)
                   ]);
                 }), 128))
               ]),
-              ((_a = _ctx.theSite.excluded_ips) == null ? void 0 : _a.length) ? (vue.openBlock(), vue.createElementBlock("li", _hoisted_16$2, [
-                vue.createElementVNode("span", _hoisted_17$1, vue.toDisplayString(_ctx.translate("SitesManager_ExcludedIps")) + ":", 1),
+              ((_a = _ctx.theSite.excluded_ips) == null ? void 0 : _a.length) ? (vue.openBlock(), vue.createElementBlock("li", _hoisted_16, [
+                vue.createElementVNode("span", _hoisted_17, vue.toDisplayString(_ctx.translate("SitesManager_ExcludedIps")) + ":", 1),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.theSite.excluded_ips.split(/\s*,\s*/g).join(", ")), 1)
               ])) : vue.createCommentVNode("", true),
-              ((_b = _ctx.theSite.excluded_parameters) == null ? void 0 : _b.length) ? (vue.openBlock(), vue.createElementBlock("li", _hoisted_18$1, [
-                vue.createElementVNode("span", _hoisted_19$1, vue.toDisplayString(_ctx.translate("SitesManager_ExcludedParameters")) + ":", 1),
+              ((_b = _ctx.theSite.excluded_parameters) == null ? void 0 : _b.length) ? (vue.openBlock(), vue.createElementBlock("li", _hoisted_18, [
+                vue.createElementVNode("span", _hoisted_19, vue.toDisplayString(_ctx.translate("SitesManager_ExcludedParameters")) + ":", 1),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.theSite.excluded_parameters.split(/\s*,\s*/g).join(", ")), 1)
               ])) : vue.createCommentVNode("", true),
-              ((_c = _ctx.theSite.excluded_user_agents) == null ? void 0 : _c.length) ? (vue.openBlock(), vue.createElementBlock("li", _hoisted_20$1, [
-                vue.createElementVNode("span", _hoisted_21$1, vue.toDisplayString(_ctx.translate("SitesManager_ExcludedUserAgents")) + ":", 1),
+              ((_c = _ctx.theSite.excluded_user_agents) == null ? void 0 : _c.length) ? (vue.openBlock(), vue.createElementBlock("li", _hoisted_20, [
+                vue.createElementVNode("span", _hoisted_21, vue.toDisplayString(_ctx.translate("SitesManager_ExcludedUserAgents")) + ":", 1),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.theSite.excluded_user_agents.split(/\s*,\s*/g).join(", ")), 1)
               ])) : vue.createCommentVNode("", true)
             ])
           ]),
-          vue.createElementVNode("div", _hoisted_22$1, [
+          vue.createElementVNode("div", _hoisted_22, [
             vue.createElementVNode("button", {
               class: "table-action",
               onClick: _cache[0] || (_cache[0] = ($event) => _ctx.editSite()),
               title: _ctx.translate("General_Edit")
-            }, _hoisted_25, 8, _hoisted_23),
+            }, [..._cache[11] || (_cache[11] = [
+              vue.createElementVNode("span", { class: "icon-edit" }, null, -1)
+            ])], 8, _hoisted_23),
             vue.withDirectives(vue.createElementVNode("button", {
               class: "table-action",
               onClick: _cache[1] || (_cache[1] = ($event) => _ctx.getMessagesToWarnOnSiteRemoval()),
               title: _ctx.translate("General_Delete")
-            }, _hoisted_28, 8, _hoisted_26), [
+            }, [..._cache[12] || (_cache[12] = [
+              vue.createElementVNode("span", { class: "icon-delete" }, null, -1)
+            ])], 8, _hoisted_24), [
               [vue.vShow, _ctx.theSite.idsite]
             ])
           ])
         ])) : vue.createCommentVNode("", true),
-        _ctx.editMode ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_29, [
+        _ctx.editMode ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_25, [
           vue.createVNode(_component_Field, {
             uicontrol: "text",
             name: "siteName",
@@ -897,17 +891,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             class: "inline-help-node"
           }, [
             vue.createElementVNode("div", null, [
-              !_ctx.timezoneSupportEnabled ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_31, [
+              !_ctx.timezoneSupportEnabled ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_27, [
                 vue.createTextVNode(vue.toDisplayString(_ctx.translate("SitesManager_AdvancedTimezoneSupportNotFound")) + " ", 1),
-                _hoisted_32
+                _cache[13] || (_cache[13] = vue.createElementVNode("br", null, null, -1))
               ])) : vue.createCommentVNode("", true),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.utcTimeIs) + " ", 1),
-              _hoisted_33,
+              _cache[14] || (_cache[14] = vue.createElementVNode("br", null, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward")), 1)
             ])
-          ], 8, _hoisted_30),
+          ], 8, _hoisted_26),
           _ctx.privacyManagerEnabled && _ctx.theSite && _ctx.theSite.idsite ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
-            vue.createElementVNode("h3", _hoisted_34, vue.toDisplayString(_ctx.translate("PrivacyManager_TrackingDataAnonymizationSettings")), 1),
+            vue.createElementVNode("h3", _hoisted_28, vue.toDisplayString(_ctx.translate("PrivacyManager_TrackingDataAnonymizationSettings")), 1),
             vue.createVNode(_component_ActivityIndicator, { loading: _ctx.isLoadingPrivacy }, null, 8, ["loading"]),
             !_ctx.isLoadingPrivacy ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.anonymizeIpComponent), vue.mergeProps({
               key: 0,
@@ -919,21 +913,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               onCancel: _cache[6] || (_cache[6] = ($event) => _ctx.cancelEditSite(_ctx.site))
             }), null, 16, ["id-site-specific", "trigger-save", "onUpdated", "onAborted"])) : vue.createCommentVNode("", true)
           ], 64)) : vue.createCommentVNode("", true),
-          vue.createElementVNode("div", _hoisted_35, [
+          vue.createElementVNode("div", _hoisted_29, [
             vue.withDirectives(vue.createElementVNode("input", {
               disabled: _ctx.isSaving,
               type: "submit",
               class: "btn",
               value: _ctx.translate("General_Save"),
               onClick: _cache[7] || (_cache[7] = ($event) => _ctx.saveSite())
-            }, null, 8, _hoisted_36), [
+            }, null, 8, _hoisted_30), [
               [vue.vShow, !_ctx.isLoading]
             ]),
             vue.createElementVNode("button", {
               class: "btn btn-link",
               disabled: _ctx.isSaving,
               onClick: _cache[8] || (_cache[8] = ($event) => _ctx.cancelEditSite(_ctx.site))
-            }, vue.toDisplayString(_ctx.translate("General_Cancel", "", "")), 9, _hoisted_37)
+            }, vue.toDisplayString(_ctx.translate("General_Cancel", "", "")), 9, _hoisted_31)
           ])
         ])) : vue.createCommentVNode("", true)
       ]),
@@ -949,7 +943,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           _ctx.deleteSiteExplanation ? (vue.openBlock(), vue.createElementBlock("p", {
             key: 0,
             innerHTML: _ctx.$sanitize(_ctx.deleteSiteExplanation)
-          }, null, 8, _hoisted_38)) : vue.createCommentVNode("", true)
+          }, null, 8, _hoisted_32)) : vue.createCommentVNode("", true)
         ]),
         _: 1
       }, 8, ["modelValue", "onConfirmed", "password-field-id"])
@@ -1280,19 +1274,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const _hoisted_2$3 = { class: "sites-manager-header" };
   const _hoisted_3$3 = ["innerHTML"];
-  const _hoisted_4$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_5$3 = ["innerHTML"];
-  const _hoisted_6$3 = { class: "loadingPiwik" };
-  const _hoisted_7$3 = { class: "ui-confirm add-site-dialog" };
-  const _hoisted_8$3 = { class: "center" };
-  const _hoisted_9$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_10$3 = { class: "card-row" };
-  const _hoisted_11$3 = { class: "center" };
-  const _hoisted_12$2 = ["title", "onClick"];
-  const _hoisted_13$2 = { class: "ui-button-text" };
-  const _hoisted_14$2 = { class: "sitesManagerList" };
-  const _hoisted_15$1 = { key: 0 };
-  const _hoisted_16$1 = { class: "bottomButtonBar" };
+  const _hoisted_4$3 = ["innerHTML"];
+  const _hoisted_5$3 = { class: "loadingPiwik" };
+  const _hoisted_6$2 = { class: "ui-confirm add-site-dialog" };
+  const _hoisted_7$2 = { class: "center" };
+  const _hoisted_8$2 = { class: "card-row" };
+  const _hoisted_9$2 = { class: "center" };
+  const _hoisted_10$2 = ["title", "onClick"];
+  const _hoisted_11$1 = { class: "ui-button-text" };
+  const _hoisted_12$1 = { class: "sitesManagerList" };
+  const _hoisted_13 = { key: 0 };
+  const _hoisted_14 = { class: "bottomButtonBar" };
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _component_MatomoLoader = vue.resolveComponent("MatomoLoader");
@@ -1323,10 +1315,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               innerHTML: _ctx.$sanitize(_ctx.mainDescription)
             }, null, 8, _hoisted_3$3),
             vue.withDirectives(vue.createElementVNode("span", null, [
-              _hoisted_4$3,
+              _cache[15] || (_cache[15] = vue.createElementVNode("br", null, null, -1)),
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.superUserAccessMessage)
-              }, null, 8, _hoisted_5$3)
+              }, null, 8, _hoisted_4$3)
             ], 512), [
               [vue.vShow, _ctx.hasSuperUserAccess]
             ])
@@ -1339,7 +1331,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         vue.createElementVNode("div", {
           class: vue.normalizeClass({ hide_only: !_ctx.isLoading })
         }, [
-          vue.createElementVNode("div", _hoisted_6$3, [
+          vue.createElementVNode("div", _hoisted_5$3, [
             vue.createVNode(_component_MatomoLoader),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_LoadingData")), 1)
           ])
@@ -1369,21 +1361,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         options: { classes: _ctx.availableTypes.length > 2 ? "sites-manager-modal" : "" }
       }, {
         default: vue.withCtx(() => [
-          vue.createElementVNode("div", _hoisted_7$3, [
+          vue.createElementVNode("div", _hoisted_6$2, [
             vue.createElementVNode("div", null, [
               vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("SitesManager_ChooseMeasurableTypeHeadline")), 1),
-              vue.createElementVNode("div", _hoisted_8$3, [
+              vue.createElementVNode("div", _hoisted_7$2, [
                 vue.createElementVNode("p", null, vue.toDisplayString(_ctx.subheaderText), 1),
-                _hoisted_9$3
+                _cache[16] || (_cache[16] = vue.createElementVNode("br", null, null, -1))
               ]),
-              vue.createElementVNode("div", _hoisted_10$3, [
+              vue.createElementVNode("div", _hoisted_8$2, [
                 (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.availableTypes, (type) => {
                   return vue.openBlock(), vue.createBlock(_component_ContentBlock, {
                     key: type.id,
                     "content-title": type.name
                   }, {
                     default: vue.withCtx(() => [
-                      vue.createElementVNode("p", _hoisted_11$3, vue.toDisplayString(type.longDescription), 1),
+                      vue.createElementVNode("p", _hoisted_9$2, vue.toDisplayString(type.longDescription), 1),
                       vue.createElementVNode("button", {
                         type: "button",
                         title: type.description,
@@ -1391,8 +1383,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                         onClick: ($event) => _ctx.addSite(type.id),
                         "aria-disabled": "false"
                       }, [
-                        vue.createElementVNode("span", _hoisted_13$2, vue.toDisplayString(type.name), 1)
-                      ], 8, _hoisted_12$2)
+                        vue.createElementVNode("span", _hoisted_11$1, vue.toDisplayString(type.name), 1)
+                      ], 8, _hoisted_10$2)
                     ]),
                     _: 2
                   }, 1032, ["content-title"]);
@@ -1403,8 +1395,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         ]),
         _: 1
       }, 8, ["modelValue", "options"]),
-      vue.createElementVNode("div", _hoisted_14$2, [
-        _ctx.activeSearchTerm && 0 === _ctx.sites.length && !_ctx.isLoading ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_15$1, [
+      vue.createElementVNode("div", _hoisted_12$1, [
+        _ctx.activeSearchTerm && 0 === _ctx.sites.length && !_ctx.isLoading ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_13, [
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("SitesManager_NotFound")) + " ", 1),
           vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.activeSearchTerm), 1)
         ])) : vue.createCommentVNode("", true),
@@ -1427,7 +1419,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           ]);
         }), 128))
       ]),
-      vue.createElementVNode("div", _hoisted_16$1, [
+      vue.createElementVNode("div", _hoisted_14, [
         vue.createVNode(_component_ButtonBar, {
           "site-is-being-edited": _ctx.isSiteBeingEdited,
           "has-prev": _ctx.hasPrev,
@@ -1536,14 +1528,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     id: "excludedQueryParametersGlobalExclusionTypeHelp",
     class: "inline-help-node"
   };
-  const _hoisted_4$2 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-chevron-down" }, null, -1);
-  const _hoisted_5$2 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-chevron-up" }, null, -1);
-  const _hoisted_6$2 = { key: 0 };
-  const _hoisted_7$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_8$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_9$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_10$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_11$2 = ["value"];
+  const _hoisted_4$2 = { key: 0 };
+  const _hoisted_5$2 = ["value"];
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [
@@ -1563,7 +1549,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.showListOfCommonExclusions = true, ["prevent"]))
             }, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("SitesManager_ExclusionViewListLink")) + " ", 1),
-              _hoisted_4$2
+              _cache[6] || (_cache[6] = vue.createElementVNode("span", { class: "icon-chevron-down" }, null, -1))
             ])) : vue.createCommentVNode("", true),
             _ctx.showListOfCommonExclusions ? (vue.openBlock(), vue.createElementBlock("a", {
               key: 1,
@@ -1571,12 +1557,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               onClick: _cache[1] || (_cache[1] = vue.withModifiers(($event) => _ctx.showListOfCommonExclusions = false, ["prevent"]))
             }, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("SitesManager_ExclusionViewListLink")) + " ", 1),
-              _hoisted_5$2
+              _cache[7] || (_cache[7] = vue.createElementVNode("span", { class: "icon-chevron-up" }, null, -1))
             ])) : vue.createCommentVNode("", true)
           ]),
-          _ctx.showListOfCommonExclusions ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$2, vue.toDisplayString(_ctx.commonSensitiveQueryParams.join(", ")), 1)) : vue.createCommentVNode("", true),
-          _hoisted_7$2,
-          _hoisted_8$2,
+          _ctx.showListOfCommonExclusions ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$2, vue.toDisplayString(_ctx.commonSensitiveQueryParams.join(", ")), 1)) : vue.createCommentVNode("", true),
+          _cache[8] || (_cache[8] = vue.createElementVNode("br", null, null, -1)),
+          _cache[9] || (_cache[9] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(
             "SitesManager_MatomoWillAutomaticallyExcludeCommonSessionParametersInAddition",
             "phpsessid, sessionid, ..."
@@ -1586,8 +1572,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         ]),
         vue.withDirectives(vue.createElementVNode("div", null, [
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("SitesManager_ExclusionTypeDescriptionCustom")) + " ", 1),
-          _hoisted_9$2,
-          _hoisted_10$2,
+          _cache[10] || (_cache[10] = vue.createElementVNode("br", null, null, -1)),
+          _cache[11] || (_cache[11] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(
             "SitesManager_MatomoWillAutomaticallyExcludeCommonSessionParametersInAddition",
             "phpsessid, sessionid, ..."
@@ -1625,7 +1611,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           onClick: _cache[5] || (_cache[5] = ($event) => _ctx.addCommonPIIQueryParams()),
           class: "btn",
           value: _ctx.translate("SitesManager_AddSensibleExclusionsToMyCustomListButtonText")
-        }, null, 8, _hoisted_11$2)
+        }, null, 8, _hoisted_5$2)
       ], 512), [
         [vue.vShow, _ctx.localExclusionTypeForQueryParams === "custom"]
       ])
@@ -1762,45 +1748,30 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
   });
   const _hoisted_1$1 = { class: "SitesManager" };
-  const _hoisted_2$1 = /* @__PURE__ */ vue.createElementVNode("a", {
-    name: "globalSettings",
-    id: "globalSettings"
-  }, null, -1);
-  const _hoisted_3$1 = {
+  const _hoisted_2$1 = {
     id: "excludedIpsGlobalHelp",
     class: "inline-help-node"
   };
-  const _hoisted_4$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_5$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6$1 = ["innerHTML"];
-  const _hoisted_7$1 = {
+  const _hoisted_3$1 = ["innerHTML"];
+  const _hoisted_4$1 = {
     id: "excludedUserAgentsGlobalHelp",
     class: "inline-help-node"
   };
-  const _hoisted_8$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_9$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_10$1 = {
+  const _hoisted_5$1 = {
     id: "excludedReferrersGlobalHelp",
     class: "inline-help-node"
   };
-  const _hoisted_11$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_12$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_13$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_14$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_15 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_16 = {
+  const _hoisted_6$1 = {
     id: "timezoneHelp",
     class: "inline-help-node"
   };
-  const _hoisted_17 = { key: 0 };
-  const _hoisted_18 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_19 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_20 = {
+  const _hoisted_7$1 = { key: 0 };
+  const _hoisted_8$1 = {
     id: "keepURLFragmentsHelp",
     class: "inline-help-node"
   };
-  const _hoisted_21 = ["innerHTML"];
-  const _hoisted_22 = { class: "alert alert-info" };
+  const _hoisted_9$1 = ["innerHTML"];
+  const _hoisted_10$1 = { class: "alert alert-info" };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _component_ExcludeQueryParameterSettings = vue.resolveComponent("ExcludeQueryParameterSettings");
@@ -1811,8 +1782,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         "content-title": _ctx.translate("SitesManager_GlobalWebsitesSettings")
       }, {
         default: vue.withCtx(() => [
-          _hoisted_2$1,
-          vue.createElementVNode("div", _hoisted_3$1, [
+          _cache[22] || (_cache[22] = vue.createElementVNode("a", {
+            name: "globalSettings",
+            id: "globalSettings"
+          }, null, -1)),
+          vue.createElementVNode("div", _hoisted_2$1, [
             vue.createElementVNode("div", null, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate(
                 "SitesManager_HelpExcludedIpAddresses",
@@ -1820,31 +1794,31 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                 "1.2.3.*",
                 "1.2.*.*"
               )) + " ", 1),
-              _hoisted_4$1,
-              _hoisted_5$1,
+              _cache[11] || (_cache[11] = vue.createElementVNode("br", null, null, -1)),
+              _cache[12] || (_cache[12] = vue.createElementVNode("br", null, null, -1)),
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.yourCurrentIpAddressIs)
-              }, null, 8, _hoisted_6$1)
+              }, null, 8, _hoisted_3$1)
             ])
           ]),
-          vue.createElementVNode("div", _hoisted_7$1, [
+          vue.createElementVNode("div", _hoisted_4$1, [
             vue.createElementVNode("div", null, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("SitesManager_GlobalExcludedUserAgentHelp1")) + " ", 1),
-              _hoisted_8$1,
-              _hoisted_9$1,
+              _cache[13] || (_cache[13] = vue.createElementVNode("br", null, null, -1)),
+              _cache[14] || (_cache[14] = vue.createElementVNode("br", null, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("SitesManager_GlobalListExcludedUserAgents_Desc")) + " " + vue.toDisplayString(_ctx.translate("SitesManager_GlobalExcludedUserAgentHelp2")) + " " + vue.toDisplayString(_ctx.translate(
                 "SitesManager_GlobalExcludedUserAgentHelp3",
                 "/bot|spider|crawl|scanner/i"
               )), 1)
             ])
           ]),
-          vue.createElementVNode("div", _hoisted_10$1, [
+          vue.createElementVNode("div", _hoisted_5$1, [
             vue.createElementVNode("div", null, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("SitesManager_ExcludedReferrersHelp")) + " ", 1),
-              _hoisted_11$1,
-              _hoisted_12$1,
+              _cache[15] || (_cache[15] = vue.createElementVNode("br", null, null, -1)),
+              _cache[16] || (_cache[16] = vue.createElementVNode("br", null, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("SitesManager_ExcludedReferrersHelpDetails")) + " ", 1),
-              _hoisted_13$1,
+              _cache[17] || (_cache[17] = vue.createElementVNode("br", null, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(
                 "SitesManager_ExcludedReferrersHelpExamples",
                 "www.example.org",
@@ -1852,8 +1826,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                 "https://www.example.org/?param=1",
                 "https://sub.example.org/"
               )) + " ", 1),
-              _hoisted_14$1,
-              _hoisted_15,
+              _cache[18] || (_cache[18] = vue.createElementVNode("br", null, null, -1)),
+              _cache[19] || (_cache[19] = vue.createElementVNode("br", null, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(
                 "SitesManager_ExcludedReferrersHelpSubDomains",
                 ".sub.example.org",
@@ -1862,21 +1836,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               )), 1)
             ])
           ]),
-          vue.createElementVNode("div", _hoisted_16, [
+          vue.createElementVNode("div", _hoisted_6$1, [
             vue.createElementVNode("div", null, [
-              !_ctx.timezoneSupportEnabled ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_17, [
+              !_ctx.timezoneSupportEnabled ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_7$1, [
                 vue.createTextVNode(vue.toDisplayString(_ctx.translate("SitesManager_AdvancedTimezoneSupportNotFound")) + " ", 1),
-                _hoisted_18
+                _cache[20] || (_cache[20] = vue.createElementVNode("br", null, null, -1))
               ])) : vue.createCommentVNode("", true),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("SitesManager_UTCTimeIs", _ctx.utcTimeDate)) + " ", 1),
-              _hoisted_19,
+              _cache[21] || (_cache[21] = vue.createElementVNode("br", null, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward")), 1)
             ])
           ]),
-          vue.createElementVNode("div", _hoisted_20, [
+          vue.createElementVNode("div", _hoisted_8$1, [
             vue.createElementVNode("div", {
               innerHTML: _ctx.$sanitize(_ctx.keepUrlFragmentHelp)
-            }, null, 8, _hoisted_21),
+            }, null, 8, _hoisted_9$1),
             vue.createElementVNode("div", null, vue.toDisplayString(_ctx.translate("SitesManager_KeepURLFragmentsHelp2")), 1)
           ]),
           vue.createElementVNode("div", null, [
@@ -1939,7 +1913,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           ]),
           vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("SitesManager_TrackingSiteSearch")), 1),
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("SitesManager_SiteSearchUse")), 1),
-          vue.createElementVNode("div", _hoisted_22, vue.toDisplayString(_ctx.translate("SitesManager_SearchParametersNote")) + " " + vue.toDisplayString(_ctx.translate("SitesManager_SearchParametersNote2")), 1),
+          vue.createElementVNode("div", _hoisted_10$1, vue.toDisplayString(_ctx.translate("SitesManager_SearchParametersNote")) + " " + vue.toDisplayString(_ctx.translate("SitesManager_SearchParametersNote2")), 1),
           vue.createElementVNode("div", null, [
             vue.createVNode(_component_Field, {
               uicontrol: "text",
@@ -2103,27 +2077,25 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }
     }
   });
-  const _hoisted_1 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-chevron-left" }, null, -1);
-  const _hoisted_2 = { id: "start-tracking-data-header" };
-  const _hoisted_3 = {
+  const _hoisted_1 = { id: "start-tracking-data-header" };
+  const _hoisted_2 = {
     key: 0,
     class: "row",
     id: "start-tracking-detection"
   };
-  const _hoisted_4 = ["src", "alt"];
-  const _hoisted_5 = ["href"];
-  const _hoisted_6 = {
+  const _hoisted_3 = ["src", "alt"];
+  const _hoisted_4 = ["href"];
+  const _hoisted_5 = {
     class: "row",
     id: "start-tracking-method-list"
   };
-  const _hoisted_7 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-search" }, null, -1);
-  const _hoisted_8 = ["href", "onClick"];
-  const _hoisted_9 = ["src"];
-  const _hoisted_10 = { class: "list-entry-text" };
-  const _hoisted_11 = { id: "start-tracking-skip" };
-  const _hoisted_12 = ["href"];
-  const _hoisted_13 = ["data-method"];
-  const _hoisted_14 = ["src", "alt"];
+  const _hoisted_6 = ["href", "onClick"];
+  const _hoisted_7 = ["src"];
+  const _hoisted_8 = { class: "list-entry-text" };
+  const _hoisted_9 = { id: "start-tracking-skip" };
+  const _hoisted_10 = ["href"];
+  const _hoisted_11 = ["data-method"];
+  const _hoisted_12 = ["src", "alt"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_VueEntryContainer = vue.resolveComponent("VueEntryContainer");
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
@@ -2135,10 +2107,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           _ctx.showOverview();
         }, ["prevent"]))
       }, [
-        _hoisted_1,
+        _cache[2] || (_cache[2] = vue.createElementVNode("span", { class: "icon-chevron-left" }, null, -1)),
         vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Mobile_NavigationBack")), 1)
       ])) : vue.createCommentVNode("", true),
-      vue.createElementVNode("h1", _hoisted_2, vue.toDisplayString(_ctx.headline), 1),
+      vue.createElementVNode("h1", _hoisted_1, vue.toDisplayString(_ctx.headline), 1),
       vue.createVNode(_component_VueEntryContainer, {
         id: "start-tracking-cta",
         html: _ctx.ctaContent
@@ -2148,11 +2120,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         loading: _ctx.loading
       }, null, 8, ["loading-message", "loading"]),
       !_ctx.loading && !_ctx.showMethodDetails ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
-        _ctx.recommendedMethod ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3, [
+        _ctx.recommendedMethod ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2, [
           vue.createElementVNode("img", {
             src: _ctx.recommendedMethod.icon,
             alt: `${_ctx.recommendedMethod.name} logo`
-          }, null, 8, _hoisted_4),
+          }, null, 8, _hoisted_3),
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.recommendedMethod.recommendationTitle), 1),
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.recommendedMethod.recommendationText), 1),
           vue.createElementVNode("a", {
@@ -2160,10 +2132,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             class: "btn",
             id: "showMethod",
             onClick: _cache[1] || (_cache[1] = vue.withModifiers(($event) => _ctx.showMethod(_ctx.recommendedMethod.id), ["prevent"]))
-          }, vue.toDisplayString(_ctx.recommendedMethod.recommendationButton), 9, _hoisted_5)
+          }, vue.toDisplayString(_ctx.recommendedMethod.recommendationButton), 9, _hoisted_4)
         ])) : vue.createCommentVNode("", true),
-        vue.createElementVNode("div", _hoisted_6, [
-          _hoisted_7,
+        vue.createElementVNode("div", _hoisted_5, [
+          _cache[3] || (_cache[3] = vue.createElementVNode("span", { class: "icon-search" }, null, -1)),
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("SitesManager_SiteWithoutDataOtherInstallMethods")), 1),
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("SitesManager_SiteWithoutDataOtherInstallMethodsIntro")), 1),
           vue.createElementVNode("ul", null, [
@@ -2180,20 +2152,20 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                     key: 0,
                     src: method.icon,
                     class: "list-entry-icon"
-                  }, null, 8, _hoisted_9)) : vue.createCommentVNode("", true),
-                  vue.createElementVNode("span", _hoisted_10, vue.toDisplayString(method.name), 1)
-                ], 8, _hoisted_8)
+                  }, null, 8, _hoisted_7)) : vue.createCommentVNode("", true),
+                  vue.createElementVNode("span", _hoisted_8, vue.toDisplayString(method.name), 1)
+                ], 8, _hoisted_6)
               ]);
             }), 128))
           ])
         ]),
-        vue.createElementVNode("div", _hoisted_11, [
+        vue.createElementVNode("div", _hoisted_9, [
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("SitesManager_SiteWithoutDataNotYetReady")), 1),
           vue.createElementVNode("div", null, vue.toDisplayString(_ctx.translate("SitesManager_SiteWithoutDataTemporarilyHidePage")), 1),
           vue.createElementVNode("a", {
             href: _ctx.ignoreSitesWithoutDataLink,
             class: "ignoreSitesWithoutData"
-          }, vue.toDisplayString(_ctx.translate("SitesManager_SiteWithoutDataHidePageForHour")), 9, _hoisted_12)
+          }, vue.toDisplayString(_ctx.translate("SitesManager_SiteWithoutDataHidePageForHour")), 9, _hoisted_10)
         ])
       ], 64)) : vue.createCommentVNode("", true),
       _ctx.showMethodDetails ? (vue.openBlock(), vue.createElementBlock("div", {
@@ -2204,11 +2176,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         vue.createElementVNode("img", {
           src: _ctx.showMethodDetails.icon,
           alt: `${_ctx.showMethodDetails.name} logo`
-        }, null, 8, _hoisted_14),
+        }, null, 8, _hoisted_12),
         vue.createVNode(_component_VueEntryContainer, {
           html: _ctx.showMethodDetails.content
         }, null, 8, ["html"])
-      ], 8, _hoisted_13)) : vue.createCommentVNode("", true)
+      ], 8, _hoisted_11)) : vue.createCommentVNode("", true)
     ]);
   }
   const SiteWithoutData = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);

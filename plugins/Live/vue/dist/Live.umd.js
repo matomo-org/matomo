@@ -491,7 +491,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const _hoisted_2$2 = { ref: "root" };
   const _hoisted_3$2 = { class: "visitsLiveFooter" };
   const _hoisted_4$2 = ["title"];
-  const _hoisted_5$2 = {
+  const _hoisted_5$1 = {
     id: "pauseImage",
     border: "0",
     src: "plugins/Live/images/pause.svg",
@@ -518,7 +518,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           title: _ctx.translate("Live_OnClickPause", _ctx.translate("Live_VisitorsInRealTime")),
           onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.pause(), ["prevent"]))
         }, [
-          vue.withDirectives(vue.createElementVNode("img", _hoisted_5$2, null, 512), [
+          vue.withDirectives(vue.createElementVNode("img", _hoisted_5$1, null, 512), [
             [vue.vShow, _ctx.isStarted]
           ])
         ], 8, _hoisted_4$2),
@@ -531,7 +531,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           ])
         ], 8, _hoisted_6$1),
         !_ctx.disableLink ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_8$1, [
-          vue.createTextVNode("   "),
+          _cache[2] || (_cache[2] = vue.createTextVNode("   ", -1)),
           vue.createElementVNode("a", {
             class: "rightLink",
             href: _ctx.visitorLogUrl
@@ -799,12 +799,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   });
   const _hoisted_1$1 = { class: "simple-realtime-visitor-widget" };
   const _hoisted_2$1 = ["title"];
-  const _hoisted_3$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4$1 = {
+  const _hoisted_3$1 = {
     key: 0,
     class: "alert alert-danger"
   };
-  const _hoisted_5$1 = ["innerHTML"];
+  const _hoisted_4$1 = ["innerHTML"];
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$1, [
       vue.createElementVNode("div", {
@@ -813,12 +812,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }, [
         vue.createElementVNode("div", null, vue.toDisplayString(_ctx.visitorsCountText), 1)
       ], 8, _hoisted_2$1),
-      _hoisted_3$1,
-      _ctx.error ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$1, vue.toDisplayString(_ctx.error), 1)) : vue.createCommentVNode("", true),
+      _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
+      _ctx.error ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$1, vue.toDisplayString(_ctx.error), 1)) : vue.createCommentVNode("", true),
       vue.createElementVNode("div", {
         class: "simple-realtime-elaboration",
         innerHTML: _ctx.$sanitize(_ctx.messageHtml)
-      }, null, 8, _hoisted_5$1)
+      }, null, 8, _hoisted_4$1)
     ]);
   }
   const SimpleRealtimeVisitorWidget = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);

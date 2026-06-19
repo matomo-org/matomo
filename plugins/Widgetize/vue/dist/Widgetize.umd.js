@@ -57,7 +57,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     readonly: "true",
     id: "directLinkEmbed"
   };
-  const _hoisted_8$1 = ["href"];
+  const _hoisted_8 = ["href"];
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_select_on_focus = vue.resolveDirective("select-on-focus");
     return vue.openBlock(), vue.createElementBlock(vue.Fragment, null, [
@@ -85,12 +85,12 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           ])), [
             [_directive_select_on_focus, {}]
           ]),
-          vue.createTextVNode(" - "),
+          _cache[0] || (_cache[0] = vue.createTextVNode(" - ", -1)),
           vue.createElementVNode("a", {
             href: _ctx.urlIframe,
             rel: "noreferrer noopener",
             target: "_blank"
-          }, vue.toDisplayString(_ctx.translate("Widgetize_OpenInNewWindow")), 9, _hoisted_8$1)
+          }, vue.toDisplayString(_ctx.translate("Widgetize_OpenInNewWindow")), 9, _hoisted_8)
         ])
       ])
     ], 64);
@@ -254,13 +254,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   const _hoisted_2 = ["innerHTML"];
   const _hoisted_3 = ["innerHTML"];
   const _hoisted_4 = ["innerHTML"];
-  const _hoisted_5 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_6 = ["textContent"];
-  const _hoisted_7 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_8 = ["innerHTML"];
-  const _hoisted_9 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_10 = ["textContent"];
-  const _hoisted_11 = /* @__PURE__ */ vue.createElementVNode("br", { class: "clearfix" }, null, -1);
+  const _hoisted_5 = ["textContent"];
+  const _hoisted_6 = ["innerHTML"];
+  const _hoisted_7 = ["textContent"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
@@ -298,23 +294,23 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.displayInIframe)
               }, null, 8, _hoisted_4),
-              _hoisted_5
+              _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1))
             ]),
             vue.withDirectives(vue.createElementVNode("pre", {
               textContent: vue.toDisplayString(_ctx.dashboardCode)
-            }, null, 8, _hoisted_6), [
+            }, null, 8, _hoisted_5), [
               [_directive_select_on_focus, {}]
             ]),
             vue.createElementVNode("p", null, [
-              _hoisted_7,
+              _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.displayInIframeAllSites)
-              }, null, 8, _hoisted_8),
-              _hoisted_9
+              }, null, 8, _hoisted_6),
+              _cache[2] || (_cache[2] = vue.createElementVNode("br", null, null, -1))
             ]),
             vue.withDirectives(vue.createElementVNode("pre", {
               textContent: vue.toDisplayString(_ctx.allWebsitesDashboardCode)
-            }, null, 8, _hoisted_10), [
+            }, null, 8, _hoisted_7), [
               [_directive_select_on_focus, {}]
             ])
           ])
@@ -330,7 +326,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             vue.createElementVNode("div", null, [
               vue.createVNode(_component_WidgetPreview)
             ]),
-            _hoisted_11
+            _cache[3] || (_cache[3] = vue.createElementVNode("br", { class: "clearfix" }, null, -1))
           ])
         ]),
         _: 1

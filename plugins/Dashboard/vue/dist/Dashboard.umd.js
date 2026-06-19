@@ -373,7 +373,7 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "icon-ok widgetpreview-add-check"
   };
-  const _hoisted_7$2 = {
+  const _hoisted_7 = {
     key: 1,
     class: "widgetpreview-add-plus"
   };
@@ -403,7 +403,7 @@ var __async = (__this, __arguments, generator) => {
           }, [
             vue.createElementVNode("span", _hoisted_4$3, vue.toDisplayString(widget.name), 1),
             vue.createElementVNode("span", _hoisted_5$3, [
-              _ctx.isJustAdded(widget) ? (vue.openBlock(), vue.createElementBlock("i", _hoisted_6$2)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_7$2, "+")),
+              _ctx.isJustAdded(widget) ? (vue.openBlock(), vue.createElementBlock("i", _hoisted_6$2)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_7, "+")),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(_ctx.isJustAdded(widget) ? "General_Added" : "General_Add")), 1)
             ])
           ], 40, _hoisted_3$3)
@@ -631,15 +631,11 @@ var __async = (__this, __arguments, generator) => {
     }
   });
   const _hoisted_1$1 = ["aria-label"];
-  const _hoisted_2$1 = /* @__PURE__ */ vue.createElementVNode("i", { class: "icon-close" }, null, -1);
-  const _hoisted_3$1 = [
-    _hoisted_2$1
-  ];
-  const _hoisted_4$1 = { class: "add-widget-modal-title" };
-  const _hoisted_5$1 = { class: "add-widget-modal-body widgetpreview-base" };
-  const _hoisted_6$1 = { class: "add-widget-modal-categories" };
-  const _hoisted_7$1 = { class: "add-widget-modal-widgets" };
-  const _hoisted_8$1 = { class: "add-widget-modal-preview" };
+  const _hoisted_2$1 = { class: "add-widget-modal-title" };
+  const _hoisted_3$1 = { class: "add-widget-modal-body widgetpreview-base" };
+  const _hoisted_4$1 = { class: "add-widget-modal-categories" };
+  const _hoisted_5$1 = { class: "add-widget-modal-widgets" };
+  const _hoisted_6$1 = { class: "add-widget-modal-preview" };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_category_list = vue.resolveComponent("category-list");
     const _component_widgets_list = vue.resolveComponent("widgets-list");
@@ -659,10 +655,12 @@ var __async = (__this, __arguments, generator) => {
           class: "btn-close modal-close",
           "aria-label": _ctx.translate("General_Close"),
           onClick: _cache[0] || (_cache[0] = (...args) => _ctx.close && _ctx.close(...args))
-        }, _hoisted_3$1, 8, _hoisted_1$1),
-        vue.createElementVNode("h3", _hoisted_4$1, vue.toDisplayString(_ctx.translate("Dashboard_AddAWidget")), 1),
-        vue.createElementVNode("div", _hoisted_5$1, [
-          vue.createElementVNode("div", _hoisted_6$1, [
+        }, [..._cache[2] || (_cache[2] = [
+          vue.createElementVNode("i", { class: "icon-close" }, null, -1)
+        ])], 8, _hoisted_1$1),
+        vue.createElementVNode("h3", _hoisted_2$1, vue.toDisplayString(_ctx.translate("Dashboard_AddAWidget")), 1),
+        vue.createElementVNode("div", _hoisted_3$1, [
+          vue.createElementVNode("div", _hoisted_4$1, [
             vue.createVNode(_component_category_list, {
               categories: _ctx.categoryNames,
               "chosen-category": _ctx.chosenCategory,
@@ -670,7 +668,7 @@ var __async = (__this, __arguments, generator) => {
               onConfirm: _ctx.focusWidgetList
             }, null, 8, ["categories", "chosen-category", "onUpdate:chosenCategory", "onConfirm"])
           ]),
-          vue.createElementVNode("div", _hoisted_7$1, [
+          vue.createElementVNode("div", _hoisted_5$1, [
             vue.createVNode(_component_widgets_list, {
               ref: "widgetsList",
               widgets: _ctx.widgetsInCategory,
@@ -681,7 +679,7 @@ var __async = (__this, __arguments, generator) => {
               onSelect: _ctx.onSelect
             }, null, 8, ["widgets", "chosen-widget-id", "added-widgets", "existing-widget-ids", "onHover", "onSelect"])
           ]),
-          vue.createElementVNode("div", _hoisted_8$1, [
+          vue.createElementVNode("div", _hoisted_6$1, [
             vue.createVNode(_component_widget_preview, {
               widget: _ctx.previewWidget,
               onSelect: _ctx.onSelect
@@ -864,13 +862,11 @@ var __async = (__this, __arguments, generator) => {
     }
   });
   const _hoisted_1 = ["title"];
-  const _hoisted_2 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon icon-dashboard-customize" }, null, -1);
-  const _hoisted_3 = { class: "dropdown positionInViewport" };
-  const _hoisted_4 = { class: "submenu" };
+  const _hoisted_2 = { class: "dropdown positionInViewport" };
+  const _hoisted_3 = { class: "submenu" };
+  const _hoisted_4 = ["onClick", "disabled", "title", "data-action"];
   const _hoisted_5 = ["onClick", "disabled", "title", "data-action"];
-  const _hoisted_6 = ["onClick", "disabled", "title", "data-action"];
-  const _hoisted_7 = { class: "addWidget" };
-  const _hoisted_8 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon icon-add1" }, null, -1);
+  const _hoisted_6 = { class: "addWidget" };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_AddWidgetModal = vue.resolveComponent("AddWidgetModal");
     const _directive_tooltips = vue.resolveDirective("tooltips");
@@ -888,13 +884,13 @@ var __async = (__this, __arguments, generator) => {
         tabindex: "4",
         ref: "expander"
       }, [
-        _hoisted_2,
+        _cache[4] || (_cache[4] = vue.createElementVNode("span", { class: "icon icon-dashboard-customize" }, null, -1)),
         vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Dashboard_ManageDashboard")), 1)
       ], 8, _hoisted_1)), [
         [_directive_tooltips]
       ]),
-      vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_3, [
-        vue.createElementVNode("ul", _hoisted_4, [
+      vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_2, [
+        vue.createElementVNode("ul", _hoisted_3, [
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.generalActions, (title, actionName) => {
             return vue.openBlock(), vue.createElementBlock("li", { key: actionName }, [
               vue.createElementVNode("button", {
@@ -905,7 +901,7 @@ var __async = (__this, __arguments, generator) => {
                 disabled: _ctx.isActionDisabled[actionName] ? "disabled" : void 0,
                 title: _ctx.actionTooltips[actionName] || void 0,
                 "data-action": actionName
-              }, vue.toDisplayString(_ctx.translate(title)), 9, _hoisted_5)
+              }, vue.toDisplayString(_ctx.translate(title)), 9, _hoisted_4)
             ]);
           }), 128)),
           vue.createElementVNode("li", null, [
@@ -926,17 +922,17 @@ var __async = (__this, __arguments, generator) => {
                 disabled: _ctx.isActionDisabled[actionName] ? "disabled" : void 0,
                 title: _ctx.actionTooltips[actionName] || void 0,
                 "data-action": actionName
-              }, vue.toDisplayString(_ctx.translate(title)), 9, _hoisted_6)
+              }, vue.toDisplayString(_ctx.translate(title)), 9, _hoisted_5)
             ]);
           }), 128)),
-          vue.createElementVNode("li", _hoisted_7, [
+          vue.createElementVNode("li", _hoisted_6, [
             vue.createElementVNode("button", {
               type: "button",
               tabindex: "4",
               class: "addWidget-button",
               onClick: _cache[1] || (_cache[1] = ($event) => _ctx.openAddWidget())
             }, [
-              _hoisted_8,
+              _cache[5] || (_cache[5] = vue.createElementVNode("span", { class: "icon icon-add1" }, null, -1)),
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("Dashboard_AddAWidget")), 1)
             ])
           ])

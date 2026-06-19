@@ -45,8 +45,6 @@
   const _hoisted_8 = ["innerHTML"];
   const _hoisted_9 = { key: 3 };
   const _hoisted_10 = ["innerHTML"];
-  const _hoisted_11 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-visitor-profile rowActionIcon" }, "  ", -1);
-  const _hoisted_12 = /* @__PURE__ */ vue.createElementVNode("br", { style: { "clear": "left" } }, null, -1);
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
     return vue.openBlock(), vue.createBlock(_component_ContentBlock, {
@@ -91,10 +89,10 @@
           class: "segmentedlog",
           onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.showSegmentedVisitorLog(), ["prevent"]))
         }, [
-          _hoisted_11,
+          _cache[1] || (_cache[1] = vue.createElementVNode("span", { class: "icon-visitor-profile rowActionIcon" }, "  ", -1)),
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("Live_RowActionTooltipWithDimension", _ctx.translate("General_Goal"))), 1)
         ])) : vue.createCommentVNode("", true),
-        _hoisted_12
+        _cache[2] || (_cache[2] = vue.createElementVNode("br", { style: { "clear": "left" } }, null, -1))
       ]),
       _: 1
     }, 8, ["content-title"]);

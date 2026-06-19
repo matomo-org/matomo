@@ -34,20 +34,15 @@
   };
   const _hoisted_1$4 = ["innerHTML"];
   const _hoisted_2$4 = { key: 0 };
-  const _hoisted_3$4 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-error" }, null, -1);
-  const _hoisted_4$4 = ["innerHTML"];
-  const _hoisted_5$3 = { key: 1 };
-  const _hoisted_6$3 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-warning" }, null, -1);
+  const _hoisted_3$4 = ["innerHTML"];
+  const _hoisted_4$3 = { key: 1 };
+  const _hoisted_5 = ["innerHTML"];
+  const _hoisted_6 = { key: 2 };
   const _hoisted_7 = ["innerHTML"];
-  const _hoisted_8 = { key: 2 };
-  const _hoisted_9 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-info" }, null, -1);
-  const _hoisted_10 = ["innerHTML"];
-  const _hoisted_11 = { key: 3 };
-  const _hoisted_12 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-ok" }, null, -1);
-  const _hoisted_13 = ["innerHTML"];
-  const _hoisted_14 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_15 = { key: 0 };
-  const _hoisted_16 = ["innerHTML"];
+  const _hoisted_8 = { key: 3 };
+  const _hoisted_9 = ["innerHTML"];
+  const _hoisted_10 = { key: 0 };
+  const _hoisted_11 = ["innerHTML"];
   function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Passthrough = vue.resolveComponent("Passthrough");
     return vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.results, (result, index) => {
@@ -61,39 +56,39 @@
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(result.items, (item, index2) => {
                 return vue.openBlock(), vue.createElementBlock("span", { key: index2 }, [
                   item.status === "error" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_2$4, [
-                    _hoisted_3$4,
+                    _cache[0] || (_cache[0] = vue.createElementVNode("span", { class: "icon-error" }, null, -1)),
                     vue.createElementVNode("span", {
                       class: "err",
                       innerHTML: _ctx.$sanitize(typeof item.comment !== "string" ? "" : item.comment)
-                    }, null, 8, _hoisted_4$4)
-                  ])) : item.status === "warning" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_5$3, [
-                    _hoisted_6$3,
+                    }, null, 8, _hoisted_3$4)
+                  ])) : item.status === "warning" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$3, [
+                    _cache[1] || (_cache[1] = vue.createElementVNode("span", { class: "icon-warning" }, null, -1)),
+                    vue.createElementVNode("span", {
+                      innerHTML: _ctx.$sanitize(typeof item.comment !== "string" ? "" : item.comment)
+                    }, null, 8, _hoisted_5)
+                  ])) : item.status === "informational" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_6, [
+                    _cache[2] || (_cache[2] = vue.createElementVNode("span", { class: "icon-info" }, null, -1)),
                     vue.createElementVNode("span", {
                       innerHTML: _ctx.$sanitize(typeof item.comment !== "string" ? "" : item.comment)
                     }, null, 8, _hoisted_7)
-                  ])) : item.status === "informational" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_8, [
-                    _hoisted_9,
+                  ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_8, [
+                    _cache[3] || (_cache[3] = vue.createElementVNode("span", { class: "icon-ok" }, null, -1)),
                     vue.createElementVNode("span", {
                       innerHTML: _ctx.$sanitize(typeof item.comment !== "string" ? "" : item.comment)
-                    }, null, 8, _hoisted_10)
-                  ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_11, [
-                    _hoisted_12,
-                    vue.createElementVNode("span", {
-                      innerHTML: _ctx.$sanitize(typeof item.comment !== "string" ? "" : item.comment)
-                    }, null, 8, _hoisted_13)
+                    }, null, 8, _hoisted_9)
                   ])),
-                  _hoisted_14
+                  _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1))
                 ]);
               }), 128))
             ])
           ]),
-          result.longErrorMessage ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_15, [
+          result.longErrorMessage ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_10, [
             vue.createElementVNode("td", {
               colspan: "2",
               class: "error",
               style: { "font-size": "small" },
               innerHTML: _ctx.$sanitize(result.longErrorMessage)
-            }, null, 8, _hoisted_16)
+            }, null, 8, _hoisted_11)
           ])) : vue.createCommentVNode("", true)
         ]),
         _: 2
@@ -153,18 +148,16 @@
       }
     }
   });
-  const _hoisted_1$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_2$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_3$3 = ["innerHTML"];
-  const _hoisted_4$3 = {
+  const _hoisted_1$3 = ["innerHTML"];
+  const _hoisted_2$3 = {
     class: "entityTable system-check",
     id: "systemCheckRequired"
   };
-  const _hoisted_5$2 = {
+  const _hoisted_3$3 = {
     class: "entityTable system-check",
     id: "systemCheckOptional"
   };
-  const _hoisted_6$2 = {
+  const _hoisted_4$2 = {
     class: "entityTable system-check",
     id: "systemCheckInformational"
   };
@@ -174,9 +167,9 @@
     return vue.openBlock(), vue.createElementBlock(vue.Fragment, null, [
       vue.createElementVNode("p", null, [
         vue.createTextVNode(vue.toDisplayString(_ctx.translate("Installation_CopyBelowInfoForSupport")) + " ", 1),
-        _hoisted_1$3,
-        vue.createTextVNode(),
-        _hoisted_2$3,
+        _cache[2] || (_cache[2] = vue.createElementVNode("br", null, null, -1)),
+        _cache[3] || (_cache[3] = vue.createTextVNode()),
+        _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1)),
         vue.createElementVNode("a", {
           href: "",
           onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.copyInfo(), ["prevent"])),
@@ -196,8 +189,8 @@
           id: "matomo_system_check_info",
           ref: "systemCheckInfo",
           innerHTML: _ctx.$sanitize(_ctx.systemCheckInfo)
-        }, null, 8, _hoisted_3$3),
-        vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_4$3, [
+        }, null, 8, _hoisted_1$3),
+        vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_2$3, [
           vue.createElementVNode("tbody", null, [
             vue.createVNode(_component_DiagnosticTable, {
               results: _ctx.mandatoryResults,
@@ -210,7 +203,7 @@
           [_directive_content_table, { off: _ctx.isInstallation }]
         ]),
         vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("Installation_Optional")), 1),
-        vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_5$2, [
+        vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_3$3, [
           vue.createElementVNode("tbody", null, [
             vue.createVNode(_component_DiagnosticTable, {
               results: _ctx.optionalResults,
@@ -223,7 +216,7 @@
           [_directive_content_table, { off: _ctx.isInstallation }]
         ]),
         vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("Installation_InformationalResults")), 1),
-        vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_6$2, [
+        vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_4$2, [
           vue.createElementVNode("tbody", null, [
             vue.createVNode(_component_DiagnosticTable, {
               results: _ctx.informationalResults,
@@ -298,7 +291,7 @@
     key: 1,
     class: "alert alert-warning"
   };
-  const _hoisted_4$2 = {
+  const _hoisted_4$1 = {
     key: 2,
     class: "alert alert-success"
   };
@@ -315,7 +308,7 @@
             innerHTML: _ctx.$sanitize(_ctx.thereWereErrorsText)
           }, null, 8, _hoisted_2$2),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Installation_SeeBelowForMoreInfo")), 1)
-        ])) : _ctx.hasWarnings ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$2, vue.toDisplayString(_ctx.translate("Installation_SystemCheckSummaryThereWereWarnings")) + " " + vue.toDisplayString(_ctx.translate("Installation_SeeBelowForMoreInfo")), 1)) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$2, vue.toDisplayString(_ctx.translate("Installation_SystemCheckSummaryNoProblems")), 1)),
+        ])) : _ctx.hasWarnings ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$2, vue.toDisplayString(_ctx.translate("Installation_SystemCheckSummaryThereWereWarnings")) + " " + vue.toDisplayString(_ctx.translate("Installation_SeeBelowForMoreInfo")), 1)) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$1, vue.toDisplayString(_ctx.translate("Installation_SystemCheckSummaryNoProblems")), 1)),
         vue.createVNode(_component_SystemCheckSection, {
           "error-type": _ctx.errorType,
           "warning-type": _ctx.warningType,
@@ -340,30 +333,27 @@
     }
   });
   const _hoisted_1$1 = { class: "system-check-legend" };
-  const _hoisted_2$1 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-ok" }, null, -1);
-  const _hoisted_3$1 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-warning" }, null, -1);
-  const _hoisted_4$1 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-error" }, null, -1);
-  const _hoisted_5$1 = { class: "next-step" };
-  const _hoisted_6$1 = ["href"];
+  const _hoisted_2$1 = { class: "next-step" };
+  const _hoisted_3$1 = ["href"];
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(vue.Fragment, null, [
       vue.createElementVNode("div", _hoisted_1$1, [
         vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("Installation_Legend")), 1),
         vue.createElementVNode("p", null, [
-          _hoisted_2$1,
+          _cache[0] || (_cache[0] = vue.createElementVNode("span", { class: "icon-ok" }, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_Ok")), 1)
         ]),
         vue.createElementVNode("p", null, [
-          _hoisted_3$1,
+          _cache[1] || (_cache[1] = vue.createElementVNode("span", { class: "icon-warning" }, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_Warning")) + ": " + vue.toDisplayString(_ctx.translate("Installation_SystemCheckWarning")), 1)
         ]),
         vue.createElementVNode("p", null, [
-          _hoisted_4$1,
+          _cache[2] || (_cache[2] = vue.createElementVNode("span", { class: "icon-error" }, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_Error")) + ": " + vue.toDisplayString(_ctx.translate("Installation_SystemCheckError")), 1)
         ])
       ]),
-      vue.createElementVNode("p", _hoisted_5$1, [
-        vue.createElementVNode("a", { href: _ctx.url }, vue.toDisplayString(_ctx.translate("General_RefreshPage")) + " »", 9, _hoisted_6$1)
+      vue.createElementVNode("p", _hoisted_2$1, [
+        vue.createElementVNode("a", { href: _ctx.url }, vue.toDisplayString(_ctx.translate("General_RefreshPage")) + " »", 9, _hoisted_3$1)
       ])
     ], 64);
   }
@@ -418,18 +408,16 @@
     }
   });
   const _hoisted_1 = { key: 0 };
-  const _hoisted_2 = /* @__PURE__ */ vue.createElementVNode("br", { style: { "clear": "both" } }, null, -1);
-  const _hoisted_3 = { key: 1 };
-  const _hoisted_4 = { key: 0 };
-  const _hoisted_5 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-export" }, null, -1);
-  const _hoisted_6 = ["href"];
+  const _hoisted_2 = { key: 1 };
+  const _hoisted_3 = { key: 0 };
+  const _hoisted_4 = ["href"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_SystemCheckLegend = vue.resolveComponent("SystemCheckLegend");
     const _component_SystemCheckSection = vue.resolveComponent("SystemCheckSection");
     return vue.openBlock(), vue.createElementBlock("div", null, [
       !_ctx.showNextStep ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
         vue.createVNode(_component_SystemCheckLegend, { url: _ctx.systemCheckLegendUrl }, null, 8, ["url"]),
-        _hoisted_2
+        _cache[0] || (_cache[0] = vue.createElementVNode("br", { style: { "clear": "both" } }, null, -1))
       ])) : vue.createCommentVNode("", true),
       vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("Installation_SystemCheck")), 1),
       vue.createVNode(_component_SystemCheckSection, {
@@ -442,14 +430,14 @@
         "informational-results": _ctx.informationalResults,
         "is-installation": _ctx.isInstallation
       }, null, 8, ["error-type", "warning-type", "informational-type", "system-check-info", "mandatory-results", "optional-results", "informational-results", "is-installation"]),
-      !_ctx.showNextStep ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3, [
-        !_ctx.showNextStep ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_4, [
-          _hoisted_5,
+      !_ctx.showNextStep ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2, [
+        !_ctx.showNextStep ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_3, [
+          _cache[1] || (_cache[1] = vue.createElementVNode("span", { class: "icon-export" }, null, -1)),
           vue.createElementVNode("a", {
             target: "_blank",
             rel: "noreferrer noopener",
             href: _ctx.externalRawLink("https://matomo.org/docs/requirements/")
-          }, vue.toDisplayString(_ctx.translate("Installation_Requirements")), 9, _hoisted_6)
+          }, vue.toDisplayString(_ctx.translate("Installation_Requirements")), 9, _hoisted_4)
         ])) : vue.createCommentVNode("", true),
         vue.createVNode(_component_SystemCheckLegend, { url: _ctx.systemCheckLegendUrl }, null, 8, ["url"])
       ])) : vue.createCommentVNode("", true)

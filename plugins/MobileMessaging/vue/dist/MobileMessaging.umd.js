@@ -52,19 +52,15 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     id: "mobilePhoneNumbersHelp",
     class: "inline-help-node"
   };
-  const _hoisted_3$3 = /* @__PURE__ */ vue.createElementVNode("span", {
-    class: "icon-info",
-    style: { "margin-right": "3.5px" }
-  }, null, -1);
-  const _hoisted_4$3 = {
+  const _hoisted_3$3 = {
     key: 0,
     style: { "margin-right": "3.5px" }
   };
-  const _hoisted_5$3 = {
+  const _hoisted_4$3 = {
     key: 1,
     style: { "margin-right": "3.5px" }
   };
-  const _hoisted_6$3 = ["href"];
+  const _hoisted_5$3 = ["href"];
   function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$5, [
@@ -81,11 +77,14 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       }, {
         "inline-help": vue.withCtx(() => [
           vue.createElementVNode("div", _hoisted_2$3, [
-            _hoisted_3$3,
-            _ctx.phoneNumbers.length === 0 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$3, vue.toDisplayString(_ctx.translate("MobileMessaging_MobileReport_NoPhoneNumbers")), 1)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_5$3, vue.toDisplayString(_ctx.translate("MobileMessaging_MobileReport_AdditionalPhoneNumbers")), 1)),
+            _cache[1] || (_cache[1] = vue.createElementVNode("span", {
+              class: "icon-info",
+              style: { "margin-right": "3.5px" }
+            }, null, -1)),
+            _ctx.phoneNumbers.length === 0 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$3, vue.toDisplayString(_ctx.translate("MobileMessaging_MobileReport_NoPhoneNumbers")), 1)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$3, vue.toDisplayString(_ctx.translate("MobileMessaging_MobileReport_AdditionalPhoneNumbers")), 1)),
             vue.createElementVNode("a", {
               href: _ctx.linkTo({ module: "MobileMessaging", action: "index", updated: null })
-            }, vue.toDisplayString(_ctx.translate("MobileMessaging_MobileReport_MobileMessagingSettingsLink")), 9, _hoisted_6$3)
+            }, vue.toDisplayString(_ctx.translate("MobileMessaging_MobileReport_MobileMessagingSettingsLink")), 9, _hoisted_5$3)
           ])
         ]),
         _: 1
@@ -346,16 +345,13 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       }
     }
   });
-  const _hoisted_1$2 = /* @__PURE__ */ vue.createElementVNode("div", { id: "ajaxErrorManageSmsProviderSettings" }, null, -1);
+  const _hoisted_1$2 = { key: 0 };
   const _hoisted_2$2 = { key: 0 };
-  const _hoisted_3$2 = { key: 0 };
-  const _hoisted_4$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
+  const _hoisted_3$2 = { key: 1 };
+  const _hoisted_4$2 = ["innerHTML"];
   const _hoisted_5$2 = { key: 1 };
-  const _hoisted_6$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
+  const _hoisted_6$2 = { id: "accountForm" };
   const _hoisted_7$1 = ["innerHTML"];
-  const _hoisted_8$1 = { key: 1 };
-  const _hoisted_9$1 = { id: "accountForm" };
-  const _hoisted_10$1 = ["innerHTML"];
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
     const _component_Alert = vue.resolveComponent("Alert");
@@ -365,25 +361,25 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     const _directive_form = vue.resolveDirective("form");
     return vue.openBlock(), vue.createElementBlock("div", null, [
       vue.createVNode(_component_ActivityIndicator, { loading: _ctx.isDeletingAccount }, null, 8, ["loading"]),
-      _hoisted_1$2,
-      _ctx.credentialSupplied ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_2$2, [
-        _ctx.credentialError ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$2, [
+      _cache[7] || (_cache[7] = vue.createElementVNode("div", { id: "ajaxErrorManageSmsProviderSettings" }, null, -1)),
+      _ctx.credentialSupplied ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_1$2, [
+        _ctx.credentialError ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_2$2, [
           vue.createVNode(_component_Alert, { severity: "danger" }, {
             default: vue.withCtx(() => [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_CredentialInvalid", _ctx.provider)), 1),
-              _hoisted_4$2,
+              _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.credentialError), 1)
             ]),
             _: 1
           })
-        ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_5$2, vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_CredentialProvided", _ctx.provider)) + " " + vue.toDisplayString(_ctx.creditLeft), 1)),
-        _hoisted_6$2,
+        ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$2, vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_CredentialProvided", _ctx.provider)) + " " + vue.toDisplayString(_ctx.creditLeft), 1)),
+        _cache[6] || (_cache[6] = vue.createElementVNode("br", null, null, -1)),
         vue.createElementVNode("span", {
           innerHTML: _ctx.$sanitize(_ctx.updateOrDeleteAccountText),
           onClick: _cache[0] || (_cache[0] = ($event) => _ctx.onUpdateOrDeleteClick($event))
-        }, null, 8, _hoisted_7$1)
-      ])) : (vue.openBlock(), vue.createElementBlock("p", _hoisted_8$1, vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_PleaseSignUp")), 1)),
-      vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_9$1, [
+        }, null, 8, _hoisted_4$2)
+      ])) : (vue.openBlock(), vue.createElementBlock("p", _hoisted_5$2, vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_PleaseSignUp")), 1)),
+      vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_6$2, [
         vue.createElementVNode("div", null, [
           vue.createVNode(_component_Field, {
             uicontrol: "select",
@@ -415,7 +411,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         vue.createElementVNode("div", {
           class: "providerDescription",
           innerHTML: _ctx.$sanitize(_ctx.currentProviderDescription)
-        }, null, 8, _hoisted_10$1)
+        }, null, 8, _hoisted_7$1)
       ])), [
         [vue.vShow, !_ctx.credentialSupplied || _ctx.showAccountForm],
         [_directive_form]
@@ -688,35 +684,33 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   const _hoisted_7 = { class: "form-group row addPhoneNumber" };
   const _hoisted_8 = { class: "col s12 m6" };
   const _hoisted_9 = { class: "countryCode left" };
-  const _hoisted_10 = /* @__PURE__ */ vue.createElementVNode("span", { class: "countryCodeSymbol" }, "+", -1);
-  const _hoisted_11 = { class: "phoneNumber left" };
-  const _hoisted_12 = { class: "addNumber left valign-wrapper" };
-  const _hoisted_13 = { class: "col s12 m6 form-help" };
-  const _hoisted_14 = {
+  const _hoisted_10 = { class: "phoneNumber left" };
+  const _hoisted_11 = { class: "addNumber left valign-wrapper" };
+  const _hoisted_12 = { class: "col s12 m6 form-help" };
+  const _hoisted_13 = {
     id: "ajaxErrorManagePhoneNumber",
     ref: "errorContainer"
   };
-  const _hoisted_15 = /* @__PURE__ */ vue.createElementVNode("div", { id: "notificationManagePhoneNumber" }, null, -1);
-  const _hoisted_16 = {
+  const _hoisted_14 = {
     key: 1,
     class: "row"
   };
-  const _hoisted_17 = { class: "col s12" };
-  const _hoisted_18 = { class: "col s12 m6" };
-  const _hoisted_19 = { class: "phoneNumber" };
-  const _hoisted_20 = ["onUpdate:modelValue", "placeholder"];
-  const _hoisted_21 = {
+  const _hoisted_15 = { class: "col s12" };
+  const _hoisted_16 = { class: "col s12 m6" };
+  const _hoisted_17 = { class: "phoneNumber" };
+  const _hoisted_18 = ["onUpdate:modelValue", "placeholder"];
+  const _hoisted_19 = {
     key: 0,
     class: "form-help col s12 m6"
   };
-  const _hoisted_22 = ["onClick"];
-  const _hoisted_23 = {
+  const _hoisted_20 = ["onClick"];
+  const _hoisted_21 = {
     class: "ui-confirm",
     id: "confirmDeletePhoneNumber"
   };
-  const _hoisted_24 = ["innerHTML"];
-  const _hoisted_25 = ["value"];
-  const _hoisted_26 = ["value"];
+  const _hoisted_22 = ["innerHTML"];
+  const _hoisted_23 = ["value"];
+  const _hoisted_24 = ["value"];
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _component_SaveButton = vue.resolveComponent("SaveButton");
@@ -748,7 +742,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         vue.createElementVNode("div", _hoisted_7, [
           vue.createElementVNode("div", _hoisted_8, [
             vue.createElementVNode("div", _hoisted_9, [
-              _hoisted_10,
+              _cache[4] || (_cache[4] = vue.createElementVNode("span", { class: "countryCodeSymbol" }, "+", -1)),
               vue.createElementVNode("div", null, [
                 vue.createVNode(_component_Field, {
                   uicontrol: "text",
@@ -761,7 +755,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                 }, null, 8, ["title", "modelValue"])
               ])
             ]),
-            vue.createElementVNode("div", _hoisted_11, [
+            vue.createElementVNode("div", _hoisted_10, [
               vue.createElementVNode("div", null, [
                 vue.createVNode(_component_Field, {
                   uicontrol: "text",
@@ -774,7 +768,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                 }, null, 8, ["modelValue", "title"])
               ])
             ]),
-            vue.createElementVNode("div", _hoisted_12, [
+            vue.createElementVNode("div", _hoisted_11, [
               vue.createVNode(_component_SaveButton, {
                 class: "valign",
                 disabled: !_ctx.canAddNumber || _ctx.isUpdatingPhoneNumbers,
@@ -794,12 +788,12 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
               [vue.vShow, _ctx.showSuspiciousPhoneNumber]
             ])
           ]),
-          vue.createElementVNode("div", _hoisted_13, vue.toDisplayString(_ctx.strHelpAddPhone), 1)
+          vue.createElementVNode("div", _hoisted_12, vue.toDisplayString(_ctx.strHelpAddPhone), 1)
         ]),
-        vue.createElementVNode("div", _hoisted_14, null, 512),
-        _hoisted_15,
-        Object.keys(_ctx.phoneNumbers || {}).length > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_16, [
-          vue.createElementVNode("h3", _hoisted_17, vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_ManagePhoneNumbers")), 1)
+        vue.createElementVNode("div", _hoisted_13, null, 512),
+        _cache[6] || (_cache[6] = vue.createElementVNode("div", { id: "notificationManagePhoneNumber" }, null, -1)),
+        Object.keys(_ctx.phoneNumbers || {}).length > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_14, [
+          vue.createElementVNode("h3", _hoisted_15, vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_ManagePhoneNumbers")), 1)
         ])) : vue.createCommentVNode("", true),
         vue.createVNode(_component_ActivityIndicator, { loading: _ctx.isUpdatingPhoneNumbers }, null, 8, ["loading"]),
         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.phoneNumbers || [], (verificationData, phoneNumber, index) => {
@@ -807,8 +801,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             class: "form-group row",
             key: index
           }, [
-            vue.createElementVNode("div", _hoisted_18, [
-              vue.createElementVNode("span", _hoisted_19, vue.toDisplayString(phoneNumber), 1),
+            vue.createElementVNode("div", _hoisted_16, [
+              vue.createElementVNode("span", _hoisted_17, vue.toDisplayString(phoneNumber), 1),
               !verificationData.verified ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("input", {
                 key: 0,
                 type: "text",
@@ -816,7 +810,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                 "onUpdate:modelValue": ($event) => _ctx.validationCode[index] = $event,
                 placeholder: _ctx.translate("MobileMessaging_Settings_EnterActivationCode"),
                 style: { "margin-right": "3.5px" }
-              }, null, 8, _hoisted_20)), [
+              }, null, 8, _hoisted_18)), [
                 [vue.vModelText, _ctx.validationCode[index]]
               ]) : vue.createCommentVNode("", true),
               !verificationData.verified ? (vue.openBlock(), vue.createBlock(_component_SaveButton, {
@@ -832,32 +826,32 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                 style: { "margin-left": "3.5px" }
               }, null, 8, ["disabled", "onConfirm", "value"])
             ]),
-            !verificationData.verified ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_21, [
+            !verificationData.verified ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_19, [
               vue.createElementVNode("div", null, [
                 vue.createTextVNode(vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_VerificationCodeJustSent")) + " ", 1),
                 vue.createElementVNode("a", {
                   onClick: ($event) => _ctx.resendVerificationCode(phoneNumber, index)
-                }, vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_ResendVerification")), 9, _hoisted_22)
+                }, vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_ResendVerification")), 9, _hoisted_20)
               ]),
-              vue.createTextVNode("   ")
+              _cache[5] || (_cache[5] = vue.createTextVNode("   ", -1))
             ])) : vue.createCommentVNode("", true)
           ]);
         }), 128))
       ]),
-      vue.createElementVNode("div", _hoisted_23, [
+      vue.createElementVNode("div", _hoisted_21, [
         vue.createElementVNode("h2", {
           innerHTML: _ctx.$sanitize(_ctx.removeNumberConfirmation)
-        }, null, 8, _hoisted_24),
+        }, null, 8, _hoisted_22),
         vue.createElementVNode("input", {
           type: "button",
           role: "yes",
           value: _ctx.translate("General_Yes")
-        }, null, 8, _hoisted_25),
+        }, null, 8, _hoisted_23),
         vue.createElementVNode("input", {
           type: "button",
           role: "no",
           value: _ctx.translate("General_No")
-        }, null, 8, _hoisted_26)
+        }, null, 8, _hoisted_24)
       ])
     ], 64);
   }

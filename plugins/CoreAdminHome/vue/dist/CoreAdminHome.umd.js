@@ -94,9 +94,9 @@
   const _hoisted_7$5 = { class: "col s12 m6" };
   const _hoisted_8$5 = ["innerHTML"];
   const _hoisted_9$5 = { class: "form-group row" };
-  const _hoisted_10$5 = { class: "col s12" };
-  const _hoisted_11$5 = { class: "input-field col s12 m6" };
-  const _hoisted_12$4 = ["disabled"];
+  const _hoisted_10$4 = { class: "col s12" };
+  const _hoisted_11$3 = { class: "input-field col s12 m6" };
+  const _hoisted_12$3 = ["disabled"];
   const _hoisted_13$3 = { class: "form-description" };
   const _hoisted_14$3 = { class: "col s12 m6" };
   const _hoisted_15$3 = {
@@ -104,9 +104,6 @@
     class: "form-help"
   };
   const _hoisted_16$3 = { key: 0 };
-  const _hoisted_17$3 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_18$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_19$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
   function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_SaveButton = vue.resolveComponent("SaveButton");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
@@ -163,14 +160,14 @@
             ])
           ]),
           vue.createElementVNode("div", _hoisted_9$5, [
-            vue.createElementVNode("h3", _hoisted_10$5, vue.toDisplayString(_ctx.translate("General_ReportsContainingTodayWillBeProcessedAtMostEvery")), 1),
-            vue.createElementVNode("div", _hoisted_11$5, [
+            vue.createElementVNode("h3", _hoisted_10$4, vue.toDisplayString(_ctx.translate("General_ReportsContainingTodayWillBeProcessedAtMostEvery")), 1),
+            vue.createElementVNode("div", _hoisted_11$3, [
               vue.withDirectives(vue.createElementVNode("input", {
                 type: "text",
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => _ctx.todayArchiveTimeToLiveValue = $event),
                 id: "todayArchiveTimeToLive",
                 disabled: !_ctx.isGeneralSettingsAdminEnabled
-              }, null, 8, _hoisted_12$4), [
+              }, null, 8, _hoisted_12$3), [
                 [vue.vModelText, _ctx.todayArchiveTimeToLiveValue]
               ]),
               vue.createElementVNode("span", _hoisted_13$3, vue.toDisplayString(_ctx.translate("General_RearchiveTimeIntervalOnlyForTodayReports")), 1)
@@ -179,12 +176,12 @@
               _ctx.isGeneralSettingsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_15$3, [
                 _ctx.showWarningCron ? (vue.openBlock(), vue.createElementBlock("strong", _hoisted_16$3, [
                   vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_NewReportsWillBeProcessedByCron")), 1),
-                  _hoisted_17$3,
+                  _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1)),
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_ReportsWillBeProcessedAtMostEveryHour")) + " " + vue.toDisplayString(_ctx.translate("General_IfArchivingIsFastYouCanSetupCronRunMoreOften")), 1),
-                  _hoisted_18$2
+                  _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1))
                 ])) : vue.createCommentVNode("", true),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_SmallTrafficYouCanLeaveDefault", _ctx.todayArchiveTimeToLiveDefault)) + " ", 1),
-                _hoisted_19$2,
+                _cache[6] || (_cache[6] = vue.createElementVNode("br", null, null, -1)),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_MediumToHighTrafficItIsRecommendedTo", 1800, 3600)), 1)
               ])) : vue.createCommentVNode("", true)
             ])
@@ -417,26 +414,21 @@
   };
   const _hoisted_3$6 = { key: 0 };
   const _hoisted_4$6 = ["value"];
-  const _hoisted_5$4 = /* @__PURE__ */ vue.createElementVNode("input", {
-    type: "hidden",
-    name: "force_api_session",
-    value: "1"
-  }, null, -1);
-  const _hoisted_6$4 = { key: 0 };
-  const _hoisted_7$4 = {
+  const _hoisted_5$4 = { key: 0 };
+  const _hoisted_6$4 = {
     key: 0,
     class: "alert alert-warning uploaderror"
   };
-  const _hoisted_8$4 = { class: "row" };
-  const _hoisted_9$4 = { class: "col s12" };
-  const _hoisted_10$4 = ["src"];
-  const _hoisted_11$4 = { class: "row" };
-  const _hoisted_12$3 = { class: "col s12" };
-  const _hoisted_13$2 = ["src"];
-  const _hoisted_14$2 = { key: 1 };
-  const _hoisted_15$2 = ["innerHTML"];
-  const _hoisted_16$2 = { key: 1 };
-  const _hoisted_17$2 = { class: "alert alert-warning" };
+  const _hoisted_7$4 = { class: "row" };
+  const _hoisted_8$4 = { class: "col s12" };
+  const _hoisted_9$4 = ["src"];
+  const _hoisted_10$3 = { class: "row" };
+  const _hoisted_11$2 = { class: "col s12" };
+  const _hoisted_12$2 = ["src"];
+  const _hoisted_13$2 = { key: 1 };
+  const _hoisted_14$2 = ["innerHTML"];
+  const _hoisted_15$2 = { key: 1 };
+  const _hoisted_16$2 = { class: "alert alert-warning" };
   function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _component_SaveButton = vue.resolveComponent("SaveButton");
@@ -465,11 +457,15 @@
                   name: "token_auth",
                   value: _ctx.tokenAuth
                 }, null, 8, _hoisted_4$6),
-                _hoisted_5$4,
-                _ctx.logosWriteable ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$4, [
+                _cache[4] || (_cache[4] = vue.createElementVNode("input", {
+                  type: "hidden",
+                  name: "force_api_session",
+                  value: "1"
+                }, null, -1)),
+                _ctx.logosWriteable ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$4, [
                   vue.createVNode(vue.Transition, { name: "fade-out" }, {
                     default: vue.withCtx(() => [
-                      _ctx.showUploadError ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_7$4, vue.toDisplayString(_ctx.translate("CoreAdminHome_LogoUploadFailed")), 1)) : vue.createCommentVNode("", true)
+                      _ctx.showUploadError ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$4, vue.toDisplayString(_ctx.translate("CoreAdminHome_LogoUploadFailed")), 1)) : vue.createCommentVNode("", true)
                     ]),
                     _: 1
                   }),
@@ -481,14 +477,14 @@
                     title: _ctx.translate("CoreAdminHome_LogoUpload"),
                     "inline-help": _ctx.translate("CoreAdminHome_LogoUploadHelp", "JPG / PNG / GIF", "110")
                   }, null, 8, ["model-value", "title", "inline-help"]),
-                  vue.createElementVNode("div", _hoisted_8$4, [
-                    vue.createElementVNode("div", _hoisted_9$4, [
+                  vue.createElementVNode("div", _hoisted_7$4, [
+                    vue.createElementVNode("div", _hoisted_8$4, [
                       vue.createElementVNode("img", {
                         src: _ctx.pathUserLogoSrc,
                         id: "currentLogo",
                         style: { "max-height": "150px" },
                         ref: "currentLogo"
-                      }, null, 8, _hoisted_10$4)
+                      }, null, 8, _hoisted_9$4)
                     ])
                   ]),
                   vue.createVNode(_component_Field, {
@@ -499,27 +495,27 @@
                     title: _ctx.translate("CoreAdminHome_FaviconUpload"),
                     "inline-help": _ctx.translate("CoreAdminHome_LogoUploadHelp", "JPG / PNG / GIF", "16")
                   }, null, 8, ["model-value", "title", "inline-help"]),
-                  vue.createElementVNode("div", _hoisted_11$4, [
-                    vue.createElementVNode("div", _hoisted_12$3, [
+                  vue.createElementVNode("div", _hoisted_10$3, [
+                    vue.createElementVNode("div", _hoisted_11$2, [
                       vue.createElementVNode("img", {
                         src: _ctx.pathUserFaviconSrc,
                         id: "currentFavicon",
                         width: "16",
                         height: "16",
                         ref: "currentFavicon"
-                      }, null, 8, _hoisted_13$2)
+                      }, null, 8, _hoisted_12$2)
                     ])
                   ])
                 ])) : vue.createCommentVNode("", true),
-                !_ctx.logosWriteable ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_14$2, [
+                !_ctx.logosWriteable ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_13$2, [
                   vue.createElementVNode("div", {
                     class: "alert alert-warning",
                     innerHTML: _ctx.$sanitize(_ctx.logosNotWriteableWarning)
-                  }, null, 8, _hoisted_15$2)
+                  }, null, 8, _hoisted_14$2)
                 ])) : vue.createCommentVNode("", true)
               ])) : vue.createCommentVNode("", true),
-              !_ctx.fileUploadEnabled ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_16$2, [
-                vue.createElementVNode("div", _hoisted_17$2, vue.toDisplayString(_ctx.translate("CoreAdminHome_FileUploadDisabled", "file_uploads=1")), 1)
+              !_ctx.fileUploadEnabled ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_15$2, [
+                vue.createElementVNode("div", _hoisted_16$2, vue.toDisplayString(_ctx.translate("CoreAdminHome_FileUploadDisabled", "file_uploads=1")), 1)
               ])) : vue.createCommentVNode("", true)
             ], 512)
           ], 512), [
@@ -993,53 +989,48 @@ ${part2}`;
   });
   const _hoisted_1$5 = { class: "trackingCodeAdvancedOptions" };
   const _hoisted_2$5 = { class: "advance-option" };
-  const _hoisted_3$5 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-chevron-down" }, null, -1);
-  const _hoisted_4$5 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-chevron-up" }, null, -1);
-  const _hoisted_5$3 = { id: "javascript-advanced-options" };
-  const _hoisted_6$3 = ["innerHTML"];
-  const _hoisted_7$3 = { id: "optional-js-tracking-options" };
-  const _hoisted_8$3 = {
+  const _hoisted_3$5 = { id: "javascript-advanced-options" };
+  const _hoisted_4$5 = ["innerHTML"];
+  const _hoisted_5$3 = { id: "optional-js-tracking-options" };
+  const _hoisted_6$3 = {
     id: "jsTrackAllSubdomainsInlineHelp",
     class: "inline-help-node"
   };
-  const _hoisted_9$3 = ["innerHTML"];
-  const _hoisted_10$3 = ["innerHTML"];
-  const _hoisted_11$3 = {
+  const _hoisted_7$3 = ["innerHTML"];
+  const _hoisted_8$3 = ["innerHTML"];
+  const _hoisted_9$3 = {
     id: "jsTrackGroupByDomainInlineHelp",
     class: "inline-help-node"
   };
-  const _hoisted_12$2 = {
+  const _hoisted_10$2 = {
     id: "jsTrackAllAliasesInlineHelp",
     class: "inline-help-node"
   };
-  const _hoisted_13$1 = { id: "javascript-tracking-visitor-cv" };
-  const _hoisted_14$1 = { class: "row" };
-  const _hoisted_15$1 = { class: "col s12 m3" };
-  const _hoisted_16$1 = { class: "col s12 m3" };
+  const _hoisted_11$1 = { id: "javascript-tracking-visitor-cv" };
+  const _hoisted_12$1 = { class: "row" };
+  const _hoisted_13$1 = { class: "col s12 m3" };
+  const _hoisted_14$1 = { class: "col s12 m3" };
+  const _hoisted_15$1 = { class: "col s12 m6 l3" };
+  const _hoisted_16$1 = ["onKeydown"];
   const _hoisted_17$1 = { class: "col s12 m6 l3" };
-  const _hoisted_18$1 = ["onKeydown"];
-  const _hoisted_19$1 = { class: "col s12 m6 l3" };
-  const _hoisted_20$1 = ["onKeydown"];
-  const _hoisted_21$1 = { class: "row" };
-  const _hoisted_22$1 = { class: "col s12" };
-  const _hoisted_23$1 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-add" }, null, -1);
-  const _hoisted_24$1 = {
+  const _hoisted_18 = ["onKeydown"];
+  const _hoisted_19 = { class: "row" };
+  const _hoisted_20 = { class: "col s12" };
+  const _hoisted_21 = {
     id: "jsCrossDomain",
     class: "inline-help-node"
   };
-  const _hoisted_25$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_26 = {
+  const _hoisted_22 = {
     id: "jsDoNotTrackInlineHelp",
     class: "inline-help-node"
   };
-  const _hoisted_27 = { key: 0 };
-  const _hoisted_28 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_29 = ["innerHTML"];
-  const _hoisted_30 = { id: "js-campaign-query-param-extra" };
-  const _hoisted_31 = { class: "row" };
-  const _hoisted_32 = { class: "col s12" };
-  const _hoisted_33 = { class: "row" };
-  const _hoisted_34 = { class: "col s12" };
+  const _hoisted_23 = { key: 0 };
+  const _hoisted_24 = ["innerHTML"];
+  const _hoisted_25 = { id: "js-campaign-query-param-extra" };
+  const _hoisted_26 = { class: "row" };
+  const _hoisted_27 = { class: "col s12" };
+  const _hoisted_28 = { class: "row" };
+  const _hoisted_29 = { class: "col s12" };
   function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$5, [
@@ -1051,7 +1042,7 @@ ${part2}`;
             onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.showAdvanced = true, ["prevent"]))
           }, [
             vue.createTextVNode(vue.toDisplayString(_ctx.translate("CoreAdminHome_ShowAdvancedOptions")) + " ", 1),
-            _hoisted_3$5
+            _cache[15] || (_cache[15] = vue.createElementVNode("span", { class: "icon-chevron-down" }, null, -1))
           ])) : vue.createCommentVNode("", true),
           _ctx.showAdvanced ? (vue.openBlock(), vue.createElementBlock("a", {
             key: 1,
@@ -1059,22 +1050,22 @@ ${part2}`;
             onClick: _cache[1] || (_cache[1] = vue.withModifiers(($event) => _ctx.showAdvanced = false, ["prevent"]))
           }, [
             vue.createTextVNode(vue.toDisplayString(_ctx.translate("CoreAdminHome_HideAdvancedOptions")) + " ", 1),
-            _hoisted_4$5
+            _cache[16] || (_cache[16] = vue.createElementVNode("span", { class: "icon-chevron-up" }, null, -1))
           ])) : vue.createCommentVNode("", true)
         ])
       ]),
-      vue.withDirectives(vue.createElementVNode("div", _hoisted_5$3, [
+      vue.withDirectives(vue.createElementVNode("div", _hoisted_3$5, [
         vue.createElementVNode("p", {
           innerHTML: _ctx.$sanitize(_ctx.trackingDocumentationHelp)
-        }, null, 8, _hoisted_6$3),
-        vue.createElementVNode("div", _hoisted_7$3, [
-          vue.createElementVNode("div", _hoisted_8$3, [
+        }, null, 8, _hoisted_4$5),
+        vue.createElementVNode("div", _hoisted_5$3, [
+          vue.createElementVNode("div", _hoisted_6$3, [
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.mergeSubdomainsDesc)
-            }, null, 8, _hoisted_9$3),
+            }, null, 8, _hoisted_7$3),
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.learnMoreText)
-            }, null, 8, _hoisted_10$3)
+            }, null, 8, _hoisted_8$3)
           ]),
           vue.createVNode(_component_Field, {
             uicontrol: "checkbox",
@@ -1091,7 +1082,7 @@ ${part2}`;
             "inline-help": "#jsTrackAllSubdomainsInlineHelp"
           }, null, 8, ["model-value", "disabled", "title"])
         ]),
-        vue.createElementVNode("div", _hoisted_11$3, vue.toDisplayString(_ctx.translate("CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1", _ctx.currentSiteHost)), 1),
+        vue.createElementVNode("div", _hoisted_9$3, vue.toDisplayString(_ctx.translate("CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1", _ctx.currentSiteHost)), 1),
         vue.createVNode(_component_Field, {
           uicontrol: "checkbox",
           name: "javascript-tracking-group-by-domain",
@@ -1104,7 +1095,7 @@ ${part2}`;
           title: _ctx.translate("CoreAdminHome_JSTracking_GroupPageTitlesByDomain"),
           "inline-help": "#jsTrackGroupByDomainInlineHelp"
         }, null, 8, ["model-value", "disabled", "title"]),
-        vue.createElementVNode("div", _hoisted_12$2, vue.toDisplayString(_ctx.translate("CoreAdminHome_JSTracking_MergeAliasesDesc", _ctx.currentSiteAlias)), 1),
+        vue.createElementVNode("div", _hoisted_10$2, vue.toDisplayString(_ctx.translate("CoreAdminHome_JSTracking_MergeAliasesDesc", _ctx.currentSiteAlias)), 1),
         vue.createVNode(_component_Field, {
           uicontrol: "checkbox",
           name: "javascript-tracking-all-aliases",
@@ -1142,42 +1133,42 @@ ${part2}`;
         }, null, 8, ["model-value", "disabled", "title", "inline-help"]), [
           [vue.vShow, _ctx.maxCustomVariables > 0]
         ]),
-        vue.withDirectives(vue.createElementVNode("div", _hoisted_13$1, [
-          vue.createElementVNode("div", _hoisted_14$1, [
-            vue.createElementVNode("div", _hoisted_15$1, vue.toDisplayString(_ctx.translate("General_Name")), 1),
-            vue.createElementVNode("div", _hoisted_16$1, vue.toDisplayString(_ctx.translate("General_Value")), 1)
+        vue.withDirectives(vue.createElementVNode("div", _hoisted_11$1, [
+          vue.createElementVNode("div", _hoisted_12$1, [
+            vue.createElementVNode("div", _hoisted_13$1, vue.toDisplayString(_ctx.translate("General_Name")), 1),
+            vue.createElementVNode("div", _hoisted_14$1, vue.toDisplayString(_ctx.translate("General_Value")), 1)
           ]),
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.customVars, (customVar, index) => {
             return vue.openBlock(), vue.createElementBlock("div", {
               class: "row",
               key: index
             }, [
-              vue.createElementVNode("div", _hoisted_17$1, [
+              vue.createElementVNode("div", _hoisted_15$1, [
                 vue.createElementVNode("input", {
                   type: "text",
                   class: "custom-variable-name",
                   onKeydown: ($event) => _ctx.onCustomVarNameKeydown($event, index),
                   placeholder: "e.g. Type"
-                }, null, 40, _hoisted_18$1)
+                }, null, 40, _hoisted_16$1)
               ]),
-              vue.createElementVNode("div", _hoisted_19$1, [
+              vue.createElementVNode("div", _hoisted_17$1, [
                 vue.createElementVNode("input", {
                   type: "text",
                   class: "custom-variable-value",
                   onKeydown: ($event) => _ctx.onCustomVarValueKeydown($event, index),
                   placeholder: "e.g. Customer"
-                }, null, 40, _hoisted_20$1)
+                }, null, 40, _hoisted_18)
               ])
             ]);
           }), 128)),
-          vue.withDirectives(vue.createElementVNode("div", _hoisted_21$1, [
-            vue.createElementVNode("div", _hoisted_22$1, [
+          vue.withDirectives(vue.createElementVNode("div", _hoisted_19, [
+            vue.createElementVNode("div", _hoisted_20, [
               vue.createElementVNode("a", {
                 href: "javascript:;",
                 onClick: _cache[7] || (_cache[7] = ($event) => _ctx.addCustomVar()),
                 class: "add-custom-variable"
               }, [
-                _hoisted_23$1,
+                _cache[17] || (_cache[17] = vue.createElementVNode("span", { class: "icon-add" }, null, -1)),
                 vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_Add")), 1)
               ])
             ])
@@ -1187,9 +1178,9 @@ ${part2}`;
         ], 512), [
           [vue.vShow, _ctx.trackCustomVars]
         ]),
-        vue.createElementVNode("div", _hoisted_24$1, [
+        vue.createElementVNode("div", _hoisted_21, [
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("CoreAdminHome_JSTracking_CrossDomain")) + " ", 1),
-          _hoisted_25$1,
+          _cache[18] || (_cache[18] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("CoreAdminHome_JSTracking_CrossDomain_NeedsMultipleDomains")), 1)
         ]),
         vue.createVNode(_component_Field, {
@@ -1205,10 +1196,10 @@ ${part2}`;
           title: _ctx.translate("CoreAdminHome_JSTracking_EnableCrossDomainLinking"),
           "inline-help": "#jsCrossDomain"
         }, null, 8, ["model-value", "disabled", "title"]),
-        vue.createElementVNode("div", _hoisted_26, [
+        vue.createElementVNode("div", _hoisted_22, [
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("CoreAdminHome_JSTracking_EnableDoNotTrackDesc")) + " ", 1),
-          _ctx.serverSideDoNotTrackEnabled ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_27, [
-            _hoisted_28,
+          _ctx.serverSideDoNotTrackEnabled ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_23, [
+            _cache[19] || (_cache[19] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("CoreAdminHome_JSTracking_EnableDoNotTrack_AlreadyEnabled")), 1)
           ])) : vue.createCommentVNode("", true)
         ]),
@@ -1240,7 +1231,7 @@ ${part2}`;
           id: "jsTrackCampaignParamsInlineHelp",
           class: "inline-help-node",
           innerHTML: _ctx.$sanitize(_ctx.jsTrackCampaignParamsInlineHelp)
-        }, null, 8, _hoisted_29),
+        }, null, 8, _hoisted_24),
         vue.createVNode(_component_Field, {
           uicontrol: "checkbox",
           name: "custom-campaign-query-params-check",
@@ -1253,9 +1244,9 @@ ${part2}`;
           title: _ctx.translate("CoreAdminHome_JSTracking_CustomCampaignQueryParam"),
           "inline-help": "#jsTrackCampaignParamsInlineHelp"
         }, null, 8, ["model-value", "disabled", "title"]),
-        vue.withDirectives(vue.createElementVNode("div", _hoisted_30, [
-          vue.createElementVNode("div", _hoisted_31, [
-            vue.createElementVNode("div", _hoisted_32, [
+        vue.withDirectives(vue.createElementVNode("div", _hoisted_25, [
+          vue.createElementVNode("div", _hoisted_26, [
+            vue.createElementVNode("div", _hoisted_27, [
               vue.createVNode(_component_Field, {
                 uicontrol: "text",
                 name: "custom-campaign-name-query-param",
@@ -1269,8 +1260,8 @@ ${part2}`;
               }, null, 8, ["model-value", "disabled", "title"])
             ])
           ]),
-          vue.createElementVNode("div", _hoisted_33, [
-            vue.createElementVNode("div", _hoisted_34, [
+          vue.createElementVNode("div", _hoisted_28, [
+            vue.createElementVNode("div", _hoisted_29, [
               vue.createVNode(_component_Field, {
                 uicontrol: "text",
                 name: "custom-campaign-keyword-query-param",
@@ -1429,30 +1420,22 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
     }
   });
   const _hoisted_1$4 = { id: "js-code-options" };
-  const _hoisted_2$4 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_3$4 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
+  const _hoisted_2$4 = ["innerHTML"];
+  const _hoisted_3$4 = ["innerHTML"];
   const _hoisted_4$4 = ["innerHTML"];
   const _hoisted_5$2 = ["innerHTML"];
-  const _hoisted_6$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_7$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_8$2 = ["innerHTML"];
-  const _hoisted_9$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_10$2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_11$2 = ["innerHTML"];
-  const _hoisted_12$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_13 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_14 = ["href"];
-  const _hoisted_15 = ["href"];
-  const _hoisted_16 = ["href"];
-  const _hoisted_17 = ["href"];
-  const _hoisted_18 = ["href"];
-  const _hoisted_19 = ["href"];
-  const _hoisted_20 = ["href"];
-  const _hoisted_21 = { id: "javascript-output-section" };
-  const _hoisted_22 = { class: "valign-wrapper trackingHelpHeader matchWidth" };
-  const _hoisted_23 = { id: "javascript-email-button" };
-  const _hoisted_24 = { id: "javascript-text" };
-  const _hoisted_25 = ["textContent"];
+  const _hoisted_6$2 = ["href"];
+  const _hoisted_7$2 = ["href"];
+  const _hoisted_8$2 = ["href"];
+  const _hoisted_9$2 = ["href"];
+  const _hoisted_10$1 = ["href"];
+  const _hoisted_11 = ["href"];
+  const _hoisted_12 = ["href"];
+  const _hoisted_13 = { id: "javascript-output-section" };
+  const _hoisted_14 = { class: "valign-wrapper trackingHelpHeader matchWidth" };
+  const _hoisted_15 = { id: "javascript-email-button" };
+  const _hoisted_16 = { id: "javascript-text" };
+  const _hoisted_17 = ["textContent"];
   function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _component_JsTrackingCodeAdvancedOptions = vue.resolveComponent("JsTrackingCodeAdvancedOptions");
@@ -1466,69 +1449,69 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
         vue.createElementVNode("div", _hoisted_1$4, [
           vue.createElementVNode("p", null, [
             vue.createTextVNode(vue.toDisplayString(_ctx.translate("CoreAdminHome_JSTrackingIntro1")) + " ", 1),
-            _hoisted_2$4,
-            _hoisted_3$4,
+            _cache[2] || (_cache[2] = vue.createElementVNode("br", null, null, -1)),
+            _cache[3] || (_cache[3] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("CoreAdminHome_JSTrackingIntro2")) + " ", 1),
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.jsTrackingIntro3a)
-            }, null, 8, _hoisted_4$4),
+            }, null, 8, _hoisted_2$4),
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(" " + _ctx.jsTrackingIntro3b)
-            }, null, 8, _hoisted_5$2),
-            _hoisted_6$2,
-            _hoisted_7$2,
+            }, null, 8, _hoisted_3$4),
+            _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1)),
+            _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1)),
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.jsTrackingIntro4a)
-            }, null, 8, _hoisted_8$2),
-            _hoisted_9$2,
-            _hoisted_10$2,
+            }, null, 8, _hoisted_4$4),
+            _cache[6] || (_cache[6] = vue.createElementVNode("br", null, null, -1)),
+            _cache[7] || (_cache[7] = vue.createElementVNode("br", null, null, -1)),
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.jsTrackingIntro5)
-            }, null, 8, _hoisted_11$2),
-            _hoisted_12$1,
-            _hoisted_13,
+            }, null, 8, _hoisted_5$2),
+            _cache[8] || (_cache[8] = vue.createElementVNode("br", null, null, -1)),
+            _cache[9] || (_cache[9] = vue.createElementVNode("br", null, null, -1)),
             vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("SitesManager_InstallationGuides")) + " : ", 1),
             vue.createElementVNode("a", {
               href: _ctx.externalRawLink("https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/"),
               target: "_blank",
               rel: "noopener"
-            }, "WordPress", 8, _hoisted_14),
-            vue.createTextVNode(" | "),
+            }, "WordPress", 8, _hoisted_6$2),
+            _cache[10] || (_cache[10] = vue.createTextVNode(" | ", -1)),
             vue.createElementVNode("a", {
               href: _ctx.externalRawLink("https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/"),
               target: "_blank",
               rel: "noopener"
-            }, "Squarespace", 8, _hoisted_15),
-            vue.createTextVNode(" | "),
+            }, "Squarespace", 8, _hoisted_7$2),
+            _cache[11] || (_cache[11] = vue.createTextVNode(" | ", -1)),
             vue.createElementVNode("a", {
               href: _ctx.externalRawLink("https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/"),
               target: "_blank",
               rel: "noopener"
-            }, "Wix", 8, _hoisted_16),
-            vue.createTextVNode(" | "),
+            }, "Wix", 8, _hoisted_8$2),
+            _cache[12] || (_cache[12] = vue.createTextVNode(" | ", -1)),
             vue.createElementVNode("a", {
               href: _ctx.externalRawLink("https://matomo.org/faq/how-to-install/faq_19424/"),
               target: "_blank",
               rel: "noopener"
-            }, "SharePoint", 8, _hoisted_17),
-            vue.createTextVNode(" | "),
+            }, "SharePoint", 8, _hoisted_9$2),
+            _cache[13] || (_cache[13] = vue.createTextVNode(" | ", -1)),
             vue.createElementVNode("a", {
               href: _ctx.externalRawLink("https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/"),
               target: "_blank",
               rel: "noopener"
-            }, "Joomla", 8, _hoisted_18),
-            vue.createTextVNode(" | "),
+            }, "Joomla", 8, _hoisted_10$1),
+            _cache[14] || (_cache[14] = vue.createTextVNode(" | ", -1)),
             vue.createElementVNode("a", {
               href: _ctx.externalRawLink("https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/"),
               target: "_blank",
               rel: "noopener"
-            }, "Shopify", 8, _hoisted_19),
-            vue.createTextVNode(" | "),
+            }, "Shopify", 8, _hoisted_11),
+            _cache[15] || (_cache[15] = vue.createTextVNode(" | ", -1)),
             vue.createElementVNode("a", {
               href: _ctx.externalRawLink("https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/"),
               target: "_blank",
               rel: "noopener"
-            }, "Google Tag Manager", 8, _hoisted_20)
+            }, "Google Tag Manager", 8, _hoisted_12)
           ]),
           vue.createVNode(_component_Field, {
             uicontrol: "site",
@@ -1539,13 +1522,13 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
             ref: "site",
             introduction: _ctx.translate("General_Website")
           }, null, 8, ["modelValue", "introduction"]),
-          vue.createElementVNode("div", _hoisted_21, [
-            vue.createElementVNode("div", _hoisted_22, [
+          vue.createElementVNode("div", _hoisted_13, [
+            vue.createElementVNode("div", _hoisted_14, [
               vue.createElementVNode("div", null, [
                 vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("General_JsTrackingTag")), 1),
                 vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead", "</head>")), 1)
               ]),
-              vue.createElementVNode("div", _hoisted_23, [
+              vue.createElementVNode("div", _hoisted_15, [
                 vue.createElementVNode("button", {
                   class: "btn",
                   id: "emailJsBtn",
@@ -1553,13 +1536,13 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
                 }, vue.toDisplayString(_ctx.translate("SitesManager_EmailInstructionsButton")), 1)
               ])
             ]),
-            vue.createElementVNode("div", _hoisted_24, [
+            vue.createElementVNode("div", _hoisted_16, [
               vue.createElementVNode("div", null, [
                 vue.withDirectives(vue.createElementVNode("pre", {
                   class: "codeblock",
                   textContent: vue.toDisplayString(_ctx.trackingCode),
                   ref: "trackingCode"
-                }, null, 8, _hoisted_25), [
+                }, null, 8, _hoisted_17), [
                   [_directive_copy_to_clipboard, {}]
                 ])
               ])
@@ -1833,17 +1816,16 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
       }
     }
   });
-  const _hoisted_1$2 = /* @__PURE__ */ vue.createElementVNode("a", { name: "image-tracking-link" }, null, -1);
-  const _hoisted_2$2 = { id: "image-tracking-code-options" };
+  const _hoisted_1$2 = { id: "image-tracking-code-options" };
+  const _hoisted_2$2 = ["innerHTML"];
   const _hoisted_3$2 = ["innerHTML"];
-  const _hoisted_4$2 = ["innerHTML"];
-  const _hoisted_5$1 = { id: "image-tracking-goal-sub" };
-  const _hoisted_6$1 = { class: "row" };
+  const _hoisted_4$2 = { id: "image-tracking-goal-sub" };
+  const _hoisted_5$1 = { class: "row" };
+  const _hoisted_6$1 = { class: "col s12 m6" };
   const _hoisted_7$1 = { class: "col s12 m6" };
-  const _hoisted_8$1 = { class: "col s12 m6" };
-  const _hoisted_9$1 = { id: "image-link-output-section" };
-  const _hoisted_10$1 = { id: "image-tracking-text" };
-  const _hoisted_11$1 = ["textContent"];
+  const _hoisted_8$1 = { id: "image-link-output-section" };
+  const _hoisted_9$1 = { id: "image-tracking-text" };
+  const _hoisted_10 = ["textContent"];
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
@@ -1853,14 +1835,14 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
       anchor: "imageTracking"
     }, {
       default: vue.withCtx(() => [
-        _hoisted_1$2,
-        vue.createElementVNode("div", _hoisted_2$2, [
+        _cache[5] || (_cache[5] = vue.createElementVNode("a", { name: "image-tracking-link" }, null, -1)),
+        vue.createElementVNode("div", _hoisted_1$2, [
           vue.createElementVNode("p", {
             innerHTML: _ctx.$sanitize(_ctx.imageTrackingIntro)
-          }, null, 8, _hoisted_3$2),
+          }, null, 8, _hoisted_2$2),
           vue.createElementVNode("p", {
             innerHTML: _ctx.$sanitize(_ctx.imageTrackingIntro3)
-          }, null, 8, _hoisted_4$2),
+          }, null, 8, _hoisted_3$2),
           vue.createVNode(_component_Field, {
             uicontrol: "site",
             name: "image-tracker-website",
@@ -1891,9 +1873,9 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
             disabled: _ctx.isLoading,
             title: _ctx.translate("CoreAdminHome_TrackAGoal")
           }, null, 8, ["model-value", "disabled", "title"]),
-          vue.withDirectives(vue.createElementVNode("div", _hoisted_5$1, [
-            vue.createElementVNode("div", _hoisted_6$1, [
-              vue.createElementVNode("div", _hoisted_7$1, [
+          vue.withDirectives(vue.createElementVNode("div", _hoisted_4$2, [
+            vue.createElementVNode("div", _hoisted_5$1, [
+              vue.createElementVNode("div", _hoisted_6$1, [
                 vue.createVNode(_component_Field, {
                   uicontrol: "select",
                   name: "image-tracker-goal",
@@ -1906,7 +1888,7 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
                   })
                 }, null, 8, ["options", "disabled", "model-value"])
               ]),
-              vue.createElementVNode("div", _hoisted_8$1, [
+              vue.createElementVNode("div", _hoisted_7$1, [
                 vue.createVNode(_component_Field, {
                   uicontrol: "text",
                   name: "image-revenue",
@@ -1924,14 +1906,14 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
           ], 512), [
             [vue.vShow, _ctx.trackGoal]
           ]),
-          vue.createElementVNode("div", _hoisted_9$1, [
+          vue.createElementVNode("div", _hoisted_8$1, [
             vue.createElementVNode("h3", null, vue.toDisplayString(_ctx.translate("CoreAdminHome_ImageTrackingLink")), 1),
-            vue.createElementVNode("div", _hoisted_10$1, [
+            vue.createElementVNode("div", _hoisted_9$1, [
               vue.createElementVNode("div", null, [
                 vue.withDirectives(vue.createElementVNode("pre", {
                   textContent: vue.toDisplayString(_ctx.trackingCode),
                   ref: "trackingCode"
-                }, null, 8, _hoisted_11$1), [
+                }, null, 8, _hoisted_10), [
                   [_directive_copy_to_clipboard, {}]
                 ])
               ])
@@ -2110,24 +2092,21 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
       }
     }
   });
-  const _hoisted_1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_2 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_3 = ["value"];
-  const _hoisted_4 = { class: "action" };
-  const _hoisted_5 = { colspan: "7" };
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-ok" }, null, -1);
-  const _hoisted_7 = {
+  const _hoisted_1 = ["value"];
+  const _hoisted_2 = { class: "action" };
+  const _hoisted_3 = { colspan: "7" };
+  const _hoisted_4 = {
     class: "ui-confirm",
     id: "confirmDeleteAllTrackingFailures"
   };
-  const _hoisted_8 = ["value"];
-  const _hoisted_9 = ["value"];
-  const _hoisted_10 = {
+  const _hoisted_5 = ["value"];
+  const _hoisted_6 = ["value"];
+  const _hoisted_7 = {
     class: "ui-confirm",
     id: "confirmDeleteThisTrackingFailure"
   };
-  const _hoisted_11 = ["value"];
-  const _hoisted_12 = ["value"];
+  const _hoisted_8 = ["value"];
+  const _hoisted_9 = ["value"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
     const _component_FailureRow = vue.resolveComponent("FailureRow");
@@ -2140,14 +2119,14 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
       default: vue.withCtx(() => [
         vue.createElementVNode("p", null, [
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("CoreAdminHome_TrackingFailuresIntroduction", "2")) + " ", 1),
-          _hoisted_1,
-          _hoisted_2,
+          _cache[8] || (_cache[8] = vue.createElementVNode("br", null, null, -1)),
+          _cache[9] || (_cache[9] = vue.createElementVNode("br", null, null, -1)),
           vue.withDirectives(vue.createElementVNode("input", {
             class: "btn deleteAllFailures",
             type: "button",
             onClick: _cache[0] || (_cache[0] = ($event) => _ctx.deleteAll()),
             value: _ctx.translate("CoreAdminHome_DeleteAllFailures")
-          }, null, 8, _hoisted_3), [
+          }, null, 8, _hoisted_1), [
             [vue.vShow, !_ctx.isLoading && _ctx.failures.length > 0]
           ])
         ]),
@@ -2173,14 +2152,14 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
               vue.createElementVNode("th", {
                 onClick: _cache[6] || (_cache[6] = ($event) => _ctx.changeSortOrder("request_url"))
               }, vue.toDisplayString(_ctx.translate("CoreAdminHome_TrackingURL")), 1),
-              vue.createElementVNode("th", _hoisted_4, vue.toDisplayString(_ctx.translate("General_Action")), 1)
+              vue.createElementVNode("th", _hoisted_2, vue.toDisplayString(_ctx.translate("General_Action")), 1)
             ])
           ]),
           vue.createElementVNode("tbody", null, [
             vue.createElementVNode("tr", null, [
-              vue.withDirectives(vue.createElementVNode("td", _hoisted_5, [
+              vue.withDirectives(vue.createElementVNode("td", _hoisted_3, [
                 vue.createTextVNode(vue.toDisplayString(_ctx.translate("CoreAdminHome_NoKnownFailures")) + " ", 1),
-                _hoisted_6
+                _cache[10] || (_cache[10] = vue.createElementVNode("span", { class: "icon-ok" }, null, -1))
               ], 512), [
                 [vue.vShow, !_ctx.isLoading && _ctx.failures.length === 0]
               ])
@@ -2197,8 +2176,21 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
         ])), [
           [_directive_content_table]
         ]),
-        vue.createElementVNode("div", _hoisted_7, [
+        vue.createElementVNode("div", _hoisted_4, [
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("CoreAdminHome_ConfirmDeleteAllTrackingFailures")), 1),
+          vue.createElementVNode("input", {
+            type: "button",
+            role: "yes",
+            value: _ctx.translate("General_Yes")
+          }, null, 8, _hoisted_5),
+          vue.createElementVNode("input", {
+            type: "button",
+            role: "no",
+            value: _ctx.translate("General_No")
+          }, null, 8, _hoisted_6)
+        ]),
+        vue.createElementVNode("div", _hoisted_7, [
+          vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("CoreAdminHome_ConfirmDeleteThisTrackingFailure")), 1),
           vue.createElementVNode("input", {
             type: "button",
             role: "yes",
@@ -2209,19 +2201,6 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
             role: "no",
             value: _ctx.translate("General_No")
           }, null, 8, _hoisted_9)
-        ]),
-        vue.createElementVNode("div", _hoisted_10, [
-          vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("CoreAdminHome_ConfirmDeleteThisTrackingFailure")), 1),
-          vue.createElementVNode("input", {
-            type: "button",
-            role: "yes",
-            value: _ctx.translate("General_Yes")
-          }, null, 8, _hoisted_11),
-          vue.createElementVNode("input", {
-            type: "button",
-            role: "no",
-            value: _ctx.translate("General_No")
-          }, null, 8, _hoisted_12)
         ])
       ]),
       _: 1

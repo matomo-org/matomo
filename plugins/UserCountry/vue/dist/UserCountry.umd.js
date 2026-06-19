@@ -120,7 +120,7 @@
   };
   const _hoisted_1$1 = { class: "locationProviderSelection" };
   const _hoisted_2$1 = ["innerHTML"];
-  const _hoisted_3$1 = { class: "row" };
+  const _hoisted_3 = { class: "row" };
   const _hoisted_4 = { class: "col s12 push-m9 m3" };
   const _hoisted_5 = { class: "col s12 m4 l2" };
   const _hoisted_6 = ["id", "disabled", "checked", "onChange"];
@@ -146,21 +146,20 @@
     class: "form-help"
   };
   const _hoisted_16 = { key: 0 };
-  const _hoisted_17 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_18 = { style: { "position": "absolute" } };
-  const _hoisted_19 = ["innerHTML"];
-  const _hoisted_20 = { class: "text-right" };
-  const _hoisted_21 = ["onClick"];
-  const _hoisted_22 = { key: 1 };
-  const _hoisted_23 = {
+  const _hoisted_17 = { style: { "position": "absolute" } };
+  const _hoisted_18 = ["innerHTML"];
+  const _hoisted_19 = { class: "text-right" };
+  const _hoisted_20 = ["onClick"];
+  const _hoisted_21 = { key: 1 };
+  const _hoisted_22 = {
     key: 1,
     class: "form-help"
   };
-  const _hoisted_24 = { key: 0 };
+  const _hoisted_23 = { key: 0 };
+  const _hoisted_24 = ["innerHTML"];
   const _hoisted_25 = ["innerHTML"];
-  const _hoisted_26 = ["innerHTML"];
-  const _hoisted_27 = { key: 1 };
-  const _hoisted_28 = ["innerHTML"];
+  const _hoisted_26 = { key: 1 };
+  const _hoisted_27 = ["innerHTML"];
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
     const _component_Notification = vue.resolveComponent("Notification");
@@ -170,7 +169,7 @@
         key: 0,
         innerHTML: _ctx.$sanitize(_ctx.setUpGuides || "")
       }, null, 8, _hoisted_2$1)) : vue.createCommentVNode("", true),
-      vue.createElementVNode("div", _hoisted_3$1, [
+      vue.createElementVNode("div", _hoisted_3, [
         vue.createElementVNode("div", _hoisted_4, vue.toDisplayString(_ctx.translate("General_InfoFor", _ctx.thisIp)), 1)
       ]),
       (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.visibleLocationProviders, (provider, id) => {
@@ -211,8 +210,8 @@
               _ctx.thisIp !== "127.0.0.1" && _ctx.thisIp !== "::1" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_16, [
                 vue.createTextVNode(vue.toDisplayString(_ctx.translate("UserCountry_CurrentLocationIntro")) + ": ", 1),
                 vue.createElementVNode("div", null, [
-                  _hoisted_17,
-                  vue.createElementVNode("div", _hoisted_18, [
+                  _cache[1] || (_cache[1] = vue.createElementVNode("br", null, null, -1)),
+                  vue.createElementVNode("div", _hoisted_17, [
                     vue.createVNode(_component_ActivityIndicator, {
                       loading: _ctx.updateLoading[id]
                     }, null, 8, ["loading"])
@@ -223,31 +222,31 @@
                   }, [
                     vue.createElementVNode("strong", {
                       innerHTML: _ctx.$sanitize(_ctx.providerLocations[id] || " ")
-                    }, null, 8, _hoisted_19)
+                    }, null, 8, _hoisted_18)
                   ], 4)
                 ]),
-                vue.createElementVNode("div", _hoisted_20, [
+                vue.createElementVNode("div", _hoisted_19, [
                   vue.createElementVNode("a", {
                     onClick: vue.withModifiers(($event) => _ctx.refreshProviderInfo(id), ["prevent"])
-                  }, vue.toDisplayString(_ctx.translate("General_Refresh")), 9, _hoisted_21)
+                  }, vue.toDisplayString(_ctx.translate("General_Refresh")), 9, _hoisted_20)
                 ])
-              ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_22, vue.toDisplayString(_ctx.translate("UserCountry_CannotLocalizeLocalIP", _ctx.thisIp)), 1))
+              ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_21, vue.toDisplayString(_ctx.translate("UserCountry_CannotLocalizeLocalIP", _ctx.thisIp)), 1))
             ])) : vue.createCommentVNode("", true),
-            provider.statusMessage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_23, [
-              provider.status === 2 ? (vue.openBlock(), vue.createElementBlock("strong", _hoisted_24, vue.toDisplayString(_ctx.translate("General_Error")) + ":", 1)) : vue.createCommentVNode("", true),
+            provider.statusMessage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_22, [
+              provider.status === 2 ? (vue.openBlock(), vue.createElementBlock("strong", _hoisted_23, vue.toDisplayString(_ctx.translate("General_Error")) + ":", 1)) : vue.createCommentVNode("", true),
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(provider.statusMessage)
-              }, null, 8, _hoisted_25)
+              }, null, 8, _hoisted_24)
             ])) : vue.createCommentVNode("", true),
             provider.extra_message ? (vue.openBlock(), vue.createElementBlock("div", {
               key: 2,
               class: "form-help",
               innerHTML: _ctx.$sanitize(provider.extra_message)
-            }, null, 8, _hoisted_26)) : vue.createCommentVNode("", true)
+            }, null, 8, _hoisted_25)) : vue.createCommentVNode("", true)
           ])
         ], 2);
       }), 128)),
-      !Object.keys(_ctx.locationProvidersNotDefaultOrDisabled).length ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_27, [
+      !Object.keys(_ctx.locationProvidersNotDefaultOrDisabled).length ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_26, [
         vue.createVNode(_component_Notification, {
           noclear: true,
           context: "warning"
@@ -255,7 +254,7 @@
           default: vue.withCtx(() => [
             vue.createElementVNode("span", {
               innerHTML: _ctx.$sanitize(_ctx.noProvidersText)
-            }, null, 8, _hoisted_28)
+            }, null, 8, _hoisted_27)
           ]),
           _: 1
         })
@@ -369,7 +368,6 @@
   });
   const _hoisted_1 = { class: "sparkline" };
   const _hoisted_2 = ["innerHTML"];
-  const _hoisted_3 = /* @__PURE__ */ vue.createElementVNode("br", { style: { "clear": "left" } }, null, -1);
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Sparkline = vue.resolveComponent("Sparkline");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
@@ -385,7 +383,7 @@
             innerHTML: _ctx.$sanitize(_ctx.distinctCountriesText)
           }, null, 8, _hoisted_2)
         ]),
-        _hoisted_3
+        _cache[0] || (_cache[0] = vue.createElementVNode("br", { style: { "clear": "left" } }, null, -1))
       ]),
       _: 1
     });

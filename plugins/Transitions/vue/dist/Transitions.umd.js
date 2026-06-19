@@ -60,16 +60,16 @@
     return target;
   };
   const _hoisted_1$2 = { class: "transition-export-popover row" };
-  const _hoisted_2$2 = { class: "col l6" };
-  const _hoisted_3$2 = { class: "input-field" };
+  const _hoisted_2$1 = { class: "col l6" };
+  const _hoisted_3$1 = { class: "input-field" };
   const _hoisted_4$1 = { class: "matomo-field" };
   const _hoisted_5$1 = { class: "col l12" };
   const _hoisted_6$1 = ["href"];
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [
-      vue.createElementVNode("div", _hoisted_2$2, [
-        vue.createElementVNode("div", _hoisted_3$2, [
+      vue.createElementVNode("div", _hoisted_2$1, [
+        vue.createElementVNode("div", _hoisted_3$1, [
           vue.createElementVNode("div", _hoisted_4$1, [
             vue.createVNode(_component_Field, {
               uicontrol: "radio",
@@ -300,8 +300,8 @@
     }
   });
   const _hoisted_1$1 = { class: "row" };
-  const _hoisted_2$1 = { class: "col s12 m3" };
-  const _hoisted_3$1 = { name: "actionType" };
+  const _hoisted_2 = { class: "col s12 m3" };
+  const _hoisted_3 = { name: "actionType" };
   const _hoisted_4 = { class: "col s12 m9" };
   const _hoisted_5 = { name: "actionName" };
   const _hoisted_6 = {
@@ -317,12 +317,8 @@
   const _hoisted_12 = { class: "dataTableControls" };
   const _hoisted_13 = { class: "row" };
   const _hoisted_14 = { class: "dataTableAction" };
-  const _hoisted_15 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-export" }, null, -1);
-  const _hoisted_16 = [
-    _hoisted_15
-  ];
-  const _hoisted_17 = { class: "alert alert-info" };
-  const _hoisted_18 = ["innerHTML"];
+  const _hoisted_15 = { class: "alert alert-info" };
+  const _hoisted_16 = ["innerHTML"];
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
@@ -333,8 +329,8 @@
       id: "transitions_report"
     }, [
       vue.createElementVNode("div", _hoisted_1$1, [
-        vue.createElementVNode("div", _hoisted_2$1, [
-          vue.createElementVNode("div", _hoisted_3$1, [
+        vue.createElementVNode("div", _hoisted_2, [
+          vue.createElementVNode("div", _hoisted_3, [
             vue.createVNode(_component_Field, {
               uicontrol: "select",
               name: "actionType",
@@ -377,7 +373,9 @@
           vue.createElementVNode("div", _hoisted_11, [
             vue.createElementVNode("div", _hoisted_12, [
               vue.createElementVNode("div", _hoisted_13, [
-                vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", _hoisted_14, _hoisted_16)), [
+                vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", _hoisted_14, [..._cache[2] || (_cache[2] = [
+                  vue.createElementVNode("span", { class: "icon-export" }, null, -1)
+                ])])), [
                   [_directive_transition_exporter]
                 ])
               ])
@@ -387,11 +385,11 @@
       ], 512), [
         [vue.vShow, _ctx.isEnabled]
       ]),
-      vue.createElementVNode("div", _hoisted_17, [
+      vue.createElementVNode("div", _hoisted_15, [
         vue.createTextVNode(vue.toDisplayString(_ctx.translate("Transitions_AvailableInOtherReports")) + " " + vue.toDisplayString(_ctx.translate("Actions_PageUrls")) + ", " + vue.toDisplayString(_ctx.translate("Actions_SubmenuPageTitles")) + ", " + vue.toDisplayString(_ctx.translate("Actions_SubmenuPagesEntry")) + " " + vue.toDisplayString(_ctx.translate("General_And")) + " " + vue.toDisplayString(_ctx.translate("Actions_SubmenuPagesExit")) + ". ", 1),
         vue.createElementVNode("span", {
           innerHTML: _ctx.$sanitize(_ctx.availableInOtherReports2)
-        }, null, 8, _hoisted_18)
+        }, null, 8, _hoisted_16)
       ])
     ], 2);
   }
@@ -430,13 +428,11 @@
     }
   });
   const _hoisted_1 = { class: "dataTableAction" };
-  const _hoisted_2 = /* @__PURE__ */ vue.createElementVNode("span", { class: "icon-export" }, null, -1);
-  const _hoisted_3 = [
-    _hoisted_2
-  ];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_transition_exporter = vue.resolveDirective("transition-exporter");
-    return vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", _hoisted_1, _hoisted_3)), [
+    return vue.withDirectives((vue.openBlock(), vue.createElementBlock("a", _hoisted_1, [..._cache[0] || (_cache[0] = [
+      vue.createElementVNode("span", { class: "icon-export" }, null, -1)
+    ])])), [
       [_directive_transition_exporter]
     ]);
   }

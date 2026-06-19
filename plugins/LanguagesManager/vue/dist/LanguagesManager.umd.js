@@ -90,24 +90,20 @@
     return target;
   };
   const _hoisted_1$1 = ["href"];
-  const _hoisted_2$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_3$1 = /* @__PURE__ */ vue.createElementVNode("br", null, null, -1);
-  const _hoisted_4$1 = { style: { "word-break": "break-all" } };
-  const _hoisted_5$1 = /* @__PURE__ */ vue.createElementVNode("th", { style: { "width": "250px" } }, "Key", -1);
-  const _hoisted_6$1 = /* @__PURE__ */ vue.createElementVNode("th", null, "English translation", -1);
-  const _hoisted_7$1 = { key: 0 };
+  const _hoisted_2$1 = { style: { "word-break": "break-all" } };
+  const _hoisted_3$1 = { key: 0 };
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     const _directive_content_table = vue.resolveDirective("content-table");
     return vue.openBlock(), vue.createElementBlock("div", null, [
       vue.createElementVNode("p", null, [
-        vue.createTextVNode(" This page helps you to find existing translations that you can reuse in your Plugin. If you want to know more about translations have a look at our "),
+        _cache[2] || (_cache[2] = vue.createTextVNode(" This page helps you to find existing translations that you can reuse in your Plugin. If you want to know more about translations have a look at our ", -1)),
         vue.createElementVNode("a", {
           href: _ctx.externalRawLink("https://developer.matomo.org/guides/internationalization"),
           rel: "noreferrer noopener",
           target: "_blank"
         }, "Internationalization guide", 8, _hoisted_1$1),
-        vue.createTextVNode(". Enter a search term to find translations and their corresponding keys: ")
+        _cache[3] || (_cache[3] = vue.createTextVNode(". Enter a search term to find translations and their corresponding keys: ", -1))
       ]),
       vue.createElementVNode("div", null, [
         vue.createVNode(_component_Field, {
@@ -132,13 +128,13 @@
           options: _ctx.languages
         }, null, 8, ["model-value", "options"])
       ]),
-      _hoisted_2$1,
-      _hoisted_3$1,
-      vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_4$1, [
+      _cache[6] || (_cache[6] = vue.createElementVNode("br", null, null, -1)),
+      _cache[7] || (_cache[7] = vue.createElementVNode("br", null, null, -1)),
+      vue.withDirectives((vue.openBlock(), vue.createElementBlock("table", _hoisted_2$1, [
         vue.createElementVNode("thead", null, [
           vue.createElementVNode("tr", null, [
-            _hoisted_5$1,
-            _hoisted_6$1,
+            _cache[4] || (_cache[4] = vue.createElementVNode("th", { style: { "width": "250px" } }, "Key", -1)),
+            _cache[5] || (_cache[5] = vue.createElementVNode("th", null, "English translation", -1)),
             vue.withDirectives(vue.createElementVNode("th", null, "Compare translation", 512), [
               [vue.vShow, _ctx.compareLanguage && _ctx.compareTranslations]
             ])
@@ -151,7 +147,7 @@
             }, [
               vue.createElementVNode("td", null, vue.toDisplayString(translation.label), 1),
               vue.createElementVNode("td", null, vue.toDisplayString(translation.value), 1),
-              _ctx.compareLanguage && _ctx.compareTranslations ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_7$1, vue.toDisplayString(_ctx.compareTranslations[translation.label]), 1)) : vue.createCommentVNode("", true)
+              _ctx.compareLanguage && _ctx.compareTranslations ? (vue.openBlock(), vue.createElementBlock("td", _hoisted_3$1, vue.toDisplayString(_ctx.compareTranslations[translation.label]), 1)) : vue.createCommentVNode("", true)
             ]);
           }), 128))
         ])

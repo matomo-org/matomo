@@ -49,11 +49,11 @@ ${spaces}`));
   };
   const _hoisted_1$1 = ["data-snippet"];
   const _hoisted_2$1 = { key: 0 };
-  const _hoisted_3$1 = {
+  const _hoisted_3 = {
     key: 1,
     class: "demo"
   };
-  const _hoisted_4$1 = {
+  const _hoisted_4 = {
     key: 2,
     class: "demo-code"
   };
@@ -64,10 +64,10 @@ ${spaces}`));
       "data-snippet": _ctx.snippet.id
     }, [
       _ctx.snippet.title ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_2$1, vue.toDisplayString(_ctx.snippet.title), 1)) : vue.createCommentVNode("", true),
-      _ctx.snippet.vue_embed ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$1, [
+      _ctx.snippet.vue_embed ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3, [
         (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.vueEmbedComponent)))
       ])) : vue.createCommentVNode("", true),
-      _ctx.snippet.code ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$1, [
+      _ctx.snippet.code ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4, [
         vue.createElementVNode("pre", null, vue.toDisplayString(_ctx.processedSnippetCode), 1)
       ])) : vue.createCommentVNode("", true),
       _ctx.snippet.desc ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_5, vue.toDisplayString(_ctx.snippet.desc), 1)) : vue.createCommentVNode("", true)
@@ -89,15 +89,11 @@ ${spaces}`));
       DemoCodePair
     }
   });
-  const _hoisted_1 = /* @__PURE__ */ vue.createElementVNode("h2", null, "Icons", -1);
-  const _hoisted_2 = {
+  const _hoisted_1 = {
     id: "icons",
     class: "demo icons"
   };
-  const _hoisted_3 = { class: "row" };
-  const _hoisted_4 = /* @__PURE__ */ vue.createElementVNode("div", { class: "demo-code" }, [
-    /* @__PURE__ */ vue.createElementVNode("pre", null, '<span class="icon-ok"></span>')
-  ], -1);
+  const _hoisted_2 = { class: "row" };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_DemoCodePair = vue.resolveComponent("DemoCodePair");
     return vue.openBlock(), vue.createElementBlock("div", null, [
@@ -107,12 +103,12 @@ ${spaces}`));
           snippet
         }, null, 8, ["snippet"]);
       }), 128)),
-      _hoisted_1,
-      vue.createElementVNode("div", _hoisted_2, [
+      _cache[0] || (_cache[0] = vue.createElementVNode("h2", null, "Icons", -1)),
+      vue.createElementVNode("div", _hoisted_1, [
         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.icons, (iconList, category) => {
           return vue.openBlock(), vue.createElementBlock("div", { key: category }, [
             vue.createElementVNode("h4", null, vue.toDisplayString(category), 1),
-            vue.createElementVNode("div", _hoisted_3, [
+            vue.createElementVNode("div", _hoisted_2, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(iconList, (icon, index) => {
                 return vue.openBlock(), vue.createElementBlock("div", {
                   class: "col s4 icon",
@@ -128,7 +124,9 @@ ${spaces}`));
           ]);
         }), 128))
       ]),
-      _hoisted_4
+      _cache[1] || (_cache[1] = vue.createElementVNode("div", { class: "demo-code" }, [
+        vue.createElementVNode("pre", null, '<span class="icon-ok"></span>')
+      ], -1))
     ]);
   }
   const Demo = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
