@@ -7,17 +7,16 @@
 
 import { mount } from '@vue/test-utils';
 
-const mockStore = {
-  toggleStarredSegmentById: jest.fn(),
-};
+const mockStore = vi.hoisted(() => ({
+  toggleStarredSegmentById: vi.fn(),
+}));
 
-jest.mock('../SegmentSelector/SegmentSelector.store', () => ({
+vi.mock('../SegmentSelector/SegmentSelector.store', () => ({
   __esModule: true,
   default: mockStore,
 }));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const StarButton = require('./StarButton.vue').default;
+import StarButton from './StarButton.vue';
 
 function createSegment(overrides: Record<string, unknown> = {}) {
   return {
@@ -35,7 +34,7 @@ function createSegment(overrides: Record<string, unknown> = {}) {
 
 describe('SegmentEditor/StarButton.vue', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders the button with the segment metadata and an unfilled star icon', () => {

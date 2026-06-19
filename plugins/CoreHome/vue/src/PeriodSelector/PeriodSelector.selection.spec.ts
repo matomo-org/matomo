@@ -45,11 +45,11 @@ describe('PeriodSelector', () => {
       isCompareDirty: true,
       isComparing: false,
       comparePeriodType: 'previousPeriod',
-      isCompareRangeValid: jest.fn(() => true),
+      isCompareRangeValid: vi.fn(() => true),
       hasPendingNonRangePeriodChange: false,
-      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
-      closePeriodSelector: jest.fn(),
-      commitSelectionToUrl: jest.fn(),
+      getCurrentRollingDateParamIfOwnedByPreset: vi.fn(() => null),
+      closePeriodSelector: vi.fn(),
+      commitSelectionToUrl: vi.fn(),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
@@ -80,7 +80,7 @@ describe('PeriodSelector', () => {
       appliedRangeStartDate: '2026-02-18',
       appliedRangeEndDate: '2026-02-18',
       isRangeValid: false,
-      commitSelectionToUrl: jest.fn(),
+      commitSelectionToUrl: vi.fn(),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
@@ -124,7 +124,7 @@ describe('PeriodSelector', () => {
       appliedRangeStartDate: '2026-02-18',
       appliedRangeEndDate: '2026-02-18',
       isRangeValid: false,
-      commitSelectionToUrl: jest.fn(),
+      commitSelectionToUrl: vi.fn(),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
@@ -162,7 +162,7 @@ describe('PeriodSelector', () => {
       selectedPeriod: 'day',
       calendarViewport: 'single',
       isRangeValid: false,
-      setUiSelection: jest.fn(),
+      setUiSelection: vi.fn(),
     };
 
     methods.onPresetDateRangeSelected.call(vm, {
@@ -399,7 +399,7 @@ describe('PeriodSelector', () => {
       calendarViewport: 'single',
       singleCalendarPeriod: 'day',
       singleCalendarSelectedDate: appliedDate,
-      clearPresetSelection: jest.fn(),
+      clearPresetSelection: vi.fn(),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
@@ -436,8 +436,8 @@ describe('PeriodSelector', () => {
       periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
       uiSelection: { type: 'period', id: 'day' },
       pendingPresetSelection: { id: 'last30days' },
-      setUiSelection: jest.fn(),
-      clearPresetSelection: jest.fn(),
+      setUiSelection: vi.fn(),
+      clearPresetSelection: vi.fn(),
     };
 
     methods.applyUiSelectionFromHash.call(vm, 'range', 'last7', null);
@@ -478,7 +478,7 @@ describe('PeriodSelector', () => {
       committedPeriod: 'range',
       appliedRangeStartDate: '2026-02-01',
       appliedRangeEndDate: '2026-02-18',
-      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
+      getCurrentRollingDateParamIfOwnedByPreset: vi.fn(() => null),
     });
 
     callOnApplyClicked(vm);
@@ -491,7 +491,7 @@ describe('PeriodSelector', () => {
       selectedPeriod: 'week',
       committedPeriod: 'week',
       committedAnchorDate: new Date('2026-02-18'),
-      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
+      getCurrentRollingDateParamIfOwnedByPreset: vi.fn(() => null),
     });
 
     callOnApplyClicked(vm);
@@ -506,7 +506,7 @@ describe('PeriodSelector', () => {
       committedPeriod: 'day',
       isComparing: false,
       comparePeriodType: 'previousPeriod',
-      isCompareRangeValid: jest.fn(() => true),
+      isCompareRangeValid: vi.fn(() => true),
       isCompareDirty: false,
     });
 
@@ -525,7 +525,7 @@ describe('PeriodSelector', () => {
       isRangeValid: true,
       isComparing: false,
       comparePeriodType: 'previousPeriod',
-      isCompareRangeValid: jest.fn(() => true),
+      isCompareRangeValid: vi.fn(() => true),
     };
 
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
@@ -540,7 +540,7 @@ describe('PeriodSelector', () => {
       isRangeValid: true,
       isComparing: false,
       comparePeriodType: 'previousPeriod',
-      isCompareRangeValid: jest.fn(() => true),
+      isCompareRangeValid: vi.fn(() => true),
     };
 
     expect(methods.isApplyEnabled.call(vm)).toBe(true);
@@ -556,7 +556,7 @@ describe('PeriodSelector', () => {
       isRangeValid: true,
       isComparing: false,
       comparePeriodType: 'previousPeriod',
-      isCompareRangeValid: jest.fn(() => true),
+      isCompareRangeValid: vi.fn(() => true),
     };
 
     expect(methods.isApplyEnabled.call(vm)).toBe(true);
@@ -572,7 +572,7 @@ describe('PeriodSelector', () => {
       isRangeValid: true,
       isComparing: true,
       comparePeriodType: 'custom',
-      isCompareRangeValid: jest.fn(() => true),
+      isCompareRangeValid: vi.fn(() => true),
     };
 
     expect(methods.isApplyEnabled.call(vm)).toBe(true);
@@ -587,7 +587,7 @@ describe('PeriodSelector', () => {
       appliedRangeStartDate: '2026-02-18',
       appliedRangeEndDate: '2026-02-18',
       isCompareDirty: true,
-      closePeriodSelector: jest.fn(),
+      closePeriodSelector: vi.fn(),
       commitSelectionToUrl: methods.commitSelectionToUrl,
       ...createApplyVm({
         uiSelection: { type: 'period', id: 'day' },
@@ -619,8 +619,8 @@ describe('PeriodSelector', () => {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
       },
-      clearPresetSelection: jest.fn(),
-      isCompareRangeValid: jest.fn(() => true),
+      clearPresetSelection: vi.fn(),
+      isCompareRangeValid: vi.fn(() => true),
     };
 
     methods.onPeriodOptionSelected.call(vm, { period: 'range' });
@@ -634,11 +634,11 @@ describe('PeriodSelector', () => {
       calendarViewport: 'single',
       uiSelection: { type: 'period', id: 'week' },
       selectedPeriod: 'week',
-      canInteractWithSingleCalendar: jest.fn(() => true),
-      setUiSelection: jest.fn(),
-      setPendingPeriodAndDate: jest.fn(),
-      clearPresetSelection: jest.fn(),
-      commitSelectionToUrl: jest.fn(),
+      canInteractWithSingleCalendar: vi.fn(() => true),
+      setUiSelection: vi.fn(),
+      setPendingPeriodAndDate: vi.fn(),
+      clearPresetSelection: vi.fn(),
+      commitSelectionToUrl: vi.fn(),
     };
 
     methods.onDatePickerSelected.call(vm, new Date('2026-02-18'));
@@ -649,7 +649,7 @@ describe('PeriodSelector', () => {
 
   it('updates the active preset when the current calendar selection matches a preset', () => {
     const originalTimezoneOffset = window.piwik.timezoneOffset;
-    const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(new Date('2026-06-01T12:00:00Z').valueOf());
+    const nowSpy = vi.spyOn(Date, 'now').mockReturnValue(new Date('2026-06-01T12:00:00Z').valueOf());
     window.piwik.timezoneOffset = 0;
 
     const vm: any = {
@@ -680,14 +680,14 @@ describe('PeriodSelector', () => {
       lastInteractionSource: null,
       selectedPeriod: 'day',
       calendarViewport: 'single',
-      commitSelectionToUrl: jest.fn(),
+      commitSelectionToUrl: vi.fn(),
       selectedDateString: '2026-02-01,2026-02-18',
-      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
+      getCurrentRollingDateParamIfOwnedByPreset: vi.fn(() => null),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
       },
-      clearPresetSelection: jest.fn(),
+      clearPresetSelection: vi.fn(),
     };
 
     methods.onPeriodOptionSelected.call(vm, { period: 'range' });
@@ -719,8 +719,8 @@ describe('PeriodSelector', () => {
       appliedRangeStartDate: '2026-02-01',
       appliedRangeEndDate: '2026-02-18',
       selectedDateString: '2026-02-01,2026-02-18',
-      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
-      commitSelectionToUrl: jest.fn(),
+      getCurrentRollingDateParamIfOwnedByPreset: vi.fn(() => null),
+      commitSelectionToUrl: vi.fn(),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
@@ -746,12 +746,12 @@ describe('PeriodSelector', () => {
       calendarViewport: 'range',
       uiSelection: { type: 'period', id: 'range' },
       selectedPeriod: 'range',
-      canInteractWithRangeCalendar: jest.fn(() => true),
+      canInteractWithRangeCalendar: vi.fn(() => true),
       isRangeValid: null,
       appliedRangeStartDate: null,
       appliedRangeEndDate: null,
-      setUiSelection: jest.fn(),
-      clearPresetSelection: jest.fn(),
+      setUiSelection: vi.fn(),
+      clearPresetSelection: vi.fn(),
     };
 
     methods.onRangeChange.call(allowedVm, '2026-02-01', '2026-02-18');
@@ -764,11 +764,11 @@ describe('PeriodSelector', () => {
       calendarViewport: 'range',
       uiSelection: { type: 'preset', id: 'last30days' },
       selectedPeriod: 'range',
-      canInteractWithRangeCalendar: jest.fn(() => false),
+      canInteractWithRangeCalendar: vi.fn(() => false),
       isRangeValid: false,
       appliedRangeStartDate: '2026-01-01',
       appliedRangeEndDate: '2026-01-31',
-      setUiSelection: jest.fn(),
+      setUiSelection: vi.fn(),
     };
 
     methods.onRangeChange.call(ignoredVm, '2026-02-01', '2026-02-18');
@@ -789,9 +789,9 @@ describe('PeriodSelector', () => {
       endDate: new Date('2026-02-18'),
     };
     const vm: any = {
-      onPresetDateRangeSelected: jest.fn(),
-      onApplyClicked: jest.fn(),
-      hasInvalidCustomComparison: jest.fn(() => false),
+      onPresetDateRangeSelected: vi.fn(),
+      onApplyClicked: vi.fn(),
+      hasInvalidCustomComparison: vi.fn(() => false),
     };
 
     methods.onPresetDateRangeDblClick.call(vm, selection);
@@ -811,10 +811,10 @@ describe('PeriodSelector', () => {
       endDate: new Date('2026-02-18'),
     };
     const vm: any = {
-      onPresetDateRangeSelected: jest.fn(),
-      onApplyClicked: jest.fn(),
-      hasInvalidCustomComparison: jest.fn(() => true),
-      showInvalidComparisonMessage: jest.fn(),
+      onPresetDateRangeSelected: vi.fn(),
+      onApplyClicked: vi.fn(),
+      hasInvalidCustomComparison: vi.fn(() => true),
+      showInvalidComparisonMessage: vi.fn(),
     };
 
     methods.onPresetDateRangeDblClick.call(vm, selection);
@@ -828,9 +828,9 @@ describe('PeriodSelector', () => {
     const vm: any = {
       committedPeriod: 'day',
       committedAnchorDate: new Date('2026-02-18'),
-      onPeriodOptionSelected: jest.fn(),
-      setPiwikPeriodAndDate: jest.fn(),
-      hasInvalidCustomComparison: jest.fn(() => false),
+      onPeriodOptionSelected: vi.fn(),
+      setPiwikPeriodAndDate: vi.fn(),
+      hasInvalidCustomComparison: vi.fn(() => false),
     };
 
     methods.onPeriodOptionDblClick.call(vm, { period: 'month' });
@@ -843,9 +843,9 @@ describe('PeriodSelector', () => {
     const vm: any = {
       committedPeriod: 'day',
       committedAnchorDate: new Date('2026-02-18'),
-      onPeriodOptionSelected: jest.fn(),
-      setPiwikPeriodAndDate: jest.fn(),
-      hasInvalidCustomComparison: jest.fn(() => false),
+      onPeriodOptionSelected: vi.fn(),
+      setPiwikPeriodAndDate: vi.fn(),
+      hasInvalidCustomComparison: vi.fn(() => false),
     };
 
     methods.onPeriodOptionDblClick.call(vm, { period: 'range' });
@@ -858,10 +858,10 @@ describe('PeriodSelector', () => {
     const vm: any = {
       committedPeriod: 'day',
       committedAnchorDate: new Date('2026-02-18'),
-      onPeriodOptionSelected: jest.fn(),
-      setPiwikPeriodAndDate: jest.fn(),
-      hasInvalidCustomComparison: jest.fn(() => true),
-      showInvalidComparisonMessage: jest.fn(),
+      onPeriodOptionSelected: vi.fn(),
+      setPiwikPeriodAndDate: vi.fn(),
+      hasInvalidCustomComparison: vi.fn(() => true),
+      showInvalidComparisonMessage: vi.fn(),
     };
 
     methods.onPeriodOptionDblClick.call(vm, { period: 'month' });
@@ -874,7 +874,7 @@ describe('PeriodSelector', () => {
   it('shows invalid comparison message only after an invalid apply interaction', () => {
     const vm: any = {
       shouldShowInvalidComparisonMessage: false,
-      hasInvalidCustomComparison: jest.fn(() => true),
+      hasInvalidCustomComparison: vi.fn(() => true),
       showInvalidComparisonMessage: methods.showInvalidComparisonMessage,
     };
 
@@ -907,11 +907,11 @@ describe('PeriodSelector', () => {
       calendarViewport: 'single',
       uiSelection: { type: 'period', id: 'day' },
       selectedPeriod: 'day',
-      canInteractWithSingleCalendar: jest.fn(() => false),
-      setUiSelection: jest.fn(),
-      setPendingPeriodAndDate: jest.fn(),
-      clearPresetSelection: jest.fn(),
-      commitSelectionToUrl: jest.fn(),
+      canInteractWithSingleCalendar: vi.fn(() => false),
+      setUiSelection: vi.fn(),
+      setPendingPeriodAndDate: vi.fn(),
+      clearPresetSelection: vi.fn(),
+      commitSelectionToUrl: vi.fn(),
     };
 
     methods.onDatePickerSelected.call(vm, new Date('2026-02-18'));
@@ -952,8 +952,8 @@ describe('PeriodSelector', () => {
         window.piwik.minDateDay,
       ),
       maxAllowedDate: maxDate,
-      canMovePeriod: jest.fn(() => true),
-      setPiwikPeriodAndDate: jest.fn(),
+      canMovePeriod: vi.fn(() => true),
+      setPiwikPeriodAndDate: vi.fn(),
     };
 
     methods.movePeriod.call(vm, 1);
@@ -966,7 +966,7 @@ describe('PeriodSelector', () => {
 
   it('highlights last week for any date within that week', () => {
     const originalTimezoneOffset = window.piwik.timezoneOffset;
-    const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(new Date('2026-06-01T12:00:00Z').valueOf());
+    const nowSpy = vi.spyOn(Date, 'now').mockReturnValue(new Date('2026-06-01T12:00:00Z').valueOf());
     window.piwik.timezoneOffset = 0;
 
     const vm: any = {

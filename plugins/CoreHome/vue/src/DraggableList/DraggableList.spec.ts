@@ -20,7 +20,7 @@ describe('CoreHome/DraggableList', () => {
     return {
       dropEffect: 'move',
       effectAllowed: 'move',
-      setData: jest.fn(),
+      setData: vi.fn(),
     };
   }
 

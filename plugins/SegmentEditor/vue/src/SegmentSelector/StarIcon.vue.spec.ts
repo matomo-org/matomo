@@ -7,8 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const StarIcon = require('./StarIcon.vue').default;
+import StarIcon from './StarIcon.vue';
 
 describe('SegmentEditor/StarIcon.vue', () => {
   it('renders an unfilled star by default', () => {

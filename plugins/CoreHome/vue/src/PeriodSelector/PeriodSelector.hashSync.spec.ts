@@ -202,7 +202,7 @@ describe('PeriodSelector hash sync', () => {
       compareAppliedSignature: '',
       compareCurrentSignature: '{}',
       isRangeValid: null,
-      getCurrentContextKey: jest.fn(() => baseContextKey),
+      getCurrentContextKey: vi.fn(() => baseContextKey),
       applyUiSelectionFromHash: methods.applyUiSelectionFromHash,
       setUiSelection: methods.setUiSelection,
       clearPresetSelection: methods.clearPresetSelection,
@@ -248,7 +248,7 @@ describe('PeriodSelector hash sync', () => {
       compareAppliedSignature: '',
       compareCurrentSignature: '{}',
       isRangeValid: null,
-      getCurrentContextKey: jest.fn(() => baseContextKey),
+      getCurrentContextKey: vi.fn(() => baseContextKey),
       applyUiSelectionFromHash: methods.applyUiSelectionFromHash,
       setUiSelection: methods.setUiSelection,
       clearPresetSelection: methods.clearPresetSelection,
@@ -297,7 +297,7 @@ describe('PeriodSelector hash sync', () => {
     const originalUrl = (MatomoUrl as any).url.value;
     const originalInitTopControls = window.initTopControls;
     if (!window.initTopControls) {
-      window.initTopControls = jest.fn();
+      window.initTopControls = vi.fn();
     }
 
     const setUrl = (url: string) => {

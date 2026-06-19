@@ -5,6 +5,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import type { MockInstance } from 'vitest';
+
 import AjaxHelper from './AjaxHelper';
 
 type AjaxMode = 'success' | 'apiErrorEachChunk' | 'abort' | 'sessionTimeout';
@@ -18,7 +20,7 @@ describe('CoreHome/AjaxHelper', () => {
   const originalRefreshAfter = window.piwikHelper.refreshAfter;
 
   let notificationCallCount = 0;
-  let consoleLogSpy: jest.SpyInstance;
+  let consoleLogSpy: MockInstance;
 
   function makeBulkRequests(count: number): QueryParameters[] {
     return Array.from({ length: count }, (_, index) => ({
@@ -54,7 +56,7 @@ describe('CoreHome/AjaxHelper', () => {
         status: 200,
         statusText: 'success',
         responseJSON: data,
-        abort: jest.fn(),
+        abort: vi.fn(),
         getResponseHeader(headerName: string) {
           if (mode === 'sessionTimeout' && headerName === 'X-Matomo-Session-Timed-Out') {
             return '1';
@@ -98,7 +100,7 @@ describe('CoreHome/AjaxHelper', () => {
         status: 200,
         statusText: 'success',
         responseJSON: [],
-        abort: jest.fn(),
+        abort: vi.fn(),
         getResponseHeader() {
           return null;
         },
@@ -116,11 +118,11 @@ describe('CoreHome/AjaxHelper', () => {
   }
 
   beforeEach(() => {
-    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     notificationCallCount = 0;
     document.body.innerHTML = '<div id="ajaxError"></div>';
 
-    (window as Window & { require: (name: string) => any }).require = jest.fn().mockImplementation((moduleName: string) => {
+    (window as Window & { require: (name: string) => any }).require = vi.fn().mockImplementation((moduleName: string) => {
       if (moduleName !== 'piwik/UI') {
         throw new Error(`unexpected module ${moduleName}`);
       }
@@ -137,8 +139,8 @@ describe('CoreHome/AjaxHelper', () => {
       };
     });
 
-    window.piwikHelper.redirect = jest.fn();
-    window.piwikHelper.refreshAfter = jest.fn();
+    window.piwikHelper.redirect = vi.fn();
+    window.piwikHelper.refreshAfter = vi.fn();
     window.piwik.idSite = 1;
     window.piwik.period = 'day';
     window.piwik.currentDateString = 'yesterday';

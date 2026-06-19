@@ -7,10 +7,12 @@
 
 import { mount } from '@vue/test-utils';
 
-const mockFetch = jest.fn();
-const QUERY_MAX_EXECUTION_TIME_EXCEEDED_TRANSLATION_KEY = 'Live_QueryMaxExecutionTimeExceeded';
+const { mockFetch, QUERY_MAX_EXECUTION_TIME_EXCEEDED_TRANSLATION_KEY } = vi.hoisted(() => ({
+  mockFetch: vi.fn(),
+  QUERY_MAX_EXECUTION_TIME_EXCEEDED_TRANSLATION_KEY: 'Live_QueryMaxExecutionTimeExceeded',
+}));
 
-jest.mock('CoreHome', () => ({
+vi.mock('CoreHome', () => ({
   AjaxHelper: {
     fetch: mockFetch,
   },
@@ -34,10 +36,9 @@ jest.mock('CoreHome', () => ({
 
     return translations[key] || key;
   },
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const SimpleRealtimeVisitorWidget = require('./SimpleRealtimeVisitorWidget.vue').default;
+import SimpleRealtimeVisitorWidget from './SimpleRealtimeVisitorWidget.vue';
 
 async function flushPromises() {
   await Promise.resolve();
@@ -62,13 +63,13 @@ function mountComponent(props = {}) {
 
 describe('Live/SimpleRealtimeVisitorWidget', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    jest.useFakeTimers();
+    vi.clearAllMocks();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
+    vi.runOnlyPendingTimers();
+    vi.useRealTimers();
     document.body.innerHTML = '';
   });
 
@@ -111,7 +112,7 @@ describe('Live/SimpleRealtimeVisitorWidget', () => {
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     await flushPromises();
 
     expect(mockFetch).toHaveBeenCalledTimes(2);
@@ -126,7 +127,7 @@ describe('Live/SimpleRealtimeVisitorWidget', () => {
     expect(wrapper.find('.alert').text()).toContain('Query exceeded max execution time');
     expect(wrapper.find('.simple-realtime-visitor-counter').text()).toBe('-');
 
-    jest.advanceTimersByTime(5000);
+    vi.advanceTimersByTime(5000);
     await flushPromises();
 
     expect(mockFetch).toHaveBeenCalledTimes(1);

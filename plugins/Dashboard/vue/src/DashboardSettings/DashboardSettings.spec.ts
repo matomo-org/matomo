@@ -5,58 +5,88 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { shallowMount } from '@vue/test-utils';
+import { config, shallowMount } from '@vue/test-utils';
 
 type PlainObject = Record<string, unknown>;
 
-const mockRootJQuery = {
-  hide: jest.fn(),
-  dashboard: jest.fn(),
-  find: jest.fn(() => ({ length: 0 })),
+// Clicking the menu bubbles to the root @click="onOpen()", which calls a jQuery dashboard plugin
+// that only exists in the full app (not in unit tests). That incidental lifecycle error is
+// irrelevant to these tests, so swallow it instead of letting it surface as an unhandled error.
+config.global.config = {
+  ...config.global.config,
+  errorHandler: () => { /* ignore incidental component lifecycle errors */ },
 };
 
-const mockDollar = jest.fn(() => mockRootJQuery);
+const mockRootJQuery = {
+  hide: vi.fn(),
+  dashboard: vi.fn(),
+  find: vi.fn(() => ({ length: 0 })),
+};
+
+const mockDollar = vi.fn(() => mockRootJQuery);
 
 const testWindow = window as any;
 testWindow.$ = mockDollar;
 testWindow.jQuery = mockDollar;
 testWindow.widgetsHelper = {
-  getWidgetObjectFromUniqueId: jest.fn(),
+  getWidgetObjectFromUniqueId: vi.fn(),
 };
 
-const mockUpdateUrl = jest.fn();
-const mockGetSearchParam = jest.fn();
-const mockGetLoginModule = jest.fn(() => 'Login');
+const {
+  mockUpdateUrl,
+  mockGetSearchParam,
+  mockGetLoginModule,
+  mockMatomo,
+  mockMatomoUrl,
+} = vi.hoisted(() => {
+  const mockUpdateUrl = vi.fn();
+  const mockGetSearchParam = vi.fn();
+  const mockGetLoginModule = vi.fn(() => 'Login');
+
+  const mockMatomo = {
+    userLogin: 'admin',
+    hasSuperUserAccess: false,
+    userHasSomeAdminAccess: false,
+    postEvent: vi.fn(),
+    on: vi.fn(),
+    off: vi.fn(),
+    getLoginModule: mockGetLoginModule,
+  };
+
+  const mockMatomoUrl = {
+    urlParsed: { value: {} as Record<string, unknown> },
+    hashParsed: { value: {} as Record<string, unknown> },
+    getSearchParam: mockGetSearchParam,
+    updateUrl: mockUpdateUrl,
+  };
+
+  return {
+    mockUpdateUrl,
+    mockGetSearchParam,
+    mockGetLoginModule,
+    mockMatomo,
+    mockMatomoUrl,
+  };
+});
+
 const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
 
-const mockMatomo = {
-  userLogin: 'admin',
-  hasSuperUserAccess: false,
-  userHasSomeAdminAccess: false,
-  postEvent: jest.fn(),
-  on: jest.fn(),
-  off: jest.fn(),
-  getLoginModule: mockGetLoginModule,
-};
-
-const mockMatomoUrl = {
-  urlParsed: { value: {} as PlainObject },
-  hashParsed: { value: {} as PlainObject },
-  getSearchParam: mockGetSearchParam,
-  updateUrl: mockUpdateUrl,
-};
-
-jest.mock('CoreHome', () => ({
+vi.mock('CoreHome', () => ({
   Matomo: mockMatomo,
   MatomoUrl: mockMatomoUrl,
   translate: (key: string) => key,
   ExpandOnClick: {},
   Tooltips: {},
   WidgetType: {},
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const DashboardSettings = require('./DashboardSettings.vue').default;
+// These tests only cover DashboardSettings' own export-navigation logic; stub the AddWidgetModal
+// child so its (large) import subtree doesn't have to be mocked.
+vi.mock('../AddWidgetModal/AddWidgetModal.vue', () => ({
+  default: { template: '<div />' },
+}));
+
+import DashboardSettings from './DashboardSettings.vue';
 
 describe('Dashboard/DashboardSettings export navigation', () => {
   function mountComponent() {
@@ -70,8 +100,12 @@ describe('Dashboard/DashboardSettings export navigation', () => {
   }
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     sessionStorage.clear();
+
+    // Re-assert the jQuery mock (the shared bootstrap installs the real jQuery as window.$).
+    testWindow.$ = mockDollar;
+    testWindow.jQuery = mockDollar;
 
     mockMatomo.userLogin = 'admin';
     mockMatomoUrl.urlParsed.value = {} as PlainObject;
@@ -171,7 +205,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
 
-      const redirectToCreateScheduledReportsSpy = jest.spyOn(vm, 'redirectToCreateScheduledReports');
+      const redirectToCreateScheduledReportsSpy = vi.spyOn(vm, 'redirectToCreateScheduledReports');
 
       vm.onClickExportDashboard();
 
@@ -188,7 +222,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
 
-      const redirectToCreateScheduledReportsSpy = jest.spyOn(vm, 'redirectToCreateScheduledReports');
+      const redirectToCreateScheduledReportsSpy = vi.spyOn(vm, 'redirectToCreateScheduledReports');
 
       vm.onClickExportDashboard();
 
@@ -205,7 +239,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
 
-      const redirectToCreateScheduledReportsSpy = jest.spyOn(vm, 'redirectToCreateScheduledReports');
+      const redirectToCreateScheduledReportsSpy = vi.spyOn(vm, 'redirectToCreateScheduledReports');
 
       vm.onClickExportDashboard();
 
@@ -320,9 +354,9 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
 
-      const redirectToCreateScheduledReportsSpy = jest.spyOn(vm, 'redirectToCreateScheduledReports');
-      const redirectToLoginPageSpy = jest.spyOn(vm, 'redirectToLoginPage');
-      jest.spyOn(vm, 'getCurrentDashboardId').mockReturnValue(3);
+      const redirectToCreateScheduledReportsSpy = vi.spyOn(vm, 'redirectToCreateScheduledReports');
+      const redirectToLoginPageSpy = vi.spyOn(vm, 'redirectToLoginPage');
+      vi.spyOn(vm, 'getCurrentDashboardId').mockReturnValue(3);
 
       vm.onClickExportDashboard();
 
@@ -338,8 +372,8 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
 
-      const redirectToCreateScheduledReportsSpy = jest.spyOn(vm, 'redirectToCreateScheduledReports');
-      const redirectToLoginPageSpy = jest.spyOn(vm, 'redirectToLoginPage');
+      const redirectToCreateScheduledReportsSpy = vi.spyOn(vm, 'redirectToCreateScheduledReports');
+      const redirectToLoginPageSpy = vi.spyOn(vm, 'redirectToLoginPage');
 
       vm.onClickExportDashboard();
 
@@ -354,7 +388,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       mockMatomo.userLogin = 'admin';
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
-      const onClickExportDashboardSpy = jest.spyOn(vm, 'onClickExportDashboard');
+      const onClickExportDashboardSpy = vi.spyOn(vm, 'onClickExportDashboard');
 
       await wrapper.find('.exportDashboard').trigger('click');
 

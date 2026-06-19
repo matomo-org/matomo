@@ -2,10 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "types": [
-      "webpack-env",
       "jquery",
       "jqueryui",
-      "jest",
+      "vitest/globals",
       "node"
     ]
   },

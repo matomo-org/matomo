@@ -7,8 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const EditButton = require('./EditButton.vue').default;
+import EditButton from './EditButton.vue';
 
 function createSegment(overrides: Record<string, unknown> = {}) {
   return {
