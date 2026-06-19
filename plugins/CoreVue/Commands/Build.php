@@ -18,8 +18,8 @@ use Piwik\Plugin\Manager;
 
 class Build extends ConsoleCommand
 {
-    public const RECOMMENDED_NODE_VERSION = '16.0.0';
-    public const RECOMMENDED_NPM_VERSION = '7.0.0';
+    public const RECOMMENDED_NODE_VERSION = '24.0.0';
+    public const RECOMMENDED_NPM_VERSION = '10.0.0';
     public const RETRY_COUNT = 2;
 
     protected function configure()
@@ -43,7 +43,7 @@ class Build extends ConsoleCommand
         $input = $this->getInput();
         $output = $this->getOutput();
 
-        self::checkVueCliServiceAvailable();
+        self::checkViteAvailable();
         $this->checkNodeJsVersion();
 
         $clearWebpackCache = $input->getOption('clear-webpack-cache');
@@ -128,10 +128,9 @@ class Build extends ConsoleCommand
     private function watch(array $plugins, bool $printBuildCommand, array $allPluginNames): void
     {
         $commandSingle = 'cd ' . PIWIK_INCLUDE_PATH . ' && '
-            . "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%2\$s "
+            . "FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%2\$s "
             . 'MATOMO_ALL_PLUGINS=' . implode(',', $allPluginNames) . ' '
-            . 'node ' . self::getVueCliServiceProxyBin() . ' build --mode=development --target lib --name '
-            . "%1\$s --filename=%1\$s.development --no-clean %2\$s/vue/src/index.ts --dest %2\$s/vue/dist --watch &";
+            . 'node ' . self::getViteRunnerBin() . " %2\$s --watch &";
 
         $command = '';
         foreach ($plugins as $plugin) {
@@ -153,10 +152,9 @@ class Build extends ConsoleCommand
         $pluginDirPath = Manager::getRelativePluginDirectory($plugin);
 
         $command = 'cd ' . PIWIK_INCLUDE_PATH . ' && '
-            . "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$pluginDirPath "
+            . "FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$pluginDirPath "
             . 'MATOMO_ALL_PLUGINS=' . implode(',', $allPluginNames) . ' '
-            . 'node ' . self::getVueCliServiceProxyBin() . ' build --target lib --name ' . $plugin
-            . " $pluginDirPath/vue/src/index.ts --dest $pluginDirPath/vue/dist";
+            . 'node ' . self::getViteRunnerBin() . " $pluginDirPath";
 
         if ($printBuildCommand) {
             $output->writeln("<comment>$command</comment>");
@@ -195,13 +193,6 @@ class Build extends ConsoleCommand
             }
         }
 
-        @unlink("$pluginDirPath/vue/dist/$plugin.common.js");
-        @unlink("$pluginDirPath/vue/dist/$plugin.common.js.map");
-        @unlink("$pluginDirPath/vue/dist/demo.html");
-
-        // delete cjs webpack chunks
-        shell_exec("rm " . "$pluginDirPath/vue/dist/$plugin.common.*.js* 2> /dev/null");
-
         return $returnCode != 0;
     }
 
@@ -233,21 +224,20 @@ class Build extends ConsoleCommand
         return $pluginsWithVue;
     }
 
-    public static function getVueCliServiceBin(): string
+    public static function getViteBin(): string
     {
-        return PIWIK_INCLUDE_PATH . "/node_modules/@vue/cli-service/bin/vue-cli-service.js";
+        return PIWIK_INCLUDE_PATH . "/node_modules/vite/bin/vite.js";
     }
 
-    public static function getVueCliServiceProxyBin(): string
+    public static function getViteRunnerBin(): string
     {
-        return PIWIK_INCLUDE_PATH . "/plugins/CoreVue/scripts/cli-service-proxy.js";
+        return PIWIK_INCLUDE_PATH . "/plugins/CoreVue/scripts/vite-runner.mjs";
     }
 
-    public static function checkVueCliServiceAvailable(): void
+    public static function checkViteAvailable(): void
     {
-        $vueCliBin = self::getVueCliServiceBin();
-        if (!is_file($vueCliBin)) {
-            throw new \Exception("Cannot find vue cli bin file, did you forget to run `npm install`?");
+        if (!is_file(self::getViteBin())) {
+            throw new \Exception("Cannot find vite, did you forget to run `npm install`?");
         }
     }
 
