@@ -87,13 +87,13 @@
                 _ = config._;
 
             config.noDataColor = noDataColor;
-            // Resolve the dashboard widget wrapper (the element the dashboardWidget
-            // jQuery-UI plugin is bound to). It is an ancestor of this component's
-            // root, so we deliberately climb OUT of the $$ component scope here.
-            // Empty outside a dashboard (e.g. Widgetize iframe / AddWidget preview).
-            self.widget = (self.theWidget && self.theWidget.element)
-                ? $(self.theWidget.element).closest('.sortable')
-                : $();
+            // The legacy dashboard-widget integration (per-widget parameter
+            // persistence and the "<location>" suffix in the widget header) is
+            // not wired up for the client-rendered widget: the dashboard header
+            // and widget object live outside this component, and driving them
+            // would change the rendered output from the server-rendered version.
+            // Keep an empty set so the helper calls below safely no-op.
+            self.widget = $();
 
             //window.__mapInstances = window.__mapInstances || [];
             //window.__mapInstances.push(map);
@@ -482,8 +482,8 @@
                     totalMetricValue = 0;
                 // update map title
                 $('.map-title').html(mapTitle);
-                // self.widget escapes the component scope to reach the dashboard
-                // widget header; empty (safe no-op) outside a dashboard.
+                // no-op for the client-rendered widget (self.widget is empty);
+                // kept for the legacy dashboard widget header where present.
                 self.widget.find('.widgetName .map-title').html(' – ' + mapTitle);
                 // update total visits for that region
                 if (id.length == 3) {
@@ -1345,8 +1345,8 @@
             }
 
             $('.UserCountryMap-overlay').off('mouseenter').on('mouseenter', hideOverlay);
-            // self.widget escapes the component scope to reach the dashboard
-            // widget header; empty (safe no-op) outside a dashboard.
+            // no-op for the client-rendered widget (self.widget is empty);
+            // kept for the legacy dashboard widget header where present.
             self.widget.find('.widgetName span').remove();
             self.widget.find('.widgetName').append('<span class="map-title"></span>');
 
