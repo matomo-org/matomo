@@ -320,6 +320,10 @@
 		</parameters>
 		<uniqueId>widgetUserCountryMapvisitorMap</uniqueId>
 		<isWide>0</isWide>
+		<clientComponent>
+			<plugin>UserCountryMap</plugin>
+			<name>VisitorMapWidget</name>
+		</clientComponent>
 	</row>
 	<row>
 		<name>City</name>
