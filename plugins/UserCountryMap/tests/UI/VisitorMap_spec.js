@@ -15,6 +15,11 @@ describe("VisitorMap", function () {
 
     it("should display the bounce rate metric correctly", async function() {
         await page.goto(url);
+        // the widget now renders client-side, so wait for the map to be ready
+        // before interacting with the metric select
+        await page.waitForNetworkIdle();
+        await page.waitForFunction('window.visitorMap && window.visitorMap.map');
+        await page.waitForSelector('.userCountryMapSelectMetrics');
         await page.evaluate(function () {
             $('.userCountryMapSelectMetrics').val('bounce_rate').trigger('change');
         });
