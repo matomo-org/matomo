@@ -10,12 +10,15 @@
 
 (function () {
 
-    // create a global namespace for UserCountryMap plugin
-    // this is used both by visitor map and realtime map
-    window.UserCountryMap = window.UserCountryMap || {};
+    // Legacy namespace shared by the visitor map and realtime map JS. It is kept
+    // separate from window.UserCountryMap, which is owned by the plugin's
+    // on-demand Vue UMD bundle (loaded via importPluginUmd). Sharing that global
+    // would let the Vue bundle clobber these constructors (and vice versa).
+    window.UserCountryMapLegacy = window.UserCountryMapLegacy || {};
+    var UserCountryMap = window.UserCountryMapLegacy;
 
     // the main class for this widget, provides the interface for the template
-    var VisitorMap = window.UserCountryMap.VisitorMap = function (config, theWidget) {
+    var VisitorMap = UserCountryMap.VisitorMap = function (config, theWidget) {
         this.config = config;
         this.theWidget = theWidget || false;
         this.run();
@@ -84,7 +87,13 @@
                 _ = config._;
 
             config.noDataColor = noDataColor;
-            self.widget = $$('.widgetUserCountryMapvisitorMap').parent();
+            // Resolve the dashboard widget wrapper (the element the dashboardWidget
+            // jQuery-UI plugin is bound to). It is an ancestor of this component's
+            // root, so we deliberately climb OUT of the $$ component scope here.
+            // Empty outside a dashboard (e.g. Widgetize iframe / AddWidget preview).
+            self.widget = (self.theWidget && self.theWidget.element)
+                ? $(self.theWidget.element).closest('.sortable')
+                : $();
 
             //window.__mapInstances = window.__mapInstances || [];
             //window.__mapInstances.push(map);
@@ -390,10 +399,13 @@
                 }
 
                 var metric = $$('.userCountryMapSelectMetrics').val();
-                // store current map state
-                self.widget.dashboardWidget('setParameters', {
-                    lastMap: id, viewMode: self.mode, lastMetric: metric
-                });
+                // store current map state (only on the dashboard, where the
+                // dashboardWidget plugin is present and self.widget is set)
+                if (self.widget.length && typeof self.widget.dashboardWidget === 'function') {
+                    self.widget.dashboardWidget('setParameters', {
+                        lastMap: id, viewMode: self.mode, lastMetric: metric
+                    });
+                }
 
                 $('.UserCountryMap-info-btn').hide();
 
@@ -470,7 +482,9 @@
                     totalMetricValue = 0;
                 // update map title
                 $('.map-title').html(mapTitle);
-                $$('.widgetUserCountryMapvisitorMap .widgetName .map-title').html(' – ' + mapTitle);
+                // self.widget escapes the component scope to reach the dashboard
+                // widget header; empty (safe no-op) outside a dashboard.
+                self.widget.find('.widgetName .map-title').html(' – ' + mapTitle);
                 // update total visits for that region
                 if (id.length == 3) {
                     totalVisits = UserCountryMap.countriesByIso[id]['nb_visits'];
@@ -1256,8 +1270,10 @@
                         // hide loading indicator
                         $$('.UserCountryMap .loadingPiwik').hide();
 
-                        // start with default view (or saved state??)
-                        var params = self.widget.dashboardWidget('getWidgetObject').parameters;
+                        // start with default view (or saved state, on the dashboard)
+                        var params = (self.widget.length && typeof self.widget.dashboardWidget === 'function')
+                            ? self.widget.dashboardWidget('getWidgetObject').parameters
+                            : null;
                         self.mode = params && params.viewMode ? params.viewMode : 'region';
                         if (params && params.lastMetric) $$('.userCountryMapSelectMetrics').val(params.lastMetric);
                         // alert('updateState: '+params && params.lastMap ? params.lastMap : 'world');
@@ -1329,8 +1345,10 @@
             }
 
             $('.UserCountryMap-overlay').off('mouseenter').on('mouseenter', hideOverlay);
-            $$('.widgetUserCountryMapvisitorMap .widgetName span').remove();
-            $$('.widgetUserCountryMapvisitorMap .widgetName').append('<span class="map-title"></span>');
+            // self.widget escapes the component scope to reach the dashboard
+            // widget header; empty (safe no-op) outside a dashboard.
+            self.widget.find('.widgetName span').remove();
+            self.widget.find('.widgetName').append('<span class="map-title"></span>');
 
             // converts bounce rate quotients to numeric percents, eg, .12 => 12
             function convertBounceRatesToPercents(report) {
@@ -1355,10 +1373,11 @@
 
             // special handling for widgetize mode
             // Widgetize iframe mode: clamp the map height to the viewport so the SVG
-            // fits the embedded frame. The previous gate (a `.widget` ancestor) also
-            // matched dashboard widgets and the AddWidget preview, where `$('html').height()`
-            // far exceeds the viewport and made `maxHeight` go negative.
-            if (!this.theWidget && $('body').hasClass('widgetized')) {
+            // fits the embedded frame. The `widgetized` body class is set only by the
+            // Widgetize iframe, never on the dashboard page or in the AddWidget preview,
+            // so it correctly scopes the clamp to the iframe. (theWidget is now always
+            // set by the client component, so it can no longer be used to detect this.)
+            if ($('body').hasClass('widgetized')) {
                 var maxHeight = $(window).height() - ($('html').height() - map.container.height());
                 h = Math.min(maxHeight, h);
             }
@@ -1386,7 +1405,7 @@
 /*
  * Some static data used both by VisitorMap and RealtimeMap
  */
-$.extend(UserCountryMap, {
+$.extend(window.UserCountryMapLegacy, {
 
     // iso alpha-2 --> iso alpha-3
     ISO2toISO3: {"BD": "BGD", "BE": "BEL", "BF": "BFA", "BG": "BGR", "BA": "BIH", "BB": "BRB", "WF": "WLF", "BL": "BLM", "BM": "BMU", "BN": "BRN", "BO": "BOL", "BH": "BHR", "BI": "BDI", "BJ": "BEN", "BT": "BTN", "JM": "JAM", "BV": "BVT", "BW": "BWA", "WS": "WSM", "BQ": "BES", "BR": "BRA", "BS": "BHS", "JE": "JEY", "BY": "BLR", "BZ": "BLZ", "RU": "RUS", "RW": "RWA", "RS": "SRB", "TL": "TLS", "RE": "REU", "TM": "TKM", "TJ": "TJK", "RO": "ROU", "TK": "TKL", "GW": "GNB", "GU": "GUM", "GT": "GTM", "GS": "SGS", "GR": "GRC", "GQ": "GNQ", "GP": "GLP", "JP": "JPN", "GY": "GUY", "GG": "GGY", "GF": "GUF", "GE": "GEO", "GD": "GRD", "GB": "GBR", "GA": "GAB", "SV": "SLV", "GN": "GIN", "GM": "GMB", "GL": "GRL", "GI": "GIB", "GH": "GHA", "OM": "OMN", "TN": "TUN", "JO": "JOR", "HR": "HRV", "HT": "HTI", "HU": "HUN", "HK": "HKG", "HN": "HND", "HM": "HMD", "VE": "VEN", "PR": "PRI", "PS": "PSE", "PW": "PLW", "PT": "PRT", "SJ": "SJM", "PY": "PRY", "IQ": "IRQ", "PA": "PAN", "PF": "PYF", "PG": "PNG", "PE": "PER", "PK": "PAK", "PH": "PHL", "PN": "PCN", "PL": "POL", "PM": "SPM", "ZM": "ZMB", "EH": "ESH", "EE": "EST", "EG": "EGY", "ZA": "ZAF", "EC": "ECU", "IT": "ITA", "VN": "VNM", "SB": "SLB", "ET": "ETH", "SO": "SOM", "ZW": "ZWE", "SA": "SAU", "ES": "ESP", "ER": "ERI", "ME": "MNE", "MD": "MDA", "MG": "MDG", "MF": "MAF", "MA": "MAR", "MC": "MCO", "UZ": "UZB", "MM": "MMR", "ML": "MLI", "MO": "MAC", "MN": "MNG", "MH": "MHL", "MK": "MKD", "MU": "MUS", "MT": "MLT", "MW": "MWI", "MV": "MDV", "MQ": "MTQ", "MP": "MNP", "MS": "MSR", "MR": "MRT", "IM": "IMN", "UG": "UGA", "TZ": "TZA", "MY": "MYS", "MX": "MEX", "IL": "ISR", "FR": "FRA", "IO": "IOT", "SH": "SHN", "FI": "FIN", "FJ": "FJI", "FK": "FLK", "FM": "FSM", "FO": "FRO", "NI": "NIC", "NL": "NLD", "NO": "NOR", "NA": "NAM", "VU": "VUT", "NC": "NCL", "NE": "NER", "NF": "NFK", "NG": "NGA", "NZ": "NZL", "NP": "NPL", "NR": "NRU", "NU": "NIU", "CK": "COK", "XK": "XKX", "CI": "CIV", "CH": "CHE", "CO": "COL", "CN": "CHN", "CM": "CMR", "CL": "CHL", "CC": "CCK", "CA": "CAN", "CG": "COG", "CF": "CAF", "CD": "COD", "CZ": "CZE", "CY": "CYP", "CX": "CXR", "CS": "SCG", "CR": "CRI", "CW": "CUW", "CV": "CPV", "CU": "CUB", "SZ": "SWZ", "SY": "SYR", "SX": "SXM", "KG": "KGZ", "KE": "KEN", "SS": "SSD", "SR": "SUR", "KI": "KIR", "KH": "KHM", "KN": "KNA", "KM": "COM", "ST": "STP", "SK": "SVK", "KR": "KOR", "SI": "SVN", "KP": "PRK", "KW": "KWT", "SN": "SEN", "SM": "SMR", "SL": "SLE", "SC": "SYC", "KZ": "KAZ", "KY": "CYM", "SG": "SGP", "SE": "SWE", "SD": "SDN", "DO": "DOM", "DM": "DMA", "DJ": "DJI", "DK": "DNK", "VG": "VGB", "DE": "DEU", "YE": "YEM", "DZ": "DZA", "US": "USA", "UY": "URY", "YT": "MYT", "UM": "UMI", "LB": "LBN", "LC": "LCA", "LA": "LAO", "TV": "TUV", "TW": "TWN", "TT": "TTO", "TR": "TUR", "LK": "LKA", "LI": "LIE", "LV": "LVA", "TO": "TON", "LT": "LTU", "LU": "LUX", "LR": "LBR", "LS": "LSO", "TH": "THA", "TF": "ATF", "TG": "TGO", "TD": "TCD", "TC": "TCA", "LY": "LBY", "VA": "VAT", "VC": "VCT", "AE": "ARE", "AD": "AND", "AG": "ATG", "AF": "AFG", "AI": "AIA", "VI": "VIR", "IS": "ISL", "IR": "IRN", "AM": "ARM", "AL": "ALB", "AO": "AGO", "AN": "ANT", "AQ": "ATA", "AS": "ASM", "AR": "ARG", "AU": "AUS", "AT": "AUT", "AW": "ABW", "IN": "IND", "AX": "ALA", "AZ": "AZE", "IE": "IRL", "ID": "IDN", "UA": "UKR", "QA": "QAT", "MZ": "MOZ"},

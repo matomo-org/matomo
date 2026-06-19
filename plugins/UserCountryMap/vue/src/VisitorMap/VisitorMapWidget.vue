@@ -184,7 +184,10 @@ interface VisitorMapConfig {
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-declare const UserCountryMap: {
+// Legacy visitor map JS namespace (defined in visitor-map.js). It deliberately
+// lives on its own global (window.UserCountryMapLegacy) and not on
+// window.UserCountryMap, which is owned by this plugin's Vue UMD bundle.
+declare const UserCountryMapLegacy: {
   VisitorMap: new (config: any, widget?: any) => {
     resize: () => void;
     destroy: () => void;
@@ -276,7 +279,7 @@ export default defineComponent({
         const scopeEl = this.$el as HTMLElement;
         const theWidget = { element: scopeEl };
 
-        window.visitorMap = new UserCountryMap.VisitorMap(
+        window.visitorMap = new UserCountryMapLegacy.VisitorMap(
           config,
           theWidget,
         );
