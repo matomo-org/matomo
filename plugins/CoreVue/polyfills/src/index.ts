@@ -10,6 +10,10 @@
 // this is a dummy file used to compile core-js polyfills so we don't have to include them in any
 // other file.
 
+// Pull in the full set of stable polyfills. The previous webpack/babel toolchain injected these
+// implicitly; with the esbuild based Vite build they have to be imported explicitly.
+import 'core-js/stable';
+
 import DOMPurify from 'dompurify';
 import * as tslib from 'tslib';
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';

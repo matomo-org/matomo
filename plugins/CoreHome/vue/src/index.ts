@@ -64,7 +64,7 @@ export { default as ShowHelpLink } from './ShowHelpLink/ShowHelpLink.vue';
 export { default as SitesStore } from './SiteSelector/SitesStore';
 export type { default as Site } from './SiteSelector/Site';
 export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';
-export { default as SiteRef } from './SiteSelector/SiteRef';
+export type { default as SiteRef } from './SiteSelector/SiteRef';
 export { default as QuickAccess } from './QuickAccess/QuickAccess.vue';
 export { default as SearchInput } from './SearchInput/SearchInput.vue';
 export { default as FieldArray } from './FieldArray/FieldArray.vue';
@@ -82,7 +82,7 @@ export {
   default as WidgetByDimensionContainer,
 } from './WidgetByDimensionContainer/WidgetByDimensionContainer.vue';
 export { default as Widget } from './Widget/Widget.vue';
-export {
+export type {
   Widget as WidgetType,
   WidgetContainer as WidgetContainerType,
   GroupedWidgets as GroupedWidgetsType,

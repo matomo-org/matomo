@@ -6,11 +6,11 @@
 */
 
 export { default as expressions } from './expressions';
-export { default as AbortableEvent } from './FormField/AbortableEvent';
+export type { default as AbortableEvent } from './FormField/AbortableEvent';
 export { default as FormField } from './FormField/FormField.vue';
 export { default as Field } from './Field/Field.vue';
-export { default as Setting } from './PluginSettings/Setting';
-export { default as SettingsForSinglePlugin } from './PluginSettings/SettingsForSinglePlugin';
+export type { default as Setting } from './PluginSettings/Setting';
+export type { default as SettingsForSinglePlugin } from './PluginSettings/SettingsForSinglePlugin';
 export { default as PluginSettings } from './PluginSettings/PluginSettings.vue';
 export { default as PluginFilter } from './Plugins/PluginFilter';
 export { default as PluginManagement } from './Plugins/PluginManagement';

@@ -8,4 +8,4 @@
 export { default as Notification } from './Notification.vue';
 export { default as NotificationGroup } from './NotificationGroup.vue';
 export { default as NotificationsStore } from './Notifications.store';
-export { default as NotificationType } from './Notification';
+export type { default as NotificationType } from './Notification';
