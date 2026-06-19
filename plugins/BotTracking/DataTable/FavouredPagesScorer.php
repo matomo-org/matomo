@@ -60,10 +60,6 @@ class FavouredPagesScorer
             return;
         }
 
-        if (!$table instanceof DataTable) {
-            return;
-        }
-
         $strongColumn = $this->variant === DiscrepancyScore::VARIANT_HUMAN_FAVOURED
             ? Metrics::COLUMN_UNIQUE_HUMAN_PAGEVIEWS
             : Metrics::COLUMN_AI_CHATBOT_REQUESTS;

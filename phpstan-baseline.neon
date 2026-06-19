@@ -2671,22 +2671,10 @@ parameters:
 			path: plugins/BotTracking/API.php
 
 		-
-			message: '#^Instanceof between Piwik\\DataTable and Piwik\\DataTable will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: plugins/BotTracking/API.php
-
-		-
 			message: '#^Parameter &\$glossaryItems by\-ref type of method Piwik\\Plugins\\BotTracking\\BotTracking\:\:addGlossaryItems\(\) expects array\<string, array\{title\: string, entries\: array\<int, array\<string, string\>\>\}\>, non\-empty\-array\<string, array\{title\?\: string, entries\: array\<int, array\<string, string\>\>\}\> given\.$#'
 			identifier: parameterByRef.type
 			count: 1
 			path: plugins/BotTracking/BotTracking.php
-
-		-
-			message: '#^Instanceof between Piwik\\DataTable and Piwik\\DataTable will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: plugins/BotTracking/DataTable/FavouredPagesScorer.php
 
 		-
 			message: '#^Parameter &\$tables by\-ref type of method Piwik\\Plugins\\BotTracking\\RecordBuilders\\AIChatbotReports\:\:populateNumerics\(\) expects array\<string, Piwik\\DataTable\>, array\<string, int\|Piwik\\DataTable\> given\.$#'
