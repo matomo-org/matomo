@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\UsersManager\tests\System;
 
+use Piwik\Access;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\API\Request;
 use Piwik\Piwik;
@@ -136,7 +138,7 @@ class ApiTest extends SystemTestCase
         $this->api->updateUser('login6', $password);
         API::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
         $this->model->deleteAllTokensForUser('login6');
-        $token = $this->api->createAppSpecificTokenAuth('login6', $password, 'test');
+        $token = $this->createAppSpecificTokenAuthAnonymously('login6', $password, 'test');
         $this->assertMd5($token);
 
         $user = $this->model->getUserByTokenAuth($token);
@@ -146,7 +148,7 @@ class ApiTest extends SystemTestCase
     public function testCreateAppSpecificTokenAuth()
     {
         $this->model->deleteAllTokensForUser('login1');
-        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test');
+        $token = $this->createAppSpecificTokenAuthAnonymously('login1', 'password', 'test');
         $this->assertMd5($token);
 
         $user = $this->model->getUserByTokenAuth($token);
@@ -156,7 +158,7 @@ class ApiTest extends SystemTestCase
     public function testCreateAppSpecificTokenAuthCanLoginByEmail()
     {
         $this->model->deleteAllTokensForUser('login1');
-        $token = $this->api->createAppSpecificTokenAuth('login1@example.com', 'password', 'test');
+        $token = $this->createAppSpecificTokenAuthAnonymously('login1@example.com', 'password', 'test');
         $this->assertMd5($token);
 
         $user = $this->model->getUserByTokenAuth($token);
@@ -169,7 +171,7 @@ class ApiTest extends SystemTestCase
         $this->expectExceptionMessage('The current password you entered is not correct.');
 
         $this->model->deleteAllTokensForUser('login1');
-        $this->api->createAppSpecificTokenAuth('login1', 'foooooo', 'test');
+        $this->createAppSpecificTokenAuthAnonymously('login1', 'foooooo', 'test');
     }
 
     public function testCreateAppSpecificTokenAuthWithExpireDate()
@@ -178,7 +180,7 @@ class ApiTest extends SystemTestCase
 
         $expiryDate = (new \DateTime())->modify('+1 day');
 
-        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', $expiryDate->format('Y-m-d H:i:s'));
+        $token = $this->createAppSpecificTokenAuthAnonymously('login1', 'password', 'test', $expiryDate->format('Y-m-d H:i:s'));
         $this->assertMd5($token);
 
         $tokens = $this->model->getAllNonSystemTokensForLogin('login1');
@@ -192,7 +194,7 @@ class ApiTest extends SystemTestCase
     {
         $expireInHours = 48;
         $this->model->deleteAllTokensForUser('login1');
-        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', null, $expireInHours);
+        $token = $this->createAppSpecificTokenAuthAnonymously('login1', 'password', 'test', null, $expireInHours);
         $this->assertMd5($token);
 
         $tokens = $this->model->getAllNonSystemTokensForLogin('login1');
@@ -203,6 +205,25 @@ class ApiTest extends SystemTestCase
         $dateExpired = Date::factory($tokens[0]['date_expired']);
         $dateExpired->isLater(Date::now()->addHour($expireInHours - 1));
         $dateExpired->isEarlier(Date::now()->addHour($expireInHours + 1));
+    }
+
+    /**
+     * Creates a token through the unauthenticated credential-exchange flow (a fresh, anonymous access).
+     * This mirrors providing credentials to obtain a token without an already authenticated session, which is
+     * how these token mechanics are exercised here now that an authenticated request may only create a token
+     * for the current user.
+     */
+    private function createAppSpecificTokenAuthAnonymously(...$args)
+    {
+        $container = StaticContainer::getContainer();
+        $previousAccess = $container->get('Piwik\Access');
+        $container->set('Piwik\Access', new Access());
+
+        try {
+            return $this->api->createAppSpecificTokenAuth(...$args);
+        } finally {
+            $container->set('Piwik\Access', $previousAccess);
+        }
     }
 
     private function assertMd5($string)

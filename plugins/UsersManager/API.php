@@ -1532,6 +1532,12 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        // An unauthenticated request may exchange a user's credentials for that user's token. When the request is
+        // already authenticated, the token may only be created for the current user, regardless of role.
+        if (!Piwik::isUserIsAnonymous() && $userLogin !== Piwik::getCurrentUserLogin()) {
+            throw new NoAccessException(Piwik::translate('UsersManager_ExceptionCreateTokenForOtherUser'));
+        }
+
         if (empty($user) || !$this->passwordVerifier->isPasswordCorrect($userLogin, $passwordConfirmation)) {
             if (empty($user)) {
                 /**

@@ -46,6 +46,7 @@
         "ExceptionMultipleRoleSet": "Only one role can be set but multiple have been set. Use only one of: %s",
         "ExceptionAnonymousNoCapabilities": "You cannot grant any capability to the 'anonymous' user.",
         "ExceptionAnonymousAccessNotPossible": "You can only set access %1$s or %2$s access to the 'anonymous' user.",
+        "ExceptionCreateTokenForOtherUser": "You can only create an authentication token for your own account.",
         "ExceptionDeleteDoesNotExist": "User '%s' doesn't exist therefore it can't be deleted.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Deleting user '%s' is not possible.",
         "ExceptionEditAnonymous": "The anonymous user cannot be edited or deleted. It is used by Matomo to define a user that has not logged in yet. For example, you can make your statistics public by granting the 'view' access to the 'anonymous' user.",

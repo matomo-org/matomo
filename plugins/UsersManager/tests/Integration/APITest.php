@@ -1742,6 +1742,52 @@ class APITest extends IntegrationTestCase
         return $ids;
     }
 
+    public function testCreateAppSpecificTokenAuthCanBeCreatedForOwnAccount()
+    {
+        $this->addUserWithAccess('viewUser', 'view', 1);
+        $this->setCurrentUser('viewUser', 'view', 1);
+
+        $token = $this->api->createAppSpecificTokenAuth('viewUser', 'password', 'own-token');
+
+        $user = $this->model->getUserByTokenAuth($token);
+        self::assertSame('viewUser', $user['login']);
+    }
+
+    public function testCreateAppSpecificTokenAuthCannotBeCreatedForAnotherAccountByNonSuperUser()
+    {
+        // a low-privileged user that only has view access
+        $this->addUserWithAccess('viewUser', 'view', 1);
+        $this->setCurrentUser('viewUser', 'view', 1);
+
+        self::expectException(NoAccessException::class);
+
+        // an authenticated user must not be able to mint a token associated with a different account
+        $this->api->createAppSpecificTokenAuth($this->login, 'password', 'cross-account-token');
+    }
+
+    public function testCreateAppSpecificTokenAuthCannotBeCreatedForAnotherAccountEvenBySuperUser()
+    {
+        // a super user is authenticated as a different account than the targeted one
+        FakeAccess::$superUser = true;
+        FakeAccess::$identity = 'theSuperUser';
+
+        self::expectException(NoAccessException::class);
+
+        $this->api->createAppSpecificTokenAuth($this->login, $this->password, 'cross-account-token');
+    }
+
+    public function testCreateAppSpecificTokenAuthCanBeCreatedByAnonymousProvidingValidCredentials()
+    {
+        // simulate an unauthenticated (anonymous) request, e.g. exchanging credentials for a token
+        FakeAccess::$superUser = false;
+        FakeAccess::$identity = 'anonymous';
+
+        $token = $this->api->createAppSpecificTokenAuth($this->login, $this->password, 'credential-exchange');
+
+        $user = $this->model->getUserByTokenAuth($token);
+        self::assertSame($this->login, $user['login']);
+    }
+
     public function provideContainerConfig()
     {
         return [

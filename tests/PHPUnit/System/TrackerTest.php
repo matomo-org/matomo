@@ -9,8 +9,10 @@
 
 namespace Piwik\Tests\System;
 
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log\Logger;
 use Piwik\Log\LoggerInterface;
@@ -82,12 +84,21 @@ class TrackerTest extends IntegrationTestCase
     {
         \Piwik\Filesystem::deleteAllCacheOnUpdate();
 
-        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', [
-            'userLogin'            => Fixture::ADMIN_USER_LOGIN,
-            'passwordConfirmation' => Fixture::ADMIN_USER_PASSWORD,
-            'description'          => 'secure one',
-            'secureOnly'           => true,
-        ]);
+        // obtain a token through the unauthenticated credential-exchange flow (a fresh, anonymous access)
+        $container = StaticContainer::getContainer();
+        $previousAccess = $container->get('Piwik\Access');
+        $container->set('Piwik\Access', new Access());
+
+        try {
+            $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', [
+                'userLogin'            => Fixture::ADMIN_USER_LOGIN,
+                'passwordConfirmation' => Fixture::ADMIN_USER_PASSWORD,
+                'description'          => 'secure one',
+                'secureOnly'           => true,
+            ]);
+        } finally {
+            $container->set('Piwik\Access', $previousAccess);
+        }
 
         $this->issueBulkTrackingRequest($token, true, 2, 0);
     }
