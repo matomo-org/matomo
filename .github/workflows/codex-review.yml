@@ -69,6 +69,15 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: Verify OpenAI API key is configured
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -z "${OPENAI_API_KEY}" ]; then
+            echo "::error::OPENAI_API_KEY secret is not configured for this repository. Set it (repo or org secret scoped to this repo) before running the Codex review workflow." >&2
+            exit 1
+          fi
+
       - name: Checkout trusted workflow assets
         uses: actions/checkout@v5
         with:
