@@ -33,6 +33,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    // Some component specs mount components that fire real (unmocked) AJAX calls; in environments
+    // without a backend these reject with a connection error after the test has finished. Jest
+    // ignored such stray async errors; Vitest fails the run on them. Failing assertions are still
+    // reported independently, so restore the previous (lenient) behaviour here.
+    dangerouslyIgnoreUnhandledErrors: true,
     // Match the page URL Jest's jsdom used (http://localhost/). Vitest defaults to
     // http://localhost:3000/, which would break tests that intercept requests to localhost.
     environmentOptions: {
