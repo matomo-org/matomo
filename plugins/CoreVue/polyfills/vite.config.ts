@@ -16,6 +16,11 @@ import path from 'node:path';
 const isMin = process.env.MATOMO_VUE_PHASE === 'min';
 
 export default defineConfig({
+  // core-js bundles exotic Unicode whitespace constants; emit them as \uXXXX escapes so the bundle
+  // stays ASCII (Matomo's file-hygiene check rejects unusual literal space characters).
+  esbuild: {
+    charset: 'ascii',
+  },
   plugins: [
     // The plugin libraries are transpiled by esbuild, but the polyfill entry is run through Babel
     // so @babel/preset-env can expand `import 'core-js/stable'` into exactly the polyfills required
@@ -42,6 +47,7 @@ export default defineConfig({
     emptyOutDir: false,
     target: 'es2015',
     minify: isMin ? 'terser' : false,
+    terserOptions: { format: { ascii_only: true } },
     sourcemap: false,
     chunkSizeWarningLimit: 100000,
     lib: {

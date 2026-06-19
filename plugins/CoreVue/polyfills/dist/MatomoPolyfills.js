@@ -460,7 +460,7 @@
     (store.versions || (store.versions = [])).push({
       version: "3.49.0",
       mode: IS_PURE ? "pure" : "global",
-      copyright: "© 2013–2025 Denis Pushkarev (zloirock.ru), 2025–2026 CoreJS Company (core-js.io). All rights reserved.",
+      copyright: "\xA9 2013\u20132025 Denis Pushkarev (zloirock.ru), 2025\u20132026 CoreJS Company (core-js.io). All rights reserved.",
       license: "https://github.com/zloirock/core-js/blob/v3.49.0/LICENSE",
       source: "https://github.com/zloirock/core-js"
     });
@@ -7896,7 +7896,7 @@
   function requireWhitespaces() {
     if (hasRequiredWhitespaces) return whitespaces;
     hasRequiredWhitespaces = 1;
-    whitespaces = "	\n\v\f\r                　\u2028\u2029\uFEFF";
+    whitespaces = "	\n\v\f\r \xA0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF";
     return whitespaces;
   }
   var stringTrim$1;
@@ -11947,7 +11947,7 @@
     var fails2 = requireFails();
     var charAt = uncurryThis("".charAt);
     var FORCED = fails2(function() {
-      return "𠮷".at(-2) !== "\uD842";
+      return "\u{20BB7}".at(-2) !== "\uD842";
     });
     $({ target: "String", proto: true, forced: FORCED }, {
       at: function at(index) {
@@ -12956,7 +12956,7 @@
     var charCodeAt = uncurryThis("".charCodeAt);
     var join = uncurryThis([].join);
     var $toWellFormed = "".toWellFormed;
-    var REPLACEMENT_CHARACTER = "�";
+    var REPLACEMENT_CHARACTER = "\uFFFD";
     var TO_STRING_CONVERSION_BUG = $toWellFormed && fails2(function() {
       return call($toWellFormed, 1) !== "1";
     });
@@ -12990,7 +12990,7 @@
     var PROPER_FUNCTION_NAME = requireFunctionName().PROPER;
     var fails2 = requireFails();
     var whitespaces2 = requireWhitespaces();
-    var non = "​᠎";
+    var non = "\u200B\x85\u180E";
     stringTrimForced = function(METHOD_NAME) {
       return fails2(function() {
         return !!whitespaces2[METHOD_NAME]() || non[METHOD_NAME]() !== non || PROPER_FUNCTION_NAME && whitespaces2[METHOD_NAME].name !== METHOD_NAME;
@@ -16212,7 +16212,7 @@
       });
       params2["delete"]("a", 2);
       params2["delete"]("b", void 0);
-      return IS_PURE && (!url.toJSON || !params2.has("a", 1) || params2.has("a", 2) || !params2.has("a", void 0) || params2.has("b")) || !params.size && (IS_PURE || !DESCRIPTORS) || !params.sort || url.href !== "https://a/c%20d?a=1&c=3" || params.get("c") !== "3" || String(new URLSearchParams("?a=1")) !== "a=1" || !params[ITERATOR] || new URL("https://a@b").username !== "a" || new URLSearchParams(new URLSearchParams("a=b")).get("a") !== "b" || new URL("https://тест").host !== "xn--e1aybc" || new URL("https://a#б").hash !== "#%D0%B1" || result !== "a1c3" || new URL("https://x", void 0).host !== "x";
+      return IS_PURE && (!url.toJSON || !params2.has("a", 1) || params2.has("a", 2) || !params2.has("a", void 0) || params2.has("b")) || !params.size && (IS_PURE || !DESCRIPTORS) || !params.sort || url.href !== "https://a/c%20d?a=1&c=3" || params.get("c") !== "3" || String(new URLSearchParams("?a=1")) !== "a=1" || !params[ITERATOR] || new URL("https://a@b").username !== "a" || new URLSearchParams(new URLSearchParams("a=b")).get("a") !== "b" || new URL("https://\u0442\u0435\u0441\u0442").host !== "xn--e1aybc" || new URL("https://a#\u0431").hash !== "#%D0%B1" || result !== "a1c3" || new URL("https://x", void 0).host !== "x";
     });
     return urlConstructorDetection;
   }
@@ -16414,7 +16414,7 @@
     var stringSlice = uncurryThis("".slice);
     var exec = uncurryThis(/./.exec);
     var plus = /\+/g;
-    var FALLBACK_REPLACER = "�";
+    var FALLBACK_REPLACER = "\uFFFD";
     var VALID_HEX = /^[0-9a-f]+$/i;
     var parseHexOctet = function(string, start) {
       var substr = stringSlice(string, start, start + 2);
