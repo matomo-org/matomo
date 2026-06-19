@@ -163,7 +163,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
     public function testOnCreateAppSpecificTokenAuthCanAuthenticateWhenUserNotUsesTwoFA()
     {
-        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+        $token = $this->createAppSpecificTokenAuthAnonymously(array(
             'userLogin' => $this->userWithout2Fa,
             'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test',
@@ -176,7 +176,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
 
-        Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+        $this->createAppSpecificTokenAuthAnonymously(array(
             'userLogin' => $this->userWith2Fa,
             'passwordConfirmation' => 'invalidPAssword',
             'description' => 'twofa test',
@@ -188,7 +188,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('TwoFactorAuth_MissingAuthCodeAPI');
 
-        Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+        $this->createAppSpecificTokenAuthAnonymously(array(
 
             'userLogin' => $this->userWith2Fa,
             'passwordConfirmation' => $this->userPassword,
@@ -202,7 +202,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->expectExceptionMessage('TwoFactorAuth_InvalidAuthCode');
 
         $_GET['authCode'] = '111222';
-        Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+        $this->createAppSpecificTokenAuthAnonymously(array(
             'userLogin' => $this->userWith2Fa,
             'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test',
@@ -214,7 +214,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('TwoFactorAuth_MissingAuthCodeAPI');
 
-        Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+        $this->createAppSpecificTokenAuthAnonymously(array(
             'userLogin' => $this->userWith2Fa . '@matomo.org',
             'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test',
@@ -227,7 +227,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->expectExceptionMessage('TwoFactorAuth_InvalidAuthCode');
 
         $_GET['authCode'] = '111222';
-        Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+        $this->createAppSpecificTokenAuthAnonymously(array(
             'userLogin' => $this->userWith2Fa . '@matomo.org',
             'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test',
@@ -240,7 +240,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
         $_GET['authCode'] = '111222';
         try {
-            Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+            $this->createAppSpecificTokenAuthAnonymously(array(
                 'userLogin' => $this->userWith2Fa,
                 'passwordConfirmation' => $this->userPassword,
                 'description' => 'twofa test',
@@ -260,7 +260,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->assertCount(0, $this->bruteForceDetection->getAll());
 
         try {
-            Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+            $this->createAppSpecificTokenAuthAnonymously(array(
                 'userLogin' => $this->userWith2Fa,
                 'passwordConfirmation' => $this->userPassword,
                 'description' => 'twofa test',
@@ -278,7 +278,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
     public function testOnCreateAppSpecificTokenAuthDoesNotRecordFailedAttemptWhenAuthCodeIsValid()
     {
         $_GET['authCode'] = $this->generateValidAuthCode($this->user2faSecret);
-        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+        $token = $this->createAppSpecificTokenAuthAnonymously(array(
             'userLogin' => $this->userWith2Fa,
             'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test',
@@ -291,7 +291,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
     public function testOnCreateAppSpecificTokenAuthReturnsCorrectTokenWhenProvidingCorrectAuthTokenOnAuthenticationUsingEmail()
     {
         $_GET['authCode'] = $this->generateValidAuthCode($this->user2faSecret);
-        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+        $token = $this->createAppSpecificTokenAuthAnonymously(array(
             'userLogin' => $this->userWith2Fa . '@matomo.org',
             'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test',
@@ -302,7 +302,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
     public function testOnCreateAppSpecificTokenAuthReturnsCorrectTokenWhenProvidingCorrectAuthTokenOnAuthentication()
     {
         $_GET['authCode'] = $this->generateValidAuthCode($this->user2faSecret);
-        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+        $token = $this->createAppSpecificTokenAuthAnonymously(array(
             'userLogin' => $this->userWith2Fa,
             'passwordConfirmation' => $this->userPassword,
             'description' => 'twofa test',
@@ -358,6 +358,23 @@ class TwoFactorAuthTest extends IntegrationTestCase
     {
         $code = new \TwoFactorAuthenticator();
         return $code->getCode($secret);
+    }
+
+    /**
+     * Creates a token through the unauthenticated credential-exchange flow (a fresh, anonymous access).
+     * The tests verify obtaining a token by supplying a user's credentials without an authenticated session.
+     */
+    private function createAppSpecificTokenAuthAnonymously(array $params)
+    {
+        $container = StaticContainer::getContainer();
+        $previousAccess = $container->get('Piwik\Access');
+        $container->set('Piwik\Access', new Access());
+
+        try {
+            return Request::processRequest('UsersManager.createAppSpecificTokenAuth', $params);
+        } finally {
+            $container->set('Piwik\Access', $previousAccess);
+        }
     }
 
     private function setCurrentUser(string $login): void
