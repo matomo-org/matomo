@@ -23,11 +23,16 @@ export default defineConfig({
     babel({
       babelHelpers: 'bundled',
       extensions: ['.ts', '.js', '.mjs'],
+      // Only transform our own entry (to expand the core-js import); leave node_modules (core-js,
+      // DOMPurify, ...) to Vite's CommonJS handling, otherwise their require() calls leak unbundled.
+      exclude: /node_modules/,
       // Only use the inline configuration below, not any babel config file in the repo.
       configFile: false,
       babelrc: false,
       presets: [
-        ['@babel/preset-env', { useBuiltIns: 'entry', corejs: '3.49' }],
+        // modules:false keeps ES module syntax so Rollup bundles the core-js imports; without it
+        // Babel would rewrite them to CommonJS require() calls that leak into the browser bundle.
+        ['@babel/preset-env', { useBuiltIns: 'entry', corejs: '3.49', modules: false }],
         '@babel/preset-typescript',
       ],
     }),
