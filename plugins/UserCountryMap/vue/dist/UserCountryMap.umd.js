@@ -139,7 +139,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=761699ef
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=471095cf
 
 const _hoisted_1 = {
   class: "card"
@@ -151,7 +151,7 @@ const _hoisted_2 = {
     "overflow": "hidden"
   }
 };
-const _hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createStaticVNode"])("<div class=\"UserCountryMap_container\"><div class=\"UserCountryMap_map\" style=\"overflow:hidden;\"></div><div class=\"UserCountryMap-overlay UserCountryMap-title\"><div class=\"content\"><div class=\"map-stats\" style=\"color:#565656;\"></div></div></div><div class=\"UserCountryMap-overlay UserCountryMap-legend\"><div class=\"content\"></div></div><div class=\"UserCountryMap-tooltip UserCountryMap-info\"><div class=\"content unlocated-stats\"></div></div><div class=\"UserCountryMap-info-btn\" data-tooltip-target=\".UserCountryMap-tooltip\"></div></div>", 1);
+const _hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createStaticVNode"])("<div class=\"UserCountryMap_container\"><div class=\"UserCountryMap_map\" style=\"overflow:hidden;\"></div><div class=\"UserCountryMap-overlay UserCountryMap-title\"><div class=\"content\"><div class=\"map-stats\"></div></div></div><div class=\"UserCountryMap-overlay UserCountryMap-legend\"><div class=\"content\"></div></div><div class=\"UserCountryMap-tooltip UserCountryMap-info\"><div class=\"content unlocated-stats\"></div></div><div class=\"UserCountryMap-info-btn\" data-tooltip-target=\".UserCountryMap-tooltip\"></div></div>", 1);
 const _hoisted_4 = {
   class: "mapWidgetStatus"
 };
@@ -252,7 +252,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "UserCountryMap-btn-region tableIcon activeIcon",
     "data-region": _ctx.translate('UserCountryMap_Regions'),
     "data-country": _ctx.translate('UserCountryMap_Countries')
-  }, [_hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountryMap_Countries')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("  ")], 8, _hoisted_15), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", _hoisted_18, [_hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountryMap_Cities')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("  ")])])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("select", {
+  }, [_hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" "), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountryMap_Countries')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("  ")], 8, _hoisted_15), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", _hoisted_18, [_hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" "), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountryMap_Cities')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("  ")])])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("select", {
     class: "userCountryMapSelectMetrics browser-default",
     style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])(_ctx.metricSelectStyle)
   }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.metrics, metric => {
@@ -268,7 +268,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(name), 9, _hoisted_25);
   }), 128)), _hoisted_26])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]);
 }
-// CONCATENATED MODULE: ./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=761699ef
+// CONCATENATED MODULE: ./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=471095cf
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");

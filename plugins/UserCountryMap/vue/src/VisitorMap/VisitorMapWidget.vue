@@ -18,10 +18,7 @@
         />
         <div class="UserCountryMap-overlay UserCountryMap-title">
           <div class="content">
-            <div
-              class="map-stats"
-              style="color:#565656;"
-            />
+            <div class="map-stats" />
           </div>
         </div>
         <div class="UserCountryMap-overlay UserCountryMap-legend">
@@ -89,8 +86,7 @@
                   <img
                     src="plugins/UserCountryMap/images/regions.png"
                     title="Show visitors per region/country"
-                  >
-                  <span style="margin:0;">{{
+                  >&nbsp;<span style="margin:0;">{{
                     translate('UserCountryMap_Countries')
                   }}</span>&nbsp;
                 </a>
@@ -101,8 +97,7 @@
                   <img
                     src="plugins/UserCountryMap/images/cities.png"
                     title="Show visitors per city"
-                  >
-                  <span style="margin:0;">{{
+                  >&nbsp;<span style="margin:0;">{{
                     translate('UserCountryMap_Cities')
                   }}</span>&nbsp;
                 </a>
