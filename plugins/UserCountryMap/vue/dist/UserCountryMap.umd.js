@@ -87,7 +87,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "UserCountryMap/vue/dist/";
+/******/ 	__webpack_require__.p = "plugins/UserCountryMap/vue/dist/";
 /******/
 /******/
 /******/ 	// Load entry module and return exports
@@ -139,7 +139,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=78b55ee0
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=761699ef
 
 const _hoisted_1 = {
   class: "card"
@@ -268,7 +268,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(name), 9, _hoisted_25);
   }), 128)), _hoisted_26])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]);
 }
-// CONCATENATED MODULE: ./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=78b55ee0
+// CONCATENATED MODULE: ./plugins/UserCountryMap/vue/src/VisitorMap/VisitorMapWidget.vue?vue&type=template&id=761699ef
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -342,7 +342,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
         const theWidget = {
           element: scopeEl
         };
-        window.visitorMap = new UserCountryMap.VisitorMap(config, theWidget);
+        window.visitorMap = new UserCountryMapLegacy.VisitorMap(config, theWidget);
         this.startResizeObserver();
       } catch (_unused) {
         this.noData = true;
