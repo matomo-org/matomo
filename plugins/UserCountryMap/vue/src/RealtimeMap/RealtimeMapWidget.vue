@@ -92,7 +92,10 @@ import {
 } from 'CoreHome';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-declare const UserCountryMap: {
+// Legacy real-time map JS namespace (defined in realtime-map.js). It lives on
+// its own global (window.UserCountryMapLegacy), not on window.UserCountryMap,
+// which is owned by this plugin's Vue UMD bundle.
+declare const UserCountryMapLegacy: {
   RealtimeMap: {
     initElements: () => void;
     new (element: any): {
@@ -190,7 +193,7 @@ export default defineComponent({
 
         await nextTick();
 
-        UserCountryMap.RealtimeMap.initElements();
+        UserCountryMapLegacy.RealtimeMap.initElements();
 
         this.startResizeObserver();
       } catch {
