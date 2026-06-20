@@ -17,7 +17,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;
-use Piwik\View;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
@@ -36,95 +35,6 @@ class Controller extends \Piwik\Plugin\Controller
         $this->translator = $translator;
 
         parent::__construct();
-    }
-
-    /**
-     * Used to build the report Visitor > Real time map
-     */
-    public function realtimeWorldMap()
-    {
-        return $this->realtimeMap($standalone = true);
-    }
-
-    /**
-     * @param bool $standalone When set to true, the Top controls will be hidden to provide better full screen view
-     * @param bool $fetch
-     * @param bool|string $segmentOverride
-     *
-     * @return string
-     */
-    public function realtimeMap($standalone = false, $fetch = false, $segmentOverride = false)
-    {
-        $this->checkUserCountryPluginEnabled();
-
-        $this->checkSitePermission();
-        Piwik::checkUserHasViewAccess($this->idSite);
-
-        $token_auth = Piwik::getCurrentUserTokenAuth();
-        $view = new View('@UserCountryMap/realtimeMap');
-
-        $view->mapIsStandaloneNotWidget = !(bool) Common::getRequestVar('widget', $standalone, 'int');
-
-        $view->metrics = $this->getMetrics($this->idSite, 'range', self::REAL_TIME_WINDOW, $token_auth);
-        $view->defaultMetric = 'nb_visits';
-        $liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
-
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
-        $site = new Site($this->idSite);
-        $hasGoals = !empty($goals) || $site->isEcommerceEnabled();
-
-        // maximum number of visits to be displayed in the map
-        $maxVisits = Common::getRequestVar('filter_limit', 100, 'int');
-
-        // some translations
-        $locale = [
-            'nb_actions'       => $this->translator->translate('VisitsSummary_NbActionsDescription'),
-            'local_time'       => $this->translator->translate('VisitTime_ColumnLocalTime'),
-            'from'             => $this->translator->translate('General_FromReferrer'),
-            'seconds'          => $this->translator->translate('Intl_Seconds'),
-            'seconds_ago'      => $this->translator->translate('UserCountryMap_SecondsAgo'),
-            'minutes'          => $this->translator->translate('Intl_Minutes'),
-            'minutes_ago'      => $this->translator->translate('UserCountryMap_MinutesAgo'),
-            'hours'            => $this->translator->translate('Intl_Hours'),
-            'hours_ago'        => $this->translator->translate('UserCountryMap_HoursAgo'),
-            'days_ago'         => $this->translator->translate('UserCountryMap_DaysAgo'),
-            'actions'          => $this->translator->translate('Transitions_NumPageviews'),
-            'searches'         => $this->translator->translate('UserCountryMap_Searches'),
-            'goal_conversions' => $this->translator->translate('UserCountryMap_GoalConversions'),
-        ];
-
-        $segment = $segmentOverride ? : Request::getRawSegmentFromRequest() ? : '';
-        $params = [
-            'period'     => 'range',
-            'idSite'     => $this->idSite,
-            'segment'    => $segment,
-        ];
-
-        $realtimeWindow = Common::getRequestVar('realtimeWindow', self::REAL_TIME_WINDOW, 'string');
-        if ($realtimeWindow != 'false') { // handle special value
-            $params['date'] = $realtimeWindow;
-        }
-
-        $reqParams = $this->getEnrichedRequest($params, $encode = false);
-
-        $view->config = [
-            'metrics'            => [],
-            'svgBasePath'        => 'plugins/UserCountryMap/svg/',
-            'liveRefreshAfterMs' => $liveRefreshAfterMs,
-            '_'                  => $locale,
-            'reqParams'          => $reqParams,
-            'siteHasGoals'       => $hasGoals,
-            'maxVisits'          => $maxVisits,
-            'changeVisitAlpha'   => Common::getRequestVar('changeVisitAlpha', true, 'int'),
-            'removeOldVisits'    => Common::getRequestVar('removeOldVisits', true, 'int'),
-            'showFooterMessage'  => Common::getRequestVar('showFooterMessage', true, 'int'),
-            'showDateTime'       => Common::getRequestVar('showDateTime', true, 'int'),
-            'doNotRefreshVisits' => Common::getRequestVar('doNotRefreshVisits', false, 'int'),
-            'enableAnimation'    => Common::getRequestVar('enableAnimation', true, 'int'),
-            'forceNowValue'      => Common::getRequestVar('forceNowValue', false, 'int'),
-        ];
-
-        return $view->render();
     }
 
     /**
@@ -247,7 +157,11 @@ class Controller extends \Piwik\Plugin\Controller
 
         $liveRefreshAfterMs = (int) Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
 
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
+        $goals = Request::processRequest(
+            'Goals.getGoals',
+            ['idSite' => $this->idSite, 'filter_limit' => '-1'],
+            $default = []
+        );
         $site = new Site($this->idSite);
         $hasGoals = !empty($goals) || $site->isEcommerceEnabled();
 
