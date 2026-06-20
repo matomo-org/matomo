@@ -294,6 +294,10 @@
 		</parameters>
 		<uniqueId>widgetUserCountryMaprealtimeMap</uniqueId>
 		<isWide>1</isWide>
+		<clientComponent>
+			<plugin>UserCountryMap</plugin>
+			<name>RealtimeMapWidget</name>
+		</clientComponent>
 	</row>
 	<row>
 		<name>Visitor Map</name>
