@@ -388,47 +388,47 @@ var external_CoreHome_ = __webpack_require__("19dc");
 VisitorMapWidgetvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var VisitorMapWidget = (VisitorMapWidgetvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountryMap/vue/src/RealtimeMap/RealtimeMapWidget.vue?vue&type=template&id=4680af44
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountryMap/vue/src/RealtimeMap/RealtimeMapWidget.vue?vue&type=template&id=11510610
 
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_1 = {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_1 = {
   class: "card"
 };
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_2 = ["data-config", "data-standalone"];
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_3 = {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_2 = ["data-config", "data-standalone"];
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_3 = {
   class: "RealTimeMap_container"
 };
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "RealTimeMap_map",
   style: {
     "overflow": "hidden"
   }
 }, null, -1);
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_5 = {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_5 = {
   class: "realTimeMap_overlay"
 };
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_6 = {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_6 = {
   key: 0,
   class: "showing_visits_of",
   style: {
     "display": "none"
   }
 };
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "realTimeMap_timeSpan",
   style: {
     "font-weight": "bold"
   }
 }, null, -1);
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_8 = {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_8 = {
   class: "no_data",
   style: {
     "display": "none"
   }
 };
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_9 = {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_9 = {
   class: "loading_data"
 };
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   src: "plugins/UserCountryMap/images/realtimemap-loading.gif",
   style: {
     "vertical-align": "baseline",
@@ -436,22 +436,22 @@ const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_10 = /*#__PURE__*/O
     "left": "-2px"
   }
 }, null, -1);
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_11 = {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_11 = {
   key: 0,
   class: "realTimeMap_overlay realTimeMap_datetime"
 };
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_12 = {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_12 = {
   class: "RealTimeMap_meta"
 };
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_13 = {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_13 = {
   key: 0,
   class: "loadingPiwik"
 };
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_14 = {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_14 = {
   key: 1,
   class: "pk-emptyDataTable"
 };
-const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_15 = {
+const RealtimeMapWidgetvue_type_template_id_11510610_hoisted_15 = {
   key: 0,
   id: "realTimeMapNoVisitsInfo",
   class: "alert alert-info",
@@ -461,9 +461,9 @@ const RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_15 = {
     "margin-bottom": "0"
   }
 };
-function RealtimeMapWidgetvue_type_template_id_4680af44_render(_ctx, _cache, $props, $setup, $data, $options) {
+function RealtimeMapWidgetvue_type_template_id_11510610_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RealtimeMapWidgetvue_type_template_id_11510610_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     ref: "mapRoot",
     class: "RealTimeMap card-content",
     style: {
@@ -473,15 +473,19 @@ function RealtimeMapWidgetvue_type_template_id_4680af44_render(_ctx, _cache, $pr
     "data-config": _ctx.configJson,
     "data-standalone": _ctx.isStandalone ? 1 : 0,
     tabindex: "0"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_3, [RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_5, [_ctx.showFooterMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountryMap_ShowingVisits')) + " ", 1), RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_7])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreHome_ThereIsNoDataForThisReport')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')) + "... ", 1), RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_10]), _ctx.showDateTime ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_11)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_12, [!_ctx.loadFailed ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RealtimeMapWidgetvue_type_template_id_11510610_hoisted_3, [RealtimeMapWidgetvue_type_template_id_11510610_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RealtimeMapWidgetvue_type_template_id_11510610_hoisted_5, [_ctx.showFooterMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", RealtimeMapWidgetvue_type_template_id_11510610_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountryMap_ShowingVisits')) + " ", 1), RealtimeMapWidgetvue_type_template_id_11510610_hoisted_7])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", RealtimeMapWidgetvue_type_template_id_11510610_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreHome_ThereIsNoDataForThisReport')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", RealtimeMapWidgetvue_type_template_id_11510610_hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')) + "... ", 1), RealtimeMapWidgetvue_type_template_id_11510610_hoisted_10]), _ctx.showDateTime ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RealtimeMapWidgetvue_type_template_id_11510610_hoisted_11)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RealtimeMapWidgetvue_type_template_id_11510610_hoisted_12, [!_ctx.loadFailed ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", RealtimeMapWidgetvue_type_template_id_11510610_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     loading: true
-  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')) + "... ", 1)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreHome_ThereIsNoDataForThisReport')), 1))]), _ctx.hasSuperUserAccess ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountryMap_NoVisitsInfo')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountryMap_NoVisitsInfo2')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 8, RealtimeMapWidgetvue_type_template_id_4680af44_hoisted_2)]);
+  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_LoadingData')) + "... ", 1)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", RealtimeMapWidgetvue_type_template_id_11510610_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreHome_ThereIsNoDataForThisReport')), 1))]), _ctx.hasSuperUserAccess ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RealtimeMapWidgetvue_type_template_id_11510610_hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountryMap_NoVisitsInfo')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountryMap_NoVisitsInfo2')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 8, RealtimeMapWidgetvue_type_template_id_11510610_hoisted_2)]);
 }
-// CONCATENATED MODULE: ./plugins/UserCountryMap/vue/src/RealtimeMap/RealtimeMapWidget.vue?vue&type=template&id=4680af44
+// CONCATENATED MODULE: ./plugins/UserCountryMap/vue/src/RealtimeMap/RealtimeMapWidget.vue?vue&type=template&id=11510610
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UserCountryMap/vue/src/RealtimeMap/RealtimeMapWidget.vue?vue&type=script&lang=ts
 
 
+// Real-time map options that the legacy server action read from the request.
+// They are forwarded from the current URL so the config endpoint honours them
+// (the page/widget URL may override the defaults, e.g. realtimeWindow).
+const REALTIME_OPTION_PARAMS = ['realtimeWindow', 'filter_limit', 'changeVisitAlpha', 'removeOldVisits', 'showFooterMessage', 'showDateTime', 'doNotRefreshVisits', 'enableAnimation', 'forceNowValue'];
 /* harmony default export */ var RealtimeMapWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   components: {
     ActivityIndicator: external_CoreHome_["ActivityIndicator"]
@@ -529,10 +533,17 @@ function RealtimeMapWidgetvue_type_template_id_4680af44_render(_ctx, _cache, $pr
     translate: external_CoreHome_["translate"],
     async loadConfig() {
       try {
-        const config = await external_CoreHome_["AjaxHelper"].fetch({
+        const params = {
           module: 'UserCountryMap',
           action: 'getRealtimeMapConfig'
+        };
+        REALTIME_OPTION_PARAMS.forEach(name => {
+          const value = external_CoreHome_["MatomoUrl"].getSearchParam(name);
+          if (value !== undefined && value !== '') {
+            params[name] = value;
+          }
         });
+        const config = await external_CoreHome_["AjaxHelper"].fetch(params);
         this.showFooterMessage = !!config.showFooterMessage;
         this.showDateTime = !!config.showDateTime;
         this.configJson = JSON.stringify(config);
@@ -582,7 +593,7 @@ function RealtimeMapWidgetvue_type_template_id_4680af44_render(_ctx, _cache, $pr
 
 
 
-RealtimeMapWidgetvue_type_script_lang_ts.render = RealtimeMapWidgetvue_type_template_id_4680af44_render
+RealtimeMapWidgetvue_type_script_lang_ts.render = RealtimeMapWidgetvue_type_template_id_11510610_render
 
 /* harmony default export */ var RealtimeMapWidget = (RealtimeMapWidgetvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/UserCountryMap/vue/src/index.ts

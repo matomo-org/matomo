@@ -88,8 +88,24 @@ import {
   AjaxHelper,
   ActivityIndicator,
   Matomo,
+  MatomoUrl,
   translate,
 } from 'CoreHome';
+
+// Real-time map options that the legacy server action read from the request.
+// They are forwarded from the current URL so the config endpoint honours them
+// (the page/widget URL may override the defaults, e.g. realtimeWindow).
+const REALTIME_OPTION_PARAMS = [
+  'realtimeWindow',
+  'filter_limit',
+  'changeVisitAlpha',
+  'removeOldVisits',
+  'showFooterMessage',
+  'showDateTime',
+  'doNotRefreshVisits',
+  'enableAnimation',
+  'forceNowValue',
+];
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Legacy real-time map JS namespace (defined in realtime-map.js). It lives on
@@ -180,12 +196,18 @@ export default defineComponent({
 
     async loadConfig() {
       try {
-        const config = await AjaxHelper.fetch<RealtimeMapConfig>(
-          {
-            module: 'UserCountryMap',
-            action: 'getRealtimeMapConfig',
-          },
-        );
+        const params: Record<string, string> = {
+          module: 'UserCountryMap',
+          action: 'getRealtimeMapConfig',
+        };
+        REALTIME_OPTION_PARAMS.forEach((name) => {
+          const value = MatomoUrl.getSearchParam(name);
+          if (value !== undefined && value !== '') {
+            params[name] = value;
+          }
+        });
+
+        const config = await AjaxHelper.fetch<RealtimeMapConfig>(params);
 
         this.showFooterMessage = !!config.showFooterMessage;
         this.showDateTime = !!config.showDateTime;

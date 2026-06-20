@@ -81,7 +81,11 @@
                 lastTimestamp = -1,
                 lastVisits = [],
                 visitSymbols,
-                tokenAuth = '' + config.reqParams.token_auth,
+                // token_auth is no longer passed in the (client-exposed) config;
+                // fall back to the standard piwik.token_auth global so the live
+                // visits API call stays authenticated.
+                tokenAuth = config.reqParams.token_auth
+                    || (typeof piwik !== 'undefined' && piwik.token_auth) || '',
                 oldest,
                 isFullscreenWidget = $('.widget').parent().get(0) == document.body,
                 now,
