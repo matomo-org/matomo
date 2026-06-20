@@ -200,6 +200,13 @@ export default defineComponent({
           module: 'UserCountryMap',
           action: 'getRealtimeMapConfig',
         };
+        // Source idSite from the URL (hash is authoritative) so the config is
+        // built for the viewed site, rather than relying on a possibly stale
+        // Matomo.idSite at mount time.
+        const idSite = MatomoUrl.getSearchParam('idSite');
+        if (idSite) {
+          params.idSite = idSite;
+        }
         REALTIME_OPTION_PARAMS.forEach((name) => {
           const value = MatomoUrl.getSearchParam(name);
           if (value !== undefined && value !== '') {
