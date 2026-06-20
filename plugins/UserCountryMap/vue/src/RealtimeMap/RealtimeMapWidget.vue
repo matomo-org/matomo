@@ -238,14 +238,15 @@ export default defineComponent({
       }
 
       let lastW = container.clientWidth;
-      let lastH = container.clientHeight;
 
+      // Only react to width changes: the map height is derived from the width
+      // (h = w / ratio), and resize() itself sets the container height, so
+      // reacting to height changes would trigger a feedback resize and can
+      // settle 1-2px away from the single server-rendered resize.
       this.resizeObserver = new ResizeObserver(() => {
         const w = container.clientWidth;
-        const h = container.clientHeight;
-        if (w !== lastW || h !== lastH) {
+        if (w !== lastW) {
           lastW = w;
-          lastH = h;
           if (typeof $ === 'function') {
             const el = this.$refs.mapRoot;
             const ctrl = $(el).data('uiControlObject');
