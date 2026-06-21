@@ -126,7 +126,11 @@
             function ajax(params, dataType) {
                 dataType = dataType || 'json';
                 params = $.extend({}, params);
-                var token_auth = '' + params.token_auth;
+                // token_auth is no longer exposed in the (client-fetched) config;
+                // fall back to the standard piwik.token_auth global so API calls
+                // stay authenticated when there is no session (e.g. embedded app).
+                var token_auth = params.token_auth
+                    || (typeof piwik !== 'undefined' && piwik.token_auth) || '';
                 delete params['token_auth'];
                 return $.ajax({
                     url: 'index.php?' + $.param(params),
