@@ -194,6 +194,25 @@ export default defineComponent({
   methods: {
     translate,
 
+    // The configured options of a dashboard widget are held by its
+    // dashboardWidget jQuery-UI instance. Returns them when rendered on a
+    // dashboard, or an empty object otherwise.
+    dashboardWidgetParameters(): Record<string, unknown> {
+      if (!this.uniqueId || typeof $ !== 'function') {
+        return {};
+      }
+      const $widget = $(`[widgetid="${this.uniqueId}"]`);
+      if (!$widget.length || !$widget.data('piwik-dashboardWidget')) {
+        return {};
+      }
+      try {
+        const widgetObject = $widget.dashboardWidget('getWidgetObject');
+        return (widgetObject && widgetObject.parameters) || {};
+      } catch {
+        return {};
+      }
+    },
+
     async loadConfig() {
       try {
         const params: Record<string, string> = {
@@ -207,10 +226,17 @@ export default defineComponent({
         if (idSite) {
           params.idSite = idSite;
         }
+        // On a dashboard the configured options (realtimeWindow, enableAnimation,
+        // etc.) are stored as the widget's saved parameters, not in the URL.
+        // Prefer those; fall back to the URL (e.g. the Real-time Map page).
+        const widgetParams = this.dashboardWidgetParameters();
         REALTIME_OPTION_PARAMS.forEach((name) => {
-          const value = MatomoUrl.getSearchParam(name);
+          let value = widgetParams[name];
+          if (value === undefined || value === '') {
+            value = MatomoUrl.getSearchParam(name);
+          }
           if (value !== undefined && value !== '') {
-            params[name] = value;
+            params[name] = String(value);
           }
         });
 
