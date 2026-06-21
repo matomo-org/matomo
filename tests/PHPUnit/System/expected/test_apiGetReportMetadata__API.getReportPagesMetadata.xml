@@ -69,6 +69,26 @@
 		</subcategory>
 		<widgets>
 			<row>
+				<name>AI Chatbots - No Recent Requests</name>
+				<module>BotTracking</module>
+				<action>noRecentRequestsMessageContentRequests</action>
+				<order>0</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>noRecentRequestsMessageContentRequests</action>
+				</parameters>
+				<uniqueId>widgetBotTrackingnoRecentRequestsMessageContentRequests</uniqueId>
+				<isWide>1</isWide>
+				<middlewareParameters>
+					<module>BotTracking</module>
+					<action>showNoRecentRequestsMessage</action>
+				</middlewareParameters>
+				<clientComponent>
+					<plugin>BotTracking</plugin>
+					<name>NoRecentRequestsWidget</name>
+				</clientComponent>
+			</row>
+			<row>
 				<name>Pages</name>
 				<module>BotTracking</module>
 				<action>getAIChatbotContentPages</action>
@@ -92,7 +112,7 @@
 					<action>getAIChatbotContentDocuments</action>
 				</parameters>
 				<uniqueId>widgetBotTrackinggetAIChatbotContentDocuments</uniqueId>
-				<isWide>1</isWide>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -106,7 +126,35 @@
 					<action>getAIChatbotBrokenContent</action>
 				</parameters>
 				<uniqueId>widgetBotTrackinggetAIChatbotBrokenContent</uniqueId>
-				<isWide>1</isWide>
+				<isWide>0</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>Human-Favoured Pages</name>
+				<module>BotTracking</module>
+				<action>getAIChatbotHumanFavouredPages</action>
+				<order>140</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIChatbotHumanFavouredPages</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIChatbotHumanFavouredPages</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>AI-Favoured Pages</name>
+				<module>BotTracking</module>
+				<action>getAIChatbotAIFavouredPages</action>
+				<order>150</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIChatbotAIFavouredPages</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIChatbotAIFavouredPages</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -1767,6 +1815,13 @@
 				</parameters>
 				<uniqueId>widgetReferrersgetCampaignUrlBuilder</uniqueId>
 				<isWide>0</isWide>
+				<clientComponent>
+					<plugin>Referrers</plugin>
+					<name>CampaignBuilderWidget</name>
+					<props>
+						<hasExtraPlugin>0</hasExtraPlugin>
+					</props>
+				</clientComponent>
 			</row>
 		</widgets>
 	</row>

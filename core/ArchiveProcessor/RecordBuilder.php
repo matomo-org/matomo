@@ -245,6 +245,12 @@ abstract class RecordBuilder
                 }
             }
 
+            $recordTransform = $record->getAggregatedRecordTransform();
+            $postAggregationTransform = $recordTransform === null ? null
+                : function (DataTable $table) use ($recordTransform, $archiveProcessor, $record): void {
+                    $recordTransform($table, $archiveProcessor, $record);
+                };
+
             $counts = $archiveProcessor->aggregateDataTableRecords(
                 $record->getName(),
                 $maxRowsInTable,
@@ -253,7 +259,8 @@ abstract class RecordBuilder
                 $columnAggregationOps,
                 $columnToRenameAfterAggregation,
                 $countRecursiveRows,
-                $countLeafRows
+                $countLeafRows,
+                $postAggregationTransform
             );
 
             $aggregatedCounts = array_merge($aggregatedCounts, $counts);
@@ -372,6 +379,11 @@ abstract class RecordBuilder
             return false;
         }
 
+        $flatTransform = $flatRecord->getAggregatedRecordTransform();
+        if (null !== $flatTransform) {
+            $flatTransform($flatTable, $archiveProcessor, $flatRecord);
+        }
+
         $flatSerialized = $flatTable->getSerialized(
             $flatMaxRowsInTable,
             null,
@@ -390,6 +402,11 @@ abstract class RecordBuilder
         );
 
         $this->beforeInsertBuiltFromFlatHierarchyRecord($archiveProcessor, $hierarchicalRecord, $hierarchicalTable, $flatTable);
+
+        $hierarchicalTransform = $hierarchicalRecord->getAggregatedRecordTransform();
+        if (null !== $hierarchicalTransform) {
+            $hierarchicalTransform($hierarchicalTable, $archiveProcessor, $hierarchicalRecord);
+        }
 
         $hierarchicalSerialized = $hierarchicalTable->getSerialized(
             null,

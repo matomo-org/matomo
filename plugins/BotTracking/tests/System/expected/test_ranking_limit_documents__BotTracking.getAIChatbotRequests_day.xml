@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>ChatGPT</label>
-		<requests>2</requests>
+		<label>Perplexity</label>
+		<requests>3</requests>
 		<document_requests>1</document_requests>
-		<page_requests>1</page_requests>
+		<page_requests>2</page_requests>
 		<visits_acquired>1</visits_acquired>
-		<url>chatgpt.com</url>
-		<logo>plugins/Morpheus/icons/dist/aiAssistants/chatgpt.com.png</logo>
+		<url>perplexity.ai</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/perplexity.ai.png</logo>
 		<subtable>
 			<row>
 				<label>example.com/resources/guide.pdf</label>
@@ -16,13 +16,13 @@
 		</subtable>
 	</row>
 	<row>
-		<label>Perplexity</label>
-		<requests>3</requests>
+		<label>ChatGPT</label>
+		<requests>2</requests>
 		<document_requests>1</document_requests>
-		<page_requests>2</page_requests>
-		<visits_acquired>1</visits_acquired>
-		<url>perplexity.ai</url>
-		<logo>plugins/Morpheus/icons/dist/aiAssistants/perplexity.ai.png</logo>
+		<page_requests>1</page_requests>
+		<visits_acquired>0</visits_acquired>
+		<url>chatgpt.com</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/chatgpt.com.png</logo>
 		<subtable>
 			<row>
 				<label>example.com/resources/guide.pdf</label>

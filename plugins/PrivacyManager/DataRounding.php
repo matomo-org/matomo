@@ -274,10 +274,20 @@ class DataRounding
             return;
         }
 
+        $existingValue = $row->getColumn($metricName);
         $computedValue = $processedMetric->compute($row);
-        if ($computedValue !== false) {
-            $row->setColumn($metricName, $computedValue);
+        if ($computedValue === false) {
+            return;
         }
+
+        // If the metric was already formatted upstream (e.g. an inner API call's post-processor turned it into "0%"),
+        // re-format the recomputed quotient so we don't downgrade the output. The outer applyMetricsFormatting step
+        // would otherwise skip this table because its PROCESSED_METRICS_FORMATTED_FLAG is already set.
+        if (!is_numeric($existingValue) && is_numeric($computedValue)) {
+            $computedValue = $processedMetric->format($computedValue, new Metrics\Formatter());
+        }
+
+        $row->setColumn($metricName, $computedValue);
     }
 
     /**

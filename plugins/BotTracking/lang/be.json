@@ -1,6 +1,8 @@
 {
     "BotTracking": {
         "PageUrl": "URL старонкі",
-        "SiteWithoutDataBackToMatomo": "Вярнуцца да Matomo"
+        "SiteWithoutDataBackToMatomo": "Вярнуцца да Matomo",
+        "AIChatbotsContentPagesTitle": "Старонкі",
+        "ContentUrl": "URL"
     }
 }

@@ -63,6 +63,27 @@
         "SiteWithoutDataOtherInstallMethods": "Metode lain untuk melacak Chatbot AI",
         "SiteWithoutDataOtherInstallMethodsIntro": "Kami menawarkan beberapa jalur pelacakan - pilih yang sesuai dengan pengaturan Anda.",
         "SiteWithoutDataRecommendationText": "Kami telah mendeteksi bahwa situs web Anda menggunakan %1$s, sehingga Anda dapat menyiapkan pelacakan Chatbot AI menggunakan integrasi resmi %1$s kami.",
-        "SiteWithoutDataStepByStepGuide": "Panduan langkah demi langkah"
+        "SiteWithoutDataStepByStepGuide": "Panduan langkah demi langkah",
+        "AIChatbotsContentPagesTitle": "Halaman",
+        "ContentUrl": "URL",
+        "AIChatbotsBrokenContentTitle": "Halaman dan Dokumen Rusak",
+        "AIChatbotsContentDocumentsDocumentation": "Laporan ini menunjukkan URL dokumen mana yang diakses oleh chatbot AI (seperti ChatGPT) untuk mengambil informasi real-time selama percakapan pengguna. Laporan ini membantu Anda mengidentifikasi bagian mana dari situs web Anda yang dirujuk oleh sistem AI, sehingga memberikan wawasan tentang visibilitas situs Anda dalam interaksi yang dibantu AI serta peluang konten yang potensial. Laporan ini hanya berfokus pada kunjungan ke dokumen dan file media seperti PDF, Word, Excel, dan MP4, serta tidak mencakup URL halaman HTML — yang dibahas dalam laporan terpisah yang khusus untuk halaman.\n\nPenting untuk dicatat bahwa tidak satu pun dari dokumen ini benar-benar dilihat oleh manusia dengan cara tradisional — semua permintaan berasal dari asisten AI yang mengambil konten secara otomatis.\n\nSaat ini, laporan ini secara eksklusif hanya mencakup permintaan dari chatbot AI yang tidak menjalankan JavaScript. Laporan ini tidak mencakup traffic dari crawler AI yang digunakan untuk melatih model AI atau dari agen AI yang mampu menjalankan JavaScript.",
+        "AIChatbotsContentDocumentsTitle": "Dokumen",
+        "AIChatbotsContentPagesDocumentation": "Laporan ini menunjukkan URL halaman HTML mana yang diakses oleh asisten AI (seperti ChatGPT) untuk mengambil informasi real-time selama percakapan pengguna. Laporan ini membantu Anda mengidentifikasi bagian mana dari situs web Anda yang dirujuk oleh sistem AI, sehingga memberikan wawasan tentang visibilitas situs Anda dalam interaksi yang dibantu AI serta peluang konten yang potensial. Laporan ini hanya berfokus pada kunjungan ke halaman web standar, dan tidak mencakup unduhan file seperti dokumen PDF, Word, atau Excel — yang dibahas dalam laporan terpisah yang khusus untuk akses dokumen.\n\nPenting untuk dicatat bahwa tidak satu pun dari halaman ini benar-benar dilihat oleh manusia dengan cara tradisional — semua permintaan berasal dari asisten AI yang mengambil konten secara otomatis.\n\nSaat ini, laporan ini secara eksklusif hanya mencakup permintaan dari bot AI yang tidak menjalankan JavaScript. Laporan ini tidak mencakup traffic dari crawler AI yang digunakan untuk melatih model AI atau dari agen AI yang mampu menjalankan JavaScript.",
+        "AIChatbotsContentRequests": "Permintaan Konten Chatbot AI",
+        "AIChatbotsContentRequestsHelp1": "Halaman laporan ini menunjukkan halaman dan dokumen mana di situs web Anda yang diminta oleh chatbot AI seperti ChatGPT dan bot serupa berbasis large language model. Laporan ini merinci halaman HTML dan file yang dapat diunduh (seperti PDF, Word, atau Excel) yang diakses, beserta file yang tidak dapat diambil karena error. Hal ini membantu Anda memahami konten mana yang dirujuk oleh sistem AI, mengidentifikasi resource yang rusak atau tidak dapat diakses, serta memastikan situs web Anda menyediakan akses yang andal ke informasi yang digunakan oleh alat berbasis AI.",
+        "AIChatbotsContentRequestsHelp2": "Penting untuk dicatat bahwa tidak satu pun dari halaman atau dokumen ini benar-benar dilihat oleh manusia dengan cara tradisional — semua permintaan berasal dari asisten AI yang mengambil konten secara otomatis.",
+        "AIChatbotsContentRequestsHelp3": "Saat ini, laporan ini hanya mencakup permintaan dari bot AI yang tidak menjalankan JavaScript, dan tidak mencakup traffic dari crawler AI yang digunakan untuk pelatihan model atau agen AI yang mampu menjalankan JavaScript.",
+        "AIChatbotsOverview": "Ringkasan Chatbot AI",
+        "ColumnAvgResponseSize": "Rata-rata Ukuran Respons",
+        "ColumnAvgResponseSizeDocumentation": "Ukuran rata-rata respons yang dikembalikan untuk permintaan ini. Ini bergantung pada pelacakan server atau CDN dan mungkin kosong jika tidak dikonfigurasi, atau kosong untuk URL tertentu jika tidak ada permintaannya yang membawa data ini.",
+        "ColumnAvgServerTime": "Rata-rata Waktu Server",
+        "ColumnAvgServerTimeDocumentation": "Rata-rata waktu yang dibutuhkan server untuk merespons permintaan ini. Ini bergantung pada pelacakan server atau CDN dan mungkin kosong jika tidak dikonfigurasi, atau kosong untuk URL tertentu jika tidak ada permintaannya yang membawa data ini.",
+        "ColumnPageNotFound404Requests": "Permintaan Halaman Tidak Ditemukan (404)",
+        "ColumnPageNotFound404RequestsDocumentation": "Jumlah permintaan bot yang menghasilkan respons HTTP 404 (Not Found) atau 410 (Gone).",
+        "ColumnServerError5xxRequests": "Permintaan 5XX",
+        "ColumnServerError5xxRequestsDocumentation": "Jumlah permintaan bot yang menghasilkan respons HTTP 5xx (server error).",
+        "ColumnTotalBrokenRequests": "Total Permintaan Rusak",
+        "ColumnTotalBrokenRequestsDocumentation": "Jumlah permintaan bot yang menghasilkan respons HTTP 404 (Not Found), 410 (Gone), atau 5xx (server error)."
     }
 }

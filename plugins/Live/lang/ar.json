@@ -1,9 +1,32 @@
 {
     "Live": {
+        "ClickToViewAllActions": "إضغط هنا لعرض جميع أحداث هذه المجموعة بالتفصيل",
+        "ClickToViewMoreAboutVisit": "إضغط هنا لعرض جميع أحداث هذه الزيارة بالتفصيل",
+        "ExportThisDatasetToXml": "تصدير بصيغة XML",
+        "FirstVisit": "أول زيارة",
         "GoalType": "النوع",
+        "HideMap": "إخفاء الخريطة",
         "KeywordRankedOnSearchResultForThisVisitor": "الكلمة الدلالية %1$s كان ترتيبها %2$s في %3$s في صفحة نتائج البحث لهذا الزائر.",
         "LastHours": "آخر %s ساعة",
         "LastMinutes": "آخر %s دقيقة",
-        "Referrer_URL": "جاء من"
+        "LastVisit": "آخر زيارة",
+        "LinkVisitorLog": "عرض سجل الزيارات التفصيلي",
+        "LoadMoreVisits": "حمل بيانات أكثر",
+        "NbVisitor": "زائر واحد",
+        "NextVisitor": "الزائر التالي",
+        "PreviousVisitor": "الزائر السابق",
+        "RealTimeVisitorCount": "عدد زوار الموقع الحاليين",
+        "RealTimeVisitors": "الزيارات الحالية",
+        "Referrer_URL": "جاء من",
+        "RevisitedPages": "الصفحات التي تم عرضها أكثر من مرة",
+        "ShowMap": "عرض الخريطة",
+        "ToggleActions": "إظهار/إخفاء جميع الأحداث",
+        "TopVisitedPages": "أكثر الصفحات زيارة",
+        "ViewVisitorProfile": "عرض الملف الشخصي للزائر",
+        "VisitedPages": "الصفحات التي تمت زيارتها",
+        "VisitorLog": "سجل الزيارات",
+        "VisitorProfile": "الملف الشخصي للزائر",
+        "VisitorsInRealTime": "الزيارات الحالية",
+        "VisitsLog": "سجل الزيارات"
     }
 }

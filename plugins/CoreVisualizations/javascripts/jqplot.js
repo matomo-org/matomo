@@ -13,6 +13,163 @@ function rowEvolutionGetMetricNameFromRow(tr)
     return $(tr).find('td [data-name]').text().trim();
 }
 
+function isPlotLinesTweaksEnabled()
+{
+    return $('body').hasClass('plotlines-tweaks-enabled');
+}
+
+function getOrCreateLegendFooter($dataTable)
+{
+    var $legendFooter = $dataTable.find('.jqplot-legend-footer');
+    if ($legendFooter.length) {
+        return $legendFooter;
+    }
+
+    $legendFooter = $('<div class="jqplot-legend-footer"><div class="jqplot-legend-items"></div></div>');
+    var $dataTableFeatures = $dataTable.find('.dataTableFeatures');
+    var $footerNavigation = $dataTableFeatures.find('.dataTableFooterNavigation');
+
+    if ($footerNavigation.length) {
+        $legendFooter.insertBefore($footerNavigation);
+    } else if ($dataTableFeatures.length) {
+        $dataTableFeatures.append($legendFooter);
+    } else {
+        $dataTable.append($legendFooter);
+    }
+
+    return $legendFooter;
+}
+
+var MAX_FOOTER_LEGEND_ROWS = 2;
+var FOOTER_LEGEND_ROW_TOLERANCE = 1;
+var FOOTER_LEGEND_EXPORT_GRAPH_GAP = 12;
+
+function resetLegendItems($legendItems)
+{
+    $legendItems
+        .removeClass('jqplot-legend-item-hidden jqplot-legend-item-overflow')
+        .each(function () {
+            var $label = $(this).find('.jqplot-legend-label');
+            var originalLabel = $label.attr('data-original-label');
+
+            if (typeof originalLabel !== 'undefined') {
+                $label.text(originalLabel);
+            }
+        });
+}
+
+function getLegendRows($legendItems)
+{
+    var rowTops = [];
+    var rows = [];
+
+    $legendItems.each(function () {
+        var $item = $(this);
+        var itemTop;
+        var rowIndex = -1;
+
+        if ($item.hasClass('jqplot-legend-item-hidden')) {
+            return;
+        }
+
+        itemTop = Math.round($item.position().top);
+
+        for (var i = 0; i < rowTops.length; i++) {
+            if (Math.abs(rowTops[i] - itemTop) <= FOOTER_LEGEND_ROW_TOLERANCE) {
+                rowIndex = i;
+                break;
+            }
+        }
+
+        if (rowIndex === -1) {
+            rowTops.push(itemTop);
+            rows.push([]);
+            rowIndex = rows.length - 1;
+        }
+
+        rows[rowIndex].push(this);
+    });
+
+    return rows;
+}
+
+function limitLegendRows($legendContainer, maxRows)
+{
+    var $legendItems = $legendContainer.children('.jqplot-legend-item');
+    var rows;
+    var overflowSource;
+    var hideItems = false;
+
+    resetLegendItems($legendItems);
+
+    if (!maxRows || maxRows < 1) {
+        return;
+    }
+
+    rows = getLegendRows($legendItems);
+
+    if (rows.length <= maxRows) {
+        return;
+    }
+
+    // Reserve the last visible legend slot for the overflow marker so the
+    // ellipsis stays within the allowed rows instead of landing on a hidden row.
+    overflowSource = rows[maxRows - 1] && rows[maxRows - 1][rows[maxRows - 1].length - 1];
+
+    if (!overflowSource) {
+        return;
+    }
+
+    $(overflowSource)
+        .addClass('jqplot-legend-item-overflow')
+        .find('.jqplot-legend-label')
+        .text('…');
+
+    $legendItems.each(function () {
+        if (this === overflowSource) {
+            hideItems = true;
+            return;
+        }
+
+        if (hideItems) {
+            $(this).addClass('jqplot-legend-item-hidden');
+        }
+    });
+}
+
+function getLegendLabelTextForExport(ctx, labelElement, originalLabel, maxWidth)
+{
+    var labelText = labelElement.textContent || '';
+
+    if (!originalLabel || maxWidth <= 0 || labelElement.scrollWidth <= labelElement.clientWidth) {
+        return labelText;
+    }
+
+    var ellipsis = '…';
+    var ellipsisWidth = ctx.measureText(ellipsis).width;
+    if (ellipsisWidth >= maxWidth) {
+        return ellipsis;
+    }
+
+    var low = 0;
+    var high = originalLabel.length;
+    var bestFit = '';
+
+    while (low <= high) {
+        var middle = Math.floor((low + high) / 2);
+        var candidate = originalLabel.slice(0, middle) + ellipsis;
+
+        if (ctx.measureText(candidate).width <= maxWidth) {
+            bestFit = candidate;
+            low = middle + 1;
+        } else {
+            high = middle - 1;
+        }
+    }
+
+    return bestFit || ellipsis;
+}
+
 (function ($, require) {
     var exports = require('piwik/UI'),
         DataTable = exports.DataTable,
@@ -295,8 +452,16 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
         destroyPlot: function () {
             var target = $('#' + this.targetDivId);
+            var dataTable = target.closest('.dataTable');
+            var legendFooter = dataTable.find('.jqplot-legend-footer');
 
             target.trigger('piwikDestroyPlot');
+            if (legendFooter.length) {
+                legendFooter
+                    .removeClass('has-legend')
+                    .find('.jqplot-legend-items')
+                    .empty();
+            }
             if (target.data('oldHeight') > 0) {
                 // handle replot after empty report
                 target.height(target.data('oldHeight'));
@@ -321,9 +486,11 @@ function rowEvolutionGetMetricNameFromRow(tr)
             var target = $('#' + this.targetDivId);
 
             var loading = $(document.createElement('div')).addClass('jqplot-loading');
+            loading.append('<span class="matomo-loader"><span></span><span></span><span></span></span>');
             loading.css({
                 width: target.innerWidth() + 'px',
                 height: target.innerHeight() + 'px',
+                backgroundColor: (this.jqplotParams.grid && this.jqplotParams.grid.background) || '',
                 opacity: 0
             });
             target.prepend(loading);
@@ -460,15 +627,30 @@ function rowEvolutionGetMetricNameFromRow(tr)
         /** Export the chart as an image */
         exportAsImage: function (container, lang) {
             var pixelRatio = window.devicePixelRatio || 1;
+            var plotLinesTweaksEnabled = isPlotLinesTweaksEnabled();
+            var dataTable = container.closest('.dataTable');
+            var legendFooter = dataTable.find('.jqplot-legend-footer.has-legend');
+            var hasFooterLegend = plotLinesTweaksEnabled && legendFooter.length > 0;
+            var legendHeight = hasFooterLegend ? legendFooter[0].getBoundingClientRect().height : 0;
+            var legendGraphGap = hasFooterLegend ? FOOTER_LEGEND_EXPORT_GRAPH_GAP : 0;
             var exportCanvas = document.createElement('canvas');
-            exportCanvas.width = Math.round(container.width() * pixelRatio);
-            exportCanvas.height = Math.round(container.height() * pixelRatio);
+            var exportWidth = plotLinesTweaksEnabled ? container.outerWidth() : container.width();
+            var dataTableWidth = dataTable.innerWidth();
+            if (plotLinesTweaksEnabled && dataTableWidth) {
+                exportWidth = Math.max(exportWidth, dataTableWidth);
+            }
+            exportCanvas.width = Math.round(exportWidth * pixelRatio);
+            exportCanvas.height = Math.round((container.height() + legendGraphGap + legendHeight) * pixelRatio);
 
             if (!exportCanvas.getContext) {
                 alert("Sorry, not supported in your browser. Please upgrade your browser :)");
                 return;
             }
             var exportCtx = exportCanvas.getContext('2d');
+            if (plotLinesTweaksEnabled) {
+                exportCtx.fillStyle = (this.jqplotParams.grid && this.jqplotParams.grid.background) || '#ffffff';
+                exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+            }
 
             var canvases = container.find('canvas');
 
@@ -482,6 +664,16 @@ function rowEvolutionGetMetricNameFromRow(tr)
                     position.top += addPosition.top + parseInt(parent.css('marginTop'), 10);
                 }
                 exportCtx.drawImage(canvas[0], Math.round(position.left * pixelRatio), Math.round(position.top * pixelRatio));
+            }
+
+            if (hasFooterLegend) {
+                this.drawLegendForExport(
+                    exportCtx,
+                    legendFooter,
+                    exportWidth,
+                    container.height() + legendGraphGap,
+                    pixelRatio
+                );
             }
 
             var exported = exportCanvas.toDataURL("image/png");
@@ -516,43 +708,137 @@ function rowEvolutionGetMetricNameFromRow(tr)
             });
         },
 
+        // Draw the footer legend onto the export canvas by replaying its rendered DOM
+        // geometry. This preserves browser-resolved item positioning, wrapping,
+        // centering and hidden overflow state without maintaining a second legend
+        // layout implementation for export. Text is redrawn onto canvas, so the
+        // export follows the rendered label bounds but does not reproduce CSS text
+        // overflow behaviour pixel-for-pixel.
+        drawLegendForExport: function (ctx, legendFooter, exportWidth, topOffset, pixelRatio) {
+            var footerRect = legendFooter[0].getBoundingClientRect();
+            // center the legend block when the export canvas is wider than the footer
+            var offsetX = Math.max(0, (exportWidth - footerRect.width) / 2);
+
+            legendFooter.find('.jqplot-legend-item').each(function () {
+                var $item = $(this);
+                if ($item.hasClass('jqplot-legend-item-hidden') || $item.css('display') === 'none') {
+                    return;
+                }
+
+                var $swatch = $item.find('.jqplot-legend-swatch');
+                var $label = $item.find('.jqplot-legend-label');
+                var labelElement = $label[0];
+                var originalLabel = $label.attr('data-original-label') || $label.text();
+                var labelText = $label.text();
+                if (!$swatch.length || !$label.length || !labelText) {
+                    return;
+                }
+
+                // swatch: a circle, positioned and coloured from its rendered box
+                var swatchRect = $swatch[0].getBoundingClientRect();
+                ctx.save();
+                ctx.fillStyle = $swatch.css('background-color');
+                ctx.beginPath();
+                ctx.arc(
+                    (offsetX + (swatchRect.left - footerRect.left) + swatchRect.width / 2) * pixelRatio,
+                    (topOffset + (swatchRect.top - footerRect.top) + swatchRect.height / 2) * pixelRatio,
+                    (Math.min(swatchRect.width, swatchRect.height) / 2) * pixelRatio,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+                ctx.restore();
+
+                // label: drawn at its rendered box and clipped to it, so any CSS
+                // truncation of a long label is preserved in the exported image
+                var labelRect = $label[0].getBoundingClientRect();
+                var labelLeft = offsetX + (labelRect.left - footerRect.left);
+                var labelTop = topOffset + (labelRect.top - footerRect.top);
+                var fontSize = parseFloat($label.css('font-size')) || 12;
+
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(
+                    labelLeft * pixelRatio,
+                    labelTop * pixelRatio,
+                    labelRect.width * pixelRatio,
+                    labelRect.height * pixelRatio
+                );
+                ctx.clip();
+                ctx.font = ($label.css('font-weight') || '400') + ' '
+                    + Math.round(fontSize * pixelRatio) + 'px '
+                    + ($label.css('font-family') || require('piwik/UI').getLabelFontFamily());
+                ctx.fillStyle = $label.css('color') || '#666666';
+                ctx.textBaseline = 'middle';
+                labelText = getLegendLabelTextForExport(
+                    ctx,
+                    labelElement,
+                    originalLabel,
+                    labelRect.width * pixelRatio
+                );
+                ctx.fillText(
+                    labelText,
+                    labelLeft * pixelRatio,
+                    (labelTop + labelRect.height / 2) * pixelRatio
+                );
+                ctx.restore();
+            });
+        },
+
         // ------------------------------------------------------------
         //  HELPER METHODS
         // ------------------------------------------------------------
 
         /** Generate ticks in y direction */
         setYTicks: function () {
-            var $tempAxisElement = $('<div>').attr('class', 'jqplot-axis jqplot-y2axis').css({'visibility': 'hidden', 'display': 'inline-block'});
-            $('<span>')
-                .css('font-size', this.jqplotParams.axesDefaults.fontSize)
-                .css('font-family', this.jqplotParams.axesDefaults.fontFamily)
-                .appendTo($tempAxisElement);
-            $('body').append($tempAxisElement);
-
             // default axis
             this.setYTicksForAxis('yaxis', this.jqplotParams.axes.yaxis);
 
             // other axes: y2axis, y3axis...
-            var axisLength = 10;
             for (var i = 2; typeof this.jqplotParams.axes['y' + i + 'axis'] != 'undefined'; i++) {
                 this.setYTicksForAxis('y' + i + 'axis', this.jqplotParams.axes['y' + i + 'axis']);
+            }
 
-                axisLength += getAxisWidth(this.jqplotParams.axes['y' + i + 'axis']);
+            this.adjustWidthForLegacyRightAxes();
+        },
+
+        adjustWidthForLegacyRightAxes: function () {
+            var $graph = $('.piwik-graph', this.$element);
+
+            if (
+                isPlotLinesTweaksEnabled()
+                || !this.jqplotParams.canvasLegend
+                || !this.jqplotParams.canvasLegend.show
+            ) {
+                $graph.css('width', '');
+                return;
             }
 
             var axesShown = {};
             this.jqplotParams.series.forEach(function (series) {
                 axesShown[series.yaxis] = true;
             });
-            var hasMultipleAxes = Object.keys(axesShown).length > 1;
 
-            // only adjust width if more than one axis exists AND more than one series shown
-            if (hasMultipleAxes) {
-                $('.piwik-graph', this.$element).css('width', 'calc(100% - ' + axisLength + 'px)');
-            } else {
-                $('.piwik-graph', this.$element).css('width', '');
+            if (Object.keys(axesShown).length <= 1) {
+                $graph.css('width', '');
+                return;
             }
 
+            // The legacy canvas legend pins gridPadding.right to 0. In that
+            // mode jqPlot draws extra right axes outside the target, so shrink
+            // the target by the rendered axis width to avoid page overflow.
+            var $tempAxisElement = $('<div>')
+                .attr('class', 'jqplot-axis jqplot-y2axis')
+                .css({'visibility': 'hidden', 'display': 'inline-block'});
+            $('<span>').appendTo($tempAxisElement);
+            $('body').append($tempAxisElement);
+
+            var axisLength = 10;
+            for (var i = 2; typeof this.jqplotParams.axes['y' + i + 'axis'] != 'undefined'; i++) {
+                axisLength += getAxisWidth(this.jqplotParams.axes['y' + i + 'axis']);
+            }
+
+            $graph.css('width', 'calc(100% - ' + axisLength + 'px)');
             $tempAxisElement.remove();
 
             function getAxisWidth(axis) {
@@ -681,11 +967,6 @@ function rowEvolutionGetMetricNameFromRow(tr)
             }
         },
 
-        _isPlotLinesTweaksEnabled: function () {
-            return !!(document.body
-                && document.body.classList.contains('plotlines-tweaks-enabled'));
-        },
-
         /**
          * Sets the colors used to render this graph.
          */
@@ -712,7 +993,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
             this.tickColor = colorManager.getColor(namespace, 'ticks');
 
             // Under PlotLinesTweaks, evolution and bar gridlines use a lighter tick color.
-            if (this._isPlotLinesTweaksEnabled()
+            if (isPlotLinesTweaksEnabled()
                 && (graphType === 'evolution' || graphType === 'bar')) {
                 var TICK_OPACITY = 0.5;
                 var tickRgb = colorManager.getRgb(this.tickColor);
@@ -750,7 +1031,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
                     var seriesColorName = comparisonService.getSeriesColorName(s.seriesIndex, s.metricIndex);
                     seriesColorNames.push(seriesColorName);
                 });
-            } else if (this._isPlotLinesTweaksEnabled()
+            } else if (isPlotLinesTweaksEnabled()
                 && (namespace === 'evolution-graph-colors'
                     || namespace === 'bar-graph-colors'
                     || namespace === 'pie-graph-colors')) {
@@ -1135,8 +1416,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         unHighlight(plot);
 
-        var plotLinesTweaksEnabled = document.body
-            && document.body.classList.contains('plotlines-tweaks-enabled');
+        var plotLinesTweaksEnabled = isPlotLinesTweaksEnabled();
 
         for (var i = 0; i < plot.series.length; i++) {
             var series = plot.series[i];
@@ -1171,14 +1451,12 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
 // ------------------------------------------------------------
 //  LEGEND PLUGIN FOR JQPLOT
-//  Render legend on canvas
+//  Render legend below the graph
 // ------------------------------------------------------------
 
 (function ($) {
 
     $.jqplot.CanvasLegendRenderer = function (options) {
-        // canvas for the legend
-        this.legendCanvas = null;
         // is it a legend for a single metric only (pie chart)?
         this.singleMetric = false;
         // render the legend?
@@ -1192,14 +1470,17 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var options = opts || {};
         this.plugins.canvasLegend = new $.jqplot.CanvasLegendRenderer(options.canvasLegend);
 
-        // add padding above the grid
-        // legend will be put there
         if (this.plugins.canvasLegend.show) {
-            options.gridPadding = {
-                top: 21, right: 0
-            };
+            if (isPlotLinesTweaksEnabled()) {
+                options.gridPadding = $.extend({}, options.gridPadding, {
+                    top: Math.max((options.gridPadding && options.gridPadding.top) || 0, 21)
+                });
+            } else {
+                options.gridPadding = {
+                    top: 21, right: 0
+                };
+            }
         }
-
     };
 
     // render the legend
@@ -1211,7 +1492,59 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             return;
         }
 
-        // initialize legend canvas
+        if (!isPlotLinesTweaksEnabled()) {
+            $.jqplot.CanvasLegendRenderer.renderLegacyLegend.call(this, plot, legend);
+            return;
+        }
+
+        var $target = $(plot.targetId);
+        var $dataTable = $target.closest('.dataTable');
+        var $legendFooter = getOrCreateLegendFooter($dataTable);
+        var $legendContainer = $legendFooter.find('.jqplot-legend-items');
+        if (!$legendContainer.length) {
+            return;
+        }
+
+        $legendFooter.removeClass('has-legend');
+        $legendContainer.empty();
+
+        var series = plot.legend && plot.legend._series ? plot.legend._series : [];
+        for (var i = 0; i < series.length; i++) {
+            var s = series[i];
+            var label = '';
+            if (legend.labels && legend.labels[i]) {
+                label = legend.labels[i];
+            } else if (typeof s.label !== 'undefined' && s.label !== null) {
+                label = s.label.toString();
+            }
+
+            if (!label) {
+                continue;
+            }
+
+            var color = s.color;
+            if (legend.singleMetric && legend.singleMetricColor) {
+                color = legend.singleMetricColor;
+            }
+
+            $('<div/>', {'class': 'jqplot-legend-item'})
+                .append(
+                    $('<span/>', {'class': 'jqplot-legend-swatch'}).css('background-color', color),
+                    $('<span/>', {
+                        'class': 'jqplot-legend-label',
+                        'data-original-label': label
+                    }).text(label)
+                )
+                .appendTo($legendContainer);
+        }
+
+        if ($legendContainer.children().length) {
+            $legendFooter.addClass('has-legend');
+            limitLegendRows($legendContainer, MAX_FOOTER_LEGEND_ROWS);
+        }
+    };
+
+    $.jqplot.CanvasLegendRenderer.renderLegacyLegend = function (plot, legend) {
         var padding = {top: 0, right: this._gridPadding.right, bottom: 0, left: this._gridPadding.left};
         var dimensions = {width: this._plotDimensions.width, height: this._gridPadding.top};
         var width = this._plotDimensions.width - this._gridPadding.left - this._gridPadding.right;
@@ -1223,11 +1556,10 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         var ctx = legend.legendCanvas._ctx;
         ctx.save();
-        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily()
+        ctx.font = '11px ' + require('piwik/UI').getLabelFontFamily();
 
-        // render series names
         var x = 0;
-        var series = plot.legend._series;
+        var series = plot.legend && plot.legend._series ? plot.legend._series : [];
         for (var i = 0; i < series.length; i++) {
             var s = series[i];
             var label;
@@ -1286,7 +1618,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var plot = this;
         $(seriesPicker).bind('placeSeriesPicker', function () {
             this.domElem.css('margin-left', plot._gridPadding.left + 'px');
-            $('.jqplot-legend-canvas', $('#' + target)).css({paddingLeft: '34px'});
+            if (!isPlotLinesTweaksEnabled()) {
+                $('.jqplot-legend-canvas', $(plot.targetId)).css({paddingLeft: '34px'});
+            }
             plot.baseCanvas._elem.before(this.domElem);
         });
 

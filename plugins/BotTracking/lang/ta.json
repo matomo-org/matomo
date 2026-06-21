@@ -64,6 +64,8 @@
         "SiteWithoutDataNotYetReady": "AI Chatbot கண்காணிப்பை அமைக்க இன்னும் தயாராக இல்லையா?",
         "SiteWithoutDataOtherInstallMethods": "AI சாட்போட்களைக் கண்காணிப்பதற்கான பிற முறைகள்",
         "SiteWithoutDataOtherInstallMethodsIntro": "நாங்கள் பல கண்காணிப்பு பாதைகளை வழங்குகிறோம் - உங்கள் அமைப்பிற்கு பொருந்தக்கூடிய ஒன்றைத் தேர்ந்தெடுக்கவும்.",
-        "SiteWithoutDataRecommendationText": "உங்கள் இணையதளம் %1$s ஐப் பயன்படுத்துவதை நாங்கள் கண்டறிந்துள்ளோம், எனவே எங்களின் அதிகாரப்பூர்வ %1$s ஒருங்கிணைப்பைப் பயன்படுத்தி AI Chatbots கண்காணிப்பை அமைக்கலாம்."
+        "SiteWithoutDataRecommendationText": "உங்கள் இணையதளம் %1$s ஐப் பயன்படுத்துவதை நாங்கள் கண்டறிந்துள்ளோம், எனவே எங்களின் அதிகாரப்பூர்வ %1$s ஒருங்கிணைப்பைப் பயன்படுத்தி AI Chatbots கண்காணிப்பை அமைக்கலாம்.",
+        "AIChatbotsContentPagesTitle": "பக்கங்கள்",
+        "ContentUrl": "முகவரி"
     }
 }

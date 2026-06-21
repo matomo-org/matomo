@@ -14,12 +14,23 @@ use Piwik\Config\GeneralConfig;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 
 class Actions extends BaseFilter
 {
     private $actionType;
+
+    /**
+     * Per-instance cache of the normalized base URL list resolved for an idSite.
+     * `null` marks a site we already tried to resolve and could not (so we don't
+     * retry on every row).
+     *
+     * @var array<int, list<string>|null>
+     */
+    private $siteBaseUrlsCache = [];
+
     /**
      * @param DataTable $table The table to eventually filter.
      * @param int $actionType The action type being processed.
@@ -74,7 +85,7 @@ class Actions extends BaseFilter
                             }
                         }
                     } elseif ($folderUrlStart) {
-                        $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($folderUrlStart)));
+                        $row->setMetadata('segment', $this->buildFolderUrlSegment($folderUrlStart, $site));
                     } elseif ($pageTitlePath) {
                         if ($row->getIdSubDataTable()) {
                             $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim($pageTitlePath))));
@@ -98,7 +109,10 @@ class Actions extends BaseFilter
                             // segmenting by an "empty" value is currently broken for actions, so we do not set a segment value to hide row actions like segmented visit log
                             $row->setMetadata('segment', null);
                         } elseif ($urlPrefix) {
-                            $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($urlPrefix . '/' . $label)));
+                            $row->setMetadata(
+                                'segment',
+                                $this->buildFolderUrlSegment($urlPrefix . '/' . $label, $site)
+                            );
                         }
                     }
                 }
@@ -126,5 +140,88 @@ class Actions extends BaseFilter
                 $this->filter($subtable);
             }
         }
+    }
+
+    /**
+     * Builds the `pageUrl=^` segment for a folder row. If the site has additional URL
+     * aliases registered, the segment is an OR-joined list with one `pageUrl=^` clause
+     * per host so the visitor log query matches rows tracked under any of the site's
+     * known hosts, not only `main_url`.
+     */
+    private function buildFolderUrlSegment(string $folderUrlStart, $site): string
+    {
+        $original = 'pageUrl=^' . urlencode(urlencode($folderUrlStart));
+
+        if (!$site) {
+            return $original;
+        }
+
+        $mainUrl = $site->getMainUrl();
+        if (empty($mainUrl)) {
+            return $original;
+        }
+
+        // `folder_url_start` (and the legacy fallback) is always built as
+        // `<main_url>/<path-to-folder>`. Strip the main URL to get the path-only portion
+        // that we can re-attach to each known host.
+        $mainUrlNormalized = rtrim($mainUrl, '/') . '/';
+        if (strpos($folderUrlStart, $mainUrlNormalized) !== 0) {
+            return $original;
+        }
+        $folderPath = substr($folderUrlStart, strlen($mainUrlNormalized));
+
+        $baseUrls = $this->getResolvedBaseUrls((int) $site->getId());
+        if ($baseUrls === null) {
+            return $original;
+        }
+
+        $clauses = [];
+        foreach ($baseUrls as $baseUrl) {
+            $clauses[] = 'pageUrl=^' . urlencode(urlencode($baseUrl . $folderPath));
+        }
+
+        if (empty($clauses)) {
+            return $original;
+        }
+
+        return implode(',', $clauses);
+    }
+
+    /**
+     * Returns the site's main URL and aliases as a list of normalized base URLs
+     * (each ending with `/`). Preserves any path component carried on `main_url`
+     * or on individual aliases so the rebuilt segment still matches the archived
+     * folder rows. Returns `null` if the API failed for this site (callers fall
+     * back to the single-clause original segment).
+     *
+     * @return list<string>|null
+     */
+    private function getResolvedBaseUrls(int $idSite): ?array
+    {
+        if (array_key_exists($idSite, $this->siteBaseUrlsCache)) {
+            return $this->siteBaseUrlsCache[$idSite];
+        }
+
+        try {
+            $allUrls = SitesManagerAPI::getInstance()->getSiteUrlsFromId($idSite);
+        } catch (\Exception $e) {
+            return $this->siteBaseUrlsCache[$idSite] = null;
+        }
+
+        $seen = [];
+        $baseUrls = [];
+        foreach ($allUrls as $url) {
+            if (!parse_url($url, PHP_URL_HOST)) {
+                continue;
+            }
+            $normalized = rtrim($url, '/') . '/';
+            if (isset($seen[$normalized])) {
+                continue;
+            }
+            $seen[$normalized] = true;
+            $baseUrls[] = $normalized;
+        }
+
+        return $this->siteBaseUrlsCache[$idSite] = $baseUrls;
     }
 }

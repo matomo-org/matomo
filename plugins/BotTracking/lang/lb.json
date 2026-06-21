@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "Säiten URL"
+        "PageUrl": "Säiten URL",
+        "ContentUrl": "Adress"
     }
 }

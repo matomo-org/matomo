@@ -17,12 +17,9 @@ use Piwik\ArchiveProcessor\RecordBuilder;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\DataTable;
-use Piwik\Db;
 use Piwik\Plugins\BotTracking\Archiver;
-use Piwik\Plugins\BotTracking\BotDetector;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\BotTracking\Metrics;
-use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 
 /**
@@ -31,9 +28,14 @@ use Piwik\Tracker\Action;
  *   - Documents record: download URLs requested by AI chatbots, with the same metrics.
  *   - Broken Content record: page + document URLs that returned HTTP 4xx/5xx errors, with per-status counts.
  * All three records are keyed by full URL (single label dimension); no URL-path subtables.
+ *
+ * The per-URL page/document request query lives in {@see AIChatbotPageMetricsTrait} so the Favoured Pages
+ * builder can reuse the exact same "AI chatbot request" counting logic.
  */
 class AIChatbotContentReports extends RecordBuilder
 {
+    use AIChatbotPageMetricsTrait;
+
     /**
      * @var int
      */
@@ -48,8 +50,8 @@ class AIChatbotContentReports extends RecordBuilder
     {
         parent::__construct();
 
-        $this->maxRowsInTable    = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_ai_chatbot_content', 20000);
-        $this->rankingQueryLimit = $this->getRankingQueryLimit();
+        $this->maxRowsInTable    = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_ai_chatbot_content', 50000);
+        $this->rankingQueryLimit = $this->getRankingQueryLimit($this->maxRowsInTable);
     }
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -72,70 +74,16 @@ class AIChatbotContentReports extends RecordBuilder
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
+        // The content reports expose the full metric set (requests + avg server-time/response-size + errors).
+        $columns = array_keys($this->pageUrlMetricExpressions());
+
         $tables = [
-            Archiver::AI_CHATBOTS_REQUESTED_PAGES_RECORD     => $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_PAGE_URL),
-            Archiver::AI_CHATBOTS_REQUESTED_DOCUMENTS_RECORD => $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_DOWNLOAD),
+            Archiver::AI_CHATBOTS_REQUESTED_PAGES_RECORD     => $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_PAGE_URL, $this->rankingQueryLimit, $columns),
+            Archiver::AI_CHATBOTS_REQUESTED_DOCUMENTS_RECORD => $this->queryPageOrDocumentUrls($archiveProcessor, Action::TYPE_DOWNLOAD, $this->rankingQueryLimit, $columns),
             Archiver::AI_CHATBOTS_BROKEN_CONTENT_RECORD      => $this->queryBrokenContent($archiveProcessor),
         ];
 
         return $tables;
-    }
-
-    /**
-     * Queries page or document URLs requested by AI chatbots, including server-time and response-size raw
-     * columns needed to compute averages at display time. Error-status columns are also stored so they are
-     * available in Row Evolution and the "show all columns" toggle (hidden by default in configureView).
-     */
-    private function queryPageOrDocumentUrls(ArchiveProcessor $archiveProcessor, int $actionType): DataTable
-    {
-        $logAggregator = $archiveProcessor->getLogAggregator();
-        $where         = $logAggregator->getWhereStatement('bot', 'server_time');
-        $botTable      = BotRequestsDao::getPrefixedTableName();
-        $actionTable   = Common::prefixTable('log_action');
-
-        $innerSql = sprintf(
-            "SELECT log_action.name AS url,
-                    COUNT(*) AS %s,
-                    SUM(bot.response_time_ms) AS %s,
-                    SUM(CASE WHEN bot.response_time_ms IS NOT NULL THEN 1 ELSE 0 END) AS %s,
-                    SUM(bot.response_size_bytes) AS %s,
-                    SUM(CASE WHEN bot.response_size_bytes IS NOT NULL THEN 1 ELSE 0 END) AS %s,
-                    SUM(bot.http_status_code IN (404, 410)) AS %s,
-                    SUM(bot.http_status_code BETWEEN 500 AND 599) AS %s
-             FROM `%s` AS bot
-             INNER JOIN `%s` AS log_action ON log_action.idaction = bot.idaction_url
-             WHERE log_action.name IS NOT NULL
-               AND log_action.name <> ''
-               AND log_action.type = %d
-               AND bot.bot_type = ?
-               AND %s
-             GROUP BY log_action.name
-             ORDER BY %s DESC",
-            Metrics::COLUMN_REQUESTS,
-            Metrics::COLUMN_SUM_SERVER_TIME,
-            Metrics::COLUMN_NB_SERVER_TIME,
-            Metrics::COLUMN_SUM_RESPONSE_SIZE,
-            Metrics::COLUMN_NB_RESPONSE_SIZE,
-            Metrics::COLUMN_PAGE_NOT_FOUND_404_REQUESTS,
-            Metrics::COLUMN_SERVER_ERROR_5XX_REQUESTS,
-            $botTable,
-            $actionTable,
-            $actionType,
-            $where,
-            Metrics::COLUMN_REQUESTS
-        );
-
-        $columns = [
-            Metrics::COLUMN_REQUESTS                    => 'sum',
-            Metrics::COLUMN_SUM_SERVER_TIME             => 'sum',
-            Metrics::COLUMN_NB_SERVER_TIME              => 'sum',
-            Metrics::COLUMN_SUM_RESPONSE_SIZE           => 'sum',
-            Metrics::COLUMN_NB_RESPONSE_SIZE            => 'sum',
-            Metrics::COLUMN_PAGE_NOT_FOUND_404_REQUESTS => 'sum',
-            Metrics::COLUMN_SERVER_ERROR_5XX_REQUESTS   => 'sum',
-        ];
-
-        return $this->executeUrlQuery($archiveProcessor, $innerSql, $columns);
     }
 
     /**
@@ -182,60 +130,6 @@ class AIChatbotContentReports extends RecordBuilder
             Metrics::COLUMN_SERVER_ERROR_5XX_REQUESTS   => 'sum',
         ];
 
-        return $this->executeUrlQuery($archiveProcessor, $innerSql, $columns);
-    }
-
-    /**
-     * Shared query helper: wraps an already-built inner SQL with a RankingQuery, executes it,
-     * and populates a DataTable via sumRowWithLabel. The RankingQuery "Others" summary row label
-     * is passed through as-is (matching the AIChatbotReports / AIReferrers patterns); the
-     * framework's sumRowWithLabel handles the summary row routing via the string sentinel.
-     *
-     * @param string                $innerSql Already-interpolated SQL (bot_type bind placeholder kept as `?`).
-     * @param array<string, string> $columns  Map of column name → RankingQuery aggregation op ('sum').
-     *                                        These must match the SELECT aliases in $innerSql exactly.
-     *                                        NOTE: (int) casts are safe for NULL-able sum/nb columns:
-     *                                        NULL→0 is harmless because nb_* == 0 gates the avg computation
-     *                                        in AvgServerTime::compute() / AvgResponseSize::compute().
-     */
-    private function executeUrlQuery(ArchiveProcessor $archiveProcessor, string $innerSql, array $columns): DataTable
-    {
-        $logAggregator = $archiveProcessor->getLogAggregator();
-
-        $rankingQuery = new RankingQuery($this->rankingQueryLimit);
-        $rankingQuery->addLabelColumn('url');
-
-        foreach ($columns as $column => $op) {
-            $rankingQuery->addColumn($column, $op);
-        }
-
-        $wrappedSql = $rankingQuery->generateRankingQuery($innerSql);
-
-        $bind = array_merge([BotDetector::BOT_TYPE_AI_CHATBOT], $logAggregator->getGeneralQueryBindParams());
-        $stmt = Db::query($wrappedSql, $bind);
-
-        $table = new DataTable();
-        while ($row = $stmt->fetch()) {
-            /** @var array<string, int|string|null> $row */
-            $label = (string) $row['url'];
-
-            $metrics = [];
-            foreach ($columns as $column => $op) {
-                $raw = $row[$column] ?? 0;
-                $metrics[$column] = is_numeric($raw) ? (int) $raw : 0;
-            }
-
-            $table->sumRowWithLabel($label, $metrics);
-        }
-
-        return $table;
-    }
-
-    private function getRankingQueryLimit(): int
-    {
-        $configLimit = GeneralConfig::getIntegerConfigValue('archiving_ranking_query_row_limit', 0);
-
-        // As we are querying flat data, use `maxRowsInTable` as ranking query limit as it would be pointless to query more
-        return max($configLimit, $this->maxRowsInTable);
+        return $this->executeUrlQuery($archiveProcessor, $innerSql, $columns, $this->rankingQueryLimit);
     }
 }

@@ -15,6 +15,15 @@ describe("BotTracking", function () {
     var generalParams = 'idSite=1&period=day&date=2025-02-02',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
+    async function waitForRowEvolutionPopover() {
+        await page.waitForFunction('$(".ui-dialog:visible .rowevolution").length > 0');
+        await page.waitForFunction(
+            '$(".ui-dialog:visible .rowevolution table.metrics tr").length > 0'
+            + ' && $(".ui-dialog:visible .rowevolution .jqplot-target").length > 0'
+        );
+        await page.waitForTimeout(250);
+    }
+
     it('should render AI Assistants > AI Chatbots Overview page with evolution and sparkline', async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
         await page.waitForNetworkIdle();
@@ -112,9 +121,11 @@ describe("BotTracking", function () {
         });
         expect(helpNotificationText.length).to.be.above(0);
 
-        // Assert exactly 3 report widgets are present on the page.
+        // Assert exactly 5 report widgets are present on the page (the wide Pages report on top,
+        // then the Documents / Broken pair side-by-side, then the Human-Favoured / AI-Favoured
+        // pair side-by-side).
         const widgets = await page.$$('.matomo-widget');
-        expect(widgets.length).to.equal(3);
+        expect(widgets.length).to.equal(5);
 
         // Dismiss the help notification so it does not obscure table headers,
         // then wait for the tables to be fully rendered.
@@ -186,8 +197,87 @@ describe("BotTracking", function () {
         });
         expect(brokenSortedThText).to.equal('Total Broken Requests');
 
+        // Assert per-widget column counts and header text for Human-Favoured widget.
+        const humanWidgetId = '#widgetBotTrackinggetAIChatbotHumanFavouredPages';
+        await page.waitForSelector(humanWidgetId + ' thead th .thDIV', { visible: true });
+        const humanHeaders = await page.$$eval(humanWidgetId + ' thead th .thDIV', function (divs) {
+            return divs.map(function (d) { return (d.textContent || '').trim(); });
+        });
+        expect(humanHeaders.length).to.equal(4);
+        expect(humanHeaders[0]).to.equal('Page URL');
+        expect(humanHeaders[1]).to.equal('Unique Human Pageviews');
+        expect(humanHeaders[2]).to.equal('AI Chatbot Requests');
+        expect(humanHeaders[3]).to.equal('Discrepancy Score');
+
+        // Default sort on Discrepancy Score for the Human-Favoured widget.
+        const humanSortedThText = await page.$eval(humanWidgetId + ' thead th.columnSorted .thDIV', function (div) {
+            return (div.textContent || '').trim();
+        });
+        expect(humanSortedThText).to.equal('Discrepancy Score');
+
+        // Assert per-widget column counts and header text for AI-Favoured widget.
+        const aiWidgetId = '#widgetBotTrackinggetAIChatbotAIFavouredPages';
+        const aiHeaders = await page.$$eval(aiWidgetId + ' thead th .thDIV', function (divs) {
+            return divs.map(function (d) { return (d.textContent || '').trim(); });
+        });
+        // The AI-Favoured report leads with its strong-side metric (AI Chatbot Requests), then human.
+        expect(aiHeaders.length).to.equal(4);
+        expect(aiHeaders[0]).to.equal('Page URL');
+        expect(aiHeaders[1]).to.equal('AI Chatbot Requests');
+        expect(aiHeaders[2]).to.equal('Unique Human Pageviews');
+        expect(aiHeaders[3]).to.equal('Discrepancy Score');
+
+        // Default sort on Discrepancy Score for the AI-Favoured widget.
+        const aiSortedThText = await page.$eval(aiWidgetId + ' thead th.columnSorted .thDIV', function (div) {
+            return (div.textContent || '').trim();
+        });
+        expect(aiSortedThText).to.equal('Discrepancy Score');
+
+        // The reporting page auto-pairs consecutive non-wide widgets into a 2-column row (see
+        // CoreHome ReportingPage.store). The Documents + Broken reports must share one row, and the
+        // Human-Favoured + AI-Favoured reports must share one row.
+        const sameRow = function (firstSel, secondSel) {
+            return page.evaluate(function (a, b) {
+                const first = document.querySelector(a);
+                const second = document.querySelector(b);
+                if (!first || !second) {
+                    return 0;
+                }
+                const firstRow = first.closest('.row');
+                const secondRow = second.closest('.row');
+                return firstRow && firstRow === secondRow ? 1 : 0;
+            }, firstSel, secondSel);
+        };
+        expect(await sameRow(docsWidgetId, brokenWidgetId)).to.equal(1);
+        expect(await sameRow(humanWidgetId, aiWidgetId)).to.equal(1);
+
         var elem = await page.$('.pageWrap');
         expect(await elem.screenshot()).to.matchImage('bot_content_requests');
+    });
+
+    it('should offer Row Evolution on the Favoured Pages reports and render its chart', async function () {
+        // Use a date inside the human/AI overlap window (Feb 3-5) so the evolution chart has a real
+        // multi-day series. Row Evolution is only available now the reports are archived.
+        await page.goto("?" + urlBase + "#?idSite=1&period=day&date=2025-02-03&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsContentRequests");
+        await page.waitForNetworkIdle();
+
+        const humanWidgetId = '#widgetBotTrackinggetAIChatbotHumanFavouredPages';
+        const row = await page.waitForSelector(humanWidgetId + ' table.dataTable tbody tr:first-child');
+        await row.hover();
+        await page.waitForTimeout(100);
+
+        // The Row Evolution row action must now be offered (disable_row_evolution was removed once the
+        // data is archived, so the icon is no longer suppressed).
+        const icon = await row.$('a.actionRowEvolution');
+        expect(icon).to.not.equal(null);
+
+        await icon.hover();
+        await icon.click();
+        await page.mouse.move(-10, -10);
+
+        await waitForRowEvolutionPopover();
+
+        expect(await page.screenshotSelector('.ui-dialog:visible')).to.matchImage('row_evolution_favoured_pages');
     });
 
     it('should show segment not supported footer message on AI Chatbots Content Requests page when segmented', async function () {
@@ -203,8 +293,8 @@ describe("BotTracking", function () {
                 .length;
         }, expectedMessage);
 
-        // All 3 content-request widgets must show the segment-not-supported footer message.
-        expect(matchingFooterMessages).to.be.at.least(3);
+        // All 5 content-request widgets must show the segment-not-supported footer message.
+        expect(matchingFooterMessages).to.be.at.least(5);
     });
 
     it('should show segment not supported footer message in AI bot reports when segmented', async function () {

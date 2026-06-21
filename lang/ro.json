@@ -453,7 +453,6 @@
         "Yes": "Da",
         "YouAreCurrentlyUsing": "Foloseşti Matomo %s.",
         "YouMustBeLoggedIn": "Trebuie sa fiti logat pentru a accesa aceasta functionalitate.",
-        "YouMustUpgradePhpVersionToReceiveLatestPiwik": "Trebuie să vă actualizați versiunea PHP pentru a primi cea mai recentă actualizare Matomo.",
         "YourChangesHaveBeenSaved": "Schimbarile au fost salvate"
     },
     "Mobile": {

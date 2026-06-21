@@ -8,6 +8,52 @@
         }
     }
 
+    // Keep the current URL in the canonical Overlay handshake shape before navigating away.
+    // piwik.js::isOverlaySession() depends on this field order, and unrelated parameters do not
+    // belong in this navigation contract.
+    function canonicalizeOverlayUrl() {
+        if (!window.history || typeof window.history.replaceState !== 'function') {
+            return;
+        }
+
+        var search = window.location.search || '';
+        if (search.charAt(0) === '?') {
+            search = search.substring(1);
+        }
+
+        var values = {};
+        if (search.length) {
+            var pairs = search.split('&');
+            for (var i = 0; i < pairs.length; i++) {
+                var eq = pairs[i].indexOf('=');
+                if (eq === -1) {
+                    continue;
+                }
+                values[pairs[i].substring(0, eq)] = pairs[i].substring(eq + 1);
+            }
+        }
+
+        // Order must match the regex in piwik.js::isOverlaySession().
+        var canonicalFields = ['module', 'action', 'idSite', 'period', 'date', 'segment'];
+        var rebuilt = [];
+        for (var j = 0; j < canonicalFields.length; j++) {
+            var field = canonicalFields[j];
+            if (Object.prototype.hasOwnProperty.call(values, field)) {
+                rebuilt.push(field + '=' + values[field]);
+            }
+        }
+
+        var cleanedUrl = window.location.pathname + (rebuilt.length ? '?' + rebuilt.join('&') : '') + window.location.hash;
+        try {
+            window.history.replaceState(null, '', cleanedUrl);
+        } catch (e) {
+            // history.replaceState can throw in unusual sandboxed contexts; fall through so the
+            // redirect still happens.
+        }
+    }
+
+    canonicalizeOverlayUrl();
+
     if (window.location.hash) {
         var match = false;
         var parser = document.createElement('a');
@@ -23,15 +69,7 @@
                 var testHost = parser.hostname;
                 if (hostToRedirect === testHost && testHost) {
                     match = true;
-                    if (navigator.appName == "Microsoft Internet Explorer") {
-                        // internet explorer loses the referrer if we use window.location.href=X
-                        var referLink = document.createElement("a");
-                        referLink.href = handleProtocol(urlToRedirect);
-                        document.body.appendChild(referLink);
-                        referLink.click();
-                    } else {
-                        window.location.href = handleProtocol(urlToRedirect);
-                    }
+                    window.location.href = handleProtocol(urlToRedirect);
                     break;
                 }
             }

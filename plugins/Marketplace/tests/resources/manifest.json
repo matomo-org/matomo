@@ -1,0 +1,68 @@
+{
+    "/api/2.0/consumer": {
+        "file": "v2.0_consumer-access_token-notexistingtoken.json",
+        "status": 403
+    },
+    "/api/2.0/consumer/validate": "v2.0_consumer_validate-access_token-notexistingtoken.json",
+    "/api/2.0/consumer/validate?access_token=123456789": "v2.0_consumer_validate-access_token-consumer2_paid1.json",
+    "/api/2.0/consumer/validate?access_token=1234567891": "v2.0_consumer_validate-access_token-consumer1_paid2_custom1.json",
+    "/api/2.0/consumer/validate?access_token=1234567892": "v2.0_consumer_validate-access_token-consumer3_paid1_custom2.json",
+    "/api/2.0/consumer/validate?access_token=invalid": "v2.0_consumer_validate-access_token-notexistingtoken.json",
+    "/api/2.0/consumer/validate?access_token=valid": "v2.0_consumer_validate-access_token-consumer2_paid1.json",
+    "/api/2.0/consumer?access_token=123456789": "v2.0_consumer-access_token-consumer2_paid1.json",
+    "/api/2.0/consumer?access_token=1234567890": {
+        "file": "v2.0_consumer-access_token-notexistingtoken.json",
+        "status": 401
+    },
+    "/api/2.0/consumer?access_token=1234567891": "v2.0_consumer-num_users-201-access_token-consumer1_paid2_custom1.json",
+    "/api/2.0/consumer?access_token=1234567892": "v2.0_consumer-access_token-consumer3_paid1_custom2.json",
+    "/api/2.0/consumer?access_token=invalid": {
+        "file": "v2.0_consumer-access_token-notexistingtoken.json",
+        "status": 401
+    },
+    "/api/2.0/consumer?access_token=valid": "v2.0_consumer-access_token-consumer2_paid1.json",
+    "/api/2.0/createAccount": "v2.0_createAccount_ok.json",
+    "/api/2.0/info": "v2.0_info.json",
+    "/api/2.0/plugins": "v2.0_plugins.json",
+    "/api/2.0/plugins/AbTesting/info": "system_v2.0_plugins_AbTesting_info.json",
+    "/api/2.0/plugins/Barometer/info": "v2.0_plugins_Barometer_info.json",
+    "/api/2.0/plugins/CrashAnalytics/info": "system_v2.0_plugins_CrashAnalytics_info.json",
+    "/api/2.0/plugins/CustomReports/info": "system_v2.0_plugins_CustomReports_info.json",
+    "/api/2.0/plugins/FormAnalytics/info": "system_v2.0_plugins_FormAnalytics_info.json",
+    "/api/2.0/plugins/Funnels/info": "system_v2.0_plugins_Funnels_info.json",
+    "/api/2.0/plugins/HeatmapSessionRecording/info": "system_v2.0_plugins_HeatmapSessionRecording_info.json",
+    "/api/2.0/plugins/MediaAnalytics/info": "system_v2.0_plugins_MediaAnalytics_info.json",
+    "/api/2.0/plugins/NotExistingPlugIn/info": {
+        "file": "system_v2.0_plugins_NotExistingPlugIn_info.json",
+        "status": 404
+    },
+    "/api/2.0/plugins/PaidPlugin1/freeTrial": {
+        "file": "emptyObjectResponse.json",
+        "status": 201
+    },
+    "/api/2.0/plugins/PaidPlugin1/info": {
+        "file": "v2.0_plugins_PaidPlugin1_info.json",
+        "status": 404
+    },
+    "/api/2.0/plugins/PaidPlugin1/info?access_token=123456789": "v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json",
+    "/api/2.0/plugins/PaidPlugin1/info?access_token=1234567891": "v2.0_plugins_PaidPlugin1_info-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json",
+    "/api/2.0/plugins/PaidPlugin1/info?access_token=1234567892": "v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json",
+    "/api/2.0/plugins/PaidPlugin1/info?access_token=valid": "v2.0_plugins_PaidPlugin1_info-access_token-consumer3_paid1_custom2.json",
+    "/api/2.0/plugins/SecurityInfo/info": "system_v2.0_plugins_SecurityInfo_info.json",
+    "/api/2.0/plugins/TreemapVisualization/info": "v2.0_plugins_TreemapVisualization_info.json",
+    "/api/2.0/plugins/TreemapVisualization/info?piwik=4.16.2": "system_v2.0_plugins_TreemapVisualization_info_piwik4.json",
+    "/api/2.0/plugins/TreemapVisualization/download/4.0.2?coreVersion=4.16.2": "TreemapVisualization-4.0.2.zip",
+    "/api/2.0/plugins/checkUpdates": "v2.0_plugins_checkUpdates-pluginspluginsnameAnonymousPi.json",
+    "/api/2.0/plugins?access_token=123456789&purchase_type=paid": "v2.0_plugins-purchase_type-paid-access_token-consumer2_paid1.json",
+    "/api/2.0/plugins?access_token=1234567891&purchase_type=paid": "v2.0_plugins-purchase_type-paid-num_users-201-access_token-consumer2_paid1.json",
+    "/api/2.0/plugins?access_token=1234567892&purchase_type=paid": "v2.0_plugins-purchase_type-paid-access_token-consumer1_paid2_custom1.json",
+    "/api/2.0/plugins?access_token=valid&purchase_type=paid": "v2.0_plugins-purchase_type-paid-access_token-consumer2_paid1.json",
+    "/api/2.0/plugins?keywords=login": "system_v2.0_plugins-keywords-login.json",
+    "/api/2.0/plugins?purchase_type=free": "system_v2.0_plugins-purchase_type-free.json",
+    "/api/2.0/plugins?purchase_type=paid": "v2.0_plugins-purchase_type-paid-access_token-notexistingtoken.json",
+    "/api/2.0/plugins?purchase_type=paid&sort=lastupdated": "system_v2.0_plugins_purchase_type-paid_sort-lastupdated.json",
+    "/api/2.0/plugins?sort=lastupdated": "system_v2.0_plugins_sort-lastupdated.json",
+    "/api/2.0/themes": "system_v2.0_themes.json",
+    "/api/2.0/themes?sort=lastupdated": "system_v2.0_themes.json",
+    "__comment__": "Maps canonical Marketplace request URLs to fixture files in this directory. Used by FixtureRepository under PIWIK_TEST_MODE. Edit by hand and keep fixtures minimal/anonymised — see README.md. Canonical keys are: path + sorted query (significant params only). Environment noise (piwik matching current major, php/mysql/release_channel/prefer_stable/num_users/num_websites) and empty params are dropped. The access_token POST param is included in the key. Entry values are either a filename (HTTP 200) or {\"file\": \"x.json\", \"status\": 400} for non-2xx."
+}

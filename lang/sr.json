@@ -342,13 +342,11 @@
         "Password": "Lozinka",
         "Period": "Period",
         "Piechart": "Grafikon",
-        "PiwikCannotBeUpgradedBecausePhpIsTooOld": "Nije moguća nadogradnja Matomo-a zato što je vaša PHP verzija previše stara.",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s je izašao. Obavestite %2$sMatomo administratora%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Objavljen je Matomo %1$s. %2$s Molimo Vas da izvršite nadogradnju!%3$s (pogledajte %4$spromene%5$s).",
         "PleaseContactYourPiwikAdministrator": "Molimo vas da kontaktirate vašeg Matomo administratora.",
         "PleaseSpecifyValue": "Molimo vas da navedete vrednost za '%s'.",
         "PleaseUpdatePiwik": "Molimo vas da nadogradite Matomo",
-        "PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure": "Molimo vas da nadogradite PHP barem na verziju %s kako bi vaši Matomo analitički podaci ostali bezbedni.",
         "Plugin": "Dodatak",
         "Plugins": "Dodaci",
         "PoweredBy": "Pokreće",
@@ -478,7 +476,6 @@
         "Yes": "Da",
         "YouAreCurrentlyUsing": "Trenutno koristite Matomo %s.",
         "YouMustBeLoggedIn": "Morate se prijaviti da biste pristupili ovim funkcijama",
-        "YouMustUpgradePhpVersionToReceiveLatestPiwik": "Morate da nadogradite PHP kako biste mogli da prihvatite najnoviju verziju Matomo-a.",
         "YourChangesHaveBeenSaved": "Vaše izmene su sačuvane"
     },
     "Mobile": {
