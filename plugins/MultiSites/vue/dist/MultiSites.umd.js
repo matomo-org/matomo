@@ -537,7 +537,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           );
           sparklineDate = `${CoreHome.format(startDate)},${CoreHome.format(endDate)}`;
         }
-        const sparklineParams = CoreHome.MatomoUrl.stringify({
+        const redesignEnabled = document.body.classList.contains("sparklines-redesign-enabled");
+        const sizeParams = redesignEnabled ? { width: 200, height: 50 } : {};
+        const sparklineParams = CoreHome.MatomoUrl.stringify(__spreadValues({
           module: "MultiSites",
           action: "getEvolutionGraph",
           date: sparklineDate,
@@ -547,7 +549,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           evolutionBy: this.sparklineMetric,
           colors: JSON.stringify(CoreHome.Matomo.getSparklineColors()),
           viewDataTable: "sparkline"
-        });
+        }, sizeParams));
         return `?${sparklineParams}${this.tokenParam}`;
       },
       evolutionTrend() {

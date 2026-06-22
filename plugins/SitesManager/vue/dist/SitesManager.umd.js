@@ -1977,8 +1977,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const ManageGlobalSettings = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
   const _sfc_main = vue.defineComponent({
+    emits: ["dismissed"],
     props: {
-      ctaContent: String
+      ctaContent: String,
+      // Set by the reporting SPA gate; makes dismissal an in-place Ajax hide, not a link navigation.
+      embeddedInReporting: Boolean
     },
     components: {
       ActivityIndicator: CoreHome.ActivityIndicator,
@@ -1992,7 +1995,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         maxInterval: 3e4,
         showMethodDetails: null,
         recommendedMethod: null,
-        trackingMethods: []
+        trackingMethods: [],
+        fetchedCtaContent: ""
       };
     },
     created() {
@@ -2003,6 +2007,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       CoreHome.AjaxHelper.fetch(params).then((response) => {
         this.trackingMethods = response.trackingMethods;
         this.recommendedMethod = response.recommendedMethod;
+        this.fetchedCtaContent = response.ctaContent || "";
         this.loading = false;
         vue.watch(() => CoreHome.MatomoUrl.hashParsed.value.activeTab, (activeTab) => {
           this.showMethodDetails = this.findTrackingMethod(activeTab);
@@ -2016,6 +2021,20 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       });
     },
     methods: {
+      onIgnoreClick(event) {
+        if (!this.embeddedInReporting) {
+          return;
+        }
+        event.preventDefault();
+        CoreHome.AjaxHelper.fetch(
+          { module: "SitesManager", action: "ignoreNoDataMessage" },
+          { createErrorNotification: false }
+        ).then(() => {
+          this.$emit("dismissed");
+        }).catch(() => {
+          window.location.href = this.ignoreSitesWithoutDataLink;
+        });
+      },
       findTrackingMethod(methodId) {
         if (this.recommendedMethod && methodId && this.recommendedMethod.id.toLowerCase() === methodId.toLowerCase()) {
           return this.recommendedMethod;
@@ -2107,13 +2126,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           _ctx.showOverview();
         }, ["prevent"]))
       }, [
-        _cache[2] || (_cache[2] = vue.createElementVNode("span", { class: "icon-chevron-left" }, null, -1)),
+        _cache[3] || (_cache[3] = vue.createElementVNode("span", { class: "icon-chevron-left" }, null, -1)),
         vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("Mobile_NavigationBack")), 1)
       ])) : vue.createCommentVNode("", true),
       vue.createElementVNode("h1", _hoisted_1, vue.toDisplayString(_ctx.headline), 1),
       vue.createVNode(_component_VueEntryContainer, {
         id: "start-tracking-cta",
-        html: _ctx.ctaContent
+        html: _ctx.ctaContent || _ctx.fetchedCtaContent
       }, null, 8, ["html"]),
       vue.createVNode(_component_ActivityIndicator, {
         "loading-message": `${_ctx.translate("SitesManager_DetectingYourSite")}…`,
@@ -2135,7 +2154,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           }, vue.toDisplayString(_ctx.recommendedMethod.recommendationButton), 9, _hoisted_4)
         ])) : vue.createCommentVNode("", true),
         vue.createElementVNode("div", _hoisted_5, [
-          _cache[3] || (_cache[3] = vue.createElementVNode("span", { class: "icon-search" }, null, -1)),
+          _cache[4] || (_cache[4] = vue.createElementVNode("span", { class: "icon-search" }, null, -1)),
           vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("SitesManager_SiteWithoutDataOtherInstallMethods")), 1),
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("SitesManager_SiteWithoutDataOtherInstallMethodsIntro")), 1),
           vue.createElementVNode("ul", null, [
@@ -2164,7 +2183,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           vue.createElementVNode("div", null, vue.toDisplayString(_ctx.translate("SitesManager_SiteWithoutDataTemporarilyHidePage")), 1),
           vue.createElementVNode("a", {
             href: _ctx.ignoreSitesWithoutDataLink,
-            class: "ignoreSitesWithoutData"
+            class: "ignoreSitesWithoutData",
+            onClick: _cache[2] || (_cache[2] = (...args) => _ctx.onIgnoreClick && _ctx.onIgnoreClick(...args))
           }, vue.toDisplayString(_ctx.translate("SitesManager_SiteWithoutDataHidePageForHour")), 9, _hoisted_10)
         ])
       ], 64)) : vue.createCommentVNode("", true),
