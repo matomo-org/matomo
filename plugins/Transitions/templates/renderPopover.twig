@@ -1,53 +1,90 @@
 <div id="Transitions_Container">
-    <div id="Transitions_CenterBox" class="Transitions_Text">
-        <h2></h2>
+    <svg id="Transitions_Ribbons" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="Transitions_Gradient_In" x1="0" y1="0" x2="1" y2="0">
+                <stop class="Transitions_GradientStopFrom" offset="0%"></stop>
+                <stop class="Transitions_GradientStopTo" offset="100%"></stop>
+            </linearGradient>
+            <linearGradient id="Transitions_Gradient_Out" x1="0" y1="0" x2="1" y2="0">
+                <stop class="Transitions_GradientStopFrom" offset="0%"></stop>
+                <stop class="Transitions_GradientStopTo" offset="100%"></stop>
+            </linearGradient>
+        </defs>
+    </svg>
 
-        <div class="Transitions_CenterBoxMetrics">
-            <p class="Transitions_Pageviews Transitions_Margin">{{ translations.pageviewsInline|translate }}</p>
+    <div class="Transitions_Column Transitions_LeftColumn">
+        <div class="Transitions_OpenGroup">
+            <div class="Transitions_SectionHead">
+                <span class="Transitions_SectionTitle"></span>
+                <span class="Transitions_SectionCount"></span>
+            </div>
+            <div class="Transitions_Rows"></div>
+        </div>
+        <div class="Transitions_OtherSources">
+            <div class="Transitions_SectionHead">
+                <span class="Transitions_SectionTitle">{{ 'Transitions_OtherSources'|translate }}</span>
+                <span class="Transitions_SectionCount"></span>
+            </div>
+            <div class="Transitions_Rows"></div>
+        </div>
+    </div>
 
-            <div class="Transitions_IncomingTraffic">
-                <h3>{{ 'Transitions_IncomingTraffic'|translate }}</h3>
+    <div class="Transitions_Center">
+        <div id="Transitions_CenterBox" class="Transitions_Text">
+            <div class="Transitions_PageBadge"><span class="Transitions_PageBadgeIcon"></span></div>
+            <h2></h2>
+            <p class="Transitions_Pageviews">{{ translations.pageviewsInline|translate }}</p>
 
-                <p class="Transitions_PreviousPages">{{ translations.fromPreviousPagesInline|translate }}</p>
+            <div class="Transitions_CenterBoxMetrics">
+                <div class="Transitions_TrafficBlock Transitions_IncomingTraffic">
+                    <h3>{{ 'Transitions_IncomingTraffic'|translate }}</h3>
+                    <div class="Transitions_TrafficTotal Transitions_IncomingTotal"></div>
 
-                <p class="Transitions_PreviousSiteSearches">{{ translations.fromPreviousSiteSearchesInline|translate }}</p>
+                    <p class="Transitions_PreviousPages">{{ translations.fromPreviousPagesInline|translate }}</p>
+                    <p class="Transitions_PreviousSiteSearches">{{ translations.fromPreviousSiteSearchesInline|translate }}</p>
+                    <p class="Transitions_SearchEngines">{{ translations.fromSearchEnginesInline|translate }}</p>
+                    <p class="Transitions_SocialNetworks">{{ translations.fromSocialNetworksInline|translate }}</p>
+                    <p class="Transitions_AIAssistants">{{ translations.fromAIAssistantsInline|translate }}</p>
+                    <p class="Transitions_Websites">{{ translations.fromWebsitesInline|translate }}</p>
+                    <p class="Transitions_Campaigns">{{ translations.fromCampaignsInline|translate }}</p>
+                    <p class="Transitions_DirectEntries">{{ translations.directEntriesInline|translate }}</p>
+                </div>
 
-                <p class="Transitions_SearchEngines">{{ translations.fromSearchEnginesInline|translate }}</p>
+                <div class="Transitions_TrafficBlock Transitions_OutgoingTraffic">
+                    <h3>{{ 'Transitions_OutgoingTraffic'|translate }}</h3>
+                    <div class="Transitions_TrafficTotal Transitions_OutgoingTotal"></div>
 
-                <p class="Transitions_SocialNetworks">{{ translations.fromSocialNetworksInline|translate }}</p>
-
-                <p class="Transitions_AIAssistants">{{ translations.fromAIAssistantsInline|translate }}</p>
-
-                <p class="Transitions_Websites">{{ translations.fromWebsitesInline|translate }}</p>
-
-                <p class="Transitions_Campaigns">{{ translations.fromCampaignsInline|translate }}</p>
-
-                <p class="Transitions_DirectEntries">{{ translations.directEntriesInline|translate }}</p>
+                    <p class="Transitions_FollowingPages">{{ translations.toFollowingPagesInline|translate }}</p>
+                    <p class="Transitions_FollowingSiteSearches">{{ translations.toFollowingSiteSearchesInline|translate }}</p>
+                    <p class="Transitions_Downloads">{{ translations.downloadsInline|translate }}</p>
+                    <p class="Transitions_Outlinks">{{ translations.outlinksInline|translate }}</p>
+                    <p class="Transitions_Exits">{{ translations.exitsInline|translate }}</p>
+                </div>
             </div>
 
-            <div class="Transitions_OutgoingTraffic">
-                <h3>{{ 'Transitions_OutgoingTraffic'|translate }}</h3>
-
-                <p class="Transitions_FollowingPages">{{ translations.toFollowingPagesInline|translate }}</p>
-
-                <p class="Transitions_FollowingSiteSearches">{{ translations.toFollowingSiteSearchesInline|translate }}</p>
-
-                <p class="Transitions_Downloads">{{ translations.downloadsInline|translate }}</p>
-
-                <p class="Transitions_Outlinks">{{ translations.outlinksInline|translate }}</p>
-
-                <p class="Transitions_Exits">{{ translations.exitsInline|translate }}</p>
+            <div id="Transitions_Loops" class="Transitions_Text">
+                <span class="icon-refresh Transitions_LoopsIcon"></span>
+                <span class="Transitions_LoopsText">{{ translations.loopsInline|translate }}</span>
             </div>
         </div>
     </div>
-    <div id="Transitions_Loops" class="Transitions_Text">
-        {{ translations.loopsInline|translate }}
+
+    <div class="Transitions_Column Transitions_RightColumn">
+        <div class="Transitions_OpenGroup">
+            <div class="Transitions_SectionHead">
+                <span class="Transitions_SectionTitle"></span>
+                <span class="Transitions_SectionCount"></span>
+            </div>
+            <div class="Transitions_Rows"></div>
+        </div>
+        <div class="Transitions_OtherSources">
+            <div class="Transitions_SectionHead Transitions_SectionHead_Hidden">
+                <span class="Transitions_SectionTitle"></span>
+                <span class="Transitions_SectionCount"></span>
+            </div>
+            <div class="Transitions_Rows"></div>
+        </div>
     </div>
-    <div id="Transitions_Canvas_Background_Left" class="Transitions_Canvas_Container"></div>
-    <div id="Transitions_Canvas_Background_Right" class="Transitions_Canvas_Container"></div>
-    <div id="Transitions_Canvas_Left" class="Transitions_Canvas_Container"></div>
-    <div id="Transitions_Canvas_Right" class="Transitions_Canvas_Container"></div>
-    <div id="Transitions_Canvas_Loops" class="Transitions_Canvas_Container"></div>
 </div>
 
 <div class="dataTableWrapper" id="transition-export-actions" style="display:none">

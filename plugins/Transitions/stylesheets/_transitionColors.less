@@ -1,113 +1,94 @@
 //
 // transitions colors
 //
+// Palette for the SVG flow ribbons (waves), the center-box breakdown dots, the
+// tinted source/destination nodes and their category icons. Kept separate from
+// the layout so the colors are easy to tune, with dedicated dark mode variants.
+//
 
-// colors for entries/exits/background gradients
-.transition-entries[data-name=light],
-.transition-exits[data-name=light],
-.transition-background[data-name=light] {
-    color: #fff;
+// --- SVG ribbon (wave) gradients ------------------------------------------
+// Incoming = blue/periwinkle, outgoing = green. Each gradient runs from the node
+// edge to the center card; both ends stay clearly coloured (more saturated than
+// the pale nodes) so the waves read stronger than the nodes they connect.
+
+#Transitions_Gradient_In {
+    .Transitions_GradientStopFrom { // node side
+        stop-color: #c4d4f4;
+        .inDarkMode({ stop-color: #2b3a59; });
+    }
+    .Transitions_GradientStopTo { // card side
+        stop-color: #9fb8ec;
+        .inDarkMode({ stop-color: #44598a; });
+    }
+}
+
+#Transitions_Gradient_Out {
+    .Transitions_GradientStopFrom { // card side
+        stop-color: #8fd2ab;
+        .inDarkMode({ stop-color: #335f44; });
+    }
+    .Transitions_GradientStopTo { // node side
+        stop-color: #bfe4cb;
+        .inDarkMode({ stop-color: #2a4233; });
+    }
+}
+
+// --- center box breakdown dots --------------------------------------------
+
+.Transitions_CenterBoxMetrics {
+    .Transitions_PreviousPages::before          { background: #6f5cf0; }
+    .Transitions_PreviousSiteSearches::before   { background: #4f8df7; }
+    .Transitions_SearchEngines::before          { background: #3fb6e6; }
+    .Transitions_SocialNetworks::before         { background: #8b6cf0; }
+    .Transitions_AIAssistants::before           { background: #b06cf0; }
+    .Transitions_Websites::before               { background: #5c7cf0; }
+    .Transitions_Campaigns::before              { background: #e8825a; }
+    .Transitions_DirectEntries::before          { background: #7c8aa5; }
+
+    .Transitions_FollowingPages::before         { background: #2ba36a; }
+    .Transitions_FollowingSiteSearches::before  { background: #3bb389; }
+    .Transitions_Downloads::before              { background: #7c8aa5; }
+    .Transitions_Outlinks::before               { background: #34b39a; }
+    .Transitions_Exits::before                  { background: #5f9a86; }
+
+    // zero-value metrics get a muted dot
+    .Transitions_Value0::before {
+        background: @theme-color-text-lighter !important;
+    }
+}
+
+// --- node (row) backgrounds: incoming pale blue, outgoing pale green --------
+
+.Transitions_LeftColumn .Transitions_Row {
+    background: #eef1fb;
 
     .inDarkMode({
-        color: #202329;
+        background: #1e2536;
     });
 }
 
-.transition-entries[data-name=dark],
-.transition-exits[data-name=dark],
-.transition-background[data-name=dark] {
-    color: #BACFE8;
+.Transitions_RightColumn .Transitions_Row {
+    background: #ecf6ee;
 
     .inDarkMode({
-        color: #5d7194;
+        background: #19291f;
     });
 }
 
-.transition-entries[data-name=light-highlighted],
-.transition-exits[data-name=light-highlighted],
-.transition-background[data-name=light-highlighted] {
-    color: #fff;
+// --- node icons: light square (set in transitions.less) + coloured glyph -----
+// Same colour as the matching center-box dot, so a category reads consistently.
 
-    .inDarkMode({
-        color: #352f24;
-    });
-}
+.Transitions_Row[data-group="previousPages"] .Transitions_RowIcon         { color: #6f5cf0; }
+.Transitions_Row[data-group="previousSiteSearches"] .Transitions_RowIcon  { color: #4f8df7; }
+.Transitions_Row[data-group="searchEngines"] .Transitions_RowIcon         { color: #3fb6e6; }
+.Transitions_Row[data-group="socialNetworks"] .Transitions_RowIcon        { color: #8b6cf0; }
+.Transitions_Row[data-group="aiAssistants"] .Transitions_RowIcon          { color: #b06cf0; }
+.Transitions_Row[data-group="websites"] .Transitions_RowIcon              { color: #5c7cf0; }
+.Transitions_Row[data-group="campaigns"] .Transitions_RowIcon             { color: #e8825a; }
+.Transitions_Row[data-group="directEntries"] .Transitions_RowIcon         { color: #7c8aa5; }
 
-.transition-entries[data-name=dark-highlighted],
-.transition-exits[data-name=dark-highlighted],
-.transition-background[data-name=dark-highlighted] {
-    color: #FAD293;
-
-    .inDarkMode({
-        color: #8a7345;
-    });
-}
-
-// closed group gradient colors
-.transition-closed-group[data-name=light] {
-    color: #DDE4ED;
-
-    .inDarkMode({
-        color: #2a2f36;
-    });
-}
-
-.transition-closed-group[data-name=dark] {
-    color: #9BBADE;
-
-    .inDarkMode({
-        color: #53667f;
-    });
-}
-
-.transition-closed-group[data-name=light-highlighted] {
-    color: #FAE2C0;
-
-    .inDarkMode({
-        color: #3a3125;
-    });
-}
-
-.transition-closed-group[data-name=dark-highlighted] {
-    color: #FAD293;
-
-    .inDarkMode({
-        color: #8a7345;
-    });
-}
-
-// items gradient colors
-.transition-items[data-name=light] {
-    color: #E3DFD1;
-
-    .inDarkMode({
-        color: #2f2c26;
-    });
-}
-
-.transition-items[data-name=dark] {
-    color: #E8E4D5;
-
-    .inDarkMode({
-        color: #696353;
-    });
-}
-
-// 'others' and loop gradients colors
-.transition-others[data-name=light],
-.transition-loops[data-name=light] {
-    color: #F5F3EB;
-
-    .inDarkMode({
-        color: #25231f;
-    });
-}
-
-.transition-others[data-name=dark],
-.transition-loops[data-name=dark] {
-    color: #E8E4D5;
-
-    .inDarkMode({
-        color: #5d584d;
-    });
-}
+.Transitions_Row[data-group="followingPages"] .Transitions_RowIcon        { color: #2ba36a; }
+.Transitions_Row[data-group="followingSiteSearches"] .Transitions_RowIcon { color: #3bb389; }
+.Transitions_Row[data-group="downloads"] .Transitions_RowIcon             { color: #7c8aa5; }
+.Transitions_Row[data-group="outlinks"] .Transitions_RowIcon              { color: #34b39a; }
+.Transitions_Row[data-group="exits"] .Transitions_RowIcon                 { color: #5f9a86; }

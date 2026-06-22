@@ -77,13 +77,23 @@
         </div>
       </div>
     </div>
-    <div class="alert alert-info">
-      {{ translate('Transitions_AvailableInOtherReports') }}
-      {{ translate('Actions_PageUrls') }}, {{ translate('Actions_SubmenuPageTitles') }},
-      {{ translate('Actions_SubmenuPagesEntry') }}
-      {{ translate('General_And') }}
-      {{ translate('Actions_SubmenuPagesExit') }}.
-      <span v-html="$sanitize(availableInOtherReports2)"></span>
+    <div class="Transitions_DidYouKnow">
+      <span class="Transitions_DidYouKnowIcon icon-info"></span>
+      <div class="Transitions_DidYouKnowBody">
+        <span class="Transitions_DidYouKnowText">
+          {{ translate('Transitions_AvailableInOtherReports') }}
+        </span>
+        <span class="Transitions_ReportPills">
+          <span class="Transitions_ReportPill">{{ translate('Actions_PageUrls') }}</span>
+          <span class="Transitions_ReportPill">{{ translate('Actions_SubmenuPageTitles') }}</span>
+          <span class="Transitions_ReportPill">{{ translate('Actions_SubmenuPagesEntry') }}</span>
+          <span class="Transitions_ReportPill">{{ translate('Actions_SubmenuPagesExit') }}</span>
+        </span>
+        <span
+          class="Transitions_DidYouKnowHint"
+          v-html="$sanitize(availableInOtherReports2)"
+        ></span>
+      </div>
     </div>
   </div>
 </template>

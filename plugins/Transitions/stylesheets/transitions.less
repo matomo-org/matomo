@@ -1,194 +1,331 @@
 @import "_transitionColors";
 
+//
+// Transitions visualization
+//
+// A three column flow diagram: incoming sources on the left, the page (center
+// card) and outgoing destinations on the right. The flow ribbons connecting the
+// rows to the center card are drawn as SVG paths behind the columns.
+//
+
 #Transitions_Container {
     position: relative;
-    z-index: 1500;
-    height: 550px;
+    display: grid;
+    grid-template-columns: minmax(190px, 1fr) 300px minmax(190px, 1fr);
+    column-gap: 80px;
+    align-items: start;
+    max-width: 1180px;
+    min-width: 760px;
+    margin: 6px auto 0;
     text-align: left;
-    margin-left: 50px;
-}
-.Transitions_Canvas_Container {
-    position: absolute;
-}
-
-#Transitions_Canvas_Background_Left {
-    z-index: 1501;
-}
-
-#Transitions_Canvas_Background_Right {
-    z-index: 1502;
-}
-
-#Transitions_Canvas_Left {
-    z-index: 1503;
-}
-
-#Transitions_Canvas_Right {
-    z-index: 1504;
-}
-
-#Transitions_Canvas_Loops {
-    z-index: 1505;
-}
-
-.Transitions_Text {
     color: @theme-color-text;
-    font-size: 11px;
-    line-height: 14px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+// SVG overlay with the flow ribbons, sits behind the columns and the card
+#Transitions_Ribbons {
     position: absolute;
-    background: rgba(0, 0, 0, 0); /* without this, IE9 triggers hover only on the text, not the box */
-    z-index: 1506;
-    word-wrap: break-word;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: visible;
+}
+
+.Transitions_Ribbon {
+    fill-opacity: 0.6;
+    transition: fill-opacity 0.15s ease;
+}
+
+.Transitions_Ribbon_left {
+    fill: url(#Transitions_Gradient_In);
+}
+
+.Transitions_Ribbon_right {
+    fill: url(#Transitions_Gradient_Out);
+}
+
+.Transitions_Ribbon.Transitions_Highlighted {
+    fill-opacity: 0.85;
+}
+
+// --- columns --------------------------------------------------------------
+
+.Transitions_Column {
+    position: relative;
+    z-index: 1;
+}
+
+.Transitions_RightColumn {
     text-align: left;
-    cursor: default;
+}
+
+.Transitions_OtherSources {
+    margin-top: 26px;
+}
+
+.Transitions_SectionHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 2px 12px;
+}
+
+.Transitions_SectionHead_Hidden {
+    display: none;
+}
+
+.Transitions_SectionTitle {
+    font-size: 15px;
+    font-weight: 600;
+    color: @theme-color-text;
+}
+
+.Transitions_SectionCount {
+    flex: none;
+    font-size: 11px;
+    color: @theme-color-text-light;
+    background: @theme-color-background-base;
+    border: 1px solid @theme-color-border;
+    border-radius: 11px;
+    padding: 2px 9px;
+    white-space: nowrap;
+}
+
+// --- rows (pills) ---------------------------------------------------------
+
+.Transitions_Row {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 46px;
+    padding: 9px 13px;
+    margin-bottom: 10px;
+    background: @theme-color-background-contrast;
+    border: 0;
+    border-radius: 12px;
+    box-shadow: none;
+    transition: box-shadow 0.15s ease;
+}
+
+.Transitions_RowClickable {
+    cursor: pointer;
+}
+
+.Transitions_Row:hover,
+.Transitions_Row.Transitions_Highlighted {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10);
+}
+
+.Transitions_RowIcon {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: @theme-color-background-contrast;
+    color: @theme-color-text-light;
+    font-size: 15px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+
+    .inDarkMode({
+        box-shadow: none;
+    });
+}
+
+.Transitions_RowBody {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.Transitions_RowLabel {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+.Transitions_RowMeta {
+    margin-top: 2px;
+    font-size: 11px;
+    color: @theme-color-text-light;
+}
+
+.Transitions_RowPercentage {
+    flex: none;
+    margin-left: auto;
+    padding-left: 8px;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.Transitions_OpenGroup .Transitions_RowPercentage {
+    font-size: 14px;
+    font-weight: 700;
+    color: @theme-color-link;
+}
+
+.Transitions_OtherSources .Transitions_RowPercentage {
+    font-size: 11px;
+    font-weight: 500;
+    color: @theme-color-text-light;
+    max-width: 110px;
+    white-space: normal;
+}
+
+// --- center card ----------------------------------------------------------
+
+.Transitions_Center {
+    position: relative;
+    z-index: 2;
 }
 
 #Transitions_CenterBox {
-    margin: 27px 0 0 345px;
-    width: 208px;
-    min-height: 373px;
+    position: relative;
+    z-index: 2;
+    margin-top: 28px;
+    padding: 24px 20px 0;
     background: @theme-color-background-contrast;
     border: 1px solid @theme-color-border;
-    border-radius: 10px;
-    -webkit-box-shadow: 0 0 9px 0 @theme-color-boxShadow;
-    -moz-box-shadow: 0 0 9px 0 @theme-color-boxShadow;
-    box-shadow: 0 0 9px 0 @theme-color-boxShadow;
-    z-index: 1507;
+    border-radius: 16px;
+    box-shadow: 0 6px 22px @theme-color-boxShadow;
+    text-align: center;
+    color: @theme-color-text;
+}
+
+.Transitions_PageBadge {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: #6f5cf0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
 }
 
 #Transitions_CenterBox h2 {
-    font-size: 12px;
-    line-height: 16px;
-    padding: 10px;
-    border-bottom: 1px dotted @theme-color-border;
-    font-weight: bold;
-    overflow: hidden;
-    color: @theme-color-link;
+    font-size: 16px;
+    line-height: 1.3;
     margin: 0;
+    font-weight: 700;
+    color: @theme-color-text;
 
-    a {
+    a,
+    .Transitions_ApplyTextAndTruncate {
         color: inherit;
+        text-decoration: none;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        word-break: break-word;
+    }
+
+    a:hover {
+        text-decoration: underline;
     }
 }
 
 .Transitions_Pageviews {
+    margin: 6px 0 18px;
+    color: @theme-color-text-light;
+    font-size: 13px;
     text-align: center;
-}
-
-.Transitions_OutgoingTraffic {
-    text-align: right;
 }
 
 .Transitions_CenterBoxMetrics {
-    padding: 15px 10px 0 10px;
     display: none;
-    font-size: 12px;
+    text-align: left;
 }
 
-.Transitions_CenterBoxMetrics table td {
-    padding: 0 0 5px 0;
+.Transitions_TrafficBlock {
+    border-top: 1px solid @theme-color-border;
+    padding: 16px 0;
 }
 
-.Transitions_CenterBoxMetrics table td.Transitions_Percentage {
-    padding-right: 6px;
-    font-weight: bold;
-}
-
-#Transitions_CenterBox h3 {
-    font-weight: bold;
-    font-size: 12px;
-    margin: 15px 0 7px 0;
+.Transitions_TrafficBlock h3 {
+    margin: 0;
     padding: 0;
+    font-size: 13px;
+    font-weight: 600;
     color: @theme-color-text-light;
 }
 
-#Transitions_Loops {
-    margin: 445px 0 0 346px;
-    width: 208px;
-    text-align: center;
-    line-height: 25px;
-    font-size: 12px;
-    display: none;
-    z-index: 1506;
-    cursor: default;
+.Transitions_TrafficTotal {
+    font-size: 22px;
+    font-weight: 700;
+    color: @theme-color-text;
+    margin: 2px 0 12px;
 }
 
 .Transitions_CenterBoxMetrics p {
-    margin: 0 0 3px 0;
-    padding: 0;
-    cursor: default;
+    position: relative;
+    margin: 0 0 7px;
+    padding: 0 0 0 18px;
     font-size: 12px;
-    line-height: 15px;
+    line-height: 1.4;
+    color: @theme-color-text;
+    cursor: default;
 }
 
-.Transitions_CenterBoxMetrics p.Transitions_Margin {
-    margin-bottom: 11px;
+.Transitions_CenterBoxMetrics p::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.45em;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: @theme-color-text-lighter;
+}
+
+.Transitions_CenterBoxMetrics p:last-child {
+    margin-bottom: 0;
+}
+
+span.Transitions_Metric {
+    font-weight: 700;
+    cursor: inherit;
+}
+
+.Transitions_CenterBoxMetrics .Transitions_Value0 {
+    color: @theme-color-text-lighter;
 }
 
 .Transitions_CenterBoxMetrics .Transitions_Highlighted {
     color: @theme-color-link;
 }
 
-span.Transitions_Metric {
-    font-weight: bold;
-    cursor: default;
-}
-
-.Transitions_Value0 {
-    color: @theme-color-text-lighter;
-}
-
-.Transitions_TitleOfOpenGroup {
-    font-size: 12px;
-    color: @theme-color-link;
-    font-weight: bold;
-}
-
-.Transitions_BoxTextLeft,
-.Transitions_BoxTextRight {
-    width: 165px;
-    height: 42px;
-    overflow: hidden;
-}
-
-.Transitions_BoxTextRight {
-    text-align: right;
-}
-
-.Transitions_BoxTextLeft.Transitions_HasBackground,
-.Transitions_BoxTextRight.Transitions_HasBackground {
-    background-repeat: no-repeat;
-    height: 18px;
-}
-
-.Transitions_BoxTextLeft.Transitions_HasBackground {
-    background-position: 0 1px;
-    width: 175px;
-}
-
-.Transitions_BoxTextLeft.Transitions_HasBackground span {
-    display: block;
-    padding-left: 16px;
-}
-
-.Transitions_BoxTextRight.Transitions_HasBackground {
-    background-position: right 1px;
-}
-
-.Transitions_BoxTextRight.Transitions_HasBackground span {
-    display: block;
-    padding-right: 17px;
-}
-
-.Transitions_CurveTextLeft,
-.Transitions_CurveTextRight {
-    color: @theme-color-link;
-    font-weight: bold;
-    width: 34px;
+#Transitions_Loops {
+    margin: 0 -20px;
+    padding: 13px 20px;
+    border-top: 1px solid @theme-color-border;
     text-align: center;
+    font-size: 12px;
+    color: @theme-color-text-light;
     cursor: default;
+    display: none;
 }
 
+.Transitions_LoopsIcon {
+    margin-right: 5px;
+    vertical-align: -1px;
+}
+
+// tooltips reused from the previous implementation
 body .ui-tooltip.Transitions_Tooltip_Small {
     font-size: 11px;
     padding: 3px 5px 3px 6px;
@@ -197,62 +334,83 @@ body .ui-tooltip.Transitions_Tooltip_Small {
     border: 1px solid @theme-color-border;
 }
 
-.Transitions_SingleLine {
-    font-size: 12px;
-    height: 21px;
-}
+// --- embedded report / widget contexts ------------------------------------
 
 #transitions_report {
     #Transitions_Container {
         z-index: 0;
     }
-    #Transitions_CenterBox {
-        z-index: 987;
-    }
-    .Transitions_Text,
-    #Transitions_Loops {
-        z-index: 986;
-    }
-    #Transitions_Canvas_Background_Left {
-        z-index: 981;
-    }
-    #Transitions_Canvas_Background_Right {
-        z-index: 982;
-    }
-    #Transitions_Canvas_Left {
-        z-index: 983;
-    }
-    #Transitions_Canvas_Right {
-        z-index: 984;
-    }
-    #Transitions_Canvas_Loops {
-        z-index: 985;
-    }
-    div[name=actionType] {
-        margin-left: -0.75rem;
-    }
-    div[name=actionName] {
-        margin-right: -0.75rem;
-    }
-    & > .row {
-        margin-left: 0;
-        margin-right: 0;
-
-        body.widgetized & {
-            margin-left: 0.75rem;
-            margin-right: 0.75rem;
-        }
-    }
-}
-
-.widget #Transitions_Container h3 {
-    padding: 0 !important;
 }
 
 #dashboardWidgetsArea {
-    #transitions_report {
-        #Transitions_Container {
-            overflow: scroll;
-        }
+    #transitions_report #Transitions_Container {
+        overflow-x: auto;
+    }
+}
+
+// --- "did you know?" info banner ------------------------------------------
+
+.Transitions_DidYouKnow {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 18px;
+    padding: 14px 18px;
+    border: 1px solid @theme-color-border;
+    border-radius: 12px;
+    background: @theme-color-background-base;
+    color: @theme-color-text;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.Transitions_DidYouKnowIcon {
+    flex: none;
+    margin-top: 2px;
+    font-size: 17px;
+    color: @theme-color-link;
+}
+
+.Transitions_DidYouKnowBody {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.Transitions_DidYouKnowText {
+    font-weight: 600;
+}
+
+.Transitions_ReportPills {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.Transitions_ReportPill {
+    padding: 3px 11px;
+    border-radius: 20px;
+    background: @theme-color-background-contrast;
+    border: 1px solid @theme-color-border;
+    color: @theme-color-link;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.Transitions_DidYouKnowHint {
+    flex-basis: 100%;
+    color: @theme-color-text-light;
+    font-size: 12px;
+
+    .icon-transition {
+        vertical-align: -2px;
+    }
+}
+
+@media (max-width: 800px) {
+    #Transitions_Container {
+        column-gap: 48px;
     }
 }
