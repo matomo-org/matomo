@@ -3763,30 +3763,9 @@ if ($mysql) {
     });
 
     var defaultIgnoredCampaignAttributionSources = [
-        'yiyan.baidu.com',
-        'ai.baidu.com',
-        'chatplus.com',
-        'chat-gpt.org',
         'chatgpt.com',
-        'chat.openai.com',
-        'labs.openai.com',
-        'claude.ai',
-        'copilot.microsoft.com',
-        'chatglm.cn',
-        'chat.deepseek.com',
-        'gemini.google.com',
-        'bard.google.com',
-        'grok.com',
-        'x.com/i/grok',
-        'iask.ai',
-        'app.jasper.ai',
-        'chat.mistral.ai',
-        'meta.ai',
-        'notebooklm.google.com',
-        'perplexity.ai',
-        'chat.qwen.ai',
-        'app.writesonic.com',
-        'you.com'
+        'perplexity',
+        'copilot.com'
     ];
 
     var defaultIgnoredCampaignReferrers = ['chatgpt.com', 'chat.openai.com'];
@@ -3823,7 +3802,7 @@ if ($mysql) {
                 expectedIgnoredCampaignReferrers = defaultIgnoredCampaignReferrers;
             }
             deepEqual(tracker.getIgnoreCampaignsForReferrers(), expectedIgnoredCampaignReferrers, testName + " - check getIgnoreCampaignsForReferrers()");
-            deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForReferrer(referrerUrl), result, testName + " - check shouldIgnoreCampaignAttributionForReferrer()");
+            deepEqual(tracker.hook.test._shouldIgnoreCampaignForReferrer(referrerUrl), result, testName + " - check shouldIgnoreCampaignForReferrer()");
         }
     });
 
@@ -3831,13 +3810,14 @@ if ($mysql) {
         var tracker = Piwik.getTracker();
 
         deepEqual(tracker.getIgnoreCampaignAttributionForSources(), defaultIgnoredCampaignAttributionSources, "default ignored campaign attribution sources");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=chatgpt.com'), true, "default campaign value is ignored for attribution");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=perplexity.ai'), true, "additional default campaign value is ignored for attribution");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=ChatGPT.com/'), true, "campaign source matching is normalized");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=https%3A%2F%2Fchatgpt.com%2F'), true, "campaign source URLs are normalized");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=newsletter'), false, "other campaign values can be used for attribution");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?pk_campaign=chatgpt.com'), false, "campaign names are not ignored as sources");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_campaign=perplexity.ai'), false, "utm_campaign values are not ignored as sources");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=chatgpt.com'), true, "default campaign value is ignored for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=perplexity'), true, "additional default campaign value is ignored for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=copilot.com'), true, "additional default campaign value is ignored for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=ChatGPT.com'), false, "campaign source matching is exact and case-sensitive");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=https%3A%2F%2Fchatgpt.com%2F'), false, "campaign source values are matched exactly and not normalized");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=newsletter'), false, "other campaign values can be used for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?pk_campaign=chatgpt.com'), false, "campaign names are not ignored as sources");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_campaign=perplexity.ai'), false, "utm_campaign values are not ignored as sources");
         deepEqual(tracker.hook.test._purify('https://matomo.org/blog/?utm_source=chatgpt.com'), 'https://matomo.org/blog/?utm_source=chatgpt.com', "campaign values ignored for attribution are kept in tracked URLs");
 
         var trackerWithReferrer = Piwik.getTracker();
@@ -3853,8 +3833,8 @@ if ($mysql) {
 
         tracker.setIgnoreCampaignAttributionForSources(['perplexity.ai']);
         deepEqual(tracker.getIgnoreCampaignAttributionForSources(), ['perplexity.ai'], "custom ignored campaign attribution sources are returned");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=perplexity.ai'), true, "custom campaign value is ignored for attribution");
-        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForCurrentUrl('https://matomo.org/blog/?utm_source=chatgpt.com'), false, "default campaign values ignored for attribution can be replaced");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=perplexity.ai'), true, "custom campaign value is ignored for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=chatgpt.com'), false, "default campaign values ignored for attribution can be replaced");
     });
 
     test("tracking", function() {

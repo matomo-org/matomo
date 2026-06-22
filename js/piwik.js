@@ -2313,9 +2313,6 @@ if (typeof window.Matomo !== 'object') {
                 // Campaign keywords
                 configCampaignKeywordParameters = [ 'pk_kwd', 'mtm_kwd', 'piwik_kwd', 'matomo_kwd', 'utm_term' ],
 
-                // Campaign sources
-                configCampaignSourceParameters = [ 'mtm_source', 'pk_source', 'utm_source' ],
-
                 // All known parameters used for campaign tracking, this list will be used when removing campaign parameters from url
                 configCampaignKnownParameters = [
                   'mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign', // campaign name
@@ -2332,30 +2329,9 @@ if (typeof window.Matomo !== 'object') {
                 // An initial list of known sources whose campaign values in the current URL should be ignored for attribution.
                 // Matching parameters are still kept in the tracked URL/request, so Matomo can still detect them as campaigns later.
                 configIgnoreCampaignAttributionForSources = [
-                    'yiyan.baidu.com',
-                    'ai.baidu.com',
-                    'chatplus.com',
-                    'chat-gpt.org',
                     'chatgpt.com',
-                    'chat.openai.com',
-                    'labs.openai.com',
-                    'claude.ai',
-                    'copilot.microsoft.com',
-                    'chatglm.cn',
-                    'chat.deepseek.com',
-                    'gemini.google.com',
-                    'bard.google.com',
-                    'grok.com',
-                    'x.com/i/grok',
-                    'iask.ai',
-                    'app.jasper.ai',
-                    'chat.mistral.ai',
-                    'meta.ai',
-                    'notebooklm.google.com',
-                    'perplexity.ai',
-                    'chat.qwen.ai',
-                    'app.writesonic.com',
-                    'you.com'
+                    'perplexity',
+                    'copilot.com'
                 ],
 
                 // First-party cookie name prefix
@@ -2802,7 +2778,7 @@ if (typeof window.Matomo !== 'object') {
              * @param referrerUrl
              * @returns {boolean}
              */
-            function shouldIgnoreCampaignAttributionForReferrer(referrerUrl) {
+            function shouldIgnoreCampaignForReferrer(referrerUrl) {
                 var i,
                   aliasHost,
                   aliasPath,
@@ -2832,53 +2808,15 @@ if (typeof window.Matomo !== 'object') {
                 return false;
             }
 
-            function normalizeCampaignAttributionSourceValue(sourceValue) {
-                var queryPos,
-                    hashPos,
-                    endPos;
-
-                sourceValue = trim(sourceValue);
-
-                if (!sourceValue) {
-                    return '';
-                }
-
-                sourceValue = sourceValue.toLowerCase();
-                sourceValue = sourceValue.replace(/^https?:\/\//, '');
-                sourceValue = sourceValue.replace(/^\/\//, '');
-
-                queryPos = sourceValue.indexOf('?');
-                hashPos = sourceValue.indexOf('#');
-                endPos = sourceValue.length;
-
-                if (queryPos !== -1 && queryPos < endPos) {
-                    endPos = queryPos;
-                }
-
-                if (hashPos !== -1 && hashPos < endPos) {
-                    endPos = hashPos;
-                }
-
-                sourceValue = sourceValue.substr(0, endPos);
-                sourceValue = sourceValue.replace(/\/+$/, '');
-
-                return sourceValue;
-            }
-
             function isIgnoredCampaignAttributionSource(sourceValue) {
-                var normalizedSourceValue = normalizeCampaignAttributionSourceValue(sourceValue),
-                    normalizedConfiguredSource,
-                    i;
+                var i;
 
-                if (!normalizedSourceValue.length) {
+                if (!sourceValue.length) {
                     return false;
                 }
 
                 for (i = 0; i < configIgnoreCampaignAttributionForSources.length; i++) {
-                    normalizedConfiguredSource = normalizeCampaignAttributionSourceValue(configIgnoreCampaignAttributionForSources[i]);
-
-                    if (normalizedSourceValue === normalizedConfiguredSource
-                        || stringStartsWith(normalizedSourceValue, normalizedConfiguredSource + '/')) {
+                    if (sourceValue === configIgnoreCampaignAttributionForSources[i]) {
                         return true;
                     }
                 }
@@ -2896,19 +2834,8 @@ if (typeof window.Matomo !== 'object') {
              * @param currentUrl
              * @returns {boolean}
              */
-            function shouldIgnoreCampaignAttributionForCurrentUrl(currentUrl) {
-                var i,
-                    campaignParameterValue;
-
-                for (i = 0; i < configCampaignSourceParameters.length; i++) {
-                    campaignParameterValue = getUrlParameter(currentUrl, configCampaignSourceParameters[i]);
-
-                    if (campaignParameterValue.length && isIgnoredCampaignAttributionSource(campaignParameterValue)) {
-                        return true;
-                    }
-                }
-
-                return false;
+            function shouldIgnoreCampaignAttributionForSource(currentUrl) {
+                return isIgnoredCampaignAttributionSource(getUrlParameter(currentUrl, 'utm_source'));
             }
 
             /*
@@ -2924,7 +2851,7 @@ if (typeof window.Matomo !== 'object') {
                 var targetPattern, i;
 
                 // Remove campaign names/keywords from URL
-                if (shouldIgnoreCampaignAttributionForReferrer(configReferrerUrl)
+                if (shouldIgnoreCampaignForReferrer(configReferrerUrl)
                   || (configEnableCampaignParameters !== true && !configConsentRequired)) {
                     for (i = 0; i < configCampaignNameParameters.length; i++) {
                       url = removeUrlParameter(url, configCampaignNameParameters[i]);
@@ -4080,8 +4007,8 @@ if (typeof window.Matomo !== 'object') {
                     if ((!configConversionAttributionFirstReferrer
                         || !campaignNameDetected.length)
                         && (configEnableCampaignParameters || configConsentRequired)
-                        && !shouldIgnoreCampaignAttributionForReferrer(configReferrerUrl)
-                        && !shouldIgnoreCampaignAttributionForCurrentUrl(currentUrl)) {
+                        && !shouldIgnoreCampaignForReferrer(configReferrerUrl)
+                        && !shouldIgnoreCampaignAttributionForSource(currentUrl)) {
                           for (i in configCampaignNameParameters) {
                               if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
                                   campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
@@ -6276,7 +6203,7 @@ if (typeof window.Matomo !== 'object') {
              * Set array of sources whose campaign values in the current URL should be ignored for attribution.
              * Matching parameters are still kept in the tracked URL/request.
              *
-              * @param {string|Array} sources
+             * @param {string|Array} sources
              */
             this.setIgnoreCampaignAttributionForSources = function (sources) {
                 configIgnoreCampaignAttributionForSources = isString(sources) ? [sources] : sources;
