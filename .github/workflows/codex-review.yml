@@ -215,6 +215,7 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       issues: write
+      pull-requests: write
     steps:
       - name: Remove trigger label
         uses: actions/github-script@v7
