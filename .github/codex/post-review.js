@@ -233,10 +233,13 @@ function reviewEventForSeverity(severity) {
 }
 
 function isDismissableCodexReview(review) {
+  // Only APPROVED and CHANGES_REQUESTED reviews can be dismissed; GitHub rejects dismissing a
+  // COMMENTED review with 422. A COMMENTED review does not block the PR, so there is nothing to
+  // dismiss anyway.
   return review
     && review.user
     && review.user.login === 'github-actions[bot]'
-    && ['APPROVED', 'CHANGES_REQUESTED', 'COMMENTED'].includes(review.state)
+    && ['APPROVED', 'CHANGES_REQUESTED'].includes(review.state)
     && typeof review.body === 'string'
     && review.body.includes('This Codex review supersedes any previous Codex review output for this PR.');
 }
