@@ -40,6 +40,9 @@ function assertInteger(value, name) {
   }
 }
 
+// Defence-in-depth re-validation of the Codex output. The codex-action already constrains the model
+// to review-output.schema.json, so this mirrors that schema as a backstop in case enforcement is
+// absent or changes. Keep this in sync with .github/codex/review-output.schema.json.
 function validateReview(review) {
   if (!review || typeof review !== 'object' || Array.isArray(review)) {
     throw new Error('Codex output must be a JSON object');
@@ -83,6 +86,10 @@ function validateReview(review) {
       throw new Error(`inline_comments[${index}].severity is invalid`);
     }
     assertString(comment.body, `inline_comments[${index}].body`);
+    // rule_source is required by the schema but may be null; it is only read optionally downstream.
+    if (comment.rule_source !== null && typeof comment.rule_source !== 'string') {
+      throw new Error(`inline_comments[${index}].rule_source must be a string or null`);
+    }
   }
 
   for (const [index, finding] of review.unplaced_findings.entries()) {
@@ -90,6 +97,14 @@ function validateReview(review) {
       throw new Error(`unplaced_findings[${index}].severity is invalid`);
     }
     assertString(finding.body, `unplaced_findings[${index}].body`);
+    // path and line are nullable per the schema; the mapping step re-derives placement from them.
+    if (finding.path !== null && finding.path !== undefined && typeof finding.path !== 'string') {
+      throw new Error(`unplaced_findings[${index}].path must be a string or null`);
+    }
+    if (finding.line !== null && finding.line !== undefined
+      && (!Number.isInteger(finding.line) || finding.line < 1)) {
+      throw new Error(`unplaced_findings[${index}].line must be a positive integer or null`);
+    }
   }
 }
 
