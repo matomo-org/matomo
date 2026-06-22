@@ -400,6 +400,12 @@ module.exports = async function postReview({ github, context, core }) {
         : patch.left.has(comment.line));
 
     if (!valid) {
+      // Distinguish a patch-less path (listFiles truncation / binary / >~300 changed files) from a
+      // line the model picked that simply is not part of the diff -- different root causes.
+      const reason = patch
+        ? `line ${comment.line} (${comment.side}) is not part of the diff`
+        : 'no patch was returned for this path (large/binary file or listFiles truncation)';
+      core.warning(`Demoted inline comment on ${comment.path}: ${reason}.`);
       unplaced.push({
         severity: comment.severity,
         body: comment.body,
@@ -451,6 +457,8 @@ module.exports = async function postReview({ github, context, core }) {
   const body = buildReviewBody(review, unplaced, comments.length);
   const event = reviewEventForSeverity(review.highest_severity);
 
+  core.info(`Codex review: placing ${comments.length} inline ${comments.length === 1 ? 'comment' : 'comments'}, ${unplaced.length} unplaced, event=${event}.`);
+
   try {
     await dismissPreviousCodexReviews({
       github,
@@ -492,6 +500,7 @@ module.exports = async function postReview({ github, context, core }) {
         event,
         comments: [],
       });
+      core.info('Posted a comment-free Codex review after the inline comments were rejected.');
       return;
     }
 
