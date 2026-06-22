@@ -148,12 +148,44 @@ function formatFinding(finding) {
   return `- **${finding.severity}**${location}: ${finding.body}`;
 }
 
-function appendUnplacedFindings(body, findings) {
-  if (findings.length === 0) {
-    return body;
+function pluralize(count, singular, plural = `${singular}s`) {
+  return count === 1 ? singular : plural;
+}
+
+function formatSeverityCounts(findings) {
+  return [
+    `Blocking: ${findings.blocking}`,
+    `Medium: ${findings.medium}`,
+    `Low / Polish: ${findings.low_polish}`,
+  ].join(', ');
+}
+
+function buildReviewBody(review, unplaced, inlineCount) {
+  const lines = [
+    'This Codex review supersedes any previous Codex review output for this PR.',
+    '',
+    'Summary',
+    review.review_body_markdown.trim(),
+    '',
+    'Findings',
+    `- ${formatSeverityCounts(review.findings)}.`,
+  ];
+
+  if (inlineCount > 0) {
+    lines.push(`- Posted ${inlineCount} inline ${pluralize(inlineCount, 'finding')}.`);
   }
 
-  return `${body.trim()}\n\nUnplaced Findings\n${findings.map(formatFinding).join('\n')}\n`;
+  if (unplaced.length > 0) {
+    lines.push('', 'Unplaced Findings', ...unplaced.map(formatFinding));
+  }
+
+  lines.push(
+    '',
+    'Diagnostics',
+    'Detailed review diagnostics are available in the `codex-review-output` workflow artifact.'
+  );
+
+  return `${lines.join('\n')}\n`;
 }
 
 function reviewEventForSeverity(severity) {
@@ -270,7 +302,7 @@ module.exports = async function postReview({ github, context, core }) {
     });
   }
 
-  const body = appendUnplacedFindings(review.review_body_markdown, unplaced);
+  const body = buildReviewBody(review, unplaced, comments.length);
   const event = reviewEventForSeverity(review.highest_severity);
 
   try {
