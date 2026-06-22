@@ -42,7 +42,7 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["path", "line", "side", "severity", "body"],
+        "required": ["path", "line", "side", "severity", "body", "rule_source"],
         "properties": {
           "path": {
             "type": "string",
@@ -65,7 +65,7 @@
             "minLength": 1
           },
           "rule_source": {
-            "type": "string"
+            "type": ["string", "null"]
           }
         }
       }
@@ -75,7 +75,7 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["severity", "body"],
+        "required": ["severity", "body", "path", "line"],
         "properties": {
           "severity": {
             "type": "string",
@@ -86,10 +86,10 @@
             "minLength": 1
           },
           "path": {
-            "type": "string"
+            "type": ["string", "null"]
           },
           "line": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "minimum": 1
           }
         }
