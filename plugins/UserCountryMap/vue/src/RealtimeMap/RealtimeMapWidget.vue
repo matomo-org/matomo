@@ -158,6 +158,12 @@ export default defineComponent({
     widgetized: Boolean,
     isWidget: Boolean,
     isWide: Boolean,
+    // The widget's saved parameters (e.g. realtimeWindow, enableAnimation),
+    // passed by ClientWidgetRenderer. Populated on a dashboard.
+    widgetParameters: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data(): RealtimeMapWidgetData {
     return {
@@ -194,25 +200,6 @@ export default defineComponent({
   methods: {
     translate,
 
-    // The configured options of a dashboard widget are held by its
-    // dashboardWidget jQuery-UI instance. Returns them when rendered on a
-    // dashboard, or an empty object otherwise.
-    dashboardWidgetParameters(): Record<string, unknown> {
-      if (!this.uniqueId || typeof $ !== 'function') {
-        return {};
-      }
-      const $widget = $(`[widgetid="${this.uniqueId}"]`);
-      if (!$widget.length || !$widget.data('piwik-dashboardWidget')) {
-        return {};
-      }
-      try {
-        const widgetObject = $widget.dashboardWidget('getWidgetObject');
-        return (widgetObject && widgetObject.parameters) || {};
-      } catch {
-        return {};
-      }
-    },
-
     async loadConfig() {
       try {
         const params: Record<string, string> = {
@@ -227,9 +214,9 @@ export default defineComponent({
           params.idSite = idSite;
         }
         // On a dashboard the configured options (realtimeWindow, enableAnimation,
-        // etc.) are stored as the widget's saved parameters, not in the URL.
-        // Prefer those; fall back to the URL (e.g. the Real-time Map page).
-        const widgetParams = this.dashboardWidgetParameters();
+        // etc.) are the widget's saved parameters (passed as a prop); on the
+        // Real-time Map page they come from the URL. Prefer the saved parameter.
+        const widgetParams = this.widgetParameters as Record<string, unknown>;
         REALTIME_OPTION_PARAMS.forEach((name) => {
           let value = widgetParams[name];
           if (value === undefined || value === '') {
