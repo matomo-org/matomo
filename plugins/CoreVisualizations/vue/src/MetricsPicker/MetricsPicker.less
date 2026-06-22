@@ -7,9 +7,11 @@
   @_border-stroke: ~"1px solid";
   @_border: ~"@{_border-stroke} @{theme-color-border-alternative}";
 
-  // hover, focus and checked states
-  @_accent-color: @theme-color-focus-ring-alternative;
-  @_option-hover-bg: @theme-color-code;
+  // hover, and focus states
+  @_accent-color: @theme-color-focus-ring;
+  @_option-hover-bg: @theme-color-background-base;
+  // checked state
+  @checked-color: @theme-color-new-brand;
 
   @_corner-radius: 8px;
   @_checkbox-size: 18px;
@@ -18,6 +20,13 @@
 
   display: inline-block;
   position: relative;
+
+  // In a narrow legend footer the picker stacks onto its own full-width row, so the
+  // component stretches to fill it. The inline-block wrapper around this component is
+  // widened separately in dataTableVisualizations.less (it lives outside this component).
+  body.plotlines-tweaks-enabled .jqplot-legend-footer.is-narrow & {
+    width: 100%;
+  }
 
   .metrics-picker__toggle {
     display: inline-flex;
@@ -43,6 +52,12 @@
     &:focus, &:hover {
       outline: none;
     }
+
+    // In a narrow legend footer the toggle fills its full-width row and centres its label.
+    body.plotlines-tweaks-enabled .jqplot-legend-footer.is-narrow & {
+      width: 100%;
+      justify-content: center;
+    }
   }
   .metrics-picker__toggle-label {
     overflow: hidden;
@@ -54,7 +69,7 @@
   .metrics-picker__chevron {
     font-size: 12px;
     transition: transform .15s ease;
-    flex-shrink: 0;      // keep the chevron from being squashed
+    flex: none;      // keep the chevron from being squashed
   }
 
   &.expanded .metrics-picker__chevron {
@@ -134,25 +149,25 @@
     margin-top: 3px;
   }
 
-  [type="checkbox"].filled-in:checked + span:not(.lever):after {
-    border-color: @_accent-color;
-    background-color: @_accent-color;
+  [type="checkbox"].filled-in:checked + span:not(.lever)::after {
+    border-color: @checked-color;
+    background-color: @checked-color;
   }
 
   // The check
-  [type="checkbox"].filled-in:checked + span:not(.lever):before {
+  [type="checkbox"].filled-in:checked + span:not(.lever)::before {
     border-right-color: @color-white;
     border-bottom-color: @color-white;
     width: 7px;
     height: 10px;
   }
-  [type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
+  [type="checkbox"].filled-in:not(:checked) + span:not(.lever)::after {
     border: @_border;
   }
 
   /* compact 18px box with rounded corners (Materialize defaults to 20px / 2px) */
-  [type="checkbox"].filled-in:checked + span:not(.lever):after,
-  [type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
+  [type="checkbox"].filled-in:checked + span:not(.lever)::after,
+  [type="checkbox"].filled-in:not(:checked) + span:not(.lever)::after {
     width: @_checkbox-size;
     height: @_checkbox-size;
     border-radius: 6px;
@@ -161,40 +176,40 @@
   // Radio marker — match the checkbox box: a 18px circle aligned to the same top-left
   // origin (Materialize insets the circle by margin: 4px and sizes it 16px), with the
   // same border colour when empty and accent fill when selected.
-  [type="radio"] + span:not(.lever):before,
-  [type="radio"] + span:not(.lever):after {
+  [type="radio"] + span:not(.lever)::before,
+  [type="radio"] + span:not(.lever)::after {
     margin: 0;
     width: @_checkbox-size;
     height: @_checkbox-size;
   }
 
-  [type="radio"]:not(:checked) + span:not(.lever):before {
+  [type="radio"]:not(:checked) + span:not(.lever)::before {
     border: @_border;
   }
 
-  [type="radio"]:checked + span:not(.lever):after {
-    border-color: @_accent-color;
-    background-color: @_accent-color;
+  [type="radio"]:checked + span:not(.lever)::after {
+    border-color: @checked-color;
+    background-color: @checked-color;
   }
 
   // The option's focus affordance is the label outline (see
   // .metrics-picker__label:has(input:focus-visible)). Neutralise Materialize's per-marker
   // focus styling — the 10px halo, grey/secondary fill and squared corners it adds on
   // .tabbed:focus — so the box/circle looks identical whether focused or not.
-  [type="checkbox"].filled-in.tabbed:focus + span:not(.lever):after,
+  [type="checkbox"].filled-in.tabbed:focus + span:not(.lever)::after,
   [type="radio"].tabbed:focus + span:not(.lever):before {
     box-shadow: none;
   }
 
-  [type="checkbox"].filled-in:not(:checked).tabbed:focus + span:not(.lever):after {
+  [type="checkbox"].filled-in:not(:checked).tabbed:focus + span:not(.lever)::after {
     border: @_border;
     border-radius: 6px;
     background-color: transparent;
   }
 
-  [type="checkbox"].filled-in:checked.tabbed:focus + span:not(.lever):after {
-    border-color: @_accent-color;
-    background-color: @_accent-color;
+  [type="checkbox"].filled-in:checked.tabbed:focus + span:not(.lever)::after {
+    border-color: @checked-color;
+    background-color: @checked-color;
     border-radius: 6px;
   }
 

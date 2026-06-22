@@ -28,3 +28,9 @@
   top: -3px;
   left: -4px;
 }
+
+// In a narrow legend footer the picker stacks onto its own full-width row; widen this
+// inline-block wrapper (built in seriesPicker.js) so the picker inside can fill the line.
+body.plotlines-tweaks-enabled .jqplot-legend-footer.is-narrow .jqplot-legend-picker > .series-picker-wrapper {
+  width: 100%;
+}

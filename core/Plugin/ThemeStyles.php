@@ -22,6 +22,7 @@ class ThemeStyles
         'fontFamilyBase' => 'theme-fontFamily-base',
         'colorBrand' => 'theme-color-brand',
         'colorBrandContrast' => 'theme-color-brand-contrast',
+        'colorNewBrand' => 'theme-color-new-brand',
         'colorFocusRing' => 'theme-color-focus-ring',
         'colorFocusRingAlternative' => 'theme-color-focus-ring-alternative',
         'colorTextHighContrast' => 'theme-color-text-highContrast',
@@ -83,6 +84,11 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorBrandContrast = ['#fff', '#ffffff'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorNewBrand = '#00b4be';
 
     /**
      * @var string|array<string>
