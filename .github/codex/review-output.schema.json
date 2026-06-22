@@ -4,6 +4,7 @@
   "additionalProperties": false,
   "required": [
     "review_body_markdown",
+    "diagnostics_markdown",
     "highest_severity",
     "findings",
     "inline_comments",
@@ -11,6 +12,10 @@
   ],
   "properties": {
     "review_body_markdown": {
+      "type": "string",
+      "minLength": 1
+    },
+    "diagnostics_markdown": {
       "type": "string",
       "minLength": 1
     },

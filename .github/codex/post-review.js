@@ -41,6 +41,7 @@ function validateReview(review) {
   }
 
   assertString(review.review_body_markdown, 'review_body_markdown');
+  assertString(review.diagnostics_markdown, 'diagnostics_markdown');
   if (!SEVERITIES.includes(review.highest_severity)) {
     throw new Error('highest_severity is invalid');
   }
@@ -152,7 +153,7 @@ function appendUnplacedFindings(body, findings) {
     return body;
   }
 
-  return `${body.trim()}\n\nUnplaced Inline Findings\n${findings.map(formatFinding).join('\n')}\n`;
+  return `${body.trim()}\n\nUnplaced Findings\n${findings.map(formatFinding).join('\n')}\n`;
 }
 
 function reviewEventForSeverity(severity) {
