@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Check changed files
         id: preflight
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -111,13 +111,13 @@ jobs:
           fi
 
       - name: Checkout trusted workflow assets
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           persist-credentials: false
 
       - name: Checkout PR
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
           path: pr
@@ -135,7 +135,7 @@ jobs:
             "+refs/pull/$PR_NUMBER/head"
 
       - name: Checkout Matomo skills
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: matomo-org/matomo-agent-skills
           ref: main
@@ -214,7 +214,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout trusted scripts
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           persist-credentials: false
@@ -227,7 +227,7 @@ jobs:
           path: ${{ runner.temp }}/codex-review
 
       - name: Post review result
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         env:
           CODEX_OUTPUT_FILE: ${{ runner.temp }}/codex-review/codex-review-output.json
           CODEX_RESULT: ${{ needs.codex.result }}
@@ -252,7 +252,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Remove trigger label
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ github.token }}
           script: |
