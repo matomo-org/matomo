@@ -1,0 +1,100 @@
+diff --git a/lib/Less/Parser.php b/lib/Less/Parser.php
+index b05bf14..2e821c8 100644
+--- a/lib/Less/Parser.php
++++ b/lib/Less/Parser.php
+@@ -2207,6 +2207,23 @@ $g = intval( $g );
+ 		}
+ 	}
+ 
++	private function parseContainer() {
++		if ( $this->MatchReg( '/\\G@container/' ) ) {
++			$this->save();
++
++			$features = $this->parseMediaFeatures();
++			$rules = $this->parseBlock();
++
++			if ( $rules === null ) {
++				$this->restore();
++				return;
++			}
++
++			$this->forget();
++			return $this->NewObj( 'Less_Tree_Container', [ $rules, $features, $this->pos, $this->env->currentFileInfo ] );
++		}
++	}
++
+ 	//
+ 	// A CSS Directive
+ 	//
+@@ -2226,7 +2243,8 @@ $g = intval( $g );
+ 
+ 		$value = $this->MatchFuncs( [
+ 			'parseImport',
+-			'parseMedia'
++			'parseMedia',
++			'parseContainer'
+ 		] );
+ 		if ( $value ) {
+ 			return $value;
+diff --git a/lib/Less/Tree/Container.php b/lib/Less/Tree/Container.php
+new file mode 100644
+index 0000000..3745125
+--- /dev/null
++++ b/lib/Less/Tree/Container.php
+@@ -0,0 +1,56 @@
++<?php
++/**
++ * CSS `@container` query.
++ *
++ * Behaves like `@media`, but emits the `@container` at-rule and reuses the
++ * media-query compilation machinery (feature compilation, nesting, strict-math
++ * bypass).
++ *
++ * @private
++ */
++class Less_Tree_Container extends Less_Tree_Media {
++
++	public $type = 'Container';
++
++	/**
++	 * @see Less_Tree::genCSS
++	 */
++	public function genCSS( $output ) {
++		$output->add( '@container ', $this->currentFileInfo, $this->index );
++		$this->features->genCSS( $output );
++		Less_Tree::outputRuleset( $output, $this->rules );
++	}
++
++	/**
++	 * @param Less_Environment $env
++	 * @return Less_Tree_Container|Less_Tree_Ruleset
++	 * @see less-2.5.3.js#Media.prototype.eval
++	 */
++	public function compile( $env ) {
++		$container = new Less_Tree_Container( [], [], $this->index, $this->currentFileInfo );
++
++		$strictMathBypass = false;
++		if ( Less_Parser::$options['strictMath'] === false ) {
++			$strictMathBypass = true;
++			Less_Parser::$options['strictMath'] = true;
++		}
++
++		$container->features = $this->features->compile( $env );
++
++		if ( $strictMathBypass ) {
++			Less_Parser::$options['strictMath'] = false;
++		}
++
++		$env->mediaPath[] = $container;
++		$env->mediaBlocks[] = $container;
++
++		array_unshift( $env->frames, $this->rules[0] );
++		$container->rules = [ $this->rules[0]->compile( $env ) ];
++		array_shift( $env->frames );
++
++		array_pop( $env->mediaPath );
++
++		return !$env->mediaPath ? $container->compileTop( $env ) : $container->compileNested( $env );
++	}
++
++}

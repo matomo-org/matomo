@@ -49,6 +49,7 @@
         "prepend-autoloader": false,
         "sort-packages": true,
         "allow-plugins": {
+            "cweagans/composer-patches": true,
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
@@ -62,6 +63,7 @@
         "php": ">=7.2.5",
         "composer/ca-bundle": "^1.2",
         "composer/semver": "^3.0",
+        "cweagans/composer-patches": "^1.7",
         "davaxi/sparkline": "~2.0",
         "geoip2/geoip2": "^2.8",
         "lox/xhprof": "dev-master",
@@ -121,5 +123,12 @@
     },
     "scripts": {
         "phpstan": "phpstan analyse -c phpstan.neon"
+    },
+    "extra": {
+        "patches": {
+            "wikimedia/less.php": {
+                "Support CSS @container queries": "patches/less-container-query.patch"
+            }
+        }
     }
 }
