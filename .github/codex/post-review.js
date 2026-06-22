@@ -365,6 +365,9 @@ module.exports = async function postReview({ github, context, core }) {
 
   const comments = [];
   const unplaced = [];
+  // Mirror of the placed inline comments as plain findings, used to fold them back into the review
+  // body if GitHub rejects the inline comments wholesale (see the 422 fallback below).
+  const placedFindings = [];
 
   for (const comment of review.inline_comments) {
     const patch = patchesByPath.get(comment.path);
@@ -391,6 +394,12 @@ module.exports = async function postReview({ github, context, core }) {
         ? `${comment.body}\n\nRule source: \`${comment.rule_source}\``
         : comment.body,
     });
+    placedFindings.push({
+      severity: comment.severity,
+      body: comment.body,
+      path: comment.path,
+      line: comment.line,
+    });
   }
 
   for (const finding of review.unplaced_findings) {
@@ -407,6 +416,12 @@ module.exports = async function postReview({ github, context, core }) {
       line: finding.line,
       side: 'RIGHT',
       body: finding.body,
+    });
+    placedFindings.push({
+      severity: finding.severity,
+      body: finding.body,
+      path: finding.path,
+      line: finding.line,
     });
   }
 
@@ -439,6 +454,24 @@ module.exports = async function postReview({ github, context, core }) {
       });
       return;
     }
+
+    // GitHub rejects the whole review with 422 if a single inline comment lands on a line it does
+    // not consider commentable. Rather than lose every finding, retry once without inline comments
+    // and fold them into the body as unplaced findings.
+    if (error.status === 422 && comments.length > 0) {
+      core.warning(`GitHub rejected the inline comments (422): ${error.message}. Retrying without inline comments.`);
+      const fallbackBody = buildReviewBody(review, [...unplaced, ...placedFindings], 0);
+      await github.rest.pulls.createReview({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        pull_number: pr.number,
+        body: fallbackBody,
+        event,
+        comments: [],
+      });
+      return;
+    }
+
     throw error;
   }
 };
