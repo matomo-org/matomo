@@ -41,6 +41,7 @@ Output policy:
   - `blocking` when there is at least one `Blocking` finding.
 - Set `findings.blocking`, `findings.medium`, and `findings.low_polish` to match the findings in `diagnostics_markdown`.
 - Use `inline_comments` for concrete, actionable findings that map to changed diff lines.
+- If a finding is about unchanged nearby context but is caused by a changed line, place the inline comment on the changed line that creates the mismatch or risk.
 - Use `unplaced_findings` for useful findings that do not map cleanly to changed diff lines.
 - `diagnostics_markdown` should include the detailed `$matomo-review` notes, including exact read-only commands run, validation delegated to CI, structural-integrity details, confidence caveats, and limitations.
 

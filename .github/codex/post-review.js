@@ -321,7 +321,7 @@ module.exports = async function postReview({ github, context, core }) {
   }
 
   const comments = [];
-  const unplaced = [...review.unplaced_findings];
+  const unplaced = [];
 
   for (const comment of review.inline_comments) {
     const patch = patchesByPath.get(comment.path);
@@ -347,6 +347,23 @@ module.exports = async function postReview({ github, context, core }) {
       body: comment.rule_source
         ? `${comment.body}\n\nRule source: \`${comment.rule_source}\``
         : comment.body,
+    });
+  }
+
+  for (const finding of review.unplaced_findings) {
+    const patch = finding.path ? patchesByPath.get(finding.path) : null;
+    const valid = patch && Number.isInteger(finding.line) && patch.right.has(finding.line);
+
+    if (!valid) {
+      unplaced.push(finding);
+      continue;
+    }
+
+    comments.push({
+      path: finding.path,
+      line: finding.line,
+      side: 'RIGHT',
+      body: finding.body,
     });
   }
 
