@@ -78,6 +78,10 @@ export default defineComponent({
         widgetized: this.widgetized,
         isWidget: this.widgetized,
         isWide: widget.isWide,
+        // Pass the widget's (saved) parameters to every client-rendered widget;
+        // components that need them (e.g. configurable widgets on a dashboard)
+        // declare a `widgetParameters` prop, others simply ignore it.
+        widgetParameters: widget.parameters || {},
       };
     },
   },

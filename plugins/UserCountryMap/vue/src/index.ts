@@ -6,3 +6,4 @@
  */
 
 export { default as VisitorMapWidget } from './VisitorMap/VisitorMapWidget.vue';
+export { default as RealtimeMapWidget } from './RealtimeMap/RealtimeMapWidget.vue';

@@ -98,7 +98,6 @@ class Controller extends \Piwik\Plugin\Controller
             'period'     => 'range',
             'idSite'     => $this->idSite,
             'segment'    => $segment,
-            'token_auth' => $token_auth,
         ];
 
         $realtimeWindow = Common::getRequestVar('realtimeWindow', self::REAL_TIME_WINDOW, 'string');
@@ -145,8 +144,6 @@ class Controller extends \Piwik\Plugin\Controller
             $segment = '';
         }
 
-        $token_auth = Piwik::getCurrentUserTokenAuth();
-
         // visits summary
         $visitsSummary = json_decode((new Request([
             'method' => 'VisitsSummary.get',
@@ -155,7 +152,6 @@ class Controller extends \Piwik\Plugin\Controller
             'period' => $period,
             'date' => $date,
             'segment' => $segment,
-            'token_auth' => $token_auth,
             'filter_limit' => -1,
         ]))->process(), true);
 
@@ -165,19 +161,18 @@ class Controller extends \Piwik\Plugin\Controller
         // locale translations
         $locale = $this->buildVisitorMapLocale();
 
-        // request params for JS-side API calls
+        // request params for JS-side API calls (no token_auth — session cookie auth)
         $reqParams = $this->getEnrichedRequest([
             'period' => $period,
             'idSite' => $this->idSite,
             'date' => $date,
             'segment' => $segment,
-            'token_auth' => $token_auth,
             'enable_filter_excludelowpop' => 1,
             'filter_excludelowpop_value' => -1,
         ], false);
 
         // metrics metadata
-        $metrics = $this->getMetrics($this->idSite, $period, $date, $token_auth);
+        $metrics = $this->getMetrics($this->idSite, $period, $date, Piwik::getCurrentUserTokenAuth());
 
         // country names
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
@@ -238,6 +233,72 @@ class Controller extends \Piwik\Plugin\Controller
         $translations['no_data'] = $this->translator->translate('CoreHome_ThereIsNoDataForThisReport');
 
         return $translations;
+    }
+
+    /**
+     * Returns the real-time map widget configuration as JSON.
+     * Used by the client-rendered RealtimeMapWidget Vue component.
+     */
+    public function getRealtimeMapConfig()
+    {
+        $this->checkUserCountryPluginEnabled();
+        $this->checkSitePermission();
+        Piwik::checkUserHasViewAccess($this->idSite);
+
+        $liveRefreshAfterMs = (int) Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
+
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
+        $site = new Site($this->idSite);
+        $hasGoals = !empty($goals) || $site->isEcommerceEnabled();
+
+        $maxVisits = Common::getRequestVar('filter_limit', 100, 'int');
+
+        $locale = [
+            'nb_actions'       => $this->translator->translate('VisitsSummary_NbActionsDescription'),
+            'local_time'       => $this->translator->translate('VisitTime_ColumnLocalTime'),
+            'from'             => $this->translator->translate('General_FromReferrer'),
+            'seconds'          => $this->translator->translate('Intl_Seconds'),
+            'seconds_ago'      => $this->translator->translate('UserCountryMap_SecondsAgo'),
+            'minutes'          => $this->translator->translate('Intl_Minutes'),
+            'minutes_ago'      => $this->translator->translate('UserCountryMap_MinutesAgo'),
+            'hours'            => $this->translator->translate('Intl_Hours'),
+            'hours_ago'        => $this->translator->translate('UserCountryMap_HoursAgo'),
+            'days_ago'         => $this->translator->translate('UserCountryMap_DaysAgo'),
+            'actions'          => $this->translator->translate('Transitions_NumPageviews'),
+            'searches'         => $this->translator->translate('UserCountryMap_Searches'),
+            'goal_conversions' => $this->translator->translate('UserCountryMap_GoalConversions'),
+        ];
+
+        $segment = Request::getRawSegmentFromRequest() ?: '';
+        $params = [
+            'period' => 'range',
+            'idSite' => $this->idSite,
+            'segment' => $segment,
+        ];
+
+        $realtimeWindow = Common::getRequestVar('realtimeWindow', self::REAL_TIME_WINDOW, 'string');
+        if ($realtimeWindow != 'false') {
+            $params['date'] = $realtimeWindow;
+        }
+
+        $reqParams = $this->getEnrichedRequest($params, false);
+
+        return json_encode([
+            'metrics'            => [],
+            'svgBasePath'        => 'plugins/UserCountryMap/svg/',
+            'liveRefreshAfterMs' => $liveRefreshAfterMs,
+            '_'                  => $locale,
+            'reqParams'          => $reqParams,
+            'siteHasGoals'       => $hasGoals,
+            'maxVisits'          => $maxVisits,
+            'changeVisitAlpha'   => Common::getRequestVar('changeVisitAlpha', true, 'int'),
+            'removeOldVisits'    => Common::getRequestVar('removeOldVisits', true, 'int'),
+            'showFooterMessage'  => Common::getRequestVar('showFooterMessage', true, 'int'),
+            'showDateTime'       => Common::getRequestVar('showDateTime', true, 'int'),
+            'doNotRefreshVisits' => Common::getRequestVar('doNotRefreshVisits', false, 'int'),
+            'enableAnimation'    => Common::getRequestVar('enableAnimation', true, 'int'),
+            'forceNowValue'      => Common::getRequestVar('forceNowValue', false, 'int'),
+        ]);
     }
 
     private function getEnrichedRequest($params, $encode = true)

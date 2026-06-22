@@ -22,6 +22,7 @@ class GetRealtimeMap extends \Piwik\Widget\Widget
         $config->setName('UserCountryMap_RealTimeMap');
         $config->setModule('UserCountryMap');
         $config->setAction('realtimeMap');
+        $config->setClientSideComponent('UserCountryMap', 'RealtimeMapWidget');
         $config->setIsWide();
         $config->setOrder(15);
 
