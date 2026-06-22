@@ -207,3 +207,9 @@ done
 
 # Delete DDEV environment files
 rm -rf .ddev
+
+# Delete composer patches: they are build-time inputs (applied to vendor/ during
+# `composer install`) and must not ship in the release. A leftover top-level
+# directory would also break the one-click updater, which checks every shipped
+# root directory is writable on the target install (see CoreUpdater\Updater::checkFolderPermissions).
+rm -rf patches
