@@ -2400,6 +2400,8 @@ if (typeof window.Matomo !== 'object') {
 
                 configCustomRequestContentProcessing,
 
+                configCookieStorage = { get: function() { return document.cookie; }, set: function(v) { return document.cookie = v; } },
+
                 // Custom Variables, scope "page"
                 customVariablesPage = {},
 
@@ -2516,7 +2518,7 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'),
-                    cookieMatch = cookiePattern.exec(documentAlias.cookie);
+                    cookieMatch = cookiePattern.exec(configCookieStorage.get());
 
                 return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
             }
@@ -2543,12 +2545,12 @@ if (typeof window.Matomo !== 'object') {
                     sameSite = 'Lax';
                 }
 
-                documentAlias.cookie = cookieName + '=' + encodeWrapper(value) +
+                configCookieStorage.set(cookieName + '=' + encodeWrapper(value) +
                     (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
                     (isSecure ? ';secure' : '') +
-                    ';SameSite=' + sameSite;
+                    ';SameSite=' + sameSite);
 
                 // check the cookie was actually set
                 if ((!msToExpire || msToExpire >= 0) && getCookie(cookieName) !== String(value)) {
@@ -5594,6 +5596,29 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setCustomRequestProcessing = function (customRequestContentProcessingLogic) {
                 configCustomRequestContentProcessing = customRequestContentProcessingLogic;
+            };
+
+            /**
+             * Configure the persistent storage for cookies.
+             * By default, document.cookie is used.
+             *
+             * The storage object must implement two methods:
+             *   - get(): returns a cookie-formatted string, i.e. "name1=value1; name2=value2; ..."
+             *   - set(v): receives a single cookie string with attributes, i.e. "name=value; expires=...; path=/; domain=...; secure; SameSite=Lax"
+             *
+             * Note: set(v) is called once per cookie - not with the full cookie jar.
+             * The get() return value must contain all cookies as a single concatenated string.
+             *
+             * Example for using localStorage instead of document.cookie:
+             *   tracker.setCookieStorage({
+             *     get: function () { return localStorage.getItem('cookie') || ''; },
+             *     set: function (v) { localStorage.setItem('cookie', v); }
+             *   });
+             *
+             * @param {Object} cookieStorage
+             */
+            this.setCookieStorage = function (cookieStorage) {
+                configCookieStorage = cookieStorage;
             };
 
             /**
