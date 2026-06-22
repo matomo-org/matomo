@@ -28,6 +28,9 @@ class BotTraffic extends Fixture
         $this->setUpWebsite();
         $this->trackBotRequests();
         $this->trackAcquiredVisits();
+        $this->trackHumanPageOverlaps();
+        $this->trackEventOnlyPage();
+        $this->trackHumanPageviewInBotFreePeriod();
     }
 
     public function tearDown(): void
@@ -161,16 +164,95 @@ class BotTraffic extends Fixture
             'https://claude.ai/share/1111',
         ];
 
-        foreach ($sources as $index => $referrer) {
-            $date = Date::factory($this->dateTime)
-                ->addDay($index % 5)
-                ->addHour(($index % 4) * 3)
-                ->getDatetime();
-            $tracker = self::getTracker($this->idSite, $date, true);
-            $tracker->setUrl('https://example.com/article-' . (($index % 4) + 1));
-            $tracker->setUrlReferrer($referrer);
-            self::checkResponse($tracker->doTrackPageView('Article From AI Chatbot ' . ($index + 1)));
+        // Each in-week AI-landing page gets a DISTINCT number of acquired visits on a single day, so
+        // every Favoured Pages row has a unique Discrepancy Score (no ties). Core truncates these
+        // records by score and its sort leaves tied scores in a PHP/DB-dependent order, so distinct
+        // scores keep the ranking-limit tests deterministic; keeping each page on one day also makes
+        // its weekly count unambiguous when day blobs are summed. There is also a visit on every bot
+        // day (Feb 2-6) so each day is archived and its bot requests count in the week/month totals.
+        $plans = [
+            [0, 'https://example.com/article-1', 1], // 2025-02-02 (prior week; keeps Feb 2 archived)
+            [1, 'https://example.com/article-1', 1], // 2025-02-03
+            [2, 'https://example.com/article-2', 2], // 2025-02-04
+            [3, 'https://example.com/article-3', 3], // 2025-02-05
+            [4, 'https://example.com/article-4', 4], // 2025-02-06
+        ];
+
+        $referrerIndex = 0;
+        foreach ($plans as [$dayOffset, $url, $visits]) {
+            for ($i = 0; $i < $visits; $i++) {
+                $date = Date::factory($this->dateTime)
+                    ->addDay($dayOffset)
+                    ->addHour($referrerIndex + 1)
+                    ->getDatetime();
+                $tracker = self::getTracker($this->idSite, $date, true);
+                $tracker->setUrl($url);
+                $tracker->setUrlReferrer($sources[$referrerIndex % count($sources)]);
+                self::checkResponse($tracker->doTrackPageView('Article From AI Chatbot ' . ($referrerIndex + 1)));
+                $referrerIndex++;
+            }
         }
+    }
+
+    /**
+     * Tracks human pageviews to URLs the bots also request, so the Favoured Pages records have rows
+     * where BOTH metrics are non-zero. example.com/article/2 spans Feb 3-5 on the human side and is
+     * also bot-requested on several of those days, giving Row Evolution a real multi-day series for
+     * both sides. The "www." URL collides, after Matomo's action-name normalization, with the bot
+     * label example.com/article/3 — confirming both sides key on the same log_action.name.
+     */
+    private function trackHumanPageOverlaps(): void
+    {
+        // [url, dayOffset, number of human visits] — these URLs are also requested by bots in
+        // trackBotRequests(). Day offset 1 = 2025-02-03 (the date the system tests query for `day`);
+        // offsets 1-3 all fall inside the queried `week`.
+        $overlaps = [
+            ['https://example.com/article/2', 1, 2],
+            ['https://example.com/article/2', 2, 2],
+            ['https://example.com/article/2', 3, 1],
+            ['https://www.example.com/article/3', 1, 1],
+        ];
+
+        foreach ($overlaps as [$url, $dayOffset, $visits]) {
+            for ($i = 0; $i < $visits; $i++) {
+                $date = Date::factory($this->dateTime)
+                    ->addDay($dayOffset)
+                    ->addHour($i + 1)
+                    ->getDatetime();
+                $tracker = self::getTracker($this->idSite, $date, true);
+                $tracker->setUrl($url);
+                self::checkResponse($tracker->doTrackPageView('Human Overlap Page ' . ($i + 1)));
+            }
+        }
+    }
+
+    /**
+     * Tracks a human event on a page that gets NO pageview (and no bot request). The Favoured Pages
+     * reports must not count this URL as a human pageview — events are excluded, mirroring the Actions
+     * Pages report (see AIChatbotFavouredPages::queryHumanPageviews / Actions' not-an-event clause).
+     */
+    private function trackEventOnlyPage(): void
+    {
+        $date = Date::factory($this->dateTime)
+            ->addDay(1) // 2025-02-03, the date the system tests query
+            ->addHour(5)
+            ->getDatetime();
+        $tracker = self::getTracker($this->idSite, $date, true);
+        $tracker->setUrl('https://example.com/event-only');
+        self::checkResponse($tracker->doTrackEvent('Media', 'Play'));
+    }
+
+    /**
+     * A human pageview on 2025-02-20 — well after the bot requests (Feb 2-6), so that period has no
+     * AI chatbot activity. Used to assert the Favoured Pages records stay empty there (the human
+     * pageviews scan is skipped when there are no bot requests).
+     */
+    private function trackHumanPageviewInBotFreePeriod(): void
+    {
+        $date = Date::factory($this->dateTime)->addDay(18)->getDatetime();
+        $tracker = self::getTracker($this->idSite, $date, true);
+        $tracker->setUrl('https://example.com/bot-free-page');
+        self::checkResponse($tracker->doTrackPageView('Bot Free Page'));
     }
 
     private function logBot(string $userAgent, string $url, int $statusCode, ?int $bytes, string $dateTime, ?int $serverTimeMs): void

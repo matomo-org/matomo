@@ -64,6 +64,8 @@
         "SiteWithoutDataNotYetReady": "Yapay zeka sohbet robotu izlemesini kurmaya hazır değil misiniz?",
         "SiteWithoutDataOtherInstallMethods": "Yapay zeka sohbet robotlarını izlemenin diğer yöntemleri",
         "SiteWithoutDataOtherInstallMethodsIntro": "İzlenebilecek birden fazla yol sunuyoruz. Kurulumunuza uygun olanı seçin.",
-        "SiteWithoutDataRecommendationText": "Sitenizin %1$s kullandığını algıladık. Bu nedenle resmi %1$s bütünleştirmesi ile yapay zeka sohbet robotları izlemesini ayarlayabilirsiniz."
+        "SiteWithoutDataRecommendationText": "Sitenizin %1$s kullandığını algıladık. Bu nedenle resmi %1$s bütünleştirmesi ile yapay zeka sohbet robotları izlemesini ayarlayabilirsiniz.",
+        "AIChatbotsContentPagesTitle": "Sayfalar",
+        "ContentUrl": "Adres"
     }
 }

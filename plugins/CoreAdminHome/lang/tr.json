@@ -38,6 +38,7 @@
         "ImportFromGoogleAnalytics": "Google Analytics üzerinden içe aktar",
         "ImportFromGoogleAnalyticsDescription": "Bir Google Analytics mülkünüz varsa ve Matomo uygulamasına geçiyorsanız, %1$sGoogleAnalyticsImporter%2$s eklentisini kullanarak var olan verilerinizi içe aktarabilirsiniz.",
         "ImportingServerLogsDesc": "Ziyaretçileri tarayıcı ile izlemenin (JavaScript ya da görsel bağlantısı ile) bir alternatifi sürekli olarak sunucu günlüklerini içe aktarmaktır. Ayrıntılı bilgi almak için %1$ssunucu günlüğü dosya istatistikleri%2$s bölümüne bakabilirsiniz.",
+        "InvalidPluginsAdminDisabled": "Bu eklentileri güncellemek veya kaldırmak için lütfen komut satırını kullanabilen veya yapılandırmayı doğrudan güncelleyebilen Matomo yöneticiniz ile görüşün.",
         "InvalidPluginsWarning": "Şu eklentiler %1$s ile uyumlu olmadığından yüklenemedi: %2$s.",
         "InvalidPluginsYouCanUninstall": "Bu eklentileri %1$sEklenti yönetimi%2$s sayfasından güncelleyebilir ya da kaldırabilirsiniz.",
         "InvalidSiteUrlError": "Bu adres geçerli değil. İçerik taşınmış, silinmiş ya da artık kullanılamıyor (adresteki site kimliği '%s' olarak ayarlanmıştı).",

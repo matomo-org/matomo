@@ -62,6 +62,8 @@
         "SiteWithoutDataNotYetReady": "Ende jo gati për ujdisje Ndjekjeje Robotësh IA Fjalosjesh?",
         "SiteWithoutDataOtherInstallMethods": "Metoda të tjera për ndjekje Robotësh IS Fjalosjesh",
         "SiteWithoutDataOtherInstallMethodsIntro": "Ofrojmë shtigje të shumtë ndjekjeje - përzgjidhni atë që përkon me instalimin tuaj.",
-        "SiteWithoutDataRecommendationText": "Kemi pikasur se sajti juaj përdor %1$s, ndaj mund të ujdisni ndjekje Robotësh IA Fjalosjesh duke përdorur integrimin tonë zyrtar për %1$s."
+        "SiteWithoutDataRecommendationText": "Kemi pikasur se sajti juaj përdor %1$s, ndaj mund të ujdisni ndjekje Robotësh IA Fjalosjesh duke përdorur integrimin tonë zyrtar për %1$s.",
+        "AIChatbotsContentPagesTitle": "Faqe",
+        "ContentUrl": "URL"
     }
 }

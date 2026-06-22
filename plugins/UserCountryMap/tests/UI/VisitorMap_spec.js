@@ -63,6 +63,20 @@ describe("VisitorMap", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('cities');
     });
 
+    it("should display the map correctly in dark mode", async function() {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+        // Enable dark mode the same way piwik.setThemeMode() does: the theme CSS
+        // variables key off [data-theme-mode="dark"] on the root element.
+        await page.evaluate(function () {
+            document.documentElement.setAttribute('data-theme-mode', 'dark');
+        });
+        await page.mouse.move(900, 140);
+        await page.waitForTimeout(100); // wait for tooltip + legend to appear
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('dark_mode');
+    });
+
     it("should render with a positive svg height inside the AddWidget preview", async function () {
         // Regression: the resize clamp previously fired on any `.widget` ancestor,
         // including the AddWidget preview, which made maxHeight negative and

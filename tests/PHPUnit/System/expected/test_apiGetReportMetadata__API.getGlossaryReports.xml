@@ -9,6 +9,10 @@
 		<documentation>Discover which AI chatbots are crawling your site and how many hits each one generates. Expand a chatbot to review the most frequently requested pages or documents.</documentation>
 	</row>
 	<row>
+		<name>AI-Favoured Pages (AI Assistants)</name>
+		<documentation>Shows pages that are frequently requested by AI chatbots but less often visited by humans. Useful for discovering content that AI systems surface or reference but that doesn't yet attract much direct human engagement.</documentation>
+	</row>
+	<row>
 		<name>Actions - Main metrics (Behaviour)</name>
 		<documentation>This report provides a very basic overview of what actions your visitors take on your website.</documentation>
 	</row>
@@ -200,6 +204,10 @@ Currently, these reports exclusively include requests from AI chatbots that do n
 		<name>Goals Overview - Visits to Conversion (Goals)</name>
 		<documentation>This report shows the number of visits made before a visitor converts a goal.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
+	</row>
+	<row>
+		<name>Human-Favoured Pages (AI Assistants)</name>
+		<documentation>Shows pages that receive significantly more visits from humans than from AI chatbots. Useful for identifying content that resonates strongly with real users but is underrepresented in AI-driven traffic or recommendations.</documentation>
 	</row>
 	<row>
 		<name>Keywords (Acquisition)</name>

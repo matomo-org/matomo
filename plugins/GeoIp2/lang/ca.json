@@ -44,7 +44,7 @@
         "LocationProviderDesc_Php_WithExtension": "Aquest proveïdor d'ubicació és més ràpid amb l'extensió instal·lada %1$smaxminddb%2$s.",
         "LocationProviderDesc_ServerModule": "Aquest proveïdor d'ubicació utilitza el mòdul GeoIP 2 que s'ha instal·lat al vostre servidor HTTP. Aquest proveïdor és ràpid i precís, però %1$snomés es pot utilitzar amb el seguiment normal del navegador.%2$s",
         "LocationProviderDesc_ServerModule2": "Si heu d'importar fitxers de registre o fer alguna altra cosa que requereixi configurar adreces IP, utilitzeu la implementació %3$sPHP GeoIP 2%4$s i instal·leu %1$sl'extensió maxmindb%2$s.",
-        "MalFormedUpdateUrl": "L'URL %1$s no sembla vàlida. Assegureu-vos d'introduir una URL vàlida que comenci per http:// o https://",
+        "MalFormedUpdateUrl": "L'url %1$s no sembla vàlida. Assegureu-vos d'introduir una url vàlida que comenci per http:// o https://",
         "NotManagingGeoIPDBs": "Actualment Matomo no gestiona cap base de dades DBIP o MaxMind.",
         "PluginDescription": "Proporciona proveïdors d'ubicació DBIP / GeoIP2.",
         "ServerBasedVariablesConfiguration": "Configuració de variables de servidor utilitzades pels mòduls de servidor GeoIP 2",

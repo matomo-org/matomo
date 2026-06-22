@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "Tipo de acción",
+        "ActionTypeSegmentHelp": "Un tipo de acción, como: %s",
         "ActionTypes": "Tipos de acciones",
         "ActionsInVisit": "Acciones en visitas",
         "AvgGenerationTimeTooltip": "Promedio basado en %1$s hit(s) %2$s entre %3$s y %4$s",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "Use los iconos de más y menos a la izquierda para navegar.",
         "PluginDescription": "Informes sobre las páginas vistas y los títulos de las páginas. Le permite medir el motor de búsqueda de su sitio web interno. Rastrea automáticamente los clics en enlaces externos y descargas de archivos.",
         "RevisitedPages": "Páginas vistas más de una vez",
+        "SearchesSegmentHelp": "Para seleccionar todas las visitas que utilizaron la búsqueda de sitio interna, use: %s",
         "SiteSearchCategories": "Categorías (búsqueda en sitio)",
         "SiteSearchCategories1": "Este informe lista las Categorías que los visitantes eligieron cuando realizaron una búsqueda en su sitio de internet.",
         "SiteSearchCategories2": "Por ejemplo: los sitios de comercio electrónico usualmente tienen un selector de \"Categorías\" para que los visitantes puedan restringir sus búsquedas sólo a los productos de una categoría determinada.",

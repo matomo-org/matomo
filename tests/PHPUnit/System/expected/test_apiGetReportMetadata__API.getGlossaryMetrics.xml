@@ -6,6 +6,11 @@
 		<documentation>Number of bot requests that returned an HTTP 5xx (server error) response.</documentation>
 	</row>
 	<row>
+		<name>AI Chatbot Requests</name>
+		<id>ai_chatbot_requests</id>
+		<documentation>The total number of times this URL was requested by AI chatbots during the selected period.</documentation>
+	</row>
+	<row>
 		<name>Acquired visits</name>
 		<id>BotTracking_AIChatbotsAcquiredVisits</id>
 		<documentation>Visits that started after someone clicked from an AI chatbot (Referrers → AI Assistants).</documentation>
@@ -259,6 +264,11 @@
 		<name>Unique Downloads</name>
 		<id>nb_uniq_downloads</id>
 		<documentation>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</documentation>
+	</row>
+	<row>
+		<name>Unique Human Pageviews</name>
+		<id>unique_human_pageviews</id>
+		<documentation>The number of visits during which real users viewed this URL at least once. Traffic from AI chatbots and other bots is excluded.</documentation>
 	</row>
 	<row>
 		<name>Unique Outlinks</name>

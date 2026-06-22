@@ -79,6 +79,11 @@ class Record
     private $multiplePeriodTransform = null;
 
     /**
+     * @var callable|null
+     */
+    private $aggregatedRecordTransform = null;
+
+    /**
      * @var string|null
      */
     private $builtFromFlatRecord = null;
@@ -250,6 +255,43 @@ class Record
     public function getMultiplePeriodTransform(): ?callable
     {
         return $this->multiplePeriodTransform;
+    }
+
+    /**
+     * Sets a transform applied to this blob record's aggregated table during non-day archiving,
+     * after the day blobs have been aggregated together (additive columns summed, columns marked
+     * 'skip' in the aggregation ops left untouched) and before the table is truncated and stored.
+     *
+     * Use this for columns that cannot be summed across child periods and must be recomputed from
+     * the aggregated additive columns — for example a table-relative ratio, index or score. Mark
+     * such a column 'skip' via {@see setBlobColumnAggregationOps()} so it is not summed, then
+     * recompute it here. Because the transform runs before truncation, a column it (re)computes can
+     * be used as {@see setColumnToSortByBeforeTruncation()}.
+     *
+     * Only used for non-day periods; the day archive builds the record from logs via the
+     * RecordBuilder's aggregate() and should apply any equivalent computation there.
+     *
+     * Applies on both the standard blob path and the built-from-flat path ({@see setBuiltFromFlatRecord()}):
+     * each record's transform runs on that record's own aggregated table, so a flat base record and the
+     * hierarchy rebuilt from it are each transformed (the hierarchy after it is built) before being stored.
+     *
+     * @param callable|null $transform Signature:
+     *                                 function (\Piwik\DataTable $table, ArchiveProcessor $archiveProcessor, Record $record): void
+     *                                 The callback mutates $table in place.
+     */
+    public function setAggregatedRecordTransform(?callable $transform): Record
+    {
+        if (null !== $transform && $this->type !== self::TYPE_BLOB) {
+            throw new \InvalidArgumentException('setAggregatedRecordTransform() can only be used with blob records.');
+        }
+
+        $this->aggregatedRecordTransform = $transform;
+        return $this;
+    }
+
+    public function getAggregatedRecordTransform(): ?callable
+    {
+        return $this->aggregatedRecordTransform;
     }
 
     /**

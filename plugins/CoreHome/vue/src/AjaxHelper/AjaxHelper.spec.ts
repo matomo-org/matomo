@@ -369,4 +369,66 @@ describe('CoreHome/AjaxHelper', () => {
 
     expect(requestedUrl).toContain('segment=urlSegmentValue');
   });
+
+  describe('date/period validation', () => {
+    const validCases: Array<[string, QueryParameters]> = [
+      ['day + ISO date', { period: 'day', date: '2024-01-15' }],
+      ['day + today', { period: 'day', date: 'today' }],
+      ['day + yesterday', { period: 'day', date: 'yesterday' }],
+      ['week + ISO date', { period: 'week', date: '2024-01-15' }],
+      ['month + ISO date', { period: 'month', date: '2024-01-15' }],
+      ['year + ISO date', { period: 'year', date: '2024-01-15' }],
+      ['range + explicit range', { period: 'range', date: '2024-01-01,2024-01-31' }],
+      ['range + last7', { period: 'range', date: 'last7' }],
+      ['range + previous30', { period: 'range', date: 'previous30' }],
+      // multiple-period requests with a non-range period are valid on the backend
+      ['day + lastN', { period: 'day', date: 'last30' }],
+      ['day + comma range', { period: 'day', date: '2024-01-01,2024-01-31' }],
+      ['month + comma range', { period: 'month', date: '2024-01-01,2024-03-31' }],
+      ['week + previousN', { period: 'week', date: 'previous4' }],
+      // keyword preset dates emitted by PresetDateRangeResolver must not be mistaken for ranges
+      ['week + lastweek', { period: 'week', date: 'lastweek' }],
+      ['month + lastmonth', { period: 'month', date: 'lastmonth' }],
+      ['year + lastyear', { period: 'year', date: 'lastyear' }],
+      // unrecognized periods are left to the backend to validate
+      ['unrecognized period', { period: 'bogusperiod', date: '2024-01-01' }],
+      // the character-set guard still allows dates with no period present
+      ['no period + ISO date', { date: '2024-01-15' }],
+      ['no period + range', { date: '2024-01-01,2024-01-31' }],
+    ];
+
+    const invalidCases: Array<[string, QueryParameters]> = [
+      ['day + string', { period: 'day', date: 'not-a-date' }],
+      ['day + comma range with invalid part', { period: 'day', date: '2024-01-01,gibberish' }],
+      // the character-set guard catches odd characters even without a recognized period
+      ['no period + slash date', { date: '2024/01/15' }],
+      ['unrecognized period + illegal chars', { period: 'bogusperiod', date: '<script>' }],
+    ];
+
+    it.each(validCases)('does not throw for a valid date/period (%s)', async (_label, params) => {
+      installUrlCapturingAjaxMock(() => { /* url not asserted in validation tests */ });
+
+      await expect(AjaxHelper.fetch({ method: 'X.get', ...params })).resolves.toBeDefined();
+    });
+
+    it.each(invalidCases)('throws for an invalid date/period (%s)', async (_label, params) => {
+      installUrlCapturingAjaxMock(() => { /* url not asserted in validation tests */ });
+
+      await expect(AjaxHelper.fetch({ method: 'X.get', ...params }))
+        .rejects.toThrow(/Invalid date/);
+    });
+
+    it('rejects (rather than throwing synchronously) when a chunked bulk request is invalid', async () => {
+      const chunkSizes: number[] = [];
+      installAjaxMock('success', chunkSizes);
+
+      const helper = new AjaxHelper();
+      helper.setBulkRequests(...makeBulkRequests(5));
+      helper.addParams({ period: 'day', date: 'not-a-date' }, 'get');
+
+      await expect(helper.send()).rejects.toThrow(/Invalid date/);
+      // the request must reject before any chunk is sent, so no queue slot is consumed
+      expect(chunkSizes).toEqual([]);
+    });
+  });
 });

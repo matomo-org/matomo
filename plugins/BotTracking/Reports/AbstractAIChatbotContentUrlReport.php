@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\Reports;
 
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -21,9 +20,7 @@ use Piwik\Plugins\BotTracking\Columns\Metrics\AvgServerTime;
 use Piwik\Plugins\BotTracking\Columns\Metrics\PageNotFound404Requests;
 use Piwik\Plugins\BotTracking\Columns\Metrics\Requests;
 use Piwik\Plugins\BotTracking\Columns\Metrics\ServerError5xxRequests;
-use Piwik\Plugins\BotTracking\FeatureFlags\AIChatbotsContentReports;
 use Piwik\Plugins\BotTracking\Metrics;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 
@@ -52,17 +49,6 @@ abstract class AbstractAIChatbotContentUrlReport extends Report
         $this->defaultSortColumn = Metrics::COLUMN_REQUESTS;
     }
 
-    /**
-     * Gates this report behind the AIChatbotsContentReports feature flag.
-     * When the flag is off the report is hidden from every UI surface and
-     * direct API calls throw "Report not enabled".
-     */
-    public function isEnabled()
-    {
-        return StaticContainer::get(FeatureFlagManager::class)
-            ->isFeatureActive(AIChatbotsContentReports::class);
-    }
-
     public function configureView(ViewDataTable $view): void
     {
         parent::configureView($view);
@@ -73,22 +59,17 @@ abstract class AbstractAIChatbotContentUrlReport extends Report
             false
         );
 
-        // Disable the "show all columns" toggle: it switches the table to the Visitor Engagement
-        // preset, which doesn't match the BotTracking column schema and would render empty data.
+        // Show-all-columns switches to the Visitor Engagement preset, which doesn't fit this schema.
         $view->config->show_table_all_columns = false;
 
-        // Disable the Insights visualization: it expects visit-based metrics (nb_visits etc.)
-        // that this report does not provide, so the rendered output would be empty.
+        // Insights and bar/pie/tag-cloud all assume visit metrics (nb_visits etc.) this report lacks,
+        // so they would render empty — the table is the only useful view.
         $view->config->show_insights = false;
-
-        // Disable the bar/pie/tag-cloud visualizations: they don't make meaningful sense for a
-        // long list of URLs with byte and time metrics — the table view is the only useful one.
         $view->config->show_bar_chart = false;
         $view->config->show_pie_chart = false;
         $view->config->show_tag_cloud = false;
 
-        // Render URL labels as clickable links. Labels are Matomo-normalized URLs without scheme
-        // (e.g. example.com/article/2); prepend https:// to form a valid link target.
+        // Render URL labels as clickable links (scheme-less normalized URLs; prepend https://).
         $view->config->filters[] = function (DataTable $table) {
             foreach ($table->getRows() as $row) {
                 if ($row->isSummaryRow()) {

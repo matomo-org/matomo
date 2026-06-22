@@ -34,6 +34,11 @@ class Metrics
     public const COLUMN_SERVER_ERROR_5XX_REQUESTS = 'server_error_5xx_requests';
     public const COLUMN_TOTAL_BROKEN_REQUESTS = 'total_broken_requests';
 
+    // Columns for the Human/AI-Favoured Pages reports — computed at API time, not archived.
+    public const COLUMN_UNIQUE_HUMAN_PAGEVIEWS = 'unique_human_pageviews';
+    public const COLUMN_AI_CHATBOT_REQUESTS   = 'ai_chatbot_requests';
+    public const COLUMN_DISCREPANCY_SCORE     = 'discrepancy_score';
+
     // Raw (blob-stored) accumulator columns used to compute the above averages at display time.
     public const COLUMN_SUM_SERVER_TIME = 'sum_server_time';
     public const COLUMN_NB_SERVER_TIME = 'nb_server_time';

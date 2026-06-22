@@ -15,6 +15,7 @@ use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Piwik;
+use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotReports;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\BotTracking\Reports\Get;
@@ -246,5 +247,95 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         return Archive::createDataTableFromArchive(Archiver::AI_CHATBOTS_BROKEN_CONTENT_RECORD, $idSite, $period, $date, '', false, false);
+    }
+
+    /**
+     * Returns page URLs visited far more by humans than requested by AI chatbots.
+     *
+     * Each row carries Unique Human Pageviews, AI Chatbot Requests and the Human-Favoured
+     * Discrepancy Score (a bounded 0–100 index materialised on the table).
+     *
+     * Note: the "exclude low population" filter that the UI applies by default is a ViewDataTable
+     * decoration only — a direct API call returns every row (including pages with no human
+     * pageviews). Segmentation is not supported: any `segment` parameter is ignored and the
+     * standard, unsegmented data is returned.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process.
+     * @param string $date The date or date range to process.
+     * @return DataTable|DataTable\Map Flat table of URLs with the two source metrics and the score.
+     */
+    public function getAIChatbotHumanFavouredPages($idSite, string $period, string $date): DataTableInterface
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        // The scored data is archived (see AIChatbotFavouredPages); just read it back. The empty
+        // segment is intentional — these reports are unsegmented, so a requested segment is ignored.
+        $table = Archive::createDataTableFromArchive(Archiver::AI_CHATBOTS_HUMAN_FAVOURED_PAGES_RECORD, $idSite, $period, $date, '', false, false);
+
+        return $this->skipScoreInReportTotals($table);
+    }
+
+    /**
+     * Returns page URLs requested far more by AI chatbots than visited by humans.
+     *
+     * Each row carries Unique Human Pageviews, AI Chatbot Requests and the AI-Favoured
+     * Discrepancy Score (a bounded 0–100 index materialised on the table).
+     *
+     * Note: the "exclude low population" filter that the UI applies by default is a ViewDataTable
+     * decoration only — a direct API call returns every row (including pages with no AI chatbot
+     * requests). Segmentation is not supported: any `segment` parameter is ignored and the
+     * standard, unsegmented data is returned.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process.
+     * @param string $date The date or date range to process.
+     * @return DataTable|DataTable\Map Flat table of URLs with the two source metrics and the score.
+     */
+    public function getAIChatbotAIFavouredPages($idSite, string $period, string $date): DataTableInterface
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        // See getAIChatbotHumanFavouredPages: the scored data is archived; read it back unsegmented.
+        $table = Archive::createDataTableFromArchive(Archiver::AI_CHATBOTS_AI_FAVOURED_PAGES_RECORD, $idSite, $period, $date, '', false, false);
+
+        return $this->skipScoreInReportTotals($table);
+    }
+
+    /**
+     * Marks the discrepancy_score column 'skip' so the report totals row leaves it blank — summing a
+     * per-page 0–100 index is meaningless. The scorer sets this op at archive time, but a DataTable's
+     * column-aggregation metadata is transient and is not part of the serialised blob, so it is lost on
+     * load and must be re-applied here on read. Recurses into DataTable\Map (multi-period / multi-site).
+     *
+     * @param DataTable|DataTable\Map $table
+     * @return DataTable|DataTable\Map
+     */
+    private function skipScoreInReportTotals(DataTableInterface $table): DataTableInterface
+    {
+        if ($table instanceof DataTable\Map) {
+            foreach ($table->getDataTables() as $childTable) {
+                $this->skipScoreInReportTotals($childTable);
+            }
+
+            return $table;
+        }
+
+        if ($table instanceof DataTable) {
+            $ops = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+            if (!is_array($ops)) {
+                $ops = [];
+            }
+            $ops[Metrics::COLUMN_DISCREPANCY_SCORE] = 'skip';
+            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $ops);
+        }
+
+        return $table;
     }
 }

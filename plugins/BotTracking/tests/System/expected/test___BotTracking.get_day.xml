@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<BotTracking_AIChatbotsRequests>10</BotTracking_AIChatbotsRequests>
-	<BotTracking_AIChatbotsAcquiredVisits>2</BotTracking_AIChatbotsAcquiredVisits>
+	<BotTracking_AIChatbotsAcquiredVisits>1</BotTracking_AIChatbotsAcquiredVisits>
 	<BotTracking_AIChatbotsUniquePageUrls>3</BotTracking_AIChatbotsUniquePageUrls>
 	<BotTracking_AIChatbotsNotFoundRequests>1</BotTracking_AIChatbotsNotFoundRequests>
 	<BotTracking_AIChatbotsUniqueChatbots>5</BotTracking_AIChatbotsUniqueChatbots>
 	<BotTracking_AIChatbotsUniqueDocumentUrls>3</BotTracking_AIChatbotsUniqueDocumentUrls>
 	<BotTracking_AIChatbotsServerErrorRequests>2</BotTracking_AIChatbotsServerErrorRequests>
-	<BotTracking_AIChatbotsClickThroughRate>0.2</BotTracking_AIChatbotsClickThroughRate>
+	<BotTracking_AIChatbotsClickThroughRate>0.1</BotTracking_AIChatbotsClickThroughRate>
 </result>
