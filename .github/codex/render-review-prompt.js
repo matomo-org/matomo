@@ -12,12 +12,13 @@ function optionalEnv(name) {
   return process.env[name] || '';
 }
 
-function replaceAll(input, replacements) {
-  let output = input;
-  for (const [key, value] of Object.entries(replacements)) {
-    output = output.split(`{{${key}}}`).join(value);
-  }
-  return output;
+function renderTemplate(input, replacements) {
+  // Resolve every {{KEY}} in a single pass over the original template so that values substituted
+  // from untrusted PR content (title/body) cannot re-trigger a later substitution. Unknown keys are
+  // left as their literal {{KEY}} placeholder rather than being turned into "undefined".
+  return input.replace(/\{\{(\w+)\}\}/g, (match, key) =>
+    Object.prototype.hasOwnProperty.call(replacements, key) ? replacements[key] : match
+  );
 }
 
 const promptTemplate = requiredEnv('PROMPT_TEMPLATE');
@@ -37,7 +38,7 @@ const context = {
 fs.writeFileSync(reviewContext, `${JSON.stringify(context, null, 2)}\n`);
 
 const template = fs.readFileSync(promptTemplate, 'utf8');
-const prompt = replaceAll(template, {
+const prompt = renderTemplate(template, {
   PR_NUMBER: String(context.pr_number),
   PR_TITLE: optionalEnv('PR_TITLE'),
   PR_BODY: optionalEnv('PR_BODY'),
