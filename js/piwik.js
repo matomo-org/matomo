@@ -2808,7 +2808,18 @@ if (typeof window.Matomo !== 'object') {
                 return false;
             }
 
-            function isIgnoredCampaignAttributionSource(sourceValue) {
+            /**
+             * Returns if campaign parameters on the current landing URL should be ignored for attribution.
+             * This covers source values like utm_source=chatgpt.com, including cases where another referrer URL exists.
+             *
+             * This does not remove the matching parameters from the URL or tracker request. It only prevents those
+             * values from becoming the visit attribution campaign in the attribution cookie.
+             *
+             * @param currentUrl
+             * @returns {boolean}
+             */
+            function shouldIgnoreCampaignAttributionForSource(currentUrl) {
+                var sourceValue = getUrlParameter(currentUrl, 'utm_source');
                 var i;
 
                 if (!sourceValue.length) {
@@ -2822,20 +2833,6 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 return false;
-            }
-
-            /**
-             * Returns if campaign parameters on the current landing URL should be ignored for attribution.
-             * This covers source values like utm_source=chatgpt.com, including cases where another referrer URL exists.
-             *
-             * This does not remove the matching parameters from the URL or tracker request. It only prevents those
-             * values from becoming the visit attribution campaign in the attribution cookie.
-             *
-             * @param currentUrl
-             * @returns {boolean}
-             */
-            function shouldIgnoreCampaignAttributionForSource(currentUrl) {
-                return isIgnoredCampaignAttributionSource(getUrlParameter(currentUrl, 'utm_source'));
             }
 
             /*
