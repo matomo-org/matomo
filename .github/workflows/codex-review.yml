@@ -22,6 +22,8 @@ jobs:
       should_run: ${{ steps.preflight.outputs.should_run }}
       safety_failure: ${{ steps.preflight.outputs.safety_failure }}
       safety_message: ${{ steps.preflight.outputs.safety_message }}
+      skip_reason: ${{ steps.preflight.outputs.skip_reason }}
+      skip_message: ${{ steps.preflight.outputs.skip_message }}
       changed_files: ${{ steps.preflight.outputs.changed_files }}
       automation_files: ${{ steps.preflight.outputs.automation_files }}
     steps:
@@ -31,6 +33,7 @@ jobs:
         with:
           script: |
             const pr = context.payload.pull_request;
+            const codexReviewMarker = 'This Codex review supersedes any previous Codex review output for this PR.';
             const files = await github.paginate(github.rest.pulls.listFiles, {
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -46,6 +49,8 @@ jobs:
 
             core.setOutput('changed_files', JSON.stringify(changedFiles));
             core.setOutput('automation_files', JSON.stringify(automationFiles));
+            core.setOutput('skip_reason', '');
+            core.setOutput('skip_message', '');
 
             if (automationFiles.length > 0) {
               core.setOutput('should_run', 'false');
@@ -53,6 +58,33 @@ jobs:
               core.setOutput(
                 'safety_message',
                 `Codex review was not run because this PR changes reviewer automation files: ${automationFiles.join(', ')}. These files need human review first.`
+              );
+              return;
+            }
+
+            const reviews = await github.paginate(github.rest.pulls.listReviews, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              per_page: 100,
+            });
+            const latestCodexReview = reviews
+              .filter((review) =>
+                review.user?.login === 'github-actions'
+                && ['APPROVED', 'CHANGES_REQUESTED', 'COMMENTED'].includes(review.state)
+                && typeof review.body === 'string'
+                && review.body.includes(codexReviewMarker)
+              )
+              .sort((a, b) => new Date(b.submitted_at) - new Date(a.submitted_at))[0];
+
+            if (latestCodexReview?.commit_id === pr.head.sha) {
+              const shortSha = pr.head.sha.slice(0, 12);
+              core.setOutput('should_run', 'false');
+              core.setOutput('safety_failure', 'false');
+              core.setOutput('skip_reason', 'no_new_changes');
+              core.setOutput(
+                'skip_message',
+                `Codex review was skipped because the latest Codex review already covers head commit ${shortSha}. Push a new commit before requesting another Codex review.`
               );
               return;
             }
@@ -202,6 +234,8 @@ jobs:
           PREFLIGHT_RESULT: ${{ needs.preflight.result }}
           PREFLIGHT_SAFETY_FAILURE: ${{ needs.preflight.outputs.safety_failure }}
           PREFLIGHT_SAFETY_MESSAGE: ${{ needs.preflight.outputs.safety_message }}
+          PREFLIGHT_SKIP_REASON: ${{ needs.preflight.outputs.skip_reason }}
+          PREFLIGHT_SKIP_MESSAGE: ${{ needs.preflight.outputs.skip_message }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:
           github-token: ${{ github.token }}

@@ -160,28 +160,62 @@ function formatSeverityCounts(findings) {
   ].join(', ');
 }
 
+function formatSeverityBadge(severity) {
+  switch (severity) {
+    case 'blocking':
+      return '🚫 Blocking';
+    case 'medium':
+      return '⚠️ Medium';
+    case 'low':
+      return '💬 Low / Polish';
+    case 'none':
+      return '✅ No findings';
+    default:
+      return severity;
+  }
+}
+
 function buildReviewBody(review, unplaced, inlineCount) {
+  const hasFindings = review.findings.blocking + review.findings.medium + review.findings.low_polish > 0;
   const lines = [
-    'This Codex review supersedes any previous Codex review output for this PR.',
+    '<!-- This Codex review supersedes any previous Codex review output for this PR. -->',
+    `## 🤖 Codex Review: ${formatSeverityBadge(review.highest_severity)}`,
     '',
-    'Summary',
+    '### Summary',
     review.review_body_markdown.trim(),
     '',
-    'Findings',
-    `- ${formatSeverityCounts(review.findings)}.`,
+    '### Findings Overview',
+    '',
+    '| Severity | Count |',
+    '| --- | ---: |',
+    `| 🚫 Blocking | ${review.findings.blocking} |`,
+    `| ⚠️ Medium | ${review.findings.medium} |`,
+    `| 💬 Low / Polish | ${review.findings.low_polish} |`,
   ];
 
   if (inlineCount > 0) {
-    lines.push(`- Posted ${inlineCount} inline ${pluralize(inlineCount, 'finding')}.`);
+    lines.push('', `📍 Posted ${inlineCount} inline ${pluralize(inlineCount, 'finding')}.`);
+  } else if (hasFindings) {
+    lines.push('', '📍 No findings could be placed inline.');
+  } else {
+    lines.push('', '✅ No inline findings to place.');
   }
 
   if (unplaced.length > 0) {
-    lines.push('', 'Unplaced Findings', ...unplaced.map(formatFinding));
+    lines.push(
+      '',
+      '<details>',
+      '<summary>Unplaced findings</summary>',
+      '',
+      ...unplaced.map(formatFinding),
+      '',
+      '</details>'
+    );
   }
 
   lines.push(
     '',
-    'Diagnostics',
+    '### Diagnostics',
     'Detailed review diagnostics are available in the `codex-review-output` workflow artifact.'
   );
 
@@ -267,6 +301,8 @@ module.exports = async function postReview({ github, context, core }) {
   const pr = context.payload.pull_request;
   const safetyFailure = requiredEnv('PREFLIGHT_SAFETY_FAILURE') === 'true';
   const safetyMessage = process.env.PREFLIGHT_SAFETY_MESSAGE || '';
+  const skipReason = process.env.PREFLIGHT_SKIP_REASON || '';
+  const skipMessage = process.env.PREFLIGHT_SKIP_MESSAGE || '';
   const codexResult = requiredEnv('CODEX_RESULT');
   const runUrl = requiredEnv('RUN_URL');
 
@@ -276,6 +312,16 @@ module.exports = async function postReview({ github, context, core }) {
       context,
       core,
       body: safetyMessage || 'Codex review was not run because this PR changes reviewer automation files.',
+    });
+    return;
+  }
+
+  if (skipReason) {
+    await createIssueComment({
+      github,
+      context,
+      core,
+      body: skipMessage || `Codex review was skipped during preflight (${skipReason}).`,
     });
     return;
   }
