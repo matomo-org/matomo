@@ -7,6 +7,10 @@ const SEVERITIES = ['none', 'low', 'medium', 'blocking'];
 // string to deduplicate runs, so it MUST stay byte-identical to the literal there.
 const CODEX_REVIEW_MARKER = 'This Codex review supersedes any previous Codex review output for this PR.';
 
+// Unlike requiredEnv in render-review-prompt.js, this intentionally accepts an empty string: this
+// script runs with `if: always()`, so a passthrough output such as PREFLIGHT_SAFETY_FAILURE can be
+// an empty string when the preflight job did not complete, and that must be handled rather than
+// throw. Only a genuinely unset (undefined) variable is treated as missing here.
 function requiredEnv(name) {
   const value = process.env[name];
   if (value === undefined) {
@@ -49,6 +53,8 @@ function validateReview(review) {
   }
 
   assertString(review.review_body_markdown, 'review_body_markdown');
+  // diagnostics_markdown is intentionally not rendered into the review body; it is surfaced only via
+  // the uploaded codex-review-output artifact, so the PR conversation stays concise.
   assertString(review.diagnostics_markdown, 'diagnostics_markdown');
   if (!SEVERITIES.includes(review.highest_severity)) {
     throw new Error('highest_severity is invalid');
@@ -258,6 +264,9 @@ function isDismissableCodexReview(review) {
   // dismiss anyway.
   return review
     && review.user
+    // The login of the actor behind github.token, which is what posts and therefore dismisses these
+    // reviews. If the workflow ever posts under a different identity (e.g. a GitHub App) this must
+    // be updated, otherwise dismissal silently stops matching.
     && review.user.login === 'github-actions[bot]'
     && ['APPROVED', 'CHANGES_REQUESTED'].includes(review.state)
     && typeof review.body === 'string'

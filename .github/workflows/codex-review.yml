@@ -71,6 +71,8 @@ jobs:
             });
             const latestCodexReview = reviews
               .filter((review) =>
+                // Actor behind github.token; must match the identity that posts the review (see the
+                // matching note in .github/codex/post-review.js).
                 review.user?.login === 'github-actions[bot]'
                 && ['APPROVED', 'CHANGES_REQUESTED', 'COMMENTED'].includes(review.state)
                 && typeof review.body === 'string'
