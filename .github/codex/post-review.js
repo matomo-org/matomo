@@ -198,6 +198,16 @@ function reviewEventForSeverity(severity) {
   return 'COMMENT';
 }
 
+function isDismissableCodexReview(review, currentHeadSha) {
+  return review
+    && review.user
+    && review.user.login === 'github-actions'
+    && review.commit_id !== currentHeadSha
+    && ['APPROVED', 'CHANGES_REQUESTED', 'COMMENTED'].includes(review.state)
+    && typeof review.body === 'string'
+    && review.body.includes('This Codex review supersedes any previous Codex review output for this PR.');
+}
+
 async function createIssueComment({ github, context, body, core }) {
   try {
     await github.rest.issues.createComment({
@@ -212,6 +222,44 @@ async function createIssueComment({ github, context, body, core }) {
       return;
     }
     throw error;
+  }
+}
+
+async function dismissPreviousCodexReviews({ github, context, core, currentHeadSha, runUrl }) {
+  let reviews;
+  try {
+    reviews = await github.paginate(github.rest.pulls.listReviews, {
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      pull_number: context.payload.pull_request.number,
+      per_page: 100,
+    });
+  } catch (error) {
+    core.warning(`Could not list previous pull request reviews: ${error.message}`);
+    return;
+  }
+
+  const previousCodexReviews = reviews.filter((review) =>
+    isDismissableCodexReview(review, currentHeadSha)
+  );
+
+  for (const previousReview of previousCodexReviews) {
+    try {
+      await github.rest.pulls.dismissReview({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        pull_number: context.payload.pull_request.number,
+        review_id: previousReview.id,
+        message: `Superseded by Codex Review run ${runUrl}.`,
+      });
+      core.info(`Dismissed previous Codex review ${previousReview.id}.`);
+    } catch (error) {
+      if (error.status === 403 || error.status === 422) {
+        core.warning(`Could not dismiss previous Codex review ${previousReview.id}: ${error.message}`);
+        continue;
+      }
+      throw error;
+    }
   }
 }
 
@@ -306,6 +354,14 @@ module.exports = async function postReview({ github, context, core }) {
   const event = reviewEventForSeverity(review.highest_severity);
 
   try {
+    await dismissPreviousCodexReviews({
+      github,
+      context,
+      core,
+      currentHeadSha: pr.head.sha,
+      runUrl,
+    });
+
     await github.rest.pulls.createReview({
       owner: context.repo.owner,
       repo: context.repo.repo,
