@@ -2323,7 +2323,7 @@ if (typeof window.Matomo !== 'object') {
                   'mtm_placement', 'pk_placement' // campaign placement
                 ],
 
-                // An initial list of known referrers whose campaign parameters should be ignored for attribution.
+                // An initial list of known referrers that are sending unexpected/unwanted campaign parameters. Matomo will ignore such campaigns if the referring URL matches one of the hosts defined below.
                 configIgnoreCampaignsForReferrers = [ 'chatgpt.com', 'chat.openai.com' ],
 
                 // An initial list of known sources whose campaign values in the current URL should be ignored for attribution.
@@ -2774,7 +2774,7 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /**
-             * Returns if the given referrer is on the list of referrers whose campaign parameters should be ignored for attribution.
+             * Returns if the given referrer is on the list of referrers to ignore campaign parameters from
              * @param referrerUrl
              * @returns {boolean}
              */
@@ -6191,7 +6191,7 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Set array of referrers whose campaign parameters should be ignored for attribution.
+             * Set array of referrers where campaign parameters should be ignored
              *
              * @param {string|Array} referrers
              */
