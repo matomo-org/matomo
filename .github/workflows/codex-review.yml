@@ -33,6 +33,7 @@ jobs:
         with:
           script: |
             const pr = context.payload.pull_request;
+            // MUST stay byte-identical to CODEX_REVIEW_MARKER in .github/codex/post-review.js.
             const codexReviewMarker = 'This Codex review supersedes any previous Codex review output for this PR.';
             const files = await github.paginate(github.rest.pulls.listFiles, {
               owner: context.repo.owner,

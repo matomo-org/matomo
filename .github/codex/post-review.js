@@ -2,6 +2,11 @@ const fs = require('fs');
 
 const SEVERITIES = ['none', 'low', 'medium', 'blocking'];
 
+// Sentinel embedded in every Codex review body so later runs can recognise and supersede their own
+// previous reviews. The preflight job in .github/workflows/codex-review.yml matches this exact
+// string to deduplicate runs, so it MUST stay byte-identical to the literal there.
+const CODEX_REVIEW_MARKER = 'This Codex review supersedes any previous Codex review output for this PR.';
+
 function requiredEnv(name) {
   const value = process.env[name];
   if (value === undefined) {
@@ -178,7 +183,7 @@ function formatSeverityBadge(severity) {
 function buildReviewBody(review, unplaced, inlineCount) {
   const hasFindings = review.findings.blocking + review.findings.medium + review.findings.low_polish > 0;
   const lines = [
-    '<!-- This Codex review supersedes any previous Codex review output for this PR. -->',
+    `<!-- ${CODEX_REVIEW_MARKER} -->`,
     `## 🤖 Codex Review: ${formatSeverityBadge(review.highest_severity)}`,
     '',
     '### Summary',
@@ -241,7 +246,7 @@ function isDismissableCodexReview(review) {
     && review.user.login === 'github-actions[bot]'
     && ['APPROVED', 'CHANGES_REQUESTED'].includes(review.state)
     && typeof review.body === 'string'
-    && review.body.includes('This Codex review supersedes any previous Codex review output for this PR.');
+    && review.body.includes(CODEX_REVIEW_MARKER);
 }
 
 async function createIssueComment({ github, context, body, core }) {
