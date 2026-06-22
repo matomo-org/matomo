@@ -70,7 +70,7 @@ jobs:
             });
             const latestCodexReview = reviews
               .filter((review) =>
-                review.user?.login === 'github-actions'
+                review.user?.login === 'github-actions[bot]'
                 && ['APPROVED', 'CHANGES_REQUESTED', 'COMMENTED'].includes(review.state)
                 && typeof review.body === 'string'
                 && review.body.includes(codexReviewMarker)

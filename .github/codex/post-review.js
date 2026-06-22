@@ -232,11 +232,10 @@ function reviewEventForSeverity(severity) {
   return 'COMMENT';
 }
 
-function isDismissableCodexReview(review, currentHeadSha) {
+function isDismissableCodexReview(review) {
   return review
     && review.user
-    && review.user.login === 'github-actions'
-    && review.commit_id !== currentHeadSha
+    && review.user.login === 'github-actions[bot]'
     && ['APPROVED', 'CHANGES_REQUESTED', 'COMMENTED'].includes(review.state)
     && typeof review.body === 'string'
     && review.body.includes('This Codex review supersedes any previous Codex review output for this PR.');
@@ -259,7 +258,7 @@ async function createIssueComment({ github, context, body, core }) {
   }
 }
 
-async function dismissPreviousCodexReviews({ github, context, core, currentHeadSha, runUrl }) {
+async function dismissPreviousCodexReviews({ github, context, core, runUrl }) {
   let reviews;
   try {
     reviews = await github.paginate(github.rest.pulls.listReviews, {
@@ -273,9 +272,7 @@ async function dismissPreviousCodexReviews({ github, context, core, currentHeadS
     return;
   }
 
-  const previousCodexReviews = reviews.filter((review) =>
-    isDismissableCodexReview(review, currentHeadSha)
-  );
+  const previousCodexReviews = reviews.filter(isDismissableCodexReview);
 
   for (const previousReview of previousCodexReviews) {
     try {
@@ -421,7 +418,6 @@ module.exports = async function postReview({ github, context, core }) {
       github,
       context,
       core,
-      currentHeadSha: pr.head.sha,
       runUrl,
     });
 
