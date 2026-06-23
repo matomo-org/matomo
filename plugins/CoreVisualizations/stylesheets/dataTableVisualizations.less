@@ -61,7 +61,7 @@ body.plotlines-tweaks-enabled .evolution-annotations ~ .jqplot-legend-footer {
 body.plotlines-tweaks-enabled .jqplot-legend-picker {
     display: flex;
     align-items: center;
-    flex: 0 0 auto;
+    flex: none;
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-items {
@@ -72,7 +72,7 @@ body.plotlines-tweaks-enabled .jqplot-legend-items {
     gap: var(--jqplot-legend-line-gap) var(--jqplot-legend-row-gap);
     height: var(--jqplot-legend-footer-height);
     overflow: hidden;
-    flex: 1 1 auto;
+    flex: auto;
 }
 
 // One row stays centered (rule above); once the legend wraps to two rows, left-align it —
@@ -100,7 +100,7 @@ body.plotlines-tweaks-enabled .jqplot-legend-swatch {
     height: var(--jqplot-legend-swatch-size);
     min-width: var(--jqplot-legend-swatch-size);
     border-radius: 50%;
-    flex: 0 0 auto;
+    flex: none;
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-label {

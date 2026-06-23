@@ -11,10 +11,11 @@
   @_accent-color: @theme-color-focus-ring;
   @_option-hover-bg: @theme-color-background-base;
   // checked state
-  @checked-color: @theme-color-new-brand;
+  @_checked-color: @theme-color-new-brand;
 
-  @_corner-radius: 8px;
+  @_border-radius: 8px;
   @_checkbox-size: 18px;
+  @_checkbox-border-radius: 6px;
   @_text-size: 14px;
   @_text-line-height: 20px;
 
@@ -36,7 +37,7 @@
     background: @theme-color-background-contrast;
     color: @theme-color-text;
     border: @_border;
-    border-radius: @_corner-radius;
+    border-radius: @_border-radius;
     font-size: @_text-size;
     line-height: @_text-line-height;
     cursor: pointer;
@@ -90,7 +91,7 @@
     text-align: left;
     background: @theme-color-background-contrast;
     border: @_border;
-    border-radius: @_corner-radius;
+    border-radius: @_border-radius;
     box-shadow: @_dropdown-shadow;
 
     .inDarkMode({
@@ -100,13 +101,13 @@
 
   &.expanded .metrics-picker__dropdown {
     display: block;
+    width: 254px;
   }
 
   .metrics-picker__column,
   .metrics-picker__row {
     padding: 2px 8px;
     cursor: pointer;
-    width: 236px;
   }
 
   .metrics-picker__label {
@@ -150,8 +151,8 @@
   }
 
   [type="checkbox"].filled-in:checked + span:not(.lever)::after {
-    border-color: @checked-color;
-    background-color: @checked-color;
+    border-color: @_checked-color;
+    background-color: @_checked-color;
   }
 
   // The check
@@ -170,7 +171,7 @@
   [type="checkbox"].filled-in:not(:checked) + span:not(.lever)::after {
     width: @_checkbox-size;
     height: @_checkbox-size;
-    border-radius: 6px;
+    border-radius: @_checkbox-border-radius;
   }
 
   // Radio marker — match the checkbox box: a 18px circle aligned to the same top-left
@@ -188,8 +189,8 @@
   }
 
   [type="radio"]:checked + span:not(.lever)::after {
-    border-color: @checked-color;
-    background-color: @checked-color;
+    border-color: @_checked-color;
+    background-color: @_checked-color;
   }
 
   // The option's focus affordance is the label outline (see
@@ -197,20 +198,20 @@
   // focus styling — the 10px halo, grey/secondary fill and squared corners it adds on
   // .tabbed:focus — so the box/circle looks identical whether focused or not.
   [type="checkbox"].filled-in.tabbed:focus + span:not(.lever)::after,
-  [type="radio"].tabbed:focus + span:not(.lever):before {
+  [type="radio"].tabbed:focus + span:not(.lever)::before {
     box-shadow: none;
   }
 
   [type="checkbox"].filled-in:not(:checked).tabbed:focus + span:not(.lever)::after {
     border: @_border;
-    border-radius: 6px;
+    border-radius: @_checkbox-border-radius;
     background-color: transparent;
   }
 
   [type="checkbox"].filled-in:checked.tabbed:focus + span:not(.lever)::after {
-    border-color: @checked-color;
-    background-color: @checked-color;
-    border-radius: 6px;
+    border-color: @_checked-color;
+    background-color: @_checked-color;
+    border-radius: @_checkbox-border-radius;
   }
 
   .metrics-picker__headline {
