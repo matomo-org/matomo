@@ -154,6 +154,13 @@ describe("UserSettings", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(200);
 
+        // No password-confirm modal should appear when a token was just created,
+        // because the recent re-auth grace window covers the delete.
+        const passwordModalVisible = await page.evaluate(
+            () => $('.confirm-password-modal.modal.open:visible').length
+        );
+        expect(passwordModalVisible).to.eq(0);
+
         const remainingRows = await getAuthTokenRowCount();
         expect(remainingRows).to.eq(0);
     });
@@ -223,9 +230,11 @@ describe("UserSettings", function () {
         await page.type('#passwordConfirmation', superUserPassword);
         await page.click('#userSettingsTable .btn');
         await page.waitForNetworkIdle();
-        await page.waitForSelector('#notificationContainer .notification', { visible: true });
-
-        const notificationText = await page.evaluate(() => $('#notificationContainer').text());
-        expect(notificationText).to.contain('already using this password');
+        // The controller throws on password reuse, which renders the standalone
+        // error template (full page), not a #notificationContainer notification.
+        await page.waitForFunction(
+            () => document.body.innerText.indexOf('already using this password') !== -1,
+            { timeout: 10000 }
+        );
     });
 });

@@ -133,6 +133,8 @@ describe("UsersManager", function () {
     });
 
     it('should filter by username and access level when the inputs are filled', async function () {
+        const unfilteredLogins = await getVisibleUserLogins();
+
         await page.evaluate(function () {
             $('select[name=access-level-filter]').val('string:view').change();
             $('#user-text-filter').val('ight').change();
@@ -151,10 +153,18 @@ describe("UsersManager", function () {
         expect(filterValues.text).to.eq('ight');
         expect(filterValues.status).to.eq('string:pending');
 
-        // text-filter matches login OR email, so any matching row is fine; just confirm
-        // the filter narrowed the set to at least one row.
-        const visibleLogins = await getVisibleUserLogins();
-        expect(visibleLogins.length).to.be.greaterThan(0);
+        // The text filter matches login OR email; the fixture's pending invitees
+        // (`000pendingUser1` / `zzzpendingUser2`) carry `light`-suffixed emails so
+        // they match both 'ight' and pending. Verify the table actually narrowed
+        // and that every visible row matches the text filter.
+        const visibleEntries = await page.evaluate(() => $('.pagedUsersList tbody tr').map(function () {
+            return $(this).text().toLowerCase();
+        }).get());
+        expect(visibleEntries.length).to.be.greaterThan(0);
+        expect(visibleEntries.length).to.be.lessThan(unfilteredLogins.length);
+        visibleEntries.forEach((rowText) => {
+            expect(rowText).to.contain('ight');
+        });
     });
 
     it('should display access for a different site when the roles for select is changed', async function () {
@@ -268,6 +278,8 @@ describe("UsersManager", function () {
         await page.waitForTimeout(350); // wait for animation
 
         const modalText = await page.evaluate(() => $('.change-user-role-confirm-modal').text().replace(/\s+/g, ' ').trim());
+        expect(modalText.toLowerCase()).to.contain('are you sure');
+        expect(modalText.toLowerCase()).to.contain('selected users');
         expect(modalText.toLowerCase()).to.contain('admin');
     });
 
@@ -754,7 +766,8 @@ describe("UsersManager", function () {
         await page.waitForTimeout(500);
 
         const modalText = await page.evaluate(() => $('.modal.open').text().replace(/\s+/g, ' ').trim());
-        expect(modalText.toLowerCase()).to.contain('superuser');
+        // Uses the AddSuperuserAccessConfirm warning copy, unique to this modal.
+        expect(modalText.toLowerCase()).to.contain('full control over matomo');
 
         const passwordInputExists = await page.evaluate(() => $('.modal.open #currentUserPassword').length === 1);
         expect(passwordInputExists).to.eq(true);
@@ -1028,14 +1041,13 @@ describe("UsersManager", function () {
             await page.waitForNetworkIdle();
             await page.waitForSelector('.userEditForm', { visible: true });
 
+            // UserEditForm renders #user_email only for superusers; admins editing
+            // another user must not see the email field at all (per the form template).
             const editState = await page.evaluate(() => ({
                 emailExists: $('.userEditForm #user_email').length === 1,
-                emailDisabledOrReadonly: $('.userEditForm #user_email').is(':disabled')
-                    || $('.userEditForm #user_email[readonly]').length > 0,
                 basicInfoSaveButton: $('.userEditForm .basic-info-tab .matomo-save-button .btn:visible').length,
             }));
-            expect(editState.emailExists).to.eq(true);
-            expect(editState.emailDisabledOrReadonly).to.eq(true);
+            expect(editState.emailExists).to.eq(false);
             // Admins should not have a save button on the basic info tab
             expect(editState.basicInfoSaveButton).to.eq(0);
         });
@@ -1057,12 +1069,21 @@ describe("UsersManager", function () {
             await page.evaluate(function () {
               $('.access-filter select').val('string:admin').change();
             });
+            await page.waitForNetworkIdle();
+            await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
             await page.waitForTimeout(500); // wait for animation
 
             await page.mouse.move(-10, -10);
 
             const filterValue = await page.evaluate(() => $('.access-filter select').val());
             expect(filterValue).to.eq('string:admin');
+
+            // Every visible site row should reflect the admin filter.
+            const roleValues = await getRoleSelectValues('#sitesForPermission tbody tr:not(.select-all-row)');
+            expect(roleValues.length).to.be.greaterThan(0);
+            roleValues.forEach((role) => {
+                expect(role).to.eq('string:admin');
+            });
       });
 
         it('should show the add existing user modal', async function () {
@@ -1096,10 +1117,10 @@ describe("UsersManager", function () {
             await page.waitForSelector('.pagedUsersList:not(.loading)');
             await page.waitForTimeout(1000); // for opacity to change
 
-            // Filter is set to the new user's email; the user should now appear in
-            // the list (matched by email by the user-text-filter).
-            const rowCount = await page.evaluate(() => $('.pagedUsersList tbody tr td#userLogin').length);
-            expect(rowCount).to.be.greaterThan(0);
+            // Filter is set to the new user's email; the user owning that email
+            // (login `0login3`, fixture-generated) should now appear in the list.
+            const visibleLogins = await getVisibleUserLogins();
+            expect(visibleLogins).to.include('0login3');
         });
 
         it('should add a user by username when a username is entered', async function () {
