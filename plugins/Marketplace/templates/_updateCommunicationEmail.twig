@@ -5,7 +5,7 @@
 {% for plugin in pluginsToBeNotified %}
 <li>
 {{ plugin.name }} {{ plugin.latestVersion }}
- - <a href="https://plugins.matomo.org/{{ plugin.name|url_encode }}/changelog">Changelog</a>
+ - <a href="https://plugins.matomo.org/{{ plugin.name|url_encode }}/changelog">{{ 'CorePluginsAdmin_Changelog'|translate }}</a>
 </li>
 {% endfor %}
 </ul>
