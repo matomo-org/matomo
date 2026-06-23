@@ -123,14 +123,26 @@ class UpdateCommunicationTest extends IntegrationTestCase
         $subject = 'CoreUpdater_NotificationSubjectAvailablePluginUpdate';
         $rootUrl = Fixture::getTestRootUrl();
         $twig = new Twig();
+        $changelogUrl1 = 'https://plugins.matomo.org/MyTest1/changelog';
+        $changelogUrl2 = 'https://plugins.matomo.org/MyTest2/changelog';
+        $changelogUrl3 = 'https://plugins.matomo.org/MyTest3/changelog';
 
         $message = "<p>ScheduledReports_EmailHello</p>
 <p>CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate</p>
 
 <ul>
-<li>MyTest1 33.0.0</li>
-<li>MyTest2 32.0.0</li>
-<li>MyTest3 31.0.0</li>
+<li>
+MyTest1 33.0.0
+ - <a href=\"" . $changelogUrl1 . "\">Changelog</a>
+</li>
+<li>
+MyTest2 32.0.0
+ - <a href=\"" . $changelogUrl2 . "\">Changelog</a>
+</li>
+<li>
+MyTest3 31.0.0
+ - <a href=\"" . $changelogUrl3 . "\">Changelog</a>
+</li>
 </ul>
 
 
