@@ -6,10 +6,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.12.0
 
-### New APIs
+### JavaScript Tracker
+
+#### New APIs
 * The methods `setIgnoreCampaignAttributionForSources` and `getIgnoreCampaignAttributionForSources` have been added to
   the JavaScript tracker. They allow setting/getting sources whose campaign values in the current URL should be ignored 
   for attribution. Matching campaign parameters are still kept in the tracked URL/request.
+
+### New APIs
 * `Record::setAggregatedRecordTransform()` lets a blob record register a callback that is applied to its aggregated
   table during non-day archiving, after the day blobs are aggregated together and before the table is truncated and
   stored. Use it together with `Record::setBlobColumnAggregationOps()` (marking a column `'skip'`) to recompute columns
