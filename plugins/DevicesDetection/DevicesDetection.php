@@ -52,7 +52,6 @@ class DevicesDetection extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$files)
     {
-        $files[] = 'plugins/DevicesDetection/stylesheets/DevicesDetection.less';
         $files[] = 'plugins/DevicesDetection/vue/src/DetectionPage/DetectionPage.less';
     }
 
