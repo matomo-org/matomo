@@ -90,10 +90,6 @@ describe("UserSettings", function () {
         await page.click('[vue-entry="UsersManager.AddNewTokenSuccess"] .btn');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.listAuthTokens', { visible: true });
-        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-            $('table.listAuthTokens th').css('width', '16%'); // five columns + actions
-        });
-        await page.waitForTimeout(100);
 
         const descriptions = (await getAuthTokenRows()).map((r) => r.description);
         expect(descriptions.some((d) => d.indexOf('test description') !== -1)).to.eq(true);
@@ -146,10 +142,6 @@ describe("UserSettings", function () {
     it('should show new token without expire date on security page', async function () {
         await page.goto(userSecurityUrl);
         await page.waitForSelector('.listAuthTokens', { visible: true });
-        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-            $('table.listAuthTokens th').css('width', '16%'); // five columns + actions
-        });
-        await page.waitForTimeout(100);
 
         const rows = await getAuthTokenRows();
         const noExpiryRow = rows.find((r) => r.description.indexOf('no expiration token') !== -1);
