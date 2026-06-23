@@ -9,9 +9,11 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\Api;
 
+use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\Marketplace\Environment;
+use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Version;
@@ -32,6 +34,14 @@ class EnvironmentTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        // Set a known salt before anything triggers SettingsPiwik::getSalt() (which caches
+        // its value statically), so the salt-derived unique id can be exercised. Guarded to
+        // the dedicated test, which runs in a separate process, to avoid poisoning the static
+        // salt cache for other tests sharing this process (they expect no salt / no uid).
+        if ($this->getName() === 'testGetUniqueIdReturnsSha256HashOfSaltWhenSaltConfigured') {
+            Config::getInstance()->General['salt'] = 'a1b2c3d4e5f6g7h8';
+        }
 
         Fixture::createSuperUser();
         Fixture::createWebsite('2014-01-01 02:02:02');
@@ -84,5 +94,17 @@ class EnvironmentTest extends IntegrationTestCase
     public function testDoesPreferStable()
     {
         $this->assertTrue($this->environment->doesPreferStable());
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testGetUniqueIdReturnsSha256HashOfSaltWhenSaltConfigured()
+    {
+        $salt = SettingsPiwik::getSalt();
+        $this->assertNotEmpty($salt, 'salt should be readable so the active path is exercised');
+
+        $this->assertSame(hash('sha256', $salt), $this->environment->getUniqueId());
     }
 }

@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel;
+use Piwik\SettingsPiwik;
 use Piwik\Version;
 
 class Environment
@@ -83,6 +84,26 @@ class Environment
         if (!empty($this->releaseChannel)) {
             return $this->releaseChannel->getId();
         }
+    }
+
+    /**
+     * Returns a unique, stable and anonymous identifier for this Matomo installation.
+     *
+     * The General config `salt` is unique per installation. We never send it in the clear,
+     * so the identifier is derived as an irreversible sha256 hash of the salt. Returns an
+     * empty string when no salt is configured.
+     *
+     * @return string
+     */
+    public function getUniqueId()
+    {
+        $salt = SettingsPiwik::getSalt();
+
+        if (empty($salt)) {
+            return '';
+        }
+
+        return hash('sha256', $salt);
     }
 
     public function getMySQLVersion()
