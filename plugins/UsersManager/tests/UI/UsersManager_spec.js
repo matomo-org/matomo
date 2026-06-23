@@ -52,6 +52,17 @@ describe("UsersManager", function () {
         }, rowSelector);
     }
 
+    // Returns the per-row access level shown in the manage-users access column,
+    // excluding superuser rows (whose select is disabled and not part of bulk ops).
+    async function getVisibleAccessLevels() {
+        return page.evaluate(() => {
+            return $('#manageUsersTable tbody tr').map(function () {
+                const sel = $(this).find('.access-cell li[role="option"][aria-selected="true"]').text().trim();
+                return sel || null;
+            }).get().filter((v) => v && v.toLowerCase() !== 'superuser');
+        });
+    }
+
     before(async function() {
         await page.webpage.setViewport({
             width: 1250,
@@ -152,6 +163,10 @@ describe("UsersManager", function () {
             $('select[name=access-level-filter]').val('string:').change();
             $('select[name=status-level-filter]').val('string:').change();
         });
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.pagedUsersList:not(.loading)');
+
+        const beforeAccess = await getVisibleAccessLevels();
 
         await page.evaluate(() => $('th.role_header .siteSelector a.title').click());
         await page.waitForNetworkIdle();
@@ -161,9 +176,15 @@ describe("UsersManager", function () {
         });
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
+        await page.waitForSelector('.pagedUsersList:not(.loading)');
 
         const selectedSite = await page.evaluate(() => $('th.role_header .siteSelector .title').text().trim());
         expect(selectedSite.toLowerCase()).to.contain('relentless');
+
+        // The access column should refresh to per-user access for the relentless site,
+        // which differs from the default site's pattern given the ManyUsers fixture.
+        const afterAccess = await getVisibleAccessLevels();
+        expect(afterAccess).to.not.deep.equal(beforeAccess);
     });
 
     it('should select rows when individual row select is clicked', async function () {
@@ -258,12 +279,7 @@ describe("UsersManager", function () {
 
         // Bulk role changes do not apply to superusers (their select is disabled), so
         // exclude rows whose access cell shows "Superuser".
-        const accessLevels = await page.evaluate(() => {
-            return $('#manageUsersTable tbody tr').map(function () {
-                const sel = $(this).find('.access-cell li[role="option"][aria-selected="true"]').text().trim();
-                return sel || null;
-            }).get().filter((v) => v && v.toLowerCase() !== 'superuser');
-        });
+        const accessLevels = await getVisibleAccessLevels();
         expect(accessLevels.length).to.be.greaterThan(0);
         accessLevels.forEach((level) => {
             expect(level.toLowerCase()).to.contain('admin');
@@ -280,12 +296,7 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForSelector('.pagedUsersList:not(.loading)');
 
-        const accessLevels = await page.evaluate(() => {
-            return $('#manageUsersTable tbody tr').map(function () {
-                const sel = $(this).find('.access-cell li[role="option"][aria-selected="true"]').text().trim();
-                return sel || null;
-            }).get().filter((v) => v && v.toLowerCase() !== 'superuser');
-        });
+        const accessLevels = await getVisibleAccessLevels();
         expect(accessLevels.length).to.be.greaterThan(0);
         accessLevels.forEach((level) => {
             expect(level.toLowerCase()).to.contain('no access');
@@ -506,7 +517,8 @@ describe("UsersManager", function () {
         }));
         expect(allSelectedState.headerChecked).to.eq(true);
         expect(allSelectedState.allBodyChecked).to.eq(true);
-        expect(allSelectedState.selectAllRowText.length).to.be.greaterThan(0);
+        // After clicking the in-row link, the row reads "All N websites are selected. ..."
+        expect(allSelectedState.selectAllRowText).to.match(/All\s+\d+\s+websites are selected/);
     });
 
     it('should add access to all websites when bulk access is used on all websites in search', async function () {
@@ -1017,12 +1029,13 @@ describe("UsersManager", function () {
             await page.waitForSelector('.userEditForm', { visible: true });
 
             const editState = await page.evaluate(() => ({
-                emailDisabled: $('.userEditForm #user_email').is(':disabled')
-                    || $('.userEditForm #user_email[readonly]').length > 0
-                    || $('.userEditForm #user_email').length === 0,
+                emailExists: $('.userEditForm #user_email').length === 1,
+                emailDisabledOrReadonly: $('.userEditForm #user_email').is(':disabled')
+                    || $('.userEditForm #user_email[readonly]').length > 0,
                 basicInfoSaveButton: $('.userEditForm .basic-info-tab .matomo-save-button .btn:visible').length,
             }));
-            expect(editState.emailDisabled).to.eq(true);
+            expect(editState.emailExists).to.eq(true);
+            expect(editState.emailDisabledOrReadonly).to.eq(true);
             // Admins should not have a save button on the basic info tab
             expect(editState.basicInfoSaveButton).to.eq(0);
         });

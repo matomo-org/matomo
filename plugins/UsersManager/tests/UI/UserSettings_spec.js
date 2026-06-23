@@ -18,13 +18,9 @@ describe("UserSettings", function () {
         return page.evaluate(() => $('table.listAuthTokens tbody tr:has(.creationDate)').length);
     }
 
-    async function getAuthTokenDescriptions() {
-        return page.evaluate(() => $('table.listAuthTokens tbody tr:has(.creationDate)').map(function () {
-            return $(this).find('td:nth-child(2)').html().trim();
-        }).get());
-    }
-
     async function getAuthTokenRows() {
+        // Description is read via .html() so XSS-escape assertions (&lt;img) can run on
+        // the rendered cell; expiry is the column shown either as a date or "Never".
         return page.evaluate(() => $('table.listAuthTokens tbody tr:has(.creationDate)').map(function () {
             return {
                 description: $(this).find('td:nth-child(2)').html().trim(),
@@ -99,7 +95,7 @@ describe("UserSettings", function () {
         });
         await page.waitForTimeout(100);
 
-        const descriptions = await getAuthTokenDescriptions();
+        const descriptions = (await getAuthTokenRows()).map((r) => r.description);
         expect(descriptions.some((d) => d.indexOf('test description') !== -1)).to.eq(true);
 
         const matchingRow = descriptions.find((d) => d.indexOf('test description') !== -1);
