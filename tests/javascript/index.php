@@ -3807,6 +3807,8 @@ if ($mysql) {
     });
 
     test("ignore campaign attribution for sources", function () {
+        expect(18);
+
         var tracker = Piwik.getTracker();
 
         deepEqual(tracker.getIgnoreCampaignAttributionForSources(), defaultIgnoredCampaignAttributionSources, "default ignored campaign attribution sources");
