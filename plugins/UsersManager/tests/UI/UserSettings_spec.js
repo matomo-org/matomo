@@ -223,8 +223,9 @@ describe("UserSettings", function () {
         await page.type('#passwordConfirmation', superUserPassword);
         await page.click('#userSettingsTable .btn');
         await page.waitForNetworkIdle();
+        await page.waitForSelector('#notificationContainer .notification', { visible: true });
 
-        const bodyText = await page.evaluate(() => document.body.innerText);
-        expect(bodyText).to.contain('already using this password');
+        const notificationText = await page.evaluate(() => $('#notificationContainer').text());
+        expect(notificationText).to.contain('already using this password');
     });
 });
