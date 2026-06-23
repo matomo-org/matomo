@@ -2815,7 +2815,7 @@ if (typeof window.Matomo !== 'object') {
              * This does not remove the matching parameters from the URL or tracker request. It only prevents those
              * values from becoming the visit attribution campaign in the attribution cookie.
              *
-             * @param currentUrl
+             * @param {string} currentUrl
              * @returns {boolean}
              */
             function shouldIgnoreCampaignAttributionForSource(currentUrl) {
