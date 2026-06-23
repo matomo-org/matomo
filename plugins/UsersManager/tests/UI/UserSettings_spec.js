@@ -24,6 +24,15 @@ describe("UserSettings", function () {
         }).get());
     }
 
+    async function getAuthTokenRows() {
+        return page.evaluate(() => $('table.listAuthTokens tbody tr:has(.creationDate)').map(function () {
+            return {
+                description: $(this).find('td:nth-child(2)').html().trim(),
+                expiry: $(this).find('td:nth-child(5)').text().trim(),
+            };
+        }).get());
+    }
+
     before(async function() {
         await page.webpage.setViewport({
             width: 1250,
@@ -146,8 +155,10 @@ describe("UserSettings", function () {
         });
         await page.waitForTimeout(100);
 
-        const descriptions = await getAuthTokenDescriptions();
-        expect(descriptions.some((d) => d.indexOf('no expiration token') !== -1)).to.eq(true);
+        const rows = await getAuthTokenRows();
+        const noExpiryRow = rows.find((r) => r.description.indexOf('no expiration token') !== -1);
+        expect(noExpiryRow, 'no-expiration token row should be present').to.not.eq(undefined);
+        expect(noExpiryRow.expiry).to.eq('Never');
     });
 
     it('should delete all tokens without password confirmation right after one was created', async function () {

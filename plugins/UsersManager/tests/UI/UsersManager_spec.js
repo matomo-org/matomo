@@ -191,15 +191,29 @@ describe("UsersManager", function () {
     });
 
     it('should select all rows in search when link in table is clicked', async function () {
+        // Before click: header checkbox is on, so the row reads
+        // "The N displayed users are selected. Click to select all M."
+        const before = await page.evaluate(() => ({
+            rowText: $('.pagedUsersList .select-all-row').text().replace(/\s+/g, ' ').trim(),
+            linkText: $('.pagedUsersList .toggle-select-all-in-search').text().replace(/\s+/g, ' ').trim(),
+        }));
+        expect(before.rowText.toLowerCase()).to.contain('displayed users are selected');
+        const totalMatch = before.linkText.match(/(\d+)/);
+        expect(totalMatch, 'before-click link should contain the total matching count').to.not.eq(null);
+        const totalEntries = totalMatch[1];
+
         await page.click('.toggle-select-all-in-search');
         await page.mouse.move(0, 0);
         await page.waitForTimeout(100);
 
-        const selectAllRowText = await page.evaluate(() => $('.pagedUsersList .select-all-row').text().replace(/\s+/g, ' ').trim());
-        // After clicking, the link toggles to a "deselect" / clear-selection prompt
-        expect(selectAllRowText.length).to.be.greaterThan(0);
-        const linkText = await page.evaluate(() => $('.toggle-select-all-in-search').text().trim());
-        expect(linkText.length).to.be.greaterThan(0);
+        // After click: row reads "All M users are selected. Click to select the N displayed users."
+        const visibleLogins = await getVisibleUserLogins();
+        const after = await page.evaluate(() => ({
+            rowText: $('.pagedUsersList .select-all-row').text().replace(/\s+/g, ' ').trim(),
+            linkText: $('.pagedUsersList .toggle-select-all-in-search').text().replace(/\s+/g, ' ').trim(),
+        }));
+        expect(after.rowText).to.match(new RegExp(`All\\s+${totalEntries}\\s+users are selected`));
+        expect(after.linkText).to.contain(String(visibleLogins.length));
     });
 
     it('should deselect all rows in search except for displayed rows when link in table is clicked again', async function () {
@@ -581,7 +595,7 @@ describe("UsersManager", function () {
         // The three rows previously selected (indices 0, 3, 8) should now be admin.
         const roles = await getVisibleSiteRoles();
         const adminCount = Object.values(roles).filter((role) => role === 'string:admin').length;
-        expect(adminCount).to.be.greaterThan(0);
+        expect(adminCount).to.eq(3);
     });
 
     it('should filter the permissions when the filters are used', async function () {
