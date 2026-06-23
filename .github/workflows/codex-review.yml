@@ -162,6 +162,12 @@ jobs:
           mkdir -p "$CODEX_HOME"
           cat > "$CODEX_HOME/config.toml" <<'EOF'
           project_doc_max_bytes = 0
+          web_search = "disabled"
+
+          [shell_environment_policy]
+          inherit = "core"
+          ignore_default_excludes = false
+          exclude = ["*KEY*", "*SECRET*", "*TOKEN*", "GITHUB_*", "ACTIONS_*", "OPENAI_*", "CODEX_*"]
           EOF
 
       - name: Render Codex prompt
