@@ -733,8 +733,12 @@ class API extends \Piwik\Plugin\API
 
         // if we are comparing, this will be queried with format_metrics=0, but we will eventually need to format the metrics.
         // unfortunately, we can't do that since the processed metric information is in the GetMetrics report. in this case,
-        // we queue the filter so it will eventually be formatted.
-        if (!empty($compare)) {
+        // we queue the filter so it will eventually be formatted. however, if the caller explicitly opted out of metric
+        // formatting via format_metrics=0 (e.g. the evolution chart, which then plots the raw numbers itself), we must not
+        // format the comparison rows either — formatting them turns revenue into a currency string and the chart cannot plot
+        // it as a number.
+        $formatMetricsRequest = \Piwik\Request::fromRequest()->getStringParameter('format_metrics', 'bc');
+        if (!empty($compare) && $formatMetricsRequest !== '0') {
             $getMetricsReport = ReportsProvider::factory('Goals', 'getMetrics');
             $table->queueFilter(function (DataTable $t) use ($getMetricsReport) {
                 $t->setMetadata(Metrics\Formatter::PROCESSED_METRICS_FORMATTED_FLAG, false);

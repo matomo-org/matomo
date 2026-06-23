@@ -16,6 +16,7 @@ use Piwik\Cache;
 use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Plugins\Actions\Archiver;
 use Piwik\Plugins\Actions\ArchivingHelper;
@@ -41,14 +42,32 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
-        return [
+        $pageUrlsRecord = Record::make(Record::TYPE_BLOB, Archiver::PAGE_URLS_RECORD_NAME)
+            ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation());
+        $pageTitlesRecord = Record::make(Record::TYPE_BLOB, Archiver::PAGE_TITLES_RECORD_NAME)
+            ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation());
+
+        if ($this->isFlatArchivingEnabled()) {
+            $this->setHierarchyBuiltFromFlatRecord(
+                $pageUrlsRecord,
+                Archiver::PAGE_URLS_FLAT_RECORD_NAME,
+                [$this, 'flatRowToUrlHierarchyPath'],
+                [$this, 'reduceLegacyUrlHierarchyIntoFlatTable']
+            );
+            $this->setHierarchyBuiltFromFlatRecord(
+                $pageTitlesRecord,
+                Archiver::PAGE_TITLES_FLAT_RECORD_NAME,
+                [$this, 'flatRowToTitleHierarchyPath'],
+                [$this, 'reduceLegacyTitleHierarchyIntoFlatTable']
+            );
+        }
+
+        $records = [
             Record::make(Record::TYPE_BLOB, Archiver::SITE_SEARCH_RECORD_NAME)
                 ->setMaxRowsInTable(ArchivingHelper::$maximumRowsInDataTableSiteSearch),
 
-            Record::make(Record::TYPE_BLOB, Archiver::PAGE_URLS_RECORD_NAME)
-                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation()),
-            Record::make(Record::TYPE_BLOB, Archiver::PAGE_TITLES_RECORD_NAME)
-                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation()),
+            $pageUrlsRecord,
+            $pageTitlesRecord,
 
             Record::make(Record::TYPE_BLOB, Archiver::DOWNLOADS_RECORD_NAME),
             Record::make(Record::TYPE_BLOB, Archiver::OUTLINKS_RECORD_NAME),
@@ -68,9 +87,293 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DOWNLOADS_RECORD_NAME),
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_UNIQ_DOWNLOADS_RECORD_NAME),
         ];
+
+        if ($this->isFlatArchivingEnabled()) {
+            $records[] = Record::make(Record::TYPE_BLOB, Archiver::PAGE_URLS_FLAT_RECORD_NAME)
+                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation())
+                ->setMaxRowsInTable(ArchivingHelper::$maximumRowsInDataTableFlat);
+            $records[] = Record::make(Record::TYPE_BLOB, Archiver::PAGE_TITLES_FLAT_RECORD_NAME)
+                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation())
+                ->setMaxRowsInTable(ArchivingHelper::$maximumRowsInDataTableFlat);
+        }
+
+        return $records;
+    }
+
+    public function flatRowToUrlHierarchyPath(Row $flatRow): ?array
+    {
+        return $this->flatRowToHierarchyPath($flatRow, Action::TYPE_PAGE_URL);
+    }
+
+    public function flatRowToTitleHierarchyPath(Row $flatRow): ?array
+    {
+        return $this->flatRowToHierarchyPath($flatRow, Action::TYPE_PAGE_TITLE);
+    }
+
+    public function reduceLegacyUrlHierarchyIntoFlatTable(DataTable $legacyHierarchy, DataTable $flatTable, ArchiveProcessor $archiveProcessor, Record $record): void
+    {
+        ArchivingHelper::mergeHierarchicalActionsTableIntoBestEffortFlatTable(
+            $legacyHierarchy,
+            $flatTable,
+            Action::TYPE_PAGE_URL
+        );
+    }
+
+    public function reduceLegacyTitleHierarchyIntoFlatTable(DataTable $legacyHierarchy, DataTable $flatTable, ArchiveProcessor $archiveProcessor, Record $record): void
+    {
+        ArchivingHelper::mergeHierarchicalActionsTableIntoBestEffortFlatTable(
+            $legacyHierarchy,
+            $flatTable,
+            Action::TYPE_PAGE_TITLE
+        );
     }
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
+    {
+        if (!$this->isFlatArchivingEnabled()) {
+            return $this->aggregateLegacyHierarchical($archiveProcessor);
+        }
+
+        $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
+        ArchivingHelper::reloadConfig();
+
+        $tablesByType = $this->makeReportTables();
+        $flatPageTablesByType = $this->makeFlatPageTables();
+        $tableModesByType = [
+            Action::TYPE_PAGE_URL => ArchivingHelper::ACTION_TABLE_MODE_FLAT,
+            Action::TYPE_PAGE_TITLE => ArchivingHelper::ACTION_TABLE_MODE_FLAT,
+        ];
+        $dayTablesByType = $tablesByType;
+        $dayTablesByType[Action::TYPE_PAGE_URL] = $flatPageTablesByType[Action::TYPE_PAGE_URL];
+        $dayTablesByType[Action::TYPE_PAGE_TITLE] = $flatPageTablesByType[Action::TYPE_PAGE_TITLE];
+
+        $this->archiveDayActions(
+            $archiveProcessor,
+            $rankingQueryLimit,
+            $dayTablesByType,
+            array_diff(array_keys($dayTablesByType), [Action::TYPE_SITE_SEARCH]),
+            true,
+            $tableModesByType
+        );
+
+        if ($archiveProcessor->getParams()->getSite()->isSiteSearchEnabled()) {
+            $rankingQueryLimitSiteSearch = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
+            $this->archiveDayActions(
+                $archiveProcessor,
+                $rankingQueryLimitSiteSearch,
+                $dayTablesByType,
+                [Action::TYPE_SITE_SEARCH],
+                false,
+                $tableModesByType
+            );
+        }
+
+        $this->archiveDayEntryActions($archiveProcessor->getLogAggregator(), $dayTablesByType, $rankingQueryLimit, $tableModesByType);
+        $this->archiveDayExitActions($archiveProcessor->getLogAggregator(), $dayTablesByType, $rankingQueryLimit, $tableModesByType);
+        $this->archiveDayActionsTime($archiveProcessor->getLogAggregator(), $dayTablesByType, $rankingQueryLimit, $tableModesByType);
+        $this->archiveDayActionsGoals($archiveProcessor, $rankingQueryLimit);
+        ArchivingHelper::normalizeFlatGoalsMetricsForHierarchy($flatPageTablesByType);
+
+        ArchivingHelper::clearActionsCache();
+
+        $tablesByType[Action::TYPE_PAGE_URL] = $this->buildDayHierarchicalTableFromFlatTable(
+            $flatPageTablesByType[Action::TYPE_PAGE_URL],
+            [$this, 'flatRowToUrlHierarchyPath']
+        );
+        $tablesByType[Action::TYPE_PAGE_TITLE] = $this->buildDayHierarchicalTableFromFlatTable(
+            $flatPageTablesByType[Action::TYPE_PAGE_TITLE],
+            [$this, 'flatRowToTitleHierarchyPath']
+        );
+        $this->finalizeBuiltFromFlatHierarchyTable(
+            $archiveProcessor,
+            $tablesByType[Action::TYPE_PAGE_URL],
+            Archiver::PAGE_URLS_RECORD_NAME
+        );
+        $this->finalizeBuiltFromFlatHierarchyTable(
+            $archiveProcessor,
+            $tablesByType[Action::TYPE_PAGE_TITLE],
+            Archiver::PAGE_TITLES_RECORD_NAME
+        );
+
+        $dataTable = $tablesByType[Action::TYPE_SITE_SEARCH];
+        $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
+
+        foreach ($tablesByType as $actionType => $dataTable) {
+            if (
+                $actionType === Action::TYPE_PAGE_URL
+                || $actionType === Action::TYPE_PAGE_TITLE
+            ) {
+                continue;
+            }
+
+            ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($dataTable);
+        }
+        foreach ($flatPageTablesByType as $flatDataTable) {
+            // also removes unique visitor columns from the summary row, as those cannot
+            // be summed and would otherwise be aggregated into non-day periods
+            ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($flatDataTable);
+        }
+
+        $nbSearches = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
+        $nbKeywords = $dataTable->getRowsCount();
+
+        $dataTable = $tablesByType[Action::TYPE_OUTLINK];
+        $nbOutlinks = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
+        $nbUniqOutlinks = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_NB_VISITS));
+
+        $dataTable = $flatPageTablesByType[Action::TYPE_PAGE_URL];
+        $nbPageviews = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
+        $nbUniqPageviews = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_NB_VISITS));
+        $nbSumTimeGeneration = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_GENERATION));
+        $nbHitsWithTimeGeneration = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION));
+
+        $dataTable = $tablesByType[Action::TYPE_DOWNLOAD];
+        $nbDownloads = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
+        $nbUniqDownloads = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_NB_VISITS));
+
+        return [
+            // blob records
+            Archiver::PAGE_URLS_FLAT_RECORD_NAME => $flatPageTablesByType[Action::TYPE_PAGE_URL],
+            Archiver::PAGE_TITLES_FLAT_RECORD_NAME => $flatPageTablesByType[Action::TYPE_PAGE_TITLE],
+            Archiver::PAGE_URLS_RECORD_NAME => $tablesByType[Action::TYPE_PAGE_URL],
+            Archiver::PAGE_TITLES_RECORD_NAME => $tablesByType[Action::TYPE_PAGE_TITLE],
+            Archiver::DOWNLOADS_RECORD_NAME => $tablesByType[Action::TYPE_DOWNLOAD],
+            Archiver::OUTLINKS_RECORD_NAME => $tablesByType[Action::TYPE_OUTLINK],
+            Archiver::SITE_SEARCH_RECORD_NAME => $tablesByType[Action::TYPE_SITE_SEARCH],
+
+            // numeric records
+            Archiver::METRIC_SEARCHES_RECORD_NAME => $nbSearches,
+            Archiver::METRIC_KEYWORDS_RECORD_NAME => $nbKeywords,
+
+            Archiver::METRIC_OUTLINKS_RECORD_NAME => $nbOutlinks,
+            Archiver::METRIC_UNIQ_OUTLINKS_RECORD_NAME => $nbUniqOutlinks,
+
+            Archiver::METRIC_PAGEVIEWS_RECORD_NAME => $nbPageviews,
+            Archiver::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME => $nbUniqPageviews,
+            Archiver::METRIC_SUM_TIME_RECORD_NAME => $nbSumTimeGeneration,
+            Archiver::METRIC_HITS_TIMED_RECORD_NAME => $nbHitsWithTimeGeneration,
+
+            Archiver::METRIC_DOWNLOADS_RECORD_NAME => $nbDownloads,
+            Archiver::METRIC_UNIQ_DOWNLOADS_RECORD_NAME => $nbUniqDownloads,
+        ];
+    }
+
+    protected function beforeInsertBuiltFromFlatHierarchyRecord(
+        ArchiveProcessor $archiveProcessor,
+        Record $hierarchicalRecord,
+        DataTable $hierarchicalTable,
+        DataTable $flatTable
+    ): void {
+        $recordName = $hierarchicalRecord->getName();
+        if (
+            $recordName !== Archiver::PAGE_URLS_RECORD_NAME
+            && $recordName !== Archiver::PAGE_TITLES_RECORD_NAME
+        ) {
+            return;
+        }
+
+        $this->finalizeBuiltFromFlatHierarchyTable($archiveProcessor, $hierarchicalTable, $recordName);
+    }
+
+    private function flatRowToHierarchyPath(Row $flatRow, int $actionType): ?array
+    {
+        $label = $flatRow->getColumn('label');
+        if (!is_string($label) || $label === '') {
+            return null;
+        }
+
+        if ($actionType === Action::TYPE_PAGE_URL) {
+            if ($label === ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_URL)) {
+                return [$label];
+            }
+
+            return ArchivingHelper::getActionExplodedNames(
+                ArchivingHelper::removePageUrlLeafMarkerFromFlatLabel($label),
+                $actionType
+            );
+        }
+
+        return ArchivingHelper::getActionExplodedNames($label, $actionType);
+    }
+
+    private function removeFlatPathMetadataFromDataTable(DataTable $dataTable): void
+    {
+        $summaryRow = $dataTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        if ($summaryRow instanceof Row) {
+            $summaryRow->deleteMetadata(ArchivingHelper::ACTION_FLAT_PATH_METADATA_NAME);
+        }
+
+        foreach ($dataTable->getRows() as $row) {
+            $row->deleteMetadata(ArchivingHelper::ACTION_FLAT_PATH_METADATA_NAME);
+
+            $subtable = $row->getSubtable();
+            if ($subtable instanceof DataTable) {
+                $this->removeFlatPathMetadataFromDataTable($subtable);
+            }
+        }
+    }
+
+    private function finalizeBuiltFromFlatHierarchyTable(
+        ArchiveProcessor $archiveProcessor,
+        DataTable $hierarchicalTable,
+        string $recordName
+    ): void {
+        $hierarchicalTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
+
+        if ($recordName === Archiver::PAGE_URLS_RECORD_NAME) {
+            $prefix = $archiveProcessor->getParams()->getSite()->getMainUrl();
+            $prefix = rtrim($prefix, '/') . '/';
+            ArchivingHelper::setFolderPathMetadata($hierarchicalTable, $isUrl = true, $prefix);
+        } elseif ($recordName === Archiver::PAGE_TITLES_RECORD_NAME) {
+            ArchivingHelper::setFolderPathMetadata($hierarchicalTable, $isUrl = false);
+        }
+
+        $this->removeFlatPathMetadataFromDataTable($hierarchicalTable);
+        ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($hierarchicalTable);
+    }
+
+    private function isFlatArchivingEnabled(): bool
+    {
+        ArchivingHelper::reloadConfig();
+        return ArchivingHelper::$maximumRowsInDataTableFlat > 0;
+    }
+
+    private function setHierarchyBuiltFromFlatRecord(
+        Record $record,
+        string $flatRecordName,
+        callable $flatToHierarchyPathCallback,
+        callable $legacyHierarchyToFlatReducer
+    ): void {
+        $record->setBuiltFromFlatRecord(
+            $flatRecordName,
+            $flatToHierarchyPathCallback,
+            $legacyHierarchyToFlatReducer
+        )->setMaxRowsInTable(0)->setMaxRowsInSubtable(0);
+    }
+
+    private function buildDayHierarchicalTableFromFlatTable(
+        DataTable $flatTable,
+        callable $flatToHierarchyPathCallback
+    ): DataTable {
+        return $this->buildHierarchicalTableFromFlatTable(
+            $flatTable,
+            Metrics::getColumnsAggregationOperation(),
+            $flatToHierarchyPathCallback,
+            $this->getDefaultHierarchyRowColumns()
+        );
+    }
+
+    private function getDefaultHierarchyRowColumns(): array
+    {
+        return [
+            PiwikMetrics::INDEX_NB_VISITS => 0,
+            PiwikMetrics::INDEX_NB_UNIQ_VISITORS => 0,
+            PiwikMetrics::INDEX_PAGE_NB_HITS => 0,
+            PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT => 0,
+        ];
+    }
+
+    private function aggregateLegacyHierarchical(ArchiveProcessor $archiveProcessor): array
     {
         $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
         ArchivingHelper::reloadConfig();
@@ -100,7 +403,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $prefix = $archiveProcessor->getParams()->getSite()->getMainUrl();
         $prefix = rtrim($prefix, '/') . '/';
         ArchivingHelper::setFolderPathMetadata($tablesByType[Action::TYPE_PAGE_URL], $isUrl = true, $prefix);
-
         ArchivingHelper::setFolderPathMetadata($tablesByType[Action::TYPE_PAGE_TITLE], $isUrl = false);
 
         $dataTable = $tablesByType[Action::TYPE_SITE_SEARCH];
@@ -128,25 +430,20 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $nbUniqDownloads = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_NB_VISITS));
 
         return [
-            // blob records
             Archiver::PAGE_URLS_RECORD_NAME => $tablesByType[Action::TYPE_PAGE_URL],
             Archiver::PAGE_TITLES_RECORD_NAME => $tablesByType[Action::TYPE_PAGE_TITLE],
             Archiver::DOWNLOADS_RECORD_NAME => $tablesByType[Action::TYPE_DOWNLOAD],
             Archiver::OUTLINKS_RECORD_NAME => $tablesByType[Action::TYPE_OUTLINK],
             Archiver::SITE_SEARCH_RECORD_NAME => $tablesByType[Action::TYPE_SITE_SEARCH],
 
-            // numeric records
             Archiver::METRIC_SEARCHES_RECORD_NAME => $nbSearches,
             Archiver::METRIC_KEYWORDS_RECORD_NAME => $nbKeywords,
-
             Archiver::METRIC_OUTLINKS_RECORD_NAME => $nbOutlinks,
             Archiver::METRIC_UNIQ_OUTLINKS_RECORD_NAME => $nbUniqOutlinks,
-
             Archiver::METRIC_PAGEVIEWS_RECORD_NAME => $nbPageviews,
             Archiver::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME => $nbUniqPageviews,
             Archiver::METRIC_SUM_TIME_RECORD_NAME => $nbSumTimeGeneration,
             Archiver::METRIC_HITS_TIMED_RECORD_NAME => $nbHitsWithTimeGeneration,
-
             Archiver::METRIC_DOWNLOADS_RECORD_NAME => $nbDownloads,
             Archiver::METRIC_UNIQ_DOWNLOADS_RECORD_NAME => $nbUniqDownloads,
         ];
@@ -192,12 +489,27 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         return $result;
     }
 
+    private function makeFlatPageTables(): array
+    {
+        $tables = [];
+        $maxRowsInFlatTable = ArchivingHelper::$maximumRowsInDataTableFlat;
+        foreach ([Action::TYPE_PAGE_URL, Action::TYPE_PAGE_TITLE] as $type) {
+            $table = new DataTable();
+            $table->setMaximumAllowedRows($maxRowsInFlatTable);
+            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
+            $tables[$type] = $table;
+        }
+
+        return $tables;
+    }
+
     protected function archiveDayActions(
         ArchiveProcessor $archiveProcessor,
         int $rankingQueryLimit,
         array $actionsTablesByType,
         $actionTypes,
-        bool $includePageNotDefined
+        bool $includePageNotDefined,
+        array $tableModesByType = []
     ): void {
         $logAggregator = $archiveProcessor->getLogAggregator();
 
@@ -256,14 +568,38 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $this->updateQuerySelectFromForSiteSearch($select, $from);
         }
 
-        $this->archiveDayQueryProcess($logAggregator, $actionsTablesByType, $select, $from, $where, $groupBy, $orderBy, "idaction_name", $rankingQuery, $metricsConfig);
-        $this->archiveDayQueryProcess($logAggregator, $actionsTablesByType, $select, $from, $where, $groupBy, $orderBy, "idaction_url", $rankingQuery, $metricsConfig);
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            "idaction_name",
+            $rankingQuery,
+            $metricsConfig,
+            $tableModesByType
+        );
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            "idaction_url",
+            $rankingQuery,
+            $metricsConfig,
+            $tableModesByType
+        );
     }
 
     /**
      * Entry actions for Page URLs and Page names
      */
-    protected function archiveDayEntryActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit)
+    protected function archiveDayEntryActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
@@ -312,7 +648,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "visit_entry_idaction_url",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
 
         $this->archiveDayQueryProcess(
@@ -324,14 +662,16 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "visit_entry_idaction_name",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
     }
 
     /**
      * Exit actions
      */
-    protected function archiveDayExitActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit)
+    protected function archiveDayExitActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
@@ -374,7 +714,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "visit_exit_idaction_url",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
 
         $this->archiveDayQueryProcess(
@@ -386,7 +728,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "visit_exit_idaction_name",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
 
         return array($rankingQuery, $extraSelects, $from, $orderBy, $select, $where, $groupBy);
@@ -395,7 +739,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     /**
      * Time per action
      */
-    protected function archiveDayActionsTime(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit)
+    protected function archiveDayActionsTime(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
@@ -438,7 +782,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "idaction_url_ref",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
 
         $this->archiveDayQueryProcess(
@@ -450,7 +796,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "idaction_name_ref",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
     }
 
@@ -464,7 +812,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $orderBy,
         string $sprintfField,
         ?RankingQuery $rankingQuery = null,
-        array $metricsConfig = array()
+        array $metricsConfig = array(),
+        array $tableModesByType = []
     ): void {
         $select = sprintf($select, $sprintfField);
 
@@ -481,7 +830,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         // get result
         $resultSet = $logAggregator->getDb()->query($querySql, $query['bind']);
-        ArchivingHelper::updateActionsTableWithRowQuery($resultSet, $sprintfField, $actionsTablesByType, $metricsConfig);
+        ArchivingHelper::updateActionsTableWithRowQuery(
+            $resultSet,
+            $sprintfField,
+            $actionsTablesByType,
+            $metricsConfig,
+            $tableModesByType
+        );
     }
 
     protected function updateQuerySelectFromForSiteSearch(string &$select, array &$from): void

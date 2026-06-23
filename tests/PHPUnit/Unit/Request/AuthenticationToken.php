@@ -304,6 +304,78 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * Overlay.startOverlaySession is a browser navigation endpoint with a fixed request shape.
+     * GET credentials are not part of that shape and must not be consumed as authentication.
+     *
+     * @dataProvider provideOverlayNavigationEndpointData
+     */
+    public function testGetAuthenticationTokenIgnoresGetCredentialsOnOverlayNavigationEndpoint(array $getParams)
+    {
+        $_GET = array_merge(['module' => 'Overlay', 'action' => 'startOverlaySession'], $getParams);
+        $_POST = [];
+        $_SERVER['HTTP_AUTHORIZATION'] = null;
+
+        $token = new \Piwik\Request\AuthenticationToken();
+
+        self::assertSame('', $token->getAuthToken());
+        self::assertFalse($token->wasTokenAuthProvidedSecurely());
+        self::assertFalse($token->isSessionToken());
+    }
+
+    public function provideOverlayNavigationEndpointData(): iterable
+    {
+        yield 'GET token_auth alone is ignored' => [
+            ['token_auth' => 'shouldBeIgnoredAccessToken'],
+        ];
+
+        yield 'GET token_auth with force_api_session is ignored' => [
+            ['token_auth' => 'shouldBeIgnoredAccessToken', 'force_api_session' => 1],
+        ];
+
+        yield 'GET force_api_session without token is ignored' => [
+            ['force_api_session' => 1],
+        ];
+    }
+
+    public function testOverlayNavigationEndpointDoesNotTreatGetTokenAsConflict()
+    {
+        // A session-authenticated user reaching startOverlaySession with stale GET credentials
+        // must not trigger a conflicting-auth-parameters exception, since the GET value is
+        // ignored on this endpoint.
+        $_GET = [
+            'module' => 'Overlay',
+            'action' => 'startOverlaySession',
+            'token_auth' => 'staleGetToken',
+        ];
+        $_POST = ['token_auth' => 'differentPostToken'];
+        $_SERVER['HTTP_AUTHORIZATION'] = null;
+
+        $token = new \Piwik\Request\AuthenticationToken();
+
+        self::assertSame('differentPostToken', $token->getAuthToken());
+    }
+
+    public function testGetAuthenticationTokenStillAcceptsGetTokenOnOtherEndpoints()
+    {
+        // Sanity check: the navigation-only exception is scoped to module=Overlay&action=startOverlaySession.
+        // Other endpoints that legitimately accept token_auth in the URL (widgetize, tracker, etc.)
+        // continue to work as before.
+        $_GET = [
+            'module' => 'API',
+            'action' => 'index',
+            'method' => 'API.getMatomoVersion',
+            'token_auth' => 'someAccessToken',
+        ];
+        $_POST = [];
+        $_SERVER['HTTP_AUTHORIZATION'] = null;
+
+        $token = new \Piwik\Request\AuthenticationToken();
+
+        self::assertSame('someAccessToken', $token->getAuthToken());
+        self::assertFalse($token->wasTokenAuthProvidedSecurely());
+    }
+
     private function setNestedApiInvocationCount(int $count): void
     {
         $reflectionClass = new \ReflectionClass(\Piwik\API\Request::class);

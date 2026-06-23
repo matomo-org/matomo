@@ -52,6 +52,9 @@ class TimezonesTest extends SystemTestCase
                             'filter_limit'       => 100,
                             'doNotFetchActions'  => 1,
                         ],
+                        'xmlFieldsToRemove'      => [
+                            'idVisit',
+                        ],
                         'testSuffix'             => '_yesterday' . $appendix,
                     ],
                 ];
@@ -65,6 +68,9 @@ class TimezonesTest extends SystemTestCase
                             'filter_limit'       => 100,
                             'doNotFetchActions'  => 1,
                         ],
+                        'xmlFieldsToRemove'      => [
+                            'idVisit',
+                        ],
                         'testSuffix'             => '_today' . $appendix,
                     ],
                 ];
@@ -77,6 +83,9 @@ class TimezonesTest extends SystemTestCase
                         'otherRequestParameters' => [
                             'filter_limit'       => 100,
                             'doNotFetchActions'  => 1,
+                        ],
+                        'xmlFieldsToRemove'      => [
+                            'idVisit',
                         ],
                         'testSuffix'             => '_range' . $appendix,
                     ],
@@ -92,6 +101,9 @@ class TimezonesTest extends SystemTestCase
                             'doNotFetchActions'  => 1,
                         ],
                         'segment'                => 'pageUrl=@example.org;pageUrl=@index',
+                        'xmlFieldsToRemove'      => [
+                            'idVisit',
+                        ],
                         'testSuffix'             => '_range' . $appendix, // using same suffix as results are the same
                     ],
                 ];
@@ -106,6 +118,9 @@ class TimezonesTest extends SystemTestCase
                             'doNotFetchActions'  => 1,
                         ],
                         'segment'                => 'pageUrl=@example.org;pageUrl!@index',
+                        'xmlFieldsToRemove'      => [
+                            'idVisit',
+                        ],
                         'testSuffix'             => '_range_nomatch' . $appendix, // this segment should match nothing
                     ],
                 ];

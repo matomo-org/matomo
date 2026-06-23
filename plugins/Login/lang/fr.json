@@ -69,7 +69,7 @@
         "PasswordResetCancelEmail3": "Pour activer A2F, allez sur les paramètres de sécurité de votre compte personnel et suivez les instructions fournies.",
         "PasswordResetCancelEmailSubject": "Votre compte Matomo a été sécurisé",
         "PasswordResetCancelTokenIssue": "Nous avons remarqué que vous avez tenté d'annuler votre demande de réinitialisation de mot de passe. Malheureusement, ce lien n'est plus valide car il a soit expiré, soit est invalide, soit a déjà été utilisé.",
-        "PasswordResetEmail1": "Nous avons reçu une demande de réinitialisation du mot de passe de votre compte Matomo, depuis l'adresse IP %1$s. Si vous êtes à l'origine de cette demande, vous pouvez réinitialiser votre mot de passe en cliquant sur le lien ci-dessous:",
+        "PasswordResetEmail1": "Nous avons reçu une demande de réinitialisation du mot de passe de votre compte Matomo, depuis l'adresse IP %1$s. Si vous êtes à l'origine de cette demande, vous pouvez réinitialiser votre mot de passe en cliquant sur le lien ci-dessous :",
         "PasswordResetEmail2": "Ce lien est valide 24 heures, pour des raisons de sécurité.",
         "PasswordResetEmail3": "Si vous n'avez pas demandé la réinitialisation de votre mot de passe, vous pouvez annuler la demande en cliquant sur le lien ci-dessous :",
         "PasswordResetEmail4": "Votre compte reste sécurisé, mais nous vous encourageons à agir rapidement si vous n'avez pas initié cette demande.",

@@ -30,28 +30,26 @@ describe("DashboardManager", function () {
     it("should show widget for a category when category label hovered", async function() {
         await page.click('.dashboard-manager .addWidget-button');
         await page.waitForSelector(modalSelector);
-        await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li');
+        await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li button');
 
-        live = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li:contains(Goals)');
-        await live.hover();
-
-        visitors = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li:contains(Visitors):first');
+        visitors = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li button:contains(Visitors):first');
         await visitors.hover();
         await visitors.click();
 
         await page.waitForNetworkIdle();
-        await page.waitForSelector(modalSelector + ' .widgetpreview-widgetlist>li', { visible: true });
+        await page.waitForSelector(modalSelector + ' .widgetpreview-widgetlist>li button', { visible: true });
 
-        expect(await page.screenshotSelector(modalSelector)).to.matchImage('widget_list_shown');
+        expect(await page.screenshotSelector(modalSelector, false)).to.matchImage('widget_list_shown');
     });
 
     it("should load a widget preview when a widget is hovered", async function() {
-        await page.waitForSelector(modalSelector + ' .widgetpreview-widgetlist>li', { visible: true });
+        await page.waitForSelector(modalSelector + ' .widgetpreview-widgetlist>li button', { visible: true });
 
-        vot = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Visits Over Time)');
+        vot = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li button:contains(Visits Over Time)');
         await vot.hover();
 
         await page.waitForNetworkIdle();
+        await page.waitForSelector(modalSelector + '  .widgetpreview-widgetlist>li.widgetpreview-choosen > button > .widgetpreview-add-hint', { visible: true });
 
         expect(await page.screenshotSelector(modalSelector)).to.matchImage('widget_preview');
     });
@@ -59,7 +57,7 @@ describe("DashboardManager", function () {
     it("should add the widget to the dashboard and keep the modal open when a widget is selected", async function() {
         const widgetsCountBefore = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
 
-        vot = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Visits Over Time)');
+        vot = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li button:contains(Visits Over Time)');
         await vot.click();
 
         await page.waitForNetworkIdle();

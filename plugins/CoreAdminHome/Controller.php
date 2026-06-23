@@ -25,6 +25,7 @@ use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Request;
@@ -48,10 +49,14 @@ class Controller extends ControllerAdmin
     /** @var OptOutManager */
     private $optOutManager;
 
-    public function __construct(Translator $translator, OptOutManager $optOutManager)
+    /** @var PasswordVerifier */
+    private $passwordVerify;
+
+    public function __construct(Translator $translator, OptOutManager $optOutManager, PasswordVerifier $passwordVerify)
     {
         $this->translator = $translator;
         $this->optOutManager = $optOutManager;
+        $this->passwordVerify = $passwordVerify;
 
         parent::__construct();
     }
@@ -154,12 +159,29 @@ class Controller extends ControllerAdmin
             return '';
         }
 
+        if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+            throw new Exception('Invalid HTTP method.');
+        }
+
         $response = new ResponseBuilder('json');
         try {
             $this->checkTokenInUrl();
 
+            $request = Request::fromPost();
+
+            // require password re-authentication before applying any changes
+            $login = Piwik::getCurrentUserLogin();
+            if (Piwik::doesUserRequirePasswordConfirmation($login)) {
+                $passwordConfirmation = $request->getStringParameter('passwordConfirmation', '');
+                if (
+                    $passwordConfirmation === ''
+                    || !$this->passwordVerify->isPasswordCorrect($login, $passwordConfirmation)
+                ) {
+                    throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
+                }
+            }
+
             // Update email settings
-            $request = Request::fromRequest();
             $mail = [];
             $mail['transport'] = $request->getBoolParameter('mailUseSmtp') ? 'smtp' : '';
             $mail['port'] = $request->getStringParameter('mailPort', '');
@@ -168,7 +190,7 @@ class Controller extends ControllerAdmin
             $mail['username'] = $request->getStringParameter('mailUsername', '');
             $mail['password'] = $request->getStringParameter('mailPassword', '');
 
-            if (!array_key_exists('mailPassword', $_POST) && Config::getInstance()->mail['host'] === $mail['host']) {
+            if (!array_key_exists('mailPassword', $request->getParameters()) && Config::getInstance()->mail['host'] === $mail['host']) {
                 // use old password if it wasn't set in request (and the host wasn't changed)
                 $mail['password'] = Config::getInstance()->mail['password'];
             }
@@ -178,14 +200,11 @@ class Controller extends ControllerAdmin
             Config::getInstance()->mail = $mail;
 
             $general = Config::getInstance()->General;
-            $fromName = Common::getRequestVar('mailFromName', '');
-            $general['noreply_email_name'] = Common::unsanitizeInputValue($fromName);
+            $general['noreply_email_name'] = $request->getStringParameter('mailFromName', '');
 
-            $mailFrom = Common::getRequestVar('mailFromAddress', '');
+            $mailFrom = $request->getStringParameter('mailFromAddress', '');
             if (empty($mailFrom)) {
                 $mailFrom = 'noreply@{DOMAIN}';
-            } else {
-                $mailFrom = Common::unsanitizeInputValue($mailFrom);
             }
             if (!Piwik::isValidEmailString($mailFrom) && !Common::stringEndsWith($mailFrom, '@{DOMAIN}')) {
                 throw new Exception(Piwik::translate('CoreAdminHome_ErrorEmailFromAddressNotValid'));

@@ -1,3 +1,9 @@
+// A soft blue-grey shadow in light mode; a real (black) shadow in dark mode so
+// the popup reads as elevated rather than glowing. Mirrors the selector dropdown
+// shadows in plugins/CoreHome/stylesheets/selector.less.
+@_modal_box-shadow: ~"0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D";
+@_modal_box-shadow-dark: ~"0 0 3px #00000080, 0 10px 40px #00000080";
+
 .modal {
     background: @theme-color-background-tinyContrast;
     color: @theme-color-text;
@@ -17,7 +23,11 @@
 .matomo-modal.open {
     top: 10%;
     z-index: 1003;
-    box-shadow: 0 10px 40px 0 rgba(165, 177, 202, 0.30), 0 0 3px 0 rgba(165, 177, 202, 0.30);
+    box-shadow: @_modal_box-shadow;
+
+    .inDarkMode({
+        box-shadow: @_modal_box-shadow-dark;
+    });
 }
 
 .modal .modal-content {

@@ -53,6 +53,7 @@ class ThemeStyles
         'colorBackgroundHighContrast' => 'theme-color-background-highContrast',
         'colorBackgroundDisabled' => 'theme-color-background-disabled',
         'colorBorder' => 'theme-color-border',
+        'colorBorderAlternative' => 'theme-color-border-alternative',
         'colorBorderLight' => 'theme-color-border-light',
         'colorBoxShadow' => 'theme-color-boxShadow',
         'colorCode' => 'theme-color-code',
@@ -91,7 +92,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorFocusRingAlternative;
+    public $colorFocusRingAlternative = '#00b4bE';
 
     /**
      * @var string|array<string>
@@ -245,8 +246,18 @@ class ThemeStyles
 
     /**
      * @var string|array<string>
+     * @deprecated Use $colorBorderAlternative instead. Retained only for legacy use and will be
+     *             phased out once everything has moved to the alternative.
      */
     public $colorBorder = ['#cccccc', '#555555'];
+
+    /**
+     * Use this as the new border color. $colorBorder only remains so that we don't need to update
+     * screenshots unless we really need to
+     *
+     * @var string|array<string>
+     */
+    public $colorBorderAlternative = ['#E0E0E0', '#555555'];
 
     /**
      * @var string|array<string>
@@ -281,7 +292,6 @@ class ThemeStyles
     public function __construct(string $themeMode)
     {
         $this->themeMode = $themeMode;
-        $this->colorFocusRingAlternative = $this->colorBrand;
         $this->colorMenuContrastText = $this->colorText;
         $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
         $this->colorMenuContrastBackground = $this->colorBackgroundContrast;

@@ -37,4 +37,9 @@ class Conversion extends LogTable
     {
         return array('idvisit', 'idgoal', 'buster');
     }
+
+    public function hasIdVisitorColumn(): bool
+    {
+        return true;
+    }
 }

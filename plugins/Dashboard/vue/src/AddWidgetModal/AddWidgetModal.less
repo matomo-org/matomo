@@ -1,28 +1,56 @@
-@add-widget-categories: 200px;
-@add-widget-widgets: 200px;
-@add-widget-preview: 500px;
-@add-widget-gap: 32px;
-@add-widget-height: 560px;
+@add-widget-padding: 16px;
+@add-widget-border: 1px;
+@add-widget-space-or-radius: 8px;
+@add-widget-categories: 200px + @add-widget-space-or-radius + @add-widget-border;
+@add-widget-widgets: 270px + @add-widget-padding + @add-widget-border;
+@add-widget-preview: 407px;
+@add-widget-height: 600px;
+@add-widget-item-height: 32px;
 
-// Size the modal to fit the three columns. 48px allows for Materialize's
-// default `.modal-content` padding (24px each side).
-// `.modal.add-widget-modal` keeps two-class specificity so the chosen-row
-// background below still beats the global `.widgetpreview-base
-// li.widgetpreview-choosen` rule in Morpheus/main.less.
+
+// 60px comes from padding (32px on the left and 28px on the right)
 .modal.add-widget-modal {
-  width: @add-widget-categories + @add-widget-widgets + @add-widget-preview
-    + (@add-widget-gap * 2) + 48px;
+  width: 1000px;
   max-width: 90%;
   height: @add-widget-height;
   max-height: 90vh;
-  border-radius: 8px;
+  border-radius: @add-widget-space-or-radius;
 
-  li.widgetpreview-choosen {
-    background-color: @theme-color-background-lowContrast;
+  .widgetpreview-categorylist .widgetpreview-choosen,
+  .widgetpreview-widgetlist .widgetpreview-choosen {
+    background-color: @theme-color-background-tinyContrast;
+
+    .widget-button-item,
+    .category-button-item {
+      color: @theme-color-text;
+    }
+  }
+  .widgetpreview-widgetlist .widgetpreview-unavailable .widget-button-item {
+    color: @theme-color-text-disabled;
+  }
+  // Hovering an already-added row restores the hovered/chosen text colour, so the
+  // row reads as focusable rather than staying greyed while it's under the cursor.
+  // Two classes give this higher specificity than the disabled rule above, which
+  // a same-element hovered+added row would otherwise win.
+  .widgetpreview-widgetlist .widgetpreview-choosen.widgetpreview-unavailable .widget-button-item {
+    color: @theme-color-text;
   }
 }
 
 .add-widget-modal {
+  .btn-close.modal-close {
+    top: 4px;
+    right: 4px;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    padding: 14px;
+    color: @theme-color-text-lighter;
+  }
+
   .add-widget-modal-content {
     background: @theme-color-background-contrast;
     display: flex;
@@ -30,20 +58,23 @@
     overflow-x: auto;
     overflow-y: hidden;
     min-width: 0;
+    padding: 32px 28px 0 32px;
     -webkit-overflow-scrolling: touch;
   }
 
-  // Modal title sits flush with the modal top and is left-aligned.
   .add-widget-modal-title {
-    margin-bottom: 10px;
+    margin-bottom: 32px;
     text-align: left;
     flex: none;
+    font-size: 20px;
+    font-weight: 600;
+    color: @theme-color-text;
   }
 
   .add-widget-modal-body {
     display: grid;
     grid-template-columns: @add-widget-categories @add-widget-widgets @add-widget-preview;
-    gap: @add-widget-gap;
+    gap: @add-widget-padding;
     flex: 1 1 auto;
     min-height: 0;
     width: max-content;
@@ -61,8 +92,14 @@
   .add-widget-modal-widgets {
     overflow-y: auto;
     overscroll-behavior: contain;
+    border-right: @add-widget-border solid @theme-color-background-tinyContrast;
   }
-
+  .add-widget-modal-categories {
+    padding-right: @add-widget-space-or-radius;
+  }
+  .add-widget-modal-widgets {
+    padding-right: @add-widget-padding;
+  }
   .add-widget-modal-preview {
     overflow-x: hidden;
     overflow-y: auto;
@@ -117,60 +154,79 @@
   }
 
   // Overrides the global `ul.widgetpreview-widgetlist li { padding: 0 25px 0 5px }`
-  // so the row can host a wrapping widget name and the "+ Add" hint as
-  // flex children. Scoping to `.add-widget-modal` leaves Widgetize's plain-text
-  // widget list using the global block layout.
-  ul.widgetpreview-widgetlist li {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 0 5px;
+  .category-list-item,
+  .widget-list-item {
+    border-radius: @add-widget-space-or-radius;
+    padding: 0;
   }
 
-  ul.widgetpreview-widgetlist .widgetpreview-widgetname {
+  .widget-button-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: @add-widget-space-or-radius;
+  }
+
+  .category-button-item,
+  .widget-button-item {
+    width: 100%;
+    min-height: @add-widget-item-height;
+    border: 0;
+    background: transparent;
+    box-sizing: border-box;
+    color: @theme-color-text-lighter;
+    text-align: left;
+    font: inherit;
+    cursor: inherit;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 4px @add-widget-space-or-radius;
+    white-space: normal;
+  }
+
+  .widgetpreview-widgetlist .widgetpreview-widgetname {
     flex: 1 1 auto;
     min-width: 0;
     white-space: normal;
   }
 
-  ul.widgetpreview-categorylist li {
-    white-space: normal;
-  }
-
   // Keep the focus ring for keyboard users but suppress it after a mouse click,
-  // otherwise the <li> (focusable via tabindex) keeps a dashed outline after
-  // selection and leaks into screenshot tests.
-  ul.widgetpreview-categorylist li:focus:not(:focus-visible),
-  ul.widgetpreview-widgetlist li:focus:not(:focus-visible) {
+  // otherwise the row button keeps a dashed outline after selection and leaks
+  // into screenshot tests.
+  .widgetpreview-categorylist .category-button-item:focus:not(:focus-visible),
+  .widgetpreview-widgetlist .widget-button-item:focus:not(:focus-visible) {
     outline: none;
   }
 
-  // Match the themed focus ring used on dashboard buttons/links rather than
-  // the browser default dashed outline.
-  ul.widgetpreview-categorylist li:focus-visible,
-  ul.widgetpreview-widgetlist li:focus-visible {
+  .widgetpreview-categorylist .category-button-item:focus-visible,
+  .widgetpreview-widgetlist .widget-button-item:focus-visible {
     outline: 2px solid @theme-color-focus-ring;
     outline-offset: -2px;
+    border-radius: @add-widget-space-or-radius;
   }
 
-  ul.widgetpreview-widgetlist .widgetpreview-add-hint {
+
+  .widgetpreview-choosen::after {
+    display: none;
+  }
+
+  .widgetpreview-widgetlist .widgetpreview-add-hint {
     flex: 0 0 auto;
     padding: 0 6px;
-    color: inherit;
+    color: @theme-color-text-lighter;
     opacity: 0;
     transition: opacity 80ms linear;
+    font-size: 12px;
+    line-height: 16px;
   }
 
-  ul.widgetpreview-widgetlist li.widgetpreview-choosen .widgetpreview-add-hint {
+  .widgetpreview-widgetlist .widgetpreview-choosen .widgetpreview-add-hint {
     opacity: 1;
   }
 
-  // The "+ Add" hint replaces the green-triangle ::after defined at
-  // plugins/Morpheus/stylesheets/main.less:615 for chosen widget rows in the
-  // modal only. The triangle continues to mark the chosen category on the
-  // categories list, and Widgetize's widget list keeps it too.
-  ul.widgetpreview-widgetlist li.widgetpreview-choosen::after {
-    display: none;
+  // Transient "added" confirmation: the leading "+" becomes a green check on the
+  // row just added, reverting once the hover moves elsewhere (see WidgetsList).
+  .widgetpreview-widgetlist .widgetpreview-add-check {
+    color: @color-green-matomo;
   }
 }

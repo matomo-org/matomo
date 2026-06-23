@@ -464,6 +464,30 @@ class Model
         return $wasInserted;
     }
 
+    public function updateIdVisitorInLogTable(string $logTable, string $idVisitor, array $conditions): bool
+    {
+        if (empty($idVisitor) || empty($conditions)) {
+            return false;
+        }
+
+        $table = Common::prefixTable($logTable);
+
+        $sqlQuery = "UPDATE `$table` SET `idvisitor` = ? WHERE ";
+        $sqlConditions = [];
+        $sqlBind = [$idVisitor];
+
+        foreach ($conditions as $name => $value) {
+            $sqlConditions[] = $name . " = ?";
+            $sqlBind[] = $value;
+        }
+
+        $sqlQuery .= implode(' AND ', $sqlConditions);
+
+        $db = $this->getDb();
+        $result = $db->query($sqlQuery, $sqlBind);
+        return $db->rowCount($result) != 0;
+    }
+
     /**
      * Attempt to find an existing visit record in the database
      *

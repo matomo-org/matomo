@@ -125,9 +125,10 @@ class API extends \Piwik\Plugin\API
 
         if ($flat) {
             $dataTable->filter(function (DataTable $dataTable) {
+                $notDefinedUrl = ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_URL);
                 foreach ($dataTable->getRows() as $row) {
                     $label = (string)$row->getColumn('label');
-                    if (substr($label, 0, 1) !== '/' && $label != Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'))) {
+                    if (substr($label, 0, 1) !== '/' && $label !== $notDefinedUrl) {
                         $row->setColumn('label', '/' . $label);
                     }
                 }

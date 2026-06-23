@@ -96,9 +96,47 @@ class Controller extends \Piwik\Plugin\Controller
             $view->content = $widgetView->render();
         } else {
             $view->content = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
+
+            // Only actions that return HTML may be embedded into the widgetized iframe document.
+            $this->assertDispatchedContentIsEmbeddable($controllerName, $actionName);
         }
 
         return $view->render();
+    }
+
+    private function assertDispatchedContentIsEmbeddable(string $module, string $action): void
+    {
+        $contentType = $this->getDispatchedContentType();
+
+        // An empty content type means the action did not set one explicitly and the (HTML) default applies.
+        // Only actions returning HTML (or no explicit content type) can be embedded into the iframe document.
+        if (
+            $contentType !== ''
+            && stripos($contentType, 'text/html') === false
+            && stripos($contentType, 'application/xhtml') === false
+        ) {
+            throw new \Exception(sprintf(
+                "%s.%s cannot be widgetized: only actions returning HTML can be embedded.",
+                $module,
+                $action
+            ));
+        }
+    }
+
+    private function getDispatchedContentType(): string
+    {
+        // In CLI / test mode no real headers are emitted, but Common::sendHeader() records them instead.
+        if (Common::isPhpCliMode()) {
+            return (string) (Common::$headersSentInTests['Content-Type'] ?? '');
+        }
+
+        foreach (headers_list() as $header) {
+            if (stripos($header, 'content-type:') === 0) {
+                return trim(substr($header, strlen('content-type:')));
+            }
+        }
+
+        return '';
     }
 
     private function findClientWidgetMetadata(string $module, string $action): ?array

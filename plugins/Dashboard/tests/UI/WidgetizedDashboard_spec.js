@@ -141,17 +141,13 @@ describe("WidgetizedDashboard", function () {
         await page.waitForTimeout(50);
         await page.click('.dashboard-manager .addWidget-button');
         await page.waitForSelector(modalSelector);
-        await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li');
+        await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li button');
 
-        var live = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li:contains(Goals)'); // have to mouse move twice... otherwise Live! will just be highlighted
-        await live.hover();
-        await live.click();
-
-        var behaviour = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li:contains(Behaviour):first');
+        var behaviour = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li button:contains(Behaviour):first');
         await behaviour.hover();
         await behaviour.click();
 
-        var pages = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li:contains(Pages):first');
+        var pages = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li button:contains(Pages):first');
         await pages.hover();
         // Wait for the hover timer in WidgetsList.vue to fire and mark the row as the
         // chosen widget — that's the signal the next click will select rather than just

@@ -84,9 +84,11 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     });
 
     const items = wrapper.findAll('li');
+    const buttons = wrapper.findAll('li button');
     expect(items[0].classes()).not.toContain('widgetpreview-unavailable');
     expect(items[1].classes()).not.toContain('widgetpreview-unavailable');
     expect(items[2].classes()).toContain('widgetpreview-unavailable');
+    expect(buttons).toHaveLength(3);
   });
 
   it('emits hover with a 400ms debounce', async () => {
@@ -94,7 +96,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       props: { widgets: [widgetVisits] },
     });
 
-    await wrapper.findAll('li')[0].trigger('mouseenter');
+    await wrapper.findAll('li button')[0].trigger('mouseenter');
     expect(wrapper.emitted().hover).toBeUndefined();
 
     jest.advanceTimersByTime(399);
@@ -109,8 +111,8 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       props: { widgets: [widgetVisits] },
     });
 
-    await wrapper.findAll('li')[0].trigger('mouseenter');
-    await wrapper.findAll('li')[0].trigger('mouseleave');
+    await wrapper.findAll('li button')[0].trigger('mouseenter');
+    await wrapper.findAll('li button')[0].trigger('mouseleave');
 
     jest.advanceTimersByTime(500);
     expect(wrapper.emitted().hover).toBeUndefined();
@@ -122,7 +124,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     });
     (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
 
-    await wrapper.findAll('li')[0].trigger('click');
+    await wrapper.findAll('li button')[0].trigger('click');
     expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
   });
 
@@ -147,7 +149,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
 
     expect(wrapper.findAll('li')[0].classes()).toContain('widgetpreview-unavailable');
 
-    await wrapper.findAll('li')[0].trigger('click');
+    await wrapper.findAll('li button')[0].trigger('click');
     expect(wrapper.emitted().select).toEqual([['widgetBlocked']]);
   });
 
@@ -162,16 +164,45 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
 
     expect(wrapper.findAll('li')[0].classes()).toContain('widgetpreview-unavailable');
 
-    await wrapper.findAll('li')[0].trigger('click');
+    await wrapper.findAll('li button')[0].trigger('click');
     expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
   });
 
-  it('renders the add hint using the shared translation key', () => {
+  it('renders the add hint with a "+" symbol and the shared translation key', () => {
     const wrapper = mount(WidgetsList as any, {
       props: { widgets: [widgetVisits] },
     });
 
-    expect(wrapper.find('.widgetpreview-add-hint').text()).toBe('+ General_Add');
+    const hint = wrapper.find('.widgetpreview-add-hint');
+    expect(hint.find('.widgetpreview-add-plus').exists()).toBe(true);
+    expect(hint.find('.icon-ok').exists()).toBe(false);
+    expect(hint.text()).toBe('+ General_Add');
+  });
+
+  it('swaps the "+" for a green check on the just-added row and reverts when the hover moves', async () => {
+    const wrapper = mount(WidgetsList as any, {
+      props: {
+        widgets: [widgetVisits, widgetKpi],
+        chosenWidgetId: 'widgetVisits',
+      },
+    });
+    (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = true;
+
+    await wrapper.findAll('li button')[0].trigger('click');
+    expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
+
+    let hint = wrapper.findAll('li')[0].find('.widgetpreview-add-hint');
+    expect(hint.find('.icon-ok').exists()).toBe(true);
+    expect(hint.find('.widgetpreview-add-plus').exists()).toBe(false);
+    expect(hint.text()).toBe('General_Added');
+
+    // Hovering another widget reverts the check and label back to "+ Add".
+    await wrapper.setProps({ chosenWidgetId: 'widgetKpi' });
+
+    hint = wrapper.findAll('li')[0].find('.widgetpreview-add-hint');
+    expect(hint.find('.icon-ok').exists()).toBe(false);
+    expect(hint.find('.widgetpreview-add-plus').exists()).toBe(true);
+    expect(hint.text()).toBe('+ General_Add');
   });
 
   it('renders the full widget name text for long labels', () => {
@@ -188,7 +219,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
         props: { widgets: [widgetVisits] },
       });
 
-      await wrapper.findAll('li')[0].trigger('focus');
+      await wrapper.findAll('li button')[0].trigger('focus');
       expect(wrapper.emitted().hover).toBeUndefined();
 
       jest.advanceTimersByTime(399);
@@ -203,8 +234,8 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
         props: { widgets: [widgetVisits] },
       });
 
-      await wrapper.findAll('li')[0].trigger('focus');
-      await wrapper.findAll('li')[0].trigger('blur');
+      await wrapper.findAll('li button')[0].trigger('focus');
+      await wrapper.findAll('li button')[0].trigger('blur');
 
       jest.advanceTimersByTime(500);
       expect(wrapper.emitted().hover).toBeUndefined();
@@ -220,8 +251,8 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
         },
       });
 
-      await wrapper.findAll('li')[0].trigger('focus');
-      await wrapper.findAll('li')[0].trigger('blur');
+      await wrapper.findAll('li button')[0].trigger('focus');
+      await wrapper.findAll('li button')[0].trigger('blur');
 
       jest.advanceTimersByTime(400);
       expect(wrapper.emitted().hover).toEqual([['widgetBlocked']]);
@@ -232,8 +263,8 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
         props: { widgets: [widgetVisits] },
       });
 
-      await wrapper.findAll('li')[0].trigger('focus');
-      await wrapper.findAll('li')[0].trigger('keydown', { key: 'Enter' });
+      await wrapper.findAll('li button')[0].trigger('focus');
+      await wrapper.findAll('li button')[0].trigger('keydown', { key: 'Enter' });
 
       expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
       jest.advanceTimersByTime(500);
@@ -245,7 +276,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
         props: { widgets: [widgetVisits] },
       });
 
-      await wrapper.findAll('li')[0].trigger('keydown', { key: ' ' });
+      await wrapper.findAll('li button')[0].trigger('keydown', { key: ' ' });
       expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
     });
 
@@ -255,7 +286,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       });
       (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = false;
 
-      await wrapper.findAll('li')[0].trigger('keydown', { key: 'Enter' });
+      await wrapper.findAll('li button')[0].trigger('keydown', { key: 'Enter' });
 
       expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
       expect(wrapper.emitted().hover).toBeUndefined();
@@ -269,7 +300,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
 
       (wrapper.vm as unknown as { focusFirst: () => void }).focusFirst();
 
-      expect(document.activeElement).toBe(wrapper.findAll('li')[0].element);
+      expect(document.activeElement).toBe(wrapper.findAll('li button')[0].element);
       wrapper.unmount();
     });
 
@@ -293,7 +324,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       });
       (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = false;
 
-      await wrapper.findAll('li')[0].trigger('click');
+      await wrapper.findAll('li button')[0].trigger('click');
 
       expect(wrapper.emitted().hover).toEqual([['widgetVisits']]);
       expect(wrapper.emitted().select).toBeUndefined();
@@ -315,7 +346,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       });
       (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = false;
 
-      await wrapper.findAll('li')[0].trigger('click');
+      await wrapper.findAll('li button')[0].trigger('click');
 
       expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
       expect(wrapper.emitted().hover).toBeUndefined();
@@ -327,7 +358,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       });
       (wrapper.vm as unknown as { supportsHover: boolean }).supportsHover = false;
 
-      await wrapper.findAll('li')[1].trigger('click');
+      await wrapper.findAll('li button')[1].trigger('click');
 
       expect(wrapper.emitted().hover).toEqual([['widgetKpi']]);
       expect(wrapper.emitted().select).toBeUndefined();

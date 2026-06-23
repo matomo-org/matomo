@@ -24,6 +24,25 @@
         "source": "https://github.com/matomo-org/matomo"
     },
     "config": {
+        "audit": {
+            "ignore": {
+                "PKSA-1tmc-rt7x-12w6": "CVE-2026-48806 (sandbox `__toString()` bypass via dynamic mapping keys): not exploitable - Matomo does not enable Twig's sandbox. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-21g2-dzjv-sky5": "CVE-2026-46634 (`template_from_string()` escapes a SourcePolicy-driven sandbox): not exploitable - Matomo does not call `template_from_string`/`createTemplate` at runtime (only one TagManager test fixture) and does not implement `SourcePolicyInterface`. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-3mcc-k66d-pydb": "CVE-2026-46638 (`{% sandbox %}{% include %}` skips `checkSecurity()` on cached templates): not exploitable - Matomo uses neither the `{% sandbox %}` tag nor `SandboxExtension`. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-dpx1-78wg-1kqs": "CVE-2026-47732 (multiple sandbox `__toString()` bypasses via unguarded string coercion points): not exploitable - Matomo does not enable Twig's sandbox. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-fbvq-z33h-r2np": "CVE-2026-48808 (sandbox property allowlist bypass via `column` filter under `SourcePolicyInterface`): not exploitable - Matomo does not register `SandboxExtension` or implement `SourcePolicyInterface`. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-g9zw-qxh8-pq8w": "CVE-2026-48805 (sandbox state regression in deprecated wrappers in `vendor/twig/twig/src/Resources/core.php`): not exploitable - Matomo does not enable Twig's sandbox. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-gw7n-z4yx-7xjt": "CVE-2026-24425 (possible sandbox bypass when using a source policy): not exploitable - Matomo does not implement `SourcePolicyInterface` or enable Twig's sandbox. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-h8hf-ytnd-5t9q": "CVE-2026-46633 (PHP code injection via `{% use %}` template name): not exploitable - no Matomo template uses the `{% use %}` tag and no PHP code emits `{% use` content at runtime. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-hgmw-wn4d-hpcy": "CVE-2026-46639 (sandbox property and method bypass via object-destructuring assignment): not exploitable - Matomo does not enable Twig's sandbox; vulnerable range (Twig >=3.24.0,<3.26.0) does not even cover Matomo's pinned 3.11.3. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-kvv6-36cr-fkzb": "CVE-2026-46627 (sandbox does not protect against resource exhaustion): not exploitable - Matomo does not enable Twig's sandbox; templates are author-trusted. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-n14z-jjjg-g8vd": "CVE-2026-46635 (sandbox property allowlist bypass via `column` filter / `array_column` on objects): not exploitable - Matomo does not enable Twig's sandbox. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-sjvz-tbbr-vwth": "CVE-2026-46628 (`spaceless` filter implicitly marks output as safe): not exploitable - variables inside Matomo's six `{% apply spaceless %}` blocks (CoreHome, CustomAlerts, Marketplace, Ecommerce, SegmentEditor) go through normal `{{ }}` auto-escaping; no `|spaceless` filter form is used, and the only `|raw` uses inside cover plugin-supplied metadata (e.g. `html_label_prefix`, `menu._html`), not request input. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-wwb1-81rc-pd65": "CVE-2026-47730 (XSS in profiler `HtmlDumper` via unescaped template and profile names): not exploitable - Matomo does not register `ProfilerExtension` or use `HtmlDumper`. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-xx6c-6d96-db2w": "CVE-2026-48807 (sandbox `__toString()` bypass via `Traversable` in `join`/`replace` filters and `in`/`not in` operators): not exploitable - Matomo does not enable Twig's sandbox. Upgrade blocked while Matomo supports PHP 7.2.",
+                "PKSA-yd6k-t2gh-1m43": "CVE-2026-46636 (cached-Template sandbox allow-list bypass when sandbox state changes between renders): not exploitable - Matomo does not enable Twig's sandbox or toggle sandbox state. Upgrade blocked while Matomo supports PHP 7.2."
+            }
+        },
         "platform": {
             "php": "7.2.9"
         },
@@ -69,7 +88,7 @@
         "szymach/c-pchart": "~3.0.13",
         "tecnickcom/tcpdf": "~6.0",
         "tedivm/jshrink": "^1.7.0",
-        "twig/twig": "^3.0",
+        "twig/twig": ">=3.11.3 <3.12",
         "wikimedia/less.php": "^3.0"
     },
     "require-dev": {

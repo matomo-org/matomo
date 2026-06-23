@@ -9,6 +9,8 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
+use Piwik\DbHelper;
 use Piwik\Updater;
 use Piwik\Updates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -27,10 +29,15 @@ class Updates_5_11_0_b1 extends Updates
 
     public function getMigrations(Updater $updater): array
     {
-        return [
+        $migrations = [
             $this->migration->db->addColumn('site', 'description', "VARCHAR(255) NOT NULL DEFAULT ''", 'name'),
-            $this->migration->db->addColumn('custom_dimensions', 'description', "VARCHAR(1000) NOT NULL DEFAULT ''", 'name'),
         ];
+
+        if (DbHelper::tableExists(Common::prefixTable('custom_dimensions'))) {
+            $migrations[] = $this->migration->db->addColumn('custom_dimensions', 'description', "VARCHAR(1000) NOT NULL DEFAULT ''", 'name');
+        }
+
+        return $migrations;
     }
 
     public function doUpdate(Updater $updater): void

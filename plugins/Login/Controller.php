@@ -74,7 +74,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     protected $systemSettings;
 
-    /*
+    /**
      * @var PasswordVerifier
      */
     protected $passwordVerify;
@@ -229,17 +229,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $messageNoAccess = '';
 
         if (!empty($_POST)) {
-            $nonce = Common::getRequestVar('nonce', null, 'string', $_POST);
-            $password = Common::getRequestVar('password', null, 'string', $_POST);
-            if ($password) {
-                $password = Common::unsanitizeInputValue($password);
-            }
+            $nonce    = Request::fromPost()->getStringParameter('nonce');
+            $password = Request::fromPost()->getStringParameter('password');
             $errorMessage = Nonce::verifyNonceWithErrorMessage($nonceKey, $nonce);
-            if ($errorMessage !== "") {
+            if ($errorMessage !== '') {
                 $messageNoAccess = $errorMessage;
             } elseif ($this->passwordVerify->isPasswordCorrect(Piwik::getCurrentUserLogin(), $password)) {
-                $this->passwordVerify->setPasswordVerifiedCorrectly();
-                return;
+                $this->passwordVerify->setPasswordVerifiedCorrectly(Piwik::getCurrentUserLogin());
+                return '';
             } else {
                 $messageNoAccess = Piwik::translate('Login_WrongPasswordEntered');
             }
@@ -346,7 +343,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * @param string $login user name
      * @param string $password plain-text or hashed password
-     * @param string $urlToRedirect URL to redirect to, if successfully authenticated
+     * @param string|false $urlToRedirect URL to redirect to, if successfully authenticated
      * @param bool $passwordHashed indicates if $password is hashed
      */
     protected function authenticateAndRedirect(
@@ -578,8 +575,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $errorMessage = null;
         $passwordHash = null;
 
-        $login = Common::getRequestVar('login');
-        $resetToken = Common::getRequestVar('resetToken');
+        $request    = Request::fromRequest();
+        $login      = $request->getStringParameter('login');
+        $resetToken = $request->getStringParameter('resetToken');
 
         try {
             $passwordHash = $this->passwordResetter->checkValidConfirmPasswordToken($login, $resetToken);

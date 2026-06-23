@@ -70,6 +70,94 @@ class RankingQueryApiTest extends SystemTestCase
         ]);
     }
 
+    public function testRankingQueryUsesOthersRowContentPages(): void
+    {
+        $generalConfig = &Config::getInstance()->General;
+        $generalConfig['datatable_archiving_maximum_rows_ai_chatbot_content'] = 2;
+
+        Cache::flushAll();
+        self::deleteArchiveTables();
+
+        $this->runApiTests(['BotTracking.getAIChatbotContentPages'], [
+            'idSite'     => 1,
+            'date'       => '2025-02-03',
+            'periods'    => ['day', 'week'],
+            'testSuffix' => 'ranking_limit_content_pages',
+        ]);
+    }
+
+    public function testRankingQueryUsesOthersRowContentDocuments(): void
+    {
+        $generalConfig = &Config::getInstance()->General;
+        $generalConfig['datatable_archiving_maximum_rows_ai_chatbot_content'] = 2;
+
+        Cache::flushAll();
+        self::deleteArchiveTables();
+
+        $this->runApiTests(['BotTracking.getAIChatbotContentDocuments'], [
+            'idSite'     => 1,
+            'date'       => '2025-02-03',
+            'periods'    => ['day', 'week'],
+            'testSuffix' => 'ranking_limit_content_documents',
+        ]);
+    }
+
+    public function testRankingQueryUsesOthersRowBrokenContent(): void
+    {
+        $generalConfig = &Config::getInstance()->General;
+        $generalConfig['datatable_archiving_maximum_rows_ai_chatbot_content'] = 2;
+
+        Cache::flushAll();
+        self::deleteArchiveTables();
+
+        $this->runApiTests(['BotTracking.getAIChatbotBrokenContent'], [
+            'idSite'     => 1,
+            'date'       => '2025-02-03',
+            'periods'    => ['day', 'week'],
+            'testSuffix' => 'ranking_limit_broken_content',
+        ]);
+    }
+
+    public function testRankingQueryUsesOthersRowHumanFavouredPages(): void
+    {
+        $generalConfig = &Config::getInstance()->General;
+        $generalConfig['datatable_archiving_maximum_rows_ai_chatbot_favoured_pages'] = 2;
+
+        Cache::flushAll();
+        self::deleteArchiveTables();
+
+        // enable_filter_excludelowpop=0 shows every row (the default filter would drop the unscored
+        // Others row), so the truncation tail is visible for both the day blob and the week re-aggregation.
+        $this->runApiTests(['BotTracking.getAIChatbotHumanFavouredPages'], [
+            'idSite'                 => 1,
+            'date'                   => '2025-02-03',
+            'periods'                => ['day', 'week'],
+            'otherRequestParameters' => [
+                'enable_filter_excludelowpop' => 0,
+            ],
+            'testSuffix'             => 'ranking_limit_human_favoured_pages',
+        ]);
+    }
+
+    public function testRankingQueryUsesOthersRowAiFavouredPages(): void
+    {
+        $generalConfig = &Config::getInstance()->General;
+        $generalConfig['datatable_archiving_maximum_rows_ai_chatbot_favoured_pages'] = 2;
+
+        Cache::flushAll();
+        self::deleteArchiveTables();
+
+        $this->runApiTests(['BotTracking.getAIChatbotAIFavouredPages'], [
+            'idSite'                 => 1,
+            'date'                   => '2025-02-03',
+            'periods'                => ['day', 'week'],
+            'otherRequestParameters' => [
+                'enable_filter_excludelowpop' => 0,
+            ],
+            'testSuffix'             => 'ranking_limit_ai_favoured_pages',
+        ]);
+    }
+
     public static function getOutputPrefix()
     {
         return '';

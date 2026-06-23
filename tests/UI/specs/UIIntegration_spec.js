@@ -482,7 +482,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the example ui > evolution graph page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Evolution%20Graph");
-            await page.waitForSelector('.icon-annotation');
+            await page.waitForNetworkIdle();
+            // the annotation markers are positioned after the graph has rendered, so wait until the
+            // ones that have annotations are actually placed/visible before taking the screenshot
+            await page.waitForFunction(
+              "$('.evolution-annotations > span[data-count!=0]').length > 0 && $('.evolution-annotations > span[data-count!=0]').css('opacity') == 1"
+            );
 
             expect(await screenshotPageWrap()).to.matchImage('exampleui_evolutionGraph');
         });

@@ -1,6 +1,6 @@
 {
     "VisitorInterest": {
-        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYMinutes": "%1$s–%2$s min",
         "BetweenXYSeconds": "%1$s–%2$ss",
         "ColumnPagesPerVisit": "Liczba stron w czasie wizyty",
         "ColumnVisitDuration": "Czas trwania odwiedzin",
@@ -12,7 +12,7 @@
         "VisitsByDaysSinceLast": "Odwiedziny wg. dni od ostatnich odwiedzin",
         "VisitsPerDuration": "Odwiedziny do czasu trwania wizyty",
         "VisitsPerNbOfPages": "Odwiedziny do liczby odwiedzonych stron",
-        "WidgetLengths": "Czas wizyt",
+        "WidgetLengths": "Długość odwiedziń",
         "WidgetLengthsDocumentation": "Ten raport zawiera zestawienia liczby wizyt o określonym czasie trwania. Wstępnie raport ten prezentowany jest w postaci chmury tagów, a najpopularniejsze czasy odwiedzin wyróżnia większa czcionka.",
         "WidgetPages": "Liczba stron w czasie wizyty",
         "WidgetPagesDocumentation": "Ten raport zawiera zestawienie liczby odwiedzin, podczas których odwiedzono określoną liczbę stron. Wstępnie raport ten ma postać chmury tagów, a najpopularniejsze wartości wyróżnia większa czcionka.",

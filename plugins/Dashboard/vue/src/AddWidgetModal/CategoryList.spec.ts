@@ -28,11 +28,13 @@ describe('Dashboard/AddWidgetModal/CategoryList', () => {
     });
 
     const items = wrapper.findAll('li');
+    const buttons = wrapper.findAll('li button');
     expect(items).toHaveLength(3);
+    expect(buttons).toHaveLength(3);
     expect(items[0].classes()).not.toContain('widgetpreview-choosen');
     expect(items[1].classes()).toContain('widgetpreview-choosen');
     expect(items[2].classes()).not.toContain('widgetpreview-choosen');
-    expect(items.map((i) => i.text())).toEqual(['Visitors', longCategory, 'Live']);
+    expect(buttons.map((i) => i.text())).toEqual(['Visitors', longCategory, 'Live']);
   });
 
   it('renders the full category text for long labels', () => {
@@ -43,7 +45,7 @@ describe('Dashboard/AddWidgetModal/CategoryList', () => {
       },
     });
 
-    expect(wrapper.find('li').text()).toBe(longCategory);
+    expect(wrapper.find('li button').text()).toBe(longCategory);
   });
 
   it('emits update:chosenCategory on mouseover', async () => {
@@ -57,7 +59,7 @@ describe('Dashboard/AddWidgetModal/CategoryList', () => {
       },
     });
 
-    await wrapper.findAll('li')[1].trigger('mouseover');
+    await wrapper.findAll('li button')[1].trigger('mouseover');
 
     expect(wrapper.emitted()['update:chosenCategory']).toEqual([['Goals']]);
   });
@@ -68,7 +70,7 @@ describe('Dashboard/AddWidgetModal/CategoryList', () => {
         props: { categories: ['Visitors', 'Goals'], chosenCategory: null },
       });
 
-      await wrapper.findAll('li')[1].trigger('keydown', { key: 'Enter' });
+      await wrapper.findAll('li button')[1].trigger('keydown', { key: 'Enter' });
 
       expect(wrapper.emitted()['update:chosenCategory']).toEqual([['Goals']]);
       expect(wrapper.emitted().confirm).toEqual([[]]);
@@ -79,7 +81,7 @@ describe('Dashboard/AddWidgetModal/CategoryList', () => {
         props: { categories: ['Visitors', 'Goals'], chosenCategory: null },
       });
 
-      await wrapper.findAll('li')[0].trigger('keydown', { key: ' ' });
+      await wrapper.findAll('li button')[0].trigger('keydown', { key: ' ' });
 
       expect(wrapper.emitted()['update:chosenCategory']).toEqual([['Visitors']]);
       expect(wrapper.emitted().confirm).toEqual([[]]);
@@ -90,9 +92,9 @@ describe('Dashboard/AddWidgetModal/CategoryList', () => {
         props: { categories: ['Visitors'], chosenCategory: null },
       });
 
-      await wrapper.findAll('li')[0].trigger('mouseover');
-      await wrapper.findAll('li')[0].trigger('click');
-      await wrapper.findAll('li')[0].trigger('focus');
+      await wrapper.findAll('li button')[0].trigger('mouseover');
+      await wrapper.findAll('li button')[0].trigger('click');
+      await wrapper.findAll('li button')[0].trigger('focus');
 
       expect(wrapper.emitted().confirm).toBeUndefined();
     });

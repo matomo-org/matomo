@@ -10,6 +10,25 @@
 describe("ScheduledReports", function () {
     this.fixture = "Piwik\\Plugins\\ScheduledReports\\tests\\Fixtures\\ReportSubscription";
 
+    it("should center the unsubscribe form relative to the header", async function () {
+        await page.goto("?module=ScheduledReports&action=unsubscribe&token=mycustomtoken");
+        await page.waitForNetworkIdle();
+
+        const margins = await page.$eval(
+            ".scheduledReportsUnsubscribePage .loginSection > .col",
+            (col) => {
+                const style = window.getComputedStyle(col);
+                return { left: style.marginLeft, right: style.marginRight };
+            },
+        );
+
+        // `margin: auto` resolves to equal, non-zero pixel values on a centred block,
+        // so this catches the regression even when the Login plugin (and its CSS)
+        // is loaded in the test environment.
+        expect(margins.left).to.equal(margins.right);
+        expect(parseFloat(margins.left)).to.be.above(0);
+    });
+
     it("should show an error if no token was provided", async function () {
         await page.goto("?module=ScheduledReports&action=unsubscribe&token=");
 

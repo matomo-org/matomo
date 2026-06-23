@@ -178,7 +178,6 @@
         "RandomizeConfigIdNote": "Door de config_ID voor elk verzoek willekeurig te maken, zorgt deze functie ervoor dat het volgen van bezoekers voldoet aan de strengste privacy-interpretaties. Deze instelling schakelt mechanismen uit die afhankelijk zijn van user-agent-gegevens, cookies of andere identificatiegegevens waarvoor expliciete toestemming vereist is, waardoor geanonimiseerd volgen mogelijk is met respect voor de privacy van de gebruiker.",
         "RawDataNeverRemoved": "ruwe gegevens voor bezoeken en activiteiten worden <strong>nooit</strong> gewist.",
         "RawDataRemovedAfter": "alle ruwe gegevens voor bezoeken en activiteiten worden verwijderd na %1$s.",
-        "RecommendedForPrivacy": "Aanbevolen voor privacy",
         "ReportsDataSavedEstimate": "Database omvang",
         "ReportsNeverRemoved": "geaggregeerde rapporten worden <strong>nooit</strong> verwijderd.",
         "ReportsRemovedAfter": "alle geaggregeerde rapporten worden verwijderd na %1$s.",

@@ -496,11 +496,6 @@ parameters:
 			path: core/CliMulti/RequestCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, float given\\.$#"
-			count: 1
-			path: core/Columns/Dimension.php
-
-		-
 			message: "#^Property Piwik\\\\Columns\\\\Updater\\:\\:\\$actionDimensions \\(array\\<Piwik\\\\Plugin\\\\Dimension\\\\ActionDimension\\>\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: core/Columns/Updater.php
@@ -906,11 +901,6 @@ parameters:
 			path: core/DataTable/Renderer.php
 
 		-
-			message: "#^Instanceof between Piwik\\\\DataTable and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Csv.php
-
-		-
 			message: "#^Parameter \\#1 \\$table of method Piwik\\\\DataTable\\\\Renderer\\\\Html\\:\\:buildTableStructure\\(\\) expects Piwik\\\\DataTable\\|Piwik\\\\DataTable\\\\Map, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
 			count: 1
 			path: core/DataTable/Renderer/Html.php
@@ -1244,21 +1234,6 @@ parameters:
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: core/Plugin.php
-
-		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, float given\\.$#"
-			count: 1
-			path: core/Plugin/ArchivedMetric.php
-
-		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, \\(float\\|false\\) given\\.$#"
-			count: 1
-			path: core/Plugin/ComputedMetric.php
-
-		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, float given\\.$#"
-			count: 1
-			path: core/Plugin/ComputedMetric.php
 
 		-
 			message: "#^Call to function is_null\\(\\) with Piwik\\\\Site will always evaluate to false\\.$#"
@@ -2419,11 +2394,6 @@ parameters:
 			path: plugins/API/Filter/DataComparisonFilter/ComparisonRowGenerator.php
 
 		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\$row Row\\)\\: Unexpected token \"\\$row\", expected type at offset 9$#"
-			count: 1
-			path: plugins/API/RowEvolution.php
-
-		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
 			count: 1
 			path: plugins/API/RowEvolution.php
@@ -3284,27 +3254,7 @@ parameters:
 			path: plugins/Goals/API.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between int and 'ecommerceOrder' will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/Goals/Columns/Metrics/GoalSpecific/RevenuePerEntry.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between int and 'ecommerceOrder' will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/Goals/Columns/Metrics/GoalSpecific/RevenuePerVisit.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\Goals\\\\Columns\\\\Metrics\\\\GoalSpecificProcessedMetric\\:\\:\\$idSite \\(int\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: plugins/Goals/Columns/Metrics/GoalSpecificProcessedMetric.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between int and 'ecommerceAbandonedC…' will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/Goals/Columns/Metrics/GoalSpecificProcessedMetric.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between int and 'ecommerceOrder' will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/Goals/Columns/Metrics/GoalSpecificProcessedMetric.php
 
@@ -3574,11 +3524,6 @@ parameters:
 			path: plugins/Login/Controller.php
 
 		-
-			message: "#^Default value of the parameter \\#3 \\$urlToRedirect \\(false\\) of method Piwik\\\\Plugins\\\\Login\\\\Controller\\:\\:authenticateAndRedirect\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: plugins/Login/Controller.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Login\\\\Controller\\:\\:resetPasswordFirstStep\\(\\) should return array but returns null\\.$#"
 			count: 2
 			path: plugins/Login/Controller.php
@@ -3607,16 +3552,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$password of method Piwik\\\\Plugins\\\\UsersManager\\\\UserUpdater\\:\\:updateUserWithoutCurrentPassword\\(\\) expects bool, string given\\.$#"
 			count: 1
 			path: plugins/Login/PasswordResetter.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Login\\\\PasswordVerifier\\:\\:requirePasswordVerified\\(\\) should return true\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/Login/PasswordVerifier.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Login\\\\PasswordVerifier\\:\\:requirePasswordVerifiedRecently\\(\\) should return true\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/Login/PasswordVerifier.php
 
 		-
 			message: "#^Parameter \\#1 \\$passwordHash of method Piwik\\\\Auth\\:\\:setPasswordHash\\(\\) expects string, null given\\.$#"
@@ -3947,16 +3882,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugins\\\\Tour\\\\Engagement\\\\Challenges\\:\\:\\$finder is never read, only written\\.$#"
 			count: 1
 			path: plugins/Tour/Engagement/Challenges.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Tour\\\\Widgets\\\\GetEngagement\\:\\:\\$challenges is never read, only written\\.$#"
-			count: 1
-			path: plugins/Tour/Widgets/GetEngagement.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Tour\\\\Widgets\\\\GetEngagement\\:\\:\\$levels is never read, only written\\.$#"
-			count: 1
-			path: plugins/Tour/Widgets/GetEngagement.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\TwoFactorAuth\\\\Controller\\:\\:setupTwoFactorAuth\\(\\) should return string but empty return statement found\\.$#"

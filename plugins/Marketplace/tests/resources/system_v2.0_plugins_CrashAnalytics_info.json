@@ -1,0 +1,94 @@
+{
+    "name": "CrashAnalytics",
+    "displayName": "Crash Analytics",
+    "owner": "matomo-org",
+    "description": "Detect crashes to improve the user experience, increase conversions and recover revenue. Resolve them with insights to minimise developer hours.",
+    "homepage": "https://matomo.org",
+    "createdDateTime": "2023-08-30 05:06:01",
+    "donate": [],
+    "support": [],
+    "isTheme": false,
+    "keywords": [
+        "monitoring",
+        "monitor",
+        "javascript",
+        "log",
+        "error",
+        "php",
+        "crash",
+        "exception",
+        "js"
+    ],
+    "basePrice": 154,
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
+        }
+    ],
+    "repositoryUrl": null,
+    "lastUpdated": "2026-05-25 06:04:16",
+    "latestVersion": "5.0.14",
+    "numDownloads": 0,
+    "screenshots": [],
+    "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+    "previews": [],
+    "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": null
+    },
+    "featured": false,
+    "isFree": false,
+    "isPaid": true,
+    "isBundle": false,
+    "isCustomPlugin": false,
+    "shop": {
+        "url": "https://plugins.matomo.org/CrashAnalytics",
+        "variations": [],
+        "reviews": {
+            "embedUrl": "",
+            "height": 200,
+            "averageRating": "0",
+            "ratingCount": 0,
+            "reviewCount": 0
+        }
+    },
+    "bundle": {
+        "plugins": []
+    },
+    "specialOffer": "",
+    "category": "uncategorised",
+    "versions": [
+        {
+            "name": "5.0.14",
+            "release": "2026-05-25 06:04:16",
+            "requires": {
+                "matomo": ">=5.0.0-rc1,<6.0.0-b1"
+            },
+            "wordPressCompatible": true,
+            "onPremiseCompatible": true,
+            "numDownloads": 0,
+            "license": {
+                "name": "InnoCraft EULA",
+                "url": "https://plugins.matomo.org/CrashAnalytics/5.0.14/license"
+            },
+            "repositoryChangelogUrl": null,
+            "readmeHtml": {
+                "description": "",
+                "faq": "",
+                "changelog": "",
+                "documentation": ""
+            },
+            "download": null
+        }
+    ],
+    "isDownloadable": false,
+    "changelog": {
+        "url": ""
+    },
+    "consumer": {
+        "license": null
+    }
+}

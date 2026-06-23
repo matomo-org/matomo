@@ -261,6 +261,64 @@
   color: @graph-colors-data-series7;
 }
 
+
+// Shared graph palette used while PlotLinesTweaks is enabled.
+.graph-series-palette(@ns) {
+  // Base colors
+  .@{ns}[data-name=series0] { color: @graph-series0-color; }
+  .@{ns}[data-name=series1] { color: @graph-series1-color; }
+  .@{ns}[data-name=series2] { color: @graph-series2-color; }
+  .@{ns}[data-name=series3] { color: @graph-series3-color; }
+  .@{ns}[data-name=series4] { color: @graph-series4-color; }
+  .@{ns}[data-name=series5] { color: @graph-series5-color; }
+  .@{ns}[data-name=series6] { color: @graph-series6-color; }
+  .@{ns}[data-name=series7] { color: @graph-series7-color; }
+
+  // Shade 1
+  .@{ns}[data-name=series0-shade1] { color: @graph-series0-shade1-color; }
+  .@{ns}[data-name=series1-shade1] { color: @graph-series1-shade1-color; }
+  .@{ns}[data-name=series2-shade1] { color: @graph-series2-shade1-color; }
+  .@{ns}[data-name=series3-shade1] { color: @graph-series3-shade1-color; }
+  .@{ns}[data-name=series4-shade1] { color: @graph-series4-shade1-color; }
+  .@{ns}[data-name=series5-shade1] { color: @graph-series5-shade1-color; }
+  .@{ns}[data-name=series6-shade1] { color: @graph-series6-shade1-color; }
+  .@{ns}[data-name=series7-shade1] { color: @graph-series7-shade1-color; }
+
+  // Shade 2
+  .@{ns}[data-name=series0-shade2] { color: @graph-series0-shade2-color; }
+  .@{ns}[data-name=series1-shade2] { color: @graph-series1-shade2-color; }
+  .@{ns}[data-name=series2-shade2] { color: @graph-series2-shade2-color; }
+  .@{ns}[data-name=series3-shade2] { color: @graph-series3-shade2-color; }
+  .@{ns}[data-name=series4-shade2] { color: @graph-series4-shade2-color; }
+  .@{ns}[data-name=series5-shade2] { color: @graph-series5-shade2-color; }
+  .@{ns}[data-name=series6-shade2] { color: @graph-series6-shade2-color; }
+  .@{ns}[data-name=series7-shade2] { color: @graph-series7-shade2-color; }
+
+  // Shade 3
+  .@{ns}[data-name=series0-shade3] { color: @graph-series0-shade3-color; }
+  .@{ns}[data-name=series1-shade3] { color: @graph-series1-shade3-color; }
+  .@{ns}[data-name=series2-shade3] { color: @graph-series2-shade3-color; }
+  .@{ns}[data-name=series3-shade3] { color: @graph-series3-shade3-color; }
+  .@{ns}[data-name=series4-shade3] { color: @graph-series4-shade3-color; }
+  .@{ns}[data-name=series5-shade3] { color: @graph-series5-shade3-color; }
+  .@{ns}[data-name=series6-shade3] { color: @graph-series6-shade3-color; }
+  .@{ns}[data-name=series7-shade3] { color: @graph-series7-shade3-color; }
+}
+
+body.plotlines-tweaks-enabled {
+  // Apply the new palette only when the feature flag is active.
+  .graph-series-palette(evolution-graph-colors);
+  .graph-series-palette(bar-graph-colors);
+  .graph-series-palette(pie-graph-colors);
+
+  // Lighter tick color for PlotLinesTweaks charts.
+  .evolution-graph-colors[data-name=ticks] { color: #E0E0E0; }
+  .bar-graph-colors[data-name=ticks] { color: #E0E0E0; }
+
+  // Keep comparison colors aligned with the graph palette.
+  .graph-series-palette(comparison-series-color);
+}
+
 .evolution-graph-colors[data-name=grid-background] {
   color: @theme-color-background-contrast;
 }

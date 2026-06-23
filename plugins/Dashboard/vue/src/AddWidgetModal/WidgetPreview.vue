@@ -40,6 +40,7 @@ import {
   Matomo,
   translate,
   Widget,
+  WidgetContainerType,
   WidgetType,
 } from 'CoreHome';
 
@@ -61,35 +62,21 @@ export default defineComponent({
   },
   emits: ['select'],
   computed: {
-    // The legacy `widgetMenu.js` preview path forced `widget=1` on every
-    // preview request (see plugins/Dashboard/javascripts/widgetMenu.js
-    // loadWidgetAjax). The Vue Widget component only injects `widget=1` on
-    // the containerid branch, so re-add it here so the preview renders in
-    // widgetized layout. `disableLink` is mirrored from the legacy logic:
-    // only forced on Widgetize embeds (URL carries disableLink) or
-    // `body#standalone`. On a normal dashboard page the preview must keep
-    // links enabled so it matches the widget the user actually adds.
     previewWidget(): WidgetType | null {
       if (!this.widget) {
         return null;
       }
-      const parameters: Record<string, unknown> = {
-        ...this.widget.parameters,
-        widget: '1',
-        // Suppress the server-side title: with `widget=1` the response would
-        // otherwise carry a bare `<h2>` (see _dataTable.twig `showOnlyTitleWithoutCard`)
-        // that duplicates the modal's own "Widget preview" header above the pane.
-        // Scoped to this preview-only parameter object — the widget added to the
-        // dashboard uses its original metadata parameters and keeps its title.
-        showtitle: '0',
-      };
-      if (this.shouldDisableLink()) {
-        parameters.disableLink = '1';
-      }
-      return {
+
+      const result: WidgetContainerType = {
         ...this.widget,
-        parameters,
+        parameters: this.getPreviewParameters(this.widget.parameters),
       };
+
+      if (this.isContainerWidget(result)) {
+        result.widgets = this.getPreviewChildren(result);
+      }
+
+      return result;
     },
   },
   mounted() {
@@ -101,20 +88,44 @@ export default defineComponent({
   methods: {
     translate,
     shouldDisableLink(): boolean {
-      // Mirror legacy widgetMenu.js loadWidgetAjax: only set disableLink when
-      // the URL already carries it (Widgetize embed) or the page is
-      // body#standalone. Otherwise the preview must render with links enabled
-      // so it matches what the user will actually add to the dashboard.
+      // disableLink is only forced for Widgetize embeds and the standalone body
+      // matching widgetMenu.js.
       const urlFlag = Matomo.broadcast.getValueFromUrl('disableLink');
       if (urlFlag && urlFlag.length) {
         return true;
       }
       return !!document.querySelector('body#standalone');
     },
+    getPreviewParameters(parameters: Record<string, unknown> = {}) {
+      // Force widget=1 so previews render in widgetized layout, matching legacy widgetMenu.js.
+      // showtitle=0 suppresses the server-rendered <h2>
+      return {
+        ...parameters,
+        widget: '1',
+        showtitle: '0',
+        ...(this.shouldDisableLink() ? { disableLink: '1' } : {}),
+      };
+    },
+    isContainerWidget(widget: WidgetType): widget is WidgetContainerType {
+      return !!widget.isContainer && Array.isArray((widget as WidgetContainerType).widgets);
+    },
+    getPreviewChildren(widget: WidgetContainerType) {
+      // Child widgets need the same widgetized parameters as the container preview.
+      // Without this, nested widgets render as non-widgetized and may show titles again.
+      const containerId = widget.parameters?.containerId as string | undefined;
+
+      return widget.widgets!.map((child) => ({
+        ...child,
+        parameters: {
+          ...child.parameters,
+          widget: '1',
+          ...(containerId ? { containerId } : {}),
+        },
+      }));
+    },
     onWidgetLoaded(payload: WidgetLoadedPayload) {
-      // Nested widget loads inside a container preview also emit
-      // widget:loaded; without this guard widget:create re-fires and
-      // dashboard-mode handlers re-initialize.
+      // Only re-fire widget:create for the top-level preview;
+      // nested container loads emit widget:loaded too.
       if (!this.widget || payload.parameters?.uniqueId !== this.widget.uniqueId) {
         return;
       }

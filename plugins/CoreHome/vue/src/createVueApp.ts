@@ -21,6 +21,7 @@ export default function createVueApp(
 ): ReturnType<typeof createApp> {
   const app = createApp(...args);
   app.config.globalProperties.$sanitize = window.vueSanitize;
+  app.config.globalProperties.$sanitizeUrl = window.vueSanitizeUrl;
   app.config.globalProperties.translate = translate;
   app.config.globalProperties.translateOrDefault = translateOrDefault;
   app.config.globalProperties.externalLink = externalLink;

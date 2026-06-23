@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Login\tests\Integration;
 
 use Piwik\Date;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Login\PasswordVerifier;
 
@@ -34,8 +35,18 @@ class PasswordVerifierTest extends IntegrationTestCase
 
         \Zend_Session::$_unitTestEnabled = true;
 
+        FakeAccess::$superUser = true;
+        FakeAccess::$identity  = 'superUserLogin';
+
         $this->verifier = new CustomPasswordVerifier();
         $this->verifier->setDisableRedirect();
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'Piwik\Access' => new FakeAccess(),
+        ];
     }
 
     public function testHasBeenVerifiedByDefaultNotVerified()
@@ -112,6 +123,49 @@ class PasswordVerifierTest extends IntegrationTestCase
         $this->assertFalse($this->verifier->hasBeenVerified()); // it was verified recently
         $this->assertFalse($this->verifier->hasBeenVerifiedAndHalfTimeValid());
         $this->assertNull($this->requirePasswordVerify()); // no need to redirect
+    }
+
+    public function testSetPasswordVerifiedCorrectlyIsBoundToTheVerifiedLogin()
+    {
+        FakeAccess::$identity = 'currentUser';
+
+        $this->assertNull($this->requirePasswordVerify());
+
+        // a password was verified, but for a different login than the one currently performing the action
+        $this->verifier->setPasswordVerifiedCorrectly('otherUser');
+
+        $this->assertFalse($this->verifier->hasBeenVerified());
+        $this->assertFalse($this->verifier->hasBeenVerifiedAndHalfTimeValid());
+        $this->assertNull($this->requirePasswordVerify());
+    }
+
+    public function testSetPasswordVerifiedCorrectlyIsValidWhenVerifiedLoginMatchesCurrentUser()
+    {
+        FakeAccess::$identity = 'currentUser';
+
+        $this->assertNull($this->requirePasswordVerify());
+
+        $this->verifier->setPasswordVerifiedCorrectly('currentUser');
+
+        $this->assertTrue($this->verifier->hasBeenVerified());
+        $this->assertTrue($this->verifier->hasBeenVerifiedAndHalfTimeValid());
+        $this->assertTrue($this->requirePasswordVerify());
+    }
+
+    public function testSetPasswordVerifiedCorrectlyDefaultsToCurrentUserLogin()
+    {
+        FakeAccess::$identity = 'currentUser';
+
+        $this->assertNull($this->requirePasswordVerify());
+
+        // no login passed -> falls back to the current user
+        $this->verifier->setPasswordVerifiedCorrectly();
+
+        $this->assertTrue($this->verifier->hasBeenVerified());
+
+        // a different user reusing the same session must not be considered verified
+        FakeAccess::$identity = 'anotherUser';
+        $this->assertFalse($this->verifier->hasBeenVerified());
     }
 
     public function testForgetVerifiedPassword()

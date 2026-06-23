@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>example.com/article-4</label>
+		<unique_human_pageviews>4</unique_human_pageviews>
+		<ai_chatbot_requests>0</ai_chatbot_requests>
+		<discrepancy_score>100</discrepancy_score>
+	</row>
+	<row>
+		<label>Others</label>
+		<unique_human_pageviews>12</unique_human_pageviews>
+		<ai_chatbot_requests>18</ai_chatbot_requests>
+		<discrepancy_score />
+	</row>
+</result>

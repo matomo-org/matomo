@@ -611,6 +611,79 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([1, 2], $actual);
     }
 
+    public function testExtractRequestedSiteIdsHandlesIdSiteArray(): void
+    {
+        $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
+            'idSite' => [1, 2],
+            'segment' => 'visitCount>=1',
+        ]]);
+
+        $this->assertSame([1, 2], $actual);
+    }
+
+    public function testExtractRequestedSiteIdsHandlesIdSiteArrayOfStrings(): void
+    {
+        $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
+            'idSite' => ['1', '2'],
+        ]]);
+
+        $this->assertSame([1, 2], $actual);
+    }
+
+    public function testExtractRequestedSiteIdsHandlesCommaSeparatedString(): void
+    {
+        $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
+            'idSite' => '1,3',
+        ]]);
+
+        $this->assertSame([1, 3], $actual);
+    }
+
+    public function testExtractRequestedSiteIdsFiltersAndDeduplicatesCommaSeparatedString(): void
+    {
+        $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
+            'idSite' => '1, foo, 1, 3, 0, -2',
+        ]]);
+
+        $this->assertSame([1, 3], array_values($actual));
+    }
+
+    public function testExtractRequestedSiteIdsIgnoresInvalidEntriesInArray(): void
+    {
+        $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
+            'idSite' => ['1', 'foo', '', '0', '-3', '2'],
+        ]]);
+
+        $this->assertSame([1, 2], $actual);
+    }
+
+    public function testExtractRequestedSiteIdsReturnsEmptyForEmptyString(): void
+    {
+        $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
+            'idSite' => '',
+        ]]);
+
+        $this->assertSame([], $actual);
+    }
+
+    public function testExtractRequestedSiteIdsReturnsEmptyWhenIdSiteMissing(): void
+    {
+        $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
+            'segment' => 'visitCount>=1',
+        ]]);
+
+        $this->assertSame([], $actual);
+    }
+
+    public function testExtractRequestedSiteIdsReturnsEmptyForBoolean(): void
+    {
+        $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
+            'idSite' => true,
+        ]]);
+
+        $this->assertSame([], $actual);
+    }
+
     public function testRoundCountMetricsForRequestRoundsOnlyEnabledSitesWithinSiteKeyedMap(): void
     {
         $siteOneTable = new DataTable();

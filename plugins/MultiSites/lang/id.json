@@ -1,6 +1,9 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "Permintaan Chatbot AI",
+        "AiChatbotsSegmentationTooltip": "Segmentasi tidak tersedia untuk metrik ini karena permintaan chatbot AI (seperti dari ChatGPT) tidak terhubung ke kunjungan atau pengunjung biasa.",
         "AllWebsitesDashboardDocumentation": "Laporan ini memberikan Anda gambaran umum mengenai informasi untuk setiap situs web Anda, berisi metrik paling umum tentang pengunjung Anda.",
+        "AllWebsitesDashboardErrorMessage": "Data saat ini tidak tersedia. Ini bisa disebabkan oleh masalah server sementara atau laporan yang mengandung terlalu banyak data. Silakan coba lagi nanti. Jika masalah berlanjut, hubungi administrator Matomo Anda untuk bantuan.",
         "AllWebsitesDashboardTitle": "Semua Situs",
         "Evolution": "Evolusi",
         "EvolutionComparisonDay": "%1$s %2$s hari ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
@@ -9,10 +12,28 @@
         "EvolutionComparisonProportional": "Ketika periode sebelumnya juga selesai %1$s, akan ada perkiraan %2$s %3$s\n(dari total %4$s %3$s pada periode sebelumnya).",
         "EvolutionComparisonWeek": "%1$s %2$s minggu ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
         "EvolutionComparisonYear": "%1$s %2$s tahun ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
+        "EvolutionFromPreviousDay": "Dari hari sebelumnya",
+        "EvolutionFromPreviousMonth": "Dari bulan sebelumnya",
+        "EvolutionFromPreviousPeriod": "Dari periode sebelumnya",
+        "EvolutionFromPreviousWeek": "Dari minggu sebelumnya",
+        "EvolutionFromPreviousYear": "Dari tahun sebelumnya",
         "LoadingWebsites": "Memuat situs web",
+        "MetricDocumentationAiChatbotsRequests": "Total jumlah permintaan chatbot AI yang direkam untuk website ini.",
+        "MetricDocumentationEvolution": "Persentase perubahan untuk metrik ini dibandingkan dengan periode sebelumnya untuk website ini. Nilai positif menunjukkan pertumbuhan, sedangkan nilai negatif menandakan penurunan.",
+        "MetricDocumentationHits": "Total jumlah tindakan yang direkam untuk website ini, termasuk pageviews, unduhan, dan tautan keluar.",
+        "MetricDocumentationHitsIncludingAi": "Total jumlah tindakan yang direkam untuk website ini, termasuk pageviews, unduhan, tautan keluar, dan permintaan oleh chatbot AI.",
+        "MetricDocumentationPageviews": "Total jumlah halaman yang dilihat di website ini. Ini termasuk beberapa tampilan halaman yang sama oleh pengunjung tunggal.",
+        "MetricDocumentationRevenue": "Total pendapatan yang dilacak untuk website ini. Metrik ini tersedia jika Pelacakan Ecommerce diaktifkan dan mencerminkan pembelian atau pendapatan berbasis tujuan.",
+        "MetricDocumentationVisits": "Total jumlah kunjungan yang direkam untuk website ini. Kunjungan dimulai ketika pengguna mengakses situs dan berakhir setelah periode tidak aktif atau saat sesi berakhir.",
+        "MetricDocumentationWebsite": "Daftar website yang dilacak yang ditampilkan di dasbor. Setiap baris mewakili website terpisah dengan data analitik yang sesuai.",
         "PluginDescription": "Lihat dan bandingkan semua situs web dan aplikasi Anda di dasbor 'Semua Situs Web' yang berguna ini.",
+        "SegmentationNotSupported": "Segmentasi tidak didukung",
         "SingleWebsitesDashboardDocumentation": "Laporan ini memberikan Anda gambaran umum tentang informasi untuk situs web tertentu. Laporan ini berisi metrik paling umum tentang pengunjung Anda.",
         "TopLinkTooltip": "Bandingkan statistik Analisis Web untuk semua Situs Web Anda.",
-        "TotalPageviews": "Total Halaman Ditampilkan"
+        "TotalAiChatbotsRequests": "Total Permintaan Chatbot AI",
+        "TotalHits": "Total Hits",
+        "TotalHitsIncludingAiTooltip": "Total Hits: Termasuk semua Hits Manusia dan permintaan Chatbot AI",
+        "TotalPageviews": "Total Halaman Ditampilkan",
+        "TotalVisits": "Total Kunjungan"
     }
 }

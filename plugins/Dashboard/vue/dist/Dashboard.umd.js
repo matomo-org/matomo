@@ -425,29 +425,30 @@ function AddWidgetModalvue_type_template_id_e54103e6_render(_ctx, _cache, $props
 }
 // CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue?vue&type=template&id=e54103e6
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/CategoryList.vue?vue&type=template&id=790cc257
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/CategoryList.vue?vue&type=template&id=91b874c0
 
-const CategoryListvue_type_template_id_790cc257_hoisted_1 = {
+const CategoryListvue_type_template_id_91b874c0_hoisted_1 = {
   class: "widgetpreview-base widgetpreview-categorylist"
 };
-const CategoryListvue_type_template_id_790cc257_hoisted_2 = ["onMouseover", "onClick", "onFocus", "onKeydown"];
-function CategoryListvue_type_template_id_790cc257_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", CategoryListvue_type_template_id_790cc257_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.categories, category => {
+const CategoryListvue_type_template_id_91b874c0_hoisted_2 = ["onMouseover", "onClick", "onFocus", "onKeydown"];
+function CategoryListvue_type_template_id_91b874c0_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", CategoryListvue_type_template_id_91b874c0_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.categories, category => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: category,
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
         'widgetpreview-choosen': category === _ctx.chosenCategory
-      }),
-      role: "button",
-      tabindex: "0",
+      }, "category-list-item"])
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+      type: "button",
+      class: "category-button-item",
       onMouseover: $event => _ctx.selectCategory(category),
       onClick: $event => _ctx.selectCategory(category),
       onFocus: $event => _ctx.selectCategory(category),
       onKeydown: [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.confirmCategory(category), ["prevent"]), ["enter"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.confirmCategory(category), ["prevent"]), ["space"])]
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(category), 43, CategoryListvue_type_template_id_790cc257_hoisted_2);
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(category), 41, CategoryListvue_type_template_id_91b874c0_hoisted_2)], 2);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/CategoryList.vue?vue&type=template&id=790cc257
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/CategoryList.vue?vue&type=template&id=91b874c0
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/CategoryList.vue?vue&type=script&lang=ts
 
@@ -483,44 +484,54 @@ function CategoryListvue_type_template_id_790cc257_render(_ctx, _cache, $props, 
 
 
 
-CategoryListvue_type_script_lang_ts.render = CategoryListvue_type_template_id_790cc257_render
+CategoryListvue_type_script_lang_ts.render = CategoryListvue_type_template_id_91b874c0_render
 
 /* harmony default export */ var CategoryList = (CategoryListvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetsList.vue?vue&type=template&id=48f10d76
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetsList.vue?vue&type=template&id=840d3c14
 
-const WidgetsListvue_type_template_id_48f10d76_hoisted_1 = {
+const WidgetsListvue_type_template_id_840d3c14_hoisted_1 = {
   ref: "list",
   class: "widgetpreview-base widgetpreview-widgetlist"
 };
-const WidgetsListvue_type_template_id_48f10d76_hoisted_2 = ["uniqueid", "onMouseenter", "onMouseleave", "onFocus", "onBlur", "onClick", "onKeydown"];
-const WidgetsListvue_type_template_id_48f10d76_hoisted_3 = {
+const WidgetsListvue_type_template_id_840d3c14_hoisted_2 = ["uniqueid"];
+const WidgetsListvue_type_template_id_840d3c14_hoisted_3 = ["onMouseenter", "onMouseleave", "onFocus", "onBlur", "onClick", "onKeydown"];
+const WidgetsListvue_type_template_id_840d3c14_hoisted_4 = {
   class: "widgetpreview-widgetname"
 };
-const WidgetsListvue_type_template_id_48f10d76_hoisted_4 = {
+const WidgetsListvue_type_template_id_840d3c14_hoisted_5 = {
   class: "widgetpreview-add-hint",
   "aria-hidden": "true"
 };
-function WidgetsListvue_type_template_id_48f10d76_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", WidgetsListvue_type_template_id_48f10d76_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.widgets, widget => {
+const WidgetsListvue_type_template_id_840d3c14_hoisted_6 = {
+  key: 0,
+  class: "icon-ok widgetpreview-add-check"
+};
+const WidgetsListvue_type_template_id_840d3c14_hoisted_7 = {
+  key: 1,
+  class: "widgetpreview-add-plus"
+};
+function WidgetsListvue_type_template_id_840d3c14_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", WidgetsListvue_type_template_id_840d3c14_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.widgets, widget => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: widget.uniqueId,
       uniqueid: widget.uniqueId,
-      role: "button",
-      tabindex: "0",
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
         'widgetpreview-choosen': widget.uniqueId === _ctx.chosenWidgetId,
         'widgetpreview-unavailable': _ctx.isUnavailable(widget)
-      }),
+      }, "widget-list-item"])
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+      type: "button",
+      class: "widget-button-item",
       onMouseenter: $event => _ctx.onMouseEnter(widget),
       onMouseleave: $event => _ctx.onMouseLeave(widget),
       onFocus: $event => _ctx.onMouseEnter(widget),
       onBlur: $event => _ctx.onMouseLeave(widget),
       onClick: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.onRowClick(widget), ["prevent"]),
       onKeydown: [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.onActivate(widget), ["prevent"]), ["enter"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.onActivate(widget), ["prevent"]), ["space"])]
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", WidgetsListvue_type_template_id_48f10d76_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(widget.name), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", WidgetsListvue_type_template_id_48f10d76_hoisted_4, "+ " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Add')), 1)], 42, WidgetsListvue_type_template_id_48f10d76_hoisted_2);
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", WidgetsListvue_type_template_id_840d3c14_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(widget.name), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", WidgetsListvue_type_template_id_840d3c14_hoisted_5, [_ctx.isJustAdded(widget) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("i", WidgetsListvue_type_template_id_840d3c14_hoisted_6)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", WidgetsListvue_type_template_id_840d3c14_hoisted_7, "+")), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.isJustAdded(widget) ? 'General_Added' : 'General_Add')), 1)])], 40, WidgetsListvue_type_template_id_840d3c14_hoisted_3)], 10, WidgetsListvue_type_template_id_840d3c14_hoisted_2);
   }), 128))], 512);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/WidgetsList.vue?vue&type=template&id=48f10d76
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/WidgetsList.vue?vue&type=template&id=840d3c14
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetsList.vue?vue&type=script&lang=ts
 
@@ -556,14 +567,31 @@ function hasHoverCapablePointer() {
       hoverTimer: null,
       // Cached once: any hover-capable pointer gets desktop-like click-to-add
       // behaviour. Only pure no-hover environments use preview-first double-tap.
-      supportsHover: hasHoverCapablePointer()
+      supportsHover: hasHoverCapablePointer(),
+      // The row most recently added in this session. Drives the transient green
+      // check in the add hint; cleared as soon as the hover moves elsewhere (see
+      // the chosenWidgetId watcher) so re-hovering an added row shows "+" again.
+      justAddedId: null
     };
+  },
+  watch: {
+    chosenWidgetId(newId) {
+      // Revert the green check the moment the preview/hover moves off the
+      // just-added row. The add hint is only visible on the chosen row, so
+      // tying the reset to chosenWidgetId matches what the user actually sees.
+      if (newId !== this.justAddedId) {
+        this.justAddedId = null;
+      }
+    }
   },
   methods: {
     translate: external_CoreHome_["translate"],
     isRepeatableWidget(widget) {
       var _widget$category;
       return ((_widget$category = widget.category) === null || _widget$category === void 0 ? void 0 : _widget$category.id) === KPI_METRIC_CATEGORY_ID;
+    },
+    isJustAdded(widget) {
+      return !!widget.uniqueId && widget.uniqueId === this.justAddedId;
     },
     isUnavailable(widget) {
       if (!widget.uniqueId) {
@@ -613,6 +641,7 @@ function hasHoverCapablePointer() {
         this.$emit('hover', widget.uniqueId);
         return;
       }
+      this.justAddedId = widget.uniqueId;
       this.$emit('select', widget.uniqueId);
     },
     // Keyboard activation (Enter / Space). Bypasses the touch double-tap branch in
@@ -623,11 +652,12 @@ function hasHoverCapablePointer() {
         return;
       }
       this.clearHoverTimer();
+      this.justAddedId = widget.uniqueId;
       this.$emit('select', widget.uniqueId);
     },
     focusFirst() {
       const list = this.$refs.list;
-      const first = list === null || list === void 0 ? void 0 : list.querySelector('li');
+      const first = list === null || list === void 0 ? void 0 : list.querySelector('li button');
       if (first instanceof HTMLElement) {
         first.focus();
       }
@@ -649,42 +679,42 @@ function hasHoverCapablePointer() {
 
 
 
-WidgetsListvue_type_script_lang_ts.render = WidgetsListvue_type_template_id_48f10d76_render
+WidgetsListvue_type_script_lang_ts.render = WidgetsListvue_type_template_id_840d3c14_render
 
 /* harmony default export */ var WidgetsList = (WidgetsListvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=db18b34a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=307f9336
 
-const WidgetPreviewvue_type_template_id_db18b34a_hoisted_1 = {
+const WidgetPreviewvue_type_template_id_307f9336_hoisted_1 = {
   class: "widgetpreview-preview"
 };
-const WidgetPreviewvue_type_template_id_db18b34a_hoisted_2 = {
+const WidgetPreviewvue_type_template_id_307f9336_hoisted_2 = {
   key: 0,
   class: "widget"
 };
-const WidgetPreviewvue_type_template_id_db18b34a_hoisted_3 = ["title"];
-const WidgetPreviewvue_type_template_id_db18b34a_hoisted_4 = {
+const WidgetPreviewvue_type_template_id_307f9336_hoisted_3 = ["title"];
+const WidgetPreviewvue_type_template_id_307f9336_hoisted_4 = {
   class: "widgetName"
 };
-const WidgetPreviewvue_type_template_id_db18b34a_hoisted_5 = {
+const WidgetPreviewvue_type_template_id_307f9336_hoisted_5 = {
   class: "widgetContent"
 };
-function WidgetPreviewvue_type_template_id_db18b34a_render(_ctx, _cache, $props, $setup, $data, $options) {
+function WidgetPreviewvue_type_template_id_307f9336_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Widget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Widget");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_db18b34a_hoisted_1, [_ctx.previewWidget ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_db18b34a_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_307f9336_hoisted_1, [_ctx.previewWidget ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_307f9336_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: "widgetTop",
     title: _ctx.translate('Dashboard_AddPreviewedWidget'),
     role: "button",
     tabindex: "0",
     onClick: _cache[0] || (_cache[0] = $event => _ctx.$emit('select', _ctx.previewWidget.uniqueId)),
     onKeydown: [_cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.$emit('select', _ctx.previewWidget.uniqueId), ["prevent"]), ["enter"])), _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.$emit('select', _ctx.previewWidget.uniqueId), ["prevent"]), ["space"]))]
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", WidgetPreviewvue_type_template_id_db18b34a_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Dashboard_WidgetPreview')), 1)], 40, WidgetPreviewvue_type_template_id_db18b34a_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetPreviewvue_type_template_id_db18b34a_hoisted_5, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", WidgetPreviewvue_type_template_id_307f9336_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Dashboard_WidgetPreview')), 1)], 40, WidgetPreviewvue_type_template_id_307f9336_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetPreviewvue_type_template_id_307f9336_hoisted_5, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
     key: _ctx.previewWidget.uniqueId,
     widget: _ctx.previewWidget,
     widgetized: true,
     "suppress-notifications": true
   }, null, 8, ["widget"]))])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=db18b34a
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=template&id=307f9336
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/WidgetPreview.vue?vue&type=script&lang=ts
 
@@ -702,33 +732,17 @@ function WidgetPreviewvue_type_template_id_db18b34a_render(_ctx, _cache, $props,
   },
   emits: ['select'],
   computed: {
-    // The legacy `widgetMenu.js` preview path forced `widget=1` on every
-    // preview request (see plugins/Dashboard/javascripts/widgetMenu.js
-    // loadWidgetAjax). The Vue Widget component only injects `widget=1` on
-    // the containerid branch, so re-add it here so the preview renders in
-    // widgetized layout. `disableLink` is mirrored from the legacy logic:
-    // only forced on Widgetize embeds (URL carries disableLink) or
-    // `body#standalone`. On a normal dashboard page the preview must keep
-    // links enabled so it matches the widget the user actually adds.
     previewWidget() {
       if (!this.widget) {
         return null;
       }
-      const parameters = Object.assign(Object.assign({}, this.widget.parameters), {}, {
-        widget: '1',
-        // Suppress the server-side title: with `widget=1` the response would
-        // otherwise carry a bare `<h2>` (see _dataTable.twig `showOnlyTitleWithoutCard`)
-        // that duplicates the modal's own "Widget preview" header above the pane.
-        // Scoped to this preview-only parameter object — the widget added to the
-        // dashboard uses its original metadata parameters and keeps its title.
-        showtitle: '0'
+      const result = Object.assign(Object.assign({}, this.widget), {}, {
+        parameters: this.getPreviewParameters(this.widget.parameters)
       });
-      if (this.shouldDisableLink()) {
-        parameters.disableLink = '1';
+      if (this.isContainerWidget(result)) {
+        result.widgets = this.getPreviewChildren(result);
       }
-      return Object.assign(Object.assign({}, this.widget), {}, {
-        parameters
-      });
+      return result;
     }
   },
   mounted() {
@@ -740,21 +754,44 @@ function WidgetPreviewvue_type_template_id_db18b34a_render(_ctx, _cache, $props,
   methods: {
     translate: external_CoreHome_["translate"],
     shouldDisableLink() {
-      // Mirror legacy widgetMenu.js loadWidgetAjax: only set disableLink when
-      // the URL already carries it (Widgetize embed) or the page is
-      // body#standalone. Otherwise the preview must render with links enabled
-      // so it matches what the user will actually add to the dashboard.
+      // disableLink is only forced for Widgetize embeds and the standalone body
+      // matching widgetMenu.js.
       const urlFlag = external_CoreHome_["Matomo"].broadcast.getValueFromUrl('disableLink');
       if (urlFlag && urlFlag.length) {
         return true;
       }
       return !!document.querySelector('body#standalone');
     },
+    getPreviewParameters(parameters = {}) {
+      // Force widget=1 so previews render in widgetized layout, matching legacy widgetMenu.js.
+      // showtitle=0 suppresses the server-rendered <h2>
+      return Object.assign(Object.assign({}, parameters), {}, {
+        widget: '1',
+        showtitle: '0'
+      }, this.shouldDisableLink() ? {
+        disableLink: '1'
+      } : {});
+    },
+    isContainerWidget(widget) {
+      return !!widget.isContainer && Array.isArray(widget.widgets);
+    },
+    getPreviewChildren(widget) {
+      var _widget$parameters;
+      // Child widgets need the same widgetized parameters as the container preview.
+      // Without this, nested widgets render as non-widgetized and may show titles again.
+      const containerId = (_widget$parameters = widget.parameters) === null || _widget$parameters === void 0 ? void 0 : _widget$parameters.containerId;
+      return widget.widgets.map(child => Object.assign(Object.assign({}, child), {}, {
+        parameters: Object.assign(Object.assign({}, child.parameters), {}, {
+          widget: '1'
+        }, containerId ? {
+          containerId
+        } : {})
+      }));
+    },
     onWidgetLoaded(payload) {
       var _payload$parameters, _payload$element;
-      // Nested widget loads inside a container preview also emit
-      // widget:loaded; without this guard widget:create re-fires and
-      // dashboard-mode handlers re-initialize.
+      // Only re-fire widget:create for the top-level preview;
+      // nested container loads emit widget:loaded too.
       if (!this.widget || ((_payload$parameters = payload.parameters) === null || _payload$parameters === void 0 ? void 0 : _payload$parameters.uniqueId) !== this.widget.uniqueId) {
         return;
       }
@@ -780,7 +817,7 @@ function WidgetPreviewvue_type_template_id_db18b34a_render(_ctx, _cache, $props,
 
 
 
-WidgetPreviewvue_type_script_lang_ts.render = WidgetPreviewvue_type_template_id_db18b34a_render
+WidgetPreviewvue_type_script_lang_ts.render = WidgetPreviewvue_type_template_id_307f9336_render
 
 /* harmony default export */ var WidgetPreview = (WidgetPreviewvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.vue?vue&type=script&lang=ts

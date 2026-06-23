@@ -2,6 +2,8 @@
     "BotTracking": {
         "PageUrl": "Puslapio URL",
         "NoDataHttpTrackingApi": "HTTP sekimo API",
-        "SiteWithoutDataBackToMatomo": "Atgal į Matomo"
+        "SiteWithoutDataBackToMatomo": "Atgal į Matomo",
+        "AIChatbotsContentPagesTitle": "Puslapiai",
+        "ContentUrl": "URL"
     }
 }

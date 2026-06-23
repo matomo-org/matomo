@@ -103,8 +103,11 @@ class BlobReportLimitingTest extends SystemTestCase
                         'idDimension' => self::$fixture->actionCustomDimensionId,
                     ],
                     'testSuffix'             => "dimension_" . self::$fixture->actionCustomDimensionId,
-                    // ranking query doesn't guarantee order if the main metric values are the same so the label/segment can randomly change.
-                    // in this test, we only care to check that the result is being limited/aggregated correctly, so we can remove these
+                    // ranking query doesn't guarantee order if the main metric
+                    // values are the same so the label/segment can randomly
+                    // change. in this test, we only care to check that the
+                    // result is being limited/aggregated correctly, so we can
+                    // remove these
                     // when comparing.
                     'xmlFieldsToRemove'      => [
                         'label',
@@ -184,6 +187,28 @@ class BlobReportLimitingTest extends SystemTestCase
         ];
     }
 
+    public function getActionsApiForFlatFirstTesting()
+    {
+        return [
+            [
+                'Actions.getPageUrls',
+                [
+                    'idSite'  => self::$fixture->idSite,
+                    'date'    => self::$fixture->dateTime,
+                    'periods' => ['day', 'month'],
+                ],
+            ],
+            [
+                'Actions.getPageTitles',
+                [
+                    'idSite'  => self::$fixture->idSite,
+                    'date'    => self::$fixture->dateTime,
+                    'periods' => ['day', 'month'],
+                ],
+            ],
+        ];
+    }
+
     /**
      * @dataProvider getApiForTesting
      */
@@ -192,7 +217,11 @@ class BlobReportLimitingTest extends SystemTestCase
         self::setUpConfigOptions();
 
         // also perform some tests for month period, to ensure limiting of aggregated archives is correct
-        if (empty($params['testSuffix']) && $params['periods'] === 'day' && $params['date'] === self::$fixture->dateTime) {
+        if (
+            empty($params['testSuffix'])
+            && $params['periods'] === 'day'
+            && $params['date'] === self::$fixture->dateTime
+        ) {
             $params['periods'] = ['day', 'month'];
         }
 
@@ -247,6 +276,7 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_subtable_referrers']         = 500;
         $generalConfig['datatable_archiving_maximum_rows_actions']                    = 500;
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions']           = 500;
+        $generalConfig['datatable_archiving_maximum_rows_actions_flat']               = 0;
         $generalConfig['datatable_archiving_maximum_rows_standard']                   = 500;
         $generalConfig['datatable_archiving_maximum_rows_custom_dimensions']          = 500;
         $generalConfig['datatable_archiving_maximum_rows_subtable_custom_dimensions'] = 500;
@@ -266,6 +296,66 @@ class BlobReportLimitingTest extends SystemTestCase
         }
     }
 
+    /**
+     * @dataProvider getActionsApiForFlatFirstTesting
+     */
+    public function testActionsApiWithFlatFirst($api, $params)
+    {
+        self::setUpConfigOptionsFlatFirst();
+        self::deleteArchiveTables();
+
+        if (empty($params['testSuffix'])) {
+            $params['testSuffix'] = '';
+        }
+        $params['testSuffix'] .= '_flatFirst';
+
+        $this->runApiTests($api, $params);
+    }
+
+    /**
+     * @dataProvider getActionsApiForFlatFirstTesting
+     */
+    public function testActionsApiWithFlatFirstFlattening($api, $params)
+    {
+        self::setUpConfigOptionsFlatFirst();
+        self::deleteArchiveTables();
+
+        if (empty($params['testSuffix'])) {
+            $params['testSuffix'] = '';
+        }
+        $params['testSuffix'] .= '_flatFirst_flattened';
+
+        // keep flattened assertions focused on day archives
+        $params['periods'] = ['day'];
+        if (empty($params['otherRequestParameters'])) {
+            $params['otherRequestParameters'] = [];
+        }
+        $params['otherRequestParameters']['flat'] = '1';
+
+        $this->runApiTests($api, $params);
+    }
+
+    public function testActionsApiWithFlatFirstRankingQuery()
+    {
+        self::setUpConfigOptionsFlatFirst();
+
+        self::deleteArchiveTables();
+        Config::getInstance()->General['archiving_ranking_query_row_limit'] = 3;
+        ArchivingHelper::reloadConfig();
+
+        foreach ($this->getActionsApiForFlatFirstTesting() as $pair) {
+            [$apiToCall, $params] = $pair;
+
+            $params['periods'] = ['day'];
+            if (empty($params['testSuffix'])) {
+                $params['testSuffix'] = '';
+            }
+            $params['testSuffix'] .= '_flatFirst_rankingQuery';
+
+            $this->runApiTests($apiToCall, $params);
+        }
+    }
+
     public static function getOutputPrefix()
     {
         return 'reportLimiting';
@@ -280,6 +370,7 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_custom_dimensions']          = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_custom_dimensions'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions']           = 2;
+        $generalConfig['datatable_archiving_maximum_rows_actions_flat']               = 0;
         $generalConfig['datatable_archiving_maximum_rows_standard']                   = 3;
         $generalConfig['datatable_archiving_maximum_rows_userid_users']               = 3;
         $generalConfig['datatable_archiving_maximum_rows_events']                     = 3;
@@ -287,6 +378,12 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['archiving_ranking_query_row_limit']                           = 50000;
         // Should be more than the datatable_archiving_maximum_rows_actions as code will take the max of these two
         $generalConfig['datatable_archiving_maximum_rows_site_search'] = 5;
+    }
+
+    protected static function setUpConfigOptionsFlatFirst()
+    {
+        self::setUpConfigOptions();
+        Config::getInstance()->General['datatable_archiving_maximum_rows_actions_flat'] = 4;
     }
 }
 

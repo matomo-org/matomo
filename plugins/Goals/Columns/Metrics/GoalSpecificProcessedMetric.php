@@ -24,7 +24,7 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
     /**
      * The ID of the goal to calculate metrics for.
      *
-     * @var int
+     * @var int|string
      */
     protected $idGoal;
 
@@ -38,7 +38,7 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
     /**
      * @param int|null $idSite The ID of the site the goal belongs to. If supplied, affects the formatting
      *                         and translated name of the metric.
-     * @param int $idGoal The ID of the goal to calculate metrics for.
+     * @param int|string $idGoal The ID of the goal to calculate metrics for.
      */
     public function __construct($idSite, $idGoal)
     {

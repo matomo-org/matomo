@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Widgetize\tests\Integration;
 
+use Piwik\Common;
 use Piwik\Plugins\Widgetize\Controller;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -72,6 +73,8 @@ class ControllerTest extends IntegrationTestCase
         $_GET = $this->backupGet;
         $_REQUEST = $this->backupRequest;
 
+        unset(Common::$headersSentInTests['Content-Type']);
+
         parent::tearDown();
     }
 
@@ -109,5 +112,45 @@ class ControllerTest extends IntegrationTestCase
         $method->setAccessible(true);
 
         $this->assertNull($method->invoke($this->controller, $config));
+    }
+
+    public function testIframeRefusesToEmbedActionsThatDoNotReturnHtml(): void
+    {
+        // Actions returning a non-HTML response (e.g. JSON via Json::sendHeaderJSON()) cannot be embedded.
+        Common::$headersSentInTests['Content-Type'] = 'application/json; charset=utf-8';
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Dashboard.getAllDashboards cannot be widgetized');
+
+        $this->invokeEmbeddableAssertion('Dashboard', 'getAllDashboards');
+    }
+
+    /**
+     * @dataProvider getEmbeddableContentTypes
+     */
+    public function testIframeAllowsActionsThatReturnHtml(string $contentType): void
+    {
+        $this->expectNotToPerformAssertions();
+
+        Common::$headersSentInTests['Content-Type'] = $contentType;
+
+        // must not throw for HTML responses, or when no explicit content type was set (HTML default)
+        $this->invokeEmbeddableAssertion('AnyModule', 'anyAction');
+    }
+
+    public function getEmbeddableContentTypes(): array
+    {
+        return [
+            ['text/html; charset=utf-8'],
+            ['application/xhtml+xml'],
+            [''],
+        ];
+    }
+
+    private function invokeEmbeddableAssertion(string $module, string $action): void
+    {
+        $method = new \ReflectionMethod(Controller::class, 'assertDispatchedContentIsEmbeddable');
+        $method->setAccessible(true);
+        $method->invoke($this->controller, $module, $action);
     }
 }

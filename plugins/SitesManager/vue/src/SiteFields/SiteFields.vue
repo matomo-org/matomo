@@ -99,19 +99,15 @@
 
       <div v-if="editMode">
 
-        <div class="form-group row">
-          <div class="col s12 m6 input-field">
-            <input
-              type="text"
-              v-model="theSite.name"
-              maxlength="90"
-              :placeholder="translate('SitesManager_MeasurableNamePlaceholder')"
-            />
-            <label>{{ translate('General_Name') }}</label>
-            <span class="helper-text">{{ translate('SitesManager_MeasurableNameHelpText') }}</span>
-          </div>
-          <div class="col s12 m6"></div>
-        </div>
+        <Field
+          uicontrol="text"
+          name="siteName"
+          v-model="theSite.name"
+          :maxlength="90"
+          :title="translate('General_Name')"
+          :placeholder="translate('SitesManager_MeasurableNamePlaceholder')"
+          :inline-help="translate('SitesManager_MeasurableNameHelpText')"
+        />
 
         <Field
           uicontrol="textarea"

@@ -5,6 +5,35 @@
   @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
+<template>
+  <ul
+    class="draggableList"
+    :class="{
+      isDragging: draggedId !== null,
+      isDisabled: disabled,
+    }"
+  >
+    <li
+      v-for="(orderedItem, index) in orderedItems"
+      :key="orderedItem.id"
+      class="draggableListItem"
+      :class="{ isDragged: orderedItem.id === placeholderId }"
+      :data-item-id="orderedItem.id"
+      :draggable="canDrag"
+      :aria-grabbed="orderedItem.id === draggedId"
+      @dragstart="onDragStartForIndex($event, index)"
+      @dragover="onDragOverForIndex($event, index)"
+      @drop="onDrop"
+      @dragend="onDragEnd"
+    >
+      <slot
+        :item="orderedItem.item"
+        :index="orderedItem.sourceIndex"
+      />
+    </li>
+  </ul>
+</template>
+
 <script setup lang="ts">
 import {
   computed,
@@ -215,32 +244,3 @@ function onDragEnd() {
 // Refresh the local list if the parent sends new items
 watch([sourceItems, () => props.disabled], () => resetDragState(true), { immediate: true });
 </script>
-
-<template>
-  <ul
-    class="draggableList"
-    :class="{
-      isDragging: draggedId !== null,
-      isDisabled: disabled,
-    }"
-  >
-    <li
-      v-for="(orderedItem, index) in orderedItems"
-      :key="orderedItem.id"
-      class="draggableListItem"
-      :class="{ isDragged: orderedItem.id === placeholderId }"
-      :data-item-id="orderedItem.id"
-      :draggable="canDrag"
-      :aria-grabbed="orderedItem.id === draggedId"
-      @dragstart="onDragStartForIndex($event, index)"
-      @dragover="onDragOverForIndex($event, index)"
-      @drop="onDrop"
-      @dragend="onDragEnd"
-    >
-      <slot
-        :item="orderedItem.item"
-        :index="orderedItem.sourceIndex"
-      />
-    </li>
-  </ul>
-</template>
