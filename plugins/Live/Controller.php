@@ -107,6 +107,7 @@ class Controller extends \Piwik\Plugin\Controller
                 'disable_generic_filters' => 1,
             ]);
             $visitors = $api->process();
+            $this->decodeActionUrls($visitors);
         } catch (\Exception $e) {
             $error = $e->getMessage();
         }
@@ -114,6 +115,36 @@ class Controller extends \Piwik\Plugin\Controller
         $view->visitors = $visitors;
 
         return $this->render($view);
+    }
+
+    /**
+     * The real-time widget template renders action URLs inline instead of going through the
+     * `Live.renderAction` event. As tracked URLs are returned HTML-entity encoded (e.g. `&` as
+     * `&amp;`), they would be escaped a second time when output into the href attribute, resulting
+     * in broken links like `download.pdf?a=b&amp;c=d`. Decode the entities here so the template's
+     * output escaping produces a single, correct encoding - matching VisitorDetails::renderAction().
+     */
+    private function decodeActionUrls(DataTable $visitors): void
+    {
+        foreach ($visitors->getRows() as $visitor) {
+            $actionDetails = $visitor->getColumn('actionDetails');
+
+            if (!is_array($actionDetails)) {
+                continue;
+            }
+
+            foreach ($actionDetails as &$action) {
+                if (
+                    isset($action['type'], $action['url'])
+                    && in_array($action['type'], ['outlink', 'download'], true)
+                ) {
+                    $action['url'] = html_entity_decode($action['url'], ENT_QUOTES, 'UTF-8');
+                }
+            }
+            unset($action);
+
+            $visitor->setColumn('actionDetails', $actionDetails);
+        }
     }
 
     private function setCounters($view)
