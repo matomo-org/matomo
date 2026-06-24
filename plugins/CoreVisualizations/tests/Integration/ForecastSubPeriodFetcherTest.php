@@ -318,6 +318,62 @@ class ForecastSubPeriodFetcherTest extends IntegrationTestCase
         self::assertSame('2026-02-28,2026-04-29', $captured['day'] ?? null);
     }
 
+    public function testApiGetFanOutSplitsAndMergesSamplesAcrossOwningModules(): void
+    {
+        // API.get is the cross-plugin merge; the fan-out resolves each plotted column to its
+        // owning Module.get so the sub-period reads are archive-backed (no per-sub-period
+        // report-metadata catalog rebuild -- the dominant render cost API.get otherwise incurs).
+        // nb_visits is a VisitsSummary.get metric and nb_pageviews an Actions.get metric, so a
+        // graph plotting both must fan out into one request per module. This proves both groups
+        // are fetched, formatted with their own report, and merged back into one per-series map.
+        $tracker = Fixture::getTracker(1, self::TRACKING_DATE . ' 00:01:01', true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+        foreach (['/a', '/b', '/c'] as $url) {
+            $tracker->setUrl('http://example.org' . $url);
+            $tracker->doTrackPageView($url);
+        }
+
+        // Archive the day so both modules' sub-period reads have a row to return.
+        \Piwik\API\Request::processRequest('API.get', [
+            'idSite'    => 1,
+            'period'    => 'day',
+            'date'      => self::TRACKING_DATE,
+            'format'    => 'original',
+            'serialize' => '0',
+        ]);
+
+        $monthTable = new DataTable();
+        $monthTable->setMetadata(
+            DataTableFactory::TABLE_METADATA_PERIOD_INDEX,
+            PeriodFactory::build('month', self::TRACKING_DATE)
+        );
+
+        $fetcher = new ForecastSubPeriodFetcher();
+        $result = $fetcher->collect(
+            [$monthTable],
+            $this->createSeriesState(
+                ['Visits' => 'nb_visits', 'Pageviews' => 'nb_pageviews'],
+                [],
+                [
+                    'Visits'    => ForecastMetricClassifier::MONOTONICITY_UP,
+                    'Pageviews' => ForecastMetricClassifier::MONOTONICITY_UP,
+                ]
+            ),
+            'API.get',
+            1,
+            ''
+        );
+
+        // Both series resolved to their owning module's report and merged into one daily map.
+        self::assertArrayHasKey('Visits', $result['daily']);
+        self::assertArrayHasKey('Pageviews', $result['daily']);
+        // 3 pageviews in a single visit: nb_visits = 1 (VisitsSummary.get), nb_pageviews = 3
+        // (Actions.get). Correct per-series values prove the right column came from the right
+        // module's fetch -- not a cross-wired or summed merge.
+        self::assertSame(1.0, $result['daily']['Visits'][self::TRACKING_DATE] ?? null);
+        self::assertSame(3.0, $result['daily']['Pageviews'][self::TRACKING_DATE] ?? null);
+    }
+
     public function testInnerFetchWindowsAreClampedToSegmentCreationDate(): void
     {
         // With process_new_segments_from = segment_creation_time, core only persists an
