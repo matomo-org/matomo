@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreVisualizations;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreVisualizations\FeatureFlags\PlotLinesTweaks;
+use Piwik\Plugins\CoreVisualizations\FeatureFlags\SparklinesRedesign;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
@@ -43,11 +44,18 @@ class CoreVisualizations extends \Piwik\Plugin
 
     public function addBodyClass(&$out, $type)
     {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+
+        // The sparklines redesign refreshes sparkline styling app-wide (gated by the flag),
+        // so it is not limited to the dashboard/widgetized surfaces the plot-line tweak below
+        // targets - sparklines also appear on other page types (e.g. admin).
+        if ($featureFlagManager->isFeatureActive(SparklinesRedesign::class)) {
+            $out .= ' sparklines-redesign-enabled';
+        }
+
         if (!in_array($type, ['dashboard', 'widgetized'], true)) {
             return;
         }
-
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
 
         if ($featureFlagManager->isFeatureActive(PlotLinesTweaks::class)) {
             $out .= ' plotlines-tweaks-enabled';
