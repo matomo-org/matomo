@@ -171,7 +171,7 @@ function formatFinding(finding) {
   const location = finding.path
     ? ` (${finding.path}${finding.line ? `:${finding.line}` : ''})`
     : '';
-  return `- **${finding.severity}**${location}: ${finding.body}`;
+  return `- **${formatSeverityBadge(finding.severity)}**${location}: ${finding.body}`;
 }
 
 function pluralize(count, singular, plural = `${singular}s`) {
