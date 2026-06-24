@@ -1,0 +1,66 @@
+.evolutionBadge {
+  // local placeholder for a brand green not yet in the shared palette; swap for a
+  // @color-* variable once #33B343 lands in plugins/Morpheus/stylesheets/base/colors.less
+  @_evolution-green: #33B343;
+
+  display: inline-flex;
+  align-items: center;
+  padding-left: 2px;
+  padding-right: 6px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  white-space: nowrap;
+  vertical-align: middle;
+  height: 20px;
+
+  .evolutionBadge__icon {
+    display: inline-flex;
+    flex: none;
+    width: 16px;
+    height: 16px;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &.evolutionBadge--positive {
+    color: @_evolution-green;
+    background-color: fade(@_evolution-green, 5%);
+  }
+
+  &.evolutionBadge--negative {
+    // theme primary series red; it resolves to a CSS var, so build the tint with CSS
+    // color-mix() — LESS fade()/lighten() can't operate on a var()
+    color: @theme-color-base-series;
+    background-color: color-mix(in srgb, @theme-color-base-series 5%, transparent);
+  }
+
+  &.evolutionBadge--neutral {
+    // silver dash + value on a translucent silver tint; the same grey family reads on
+    // either background
+    color: @theme-color-text-lighter;
+    background-color: color-mix(in srgb, @theme-color-text-lighter 5%, transparent);
+  }
+
+  // brand green/red are a touch dark on a dark background, so lighten the text
+  // and strengthen the tint to keep the pill legible
+  .inDarkMode({
+    &.evolutionBadge--positive {
+      color: lighten(@_evolution-green, 10%);
+      background-color: fade(@_evolution-green, 11%);
+    }
+
+    &.evolutionBadge--negative {
+      background-color: color-mix(in srgb, @theme-color-base-series 18%, transparent);
+    }
+
+    &.evolutionBadge--neutral {
+      background-color: color-mix(in srgb, @theme-color-text-lighter 14%, transparent);
+    }
+  });
+}

@@ -5,6 +5,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+export { default as EvolutionBadge } from './EvolutionBadge/EvolutionBadge.vue';
+export { default as EvolutionTrendIcon } from './EvolutionBadge/EvolutionTrendIcon.vue';
 export { default as MetricValue } from './MetricValue/MetricValue.vue';
 export { default as SeriesPicker } from './SeriesPicker/SeriesPicker.vue';
 export { default as MetricsPicker } from './MetricsPicker/MetricsPicker.vue';
