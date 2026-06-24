@@ -15,8 +15,11 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\BotTracking\BotDetector;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
+use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\TableLogAction;
 
 /**
  * @group BotTracking
@@ -123,19 +126,108 @@ class BotRequestsDaoTest extends IntegrationTestCase
         self::assertEquals(1, $remainingCount);
     }
 
-    private function insertTestRecord($serverTime, $botName, $idSite = null): int
+    public function testGetAIChatbotsRealTimeAggregatesRecentAIChatbotRows(): void
     {
+        $pageA = $this->createAction('example.com/realtime/a', Action::TYPE_PAGE_URL);
+        $pageB = $this->createAction('example.com/realtime/b', Action::TYPE_PAGE_URL);
+        $pageC = $this->createAction('example.com/realtime/c', Action::TYPE_PAGE_URL);
+        $document = $this->createAction('example.com/realtime/doc.pdf', Action::TYPE_DOWNLOAD);
+
+        $this->insertTestRecord('2026-01-01 10:00:00', 'ChatGPT-User', null, $pageA, 200);
+        $this->insertTestRecord('2026-01-01 10:10:00', 'ChatGPT-User', null, $pageA, 404);
+        $this->insertTestRecord('2026-01-01 10:20:00', 'ChatGPT-User', null, $pageB, 500);
+        $this->insertTestRecord('2026-01-01 10:30:00', 'ChatGPT-User', null, $document, 404);
+        $this->insertTestRecord('2026-01-01 10:40:00', 'Claude-User', null, $pageC, 200);
+        $this->insertTestRecord('2026-01-01 10:50:00', 'Claude-User', null, $document, 503);
+
+        $this->insertTestRecord('2026-01-01 09:59:59', 'OutOfWindow-Bot', null, $pageA, 200);
+        $this->insertTestRecord('2026-01-01 10:00:00', 'Regular-Bot', null, $pageA, 200, 'crawler');
+        $this->insertTestRecord('2026-01-01 10:00:00', 'OtherSite-Bot', $this->idSite + 1, $pageA, 200);
+
+        $table = $this->dao->getAIChatbotsRealTime([$this->idSite], '2026-01-01 10:00:00', '2026-01-01 12:00:00');
+        $rows = $this->indexRowsByLabel($table);
+
+        self::assertCount(2, $rows);
+
+        self::assertSame(4, $rows['ChatGPT-User'][Metrics::COLUMN_CHATBOT_REQUESTS]);
+        self::assertSame(2, $rows['ChatGPT-User'][Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS]);
+        self::assertSame(2, $rows['ChatGPT-User'][Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS]);
+        self::assertSame(1, $rows['ChatGPT-User'][Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS]);
+
+        self::assertSame(2, $rows['Claude-User'][Metrics::COLUMN_CHATBOT_REQUESTS]);
+        self::assertSame(1, $rows['Claude-User'][Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS]);
+        self::assertSame(0, $rows['Claude-User'][Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS]);
+        self::assertSame(1, $rows['Claude-User'][Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS]);
+    }
+
+    public function testGetTopPageUrlsRealTimeReturnsOnlyFlatPageUrls(): void
+    {
+        $pageA = $this->createAction('example.com/realtime/a', Action::TYPE_PAGE_URL);
+        $pageB = $this->createAction('example.com/realtime/b', Action::TYPE_PAGE_URL);
+        $pageC = $this->createAction('example.com/realtime/c', Action::TYPE_PAGE_URL);
+        $document = $this->createAction('example.com/realtime/doc.pdf', Action::TYPE_DOWNLOAD);
+
+        $this->insertTestRecord('2026-01-01 10:00:00', 'ChatGPT-User', null, $pageA, 200);
+        $this->insertTestRecord('2026-01-01 10:10:00', 'ChatGPT-User', null, $pageA, 404);
+        $this->insertTestRecord('2026-01-01 10:20:00', 'ChatGPT-User', null, $pageB, 500);
+        $this->insertTestRecord('2026-01-01 10:30:00', 'Claude-User', null, $document, 404);
+        $this->insertTestRecord('2026-01-01 10:40:00', 'Claude-User', null, $pageC, 200);
+        $this->insertTestRecord('2026-01-01 09:59:59', 'OutOfWindow-Bot', null, $pageA, 200);
+        $this->insertTestRecord('2026-01-01 10:00:00', 'Regular-Bot', null, $pageA, 200, 'crawler');
+
+        $table = $this->dao->getTopPageUrlsRealTime([$this->idSite], '2026-01-01 10:00:00', '2026-01-01 12:00:00');
+        $rows = $table->getRows();
+
+        self::assertCount(3, $rows);
+        self::assertSame('example.com/realtime/a', $rows[0]->getColumn('label'));
+        self::assertSame(2, $rows[0]->getColumn(Metrics::COLUMN_CHATBOT_REQUESTS));
+        self::assertSame('example.com/realtime/b', $rows[1]->getColumn('label'));
+        self::assertSame(1, $rows[1]->getColumn(Metrics::COLUMN_CHATBOT_REQUESTS));
+        self::assertSame('example.com/realtime/c', $rows[2]->getColumn('label'));
+        self::assertSame(1, $rows[2]->getColumn(Metrics::COLUMN_CHATBOT_REQUESTS));
+    }
+
+    private function insertTestRecord(
+        $serverTime,
+        $botName,
+        $idSite = null,
+        ?int $idActionUrl = null,
+        ?int $httpStatusCode = null,
+        string $botType = BotDetector::BOT_TYPE_AI_CHATBOT
+    ): int {
         if ($idSite === null) {
             $idSite = $this->idSite;
         }
 
         $data = [
-            'idsite'      => $idSite,
-            'server_time' => $serverTime,
-            'bot_name'    => $botName,
-            'bot_type'    => BotDetector::BOT_TYPE_AI_CHATBOT,
+            'idsite'           => $idSite,
+            'server_time'      => $serverTime,
+            'bot_name'         => $botName,
+            'bot_type'         => $botType,
+            'idaction_url'     => $idActionUrl,
+            'http_status_code' => $httpStatusCode,
         ];
 
         return $this->dao->insert($data);
+    }
+
+    private function createAction(string $name, int $type): int
+    {
+        $actionIds = TableLogAction::loadIdsAction([[$name, $type]]);
+
+        return (int) reset($actionIds);
+    }
+
+    /**
+     * @return array<string, array<string, int|string|null>>
+     */
+    private function indexRowsByLabel(\Piwik\DataTable $table): array
+    {
+        $rows = [];
+        foreach ($table->getRows() as $row) {
+            $rows[(string) $row->getColumn('label')] = $row->getColumns();
+        }
+
+        return $rows;
     }
 }

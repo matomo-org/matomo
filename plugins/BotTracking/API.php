@@ -12,14 +12,18 @@ declare(strict_types=1);
 namespace Piwik\Plugins\BotTracking;
 
 use Piwik\Archive;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
+use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotReports;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\BotTracking\Reports\Get;
 use Piwik\Plugins\Referrers\AIAssistant;
+use Piwik\Site;
 
 /**
  * Provides API methods for bot and AI chatbot reporting.
@@ -28,6 +32,10 @@ use Piwik\Plugins\Referrers\AIAssistant;
  */
 class API extends \Piwik\Plugin\API
 {
+    public const REAL_TIME_LAST_30_MINUTES = 30;
+    public const REAL_TIME_LAST_8_HOURS = 480;
+    public const REAL_TIME_MAX_LOOKBACK_MINUTES = 720;
+
     /**
      * Returns the main bot tracking report.
      *
@@ -140,6 +148,64 @@ class API extends \Piwik\Plugin\API
         ]);
 
         return $dataTable;
+    }
+
+    /**
+     * Returns AI chatbot activity grouped by chatbot for a real-time lookback window.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     * @param int|string $lastMinutes Number of minutes to look back at, between 1 and 720.
+     * @return DataTable AI chatbot requests, unique page URLs, and error counts.
+     */
+    public function getAIChatbotsRealTime($idSite, $lastMinutes = self::REAL_TIME_LAST_30_MINUTES): DataTable
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        [$startDate, $endDate] = $this->getRealTimeDateRange($lastMinutes);
+        $idSites               = Site::getIdSitesFromIdSitesString($idSite, false, true);
+
+        $table = (new BotRequestsDao())->getAIChatbotsRealTime($idSites, $startDate, $endDate);
+
+        return $this->decorateAIChatbotLabels($table);
+    }
+
+    /**
+     * Returns page URLs requested by AI chatbots for a real-time lookback window.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     * @param int|string $lastMinutes Number of minutes to look back at, between 1 and 720.
+     * @return DataTable Flat page URL table ordered by chatbot requests.
+     */
+    public function getTopPageUrlsRealTime($idSite, $lastMinutes = self::REAL_TIME_LAST_30_MINUTES): DataTable
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        [$startDate, $endDate] = $this->getRealTimeDateRange($lastMinutes);
+        $idSites               = Site::getIdSitesFromIdSitesString($idSite, false, true);
+
+        $table = (new BotRequestsDao())->getTopPageUrlsRealTime($idSites, $startDate, $endDate);
+
+        return $this->decorateUrlLabels($table);
+    }
+
+    public function getAIChatbotsLast30Minutes($idSite, string $period = '', string $date = ''): DataTable
+    {
+        return $this->getAIChatbotsRealTime($idSite, self::REAL_TIME_LAST_30_MINUTES);
+    }
+
+    public function getAIChatbotsLast8Hours($idSite, string $period = '', string $date = ''): DataTable
+    {
+        return $this->getAIChatbotsRealTime($idSite, self::REAL_TIME_LAST_8_HOURS);
+    }
+
+    public function getTopPageUrlsLast30Minutes($idSite, string $period = '', string $date = ''): DataTable
+    {
+        return $this->getTopPageUrlsRealTime($idSite, self::REAL_TIME_LAST_30_MINUTES);
+    }
+
+    public function getTopPageUrlsLast8Hours($idSite, string $period = '', string $date = ''): DataTable
+    {
+        return $this->getTopPageUrlsRealTime($idSite, self::REAL_TIME_LAST_8_HOURS);
     }
 
     /**
@@ -335,6 +401,91 @@ class API extends \Piwik\Plugin\API
             $ops[Metrics::COLUMN_DISCREPANCY_SCORE] = 'skip';
             $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $ops);
         }
+
+        return $table;
+    }
+
+    /**
+     * @param int|string $lastMinutes
+     * @return array{0: string, 1: string}
+     */
+    private function getRealTimeDateRange($lastMinutes): array
+    {
+        if (!is_int($lastMinutes) && (!is_string($lastMinutes) || !ctype_digit($lastMinutes))) {
+            throw new \InvalidArgumentException('lastMinutes only accepts values between 1 and 720');
+        }
+
+        $lastMinutes = (int) $lastMinutes;
+
+        if ($lastMinutes < 1 || $lastMinutes > self::REAL_TIME_MAX_LOOKBACK_MINUTES) {
+            throw new \InvalidArgumentException('lastMinutes only accepts values between 1 and 720');
+        }
+
+        $now = $this->getRealTimeNowTimestamp();
+
+        return [
+            Date::factory($now - $lastMinutes * 60)->getDatetime(),
+            Date::factory($now)->getDatetime(),
+        ];
+    }
+
+    private function getRealTimeNowTimestamp(): int
+    {
+        try {
+            $testNow = StaticContainer::get('Tests.now');
+            if (!empty($testNow)) {
+                return (int) $testNow;
+            }
+        } catch (\Exception $exception) {
+            // Tests.now is only available in some test containers.
+        }
+
+        return Date::getNowTimestamp();
+    }
+
+    private function decorateAIChatbotLabels(DataTable $table): DataTable
+    {
+        $table->filter(function (DataTable $table): void {
+            foreach ($table->getRows() as $row) {
+                $label = $row->getColumn('label');
+                if (!is_string($label)) {
+                    continue;
+                }
+
+                if (!empty(AIChatbotReports::CHATBOT_MAPPING[$label])) {
+                    $row->setColumn('label', AIChatbotReports::CHATBOT_MAPPING[$label]);
+                }
+            }
+        });
+
+        $table->queueFilter('ColumnCallbackAddMetadata', [
+            'label',
+            'url',
+            function ($label) {
+                return AIAssistant::getInstance()->getMainUrlFromName($label);
+            },
+        ]);
+        $table->queueFilter('MetadataCallbackAddMetadata', [
+            'url',
+            'logo',
+            function ($url) {
+                return AIAssistant::getInstance()->getLogoFromUrl($url ?: '');
+            },
+        ]);
+
+        return $table;
+    }
+
+    private function decorateUrlLabels(DataTable $table): DataTable
+    {
+        $table->filter(function (DataTable $table): void {
+            foreach ($table->getRows() as $row) {
+                $label = $row->getColumn('label');
+                if (is_string($label) && $label !== '') {
+                    $row->setMetadata('url', 'https://' . $label);
+                }
+            }
+        });
 
         return $table;
     }

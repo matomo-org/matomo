@@ -12,12 +12,21 @@ declare(strict_types=1);
 namespace Piwik\Plugins\BotTracking\Dao;
 
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Plugins\BotTracking\BotDetector;
+use Piwik\Plugins\BotTracking\Metrics;
+use Piwik\Tracker\Action;
 
 class BotRequestsDao
 {
+    private const DEFAULT_REAL_TIME_CHATBOT_LIMIT = 250;
+    private const DEFAULT_REAL_TIME_PAGE_URL_LIMIT = 50000;
+
     public static function getTableName(): string
     {
         return 'log_bot_request';
@@ -158,6 +167,139 @@ class BotRequestsDao
     }
 
     /**
+     * @param int[] $idSites
+     */
+    public function getAIChatbotsRealTime(array $idSites, string $startDate, string $endDate): DataTable
+    {
+        $idSites = $this->normalizeIdSites($idSites);
+
+        if (empty($idSites)) {
+            return new DataTable();
+        }
+
+        $limit = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_bots', self::DEFAULT_REAL_TIME_CHATBOT_LIMIT);
+        if ($limit <= 0) {
+            $limit = self::DEFAULT_REAL_TIME_CHATBOT_LIMIT;
+        }
+
+        $idSitePlaceholders = Common::getSqlStringFieldsArray($idSites);
+        $tableName          = self::getPrefixedTableName();
+        $actionTable        = Common::prefixTable('log_action');
+
+        $sql = sprintf(
+            "SELECT bot.bot_name AS label,
+                    COUNT(*) AS %s,
+                    COUNT(DISTINCT CASE WHEN log_action.type = %d THEN log_action.name END) AS %s,
+                    SUM(CASE WHEN bot.http_status_code IN (404, 410) THEN 1 ELSE 0 END) AS %s,
+                    SUM(CASE WHEN bot.http_status_code BETWEEN 500 AND 599 THEN 1 ELSE 0 END) AS %s
+             FROM `%s` AS bot
+             LEFT JOIN `%s` AS log_action ON log_action.idaction = bot.idaction_url
+             WHERE bot.idsite IN (%s)
+               AND bot.bot_type = ?
+               AND bot.server_time >= ?
+               AND bot.server_time <= ?
+             GROUP BY bot.bot_name
+             ORDER BY %s DESC, bot.bot_name
+             LIMIT %d",
+            Metrics::COLUMN_CHATBOT_REQUESTS,
+            Action::TYPE_PAGE_URL,
+            Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS,
+            Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS,
+            Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS,
+            $tableName,
+            $actionTable,
+            $idSitePlaceholders,
+            Metrics::COLUMN_CHATBOT_REQUESTS,
+            $limit
+        );
+
+        $bind = array_merge($idSites, [BotDetector::BOT_TYPE_AI_CHATBOT, $startDate, $endDate]);
+
+        $stmt  = Db::query($sql, $bind);
+        $table = new DataTable();
+        $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, [
+            Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS => 'skip',
+        ]);
+
+        while ($row = $stmt->fetch()) {
+            /** @var array<string, int|string|null> $row */
+            $table->addRow(new Row([
+                Row::COLUMNS => [
+                    'label'                                      => (string) $row['label'],
+                    Metrics::COLUMN_CHATBOT_REQUESTS                   => (int) $row[Metrics::COLUMN_CHATBOT_REQUESTS],
+                    Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS       => (int) $row[Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS],
+                    Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS     => (int) $row[Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS],
+                    Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS => (int) $row[Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS],
+                ],
+            ]));
+        }
+
+        return $table;
+    }
+
+    /**
+     * @param int[] $idSites
+     */
+    public function getTopPageUrlsRealTime(array $idSites, string $startDate, string $endDate): DataTable
+    {
+        $idSites = $this->normalizeIdSites($idSites);
+
+        if (empty($idSites)) {
+            return new DataTable();
+        }
+
+        $limit = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_ai_chatbot_content', self::DEFAULT_REAL_TIME_PAGE_URL_LIMIT);
+        if ($limit <= 0) {
+            $limit = self::DEFAULT_REAL_TIME_PAGE_URL_LIMIT;
+        }
+
+        $idSitePlaceholders = Common::getSqlStringFieldsArray($idSites);
+        $tableName          = self::getPrefixedTableName();
+        $actionTable        = Common::prefixTable('log_action');
+
+        $sql = sprintf(
+            "SELECT log_action.name AS label,
+                    COUNT(*) AS %s
+             FROM `%s` AS bot
+             INNER JOIN `%s` AS log_action ON log_action.idaction = bot.idaction_url
+             WHERE bot.idsite IN (%s)
+               AND bot.bot_type = ?
+               AND bot.server_time >= ?
+               AND bot.server_time <= ?
+               AND log_action.name IS NOT NULL
+               AND log_action.name <> ''
+               AND log_action.type = %d
+             GROUP BY log_action.name
+             ORDER BY %s DESC, log_action.name
+             LIMIT %d",
+            Metrics::COLUMN_CHATBOT_REQUESTS,
+            $tableName,
+            $actionTable,
+            $idSitePlaceholders,
+            Action::TYPE_PAGE_URL,
+            Metrics::COLUMN_CHATBOT_REQUESTS,
+            $limit
+        );
+
+        $bind = array_merge($idSites, [BotDetector::BOT_TYPE_AI_CHATBOT, $startDate, $endDate]);
+
+        $stmt  = Db::query($sql, $bind);
+        $table = new DataTable();
+
+        while ($row = $stmt->fetch()) {
+            /** @var array{label: string, chatbot_requests: int|string} $row */
+            $table->addRow(new Row([
+                Row::COLUMNS => [
+                    'label'                          => (string) $row['label'],
+                    Metrics::COLUMN_CHATBOT_REQUESTS => (int) $row[Metrics::COLUMN_CHATBOT_REQUESTS],
+                ],
+            ]));
+        }
+
+        return $table;
+    }
+
+    /**
      * @return int[]
      */
     public function getDistinctIdSitesInTable(int $maxIdSite): array
@@ -169,5 +311,19 @@ class BotRequestsDao
         return array_filter($idSitesLogTable, function ($idSite) use ($maxIdSite) {
             return !empty($idSite) && $idSite <= $maxIdSite;
         });
+    }
+
+    /**
+     * @param int[] $idSites
+     * @return int[]
+     */
+    private function normalizeIdSites(array $idSites): array
+    {
+        $idSites = array_map('intval', $idSites);
+        $idSites = array_filter($idSites, function (int $idSite): bool {
+            return $idSite > 0;
+        });
+
+        return array_values(array_unique($idSites));
     }
 }

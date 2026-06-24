@@ -27,6 +27,7 @@ class BotTraffic extends Fixture
         self::createSuperUser();
         $this->setUpWebsite();
         $this->trackBotRequests();
+        $this->trackRealTimeBotRequests();
         $this->trackAcquiredVisits();
         $this->trackHumanPageOverlaps();
         $this->trackEventOnlyPage();
@@ -145,6 +146,34 @@ class BotTraffic extends Fixture
                 } else {
                     $this->logBot($userAgent, $url, $status, $bytes, $date, $serverTimeMs);
                 }
+            }
+        }
+    }
+
+    private function trackRealTimeBotRequests(): void
+    {
+        $now = Date::factory('now');
+
+        // Each tuple: [minutes before now, userAgent, url, httpStatus, bytes|null, isDownload, serverTimeMs|null].
+        $requests = [
+            [10, 'ChatGPT-User/1.0', 'https://example.com/realtime/a', 200, 10000, false, 150],
+            [20, 'ChatGPT-User/1.0', 'https://example.com/realtime/b', 404, 12000, false, 250],
+            [25, 'Claude-User/3.0', 'https://example.com/realtime/doc.pdf', 503, null, true, 300],
+            [40, 'MistralAI-User/2.0', 'https://example.com/realtime/missing.pdf', 404, null, true, null],
+            [60, 'Perplexity-User/1.0', 'https://example.com/realtime/a', 200, 11000, false, 180],
+            [90, 'Claude-User/3.0', 'https://example.com/realtime/c', 200, 13000, false, 210],
+            [300, 'Gemini-Deep-Research/1.0', 'https://example.com/realtime/a', 500, 14000, false, 450],
+            [780, 'ChatGPT-User/1.0', 'https://example.com/realtime/out-of-window', 200, 15000, false, 120],
+        ];
+
+        foreach ($requests as $request) {
+            [$minutesAgo, $userAgent, $url, $status, $bytes, $isDownload, $serverTimeMs] = $request;
+            $date = $now->subPeriod($minutesAgo, 'minute')->getDatetime();
+
+            if ($isDownload) {
+                $this->logBotDownload($userAgent, $url, $status, $bytes, $date, $serverTimeMs);
+            } else {
+                $this->logBot($userAgent, $url, $status, $bytes, $date, $serverTimeMs);
             }
         }
     }

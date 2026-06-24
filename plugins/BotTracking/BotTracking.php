@@ -51,6 +51,7 @@ class BotTracking extends Plugin
             'Metrics.getDefaultMetricTranslations'              => 'addMetricTranslations',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Metrics.getDefaultMetricSemanticTypes'             => 'addMetricSemanticTypes',
+            'API.addGlossaryItems'                              => 'addGlossaryItems',
         ];
     }
 
@@ -122,6 +123,7 @@ class BotTracking extends Plugin
     public function addMetricTranslations(array &$translations): void
     {
         $translations = array_merge($translations, BotMetrics::getMetricTranslations());
+        $translations = array_merge($translations, BotMetrics::getRealtimeMetricTranslations());
 
         // Register a default name for the generic 'requests' column used by the new content-URL
         // reports. Without this the Glossary majority heuristic renders name = null for the
@@ -139,6 +141,7 @@ class BotTracking extends Plugin
     public function addMetricDocumentationTranslations(array &$translations): void
     {
         $translations = array_merge($translations, BotMetrics::getMetricDocumentation());
+        $translations = array_merge($translations, BotMetrics::getRealtimeMetricDocumentation());
 
         // Register a default documentation for the generic 'requests' column used by the
         // new content-URL reports. Without this default the Glossary majority heuristic
@@ -157,6 +160,40 @@ class BotTracking extends Plugin
     public function addMetricSemanticTypes(array &$types): void
     {
         $types = array_merge($types, BotMetrics::getMetricSemanticTypes());
+        $types = array_merge($types, BotMetrics::getRealtimeMetricSemanticTypes());
+    }
+
+    /**
+     * @param array<string, array{title: string, entries: array<int, array<string, string>>}> $glossaryItems
+     */
+    public function addGlossaryItems(array &$glossaryItems): void
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        $category = Piwik::translate('General_AIAssistants');
+
+        $entries = [
+            [
+                'name'          => sprintf('%s (%s)', Piwik::translate('BotTracking_AIChatbotsLast30MinutesTitle'), $category),
+                'documentation' => Piwik::translate('BotTracking_AIChatbotsLast30MinutesDocumentation'),
+            ],
+            [
+                'name'          => sprintf('%s (%s)', Piwik::translate('BotTracking_AIChatbotsLast8HoursTitle'), $category),
+                'documentation' => Piwik::translate('BotTracking_AIChatbotsLast8HoursDocumentation'),
+            ],
+            [
+                'name'          => sprintf('%s (%s)', Piwik::translate('BotTracking_TopPageUrlsLast30MinutesTitle'), $category),
+                'documentation' => Piwik::translate('BotTracking_TopPageUrlsLast30MinutesDocumentation'),
+            ],
+            [
+                'name'          => sprintf('%s (%s)', Piwik::translate('BotTracking_TopPageUrlsLast8HoursTitle'), $category),
+                'documentation' => Piwik::translate('BotTracking_TopPageUrlsLast8HoursDocumentation'),
+            ],
+        ];
+
+        foreach ($entries as $entry) {
+            $glossaryItems['reports']['entries'][] = $entry;
+        }
     }
 
     /**

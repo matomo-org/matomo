@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>ChatGPT</label>
+		<chatbot_requests>2</chatbot_requests>
+		<BotTracking_AIChatbotsUniquePageUrls>2</BotTracking_AIChatbotsUniquePageUrls>
+		<BotTracking_AIChatbotsNotFoundRequests>1</BotTracking_AIChatbotsNotFoundRequests>
+		<BotTracking_AIChatbotsServerErrorRequests>0</BotTracking_AIChatbotsServerErrorRequests>
+		<url>chatgpt.com</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/chatgpt.com.png</logo>
+	</row>
+	<row>
+		<label>Claude</label>
+		<chatbot_requests>2</chatbot_requests>
+		<BotTracking_AIChatbotsUniquePageUrls>1</BotTracking_AIChatbotsUniquePageUrls>
+		<BotTracking_AIChatbotsNotFoundRequests>0</BotTracking_AIChatbotsNotFoundRequests>
+		<BotTracking_AIChatbotsServerErrorRequests>1</BotTracking_AIChatbotsServerErrorRequests>
+		<url>claude.ai</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/claude.ai.png</logo>
+	</row>
+	<row>
+		<label>Gemini</label>
+		<chatbot_requests>1</chatbot_requests>
+		<BotTracking_AIChatbotsUniquePageUrls>1</BotTracking_AIChatbotsUniquePageUrls>
+		<BotTracking_AIChatbotsNotFoundRequests>0</BotTracking_AIChatbotsNotFoundRequests>
+		<BotTracking_AIChatbotsServerErrorRequests>1</BotTracking_AIChatbotsServerErrorRequests>
+		<url>gemini.google.com</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/gemini.google.com.png</logo>
+	</row>
+	<row>
+		<label>Le Chat</label>
+		<chatbot_requests>1</chatbot_requests>
+		<BotTracking_AIChatbotsUniquePageUrls>0</BotTracking_AIChatbotsUniquePageUrls>
+		<BotTracking_AIChatbotsNotFoundRequests>1</BotTracking_AIChatbotsNotFoundRequests>
+		<BotTracking_AIChatbotsServerErrorRequests>0</BotTracking_AIChatbotsServerErrorRequests>
+		<url>chat.mistral.ai</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/chat.mistral.ai.png</logo>
+	</row>
+	<row>
+		<label>Perplexity</label>
+		<chatbot_requests>1</chatbot_requests>
+		<BotTracking_AIChatbotsUniquePageUrls>1</BotTracking_AIChatbotsUniquePageUrls>
+		<BotTracking_AIChatbotsNotFoundRequests>0</BotTracking_AIChatbotsNotFoundRequests>
+		<BotTracking_AIChatbotsServerErrorRequests>0</BotTracking_AIChatbotsServerErrorRequests>
+		<url>perplexity.ai</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/perplexity.ai.png</logo>
+	</row>
+</result>

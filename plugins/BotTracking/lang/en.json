@@ -14,10 +14,17 @@
         "AIChatbotsContentRequestsHelp3": "Currently, these reports only include requests from AI bots that do not execute JavaScript, and exclude traffic from AI crawlers used for model training or AI agents capable of running JavaScript.",
         "AIChatbotsHumanFavouredPagesDocumentation": "Shows pages that receive significantly more visits from humans than from AI chatbots. Useful for identifying content that resonates strongly with real users but is underrepresented in AI-driven traffic or recommendations.",
         "AIChatbotsHumanFavouredPagesTitle": "Human-Favoured Pages",
+        "AIChatbotsLast30MinutesDocumentation": "Shows AI chatbot requests recorded during the last 30 minutes, grouped by chatbot.",
+        "AIChatbotsLast30MinutesTitle": "AI Chatbots - Last 30 Minutes",
+        "AIChatbotsLast8HoursDocumentation": "Shows AI chatbot requests recorded during the last 8 hours, grouped by chatbot.",
+        "AIChatbotsLast8HoursTitle": "AI Chatbots - Last 8 Hours",
         "AIChatbotsOverview": "AI Chatbots Overview",
         "AIChatbotsOverviewHelp1": "The AI Chatbots Overview page provides insights into website traffic originating from AI chatbots such as ChatGPT and other large language model–based assistants. These reports track key metrics including the number of requests made by these bots, the pages and documents they access, and any errors encountered. They also offer detailed breakdowns showing which bots visit specific page URLs, helping you understand how AI chatbots interact with your content and identify opportunities to improve visibility and accessibility for AI-driven users.",
         "AIChatbotsOverviewHelp2": "It’s important to note that none of these pages were actually viewed by humans in the traditional way — all requests originate from AI chatbots fetching content automatically.",
         "AIChatbotsOverviewHelp3": "Currently, these reports exclusively include requests from AI chatbots that do not execute JavaScript. They do not include traffic from AI crawlers used for training AI models or from AI agents capable of executing JavaScript.",
+        "AIChatbotsRealtime": "AI Chatbots Real-time",
+        "AIChatbotsRealtimeHelp1": "The AI Chatbots Real-time page shows recent AI chatbot activity from raw bot tracking data, including chatbot request volume, unique page URLs, and HTTP error counts.",
+        "AIChatbotsRealtimeHelp2": "These reports are limited to short real-time windows so they remain fast and predictable on large sites.",
         "AIChatbotsReportDocumentation": "Discover which AI chatbots are crawling your site and how many hits each one generates. Expand a chatbot to review the most frequently requested pages or documents.",
         "AIChatbotsReportTitle": "AI Chatbots",
         "ChatbotsOverTimeReportDocumentation": "This report charts the evolution of AI chatbot activity. Click any metric to enlarge its graph and review the underlying trend.",
@@ -30,6 +37,8 @@
         "ColumnAvgResponseSizeDocumentation": "Average size of the responses returned for these requests. This relies on server or CDN tracking and may be empty if it is not configured, or empty for a URL when none of its requests carried this data.",
         "ColumnAvgServerTime": "Avg. Server Time",
         "ColumnAvgServerTimeDocumentation": "Average time the server took to respond to these requests. This relies on server or CDN tracking and may be empty if it is not configured, or empty for a URL when none of its requests carried this data.",
+        "ColumnChatbotRequests": "Chatbot requests",
+        "ColumnChatbotRequestsDocumentation": "Total number of requests recorded from AI chatbots during the real-time window. Includes both page and document URLs unless the report is scoped to page URLs.",
         "ColumnClickThroughRate": "Click-through rate",
         "ColumnClickThroughRateDocumentation": "Share of AI chatbot requests that resulted in acquired visits (acquired visits ÷ requests).",
         "ColumnDiscrepancyScore": "Discrepancy Score",
@@ -96,6 +105,10 @@
         "SiteWithoutDataOtherInstallMethods": "Other methods to track AI Chatbots",
         "SiteWithoutDataOtherInstallMethodsIntro": "We offer multiple tracking paths - select the one that matches your setup.",
         "SiteWithoutDataRecommendationText": "We have detected that your website is using %1$s, so you can set up AI Chatbots tracking using our official %1$s integration.",
-        "SiteWithoutDataStepByStepGuide": "Step-by-step guide"
+        "SiteWithoutDataStepByStepGuide": "Step-by-step guide",
+        "TopPageUrlsLast30MinutesDocumentation": "Shows page URLs requested by AI chatbots during the last 30 minutes, ordered by chatbot requests.",
+        "TopPageUrlsLast30MinutesTitle": "Top Page URLs - Last 30 minutes",
+        "TopPageUrlsLast8HoursDocumentation": "Shows page URLs requested by AI chatbots during the last 8 hours, ordered by chatbot requests.",
+        "TopPageUrlsLast8HoursTitle": "Top Page URLs - Last 8 hours"
     }
 }

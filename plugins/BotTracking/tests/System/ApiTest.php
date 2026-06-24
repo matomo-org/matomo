@@ -178,6 +178,46 @@ class ApiTest extends SystemTestCase
                     ],
                 ],
             ],
+            [
+                [
+                    'BotTracking.getAIChatbotsLast30Minutes',
+                ], [
+                    'idSite'     => 1,
+                    'date'       => 'today',
+                    'periods'    => ['day'],
+                    'testSuffix' => '_realtime_chatbots_30',
+                ],
+            ],
+            [
+                [
+                    'BotTracking.getAIChatbotsLast8Hours',
+                ], [
+                    'idSite'     => 1,
+                    'date'       => 'today',
+                    'periods'    => ['day'],
+                    'testSuffix' => '_realtime_chatbots_8h',
+                ],
+            ],
+            [
+                [
+                    'BotTracking.getTopPageUrlsLast30Minutes',
+                ], [
+                    'idSite'     => 1,
+                    'date'       => 'today',
+                    'periods'    => ['day'],
+                    'testSuffix' => '_realtime_top_pages_30',
+                ],
+            ],
+            [
+                [
+                    'BotTracking.getTopPageUrlsLast8Hours',
+                ], [
+                    'idSite'     => 1,
+                    'date'       => 'today',
+                    'periods'    => ['day'],
+                    'testSuffix' => '_realtime_top_pages_8h',
+                ],
+            ],
         ];
     }
 

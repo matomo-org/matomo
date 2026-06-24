@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>example.com/realtime/a</label>
+		<chatbot_requests>3</chatbot_requests>
+		<url>https://example.com/realtime/a</url>
+	</row>
+	<row>
+		<label>example.com/realtime/b</label>
+		<chatbot_requests>1</chatbot_requests>
+		<url>https://example.com/realtime/b</url>
+	</row>
+	<row>
+		<label>example.com/realtime/c</label>
+		<chatbot_requests>1</chatbot_requests>
+		<url>https://example.com/realtime/c</url>
+	</row>
+</result>
