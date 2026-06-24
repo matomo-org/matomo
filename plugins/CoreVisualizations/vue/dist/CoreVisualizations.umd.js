@@ -123,6 +123,7 @@ __webpack_require__.d(__webpack_exports__, "MetricValue", function() { return /*
 __webpack_require__.d(__webpack_exports__, "SeriesPicker", function() { return /* reexport */ SeriesPicker; });
 __webpack_require__.d(__webpack_exports__, "MetricsPicker", function() { return /* reexport */ MetricsPicker; });
 __webpack_require__.d(__webpack_exports__, "SingleMetricView", function() { return /* reexport */ SingleMetricView; });
+__webpack_require__.d(__webpack_exports__, "SparklinesGrid", function() { return /* reexport */ SparklinesGrid; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -1074,6 +1075,177 @@ const {
 SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_21624034_render
 
 /* harmony default export */ var SingleMetricView = (SingleMetricViewvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=4f710fc9
+
+const SparklinesGridvue_type_template_id_4f710fc9_hoisted_1 = {
+  class: "row sparklinesGrid"
+};
+function SparklinesGridvue_type_template_id_4f710fc9_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_SparklineCard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SparklineCard");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklinesGridvue_type_template_id_4f710fc9_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.flatSparklines, (sparkline, index) => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+      key: index,
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.columnClasses)
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SparklineCard, {
+      sparkline: sparkline,
+      "are-sparklines-linkable": _ctx.areSparklinesLinkable
+    }, null, 8, ["sparkline", "are-sparklines-linkable"])], 2);
+  }), 128))]);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=4f710fc9
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=template&id=4e052c46
+
+const SparklineCardvue_type_template_id_4e052c46_hoisted_1 = ["data-graph-params", "data-series-indices"];
+const SparklineCardvue_type_template_id_4e052c46_hoisted_2 = {
+  key: 0,
+  class: "sparkline-title"
+};
+const SparklineCardvue_type_template_id_4e052c46_hoisted_3 = {
+  key: 1,
+  class: "sparkline-value"
+};
+function SparklineCardvue_type_template_id_4e052c46_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparkline", {
+      notLinkable: !_ctx.areSparklinesLinkable
+    }]),
+    "data-graph-params": _ctx.graphParamsAttr,
+    "data-series-indices": _ctx.seriesIndicesAttr
+  }, [_ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h6", SparklineCardvue_type_template_id_4e052c46_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+    params: _ctx.sparkline.url,
+    "series-indices": _ctx.sparkline.seriesIndices
+  }, null, 8, ["params", "series-indices"]), _ctx.value !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklineCardvue_type_template_id_4e052c46_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.value), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, SparklineCardvue_type_template_id_4e052c46_hoisted_1);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=template&id=4e052c46
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var SparklineCardvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'SparklineCard',
+  components: {
+    Sparkline: external_CoreHome_["Sparkline"]
+  },
+  props: {
+    sparkline: {
+      type: Object,
+      required: true
+    },
+    areSparklinesLinkable: {
+      type: Boolean,
+      default: true
+    }
+  },
+  setup(props) {
+    const primaryMetric = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _props$sparkline$metr;
+      return (_props$sparkline$metr = props.sparkline.metrics) === null || _props$sparkline$metr === void 0 || (_props$sparkline$metr = _props$sparkline$metr['']) === null || _props$sparkline$metr === void 0 ? void 0 : _props$sparkline$metr[0];
+    });
+    // sparkline.title is null in no-comparison mode, so the primary metric's
+    // description ("Visits", "Bounce rate", ...) is used as the card heading.
+    const title = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _primaryMetric$value;
+      return props.sparkline.title || ((_primaryMetric$value = primaryMetric.value) === null || _primaryMetric$value === void 0 ? void 0 : _primaryMetric$value.description) || '';
+    });
+    // The value is already locale-formatted by the backend; render it directly,
+    // without any number filter (re-parsing a formatted string would corrupt it).
+    const value = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      const metric = primaryMetric.value;
+      return metric && metric.value !== undefined ? metric.value : null;
+    });
+    // The legacy click-to-evolution wiring (window.initializeSparklines) reads these
+    // attributes off the .sparkline wrapper, so only emit them when populated.
+    const graphParamsAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      const {
+        graphParams
+      } = props.sparkline;
+      return graphParams && Object.keys(graphParams).length ? JSON.stringify(graphParams) : null;
+    });
+    const seriesIndicesAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      const {
+        seriesIndices
+      } = props.sparkline;
+      return seriesIndices && seriesIndices.length ? JSON.stringify(seriesIndices) : null;
+    });
+    return {
+      title,
+      value,
+      graphParamsAttr,
+      seriesIndicesAttr
+    };
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue
+
+
+
+SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_4e052c46_render
+
+/* harmony default export */ var SparklineCard = (SparklineCardvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var SparklinesGridvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'SparklinesGrid',
+  components: {
+    SparklineCard: SparklineCard
+  },
+  props: {
+    sparklines: {
+      type: Object,
+      required: true
+    },
+    // Passed through from the backend for the upcoming card-body work; not used yet.
+    allMetricsDocumentation: {
+      type: Object,
+      default: () => ({})
+    },
+    areSparklinesLinkable: {
+      type: Boolean,
+      default: true
+    },
+    isWidget: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props) {
+    // getSortedSparklines() groups entries by key and the backend already sorts them by
+    // `order`. The keys are numeric (the metric index), and Object.values() iterates
+    // numeric keys in ascending order rather than insertion order, which would silently
+    // undo that sort - so flatten and then re-sort by `order` to restore display order.
+    const flatSparklines = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => [].concat(...Object.values(props.sparklines || {})).sort((a, b) => a.order - b.order));
+    // Dashboard/embedded widgets render a single column; reporting pages use the
+    // responsive 4/3/2/1 Materialize grid (xl3/l4/m6/s12).
+    const columnClasses = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.isWidget ? 'col s12' : 'col s12 m6 l3 xl3');
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(() => {
+      // The grid mounts asynchronously, so re-run the global wiring that links each
+      // sparkline to its evolution graph once the cards exist in the DOM. The handler
+      // unbinds before binding, so re-invoking it is safe. initializeSparklines is always
+      // present in the browser — CoreHome loads sparkline.js on every page.
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(() => {
+        window.initializeSparklines();
+      });
+    });
+    return {
+      flatSparklines,
+      columnClasses
+    };
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue
+
+
+
+SparklinesGridvue_type_script_lang_ts.render = SparklinesGridvue_type_template_id_4f710fc9_render
+
+/* harmony default export */ var SparklinesGrid = (SparklinesGridvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform

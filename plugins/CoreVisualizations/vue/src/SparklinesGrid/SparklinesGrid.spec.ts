@@ -5,7 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { mount } from '@vue/test-utils';
+import { flushPromises, mount } from '@vue/test-utils';
 
 jest.mock('CoreHome', () => ({
   Sparkline: { template: '<img class="sparkline-stub" />' },
@@ -15,11 +15,20 @@ jest.mock('CoreHome', () => ({
 const SparklinesGrid = require('./SparklinesGrid.vue').default;
 
 describe('CoreVisualizations/SparklinesGrid', () => {
-  function entry(description: string) {
+  let initializeSparklinesSpy: jest.Mock;
+
+  beforeEach(() => {
+    // sparkline.js (which defines window.initializeSparklines) is loaded on every real
+    // Matomo page but not in the jest bootstrap, so stub it here.
+    initializeSparklinesSpy = jest.fn();
+    window.initializeSparklines = initializeSparklinesSpy;
+  });
+
+  function entry(description: string, order = 1) {
     return {
       url: '?module=API&action=get',
       metrics: { '': [{ value: '1', description }] },
-      order: 1,
+      order,
       title: null,
       group: '0',
       seriesIndices: null,
@@ -47,7 +56,24 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     const wrapper = createWrapper();
     const col = wrapper.find('.row.sparklinesGrid > div');
 
-    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's12', 'm6', 'l4', 'xl3']));
+    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's12', 'm6', 'l3', 'xl3']));
+  });
+
+  it('orders cards by backend `order`, not by numeric group-key iteration order', () => {
+    // The group keys are the metric index, and getSortedSparklines() may insert them out
+    // of numeric order (e.g. a later metric with a lower `order`). Object.values() iterates
+    // numeric keys ascending, so without the explicit sort the cards would render as
+    // Third, First, Second here instead of in `order`.
+    const wrapper = createWrapper({
+      sparklines: {
+        1: [entry('First', 1)],
+        0: [entry('Third', 30)],
+        2: [entry('Second', 20)],
+      },
+    });
+
+    const titles = wrapper.findAll('.sparkline-title').map((node) => node.text());
+    expect(titles).toEqual(['First', 'Second', 'Third']);
   });
 
   it('collapses to a single column in widget mode', () => {
@@ -56,5 +82,12 @@ describe('CoreVisualizations/SparklinesGrid', () => {
 
     expect(col.classes()).toContain('s12');
     expect(col.classes()).not.toContain('xl3');
+  });
+
+  it('re-runs the sparkline click-to-evolution wiring after mount', async () => {
+    createWrapper();
+    await flushPromises();
+
+    expect(initializeSparklinesSpy).toHaveBeenCalledTimes(1);
   });
 });
