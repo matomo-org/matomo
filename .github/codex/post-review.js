@@ -201,6 +201,20 @@ function formatSeverityBadge(severity) {
   }
 }
 
+function formatInlineCommentBody(comment) {
+  const lines = [
+    `**${formatSeverityBadge(comment.severity)}**`,
+    '',
+    comment.body,
+  ];
+
+  if (comment.rule_source) {
+    lines.push('', `Rule source: \`${comment.rule_source}\``);
+  }
+
+  return lines.join('\n');
+}
+
 function buildReviewBody(review, unplaced, inlineCount) {
   const hasFindings = review.findings.blocking + review.findings.medium + review.findings.low_polish > 0;
   const lines = [
@@ -428,9 +442,7 @@ module.exports = async function postReview({ github, context, core }) {
       path: comment.path,
       line: comment.line,
       side: comment.side,
-      body: comment.rule_source
-        ? `${comment.body}\n\nRule source: \`${comment.rule_source}\``
-        : comment.body,
+      body: formatInlineCommentBody(comment),
     });
     placedFindings.push({
       severity: comment.severity,
@@ -453,7 +465,7 @@ module.exports = async function postReview({ github, context, core }) {
       path: finding.path,
       line: finding.line,
       side: 'RIGHT',
-      body: finding.body,
+      body: formatInlineCommentBody(finding),
     });
     placedFindings.push({
       severity: finding.severity,

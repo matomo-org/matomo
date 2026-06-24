@@ -23,6 +23,9 @@ Validation policy:
 - Assume existing CI/static checks are passing.
 - Use only cheap read-only inspection such as `git diff`, `git diff --name-only`, `git log`, and targeted `rg`.
 - Ignore clearly built/generated assets such as `*/vue/dist/*` when their source files are reviewed elsewhere.
+- Do not report assertion-count mismatches such as QUnit `expect(...)` counts as review findings.
+  CI test actions are responsible for catching executable assertion-count failures. Review tests for
+  coverage value, regression protection, meaningful assertions, and avoidable brittleness instead.
 
 Output policy:
 - Produce JSON matching the provided schema exactly.
@@ -41,6 +44,8 @@ Output policy:
   - `blocking` when there is at least one `Blocking` finding.
 - Set `findings.blocking`, `findings.medium`, and `findings.low_polish` to match the findings in `diagnostics_markdown`.
 - Use `inline_comments` for concrete, actionable findings that map to changed diff lines.
+- Set each inline comment's `severity` to the exact severity of that finding. The action will prefix
+  posted inline comments with the severity badge, so keep the body focused on evidence and the fix.
 - If a finding is about unchanged nearby context but is caused by a changed line, place the inline comment on the changed line that creates the mismatch or risk.
 - Use `unplaced_findings` for useful findings that do not map cleanly to changed diff lines.
 - `diagnostics_markdown` should include the detailed `$matomo-review` notes, including exact read-only commands run, validation delegated to CI, structural-integrity details, confidence caveats, and limitations.
