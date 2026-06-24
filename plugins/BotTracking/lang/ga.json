@@ -85,6 +85,17 @@
         "ColumnServerError5xxRequests": "Iarratais 5XX",
         "ColumnServerError5xxRequestsDocumentation": "Líon na n-iarratas bot a thug freagra HTTP 5xx (earráid freastalaí) ar ais.",
         "ColumnTotalBrokenRequests": "Líon Iomlán na nIarratas Briste",
-        "ColumnTotalBrokenRequestsDocumentation": "Líon na n-iarratas bot a thug freagra HTTP 404 (Níor aimsíodh), 410 (Imithe), nó 5xx (earráid freastalaí) ar ais."
+        "ColumnTotalBrokenRequestsDocumentation": "Líon na n-iarratas bot a thug freagra HTTP 404 (Níor aimsíodh), 410 (Imithe), nó 5xx (earráid freastalaí) ar ais.",
+        "AIChatbotsAIFavouredPagesDocumentation": "Taispeánann sé leathanaigh a iarrann comhrábotanna AI go minic ach nach dtugann daoine cuairt orthu go minic. Úsáideach chun ábhar a aimsiú a thagann chun cinn nó a dtagraíonn córais AI dó ach nach meallann mórán rannpháirtíochta dírí daonna go fóill.",
+        "AIChatbotsAIFavouredPagesTitle": "Leathanaigh is Fearr le hintleacht shaorga",
+        "AIChatbotsHumanFavouredPagesDocumentation": "Taispeánann sé leathanaigh a fhaigheann i bhfad níos mó cuairteanna ó dhaoine ná ó chomhrábotanna AI. Úsáideach chun ábhar a aithint a bhfuil baint láidir aige le fíorúsáideoirí ach nach bhfuil ionadaíocht leordhóthanach air i dtrácht nó i moltaí atá á dtiomáint ag AI.",
+        "AIChatbotsHumanFavouredPagesTitle": "Leathanaigh is Fearr le Daoine",
+        "ColumnAIChatbotRequests": "Iarratais ar Chomhrábot AI",
+        "ColumnAIChatbotRequestsDocumentation": "Líon iomlán na n-iarr comhrábot AI an URL seo le linn na tréimhse roghnaithe.",
+        "ColumnDiscrepancyScore": "Scór Neamhréireachta",
+        "ColumnDiscrepancyScoreAIFavouredDocumentation": "Scór ó 0 go 100 a chomhcheanglaíonn cé chomh láidir is atá an leathanach seo i dtreo comhrábots AI (cé mhéad níos mó a iarrann comhrábots air ná mar a thugann daoine cuairt air) le cé mhéad tráchta comhrábots atá air i gcomparáid leis an leathanach is mó a iarrtar. Ciallaíonn níos airde go ndíríonn comhrábots AI air i bhfad níos mó ná daoine; faigheann leathanaigh atá cothrom nó atá claonta i dtreo daoine scór 0.",
+        "ColumnDiscrepancyScoreHumanFavouredDocumentation": "Scór ó 0 go 100 a chomhcheanglaíonn cé chomh láidir is atá an leathanach seo i dtreo daoine (cé mhéad níos mó cuairte a thugann daoine air ná mar a iarrann comhrábotanna AI) le cé mhéad tráchta daonna atá air i gcomparáid leis an leathanach is mó cuairte. Ciallaíonn níos airde go mbíonn daoine i bhfad níos mó idirghníomhaíochta leis ná mar a dhéanann comhrábotanna AI; faigheann leathanaigh atá cothrom nó atá claonta i dtreo AI scór 0.",
+        "ColumnUniqueHumanPageviews": "Amharcanna Leathanaigh Dhaonna Uathúla",
+        "ColumnUniqueHumanPageviewsDocumentation": "Líon na gcuairteanna inar fhéach úsáideoirí fíor ar an URL seo uair amháin ar a laghad. Ní chuirtear trácht ó chomhrábots AI agus bots eile san áireamh."
     }
 }
