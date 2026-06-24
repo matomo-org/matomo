@@ -177,7 +177,11 @@ class VisitExcluded
         return (isset($_SERVER["HTTP_X_PURPOSE"])
             && in_array($_SERVER["HTTP_X_PURPOSE"], array("preview", "instant")))
         || (isset($_SERVER['HTTP_X_MOZ'])
-            && $_SERVER['HTTP_X_MOZ'] == "prefetch");
+            && $_SERVER['HTTP_X_MOZ'] == "prefetch")
+        || (isset($_SERVER['HTTP_SEC_PURPOSE'])
+            && in_array(strtolower($_SERVER['HTTP_SEC_PURPOSE']), array("prefetch", "prefetch;prerender", "prerender")))
+        || (isset($_SERVER['HTTP_PURPOSE'])
+            && strtolower($_SERVER['HTTP_PURPOSE']) == "prefetch");
     }
 
     /**

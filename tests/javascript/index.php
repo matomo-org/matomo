@@ -3445,6 +3445,64 @@ function PiwikTest() {
         equal( tracker.hook.test._prefixPropertyName('webkit', 'hidden'), 'webkitHidden', 'webkit prefix' );
     });
 
+    test("Speculation Rules API prerendering detection defers tracking", function() {
+        expect(3);
+
+        // Mock document.prerendering to simulate a prerendered page
+        var originalPrerendering = document.prerendering;
+        Object.defineProperty(document, 'prerendering', {
+            value: true,
+            writable: true,
+            configurable: true
+        });
+
+        var tracker = Piwik.getTracker("matomo.php", 1);
+        tracker.disableBrowserFeatureDetection();
+
+        var requestSent = false;
+        tracker.setCustomRequestProcessing(function(request) {
+            requestSent = true;
+            return request;
+        });
+
+        tracker.trackPageView('prerenderTest');
+
+        // The request should not have been sent yet because document.prerendering is true
+        strictEqual(requestSent, false, 'trackPageView should be deferred while document.prerendering is true');
+
+        // Simulate the page becoming visible by dispatching prerenderingchange event
+        var event = document.createEvent('Event');
+        event.initEvent('prerenderingchange', true, true);
+        document.dispatchEvent(event);
+
+        stop();
+        setTimeout(function() {
+            strictEqual(requestSent, true, 'trackPageView should execute after prerenderingchange event');
+
+            // Restore original state
+            if (typeof originalPrerendering === 'undefined') {
+                delete document.prerendering;
+            } else {
+                document.prerendering = originalPrerendering;
+            }
+
+            // Verify normal tracking works after restoring
+            var tracker2 = Piwik.getTracker("matomo.php", 1);
+            tracker2.disableBrowserFeatureDetection();
+            var normalRequestSent = false;
+            tracker2.setCustomRequestProcessing(function(request) {
+                normalRequestSent = true;
+                return request;
+            });
+            tracker2.trackPageView('normalTest');
+
+            setTimeout(function() {
+                strictEqual(normalRequestSent, true, 'trackPageView should execute immediately when not prerendering');
+                start();
+            }, 500);
+        }, 500);
+    });
+
     test("Generate error messages when calling an undefined API method", function() {
         expect(2);
 
