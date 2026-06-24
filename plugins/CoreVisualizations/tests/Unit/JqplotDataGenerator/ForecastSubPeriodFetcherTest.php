@@ -16,6 +16,7 @@ use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory;
@@ -23,6 +24,7 @@ use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastMetricClassifier;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSeriesState;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\ForecastSubPeriodFetcher;
+use Piwik\Site;
 
 /**
  * @group CoreVisualizations
@@ -374,6 +376,42 @@ class ForecastSubPeriodFetcherTest extends TestCase
         self::assertSame('month', $captured[1][0]);
         // 8-year monthly window for year-target forecasts. Date::subYear truncates to Jan 1.
         self::assertSame('2018-01-01,2026-12-30', $captured[1][1]);
+    }
+
+    public function testCollectClampsWindowEndToLastCompleteDayForInProgressYear(): void
+    {
+        // For a mid-year "year" target the last displayed period is the in-progress year, whose
+        // calendar end (2026-12-31) is in the future. Left unclamped, the daily window would sit
+        // months ahead of "now" (see testCollectFansOutDailyAndMonthlyForYearPeriod, which asserts
+        // the unclamped 2026-10-31,2026-12-30). The window must instead anchor to the last complete
+        // day in the site's timezone so it samples real recent history. Pin "today" to 2026-07-10
+        // (UTC site) so the last complete day is 2026-07-09.
+        $originalNow = Date::$now;
+        Date::$now = strtotime('2026-07-10 12:00:00 UTC');
+
+        try {
+            $captured = [];
+            $fetcher = $this->createFetcher(function (string $apiMethod, array $params) use (&$captured) {
+                $captured[] = [$params['period'], $params['date']];
+                return $this->createSampleResultMap([]);
+            });
+
+            $yearTable = new DataTable();
+            $yearTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('year', '2026-01-01'));
+            $yearTable->setMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX, $this->createSiteMock('UTC'));
+
+            $fetcher->collect([$yearTable], $this->createSeriesState(['Visits' => 'nb_visits'], [], []), 'VisitsSummary.get', 1, '');
+
+            self::assertCount(2, $captured);
+            self::assertSame('day', $captured[0][0]);
+            // endDate clamped to 2026-07-09 (today - 1 day); daily start = endDate - 60 days.
+            self::assertSame('2026-05-10,2026-07-09', $captured[0][1]);
+            self::assertSame('month', $captured[1][0]);
+            // 8-year monthly window from the clamped end; Date::subYear truncates to Jan 1.
+            self::assertSame('2018-01-01,2026-07-09', $captured[1][1]);
+        } finally {
+            Date::$now = $originalNow;
+        }
     }
 
     public function testCollectClampsGapDayFetchStartToEarliestDataDate(): void
@@ -917,6 +955,18 @@ class ForecastSubPeriodFetcherTest extends TestCase
         $dataTable = new DataTable();
         $dataTable->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, Factory::build('day', $date));
         return $dataTable;
+    }
+
+    private function createSiteMock(string $timezone): Site
+    {
+        $site = $this->getMockBuilder(Site::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getTimezone'])
+            ->getMock();
+
+        $site->method('getTimezone')->willReturn($timezone);
+
+        return $site;
     }
 
     /**

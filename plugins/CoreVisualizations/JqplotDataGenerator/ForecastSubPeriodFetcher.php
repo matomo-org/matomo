@@ -188,6 +188,17 @@ class ForecastSubPeriodFetcher
         }
         $endDate = $lastPeriod->getDateEnd()->subDay(1)->toString('Y-m-d');
 
+        // getDateEnd() is the calendar end of the (possibly in-progress) last displayed period,
+        // so for a mid-period month/year target it lands in the future. Anchoring the historical
+        // sample windows there would push the daily window entirely into the future -- every
+        // sub-period a guaranteed-empty archive read that feeds no samples into the seasonal
+        // decomposition. Clamp to the last complete day in the site's timezone; the in-progress
+        // period's own partial value already comes from the displayed $dataTables, not this fetch.
+        $site = $lastTable->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX);
+        if ($site instanceof Site) {
+            $endDate = $this->clampEndDate($endDate, $site);
+        }
+
         try {
             if ('day' === $periodLabel) {
                 // Day-period forecasts cannot decompose into sub-periods, so the prior-only
@@ -351,16 +362,71 @@ class ForecastSubPeriodFetcher
             }
         )));
 
-        // Resolve the cross-plugin merge API.get to the concrete owning report when every
-        // plotted column lives on a single module's `.get` report. API.get is a PHP-side merge,
-        // not an archive method, so the framework rebuilds its multi-sub-period result one
-        // sub-period at a time -- re-running the full report-metadata catalog build (getReportMetadata
-        // -> configureReportMetadata across every report of every plugin) on each, the dominant
-        // forecast-render cost. A concrete archive-backed `.get` returns the whole sub-period Map
-        // from one batched archive read with no catalog build, so the fan-out drops from N catalog
-        // rebuilds to zero. Multi-module graphs keep the (now column-scoped) API.get path.
-        $requestMethod = $this->resolveSingleModuleGetMethod($apiMethod, $idSite, $plottedColumns);
+        // Resolve the cross-plugin merge API.get into one fetch group per owning Module.get report.
+        // API.get is a PHP-side merge, not an archive method, so the framework rebuilds its
+        // multi-sub-period result one sub-period at a time -- re-running the full report-metadata
+        // catalog build (getReportMetadata -> configureReportMetadata across every report of every
+        // plugin) on each, the dominant forecast-render cost. Concrete archive-backed `.get`
+        // methods return the whole sub-period Map from one batched archive read with no catalog
+        // build, so each group costs one catalog-free read instead of one full API.get rebuild per
+        // sub-period. Graphs whose metrics span several plugins (the Visits Overview set is the
+        // common case) fan out into one request per module; their per-series samples are merged
+        // below. Non-API.get callers and unresolvable column sets fall back to a single group on
+        // the original method (see resolveModuleColumnGroups).
+        $groups = $this->resolveModuleColumnGroups($apiMethod, $idSite, $plottedColumns);
 
+        $samples = [];
+        foreach ($groups as $group) {
+            $map = $this->requestSubPeriodMap(
+                $group['method'],
+                $idSite,
+                $segment,
+                $subPeriod,
+                $startDate,
+                $endDate,
+                $group['columns']
+            );
+            if (null === $map) {
+                continue;
+            }
+
+            $this->applyChartUnitFormatting($map, $group['method']);
+
+            // Restrict to this group's own series before merging: the group fetched only its
+            // module's columns, so a sibling series' column is absent from these tables and
+            // extractSamples would emit a synthetic MONOTONICITY_UP zero for it on any empty
+            // sub-period. Merging that zero could clobber the real value the sibling's own group
+            // produced (and the merge order is not significant once each series is sourced solely
+            // from its owning group).
+            $groupSamples = $this->restrictSamplesToColumns(
+                $this->extractSamples($map, $seriesState, $subPeriod),
+                $seriesState,
+                $group['columns']
+            );
+
+            $samples = $this->mergeSampleMaps($samples, $groupSamples);
+        }
+
+        return $samples;
+    }
+
+    /**
+     * Issue one sub-period request for $method scoped to $columns and return the raw
+     * {@see DataTable\Map}, or null when the API method did not return a Map (unsupported method,
+     * error response). The pinned framework result-shape params keep the inner rows aligned with
+     * what the chart plots; see the inline notes.
+     *
+     * @param array<int, string> $columns
+     */
+    private function requestSubPeriodMap(
+        string $method,
+        int $idSite,
+        string $segment,
+        string $subPeriod,
+        string $startDate,
+        string $endDate,
+        array $columns
+    ): ?DataTable\Map {
         // processRequest() picks up the core convention's compare=0 / format=original /
         // serialize=0 defaults. $_GET + $_POST inheritance is asymmetric on purpose: scope
         // params (idGoal, idDimension, future plugin selectors) inherit so the inner sample
@@ -368,12 +434,12 @@ class ForecastSubPeriodFetcher
         // would have to predict every plugin. Framework result-shape mutators are a closed
         // set, pinned below: inheriting them would silently shift which rows the inner
         // samples come from. isComparing upstream guards against comparison leakage.
-        $result = ($this->apiRequestProcessor)($requestMethod, [
+        $result = ($this->apiRequestProcessor)($method, [
             'idSite'                  => $idSite,
             'period'                  => $subPeriod,
             'date'                    => $startDate . ',' . $endDate,
             'segment'                 => $segment,
-            'columns'                 => implode(',', $plottedColumns),
+            'columns'                 => implode(',', $columns),
             'filter_limit'            => -1,
             'disable_generic_filters' => 1,
             // format_metrics=1 replaces numeric values with display strings (bandwidth -> "3 G")
@@ -394,21 +460,25 @@ class ForecastSubPeriodFetcher
             'keep_summary_row'         => 0,    // belt-and-braces; disable_generic_filters=1 already gates this
         ]);
 
-        if (!$result instanceof DataTable\Map) {
-            return [];
-        }
+        return $result instanceof DataTable\Map ? $result : null;
+    }
 
-        // Bring the inner samples onto the same scale the outer evolution chart plots in. The
-        // outer is rendered by {@see \Piwik\Plugins\CoreVisualizations\Visualizations\Graph},
-        // which formats with the {@see Numeric} formatter (format-as-number, not as string):
-        // {@see \Piwik\Plugin\ProcessedMetric} columns are rewritten in place -- bandwidth
-        // bytes divided by 1024^3 onto the chart's fixed 'G' axis, percent quotients scaled
-        // to whole percent, etc. The inner request above is pinned to raw numeric units, so
-        // without this pass the forecast would sum analog bytes-per-day against an outer
-        // current value already in gigabytes, the ~10^9 blowup seen on bandwidth forecasts.
-        // Running the identical Numeric pass here mirrors that transformation row-for-row so
-        // the seasonal decomposition stays in one unit system.
-        $report = $this->resolveReportForFormatting($requestMethod);
+    /**
+     * Bring the inner samples onto the same scale the outer evolution chart plots in. The
+     * outer is rendered by {@see \Piwik\Plugins\CoreVisualizations\Visualizations\Graph},
+     * which formats with the {@see Numeric} formatter (format-as-number, not as string):
+     * {@see \Piwik\Plugin\ProcessedMetric} columns are rewritten in place -- bandwidth
+     * bytes divided by 1024^3 onto the chart's fixed 'G' axis, percent quotients scaled
+     * to whole percent, etc. The inner request is pinned to raw numeric units, so without this
+     * pass the forecast would sum analog bytes-per-day against an outer current value already in
+     * gigabytes, the ~10^9 blowup seen on bandwidth forecasts. Running the identical Numeric pass
+     * here mirrors that transformation row-for-row so the seasonal decomposition stays in one unit
+     * system. $method is the report the group was fetched from, so per-module groups format with
+     * their own report's processed-metric definitions.
+     */
+    private function applyChartUnitFormatting(DataTable\Map $result, string $method): void
+    {
+        $report = $this->resolveReportForFormatting($method);
         // Some `Module.get` reports (Goals.get is the canonical case) list a percent/ratio
         // ProcessedMetric only by its string name in $processedMetrics, which
         // Report::getProcessedMetricsById() drops -- the metric *object* that knows how to
@@ -418,7 +488,7 @@ class ForecastSubPeriodFetcher
         // chart shows whole percent -- a forecast ~100x too small. Seed those metric objects
         // onto each sub-table's metadata (the same surface AddColumnsProcessedMetrics uses) so
         // the Numeric pass recognises and scales them exactly as the displayed chart does.
-        $extraMetrics = $this->resolveDelegatedProcessedMetrics($requestMethod);
+        $extraMetrics = $this->resolveDelegatedProcessedMetrics($method);
         $formatter = new Numeric();
         foreach ($result->getDataTables() as $subTable) {
             if ([] !== $extraMetrics) {
@@ -430,8 +500,6 @@ class ForecastSubPeriodFetcher
             }
             $formatter->formatMetrics($subTable, $report);
         }
-
-        return $this->extractSamples($result, $seriesState, $subPeriod);
     }
 
     /**
@@ -474,6 +542,21 @@ class ForecastSubPeriodFetcher
         }
 
         return $startDate;
+    }
+
+    /**
+     * Lower $endDate to the last complete day in the site's timezone when the displayed period
+     * runs past it (a mid-period month/year target whose calendar end is in the future). Mirrors
+     * {@see self::clampStartDate()}: both operands are 'Y-m-d' strings comparing lexicographically
+     * in chronological order, so strcmp() is a date comparison here.
+     */
+    private function clampEndDate(string $endDate, Site $site): string
+    {
+        $lastCompleteDay = Date::factoryInTimezone('today', $site->getTimezone())
+            ->subDay(1)
+            ->toString('Y-m-d');
+
+        return strcmp($endDate, $lastCompleteDay) > 0 ? $lastCompleteDay : $endDate;
     }
 
     /**
@@ -534,26 +617,33 @@ class ForecastSubPeriodFetcher
     }
 
     /**
-     * Map the cross-plugin merge `API.get` to the concrete `Module.get` report that owns every
-     * plotted column, so the sub-period fan-out can skip API.get's per-sub-period report-metadata
-     * catalog rebuild (see the call site for why that rebuild dominates the render).
+     * Split the plotted columns into one fetch group per owning `Module.get` report, so the
+     * sub-period fan-out can issue catalog-free archive-backed requests instead of the
+     * per-sub-period API.get rebuild (see {@see self::fetchSeries()} for why that rebuild
+     * dominates the render). Each group is `['method' => 'Module.get', 'columns' => [...]]`.
      *
-     * Returns the unchanged method for anything other than `API.get`, for an empty column set, or
-     * when the plotted columns span more than one module (no single concrete report can serve
-     * them, so the column-scoped API.get path stays). The column -> module mapping is read from
-     * the report metadata exactly as {@see \Piwik\Plugins\API\API::get()} reads it; the lookup is
-     * keyed on the outer request's period/date so it reuses the catalog the displayed graph
-     * already built (a transient-cache hit) rather than triggering a fresh build.
+     * Returns a single group carrying the original $apiMethod when:
+     *  - the method is not the cross-plugin merge API.get (concrete reports already avoid the
+     *    rebuild, so there is nothing to split);
+     *  - there are no plotted columns to scope by;
+     *  - any column resolves to other than exactly one module (an unmapped metric, or one shared
+     *    by several `.get` reports), where reproducing API.get's own merge precedence is not worth
+     *    the risk -- the column-scoped API.get path stays correct, just slower.
      *
-     * Any failure (metadata unavailable, access change mid-request) falls back to the original
-     * method, matching this class's defensive prior-only degradation rather than throwing.
+     * The column -> module mapping is read from the report metadata exactly as
+     * {@see \Piwik\Plugins\API\API::get()} reads it, keyed on the outer request's period/date so it
+     * reuses the catalog the displayed graph already built (a transient-cache hit). Any failure
+     * falls back to the single API.get group, matching this class's defensive degradation.
      *
      * @param array<int, string> $plottedColumns
+     * @return array<int, array{method: string, columns: array<int, string>}>
      */
-    private function resolveSingleModuleGetMethod(string $apiMethod, int $idSite, array $plottedColumns): string
+    private function resolveModuleColumnGroups(string $apiMethod, int $idSite, array $plottedColumns): array
     {
+        $fallback = [['method' => $apiMethod, 'columns' => $plottedColumns]];
+
         if ('API.get' !== $apiMethod || [] === $plottedColumns) {
-            return $apiMethod;
+            return $fallback;
         }
 
         try {
@@ -561,11 +651,12 @@ class ForecastSubPeriodFetcher
             $date   = Common::getRequestVar('date', 'today', 'string');
             $meta   = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
         } catch (\Throwable $e) {
-            return $apiMethod;
+            return $fallback;
         }
 
-        $wanted  = array_fill_keys($plottedColumns, true);
-        $modules = [];
+        // Build column -> set-of-owning-modules from every plugin's `.get` report, mirroring the
+        // scan API.get itself does (action 'get', no parameters, not the API module, has metrics).
+        $modulesByColumn = [];
         foreach ($meta as $reportMeta) {
             if (
                 ($reportMeta['action'] ?? null) !== 'get'
@@ -574,19 +665,80 @@ class ForecastSubPeriodFetcher
             ) {
                 continue;
             }
+            $module  = $reportMeta['module'];
             $metrics = array_merge($reportMeta['metrics'] ?? [], $reportMeta['processedMetrics'] ?? []);
             foreach ($metrics as $column => $translation) {
-                if (isset($wanted[$column])) {
-                    $modules[$reportMeta['module']] = true;
-                }
+                $modulesByColumn[$column][$module] = true;
             }
         }
 
-        if (count($modules) === 1) {
-            return key($modules) . '.get';
+        // Group the plotted columns by their single owning module. Bail to the API.get fallback if
+        // any column is unmapped or owned by more than one module, since a concrete per-module
+        // fan-out cannot reproduce API.get's merge for it without guessing precedence.
+        $columnsByModule = [];
+        foreach ($plottedColumns as $column) {
+            $owners = $modulesByColumn[$column] ?? [];
+            if (count($owners) !== 1) {
+                return $fallback;
+            }
+            $columnsByModule[(string) key($owners)][] = $column;
         }
 
-        return $apiMethod;
+        $groups = [];
+        foreach ($columnsByModule as $module => $columns) {
+            $groups[] = ['method' => $module . '.get', 'columns' => $columns];
+        }
+
+        return $groups;
+    }
+
+    /**
+     * Per-series union of two sample maps (seriesLabel -> dateKey -> value), used to combine the
+     * per-module group fetches. Each plotted column is owned by exactly one module
+     * ({@see self::resolveModuleColumnGroups()} bails otherwise) and each group's samples are
+     * restricted to its own series before merging, so a given series is contributed by a single
+     * group and the unions never collide; array_replace is order-insensitive here as a result.
+     *
+     * @param array<string, array<string, float>> $base
+     * @param array<string, array<string, float>> $add
+     * @return array<string, array<string, float>>
+     */
+    private function mergeSampleMaps(array $base, array $add): array
+    {
+        foreach ($add as $seriesLabel => $dateValues) {
+            $base[$seriesLabel] = array_replace($base[$seriesLabel] ?? [], $dateValues);
+        }
+
+        return $base;
+    }
+
+    /**
+     * Keep only the series whose plotted column belongs to $columns. A per-module group fetches
+     * just its module's columns, so a sibling series' column is absent from the group's tables;
+     * {@see self::extractSamplesFromTables()} would still emit a synthetic MONOTONICITY_UP zero for
+     * that sibling on any empty sub-period, and merging the zero could clobber the real value the
+     * sibling's own group produced. Dropping out-of-group series here keeps every series sourced
+     * solely from its owning module. A single-group (fallback / concrete-method) fetch passes the
+     * full plotted-column set, so this is a no-op there.
+     *
+     * @param array<string, array<string, float>> $samples
+     * @param array<int, string> $columns
+     * @return array<string, array<string, float>>
+     */
+    private function restrictSamplesToColumns(array $samples, ForecastSeriesState $seriesState, array $columns): array
+    {
+        $seriesColumns = $seriesState->getAllSeriesColumns();
+        $allowed       = array_fill_keys($columns, true);
+
+        $restricted = [];
+        foreach ($samples as $seriesLabel => $dateValues) {
+            $column = $seriesColumns[$seriesLabel] ?? null;
+            if (null !== $column && isset($allowed[$column])) {
+                $restricted[$seriesLabel] = $dateValues;
+            }
+        }
+
+        return $restricted;
     }
 
     /**
