@@ -1075,14 +1075,14 @@ const {
 SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_21624034_render
 
 /* harmony default export */ var SingleMetricView = (SingleMetricViewvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=1f8dbaea
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=d8c14cc2
 
-const SparklinesGridvue_type_template_id_1f8dbaea_hoisted_1 = {
+const SparklinesGridvue_type_template_id_d8c14cc2_hoisted_1 = {
   class: "row sparklinesGrid"
 };
-function SparklinesGridvue_type_template_id_1f8dbaea_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SparklinesGridvue_type_template_id_d8c14cc2_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_SparklineCard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SparklineCard");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklinesGridvue_type_template_id_1f8dbaea_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.flatSparklines, (sparkline, index) => {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklinesGridvue_type_template_id_d8c14cc2_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.flatSparklines, (sparkline, index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       key: index,
       class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.columnClasses)
@@ -1092,20 +1092,20 @@ function SparklinesGridvue_type_template_id_1f8dbaea_render(_ctx, _cache, $props
     }, null, 8, ["sparkline", "are-sparklines-linkable"])], 2);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=1f8dbaea
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=d8c14cc2
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=template&id=4e052c46
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=template&id=581ab328
 
-const SparklineCardvue_type_template_id_4e052c46_hoisted_1 = ["data-graph-params", "data-series-indices"];
-const SparklineCardvue_type_template_id_4e052c46_hoisted_2 = {
+const SparklineCardvue_type_template_id_581ab328_hoisted_1 = ["data-graph-params", "data-series-indices"];
+const SparklineCardvue_type_template_id_581ab328_hoisted_2 = {
   key: 0,
   class: "sparkline-title"
 };
-const SparklineCardvue_type_template_id_4e052c46_hoisted_3 = {
+const SparklineCardvue_type_template_id_581ab328_hoisted_3 = {
   key: 1,
-  class: "sparkline-value"
+  class: "sparkline__value"
 };
-function SparklineCardvue_type_template_id_4e052c46_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SparklineCardvue_type_template_id_581ab328_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparkline", {
@@ -1113,12 +1113,12 @@ function SparklineCardvue_type_template_id_4e052c46_render(_ctx, _cache, $props,
     }]),
     "data-graph-params": _ctx.graphParamsAttr,
     "data-series-indices": _ctx.seriesIndicesAttr
-  }, [_ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h6", SparklineCardvue_type_template_id_4e052c46_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+  }, [_ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h6", SparklineCardvue_type_template_id_581ab328_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
     params: _ctx.sparkline.url,
     "series-indices": _ctx.sparkline.seriesIndices
-  }, null, 8, ["params", "series-indices"]), _ctx.value !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklineCardvue_type_template_id_4e052c46_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.value), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, SparklineCardvue_type_template_id_4e052c46_hoisted_1);
+  }, null, 8, ["params", "series-indices"]), _ctx.value !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklineCardvue_type_template_id_581ab328_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.value), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, SparklineCardvue_type_template_id_581ab328_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=template&id=4e052c46
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=template&id=581ab328
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=script&lang=ts
 
@@ -1183,7 +1183,7 @@ function SparklineCardvue_type_template_id_4e052c46_render(_ctx, _cache, $props,
 
 
 
-SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_4e052c46_render
+SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_581ab328_render
 
 /* harmony default export */ var SparklineCard = (SparklineCardvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=script&lang=ts
@@ -1199,7 +1199,7 @@ SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_
       type: Object,
       required: true
     },
-    // Passed through from the backend for the upcoming card-body work; not used yet.
+    // From the backend for upcoming card-body work; not used yet.
     allMetricsDocumentation: {
       type: Object,
       default: () => ({})
@@ -1214,21 +1214,17 @@ SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_
     }
   },
   setup(props) {
-    // getSortedSparklines() groups entries by key and the backend already sorts them by
-    // `order`. The keys are numeric (the metric index), and Object.values() iterates
-    // numeric keys in ascending order rather than insertion order, which would silently
-    // undo that sort - so flatten and then re-sort by `order` to restore display order.
-    const flatSparklines = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => [].concat(...Object.values(props.sparklines || {})).sort((a, b) => a.order - b.order));
-    // Dashboard/embedded widgets render a single column; reporting pages use a responsive
-    // grid: 2 cols up to 992px (s6/m6), 4 cols from 993px (l3/xl3), and 5 cols from 1920px
-    // (handled by the width override in SparklinesGrid.less, which targets .col.xl3 - so
-    // xl3 has to stay in the class list even though it is the same 4-col width as l3).
+    // `order` is the backend's source of truth for display order: a total order across
+    // all cards (even comparison metrics/segments). Flatten every group and sort by it.
+    // Drop placeholders (Config::addPlaceholder()): no url, they only padded the legacy
+    // 2-column layout and would render as empty cards here.
+    const flatSparklines = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => [].concat(...Object.values(props.sparklines || {})).filter(sparkline => !!sparkline.url).sort((a, b) => a.order - b.order));
+    // Widgets show one column; reporting pages use a responsive grid (2/4/5 cols).
+    // Keep xl3 so SparklinesGrid.less can widen it to 5 cols above 1920px.
     const columnClasses = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.isWidget ? 'col s12' : 'col s6 m6 l3 xl3');
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(() => {
-      // The grid mounts asynchronously, so re-run the global wiring that links each
-      // sparkline to its evolution graph once the cards exist in the DOM. The handler
-      // unbinds before binding, so re-invoking it is safe. initializeSparklines is always
-      // present in the browser — CoreHome loads sparkline.js on every page.
+      // Re-wire each sparkline to its evolution graph once the cards are in the DOM.
+      // Safe to re-run (it unbinds first); CoreHome ships sparkline.js in the global JS bundle.
       Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(() => {
         window.initializeSparklines();
       });
@@ -1245,7 +1241,7 @@ SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_
 
 
 
-SparklinesGridvue_type_script_lang_ts.render = SparklinesGridvue_type_template_id_1f8dbaea_render
+SparklinesGridvue_type_script_lang_ts.render = SparklinesGridvue_type_template_id_d8c14cc2_render
 
 /* harmony default export */ var SparklinesGrid = (SparklinesGridvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/index.ts

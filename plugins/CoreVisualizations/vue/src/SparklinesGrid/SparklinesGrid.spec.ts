@@ -36,6 +36,19 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     };
   }
 
+  function placeholder(order: number) {
+    // Mirrors Config::addPlaceholder(): empty url + no metrics, used only for legacy layout.
+    return {
+      url: '',
+      metrics: {},
+      order,
+      title: null,
+      group: `placeholder${order}`,
+      seriesIndices: null,
+      graphParams: null,
+    };
+  }
+
   function createWrapper(props: Record<string, unknown> = {}) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return mount(SparklinesGrid as any, {
@@ -50,6 +63,22 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     const wrapper = createWrapper();
 
     expect(wrapper.findAllComponents({ name: 'SparklineCard' }).length).toBe(3);
+  });
+
+  it('drops layout placeholders so they do not render as empty cards', () => {
+    // The flagship Visits Overview adds placeholders (order 10/31/50) purely for the legacy
+    // 2-column layout; they have an empty url and no metrics and must not reach the grid.
+    const wrapper = createWrapper({
+      sparklines: {
+        0: [entry('Visits', 1)],
+        1: [placeholder(10)],
+        2: [entry('Actions', 20)],
+      },
+    });
+
+    const titles = wrapper.findAll('.sparkline-title').map((node) => node.text());
+    expect(wrapper.findAllComponents({ name: 'SparklineCard' }).length).toBe(2);
+    expect(titles).toEqual(['Visits', 'Actions']);
   });
 
   it('uses the responsive grid columns (s6 m6 l3 xl3) on reporting pages', () => {

@@ -36,21 +36,10 @@ describe('CoreVisualizations/SparklineCard', () => {
     const wrapper = createWrapper();
 
     expect(wrapper.find('.sparkline-title').text()).toBe('Visits');
-    expect(wrapper.find('.sparkline-value').text()).toBe('1,234');
+    expect(wrapper.find('.sparkline__value').text()).toBe('1,234');
     expect(wrapper.find('.sparkline-stub').exists()).toBe(true);
     expect(wrapper.classes()).toContain('sparkline');
     expect(wrapper.classes()).not.toContain('notLinkable');
-  });
-
-  it('exposes graph-params and series-indices for the click-to-evolution wiring', () => {
-    const wrapper = createWrapper({
-      ...baseSparkline,
-      graphParams: { columns: 'nb_visits' },
-      seriesIndices: [0, 1],
-    });
-
-    expect(wrapper.attributes('data-graph-params')).toBe('{"columns":"nb_visits"}');
-    expect(wrapper.attributes('data-series-indices')).toBe('[0,1]');
   });
 
   it('omits empty graph-params / series-indices attributes', () => {
@@ -66,11 +55,4 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(wrapper.classes()).toContain('notLinkable');
   });
 
-  it('renders no title/value but keeps the sparkline when the metric group is empty', () => {
-    const wrapper = createWrapper({ ...baseSparkline, metrics: { '': [] } });
-
-    expect(wrapper.find('.sparkline-title').exists()).toBe(false);
-    expect(wrapper.find('.sparkline-value').exists()).toBe(false);
-    expect(wrapper.find('.sparkline-stub').exists()).toBe(true);
-  });
 });

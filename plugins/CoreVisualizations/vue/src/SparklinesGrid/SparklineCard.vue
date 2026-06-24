@@ -24,7 +24,7 @@
     />
     <div
       v-if="value !== null"
-      class="sparkline-value"
+      class="sparkline__value"
     >
       {{ value }}
     </div>

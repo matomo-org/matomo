@@ -56,11 +56,14 @@ export default defineComponent({
     },
   },
   setup(props) {
-    // Object.values() iterates numeric keys in ascending order, not insertion order,
-    // so flatten and re-sort by `order` to keep the backend's display order.
+    // `order` is the backend's source of truth for display order: a total order across
+    // all cards (even comparison metrics/segments). Flatten every group and sort by it.
+    // Drop placeholders (Config::addPlaceholder()): no url, they only padded the legacy
+    // 2-column layout and would render as empty cards here.
     const flatSparklines = computed<SparklineEntry[]>(
       () => ([] as SparklineEntry[])
         .concat(...Object.values(props.sparklines || {}))
+        .filter((sparkline) => !!sparkline.url)
         .sort((a, b) => a.order - b.order),
     );
 
