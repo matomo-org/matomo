@@ -3748,6 +3748,118 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
+		<name>AI Chatbots - Last 30 Minutes</name>
+		<category>
+			<id>General_AIAssistants</id>
+			<name>AI Assistants</name>
+			<order>80</order>
+			<icon>icon-ai-assistants</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>BotTracking_AIChatbotsRealtime</id>
+			<name>AI Chatbots Real-time</name>
+			<order>12</order>
+			<help>&lt;p&gt;The AI Chatbots Real-time page shows recent AI chatbot activity from raw bot tracking data, including chatbot request volume, unique page URLs, and HTTP error counts.&lt;/p&gt;&lt;p&gt;These reports are limited to short real-time windows so they remain fast and predictable on large sites.&lt;/p&gt;</help>
+		</subcategory>
+		<module>BotTracking</module>
+		<action>getAIChatbotsLast30Minutes</action>
+		<order>110</order>
+		<parameters>
+			<module>BotTracking</module>
+			<action>getAIChatbotsLast30Minutes</action>
+		</parameters>
+		<uniqueId>widgetBotTrackinggetAIChatbotsLast30Minutes</uniqueId>
+		<isWide>1</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>AI Chatbots - Last 8 Hours</name>
+		<category>
+			<id>General_AIAssistants</id>
+			<name>AI Assistants</name>
+			<order>80</order>
+			<icon>icon-ai-assistants</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>BotTracking_AIChatbotsRealtime</id>
+			<name>AI Chatbots Real-time</name>
+			<order>12</order>
+			<help>&lt;p&gt;The AI Chatbots Real-time page shows recent AI chatbot activity from raw bot tracking data, including chatbot request volume, unique page URLs, and HTTP error counts.&lt;/p&gt;&lt;p&gt;These reports are limited to short real-time windows so they remain fast and predictable on large sites.&lt;/p&gt;</help>
+		</subcategory>
+		<module>BotTracking</module>
+		<action>getAIChatbotsLast8Hours</action>
+		<order>120</order>
+		<parameters>
+			<module>BotTracking</module>
+			<action>getAIChatbotsLast8Hours</action>
+		</parameters>
+		<uniqueId>widgetBotTrackinggetAIChatbotsLast8Hours</uniqueId>
+		<isWide>1</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>Top Page URLs - Last 30 minutes</name>
+		<category>
+			<id>General_AIAssistants</id>
+			<name>AI Assistants</name>
+			<order>80</order>
+			<icon>icon-ai-assistants</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>BotTracking_AIChatbotsRealtime</id>
+			<name>AI Chatbots Real-time</name>
+			<order>12</order>
+			<help>&lt;p&gt;The AI Chatbots Real-time page shows recent AI chatbot activity from raw bot tracking data, including chatbot request volume, unique page URLs, and HTTP error counts.&lt;/p&gt;&lt;p&gt;These reports are limited to short real-time windows so they remain fast and predictable on large sites.&lt;/p&gt;</help>
+		</subcategory>
+		<module>BotTracking</module>
+		<action>getTopPageUrlsLast30Minutes</action>
+		<order>130</order>
+		<parameters>
+			<module>BotTracking</module>
+			<action>getTopPageUrlsLast30Minutes</action>
+		</parameters>
+		<uniqueId>widgetBotTrackinggetTopPageUrlsLast30Minutes</uniqueId>
+		<isWide>1</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>Top Page URLs - Last 8 hours</name>
+		<category>
+			<id>General_AIAssistants</id>
+			<name>AI Assistants</name>
+			<order>80</order>
+			<icon>icon-ai-assistants</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>BotTracking_AIChatbotsRealtime</id>
+			<name>AI Chatbots Real-time</name>
+			<order>12</order>
+			<help>&lt;p&gt;The AI Chatbots Real-time page shows recent AI chatbot activity from raw bot tracking data, including chatbot request volume, unique page URLs, and HTTP error counts.&lt;/p&gt;&lt;p&gt;These reports are limited to short real-time windows so they remain fast and predictable on large sites.&lt;/p&gt;</help>
+		</subcategory>
+		<module>BotTracking</module>
+		<action>getTopPageUrlsLast8Hours</action>
+		<order>140</order>
+		<parameters>
+			<module>BotTracking</module>
+			<action>getTopPageUrlsLast8Hours</action>
+		</parameters>
+		<uniqueId>widgetBotTrackinggetTopPageUrlsLast8Hours</uniqueId>
+		<isWide>1</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
 		<name>AI-Favoured Pages</name>
 		<category>
 			<id>General_AIAssistants</id>
