@@ -106,7 +106,7 @@ class APITest extends IntegrationTestCase
 
     public function testAddGoalShouldPreservePlusCharacterInRegexPattern()
     {
-        // see DEV-18306: a "+" must not be turned into a space when saving a goal
+        // a "+" must not be turned into a space when saving a goal
         $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', '\/one_\d+\.php$', 'regex');
 
         $this->assertGoal($idGoal, 'MyName', '', 'url', '\/one_\d+\.php$', 'regex');
@@ -114,7 +114,7 @@ class APITest extends IntegrationTestCase
 
     public function testAddGoalShouldPreservePlusCharacterInNameAndDescription()
     {
-        // see DEV-18306: a "+" must not be turned into a space when saving a goal
+        // a "+" must not be turned into a space when saving a goal
         $idGoal = $this->api->addGoal($this->idSite, 'My + Name', 'title', 'a+b', 'contains', false, false, false, 'desc + text');
 
         $this->assertGoal($idGoal, 'My + Name', 'desc + text', 'title', 'a+b', 'contains');
@@ -122,7 +122,7 @@ class APITest extends IntegrationTestCase
 
     public function testUpdateGoalShouldPreservePlusCharacterInRegexPattern()
     {
-        // see DEV-18306: a "+" must not be turned into a space when updating a goal
+        // a "+" must not be turned into a space when updating a goal
         $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'title', 'rere(.*)', 'regex');
 
         $this->api->updateGoal($this->idSite, $idGoal, 'My + Name', 'title', '(?!Postuler$).+', 'regex', false, false, false, 'desc + text');
