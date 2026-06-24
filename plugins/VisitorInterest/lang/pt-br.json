@@ -3,6 +3,7 @@
         "BetweenXYMinutes": "%1$s–%2$s min",
         "BetweenXYSeconds": "%1$s–%2$s s",
         "ColumnPagesPerVisit": "Páginas por visita",
+        "ColumnPercentageVisitsDocumentation": "A porcentagem do total de visitas, em que os visitantes já tiveram essa quantidade total de visitas.",
         "ColumnVisitDuration": "Duração da visita",
         "Engagement": "Compromisso",
         "NPages": "%s páginas",
