@@ -1,0 +1,34 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Scope every rule under .sparklinesGrid: Matomo concatenates all plugin LESS into a
+// single sheet, so this avoids colliding with the legacy .sparkline / .metricEvolution
+// styles that still render when the feature flag is off.
+.sparklinesGrid {
+  // Responsive columns come from Materialize's grid classes applied in the template
+  // (col s12 m6 l4 xl3 => 1 / 2 / 3 / 4 columns). Nothing extra is needed for those.
+
+  .sparkline {
+    box-sizing: border-box;
+    padding: 8px;
+  }
+
+  .sparkline-title {
+    margin: 0 0 4px;
+  }
+
+  // 5-column tier above Materialize's largest breakpoint (xl = 1201px). 5 cols is not a
+  // native col class (12 / 5 = 2.4), so override the width directly. Materialize emits its
+  // width rule as `.row .col.xl3` (3 classes), so the override must include `.xl3` to be
+  // 4 classes and outrank it — `.sparklinesGrid.row > .col` alone would only tie and lose
+  // on source order. Matches only the responsive (non-widget) cards, which carry xl3.
+  @media only screen and (min-width: 1920px) {
+    &.row > .col.xl3 {
+      width: 20%;
+    }
+  }
+}
