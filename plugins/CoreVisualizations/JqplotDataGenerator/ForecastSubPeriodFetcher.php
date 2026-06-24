@@ -14,6 +14,7 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\API\Request as ApiRequest;
 use Piwik\Archive\ArchiveState;
 use Piwik\Archive\DataTableFactory;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SegmentArchiving;
 use Piwik\DataTable;
@@ -350,6 +351,16 @@ class ForecastSubPeriodFetcher
             }
         )));
 
+        // Resolve the cross-plugin merge API.get to the concrete owning report when every
+        // plotted column lives on a single module's `.get` report. API.get is a PHP-side merge,
+        // not an archive method, so the framework rebuilds its multi-sub-period result one
+        // sub-period at a time -- re-running the full report-metadata catalog build (getReportMetadata
+        // -> configureReportMetadata across every report of every plugin) on each, the dominant
+        // forecast-render cost. A concrete archive-backed `.get` returns the whole sub-period Map
+        // from one batched archive read with no catalog build, so the fan-out drops from N catalog
+        // rebuilds to zero. Multi-module graphs keep the (now column-scoped) API.get path.
+        $requestMethod = $this->resolveSingleModuleGetMethod($apiMethod, $idSite, $plottedColumns);
+
         // processRequest() picks up the core convention's compare=0 / format=original /
         // serialize=0 defaults. $_GET + $_POST inheritance is asymmetric on purpose: scope
         // params (idGoal, idDimension, future plugin selectors) inherit so the inner sample
@@ -357,7 +368,7 @@ class ForecastSubPeriodFetcher
         // would have to predict every plugin. Framework result-shape mutators are a closed
         // set, pinned below: inheriting them would silently shift which rows the inner
         // samples come from. isComparing upstream guards against comparison leakage.
-        $result = ($this->apiRequestProcessor)($apiMethod, [
+        $result = ($this->apiRequestProcessor)($requestMethod, [
             'idSite'                  => $idSite,
             'period'                  => $subPeriod,
             'date'                    => $startDate . ',' . $endDate,
@@ -397,7 +408,7 @@ class ForecastSubPeriodFetcher
         // current value already in gigabytes, the ~10^9 blowup seen on bandwidth forecasts.
         // Running the identical Numeric pass here mirrors that transformation row-for-row so
         // the seasonal decomposition stays in one unit system.
-        $report = $this->resolveReportForFormatting($apiMethod);
+        $report = $this->resolveReportForFormatting($requestMethod);
         // Some `Module.get` reports (Goals.get is the canonical case) list a percent/ratio
         // ProcessedMetric only by its string name in $processedMetrics, which
         // Report::getProcessedMetricsById() drops -- the metric *object* that knows how to
@@ -407,7 +418,7 @@ class ForecastSubPeriodFetcher
         // chart shows whole percent -- a forecast ~100x too small. Seed those metric objects
         // onto each sub-table's metadata (the same surface AddColumnsProcessedMetrics uses) so
         // the Numeric pass recognises and scales them exactly as the displayed chart does.
-        $extraMetrics = $this->resolveDelegatedProcessedMetrics($apiMethod);
+        $extraMetrics = $this->resolveDelegatedProcessedMetrics($requestMethod);
         $formatter = new Numeric();
         foreach ($result->getDataTables() as $subTable) {
             if ([] !== $extraMetrics) {
@@ -520,6 +531,62 @@ class ForecastSubPeriodFetcher
         } catch (\Throwable $e) {
             return null;
         }
+    }
+
+    /**
+     * Map the cross-plugin merge `API.get` to the concrete `Module.get` report that owns every
+     * plotted column, so the sub-period fan-out can skip API.get's per-sub-period report-metadata
+     * catalog rebuild (see the call site for why that rebuild dominates the render).
+     *
+     * Returns the unchanged method for anything other than `API.get`, for an empty column set, or
+     * when the plotted columns span more than one module (no single concrete report can serve
+     * them, so the column-scoped API.get path stays). The column -> module mapping is read from
+     * the report metadata exactly as {@see \Piwik\Plugins\API\API::get()} reads it; the lookup is
+     * keyed on the outer request's period/date so it reuses the catalog the displayed graph
+     * already built (a transient-cache hit) rather than triggering a fresh build.
+     *
+     * Any failure (metadata unavailable, access change mid-request) falls back to the original
+     * method, matching this class's defensive prior-only degradation rather than throwing.
+     *
+     * @param array<int, string> $plottedColumns
+     */
+    private function resolveSingleModuleGetMethod(string $apiMethod, int $idSite, array $plottedColumns): string
+    {
+        if ('API.get' !== $apiMethod || [] === $plottedColumns) {
+            return $apiMethod;
+        }
+
+        try {
+            $period = Common::getRequestVar('period', 'day', 'string');
+            $date   = Common::getRequestVar('date', 'today', 'string');
+            $meta   = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
+        } catch (\Throwable $e) {
+            return $apiMethod;
+        }
+
+        $wanted  = array_fill_keys($plottedColumns, true);
+        $modules = [];
+        foreach ($meta as $reportMeta) {
+            if (
+                ($reportMeta['action'] ?? null) !== 'get'
+                || isset($reportMeta['parameters'])
+                || ($reportMeta['module'] ?? 'API') === 'API'
+            ) {
+                continue;
+            }
+            $metrics = array_merge($reportMeta['metrics'] ?? [], $reportMeta['processedMetrics'] ?? []);
+            foreach ($metrics as $column => $translation) {
+                if (isset($wanted[$column])) {
+                    $modules[$reportMeta['module']] = true;
+                }
+            }
+        }
+
+        if (count($modules) === 1) {
+            return key($modules) . '.get';
+        }
+
+        return $apiMethod;
     }
 
     /**
