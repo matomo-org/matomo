@@ -9,8 +9,8 @@
 // single sheet, so this avoids colliding with the legacy .sparkline / .metricEvolution
 // styles that still render when the feature flag is off.
 .sparklinesGrid {
-  // Responsive columns come from Materialize's grid classes applied in the template
-  // (col s12 m6 l4 xl3 => 1 / 2 / 3 / 4 columns). Nothing extra is needed for those.
+  // Responsive columns come from Materialize's grid classes applied to each card
+  // (col s6 m6 l3 xl3 => 2 / 2 / 4 / 4 columns). The >=1920px tier below adds a 5th column.
 
   .sparkline {
     box-sizing: border-box;
@@ -29,6 +29,15 @@
   @media only screen and (min-width: 1920px) {
     &.row > .col.xl3 {
       width: 20%;
+    }
+  }
+
+  // Single column on very small screens (<=320px). The smallest native tier here is s6
+  // (2 cols), so override the width directly, mirroring the 1920px tier above. The override
+  // includes `.s6` to reach 4 classes and outrank Materialize's `.row .col.s6` (3 classes).
+  @media only screen and (max-width: 320px) {
+    &.row > .col.s6 {
+      width: 100%;
     }
   }
 }

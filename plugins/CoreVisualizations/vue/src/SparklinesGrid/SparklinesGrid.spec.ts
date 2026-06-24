@@ -52,11 +52,11 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(wrapper.findAllComponents({ name: 'SparklineCard' }).length).toBe(3);
   });
 
-  it('uses the responsive 4/3/2/1 grid columns on reporting pages', () => {
+  it('uses the responsive grid columns (s6 m6 l3 xl3) on reporting pages', () => {
     const wrapper = createWrapper();
     const col = wrapper.find('.row.sparklinesGrid > div');
 
-    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's12', 'm6', 'l3', 'xl3']));
+    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's6', 'm6', 'l3', 'xl3']));
   });
 
   it('orders cards by backend `order`, not by numeric group-key iteration order', () => {

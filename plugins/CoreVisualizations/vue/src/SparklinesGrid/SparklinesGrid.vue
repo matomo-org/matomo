@@ -41,7 +41,7 @@ export default defineComponent({
       type: Object as PropType<Record<string, SparklineEntry[]>>,
       required: true,
     },
-    // Passed through from the backend for the upcoming card-body work; not used yet.
+    // From the backend for upcoming card-body work; not used yet.
     allMetricsDocumentation: {
       type: Object,
       default: () => ({}),
@@ -56,25 +56,21 @@ export default defineComponent({
     },
   },
   setup(props) {
-    // getSortedSparklines() groups entries by key and the backend already sorts them by
-    // `order`. The keys are numeric (the metric index), and Object.values() iterates
-    // numeric keys in ascending order rather than insertion order, which would silently
-    // undo that sort - so flatten and then re-sort by `order` to restore display order.
+    // Object.values() iterates numeric keys in ascending order, not insertion order,
+    // so flatten and re-sort by `order` to keep the backend's display order.
     const flatSparklines = computed<SparklineEntry[]>(
       () => ([] as SparklineEntry[])
         .concat(...Object.values(props.sparklines || {}))
         .sort((a, b) => a.order - b.order),
     );
 
-    // Dashboard/embedded widgets render a single column; reporting pages use the
-    // responsive 4/3/2/1 Materialize grid (xl3/l4/m6/s12).
-    const columnClasses = computed(() => (props.isWidget ? 'col s12' : 'col s12 m6 l3 xl3'));
+    // Widgets show one column; reporting pages use a responsive grid (2/4/5 cols).
+    // Keep xl3 so SparklinesGrid.less can widen it to 5 cols above 1920px.
+    const columnClasses = computed(() => (props.isWidget ? 'col s12' : 'col s6 m6 l3 xl3'));
 
     onMounted(() => {
-      // The grid mounts asynchronously, so re-run the global wiring that links each
-      // sparkline to its evolution graph once the cards exist in the DOM. The handler
-      // unbinds before binding, so re-invoking it is safe. initializeSparklines is always
-      // present in the browser — CoreHome loads sparkline.js on every page.
+      // Re-wire each sparkline to its evolution graph once the cards are in the DOM.
+      // Safe to re-run (it unbinds first); CoreHome ships sparkline.js in the global JS bundle.
       nextTick(() => {
         window.initializeSparklines();
       });
