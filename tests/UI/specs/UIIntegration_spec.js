@@ -310,6 +310,25 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             expect(await screenshotPageWrap()).to.matchImage('visitors_realtime_visits');
         });
+
+        it('should not double-encode action URLs in the real-time visits widget', async function () {
+            const idSite = testEnvironment.realtimeUiSiteId;
+            const idSiteParams = 'idSite=' + idSite + '&period=year&date=2012-08-09';
+
+            await page.goto("?" + urlBaseGeneric + idSiteParams + "#?" + idSiteParams + "&category=General_Visitors&subcategory=General_RealTime");
+
+            await page.waitForNetworkIdle();
+            await page.waitForSelector('#visitsLive li.visit a[href*="download.pdf"]', { visible: true });
+
+            const href = await page.evaluate(() => {
+                const link = document.querySelector('#visitsLive li.visit a[href*="download.pdf"]');
+                return link ? link.getAttribute('href') : null;
+            });
+
+            expect(href).to.be.a('string');
+            expect(href).to.contain('download.pdf?a=b&c=d');
+            expect(href).to.not.contain('&amp;');
+        });
     });
 
     describe("ActionsPages", function () {
