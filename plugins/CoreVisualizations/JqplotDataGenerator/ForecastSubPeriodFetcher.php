@@ -335,6 +335,21 @@ class ForecastSubPeriodFetcher
         string $endDate,
         ForecastSeriesState $seriesState
     ): array {
+        // Scope the inner request to the columns the chart actually plots. The displayed
+        // evolution graph already does this (Controller::getLastUnitGraphAcrossPlugins sets
+        // custom_parameters['columns'] = columns_to_display); the fan-out did not, so when the
+        // graph's API method is the cross-plugin merge API.get, every sub-period rebuilt the
+        // full union of all contributing plugins' metrics (VisitsSummary, Actions, Referrers,
+        // Goals, ...). The forecast only consumes the plotted columns, so querying the rest is
+        // pure waste. An empty set is sent as columns='' which API.get reads as "all metrics",
+        // preserving the legacy unscoped behaviour for callers without a populated series state.
+        $plottedColumns = array_values(array_unique(array_filter(
+            $seriesState->getAllSeriesColumns(),
+            static function ($column): bool {
+                return is_string($column) && '' !== $column;
+            }
+        )));
+
         // processRequest() picks up the core convention's compare=0 / format=original /
         // serialize=0 defaults. $_GET + $_POST inheritance is asymmetric on purpose: scope
         // params (idGoal, idDimension, future plugin selectors) inherit so the inner sample
@@ -347,6 +362,7 @@ class ForecastSubPeriodFetcher
             'period'                  => $subPeriod,
             'date'                    => $startDate . ',' . $endDate,
             'segment'                 => $segment,
+            'columns'                 => implode(',', $plottedColumns),
             'filter_limit'            => -1,
             'disable_generic_filters' => 1,
             // format_metrics=1 replaces numeric values with display strings (bandwidth -> "3 G")
