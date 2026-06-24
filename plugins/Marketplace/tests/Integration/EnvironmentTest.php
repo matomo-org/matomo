@@ -98,7 +98,6 @@ class EnvironmentTest extends IntegrationTestCase
 
     /**
      * @runInSeparateProcess
-     * @preserveGlobalState disabled
      */
     public function testGetUniqueIdReturnsSha256HashOfSaltWhenSaltConfigured()
     {
