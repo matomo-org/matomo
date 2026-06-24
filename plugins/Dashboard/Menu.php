@@ -25,7 +25,20 @@ class Menu extends \Piwik\Plugin\Menu
 
         $tooltip = Piwik::translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
 
-        $urlParams = $this->urlForModuleActionWithDefaultUserParams('CoreHome', 'index', ['idSite' => $idSite]) ;
-        $menu->addItem('Dashboard_Dashboard', null, $urlParams, 1, $tooltip);
+        $urlParams = $this->urlForModuleActionWithDefaultUserParams('CoreHome', 'index', ['idSite' => $idSite]);
+
+        // data-reporting-group marks this as the default ("Analytics") reporting section so the active
+        // top-menu highlight can be kept in sync client-side with the active section (which lives in the
+        // URL hash, not the query string, to avoid leaking into other links).
+        $menu->addItem(
+            'Dashboard_TopMenuTitle',
+            null,
+            $urlParams,
+            1,
+            $tooltip,
+            false,
+            false,
+            'data-reporting-group=""'
+        );
     }
 }

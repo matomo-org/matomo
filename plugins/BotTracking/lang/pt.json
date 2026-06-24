@@ -2,6 +2,8 @@
     "BotTracking": {
         "PageUrl": "Endereço da página",
         "NoDataHttpTrackingApi": "API HTTP de acompanhamento",
-        "SiteWithoutDataBackToMatomo": "Voltar ao Matomo"
+        "SiteWithoutDataBackToMatomo": "Voltar ao Matomo",
+        "AIChatbotsContentPagesTitle": "Páginas",
+        "ContentUrl": "Endereço"
     }
 }

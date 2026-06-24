@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirm": "Opravdu chcete nastavit toto rozvržení widgetů jako výchozí?",
         "SetAsDefaultWidgetsConfirmHelp": "Tyto widgety a jejich rozvržení budou použity vždy, když někdo vytvoří novou nástěnku nebo použije vlastnost %s.",
         "TopLinkTooltip": "Zobraz analytické hlášení webu pro %s.",
+        "TopMenuTitle": "Analytika",
         "WidgetNotFound": "Widget nenalezen",
         "WidgetPreview": "Náhled widgetu"
     }

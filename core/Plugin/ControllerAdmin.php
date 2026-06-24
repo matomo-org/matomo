@@ -38,6 +38,10 @@ use Piwik\SettingsPiwik;
  */
 abstract class ControllerAdmin extends Controller
 {
+    private const NEXT_REQUIRED_MINIMUM_PHP = '8.1';
+    private const NEXT_REQUIRED_MINIMUM_MYSQL = '8.0';
+    private const NEXT_REQUIRED_MINIMUM_MARIADB = '10.6';
+
     private static function notifyWhenTrackingStatisticsDisabled()
     {
         $statsEnabled = PiwikConfig::getInstance()->Tracker['record_statistics'];
@@ -246,24 +250,32 @@ abstract class ControllerAdmin extends Controller
      */
     private static function getNextRequiredMinimumPHP()
     {
-        return '7.2';
+        return self::NEXT_REQUIRED_MINIMUM_PHP;
     }
 
-    private static function isUsingPhpVersionCompatibleWithNextPiwik()
+    private static function isUsingPhpVersionCompatibleWithNextPiwik($phpVersion = PHP_VERSION)
     {
-        return version_compare(PHP_VERSION, self::getNextRequiredMinimumPHP(), '>=');
+        return version_compare($phpVersion, self::getNextRequiredMinimumPHP(), '>=');
     }
 
     private static function notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik()
     {
+        if (defined('PIWIK_TEST_MODE')) { // to avoid changing every admin UI test
+            return;
+        }
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return;
+        }
+
         if (self::isUsingPhpVersionCompatibleWithNextPiwik()) {
             return;
         }
 
-        $youMustUpgradePHP = Piwik::translate('General_YouMustUpgradePhpVersionToReceiveLatestPiwik');
-        $message =  Piwik::translate('General_PiwikCannotBeUpgradedBecausePhpIsTooOld')
+        $youMustUpgradePHP = Piwik::translate('General_YouMustUpgradePhpVersionToReceiveNextMajorMatomo');
+        $message =  Piwik::translate('General_MatomoCannotBeUpgradedToNextMajorBecausePhpIsTooOld')
             .     ' '
-            .  sprintf(Piwik::translate('General_PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure'), self::getNextRequiredMinimumPHP())
+            .  sprintf(Piwik::translate('General_PleaseUpgradeYourPhpVersionForNextMajorMatomo'), self::getNextRequiredMinimumPHP())
         ;
 
         $notification = new Notification($message);
@@ -273,6 +285,94 @@ abstract class ControllerAdmin extends Controller
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->flags = Notification::FLAG_NO_CLEAR;
         NotificationManager::notify('PHPVersionTooOldForNewestPiwikCheck', $notification);
+    }
+
+    private static function getNextRequiredMinimumDatabaseVersion(string $databaseType, string $databaseVersion): ?string
+    {
+        $databaseType = self::getEffectiveDatabaseType($databaseType, $databaseVersion);
+
+        if ($databaseType === 'mysql') {
+            return self::NEXT_REQUIRED_MINIMUM_MYSQL;
+        }
+
+        if ($databaseType === 'mariadb') {
+            return self::NEXT_REQUIRED_MINIMUM_MARIADB;
+        }
+
+        return null;
+    }
+
+    private static function isUsingDatabaseVersionCompatibleWithNextPiwik(string $databaseType, string $databaseVersion): bool
+    {
+        $requiredVersion = self::getNextRequiredMinimumDatabaseVersion($databaseType, $databaseVersion);
+        if ($requiredVersion === null) {
+            return true;
+        }
+
+        return version_compare(self::getComparableDatabaseVersion($databaseVersion), $requiredVersion, '>=');
+    }
+
+    private static function getEffectiveDatabaseType(string $databaseType, string $databaseVersion): string
+    {
+        if (stripos($databaseVersion, 'mariadb') !== false) {
+            return 'mariadb';
+        }
+
+        return strtolower($databaseType);
+    }
+
+    private static function getComparableDatabaseVersion(string $databaseVersion): string
+    {
+        if (
+            stripos($databaseVersion, 'mariadb') !== false
+            && preg_match('/5\.5\.5-(\d+(?:\.\d+){0,2})-MariaDB/i', $databaseVersion, $matches)
+        ) {
+            return $matches[1];
+        }
+
+        if (preg_match('/\d+(?:\.\d+){0,2}/', $databaseVersion, $matches)) {
+            return $matches[0];
+        }
+
+        return $databaseVersion;
+    }
+
+    private static function notifyWhenDatabaseVersionIsNotCompatibleWithNextMajorPiwik(): void
+    {
+        if (defined('PIWIK_TEST_MODE')) { // to avoid changing every admin UI test
+            return;
+        }
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return;
+        }
+
+        $databaseType = Schema::getInstance()->getDatabaseType();
+        $databaseVersion = Schema::getInstance()->getVersion();
+
+        if (self::isUsingDatabaseVersionCompatibleWithNextPiwik($databaseType, $databaseVersion)) {
+            return;
+        }
+
+        $requiredVersion = self::getNextRequiredMinimumDatabaseVersion($databaseType, $databaseVersion);
+        $databaseType = self::getEffectiveDatabaseType($databaseType, $databaseVersion) === 'mariadb'
+            ? 'MariaDB'
+            : 'MySQL';
+
+        $message = Piwik::translate('General_MatomoCannotBeUpgradedToNextMajorBecauseDatabaseIsTooOld')
+            . ' '
+            . Piwik::translate(
+                'General_PleaseUpgradeYourDatabaseVersionForNextMajorMatomo',
+                [$databaseType, $requiredVersion]
+            );
+
+        $notification = new Notification($message);
+        $notification->title = Piwik::translate('General_YouMustUpgradeDatabaseVersionToReceiveNextMajorMatomo');
+        $notification->priority = Notification::PRIORITY_LOW;
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->flags = Notification::FLAG_NO_CLEAR;
+        NotificationManager::notify('DatabaseVersionTooOldForNewestPiwikCheck', $notification);
     }
 
     private static function notifyWhenPhpVersionIsEOL()
@@ -403,6 +503,7 @@ abstract class ControllerAdmin extends Controller
         self::notifyAnyInvalidPlugin();
         self::notifyWhenPhpVersionIsEOL();
         self::notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik();
+        self::notifyWhenDatabaseVersionIsNotCompatibleWithNextMajorPiwik();
         self::notifyWhenDatabaseVersionIsEOL();
         self::notifyWhenDebugOnDemandIsEnabled('debug');
         self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');

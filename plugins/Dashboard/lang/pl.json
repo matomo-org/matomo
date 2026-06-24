@@ -33,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "Czy na pewno chcesz zapisać obecny układ elementów i zestaw widżetów na bieżącym panelu jako domyślny szablon pulpitu?",
         "SetAsDefaultWidgetsConfirmHelp": "Ten zestaw widżetów i układ kolumn będzie używany, gdy jakikolwiek użytkownik stworzy nowy pulpit, albo gdy funkcja \"%s\" zostanie użyta.",
         "TopLinkTooltip": "Podgląd raportów Web Analytics dla %s.",
+        "TopMenuTitle": "Statystyki",
         "WidgetNotFound": "Widżet nie został znaleziony",
         "WidgetPreview": "Podgląd widżetu"
     }

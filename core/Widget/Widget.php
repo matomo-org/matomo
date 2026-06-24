@@ -23,6 +23,7 @@ class Widget
 {
     /**
      * @api
+     * @return void
      */
     public static function configure(WidgetConfig $config)
     {

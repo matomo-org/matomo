@@ -1,0 +1,1766 @@
+{
+    "plugins": [
+        {
+            "name": "WooCommerceAnalytics",
+            "displayName": "WooCommerce Analytics",
+            "owner": "matomo-org",
+            "description": "Drive more revenue, improve your sales funnel, and get accurate insights with our Matomo Analytics Ecommerce tracking integration for your WooCommerce.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2017-06-26 08:01:33",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "piwik",
+                "woocommerce",
+                "wordpress",
+                "shop",
+                "ecommerce",
+                "integration",
+                "cart",
+                "purchases",
+                "order",
+                "matomo"
+            ],
+            "basePrice": 39,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-06-08 19:27:40",
+            "latestVersion": "5.3.5",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.3.5",
+                    "release": "2026-06-08 19:27:40",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/WooCommerceAnalytics/download/5.3.5"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "FormAnalytics",
+            "displayName": "Form Analytics",
+            "owner": "matomo-org",
+            "description": "Increase conversions on your online forms and lose less visitors by learning everything about your users behavior and their pain points on your forms.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2017-03-09 22:11:54",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "optimization",
+                "analytics",
+                "improve",
+                "cro",
+                "form",
+                "web",
+                "online"
+            ],
+            "basePrice": 165,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-06-08 05:12:27",
+            "latestVersion": "5.2.2",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.2.2",
+                    "release": "2026-06-08 05:12:27",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/FormAnalytics/download/5.2.2"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "EnterpriseBundle",
+            "displayName": "Enterprise Bundle",
+            "owner": "InnoCraft",
+            "description": "Elevate your global brand’s end-to-end marketing with intelligent analytics, including enterprise-grade compliance and elite support to drive impact at scale.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2026-06-02 21:42:52",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "optimization",
+                "conversion",
+                "cro",
+                "sales",
+                "content",
+                "bundle",
+                "revenue",
+                "premium",
+                "support"
+            ],
+            "basePrice": 40800,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-06-02 21:42:52",
+            "latestVersion": "1.0.0",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": true,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2026-06-02 21:42:52",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/EnterpriseBundle/download/1.0.0"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "BusinessBundle",
+            "displayName": "Business Bundle",
+            "owner": "InnoCraft",
+            "description": "Empower your teams with integrated insights, advanced analytics and enhanced security to drive strategic action and market share.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2026-06-02 21:42:40",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "optimization",
+                "conversion",
+                "cro",
+                "sales",
+                "content",
+                "bundle",
+                "revenue",
+                "premium",
+                "support"
+            ],
+            "basePrice": 17400,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-06-02 21:42:40",
+            "latestVersion": "1.0.0",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": true,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2026-06-02 21:42:40",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/BusinessBundle/download/1.0.0"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "TeamBundle",
+            "displayName": "Team Bundle",
+            "owner": "InnoCraft",
+            "description": "Equip your startup or marketing team to make smarter, faster decisions with powerful analytics to drive increased conversion and revenue growth.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2026-06-02 21:42:19",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "optimization",
+                "conversion",
+                "cro",
+                "sales",
+                "content",
+                "bundle",
+                "revenue",
+                "premium",
+                "support"
+            ],
+            "basePrice": 3300,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-06-02 21:42:19",
+            "latestVersion": "1.0.0",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": true,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "1.0.0",
+                    "release": "2026-06-02 21:42:19",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/TeamBundle/download/1.0.0"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "HeatmapSessionRecording",
+            "displayName": "Heatmap & Session Recording",
+            "owner": "matomo-org",
+            "description": "Truly understand your visitors by seeing where they click, hover, type and scroll. Replay their actions in a video and ultimately increase conversions.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2017-05-17 06:34:21",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "Visitor",
+                "heatmap",
+                "video",
+                "click",
+                "visit",
+                "session recording",
+                "session",
+                "recording",
+                "move",
+                "scroll",
+                "hover",
+                "user"
+            ],
+            "basePrice": 220,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-05-25 06:07:17",
+            "latestVersion": "5.4.0",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.4.0",
+                    "release": "2026-05-25 06:07:17",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/HeatmapSessionRecording/download/5.4.0"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "CrashAnalytics",
+            "displayName": "Crash Analytics",
+            "owner": "matomo-org",
+            "description": "Detect crashes to improve the user experience, increase conversions and recover revenue. Resolve them with insights to minimise developer hours.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2023-08-30 05:06:01",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "monitoring",
+                "monitor",
+                "javascript",
+                "log",
+                "error",
+                "php",
+                "crash",
+                "exception",
+                "js"
+            ],
+            "basePrice": 154,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-05-25 06:04:16",
+            "latestVersion": "5.0.14",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.0.14",
+                    "release": "2026-05-25 06:04:16",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/CrashAnalytics/download/5.0.14"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "CustomReports",
+            "displayName": "Custom Reports",
+            "owner": "matomo-org",
+            "description": "Pull out the information you need in order to be successful. Develop your custom strategy to meet your individualized goals while saving money & time.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2017-10-12 03:42:12",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "segment",
+                "custom",
+                "reports",
+                "filter"
+            ],
+            "basePrice": 220,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-05-19 04:07:20",
+            "latestVersion": "5.4.12",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.4.12",
+                    "release": "2026-05-19 04:07:20",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/CustomReports/download/5.4.12"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "LoginSaml",
+            "displayName": "Login SAML",
+            "owner": "matomo-org",
+            "description": "Provides SAML-based Single Sign-On (SSO) support for Matomo. Works with any Identity Provider (IdP) such as OneLogin, Microsoft Entra ID, Google, and.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2017-08-01 04:14:17",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "authentication",
+                "sso",
+                "google",
+                "saml",
+                "ADFS",
+                "OneLogin",
+                "Okta",
+                "Ping Identity",
+                "Salesforce",
+                "SharePoint",
+                "Just-in-time provisioning",
+                "Microsoft Entra ID"
+            ],
+            "basePrice": 550,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-05-14 02:17:05",
+            "latestVersion": "5.5.2",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.5.2",
+                    "release": "2026-05-14 02:17:05",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/LoginSaml/download/5.5.2"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "AdvertisingConversionExport",
+            "displayName": "Advertising Conversion Export",
+            "owner": "matomo-org",
+            "description": "Provides an export of attributed goal conversions for usage in ad networks like Google Ads so you no longer need a conversion pixel.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2021-05-07 00:14:56",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "import",
+                "export",
+                "tracking",
+                "google",
+                "adwords",
+                "Advertising",
+                "attribution",
+                "ads",
+                "Yandex",
+                "conversions",
+                "attribute",
+                "pixel",
+                "microsoft"
+            ],
+            "basePrice": 165,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-05-11 09:03:48",
+            "latestVersion": "5.3.7",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.3.7",
+                    "release": "2026-05-11 09:03:48",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/AdvertisingConversionExport/download/5.3.7"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "AbTesting",
+            "displayName": "A/B Testing",
+            "owner": "matomo-org",
+            "description": "Increase revenue and conversions by comparing different versions of your websites or apps & detect the winning variation that will grow your business!",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2016-10-25 21:08:10",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "Marketing",
+                "a/b",
+                "tests",
+                "split",
+                "abtests",
+                "test",
+                "experiments",
+                "variation",
+                "variant",
+                "optimze",
+                "improve",
+                "cro"
+            ],
+            "basePrice": 220,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-05-11 04:54:31",
+            "latestVersion": "5.5.3",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.5.3",
+                    "release": "2026-05-11 04:54:31",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/AbTesting/download/5.5.3"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "Funnels",
+            "displayName": "Funnels",
+            "owner": "matomo-org",
+            "description": "Identify and understand where your visitors drop off to increase your conversions, sales and revenue with your existing traffic.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2016-12-02 05:26:56",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "piwik",
+                "Marketing",
+                "tracking",
+                "optimization",
+                "conversion",
+                "funnel",
+                "goal",
+                "cro",
+                "matomo"
+            ],
+            "basePrice": 193,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-05-11 04:40:24",
+            "latestVersion": "5.4.0",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.4.0",
+                    "release": "2026-05-11 04:40:24",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/Funnels/download/5.4.0"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "Cohorts",
+            "displayName": "Cohorts",
+            "owner": "matomo-org",
+            "description": "Track your retention efforts over time and keep your visitors engaged and coming back for more.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2019-06-05 23:47:08",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "cohorts",
+                "retention",
+                "user segments",
+                "goals"
+            ],
+            "basePrice": 94,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-04-27 08:25:44",
+            "latestVersion": "5.1.8",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.1.8",
+                    "release": "2026-04-27 08:25:44",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/Cohorts/download/5.1.8"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "MediaAnalytics",
+            "displayName": "Media Analytics",
+            "owner": "matomo-org",
+            "description": "Grow your business with advanced video & audio analytics. Get powerful insights into how your audience watches your videos and listens to your audio.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2016-10-25 21:07:56",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "Marketing",
+                "conversion",
+                "video",
+                "audio",
+                "media",
+                "youtube",
+                "vimeo",
+                "html5",
+                "analytics",
+                "cro"
+            ],
+            "basePrice": 176,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-04-27 06:46:35",
+            "latestVersion": "5.0.14",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.0.14",
+                    "release": "2026-04-27 06:46:35",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/MediaAnalytics/download/5.0.14"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "UsersFlow",
+            "displayName": "Users Flow",
+            "owner": "matomo-org",
+            "description": "Users Flow is a visual representation of the most popular paths your users take through your website & app which lets you understand your users needs.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2016-12-13 02:33:57",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "users",
+                "Marketing",
+                "optimization",
+                "path",
+                "conversion",
+                "goal",
+                "cro",
+                "visitors",
+                "flow",
+                "sales",
+                "click",
+                "interaction"
+            ],
+            "basePrice": 94,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-04-27 05:13:57",
+            "latestVersion": "5.0.9",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.0.9",
+                    "release": "2026-04-27 05:13:57",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/UsersFlow/download/5.0.9"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "SEOWebVitals",
+            "displayName": "SEO Web Vitals",
+            "owner": "matomo-org",
+            "description": "Improve your website performance, rank higher in search results and optimise your visitor experience with SEO Web Vitals.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2021-09-07 21:26:29",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "search",
+                "engine",
+                "performance",
+                "optimization",
+                "google",
+                "SEO",
+                "web vitals",
+                "vitals",
+                "optimisation"
+            ],
+            "basePrice": 83,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-04-27 05:11:56",
+            "latestVersion": "5.0.11",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.0.11",
+                    "release": "2026-04-27 05:11:56",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/SEOWebVitals/download/5.0.11"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "SearchEngineKeywordsPerformance",
+            "displayName": "Search Engine Keywords Performance",
+            "owner": "matomo-org",
+            "description": "All keywords searched by your users on search engines are now visible into your Referrers reports! The ultimate solution to 'Keyword not defined'.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2017-03-14 11:24:34",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "search",
+                "google",
+                "Bing",
+                "Keyword",
+                "SEO",
+                "Yahoo",
+                "Crawling",
+                "Yandex"
+            ],
+            "basePrice": 154,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-04-27 05:10:32",
+            "latestVersion": "5.0.29",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.0.29",
+                    "release": "2026-04-27 05:10:32",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/SearchEngineKeywordsPerformance/download/5.0.29"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "RollUpReporting",
+            "displayName": "Roll-Up Reporting",
+            "owner": "matomo-org",
+            "description": "At a glance, see how several of your websites, mobile apps & shops are performing overall. Get new insights into your business & save time every day.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2016-12-22 08:41:57",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "websites",
+                "roll-up",
+                "roll",
+                "up",
+                "group",
+                "aggregate",
+                "sites",
+                "property",
+                "meta",
+                "parent"
+            ],
+            "basePrice": 220,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-04-27 05:09:21",
+            "latestVersion": "5.0.11",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.0.11",
+                    "release": "2026-04-27 05:09:21",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/RollUpReporting/download/5.0.11"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "MultiChannelConversionAttribution",
+            "displayName": "Multi Channel Conversion Attribution",
+            "owner": "matomo-org",
+            "description": "Get a clear understanding of how much credit each of your marketing channel is actually responsible for to shift your marketing efforts wisely.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2017-11-28 01:07:48",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "referrer",
+                "traffic",
+                "conversion",
+                "Channels",
+                "attribution",
+                "models",
+                "referer",
+                "ads"
+            ],
+            "basePrice": 83,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-04-27 04:57:56",
+            "latestVersion": "5.0.12",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.0.12",
+                    "release": "2026-04-27 04:57:56",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/MultiChannelConversionAttribution/download/5.0.12"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "ActivityLog",
+            "displayName": "Activity Log",
+            "owner": "matomo-org",
+            "description": "Get a detailed audit log of all activities happening in your Matomo Analytics for increased security, risk management, and problem diagnostic.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2016-10-25 21:06:10",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "security",
+                "monitoring",
+                "administration",
+                "log",
+                "activity",
+                "audit"
+            ],
+            "basePrice": 33,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-04-27 04:14:27",
+            "latestVersion": "5.1.9",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.1.9",
+                    "release": "2026-04-27 04:14:27",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/ActivityLog/download/5.1.9"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "WhiteLabel",
+            "displayName": "White Label",
+            "owner": "matomo-org",
+            "description": "Give your users and clients access to a more streamline analytics experience that is less confusing and lets your own branding shine.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2016-12-08 23:54:31",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "branding",
+                "white label",
+                "embedding reports",
+                "customer access",
+                "reselling"
+            ],
+            "basePrice": 165,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2025-07-07 10:21:39",
+            "latestVersion": "5.0.5",
+            "numDownloads": null,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": false,
+            "isPaid": true,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.0.5",
+                    "release": "2025-07-07 10:21:39",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/WhiteLabel/download/5.0.5"
+                }
+            ],
+            "isDownloadable": false,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        }
+    ]
+}

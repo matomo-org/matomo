@@ -4,6 +4,25 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 5.12.0
+
+### New APIs
+* `Record::setAggregatedRecordTransform()` lets a blob record register a callback that is applied to its aggregated
+  table during non-day archiving, after the day blobs are aggregated together and before the table is truncated and
+  stored. Use it together with `Record::setBlobColumnAggregationOps()` (marking a column `'skip'`) to recompute columns
+  that cannot be summed across child periods — for example a table-relative ratio, index or score — so they can also be
+  used as the sort column for truncation. It applies on both the standard blob path and the built-from-flat path
+  (`Record::setBuiltFromFlatRecord()`), where the flat base record and the hierarchy rebuilt from it are each
+  transformed on their own table. A matching optional `$postAggregationTransform` parameter was added to
+  `ArchiveProcessor::aggregateDataTableRecords()`.
+* The reporting menu can now be split into several top-level sections (in addition to the default
+  "Analytics" menu). A category declares which section(s) it belongs to via `Category::setGroups()`
+  (and the protected `$groups` property); `API.getReportPagesMetadata` now exposes a `groups` field per
+  category. Each non-default group automatically gets a top-menu entry that opens the regular reporting
+  single-page-app filtered to that group (the active section is carried in the URL hash), so reports stay
+  within the same SPA and quick search. The first such section, "AI Insights", surfaces the existing
+  AI Assistants reports.
+
 ## Matomo 5.11.0
 
 ### New APIs

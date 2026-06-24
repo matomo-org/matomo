@@ -11,6 +11,7 @@ import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
 import { setCookie } from '../CookieHelper/CookieHelper';
+import { Periods, Range } from '../Periods';
 
 export interface AjaxOptions {
   withTokenInUrl?: boolean;
@@ -370,14 +371,18 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     return chunks;
   }
 
+  private hideLoadingElement(): void {
+    if (this.loadingElement) {
+      $(this.loadingElement).hide();
+    }
+  }
+
   private handleApiErrorResponseOrCallback(
     response: any, // eslint-disable-line @typescript-eslint/no-explicit-any
     status: string,
     request: jqXHR,
   ): void {
-    if (this.loadingElement) {
-      $(this.loadingElement).hide();
-    }
+    this.hideLoadingElement();
 
     const results = this.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
     const errors = results.filter((r) => r.result === 'error')
@@ -444,7 +449,35 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       }
     }
     if (parameters.date) {
-      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
+      const dateStr = parameters.date.toString();
+      const period = parameters.period as string|undefined;
+
+      // Bound the date string to the character set Matomo date syntax uses.
+      // This runs unconditionally, so even requests without a recognized period can't
+      // push unexpected characters into the query string.
+      if (!/^[a-z0-9, -]+$/i.test(dateStr)) {
+        throw new Error(`Invalid date '${dateStr}'.`);
+      }
+
+      // Reject date values that don't match the selected period. Skip when no period is present
+      // (some API requests omit it) and skip unrecognized periods so we don't reject periods the
+      // backend supports but the frontend doesn't register.
+      if (period && Periods.isRecognizedPeriod(period)) {
+        // only the numeric lastN/previousN and comma-range forms are multiple-period requests.
+        const isMultiplePeriod = /^(last|previous)\d/i.test(dateStr) || dateStr.indexOf(',') !== -1;
+
+        try {
+          if (isMultiplePeriod && period !== 'range') {
+            Range.parse(dateStr, period);
+          } else {
+            Periods.parse(period, dateStr);
+          }
+        } catch (e) {
+          throw new Error(`Invalid date '${dateStr}' for period '${period}'.`);
+        }
+      }
+
+      url = `${url}date=${encodeURIComponent(dateStr).replace(/%2C/g, ',')}&`;
       delete parameters.date;
     }
     url += $.param(parameters);
@@ -502,6 +535,14 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     const bulkRequestLimit = AjaxHelper.getBulkRequestLimit();
     if (bulkRequestLimit <= 0) {
       return Promise.resolve([] as unknown as (T | ErrorResponse));
+    }
+
+    // Validate before queueing so invalid requests reject without consuming a queue slot.
+    try {
+      this.buildRequestUrl({ ...this.getParams });
+    } catch (e) {
+      this.hideLoadingElement();
+      return Promise.reject(e);
     }
 
     const chunkedAbortController = this.abortController || new AbortController();
@@ -878,7 +919,12 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       return this.sendBulkRequestInChunks();
     }
 
-    this.requestHandle = this.buildAjaxCall();
+    try {
+      this.requestHandle = this.buildAjaxCall();
+    } catch (e) {
+      this.hideLoadingElement();
+      return Promise.reject(e);
+    }
     if (this.abortable) {
       window.globalAjaxQueue.push(this.requestHandle);
     }

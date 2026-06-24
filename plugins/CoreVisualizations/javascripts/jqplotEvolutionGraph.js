@@ -40,7 +40,7 @@
             };
 
             if (this.props.show_line_graph) {
-                const plotLinesTweaksEnabled = this._isPlotLinesTweaksEnabled();
+                const plotLinesTweaksEnabled = isPlotLinesTweaksEnabled();
 
                 defaultParams.seriesDefaults = {
                     lineWidth: plotLinesTweaksEnabled ? 2 : 1,

@@ -30,6 +30,17 @@ function isNumeric(text: string) {
   return !Number.isNaN(n) && Number.isFinite(n);
 }
 
+/**
+ * Identifier of the default reporting menu group (the main "Analytics" reporting menu). Must match
+ * Piwik\Category\Category::DEFAULT_GROUP on the backend.
+ */
+export const DEFAULT_GROUP = '';
+
+export function getCategoryGroupIds(category: Category): readonly string[] {
+  const { groups } = category;
+  return groups && groups.length ? groups : [DEFAULT_GROUP];
+}
+
 export class ReportingMenuStore {
   private privateState = reactive<ReportingMenuStoreState>({
     activeSubcategoryId: null,
@@ -69,7 +80,16 @@ export class ReportingMenuStore {
     return null;
   });
 
-  readonly menu = computed(() => this.buildMenuFromPages());
+  readonly menu = computed(() => this.buildMenuFromPages(
+    (MatomoUrl.parsed.value.group as string) || DEFAULT_GROUP,
+  ));
+
+  /**
+   * The full reporting menu across all top-level sections (groups), ignoring the active group
+   * filter. Used by quick search so users can find any reporting page regardless of the section
+   * they are currently in.
+   */
+  readonly fullMenu = computed(() => this.buildMenuFromPages(null));
 
   fetchMenuItems(): Promise<ReportingMenuStore['menu']['value']> {
     return ReportingPagesStoreInstance.getAllPages().then(() => this.menu.value);
@@ -114,7 +134,12 @@ export class ReportingMenuStore {
     };
   }
 
-  private buildMenuFromPages() {
+  /**
+   * Builds the reporting menu from the available pages. When `activeGroup` is a string, only
+   * categories belonging to that top-level section ("Analytics", "AI Insights", ...) are included;
+   * passing `null` returns the full menu across all sections (used by quick search).
+   */
+  private buildMenuFromPages(activeGroup: string | null) {
     const menu: Category[] = [];
 
     const displayedCategory = MatomoUrl.parsed.value.category as string;
@@ -129,6 +154,10 @@ export class ReportingMenuStore {
       const isCategoryDisplayed = categoryId === displayedCategory;
 
       if (categoriesHandled[categoryId]) {
+        return;
+      }
+
+      if (activeGroup !== null && !getCategoryGroupIds(category).includes(activeGroup)) {
         return;
       }
 

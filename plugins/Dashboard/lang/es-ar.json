@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirm": "¿Estás seguro que querés establecer la selección actual de widgets y el diseño del panel como la plantilla predeterminada?",
         "SetAsDefaultWidgetsConfirmHelp": "Esta selección de widgets y diseño de columnas del panel será usada cuando un usuario cree un nuevo panel o cuando se use la función \"%s\".",
         "TopLinkTooltip": "Ver informes de análisis web para %s.",
+        "TopMenuTitle": "Análisis",
         "WidgetNotFound": "Widget no encontrado",
         "WidgetPreview": "Previsualización del Widget"
     }

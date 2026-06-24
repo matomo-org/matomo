@@ -703,10 +703,6 @@ class Visualization extends ViewDataTable
         }
 
         foreach ($this->requestConfig->clientSideParameters as $name) {
-            if (isset($javascriptVariablesToSet[$name])) {
-                continue;
-            }
-
             $valueToConvert = false;
 
             if (property_exists($this->requestConfig, $name)) {
@@ -715,6 +711,19 @@ class Visualization extends ViewDataTable
                 $valueToConvert = $this->config->$name;
             }
 
+            // Preserve the existing request-based representation for array parameters
+            // (e.g. the comparison parameters), which downstream handling relies on:
+            // only fill those in when the request didn't already provide a value.
+            if (is_array($valueToConvert) && isset($javascriptVariablesToSet[$name])) {
+                continue;
+            }
+
+            // For scalar parameters, a value resolved on requestConfig/config takes
+            // precedence over the raw request value collected from $_GET above. This is
+            // required so values set through this class (eg. setLimit()) or adjusted by a
+            // visualization reach the client: e.g. VisitorLog rewrites an unsupported
+            // filter_limit=-1 to the default limit, and without this the stale -1 from the
+            // request would leak into the client-side params.
             if (false !== $valueToConvert) {
                 $javascriptVariablesToSet[$name] = $this->getIntIfValueIsBool($valueToConvert);
             }

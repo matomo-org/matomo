@@ -4,6 +4,8 @@
         "NoDataHttpTrackingApi": "HTTP ટ્રેકિંગ API",
         "SiteWithoutDataBackToMatomo": "Matomo પર પાછા",
         "SiteWithoutDataInstallWithX": "%1$s સાથે ઇન્સ્ટોલ કરો",
-        "SiteWithoutDataStepByStepGuide": "સ્ટેપ-બાય-સ્ટેપ માર્ગદર્શિકા"
+        "SiteWithoutDataStepByStepGuide": "સ્ટેપ-બાય-સ્ટેપ માર્ગદર્શિકા",
+        "AIChatbotsContentPagesTitle": "પૃષ્ઠો",
+        "ContentUrl": "URL"
     }
 }

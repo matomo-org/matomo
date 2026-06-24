@@ -306,13 +306,11 @@
         "Password": "Heslo",
         "Period": "Obdobie",
         "Piechart": "Koláčový graf",
-        "PiwikCannotBeUpgradedBecausePhpIsTooOld": "Nie je možné aktualizovať Matomo na poslednú hlavnú verziu, pretože verzia Vášho PHP je príliš stará.",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s je dostupné. Prosím informujte %2$sMatomo administrátora%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s je k dispozícií. %2$s Prosím vykonajte aktualizáciu!%3$s (pozrieť %4$s zmeny%5$s).",
         "PleaseContactYourPiwikAdministrator": "Prosím kontaktujte svojho Matomo administrátora.",
         "PleaseSpecifyValue": "Špecifikujte, prosím, hodnotu pre %s.",
         "PleaseUpdatePiwik": "Prosím aktualizujte svoj Matomo",
-        "PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure": "Prosím aktualizujte verziu Vašeho PHP aspoň na PHP %s aby Vaše analytické dáta z Matomou ostali v bezpečí.",
         "Plugin": "Modul",
         "Plugins": "Zásuvné moduly",
         "PoweredBy": "Beží na",
@@ -437,7 +435,6 @@
         "Yes": "Áno",
         "YouAreCurrentlyUsing": "Aktuálne používate Matomo %s.",
         "YouMustBeLoggedIn": "Musíte byť prihlásený pre prístup k tejto functionnality.",
-        "YouMustUpgradePhpVersionToReceiveLatestPiwik": "Je potrebné upgradovať verziu Vášho PHP aby ste odbržali poslednú aktualizáciu Matomou.",
         "YourChangesHaveBeenSaved": "Vaše zmeny boli uložené."
     },
     "Mobile": {
