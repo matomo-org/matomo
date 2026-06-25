@@ -27,6 +27,8 @@ class Updates_5_12_0_b1 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
-        Marketplace::setUniqueIdIfNotConfigured();
+        if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Marketplace')) {
+            \Piwik\Plugins\Marketplace\Marketplace::setUniqueIdIfNotConfigured();
+        }
     }
 }
