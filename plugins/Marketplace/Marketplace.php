@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\Marketplace;
 
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\PluginTrial\Service as PluginTrialService;
@@ -18,6 +20,11 @@ use Piwik\Widget\WidgetsList;
 
 class Marketplace extends \Piwik\Plugin
 {
+    public function install()
+    {
+        self::setUniqueIdIfNotConfigured();
+    }
+
     /**
      * @see \Piwik\Plugin::registerEvents
      */
@@ -244,5 +251,23 @@ class Marketplace extends \Piwik\Plugin
     private static function getPluginManager()
     {
         return Plugin\Manager::getInstance();
+    }
+
+    public static function setUniqueIdIfNotConfigured(): void
+    {
+        $config = Config::getInstance();
+        $uniqueId = (string) ($config->{Environment::CONFIG_SECTION}[Environment::CONFIG_KEY_UNIQUE_ID] ?? '');
+
+        if (!empty($uniqueId)) {
+            return;
+        }
+
+        $section = $config->{Environment::CONFIG_SECTION};
+        $section[Environment::CONFIG_KEY_UNIQUE_ID] = hash(
+            'sha256',
+            Common::generateUniqId() . Common::getRandomString(40)
+        );
+        $config->{Environment::CONFIG_SECTION} = $section;
+        $config->forceSave();
     }
 }
