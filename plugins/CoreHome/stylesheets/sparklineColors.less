@@ -28,19 +28,10 @@
 }
 
 body.sparklines-redesign-enabled {
-  .sparkline-colors[data-name=lineColor] {
-    color: #57B1FF;
-  }
-
-  .sparkline-colors[data-name=minPointColor] {
-    color: #57B1FF;
-  }
-
-  .sparkline-colors[data-name=maxPointColor] {
-    color: #57B1FF;
-  }
-
+  .sparkline-colors[data-name=lineColor],
+  .sparkline-colors[data-name=minPointColor],
+  .sparkline-colors[data-name=maxPointColor],
   .sparkline-colors[data-name=lastPointColor] {
-    color: #57B1FF;
+    color: @graph-series0-color;
   }
 }
