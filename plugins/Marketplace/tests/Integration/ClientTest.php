@@ -52,7 +52,7 @@ class ClientTest extends IntegrationTestCase
         $file = $this->client->download('AnyPluginName');
 
         $this->assertFileExists($file);
-        $this->assertStringEqualsFile($file, 'http://plugins.piwik.org/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=2.16.3');
+        $this->assertStringEqualsFile($file, 'http://plugins.piwik.org/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=2.16.3&uid=test-unique-id');
         Filesystem::deleteFileIfExists($file);
 
         $this->assertStringStartsWith(PIWIK_INCLUDE_PATH . '/tmp/latest/plugins/', $file);

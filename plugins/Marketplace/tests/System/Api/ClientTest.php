@@ -198,12 +198,13 @@ class ClientTest extends SystemTestCase
         $url = $this->client->getDownloadUrl('SecurityInfo');
 
         $start = $this->domain . '/api/2.0/plugins/SecurityInfo/download/';
-        $end   = '?coreVersion=' . Version::VERSION;
 
         $this->assertStringStartsWith($start, $url);
-        $this->assertStringEndsWith($end, $url);
+        $this->assertStringContainsString('?coreVersion=' . Version::VERSION, $url);
+        $this->assertStringContainsString('&uid=', $url);
 
-        $version = str_replace(array($start, $end), '', $url);
+        $version = str_replace($start, '', $url);
+        $version = substr($version, 0, strpos($version, '?'));
 
         $this->assertNotEmpty($version);
         $this->assertRegExp('/\d+\.\d+\.\d+/', $version);
