@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirm": "Esteu segurs que voleu definir la selecció de ginys i la disposició del tauler actuals per a la plantilla de tauler per defecte?",
         "SetAsDefaultWidgetsConfirmHelp": "Aquesta selecció de ginys i la disposició de columnes del tauler es faran servir quan qualsevol usuari crei un nou tauler o quan s'utiltiza la funció \"%s\".",
         "TopLinkTooltip": "Mostra els informes d'analítica web per %s.",
+        "TopMenuTitle": "Analítica",
         "WidgetNotFound": "Aquest giny no s'ha trobat",
         "WidgetPreview": "Previsualitza el giny"
     }

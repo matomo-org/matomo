@@ -33,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "Jeni i sigurt se doni të caktohet përzgjedhja e tanishme e widget-eve dhe e skemës për shtyllat si gjedhja parazgjedhje e pultit?",
         "SetAsDefaultWidgetsConfirmHelp": "Kjo përzgjedhje widget-sh dhe shtyllash për pultin do të përdoret kur cilido përdorues krijon një pult të ri, ose kur përdoret veçoria “%s”.",
         "TopLinkTooltip": "Shihni raporte Analizash Web për %s.",
+        "TopMenuTitle": "Analiza",
         "WidgetNotFound": "S’u gjet widget-i",
         "WidgetPreview": "Paraparje widget-i"
     }

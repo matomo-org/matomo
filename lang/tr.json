@@ -318,6 +318,7 @@
         "ManagePlugins": "Eklenti yönetimi",
         "ManageSubscriptions": "Abonelik yönetimi",
         "Matches": "Eşleşmeler",
+        "MatomoCannotBeUpgradedToNextMajorBecauseDatabaseIsTooOld": "Matomo sonraki büyük versiyona yükseltilemez çünkü veritabanınız çok eski.",
         "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "Daha önce Piwik olarak bilinen %1$sMatomo%2$s sizlere %7$sMatomo takımı%8$s üyeleri ve dünyanın pek çok yerinden katkıda bulunan diğer katılımcılar tarafından sunulan bir topluluk projesidir. <br>Bir Matomo taraftarıysanız, sonraki harika Matomo sürümüne destek olmak için %3$sMatomo projesine katkıda bulunabilir%4$s ya da %5$sbağış yapabilirsiniz%6$s!",
         "MaximumNumberOfBulkRequestUrlsIs": "Bir toplu istekte en fazla %s adres bulunabilir.",
         "MaximumNumberOfPeriodsComparedIs": "Aynı anda en fazla %s aralık karşılaştırılabilir.",

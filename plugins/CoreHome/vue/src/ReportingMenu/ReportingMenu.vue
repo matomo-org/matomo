@@ -225,18 +225,28 @@ export default defineComponent({
     },
   },
   created() {
-    ReportingMenuStoreInstance.fetchMenuItems().then((menu) => {
+    ReportingMenuStoreInstance.fetchMenuItems().then(() => {
+      // load first, initial page if no subcategory is present
       if (!MatomoUrl.parsed.value.subcategory) {
-        const categoryToLoad = menu[0];
-        const subcategoryToLoad = (categoryToLoad as CategoryContainer).subcategories[0];
-
-        // load first, initial page if no subcategory is present
-        ReportingMenuStoreInstance.enterSubcategory(categoryToLoad, subcategoryToLoad);
-        this.propagateUrlChange(categoryToLoad, subcategoryToLoad);
+        this.loadFirstPageOfActiveSection();
       }
     });
 
+    // Keep the active top-menu section highlighted in sync with the active group. The group lives
+    // in the URL hash (to avoid leaking into other links), so the server cannot set this active
+    // state; we do it here, which only runs within the reporting SPA.
+    this.updateTopMenuActiveState();
+
     watch(() => MatomoUrl.parsed.value, (query) => {
+      // When no subcategory is in the URL - e.g. right after switching section via the top menu,
+      // which only changes the URL hash - load the active section's first page so the displayed
+      // report switches too, not just the menu.
+      if (!query.subcategory) {
+        this.loadFirstPageOfActiveSection();
+        this.updateTopMenuActiveState();
+        return;
+      }
+
       const found = ReportingMenuStoreInstance.findSubcategory(
         query.category as string,
         query.subcategory as string,
@@ -247,6 +257,8 @@ export default defineComponent({
         found.subcategory,
         found.subsubcategory,
       );
+
+      this.updateTopMenuActiveState();
     });
 
     Matomo.on('matomoPageChange', () => {
@@ -291,6 +303,36 @@ export default defineComponent({
     });
   },
   methods: {
+    loadFirstPageOfActiveSection() {
+      const menu = ReportingMenuStoreInstance.menu.value;
+      const categoryToLoad = menu[0];
+      if (!categoryToLoad) {
+        return;
+      }
+
+      const subcategoryToLoad = (categoryToLoad as CategoryContainer).subcategories[0];
+      if (!subcategoryToLoad) {
+        return;
+      }
+
+      ReportingMenuStoreInstance.enterSubcategory(categoryToLoad, subcategoryToLoad);
+      this.propagateUrlChange(categoryToLoad, subcategoryToLoad);
+    },
+    updateTopMenuActiveState() {
+      const activeGroup = (MatomoUrl.parsed.value.group as string) || '';
+
+      // Top-menu entries for reporting sections carry their group as a data attribute (empty for
+      // the default "Analytics" section). Toggle the active state of the matching entry.
+      document.querySelectorAll('[data-reporting-group]').forEach((link) => {
+        const listItem = link.closest('li');
+        if (!listItem) {
+          return;
+        }
+
+        const group = link.getAttribute('data-reporting-group') || '';
+        listItem.classList.toggle('active', group === activeGroup);
+      });
+    },
     propagateUrlChange(category: Category, subcategory: Subcategory) {
       const queryParams = MatomoUrl.parsed.value;
       if (queryParams.category === category.id && queryParams.subcategory === subcategory.id) {
@@ -353,9 +395,10 @@ export default defineComponent({
         comparePeriods,
         compareDates,
         compareSegments,
+        group,
       } = MatomoUrl.parsed.value;
 
-      return MatomoUrl.stringify({
+      const params: QueryParameters = {
         idSite,
         period,
         date,
@@ -365,7 +408,14 @@ export default defineComponent({
         compareSegments,
         category: category.id,
         subcategory: subcategory.id,
-      });
+      };
+
+      // keep the active reporting section (e.g. "AI Insights") while navigating within it
+      if (group) {
+        params.group = group;
+      }
+
+      return MatomoUrl.stringify(params);
     },
     htmlEntities(v: string) {
       return Matomo.helper.htmlEntities(v);

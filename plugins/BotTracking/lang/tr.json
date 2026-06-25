@@ -66,6 +66,7 @@
         "SiteWithoutDataOtherInstallMethodsIntro": "İzlenebilecek birden fazla yol sunuyoruz. Kurulumunuza uygun olanı seçin.",
         "SiteWithoutDataRecommendationText": "Sitenizin %1$s kullandığını algıladık. Bu nedenle resmi %1$s bütünleştirmesi ile yapay zeka sohbet robotları izlemesini ayarlayabilirsiniz.",
         "AIChatbotsContentPagesTitle": "Sayfalar",
-        "ContentUrl": "Adres"
+        "ContentUrl": "Adres",
+        "AIChatbotsAIFavouredPagesDocumentation": "Yapay zekâ botlarının sıkça ziyaret ettiği, ancak gerçek kullanıcı trafiğinin düşük olduğu sayfaları listeler. Yapay zekâ sistemlerinin referans gösterdiği fakat henüz doğrudan insan etkileşimi almamış potansiyel içerikleri keşfetmenizi sağlar."
     }
 }
