@@ -10,7 +10,10 @@
 namespace Piwik\Visualization;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreVisualizations\FeatureFlags\SparklinesRedesign;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\View\ViewInterface;
 
 /**
@@ -21,6 +24,8 @@ class Sparkline implements ViewInterface
 {
     public const DEFAULT_WIDTH = 200;
     public const DEFAULT_HEIGHT = 50;
+    public const DEFAULT_LINE_THICKNESS = 1;
+    public const REDESIGN_LINE_THICKNESS = 2;
     public const MAX_WIDTH = 1000;
     public const MAX_HEIGHT = 1000;
 
@@ -108,7 +113,7 @@ class Sparkline implements ViewInterface
 
         $sparkline->setWidth($this->getWidth());
         $sparkline->setHeight($this->getHeight());
-        $sparkline->setLineThickness(1);
+        $sparkline->setLineThickness($this->getLineThickness());
         $sparkline->setPadding('5');
 
         $this->sparkline = $sparkline;
@@ -188,7 +193,7 @@ class Sparkline implements ViewInterface
             $colors = array_merge($defaultColors, $colors); //set default color key, if no key set.
         }
 
-        if (strtolower($colors['backgroundColor']) !== '#ffffff') {
+        if ($this->shouldApplyColor($colors['backgroundColor'])) {
             $sparkline->setBackgroundColorHex($colors['backgroundColor']);
         } else {
             $sparkline->deactivateBackgroundColor();
@@ -203,20 +208,40 @@ class Sparkline implements ViewInterface
             $sparkline->setLineColorHex($colors['lineColor']);
         }
 
-        if (strtolower($colors['fillColor'] !== "#ffffff")) {
+        if ($this->shouldApplyColor($colors['fillColor'])) {
             $sparkline->setFillColorHex($colors['fillColor']);
         } else {
             $sparkline->deactivateFillColor();
         }
-        if (strtolower($colors['minPointColor'] !== "#ffffff")) {
+        if ($this->shouldApplyColor($colors['minPointColor'])) {
             $sparkline->addPoint("minimum", 5, $colors['minPointColor'], $seriesIndex);
         }
-        if (strtolower($colors['maxPointColor'] !== "#ffffff")) {
+        if ($this->shouldApplyColor($colors['maxPointColor'])) {
             $sparkline->addPoint("maximum", 5, $colors['maxPointColor'], $seriesIndex);
         }
-        if (strtolower($colors['lastPointColor'] !== "#ffffff")) {
+        if ($this->shouldApplyColor($colors['lastPointColor'])) {
             $sparkline->addPoint("last", 5, $colors['lastPointColor'], $seriesIndex);
         }
+    }
+
+    private function getLineThickness(): int
+    {
+        if ($this->isSparklinesRedesignEnabled()) {
+            return self::REDESIGN_LINE_THICKNESS;
+        }
+
+        return self::DEFAULT_LINE_THICKNESS;
+    }
+
+    private function isSparklinesRedesignEnabled(): bool
+    {
+        return StaticContainer::get(FeatureFlagManager::class)->isFeatureActive(SparklinesRedesign::class);
+    }
+
+    private function shouldApplyColor($color): bool
+    {
+        return is_string($color)
+            && strtolower($color) !== '#ffffff';
     }
 
     public function render()

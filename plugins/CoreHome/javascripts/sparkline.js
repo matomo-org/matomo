@@ -43,7 +43,11 @@ piwik.refreshSparklines = function () {
         }
 
         var colors = JSON.stringify(sparklineColors);
-        var appendToSparklineUrl = '&colors=' + encodeURIComponent(colors);
+        var width = parseInt($self.attr('width'), 10) || sparklineDisplayWidth;
+        var height = parseInt($self.attr('height'), 10) || sparklineDisplayHeight;
+        var appendToSparklineUrl = '&colors=' + encodeURIComponent(colors)
+            + '&width=' + encodeURIComponent(width)
+            + '&height=' + encodeURIComponent(height);
 
         // Append the token_auth to the URL if it was set (eg. embed dashboard)
         var token_auth = broadcast.getValueFromUrl('token_auth');
@@ -51,8 +55,8 @@ piwik.refreshSparklines = function () {
             appendToSparklineUrl += '&token_auth=' + token_auth;
         }
 
-        $self.attr('width', sparklineDisplayWidth);
-        $self.attr('height', sparklineDisplayHeight);
+        $self.attr('width', width);
+        $self.attr('height', height);
         $self.attr('src', dataSrc + appendToSparklineUrl);
     });
 };

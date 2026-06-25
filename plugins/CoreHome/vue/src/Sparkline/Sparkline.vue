@@ -59,6 +59,11 @@ export default defineComponent({
 
       const colors = JSON.stringify(sparklineColors);
 
+      const sizeParams = {
+        ...(typeof this.width === 'number' ? { width: this.width } : {}),
+        ...(typeof this.height === 'number' ? { height: this.height } : {}),
+      };
+
       const defaultParams = {
         forceView: '1',
         viewDataTable: 'sparkline',
@@ -67,6 +72,7 @@ export default defineComponent({
         colors,
         random: Date.now(),
         date: this.defaultDate,
+        ...sizeParams,
         // mixinDefaultGetParams() will use the raw, encoded value from the URL (legacy behavior),
         // which means MatomoUrl.stringify() will end up double encoding it if we don't set it
         // ourselves here.

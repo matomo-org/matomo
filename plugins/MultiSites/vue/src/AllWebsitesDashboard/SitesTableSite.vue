@@ -153,6 +153,8 @@ export default defineComponent({
         evolutionBy: this.sparklineMetric,
         colors: JSON.stringify(Matomo.getSparklineColors()),
         viewDataTable: 'sparkline',
+        width: 100,
+        height: 25,
       });
 
       return `?${sparklineParams}${this.tokenParam}`;
