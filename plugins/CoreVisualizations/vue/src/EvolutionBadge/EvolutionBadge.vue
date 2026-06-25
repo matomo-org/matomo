@@ -25,6 +25,7 @@ import EvolutionTrendIcon from './EvolutionTrendIcon.vue';
 type Direction = 'up' | 'down' | 'neutral';
 
 export default defineComponent({
+  name: 'EvolutionBadge',
   components: {
     EvolutionTrendIcon,
   },
