@@ -11,23 +11,11 @@ namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Updater;
 use Piwik\Updater\Migration;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates as PiwikUpdates;
 
 class Updates_5_12_0_b1 extends PiwikUpdates
 {
     /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
-    /**
-     * @param Updater $updater
      * @return Migration\Db[]
      */
     public function getMigrations(Updater $updater)
