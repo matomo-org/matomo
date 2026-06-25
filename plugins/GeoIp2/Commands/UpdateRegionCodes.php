@@ -171,7 +171,7 @@ CONTENT;
 
         $output->writeln('Iterating through all IPv4 addresses...');
 
-        $this->initProgressBar(6396645);
+        $this->initProgressBar(8072539);
 
         $handle = fopen($dbIpCsvFile, 'r');
 
