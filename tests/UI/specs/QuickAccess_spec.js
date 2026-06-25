@@ -127,4 +127,75 @@ describe("QuickAccess", function () {
 
       await page.waitForFunction(() => window.location.href.includes('subcategory=General_Pages'));
     });
+
+    it("should clear the search field when switching reporting section", async function () {
+      // Regression: switching section is a hash-only change, so this component stays mounted and used
+      // to keep whatever was typed before the switch (inconsistent with the full-reload direction).
+      await page.goto(url + '#?idSite=1&period=year&date=2012-08-09&category=General_Visitors&subcategory=General_Overview');
+      await page.waitForSelector('#secondNavBar', { visible: true });
+      await page.waitForNetworkIdle();
+
+      await enterSearchTerm('visitor');
+      await page.waitForFunction((selector) => $(selector).length > 0, {}, pagesResultSelector);
+
+      await page.evaluate(() => {
+          window.location.hash = '#?idSite=1&period=year&date=2012-08-09&group=CoreHome_AIInsights';
+      });
+      await page.waitForNetworkIdle();
+      await page.waitForTimeout(500);
+
+      const searchValue = await page.evaluate(() => document.querySelector('.quick-access input').value);
+      expect(searchValue).to.equal('');
+    });
+
+    it("should not show duplicate results after switching reporting section", async function () {
+      // Regression: switching section (e.g. Analytics -> AI Insights) is a hash-only change, so this
+      // component stays mounted. Its scraped left-menu cache used to survive the switch and surface
+      // the previous section's (now removed) menu entries as duplicate, unclickable results next to
+      // the live cross-section ones pulled from the reporting menu store. Starting from a reporting
+      // page that already has a hash is important so switching section is a pure hash change (no full
+      // page reload that would remount this component and reset the cache on its own).
+      await page.goto(url + '#?idSite=1&period=year&date=2012-08-09&category=General_Visitors&subcategory=General_Overview');
+      await page.waitForSelector('#secondNavBar', { visible: true });
+      await page.waitForNetworkIdle();
+
+      const hasResults = (selector) => $(selector).length > 0;
+
+      // prime the quick search menu cache while in the default (Analytics) section
+      await enterSearchTerm('visitor');
+      await page.waitForFunction(hasResults, {}, pagesResultSelector);
+
+      // switch to the AI Insights section via a pure hash change, the way the top-menu entry does it
+      // in the app (the section lives in the URL hash, so this does not reload the page / remount the
+      // component - which is exactly the condition that exposed the stale-cache duplicates)
+      await page.evaluate(() => {
+          window.location.hash = '#?idSite=1&period=year&date=2012-08-09&group=CoreHome_AIInsights';
+      });
+      await page.waitForNetworkIdle();
+      await page.waitForTimeout(500);
+
+      // clear the field (resetting the bound search term) so the next search starts fresh
+      await page.evaluate(() => {
+          const input = document.querySelector('.quick-access input');
+          input.value = '';
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+
+      // search again for an entry that only exists in the Analytics section
+      await page.focus('.quick-access input');
+      await page.keyboard.type('visitor');
+      await page.waitForFunction(hasResults, {}, pagesResultSelector);
+
+      // the stale cross-section entries only surfaced once the switched-to section had finished
+      // loading, so let it settle before asserting there are no duplicates
+      await page.waitForNetworkIdle();
+      await page.waitForTimeout(1000);
+
+      const resultTexts = await page.evaluate((selector) => Array.from(
+          document.querySelectorAll(selector)
+      ).map((el) => el.textContent.trim()), pagesResultSelector);
+
+      expect(resultTexts.length).to.be.above(0);
+      expect(resultTexts.length).to.equal(new Set(resultTexts).size);
+    });
 });

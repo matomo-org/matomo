@@ -191,6 +191,19 @@ export default defineComponent({
       classes.toggle('active', newValue);
       classes.toggle('expanded', newValue);
     },
+    reportingGroup() {
+      // The active reporting section was switched (e.g. Analytics <-> AI Insights). Since the
+      // section lives in the URL hash, this happens within the SPA without remounting this
+      // component, so the scraped left-menu cache now points at the previous section's menu, whose
+      // DOM nodes (and their quick_access markers) have been replaced. Left stale, those entries
+      // would show up as duplicate, unclickable results next to the live cross-section entries.
+      // Drop the cache so the menus are re-scraped on the next search, and reset the search so the
+      // component matches a fresh page load in the new section.
+      this.topMenuItems = null;
+      this.leftMenuItems = null;
+      this.segmentItems = null;
+      this.deactivateSearch();
+    },
   },
   mounted() {
     const root = this.$refs.root as HTMLElement;
@@ -242,6 +255,9 @@ export default defineComponent({
     this.searchMenu = debounce(this.searchMenu.bind(this));
   },
   computed: {
+    reportingGroup() {
+      return (MatomoUrl.parsed.value.group as string) || DEFAULT_GROUP;
+    },
     hasSitesSelector() {
       return !!document.querySelector(
         '.top_controls .siteSelector,.top_controls [vue-entry="CoreHome.SiteSelector"]',
