@@ -44,7 +44,6 @@ class EnvironmentTest extends IntegrationTestCase
         $releaseChannes = new ReleaseChannels(Plugin\Manager::getInstance());
         $releaseChannes->setActiveReleaseChannelId('latest_stable');
 
-        (new Marketplace())->install();
         $this->environment = new Environment($releaseChannes);
     }
 
