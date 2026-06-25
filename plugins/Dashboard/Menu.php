@@ -9,11 +9,13 @@
 
 namespace Piwik\Plugins\Dashboard;
 
+use Piwik\Category\Category;
 use Piwik\Common;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Site;
+use Piwik\Url;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -25,15 +27,26 @@ class Menu extends \Piwik\Plugin\Menu
 
         $tooltip = Piwik::translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
 
-        $urlParams = $this->urlForModuleActionWithDefaultUserParams('CoreHome', 'index', ['idSite' => $idSite]);
+        $params = $this->urlForModuleActionWithDefaultUserParams('CoreHome', 'index', ['idSite' => $idSite]);
 
-        // data-reporting-group marks this as the default ("Analytics") reporting section so the active
-        // top-menu highlight can be kept in sync client-side with the active section (which lives in the
-        // URL hash, not the query string, to avoid leaking into other links).
+        // The Analytics entry carries the (default) reporting section in the URL hash, just like the
+        // other section entries (e.g. "AI Insights"). This keeps switching back to Analytics within the
+        // reporting single-page-app instead of triggering a full page reload, so navigating between
+        // sections behaves the same in both directions. The section must live in the hash - not the
+        // query string - so it does not leak into other top-menu links; data-reporting-group lets the
+        // active highlight be synced client-side (the server cannot read the hash).
+        $hashParams = array_merge(
+            array_intersect_key($params, array_flip(['idSite', 'period', 'date'])),
+            ['group' => Category::DEFAULT_GROUP]
+        );
+
+        $url = 'index.php?' . Url::getQueryStringFromParameters($params)
+            . '#?' . Url::getQueryStringFromParameters($hashParams);
+
         $menu->addItem(
             'Dashboard_TopMenuTitle',
             null,
-            $urlParams,
+            $url,
             1,
             $tooltip,
             false,
