@@ -30,37 +30,44 @@
 
   &.evolutionBadge--positive {
     color: @_evolution-green;
-    background-color: fade(@_evolution-green, 5%);
+    // opaque pale-green tint; lighten keeps the green's saturation, so tune the
+    // percentage to taste (higher = paler)
+    background-color: lighten(@_evolution-green, 50%);
   }
 
   &.evolutionBadge--negative {
-    // theme primary series red; it resolves to a CSS var, so build the tint with CSS
-    // color-mix() — LESS fade()/lighten() can't operate on a var()
+    // theme primary series red; it resolves to a CSS var(--...) and LESS colour
+    // functions (lighten/darken) can't operate on a var(), so mix toward white with
+    // CSS color-mix() for an opaque pale tint (the var-safe equivalent of lighten)
     color: @theme-color-base-series;
-    background-color: color-mix(in srgb, @theme-color-base-series 5%, transparent);
+    background-color: color-mix(in srgb, @theme-color-base-series 5%, white);
   }
 
   &.evolutionBadge--neutral {
-    // silver dash + value on a translucent silver tint; the same grey family reads on
-    // either background
+    // silver dash + value on an opaque silver tint; same grey family, mixed toward
+    // white so it reads as a pale pill on the light surface
     color: @theme-color-text-lighter;
-    background-color: color-mix(in srgb, @theme-color-text-lighter 5%, transparent);
+    background-color: color-mix(in srgb, @theme-color-text-lighter 5%, white);
   }
 
-  // brand green/red are a touch dark on a dark background, so lighten the text
-  // and strengthen the tint to keep the pill legible
+  // brand green is a touch dark on a dark background, so lighten the text to keep
+  // the pill legible
   .inDarkMode({
     &.evolutionBadge--positive {
+      // mirror of light mode: lighten goes toward white for a pale tint on white,
+      // so on the dark surface darken the green into an opaque dark-green tint instead
       color: lighten(@_evolution-green, 10%);
-      background-color: fade(@_evolution-green, 11%);
+      background-color: darken(@_evolution-green, 28%);
     }
 
     &.evolutionBadge--negative {
-      background-color: color-mix(in srgb, @theme-color-base-series 18%, transparent);
+      // mix toward black for an opaque dark tint on the dark surface (the var-safe
+      // equivalent of darken)
+      background-color: color-mix(in srgb, @theme-color-base-series 18%, black);
     }
 
     &.evolutionBadge--neutral {
-      background-color: color-mix(in srgb, @theme-color-text-lighter 14%, transparent);
+      background-color: color-mix(in srgb, @theme-color-text-lighter 14%, black);
     }
   });
 }

@@ -164,22 +164,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue?vue&type=template&id=94a77dd2
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=template&id=6676ccca
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=template&id=14185072
 
-const EvolutionTrendIconvue_type_template_id_6676ccca_hoisted_1 = {
+const EvolutionTrendIconvue_type_template_id_14185072_hoisted_1 = {
   key: 0,
-  viewBox: "0 0 16 16",
-  fill: "none"
+  viewBox: "0 0 16 16"
 };
-const EvolutionTrendIconvue_type_template_id_6676ccca_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("path", {
+const EvolutionTrendIconvue_type_template_id_14185072_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("path", {
   d: "M3.77344 11L8.27344 5L12.7734 11H3.77344Z",
   fill: "currentColor"
 }, null, -1);
-const EvolutionTrendIconvue_type_template_id_6676ccca_hoisted_3 = [EvolutionTrendIconvue_type_template_id_6676ccca_hoisted_2];
+const EvolutionTrendIconvue_type_template_id_14185072_hoisted_3 = [EvolutionTrendIconvue_type_template_id_14185072_hoisted_2];
 const _hoisted_4 = {
   key: 1,
-  viewBox: "0 0 16 16",
-  fill: "none"
+  viewBox: "0 0 16 16"
 };
 const _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("path", {
   d: "M3.77344 6L8.27344 12L12.7734 6H3.77344Z",
@@ -188,8 +186,7 @@ const _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_
 const _hoisted_6 = [_hoisted_5];
 const _hoisted_7 = {
   key: 2,
-  viewBox: "0 0 16 16",
-  fill: "none"
+  viewBox: "0 0 16 16"
 };
 const _hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("rect", {
   x: "3",
@@ -199,10 +196,10 @@ const _hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_
   fill: "currentColor"
 }, null, -1);
 const _hoisted_9 = [_hoisted_8];
-function EvolutionTrendIconvue_type_template_id_6676ccca_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return _ctx.direction === 'up' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", EvolutionTrendIconvue_type_template_id_6676ccca_hoisted_1, EvolutionTrendIconvue_type_template_id_6676ccca_hoisted_3)) : _ctx.direction === 'down' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", _hoisted_4, _hoisted_6)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", _hoisted_7, _hoisted_9));
+function EvolutionTrendIconvue_type_template_id_14185072_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return _ctx.direction === 'up' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", EvolutionTrendIconvue_type_template_id_14185072_hoisted_1, EvolutionTrendIconvue_type_template_id_14185072_hoisted_3)) : _ctx.direction === 'down' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", _hoisted_4, _hoisted_6)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", _hoisted_7, _hoisted_9));
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=template&id=6676ccca
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=template&id=14185072
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=script&lang=ts
 
@@ -222,7 +219,7 @@ function EvolutionTrendIconvue_type_template_id_6676ccca_render(_ctx, _cache, $p
 
 
 
-EvolutionTrendIconvue_type_script_lang_ts.render = EvolutionTrendIconvue_type_template_id_6676ccca_render
+EvolutionTrendIconvue_type_script_lang_ts.render = EvolutionTrendIconvue_type_template_id_14185072_render
 
 /* harmony default export */ var EvolutionTrendIcon = (EvolutionTrendIconvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue?vue&type=script&lang=ts
