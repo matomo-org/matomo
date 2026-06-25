@@ -13,7 +13,6 @@ use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\Marketplace\Environment;
-use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Version;
