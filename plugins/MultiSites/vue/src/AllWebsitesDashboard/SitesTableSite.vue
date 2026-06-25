@@ -143,6 +143,11 @@ export default defineComponent({
         sparklineDate = `${format(startDate)},${format(endDate)}`;
       }
 
+      // The redesign lets sparklines be rendered server-side at a custom size; without it we keep
+      // the legacy behaviour where the server uses its default render size.
+      const redesignEnabled = document.body.classList.contains('sparklines-redesign-enabled');
+      const sizeParams = redesignEnabled ? { width: 100, height: 25 } : {};
+
       const sparklineParams = MatomoUrl.stringify({
         module: 'MultiSites',
         action: 'getEvolutionGraph',
@@ -153,8 +158,7 @@ export default defineComponent({
         evolutionBy: this.sparklineMetric,
         colors: JSON.stringify(Matomo.getSparklineColors()),
         viewDataTable: 'sparkline',
-        width: 100,
-        height: 25,
+        ...sizeParams,
       });
 
       return `?${sparklineParams}${this.tokenParam}`;

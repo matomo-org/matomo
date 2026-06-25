@@ -2284,11 +2284,6 @@ parameters:
 			path: core/Visualization/Sparkline.php
 
 		-
-			message: "#^Parameter \\#1 \\$str of function strtolower expects string, bool given\\.$#"
-			count: 4
-			path: core/Visualization/Sparkline.php
-
-		-
 			message: "#^Parameter \\#2 \\$newvalue of function ini_set expects string, int given\\.$#"
 			count: 2
 			path: core/bootstrap.php

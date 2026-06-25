@@ -59,10 +59,13 @@ export default defineComponent({
 
       const colors = JSON.stringify(sparklineColors);
 
-      const sizeParams = {
+      // The redesign lets sparklines be rendered server-side at a custom size; without it the
+      // width/height props only control the displayed size and the server uses its defaults.
+      const redesignEnabled = document.body.classList.contains('sparklines-redesign-enabled');
+      const sizeParams = redesignEnabled ? {
         ...(typeof this.width === 'number' ? { width: this.width } : {}),
         ...(typeof this.height === 'number' ? { height: this.height } : {}),
-      };
+      } : {};
 
       const defaultParams = {
         forceView: '1',
