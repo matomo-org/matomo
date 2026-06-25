@@ -13,6 +13,7 @@ use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\Marketplace\Environment;
+use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Version;
@@ -43,6 +44,7 @@ class EnvironmentTest extends IntegrationTestCase
         $releaseChannes = new ReleaseChannels(Plugin\Manager::getInstance());
         $releaseChannes->setActiveReleaseChannelId('latest_stable');
 
+        (new Marketplace())->install();
         $this->environment = new Environment($releaseChannes);
     }
 
