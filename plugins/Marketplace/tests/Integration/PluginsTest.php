@@ -9,8 +9,10 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
+use Piwik\Option;
 use Piwik\Plugins\Marketplace\API;
 use Piwik\Plugins\Marketplace\Consumer;
+use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\Plugins;
@@ -43,11 +45,15 @@ class PluginsTest extends IntegrationTestCase
      */
     private $consumerService;
 
+    private const TEST_UNIQUE_ID = 'test-unique-id';
+
     public function setUp(): void
     {
         parent::setUp();
 
         API::unsetInstance();
+
+        Option::set(Environment::OPTION_MARKETPLACE_UNIQUE_ID, self::TEST_UNIQUE_ID);
 
         $this->service = new Service();
         $this->consumerService = new Service();
@@ -387,6 +393,7 @@ class PluginsTest extends IntegrationTestCase
             'mysql' => '5.7.1',
             'num_users' => 5,
             'num_websites' => 21,
+            'uid' => self::TEST_UNIQUE_ID,
         ];
         $this->assertSame($params, $this->service->params);
     }
@@ -413,6 +420,7 @@ class PluginsTest extends IntegrationTestCase
             'mysql' => '5.7.1',
             'num_users' => 5,
             'num_websites' => 21,
+            'uid' => self::TEST_UNIQUE_ID,
         ];
         $this->assertSame($params, $this->service->params);
     }
