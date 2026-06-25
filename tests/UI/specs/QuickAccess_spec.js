@@ -129,8 +129,7 @@ describe("QuickAccess", function () {
     });
 
     it("should clear the search field when switching reporting section", async function () {
-      // Regression: switching section is a hash-only change, so this component stays mounted and used
-      // to keep whatever was typed before the switch (inconsistent with the full-reload direction).
+      // Switching section only changes the hash (no remount), so the typed text used to persist here.
       await page.goto(url + '#?idSite=1&period=year&date=2012-08-09&category=General_Visitors&subcategory=General_Overview');
       await page.waitForSelector('#secondNavBar', { visible: true });
       await page.waitForNetworkIdle();
@@ -149,12 +148,9 @@ describe("QuickAccess", function () {
     });
 
     it("should not show duplicate results after switching reporting section", async function () {
-      // Regression: switching section (e.g. Analytics -> AI Insights) is a hash-only change, so this
-      // component stays mounted. Its scraped left-menu cache used to survive the switch and surface
-      // the previous section's (now removed) menu entries as duplicate, unclickable results next to
-      // the live cross-section ones pulled from the reporting menu store. Starting from a reporting
-      // page that already has a hash is important so switching section is a pure hash change (no full
-      // page reload that would remount this component and reset the cache on its own).
+      // Regression: a hash-only section switch left this component's scraped menu cache pointed at the
+      // previous section, duplicating its entries. Start from a hashed URL so the switch stays hash-only
+      // (a full reload would remount the component and hide the bug).
       await page.goto(url + '#?idSite=1&period=year&date=2012-08-09&category=General_Visitors&subcategory=General_Overview');
       await page.waitForSelector('#secondNavBar', { visible: true });
       await page.waitForNetworkIdle();
@@ -165,16 +161,14 @@ describe("QuickAccess", function () {
       await enterSearchTerm('visitor');
       await page.waitForFunction(hasResults, {}, pagesResultSelector);
 
-      // switch to the AI Insights section via a pure hash change, the way the top-menu entry does it
-      // in the app (the section lives in the URL hash, so this does not reload the page / remount the
-      // component - which is exactly the condition that exposed the stale-cache duplicates)
+      // switch section via a hash-only change (as the top-menu entry does), without remounting
       await page.evaluate(() => {
           window.location.hash = '#?idSite=1&period=year&date=2012-08-09&group=CoreHome_AIInsights';
       });
       await page.waitForNetworkIdle();
       await page.waitForTimeout(500);
 
-      // clear the field (resetting the bound search term) so the next search starts fresh
+      // reset the field (dispatch input so the Vue-bound search term updates too)
       await page.evaluate(() => {
           const input = document.querySelector('.quick-access input');
           input.value = '';
@@ -186,14 +180,14 @@ describe("QuickAccess", function () {
       await page.keyboard.type('visitor');
       await page.waitForFunction(hasResults, {}, pagesResultSelector);
 
-      // the stale cross-section entries only surfaced once the switched-to section had finished
-      // loading, so let it settle before asserting there are no duplicates
+      // the stale entries only appeared once the switched-to section finished loading, so let it settle
       await page.waitForNetworkIdle();
       await page.waitForTimeout(1000);
 
-      const resultTexts = await page.evaluate((selector) => Array.from(
-          document.querySelectorAll(selector)
-      ).map((el) => el.textContent.trim()), pagesResultSelector);
+      // menu results only (exclude the website results that share the same .result class)
+      const resultTexts = await page.evaluate((selector) => Array.from(document.querySelectorAll(selector))
+          .filter((a) => !a.closest('.quickAccessMatomoSearch'))
+          .map((el) => el.textContent.trim()), pagesResultSelector);
 
       expect(resultTexts.length).to.be.above(0);
       expect(resultTexts.length).to.equal(new Set(resultTexts).size);

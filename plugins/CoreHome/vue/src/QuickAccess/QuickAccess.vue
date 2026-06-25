@@ -192,13 +192,9 @@ export default defineComponent({
       classes.toggle('expanded', newValue);
     },
     reportingGroup() {
-      // The active reporting section was switched (e.g. Analytics <-> AI Insights). Since the
-      // section lives in the URL hash, this happens within the SPA without remounting this
-      // component, so the scraped left-menu cache now points at the previous section's menu, whose
-      // DOM nodes (and their quick_access markers) have been replaced. Left stale, those entries
-      // would show up as duplicate, unclickable results next to the live cross-section entries.
-      // Drop the cache so the menus are re-scraped on the next search, and reset the search so the
-      // component matches a fresh page load in the new section.
+      // Switching reporting section only changes the URL hash, so this component is not
+      // remounted and its scraped menu cache stays pointed at the previous section. Drop it
+      // (re-scraped on the next search) and reset the search.
       this.topMenuItems = null;
       this.leftMenuItems = null;
       this.segmentItems = null;

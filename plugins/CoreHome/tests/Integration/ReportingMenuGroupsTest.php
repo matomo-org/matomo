@@ -86,9 +86,7 @@ class ReportingMenuGroupsTest extends IntegrationTestCase
 
         $this->assertArrayHasKey('Dashboard_TopMenuTitle', $menu);
 
-        // Like the other section entries, the Analytics entry keeps the section in the URL hash (not the
-        // query string) so switching back to it stays within the reporting SPA and nothing leaks into
-        // other links. The default section has an empty group id.
+        // The (default) section is carried in the hash with an empty group id, not in the query string.
         $url = $menu['Dashboard_TopMenuTitle']['_url'];
         $this->assertIsString($url);
         $this->assertStringStartsWith('index.php?', $url);
