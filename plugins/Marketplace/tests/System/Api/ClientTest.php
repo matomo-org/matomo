@@ -232,6 +232,7 @@ class ClientTest extends SystemTestCase
             'mysql' => $this->environment->getMySQLVersion(),
             'num_users' => $this->environment->getNumUsers(),
             'num_websites' => $this->environment->getNumWebsites(),
+            'uid' => $this->environment->getUniqueId(),
         );
         $id = 'marketplace.api.2.0.plugins.' . md5(Http::buildQuery($params));
 
@@ -261,7 +262,8 @@ class ClientTest extends SystemTestCase
             'php' => $this->environment->getPhpVersion(),
             'mysql' => $this->environment->getMySQLVersion(),
             'num_users' => $this->environment->getNumUsers(),
-            'num_websites' => $this->environment->getNumWebsites());
+            'num_websites' => $this->environment->getNumWebsites(),
+            'uid' => $this->environment->getUniqueId());
         $id = 'marketplace.api.2.0.plugins.' . md5(Http::buildQuery($params));
 
         $cache = $this->getCache();
@@ -287,7 +289,7 @@ class ClientTest extends SystemTestCase
         $client->getInfoOfPluginsHavingUpdate($pluginTest);
 
         $this->assertSame('plugins/checkUpdates', $service->action);
-        $this->assertSame(array('plugins', 'release_channel', 'prefer_stable', 'piwik', 'php', 'mysql', 'num_users', 'num_websites'), array_keys($service->params));
+        $this->assertSame(array('plugins', 'release_channel', 'prefer_stable', 'piwik', 'php', 'mysql', 'num_users', 'num_websites', 'uid'), array_keys($service->params));
 
         $plugins = $service->params['plugins'];
         self::assertIsString($plugins);
