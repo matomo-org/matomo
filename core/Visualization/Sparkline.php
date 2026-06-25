@@ -26,8 +26,11 @@ class Sparkline implements ViewInterface
     public const DEFAULT_HEIGHT = 50;
     public const DEFAULT_LINE_THICKNESS = 1;
     public const REDESIGN_LINE_THICKNESS = 2;
-    public const MAX_WIDTH = 1000;
-    public const MAX_HEIGHT = 1000;
+    // Sparklines are small decorative graphics (100x25 displayed, 200x50 rendered by default).
+    // These caps bound the size of the image generated server-side from caller-supplied
+    // width/height request params, to avoid generating needlessly large images.
+    public const MAX_WIDTH = 500;
+    public const MAX_HEIGHT = 250;
 
 
     /**

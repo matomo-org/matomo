@@ -102,6 +102,53 @@ class SparklineTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(Sparkline::DEFAULT_LINE_THICKNESS, $method->invoke($sparkline));
     }
 
+    public function testSetWidthClampsToMaxWidth(): void
+    {
+        $sparkline = new Sparkline();
+        $sparkline->setWidth(Sparkline::MAX_WIDTH + 5000);
+
+        $this->assertSame(Sparkline::MAX_WIDTH, $sparkline->getWidth());
+    }
+
+    public function testSetHeightClampsToMaxHeight(): void
+    {
+        $sparkline = new Sparkline();
+        $sparkline->setHeight(Sparkline::MAX_HEIGHT + 5000);
+
+        $this->assertSame(Sparkline::MAX_HEIGHT, $sparkline->getHeight());
+    }
+
+    /**
+     * @dataProvider getInvalidDimensions
+     */
+    public function testSetWidthIgnoresInvalidValues($invalidValue): void
+    {
+        $sparkline = new Sparkline();
+        $sparkline->setWidth($invalidValue);
+
+        $this->assertSame(Sparkline::DEFAULT_WIDTH, $sparkline->getWidth());
+    }
+
+    /**
+     * @dataProvider getInvalidDimensions
+     */
+    public function testSetHeightIgnoresInvalidValues($invalidValue): void
+    {
+        $sparkline = new Sparkline();
+        $sparkline->setHeight($invalidValue);
+
+        $this->assertSame(Sparkline::DEFAULT_HEIGHT, $sparkline->getHeight());
+    }
+
+    public function getInvalidDimensions(): array
+    {
+        return [
+            'zero' => [0],
+            'negative' => [-100],
+            'non-numeric' => ['abc'],
+        ];
+    }
+
     private function createFeatureFlagManager(bool $isEnabled): FeatureFlagManager
     {
         $featureFlagManager = $this->createMock(FeatureFlagManager::class);
