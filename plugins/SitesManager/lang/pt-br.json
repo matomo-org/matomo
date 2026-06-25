@@ -73,7 +73,7 @@
         "KeepURLFragmentsHelp2": "Você também pode substituir essa configuração para sites individuais acima.",
         "KeepURLFragmentsLong": "Mantenha fragmentos de URL da página quando estiver rastreando URLs de páginas",
         "ListOfIpsToBeExcludedOnAllWebsites": "Os IPs abaixo serão excluídos por terem sido rastreados em todos os sites.",
-        "ListOfQueryParametersToBeExcludedOnAllWebsites": "Os parâmetros Query URL abaixo serão excluídos das URLs em todos os sites.",
+        "ListOfQueryParametersToBeExcludedOnAllWebsites": "Insira os parâmetros de URL que deseja excluir do rastreamento e dos relatórios",
         "ListOfQueryParametersToExclude": "Insira a lista de parâmetros de consulta de URL, um por linha, para excluir dos relatórios de URLs de página. Expressões regulares como %s são suportadas.",
         "LogAnalytics": "Análise de registro",
         "LogAnalyticsDescription": "Se o método de rastreamento Javascript não for viável, você pode %1$susar análise de registro do servidor%2$s como um método alternativo para rastrear os usuários do seu site.",

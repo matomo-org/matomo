@@ -214,7 +214,7 @@
         "Errors": "Erros",
         "EvolutionOverPeriod": "Evolução no Período",
         "EvolutionSummaryGeneric": "%1$s em %2$s comparado com %3$s em %4$s. Evolução: %5$s",
-        "ExceptionCapabilityAccessWebsite": "Você não pode acessar este recurso, pois requer %1$s capacidade para o ID do site = %2$d.",
+        "ExceptionCapabilityAccessWebsite": "Você não pode acessar este recurso, pois requer %1$s capacidade para o id do site = %2$d.",
         "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "O usuário precisa ter permissão de Super Usuário ou ser o próprio: '%s'.",
         "ExceptionConfigurationFileExistsButNotReadable": "O arquivo de configuração %s parece existir, mas o Matomo não pode o ler.",
         "ExceptionConfigurationFileNotFound": "O ficheiro de configuração {%s} não foi encontrado.",
@@ -607,7 +607,7 @@
     },
     "Mobile": {
         "AboutPiwikMobile": "Sobre o Matomo Móvel",
-        "AccessUrlLabel": "URL de acesso ao Matomo",
+        "AccessUrlLabel": "Url de Acesso ao Matomo",
         "Account": "Conta",
         "Accounts": "Contas",
         "AddAccount": "Adicionar conta",
