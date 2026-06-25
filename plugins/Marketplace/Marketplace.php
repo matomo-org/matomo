@@ -18,7 +18,6 @@ use Piwik\Widget\WidgetsList;
 
 class Marketplace extends \Piwik\Plugin
 {
-
     /**
      * @see \Piwik\Plugin::registerEvents
      */
