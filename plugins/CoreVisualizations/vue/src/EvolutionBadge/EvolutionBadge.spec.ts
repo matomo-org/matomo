@@ -79,6 +79,16 @@ describe('CoreVisualizations/EvolutionBadge.vue', () => {
     expect(wrapper.find('.evolutionBadge__value').text()).toBe('-4%');
   });
 
+  it('reads a localised minus (U+2212) as a decrease when no trend is given', () => {
+    // fi/sv/sl/et and others format negatives with U+2212 "−", not an ASCII hyphen
+    const wrapper = mountBadge({ percent: '\u22124%' });
+
+    expect(wrapper.vm.direction).toBe('down');
+    expect(wrapper.classes()).toContain('evolutionBadge--negative');
+    // the localised sign is kept as-is, with no spurious "+" prepended
+    expect(wrapper.find('.evolutionBadge__value').text()).toBe('\u22124%');
+  });
+
   it('exposes the tooltip as the title attribute and omits it when empty', () => {
     const withTooltip = mountBadge({ percent: 4, tooltip: '10 visits vs 8 visits' });
     expect(withTooltip.attributes('title')).toBe('10 visits vs 8 visits');

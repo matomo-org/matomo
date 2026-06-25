@@ -58,9 +58,14 @@ export default defineComponent({
         return props.trend;
       }
 
-      // only the sign matters here, so a coarse parse is enough to cope with the
-      // formatted, possibly localised, percent string
-      const numeric = parseFloat(String(props.percent).replace(',', '.').replace(/[^0-9.+-]/g, ''));
+      // only the sign matters here. Fold the localised minus (U+2212, eg fi/sv)
+      // to ASCII so a coarse parse of the formatted percent gets the sign right.
+      const numeric = parseFloat(
+        String(props.percent)
+          .replace('\u2212', '-')
+          .replace(',', '.')
+          .replace(/[^0-9.+-]/g, ''),
+      );
       return Number.isNaN(numeric) ? 0 : numeric;
     });
 
