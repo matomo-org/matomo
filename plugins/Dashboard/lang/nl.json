@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirm": "Weet je zeker dat je de huidige selectie van widgets en dashboard lay-out wilt toepassen als het nieuwe standaard dashboard sjabloon?",
         "SetAsDefaultWidgetsConfirmHelp": "Deze selectie van widgets en dashboard lay-out zal gebruikt worden om nieuwe dashboards te maken voor nieuwe gebruikers, of wanneer de \"%s\" functie gebruikt is.",
         "TopLinkTooltip": "Bekijk web analyse rapporten voor %s.",
+        "TopMenuTitle": "Analytics",
         "WidgetNotFound": "Widget niet gevonden",
         "WidgetPreview": "Widget voorbeeld"
     }

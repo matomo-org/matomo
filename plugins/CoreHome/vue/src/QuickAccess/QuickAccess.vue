@@ -46,7 +46,7 @@
           class="result"
           :class="{ selected: submenuEntry.menuIndex === searchIndex }"
           @mouseenter="searchIndex = submenuEntry.menuIndex"
-          @click="selectMenuItem(submenuEntry.index)"
+          @click="selectMenuItem(submenuEntry)"
           v-for="submenuEntry in subcategory.items"
           :key="submenuEntry.index"
         >
@@ -108,14 +108,30 @@ import Matomo from '../Matomo/Matomo';
 import debounce from '../debounce';
 import Tooltips from '../Tooltips/Tooltips';
 import { closeMobileLeftMenu, openMobileLeftMenu } from '../SideNav/SideNav';
+import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store';
+import ReportingMenuStoreInstance, {
+  DEFAULT_GROUP,
+  getCategoryGroupIds,
+} from '../ReportingMenu/ReportingMenu.store';
+import { getCategoryChildren } from '../ReportingMenu/Category';
+import { getSubcategoryChildren, Subcategory } from '../ReportingMenu/Subcategory';
 
 const { ListingFormatter } = window;
+
+interface ReportingPageRef {
+  category: string;
+  subcategory: string;
+  group: string;
+}
 
 interface SubMenuItem {
   name: string;
   index: number;
   category: string;
   menuIndex?: number;
+  // present for reporting pages of other sections, navigated to via the SPA instead of a DOM click
+  page?: ReportingPageRef;
 }
 
 interface MenuItem {
@@ -378,11 +394,19 @@ export default defineComponent({
       const leftMenuItems = this.leftMenuItems.filter(menuItemMatches);
       const segmentItems = this.segmentItems.filter(menuItemMatches);
 
+      // Reporting pages of the other sections (e.g. "AI Insights" while in "Analytics", or vice
+      // versa) are not in the rendered left menu, so they are pulled from the reporting menu store
+      // directly. This keeps quick search spanning the whole reporting menu, not just the active
+      // section. Recomputed each search so it also covers pages that loaded after the first search.
+      const otherGroupItems = this.getReportingMenuItemsFromOtherGroups().filter(menuItemMatches);
+
       topMenuItems.forEach(moveToCategory);
       leftMenuItems.forEach(moveToCategory);
       segmentItems.forEach(moveToCategory);
+      otherGroupItems.forEach(moveToCategory);
 
-      this.numMenuItems = topMenuItems.length + leftMenuItems.length + segmentItems.length;
+      this.numMenuItems = topMenuItems.length + leftMenuItems.length + segmentItems.length
+        + otherGroupItems.length;
       this.menuItems = menuItems;
     },
     resetSearchIndex() {
@@ -394,8 +418,13 @@ export default defineComponent({
       closeMobileLeftMenu();
       SitesStore.loadSite(idSite);
     },
-    selectMenuItem(index: number) {
-      const target: HTMLElement|null = document.querySelector(`[quick_access='${index}']`);
+    selectMenuItem(submenuEntry: SubMenuItem) {
+      if (submenuEntry.page) {
+        this.navigateToReportingPage(submenuEntry.page);
+        return;
+      }
+
+      const target: HTMLElement|null = document.querySelector(`[quick_access='${submenuEntry.index}']`);
       if (target) {
         this.deactivateSearch();
         closeMobileLeftMenu();
@@ -481,6 +510,83 @@ export default defineComponent({
       });
 
       return segmentItems;
+    },
+    getReportingMenuItemsFromOtherGroups(): SubMenuItem[] {
+      // only relevant in the reporting area, where the reporting pages have been loaded
+      if (!ReportingPagesStoreInstance.pages.value.length) {
+        return [];
+      }
+
+      const activeGroup = (MatomoUrl.parsed.value.group as string) || DEFAULT_GROUP;
+      const items: SubMenuItem[] = [];
+
+      ReportingMenuStoreInstance.fullMenu.value.forEach((category) => {
+        const groups = getCategoryGroupIds(category);
+
+        // categories of the active section are already in the rendered left menu (scraped above)
+        if (groups.includes(activeGroup)) {
+          return;
+        }
+
+        const navGroup = groups[0];
+
+        const addItem = (subcategory: Subcategory) => {
+          const name = subcategory.name?.trim();
+          if (!name) {
+            return;
+          }
+
+          items.push({
+            name,
+            category: category.name,
+            index: this.menuIndexCounter += 1,
+            page: { category: category.id, subcategory: subcategory.id, group: navGroup },
+          });
+        };
+
+        getCategoryChildren(category).forEach((subcategory) => {
+          if (subcategory.isGroup) {
+            getSubcategoryChildren(subcategory).forEach(addItem);
+          } else {
+            addItem(subcategory);
+          }
+        });
+      });
+
+      return items;
+    },
+    navigateToReportingPage(page: ReportingPageRef) {
+      this.deactivateSearch();
+      closeMobileLeftMenu();
+
+      const {
+        idSite,
+        period,
+        date,
+        segment,
+        comparePeriods,
+        compareDates,
+        compareSegments,
+      } = MatomoUrl.parsed.value;
+
+      const params: QueryParameters = {
+        idSite,
+        period,
+        date,
+        segment,
+        comparePeriods,
+        compareDates,
+        compareSegments,
+        category: page.category,
+        subcategory: page.subcategory,
+      };
+
+      // switch the active reporting section so the destination page's menu is shown
+      if (page.group) {
+        params.group = page.group;
+      }
+
+      MatomoUrl.updateHash(params);
     },
   },
 });

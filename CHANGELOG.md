@@ -6,6 +6,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.12.0
 
+### JavaScript Tracker
+
+#### New APIs
+* The methods `setIgnoreCampaignAttributionForSources` and `getIgnoreCampaignAttributionForSources` have been added to
+  the JavaScript tracker. They allow setting/getting sources whose campaign values in the current URL should be ignored 
+  for attribution. Matching campaign parameters are still kept in the tracked URL/request.
+
 ### New APIs
 * `Record::setAggregatedRecordTransform()` lets a blob record register a callback that is applied to its aggregated
   table during non-day archiving, after the day blobs are aggregated together and before the table is truncated and
@@ -15,6 +22,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (`Record::setBuiltFromFlatRecord()`), where the flat base record and the hierarchy rebuilt from it are each
   transformed on their own table. A matching optional `$postAggregationTransform` parameter was added to
   `ArchiveProcessor::aggregateDataTableRecords()`.
+* The reporting menu can now be split into several top-level sections (in addition to the default
+  "Analytics" menu). A category declares which section(s) it belongs to via `Category::setGroups()`
+  (and the protected `$groups` property); `API.getReportPagesMetadata` now exposes a `groups` field per
+  category. Each non-default group automatically gets a top-menu entry that opens the regular reporting
+  single-page-app filtered to that group (the active section is carried in the URL hash), so reports stay
+  within the same SPA and quick search. The first such section, "AI Insights", surfaces the existing
+  AI Assistants reports.
 
 ## Matomo 5.11.0
 
