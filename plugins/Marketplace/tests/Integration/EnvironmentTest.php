@@ -9,11 +9,10 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\Api;
 
-use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\Marketplace\Environment;
-use Piwik\Plugins\Marketplace\Marketplace;
+use Piwik\Option;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Version;
@@ -34,7 +33,7 @@ class EnvironmentTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
-        Config::getInstance()->Marketplace[Environment::CONFIG_KEY_UNIQUE_ID] = '';
+        Option::delete(Environment::OPTION_MARKETPLACE_UNIQUE_ID);
 
         Fixture::createSuperUser();
         Fixture::createWebsite('2014-01-01 02:02:02');
@@ -44,13 +43,12 @@ class EnvironmentTest extends IntegrationTestCase
         $releaseChannes = new ReleaseChannels(Plugin\Manager::getInstance());
         $releaseChannes->setActiveReleaseChannelId('latest_stable');
 
-        (new Marketplace())->install();
         $this->environment = new Environment($releaseChannes);
     }
 
     public function tearDown(): void
     {
-        Config::getInstance()->Marketplace[Environment::CONFIG_KEY_UNIQUE_ID] = '';
+        Option::delete(Environment::OPTION_MARKETPLACE_UNIQUE_ID);
 
         parent::tearDown();
     }
@@ -100,12 +98,12 @@ class EnvironmentTest extends IntegrationTestCase
     public function testGetUniqueIdReturnsStoredMarketplaceUniqueId()
     {
         $uniqueId = str_repeat('a', 64);
-        Config::getInstance()->Marketplace[Environment::CONFIG_KEY_UNIQUE_ID] = $uniqueId;
+        Option::set(Environment::OPTION_MARKETPLACE_UNIQUE_ID, $uniqueId);
 
         $this->assertSame($uniqueId, $this->environment->getUniqueId());
     }
 
-    public function testGetUniqueIdReturnsConfiguredMarketplaceUniqueIdByDefault()
+    public function testGetUniqueIdCreatesMarketplaceUniqueIdWhenMissing()
     {
         $this->assertRegExp('/^[a-f0-9]{64}$/', $this->environment->getUniqueId());
     }

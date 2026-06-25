@@ -10,16 +10,15 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel;
 use Piwik\Version;
 
 class Environment
 {
-    public const CONFIG_SECTION = 'Marketplace';
-    public const CONFIG_KEY_UNIQUE_ID = 'unique_id';
+    public const OPTION_MARKETPLACE_UNIQUE_ID = 'Marketplace.unique_id';
 
     /**
      * @var ReleaseChannel
@@ -96,7 +95,17 @@ class Environment
      */
     public function getUniqueId()
     {
-        return (string) (Config::getInstance()->{self::CONFIG_SECTION}[self::CONFIG_KEY_UNIQUE_ID] ?? '');
+        $uniqueId = (string) Option::get(self::OPTION_MARKETPLACE_UNIQUE_ID);
+
+        if (empty($uniqueId)) {
+            $uniqueId = hash(
+                'sha256',
+                Common::generateUniqId() . Common::getRandomString(40)
+            );
+            Option::set(Environment::OPTION_MARKETPLACE_UNIQUE_ID, $uniqueId);
+        }
+
+        return $uniqueId;
     }
 
     public function getMySQLVersion()
