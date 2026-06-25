@@ -49,4 +49,9 @@ class Environment extends \Piwik\Plugins\Marketplace\Environment
     {
         return '5.7.1';
     }
+
+    public function getUniqueId()
+    {
+        return 'test-unique-id';
+    }
 }

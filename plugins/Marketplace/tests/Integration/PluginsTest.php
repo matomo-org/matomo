@@ -9,10 +9,8 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration;
 
-use Piwik\Option;
 use Piwik\Plugins\Marketplace\API;
 use Piwik\Plugins\Marketplace\Consumer;
-use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Plugins\Marketplace\Plugins;
@@ -52,8 +50,6 @@ class PluginsTest extends IntegrationTestCase
         parent::setUp();
 
         API::unsetInstance();
-
-        Option::set(Environment::OPTION_MARKETPLACE_UNIQUE_ID, self::TEST_UNIQUE_ID);
 
         $this->service = new Service();
         $this->consumerService = new Service();
