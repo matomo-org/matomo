@@ -39,6 +39,19 @@ describe("QuickAccess", function () {
         );
     }
 
+    // Switches to the AI Insights section the way its top-menu entry does (hash-only, no reload) and
+    // waits for the SPA to finish switching: it rewrites the hash with the section's first page (the
+    // AI Assistants category) once that section's menu is ready, then the report loads (network idle).
+    // Waiting for this deterministic state - rather than a fixed sleep - means the result set is
+    // already complete when the caller searches and asserts.
+    async function switchToAiInsightsSection() {
+        await page.evaluate(() => {
+            window.location.hash = '#?idSite=1&period=year&date=2012-08-09&group=CoreHome_AIInsights';
+        });
+        await page.waitForFunction(() => window.location.href.includes('category=General_AIAssistants'));
+        await page.waitForNetworkIdle();
+    }
+
     it("should be displayed", async function () {
         await page.goto(url);
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('initially');
@@ -137,11 +150,7 @@ describe("QuickAccess", function () {
       await enterSearchTerm('visitor');
       await page.waitForFunction((selector) => $(selector).length > 0, {}, pagesResultSelector);
 
-      await page.evaluate(() => {
-          window.location.hash = '#?idSite=1&period=year&date=2012-08-09&group=CoreHome_AIInsights';
-      });
-      await page.waitForNetworkIdle();
-      await page.waitForTimeout(500);
+      await switchToAiInsightsSection();
 
       const searchValue = await page.evaluate(() => document.querySelector('.quick-access input').value);
       expect(searchValue).to.equal('');
@@ -161,28 +170,26 @@ describe("QuickAccess", function () {
       await enterSearchTerm('visitor');
       await page.waitForFunction(hasResults, {}, pagesResultSelector);
 
-      // switch section via a hash-only change (as the top-menu entry does), without remounting
-      await page.evaluate(() => {
-          window.location.hash = '#?idSite=1&period=year&date=2012-08-09&group=CoreHome_AIInsights';
-      });
-      await page.waitForNetworkIdle();
-      await page.waitForTimeout(500);
+      // switch sections and wait for the new section to fully load before searching, so the result
+      // set is already complete when asserted (a stale cache surfaces the previous section's entries
+      // alongside the live cross-section ones)
+      await switchToAiInsightsSection();
 
-      // reset the field (dispatch input so the Vue-bound search term updates too)
+      // The dropdown still holds the pre-switch search results, and searchMenu is debounced, so force
+      // a known-empty state first (a non-matching term, wait for zero results); otherwise the assertion
+      // below could read the stale results before the post-switch search has re-run.
+      await page.focus('.quick-access input');
+      await page.keyboard.type('zzqqxxnomatch');
+      await page.waitForFunction((selector) => $(selector).length === 0, {}, pagesResultSelector);
+
+      // now search for an entry that only exists in the Analytics section
       await page.evaluate(() => {
           const input = document.querySelector('.quick-access input');
           input.value = '';
           input.dispatchEvent(new Event('input', { bubbles: true }));
       });
-
-      // search again for an entry that only exists in the Analytics section
-      await page.focus('.quick-access input');
       await page.keyboard.type('visitor');
       await page.waitForFunction(hasResults, {}, pagesResultSelector);
-
-      // the stale entries only appeared once the switched-to section finished loading, so let it settle
-      await page.waitForNetworkIdle();
-      await page.waitForTimeout(1000);
 
       // menu results only (exclude the website results that share the same .result class)
       const resultTexts = await page.evaluate((selector) => Array.from(document.querySelectorAll(selector))
