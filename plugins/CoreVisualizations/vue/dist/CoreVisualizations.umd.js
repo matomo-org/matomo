@@ -119,6 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "EvolutionBadge", function() { return /* reexport */ EvolutionBadge; });
+__webpack_require__.d(__webpack_exports__, "MetricValue", function() { return /* reexport */ MetricValue; });
 __webpack_require__.d(__webpack_exports__, "SeriesPicker", function() { return /* reexport */ SeriesPicker; });
 __webpack_require__.d(__webpack_exports__, "MetricsPicker", function() { return /* reexport */ MetricsPicker; });
 __webpack_require__.d(__webpack_exports__, "SingleMetricView", function() { return /* reexport */ SingleMetricView; });
@@ -306,6 +307,87 @@ EvolutionTrendIconvue_type_script_lang_ts.render = EvolutionTrendIconvue_type_te
 EvolutionBadgevue_type_script_lang_ts.render = render
 
 /* harmony default export */ var EvolutionBadge = (EvolutionBadgevue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=template&id=bdedef58
+
+const MetricValuevue_type_template_id_bdedef58_hoisted_1 = {
+  class: "metricValue"
+};
+const MetricValuevue_type_template_id_bdedef58_hoisted_2 = ["title"];
+const MetricValuevue_type_template_id_bdedef58_hoisted_3 = {
+  class: "metricValue__primary"
+};
+const MetricValuevue_type_template_id_bdedef58_hoisted_4 = {
+  class: "metricValue__number"
+};
+const MetricValuevue_type_template_id_bdedef58_hoisted_5 = {
+  key: 0,
+  class: "metricValue__secondary"
+};
+const MetricValuevue_type_template_id_bdedef58_hoisted_6 = {
+  class: "metricValue__secondaryValue"
+};
+const MetricValuevue_type_template_id_bdedef58_hoisted_7 = {
+  key: 0,
+  class: "metricValue__secondaryLabel"
+};
+function MetricValuevue_type_template_id_bdedef58_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricValuevue_type_template_id_bdedef58_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["metricValue__title", {
+      'metricValue__title--documented': !!_ctx.documentation
+    }]),
+    title: _ctx.documentation || null
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)], 10, MetricValuevue_type_template_id_bdedef58_hoisted_2)), [[_directive_tooltips, {
+    duration: 200,
+    delay: 200
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MetricValuevue_type_template_id_bdedef58_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricValuevue_type_template_id_bdedef58_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.value), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "evolution")]), _ctx.hasSecondary ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricValuevue_type_template_id_bdedef58_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricValuevue_type_template_id_bdedef58_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.secondaryValue), 1), _ctx.secondaryLabel ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", MetricValuevue_type_template_id_bdedef58_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.secondaryLabel), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=template&id=bdedef58
+
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var MetricValuevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'MetricValue',
+  directives: {
+    Tooltips: external_CoreHome_["Tooltips"]
+  },
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    // Pre-formatted value (e.g. "9,527" or "4min 22s"); rendered verbatim, no formatting here.
+    value: {
+      type: [String, Number],
+      required: true
+    },
+    // Optional secondary line. Value and label are kept separate so they can be
+    // styled independently (e.g. "9,527" darker, "unique visitors" grey). Matomo
+    // hands these out separately as metric.value + metric.description.
+    secondaryValue: [String, Number],
+    secondaryLabel: String,
+    // Optional documentation shown as a tooltip on the title.
+    documentation: String
+  },
+  computed: {
+    hasSecondary() {
+      return this.secondaryValue !== undefined && this.secondaryValue !== null && this.secondaryValue !== '';
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue
+
+
+
+MetricValuevue_type_script_lang_ts.render = MetricValuevue_type_template_id_bdedef58_render
+
+/* harmony default export */ var MetricValue = (MetricValuevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7c1adaf7
 
 const SeriesPickervue_type_template_id_7c1adaf7_hoisted_1 = {
@@ -356,9 +438,6 @@ function SeriesPickervue_type_template_id_7c1adaf7_render(_ctx, _cache, $props, 
   }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 34);
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7c1adaf7
-
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts
 
@@ -1002,6 +1081,7 @@ SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_templa
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 
