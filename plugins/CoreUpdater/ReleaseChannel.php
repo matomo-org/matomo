@@ -18,9 +18,6 @@ use Piwik\Version;
 
 abstract class ReleaseChannel extends BaseReleaseChannel
 {
-    public const ANONYMISED_URL_IP_LOCAL_PREFIX = 'IP-LOCAL:';
-    public const ANONYMISED_URL_IP_PUBLIC_PREFIX = 'IP-PUBLIC:';
-
     public function getUrlToCheckForLatestAvailableVersion()
     {
         $parameters = array(
@@ -41,18 +38,16 @@ abstract class ReleaseChannel extends BaseReleaseChannel
     /**
      * Anonymises an installation URL for the update check API.
      *
-     * Returns:
-     *   - empty string for URLs without a host or with a host we have always excluded
-     *     from update-check stats (no-dot hosts, `example.org`, `localhost`, ...);
-     *   - `IP-LOCAL:` + SHA-256 of the host for private/reserved IP hosts;
-     *   - `IP-PUBLIC:` + SHA-256 of the host for public IP hosts;
-     *   - SHA-256 of the lowercased host otherwise.
+     * Returns an empty string when the URL has no host, the host has always been
+     * excluded from update-check stats (no-dot hosts like `localhost`,
+     * `example.org`, malformed URLs), or the host is a private/reserved IP
+     * (excluded server-side historically too). Otherwise returns the SHA-256
+     * of the lowercased host (IPv6 brackets stripped).
      *
-     * The hash input is the host alone (lowercased, IPv6 brackets stripped). This
-     * matches the historical "one host = one install" semantics of the API
-     * (`api_update_check.host` has always stored just the parsed host, never the
-     * full URL), so backfilled rows and new rows produce identical hashes for the
-     * same install.
+     * The hash input is the host alone, not the full URL: `api_update_check.host`
+     * on the API side has stored just the parsed host since 2016, so a backfilled
+     * historical row and a fresh ping from the same install produce identical
+     * hashes — cohort/churn queries spanning the cutover keep working.
      */
     public static function anonymiseUrl(string $url): string
     {
@@ -66,36 +61,34 @@ abstract class ReleaseChannel extends BaseReleaseChannel
         }
 
         $host = strtolower($parts['host']);
-        $hostForIpCheck = (strlen($host) > 1 && $host[0] === '[' && substr($host, -1) === ']')
-            ? substr($host, 1, -1)
-            : $host;
+        if (strlen($host) > 1 && $host[0] === '[' && substr($host, -1) === ']') {
+            $host = substr($host, 1, -1);
+        }
 
-        $isIp = (bool) filter_var($hostForIpCheck, FILTER_VALIDATE_IP);
-
-        if (!$isIp && self::isExcludedHost($hostForIpCheck)) {
+        if (self::isExcludedHost($host)) {
             return '';
         }
 
-        $hash = hash('sha256', $isIp ? $hostForIpCheck : $host);
-
-        if ($isIp) {
-            $isPublic = (bool) filter_var(
-                $hostForIpCheck,
-                FILTER_VALIDATE_IP,
-                FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
-            );
-            return ($isPublic ? self::ANONYMISED_URL_IP_PUBLIC_PREFIX : self::ANONYMISED_URL_IP_LOCAL_PREFIX) . $hash;
-        }
-
-        return $hash;
+        return hash('sha256', $host);
     }
 
     private static function isExcludedHost(string $host): bool
     {
-        if ($host === '' || $host === 'example.org' || strpos($host, '.') === false) {
+        if ($host === '' || $host === 'example.org') {
             return true;
         }
-        return false;
+
+        $ipFlags = FILTER_VALIDATE_IP;
+        if (filter_var($host, $ipFlags)) {
+            // IP host: exclude private/reserved ranges (dev/test installs, never
+            // counted in update-check stats historically); public IPs are kept
+            // and hashed like any other host.
+            return !filter_var($host, $ipFlags, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+        }
+
+        // Hostname: require at least one dot — `localhost` and similar bare
+        // names are dev/test installs that have always been excluded.
+        return strpos($host, '.') === false;
     }
 
     public function getDownloadUrlWithoutScheme($version)

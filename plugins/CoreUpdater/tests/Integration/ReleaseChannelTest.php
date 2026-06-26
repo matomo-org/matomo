@@ -77,39 +77,31 @@ class ReleaseChannelTest extends IntegrationTestCase
     /**
      * @dataProvider provideAnonymiseUrlCases
      */
-    public function testAnonymiseUrl(string $input, string $expectedPrefix, bool $expectHash)
+    public function testAnonymiseUrl(string $input, string $expected)
     {
         $actual = ReleaseChannel::anonymiseUrl($input);
 
-        if ($expectedPrefix === '') {
-            $this->assertSame('', $actual);
-            return;
-        }
-
-        if ($expectedPrefix === 'HASH') {
+        if ($expected === 'HASH') {
             $this->assertRegExp('/^[a-f0-9]{64}$/', $actual);
             return;
         }
 
-        $this->assertStringStartsWith($expectedPrefix, $actual);
-        if ($expectHash) {
-            $this->assertRegExp('/^' . preg_quote($expectedPrefix, '/') . '[a-f0-9]{64}$/', $actual);
-        }
+        $this->assertSame($expected, $actual);
     }
 
     public function provideAnonymiseUrlCases(): iterable
     {
-        yield 'empty input' => ['', '', false];
-        yield 'malformed' => ['not a url', '', false];
-        yield 'no host' => ['/relative/path', '', false];
-        yield 'example.org excluded' => ['https://example.org/index.php', '', false];
-        yield 'localhost (no dot) excluded' => ['http://localhost/index.php', '', false];
-        yield 'public hostname produces hash' => ['https://stats.acme.com/matomo/', 'HASH', true];
-        yield 'public IPv4 prefixed IP-PUBLIC' => ['http://8.8.8.8/index.php', ReleaseChannel::ANONYMISED_URL_IP_PUBLIC_PREFIX, true];
-        yield 'private IPv4 prefixed IP-LOCAL' => ['http://192.168.1.1/index.php', ReleaseChannel::ANONYMISED_URL_IP_LOCAL_PREFIX, true];
-        yield 'reserved IPv4 (loopback) prefixed IP-LOCAL' => ['http://127.0.0.1/index.php', ReleaseChannel::ANONYMISED_URL_IP_LOCAL_PREFIX, true];
-        yield 'public IPv6 prefixed IP-PUBLIC' => ['http://[2001:4860:4860::8888]/', ReleaseChannel::ANONYMISED_URL_IP_PUBLIC_PREFIX, true];
-        yield 'link-local IPv6 prefixed IP-LOCAL' => ['http://[fe80::1]/', ReleaseChannel::ANONYMISED_URL_IP_LOCAL_PREFIX, true];
+        yield 'empty input' => ['', ''];
+        yield 'malformed' => ['not a url', ''];
+        yield 'no host' => ['/relative/path', ''];
+        yield 'example.org excluded' => ['https://example.org/index.php', ''];
+        yield 'localhost (no dot) excluded' => ['http://localhost/index.php', ''];
+        yield 'private IPv4 excluded' => ['http://192.168.1.1/index.php', ''];
+        yield 'reserved IPv4 (loopback) excluded' => ['http://127.0.0.1/index.php', ''];
+        yield 'link-local IPv6 excluded' => ['http://[fe80::1]/', ''];
+        yield 'public hostname produces hash' => ['https://stats.acme.com/matomo/', 'HASH'];
+        yield 'public IPv4 produces hash' => ['http://8.8.8.8/index.php', 'HASH'];
+        yield 'public IPv6 produces hash' => ['http://[2001:4860:4860::8888]/', 'HASH'];
     }
 
     public function testAnonymiseUrlIsStable()
@@ -140,6 +132,14 @@ class ReleaseChannelTest extends IntegrationTestCase
         $this->assertSame(
             hash('sha256', 'stats.acme.com'),
             ReleaseChannel::anonymiseUrl('https://stats.acme.com/matomo/index.php')
+        );
+    }
+
+    public function testAnonymiseUrlStripsIpv6BracketsBeforeHashing()
+    {
+        $this->assertSame(
+            hash('sha256', '2001:4860:4860::8888'),
+            ReleaseChannel::anonymiseUrl('http://[2001:4860:4860::8888]/')
         );
     }
 }
