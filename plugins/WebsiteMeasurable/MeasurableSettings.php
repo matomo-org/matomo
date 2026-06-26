@@ -160,6 +160,11 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
     {
         return $this->makeProperty('keep_url_fragment', $default = '0', FieldConfig::TYPE_STRING, function (FieldConfig $field) use ($sitesManagerApi) {
             $field->title = Piwik::translate('SitesManager_KeepURLFragmentsLong');
+            $field->inlineHelp = Piwik::translate('SitesManager_KeepURLFragmentsHelp', [
+                '<em>#</em>',
+                '<em>example.org/index.html#first_section</em>',
+                '<em>example.org/index.html</em>',
+            ]);
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
 
             if ($sitesManagerApi->getKeepURLFragmentsGlobal()) {

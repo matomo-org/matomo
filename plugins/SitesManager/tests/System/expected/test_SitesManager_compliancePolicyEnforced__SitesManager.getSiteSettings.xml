@@ -45,7 +45,7 @@ https://www.example.org/</placeholder>
 			</row>
 			<row>
 				<name>keep_url_fragment</name>
-				<title>Keep Page URL fragments when tracking Page URLs</title>
+				<title>Keep Page URL fragments (after #) when tracking Page URLs</title>
 				<value>0</value>
 				<defaultValue>0</defaultValue>
 				<type>string</type>
@@ -58,7 +58,7 @@ https://www.example.org/</placeholder>
 					<row>No</row>
 				</availableValues>
 				<description />
-				<inlineHelp />
+				<inlineHelp>Page URL fragments are the part of a URL after the &lt;em&gt;#&lt;/em&gt;. If this setting is disabled, &lt;em&gt;example.org/index.html#first_section&lt;/em&gt; will be tracked as &lt;em&gt;example.org/index.html&lt;/em&gt;.</inlineHelp>
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
