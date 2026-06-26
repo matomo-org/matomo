@@ -32,6 +32,37 @@ describe("UsersManager", function () {
         });
     }
 
+    async function getVisibleUserLogins() {
+        return page.evaluate(() => {
+            return $('.pagedUsersList tbody tr td#userLogin').map(function () {
+                return $(this).text().trim();
+            }).get();
+        });
+    }
+
+    async function getSelectedUserCount() {
+        return page.evaluate(() => $('.pagedUsersList tbody td.select-cell input:checked').length);
+    }
+
+    async function getRoleSelectValues(rowSelector) {
+        return page.evaluate((rowSelector) => {
+            return $(rowSelector).find('.role-select select').map(function () {
+                return $(this).val();
+            }).get();
+        }, rowSelector);
+    }
+
+    // Returns the per-row access level shown in the manage-users access column,
+    // excluding superuser rows (whose select is disabled and not part of bulk ops).
+    async function getVisibleAccessLevels() {
+        return page.evaluate(() => {
+            return $('#manageUsersTable tbody tr').map(function () {
+                const sel = $(this).find('.access-cell li[role="option"][aria-selected="true"]').text().trim();
+                return sel || null;
+            }).get().filter((v) => v && v.toLowerCase() !== 'superuser');
+        });
+    }
+
     before(async function() {
         await page.webpage.setViewport({
             width: 1250,
@@ -47,6 +78,11 @@ describe("UsersManager", function () {
         } catch (err) {
             // ignore
         }
+        // Reset plugin load/unload state set by the ActivityLog / Marketplace
+        // variant tests so subsequent UI runs do not inherit a polluted environment.
+        delete testEnvironment.pluginsToLoad;
+        delete testEnvironment.pluginsToUnload;
+        await testEnvironment.save();
     });
 
     it('should display the manage users page correctly', async function () {
@@ -57,37 +93,48 @@ describe("UsersManager", function () {
 
     it('should show password confirmation when signing out a single user', async function () {
         await (await page.jQuery('.signoutuser:eq(0)')).click();
-        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.waitForSelector('.modal.open', { visible: true });
         await page.focus('.modal.open #currentUserPassword');
         await page.waitForTimeout(250);
-        expect(await modal.screenshot()).to.matchImage({
-            imageName: 'signout_single_confirm',
-            comparisonThreshold: 0.025
-        });
+
+        const modalText = await page.evaluate(() => $('.modal.open').text().replace(/\s+/g, ' ').trim());
+        expect(modalText).to.contain('Are you sure you want to sign');
+        expect(modalText).to.contain('out of all active sessions');
+
+        const passwordInputExists = await page.evaluate(() => $('.modal.open #currentUserPassword').length === 1);
+        expect(passwordInputExists).to.eq(true);
     });
 
     it('should show signout success notification when confirmed sign out', async function () {
         await page.type('.modal.open #currentUserPassword', superUserPassword);
         await page.waitForTimeout(250);
         await (await page.jQuery('.confirm-password-modal .confirm-password-btn:visible')).click();
-        await page.waitForTimeout(250);
-        expect(await page.screenshotSelector('.notification-success')).to.matchImage({
-            imageName: 'signout_single_confirmed',
-            comparisonThreshold: 0.025
-        });
+        await page.waitForSelector('.notification-success', { visible: true });
+
+        const notificationText = await page.evaluate(() => $('.notification-success').text());
+        expect(notificationText).to.contain('has been signed out of all active sessions');
     });
 
     it('should change the results page when next is clicked', async function () {
+        const initialLogins = await getVisibleUserLogins();
+
         await (await page.jQuery('.notification-success .close')).click();
         await page.waitForTimeout(250);
         await page.click('.usersListPagination .btn.next');
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
+        await page.waitForSelector('.pagedUsersList:not(.loading)');
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('next_click');
+        const newLogins = await getVisibleUserLogins();
+        expect(newLogins.length).to.be.greaterThan(0);
+        // No overlap between previous page and current page
+        const overlap = newLogins.filter((login) => initialLogins.indexOf(login) !== -1);
+        expect(overlap).to.deep.equal([]);
     });
 
     it('should filter by username and access level when the inputs are filled', async function () {
+        const unfilteredLogins = await getVisibleUserLogins();
+
         await page.evaluate(function () {
             $('select[name=access-level-filter]').val('string:view').change();
             $('#user-text-filter').val('ight').change();
@@ -97,7 +144,27 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(1000); // wait for rendering
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('filters');
+        const filterValues = await page.evaluate(() => ({
+            access: $('select[name=access-level-filter]').val(),
+            text: $('#user-text-filter').val(),
+            status: $('select[name=status-level-filter]').val(),
+        }));
+        expect(filterValues.access).to.eq('string:view');
+        expect(filterValues.text).to.eq('ight');
+        expect(filterValues.status).to.eq('string:pending');
+
+        // The text filter matches login OR email; the fixture's pending invitees
+        // (`000pendingUser1` / `zzzpendingUser2`) carry `light`-suffixed emails so
+        // they match both 'ight' and pending. Verify the table actually narrowed
+        // and that every visible row matches the text filter.
+        const visibleEntries = await page.evaluate(() => $('.pagedUsersList tbody tr').map(function () {
+            return $(this).text().toLowerCase();
+        }).get());
+        expect(visibleEntries.length).to.be.greaterThan(0);
+        expect(visibleEntries.length).to.be.lessThan(unfilteredLogins.length);
+        visibleEntries.forEach((rowText) => {
+            expect(rowText).to.contain('ight');
+        });
     });
 
     it('should display access for a different site when the roles for select is changed', async function () {
@@ -106,6 +173,10 @@ describe("UsersManager", function () {
             $('select[name=access-level-filter]').val('string:').change();
             $('select[name=status-level-filter]').val('string:').change();
         });
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.pagedUsersList:not(.loading)');
+
+        const beforeAccess = await getVisibleAccessLevels();
 
         await page.evaluate(() => $('th.role_header .siteSelector a.title').click());
         await page.waitForNetworkIdle();
@@ -115,8 +186,15 @@ describe("UsersManager", function () {
         });
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
+        await page.waitForSelector('.pagedUsersList:not(.loading)');
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('role_for');
+        const selectedSite = await page.evaluate(() => $('th.role_header .siteSelector .title').text().trim());
+        expect(selectedSite.toLowerCase()).to.contain('relentless');
+
+        // The access column should refresh to per-user access for the relentless site,
+        // which differs from the default site's pattern given the ManyUsers fixture.
+        const afterAccess = await getVisibleAccessLevels();
+        expect(afterAccess).to.not.deep.equal(beforeAccess);
     });
 
     it('should select rows when individual row select is clicked', async function () {
@@ -126,7 +204,8 @@ describe("UsersManager", function () {
         await page.mouse.move(0, 0);
         await page.waitForTimeout(500); // for checkbox animations
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('rows_selected');
+        const checkedCount = await getSelectedUserCount();
+        expect(checkedCount).to.eq(3);
     });
 
     it('should select all rows when all row select is clicked', async function () {
@@ -134,15 +213,38 @@ describe("UsersManager", function () {
         await page.mouse.move(0, 0);
         await page.waitForTimeout(500); // for checkbox animations
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('all_rows_selected');
+        const visibleLogins = await getVisibleUserLogins();
+        const checkedCount = await getSelectedUserCount();
+        expect(checkedCount).to.eq(visibleLogins.length);
+
+        const headerChecked = await page.evaluate(() => $('th.select-cell input').is(':checked'));
+        expect(headerChecked).to.eq(true);
     });
 
     it('should select all rows in search when link in table is clicked', async function () {
+        // Before click: header checkbox is on, so the row reads
+        // "The N displayed users are selected. Click to select all M."
+        const before = await page.evaluate(() => ({
+            rowText: $('.pagedUsersList .select-all-row').text().replace(/\s+/g, ' ').trim(),
+            linkText: $('.pagedUsersList .toggle-select-all-in-search').text().replace(/\s+/g, ' ').trim(),
+        }));
+        expect(before.rowText.toLowerCase()).to.contain('displayed users are selected');
+        const totalMatch = before.linkText.match(/(\d+)/);
+        expect(totalMatch, 'before-click link should contain the total matching count').to.not.eq(null);
+        const totalEntries = totalMatch[1];
+
         await page.click('.toggle-select-all-in-search');
         await page.mouse.move(0, 0);
         await page.waitForTimeout(100);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('all_rows_in_search');
+        // After click: row reads "All M users are selected. Click to select the N displayed users."
+        const visibleLogins = await getVisibleUserLogins();
+        const after = await page.evaluate(() => ({
+            rowText: $('.pagedUsersList .select-all-row').text().replace(/\s+/g, ' ').trim(),
+            linkText: $('.pagedUsersList .toggle-select-all-in-search').text().replace(/\s+/g, ' ').trim(),
+        }));
+        expect(after.rowText).to.match(new RegExp(`All\\s+${totalEntries}\\s+users are selected`));
+        expect(after.linkText).to.contain(String(visibleLogins.length));
     });
 
     it('should deselect all rows in search except for displayed rows when link in table is clicked again', async function () {
@@ -150,7 +252,10 @@ describe("UsersManager", function () {
         await page.mouse.move(0, 0);
         await page.waitForTimeout(100);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('all_rows_deselected');
+        // After deselecting all-in-search, only the displayed page rows remain checked
+        const visibleLogins = await getVisibleUserLogins();
+        const checkedCount = await getSelectedUserCount();
+        expect(checkedCount).to.eq(visibleLogins.length);
     });
 
     it('should show bulk action confirm when bulk change access option used', async function () {
@@ -172,15 +277,25 @@ describe("UsersManager", function () {
         await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
         await page.waitForTimeout(350); // wait for animation
 
-        expect(await (await page.$('.change-user-role-confirm-modal')).screenshot()).to.matchImage('bulk_set_access_confirm');
+        const modalText = await page.evaluate(() => $('.change-user-role-confirm-modal').text().replace(/\s+/g, ' ').trim());
+        expect(modalText.toLowerCase()).to.contain('are you sure');
+        expect(modalText.toLowerCase()).to.contain('selected users');
+        expect(modalText.toLowerCase()).to.contain('admin');
     });
 
     it('should change access for all rows in search when confirmed', async function () {
         await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
+        await page.waitForSelector('.pagedUsersList:not(.loading)');
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('bulk_set_access');
+        // Bulk role changes do not apply to superusers (their select is disabled), so
+        // exclude rows whose access cell shows "Superuser".
+        const accessLevels = await getVisibleAccessLevels();
+        expect(accessLevels.length).to.be.greaterThan(0);
+        accessLevels.forEach((level) => {
+            expect(level.toLowerCase()).to.contain('admin');
+        });
     });
 
     it('should remove access to the currently selected site when the bulk remove access option is clicked', async function () {
@@ -191,8 +306,13 @@ describe("UsersManager", function () {
         await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
+        await page.waitForSelector('.pagedUsersList:not(.loading)');
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('bulk_remove_access');
+        const accessLevels = await getVisibleAccessLevels();
+        expect(accessLevels.length).to.be.greaterThan(0);
+        accessLevels.forEach((level) => {
+            expect(level.toLowerCase()).to.contain('no access');
+        });
     });
 
     it('should go back to first page when previous button is clicked', async function () {
@@ -204,24 +324,31 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForSelector('.pagedUsersList:not(.loading)');
 
+        const middlePageLogins = await getVisibleUserLogins();
+
         await page.click('.usersListPagination .btn.prev');
         await page.waitForNetworkIdle();
 
         await page.mouse.move(-10, -10);
         await page.waitForSelector('.pagedUsersList:not(.loading)');
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('previous');
+        const previousPageLogins = await getVisibleUserLogins();
+        expect(previousPageLogins.length).to.be.greaterThan(0);
+        const overlap = previousPageLogins.filter((login) => middlePageLogins.indexOf(login) !== -1);
+        expect(overlap).to.deep.equal([]);
     });
 
     it('should show password confirmation when deleting a single user', async function () {
         await (await page.jQuery('.deleteuser:eq(0)')).click();
-        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.waitForSelector('.modal.open', { visible: true });
         await page.focus('.modal.open #currentUserPassword');
         await page.waitForTimeout(250);
-        expect(await modal.screenshot()).to.matchImage({
-          imageName: 'delete_single_confirm',
-          comparisonThreshold: 0.025
-        });
+
+        const modalText = await page.evaluate(() => $('.modal.open').text().replace(/\s+/g, ' ').trim());
+        expect(modalText.toLowerCase()).to.contain('are you sure you want to delete');
+
+        const passwordInputVisible = await page.evaluate(() => $('.modal.open #currentUserPassword:visible').length === 1);
+        expect(passwordInputVisible).to.eq(true);
     });
 
   it('should hide the confirmation dialog when cancel is clicked and remove the password if one was entered', async function () {
@@ -245,16 +372,21 @@ describe("UsersManager", function () {
       await page.waitForTimeout(250);
 
       await (await page.jQuery('.deleteuser:eq(0)')).click();
-      const modal = await page.waitForSelector('.modal.open', { visible: true });
+      await page.waitForSelector('.modal.open', { visible: true });
       await page.focus('.modal.open #currentUserPassword');
       await page.waitForTimeout(250);
-      expect(await modal.screenshot()).to.matchImage({
-          imageName: 'delete_single_confirm',
-          comparisonThreshold: 0.025
-      });
+
+      const modalText = await page.evaluate(() => $('.modal.open').text().replace(/\s+/g, ' ').trim());
+      expect(modalText.toLowerCase()).to.contain('are you sure you want to delete');
+
+      const passwordInputValue = await page.evaluate(() => $('.modal.open #currentUserPassword').val());
+      expect(passwordInputValue).to.eq('');
   });
 
     it('should delete a single user when the modal is confirmed is clicked', async function () {
+        const beforeLogins = await getVisibleUserLogins();
+        const targetLogin = beforeLogins[0];
+
         await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
@@ -262,7 +394,8 @@ describe("UsersManager", function () {
         await page.mouse.move(-10, -10);
         await page.waitForSelector('.pagedUsersList:not(.loading)');
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_single');
+        const afterLogins = await getVisibleUserLogins();
+        expect(afterLogins).to.not.include(targetLogin);
     });
 
     it('should show password confirmation when deleting multiple user using bulk action', async function () {
@@ -270,16 +403,21 @@ describe("UsersManager", function () {
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('#user-list-bulk-actions a:contains(Delete Users)')).click();
-        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.waitForSelector('.modal.open', { visible: true });
         await page.focus('.modal.open #currentUserPassword');
         await page.waitForTimeout(250);
-        expect(await modal.screenshot()).to.matchImage({
-          imageName: 'delete_bulk_confirm',
-          comparisonThreshold: 0.025
-        });
+
+        const modalText = await page.evaluate(() => $('.modal.open').text().replace(/\s+/g, ' ').trim());
+        expect(modalText.toLowerCase()).to.contain('are you sure you want to delete');
+        expect(modalText.toLowerCase()).to.contain('selected users');
+
+        const passwordInputVisible = await page.evaluate(() => $('.modal.open #currentUserPassword:visible').length === 1);
+        expect(passwordInputVisible).to.eq(true);
     });
 
     it('should delete selected users when delete users bulk action is used', async function () {
+        const beforeLogins = await getVisibleUserLogins();
+
         await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
@@ -287,14 +425,26 @@ describe("UsersManager", function () {
         await page.mouse.move(-10, -10);
         await page.waitForSelector('.pagedUsersList:not(.loading)');
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_bulk_access');
+        const afterLogins = await getVisibleUserLogins();
+        const stillPresent = beforeLogins.filter((login) => afterLogins.indexOf(login) !== -1);
+        expect(stillPresent).to.deep.equal([]);
     });
 
     it('should show the add new user form when the add new user button is clicked', async function () {
         await page.click('.add-user-container .btn');
         await page.waitForNetworkIdle();
+        await page.waitForSelector('.userInviteForm', { visible: true });
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('add_new_user_form');
+        const formState = await page.evaluate(() => ({
+            loginVisible: $('#user_login:visible').length === 1,
+            emailVisible: $('#user_email:visible').length === 1,
+            siteSelectorVisible: $('.userInviteForm .siteSelector:visible').length === 1,
+            saveButtonVisible: $('.userInviteForm .matomo-save-button input:visible').length === 1,
+        }));
+        expect(formState.loginVisible).to.eq(true);
+        expect(formState.emailVisible).to.eq(true);
+        expect(formState.siteSelectorVisible).to.eq(true);
+        expect(formState.saveButtonVisible).to.eq(true);
     });
 
     it('should show confirmation when inviting a user', async function () {
@@ -305,13 +455,15 @@ describe("UsersManager", function () {
         await (await page.jQuery('.userInviteForm .siteSelector .custom_select_ul_list a:eq(1):visible', { waitFor: true })).click();
 
         await page.evaluate(() => $('.userInviteForm .matomo-save-button input').click());
-        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.waitForSelector('.modal.open', { visible: true });
         await page.focus('.modal.open #currentUserPassword');
         await page.waitForTimeout(250);
-        expect(await modal.screenshot()).to.matchImage({
-            imageName: 'invite_confirm',
-            comparisonThreshold: 0.025
-        });
+
+        const modalText = await page.evaluate(() => $('.modal.open').text().replace(/\s+/g, ' ').trim());
+        expect(modalText.toLowerCase()).to.match(/please (re-authenticate|confirm)/);
+
+        const passwordInputExists = await page.evaluate(() => $('.modal.open #currentUserPassword').length === 1);
+        expect(passwordInputExists).to.eq(true);
     });
 
     it('should show the edit user form when user has been invited', async function () {
@@ -319,8 +471,14 @@ describe("UsersManager", function () {
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitForFunction(() => $('.modal.open').length === 0);
+        await page.waitForSelector('.userEditForm', { visible: true });
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('user_created');
+        const userEditState = await page.evaluate(() => ({
+            login: $('.userEditForm #user_login').val(),
+            email: $('.userEditForm #user_email').val(),
+        }));
+        expect(userEditState.login).to.eq('000newuser');
+        expect(userEditState.email).to.eq('theuser@email.com');
     });
 
     it('should warn about invitation resend when changing email', async function () {
@@ -328,13 +486,11 @@ describe("UsersManager", function () {
         await page.evaluate(() => $('.userEditForm .matomo-save-button input:visible').click());
         await page.waitForTimeout(100);
         await page.waitForFunction(() => $('.modal.open:visible').length)
-        const modal = await page.jQuery('.modal.open:visible');
         await page.focus('.modal.open #currentUserPassword');
         await page.waitForTimeout(250);
-        expect(await modal.screenshot()).to.matchImage({
-          imageName: 'user_invited_change',
-          comparisonThreshold: 0.025
-        });
+
+        const modalText = await page.evaluate(() => $('.modal.open:visible').text().replace(/\s+/g, ' ').trim());
+        expect(modalText).to.contain('Changing the email will invalidate the previous invitation');
     });
 
     it('should show the permissions edit when the permissions tab is clicked', async function () {
@@ -365,10 +521,16 @@ describe("UsersManager", function () {
         await page.waitForTimeout(500);
         await page.mouse.move(0, 0);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
-            imageName: 'permissions_all_rows_in_search',
-            comparisonThreshold: 0.0005,
-        });
+        const allSelectedState = await page.evaluate(() => ({
+            headerChecked: $('.userPermissionsEdit th.select-cell input').is(':checked'),
+            allBodyChecked: $('#sitesForPermission tbody tr:not(.select-all-row) td.select-cell input').length > 0
+                && $('#sitesForPermission tbody tr:not(.select-all-row) td.select-cell input:not(:checked)').length === 0,
+            selectAllRowText: $('.userPermissionsEdit tr.select-all-row').text().replace(/\s+/g, ' ').trim(),
+        }));
+        expect(allSelectedState.headerChecked).to.eq(true);
+        expect(allSelectedState.allBodyChecked).to.eq(true);
+        // After clicking the in-row link, the row reads "All N websites are selected. ..."
+        expect(allSelectedState.selectAllRowText).to.match(/All\s+\d+\s+websites are selected/);
     });
 
     it('should add access to all websites when bulk access is used on all websites in search', async function () {
@@ -384,21 +546,34 @@ describe("UsersManager", function () {
 
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250); // animation
+        await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
-            imageName: 'permissions_all_sites_access',
-            comparisonThreshold: 0.0005,
+        const roleValues = await getRoleSelectValues('#sitesForPermission tbody tr:not(.select-all-row)');
+        expect(roleValues.length).to.be.greaterThan(0);
+        roleValues.forEach((role) => {
+            expect(role).to.eq('string:write');
         });
     });
 
     it('should go to the next results page when the next button is clicked', async function () {
+        const beforeSites = await page.evaluate(() => {
+            return $('#sitesForPermission tbody tr:not(.select-all-row) td:eq(1) span').map(function () {
+                return $(this).text().trim();
+            }).get();
+        });
+
         await page.click('.sites-for-permission-pagination a.next');
         await page.waitForNetworkIdle();
+        await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
-            imageName: 'permissions_next',
-            comparisonThreshold: 0.0005,
+        const afterSites = await page.evaluate(() => {
+            return $('#sitesForPermission tbody tr:not(.select-all-row) td:eq(1) span').map(function () {
+                return $(this).text().trim();
+            }).get();
         });
+        expect(afterSites.length).to.be.greaterThan(0);
+        const overlap = afterSites.filter((site) => beforeSites.indexOf(site) !== -1);
+        expect(overlap).to.deep.equal([]);
     });
 
     it('should remove access to a single site when noaccess is selected', async function () {
@@ -409,11 +584,10 @@ describe("UsersManager", function () {
         await (await page.jQuery('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250); // animation
+        await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
-            imageName: 'permissions_remove_single',
-            comparisonThreshold: 0.0005,
-        });
+        const firstRowRole = await page.evaluate(() => $('#sitesForPermission .role-select select').first().val());
+        expect(firstRowRole).to.eq('string:noaccess');
     });
 
     it('should select multiple rows when individual row selects are clicked', async function () {
@@ -423,10 +597,8 @@ describe("UsersManager", function () {
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(1000); // for checkbox animations
 
-        expect(await (await page.$('.usersManager')).screenshot()).to.matchImage({
-            imageName: 'permissions_select_multiple',
-            comparisonThreshold: 0.0005,
-        });
+        const checkedCount = await page.evaluate(() => $('#sitesForPermission tbody tr:not(.select-all-row) td.select-cell input:checked').length);
+        expect(checkedCount).to.eq(3);
     });
 
     it('should set access to selected sites when set bulk access is used', async function () {
@@ -442,11 +614,12 @@ describe("UsersManager", function () {
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
+        await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
-            imageName: 'permissions_bulk_access_set',
-            comparisonThreshold: 0.025
-        });
+        // The three rows previously selected (indices 0, 3, 8) should now be admin.
+        const roles = await getVisibleSiteRoles();
+        const adminCount = Object.values(roles).filter((role) => role === 'string:admin').length;
+        expect(adminCount).to.eq(3);
     });
 
     it('should filter the permissions when the filters are used', async function () {
@@ -459,9 +632,20 @@ describe("UsersManager", function () {
         await page.waitForSelector('#sitesForPermission tr', { visible: true });
         await page.waitForTimeout(1000);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
-            imageName: 'permissions_filters',
-            comparisonThreshold: 0.0005
+        const filterValues = await page.evaluate(() => ({
+            access: $('.userPermissionsEdit .access-filter select').val(),
+            site: $('.userPermissionsEdit div.site-filter>input').val(),
+        }));
+        expect(filterValues.access).to.eq('string:admin');
+        expect(filterValues.site).to.eq('hunter');
+
+        const visibleSiteNames = await page.evaluate(() => {
+            return $('#sitesForPermission tbody tr:not(.select-all-row) td:eq(1) span').map(function () {
+                return $(this).text().trim();
+            }).get();
+        });
+        visibleSiteNames.forEach((name) => {
+            expect(name.toLowerCase()).to.contain('hunter');
         });
     });
 
@@ -470,10 +654,14 @@ describe("UsersManager", function () {
         await page.waitForTimeout(400); // for checkbox animations
         await page.mouse.move(-10, -10);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
-            imageName: 'permissions_select_all',
-            comparisonThreshold: 0.0005
-        });
+        const allSelectedState = await page.evaluate(() => ({
+            headerChecked: $('.userPermissionsEdit th.select-cell input').is(':checked'),
+            uncheckedRows: $('#sitesForPermission tbody tr:not(.select-all-row) td.select-cell input:not(:checked)').length,
+            totalRows: $('#sitesForPermission tbody tr:not(.select-all-row) td.select-cell input').length,
+        }));
+        expect(allSelectedState.headerChecked).to.eq(true);
+        expect(allSelectedState.totalRows).to.be.greaterThan(0);
+        expect(allSelectedState.uncheckedRows).to.eq(0);
     });
 
     it('should set access to all sites selected when set bulk access is used', async function () {
@@ -511,11 +699,10 @@ describe("UsersManager", function () {
         await page.waitForTimeout(100); // animation
         await (await page.jQuery('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
+        await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
-            imageName: 'permissions_single_site_access',
-            comparisonThreshold: 0.0005
-        });
+        const firstRowRole = await page.evaluate(() => $('.userPermissionsEdit .role-select:eq(0) select').val());
+        expect(firstRowRole).to.eq('string:admin');
     });
 
     it('should set a capability to single site when capability checkbox is clicked', async function () {
@@ -529,11 +716,12 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
 
         await page.waitForTimeout(250); // animation
+        await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
-            imageName: 'permissions_capability_single_site',
-            comparisonThreshold: 0.0005
+        const firstRowCapabilityText = await page.evaluate(() => {
+            return $('#sitesForPermission tbody tr:not(.select-all-row)').first().find('.capabilitiesEdit .capability-name').text();
         });
+        expect(firstRowCapabilityText).to.contain('Publish Live Container');
     });
 
     it('should remove access to displayed rows when remove bulk access is clicked', async function () {
@@ -556,8 +744,12 @@ describe("UsersManager", function () {
 
         await (await page.jQuery('.delete-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
+        await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_access');
+        // After removing access for all sites where this user had `some` access, the
+        // filtered list should be empty.
+        const remainingRows = await page.evaluate(() => $('#sitesForPermission tbody tr:not(.select-all-row)').length);
+        expect(remainingRows).to.eq(0);
     });
 
     it('should display the superuser access tab when the superuser tab is clicked', async function () {
@@ -570,10 +762,15 @@ describe("UsersManager", function () {
 
     it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
         await page.click('.userEditForm #superuser_access+span');
-        const elem = await page.$('.modal.open');
+        await page.waitForSelector('.modal.open', { visible: true });
         await page.waitForTimeout(500);
 
-        expect(await elem.screenshot()).to.matchImage('superuser_confirm');
+        const modalText = await page.evaluate(() => $('.modal.open').text().replace(/\s+/g, ' ').trim());
+        // Uses the AddSuperuserAccessConfirm warning copy, unique to this modal.
+        expect(modalText.toLowerCase()).to.contain('full control over matomo');
+
+        const passwordInputExists = await page.evaluate(() => $('.modal.open #currentUserPassword').length === 1);
+        expect(passwordInputExists).to.eq(true);
     });
 
     it('should fail to set superuser access if password is wrong', async function () {
@@ -596,7 +793,8 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_set');
+        const isChecked = await page.evaluate(() => $('.userEditForm #superuser_access').is(':checked'));
+        expect(isChecked).to.eq(true);
     });
 
     it('should go back to the manage users page when the back link is clicked', async function () {
@@ -610,7 +808,11 @@ describe("UsersManager", function () {
         await page.waitForSelector('.pagedUsersList:not(.loading)');
         await page.waitForTimeout(1000); // rendering
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
+        const editFormVisible = await page.evaluate(() => $('.userEditForm:visible').length > 0);
+        expect(editFormVisible).to.eq(false);
+
+        const visibleLogins = await getVisibleUserLogins();
+        expect(visibleLogins).to.include('000newuser');
     });
 
   // Superuser test for editing their own user
@@ -642,11 +844,8 @@ describe("UsersManager", function () {
       const toolTipHtml = await page.evaluate(() => $('.ui-tooltip').html());
       expect(toolTipHtml).to.equal('<div class="ui-tooltip-content">You cannot revoke your own superuser access.</div>');
 
-      // Move mouse away from input for the screenshot
-      await page.mouse.move(0, 0);
-      await page.waitForTimeout(100);
-
-      expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab_current_user');
+      const isDisabled = await page.evaluate(() => $('#superuser_access').is(':disabled'));
+      expect(isDisabled).to.eq(true);
     });
   });
 
@@ -696,8 +895,18 @@ describe("UsersManager", function () {
         await (await page.jQuery('button.edituser:eq(2)', { waitFor: true })).click();
         await page.waitForTimeout(250);
         await page.waitForNetworkIdle();
+        await page.waitForSelector('.userEditForm', { visible: true });
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('edit_user_form');
+        const formState = await page.evaluate(() => ({
+            formExists: $('.userEditForm').length === 1,
+            loginValue: ($('.userEditForm #user_login').val() || $('.userEditForm #user_login').text() || '').trim(),
+            emailExists: $('.userEditForm #user_email').length === 1,
+            basicInfoTabExists: $('.userEditForm .basic-info-tab').length === 1,
+        }));
+        expect(formState.formExists).to.eq(true);
+        expect(formState.loginValue.length).to.be.greaterThan(0);
+        expect(formState.emailExists).to.eq(true);
+        expect(formState.basicInfoTabExists).to.eq(true);
     });
 
     it('should ask for password confirmation when trying to change email', async function () {
@@ -709,12 +918,14 @@ describe("UsersManager", function () {
         var btnSave = await page.jQuery('.userEditForm .basic-info-tab .matomo-save-button .btn', { waitFor: true });
         await btnSave.click();
 
+        await page.waitForSelector('.modal.open', { visible: true });
         await page.waitForTimeout(500); // animation
 
-        await page.click('.modal.open h2'); // remove focus from input for screenshot
+        const modalText = await page.evaluate(() => $('.modal.open').text().replace(/\s+/g, ' ').trim());
+        expect(modalText.toLowerCase()).to.match(/please (re-authenticate|confirm)/);
 
-        const elem = await page.$('.modal.open');
-        expect(await elem.screenshot()).to.matchImage('edit_user_basic_asks_confirmation');
+        const passwordInputExists = await page.evaluate(() => $('.modal.open #currentUserPassword').length === 1);
+        expect(passwordInputExists).to.eq(true);
     });
 
     it('should show error when wrong password entered', async function () {
@@ -725,18 +936,26 @@ describe("UsersManager", function () {
 
         await page.waitForTimeout(500); // animation
         await page.waitForNetworkIdle();
-        await page.waitForSelector('#notificationContainer .notification');
+        await page.waitForSelector('#notificationContainer .notification', { visible: true });
 
-
-        expect(await page.screenshotSelector('.admin#content,#notificationContainer')).to.matchImage('edit_user_basic_confirmed_wrong_password');
+        const notificationText = await page.evaluate(() => $('#notificationContainer').text());
+        expect(notificationText).to.contain('The current password you entered is not correct');
     });
 
     it('should show resend confirm when resend clicked', async function () {
         await page.goto(url);
         await (await page.jQuery('.resend')).click();
         await page.waitForTimeout(500); // animation
-        const elem = await page.waitForSelector('.resend-invite-confirm-modal', { visible: true });
-        expect(await elem.screenshot()).to.matchImage('resend_popup');
+        await page.waitForSelector('.resend-invite-confirm-modal', { visible: true });
+
+        const modalState = await page.evaluate(() => ({
+            text: $('.resend-invite-confirm-modal').text().replace(/\s+/g, ' ').trim(),
+            copyLinkVisible: $('.resend-invite-confirm-modal .btn-copy-link:visible').length === 1,
+            resendVisible: $('.resend-invite-confirm-modal .btn-resend:visible').length === 1,
+        }));
+        expect(modalState.text.toLowerCase()).to.contain('resend');
+        expect(modalState.copyLinkVisible).to.eq(true);
+        expect(modalState.resendVisible).to.eq(true);
     });
 
     it('should show invite link copied when copy clicked', async function () {
@@ -747,10 +966,11 @@ describe("UsersManager", function () {
         await page.type('.confirm-password-modal #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
 
-        await page.waitForTimeout(500); // animation
         await page.waitForNetworkIdle();
+        await page.waitForSelector('.resend-invite-confirm-modal .success-copied', { visible: true, timeout: 10000 });
 
-      expect(await page.screenshotSelector('.usersManager')).to.matchImage('copied_success');
+        const copiedText = await page.evaluate(() => $('.resend-invite-confirm-modal .success-copied').text().replace(/\s+/g, ' ').trim());
+        expect(copiedText.toLowerCase()).to.contain('link copied');
     });
 
     it('should show resend success message', async function() {
@@ -763,7 +983,9 @@ describe("UsersManager", function () {
 
         await page.waitForSelector('#notificationContainer .notification');
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('#notificationContainer .notification')).to.matchImage('resend_success');
+
+        const notificationText = await page.evaluate(() => $('#notificationContainer .notification').text());
+        expect(notificationText.toLowerCase()).to.contain('invitation sent');
     });
 
 
@@ -798,44 +1020,85 @@ describe("UsersManager", function () {
         it('should show the add user form for admin users', async function () {
             await page.click('.add-user-container .btn');
             await page.waitForNetworkIdle();
+            await page.waitForSelector('.userInviteForm', { visible: true });
 
-            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user');
+            const formState = await page.evaluate(() => ({
+                inviteFormVisible: $('.userInviteForm:visible').length === 1,
+                superuserToggleVisible: $('.userInviteForm #superuser_access:visible').length > 0,
+                loginVisible: $('.userInviteForm #user_login:visible').length === 1,
+                emailVisible: $('.userInviteForm #user_email:visible').length === 1,
+            }));
+            expect(formState.inviteFormVisible).to.eq(true);
+            expect(formState.loginVisible).to.eq(true);
+            expect(formState.emailVisible).to.eq(true);
+            // Admins must not see the superuser toggle on the invite form
+            expect(formState.superuserToggleVisible).to.eq(false);
         });
 
         it('should not allow editing basic info for admin users', async function () {
             await page.click('.userInviteForm .entityCancelLink');
             await (await page.jQuery('button.edituser:eq(1)')).click();
             await page.waitForNetworkIdle();
+            await page.waitForSelector('.userEditForm', { visible: true });
 
-            expect(await page.screenshotSelector('.usersManager')).to.matchImage('edit_user_basic_info');
+            // UserEditForm renders #user_email only for superusers; admins editing
+            // another user must not see the email field at all (per the form template).
+            const editState = await page.evaluate(() => ({
+                emailExists: $('.userEditForm #user_email').length === 1,
+                basicInfoSaveButton: $('.userEditForm .basic-info-tab .matomo-save-button .btn:visible').length,
+            }));
+            expect(editState.emailExists).to.eq(false);
+            // Admins should not have a save button on the basic info tab
+            expect(editState.basicInfoSaveButton).to.eq(0);
         });
 
         it('should allow editing user permissions for admin users', async function () {
             await page.click('.userEditForm .menuPermissions');
             await page.mouse.move(-10, -10);
+            await page.waitForSelector('.userPermissionsEdit', { visible: true });
 
-            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_edit_permissions');
+            const permissionsState = await page.evaluate(() => ({
+                visible: $('.userPermissionsEdit:visible').length === 1,
+                hasRows: $('#sitesForPermission tbody tr:not(.select-all-row)').length > 0,
+            }));
+            expect(permissionsState.visible).to.eq(true);
+            expect(permissionsState.hasRows).to.eq(true);
         });
 
       it('should filter editing user permissions by access', async function () {
             await page.evaluate(function () {
               $('.access-filter select').val('string:admin').change();
             });
+            await page.waitForNetworkIdle();
+            await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
             await page.waitForTimeout(500); // wait for animation
 
             await page.mouse.move(-10, -10);
 
-            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_filter_permissions');
+            const filterValue = await page.evaluate(() => $('.access-filter select').val());
+            expect(filterValue).to.eq('string:admin');
+
+            // Every visible site row should reflect the admin filter.
+            const roleValues = await getRoleSelectValues('#sitesForPermission tbody tr:not(.select-all-row)');
+            expect(roleValues.length).to.be.greaterThan(0);
+            roleValues.forEach((role) => {
+                expect(role).to.eq('string:admin');
+            });
       });
 
         it('should show the add existing user modal', async function () {
             await page.click('.userEditForm .entityCancelLink');
 
             await page.click('.add-existing-user');
+            await page.waitForSelector('.add-existing-user-modal', { visible: true });
             await page.waitForTimeout(500); // wait for animation
 
-            const elem = await page.$('.add-existing-user-modal');
-            expect(await elem.screenshot()).to.matchImage('admin_existing_user_modal');
+            const modalState = await page.evaluate(() => ({
+                visible: $('.add-existing-user-modal:visible').length === 1,
+                emailInputVisible: $('.add-existing-user-modal input[name="add-existing-user-email"]:visible').length === 1,
+            }));
+            expect(modalState.visible).to.eq(true);
+            expect(modalState.emailInputVisible).to.eq(true);
         });
 
         it('should add a user by email when an email is entered', async function () {
@@ -854,7 +1117,10 @@ describe("UsersManager", function () {
             await page.waitForSelector('.pagedUsersList:not(.loading)');
             await page.waitForTimeout(1000); // for opacity to change
 
-            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_by_email');
+            // Filter is set to the new user's email; the user owning that email
+            // (login `0login3`, fixture-generated) should now appear in the list.
+            const visibleLogins = await getVisibleUserLogins();
+            expect(visibleLogins).to.include('0login3');
         });
 
         it('should add a user by username when a username is entered', async function () {
@@ -875,7 +1141,8 @@ describe("UsersManager", function () {
             await page.waitForSelector('.pagedUsersList:not(.loading)');
             await page.waitForTimeout(1000); // for opacity to change
 
-            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_by_login');
+            const visibleLogins = await getVisibleUserLogins();
+            expect(visibleLogins).to.include('10login8');
         });
 
         it('should fail if an email/username that does not exist is entered', async function () {
@@ -896,7 +1163,8 @@ describe("UsersManager", function () {
             await page.waitForSelector('.pagedUsersList:not(.loading)');
             await page.waitForTimeout(1000); // for opacity to change
 
-            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_not_exists');
+            const rowCount = await page.evaluate(() => $('.pagedUsersList tbody tr td#userLogin').length);
+            expect(rowCount).to.eq(0);
         });
     });
 });

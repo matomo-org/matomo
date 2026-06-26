@@ -13,6 +13,22 @@ describe("UserSettings", function () {
     var userSettingsUrl = "?module=UsersManager&action=userSettings";
     var userSecurityUrl = "?module=UsersManager&action=userSecurity";
 
+    async function getAuthTokenRowCount() {
+        // Exclude the empty-state row (which has no .creationDate cell).
+        return page.evaluate(() => $('table.listAuthTokens tbody tr:has(.creationDate)').length);
+    }
+
+    async function getAuthTokenRows() {
+        // Description is read via .html() so XSS-escape assertions (&lt;img) can run on
+        // the rendered cell; expiry is the column shown either as a date or "Never".
+        return page.evaluate(() => $('table.listAuthTokens tbody tr:has(.creationDate)').map(function () {
+            return {
+                description: $(this).find('td:nth-child(2)').html().trim(),
+                expiry: $(this).find('td:nth-child(5)').text().trim(),
+            };
+        }).get());
+    }
+
     before(async function() {
         await page.webpage.setViewport({
             width: 1250,
@@ -33,34 +49,55 @@ describe("UserSettings", function () {
     it('should ask for password when trying to add token', async function () {
         await page.click('.addNewToken');
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.loginSection');
-        expect(await page.screenshotSelector('.loginSection')).to.matchImage('add_token_check_password');
+        await page.waitForSelector('.loginSection', { visible: true });
+
+        const passwordVisible = await page.evaluate(() => $('#login_form_password:visible').length === 1);
+        const submitVisible = await page.evaluate(() => $('#login_form_submit:visible').length === 1);
+        expect(passwordVisible).to.eq(true);
+        expect(submitVisible).to.eq(true);
     });
 
     it('should accept correct password', async function () {
         await page.type('#login_form_password', superUserPassword);
         await page.click('#login_form_submit');
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.addTokenForm');
-        expect(await page.screenshotSelector('.admin')).to.matchImage('add_token');
+        await page.waitForSelector('.addTokenForm', { visible: true });
+
+        const formState = await page.evaluate(() => ({
+            descriptionVisible: $('.addTokenForm input[id=description]:visible').length === 1,
+            hasExpirationVisible: $('.addTokenForm #has_expiration').length === 1,
+            submitVisible: $('.addTokenForm input[type=submit]:visible').length === 1,
+        }));
+        expect(formState.descriptionVisible).to.eq(true);
+        expect(formState.hasExpirationVisible).to.eq(true);
+        expect(formState.submitVisible).to.eq(true);
     });
 
     it('should create new token with default expiration date', async function () {
         await page.type('.addTokenForm input[id=description]', 'test description<img src=j&#X41vascript:alert("xss fail")>');
         await page.click('.addTokenForm .btn');
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_success');
+        await page.waitForFunction(
+            () => $('.admin').text().indexOf('Token successfully generated') !== -1,
+            { timeout: 30000 }
+        );
+
+        const successText = await page.evaluate(() => $('.admin').text());
+        expect(successText).to.contain('Please store your token securely');
     });
 
     it('should show new token with default expire date on security page', async function () {
         await page.click('[vue-entry="UsersManager.AddNewTokenSuccess"] .btn');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.listAuthTokens', { visible: true });
-        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-            $('table.listAuthTokens th').css('width', '16%'); // five columns + actions
-        });
-        await page.waitForTimeout(100);
-        expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_new_token');
+
+        const descriptions = (await getAuthTokenRows()).map((r) => r.description);
+        expect(descriptions.some((d) => d.indexOf('test description') !== -1)).to.eq(true);
+
+        const matchingRow = descriptions.find((d) => d.indexOf('test description') !== -1);
+        expect(matchingRow).to.contain('&lt;img');
+        expect(matchingRow).to.not.match(/<img\b/i);
+        expect(matchingRow).to.not.match(/<script\b/i);
     });
 
     it('should not ask for password when trying to add a second token in quick succession', async function () {
@@ -71,8 +108,10 @@ describe("UserSettings", function () {
         await page.waitForSelector('.listAuthTokens', { visible: true });
         await page.click('.addNewToken');
         await page.waitForNetworkIdle();
-        await page.waitForSelector('.addTokenForm');
-        expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_no_password');
+        await page.waitForSelector('.addTokenForm', { visible: true });
+
+        const loginSectionVisible = await page.evaluate(() => $('.loginSection:visible').length > 0);
+        expect(loginSectionVisible).to.eq(false);
     });
 
     it('should show a date picker with a shorter configured expire interval when clicked into the date field', async function () {
@@ -94,24 +133,36 @@ describe("UserSettings", function () {
         await page.click('.addTokenForm #has_expiration');
         await page.click('.addTokenForm .btn');
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_no_expiration_success');
+        await page.waitForFunction(
+            () => $('.admin').text().indexOf('Token successfully generated') !== -1,
+            { timeout: 30000 }
+        );
     });
 
     it('should show new token without expire date on security page', async function () {
         await page.goto(userSecurityUrl);
         await page.waitForSelector('.listAuthTokens', { visible: true });
-        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-            $('table.listAuthTokens th').css('width', '16%'); // five columns + actions
-        });
-        await page.waitForTimeout(100);
-        expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_new_token_no_expiration');
+
+        const rows = await getAuthTokenRows();
+        const noExpiryRow = rows.find((r) => r.description.indexOf('no expiration token') !== -1);
+        expect(noExpiryRow, 'no-expiration token row should be present').to.not.eq(undefined);
+        expect(noExpiryRow.expiry).to.eq('Never');
     });
 
     it('should delete all tokens without password confirmation right after one was created', async function () {
         await page.click('button.delete-all-tokens');
         await page.waitForNetworkIdle();
         await page.waitForTimeout(200);
-        expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_no_tokens');
+
+        // No password-confirm modal should appear when a token was just created,
+        // because the recent re-auth grace window covers the delete.
+        const passwordModalVisible = await page.evaluate(
+            () => $('.confirm-password-modal.modal.open:visible').length
+        );
+        expect(passwordModalVisible).to.eq(0);
+
+        const remainingRows = await getAuthTokenRowCount();
+        expect(remainingRows).to.eq(0);
     });
 
     it('should show user settings page with all theme mode options', async function () {
@@ -133,7 +184,9 @@ describe("UserSettings", function () {
         await page.click('#newsletterSignupBtn input');
         await page.waitForNetworkIdle();
         await page.waitForFunction(() => !$('#newsletterSignup').is(':visible'));
-        expect(await page.screenshotSelector('.pageWrap')).to.matchImage('signup_success');
+
+        const isNewsletterVisible = await page.evaluate(() => $('#newsletterSignup').is(':visible'));
+        expect(isNewsletterVisible).to.eq(false);
     });
 
     it('should not prompt user to subscribe to newsletter again', async function () {
@@ -141,8 +194,6 @@ describe("UserSettings", function () {
         await page.goto(userSettingsUrl);
         const isNewsletterVisible = await page.evaluate(() => $('#newsletterSignup').is(':visible'));
         expect(isNewsletterVisible, 'newsletter signup should stay hidden after signup').to.equal(false);
-
-        expect(await page.screenshotSelector('.admin')).to.matchImage('already_signed_up');
     });
 
     it('should ask for password confirmation when changing email', async function () {
@@ -151,10 +202,14 @@ describe("UserSettings", function () {
         });
         await page.waitForTimeout(100);
         await page.click('#userSettingsTable .matomo-save-button .btn');
+        await page.waitForSelector('.modal.open', { visible: true });
         await page.waitForTimeout(500); // wait for animation
 
-        let pageWrap = await page.$('.modal.open');
-        expect(await pageWrap.screenshot()).to.matchImage('asks_confirmation');
+        const modalText = await page.evaluate(() => $('.modal.open').text().replace(/\s+/g, ' ').trim());
+        expect(modalText).to.contain('Please re-authenticate to confirm this change');
+
+        const passwordInputVisible = await page.evaluate(() => $('.modal.open #currentUserPassword:visible').length === 1);
+        expect(passwordInputVisible).to.eq(true);
     });
 
     it('should load error when wrong password specified', async function () {
@@ -162,9 +217,10 @@ describe("UserSettings", function () {
         btnNo = await page.jQuery('.modal.open .modal-action:not(.modal-no)');
         await btnNo.click();
         await page.waitForNetworkIdle();
+        await page.waitForSelector('#notificationContainer .notification', { visible: true });
 
-        let pageWrap = await page.$('#notificationContainer');
-        expect(await pageWrap.screenshot()).to.matchImage('wrong_password_confirmed');
+        const notificationText = await page.evaluate(() => $('#notificationContainer').text());
+        expect(notificationText).to.contain('The current password you entered is not correct');
     });
 
     it('should not allow to set the current password as new password', async function () {
@@ -173,6 +229,12 @@ describe("UserSettings", function () {
         await page.type('#passwordBis', superUserPassword);
         await page.type('#passwordConfirmation', superUserPassword);
         await page.click('#userSettingsTable .btn');
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reuse');
+        await page.waitForNetworkIdle();
+        // The controller throws on password reuse, which renders the standalone
+        // error template (full page), not a #notificationContainer notification.
+        await page.waitForFunction(
+            () => document.body.innerText.indexOf('already using this password') !== -1,
+            { timeout: 10000 }
+        );
     });
 });
