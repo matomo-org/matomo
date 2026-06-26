@@ -38,11 +38,10 @@ abstract class ReleaseChannel extends BaseReleaseChannel
     /**
      * Anonymises an installation URL for the update check API.
      *
-     * Returns an empty string when the URL has no host, the host has always been
-     * excluded from update-check stats (no-dot hosts like `localhost`,
-     * `example.org`, malformed URLs), or the host is a private/reserved IP
-     * (excluded server-side historically too). Otherwise returns the SHA-256
-     * of the lowercased host (IPv6 brackets stripped).
+     * Returns an empty string when the URL has no host, the host is `example.org`,
+     * the host has no dot (e.g. `localhost`), or the host is any IP address (IPv4
+     * or IPv6, public or private — IP-shaped installs are not counted). Otherwise
+     * returns the SHA-256 of the lowercased host.
      *
      * The hash input is the host alone, not the full URL: `api_update_check.host`
      * on the API side has stored just the parsed host since 2016, so a backfilled
@@ -62,6 +61,7 @@ abstract class ReleaseChannel extends BaseReleaseChannel
 
         $host = strtolower($parts['host']);
         if (strlen($host) > 1 && $host[0] === '[' && substr($host, -1) === ']') {
+            // strip IPv6 brackets so FILTER_VALIDATE_IP can detect the address
             $host = substr($host, 1, -1);
         }
 
@@ -78,12 +78,8 @@ abstract class ReleaseChannel extends BaseReleaseChannel
             return true;
         }
 
-        $ipFlags = FILTER_VALIDATE_IP;
-        if (filter_var($host, $ipFlags)) {
-            // IP host: exclude private/reserved ranges (dev/test installs, never
-            // counted in update-check stats historically); public IPs are kept
-            // and hashed like any other host.
-            return !filter_var($host, $ipFlags, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            return true;
         }
 
         // Hostname: require at least one dot — `localhost` and similar bare

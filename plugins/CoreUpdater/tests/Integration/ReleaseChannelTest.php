@@ -98,10 +98,11 @@ class ReleaseChannelTest extends IntegrationTestCase
         yield 'localhost (no dot) excluded' => ['http://localhost/index.php', ''];
         yield 'private IPv4 excluded' => ['http://192.168.1.1/index.php', ''];
         yield 'reserved IPv4 (loopback) excluded' => ['http://127.0.0.1/index.php', ''];
+        yield 'public IPv4 excluded' => ['http://8.8.8.8/index.php', ''];
         yield 'link-local IPv6 excluded' => ['http://[fe80::1]/', ''];
+        yield 'public IPv6 excluded' => ['http://[2001:4860:4860::8888]/', ''];
+        yield 'IPv4-mapped IPv6 excluded (brackets stripped before IP check)' => ['http://[::ffff:192.168.1.1]/', ''];
         yield 'public hostname produces hash' => ['https://stats.acme.com/matomo/', 'HASH'];
-        yield 'public IPv4 produces hash' => ['http://8.8.8.8/index.php', 'HASH'];
-        yield 'public IPv6 produces hash' => ['http://[2001:4860:4860::8888]/', 'HASH'];
     }
 
     public function testAnonymiseUrlIsStable()
@@ -132,14 +133,6 @@ class ReleaseChannelTest extends IntegrationTestCase
         $this->assertSame(
             hash('sha256', 'stats.acme.com'),
             ReleaseChannel::anonymiseUrl('https://stats.acme.com/matomo/index.php')
-        );
-    }
-
-    public function testAnonymiseUrlStripsIpv6BracketsBeforeHashing()
-    {
-        $this->assertSame(
-            hash('sha256', '2001:4860:4860::8888'),
-            ReleaseChannel::anonymiseUrl('http://[2001:4860:4860::8888]/')
         );
     }
 }
