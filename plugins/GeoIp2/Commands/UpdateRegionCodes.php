@@ -132,6 +132,7 @@ class UpdateRegionCodes extends ConsoleCommand
 
         $content = <<<CONTENT
 <?php
+
 // The below list contains all ISO region codes and names known to Matomo
 // Format:
 // <CountryCode> => [
@@ -143,10 +144,12 @@ class UpdateRegionCodes extends ConsoleCommand
 //         'current' => <bool> indicating if the iso code is currently used
 //     ]
 // ]
-return 
+return
 CONTENT;
 
-        $content .= var_export($newRegions, true) . ';';
+        $content .= ' ' . var_export($newRegions, true) . ';' . "\n";
+        // strip trailing whitespace so the regenerated file matches the coding style
+        $content = preg_replace('/[ \t]+$/m', '', $content);
 
         file_put_contents($regionsFile, $content);
 
