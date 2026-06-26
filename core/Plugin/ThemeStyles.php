@@ -57,6 +57,7 @@ class ThemeStyles
         'colorBorderAlternative' => 'theme-color-border-alternative',
         'colorBorderLight' => 'theme-color-border-light',
         'colorBoxShadow' => 'theme-color-boxShadow',
+        'shadowOverlay' => 'theme-shadow-overlay',
         'colorCode' => 'theme-color-code',
         'colorCodeBackground' => 'theme-color-code-background',
         'colorWidgetBackground' => 'theme-color-widget-background',
@@ -269,6 +270,11 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorBoxShadow = ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $shadowOverlay = ['0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D', '0 0 3px #00000080, 0 10px 40px #00000080'];
 
     /**
      * @var string|array<string>
