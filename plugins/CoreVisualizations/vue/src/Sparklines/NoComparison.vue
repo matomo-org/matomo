@@ -1,0 +1,87 @@
+<!--
+  Matomo - free/libre analytics platform
+
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
+<template>
+  <div class="noComparison">
+    <MetricValue
+      :title="title"
+      :value="primaryValue"
+      :secondary-value="secondaryValue"
+      :secondary-label="secondaryLabel"
+    >
+      <template
+        v-if="sparkline.evolution"
+        #evolution
+      >
+        <EvolutionBadge
+          :percent="sparkline.evolution.percent"
+          :trend="sparkline.evolution.trend"
+          :is-lower-value-better="sparkline.evolution.isLowerValueBetter"
+          :tooltip="sparkline.evolution.tooltip || ''"
+        />
+      </template>
+    </MetricValue>
+    <Sparkline width="320px" height="40px"
+      :params="sparkline.url"
+      :series-indices="sparkline.seriesIndices"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import { computed, defineComponent, PropType } from 'vue';
+import { Sparkline } from 'CoreHome';
+import MetricValue from '../MetricValue/MetricValue.vue';
+import EvolutionBadge from '../EvolutionBadge/EvolutionBadge.vue';
+import { SparklineEntry, SparklineMetric } from './types';
+
+/**
+ * No-comparison body for a sparkline card. Composes the MetricValue + EvolutionBadge
+ * atoms and the reused Sparkline. In no-comparison mode the metrics live under the ''
+ * group key: the first is the primary value, an optional second is the "unique" line.
+ */
+export default defineComponent({
+  name: 'NoComparison',
+  components: {
+    MetricValue,
+    EvolutionBadge,
+    Sparkline,
+  },
+  props: {
+    sparkline: {
+      type: Object as PropType<SparklineEntry>,
+      required: true,
+    },
+  },
+  setup(props) {
+    const primaryMetric = computed<SparklineMetric | undefined>(
+      () => props.sparkline.metrics?.['']?.[0],
+    );
+
+    // Optional secondary metric (eg "9,527 unique"), shown only when the report adds a
+    // second metric to the same sparkline. MetricValue hides the line when it is absent.
+    const secondaryMetric = computed<SparklineMetric | undefined>(
+      () => props.sparkline.metrics?.['']?.[1],
+    );
+
+    const title = computed(() => primaryMetric.value?.description || '');
+
+    // Values are already locale-formatted by the backend; render them verbatim (no number
+    // filter — re-parsing a formatted string would corrupt it).
+    const primaryValue = computed(() => primaryMetric.value?.value ?? '');
+    const secondaryValue = computed(() => secondaryMetric.value?.value);
+    const secondaryLabel = computed(() => secondaryMetric.value?.description);
+
+    return {
+      title,
+      primaryValue,
+      secondaryValue,
+      secondaryLabel,
+    };
+  },
+});
+</script>

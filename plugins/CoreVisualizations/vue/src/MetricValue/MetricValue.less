@@ -4,6 +4,12 @@
     font-size: 18px;
     line-height: 24px;
 
+    // Capitalise only the first letter of the title (eg "bounce rate" -> "Bounce rate"),
+    // leaving the rest of the backend-translated text untouched.
+    &::first-letter {
+      text-transform: uppercase;
+    }
+
     &--documented {
       cursor: help;
     }

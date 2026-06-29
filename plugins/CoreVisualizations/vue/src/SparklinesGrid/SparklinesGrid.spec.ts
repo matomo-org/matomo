@@ -7,7 +7,10 @@
 
 import { flushPromises, mount } from '@vue/test-utils';
 
+// The grid mounts the real SparklineCard -> NoComparison -> MetricValue chain, so the mock
+// also provides the Tooltips directive MetricValue uses. CoreHome has no jest module mapping.
 jest.mock('CoreHome', () => ({
+  Tooltips: {},
   Sparkline: { template: '<img class="sparkline-stub" />' },
 }), { virtual: true });
 
@@ -76,7 +79,7 @@ describe('CoreVisualizations/SparklinesGrid', () => {
       },
     });
 
-    const titles = wrapper.findAll('.sparkline-title').map((node) => node.text());
+    const titles = wrapper.findAll('.metricValue__title').map((node) => node.text());
     expect(wrapper.findAllComponents({ name: 'SparklineCard' }).length).toBe(2);
     expect(titles).toEqual(['Visits', 'Actions']);
   });
@@ -101,7 +104,7 @@ describe('CoreVisualizations/SparklinesGrid', () => {
       },
     });
 
-    const titles = wrapper.findAll('.sparkline-title').map((node) => node.text());
+    const titles = wrapper.findAll('.metricValue__title').map((node) => node.text());
     expect(titles).toEqual(['First', 'Second', 'Third']);
   });
 

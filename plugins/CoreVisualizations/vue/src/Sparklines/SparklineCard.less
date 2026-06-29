@@ -1,0 +1,52 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Card frame. .sparklineCard is a brand-new class unique to the redesigned card, so it can
+// be styled directly without colliding with the legacy global .sparkline (which the same
+// element keeps for the window.initializeSparklines() click-to-evolution wiring).
+.sparkline.sparklineCard {
+  box-sizing: border-box;
+  // Match the widget card surface (see plugins/Dashboard/stylesheets/widget.less): theme
+  // tokens resolve in both light and dark mode, so no .inDarkMode() override is needed here.
+  padding: 16px;
+  background: @theme-color-widget-background;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 8px;
+  width: 100%;
+
+  // Vertical rhythm between rows once the responsive grid wraps; horizontal spacing comes
+  // from the Materialize column gutters.
+  margin-bottom: 16px;
+
+  &.linked {
+    border-bottom: 1px solid @theme-color-border-alternative;
+  }
+
+  // Segment header (comparison mode only); empty in no-comparison.
+  &__title {
+    margin: 0 0 8px;
+    font-size: 14px;
+    line-height: 20px;
+    color: @theme-color-text-lighter;
+  }
+}
+
+// No-comparison body layout: stack the metric value over a full-width sparkline.
+.noComparison {
+  .metricValue {
+    margin-bottom: 12px;
+  }
+
+  // Static 304x40 sparkline on every card (for now). A fixed size keeps all cards identical
+  // (aside from the optional secondary line) instead of the per-column rounding a responsive
+  // width would produce.
+  .sparklineImg {
+    display: block;
+    width: 304px;
+    height: 40px;
+  }
+}

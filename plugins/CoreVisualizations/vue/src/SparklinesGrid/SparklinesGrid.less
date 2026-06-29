@@ -11,15 +11,7 @@
 .sparklinesGrid {
   // Responsive columns come from Materialize's grid classes applied to each card
   // (col s6 m6 l3 xl3 => 2 / 2 / 4 / 4 columns). The >=1920px tier below adds a 5th column.
-
-  .sparkline {
-    box-sizing: border-box;
-    padding: 8px;
-  }
-
-  .sparkline-title {
-    margin: 0 0 4px;
-  }
+  // The card frame itself (padding, border, background, title) lives in SparklineCard.less.
 
   // 5-column tier above Materialize's largest breakpoint (xl = 1201px). 5 cols is not a
   // native col class (12 / 5 = 2.4), so override the width directly. Materialize emits its

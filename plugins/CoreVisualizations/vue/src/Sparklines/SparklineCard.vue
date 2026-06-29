@@ -7,39 +7,37 @@
 
 <template>
   <div
-    class="sparkline"
+    class="sparkline sparklineCard"
     :class="{ notLinkable: !areSparklinesLinkable }"
     :data-graph-params="graphParamsAttr"
     :data-series-indices="seriesIndicesAttr"
   >
-    <h6
-      v-if="title"
-      class="sparkline-title"
-    >
-      {{ title }}
-    </h6>
-    <Sparkline
-      :params="sparkline.url"
-      :series-indices="sparkline.seriesIndices"
-    />
+    <!-- Segment header, set only in comparison mode (sparkline.title is null otherwise).
+         The seam for Phase 3 comparison bodies, which render under the same title. -->
     <div
-      v-if="value !== null"
-      class="sparkline__value"
+      v-if="sparkline.title"
+      class="sparklineCard__title"
     >
-      {{ value }}
+      {{ sparkline.title }}
     </div>
+    <NoComparison :sparkline="sparkline" />
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
-import { Sparkline } from 'CoreHome';
-import { SparklineEntry, SparklineMetric } from './types';
+import NoComparison from './NoComparison.vue';
+import { SparklineEntry } from './types';
 
+/**
+ * Card shell: the frame around a sparkline body. Owns the legacy `.sparkline` wrapper and
+ * its evolution-graph data attributes; delegates the content to a body component. Only the
+ * no-comparison body exists today; Phase 3 adds the comparison body behind the same shell.
+ */
 export default defineComponent({
   name: 'SparklineCard',
   components: {
-    Sparkline,
+    NoComparison,
   },
   props: {
     sparkline: {
@@ -52,23 +50,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const primaryMetric = computed<SparklineMetric | undefined>(
-      () => props.sparkline.metrics?.['']?.[0],
-    );
-
-    // sparkline.title is null in no-comparison mode, so the primary metric's
-    // description ("Visits", "Bounce rate", ...) is used as the card heading.
-    const title = computed(
-      () => props.sparkline.title || primaryMetric.value?.description || '',
-    );
-
-    // The value is already locale-formatted by the backend; render it directly,
-    // without any number filter (re-parsing a formatted string would corrupt it).
-    const value = computed(() => {
-      const metric = primaryMetric.value;
-      return metric && metric.value !== undefined ? metric.value : null;
-    });
-
     // The legacy click-to-evolution wiring (window.initializeSparklines) reads these
     // attributes off the .sparkline wrapper, so only emit them when populated.
     const graphParamsAttr = computed(() => {
@@ -82,8 +63,6 @@ export default defineComponent({
     });
 
     return {
-      title,
-      value,
       graphParamsAttr,
       seriesIndicesAttr,
     };

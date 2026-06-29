@@ -28,8 +28,8 @@ import {
   onMounted,
   PropType,
 } from 'vue';
-import SparklineCard from './SparklineCard.vue';
-import { SparklineEntry } from './types';
+import SparklineCard from '../Sparklines/SparklineCard.vue';
+import { SparklineEntry } from '../Sparklines/types';
 
 export default defineComponent({
   name: 'SparklinesGrid',

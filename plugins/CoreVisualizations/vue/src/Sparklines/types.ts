@@ -16,6 +16,20 @@ export interface SparklineMetric {
 }
 
 /**
+ * Evolution shown next to a sparkline. Attached at the entry level by
+ * Sparklines\Config::addSparkline() (only when the report supplies evolution data),
+ * and maps directly onto the EvolutionBadge props.
+ */
+export interface SparklineEvolution {
+  // pre-formatted percent string emitted by the backend (eg "+5.2%", "-4%")
+  percent: string | number;
+  isLowerValueBetter: boolean;
+  tooltip: string | null;
+  // raw value difference (currentValue - pastValue), drives the arrow direction
+  trend: number;
+}
+
+/**
  * A single sparkline entry as produced by Sparklines\Config::getSortedSparklines().
  * In no-comparison mode the metrics live under the '' group key, and `title` /
  * `seriesIndices` are null.
@@ -29,4 +43,5 @@ export interface SparklineEntry {
   group: string;
   seriesIndices: number[] | null;
   graphParams: Record<string, unknown> | null;
+  evolution?: SparklineEvolution;
 }
