@@ -136,6 +136,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $session->ignoreMessage = true;
         $session->setExpirationSeconds($oneHour = 60 * 60);
 
+        // The reporting UI dismisses the screen via Ajax and keeps the user on the page they were on,
+        // so there is nothing to redirect. Only fall back to a redirect for non-Ajax (e.g. bookmarked)
+        // requests, which expect to land back on the dashboard.
+        if (Common::isXmlHttpRequest()) {
+            Json::sendHeaderJSON();
+            return json_encode(['result' => 'success']);
+        }
+
         $url = Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreHome', 'action' => 'index'));
         Url::redirectToUrl($url);
     }
@@ -148,6 +156,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'inviteUserLink' => $this->getInviteUserLink(),
             'hideWhatIsNew'  => true,
         ], $viewType = 'basic');
+    }
+
+    /**
+     * Endpoint for the reporting UI gate; see SitesManager::shouldShowEmptySiteMessage().
+     */
+    public function getSiteEmptyState()
+    {
+        $this->checkSitePermission();
+
+        Json::sendHeaderJSON();
+        return json_encode(SitesManager::shouldShowEmptySiteMessage((int) $this->idSite));
     }
 
     public function getTrackingMethodsForSite()
@@ -289,8 +308,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         echo json_encode([
             'trackingMethods' => $trackingMethods,
             'recommendedMethod' => $recommendedMethod,
+            // The standalone page gets this as a template variable; the SPA gate has to fetch it.
+            'ctaContent' => $this->renderSiteWithoutDataCta(),
         ]);
         exit;
+    }
+
+    private function renderSiteWithoutDataCta(): string
+    {
+        $view = new View('@SitesManager/_siteWithoutDataCta');
+        $view->inviteUserLink = $this->getInviteUserLink();
+        return $view->render();
     }
 
     private function getGoogleAnalyticsImporterInstruction()

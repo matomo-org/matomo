@@ -11,7 +11,6 @@ namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Access;
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
@@ -58,7 +57,6 @@ class SitesManager extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'SitesManager.deleteSite.end'            => 'onSiteDeleted',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
-            'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
         ];
     }
 
@@ -91,42 +89,44 @@ class SitesManager extends \Piwik\Plugin
         }
     }
 
-    public function redirectDashboardToWelcomePage(&$module, &$action)
+    /**
+     * Returns whether the "site has no data" tracker-setup screen should be shown for the given site.
+     * The reporting UI decides where/whether to render that screen (it knows the active reporting group,
+     * which the server cannot see as it lives in the URL hash), so this only answers the data question:
+     * the site has never tracked any traffic, the empty-site check is not suppressed for it, and the
+     * screen has not been temporarily hidden for the current session.
+     */
+    public static function shouldShowEmptySiteMessage(int $idSite): bool
     {
-        if ($module !== 'CoreHome' || $action !== 'index') {
-            return;
+        if (!$idSite) {
+            return false;
         }
 
-        $siteId = Common::getRequestVar('idSite', false, 'int');
-        if (!$siteId) {
-            return;
+        if (!self::shouldPerformEmptySiteCheck($idSite)) {
+            return false;
         }
 
-        $shouldPerformEmptySiteCheck = self::shouldPerformEmptySiteCheck($siteId);
-        if (!$shouldPerformEmptySiteCheck) {
-            return;
-        }
-
-        $hadTrafficKey = 'SitesManagerHadTrafficInPast_' . (int) $siteId;
+        $hadTrafficKey = 'SitesManagerHadTrafficInPast_' . $idSite;
         $hadTrafficBefore = Option::get($hadTrafficKey);
         if (!empty($hadTrafficBefore)) {
             // user had traffic at some stage in the past... not needed to show tracking code
-            return;
-        } elseif (self::hasTrackedAnyTraffic($siteId)) {
+            return false;
+        }
+
+        if (self::hasTrackedAnyTraffic($idSite)) {
             // remember the user had traffic in the past so we won't show the tracking screen again
             // if all visits are deleted for example
             Option::set($hadTrafficKey, 1);
-            return;
-        } else {
-            // never had any traffic
-            $session = new SessionNamespace('siteWithoutData');
-            if (!empty($session->ignoreMessage)) {
-                return;
-            }
-
-            $module = 'SitesManager';
-            $action = 'siteWithoutData';
+            return false;
         }
+
+        // never had any traffic - the screen can be temporarily hidden for an hour (see Controller)
+        $session = new SessionNamespace('siteWithoutData');
+        if (!empty($session->ignoreMessage)) {
+            return false;
+        }
+
+        return true;
     }
 
     public static function hasTrackedAnyTraffic($siteId)
