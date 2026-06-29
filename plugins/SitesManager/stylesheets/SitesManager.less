@@ -419,6 +419,14 @@ body.siteWithoutDataInReporting #root {
         margin: 0 auto;
         padding: 0 24px;
     }
+
+    // The dashboard content area shrinks text (#content.home -> 14px, #content p -> 13px); the
+    // standalone setup page has no #content wrapper and renders at the layout's 16px base, so restore
+    // it here to keep the screen visually identical.
+    #content.home,
+    #content.home p {
+        font-size: 16px;
+    }
 }
 
 #js-visitor-cv-extra th {
