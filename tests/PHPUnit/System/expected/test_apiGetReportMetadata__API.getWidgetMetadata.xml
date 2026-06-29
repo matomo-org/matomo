@@ -4140,6 +4140,10 @@
 			<icon>icon-ai-assistants</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+				<row>CoreHome_AIInsights</row>
+			</groups>
 		</category>
 		<subcategory>
 			<id>BotTracking_AIChatbotsRealtime</id>
@@ -4168,6 +4172,10 @@
 			<icon>icon-ai-assistants</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+				<row>CoreHome_AIInsights</row>
+			</groups>
 		</category>
 		<subcategory>
 			<id>BotTracking_AIChatbotsRealtime</id>
@@ -4196,6 +4204,10 @@
 			<icon>icon-ai-assistants</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+				<row>CoreHome_AIInsights</row>
+			</groups>
 		</category>
 		<subcategory>
 			<id>BotTracking_AIChatbotsRealtime</id>
@@ -4224,6 +4236,10 @@
 			<icon>icon-ai-assistants</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+				<row>CoreHome_AIInsights</row>
+			</groups>
 		</category>
 		<subcategory>
 			<id>BotTracking_AIChatbotsRealtime</id>
