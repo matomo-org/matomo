@@ -134,6 +134,7 @@ class ThemeStyles
 
     /**
      * @var string|array<string>
+     * @since Matomo 5.12.0
      */
     public $colorTextPlaceholder = ['#d1d1d1', '#565656'];
 
