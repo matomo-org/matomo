@@ -205,6 +205,7 @@ class WidgetMetadata
             'help'   => Piwik::translate($category->getHelp()),
             'widget' => $category->getWidget() ?: null,
             'groups' => $category->getGroups(),
+            'groupsWithoutTrackingRequirement' => $category->getGroupsWithoutTrackingRequirement(),
         );
     }
 

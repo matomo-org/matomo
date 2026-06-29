@@ -88,6 +88,23 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(Category::DEFAULT_GROUP), $this->category->getGroups());
     }
 
+    public function testGetGroupsWithoutTrackingRequirementShouldReturnAnEmptyArrayByDefault()
+    {
+        $this->assertSame(array(), $this->category->getGroupsWithoutTrackingRequirement());
+    }
+
+    public function testGroupsWithoutTrackingRequirementSetGet()
+    {
+        $this->category->setGroupsWithoutTrackingRequirement(array('CoreHome_AIInsights'));
+        $this->assertSame(array('CoreHome_AIInsights'), $this->category->getGroupsWithoutTrackingRequirement());
+    }
+
+    public function testSetGroupsWithoutTrackingRequirementShouldRemoveDuplicatesAndCastToString()
+    {
+        $this->category->setGroupsWithoutTrackingRequirement(array('CoreHome_AIInsights', 'CoreHome_AIInsights', 123));
+        $this->assertSame(array('CoreHome_AIInsights', '123'), $this->category->getGroupsWithoutTrackingRequirement());
+    }
+
     public function testAddSubcategoryShouldActuallyAddAndReturnSubcategories()
     {
         $subcategory1 = $this->createSubcategory('id1', 'name1');
