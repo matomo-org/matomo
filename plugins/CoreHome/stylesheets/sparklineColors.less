@@ -28,10 +28,19 @@
 }
 
 body.sparklines-redesign-enabled {
-  .sparkline-colors[data-name=lineColor],
-  .sparkline-colors[data-name=minPointColor],
-  .sparkline-colors[data-name=maxPointColor],
+  .sparkline-colors[data-name=lineColor] {
+    color: @graph-sparkline-line-color;
+  }
+
+  .sparkline-colors[data-name=minPointColor] {
+    color: @graph-sparkline-minDot-color;
+  }
+
+  .sparkline-colors[data-name=maxPointColor] {
+    color: @graph-sparkline-maxDot-color;
+  }
+
   .sparkline-colors[data-name=lastPointColor] {
-    color: @graph-series0-color;
+    color: @graph-sparkline-lastDot-color;
   }
 }

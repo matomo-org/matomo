@@ -93,6 +93,15 @@
 @graph-series6-color: @graph-colors-data-series6;
 @graph-series7-color: #F56E2F;
 
+// Colors for the redesigned sparklines (SparklinesRedesign). Intentionally
+// independent from the @graph-seriesN-color / PlotLinesTweaks palette above so the
+// two are no longer linked. Min/max dots read as negative/positive; the last dot
+// matches the line.
+@graph-sparkline-line-color:    #57B1FF;                     // line (was @graph-series0-color)
+@graph-sparkline-minDot-color:  @color-red-matomo;           // #d2312d — lowest value (negative)
+@graph-sparkline-maxDot-color:  @color-green-matomo;         // #43a047 — highest value (positive)
+@graph-sparkline-lastDot-color: @graph-sparkline-line-color; // last value — same as the line
+
 @default-box-shade: 0 2px 3px 0 rgba(0,0,0,0.16), 0 0px 3px 0 rgba(0,0,0,0.12);
 
 /*

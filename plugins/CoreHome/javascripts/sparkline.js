@@ -54,8 +54,10 @@ piwik.refreshSparklines = function () {
         if (redesignEnabled) {
             width = parseInt($self.attr('width'), 10) || sparklineDisplayWidth;
             height = parseInt($self.attr('height'), 10) || sparklineDisplayHeight;
-            appendToSparklineUrl += '&width=' + encodeURIComponent(width)
-                + '&height=' + encodeURIComponent(height);
+            // Render the PNG at twice the displayed size so it stays crisp on hi-DPI screens
+            // (matching the legacy 200x50-render / 100x25-display ratio).
+            appendToSparklineUrl += '&width=' + encodeURIComponent(width * 2)
+                + '&height=' + encodeURIComponent(height * 2);
         }
 
         // Append the token_auth to the URL if it was set (eg. embed dashboard)
