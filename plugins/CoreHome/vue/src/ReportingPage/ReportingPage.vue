@@ -7,6 +7,12 @@
 
 <template>
   <div class="reporting-page">
+    <SiteWithoutData
+      v-if="showEmptySiteScreen"
+      :embedded-in-reporting="true"
+      @dismissed="onNoDataDismissed"
+    />
+    <template v-else>
     <ActivityIndicator
       :loading="loading"
     />
@@ -42,6 +48,7 @@
         />
       </div>
     </div>
+    </template>
   </div>
 </template>
 
@@ -56,7 +63,15 @@ import { NotificationsStore } from '../Notification';
 import { translate } from '../translate';
 import Matomo from '../Matomo/Matomo';
 import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store';
+import ReportingMenuStoreInstance from '../ReportingMenu/ReportingMenu.store';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
+import useExternalPluginComponent from '../useExternalPluginComponent';
+
+const SiteWithoutData = useExternalPluginComponent('SitesManager', 'SiteWithoutData');
+
+// Toggled on <body> while the gate is active; SitesManager.less uses it to hide the reporting-menu
+// sidebar and period controls, which live outside this component (so can't be hidden via template).
+const SITE_WITHOUT_DATA_BODY_CLASS = 'siteWithoutDataInReporting';
 
 function showOnlyRawDataNotification() {
   const params = 'category=General_Visitors&subcategory=Live_VisitorLog';
@@ -86,6 +101,8 @@ interface ReportingPageState {
   hasNoVisits: boolean;
   dateLastChecked: Date|null;
   hasNoPage: boolean;
+  siteHasNoData: boolean;
+  noDataDismissed: boolean;
 }
 
 interface LoadPageArgs {
@@ -98,6 +115,7 @@ export default defineComponent({
   components: {
     ActivityIndicator,
     Widget,
+    SiteWithoutData,
   },
   data(): ReportingPageState {
     return {
@@ -106,6 +124,8 @@ export default defineComponent({
       hasNoVisits: false,
       dateLastChecked: null,
       hasNoPage: false,
+      siteHasNoData: false,
+      noDataDismissed: false,
     };
   },
   created() {
@@ -113,6 +133,13 @@ export default defineComponent({
 
     this.loading = true; // we only set loading on initial load
     this.renderInitialPage();
+
+    // Fetched in parallel (not awaited) so the common has-data case isn't delayed by a round-trip.
+    this.fetchSiteEmptyState();
+
+    watch(() => this.showEmptySiteScreen, (active) => {
+      this.updateSiteWithoutDataBodyClass(active);
+    });
 
     watch(() => MatomoUrl.parsed.value, (newValue, oldValue) => {
       if (newValue.category === oldValue.category
@@ -156,12 +183,42 @@ export default defineComponent({
       );
     });
   },
+  unmounted() {
+    this.updateSiteWithoutDataBodyClass(false);
+  },
   computed: {
     widgets() {
       return ReportingPageStoreInstance.widgets.value;
     },
+    showEmptySiteScreen() {
+      if (!this.siteHasNoData || this.noDataDismissed) {
+        return false;
+      }
+
+      const activeGroup = (MatomoUrl.parsed.value.group as string) || '';
+      return !ReportingMenuStoreInstance.groupsWithoutTrackingRequirement.value.has(activeGroup);
+    },
   },
   methods: {
+    fetchSiteEmptyState() {
+      AjaxHelper.fetch(
+        { module: 'SitesManager', action: 'getSiteEmptyState', idSite: Matomo.idSite },
+        { createErrorNotification: false },
+      ).then((response) => {
+        this.siteHasNoData = response === true || response === 'true';
+      }).catch(() => {
+        // ignore errors - don't block the dashboard on the empty-site check
+        this.siteHasNoData = false;
+      });
+    },
+    onNoDataDismissed() {
+      // The screen was hidden for an hour; keep the user on the page they were on and load it now.
+      this.noDataDismissed = true;
+      this.renderInitialPage();
+    },
+    updateSiteWithoutDataBodyClass(active: boolean) {
+      document.body.classList.toggle(SITE_WITHOUT_DATA_BODY_CLASS, active);
+    },
     renderPage(
       category: string, subcategory: string, period: string, date: string, segment: string,
     ) {

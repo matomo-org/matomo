@@ -91,6 +91,20 @@ export class ReportingMenuStore {
    */
   readonly fullMenu = computed(() => this.buildMenuFromPages(null));
 
+  /**
+   * Set of reporting menu groups (sections) that do not require tracked data, i.e. for which the
+   * "site has no data" tracker-setup screen should be skipped. Computed as the union of every
+   * category's groupsWithoutTrackingRequirement.
+   */
+  readonly groupsWithoutTrackingRequirement = computed(() => {
+    const groups = new Set<string>();
+    ReportingPagesStoreInstance.pages.value.forEach((page) => {
+      const exempt = (page.category as Category).groupsWithoutTrackingRequirement;
+      (exempt || []).forEach((group) => groups.add(group));
+    });
+    return groups;
+  });
+
   fetchMenuItems(): Promise<ReportingMenuStore['menu']['value']> {
     return ReportingPagesStoreInstance.getAllPages().then(() => this.menu.value);
   }
