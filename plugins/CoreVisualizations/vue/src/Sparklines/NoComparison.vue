@@ -25,7 +25,7 @@
         />
       </template>
     </MetricValue>
-    <Sparkline width="320px" height="40px"
+    <Sparkline :width="320" :height="40"
       :params="sparkline.url"
       :series-indices="sparkline.seriesIndices"
     />
