@@ -24,12 +24,6 @@ export interface Category extends Orderable {
   groups?: readonly string[];
 
   /**
-   * Reporting menu groups for which this category does not require tracked data. When the active
-   * group is one of these, the "site has no data" tracker-setup screen is skipped.
-   */
-  groupsWithoutTrackingRequirement?: readonly string[];
-
-  /**
    * @deprecated exists for BC, should be removed in Matomo 5
    */
   active?: boolean;

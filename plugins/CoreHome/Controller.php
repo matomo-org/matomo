@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreHome;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Category\CategoryList;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -201,6 +202,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->showMenu = true;
         $view->content = '';
         $view->exampleFeatureEnabled = $this->featureFlagManager->isFeatureActive(Example::class);
+        $view->groupsWithoutTrackingRequirement = CategoryList::get()->getGroupsWithoutTrackingRequirement();
         return $view;
     }
 

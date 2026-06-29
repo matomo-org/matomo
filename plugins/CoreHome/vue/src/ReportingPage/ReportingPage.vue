@@ -63,7 +63,6 @@ import { NotificationsStore } from '../Notification';
 import { translate } from '../translate';
 import Matomo from '../Matomo/Matomo';
 import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store';
-import ReportingMenuStoreInstance from '../ReportingMenu/ReportingMenu.store';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
@@ -116,6 +115,11 @@ export default defineComponent({
     ActivityIndicator,
     Widget,
     SiteWithoutData,
+  },
+  props: {
+    // Reporting menu groups that stay reachable before any data is tracked (resolved once on the
+    // server); the empty-site gate is skipped for them, e.g. AI Insights.
+    groupsWithoutTrackingRequirement: { type: Array, default: () => [] },
   },
   data(): ReportingPageState {
     return {
@@ -196,7 +200,7 @@ export default defineComponent({
       }
 
       const activeGroup = (MatomoUrl.parsed.value.group as string) || '';
-      return !ReportingMenuStoreInstance.groupsWithoutTrackingRequirement.value.has(activeGroup);
+      return !this.groupsWithoutTrackingRequirement.includes(activeGroup);
     },
   },
   methods: {

@@ -6832,19 +6832,6 @@ class ReportingMenu_store_ReportingMenuStore {
      * they are currently in.
      */
     ReportingMenu_store_defineProperty(this, "fullMenu", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => this.buildMenuFromPages(null)));
-    /**
-     * Set of reporting menu groups (sections) that do not require tracked data, i.e. for which the
-     * "site has no data" tracker-setup screen should be skipped. Computed as the union of every
-     * category's groupsWithoutTrackingRequirement.
-     */
-    ReportingMenu_store_defineProperty(this, "groupsWithoutTrackingRequirement", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      const groups = new Set();
-      ReportingPages_store.pages.value.forEach(page => {
-        const exempt = page.category.groupsWithoutTrackingRequirement;
-        (exempt || []).forEach(group => groups.add(group));
-      });
-      return groups;
-    }));
   }
   fetchMenuItems() {
     return ReportingPages_store.getAllPages().then(() => this.menu.value);
@@ -10908,24 +10895,24 @@ function findContainer(widgetsByCategory, containerId) {
 Widgetvue_type_script_lang_ts.render = Widgetvue_type_template_id_17541248_render
 
 /* harmony default export */ var Widget_Widget = (Widgetvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=dc27da74
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=2f30ceb2
 
-const ReportingPagevue_type_template_id_dc27da74_hoisted_1 = {
+const ReportingPagevue_type_template_id_2f30ceb2_hoisted_1 = {
   class: "reporting-page"
 };
-const ReportingPagevue_type_template_id_dc27da74_hoisted_2 = {
+const ReportingPagevue_type_template_id_2f30ceb2_hoisted_2 = {
   key: 1,
   class: "col s12 l6 leftWidgetColumn"
 };
-const ReportingPagevue_type_template_id_dc27da74_hoisted_3 = {
+const ReportingPagevue_type_template_id_2f30ceb2_hoisted_3 = {
   key: 2,
   class: "col s12 l6 rightWidgetColumn"
 };
-function ReportingPagevue_type_template_id_dc27da74_render(_ctx, _cache, $props, $setup, $data, $options) {
+function ReportingPagevue_type_template_id_2f30ceb2_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_SiteWithoutData = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SiteWithoutData");
   const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
   const _component_Widget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Widget");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_dc27da74_hoisted_1, [_ctx.showEmptySiteScreen ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_SiteWithoutData, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_2f30ceb2_hoisted_1, [_ctx.showEmptySiteScreen ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_SiteWithoutData, {
     key: 0,
     "embedded-in-reporting": true,
     onDismissed: _ctx.onNoDataDismissed
@@ -10941,12 +10928,12 @@ function ReportingPagevue_type_template_id_dc27da74_render(_ctx, _cache, $props,
       key: 0,
       class: "col s12 fullWidgetColumn",
       widget: widget
-    }, null, 8, ["widget"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_dc27da74_hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.left, widgetInGroup => {
+    }, null, 8, ["widget"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_2f30ceb2_hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.left, widgetInGroup => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
         widget: widgetInGroup,
         key: widgetInGroup.uniqueId
       }, null, 8, ["widget"]);
-    }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_dc27da74_hoisted_3, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.right, widgetInGroup => {
+    }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_2f30ceb2_hoisted_3, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.right, widgetInGroup => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
         widget: widgetInGroup,
         key: widgetInGroup.uniqueId
@@ -10954,7 +10941,7 @@ function ReportingPagevue_type_template_id_dc27da74_render(_ctx, _cache, $props,
     }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
   }), 128))], 64))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=dc27da74
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=2f30ceb2
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.store.ts
 function ReportingPage_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -11090,7 +11077,6 @@ class ReportingPage_store_ReportingPageStore {
 
 
 
-
 const SiteWithoutData = useExternalPluginComponent('SitesManager', 'SiteWithoutData');
 // Toggled on <body> while the gate is active; SitesManager.less uses it to hide the reporting-menu
 // sidebar and period controls, which live outside this component (so can't be hidden via template).
@@ -11118,6 +11104,14 @@ function hideOnlyRawDataNoticifation() {
     ActivityIndicator: ActivityIndicator,
     Widget: Widget_Widget,
     SiteWithoutData
+  },
+  props: {
+    // Reporting menu groups that stay reachable before any data is tracked (resolved once on the
+    // server); the empty-site gate is skipped for them, e.g. AI Insights.
+    groupsWithoutTrackingRequirement: {
+      type: Array,
+      default: () => []
+    }
   },
   data() {
     return {
@@ -11169,7 +11163,7 @@ function hideOnlyRawDataNoticifation() {
         return false;
       }
       const activeGroup = src_MatomoUrl_MatomoUrl.parsed.value.group || '';
-      return !ReportingMenu_store.groupsWithoutTrackingRequirement.value.has(activeGroup);
+      return !this.groupsWithoutTrackingRequirement.includes(activeGroup);
     }
   },
   methods: {
@@ -11310,7 +11304,7 @@ function hideOnlyRawDataNoticifation() {
 
 
 
-ReportingPagevue_type_script_lang_ts.render = ReportingPagevue_type_template_id_dc27da74_render
+ReportingPagevue_type_script_lang_ts.render = ReportingPagevue_type_template_id_2f30ceb2_render
 
 /* harmony default export */ var ReportingPage = (ReportingPagevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportExport/ReportExportPopover.vue?vue&type=template&id=67216619
