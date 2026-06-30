@@ -230,6 +230,13 @@ export default defineComponent({
     renderPage(
       category: string, subcategory: string, period: string, date: string, segment: string,
     ) {
+      // No report to render while the gate is shown; rendering would emit matomoPageChange and
+      // abort the requests the just-mounted SiteWithoutData component fired.
+      if (this.showEmptySiteScreen) {
+        this.loading = false;
+        return;
+      }
+
       if (!category || !subcategory) {
         ReportingPageStoreInstance.resetPage();
         this.loading = false;
