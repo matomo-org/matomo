@@ -144,9 +144,10 @@ export default defineComponent({
       }
 
       // The redesign lets sparklines be rendered server-side at a custom size; without it we keep
-      // the legacy behaviour where the server uses its default render size.
+      // the legacy behaviour where the server uses its default render size. The render size is
+      // twice the display size (the img is shown at 100x25) so the PNG renders at 2x pixel density.
       const redesignEnabled = document.body.classList.contains('sparklines-redesign-enabled');
-      const sizeParams = redesignEnabled ? { width: 100, height: 25 } : {};
+      const sizeParams = redesignEnabled ? { width: 200, height: 50 } : {};
 
       const sparklineParams = MatomoUrl.stringify({
         module: 'MultiSites',
