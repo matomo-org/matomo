@@ -2119,6 +2119,63 @@ class ForecastBuilderTest extends TestCase
         return $samples;
     }
 
+    /**
+     * @dataProvider getClampToHistoricalRangeTestData
+     * @param array<int, float> $pastValues
+     */
+    public function testClampForecastToHistoricalRange(
+        float $forecastValue,
+        array $pastValues,
+        float $expected
+    ): void {
+        $result = $this->invokePrivateMethod(
+            new ForecastBuilder(),
+            'clampForecastToHistoricalRange',
+            [$forecastValue, $pastValues]
+        );
+
+        self::assertEqualsWithDelta($expected, $result, 1e-9);
+    }
+
+    /**
+     * @return iterable<string, array{float, array<int, float>, float}>
+     */
+    public function getClampToHistoricalRangeTestData(): iterable
+    {
+        // A single recent spike pulls the trend fit far above the typical level. The envelope is
+        // centred on the median (102.5) and sized from the MAD (5.0 -> 7.413 sigma), so the band
+        // is [80.261, 124.739] and the runaway prior is held at the upper bound. The previous
+        // self-centred form left the prior untouched.
+        yield 'spike-driven runaway is reined to the upper bound' => [
+            353.0,
+            [100.0, 105.0, 95.0, 400.0],
+            124.739,
+        ];
+
+        // A genuine sustained trend produces enough MAD spread to keep the band wide
+        // ([70.522, 159.478] around median 115), so the in-range prior passes untouched.
+        yield 'genuine trend passes untouched' => [
+            135.0,
+            [100.0, 110.0, 120.0, 130.0],
+            135.0,
+        ];
+
+        // Perfectly stable history has zero MAD; the relative-spread floor (5% of the median)
+        // keeps the band at +-15 rather than collapsing it onto the centre.
+        yield 'relative-spread floor keeps a stable history from collapsing the band' => [
+            200.0,
+            [100.0, 100.0, 100.0, 100.0],
+            115.0,
+        ];
+
+        // No samples: nothing to bound against, value returned unchanged.
+        yield 'empty samples returns the value unchanged' => [
+            42.0,
+            [],
+            42.0,
+        ];
+    }
+
     private function createSiteMock(string $timezone = 'UTC'): Site
     {
         $site = $this->getMockBuilder(Site::class)

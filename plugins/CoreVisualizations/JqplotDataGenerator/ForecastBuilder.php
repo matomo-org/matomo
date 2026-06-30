@@ -85,20 +85,28 @@ class ForecastBuilder
     private const MIN_SAMPLES_FOR_DAY_LEVEL_TREND = 5;
 
     /**
-     * Width of the historical-range envelope expressed in standard deviations of the past
-     * samples. Three sigmas covers ~99.7% of normally-distributed history, so a forecast landing
-     * outside this band almost certainly reflects an extrapolation artefact rather than a
-     * credible final value.
+     * Width of the historical-range envelope expressed in (robust) standard deviations of the
+     * past samples — see {@see MAD_TO_SIGMA} for how the spread is estimated. Three sigmas covers
+     * ~99.7% of normally-distributed history, so a forecast landing outside this band almost
+     * certainly reflects an extrapolation artefact rather than a credible final value.
      */
     private const BOUNDED_RANGE_SIGMAS = 3.0;
 
     /**
      * Minimum half-width of the historical-range envelope expressed as a fraction of the sample
-     * mean. Without this floor a perfectly stable history (sigma ≈ 0) would collapse the
-     * envelope onto the prior and forbid any deviation, including the legitimate case where the
+     * median. Without this floor a perfectly stable history (spread ≈ 0) would collapse the
+     * envelope onto the centre and forbid any deviation, including the legitimate case where the
      * partial period is genuinely trending up or down.
      */
     private const BOUNDED_RANGE_MIN_RELATIVE_SPREAD = 0.05;
+
+    /**
+     * Scales the median absolute deviation onto the standard-deviation scale: for normally
+     * distributed samples, sigma ≈ 1.4826 * MAD. The envelope spread is built from the MAD
+     * rather than the raw standard deviation so a single recent spike — the case the clamp
+     * exists to tame — cannot inflate the band and contain its own runaway extrapolation.
+     */
+    private const MAD_TO_SIGMA = 1.4826;
 
     /**
      * Number of same-DoW samples to draw for the day-period historical prior when the caller
@@ -492,7 +500,7 @@ class ForecastBuilder
                 ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity
                 && count($pastValues) >= self::MIN_SAMPLES_FOR_BOUNDED_RANGE
             ) {
-                $prior = $this->clampForecastToHistoricalRange($prior, $pastValues, $prior);
+                $prior = $this->clampForecastToHistoricalRange($prior, $pastValues);
             }
             // Day-target prior-only path: record the day's forecast under its own anchor so a
             // later same-DoW day in this series picks it up via recentSameDoWValues instead of
@@ -1480,37 +1488,62 @@ class ForecastBuilder
     }
 
     /**
-     * Clamp a forecast value to a historical-range envelope around the prior projection. The
-     * envelope is k * sigma wide (with a relative-spread floor so a perfectly stable history
-     * does not collapse the band onto the prior). Used by the prior-only fallback to bound a
-     * trend extrapolation that strays well outside the empirical history.
+     * Clamp a trend extrapolation to a robust historical-range envelope. Both the centre and the
+     * spread are robust statistics of the past samples, so a single recent spike — the case the
+     * clamp exists to tame — can neither shift the band onto itself nor inflate it wide enough to
+     * contain its own runaway extrapolation:
      *
-     * @param array<int, float> $pastValues Historical samples used to size the envelope.
+     *  - Centre is the sample *median*, not the value being clamped. The extrapolation is the
+     *    noisy term we want to bound, so an envelope built around it (the previous behaviour)
+     *    always contained it and never fired.
+     *  - Spread is the median absolute deviation scaled onto the sigma scale, not the raw
+     *    standard deviation. A lone outlier barely moves the MAD but blows up the std, which
+     *    would widen a std-based band past the outlier-driven prior and defeat the clamp.
+     *
+     * A genuine sustained trend still produces enough MAD spread — plus the relative-spread
+     * floor — to pass through untouched. Used by the prior-only fallback.
+     *
+     * @param array<int, float> $pastValues Historical samples used to size and centre the envelope.
      */
-    private function clampForecastToHistoricalRange(
-        float $forecastValue,
-        array $pastValues,
-        float $priorForecast
-    ): float {
-        $sampleCount = count($pastValues);
-        if ($sampleCount === 0) {
+    private function clampForecastToHistoricalRange(float $forecastValue, array $pastValues): float
+    {
+        if ([] === $pastValues) {
             return $forecastValue;
         }
 
-        $mean = array_sum($pastValues) / $sampleCount;
-        $variance = 0.0;
+        $center = $this->median($pastValues);
+
+        $absoluteDeviations = [];
         foreach ($pastValues as $sample) {
-            $variance += ($sample - $mean) ** 2;
+            $absoluteDeviations[] = abs($sample - $center);
         }
-        $stdDev = sqrt($variance / $sampleCount);
+        $spread = $this->median($absoluteDeviations) * self::MAD_TO_SIGMA;
 
-        $minSpread = abs($mean) * self::BOUNDED_RANGE_MIN_RELATIVE_SPREAD;
-        $halfWidth = max($stdDev, $minSpread) * self::BOUNDED_RANGE_SIGMAS;
+        $minSpread = abs($center) * self::BOUNDED_RANGE_MIN_RELATIVE_SPREAD;
+        $halfWidth = max($spread, $minSpread) * self::BOUNDED_RANGE_SIGMAS;
 
-        $lower = max(0.0, $priorForecast - $halfWidth);
-        $upper = $priorForecast + $halfWidth;
+        $lower = max(0.0, $center - $halfWidth);
+        $upper = $center + $halfWidth;
 
         return max($lower, min($upper, $forecastValue));
+    }
+
+    /**
+     * Median of an unordered sample list. Even counts return the mean of the two central values.
+     *
+     * @param array<int, float> $values Non-empty sample list.
+     */
+    private function median(array $values): float
+    {
+        sort($values);
+        $count = count($values);
+        $mid = intdiv($count, 2);
+
+        if ($count % 2 === 1) {
+            return (float) $values[$mid];
+        }
+
+        return ((float) $values[$mid - 1] + (float) $values[$mid]) / 2.0;
     }
 
     /**
