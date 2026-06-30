@@ -162,8 +162,6 @@ class API extends \Piwik\Plugin\API
      *                                much raw data.
      * @return DataTable AI chatbot requests, unique page URLs, and error counts for the selected
      *                   real-time lookback window.
-     * @throws \InvalidArgumentException When $lastMinutes is not an integer value within the allowed
-     *                                   real-time safety window.
      */
     public function getAIChatbotsRealTime($idSite, $lastMinutes = self::REAL_TIME_DEFAULT_LOOKBACK_MINUTES): DataTable
     {
@@ -186,8 +184,6 @@ class API extends \Piwik\Plugin\API
      *                                much raw data.
      * @return DataTable Flat page URL table ordered by chatbot requests for the selected real-time
      *                   lookback window.
-     * @throws \InvalidArgumentException When $lastMinutes is not an integer value within the allowed
-     *                                   real-time safety window.
      */
     public function getTopPageUrlsRealTime($idSite, $lastMinutes = self::REAL_TIME_DEFAULT_LOOKBACK_MINUTES): DataTable
     {
