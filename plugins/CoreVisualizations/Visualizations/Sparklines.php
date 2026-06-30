@@ -172,6 +172,7 @@ class Sparklines extends ViewDataTable
         $processedMetrics = Report::getProcessedMetricsForTable($data, $report);
         $metricFormatter = new MetricFormatter();
         $idSite = $this->getRequestArray()['idSite'] ?? false;
+        $metricTranslations = Metrics::getDefaultMetricTranslations();
 
         $firstRow = $data->getFirstRow();
         if ($firstRow) {
@@ -286,6 +287,7 @@ class Sparklines extends ViewDataTable
                             $metricInfo = [
                                 'value' => $formattedValue,
                                 'description' => $compareDescriptions[$i],
+                                'title' => $metricTranslations[$columnToUse[$i]] ?? $compareDescriptions[$i],
                                 'group' => $periodPretty,
                             ];
 
@@ -352,6 +354,7 @@ class Sparklines extends ViewDataTable
                             $idSite
                         ),
                         'description' => $descriptions[$i],
+                        'title' => $metricTranslations[$column[$i]] ?? $descriptions[$i],
                     ];
 
                     $metrics[] = $newMetric;

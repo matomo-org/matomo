@@ -308,42 +308,42 @@ EvolutionTrendIconvue_type_script_lang_ts.render = EvolutionTrendIconvue_type_te
 EvolutionBadgevue_type_script_lang_ts.render = render
 
 /* harmony default export */ var EvolutionBadge = (EvolutionBadgevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=template&id=6a878b66
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=template&id=20798b0f
 
-const MetricValuevue_type_template_id_6a878b66_hoisted_1 = {
+const MetricValuevue_type_template_id_20798b0f_hoisted_1 = {
   class: "metricValue"
 };
-const MetricValuevue_type_template_id_6a878b66_hoisted_2 = ["title"];
-const MetricValuevue_type_template_id_6a878b66_hoisted_3 = {
+const MetricValuevue_type_template_id_20798b0f_hoisted_2 = ["title"];
+const MetricValuevue_type_template_id_20798b0f_hoisted_3 = {
   class: "metricValue__primary"
 };
-const MetricValuevue_type_template_id_6a878b66_hoisted_4 = {
+const MetricValuevue_type_template_id_20798b0f_hoisted_4 = {
   class: "metricValue__number"
 };
-const MetricValuevue_type_template_id_6a878b66_hoisted_5 = {
+const MetricValuevue_type_template_id_20798b0f_hoisted_5 = {
   key: 0,
   class: "metricValue__secondary"
 };
-const MetricValuevue_type_template_id_6a878b66_hoisted_6 = {
+const MetricValuevue_type_template_id_20798b0f_hoisted_6 = {
   class: "metricValue__secondaryValue"
 };
-const MetricValuevue_type_template_id_6a878b66_hoisted_7 = {
+const MetricValuevue_type_template_id_20798b0f_hoisted_7 = {
   key: 0,
   class: "metricValue__secondaryLabel"
 };
-function MetricValuevue_type_template_id_6a878b66_render(_ctx, _cache, $props, $setup, $data, $options) {
+function MetricValuevue_type_template_id_20798b0f_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricValuevue_type_template_id_6a878b66_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricValuevue_type_template_id_20798b0f_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["metricValue__title", {
       'metricValue__title--documented': !!_ctx.documentation
     }]),
-    title: _ctx.documentation || _ctx.displayTitle
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.displayTitle), 1)], 10, MetricValuevue_type_template_id_6a878b66_hoisted_2)), [[_directive_tooltips, {
+    title: _ctx.documentation || _ctx.title
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)], 10, MetricValuevue_type_template_id_20798b0f_hoisted_2)), [[_directive_tooltips, {
     duration: 200,
     delay: 200
-  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MetricValuevue_type_template_id_6a878b66_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricValuevue_type_template_id_6a878b66_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.value), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "evolution")]), _ctx.hasSecondary ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricValuevue_type_template_id_6a878b66_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricValuevue_type_template_id_6a878b66_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.secondaryValue), 1), _ctx.secondaryLabel ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", MetricValuevue_type_template_id_6a878b66_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.secondaryLabel), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MetricValuevue_type_template_id_20798b0f_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricValuevue_type_template_id_20798b0f_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.value), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "evolution")]), _ctx.hasSecondary ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricValuevue_type_template_id_20798b0f_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricValuevue_type_template_id_20798b0f_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.secondaryValue), 1), _ctx.secondaryLabel ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", MetricValuevue_type_template_id_20798b0f_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.secondaryLabel), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=template&id=6a878b66
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=template&id=20798b0f
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -376,12 +376,6 @@ var external_CoreHome_ = __webpack_require__("19dc");
     documentation: String
   },
   computed: {
-    // Capitalise the first letter once (e.g. "bounce rate" -> "Bounce rate") and reuse it for both
-    // the visible title and the tooltip, so the transformation lives in a single place rather than
-    // being split between a CSS ::first-letter rule (display) and the raw prop (tooltip).
-    displayTitle() {
-      return this.title ? this.title.charAt(0).toUpperCase() + this.title.slice(1) : this.title;
-    },
     hasSecondary() {
       return this.secondaryValue !== undefined && this.secondaryValue !== null && this.secondaryValue !== '';
     }
@@ -393,7 +387,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 
 
 
-MetricValuevue_type_script_lang_ts.render = MetricValuevue_type_template_id_6a878b66_render
+MetricValuevue_type_script_lang_ts.render = MetricValuevue_type_template_id_20798b0f_render
 
 /* harmony default export */ var MetricValue = (MetricValuevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7c1adaf7
@@ -1124,19 +1118,19 @@ function SparklineCardvue_type_template_id_4bca8c84_render(_ctx, _cache, $props,
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=4bca8c84
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=117d5b27
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=5ffc445e
 
-const NoComparisonvue_type_template_id_117d5b27_hoisted_1 = {
+const NoComparisonvue_type_template_id_5ffc445e_hoisted_1 = {
   class: "noComparison"
 };
-const NoComparisonvue_type_template_id_117d5b27_hoisted_2 = {
+const NoComparisonvue_type_template_id_5ffc445e_hoisted_2 = {
   class: "sparklineSlot"
 };
-function NoComparisonvue_type_template_id_117d5b27_render(_ctx, _cache, $props, $setup, $data, $options) {
+function NoComparisonvue_type_template_id_5ffc445e_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_EvolutionBadge = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EvolutionBadge");
   const _component_MetricValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MetricValue");
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NoComparisonvue_type_template_id_117d5b27_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MetricValue, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NoComparisonvue_type_template_id_5ffc445e_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MetricValue, {
     title: _ctx.title,
     value: _ctx.primaryValue,
     "secondary-value": _ctx.secondaryValue,
@@ -1153,14 +1147,14 @@ function NoComparisonvue_type_template_id_117d5b27_render(_ctx, _cache, $props, 
       tooltip: _ctx.sparkline.evolution.tooltip || ''
     }, null, 8, ["percent", "trend", "is-lower-value-better", "tooltip"])]),
     key: "0"
-  } : undefined]), 1032, ["title", "value", "secondary-value", "secondary-label", "documentation"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", NoComparisonvue_type_template_id_117d5b27_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+  } : undefined]), 1032, ["title", "value", "secondary-value", "secondary-label", "documentation"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", NoComparisonvue_type_template_id_5ffc445e_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
     width: 304,
     height: 40,
     params: _ctx.sparkline.url,
     "series-indices": _ctx.sparkline.seriesIndices
   }, null, 8, ["params", "series-indices"])])]);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=117d5b27
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=5ffc445e
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=script&lang=ts
 
@@ -1201,25 +1195,26 @@ function NoComparisonvue_type_template_id_117d5b27_render(_ctx, _cache, $props, 
       var _props$sparkline$metr2;
       return (_props$sparkline$metr2 = props.sparkline.metrics) === null || _props$sparkline$metr2 === void 0 || (_props$sparkline$metr2 = _props$sparkline$metr2['']) === null || _props$sparkline$metr2 === void 0 ? void 0 : _props$sparkline$metr2[1];
     });
+    // Prefer the metric's column name (eg "Bounce Rate"), falling back to the label.
     const title = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _primaryMetric$value;
-      return ((_primaryMetric$value = primaryMetric.value) === null || _primaryMetric$value === void 0 ? void 0 : _primaryMetric$value.description) || '';
+      var _primaryMetric$value, _primaryMetric$value2;
+      return ((_primaryMetric$value = primaryMetric.value) === null || _primaryMetric$value === void 0 ? void 0 : _primaryMetric$value.title) || ((_primaryMetric$value2 = primaryMetric.value) === null || _primaryMetric$value2 === void 0 ? void 0 : _primaryMetric$value2.description) || '';
     });
     // Documentation for the primary metric, looked up by its column. Empty for sparklines added
     // without a column (column === '') or metrics with no registered documentation.
     const documentation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _primaryMetric$value$, _primaryMetric$value2;
-      return props.allMetricsDocumentation[(_primaryMetric$value$ = (_primaryMetric$value2 = primaryMetric.value) === null || _primaryMetric$value2 === void 0 ? void 0 : _primaryMetric$value2.column) !== null && _primaryMetric$value$ !== void 0 ? _primaryMetric$value$ : ''] || undefined;
+      var _primaryMetric$value$, _primaryMetric$value3;
+      return props.allMetricsDocumentation[(_primaryMetric$value$ = (_primaryMetric$value3 = primaryMetric.value) === null || _primaryMetric$value3 === void 0 ? void 0 : _primaryMetric$value3.column) !== null && _primaryMetric$value$ !== void 0 ? _primaryMetric$value$ : ''] || undefined;
     });
-    // Values are already locale-formatted by the backend; render them verbatim (no number
-    // filter — re-parsing a formatted string would corrupt it).
+    // Format raw numbers (plain metrics) but leave already-formatted strings (eg "50%") untouched.
+    const formatValue = value => typeof value === 'number' ? external_CoreHome_["NumberFormatter"].formatNumber(value, 2) : value;
     const primaryValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _primaryMetric$value$2, _primaryMetric$value3;
-      return (_primaryMetric$value$2 = (_primaryMetric$value3 = primaryMetric.value) === null || _primaryMetric$value3 === void 0 ? void 0 : _primaryMetric$value3.value) !== null && _primaryMetric$value$2 !== void 0 ? _primaryMetric$value$2 : '';
+      var _formatValue, _primaryMetric$value4;
+      return (_formatValue = formatValue((_primaryMetric$value4 = primaryMetric.value) === null || _primaryMetric$value4 === void 0 ? void 0 : _primaryMetric$value4.value)) !== null && _formatValue !== void 0 ? _formatValue : '';
     });
     const secondaryValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
       var _secondaryMetric$valu;
-      return (_secondaryMetric$valu = secondaryMetric.value) === null || _secondaryMetric$valu === void 0 ? void 0 : _secondaryMetric$valu.value;
+      return formatValue((_secondaryMetric$valu = secondaryMetric.value) === null || _secondaryMetric$valu === void 0 ? void 0 : _secondaryMetric$valu.value);
     });
     const secondaryLabel = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
       var _secondaryMetric$valu2;
@@ -1240,7 +1235,7 @@ function NoComparisonvue_type_template_id_117d5b27_render(_ctx, _cache, $props, 
 
 
 
-NoComparisonvue_type_script_lang_ts.render = NoComparisonvue_type_template_id_117d5b27_render
+NoComparisonvue_type_script_lang_ts.render = NoComparisonvue_type_template_id_5ffc445e_render
 
 /* harmony default export */ var NoComparison = (NoComparisonvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=script&lang=ts

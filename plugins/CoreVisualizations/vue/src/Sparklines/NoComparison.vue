@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
-import { Sparkline } from 'CoreHome';
+import { Sparkline, NumberFormatter } from 'CoreHome';
 import MetricValue from '../MetricValue/MetricValue.vue';
 import EvolutionBadge from '../EvolutionBadge/EvolutionBadge.vue';
 import { SparklineEntry, SparklineMetric } from './types';
@@ -76,7 +76,10 @@ export default defineComponent({
       () => props.sparkline.metrics?.['']?.[1],
     );
 
-    const title = computed(() => primaryMetric.value?.description || '');
+    // Prefer the metric's column name (eg "Bounce Rate"), falling back to the label.
+    const title = computed(
+      () => primaryMetric.value?.title || primaryMetric.value?.description || '',
+    );
 
     // Documentation for the primary metric, looked up by its column. Empty for sparklines added
     // without a column (column === '') or metrics with no registered documentation.
@@ -84,10 +87,14 @@ export default defineComponent({
       () => props.allMetricsDocumentation[primaryMetric.value?.column ?? ''] || undefined,
     );
 
-    // Values are already locale-formatted by the backend; render them verbatim (no number
-    // filter — re-parsing a formatted string would corrupt it).
-    const primaryValue = computed(() => primaryMetric.value?.value ?? '');
-    const secondaryValue = computed(() => secondaryMetric.value?.value);
+    // Format raw numbers (plain metrics) but leave already-formatted strings (eg "50%") untouched.
+    const formatValue = (
+      value?: string | number,
+    ): string | number | undefined => (
+      typeof value === 'number' ? NumberFormatter.formatNumber(value, 2) : value
+    );
+    const primaryValue = computed(() => formatValue(primaryMetric.value?.value) ?? '');
+    const secondaryValue = computed(() => formatValue(secondaryMetric.value?.value));
     const secondaryLabel = computed(() => secondaryMetric.value?.description);
 
     return {

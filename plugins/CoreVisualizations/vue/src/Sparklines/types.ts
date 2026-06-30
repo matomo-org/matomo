@@ -6,13 +6,15 @@
  */
 
 /**
- * One metric shown on a sparkline card. Values are already locale-formatted by the
- * backend (Sparklines visualization), so they are rendered as-is.
+ * One metric shown on a sparkline card. Plain metrics arrive as raw numbers and are locale-formatted
+ * at render time; processed metrics and revenue arrive as already-formatted strings.
  */
 export interface SparklineMetric {
   value: string | number;
   description: string;
   column?: string;
+  // Clean column name (eg "Bounce Rate"), used as the card title; falls back to `description`.
+  title?: string;
 }
 
 /**
