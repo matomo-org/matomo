@@ -68,9 +68,9 @@ import useExternalPluginComponent from '../useExternalPluginComponent';
 
 const SiteWithoutData = useExternalPluginComponent('SitesManager', 'SiteWithoutData');
 
-// Toggled on <body> while the gate is active; SitesManager.less uses it to hide the reporting-menu
-// sidebar and period controls, which live outside this component (so can't be hidden via template).
-const SITE_WITHOUT_DATA_BODY_CLASS = 'siteWithoutDataInReporting';
+// Set on <body> while the gate is active, reusing the standalone page's id so the same styling
+// (SitesManager.less) and detection (broadcast.isNoDataPage, UI tests) apply to the in-SPA gate.
+const SITE_WITHOUT_DATA_BODY_ID = 'site-without-data';
 
 function showOnlyRawDataNotification() {
   const params = 'category=General_Visitors&subcategory=Live_VisitorLog';
@@ -142,7 +142,7 @@ export default defineComponent({
     this.fetchSiteEmptyState();
 
     watch(() => this.showEmptySiteScreen, (active) => {
-      this.updateSiteWithoutDataBodyClass(active);
+      this.updateSiteWithoutDataBodyId(active);
     });
 
     watch(() => MatomoUrl.parsed.value, (newValue, oldValue) => {
@@ -188,7 +188,7 @@ export default defineComponent({
     });
   },
   unmounted() {
-    this.updateSiteWithoutDataBodyClass(false);
+    this.updateSiteWithoutDataBodyId(false);
   },
   computed: {
     widgets() {
@@ -220,8 +220,12 @@ export default defineComponent({
       this.noDataDismissed = true;
       this.renderInitialPage();
     },
-    updateSiteWithoutDataBodyClass(active: boolean) {
-      document.body.classList.toggle(SITE_WITHOUT_DATA_BODY_CLASS, active);
+    updateSiteWithoutDataBodyId(active: boolean) {
+      if (active) {
+        document.body.id = SITE_WITHOUT_DATA_BODY_ID;
+      } else if (document.body.id === SITE_WITHOUT_DATA_BODY_ID) {
+        document.body.id = '';
+      }
     },
     renderPage(
       category: string, subcategory: string, period: string, date: string, segment: string,

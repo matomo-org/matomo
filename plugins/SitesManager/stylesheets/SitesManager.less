@@ -133,11 +133,9 @@ td.editable-site-field:hover {
     text-decoration: underline;
 }
 
-// `#site-without-data` is the standalone tracker-setup page; `body.siteWithoutDataInReporting` is the
-// same screen rendered inside the reporting SPA when a site has no data (see ReportingPage.vue), so it
-// shares the focused styling below.
-#site-without-data,
-body.siteWithoutDataInReporting {
+// The body carries id `site-without-data` both on the standalone tracker-setup page and on the in-SPA
+// gate (set by ReportingPage.vue when a site has no data), so both share the focused styling below.
+#site-without-data {
     background: @theme-color-background-base;
 
     .top_controls {
@@ -400,9 +398,10 @@ body.siteWithoutDataInReporting {
     }
 }
 
-// Focused onboarding look for the SPA gate. Scoped under #root deliberately: the default layout targets
-// `#root .pageWrap` / `#root .top_controls` (id specificity), so plain class selectors here lose to it.
-body.siteWithoutDataInReporting #root {
+// Focused onboarding look for the in-SPA gate (the dashboard chrome the standalone page doesn't have).
+// Scoped under #root deliberately: the default layout targets `#root .pageWrap` / `#root .top_controls`
+// (id specificity), so selectors without #root would lose to it.
+#site-without-data #root {
     #secondNavBar {
         display: none;
     }
