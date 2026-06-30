@@ -139,6 +139,8 @@ export default defineComponent({
     this.renderInitialPage();
 
     // Fetched in parallel (not awaited) so the common has-data case isn't delayed by a round-trip.
+    // A no-data site therefore starts rendering the report first; the gate replaces it once this
+    // resolves. The discarded fetch is cheap (a no-data site has nothing to archive).
     this.fetchSiteEmptyState();
 
     watch(() => this.showEmptySiteScreen, (active) => {
