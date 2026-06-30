@@ -350,14 +350,25 @@ class ForecastBuilder
                     continue;
                 }
 
-                // A running max's final-period value is at least the max already observed this
-                // period, so a decomposition or prior landing below the current partial means
-                // "the max will not grow further" -- floor it at current so the point renders
-                // flat instead of being suppressed by the >= gate below. This is the mirror of
-                // the min_* clamp further down, but applied BEFORE the gate: for max_* "below
-                // current" is a legitimate (no-further-growth) outcome to render at current,
-                // whereas for min_* "above current" is an impossible value to suppress.
-                if (ForecastMetricClassifier::MONOTONICITY_MAX === $monotonicity) {
+                // An additive count (UP) and a running max (MAX) share the same lower bound: the
+                // final-period value is at least what has already been observed this period, so a
+                // forecast below the current partial is impossible. Floor it at current so the
+                // point renders flat instead of being suppressed by the >= gate below. This is
+                // the mirror of the min_* clamp further down, but applied BEFORE the gate, because
+                // for UP/MAX "below current" is a legitimate outcome to render at current, whereas
+                // for min_* "above current" is an impossible value to suppress.
+                //
+                // For MAX the floored case means "the max will not grow further". For UP it is the
+                // elapsed-blind prior-only fallback (day targets, or week/month without sub-period
+                // samples) returning a static historical prior the partial has already overtaken;
+                // this only happens late in the period, where current is most of the final value,
+                // so flooring renders a guaranteed lower bound near the realised total rather than
+                // dropping the in-progress point entirely. The seasonal decomposition path is
+                // already >= current by construction and is unaffected.
+                if (
+                    ForecastMetricClassifier::MONOTONICITY_MAX === $monotonicity
+                    || ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity
+                ) {
                     $forecastValue = max($forecastValue, $currentValue);
                 }
 
