@@ -13,7 +13,7 @@ namespace Piwik\Plugins\BotTracking\Reports;
 
 use Piwik\Piwik;
 
-class GetAIChatbotsLast30Minutes extends AbstractAIChatbotsRealTimeChatbotsReport
+class GetAIChatbotsRealTime extends AbstractAIChatbotsRealTimeChatbotsReport
 {
     protected function init(): void
     {
@@ -22,5 +22,13 @@ class GetAIChatbotsLast30Minutes extends AbstractAIChatbotsRealTimeChatbotsRepor
         $this->name          = Piwik::translate('BotTracking_AIChatbotsLast30MinutesTitle');
         $this->documentation = Piwik::translate('BotTracking_AIChatbotsLast30MinutesDocumentation');
         $this->order         = 10;
+    }
+
+    /**
+     * @return array<int, array{name: string, documentation: string, lastMinutes: int, order: int}>
+     */
+    protected function getWidgetDefinitions(): array
+    {
+        return AIChatbotsRealTimeWidgets::getChatbotWidgets();
     }
 }

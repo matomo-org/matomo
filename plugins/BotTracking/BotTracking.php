@@ -17,6 +17,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\BotTracking\Metrics as BotMetrics;
+use Piwik\Plugins\BotTracking\Reports\AIChatbotsRealTimeWidgets;
 use Piwik\Tracker\Request;
 
 /**
@@ -172,27 +173,11 @@ class BotTracking extends Plugin
 
         $category = Piwik::translate('General_AIAssistants');
 
-        $entries = [
-            [
-                'name'          => sprintf('%s (%s)', Piwik::translate('BotTracking_AIChatbotsLast30MinutesTitle'), $category),
-                'documentation' => Piwik::translate('BotTracking_AIChatbotsLast30MinutesDocumentation'),
-            ],
-            [
-                'name'          => sprintf('%s (%s)', Piwik::translate('BotTracking_AIChatbotsLast8HoursTitle'), $category),
-                'documentation' => Piwik::translate('BotTracking_AIChatbotsLast8HoursDocumentation'),
-            ],
-            [
-                'name'          => sprintf('%s (%s)', Piwik::translate('BotTracking_TopPageUrlsLast30MinutesTitle'), $category),
-                'documentation' => Piwik::translate('BotTracking_TopPageUrlsLast30MinutesDocumentation'),
-            ],
-            [
-                'name'          => sprintf('%s (%s)', Piwik::translate('BotTracking_TopPageUrlsLast8HoursTitle'), $category),
-                'documentation' => Piwik::translate('BotTracking_TopPageUrlsLast8HoursDocumentation'),
-            ],
-        ];
-
-        foreach ($entries as $entry) {
-            $glossaryItems['reports']['entries'][] = $entry;
+        foreach (AIChatbotsRealTimeWidgets::getAllWidgets() as $widget) {
+            $glossaryItems['reports']['entries'][] = [
+                'name'          => sprintf('%s (%s)', Piwik::translate($widget['name']), $category),
+                'documentation' => Piwik::translate($widget['documentation']),
+            ];
         }
     }
 

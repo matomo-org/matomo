@@ -306,10 +306,10 @@ describe("BotTracking", function () {
         const widgets = await page.$$('.matomo-widget');
         expect(widgets.length).to.equal(4);
 
-        const chatbots30WidgetId = '#widgetBotTrackinggetAIChatbotsLast30Minutes';
-        const chatbots8hWidgetId = '#widgetBotTrackinggetAIChatbotsLast8Hours';
-        const pages30WidgetId = '#widgetBotTrackinggetTopPageUrlsLast30Minutes';
-        const pages8hWidgetId = '#widgetBotTrackinggetTopPageUrlsLast8Hours';
+        const chatbots30WidgetId = '#widgetBotTrackinggetAIChatbotsRealTimelastMinutes30';
+        const chatbots8hWidgetId = '#widgetBotTrackinggetAIChatbotsRealTimelastMinutes480';
+        const pages30WidgetId = '#widgetBotTrackinggetTopPageUrlsRealTimelastMinutes30';
+        const pages8hWidgetId = '#widgetBotTrackinggetTopPageUrlsRealTimelastMinutes480';
 
         await page.waitForSelector(chatbots30WidgetId + ' thead th .thDIV', { visible: true });
 

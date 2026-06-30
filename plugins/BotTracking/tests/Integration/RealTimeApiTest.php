@@ -90,10 +90,8 @@ class RealTimeApiTest extends IntegrationTestCase
         $metadata = MetadataApi::getInstance()->getReportMetadata($this->idSite);
         $uniqueIds = array_column($metadata, 'uniqueId');
 
-        self::assertNotContains('BotTracking_getAIChatbotsLast30Minutes', $uniqueIds);
-        self::assertNotContains('BotTracking_getAIChatbotsLast8Hours', $uniqueIds);
-        self::assertNotContains('BotTracking_getTopPageUrlsLast30Minutes', $uniqueIds);
-        self::assertNotContains('BotTracking_getTopPageUrlsLast8Hours', $uniqueIds);
+        self::assertNotContains('BotTracking_getAIChatbotsRealTime', $uniqueIds);
+        self::assertNotContains('BotTracking_getTopPageUrlsRealTime', $uniqueIds);
     }
 
     public function testHiddenRealTimeReportsAreAddedToGlossaryPageItems(): void

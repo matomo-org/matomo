@@ -32,9 +32,12 @@ use Piwik\Site;
  */
 class API extends \Piwik\Plugin\API
 {
-    public const REAL_TIME_LAST_30_MINUTES = 30;
-    public const REAL_TIME_LAST_8_HOURS = 480;
-    public const REAL_TIME_MAX_LOOKBACK_MINUTES = 720;
+    public const REAL_TIME_DEFAULT_LOOKBACK_MINUTES = 30;
+
+    private const MINUTES_PER_HOUR = 60;
+    private const REAL_TIME_MAX_LOOKBACK_HOURS = 12;
+    private const REAL_TIME_MIN_LOOKBACK_MINUTES = 1;
+    public const REAL_TIME_MAX_LOOKBACK_MINUTES = self::REAL_TIME_MAX_LOOKBACK_HOURS * self::MINUTES_PER_HOUR;
 
     /**
      * Returns the main bot tracking report.
@@ -154,10 +157,15 @@ class API extends \Piwik\Plugin\API
      * Returns AI chatbot activity grouped by chatbot for a real-time lookback window.
      *
      * @param int|string|int[] $idSite Website ID(s) to query.
-     * @param int|string $lastMinutes Number of minutes to look back at, between 1 and 720.
-     * @return DataTable AI chatbot requests, unique page URLs, and error counts.
+     * @param int|string $lastMinutes Number of minutes to look back from now. The value must stay
+     *                                within the real-time safety window so the API cannot scan too
+     *                                much raw data.
+     * @return DataTable AI chatbot requests, unique page URLs, and error counts for the selected
+     *                   real-time lookback window.
+     * @throws \InvalidArgumentException When $lastMinutes is not an integer value within the allowed
+     *                                   real-time safety window.
      */
-    public function getAIChatbotsRealTime($idSite, $lastMinutes = self::REAL_TIME_LAST_30_MINUTES): DataTable
+    public function getAIChatbotsRealTime($idSite, $lastMinutes = self::REAL_TIME_DEFAULT_LOOKBACK_MINUTES): DataTable
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -173,10 +181,15 @@ class API extends \Piwik\Plugin\API
      * Returns page URLs requested by AI chatbots for a real-time lookback window.
      *
      * @param int|string|int[] $idSite Website ID(s) to query.
-     * @param int|string $lastMinutes Number of minutes to look back at, between 1 and 720.
-     * @return DataTable Flat page URL table ordered by chatbot requests.
+     * @param int|string $lastMinutes Number of minutes to look back from now. The value must stay
+     *                                within the real-time safety window so the API cannot scan too
+     *                                much raw data.
+     * @return DataTable Flat page URL table ordered by chatbot requests for the selected real-time
+     *                   lookback window.
+     * @throws \InvalidArgumentException When $lastMinutes is not an integer value within the allowed
+     *                                   real-time safety window.
      */
-    public function getTopPageUrlsRealTime($idSite, $lastMinutes = self::REAL_TIME_LAST_30_MINUTES): DataTable
+    public function getTopPageUrlsRealTime($idSite, $lastMinutes = self::REAL_TIME_DEFAULT_LOOKBACK_MINUTES): DataTable
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -186,26 +199,6 @@ class API extends \Piwik\Plugin\API
         $table = (new BotRequestsDao())->getTopPageUrlsRealTime($idSites, $startDate, $endDate);
 
         return $this->decorateUrlLabels($table);
-    }
-
-    public function getAIChatbotsLast30Minutes($idSite, string $period = '', string $date = ''): DataTable
-    {
-        return $this->getAIChatbotsRealTime($idSite, self::REAL_TIME_LAST_30_MINUTES);
-    }
-
-    public function getAIChatbotsLast8Hours($idSite, string $period = '', string $date = ''): DataTable
-    {
-        return $this->getAIChatbotsRealTime($idSite, self::REAL_TIME_LAST_8_HOURS);
-    }
-
-    public function getTopPageUrlsLast30Minutes($idSite, string $period = '', string $date = ''): DataTable
-    {
-        return $this->getTopPageUrlsRealTime($idSite, self::REAL_TIME_LAST_30_MINUTES);
-    }
-
-    public function getTopPageUrlsLast8Hours($idSite, string $period = '', string $date = ''): DataTable
-    {
-        return $this->getTopPageUrlsRealTime($idSite, self::REAL_TIME_LAST_8_HOURS);
     }
 
     /**
@@ -412,13 +405,13 @@ class API extends \Piwik\Plugin\API
     private function getRealTimeDateRange($lastMinutes): array
     {
         if (!is_int($lastMinutes) && (!is_string($lastMinutes) || !ctype_digit($lastMinutes))) {
-            throw new \InvalidArgumentException('lastMinutes only accepts values between 1 and 720');
+            throw new \InvalidArgumentException($this->getRealTimeLookbackErrorMessage());
         }
 
         $lastMinutes = (int) $lastMinutes;
 
-        if ($lastMinutes < 1 || $lastMinutes > self::REAL_TIME_MAX_LOOKBACK_MINUTES) {
-            throw new \InvalidArgumentException('lastMinutes only accepts values between 1 and 720');
+        if ($lastMinutes < self::REAL_TIME_MIN_LOOKBACK_MINUTES || $lastMinutes > self::REAL_TIME_MAX_LOOKBACK_MINUTES) {
+            throw new \InvalidArgumentException($this->getRealTimeLookbackErrorMessage());
         }
 
         $now = $this->getRealTimeNowTimestamp();
@@ -441,6 +434,15 @@ class API extends \Piwik\Plugin\API
         }
 
         return Date::getNowTimestamp();
+    }
+
+    private function getRealTimeLookbackErrorMessage(): string
+    {
+        return sprintf(
+            'lastMinutes only accepts values between %d and %d',
+            self::REAL_TIME_MIN_LOOKBACK_MINUTES,
+            self::REAL_TIME_MAX_LOOKBACK_MINUTES
+        );
     }
 
     private function decorateAIChatbotLabels(DataTable $table): DataTable

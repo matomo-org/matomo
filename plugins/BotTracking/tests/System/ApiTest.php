@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\tests\System;
 
+use Piwik\Plugins\BotTracking\Reports\AIChatbotsRealTimeWidgets;
 use Piwik\Plugins\BotTracking\tests\Fixtures\BotTraffic;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -180,42 +181,54 @@ class ApiTest extends SystemTestCase
             ],
             [
                 [
-                    'BotTracking.getAIChatbotsLast30Minutes',
+                    'BotTracking.getAIChatbotsRealTime',
                 ], [
                     'idSite'     => 1,
                     'date'       => 'today',
                     'periods'    => ['day'],
                     'testSuffix' => '_realtime_chatbots_30',
+                    'otherRequestParameters' => [
+                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_LAST_30_MINUTES,
+                    ],
                 ],
             ],
             [
                 [
-                    'BotTracking.getAIChatbotsLast8Hours',
+                    'BotTracking.getAIChatbotsRealTime',
                 ], [
                     'idSite'     => 1,
                     'date'       => 'today',
                     'periods'    => ['day'],
                     'testSuffix' => '_realtime_chatbots_8h',
+                    'otherRequestParameters' => [
+                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_LAST_8_HOURS,
+                    ],
                 ],
             ],
             [
                 [
-                    'BotTracking.getTopPageUrlsLast30Minutes',
+                    'BotTracking.getTopPageUrlsRealTime',
                 ], [
                     'idSite'     => 1,
                     'date'       => 'today',
                     'periods'    => ['day'],
                     'testSuffix' => '_realtime_top_pages_30',
+                    'otherRequestParameters' => [
+                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_LAST_30_MINUTES,
+                    ],
                 ],
             ],
             [
                 [
-                    'BotTracking.getTopPageUrlsLast8Hours',
+                    'BotTracking.getTopPageUrlsRealTime',
                 ], [
                     'idSite'     => 1,
                     'date'       => 'today',
                     'periods'    => ['day'],
                     'testSuffix' => '_realtime_top_pages_8h',
+                    'otherRequestParameters' => [
+                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_LAST_8_HOURS,
+                    ],
                 ],
             ],
         ];

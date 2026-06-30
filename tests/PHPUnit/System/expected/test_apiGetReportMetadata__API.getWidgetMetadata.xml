@@ -4152,13 +4152,14 @@
 			<help>&lt;p&gt;The AI Chatbots Real-time page shows recent AI chatbot activity from raw bot tracking data, including chatbot request volume, unique page URLs, and HTTP error counts.&lt;/p&gt;&lt;p&gt;These reports are limited to short real-time windows so they remain fast and predictable on large sites.&lt;/p&gt;</help>
 		</subcategory>
 		<module>BotTracking</module>
-		<action>getAIChatbotsLast30Minutes</action>
-		<order>110</order>
+		<action>getAIChatbotsRealTime</action>
+		<order>10</order>
 		<parameters>
 			<module>BotTracking</module>
-			<action>getAIChatbotsLast30Minutes</action>
+			<action>getAIChatbotsRealTime</action>
+			<lastMinutes>30</lastMinutes>
 		</parameters>
-		<uniqueId>widgetBotTrackinggetAIChatbotsLast30Minutes</uniqueId>
+		<uniqueId>widgetBotTrackinggetAIChatbotsRealTimelastMinutes30</uniqueId>
 		<isWide>1</isWide>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
@@ -4184,13 +4185,14 @@
 			<help>&lt;p&gt;The AI Chatbots Real-time page shows recent AI chatbot activity from raw bot tracking data, including chatbot request volume, unique page URLs, and HTTP error counts.&lt;/p&gt;&lt;p&gt;These reports are limited to short real-time windows so they remain fast and predictable on large sites.&lt;/p&gt;</help>
 		</subcategory>
 		<module>BotTracking</module>
-		<action>getAIChatbotsLast8Hours</action>
-		<order>120</order>
+		<action>getAIChatbotsRealTime</action>
+		<order>20</order>
 		<parameters>
 			<module>BotTracking</module>
-			<action>getAIChatbotsLast8Hours</action>
+			<action>getAIChatbotsRealTime</action>
+			<lastMinutes>480</lastMinutes>
 		</parameters>
-		<uniqueId>widgetBotTrackinggetAIChatbotsLast8Hours</uniqueId>
+		<uniqueId>widgetBotTrackinggetAIChatbotsRealTimelastMinutes480</uniqueId>
 		<isWide>1</isWide>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
@@ -4216,13 +4218,14 @@
 			<help>&lt;p&gt;The AI Chatbots Real-time page shows recent AI chatbot activity from raw bot tracking data, including chatbot request volume, unique page URLs, and HTTP error counts.&lt;/p&gt;&lt;p&gt;These reports are limited to short real-time windows so they remain fast and predictable on large sites.&lt;/p&gt;</help>
 		</subcategory>
 		<module>BotTracking</module>
-		<action>getTopPageUrlsLast30Minutes</action>
-		<order>130</order>
+		<action>getTopPageUrlsRealTime</action>
+		<order>30</order>
 		<parameters>
 			<module>BotTracking</module>
-			<action>getTopPageUrlsLast30Minutes</action>
+			<action>getTopPageUrlsRealTime</action>
+			<lastMinutes>30</lastMinutes>
 		</parameters>
-		<uniqueId>widgetBotTrackinggetTopPageUrlsLast30Minutes</uniqueId>
+		<uniqueId>widgetBotTrackinggetTopPageUrlsRealTimelastMinutes30</uniqueId>
 		<isWide>1</isWide>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
@@ -4248,13 +4251,14 @@
 			<help>&lt;p&gt;The AI Chatbots Real-time page shows recent AI chatbot activity from raw bot tracking data, including chatbot request volume, unique page URLs, and HTTP error counts.&lt;/p&gt;&lt;p&gt;These reports are limited to short real-time windows so they remain fast and predictable on large sites.&lt;/p&gt;</help>
 		</subcategory>
 		<module>BotTracking</module>
-		<action>getTopPageUrlsLast8Hours</action>
-		<order>140</order>
+		<action>getTopPageUrlsRealTime</action>
+		<order>40</order>
 		<parameters>
 			<module>BotTracking</module>
-			<action>getTopPageUrlsLast8Hours</action>
+			<action>getTopPageUrlsRealTime</action>
+			<lastMinutes>480</lastMinutes>
 		</parameters>
-		<uniqueId>widgetBotTrackinggetTopPageUrlsLast8Hours</uniqueId>
+		<uniqueId>widgetBotTrackinggetTopPageUrlsRealTimelastMinutes480</uniqueId>
 		<isWide>1</isWide>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>

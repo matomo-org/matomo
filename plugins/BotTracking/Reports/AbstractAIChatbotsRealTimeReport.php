@@ -56,6 +56,19 @@ abstract class AbstractAIChatbotsRealTimeReport extends Report
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
     {
-        $widgetsList->addWidgetConfig($factory->createWidget()->setIsWide());
+        foreach ($this->getWidgetDefinitions() as $definition) {
+            $widget = $factory->createWidget()
+                ->setName($definition['name'])
+                ->setOrder($definition['order'])
+                ->setParameters(['lastMinutes' => $definition['lastMinutes']])
+                ->setIsWide();
+
+            $widgetsList->addWidgetConfig($widget);
+        }
     }
+
+    /**
+     * @return array<int, array{name: string, documentation: string, lastMinutes: int, order: int}>
+     */
+    abstract protected function getWidgetDefinitions(): array;
 }
