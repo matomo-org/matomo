@@ -424,8 +424,10 @@ td.editable-site-field:hover {
         font-size: 16px;
     }
 
+    // inherit, not a fixed size: most paragraphs then take the 16px base above, while embedded
+    // notifications keep their own smaller size (as on the standalone page).
     #content.home p {
-        font-size: 16px;
+        font-size: inherit;
         line-height: inherit;
     }
 
