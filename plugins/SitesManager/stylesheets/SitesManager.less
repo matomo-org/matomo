@@ -398,16 +398,14 @@ td.editable-site-field:hover {
     }
 }
 
-// Focused onboarding look for the in-SPA gate (the dashboard chrome the standalone page doesn't have).
-// Scoped under #root deliberately: the default layout targets `#root .pageWrap` / `#root .top_controls`
-// (id specificity), so selectors without #root would lose to it.
+// Focused look for the in-SPA gate. Scoped under #root so it beats the default layout's id-specificity
+// rules (`#root .pageWrap`, `#root .top_controls`).
 #site-without-data #root {
     #secondNavBar {
         display: none;
     }
 
-    // Keep the site selector (so users can still switch sites, as on the standalone page) but hide the
-    // period/date, segment and dashboard controls, which are meaningless before any data is tracked.
+    // keep the site selector, hide the period/segment/dashboard controls (meaningless without data)
     .layoutWithSidebarContent > .top_controls > *:not(.top_bar_sites_selector) {
         display: none;
     }
@@ -419,13 +417,12 @@ td.editable-site-field:hover {
         padding: 0 24px;
     }
 
-    // Undo the reporting content area's report-text sizing so the screen matches the standalone page.
+    // undo the reporting content area's report-text sizing to match the standalone page
     #content.home {
         font-size: 16px;
     }
 
-    // inherit, not a fixed size: most paragraphs then take the 16px base above, while embedded
-    // notifications keep their own smaller size (as on the standalone page).
+    // inherit (not 16px) so embedded notifications keep their own smaller size
     #content.home p {
         font-size: inherit;
         line-height: inherit;

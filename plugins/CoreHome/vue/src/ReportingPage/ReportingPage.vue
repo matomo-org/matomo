@@ -68,8 +68,8 @@ import useExternalPluginComponent from '../useExternalPluginComponent';
 
 const SiteWithoutData = useExternalPluginComponent('SitesManager', 'SiteWithoutData');
 
-// Set on <body> while the gate is active, reusing the standalone page's id so the same styling
-// (SitesManager.less) and detection (broadcast.isNoDataPage, UI tests) apply to the in-SPA gate.
+// Reuse the standalone page's id so its styling (SitesManager.less) and detection
+// (broadcast.isNoDataPage, UI tests) also apply to the in-SPA gate.
 const SITE_WITHOUT_DATA_BODY_ID = 'site-without-data';
 
 function showOnlyRawDataNotification() {
@@ -117,8 +117,7 @@ export default defineComponent({
     SiteWithoutData,
   },
   props: {
-    // Reporting menu groups that stay reachable before any data is tracked (resolved once on the
-    // server); the empty-site gate is skipped for them, e.g. AI Insights.
+    // groups the empty-site gate is skipped for (e.g. AI Insights), resolved server-side
     groupsWithoutTrackingRequirement: { type: Array, default: () => [] },
   },
   data(): ReportingPageState {
@@ -216,7 +215,7 @@ export default defineComponent({
       });
     },
     onNoDataDismissed() {
-      // The screen was hidden for an hour; keep the user on the page they were on and load it now.
+      // stay on the current page and load it now that the screen is gone
       this.noDataDismissed = true;
       this.renderInitialPage();
     },

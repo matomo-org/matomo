@@ -42,9 +42,8 @@ class CategoryList
     }
 
     /**
-     * Returns the reporting menu groups that do not require any tracked data, collected across all
-     * categories. "Requires tracking data" is a property of the group, so it is resolved globally here
-     * rather than per category.
+     * Returns the reporting menu groups that do not require tracked data, collected across all
+     * categories (it is a property of the group, so resolved globally rather than per category).
      *
      * @return string[]
      */

@@ -172,8 +172,7 @@ export default defineComponent({
   },
   methods: {
     onIgnoreClick(event: MouseEvent) {
-      // On the standalone page let the link navigate as before (the controller sets the 1h flag and
-      // redirects). Inside the reporting SPA, hide the screen in place without navigating away.
+      // standalone page: let the link navigate (controller redirects). SPA: hide in place via Ajax.
       if (!this.embeddedInReporting) {
         return;
       }

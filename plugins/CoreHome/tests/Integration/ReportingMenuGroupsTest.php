@@ -74,8 +74,7 @@ class ReportingMenuGroupsTest extends IntegrationTestCase
 
     public function testCategoryListExposesGroupsWithoutTrackingRequirement()
     {
-        // The AI Insights section is exempt from the tracker-setup screen; the default Analytics group
-        // is not. The exemption is resolved globally across categories, not per category.
+        // AI Insights is exempt from the tracker-setup screen, the default Analytics group is not.
         $groups = CategoryList::get()->getGroupsWithoutTrackingRequirement();
 
         $this->assertContains('CoreHome_AIInsights', $groups);

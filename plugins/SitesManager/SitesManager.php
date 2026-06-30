@@ -91,10 +91,8 @@ class SitesManager extends \Piwik\Plugin
 
     /**
      * Returns whether the "site has no data" tracker-setup screen should be shown for the given site.
-     * The reporting UI decides where/whether to render that screen (it knows the active reporting group,
-     * which the server cannot see as it lives in the URL hash), so this only answers the data question:
-     * the site has never tracked any traffic, the empty-site check is not suppressed for it, and the
-     * screen has not been temporarily hidden for the current session.
+     * Only answers the data question (never tracked, check not suppressed, not dismissed this session);
+     * the reporting UI decides where to render it, as the active group lives in the URL hash.
      */
     public static function shouldShowEmptySiteMessage(int $idSite): bool
     {

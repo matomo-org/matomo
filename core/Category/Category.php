@@ -46,9 +46,8 @@ class Category
     protected $groups = array();
 
     /**
-     * Reporting menu groups for which this category does not require tracked data: when the active group
-     * is one of these, the "site has no data" tracker-setup screen is skipped. Must be a subset of
-     * {@link $groups}; empty means every group the category belongs to requires tracking data.
+     * Subset of {@link $groups} for which this category does not require tracked data, i.e. that should
+     * not trigger the "site has no data" tracker-setup screen.
      *
      * @var string[]
      */
@@ -140,8 +139,7 @@ class Category
     }
 
     /**
-     * Returns the reporting menu groups for which this category does not require tracked data, i.e. the
-     * groups that should not trigger the "site has no data" tracker-setup screen.
+     * Returns the reporting menu groups for which this category does not require tracked data.
      *
      * @return string[]
      */

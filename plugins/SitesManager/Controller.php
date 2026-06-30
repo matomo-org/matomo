@@ -136,9 +136,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $session->ignoreMessage = true;
         $session->setExpirationSeconds($oneHour = 60 * 60);
 
-        // The reporting UI dismisses the screen via Ajax and keeps the user on the page they were on,
-        // so there is nothing to redirect. Only fall back to a redirect for non-Ajax (e.g. bookmarked)
-        // requests, which expect to land back on the dashboard.
+        // The reporting UI dismisses via Ajax and stays in place; only non-Ajax (bookmarked) requests
+        // still need redirecting back to the dashboard.
         if (Common::isXmlHttpRequest()) {
             Json::sendHeaderJSON();
             return json_encode(['result' => 'success']);
