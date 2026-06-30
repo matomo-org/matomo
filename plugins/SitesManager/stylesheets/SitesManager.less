@@ -419,12 +419,20 @@ td.editable-site-field:hover {
         padding: 0 24px;
     }
 
-    // The dashboard content area shrinks text (#content.home -> 14px, #content p -> 13px); the
-    // standalone setup page has no #content wrapper and renders at the layout's 16px base, so restore
-    // it here to keep the screen visually identical.
-    #content.home,
+    // Undo the reporting content area's report-text sizing so the screen matches the standalone page.
+    #content.home {
+        font-size: 16px;
+    }
+
     #content.home p {
         font-size: 16px;
+        line-height: inherit;
+    }
+
+    // the reporting area pads every paragraph; the component only wants that on the detail steps
+    #start-tracking-detection p,
+    #start-tracking-method-list p {
+        padding-bottom: 0;
     }
 }
 
