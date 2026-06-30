@@ -12,6 +12,7 @@
       :value="primaryValue"
       :secondary-value="secondaryValue"
       :secondary-label="secondaryLabel"
+      :documentation="documentation"
     >
       <template
         v-if="sparkline.evolution"
@@ -56,6 +57,11 @@ export default defineComponent({
       type: Object as PropType<SparklineEntry>,
       required: true,
     },
+    // Backend map of metric column -> documentation string (from Sparklines.php).
+    allMetricsDocumentation: {
+      type: Object as PropType<Record<string, string>>,
+      default: () => ({}),
+    },
   },
   setup(props) {
     const primaryMetric = computed<SparklineMetric | undefined>(
@@ -70,6 +76,12 @@ export default defineComponent({
 
     const title = computed(() => primaryMetric.value?.description || '');
 
+    // Documentation for the primary metric, looked up by its column. Empty for sparklines added
+    // without a column (column === '') or metrics with no registered documentation.
+    const documentation = computed(
+      () => props.allMetricsDocumentation[primaryMetric.value?.column ?? ''] || undefined,
+    );
+
     // Values are already locale-formatted by the backend; render them verbatim (no number
     // filter — re-parsing a formatted string would corrupt it).
     const primaryValue = computed(() => primaryMetric.value?.value ?? '');
@@ -78,6 +90,7 @@ export default defineComponent({
 
     return {
       title,
+      documentation,
       primaryValue,
       secondaryValue,
       secondaryLabel,

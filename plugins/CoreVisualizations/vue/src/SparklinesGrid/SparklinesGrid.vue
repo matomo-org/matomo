@@ -15,6 +15,7 @@
       <SparklineCard
         :sparkline="sparkline"
         :are-sparklines-linkable="areSparklinesLinkable"
+        :all-metrics-documentation="allMetricsDocumentation"
       />
     </div>
   </div>
@@ -41,14 +42,15 @@ export default defineComponent({
       type: Object as PropType<Record<string, SparklineEntry[]>>,
       required: true,
     },
-    // From the backend for upcoming card-body work; not used yet.
-    allMetricsDocumentation: {
-      type: Object,
-      default: () => ({}),
-    },
     areSparklinesLinkable: {
       type: Boolean,
       default: true,
+    },
+    // Backend map of metric column -> documentation string, forwarded to each card for the
+    // metric-title tooltip.
+    allMetricsDocumentation: {
+      type: Object as PropType<Record<string, string>>,
+      default: () => ({}),
     },
     isWidget: {
       type: Boolean,

@@ -20,7 +20,10 @@
     >
       {{ sparkline.title }}
     </div>
-    <NoComparison :sparkline="sparkline" />
+    <NoComparison
+      :sparkline="sparkline"
+      :all-metrics-documentation="allMetricsDocumentation"
+    />
   </div>
 </template>
 
@@ -47,6 +50,11 @@ export default defineComponent({
     areSparklinesLinkable: {
       type: Boolean,
       default: true,
+    },
+    // Backend map of metric column -> documentation string, forwarded to the body component.
+    allMetricsDocumentation: {
+      type: Object as PropType<Record<string, string>>,
+      default: () => ({}),
     },
   },
   setup(props) {

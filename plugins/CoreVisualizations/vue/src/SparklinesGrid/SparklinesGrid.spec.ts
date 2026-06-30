@@ -84,6 +84,17 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(titles).toEqual(['Visits', 'Actions']);
   });
 
+  it('forwards allMetricsDocumentation to each card, surfacing it as the title tooltip', () => {
+    const wrapper = createWrapper({
+      sparklines: { 0: [{ ...entry('Visits'), metrics: { '': [{ value: '1', description: 'Visits', column: 'nb_visits' }] } }] },
+      allMetricsDocumentation: { nb_visits: 'The number of visits.' },
+    });
+
+    const card = wrapper.findComponent({ name: 'SparklineCard' });
+    expect(card.props('allMetricsDocumentation')).toEqual({ nb_visits: 'The number of visits.' });
+    expect(wrapper.find('.metricValue__title').attributes('title')).toBe('The number of visits.');
+  });
+
   it('uses the responsive grid columns (s6 m6 l3 xl3) on reporting pages', () => {
     const wrapper = createWrapper();
     const col = wrapper.find('.row.sparklinesGrid > div');

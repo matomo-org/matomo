@@ -10,9 +10,9 @@
     <div
       class="metricValue__title"
       :class="{ 'metricValue__title--documented': !!documentation }"
-      :title="documentation || null"
+      :title="documentation || displayTitle"
       v-tooltips="{ duration: 200, delay: 200 }"
-    >{{ title }}</div>
+    >{{ displayTitle }}</div>
     <div class="metricValue__primary">
       <span class="metricValue__number">{{ value }}</span>
       <slot name="evolution" />
@@ -54,10 +54,17 @@ export default defineComponent({
     // hands these out separately as metric.value + metric.description.
     secondaryValue: [String, Number],
     secondaryLabel: String,
-    // Optional documentation shown as a tooltip on the title.
+    // Optional metric documentation; when set it is shown as the title tooltip (otherwise the
+    // tooltip falls back to the full title so a clipped title stays recoverable on hover).
     documentation: String,
   },
   computed: {
+    // Capitalise the first letter once (e.g. "bounce rate" -> "Bounce rate") and reuse it for both
+    // the visible title and the tooltip, so the transformation lives in a single place rather than
+    // being split between a CSS ::first-letter rule (display) and the raw prop (tooltip).
+    displayTitle(): string {
+      return this.title ? this.title.charAt(0).toUpperCase() + this.title.slice(1) : this.title;
+    },
     hasSecondary(): boolean {
       return this.secondaryValue !== undefined
         && this.secondaryValue !== null

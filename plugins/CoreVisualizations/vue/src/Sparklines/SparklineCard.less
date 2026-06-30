@@ -9,6 +9,11 @@
 // be styled directly without colliding with the legacy global .sparkline (which the same
 // element keeps for the window.initializeSparklines() click-to-evolution wiring).
 .sparkline.sparklineCard {
+  // Override the legacy global `div.sparkline { display: flex }` (Morpheus main.less): the
+  // redesigned card stacks its content in normal block flow. Without this the body is a flex item
+  // whose `min-width: auto` resolves to the nowrap title's width, so long titles overflow the card
+  // instead of truncating with an ellipsis.
+  display: block;
   box-sizing: border-box;
   // Match the widget card surface (see plugins/Dashboard/stylesheets/widget.less): theme
   // tokens resolve in both light and dark mode, so no .inDarkMode() override is needed here.
@@ -33,8 +38,21 @@
 
 // No-comparison body layout: stack the metric value over a full-width sparkline.
 .noComparison {
+  // Fixed height so every card lines up: title(24) + primary(36) + secondary(24). The secondary
+  // line is only rendered when a 2nd metric exists, so reserving its 24px here keeps the graph at
+  // the same Y (and the card the same height) whether or not that line is present.
   .metricValue {
+    height: 84px;
     margin-bottom: 12px;
+  }
+
+  // Clamp the title to a single line; the full title is available on hover (MetricValue binds it
+  // to the tooltip). Keeps a long title from wrapping and growing the card.
+  .metricValue__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 24px;
   }
 
   // Static 304x40 sparkline on every card (for now). A fixed size keeps all cards identical

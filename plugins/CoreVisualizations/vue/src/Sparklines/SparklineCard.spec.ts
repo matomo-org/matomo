@@ -32,10 +32,14 @@ describe('CoreVisualizations/SparklineCard', () => {
     graphParams: null,
   };
 
-  function createWrapper(sparkline: unknown = baseSparkline, areSparklinesLinkable = true) {
+  function createWrapper(
+    sparkline: unknown = baseSparkline,
+    areSparklinesLinkable = true,
+    allMetricsDocumentation: Record<string, string> = {},
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return mount(SparklineCard as any, {
-      props: { sparkline, areSparklinesLinkable },
+      props: { sparkline, areSparklinesLinkable, allMetricsDocumentation },
     });
   }
 
@@ -45,6 +49,14 @@ describe('CoreVisualizations/SparklineCard', () => {
     const body = wrapper.findComponent({ name: 'NoComparison' });
     expect(body.exists()).toBe(true);
     expect(body.props('sparkline')).toEqual(baseSparkline);
+  });
+
+  it('forwards allMetricsDocumentation to the body so the title shows the metric tooltip', () => {
+    const wrapper = createWrapper(baseSparkline, true, { nb_visits: 'The number of visits.' });
+
+    const body = wrapper.findComponent({ name: 'NoComparison' });
+    expect(body.props('allMetricsDocumentation')).toEqual({ nb_visits: 'The number of visits.' });
+    expect(wrapper.find('.metricValue__title').attributes('title')).toBe('The number of visits.');
   });
 
   it('renders the card frame classes and composes the primary value + sparkline', () => {

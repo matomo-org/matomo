@@ -35,9 +35,9 @@ function makeSparkline(overrides = {}) {
   };
 }
 
-function createWrapper(sparkline: unknown) {
+function createWrapper(sparkline: unknown, allMetricsDocumentation: Record<string, string> = {}) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return mount(NoComparison as any, { props: { sparkline } });
+  return mount(NoComparison as any, { props: { sparkline, allMetricsDocumentation } });
 }
 
 describe('CoreVisualizations/NoComparison', () => {
@@ -47,6 +47,25 @@ describe('CoreVisualizations/NoComparison', () => {
     const metricValue = wrapper.findComponent({ name: 'MetricValue' });
     expect(metricValue.props('title')).toBe('Visits');
     expect(metricValue.props('value')).toBe('10,558');
+  });
+
+  it('resolves the primary metric documentation by column and passes it to MetricValue', () => {
+    const wrapper = createWrapper(
+      makeSparkline(),
+      { nb_visits: 'The number of visits.' },
+    );
+
+    expect(wrapper.findComponent({ name: 'MetricValue' }).props('documentation'))
+      .toBe('The number of visits.');
+  });
+
+  it('passes undefined documentation when the metric column is unknown or empty', () => {
+    const wrapper = createWrapper(
+      makeSparkline({ metrics: { '': [{ value: '10,558', description: 'Visits', column: '' }] } }),
+      { nb_visits: 'The number of visits.' },
+    );
+
+    expect(wrapper.findComponent({ name: 'MetricValue' }).props('documentation')).toBeUndefined();
   });
 
   it('passes a second metric to MetricValue as the secondary value + label', () => {
