@@ -39,7 +39,7 @@ describe("WhatIsNew", function () {
   });
 
   it('should open the overlay again when clicking the icon', async function () {
-    await page.click('.right > li:nth-child(5) a:nth-child(1)');
+    await page.click('.right a[onclick*="action=whatIsNew"]');
     await page.waitForNetworkIdle();
     const popup = await page.waitForSelector('.whatisnew', {visible: true});
     expect(popup).to.be.ok;

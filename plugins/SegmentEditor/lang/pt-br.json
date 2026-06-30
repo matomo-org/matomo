@@ -4,7 +4,7 @@
         "AddNewSegment": "Adicionar novo segmento",
         "AddThisToMatomo": "Adicionar este segmento ao Matomo",
         "AddingSegmentForAllWebsitesDisabled": "Adicionar segmentos para todos os sites foi desativado.",
-        "AreYouSureDeleteSegment": "Você tem certeza de que deseja excluir este segmento?",
+        "AreYouSureDeleteSegment": "Você tem certeza de que deseja excluir este segmento \"%s\"?",
         "AutoArchivePreProcessed": "relatórios segmentados são pré-processados (mais rápido, requer o cron)",
         "AutoArchiveRealTime": "relatórios segmentados são processados em tempo real",
         "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Você está prestes a mudar a definição do segmento. Os relatórios analíticos para este novo segmento não estarão disponíveis até que os relatórios sejam reprocessados. Pode levar algumas horas para que os dados de relatórios mostrem para esse segmento. Continuar mesmo assim?",

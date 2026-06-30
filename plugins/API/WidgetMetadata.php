@@ -204,6 +204,7 @@ class WidgetMetadata
             'icon'   => $category->getIcon(),
             'help'   => Piwik::translate($category->getHelp()),
             'widget' => $category->getWidget() ?: null,
+            'groups' => $category->getGroups(),
         );
     }
 

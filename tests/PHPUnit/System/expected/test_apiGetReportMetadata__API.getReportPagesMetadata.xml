@@ -9,6 +9,10 @@
 			<icon>icon-ai-assistants</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+				<row>CoreHome_AIInsights</row>
+			</groups>
 		</category>
 		<subcategory>
 			<id>AIAgents_AIAgentsOverview</id>
@@ -60,6 +64,10 @@
 			<icon>icon-ai-assistants</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+				<row>CoreHome_AIInsights</row>
+			</groups>
 		</category>
 		<subcategory>
 			<id>BotTracking_AIChatbotsContentRequests</id>
@@ -68,6 +76,26 @@
 			<help>&lt;p&gt;This reporting page shows which pages and documents on your website have been requested by AI chatbots such as ChatGPT and similar large language model–based bots. These reports detail which HTML pages and downloadable files (like PDFs, Word, or Excel documents) were accessed, along with those that could not be retrieved due to errors. This helps you understand which content AI systems are referencing, identify broken or inaccessible resources, and ensure your website provides reliable access to information used by AI-driven tools.&lt;/p&gt;&lt;p&gt;It’s important to note that none of these pages or documents were actually viewed by humans in the traditional way — all requests originate from AI assistants fetching content automatically.&lt;/p&gt;&lt;p&gt;Currently, these reports only include requests from AI bots that do not execute JavaScript, and exclude traffic from AI crawlers used for model training or AI agents capable of running JavaScript.&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
+			<row>
+				<name>AI Chatbots - No Recent Requests</name>
+				<module>BotTracking</module>
+				<action>noRecentRequestsMessageContentRequests</action>
+				<order>0</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>noRecentRequestsMessageContentRequests</action>
+				</parameters>
+				<uniqueId>widgetBotTrackingnoRecentRequestsMessageContentRequests</uniqueId>
+				<isWide>1</isWide>
+				<middlewareParameters>
+					<module>BotTracking</module>
+					<action>showNoRecentRequestsMessage</action>
+				</middlewareParameters>
+				<clientComponent>
+					<plugin>BotTracking</plugin>
+					<name>NoRecentRequestsWidget</name>
+				</clientComponent>
+			</row>
 			<row>
 				<name>Pages</name>
 				<module>BotTracking</module>
@@ -92,7 +120,7 @@
 					<action>getAIChatbotContentDocuments</action>
 				</parameters>
 				<uniqueId>widgetBotTrackinggetAIChatbotContentDocuments</uniqueId>
-				<isWide>1</isWide>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -106,7 +134,35 @@
 					<action>getAIChatbotBrokenContent</action>
 				</parameters>
 				<uniqueId>widgetBotTrackinggetAIChatbotBrokenContent</uniqueId>
-				<isWide>1</isWide>
+				<isWide>0</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>Human-Favoured Pages</name>
+				<module>BotTracking</module>
+				<action>getAIChatbotHumanFavouredPages</action>
+				<order>140</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIChatbotHumanFavouredPages</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIChatbotHumanFavouredPages</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>AI-Favoured Pages</name>
+				<module>BotTracking</module>
+				<action>getAIChatbotAIFavouredPages</action>
+				<order>150</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIChatbotAIFavouredPages</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIChatbotAIFavouredPages</uniqueId>
+				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>
@@ -121,6 +177,10 @@
 			<icon>icon-ai-assistants</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+				<row>CoreHome_AIInsights</row>
+			</groups>
 		</category>
 		<subcategory>
 			<id>BotTracking_AIChatbotsOverview</id>
@@ -206,6 +266,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>VisitorInterest_Engagement</id>
@@ -313,6 +376,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Transitions_Transitions</id>
@@ -348,6 +414,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>General_Downloads</id>
@@ -381,6 +450,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPagesEntry</id>
@@ -428,6 +500,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPagesExit</id>
@@ -475,6 +550,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>General_Outlinks</id>
@@ -508,6 +586,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuPageTitles</id>
@@ -541,6 +622,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>General_Pages</id>
@@ -574,6 +658,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Actions_SubmenuSitesearch</id>
@@ -663,6 +750,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Events_Events</id>
@@ -695,6 +785,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Events_Events</id>
@@ -724,6 +817,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Events_Events</id>
@@ -753,6 +849,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Events_Events</id>
@@ -786,6 +885,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Contents_Contents</id>
@@ -818,6 +920,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Contents_Contents</id>
@@ -846,6 +951,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Contents_Contents</id>
@@ -878,6 +986,9 @@
 			<icon>icon-reporting-actions</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>PagePerformance_Performance</id>
@@ -963,6 +1074,9 @@
 			<icon>icon-reporting-visitors</icon>
 			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Devices</id>
@@ -1038,6 +1152,9 @@
 			<icon>icon-reporting-visitors</icon>
 			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>DevicesDetection_Software</id>
@@ -1155,6 +1272,9 @@
 			<icon>icon-reporting-visitors</icon>
 			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -1206,6 +1326,9 @@
 			<icon>icon-reporting-visitors</icon>
 			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>UserCountry_SubmenuLocations</id>
@@ -1264,6 +1387,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>UserCountry_SubmenuLocations</id>
@@ -1292,6 +1418,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>UserCountry_SubmenuLocations</id>
@@ -1380,6 +1509,9 @@
 			<icon>icon-reporting-visitors</icon>
 			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>VisitTime_SubmenuTimes</id>
@@ -1441,6 +1573,9 @@
 			<icon>icon-reporting-visitors</icon>
 			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>UserCountryMap_RealTimeMap</id>
@@ -1472,6 +1607,9 @@
 			<icon>icon-reporting-visitors</icon>
 			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>General_RealTime</id>
@@ -1503,6 +1641,9 @@
 			<icon>icon-reporting-visitors</icon>
 			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Live_VisitorLog</id>
@@ -1539,6 +1680,9 @@
 			<icon>icon-reporting-visitors</icon>
 			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>UserId_UserReportTitle</id>
@@ -1572,6 +1716,9 @@
 			<icon>icon-reporting-visitors</icon>
 			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>CustomVariables_CustomVariables</id>
@@ -1605,6 +1752,9 @@
 			<icon>icon-reporting-visitors</icon>
 			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href=&quot;#&quot; onclick=&quot;this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')&quot;&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>CoreHome_Segments</id>
@@ -1636,6 +1786,9 @@
 			<icon>icon-reporting-dashboard</icon>
 			<help>&lt;p&gt;This is a dashboard page. Dashboards are a collection of Matomo's widgets that you add yourself to suit your specific needs. Mix and match any of Matomo's widgets to get the data &lt;strong&gt;*you*&lt;/strong&gt; need at a glance.&lt;/p&gt;</help>
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>1</id>
@@ -1668,6 +1821,9 @@
 			<icon>icon-reporting-referer</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Referrers_AIAssistants</id>
@@ -1701,6 +1857,9 @@
 			<icon>icon-reporting-referer</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Referrers_WidgetGetAll</id>
@@ -1748,6 +1907,9 @@
 			<icon>icon-reporting-referer</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Referrers_URLCampaignBuilder</id>
@@ -1767,6 +1929,13 @@
 				</parameters>
 				<uniqueId>widgetReferrersgetCampaignUrlBuilder</uniqueId>
 				<isWide>0</isWide>
+				<clientComponent>
+					<plugin>Referrers</plugin>
+					<name>CampaignBuilderWidget</name>
+					<props>
+						<hasExtraPlugin>0</hasExtraPlugin>
+					</props>
+				</clientComponent>
 			</row>
 		</widgets>
 	</row>
@@ -1779,6 +1948,9 @@
 			<icon>icon-reporting-referer</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Referrers_Campaigns</id>
@@ -1812,6 +1984,9 @@
 			<icon>icon-reporting-referer</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -1866,6 +2041,9 @@
 			<icon>icon-reporting-referer</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Referrers_SubmenuSearchEngines</id>
@@ -1913,6 +2091,9 @@
 			<icon>icon-reporting-referer</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Referrers_Socials</id>
@@ -1946,6 +2127,9 @@
 			<icon>icon-reporting-referer</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Referrers_SubmenuWebsitesOnly</id>
@@ -1979,6 +2163,9 @@
 			<icon>icon-reporting-goal</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>1</id>
@@ -2011,6 +2198,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>1</id>
@@ -2042,6 +2232,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>1</id>
@@ -2074,6 +2267,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>1</id>
@@ -2130,6 +2326,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2162,6 +2361,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2194,6 +2396,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2226,6 +2431,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2258,6 +2466,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2290,6 +2501,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2322,6 +2536,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2354,6 +2571,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -2386,6 +2606,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -2418,6 +2641,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -2450,6 +2676,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -2482,6 +2711,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -2514,6 +2746,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -2546,6 +2781,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -2578,6 +2816,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2610,6 +2851,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2642,6 +2886,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2674,6 +2921,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2706,6 +2956,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2738,6 +2991,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2770,6 +3026,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -2802,6 +3061,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -2834,6 +3096,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -2870,6 +3135,9 @@
 			<icon>icon-reporting-goal</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>2</id>
@@ -2902,6 +3170,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>2</id>
@@ -2933,6 +3204,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>2</id>
@@ -2965,6 +3239,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>2</id>
@@ -3021,6 +3298,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -3053,6 +3333,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -3085,6 +3368,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -3117,6 +3403,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -3149,6 +3438,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -3181,6 +3473,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -3213,6 +3508,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -3245,6 +3543,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -3277,6 +3578,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -3309,6 +3613,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -3341,6 +3648,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -3373,6 +3683,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -3405,6 +3718,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -3437,6 +3753,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -3469,6 +3788,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3501,6 +3823,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3533,6 +3858,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3565,6 +3893,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3597,6 +3928,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3629,6 +3963,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3661,6 +3998,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -3693,6 +4033,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -3725,6 +4068,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -3761,6 +4107,9 @@
 			<icon>icon-reporting-goal</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>3</id>
@@ -3793,6 +4142,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>3</id>
@@ -3824,6 +4176,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>3</id>
@@ -3856,6 +4211,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>3</id>
@@ -3912,6 +4270,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -3944,6 +4305,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -3976,6 +4340,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4008,6 +4375,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4040,6 +4410,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4072,6 +4445,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4104,6 +4480,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4136,6 +4515,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4168,6 +4550,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -4200,6 +4585,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -4232,6 +4620,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -4264,6 +4655,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -4296,6 +4690,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -4328,6 +4725,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -4360,6 +4760,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -4392,6 +4795,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -4424,6 +4830,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -4456,6 +4865,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -4488,6 +4900,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -4520,6 +4935,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -4552,6 +4970,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -4584,6 +5005,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -4616,6 +5040,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -4652,6 +5079,9 @@
 			<icon>icon-reporting-goal</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -4684,6 +5114,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -4714,6 +5147,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -4744,6 +5180,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -4793,6 +5232,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4825,6 +5267,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4857,6 +5302,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4889,6 +5337,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4921,6 +5372,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4953,6 +5407,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -4985,6 +5442,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -5017,6 +5477,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User location</id>
@@ -5049,6 +5512,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -5081,6 +5547,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by User attribute</id>
@@ -5113,6 +5582,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -5145,6 +5617,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -5177,6 +5652,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -5209,6 +5687,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Pages</id>
@@ -5241,6 +5722,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -5273,6 +5757,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -5305,6 +5792,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -5337,6 +5827,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -5369,6 +5862,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -5401,6 +5897,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -5433,6 +5932,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals by Referrers</id>
@@ -5465,6 +5967,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -5497,6 +6002,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals engagement</id>
@@ -5533,6 +6041,9 @@
 			<icon>icon-reporting-goal</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Goals_ManageGoals</id>
@@ -5564,6 +6075,9 @@
 			<icon>icon-reporting-ecommerce</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Goals_EcommerceLog</id>
@@ -5595,6 +6109,9 @@
 			<icon>icon-reporting-ecommerce</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>General_Overview</id>
@@ -5627,6 +6144,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -5658,6 +6178,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>General_Overview</id>
@@ -5689,6 +6212,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>ecommerceOrder</id>
@@ -5727,6 +6253,9 @@
 			<icon>icon-reporting-ecommerce</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Goals_Products</id>
@@ -5759,6 +6288,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals_Products</id>
@@ -5787,6 +6319,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals_Products</id>
@@ -5815,6 +6350,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Goals_Products</id>
@@ -5847,6 +6385,9 @@
 			<icon>icon-reporting-ecommerce</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Ecommerce_Sales</id>
@@ -5880,6 +6421,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -5913,6 +6457,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -5946,6 +6493,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -5979,6 +6529,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -6012,6 +6565,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -6045,6 +6601,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -6078,6 +6637,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -6111,6 +6673,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by User location</id>
@@ -6144,6 +6709,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by User attribute</id>
@@ -6177,6 +6745,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by User attribute</id>
@@ -6210,6 +6781,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by Pages</id>
@@ -6243,6 +6817,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by Pages</id>
@@ -6276,6 +6853,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by Pages</id>
@@ -6309,6 +6889,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by Pages</id>
@@ -6342,6 +6925,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -6375,6 +6961,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -6408,6 +6997,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -6441,6 +7033,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -6474,6 +7069,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -6507,6 +7105,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -6540,6 +7141,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales by Referrers</id>
@@ -6573,6 +7177,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales engagement</id>
@@ -6606,6 +7213,9 @@
 							<icon />
 							<help />
 							<widget />
+							<groups>
+								<row/>
+							</groups>
 						</category>
 						<subcategory>
 							<id>Sales engagement</id>
@@ -6643,6 +7253,9 @@
 			<icon />
 			<help />
 			<widget>Marketplace.RichMenuButton</widget>
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Marketplace_Browse</id>
@@ -6675,6 +7288,9 @@
 			<icon />
 			<help />
 			<widget>Marketplace.RichMenuButton</widget>
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Marketplace_PaidPlugins</id>
@@ -6706,6 +7322,9 @@
 			<icon>icon-lab</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>ProfessionalServices_PromoOverview</id>
@@ -6737,6 +7356,9 @@
 			<icon>icon-bug</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>ProfessionalServices_PromoOverview</id>
@@ -6768,6 +7390,9 @@
 			<icon>icon-business</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>ProfessionalServices_PromoManage</id>
@@ -6799,6 +7424,9 @@
 			<icon>icon-form</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>ProfessionalServices_PromoOverview</id>
@@ -6830,6 +7458,9 @@
 			<icon>icon-funnel</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>ProfessionalServices_PromoOverview</id>
@@ -6861,6 +7492,9 @@
 			<icon>icon-drop</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>ProfessionalServices_PromoManage</id>
@@ -6892,6 +7526,9 @@
 			<icon>icon-folder-charts</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>ProfessionalServices_PromoOverview</id>
@@ -6923,6 +7560,9 @@
 			<icon>icon-play</icon>
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>ProfessionalServices_PromoManage</id>
@@ -6954,6 +7594,9 @@
 			<icon />
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>ExampleUI_GetTemperaturesDataTable</id>
@@ -6987,6 +7630,9 @@
 			<icon />
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Bar graph</id>
@@ -7022,6 +7668,9 @@
 			<icon />
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Treemap</id>
@@ -7057,6 +7706,9 @@
 			<icon />
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Sparklines</id>
@@ -7092,6 +7744,9 @@
 			<icon />
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Evolution Graph</id>
@@ -7131,6 +7786,9 @@
 			<icon />
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Pie graph</id>
@@ -7164,6 +7822,9 @@
 			<icon />
 			<help />
 			<widget />
+			<groups>
+				<row/>
+			</groups>
 		</category>
 		<subcategory>
 			<id>Tag clouds</id>

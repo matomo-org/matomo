@@ -313,11 +313,13 @@ class TrackerCodeGenerator
         }
         $options = '';
         if ($mergeSubdomains && !empty($firstHost)) {
-            $options .= '  _paq.push(["setCookieDomain", "*.' . $firstHost . '"]);' . "\n";
+            $options .= '  _paq.push(["setCookieDomain", ' . json_encode('*.' . $firstHost, JSON_UNESCAPED_SLASHES) . ']);' . "\n";
         }
         if ($mergeAliasUrls && !empty($websiteHosts)) {
-            $urls = '["*.' . implode('","*.', $websiteHosts) . '"]';
-            $options .= '  _paq.push(["setDomains", ' . $urls . ']);' . "\n";
+            $urls = array_map(static function ($host) {
+                return '*.' . $host;
+            }, $websiteHosts);
+            $options .= '  _paq.push(["setDomains", ' . json_encode($urls, JSON_UNESCAPED_SLASHES) . ']);' . "\n";
         }
         return $options;
     }

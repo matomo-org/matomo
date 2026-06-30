@@ -69,7 +69,7 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
         // TODO add in logic for generating message for different policy requirements
-        $currentValue = self::getInstance($idSite)->getValue();
+        $currentValue = self::getCurrentMaskLength($idSite);
         return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingRequirementNote', [ 2, $currentValue ]);
     }
 
@@ -103,9 +103,19 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
             return true;
         }
 
-        $currentValue = self::getInstance($idSite)->getValue();
+        $currentValue = self::getCurrentMaskLength($idSite);
 
         return $currentValue >= $policyValues[$policy];
+    }
+
+    private static function getCurrentMaskLength(?int $idSite = null): int
+    {
+        // When IP anonymization is disabled, the stored mask length is only a saved preference.
+        if (!IPAnonymisation::getInstance($idSite)->getValue()) {
+            return 0;
+        }
+
+        return (int) self::getInstance($idSite)->getValue();
     }
 
     protected static function compareStrictness($value1, $value2)

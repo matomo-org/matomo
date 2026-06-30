@@ -3732,6 +3732,60 @@ Currently, these reports exclusively include requests from AI chatbots that do n
 	</row>
 	<row>
 		<category>AI Assistants</category>
+		<subcategory>AI Chatbots Content Requests</subcategory>
+		<name>Human-Favoured Pages</name>
+		<module>BotTracking</module>
+		<action>getAIChatbotHumanFavouredPages</action>
+		<dimension>Page URL</dimension>
+		<documentation>Shows pages that receive significantly more visits from humans than from AI chatbots. Useful for identifying content that resonates strongly with real users but is underrepresented in AI-driven traffic or recommendations.</documentation>
+		<metrics>
+			<unique_human_pageviews>Unique Human Pageviews</unique_human_pageviews>
+			<ai_chatbot_requests>AI Chatbot Requests</ai_chatbot_requests>
+			<discrepancy_score>Discrepancy Score</discrepancy_score>
+		</metrics>
+		<metricsDocumentation>
+			<unique_human_pageviews>The number of visits during which real users viewed this URL at least once. Traffic from AI chatbots and other bots is excluded.</unique_human_pageviews>
+			<ai_chatbot_requests>The total number of times this URL was requested by AI chatbots during the selected period.</ai_chatbot_requests>
+			<discrepancy_score>A score from 0 to 100 that combines how strongly this page leans towards humans (how much more it is visited by humans than requested by AI chatbots) with how much human traffic it has relative to the most-visited page. Higher means humans engage with it far more than AI chatbots do; pages that are balanced or AI-leaning score 0.</discrepancy_score>
+		</metricsDocumentation>
+		<metricTypes>
+			<unique_human_pageviews>number</unique_human_pageviews>
+			<ai_chatbot_requests>number</ai_chatbot_requests>
+			<discrepancy_score>number</discrepancy_score>
+		</metricTypes>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotHumanFavouredPages&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotHumanFavouredPages&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>BotTracking_getAIChatbotHumanFavouredPages</uniqueId>
+	</row>
+	<row>
+		<category>AI Assistants</category>
+		<subcategory>AI Chatbots Content Requests</subcategory>
+		<name>AI-Favoured Pages</name>
+		<module>BotTracking</module>
+		<action>getAIChatbotAIFavouredPages</action>
+		<dimension>Page URL</dimension>
+		<documentation>Shows pages that are frequently requested by AI chatbots but less often visited by humans. Useful for discovering content that AI systems surface or reference but that doesn't yet attract much direct human engagement.</documentation>
+		<metrics>
+			<ai_chatbot_requests>AI Chatbot Requests</ai_chatbot_requests>
+			<unique_human_pageviews>Unique Human Pageviews</unique_human_pageviews>
+			<discrepancy_score>Discrepancy Score</discrepancy_score>
+		</metrics>
+		<metricsDocumentation>
+			<ai_chatbot_requests>The total number of times this URL was requested by AI chatbots during the selected period.</ai_chatbot_requests>
+			<unique_human_pageviews>The number of visits during which real users viewed this URL at least once. Traffic from AI chatbots and other bots is excluded.</unique_human_pageviews>
+			<discrepancy_score>A score from 0 to 100 that combines how strongly this page leans towards AI chatbots (how much more it is requested by chatbots than visited by humans) with how much chatbot traffic it has relative to the most-requested page. Higher means AI chatbots focus on it far more than humans do; pages that are balanced or human-leaning score 0.</discrepancy_score>
+		</metricsDocumentation>
+		<metricTypes>
+			<ai_chatbot_requests>number</ai_chatbot_requests>
+			<unique_human_pageviews>number</unique_human_pageviews>
+			<discrepancy_score>number</discrepancy_score>
+		</metricTypes>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotAIFavouredPages&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotAIFavouredPages&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>BotTracking_getAIChatbotAIFavouredPages</uniqueId>
+	</row>
+	<row>
+		<category>AI Assistants</category>
 		<subcategory>AI Agents Overview</subcategory>
 		<name>AI Agent Visits</name>
 		<module>AIAgents</module>

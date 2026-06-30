@@ -257,6 +257,75 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $this->assertConversionReferrers([$this->buildConversion($shouldCreateNewVisit ? 2 : 1, $conversionReferrer)]);
     }
 
+    public function testConversionCampaignCookieUsingAIAssistantHostnameStillOverridesNonAIAssistantVisitReferrer(): void
+    {
+        $idSite = Fixture::createWebsite('2020-01-01 02:00:00', true, 'test', 'https://matomo.org/');
+        $tracker = Fixture::getTracker($idSite, '2020-01-01 05:00:00');
+
+        $tracker->setUrl('https://matomo.org/');
+        Fixture::checkResponse($tracker->doTrackPageView('Home'));
+
+        $this->assertVisitReferrers([$this->buildVisit(1, 1, self::$directEntryReferrer)]);
+
+        $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
+        $tracker->setCustomTrackingParameter('_rcn', 'chatgpt.com');
+        Fixture::checkResponse($tracker->doTrackEcommerceOrder('TestingOrder', 124.5));
+
+        $this->assertConversionReferrers([[
+            'idvisit' => 1,
+            'referer_type' => Common::REFERRER_TYPE_CAMPAIGN,
+            'referer_name' => 'chatgpt.com',
+            'referer_keyword' => '',
+        ]]);
+    }
+
+    public function testConversionCampaignCookieUsingAIAssistantHostnameStillOverridesWebsiteVisitReferrer(): void
+    {
+        $idSite = Fixture::createWebsite('2020-01-01 02:00:00', true, 'test', 'https://matomo.org/');
+        $tracker = Fixture::getTracker($idSite, '2020-01-01 05:00:00');
+
+        $tracker->setUrlReferrer('https://de.wikipedia.org/wiki/Matomo');
+        $tracker->setUrl('https://matomo.org/');
+        Fixture::checkResponse($tracker->doTrackPageView('Home'));
+
+        $this->assertVisitReferrers([$this->buildVisit(1, 1, self::$websiteReferrer)]);
+
+        $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
+        $tracker->setCustomTrackingParameter('_rcn', 'chatgpt.com');
+        Fixture::checkResponse($tracker->doTrackEcommerceOrder('TestingOrder', 124.5));
+
+        $this->assertConversionReferrers([[
+            'idvisit' => 1,
+            'referer_type' => Common::REFERRER_TYPE_CAMPAIGN,
+            'referer_name' => 'chatgpt.com',
+            'referer_keyword' => '',
+        ]]);
+    }
+
+    public function testConversionCampaignCookieStillOverridesAIAssistantVisitReferrer(): void
+    {
+        $idSite = Fixture::createWebsite('2020-01-01 02:00:00', true, 'test', 'https://matomo.org/');
+        $tracker = Fixture::getTracker($idSite, '2020-01-01 05:00:00');
+
+        $tracker->setUrl('https://matomo.org/?utm_source=chatgpt.com');
+        Fixture::checkResponse($tracker->doTrackPageView('Home'));
+
+        $aiAssistantVisit = $this->buildVisit(1, 1, self::$AIAssistantReferrer2);
+        $aiAssistantVisit['referer_url'] = '';
+        $this->assertVisitReferrers([$aiAssistantVisit]);
+
+        $tracker->setForceVisitDateTime('2020-01-01 05:05:38');
+        $tracker->setCustomTrackingParameter('_rcn', 'some_sale');
+        Fixture::checkResponse($tracker->doTrackEcommerceOrder('TestingOrder', 124.5));
+
+        $this->assertConversionReferrers([[
+            'idvisit' => 1,
+            'referer_type' => Common::REFERRER_TYPE_CAMPAIGN,
+            'referer_name' => 'some_sale',
+            'referer_keyword' => '',
+        ]]);
+    }
+
     public function getReferrerAttributionUsingLastReferrerTestCases(): iterable
     {
         $possibleFirstReferrers = [

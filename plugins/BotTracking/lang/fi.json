@@ -2,6 +2,8 @@
     "BotTracking": {
         "PageUrl": "Sivun URL",
         "NoDataHttpTrackingApi": "HTTP-seurantarajapinta",
-        "SiteWithoutDataBackToMatomo": "Takaisin Matomoon"
+        "SiteWithoutDataBackToMatomo": "Takaisin Matomoon",
+        "AIChatbotsContentPagesTitle": "Sivut",
+        "ContentUrl": "URL"
     }
 }

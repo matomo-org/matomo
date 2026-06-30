@@ -46,6 +46,7 @@ export default defineComponent({
     description: String,
     introduction: String,
     title: String,
+    searchOnGroup: Boolean,
     inlineHelp: [String, Object],
     inlineHelpBind: Object,
     disabled: Boolean,
@@ -105,6 +106,7 @@ export default defineComponent({
         inlineHelpBind: this.inlineHelpBind,
         errorMessage: this.errorMessage,
         title: this.title,
+        searchOnGroup: this.searchOnGroup,
         component: this.component,
         uiControlAttributes: {
           ...this.uiControlAttributes,

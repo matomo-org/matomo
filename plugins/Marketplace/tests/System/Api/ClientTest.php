@@ -198,12 +198,13 @@ class ClientTest extends SystemTestCase
         $url = $this->client->getDownloadUrl('SecurityInfo');
 
         $start = $this->domain . '/api/2.0/plugins/SecurityInfo/download/';
-        $end   = '?coreVersion=' . Version::VERSION;
 
         $this->assertStringStartsWith($start, $url);
-        $this->assertStringEndsWith($end, $url);
+        $this->assertStringContainsString('?coreVersion=' . Version::VERSION, $url);
+        $this->assertStringContainsString('&uid=', $url);
 
-        $version = str_replace(array($start, $end), '', $url);
+        $version = str_replace($start, '', $url);
+        $version = substr($version, 0, strpos($version, '?'));
 
         $this->assertNotEmpty($version);
         $this->assertRegExp('/\d+\.\d+\.\d+/', $version);
@@ -231,6 +232,7 @@ class ClientTest extends SystemTestCase
             'mysql' => $this->environment->getMySQLVersion(),
             'num_users' => $this->environment->getNumUsers(),
             'num_websites' => $this->environment->getNumWebsites(),
+            'uid' => $this->environment->getUniqueId(),
         );
         $id = 'marketplace.api.2.0.plugins.' . md5(Http::buildQuery($params));
 
@@ -260,7 +262,8 @@ class ClientTest extends SystemTestCase
             'php' => $this->environment->getPhpVersion(),
             'mysql' => $this->environment->getMySQLVersion(),
             'num_users' => $this->environment->getNumUsers(),
-            'num_websites' => $this->environment->getNumWebsites());
+            'num_websites' => $this->environment->getNumWebsites(),
+            'uid' => $this->environment->getUniqueId());
         $id = 'marketplace.api.2.0.plugins.' . md5(Http::buildQuery($params));
 
         $cache = $this->getCache();
@@ -286,7 +289,7 @@ class ClientTest extends SystemTestCase
         $client->getInfoOfPluginsHavingUpdate($pluginTest);
 
         $this->assertSame('plugins/checkUpdates', $service->action);
-        $this->assertSame(array('plugins', 'release_channel', 'prefer_stable', 'piwik', 'php', 'mysql', 'num_users', 'num_websites'), array_keys($service->params));
+        $this->assertSame(array('plugins', 'release_channel', 'prefer_stable', 'piwik', 'php', 'mysql', 'num_users', 'num_websites', 'uid'), array_keys($service->params));
 
         $plugins = $service->params['plugins'];
         self::assertIsString($plugins);

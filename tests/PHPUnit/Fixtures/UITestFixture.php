@@ -283,6 +283,16 @@ class UITestFixture extends SqlDump
                 $tracker->setUrl('http://realtime-fixture.example.com/page-' . $idx . '-' . $p);
                 self::assertTrue($tracker->doTrackPageView('Page ' . $idx . '-' . $p));
             }
+
+            if (0 === $idx) {
+                $tracker->setForceVisitDateTime(
+                    Date::factory($nowTs - $secondsAgo + $pageCount * 5)->getDatetime()
+                );
+                $tracker->setUrl('http://realtime-fixture.example.com/page-' . $idx . '-0');
+                self::assertTrue(
+                    $tracker->doTrackAction('http://realtime-fixture.example.com/files/download.pdf?a=b&c=d', 'download')
+                );
+            }
         }
 
         self::checkBulkTrackingResponse($tracker->doBulkTrack());

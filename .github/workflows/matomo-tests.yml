@@ -1,7 +1,4 @@
 # Action for running tests
-# This file has been automatically created.
-# To recreate it you can run this command
-# ./console generate:test-action --php-versions="7.2,8.2"
 
 name: Matomo Tests
 
@@ -386,11 +383,19 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          lfs: true
+          lfs: false
           persist-credentials: false
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - name: Limit LFS fetch to this plugin's screenshots
+        working-directory: matomo
+        env:
+          PLUGIN: ${{ matrix.plugin }}
+        run: |
+          # Persisted so github-action-tests' own `git lfs pull --exclude=` stays scoped too
+          git config lfs.fetchinclude "plugins/$PLUGIN/tests/UI/expected-screenshots/*"
+          git lfs pull --include "plugins/$PLUGIN/tests/UI/expected-screenshots/*" --exclude=
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -413,11 +418,17 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          lfs: true
+          lfs: false
           persist-credentials: false
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - name: Limit LFS fetch to core screenshots
+        working-directory: matomo
+        run: |
+          # Persisted so github-action-tests' own `git lfs pull --exclude=` stays scoped too
+          git config lfs.fetchinclude "tests/UI/expected-screenshots/*"
+          git lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:

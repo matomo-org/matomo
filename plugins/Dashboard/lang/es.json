@@ -33,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "¿Está seguro que desea establecer esta selección y disposición de tablero como la plantilla de tablero por defecto?",
         "SetAsDefaultWidgetsConfirmHelp": "Esta selección de módulos y disposición de columnas del panel de control será usada cuando un usuario cree un nuevo panel de control o cuando se use la función \"%s\".",
         "TopLinkTooltip": "Ver los reportes de Análisis de internet para %s.",
+        "TopMenuTitle": "Analíticas",
         "WidgetNotFound": "Reproductor no encontrado",
         "WidgetPreview": "Previsualización del reproductor"
     }

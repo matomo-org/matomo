@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirm": "Haluatko varmasti tallentaa nykyisen työpöydän oletusasetukseksi?",
         "SetAsDefaultWidgetsConfirmHelp": "Tätä työpöytää käytetään kun kuka tahansa käyttäjistä luo uuden työpöydän tai kun ominaisuutta \"%s\" käytetään.",
         "TopLinkTooltip": "Näytä verkkoanalyysiraportit %s:lle.",
+        "TopMenuTitle": "Analytiikka",
         "WidgetNotFound": "Vimpainta ei löydy",
         "WidgetPreview": "Vimpaimen esikatselu"
     }

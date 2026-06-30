@@ -29,7 +29,7 @@
         <li
           v-for="(options, index) in availableOptions"
           class="collection-item"
-          v-show="options.values.filter(x => isSearchMatch(x.value)).length"
+          v-show="visibleChildren(options).length"
           :key="index"
         >
           <h4
@@ -49,7 +49,7 @@
           <ul v-show="showCategory === options.group || searchTerm" class="collection secondLevel">
             <li
               class="expandableListItem collection-item valign-wrapper"
-              v-for="children in options.values.filter(x => isSearchMatch(x.value))"
+              v-for="children in visibleChildren(options)"
               :key="children.key"
               @click="onValueClicked(children)"
             >
@@ -136,6 +136,10 @@ export default defineComponent({
     modelModifiers: Object,
     availableOptions: Array,
     title: String,
+    searchOnGroup: {
+      type: Boolean,
+      default: false,
+    },
   },
   directives: {
     FocusAnywhereButHere,
@@ -185,6 +189,12 @@ export default defineComponent({
       const stringValue = `${value ?? ''}`;
       return this.normalize(stringValue).indexOf(this.searchTermNormalized) !== -1
         || stringValue.toLowerCase().indexOf(this.searchTermLowercase) !== -1;
+    },
+    visibleChildren(options: OptionGroup) {
+      if (this.searchOnGroup && this.isSearchMatch(options.group)) {
+        return options.values;
+      }
+      return options.values.filter((x) => this.isSearchMatch(x.value));
     },
     onBlur() {
       this.showSelect = false;

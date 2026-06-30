@@ -12,19 +12,17 @@
       <PeriodOptions
         :model-value="uiSelectedPeriod"
         :periods="periodsFiltered"
-        :checked-period-id="uiSelection.type === 'period' ? uiSelection.id : null"
+        :checked-period-id="uiSelectedPeriod"
         :active-date-period="appliedPeriod"
         @update:model-value="$emit('update:uiSelectedPeriod', $event)"
         @select="$emit('period-select', $event)"
         @dblclick="$emit('period-dblclick', $event)"
       />
       <PresetDateRanges
-        :model-value="activePresetId"
-        :checked-preset-id="uiSelection.type === 'preset' ? uiSelection.id : null"
+        :checked-preset-id="activePresetId"
         :allowed-periods="periodsFiltered"
         :min-date="minAllowedDate"
         :max-date="maxAllowedDate"
-        @update:model-value="$emit('update:activePresetId', $event)"
         @select="$emit('preset-select', $event)"
         @dblclick="$emit('preset-dblclick', $event)"
       />
@@ -53,10 +51,6 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: true,
     },
-    uiSelection: {
-      type: Object as PropType<{ type: string; id: string }>,
-      required: true,
-    },
     appliedPeriod: {
       type: String,
       required: true,
@@ -76,7 +70,6 @@ export default defineComponent({
   },
   emits: [
     'update:uiSelectedPeriod',
-    'update:activePresetId',
     'period-select',
     'period-dblclick',
     'preset-select',

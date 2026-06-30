@@ -1,0 +1,37 @@
+.metricValue {
+  &__title {
+    color: @theme-color-text;
+    font-size: 18px;
+    line-height: 24px;
+
+    &--documented {
+      cursor: help;
+    }
+  }
+
+  &__primary {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  &__number {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 36px;
+    color: @theme-color-text;
+  }
+
+  &__secondaryValue {
+    color: @theme-color-text;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  &__secondaryLabel {
+    margin-left: 4px;
+    font-size: 12px;
+    line-height: 24px;
+    color: @theme-color-text-lighter;
+  }
+}

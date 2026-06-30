@@ -69,6 +69,7 @@
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, setPageViewId, getPageViewId, getPiwikUrl, getMatomoUrl, getCurrentUrl,
     setExcludedReferrers, getExcludedReferrers,
     setIgnoreCampaignsForReferrers, getIgnoreCampaignsForReferrers,
+    setIgnoreCampaignAttributionForSources, getIgnoreCampaignAttributionForSources,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
@@ -2325,6 +2326,14 @@ if (typeof window.Matomo !== 'object') {
                 // An initial list of known referrers that are sending unexpected/unwanted campaign parameters. Matomo will ignore such campaigns if the referring URL matches one of the hosts defined below.
                 configIgnoreCampaignsForReferrers = [ 'chatgpt.com', 'chat.openai.com' ],
 
+                // An initial list of known sources whose campaign values in the current URL should be ignored for attribution.
+                // Matching parameters are still kept in the tracked URL/request, so Matomo can still detect them as campaigns later.
+                configIgnoreCampaignAttributionForSources = [
+                    'chatgpt.com',
+                    'perplexity',
+                    'copilot.com'
+                ],
+
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
 
@@ -2796,6 +2805,33 @@ if (typeof window.Matomo !== 'object') {
                         }
                     }
                 }
+                return false;
+            }
+
+            /**
+             * Returns if campaign parameters on the current landing URL should be ignored for attribution.
+             * This covers source values like utm_source=chatgpt.com, including cases where another referrer URL exists.
+             *
+             * This does not remove the matching parameters from the URL or tracker request. It only prevents those
+             * values from becoming the visit attribution campaign in the attribution cookie.
+             *
+             * @param {string} currentUrl
+             * @returns {boolean}
+             */
+            function shouldIgnoreCampaignAttributionForSource(currentUrl) {
+                var sourceValue = getUrlParameter(currentUrl, 'utm_source');
+                var i;
+
+                if (!sourceValue.length) {
+                    return false;
+                }
+
+                for (i = 0; i < configIgnoreCampaignAttributionForSources.length; i++) {
+                    if (sourceValue === configIgnoreCampaignAttributionForSources[i]) {
+                        return true;
+                    }
+                }
+
                 return false;
             }
 
@@ -3968,7 +4004,8 @@ if (typeof window.Matomo !== 'object') {
                     if ((!configConversionAttributionFirstReferrer
                         || !campaignNameDetected.length)
                         && (configEnableCampaignParameters || configConsentRequired)
-                        && !shouldIgnoreCampaignForReferrer(configReferrerUrl)) {
+                        && !shouldIgnoreCampaignForReferrer(configReferrerUrl)
+                        && !shouldIgnoreCampaignAttributionForSource(currentUrl)) {
                           for (i in configCampaignNameParameters) {
                               if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
                                   campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
@@ -5292,6 +5329,9 @@ if (typeof window.Matomo !== 'object') {
             this.getIgnoreCampaignsForReferrers = function () {
                 return configIgnoreCampaignsForReferrers;
             };
+            this.getIgnoreCampaignAttributionForSources = function () {
+                return configIgnoreCampaignAttributionForSources;
+            };
             this.getConfigIdPageView = function () {
                 return configIdPageView;
             };
@@ -6147,13 +6187,23 @@ if (typeof window.Matomo !== 'object') {
                 configLinkClasses = isString(linkClasses) ? [linkClasses] : linkClasses;
             };
 
-          /**
-           * Set array of referrers where campaign parameters should be ignored
-           *
-           * @param {string|Array} referrers
-           */
+            /**
+             * Set array of referrers where campaign parameters should be ignored
+             *
+             * @param {string|Array} referrers
+             */
             this.setIgnoreCampaignsForReferrers = function (referrers) {
                 configIgnoreCampaignsForReferrers = isString(referrers) ? [referrers] : referrers;
+            };
+
+            /**
+             * Set array of sources whose campaign values in the current URL should be ignored for attribution.
+             * Matching parameters are still kept in the tracked URL/request.
+             *
+             * @param {string|Array} sources
+             */
+            this.setIgnoreCampaignAttributionForSources = function (sources) {
+                configIgnoreCampaignAttributionForSources = isString(sources) ? [sources] : sources;
             };
 
             /**

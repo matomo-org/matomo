@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<BotTracking_AIChatbotsRequests>31</BotTracking_AIChatbotsRequests>
-	<BotTracking_AIChatbotsAcquiredVisits>8</BotTracking_AIChatbotsAcquiredVisits>
+	<BotTracking_AIChatbotsAcquiredVisits>10</BotTracking_AIChatbotsAcquiredVisits>
 	<BotTracking_AIChatbotsNotFoundRequests>2</BotTracking_AIChatbotsNotFoundRequests>
 	<BotTracking_AIChatbotsUniqueChatbots>6</BotTracking_AIChatbotsUniqueChatbots>
 	<BotTracking_AIChatbotsServerErrorRequests>3</BotTracking_AIChatbotsServerErrorRequests>
-	<BotTracking_AIChatbotsClickThroughRate>0.2581</BotTracking_AIChatbotsClickThroughRate>
+	<BotTracking_AIChatbotsClickThroughRate>0.3226</BotTracking_AIChatbotsClickThroughRate>
 </result>

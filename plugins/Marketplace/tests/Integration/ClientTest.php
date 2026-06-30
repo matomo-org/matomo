@@ -9,9 +9,13 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\Api;
 
+use Matomo\Cache\Backend\NullCache;
+use Matomo\Cache\Lazy;
 use Piwik\Filesystem;
+use Piwik\Log\NullLogger;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Plugins\Marketplace\tests\Framework\Mock\Environment as TestEnvironment;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as TestService;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Client as ClientBuilder;
 
@@ -48,7 +52,7 @@ class ClientTest extends IntegrationTestCase
         $file = $this->client->download('AnyPluginName');
 
         $this->assertFileExists($file);
-        $this->assertStringEqualsFile($file, 'http://plugins.piwik.org/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=2.16.3');
+        $this->assertStringEqualsFile($file, 'http://plugins.piwik.org/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=2.16.3&uid=test-unique-id');
         Filesystem::deleteFileIfExists($file);
 
         $this->assertStringStartsWith(PIWIK_INCLUDE_PATH . '/tmp/latest/plugins/', $file);
@@ -64,8 +68,71 @@ class ClientTest extends IntegrationTestCase
         $this->client->getPluginInfo('CustomPlugin1');
     }
 
+    public function testFetchSendsUniqueIdAsParamWhenEnvironmentProvidesOne()
+    {
+        $client = $this->buildClientWithUniqueId('fixed-unique-id-123');
+
+        $this->service->returnFixture('v2.0_plugins_TreemapVisualization_info.json');
+        $client->getPluginInfo('TreemapVisualization');
+
+        $this->assertArrayHasKey('uid', $this->service->params);
+        $this->assertSame('fixed-unique-id-123', $this->service->params['uid']);
+    }
+
+    public function testFetchDoesNotSendUniqueIdParamWhenEmpty()
+    {
+        $client = $this->buildClientWithUniqueId('');
+
+        $this->service->returnFixture('v2.0_plugins_TreemapVisualization_info.json');
+        $client->getPluginInfo('TreemapVisualization');
+
+        $this->assertArrayNotHasKey('uid', $this->service->params);
+    }
+
+    public function testGetDownloadUrlAppendsUniqueIdWhenEnvironmentProvidesOne()
+    {
+        $client = $this->buildClientWithUniqueId('fixed-unique-id-123');
+
+        $this->service->returnFixture('v2.0_plugins_TreemapVisualization_info.json');
+        $url = $client->getDownloadUrl('TreemapVisualization');
+
+        $this->assertSame(
+            'http://plugins.piwik.org/api/2.0/plugins/TreemapVisualization/download/1.0.1?coreVersion=2.16.3&uid=fixed-unique-id-123',
+            $url
+        );
+    }
+
+    public function testGetDownloadUrlDoesNotAppendUniqueIdWhenEmpty()
+    {
+        $client = $this->buildClientWithUniqueId('');
+
+        $this->service->returnFixture('v2.0_plugins_TreemapVisualization_info.json');
+        $url = $client->getDownloadUrl('TreemapVisualization');
+
+        $this->assertStringNotContainsString('uid=', $url);
+    }
+
     private function buildClient()
     {
         return ClientBuilder::build($this->service);
+    }
+
+    private function buildClientWithUniqueId($uniqueId)
+    {
+        $environment = new class ($uniqueId) extends TestEnvironment {
+            private $uniqueId;
+
+            public function __construct($uniqueId)
+            {
+                $this->uniqueId = $uniqueId;
+            }
+
+            public function getUniqueId()
+            {
+                return $this->uniqueId;
+            }
+        };
+
+        return new Client($this->service, new Lazy(new NullCache()), new NullLogger(), $environment);
     }
 }

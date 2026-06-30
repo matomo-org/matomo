@@ -21,6 +21,7 @@ var Piwik_Overlay = (function () {
     var idSite, period, date, segment;
 
     var iframeSrcBase;
+    var iframePostParams = null;
     var iframeDomain = '';
     var iframeCurrentPage = '';
     var iframeCurrentPageNormalized = '';
@@ -194,13 +195,36 @@ var Piwik_Overlay = (function () {
             if (location) {
                 iframeUrl += '#' + location;
             }
-            $iframe.attr('src', iframeUrl);
+            if (iframePostParams) {
+                submitIframePost(iframeUrl);
+            } else {
+                $iframe.attr('src', iframeUrl);
+            }
             showLoading();
         } else {
             loadSidebar(location);
         }
 
         updateComesFromInsideFrame = false;
+    }
+
+    function submitIframePost(iframeUrl) {
+        var $form = $('<form method="post" style="display:none"></form>');
+        $form.attr('action', iframeUrl);
+        $form.attr('target', 'overlayIframe');
+
+        Object.keys(iframePostParams).forEach(function (key) {
+            $('<input type="hidden">')
+                .attr('name', key)
+                .val(iframePostParams[key])
+                .appendTo($form);
+        });
+
+        $form.appendTo($body);
+        $form[0].submit();
+        window.setTimeout(function () {
+            $form.remove();
+        }, 0);
     }
 
     function handleApiRequests() {
@@ -271,8 +295,9 @@ var Piwik_Overlay = (function () {
     return {
 
         /** This method is called when Overlay loads  */
-        init: function (iframeSrc, pIdSite, pPeriod, pDate, pSegment) {
+        init: function (iframeSrc, pIdSite, pPeriod, pDate, pSegment, pIframePostParams) {
             iframeSrcBase = iframeSrc;
+            iframePostParams = pIframePostParams || null;
             idSite = pIdSite;
             period = pPeriod;
             date = pDate;
