@@ -1,0 +1,224 @@
+.metrics-picker {
+  // Declared inside the selector so they stay scoped to .metrics-picker.
+  @_dropdown-shadow: ~"0 10px 40px 0 #A5B1CA4D, 0 0 3px 0 #A5B1CA4D";
+  @_dropdown-shadow-dark: ~"0 10px 40px 0 #00000080, 0 0 3px 0 #00000080";
+
+  // 1px solid — shared by the toggle/dropdown/checkbox borders and the focus outline
+  @_border-stroke: ~"1px solid";
+  @_border: ~"@{_border-stroke} @{theme-color-border-alternative}";
+
+  // hover, and focus states
+  @_accent-color: @theme-color-focus-ring;
+  @_option-hover-bg: @theme-color-background-base;
+  // checked state
+  @_checked-color: @theme-color-new-brand;
+
+  @_border-radius: 8px;
+  @_checkbox-size: 18px;
+  @_checkbox-border-radius: 6px;
+  @_text-size: 14px;
+  @_text-line-height: 20px;
+
+  display: inline-block;
+  position: relative;
+
+  // In a narrow legend footer the picker stacks onto its own full-width row, so the
+  // component stretches to fill it. The inline-block wrapper around this component is
+  // widened separately in dataTableVisualizations.less (it lives outside this component).
+  body.plotlines-tweaks-enabled .jqplot-legend-footer.is-narrow & {
+    width: 100%;
+  }
+
+  .metrics-picker__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: @theme-color-background-contrast;
+    color: @theme-color-text;
+    border: @_border;
+    border-radius: @_border-radius;
+    font-size: @_text-size;
+    line-height: @_text-line-height;
+    cursor: pointer;
+    height: 38px;
+
+    &:hover, &:focus-visible {
+      border-color: @_accent-color;
+    }
+    &:focus-visible {
+      outline: @_border-stroke @_accent-color;
+    }
+
+    &:focus, &:hover {
+      outline: none;
+    }
+
+    // In a narrow legend footer the toggle fills its full-width row and centres its label.
+    body.plotlines-tweaks-enabled .jqplot-legend-footer.is-narrow & {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  .metrics-picker__toggle-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;        // the important one — see below
+  }
+
+  .metrics-picker__chevron {
+    font-size: 12px;
+    transition: transform .15s ease;
+    flex: none;      // keep the chevron from being squashed
+  }
+
+  &.expanded .metrics-picker__chevron {
+    transform: rotate(180deg);
+  }
+
+  .metrics-picker__dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    margin-top: 8px;
+    left: 0;
+    z-index: 1010; /* must be above ui dialog, matches series picker popover */
+    overflow-y: auto;
+    padding: 8px;
+    /* the legend footer lives inside .dataTableFeatures (text-align: center) -
+       reset so the metric checkboxes align to the left */
+    text-align: left;
+    background: @theme-color-background-contrast;
+    border: @_border;
+    border-radius: @_border-radius;
+    box-shadow: @_dropdown-shadow;
+
+    .inDarkMode({
+      box-shadow: @_dropdown-shadow-dark;
+    })
+  }
+
+  &.expanded .metrics-picker__dropdown {
+    display: block;
+    width: 254px;
+  }
+
+  .metrics-picker__column,
+  .metrics-picker__row {
+    padding: 2px 8px;
+    cursor: pointer;
+  }
+
+  .metrics-picker__label {
+    display: flex;
+    align-items: flex-start;
+    min-height: 32px;
+    color: @theme-color-text-lighter;
+    border-radius: 5px;
+  }
+
+  // hover just tints the option's background
+  .metrics-picker__label:hover {
+    background-color: @_option-hover-bg;
+  }
+
+  // keyboard navigation also draws a focus ring (the real radio/checkbox is visually
+  // hidden by .filled-in, so the affordance lives on the option itself)
+  .metrics-picker__label:has(input:focus-visible) {
+    background-color: @_option-hover-bg;
+    outline: 2px solid @_accent-color;
+    outline-offset: 0;
+  }
+
+  // Materialize gives both the checkbox and radio "+ span" a padding-left: 35px; reset it
+  // to a compact box so the marker sits tight against the title in either select mode.
+  [type="checkbox"] + span:not(.lever),
+  [type="radio"] + span:not(.lever) {
+    width: @_checkbox-size;
+    height: @_checkbox-size;
+    padding: 0;
+    margin-top: 4px;
+  }
+
+  .metrics-picker__title {
+    font-size: @_text-size;
+    line-height: @_text-line-height;
+    margin-left: 8px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    margin-top: 3px;
+  }
+
+  [type="checkbox"].filled-in:checked + span:not(.lever)::after {
+    border-color: @_checked-color;
+    background-color: @_checked-color;
+  }
+
+  // The check
+  [type="checkbox"].filled-in:checked + span:not(.lever)::before {
+    border-right-color: @color-white;
+    border-bottom-color: @color-white;
+    width: 7px;
+    height: 10px;
+  }
+  [type="checkbox"].filled-in:not(:checked) + span:not(.lever)::after {
+    border: @_border;
+  }
+
+  /* compact 18px box with rounded corners (Materialize defaults to 20px / 2px) */
+  [type="checkbox"].filled-in:checked + span:not(.lever)::after,
+  [type="checkbox"].filled-in:not(:checked) + span:not(.lever)::after {
+    width: @_checkbox-size;
+    height: @_checkbox-size;
+    border-radius: @_checkbox-border-radius;
+  }
+
+  // Radio marker — match the checkbox box: a 18px circle aligned to the same top-left
+  // origin (Materialize insets the circle by margin: 4px and sizes it 16px), with the
+  // same border colour when empty and accent fill when selected.
+  [type="radio"] + span:not(.lever)::before,
+  [type="radio"] + span:not(.lever)::after {
+    margin: 0;
+    width: @_checkbox-size;
+    height: @_checkbox-size;
+  }
+
+  [type="radio"]:not(:checked) + span:not(.lever)::before {
+    border: @_border;
+  }
+
+  [type="radio"]:checked + span:not(.lever)::after {
+    border-color: @_checked-color;
+    background-color: @_checked-color;
+  }
+
+  // The option's focus affordance is the label outline (see
+  // .metrics-picker__label:has(input:focus-visible)). Neutralise Materialize's per-marker
+  // focus styling — the 10px halo, grey/secondary fill and squared corners it adds on
+  // .tabbed:focus — so the box/circle looks identical whether focused or not.
+  [type="checkbox"].filled-in.tabbed:focus + span:not(.lever)::after,
+  [type="radio"].tabbed:focus + span:not(.lever)::before {
+    box-shadow: none;
+  }
+
+  [type="checkbox"].filled-in:not(:checked).tabbed:focus + span:not(.lever)::after {
+    border: @_border;
+    border-radius: @_checkbox-border-radius;
+    background-color: transparent;
+  }
+
+  [type="checkbox"].filled-in:checked.tabbed:focus + span:not(.lever)::after {
+    border-color: @_checked-color;
+    background-color: @_checked-color;
+    border-radius: @_checkbox-border-radius;
+  }
+
+  .metrics-picker__headline {
+    margin: 0; // reset the default <p> margin
+    padding: 10px 16px 4px;
+    font-weight: bold;
+    font-size: 12px;
+    color: @theme-color-text-light;
+  }
+}

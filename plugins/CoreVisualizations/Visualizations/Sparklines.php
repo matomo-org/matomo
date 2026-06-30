@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter as MetricFormatter;
@@ -19,6 +20,8 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
+use Piwik\Plugins\CoreVisualizations\FeatureFlags\SparklinesRedesign;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\View;
@@ -114,6 +117,12 @@ class Sparklines extends ViewDataTable
         $view->footerMessage = $this->config->show_footer_message;
         $view->areSparklinesLinkable = $this->config->areSparklinesLinkable();
         $view->isComparing = $this->isComparing();
+
+        // The redesigned Vue card grid (gated by the SparklinesRedesign feature flag) currently only
+        // covers the no-comparison layout, so fall back to the legacy Twig layout while comparing.
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        $view->useNewSparklinesGrid = $featureFlagManager->isFeatureActive(SparklinesRedesign::class)
+            && !$this->isComparing();
 
         $view->title = '';
         if ($this->config->show_title) {

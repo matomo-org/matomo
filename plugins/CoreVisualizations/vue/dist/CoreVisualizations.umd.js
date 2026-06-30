@@ -118,8 +118,12 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
+__webpack_require__.d(__webpack_exports__, "EvolutionBadge", function() { return /* reexport */ EvolutionBadge; });
+__webpack_require__.d(__webpack_exports__, "MetricValue", function() { return /* reexport */ MetricValue; });
 __webpack_require__.d(__webpack_exports__, "SeriesPicker", function() { return /* reexport */ SeriesPicker; });
+__webpack_require__.d(__webpack_exports__, "MetricsPicker", function() { return /* reexport */ MetricsPicker; });
 __webpack_require__.d(__webpack_exports__, "SingleMetricView", function() { return /* reexport */ SingleMetricView; });
+__webpack_require__.d(__webpack_exports__, "SparklinesGrid", function() { return /* reexport */ SparklinesGrid; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -140,24 +144,269 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue?vue&type=template&id=94a77dd2
+
+const _hoisted_1 = ["title"];
+const _hoisted_2 = {
+  class: "evolutionBadge__icon",
+  "aria-hidden": "true"
+};
+const _hoisted_3 = {
+  class: "evolutionBadge__value"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_EvolutionTrendIcon = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EvolutionTrendIcon");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["evolutionBadge", _ctx.directionClass]),
+    title: _ctx.tooltip || undefined
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EvolutionTrendIcon, {
+    class: "evolutionTrendIcon",
+    direction: _ctx.direction
+  }, null, 8, ["direction"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.formattedPercent), 1)], 10, _hoisted_1);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue?vue&type=template&id=94a77dd2
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=template&id=14185072
+
+const EvolutionTrendIconvue_type_template_id_14185072_hoisted_1 = {
+  key: 0,
+  viewBox: "0 0 16 16"
+};
+const EvolutionTrendIconvue_type_template_id_14185072_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("path", {
+  d: "M3.77344 11L8.27344 5L12.7734 11H3.77344Z",
+  fill: "currentColor"
+}, null, -1);
+const EvolutionTrendIconvue_type_template_id_14185072_hoisted_3 = [EvolutionTrendIconvue_type_template_id_14185072_hoisted_2];
+const _hoisted_4 = {
+  key: 1,
+  viewBox: "0 0 16 16"
+};
+const _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("path", {
+  d: "M3.77344 6L8.27344 12L12.7734 6H3.77344Z",
+  fill: "currentColor"
+}, null, -1);
+const _hoisted_6 = [_hoisted_5];
+const _hoisted_7 = {
+  key: 2,
+  viewBox: "0 0 16 16"
+};
+const _hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("rect", {
+  x: "3",
+  y: "7",
+  width: "10",
+  height: "2",
+  fill: "currentColor"
+}, null, -1);
+const _hoisted_9 = [_hoisted_8];
+function EvolutionTrendIconvue_type_template_id_14185072_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return _ctx.direction === 'up' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", EvolutionTrendIconvue_type_template_id_14185072_hoisted_1, EvolutionTrendIconvue_type_template_id_14185072_hoisted_3)) : _ctx.direction === 'down' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", _hoisted_4, _hoisted_6)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", _hoisted_7, _hoisted_9));
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=template&id=14185072
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=script&lang=ts
+
+/* harmony default export */ var EvolutionTrendIconvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'EvolutionTrendIcon',
+  props: {
+    direction: {
+      type: String,
+      required: true,
+      validator: value => ['up', 'down', 'neutral'].indexOf(value) !== -1
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue
+
+
+
+EvolutionTrendIconvue_type_script_lang_ts.render = EvolutionTrendIconvue_type_template_id_14185072_render
+
+/* harmony default export */ var EvolutionTrendIcon = (EvolutionTrendIconvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var EvolutionBadgevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'EvolutionBadge',
+  components: {
+    EvolutionTrendIcon: EvolutionTrendIcon
+  },
+  props: {
+    // the change to display, either a number (eg 4, -4) or a pre-formatted
+    // string as emitted by Sparklines/Config.php (eg "4%", "-4%")
+    percent: {
+      type: [Number, String],
+      required: true
+    },
+    // when true the colour is inverted, so a decrease reads as positive (eg bounce rate)
+    isLowerValueBetter: {
+      type: Boolean,
+      default: false
+    },
+    // raw value difference (currentValue - pastValue); the authoritative source of the
+    // arrow direction when available, falling back to the sign of percent otherwise
+    trend: {
+      type: Number,
+      default: undefined
+    },
+    tooltip: {
+      type: String,
+      default: ''
+    }
+  },
+  setup(props) {
+    const changeValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      if (typeof props.trend === 'number' && !Number.isNaN(props.trend)) {
+        return props.trend;
+      }
+      // only the sign matters here. Fold the localised minus (U+2212, eg fi/sv)
+      // to ASCII so a coarse parse of the formatted percent gets the sign right.
+      const numeric = parseFloat(String(props.percent).replace('\u2212', '-').replace(',', '.').replace(/[^0-9.+-]/g, ''));
+      return Number.isNaN(numeric) ? 0 : numeric;
+    });
+    const direction = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      if (changeValue.value > 0) {
+        return 'up';
+      }
+      if (changeValue.value < 0) {
+        return 'down';
+      }
+      return 'neutral';
+    });
+    // the arrow direction always reflects the actual value change, while the colour
+    // (positive/negative) reflects whether that change is good or bad for the metric
+    const directionClass = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      if (direction.value === 'neutral') {
+        return 'evolutionBadge--neutral';
+      }
+      const increased = direction.value === 'up';
+      const isPositive = props.isLowerValueBetter ? !increased : increased;
+      return isPositive ? 'evolutionBadge--positive' : 'evolutionBadge--negative';
+    });
+    const formattedPercent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      const label = typeof props.percent === 'number' ? `${props.percent}%` : String(props.percent).trim();
+      const sign = label.charAt(0);
+      if (changeValue.value > 0 && sign !== '+' && sign !== '-') {
+        return `+${label}`;
+      }
+      return label;
+    });
+    return {
+      direction,
+      directionClass,
+      formattedPercent
+    };
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue
+
+
+
+EvolutionBadgevue_type_script_lang_ts.render = render
+
+/* harmony default export */ var EvolutionBadge = (EvolutionBadgevue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=template&id=bdedef58
+
+const MetricValuevue_type_template_id_bdedef58_hoisted_1 = {
+  class: "metricValue"
+};
+const MetricValuevue_type_template_id_bdedef58_hoisted_2 = ["title"];
+const MetricValuevue_type_template_id_bdedef58_hoisted_3 = {
+  class: "metricValue__primary"
+};
+const MetricValuevue_type_template_id_bdedef58_hoisted_4 = {
+  class: "metricValue__number"
+};
+const MetricValuevue_type_template_id_bdedef58_hoisted_5 = {
+  key: 0,
+  class: "metricValue__secondary"
+};
+const MetricValuevue_type_template_id_bdedef58_hoisted_6 = {
+  class: "metricValue__secondaryValue"
+};
+const MetricValuevue_type_template_id_bdedef58_hoisted_7 = {
+  key: 0,
+  class: "metricValue__secondaryLabel"
+};
+function MetricValuevue_type_template_id_bdedef58_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricValuevue_type_template_id_bdedef58_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["metricValue__title", {
+      'metricValue__title--documented': !!_ctx.documentation
+    }]),
+    title: _ctx.documentation || null
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)], 10, MetricValuevue_type_template_id_bdedef58_hoisted_2)), [[_directive_tooltips, {
+    duration: 200,
+    delay: 200
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MetricValuevue_type_template_id_bdedef58_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricValuevue_type_template_id_bdedef58_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.value), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "evolution")]), _ctx.hasSecondary ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricValuevue_type_template_id_bdedef58_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricValuevue_type_template_id_bdedef58_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.secondaryValue), 1), _ctx.secondaryLabel ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", MetricValuevue_type_template_id_bdedef58_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.secondaryLabel), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=template&id=bdedef58
+
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var MetricValuevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'MetricValue',
+  directives: {
+    Tooltips: external_CoreHome_["Tooltips"]
+  },
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    // Pre-formatted value (e.g. "9,527" or "4min 22s"); rendered verbatim, no formatting here.
+    value: {
+      type: [String, Number],
+      required: true
+    },
+    // Optional secondary line. Value and label are kept separate so they can be
+    // styled independently (e.g. "9,527" darker, "unique visitors" grey). Matomo
+    // hands these out separately as metric.value + metric.description.
+    secondaryValue: [String, Number],
+    secondaryLabel: String,
+    // Optional documentation shown as a tooltip on the title.
+    documentation: String
+  },
+  computed: {
+    hasSecondary() {
+      return this.secondaryValue !== undefined && this.secondaryValue !== null && this.secondaryValue !== '';
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue
+
+
+
+MetricValuevue_type_script_lang_ts.render = MetricValuevue_type_template_id_bdedef58_render
+
+/* harmony default export */ var MetricValue = (MetricValuevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7c1adaf7
 
-const _hoisted_1 = {
+const SeriesPickervue_type_template_id_7c1adaf7_hoisted_1 = {
   key: 0,
   class: "jqplot-seriespicker-popover"
 };
-const _hoisted_2 = {
+const SeriesPickervue_type_template_id_7c1adaf7_hoisted_2 = {
   class: "headline"
 };
-const _hoisted_3 = ["onClick"];
-const _hoisted_4 = ["type", "checked"];
-const _hoisted_5 = {
+const SeriesPickervue_type_template_id_7c1adaf7_hoisted_3 = ["onClick"];
+const SeriesPickervue_type_template_id_7c1adaf7_hoisted_4 = ["type", "checked"];
+const SeriesPickervue_type_template_id_7c1adaf7_hoisted_5 = {
   key: 0,
   class: "headline recordsToPlot"
 };
-const _hoisted_6 = ["onClick"];
-const _hoisted_7 = ["type", "checked"];
-function render(_ctx, _cache, $props, $setup, $data, $options) {
+const SeriesPickervue_type_template_id_7c1adaf7_hoisted_6 = ["onClick"];
+const SeriesPickervue_type_template_id_7c1adaf7_hoisted_7 = ["type", "checked"];
+function SeriesPickervue_type_template_id_7c1adaf7_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["jqplot-seriespicker", {
       open: _ctx.isPopupVisible
@@ -167,7 +416,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "#",
     onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(() => {}, ["prevent", "stop"]))
-  }, " + "), _ctx.isPopupVisible ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", _hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.multiselect ? 'General_MetricsToPlot' : 'General_MetricToPlot')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableColumns, columnConfig => {
+  }, " + "), _ctx.isPopupVisible ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SeriesPickervue_type_template_id_7c1adaf7_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", SeriesPickervue_type_template_id_7c1adaf7_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.multiselect ? 'General_MetricsToPlot' : 'General_MetricToPlot')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableColumns, columnConfig => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
       class: "pickColumn",
       onClick: $event => _ctx.optionSelected(columnConfig.column, _ctx.columnStates),
@@ -176,8 +425,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "select",
       type: _ctx.multiselect ? 'checkbox' : 'radio',
       checked: !!_ctx.columnStates[columnConfig.column]
-    }, null, 8, _hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(columnConfig.translation), 1)])], 8, _hoisted_3);
-  }), 128)), _ctx.selectableRows.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_RecordsToPlot')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableRows, rowConfig => {
+    }, null, 8, SeriesPickervue_type_template_id_7c1adaf7_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(columnConfig.translation), 1)])], 8, SeriesPickervue_type_template_id_7c1adaf7_hoisted_3);
+  }), 128)), _ctx.selectableRows.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", SeriesPickervue_type_template_id_7c1adaf7_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_RecordsToPlot')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableRows, rowConfig => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
       class: "pickRow",
       onClick: $event => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates),
@@ -186,13 +435,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "select",
       type: _ctx.multiselect ? 'checkbox' : 'radio',
       checked: !!_ctx.rowStates[rowConfig.matcher]
-    }, null, 8, _hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rowConfig.label), 1)])], 8, _hoisted_6);
+    }, null, 8, SeriesPickervue_type_template_id_7c1adaf7_hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rowConfig.label), 1)])], 8, SeriesPickervue_type_template_id_7c1adaf7_hoisted_6);
   }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 34);
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7c1adaf7
-
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts
 
@@ -286,9 +532,218 @@ function getSelected(optionStates) {
 
 
 
-SeriesPickervue_type_script_lang_ts.render = render
+SeriesPickervue_type_script_lang_ts.render = SeriesPickervue_type_template_id_7c1adaf7_render
 
 /* harmony default export */ var SeriesPicker = (SeriesPickervue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=template&id=5b298d15
+
+const MetricsPickervue_type_template_id_5b298d15_hoisted_1 = {
+  ref: "root",
+  class: "metrics-picker"
+};
+const MetricsPickervue_type_template_id_5b298d15_hoisted_2 = {
+  ref: "expander",
+  type: "button",
+  class: "metrics-picker__toggle"
+};
+const MetricsPickervue_type_template_id_5b298d15_hoisted_3 = {
+  class: "metrics-picker__toggle-label"
+};
+const MetricsPickervue_type_template_id_5b298d15_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-chevron-down metrics-picker__chevron"
+}, null, -1);
+const MetricsPickervue_type_template_id_5b298d15_hoisted_5 = {
+  class: "metrics-picker__dropdown"
+};
+function MetricsPickervue_type_template_id_5b298d15_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_MetricsPickerOptions = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MetricsPickerOptions");
+  const _directive_expand_on_click = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("expand-on-click");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricsPickervue_type_template_id_5b298d15_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", MetricsPickervue_type_template_id_5b298d15_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricsPickervue_type_template_id_5b298d15_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ChooseMetrics')), 1), MetricsPickervue_type_template_id_5b298d15_hoisted_4], 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MetricsPickervue_type_template_id_5b298d15_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MetricsPickerOptions, {
+    multiselect: _ctx.multiselect,
+    "selectable-columns": _ctx.selectableColumns,
+    "selectable-rows": _ctx.selectableRows,
+    "selected-columns": _ctx.selectedColumns,
+    "selected-rows": _ctx.selectedRows,
+    onSelect: _cache[0] || (_cache[0] = $event => _ctx.onSelect($event))
+  }, null, 8, ["multiselect", "selectable-columns", "selectable-rows", "selected-columns", "selected-rows"])])])), [[_directive_expand_on_click, {
+    expander: 'expander'
+  }]]);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=template&id=5b298d15
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPickerOptions.vue?vue&type=template&id=0bdfb6f4
+
+const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_1 = ["role", "aria-label"];
+const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_2 = ["type", "checked", "onChange", "onKeydown"];
+const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  "aria-hidden": "true"
+}, null, -1);
+const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_4 = {
+  class: "metrics-picker__title"
+};
+const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_5 = {
+  key: 0,
+  class: "metrics-picker__headline"
+};
+const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_6 = ["type", "checked", "onChange", "onKeydown"];
+const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  "aria-hidden": "true"
+}, null, -1);
+const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_8 = {
+  class: "metrics-picker__title"
+};
+function MetricsPickerOptionsvue_type_template_id_0bdfb6f4_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: "metrics-picker__options",
+    role: _ctx.multiselect ? 'group' : 'radiogroup',
+    "aria-label": _ctx.translate('General_ChooseMetrics')
+  }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableColumns, columnConfig => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("label", {
+      class: "metrics-picker__column metrics-picker__label",
+      key: columnConfig.column
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      class: "filled-in",
+      type: _ctx.multiselect ? 'checkbox' : 'radio',
+      checked: !!_ctx.columnStates[columnConfig.column],
+      onChange: $event => _ctx.optionSelected(columnConfig.column, _ctx.columnStates),
+      onKeydown: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.optionSelected(columnConfig.column, _ctx.columnStates), ["prevent"]), ["enter"])
+    }, null, 40, MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_2), MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(columnConfig.translation), 1)]);
+  }), 128)), _ctx.selectableRows.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_RecordsToPlot')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableRows, rowConfig => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("label", {
+      class: "metrics-picker__row metrics-picker__label",
+      key: rowConfig.matcher
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      class: "filled-in",
+      type: _ctx.multiselect ? 'checkbox' : 'radio',
+      checked: !!_ctx.rowStates[rowConfig.matcher],
+      onChange: $event => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates),
+      onKeydown: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates), ["prevent"]), ["enter"])
+    }, null, 40, MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_6), MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rowConfig.label), 1)]);
+  }), 128))], 8, MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_1);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPickerOptions.vue?vue&type=template&id=0bdfb6f4
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPickerOptions.vue?vue&type=script&lang=ts
+
+// Declared outside the component because it is needed inside data(), before the
+// component's methods are available.
+function MetricsPickerOptionsvue_type_script_lang_ts_getInitialOptionStates(allOptions, selectedOptions) {
+  const states = {};
+  allOptions.forEach(columnConfig => {
+    const name = columnConfig.column || columnConfig.matcher;
+    states[name] = false;
+  });
+  selectedOptions.forEach(column => {
+    states[column] = true;
+  });
+  return states;
+}
+/* harmony default export */ var MetricsPickerOptionsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    multiselect: Boolean,
+    selectableColumns: {
+      type: Array,
+      default: () => []
+    },
+    selectableRows: {
+      type: Array,
+      default: () => []
+    },
+    selectedColumns: {
+      type: Array,
+      default: () => []
+    },
+    selectedRows: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data() {
+    return {
+      columnStates: MetricsPickerOptionsvue_type_script_lang_ts_getInitialOptionStates(this.selectableColumns, this.selectedColumns),
+      rowStates: MetricsPickerOptionsvue_type_script_lang_ts_getInitialOptionStates(this.selectableRows, this.selectedRows)
+    };
+  },
+  emits: ['select'],
+  methods: {
+    unselectOptions(optionStates) {
+      Object.keys(optionStates).forEach(optionName => {
+        optionStates[optionName] = false;
+      });
+    },
+    getSelected(optionStates) {
+      return Object.keys(optionStates).filter(optionName => !!optionStates[optionName]);
+    },
+    optionSelected(optionValue, optionStates) {
+      if (!this.multiselect) {
+        this.unselectOptions(this.columnStates);
+        this.unselectOptions(this.rowStates);
+      }
+      optionStates[optionValue] = !optionStates[optionValue];
+      this.$emit('select', {
+        columns: this.getSelected(this.columnStates),
+        rows: this.getSelected(this.rowStates)
+      });
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPickerOptions.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPickerOptions.vue
+
+
+
+MetricsPickerOptionsvue_type_script_lang_ts.render = MetricsPickerOptionsvue_type_template_id_0bdfb6f4_render
+
+/* harmony default export */ var MetricsPickerOptions = (MetricsPickerOptionsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=script&lang=ts
+
+
+
+/* harmony default export */ var MetricsPickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    multiselect: Boolean,
+    selectableColumns: {
+      type: Array,
+      default: () => []
+    },
+    selectableRows: {
+      type: Array,
+      default: () => []
+    },
+    selectedColumns: {
+      type: Array,
+      default: () => []
+    },
+    selectedRows: {
+      type: Array,
+      default: () => []
+    }
+  },
+  components: {
+    MetricsPickerOptions: MetricsPickerOptions
+  },
+  directives: {
+    ExpandOnClick: external_CoreHome_["ExpandOnClick"]
+  },
+  emits: ['select'],
+  methods: {
+    onSelect(selected) {
+      this.$emit('select', selected);
+      // selecting a metric applies the change and closes the dropdown
+      this.$refs.root.classList.remove('expanded');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue
+
+
+
+MetricsPickervue_type_script_lang_ts.render = MetricsPickervue_type_template_id_5b298d15_render
+
+/* harmony default export */ var MetricsPicker = (MetricsPickervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=21624034
 
 const SingleMetricViewvue_type_template_id_21624034_hoisted_1 = {
@@ -620,6 +1075,175 @@ const {
 SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_21624034_render
 
 /* harmony default export */ var SingleMetricView = (SingleMetricViewvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=d8c14cc2
+
+const SparklinesGridvue_type_template_id_d8c14cc2_hoisted_1 = {
+  class: "row sparklinesGrid"
+};
+function SparklinesGridvue_type_template_id_d8c14cc2_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_SparklineCard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SparklineCard");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklinesGridvue_type_template_id_d8c14cc2_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.flatSparklines, (sparkline, index) => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+      key: index,
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.columnClasses)
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SparklineCard, {
+      sparkline: sparkline,
+      "are-sparklines-linkable": _ctx.areSparklinesLinkable
+    }, null, 8, ["sparkline", "are-sparklines-linkable"])], 2);
+  }), 128))]);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=d8c14cc2
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=template&id=581ab328
+
+const SparklineCardvue_type_template_id_581ab328_hoisted_1 = ["data-graph-params", "data-series-indices"];
+const SparklineCardvue_type_template_id_581ab328_hoisted_2 = {
+  key: 0,
+  class: "sparkline-title"
+};
+const SparklineCardvue_type_template_id_581ab328_hoisted_3 = {
+  key: 1,
+  class: "sparkline__value"
+};
+function SparklineCardvue_type_template_id_581ab328_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparkline", {
+      notLinkable: !_ctx.areSparklinesLinkable
+    }]),
+    "data-graph-params": _ctx.graphParamsAttr,
+    "data-series-indices": _ctx.seriesIndicesAttr
+  }, [_ctx.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h6", SparklineCardvue_type_template_id_581ab328_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+    params: _ctx.sparkline.url,
+    "series-indices": _ctx.sparkline.seriesIndices
+  }, null, 8, ["params", "series-indices"]), _ctx.value !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklineCardvue_type_template_id_581ab328_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.value), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, SparklineCardvue_type_template_id_581ab328_hoisted_1);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=template&id=581ab328
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var SparklineCardvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'SparklineCard',
+  components: {
+    Sparkline: external_CoreHome_["Sparkline"]
+  },
+  props: {
+    sparkline: {
+      type: Object,
+      required: true
+    },
+    areSparklinesLinkable: {
+      type: Boolean,
+      default: true
+    }
+  },
+  setup(props) {
+    const primaryMetric = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _props$sparkline$metr;
+      return (_props$sparkline$metr = props.sparkline.metrics) === null || _props$sparkline$metr === void 0 || (_props$sparkline$metr = _props$sparkline$metr['']) === null || _props$sparkline$metr === void 0 ? void 0 : _props$sparkline$metr[0];
+    });
+    // sparkline.title is null in no-comparison mode, so the primary metric's
+    // description ("Visits", "Bounce rate", ...) is used as the card heading.
+    const title = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _primaryMetric$value;
+      return props.sparkline.title || ((_primaryMetric$value = primaryMetric.value) === null || _primaryMetric$value === void 0 ? void 0 : _primaryMetric$value.description) || '';
+    });
+    // The value is already locale-formatted by the backend; render it directly,
+    // without any number filter (re-parsing a formatted string would corrupt it).
+    const value = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      const metric = primaryMetric.value;
+      return metric && metric.value !== undefined ? metric.value : null;
+    });
+    // The legacy click-to-evolution wiring (window.initializeSparklines) reads these
+    // attributes off the .sparkline wrapper, so only emit them when populated.
+    const graphParamsAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      const {
+        graphParams
+      } = props.sparkline;
+      return graphParams && Object.keys(graphParams).length ? JSON.stringify(graphParams) : null;
+    });
+    const seriesIndicesAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      const {
+        seriesIndices
+      } = props.sparkline;
+      return seriesIndices && seriesIndices.length ? JSON.stringify(seriesIndices) : null;
+    });
+    return {
+      title,
+      value,
+      graphParamsAttr,
+      seriesIndicesAttr
+    };
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklineCard.vue
+
+
+
+SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_581ab328_render
+
+/* harmony default export */ var SparklineCard = (SparklineCardvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var SparklinesGridvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'SparklinesGrid',
+  components: {
+    SparklineCard: SparklineCard
+  },
+  props: {
+    sparklines: {
+      type: Object,
+      required: true
+    },
+    // From the backend for upcoming card-body work; not used yet.
+    allMetricsDocumentation: {
+      type: Object,
+      default: () => ({})
+    },
+    areSparklinesLinkable: {
+      type: Boolean,
+      default: true
+    },
+    isWidget: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props) {
+    // `order` is the backend's source of truth for display order: a total order across
+    // all cards (even comparison metrics/segments). Flatten every group and sort by it.
+    // Drop placeholders (Config::addPlaceholder()): no url, they only padded the legacy
+    // 2-column layout and would render as empty cards here.
+    const flatSparklines = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => [].concat(...Object.values(props.sparklines || {})).filter(sparkline => !!sparkline.url).sort((a, b) => a.order - b.order));
+    // Widgets show one column; reporting pages use a responsive grid (2/4/5 cols).
+    // Keep xl3 so SparklinesGrid.less can widen it to 5 cols above 1920px.
+    const columnClasses = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.isWidget ? 'col s12' : 'col s6 m6 l3 xl3');
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(() => {
+      // Re-wire each sparkline to its evolution graph once the cards are in the DOM.
+      // Safe to re-run (it unbinds first); CoreHome ships sparkline.js in the global JS bundle.
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(() => {
+        window.initializeSparklines();
+      });
+    });
+    return {
+      flatSparklines,
+      columnClasses
+    };
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue
+
+
+
+SparklinesGridvue_type_script_lang_ts.render = SparklinesGridvue_type_template_id_d8c14cc2_render
+
+/* harmony default export */ var SparklinesGrid = (SparklinesGridvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -627,6 +1251,10 @@ SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_templa
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
+
+
 
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js

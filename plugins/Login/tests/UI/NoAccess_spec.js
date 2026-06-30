@@ -51,7 +51,7 @@ describe("NoAccess", function () {
 
         await page.waitForTimeout(60500); // wait for session timeout
 
-        await page.click('#topmenu-corehome');
+        await page.click('.nav-wrapper .right a[data-reporting-group=""]');
         await page.waitForNetworkIdle();
 
         const loginPage = await page.waitForSelector('#loginPage', {visible: true});

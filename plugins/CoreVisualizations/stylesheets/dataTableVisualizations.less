@@ -27,7 +27,8 @@ a.rowevolution-startmulti {
     display: none;
 }
 
-body.plotlines-tweaks-enabled .jqplot-legend-footer.has-legend {
+body.plotlines-tweaks-enabled .jqplot-legend-footer.has-legend,
+body.plotlines-tweaks-enabled .jqplot-legend-footer.has-picker {
     // Used by jqplot.js to match the exported image legend layout.
     --jqplot-legend-footer-height: 38px;
     --jqplot-legend-swatch-size: 12px;
@@ -37,9 +38,30 @@ body.plotlines-tweaks-enabled .jqplot-legend-footer.has-legend {
     --jqplot-legend-horizontal-padding: 12px;
 
     height: var(--jqplot-legend-footer-height);
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
+}
+
+// Pie graphs already label their slices via the in-chart pieLegend, so the footer
+// legend (a single-metric row) is redundant and the "Choose metrics" picker is hidden
+// with it. Overrides the .has-legend/.has-picker display:flex above for pie only.
+body.plotlines-tweaks-enabled .dataTableVizPie .jqplot-legend-footer {
+    display: none;
+}
+
+// When evolution annotations are shown they sit above the legend footer and add
+// their own spacing, so drop the default margin to avoid doubling the gap.
+body.plotlines-tweaks-enabled .evolution-annotations ~ .jqplot-legend-footer {
+    margin-top: 0;
+}
+
+body.plotlines-tweaks-enabled .jqplot-legend-picker {
+    display: flex;
+    align-items: center;
+    flex: none;
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-items {
@@ -50,7 +72,15 @@ body.plotlines-tweaks-enabled .jqplot-legend-items {
     gap: var(--jqplot-legend-line-gap) var(--jqplot-legend-row-gap);
     height: var(--jqplot-legend-footer-height);
     overflow: hidden;
-    width: 100%;
+    flex: auto;
+}
+
+// One row stays centered (rule above); once the legend wraps to two rows, left-align it —
+// but only in the wide layout. The narrow/stacked layout (.is-narrow) keeps it centered.
+// Left-aligned, the legend butts up against the "Choose metrics" picker, so add a gap between them.
+body.plotlines-tweaks-enabled .jqplot-legend-footer.is-multi-row:not(.is-narrow) .jqplot-legend-items {
+    justify-content: flex-start;
+    margin-left: 18px;
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-item {
@@ -70,7 +100,7 @@ body.plotlines-tweaks-enabled .jqplot-legend-swatch {
     height: var(--jqplot-legend-swatch-size);
     min-width: var(--jqplot-legend-swatch-size);
     border-radius: 50%;
-    flex: 0 0 auto;
+    flex: none;
 }
 
 body.plotlines-tweaks-enabled .jqplot-legend-label {
@@ -81,6 +111,28 @@ body.plotlines-tweaks-enabled .jqplot-legend-label {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+// When the report itself is narrow — its own width, not the viewport, so this also applies
+// to reports shown as narrow dashboard widgets — the "Choose metrics" button and the legend
+// can't sit side by side, so stack them: the legend keeps its row(s) on top and the picker
+// drops onto its own full-width line below. jqplot.js measures the footer width and toggles
+// `is-narrow` (a stand-in for a CSS container query, which less.php can't compile).
+body.plotlines-tweaks-enabled .jqplot-legend-footer.is-narrow {
+    height: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--jqplot-legend-line-gap);
+}
+
+body.plotlines-tweaks-enabled .jqplot-legend-footer.is-narrow .jqplot-legend-items {
+    order: 1;
+}
+
+body.plotlines-tweaks-enabled .jqplot-legend-footer.is-narrow .jqplot-legend-picker {
+    order: 2;
+    display: block;
+    width: 100%;
 }
 
 .dataTableVizEvolution {
@@ -96,6 +148,13 @@ body.plotlines-tweaks-enabled .jqplot-legend-label {
 .widget .dataTableVizEvolution {
     padding-left: 10px;
     padding-right: 10px;
+}
+
+// With the redesigned legend, widgetized evolution charts match the 20px left/right
+// padding of the reports page; without the flag they keep the original 10px.
+body.plotlines-tweaks-enabled .widget .dataTableVizEvolution {
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .widget .tagCloud {

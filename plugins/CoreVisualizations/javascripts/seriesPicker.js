@@ -41,6 +41,7 @@
      */
     var SeriesPicker = function (dataTable) {
         this.domElem = null;
+        this.app = null;
         this.dataTableId = dataTable.workingDivId;
 
         // the columns that can be selected
@@ -55,6 +56,10 @@
 
         // can multiple rows we selected?
         this.multiSelect = !! dataTable.props.allow_multi_select_series_picker;
+
+        // render the new "Choose metrics" button variant instead of the legacy "+" popover.
+        // Opted into by jqplot graphs when the PlotLinesTweaks feature flag is enabled.
+        this.useChooseMetricsButton = false;
     };
 
     SeriesPicker.prototype = {
@@ -83,17 +88,19 @@
                 });
 
             // initialize dom element
-            this.domElem = $('<div style="display:inline-block"><div></div></div>');
+            this.domElem = $('<div class="series-picker-wrapper" style="display:inline-block"><div></div></div>');
 
             $(this).trigger('placeSeriesPicker');
 
             var createVNode = Vue.createVNode;
             var createVueApp = CoreHome.createVueApp;
-            var SeriesPicker = CoreVisualizations.SeriesPicker;
+            var PickerComponent = self.useChooseMetricsButton
+                ? CoreVisualizations.MetricsPicker
+                : CoreVisualizations.SeriesPicker;
 
-            var app = createVueApp({
+            this.app = createVueApp({
               render: function () {
-                return createVNode(SeriesPicker, {
+                return createVNode(PickerComponent, {
                   multiselect: self.multiSelect,
                   selectableColumns: self.selectableColumns,
                   selectableRows: self.selectableRows,
@@ -124,10 +131,26 @@
                 });
               }
             });
-            app.mount(this.domElem.children()[0]);
+            this.app.mount(this.domElem.children()[0]);
 
             function isItemDisplayed(columnOrRowConfig) {
                 return columnOrRowConfig.displayed;
+            }
+        },
+
+        /**
+         * Unmounts the picker's Vue app so directive listeners (e.g. ExpandOnClick)
+         * are removed and it can be garbage collected. Safe to call when unmounted.
+         */
+        destroy: function () {
+            if (this.app) {
+                this.app.unmount();
+                this.app = null;
+            }
+            $(this).off();
+            if (this.domElem) {
+                this.domElem.remove();
+                this.domElem = null;
             }
         },
 

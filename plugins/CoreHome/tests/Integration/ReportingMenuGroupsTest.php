@@ -80,15 +80,25 @@ class ReportingMenuGroupsTest extends IntegrationTestCase
         $this->assertArrayNotHasKey('General_Actions', $menu);
     }
 
-    public function testAnalyticsTopMenuEntryDoesNotCarryAReportingGroupInTheQueryString()
+    public function testAnalyticsTopMenuEntryCarriesTheDefaultReportingGroupInTheHashOnly()
     {
         $menu = MenuTop::getInstance()->getMenu();
 
         $this->assertArrayHasKey('Dashboard_TopMenuTitle', $menu);
 
-        // The Analytics entry uses a normal array URL without a group query parameter (so nothing leaks),
-        // and is tagged as the default section for the client-side active-state sync.
-        $this->assertArrayNotHasKey('group', $menu['Dashboard_TopMenuTitle']['_url']);
+        // The (default) section is carried in the hash with an empty group id, not in the query string.
+        $url = $menu['Dashboard_TopMenuTitle']['_url'];
+        $this->assertIsString($url);
+        $this->assertStringStartsWith('index.php?', $url);
+
+        [$queryPart, $hashPart] = explode('#', $url, 2);
+        $this->assertStringContainsString('module=CoreHome', $queryPart);
+        $this->assertStringContainsString('action=index', $queryPart);
+        $this->assertStringNotContainsString('group=', $queryPart);
+        $this->assertStringContainsString('group=', $hashPart);
+        $this->assertStringNotContainsString('group=CoreHome', $hashPart);
+
+        // the entry is tagged as the default section so the active highlight can be synced client-side
         $this->assertSame('data-reporting-group=""', $menu['Dashboard_TopMenuTitle']['_attribute']);
     }
 }

@@ -40,6 +40,26 @@ function getOrCreateLegendFooter($dataTable)
     return $legendFooter;
 }
 
+// The legend footer stacks the legend above the "Choose metrics" picker once the report is
+// narrower than this. We can't use a CSS container query here — Matomo's LESS compiler
+// (less.php) can't parse @container — so we measure the footer width and toggle the
+// `is-narrow` class the stylesheet targets. This tracks the report's own width, so it also
+// kicks in when a report is shown as a narrow dashboard widget rather than full screen.
+var FOOTER_STACK_MAX_WIDTH = 321;
+
+function updateLegendFooterStacking($legendFooter)
+{
+    if (!$legendFooter || !$legendFooter.length) {
+        return;
+    }
+
+    // 0 when the footer isn't laid out yet (e.g. display:none); skip so we don't flip-flop
+    var width = $legendFooter[0].clientWidth;
+    if (width > 0) {
+        $legendFooter.toggleClass('is-narrow', width < FOOTER_STACK_MAX_WIDTH);
+    }
+}
+
 var MAX_FOOTER_LEGEND_ROWS = 2;
 var FOOTER_LEGEND_ROW_TOLERANCE = 1;
 var FOOTER_LEGEND_EXPORT_GRAPH_GAP = 12;
@@ -108,6 +128,10 @@ function limitLegendRows($legendContainer, maxRows)
 
     rows = getLegendRows($legendItems);
 
+    // Left-align the legend (via CSS) once it wraps past a single row; a single row stays centered.
+    $legendContainer.closest('.jqplot-legend-footer')
+        .toggleClass('is-multi-row', rows.length >= 2);
+
     if (rows.length <= maxRows) {
         return;
     }
@@ -168,6 +192,19 @@ function getLegendLabelTextForExport(ctx, labelElement, originalLabel, maxWidth)
     }
 
     return bestFit || ellipsis;
+}
+
+// Re-apply the footer legend row limit for a given dataTable. The "Choose metrics"
+// button shares the footer row with the legend items, so the legend's available
+// width is only final once the picker has been placed and its Vue button mounted.
+// This is called again after the picker is rendered (and on replot/resize) so the
+// items wrap against the real width and stay within MAX_FOOTER_LEGEND_ROWS.
+function applyFooterLegendRowLimit($dataTable)
+{
+    var $legendContainer = $dataTable.find('.jqplot-legend-footer.has-legend .jqplot-legend-items');
+    if ($legendContainer.length) {
+        limitLegendRows($legendContainer, MAX_FOOTER_LEGEND_ROWS);
+    }
 }
 
 (function ($, require) {
@@ -455,6 +492,11 @@ function getLegendLabelTextForExport(ctx, labelElement, originalLabel, maxWidth)
             var dataTable = target.closest('.dataTable');
             var legendFooter = dataTable.find('.jqplot-legend-footer');
 
+            // tear down the outgoing picker before its DOM is removed, so it can't leak
+            if (this._plot && this._plot.plugins && this._plot.plugins.seriesPicker) {
+                this._plot.plugins.seriesPicker.destroy();
+            }
+
             target.trigger('piwikDestroyPlot');
             if (legendFooter.length) {
                 legendFooter
@@ -716,14 +758,30 @@ function getLegendLabelTextForExport(ctx, labelElement, originalLabel, maxWidth)
         // overflow behaviour pixel-for-pixel.
         drawLegendForExport: function (ctx, legendFooter, exportWidth, topOffset, pixelRatio) {
             var footerRect = legendFooter[0].getBoundingClientRect();
-            // center the legend block when the export canvas is wider than the footer
-            var offsetX = Math.max(0, (exportWidth - footerRect.width) / 2);
-
-            legendFooter.find('.jqplot-legend-item').each(function () {
+            var $items = legendFooter.find('.jqplot-legend-item').filter(function () {
                 var $item = $(this);
-                if ($item.hasClass('jqplot-legend-item-hidden') || $item.css('display') === 'none') {
-                    return;
-                }
+                return !$item.hasClass('jqplot-legend-item-hidden') && $item.css('display') !== 'none';
+            });
+
+            if (!$items.length) {
+                return;
+            }
+
+            // Center the legend on the rendered bounds of its items, not the whole
+            // footer: the "Choose metrics" button shares the footer row but is an
+            // interactive control that is not drawn into the exported image, so it
+            // must not pull the legend off-centre.
+            var contentLeft = Infinity;
+            var contentRight = -Infinity;
+            $items.each(function () {
+                var rect = this.getBoundingClientRect();
+                contentLeft = Math.min(contentLeft, rect.left);
+                contentRight = Math.max(contentRight, rect.right);
+            });
+            var offsetX = Math.max(0, (exportWidth - (contentRight - contentLeft)) / 2);
+
+            $items.each(function () {
+                var $item = $(this);
 
                 var $swatch = $item.find('.jqplot-legend-swatch');
                 var $label = $item.find('.jqplot-legend-label');
@@ -740,7 +798,7 @@ function getLegendLabelTextForExport(ctx, labelElement, originalLabel, maxWidth)
                 ctx.fillStyle = $swatch.css('background-color');
                 ctx.beginPath();
                 ctx.arc(
-                    (offsetX + (swatchRect.left - footerRect.left) + swatchRect.width / 2) * pixelRatio,
+                    (offsetX + (swatchRect.left - contentLeft) + swatchRect.width / 2) * pixelRatio,
                     (topOffset + (swatchRect.top - footerRect.top) + swatchRect.height / 2) * pixelRatio,
                     (Math.min(swatchRect.width, swatchRect.height) / 2) * pixelRatio,
                     0,
@@ -752,7 +810,7 @@ function getLegendLabelTextForExport(ctx, labelElement, originalLabel, maxWidth)
                 // label: drawn at its rendered box and clipped to it, so any CSS
                 // truncation of a long label is preserved in the exported image
                 var labelRect = $label[0].getBoundingClientRect();
-                var labelLeft = offsetX + (labelRect.left - footerRect.left);
+                var labelLeft = offsetX + (labelRect.left - contentLeft);
                 var labelTop = topOffset + (labelRect.top - footerRect.top);
                 var fontSize = parseFloat($label.css('font-size')) || 12;
 
@@ -1542,6 +1600,8 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             $legendFooter.addClass('has-legend');
             limitLegendRows($legendContainer, MAX_FOOTER_LEGEND_ROWS);
         }
+
+        updateLegendFooterStacking($legendFooter);
     };
 
     $.jqplot.CanvasLegendRenderer.renderLegacyLegend = function (plot, legend) {
@@ -1614,13 +1674,29 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var SeriesPicker = require('piwik/DataTableVisualizations/Widgets').SeriesPicker;
         var seriesPicker = new SeriesPicker(dataTable);
 
+        // when the PlotLinesTweaks feature flag is enabled, render the "Choose metrics"
+        // button variant and place it in the legend footer instead of above the chart
+        seriesPicker.useChooseMetricsButton = isPlotLinesTweaksEnabled();
+
         // handle placeSeriesPicker event
         var plot = this;
         $(seriesPicker).bind('placeSeriesPicker', function () {
-            this.domElem.css('margin-left', plot._gridPadding.left + 'px');
-            if (!isPlotLinesTweaksEnabled()) {
-                $('.jqplot-legend-canvas', $(plot.targetId)).css({paddingLeft: '34px'});
+            if (isPlotLinesTweaksEnabled()) {
+                var $dataTable = $(plot.targetId).closest('.dataTable');
+                var $legendFooter = getOrCreateLegendFooter($dataTable);
+                var $pickerSlot = $legendFooter.find('.jqplot-legend-picker');
+                if (!$pickerSlot.length) {
+                    $pickerSlot = $('<div class="jqplot-legend-picker"></div>').prependTo($legendFooter);
+                }
+                // replace any previously rendered picker so redraws don't stack duplicates
+                $pickerSlot.empty().append(this.domElem);
+                $legendFooter.addClass('has-picker');
+                updateLegendFooterStacking($legendFooter);
+                return;
             }
+
+            this.domElem.css('margin-left', plot._gridPadding.left + 'px');
+            $('.jqplot-legend-canvas', $(plot.targetId)).css({paddingLeft: '34px'});
             plot.baseCanvas._elem.before(this.domElem);
         });
 
@@ -1634,6 +1710,14 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
     $.jqplot.postDrawHooks.push(function () {
         this.plugins.seriesPicker.init();
+
+        // The legend footer renders before this hook, so its row limit was computed
+        // without the "Choose metrics" button. Now that the button is placed and
+        // mounted (and has taken its share of the footer width), recompute the limit
+        // so the legend items wrap against the real available width.
+        if (isPlotLinesTweaksEnabled()) {
+            applyFooterLegendRowLimit($(this.targetId).closest('.dataTable'));
+        }
     });
 })(jQuery, require);
 

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Dashboard;
 
+use Piwik\Category\Category;
 use Piwik\Common;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
@@ -25,15 +26,19 @@ class Menu extends \Piwik\Plugin\Menu
 
         $tooltip = Piwik::translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
 
-        $urlParams = $this->urlForModuleActionWithDefaultUserParams('CoreHome', 'index', ['idSite' => $idSite]);
+        $params = $this->urlForModuleActionWithDefaultUserParams('CoreHome', 'index', ['idSite' => $idSite]);
+        if (empty($params)) {
+            return;
+        }
 
-        // data-reporting-group marks this as the default ("Analytics") reporting section so the active
-        // top-menu highlight can be kept in sync client-side with the active section (which lives in the
-        // URL hash, not the query string, to avoid leaking into other links).
+        // Opens within the reporting SPA like every other section, so switching back to Analytics does
+        // not reload the page. data-reporting-group (empty for the default section) syncs the highlight.
+        $url = $this->urlForReportingSection($params, Category::DEFAULT_GROUP);
+
         $menu->addItem(
             'Dashboard_TopMenuTitle',
             null,
-            $urlParams,
+            $url,
             1,
             $tooltip,
             false,
