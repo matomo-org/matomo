@@ -358,7 +358,7 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[null, null]], $forecastData);
     }
 
-    public function testBuildCountSeriesSuppressesForecastBelowCurrentEvenWhenLowerIsBetter(): void
+    public function testBuildCountSeriesFloorsForecastToCurrentWhenPriorIsBelowCurrent(): void
     {
         $site = $this->createSiteMock();
 
@@ -369,8 +369,12 @@ class ForecastBuilderTest extends TestCase
         ];
 
         // bounce_count is lower-is-better for trend display, but it is still an additive count
-        // within the incomplete period. A forecast below the current archived count is not a
-        // possible final value and must be suppressed.
+        // within the incomplete period, so the final value cannot fall below the current archived
+        // count (90). The same-DoW prior is 50 — below current, and not a possible final value.
+        // Rather than suppress the in-progress point (which only ever happens late in the period,
+        // where current is most of the final value), the builder floors the forecast to current
+        // and renders it flat, mirroring the running-max path. The guaranteed lower bound is more
+        // useful than a trailing gap.
         $forecastData = $this->buildForecast(
             ['Bounce count' => [50.0, 50.0, 90.0]],
             $dataTables,
@@ -384,7 +388,7 @@ class ForecastBuilderTest extends TestCase
             ['Bounce count' => ForecastMetricClassifier::MONOTONICITY_UP]
         );
 
-        self::assertSame([[null, null, null]], $forecastData);
+        self::assertSame([[null, null, 90.0]], $forecastData);
     }
 
     public function testBuildDoesNotUseSyntheticZeroAsPercentForecastSeed(): void
@@ -1261,21 +1265,26 @@ class ForecastBuilderTest extends TestCase
     {
         $site = $this->createSiteMock();
 
+        // A running-min (DOWN) series drives the gap. The additive-count below-current case no
+        // longer suppresses — it floors to current and renders flat — so the DOWN above-current
+        // gate is now the path that produces a genuine suppression with a computed-but-dropped
+        // value, which is what this test needs to exercise the no-carry-forward reset.
         $dataTables = [
-            $this->createDataTableForDay('2026-04-01', $site),
-            $this->createDataTableForDay('2026-04-08', $site),
-            $this->createDataTableForDay('2026-04-15', $site, '2026-04-15 22:48:00'),
-            $this->createDataTableForDay('2026-04-16', $site, '2026-04-16 00:00:00'),
+            $this->createDataTableForDay('2026-04-07', $site),
+            $this->createDataTableForDay('2026-04-14', $site),
+            $this->createDataTableForDay('2026-04-21', $site, '2026-04-21 02:00:00'),
+            $this->createDataTableForDay('2026-04-22', $site, '2026-04-22 02:00:00'),
         ];
 
-        // Apr 15 Wed (partial 90): same-DoW priors Apr 1 Wed = 50, Apr 8 Wed = 50, prior = 50.
-        // The UP gate (forecast >= currentValue) fails: 50 < 90, so the forecast is suppressed
-        // and previousForecastValue resets to null. Apr 16 Thu has no same-DoW priors (Apr 1
-        // and Apr 8 are both Wed) so the prior-only path also yields no forecast — without a
-        // previousForecastValue to carry, the result is null. Pins the no-carry-forward
-        // semantic across a suppression gap.
+        // Apr 21 Tue (partial min 10): same-DoW priors Apr 7 Tue = 100, Apr 14 Tue = 100,
+        // prior = 100. The DOWN gate (forecast <= currentValue) fails: 100 > 10, so the forecast
+        // is suppressed and previousForecastValue resets to null. Apr 22 Wed has no same-DoW
+        // priors (Apr 7 and Apr 14 are both Tue) so the prior-only path yields no forecast of its
+        // own — without a previousForecastValue to carry, the result is null. Were the reset not
+        // applied, Apr 22 would carry Apr 21's computed-but-suppressed 100. Pins the
+        // no-carry-forward semantic across a suppression gap.
         $forecastData = $this->buildForecast(
-            ['Visits' => [50.0, 50.0, 90.0, 0.0]],
+            ['Min bandwidth' => [100.0, 100.0, 10.0, 10.0]],
             $dataTables,
             [
                 ArchiveState::COMPLETE,
@@ -1283,7 +1292,9 @@ class ForecastBuilderTest extends TestCase
                 ArchiveState::INCOMPLETE,
                 ArchiveState::INCOMPLETE,
             ],
-            ['Visits' => false]
+            ['Min bandwidth' => false],
+            [],
+            ['Min bandwidth' => ForecastMetricClassifier::MONOTONICITY_DOWN]
         );
 
         self::assertSame([[null, null, null, null]], $forecastData);
