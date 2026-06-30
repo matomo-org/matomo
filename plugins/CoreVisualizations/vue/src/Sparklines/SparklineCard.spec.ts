@@ -16,6 +16,17 @@ jest.mock('CoreHome', () => ({
     props: ['params', 'seriesIndices'],
     template: '<img class="sparkline-stub" />',
   },
+  // SparklineCard derives graph-params from the sparkline url; parse a query string like the real
+  // MatomoUrl.parse (which receives the query string without its leading '?').
+  MatomoUrl: {
+    parse: (search: string) => {
+      const params: Record<string, string> = {};
+      new URLSearchParams(search).forEach((value, key) => {
+        params[key] = value;
+      });
+      return params;
+    },
+  },
 }), { virtual: true });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -82,21 +93,35 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(wrapper.find('.sparklineCard__title').text()).toBe('Firefox');
   });
 
-  it('omits empty graph-params / series-indices attributes', () => {
-    const wrapper = createWrapper();
+  it('omits graph-params / series-indices when none is set nor derivable from the url', () => {
+    const wrapper = createWrapper({ ...baseSparkline, url: '?module=API&action=get' });
 
     expect(wrapper.attributes('data-graph-params')).toBeUndefined();
     expect(wrapper.attributes('data-series-indices')).toBeUndefined();
   });
 
-  it('emits graph-params / series-indices attributes as JSON when populated', () => {
+  it('derives graph-params columns/rows/idGoal from the url when graphParams is empty', () => {
+    // The reused Sparkline renders its image with `src` (no `data-src`), so the legacy click
+    // handler can't read the reload columns off the img; the card supplies them from its url.
     const wrapper = createWrapper({
       ...baseSparkline,
-      graphParams: { columns: 'nb_visits' },
+      url: '?module=API&action=get&columns=nb_visits&rows=Search&idGoal=1',
+    });
+
+    expect(wrapper.attributes('data-graph-params')).toBe(
+      '{"columns":"nb_visits","rows":"Search","idGoal":"1"}',
+    );
+  });
+
+  it('emits explicit graphParams verbatim, taking precedence over the url', () => {
+    const wrapper = createWrapper({
+      ...baseSparkline,
+      // url carries nb_visits, but explicit graphParams wins.
+      graphParams: { columns: 'nb_actions' },
       seriesIndices: [0, 1],
     });
 
-    expect(wrapper.attributes('data-graph-params')).toBe('{"columns":"nb_visits"}');
+    expect(wrapper.attributes('data-graph-params')).toBe('{"columns":"nb_actions"}');
     expect(wrapper.attributes('data-series-indices')).toBe('[0,1]');
   });
 

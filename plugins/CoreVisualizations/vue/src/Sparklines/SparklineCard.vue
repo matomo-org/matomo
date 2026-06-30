@@ -29,6 +29,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
+import { MatomoUrl } from 'CoreHome';
 import NoComparison from './NoComparison.vue';
 import { SparklineEntry } from './types';
 
@@ -61,8 +62,33 @@ export default defineComponent({
     // The legacy click-to-evolution wiring (window.initializeSparklines) reads these
     // attributes off the .sparkline wrapper, so only emit them when populated.
     const graphParamsAttr = computed(() => {
-      const { graphParams } = props.sparkline;
-      return graphParams && Object.keys(graphParams).length ? JSON.stringify(graphParams) : null;
+      const { graphParams, url } = props.sparkline;
+
+      // Prefer explicit backend graphParams (set for comparison/segment sparklines).
+      if (graphParams && Object.keys(graphParams).length) {
+        return JSON.stringify(graphParams);
+      }
+
+      // Otherwise derive the evolution-graph reload params from the sparkline url. The reused
+      // CoreHome Sparkline renders the image with `src` (no `data-src`), so the click handler's
+      // own url fallback (sparkline.js) can't read the columns off the img — we supply them here
+      // so data-graph-params is always populated. Mirrors the columns/rows/idGoal the legacy
+      // fallback would have parsed.
+      if (url) {
+        const parsed = MatomoUrl.parse(url.substring(url.indexOf('?') + 1));
+        const derived: Record<string, unknown> = {};
+        (['columns', 'rows', 'idGoal'] as const).forEach((key) => {
+          if (parsed[key]) {
+            derived[key] = parsed[key];
+          }
+        });
+
+        if (Object.keys(derived).length) {
+          return JSON.stringify(derived);
+        }
+      }
+
+      return null;
     });
 
     const seriesIndicesAttr = computed(() => {

@@ -5,6 +5,11 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+.row .col {
+  padding: 8px 8px;
+  padding-top: 0;
+}
+
 // Card frame. .sparklineCard is a brand-new class unique to the redesigned card, so it can
 // be styled directly without colliding with the legacy global .sparkline (which the same
 // element keeps for the window.initializeSparklines() click-to-evolution wiring).
@@ -15,16 +20,25 @@
   // instead of truncating with an ellipsis.
   display: block;
   box-sizing: border-box;
-  // Match the widget card surface (see plugins/Dashboard/stylesheets/widget.less): theme
-  // tokens resolve in both light and dark mode, so no .inDarkMode() override is needed here.
   padding: 16px;
   background: @theme-color-widget-background;
   border: 1px solid @theme-color-border-alternative;
   border-radius: 8px;
   width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
 
+  // Clickable cards (wired to the evolution graph by window.initializeSparklines, which adds
+  // .linked and skips .notLinkable cards). Give them a pointer cursor and a subtle hover so the
+  // card reads as interactive; theme tokens keep it correct in light and dark mode.
   &.linked {
+    cursor: pointer;
     border-bottom: 1px solid @theme-color-border-alternative;
+
+    &:hover {
+      border-color: @theme-color-focus-ring-alternative;
+      border-bottom: 1px solid @theme-color-focus-ring-alternative;
+    }
   }
 
   // Segment header (comparison mode only); empty in no-comparison.
@@ -55,12 +69,20 @@
     height: 24px;
   }
 
-  // Static 304x40 sparkline on every card (for now). A fixed size keeps all cards identical
-  // (aside from the optional secondary line) instead of the per-column rounding a responsive
-  // width would produce.
+  // Fixed 40px-tall slot keeps the card a constant height no matter how the image scales, so the
+  // grid layout is never disrupted.
+  .sparklineSlot {
+    height: 40px;
+  }
+
+  // Responsive sparkline that keeps its 304:40 ratio. `height:auto` lets the 608x80 (2x) source
+  // drive the height from its natural ratio as the card width changes; `max-width:304px` caps it
+  // so it never exceeds 304x40 — which keeps the height within the 40px slot and stops it upscaling
+  // past the 2x source (staying crisp). Narrower cards scale both dimensions down within the slot.
   .sparklineImg {
     display: block;
-    width: 304px;
-    height: 40px;
+    width: 100%;
+    max-width: 304px;
+    height: auto;
   }
 }

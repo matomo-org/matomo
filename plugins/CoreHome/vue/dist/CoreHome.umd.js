@@ -11999,10 +11999,10 @@ const {
     });
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=6902c51a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=9fdccb16
 
-const Sparklinevue_type_template_id_6902c51a_hoisted_1 = ["src", "width", "height"];
-function Sparklinevue_type_template_id_6902c51a_render(_ctx, _cache, $props, $setup, $data, $options) {
+const Sparklinevue_type_template_id_9fdccb16_hoisted_1 = ["src", "width", "height"];
+function Sparklinevue_type_template_id_9fdccb16_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
     class: "sparklineImg",
     loading: "lazy",
@@ -12010,9 +12010,9 @@ function Sparklinevue_type_template_id_6902c51a_render(_ctx, _cache, $props, $se
     src: _ctx.sparklineUrl,
     width: _ctx.width,
     height: _ctx.height
-  }, null, 8, Sparklinevue_type_template_id_6902c51a_hoisted_1);
+  }, null, 8, Sparklinevue_type_template_id_9fdccb16_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=6902c51a
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=9fdccb16
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=script&lang=ts
 
@@ -12021,6 +12021,9 @@ function Sparklinevue_type_template_id_6902c51a_render(_ctx, _cache, $props, $se
 
 
 
+// Request the backend image at twice the displayed width/height so it stays crisp when the browser
+// scales it down (retina). The <img> keeps its base width/height attributes for layout/ratio.
+const SPARKLINE_SCALE_FACTOR = 2;
 /* harmony default export */ var Sparklinevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   name: 'Sparkline',
   props: {
@@ -12054,30 +12057,19 @@ function Sparklinevue_type_template_id_6902c51a_render(_ctx, _cache, $props, $se
         sparklineColors.lineColor = sparklineColors.lineColor.filter((c, index) => seriesIndices.indexOf(index) !== -1);
       }
       const colors = JSON.stringify(sparklineColors);
-      // The redesign lets sparklines be rendered server-side at a custom size; without it the
-      // width/height props only control the displayed size and the server uses its defaults.
-      // The width/height props are the displayed size; the PNG is rendered at twice that so it
-      // stays crisp on hi-DPI screens (matching the legacy 200x50-render / 100x25-display ratio).
-      const redesignEnabled = document.body.classList.contains('sparklines-redesign-enabled');
-      const sizeParams = redesignEnabled ? Object.assign(Object.assign({}, typeof this.width === 'number' ? {
-        width: this.width * 2
-      } : {}), typeof this.height === 'number' ? {
-        height: this.height * 2
-      } : {}) : {};
-      const defaultParams = Object.assign(Object.assign({
+      const defaultParams = {
         forceView: '1',
         viewDataTable: 'sparkline',
         widget: this.isWidget ? '1' : '0',
         showtitle: '1',
         colors,
         random: Date.now(),
-        date: this.defaultDate
-      }, sizeParams), {}, {
+        date: this.defaultDate,
         // mixinDefaultGetParams() will use the raw, encoded value from the URL (legacy behavior),
         // which means MatomoUrl.stringify() will end up double encoding it if we don't set it
         // ourselves here.
         segment: src_MatomoUrl_MatomoUrl.parsed.value.segment
-      });
+      };
       const givenParams = typeof params === 'object' ? params : src_MatomoUrl_MatomoUrl.parse(params.substring(params.indexOf('?') + 1));
       const helper = new AjaxHelper_AjaxHelper();
       const urlParams = helper.mixinDefaultGetParams(Object.assign(Object.assign({}, defaultParams), givenParams));
@@ -12085,6 +12077,14 @@ function Sparklinevue_type_template_id_6902c51a_render(_ctx, _cache, $props, $se
       const token_auth = src_MatomoUrl_MatomoUrl.parsed.value.token_auth;
       if (token_auth && token_auth.length && Matomo_Matomo.shouldPropagateTokenAuth) {
         urlParams.token_auth = token_auth;
+      }
+      // When dimensions are given, generate the image at 2x so it renders crisply (the <img> keeps
+      // the base width/height attributes; CSS scales the high-res source down).
+      if (this.width) {
+        urlParams.width = String(this.width * SPARKLINE_SCALE_FACTOR);
+      }
+      if (this.height) {
+        urlParams.height = String(this.height * SPARKLINE_SCALE_FACTOR);
       }
       urlParams.themeMode = themeMode;
       return `?${src_MatomoUrl_MatomoUrl.stringify(urlParams)}`;
@@ -12115,7 +12115,7 @@ function Sparklinevue_type_template_id_6902c51a_render(_ctx, _cache, $props, $se
 
 
 
-Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_6902c51a_render
+Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_9fdccb16_render
 
 /* harmony default export */ var Sparkline = (Sparklinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=f800d6ec

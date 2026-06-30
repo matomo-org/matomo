@@ -26,10 +26,12 @@
         />
       </template>
     </MetricValue>
-    <Sparkline :width="320" :height="40"
-      :params="sparkline.url"
-      :series-indices="sparkline.seriesIndices"
-    />
+    <div class="sparklineSlot">
+      <Sparkline :width="304" :height="40"
+        :params="sparkline.url"
+        :series-indices="sparkline.seriesIndices"
+      />
+    </div>
   </div>
 </template>
 
