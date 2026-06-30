@@ -231,8 +231,10 @@ export default defineComponent({
       category: string, subcategory: string, period: string, date: string, segment: string,
     ) {
       // No report to render while the gate is shown; rendering would emit matomoPageChange and
-      // abort the requests the just-mounted SiteWithoutData component fired.
+      // abort the requests the just-mounted SiteWithoutData component fired. Still clear transient
+      // notifications from the page we navigated away from (e.g. an archiving notice).
       if (this.showEmptySiteScreen) {
+        NotificationsStore.clearTransientNotifications();
         this.loading = false;
         return;
       }
