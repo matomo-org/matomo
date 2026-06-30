@@ -158,7 +158,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Endpoint for the reporting UI gate; see SitesManager::shouldShowEmptySiteMessage().
+     * Ajax endpoint for the reporting UI gate: returns a JSON boolean (true = show the tracker-setup
+     * screen). Requires view access. See SitesManager::shouldShowEmptySiteMessage().
      */
     public function getSiteEmptyState()
     {

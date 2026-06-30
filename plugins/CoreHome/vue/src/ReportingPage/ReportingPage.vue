@@ -63,6 +63,7 @@ import { NotificationsStore } from '../Notification';
 import { translate } from '../translate';
 import Matomo from '../Matomo/Matomo';
 import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store';
+import { DEFAULT_GROUP } from '../ReportingMenu/ReportingMenu.store';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
@@ -198,7 +199,7 @@ export default defineComponent({
         return false;
       }
 
-      const activeGroup = (MatomoUrl.parsed.value.group as string) || '';
+      const activeGroup = (MatomoUrl.parsed.value.group as string) || DEFAULT_GROUP;
       return !this.groupsWithoutTrackingRequirement.includes(activeGroup);
     },
   },
@@ -208,7 +209,7 @@ export default defineComponent({
         { module: 'SitesManager', action: 'getSiteEmptyState', idSite: Matomo.idSite },
         { createErrorNotification: false },
       ).then((response) => {
-        this.siteHasNoData = response === true || response === 'true';
+        this.siteHasNoData = response === true;
       }).catch(() => {
         // ignore errors - don't block the dashboard on the empty-site check
         this.siteHasNoData = false;
