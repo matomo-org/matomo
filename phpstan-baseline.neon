@@ -26,17 +26,7 @@ parameters:
 			path: core/API/DataTableManipulator/Flattener.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: core/API/DataTableManipulator/LabelFilter.php
-
-		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
-			count: 1
-			path: core/API/DataTableManipulator/LabelFilter.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between Piwik\\\\DataTable and null will always evaluate to false\\.$#"
 			count: 1
 			path: core/API/DataTableManipulator/LabelFilter.php
 
