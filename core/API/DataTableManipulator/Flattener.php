@@ -120,9 +120,7 @@ class Flattener extends DataTableManipulator
     }
 
     /**
-     * @param Row $row
      * @param int|string $rowId
-     * @param DataTable $dataTable
      * @param int $level
      * @param string $dimensionName
      * @param string $labelPrefix
