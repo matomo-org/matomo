@@ -16,16 +16,6 @@ parameters:
 			path: core/API/DataTableManipulator.php
 
 		-
-			message: "#^Method Piwik\\\\API\\\\DataTableManipulator\\:\\:loadSubtable\\(\\) should return Piwik\\\\DataTable but returns null\\.$#"
-			count: 2
-			path: core/API/DataTableManipulator.php
-
-		-
-			message: "#^PHPDoc tag @return has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 241$#"
-			count: 1
-			path: core/API/DataTableManipulator.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: core/API/DataTableManipulator/Flattener.php
