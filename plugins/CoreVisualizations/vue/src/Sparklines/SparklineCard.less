@@ -4,15 +4,26 @@
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
+.widget .row .col {
+  padding: 4px 4px;
+}
 .row .col {
   padding: 8px 8px;
   padding-top: 0;
+}
+.widget .sparkline.sparklineCard {
+  margin-left: 0;
+}
+.widget .sparklinesGrid.row {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0 16px;
 }
 
 // Card frame. .sparklineCard is a brand-new class unique to the redesigned card, so it can
 // be styled directly without colliding with the legacy global .sparkline (which the same
 // element keeps for the window.initializeSparklines() click-to-evolution wiring).
+.widget .widgetContent .sparkline.sparklineCard,
 .sparkline.sparklineCard {
   // Override the legacy global `div.sparkline { display: flex }` (Morpheus main.less): the
   // redesigned card stacks its content in normal block flow. Without this the body is a flex item
