@@ -211,21 +211,6 @@ parameters:
 			path: core/Archive/ArchiveInvalidator.php
 
 		-
-			message: "#^Method Piwik\\\\Archive\\\\ArchivePurger\\:\\:getOldestTemporaryArchiveToKeepThreshold\\(\\) should return bool\\|int but returns string\\.$#"
-			count: 2
-			path: core/Archive/ArchivePurger.php
-
-		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\$today\\)\\: Unexpected token \"\\$today\", expected type at offset 96$#"
-			count: 1
-			path: core/Archive/ArchivePurger.php
-
-		-
-			message: "#^Parameter \\#3 \\$oldestToKeep of method Piwik\\\\DataAccess\\\\Model\\:\\:getArchiveIdsForSegments\\(\\) expects string, bool\\|int given\\.$#"
-			count: 1
-			path: core/Archive/ArchivePurger.php
-
-		-
 			message: "#^Property Piwik\\\\Archive\\\\ArchivePurger\\:\\:\\$today is never read, only written\\.$#"
 			count: 1
 			path: core/Archive/ArchivePurger.php
