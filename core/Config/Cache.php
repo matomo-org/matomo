@@ -15,7 +15,8 @@ use Piwik\Piwik;
 use Piwik\Url;
 
 /**
- * Exception thrown when the config file doesn't exist.
+ * File cache backend for tracker config data, keyed by the current (trusted) hostname since the
+ * config is not loaded yet when this cache is used.
  */
 class Cache extends File
 {
