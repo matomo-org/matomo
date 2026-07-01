@@ -55,7 +55,6 @@ class LoaderLock
      *
      * @param string $key
      * @return bool
-     * @throws \Exception
      */
     public static function isLockAvailable($key)
     {
