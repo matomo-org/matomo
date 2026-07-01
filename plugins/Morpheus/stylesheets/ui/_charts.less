@@ -168,10 +168,6 @@
   color: @graph-colors-data-series7;
 }
 
-.bar-graph-colors[data-name=ticks] {
-  color: #ccc;
-}
-
 .bar-graph-colors[data-name=single-metric-label] {
   color: @theme-color-text-lighter;
 }
@@ -262,7 +258,7 @@
 }
 
 
-// Shared graph palette used while PlotLinesTweaks is enabled.
+// Shared graph palette applied to the evolution, bar and pie charts.
 .graph-series-palette(@ns) {
   // Base colors
   .@{ns}[data-name=series0] { color: @graph-series0-color; }
@@ -305,19 +301,18 @@
   .@{ns}[data-name=series7-shade3] { color: @graph-series7-shade3-color; }
 }
 
-body.plotlines-tweaks-enabled {
-  // Apply the new palette only when the feature flag is active.
-  .graph-series-palette(evolution-graph-colors);
-  .graph-series-palette(bar-graph-colors);
-  .graph-series-palette(pie-graph-colors);
+// Apply the graph palette. These come after the base series-color rules above so
+// they win by source order (same specificity).
+.graph-series-palette(evolution-graph-colors);
+.graph-series-palette(bar-graph-colors);
+.graph-series-palette(pie-graph-colors);
 
-  // Lighter tick color for PlotLinesTweaks charts.
-  .evolution-graph-colors[data-name=ticks] { color: #E0E0E0; }
-  .bar-graph-colors[data-name=ticks] { color: #E0E0E0; }
+// Lighter tick color for the evolution and bar charts.
+.evolution-graph-colors[data-name=ticks] { color: #E0E0E0; }
+.bar-graph-colors[data-name=ticks] { color: #E0E0E0; }
 
-  // Keep comparison colors aligned with the graph palette.
-  .graph-series-palette(comparison-series-color);
-}
+// Keep comparison colors aligned with the graph palette.
+.graph-series-palette(comparison-series-color);
 
 .evolution-graph-colors[data-name=grid-background] {
   color: @theme-color-background-contrast;
@@ -325,10 +320,6 @@ body.plotlines-tweaks-enabled {
 
 .evolution-graph-colors[data-name=grid-border] {
   color: @theme-color-background-highContrast;
-}
-
-.evolution-graph-colors[data-name=ticks] {
-  color: #ccc;
 }
 
 .evolution-graph-colors[data-name=single-metric-label] {

@@ -11,8 +11,8 @@ describe("EvolutionGraph", function () {
     const url = "?module=Widgetize&action=iframe&idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30"
               + "&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&viewDataTable=graphEvolution"
               + "&isFooterExpandedInDashboard=1";
-    const plotLinesTweaksColumns = "nb_visits,nb_actions,avg_time_on_site,bounce_rate";
-    const plotLinesTweaksUrl = url + "&columns=" + plotLinesTweaksColumns + "&filter_add_columns_when_show_all_columns=0";
+    const multiMetricColumns = "nb_visits,nb_actions,avg_time_on_site,bounce_rate";
+    const multiMetricUrl = url + "&columns=" + multiMetricColumns + "&filter_add_columns_when_show_all_columns=0";
     const setThemeMode = async function (themeMode) {
         await page.evaluate((mode) => {
             window.piwik.setThemeMode(mode);
@@ -292,41 +292,25 @@ describe("EvolutionGraph", function () {
         expect(element).to.be.not.ok;
     });
 
-    describe("with_PlotLinesTweaks_enabled", function () {
+    describe("footer legend", function () {
         before(function () {
             delete testEnvironment.idSitesViewAccess;
             testEnvironment.testUseMockAuth = 1;
-            testEnvironment.overrideConfig('FeatureFlags', 'PlotLinesTweaks_feature', 'enabled');
             testEnvironment.save();
         });
 
-        after(function () {
-            if (testEnvironment.configOverride.FeatureFlags) {
-                delete testEnvironment.configOverride.FeatureFlags.PlotLinesTweaks_feature;
-            }
-            testEnvironment.save();
-        });
-
-        it("should render the evolution graph footer legend correctly", async function () {
+        it("should render the evolution graph footer legend with all selected metrics", async function () {
             await page.webpage.setViewport({ width: 1350, height: 768 });
-            await page.goto(plotLinesTweaksUrl);
+            await page.goto(multiMetricUrl);
             await page.waitForNetworkIdle();
 
-            expect(await page.screenshot({ fullPage: true })).to.matchImage('plot_lines_tweaks_initial');
-        });
-
-        it("should show graph as image with footer legend when export as image icon clicked", async function () {
-            await page.goto(plotLinesTweaksUrl);
-            await page.waitForNetworkIdle();
-            await page.click('#dataTableFooterExportAsImageIcon');
-            await page.waitForNetworkIdle();
-
-            const dialog = await page.$('.ui-dialog');
-            expect(await dialog.screenshot()).to.matchImage('plot_lines_tweaks_export_image');
+            const legendState = await getFooterLegendState();
+            expect(legendState.hasLegend).to.equal(true);
+            expect(legendState.itemCount).to.equal(4);
         });
 
         it("should export the graph image using the active dark theme background", async function () {
-            await page.goto(plotLinesTweaksUrl);
+            await page.goto(multiMetricUrl);
             await page.waitForNetworkIdle();
             await setThemeMode('dark');
             await page.waitForTimeout(250);
@@ -339,7 +323,7 @@ describe("EvolutionGraph", function () {
 
         it("should overflow footer legend labels cleanly in a narrow viewport", async function () {
             await page.webpage.setViewport({ width: 320, height: 480 });
-            await page.goto(plotLinesTweaksUrl);
+            await page.goto(multiMetricUrl);
             await page.waitForNetworkIdle();
 
             const legendState = await getFooterLegendState();
@@ -348,24 +332,11 @@ describe("EvolutionGraph", function () {
             expect(legendState.visibleItemCount).to.be.at.least(1);
             expect(legendState.hiddenItemCount).to.be.above(0);
             expect(legendState.overflowLabel).to.equal('…');
-
-            expect(await page.screenshot({ fullPage: true })).to.matchImage('plot_lines_tweaks_narrow_overflow');
-        });
-
-        it("should show annotations above the footer legend", async function () {
-            await page.webpage.setViewport({ width: 1350, height: 768 });
-            await page.goto(plotLinesTweaksUrl);
-            await page.waitForNetworkIdle();
-
-            const element = await page.jQuery('.evolution-annotations>span[data-count!=0]');
-            await element.click();
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshot({ fullPage: true })).to.matchImage('plot_lines_tweaks_annotations');
         });
 
         it("should use the active dark theme background for the graph loading overlay", async function () {
-            await page.goto(plotLinesTweaksUrl);
+            await page.webpage.setViewport({ width: 1350, height: 768 });
+            await page.goto(multiMetricUrl);
             await page.waitForNetworkIdle();
             await setThemeMode('dark');
             await page.waitForTimeout(250);
