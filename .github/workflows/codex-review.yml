@@ -114,13 +114,13 @@ jobs:
           fi
 
       - name: Checkout trusted workflow assets
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           persist-credentials: false
 
       - name: Checkout PR
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
           path: pr
@@ -138,7 +138,7 @@ jobs:
             "+refs/pull/$PR_NUMBER/head"
 
       - name: Checkout Matomo skills
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: matomo-org/matomo-agent-skills
           ref: main
@@ -223,7 +223,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout trusted scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           persist-credentials: false
