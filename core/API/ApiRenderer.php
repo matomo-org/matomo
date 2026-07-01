@@ -101,7 +101,7 @@ abstract class ApiRenderer
     }
 
     /**
-     * @param $dataTable
+     * @param DataTable|array $dataTable
      * @return Renderer
      */
     protected function buildDataTableRenderer($dataTable)
@@ -125,7 +125,6 @@ abstract class ApiRenderer
     }
 
     /**
-     * @param array  $request
      * @throws Exception
      */
     public static function factory(string $format, array $request): ApiRenderer
