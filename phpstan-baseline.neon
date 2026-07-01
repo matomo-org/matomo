@@ -46,27 +46,7 @@ parameters:
 			path: core/API/DataTableManipulator/ReportTotalsCalculator.php
 
 		-
-			message: "#^Parameter \\#1 \\$apiModule of class Piwik\\\\API\\\\DataTableManipulator\\\\Flattener constructor expects bool, string given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#1 \\$apiModule of class Piwik\\\\API\\\\DataTableManipulator\\\\LabelFilter constructor expects bool, string given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#1 \\$apiModule of class Piwik\\\\API\\\\DataTableManipulator\\\\ReportTotalsCalculator constructor expects bool, string given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
 			message: "#^Parameter \\#1 \\$dataTable of method Piwik\\\\API\\\\DataTableManipulator\\\\Flattener\\:\\:flatten\\(\\) expects Piwik\\\\DataTable, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#1 \\$labels of method Piwik\\\\API\\\\DataTableManipulator\\\\LabelFilter\\:\\:filter\\(\\) expects string, array given\\.$#"
 			count: 1
 			path: core/API/DataTablePostProcessor.php
 
@@ -77,21 +57,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$table of method Piwik\\\\API\\\\DataTableManipulator\\\\ReportTotalsCalculator\\:\\:calculate\\(\\) expects Piwik\\\\DataTable, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$apiMethod of class Piwik\\\\API\\\\DataTableManipulator\\\\Flattener constructor expects bool, string given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$apiMethod of class Piwik\\\\API\\\\DataTableManipulator\\\\LabelFilter constructor expects bool, string given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$apiMethod of class Piwik\\\\API\\\\DataTableManipulator\\\\ReportTotalsCalculator constructor expects bool, string given\\.$#"
 			count: 1
 			path: core/API/DataTablePostProcessor.php
 
