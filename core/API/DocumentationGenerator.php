@@ -165,7 +165,6 @@ class DocumentationGenerator
     /**
      * Check if Class contains @hide
      *
-     * @param ReflectionClass $rClass
      * @return bool
      */
     public function checkIfClassCommentContainsHideAnnotation(ReflectionClass $rClass)
