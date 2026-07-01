@@ -4,31 +4,13 @@
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-.widget .row .col {
-  padding: 4px 4px;
-}
-.row .col {
-  padding: 8px 8px;
-  padding-top: 0;
-}
-.widget .sparkline.sparklineCard {
-  margin-left: 0;
-}
-.widget .sparklinesGrid.row {
-  margin-left: 0;
-  margin-right: 0;
-  padding: 0 16px;
-}
-
-// Card frame. .sparklineCard is a brand-new class unique to the redesigned card, so it can
-// be styled directly without colliding with the legacy global .sparkline (which the same
-// element keeps for the window.initializeSparklines() click-to-evolution wiring).
+// Card frame. .sparklineCard is a new class, so it's safe to style directly; the element keeps
+// the legacy .sparkline class only for initializeSparklines() click-to-evolution wiring.
 .widget .widgetContent .sparkline.sparklineCard,
 .sparkline.sparklineCard {
-  // Override the legacy global `div.sparkline { display: flex }` (Morpheus main.less): the
-  // redesigned card stacks its content in normal block flow. Without this the body is a flex item
-  // whose `min-width: auto` resolves to the nowrap title's width, so long titles overflow the card
-  // instead of truncating with an ellipsis.
+  // Override legacy `div.sparkline { display: flex }` (Morpheus main.less) so the card stacks in
+  // block flow. As a flex item its min-width:auto would size to the nowrap title, so long titles
+  // would overflow instead of truncating.
   display: block;
   box-sizing: border-box;
   padding: 16px;
@@ -39,9 +21,8 @@
   margin-top: 0;
   margin-bottom: 0;
 
-  // Clickable cards (wired to the evolution graph by window.initializeSparklines, which adds
-  // .linked and skips .notLinkable cards). Give them a pointer cursor and a subtle hover so the
-  // card reads as interactive; theme tokens keep it correct in light and dark mode.
+  // Clickable cards (initializeSparklines adds .linked): pointer cursor + hover border so they
+  // read as interactive. Theme tokens keep it correct in light and dark mode.
   &.linked {
     cursor: pointer;
     border-bottom: 1px solid @theme-color-border-alternative;
@@ -51,28 +32,21 @@
       border-bottom: 1px solid @theme-color-focus-ring-alternative;
     }
   }
-
-  // Segment header (comparison mode only); empty in no-comparison.
-  &__title {
-    margin: 0 0 8px;
-    font-size: 14px;
-    line-height: 20px;
-    color: @theme-color-text-lighter;
-  }
 }
 
-// No-comparison body layout: stack the metric value over a full-width sparkline.
+// No-comparison body: metric value stacked over a full-width sparkline.
 .noComparison {
-  // Fixed height so every card lines up: title(24) + primary(36) + secondary(24). The secondary
-  // line is only rendered when a 2nd metric exists, so reserving its 24px here keeps the graph at
-  // the same Y (and the card the same height) whether or not that line is present.
+  // Sparkline height, shared by the slot and the image that fills it so they can't drift.
+  @sparkline-height: 40px;
+
+  // Fixed height (title 24 + primary 36 + secondary 24) so cards line up whether or not the
+  // optional secondary line is present.
   .metricValue {
     height: 84px;
     margin-bottom: 12px;
   }
 
-  // Clamp the title to a single line; the full title is available on hover (MetricValue binds it
-  // to the tooltip). Keeps a long title from wrapping and growing the card.
+  // Clamp the title to one line so it can't grow the card; the full title shows on hover.
   .metricValue__title {
     white-space: nowrap;
     overflow: hidden;
@@ -80,20 +54,16 @@
     height: 24px;
   }
 
-  // Fixed 40px-tall slot keeps the card a constant height no matter how the image scales, so the
-  // grid layout is never disrupted.
+  // Fixed-height slot keeps the card height constant regardless of the image.
   .sparklineSlot {
-    height: 40px;
+    height: @sparkline-height;
   }
 
-  // Responsive sparkline that keeps its 304:40 ratio. `height:auto` lets the 608x80 (2x) source
-  // drive the height from its natural ratio as the card width changes; `max-width:304px` caps it
-  // so it never exceeds 304x40 — which keeps the height within the 40px slot and stops it upscaling
-  // past the 2x source (staying crisp). Narrower cards scale both dimensions down within the slot.
+  // Fills the slot at any card width: fluid width, height pinned to the slot. The 2x (608x80)
+  // source stays crisp as it stretches.
   .sparklineImg {
     display: block;
     width: 100%;
-    max-width: 304px;
-    height: auto;
+    height: @sparkline-height;
   }
 }

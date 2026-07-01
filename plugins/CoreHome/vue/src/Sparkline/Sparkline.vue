@@ -24,10 +24,6 @@ import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import RangePeriod from '../Periods/Range';
 import { format } from '../Periods';
 
-// Request the backend image at twice the displayed width/height so it stays crisp when the browser
-// scales it down (retina). The <img> keeps its base width/height attributes for layout/ratio.
-const SPARKLINE_SCALE_FACTOR = 2;
-
 export default defineComponent({
   name: 'Sparkline',
   props: {
@@ -99,15 +95,6 @@ export default defineComponent({
       const token_auth = MatomoUrl.parsed.value.token_auth as string;
       if (token_auth && token_auth.length && Matomo.shouldPropagateTokenAuth) {
         urlParams.token_auth = token_auth;
-      }
-
-      // When dimensions are given, generate the image at 2x so it renders crisply (the <img> keeps
-      // the base width/height attributes; CSS scales the high-res source down).
-      if (this.width) {
-        urlParams.width = String(this.width * SPARKLINE_SCALE_FACTOR);
-      }
-      if (this.height) {
-        urlParams.height = String(this.height * SPARKLINE_SCALE_FACTOR);
       }
 
       urlParams.themeMode = themeMode;

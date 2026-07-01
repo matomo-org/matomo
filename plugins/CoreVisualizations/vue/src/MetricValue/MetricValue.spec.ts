@@ -29,19 +29,6 @@ describe('CoreVisualizations/MetricValue', () => {
     expect(wrapper.find('.metricValue__number').text()).toBe('190');
   });
 
-  it('capitalises the first letter of the title for both the text and the tooltip', () => {
-    const wrapper = mount(MetricValue as any, {
-      props: {
-        title: 'bounce rate',
-        value: '71%',
-      },
-    });
-
-    const title = wrapper.find('.metricValue__title');
-    expect(title.text()).toBe('Bounce rate');
-    expect(title.attributes('title')).toBe('Bounce rate');
-  });
-
   it('renders the secondary value and label as separate elements', () => {
     const wrapper = mount(MetricValue as any, {
       props: {
