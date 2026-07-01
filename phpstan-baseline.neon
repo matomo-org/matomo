@@ -11,11 +11,6 @@ parameters:
 			path: core/API/DataTableGenericFilter.php
 
 		-
-			message: "#^Method Piwik\\\\API\\\\DataTableGenericFilter\\:\\:applyGenericFilters\\(\\) should return bool but empty return statement found\\.$#"
-			count: 1
-			path: core/API/DataTableGenericFilter.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: core/API/DataTableManipulator.php
