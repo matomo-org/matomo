@@ -25,8 +25,8 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\BotTracking\Metrics as BotTrackingMetrics;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
 use Piwik\Plugins\PrivacyManager\DataRounding;
-use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\MultiSites\Columns\Metrics\EcommerceOnlyEvolutionMetric;
+use Piwik\Plugins\MultiSites\RecordBuilders\AllSitesMetrics;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsPiwik;
@@ -62,14 +62,14 @@ class API extends \Piwik\Plugin\API
         self::NB_VISITS_METRIC   => [
             self::METRIC_TRANSLATION_KEY        => 'General_ColumnNbVisits',
             self::METRIC_EVOLUTION_COL_NAME_KEY => 'visits_evolution',
-            self::METRIC_RECORD_NAME_KEY        => self::NB_VISITS_METRIC,
+            self::METRIC_RECORD_NAME_KEY        => AllSitesMetrics::NB_VISITS,
             self::METRIC_COL_NAME_KEY           => self::NB_VISITS_METRIC,
             self::METRIC_IS_ECOMMERCE_KEY       => false,
         ],
         self::NB_ACTIONS_METRIC  => [
             self::METRIC_TRANSLATION_KEY        => 'General_ColumnNbActions',
             self::METRIC_EVOLUTION_COL_NAME_KEY => 'actions_evolution',
-            self::METRIC_RECORD_NAME_KEY        => self::NB_ACTIONS_METRIC,
+            self::METRIC_RECORD_NAME_KEY        => AllSitesMetrics::NB_ACTIONS,
             self::METRIC_COL_NAME_KEY           => self::NB_ACTIONS_METRIC,
             self::METRIC_IS_ECOMMERCE_KEY       => false,
         ],
@@ -516,14 +516,14 @@ class API extends \Piwik\Plugin\API
             $metrics[self::NB_PAGEVIEWS_LABEL] = [
                 self::METRIC_TRANSLATION_KEY        => 'General_ColumnPageviews',
                 self::METRIC_EVOLUTION_COL_NAME_KEY => 'pageviews_evolution',
-                self::METRIC_RECORD_NAME_KEY        => self::NB_PAGEVIEWS_METRIC,
+                self::METRIC_RECORD_NAME_KEY        => AllSitesMetrics::NB_PAGEVIEWS,
                 self::METRIC_COL_NAME_KEY           => self::NB_PAGEVIEWS_LABEL,
                 self::METRIC_IS_ECOMMERCE_KEY       => false,
             ];
             $metrics[self::NB_HITS_LABEL] = [
                 self::METRIC_TRANSLATION_KEY        => 'General_ColumnHits',
                 self::METRIC_EVOLUTION_COL_NAME_KEY => 'hits_evolution',
-                self::METRIC_RECORD_NAME_KEY        => self::NB_HITS_METRIC,
+                self::METRIC_RECORD_NAME_KEY        => AllSitesMetrics::HITS,
                 self::METRIC_COL_NAME_KEY           => self::NB_HITS_LABEL,
                 self::METRIC_IS_ECOMMERCE_KEY       => false,
             ];
@@ -544,7 +544,7 @@ class API extends \Piwik\Plugin\API
             $metrics[self::GOAL_REVENUE_METRIC] = [
                 self::METRIC_TRANSLATION_KEY        => 'General_ColumnRevenue',
                 self::METRIC_EVOLUTION_COL_NAME_KEY => self::GOAL_REVENUE_METRIC . '_evolution',
-                self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_REVENUE_METRIC),
+                self::METRIC_RECORD_NAME_KEY        => AllSitesMetrics::REVENUE,
                 self::METRIC_COL_NAME_KEY           => self::GOAL_REVENUE_METRIC,
                 self::METRIC_IS_ECOMMERCE_KEY       => false,
             ];
@@ -554,7 +554,7 @@ class API extends \Piwik\Plugin\API
                 $metrics[self::GOAL_CONVERSION_METRIC] = [
                     self::METRIC_TRANSLATION_KEY        => 'Goals_ColumnConversions',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::GOAL_CONVERSION_METRIC . '_evolution',
-                    self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC),
+                    self::METRIC_RECORD_NAME_KEY        => AllSitesMetrics::NB_CONVERSIONS,
                     self::METRIC_COL_NAME_KEY           => self::GOAL_CONVERSION_METRIC,
                     self::METRIC_IS_ECOMMERCE_KEY       => false,
                 ];
@@ -563,7 +563,7 @@ class API extends \Piwik\Plugin\API
                 $metrics[self::ECOMMERCE_ORDERS_METRIC] = [
                     self::METRIC_TRANSLATION_KEY        => 'General_EcommerceOrders',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::ECOMMERCE_ORDERS_METRIC . '_evolution',
-                    self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_CONVERSION_METRIC, 0),
+                    self::METRIC_RECORD_NAME_KEY        => AllSitesMetrics::ORDERS,
                     self::METRIC_COL_NAME_KEY           => self::ECOMMERCE_ORDERS_METRIC,
                     self::METRIC_IS_ECOMMERCE_KEY       => true,
                 ];
@@ -572,7 +572,7 @@ class API extends \Piwik\Plugin\API
                 $metrics[self::ECOMMERCE_REVENUE_METRIC] = [
                     self::METRIC_TRANSLATION_KEY        => 'General_ProductRevenue',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::ECOMMERCE_REVENUE_METRIC . '_evolution',
-                    self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_REVENUE_METRIC, 0),
+                    self::METRIC_RECORD_NAME_KEY        => AllSitesMetrics::ECOMMERCE_REVENUE,
                     self::METRIC_COL_NAME_KEY           => self::ECOMMERCE_REVENUE_METRIC,
                     self::METRIC_IS_ECOMMERCE_KEY       => true,
                 ];
