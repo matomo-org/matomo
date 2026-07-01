@@ -197,8 +197,7 @@ class Config
     }
 
     /**
-     * @param $general
-     * @return mixed
+     * @return array
      */
     private function getDatatableRowLimits()
     {
