@@ -6,12 +6,12 @@
         "EmptyDatabaseError": "Datubāze %s ir tukša. Jums jāizlabo vai jāizdzēš Jūsu Matomo iestatījumu datne.",
         "ErrorDuringPluginsUpdates": "Kļūda atjaunojot spraudņus:",
         "ExceptionAlreadyLatestVersion": "Jūsu Matomo versija %s ir jaunākā pieejamā.",
-        "ExceptionArchiveEmpty": "Tukšs arhīvs",
+        "ExceptionArchiveEmpty": "Tukšs arhīvs.",
         "ExceptionArchiveIncompatible": "Nesaderīgs arhīvs: %s",
         "ExceptionArchiveIncomplete": "Arhīvs nav pilnīgs: trūkst dažas datnes (piem., %s).",
         "InstallingTheLatestVersion": "Tiek instalēta jaunākā versija",
         "NoteForLargePiwikInstances": "Svarīgas piezīmes lielām Matomo instalācijām",
-        "PiwikHasBeenSuccessfullyUpgraded": "Matomo tika veiksmīgi atjaunināts",
+        "PiwikHasBeenSuccessfullyUpgraded": "Matomo veiksmīgi atjaunināts!",
         "PiwikUpdatedSuccessfully": "Matomo atjaunināts veiksmīgi!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Matomo datubāze tiks atjaunināta no %1$s līdz %2$s versijai.",
         "ReadyToGo": "Esat gatavi?",
@@ -20,13 +20,13 @@
         "ThereIsNewVersionAvailableForUpdate": "Ir pieejama atjaunināšanai jauna Matomo versija",
         "UnpackingTheUpdate": "Notiek atjauninājuma atpakošana",
         "UpdateAutomatically": "Atjaunināt automātiski",
-        "UpdateSuccessTitle": "Matomo tika veiksmīgi atjaunināts",
+        "UpdateSuccessTitle": "Matomo veiksmīgi atjaunināts!",
         "UpdateTitle": "Atjaunināt",
         "UpgradeComplete": "Atjaunināšana pabeigta!",
         "UpgradePiwik": "Atjaunināt Matomo",
         "VerifyingUnpackedFiles": "Notiek atpakoto datņu pārbaude",
         "WarningMessages": "Brīdinājumi:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Mēs automātiski deaktivizējām sekojošus spraudņus: %s",
-        "YourDatabaseIsOutOfDate": "Jūsu Matomo datubāze ir novecojusi un tā ir jaatjaunina pirms varēsiet turpināt"
+        "YourDatabaseIsOutOfDate": "Jūsu Matomo datubāze ir novecojusi un tā ir jaatjaunina pirms varēsiet turpināt."
     }
 }
