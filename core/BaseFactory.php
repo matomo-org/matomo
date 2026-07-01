@@ -27,7 +27,7 @@ abstract class BaseFactory
      * Creates a new instance of a class using a string ID.
      *
      * @param string $classId The ID of the class.
-     * @return \Piwik\DataTable\Renderer
+     * @return object
      * @throws Exception if $classId is invalid.
      */
     public static function factory($classId)
