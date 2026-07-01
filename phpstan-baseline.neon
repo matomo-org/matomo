@@ -11,22 +11,7 @@ parameters:
 			path: core/API/DataTableGenericFilter.php
 
 		-
-			message: "#^Method Piwik\\\\API\\\\DataTableGenericFilter\\:\\:applyGenericFilters\\(\\) should return bool but empty return statement found\\.$#"
-			count: 1
-			path: core/API/DataTableGenericFilter.php
-
-		-
 			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: core/API/DataTableManipulator.php
-
-		-
-			message: "#^Method Piwik\\\\API\\\\DataTableManipulator\\:\\:loadSubtable\\(\\) should return Piwik\\\\DataTable but returns null\\.$#"
-			count: 2
-			path: core/API/DataTableManipulator.php
-
-		-
-			message: "#^PHPDoc tag @return has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 241$#"
 			count: 1
 			path: core/API/DataTableManipulator.php
 
@@ -39,19 +24,9 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between Piwik\\\\DataTable and null will always evaluate to false\\.$#"
 			count: 1
 			path: core/API/DataTableManipulator/Flattener.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: core/API/DataTableManipulator/LabelFilter.php
 
 		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
-			count: 1
-			path: core/API/DataTableManipulator/LabelFilter.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between Piwik\\\\DataTable and null will always evaluate to false\\.$#"
 			count: 1
 			path: core/API/DataTableManipulator/LabelFilter.php
 
@@ -71,27 +46,7 @@ parameters:
 			path: core/API/DataTableManipulator/ReportTotalsCalculator.php
 
 		-
-			message: "#^Parameter \\#1 \\$apiModule of class Piwik\\\\API\\\\DataTableManipulator\\\\Flattener constructor expects bool, string given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#1 \\$apiModule of class Piwik\\\\API\\\\DataTableManipulator\\\\LabelFilter constructor expects bool, string given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#1 \\$apiModule of class Piwik\\\\API\\\\DataTableManipulator\\\\ReportTotalsCalculator constructor expects bool, string given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
 			message: "#^Parameter \\#1 \\$dataTable of method Piwik\\\\API\\\\DataTableManipulator\\\\Flattener\\:\\:flatten\\(\\) expects Piwik\\\\DataTable, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#1 \\$labels of method Piwik\\\\API\\\\DataTableManipulator\\\\LabelFilter\\:\\:filter\\(\\) expects string, array given\\.$#"
 			count: 1
 			path: core/API/DataTablePostProcessor.php
 
@@ -102,21 +57,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$table of method Piwik\\\\API\\\\DataTableManipulator\\\\ReportTotalsCalculator\\:\\:calculate\\(\\) expects Piwik\\\\DataTable, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$apiMethod of class Piwik\\\\API\\\\DataTableManipulator\\\\Flattener constructor expects bool, string given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$apiMethod of class Piwik\\\\API\\\\DataTableManipulator\\\\LabelFilter constructor expects bool, string given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$apiMethod of class Piwik\\\\API\\\\DataTableManipulator\\\\ReportTotalsCalculator constructor expects bool, string given\\.$#"
 			count: 1
 			path: core/API/DataTablePostProcessor.php
 
