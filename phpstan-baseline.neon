@@ -336,11 +336,6 @@ parameters:
 			path: core/ArchiveProcessor/RecordBuilder.php
 
 		-
-			message: "#^Method Piwik\\\\ArchiveProcessor\\\\Rules\\:\\:getSelectableDoneFlagValues\\(\\) should return array\\<string\\> but returns array\\<int, int\\>\\.$#"
-			count: 1
-			path: core/ArchiveProcessor/Rules.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: core/ArchiveProcessor/Rules.php
@@ -366,11 +361,6 @@ parameters:
 			path: core/AssetManager.php
 
 		-
-			message: "#^PHPDoc tag @throws with type Piwik\\\\AssetManager\\\\Exception is not subtype of Throwable$#"
-			count: 1
-			path: core/AssetManager/UIAsset.php
-
-		-
 			message: "#^Property Piwik\\\\AssetManager\\\\UIAsset\\\\OnDiskUIAsset\\:\\:\\$relativeRootDir \\(string\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: core/AssetManager/UIAsset/OnDiskUIAsset.php
@@ -379,21 +369,6 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: core/AssetManager/UIAsset/OnDiskUIAsset.php
-
-		-
-			message: "#^Default value of the parameter \\#1 \\$pluginNames \\(false\\) of method Piwik\\\\AssetManager\\\\UIAssetCacheBuster\\:\\:piwikVersionBasedCacheBuster\\(\\) is incompatible with type array\\<string\\>\\.$#"
-			count: 1
-			path: core/AssetManager/UIAssetCacheBuster.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
-			count: 1
-			path: core/AssetManager/UIAssetCacheBuster.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 2
-			path: core/AssetManager/UIAssetCacheBuster.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between mixed and null will always evaluate to false\\.$#"
