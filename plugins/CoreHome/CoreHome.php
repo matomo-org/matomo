@@ -151,13 +151,13 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/cloud.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
         $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
-        $stylesheets[] = "plugins/CoreHome/stylesheets/promo.less";
+        $stylesheets[] = "plugins/CoreHome/templates/getPromoVideo.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/color_manager.css";
         $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/notification.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/layout.less";
-        $stylesheets[] = "plugins/CoreHome/stylesheets/matomo-loader.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/MatomoLoader/matomoLoader.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Notification/Notification.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/QuickAccess/QuickAccess.less";
