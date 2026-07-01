@@ -129,7 +129,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.evaluate(function () {
                 var elements = document.querySelectorAll('table tr td:nth-child(2)');
                 for (var i in elements) {
-                    if (elements.hasOwnProperty(i) && elements[i].innerText.match(/^[0-9]\.[0-9]\.[0-9]$/)) {
+                    if (elements.hasOwnProperty(i) && elements[i].innerText.match(/^[0-9]+\.[0-9]+\.[0-9]+$/)) {
                         elements[i].innerText = '3.0.0'
                     }
                 }
