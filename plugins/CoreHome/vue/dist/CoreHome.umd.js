@@ -2908,9 +2908,44 @@ function doFocusIf(el, binding) {
 const {
   $: Tooltips_$
 } = window;
+// Tracks the MutationObserver attached to each tooltip host so it can be
+// disconnected again when the host element is unmounted.
+const observers = new WeakMap();
 function defaultContentTransform() {
   const title = Tooltips_$(this).attr('title') || '';
   return window.vueSanitize(title.replace(/\n/g, '<br />'));
+}
+/**
+ * jQuery UI shows a single, delegated tooltip for every descendant of the host
+ * element that has a `title`. It only auto-closes a tooltip when its target
+ * receives mouseleave/focusout, or when the target is removed through jQuery's
+ * own `remove` event. Vue removes elements natively (eg. a v-if swap on an
+ * inline action button), which triggers neither - so a tooltip that was open
+ * over a now-removed element is left orphaned on screen.
+ *
+ * After any descendant is removed, close every open tooltip whose target is no
+ * longer attached to the document. Triggering mouseleave/focusout routes to the
+ * close handlers jQuery UI bound on the target, and the `ui-tooltip-id` data it
+ * stored survives native removal, so the orphaned tooltip is cleaned up.
+ */
+function closeOrphanedTooltips(el) {
+  let instance;
+  try {
+    instance = Tooltips_$(el).tooltip('instance');
+  } catch (e) {
+    return; // tooltip not initialised (or already destroyed)
+  }
+  if (!instance || !instance.tooltips) {
+    return;
+  }
+  // Snapshot the ids first - closing a tooltip mutates instance.tooltips.
+  Object.keys(instance.tooltips).forEach(id => {
+    var _instance;
+    const target = (_instance = instance) === null || _instance === void 0 || (_instance = _instance.tooltips[id]) === null || _instance === void 0 || (_instance = _instance.element) === null || _instance === void 0 ? void 0 : _instance[0];
+    if (target && !target.isConnected) {
+      Tooltips_$(target).trigger('mouseleave').trigger('focusout');
+    }
+  });
 }
 function setupTooltips(el, binding) {
   var _binding$value, _binding$value2, _binding$value3, _binding$value4, _binding$value5, _binding$value6;
@@ -2924,6 +2959,18 @@ function setupTooltips(el, binding) {
     hide: false,
     tooltipClass: (_binding$value6 = binding.value) === null || _binding$value6 === void 0 ? void 0 : _binding$value6.tooltipClass
   });
+  if (!observers.has(el)) {
+    const observer = new MutationObserver(mutations => {
+      if (mutations.some(mutation => mutation.removedNodes.length > 0)) {
+        closeOrphanedTooltips(el);
+      }
+    });
+    observer.observe(el, {
+      childList: true,
+      subtree: true
+    });
+    observers.set(el, observer);
+  }
 }
 /* harmony default export */ var Tooltips = ({
   mounted(el, binding) {
@@ -2933,6 +2980,11 @@ function setupTooltips(el, binding) {
     setTimeout(() => setupTooltips(el, binding));
   },
   beforeUnmount(el) {
+    const observer = observers.get(el);
+    if (observer) {
+      observer.disconnect();
+      observers.delete(el);
+    }
     try {
       window.$(el).tooltip('destroy');
     } catch (e) {
