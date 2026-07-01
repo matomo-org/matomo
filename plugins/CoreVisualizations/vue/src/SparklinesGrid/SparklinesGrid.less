@@ -10,31 +10,31 @@
 .sparklinesGrid {
   // Row gap: each column's bottom padding, cancelled on the last row by an equal negative
   // margin on the grid. Shared so the two stay in sync.
-  @row-gap: 16px;
+  @_row-gap: 16px;
 
   // Columns come from Materialize's float classes (col s6 m6 l4 xl3 = 2/2/4/4); the media
   // queries below add a 5th tier. Floats keep an incomplete last row packed left (flex broke
   // that). The card frame itself lives in SparklineCard.less.
   .col {
-    padding: 0 8px @row-gap;
+    padding: 0 8px @_row-gap;
   }
 
   // The grid is itself the .row; pull it up one gap to cancel the last row's bottom padding
   // (the same offset idiom Materialize uses for the horizontal .col padding).
   &.row {
-    margin-bottom: -@row-gap;
+    margin-bottom: -@_row-gap;
   }
 
   // 5-column tier above xl (1201px). 5 isn't a native col fraction (12/5), so set the width
   // directly; the selector needs .xl3 (4 classes) to outrank Materialize's `.row .col.xl3`.
-  @media only screen and (min-width: 1920px) {
+  @media (min-width: 1920px) {
     &.row > .col.xl3 {
       width: 20%;
     }
   }
 
   // Single column below 320px, same direct-width override; .s6 outranks `.row .col.s6`.
-  @media only screen and (max-width: 320px) {
+  @media (max-width: 320px) {
     &.row > .col.s6 {
       width: 100%;
     }
