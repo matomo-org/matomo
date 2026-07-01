@@ -448,7 +448,7 @@ class Access
     }
 
     /**
-     * Returns `true` if the current user has admin access to at least one site.
+     * Returns `true` if the current user has write access to at least one site.
      *
      * @return bool
      */
@@ -568,11 +568,11 @@ class Access
     }
 
     /**
-     * This method checks that the user has VIEW or ADMIN access for the given list of websites.
-     * If the user doesn't have VIEW or ADMIN access for at least one website of the list, we throw an exception.
+     * This method checks that the user has WRITE access for the given list of websites.
+     * If the user doesn't have WRITE access for at least one website of the list, we throw an exception.
      *
      * @param int|array|string $idSites List of ID sites to check (integer, array of integers, string comma separated list of integers)
-     * @throws \Piwik\NoAccessException  If for any of the websites the user doesn't have an VIEW or ADMIN access
+     * @throws \Piwik\NoAccessException  If for any of the websites the user doesn't have a WRITE access
      */
     public function checkUserHasWriteAccess($idSites)
     {
@@ -694,7 +694,7 @@ class Access
      * Returns the level of access the current user has to the given site.
      *
      * @param int $idSite The site to check.
-     * @return string The access level, eg, 'view', 'admin', 'noaccess'.
+     * @return string The access level, eg, 'view', 'write', 'admin', 'noaccess'.
      */
     public function getRoleForSite($idSite)
     {
@@ -741,7 +741,7 @@ class Access
      * Throw a NoAccessException with the given message, or a more generic 'You need to log in' message if the
      * user is not currently logged in (e.g. if session has expired).
      *
-     * @param $message
+     * @param string $message
      * @throws NoAccessException
      */
     private function throwNoAccessException($message)
