@@ -2949,6 +2949,9 @@ function closeOrphanedTooltips(el) {
 }
 function setupTooltips(el, binding) {
   var _binding$value, _binding$value2, _binding$value3, _binding$value4, _binding$value5, _binding$value6;
+  if (!el.isConnected) {
+    return;
+  }
   Tooltips_$(el).tooltip({
     track: true,
     content: ((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.content) || defaultContentTransform,
