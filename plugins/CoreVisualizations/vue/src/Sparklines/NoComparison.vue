@@ -27,7 +27,7 @@
       </template>
     </MetricValue>
     <div class="sparklineSlot">
-      <Sparkline :width="304" :height="40"
+      <Sparkline :width="380" :height="40"
         :params="sparkline.url"
         :series-indices="sparkline.seriesIndices"
       />

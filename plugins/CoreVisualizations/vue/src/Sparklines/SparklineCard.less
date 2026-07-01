@@ -37,8 +37,10 @@
 
 // No-comparison body: metric value stacked over a full-width sparkline.
 .noComparison {
-  // Sparkline height, shared by the slot and the image that fills it so they can't drift.
+  // Sparkline dimensions. The height is the fixed slot height; the width is the base size the
+  // image scales from, and must match the <Sparkline :width> passed in NoComparison.vue.
   @_sparkline-height: 40px;
+  @_sparkline-width: 380px;
 
   // Fixed height (title 24 + primary 36 + secondary 24) so cards line up whether or not the
   // optional secondary line is present.
@@ -55,16 +57,23 @@
     height: 24px;
   }
 
-  // Fixed-height slot keeps the card height constant regardless of the image.
+  // Fixed-height slot keeps the card height constant regardless of the image. Centering the image
+  // sits it mid-slot once it becomes shorter than the slot; align-items also stops flex's default
+  // `stretch` from forcing the image back to full height.
   .sparklineSlot {
     height: @_sparkline-height;
+    display: flex;
+    align-items: center;
   }
 
-  // Fills the slot at any card width: fluid width, height pinned to the slot. The 2x (608x80)
-  // source stays crisp as it stretches.
+  // Fluid width with height derived from the 380x40 aspect ratio (via the img's width/height
+  // attributes) so the sparkline scales without distortion, becoming shorter than the slot on
+  // narrow cards. Capping the width at the base stops it rendering taller than the fixed slot on
+  // very wide monitors. The 2x (760x80) source stays crisp as it scales.
   .sparklineImg {
     display: block;
     width: 100%;
-    height: @_sparkline-height;
+    height: auto;
+    max-width: @_sparkline-width;
   }
 }

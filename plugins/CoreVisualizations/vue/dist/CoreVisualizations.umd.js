@@ -1118,19 +1118,19 @@ function SparklineCardvue_type_template_id_4bca8c84_render(_ctx, _cache, $props,
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=4bca8c84
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=5ffc445e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=240ad3ea
 
-const NoComparisonvue_type_template_id_5ffc445e_hoisted_1 = {
+const NoComparisonvue_type_template_id_240ad3ea_hoisted_1 = {
   class: "noComparison"
 };
-const NoComparisonvue_type_template_id_5ffc445e_hoisted_2 = {
+const NoComparisonvue_type_template_id_240ad3ea_hoisted_2 = {
   class: "sparklineSlot"
 };
-function NoComparisonvue_type_template_id_5ffc445e_render(_ctx, _cache, $props, $setup, $data, $options) {
+function NoComparisonvue_type_template_id_240ad3ea_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_EvolutionBadge = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EvolutionBadge");
   const _component_MetricValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MetricValue");
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NoComparisonvue_type_template_id_5ffc445e_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MetricValue, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NoComparisonvue_type_template_id_240ad3ea_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MetricValue, {
     title: _ctx.title,
     value: _ctx.primaryValue,
     "secondary-value": _ctx.secondaryValue,
@@ -1147,14 +1147,14 @@ function NoComparisonvue_type_template_id_5ffc445e_render(_ctx, _cache, $props, 
       tooltip: _ctx.sparkline.evolution.tooltip || ''
     }, null, 8, ["percent", "trend", "is-lower-value-better", "tooltip"])]),
     key: "0"
-  } : undefined]), 1032, ["title", "value", "secondary-value", "secondary-label", "documentation"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", NoComparisonvue_type_template_id_5ffc445e_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
-    width: 304,
+  } : undefined]), 1032, ["title", "value", "secondary-value", "secondary-label", "documentation"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", NoComparisonvue_type_template_id_240ad3ea_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+    width: 380,
     height: 40,
     params: _ctx.sparkline.url,
     "series-indices": _ctx.sparkline.seriesIndices
   }, null, 8, ["params", "series-indices"])])]);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=5ffc445e
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=240ad3ea
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=script&lang=ts
 
@@ -1235,7 +1235,7 @@ function NoComparisonvue_type_template_id_5ffc445e_render(_ctx, _cache, $props, 
 
 
 
-NoComparisonvue_type_script_lang_ts.render = NoComparisonvue_type_template_id_5ffc445e_render
+NoComparisonvue_type_script_lang_ts.render = NoComparisonvue_type_template_id_240ad3ea_render
 
 /* harmony default export */ var NoComparison = (NoComparisonvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=script&lang=ts
