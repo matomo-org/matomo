@@ -114,13 +114,13 @@ jobs:
           fi
 
       - name: Checkout trusted workflow assets
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           persist-credentials: false
 
       - name: Checkout PR
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
           path: pr
@@ -138,7 +138,7 @@ jobs:
             "+refs/pull/$PR_NUMBER/head"
 
       - name: Checkout Matomo skills
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: matomo-org/matomo-agent-skills
           ref: main
@@ -190,7 +190,7 @@ jobs:
 
       - name: Run Codex review
         id: run_codex
-        uses: openai/codex-action@e0fdf01220eb9a88167c4898839d273e3f2609d1 # v1
+        uses: openai/codex-action@10cb888d2ed3b99867f7e7ccff174a861a75aeb6 # v1
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt-file: ${{ runner.temp }}/codex-review-prompt.md
@@ -223,7 +223,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout trusted scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           persist-credentials: false

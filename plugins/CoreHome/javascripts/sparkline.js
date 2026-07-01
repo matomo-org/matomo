@@ -45,14 +45,29 @@ piwik.refreshSparklines = function () {
         var colors = JSON.stringify(sparklineColors);
         var appendToSparklineUrl = '&colors=' + encodeURIComponent(colors);
 
+        // The redesign lets sparklines be rendered at a custom size; without it we keep the
+        // legacy behaviour of rendering at the server default and displaying at 100x25.
+        var redesignEnabled = document.body.classList.contains('sparklines-redesign-enabled');
+        var width = sparklineDisplayWidth;
+        var height = sparklineDisplayHeight;
+
+        if (redesignEnabled) {
+            width = parseInt($self.attr('width'), 10) || sparklineDisplayWidth;
+            height = parseInt($self.attr('height'), 10) || sparklineDisplayHeight;
+            // Render the PNG at twice the displayed size so it stays crisp on hi-DPI screens
+            // (matching the legacy 200x50-render / 100x25-display ratio).
+            appendToSparklineUrl += '&width=' + encodeURIComponent(width * 2)
+                + '&height=' + encodeURIComponent(height * 2);
+        }
+
         // Append the token_auth to the URL if it was set (eg. embed dashboard)
         var token_auth = broadcast.getValueFromUrl('token_auth');
         if (token_auth.length && piwik.shouldPropagateTokenAuth) {
             appendToSparklineUrl += '&token_auth=' + token_auth;
         }
 
-        $self.attr('width', sparklineDisplayWidth);
-        $self.attr('height', sparklineDisplayHeight);
+        $self.attr('width', width);
+        $self.attr('height', height);
         $self.attr('src', dataSrc + appendToSparklineUrl);
     });
 };

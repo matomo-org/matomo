@@ -196,6 +196,52 @@ describe("EmptySite", function () {
     expect(mailtoLink).to.match(/^mailto:\?[a-zA-Z0-9&%=.,_*()\[\]'"-]*$/);
   });
 
+  // switch reporting groups the way the top-menu links do: only the group is set in the hash,
+  // the section's category/subcategory are then resolved client-side by the reporting menu.
+  async function switchReportingGroup(group) {
+    await page.evaluate((targetGroup) => {
+      const hash = { ...window.CoreHome.MatomoUrl.hashParsed.value };
+      delete hash.category;
+      delete hash.subcategory;
+      hash.group = targetGroup;
+      window.CoreHome.MatomoUrl.updateHash(hash);
+    }, group);
+  }
+
+  it('should reload the tracker-setup screen when returning to it from another section', async function () {
+    await page.goto('about:blank');
+    await page.goto(urlToTest);
+    await page.waitForSelector('#start-tracking-method-list', { visible: true });
+
+    // AI Insights is exempt from the tracker-setup gate, so its reporting loads normally
+    await switchReportingGroup('CoreHome_AIInsights');
+    await page.waitForFunction(() => document.body && document.body.id !== 'site-without-data');
+
+    // a transient notification raised while in the other section must not leak back
+    await page.evaluate(() => window.CoreHome.NotificationsStore.show({
+      id: 'EmptySiteRegressionNotification',
+      message: 'notification from another section',
+      context: 'info',
+      type: 'transient',
+    }));
+    await page.waitForFunction(
+      () => document.body.innerText.indexOf('notification from another section') !== -1
+    );
+
+    // back to the default (Analytics) group: the gate must return with its methods reloaded
+    await switchReportingGroup('');
+    await page.waitForFunction(() => document.body && document.body.id === 'site-without-data');
+    await page.waitForSelector('#start-tracking-method-list', { visible: true });
+
+    const methodCount = await page.evaluate(() => $('#start-tracking-method-list .list-entry').length);
+    expect(methodCount).to.be.greaterThan(0);
+
+    // and the transient notification from the other section must have been cleared
+    await page.waitForFunction(
+      () => document.body.innerText.indexOf('notification from another section') === -1
+    );
+  });
+
   it('should be possible to ignore this screen for one hour', async function () {
     await page.goto('about:blank');
     await page.goto(urlToTest);

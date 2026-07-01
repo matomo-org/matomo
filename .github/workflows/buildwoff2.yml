@@ -52,7 +52,7 @@ jobs:
           fi
           echo "branch=$REF" >> "$GITHUB_OUTPUT"
           echo "base=$BASE_SHA" >> "$GITHUB_OUTPUT"
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false

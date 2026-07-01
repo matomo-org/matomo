@@ -133,6 +133,8 @@ td.editable-site-field:hover {
     text-decoration: underline;
 }
 
+// The body carries id `site-without-data` both on the standalone tracker-setup page and on the in-SPA
+// gate (set by ReportingPage.vue when a site has no data), so both share the focused styling below.
 #site-without-data {
     background: @theme-color-background-base;
 
@@ -393,6 +395,43 @@ td.editable-site-field:hover {
                 margin-bottom: 0.4rem;
             }
         }
+    }
+}
+
+// Focused look for the in-SPA gate. Scoped under #root so it beats the default layout's id-specificity
+// rules (`#root .pageWrap`, `#root .top_controls`).
+#site-without-data #root {
+    #secondNavBar {
+        display: none;
+    }
+
+    // keep the site selector, hide the period/segment/dashboard controls (meaningless without data)
+    .layoutWithSidebarContent > .top_controls > *:not(.top_bar_sites_selector) {
+        display: none;
+    }
+
+    .page > .pageWrap {
+        max-width: 1168px;
+        width: auto;
+        margin: 0 auto;
+        padding: 0 24px;
+    }
+
+    // undo the reporting content area's report-text sizing to match the standalone page
+    #content.home {
+        font-size: 16px;
+    }
+
+    // inherit (not 16px) so embedded notifications keep their own smaller size
+    #content.home p {
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    // the reporting area pads every paragraph; the component only wants that on the detail steps
+    #start-tracking-detection p,
+    #start-tracking-method-list p {
+        padding-bottom: 0;
     }
 }
 

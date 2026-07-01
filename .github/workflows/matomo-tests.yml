@@ -74,7 +74,7 @@ jobs:
             mysql-engine: 'Mysql'
             mysql-version: '8.0'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -105,7 +105,7 @@ jobs:
         type: [ 'SystemTestsCore' ]
         environment: *php-environments
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -135,7 +135,7 @@ jobs:
         bucket: &php-buckets [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
         environment: *php-environments
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -177,7 +177,7 @@ jobs:
         bucket: *php-buckets
         environment: *php-environments
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -219,7 +219,7 @@ jobs:
         bucket: *php-buckets
         environment: *php-environments
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -273,7 +273,7 @@ jobs:
     # cancelled outright.
     if: ${{ always() && needs.PHP-system-plugins.result != 'cancelled' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -304,7 +304,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -321,7 +321,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -340,7 +340,7 @@ jobs:
       plugin_matrix: ${{ steps.generate.outputs.plugin_matrix }}
       plugin_count: ${{ steps.generate.outputs.plugin_count }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -381,7 +381,7 @@ jobs:
       max-parallel: &ui-max-parallel ${{ fromJson(vars.MATOMO_UI_MAX_PARALLEL || '10') }}
       matrix: ${{ fromJson(needs.generate-plugin-ui-matrices.outputs.plugin_matrix) }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -416,7 +416,7 @@ jobs:
       matrix:
         part: [ 0, 1, 2, 3, 4, 5 ]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false

@@ -48,7 +48,7 @@ jobs:
         with:
           script: |
             core.setFailed('Unable to find current CLDR version')
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
