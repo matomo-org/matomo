@@ -176,22 +176,7 @@ parameters:
 			path: core/Application/Environment.php
 
 		-
-			message: "#^Method Piwik\\\\Application\\\\Kernel\\\\PluginList\\:\\:sortPluginsAndRespectDependencies\\(\\) has invalid return type string\\.$#"
-			count: 1
-			path: core/Application/Kernel/PluginList.php
-
-		-
-			message: "#^Method Piwik\\\\Application\\\\Kernel\\\\PluginList\\:\\:sortPluginsAndRespectDependencies\\(\\) should return array\\<string\\> but returns array\\<string\\>\\.$#"
-			count: 1
-			path: core/Application/Kernel/PluginList.php
-
-		-
 			message: "#^Method Piwik\\\\Archive\\\\ArchiveInvalidator\\:\\:getSegmentArchiving\\(\\) is unused\\.$#"
-			count: 1
-			path: core/Archive/ArchiveInvalidator.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$pluginName with type int\\|string is not subtype of native type string\\|null\\.$#"
 			count: 1
 			path: core/Archive/ArchiveInvalidator.php
 
