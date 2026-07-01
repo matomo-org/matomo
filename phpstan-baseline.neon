@@ -281,16 +281,6 @@ parameters:
 			path: core/Archive/DataTableFactory.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: core/ArchiveProcessor.php
-
-		-
-			message: "#^Method Piwik\\\\ArchiveProcessor\\:\\:areColumnsNotAlreadyRenamed\\(\\) should return Piwik\\\\Period but returns bool\\.$#"
-			count: 1
-			path: core/ArchiveProcessor.php
-
-		-
 			message: "#^Property Piwik\\\\ArchiveProcessor\\:\\:\\$archive \\(Piwik\\\\Archive\\) does not accept Piwik\\\\Archive\\\\ArchiveQuery\\.$#"
 			count: 1
 			path: core/ArchiveProcessor.php
@@ -334,16 +324,6 @@ parameters:
 			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
 			count: 1
 			path: core/ArchiveProcessor/Parameters.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\Parameters\\:\\:\\$requestedPlugin \\(string\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: core/ArchiveProcessor/Parameters.php
-
-		-
-			message: "#^Static property Piwik\\\\ArchiveProcessor\\\\PluginsArchiver\\:\\:\\$archivers \\(array\\<Piwik\\\\Plugin\\\\Archiver\\>\\) does not accept array\\<string, string\\>\\.$#"
-			count: 1
-			path: core/ArchiveProcessor/PluginsArchiver.php
 
 		-
 			message: "#^Ternary operator condition is always true\\.$#"
