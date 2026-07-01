@@ -75,6 +75,12 @@ describe("EvolutionGraph", function () {
             const items = footer ? footer.querySelectorAll('.jqplot-legend-item') : [];
             const hiddenItems = footer ? footer.querySelectorAll('.jqplot-legend-item-hidden') : [];
             const overflowItem = footer ? footer.querySelector('.jqplot-legend-item-overflow .jqplot-legend-label') : null;
+            const labels = footer
+                ? Array.prototype.map.call(
+                    footer.querySelectorAll('.jqplot-legend-item .jqplot-legend-label'),
+                    function (label) { return label.textContent.trim(); }
+                )
+                : [];
 
             return {
                 hasLegend: !!footer,
@@ -82,6 +88,7 @@ describe("EvolutionGraph", function () {
                 hiddenItemCount: hiddenItems.length,
                 visibleItemCount: footer ? footer.querySelectorAll('.jqplot-legend-item:not(.jqplot-legend-item-hidden)').length : 0,
                 overflowLabel: overflowItem ? overflowItem.textContent.trim() : null,
+                labels: labels,
             };
         });
     };
@@ -114,15 +121,17 @@ describe("EvolutionGraph", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('one_series');
     });
 
-    it("should display the metric picker on hover of metric picker icon", async function () {
-        await page.hover('.jqplot-seriespicker');
+    it("should display the metric picker when the metric picker button is clicked", async function () {
+        await page.click('.metrics-picker__toggle');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
+        await page.keyboard.press('Escape');
     });
 
     it("should show multiple metrics when another metric picked", async function () {
-        await page.waitForSelector('.jqplot-seriespicker-popover input');
-        const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first');
+        await page.click('.metrics-picker__toggle');
+        await page.waitForSelector('.metrics-picker__options input');
+        const element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
         await element.click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
@@ -306,7 +315,17 @@ describe("EvolutionGraph", function () {
 
             const legendState = await getFooterLegendState();
             expect(legendState.hasLegend).to.equal(true);
-            expect(legendState.itemCount).to.equal(4);
+
+            // getCountry plots every row (country) for each selected metric, so the legend
+            // labels look like "United States (Visits)". Assert that every selected metric is
+            // represented, regardless of how many rows the fixture happens to contain.
+            const selectedMetricLabels = ['Visits', 'Actions', 'Avg. Time on Website', 'Bounce Rate'];
+            selectedMetricLabels.forEach(function (metricLabel) {
+                const isPresent = legendState.labels.some(function (label) {
+                    return label.indexOf('(' + metricLabel + ')') !== -1;
+                });
+                expect(isPresent, 'legend should include a "' + metricLabel + '" series').to.equal(true);
+            });
         });
 
         it("should export the graph image using the active dark theme background", async function () {

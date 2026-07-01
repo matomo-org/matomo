@@ -32,10 +32,10 @@ describe("ReferrersPages", function () {
   });
 
   it("should display the another row when selected", async function () {
-    await page.hover('.jqplot-seriespicker');
+    await page.click('.metrics-picker__toggle');
 
-    await page.waitForSelector('.jqplot-seriespicker-popover .pickRow input');
-    const element = await page.jQuery('.jqplot-seriespicker-popover .pickRow input:not(:checked):first');
+    await page.waitForSelector('.metrics-picker__options .metrics-picker__row input');
+    const element = await page.jQuery('.metrics-picker__options .metrics-picker__row input:not(:checked):first');
     await element.click();
     await page.waitForNetworkIdle();
     await page.waitForTimeout(250);

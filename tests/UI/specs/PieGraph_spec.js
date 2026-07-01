@@ -24,21 +24,9 @@ describe("PieGraph", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('pie_segment_tooltip');
     });
 
-    it("should display the metric picker on hover of metric picker icon", async function () {
-        await page.hover('.jqplot-seriespicker');
-
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
-    });
-
-    it("should change displayed metric when another metric picked", async function () {
-        await page.waitForSelector('.jqplot-seriespicker-popover input');
-        var element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):eq(0)');
-        await element.click();
-
-        await page.waitForNetworkIdle();
-
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('other_metric');
-    });
+    // Pie graphs no longer expose a metric picker: the legend footer that hosts the
+    // "Choose metrics" button is hidden for pie (slices are labelled by the in-chart
+    // pieLegend instead), so there is no picker interaction to test here.
 
     it("should render the footer legend for pie graphs", async function () {
         await page.goto(multiMetricUrl);

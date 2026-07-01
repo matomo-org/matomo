@@ -30,14 +30,16 @@ describe("BarGraph", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('load');
     });
 
-    it("should display the metric picker on hover of metric picker icon", async function () {
-        await page.hover('.jqplot-seriespicker');
+    it("should display the metric picker when the metric picker button is clicked", async function () {
+        await page.click('.metrics-picker__toggle');
         expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
+        await page.keyboard.press('Escape');
     });
 
     it("should display multiple metrics when another metric picked", async function () {
-        await page.waitForSelector('.jqplot-seriespicker-popover input');
-        var element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first');
+        await page.click('.metrics-picker__toggle');
+        await page.waitForSelector('.metrics-picker__options input');
+        var element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
         await element.click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
