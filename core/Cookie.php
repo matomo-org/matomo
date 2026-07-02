@@ -129,7 +129,7 @@ class Cookie
      *
      * @param string $Name Name of cookie
      * @param string $Value Value of cookie
-     * @param int|string $Expires Time the cookie expires
+     * @param int|string|null $Expires Time the cookie expires
      * @param string $Path
      * @param string $Domain
      * @param bool $Secure
