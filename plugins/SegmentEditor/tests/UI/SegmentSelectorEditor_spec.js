@@ -358,6 +358,11 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should keep the updated segment name after page reload", async function() {
+        // Reloading re-archives the applied segment (its "is not" definition matches every
+        // visit) and takes ~228s on CI; give this one reload headroom so the 240s default
+        // doesn't abort it mid-flight and cascade into the delete tests (see #24482).
+        this.timeout(360000);
+
         await page.reload();
         await page.waitForSelector('.segmentationContainer .title');
         await page.waitForFunction(() => {
