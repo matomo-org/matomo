@@ -55,7 +55,7 @@ class ArchivePurger
     /**
      * Date to use for 'today'. Exists so tests can override this value.
      *
-     * @var $today
+     * @var Date
      */
     private $today;
 
@@ -314,7 +314,6 @@ class ArchivePurger
     /**
      * Deleting "Custom Date Range" reports after 1 day, since they can be re-processed and would take up un-necessary space.
      *
-     * @param $date Date
      * @return int The total number of rows deleted from both the numeric & blob table.
      */
     public function purgeArchivesWithPeriodRange(Date $date)
@@ -348,7 +347,7 @@ class ArchivePurger
     /**
      * Deletes by batches Archive IDs in the specified month,
      *
-     * @param $idArchivesToDelete
+     * @param array $idArchivesToDelete
      * @return int Number of rows deleted from both numeric + blob table.
      */
     protected function deleteArchiveIds(Date $date, $idArchivesToDelete): int
@@ -369,9 +368,9 @@ class ArchivePurger
     }
 
     /**
-     * Returns a timestamp indicating outdated archives older than this timestamp (processed before) can be purged.
+     * Returns a date time string; outdated archives processed before this date time can be purged.
      *
-     * @return int|bool  Outdated archives older than this timestamp should be purged
+     * @return string
      */
     protected function getOldestTemporaryArchiveToKeepThreshold()
     {

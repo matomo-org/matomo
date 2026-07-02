@@ -104,7 +104,7 @@ class DataTablePostProcessor
      * Apply post-processing logic to a DataTable of a report for an API request.
      *
      * @param DataTableInterface $dataTable The data table to process.
-     * @return DataTableInterface A new data table.
+     * @return DataTableInterface The processed data table.
      */
     public function process(DataTableInterface $dataTable)
     {

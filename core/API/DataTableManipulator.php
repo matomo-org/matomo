@@ -38,8 +38,8 @@ abstract class DataTableManipulator
     protected $apiMethodForSubtable;
 
     /**
-     * @param bool $apiModule
-     * @param bool $apiMethod
+     * @param string|bool $apiModule
+     * @param string|bool $apiMethod
      * @param array $request
      */
     public function __construct($apiModule = false, $apiMethod = false, $request = array())
@@ -98,7 +98,7 @@ abstract class DataTableManipulator
      * @param DataTable $dataTable
      * @param Row $row
      *
-     * @return DataTable
+     * @return DataTable|null
      */
     protected function loadSubtable($dataTable, $row)
     {
@@ -132,8 +132,8 @@ abstract class DataTableManipulator
      * in order to make ResponseBuilder behave correctly (e.g. not trigger the
      * manipulator again).
      *
-     * @param $request
-     * @return
+     * @param array $request
+     * @return array
      */
     abstract protected function manipulateSubtableRequest($request);
 
