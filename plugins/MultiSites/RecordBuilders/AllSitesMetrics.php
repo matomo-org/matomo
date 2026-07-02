@@ -11,8 +11,11 @@ namespace Piwik\Plugins\MultiSites\RecordBuilders;
 
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
+use Piwik\Db;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\BotTracking\BotDetector;
+use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 
 /**
  * DEV-16541 spike: consolidates the numeric metrics the All Websites dashboard
@@ -21,14 +24,15 @@ use Piwik\Plugin\Manager;
  */
 class AllSitesMetrics extends ArchiveProcessor\RecordBuilder
 {
-    public const NB_VISITS         = 'MultiSites_nb_visits';
-    public const NB_ACTIONS        = 'MultiSites_nb_actions';
-    public const NB_PAGEVIEWS      = 'MultiSites_nb_pageviews';
-    public const HITS              = 'MultiSites_hits';
-    public const REVENUE           = 'MultiSites_revenue';
-    public const NB_CONVERSIONS    = 'MultiSites_nb_conversions';
-    public const ORDERS            = 'MultiSites_orders';
-    public const ECOMMERCE_REVENUE = 'MultiSites_ecommerce_revenue';
+    public const NB_VISITS            = 'MultiSites_nb_visits';
+    public const NB_ACTIONS           = 'MultiSites_nb_actions';
+    public const NB_PAGEVIEWS         = 'MultiSites_nb_pageviews';
+    public const HITS                 = 'MultiSites_hits';
+    public const REVENUE              = 'MultiSites_revenue';
+    public const NB_CONVERSIONS       = 'MultiSites_nb_conversions';
+    public const ORDERS               = 'MultiSites_orders';
+    public const ECOMMERCE_REVENUE    = 'MultiSites_ecommerce_revenue';
+    public const AI_CHATBOTS_REQUESTS = 'MultiSites_ai_chatbots_requests';
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
@@ -41,6 +45,7 @@ class AllSitesMetrics extends ArchiveProcessor\RecordBuilder
             Record::make(Record::TYPE_NUMERIC, self::NB_CONVERSIONS),
             Record::make(Record::TYPE_NUMERIC, self::ORDERS),
             Record::make(Record::TYPE_NUMERIC, self::ECOMMERCE_REVENUE),
+            Record::make(Record::TYPE_NUMERIC, self::AI_CHATBOTS_REQUESTS),
         ];
     }
 
@@ -108,15 +113,28 @@ class AllSitesMetrics extends ArchiveProcessor\RecordBuilder
             }
         }
 
+        // AI chatbot requests from log_bot — mirrors the count that the BotTracking
+        // plugin's AIChatbotReports record builder emits, so the dashboard can drop
+        // the BotTracking archive prep.
+        $aiChatbotRequests = 0;
+        if (Manager::getInstance()->isPluginActivated('BotTracking')) {
+            $botTable = BotRequestsDao::getPrefixedTableName();
+            $where = $logAggregator->getWhereStatement('bot', 'server_time');
+            $sql = "SELECT COUNT(*) FROM `$botTable` AS bot WHERE bot.bot_type = ? AND $where";
+            $bind = array_merge([BotDetector::BOT_TYPE_AI_CHATBOT], $logAggregator->getGeneralQueryBindParams());
+            $aiChatbotRequests = (int) Db::fetchOne($sql, $bind);
+        }
+
         return [
-            self::NB_VISITS         => $nbVisits,
-            self::NB_ACTIONS        => $nbActions,
-            self::NB_PAGEVIEWS      => $nbPageviews,
-            self::HITS              => $hits,
-            self::REVENUE           => round($revenue, 2),
-            self::NB_CONVERSIONS    => $conversions,
-            self::ORDERS            => $orders,
-            self::ECOMMERCE_REVENUE => round($ecommerceRevenue, 2),
+            self::NB_VISITS            => $nbVisits,
+            self::NB_ACTIONS           => $nbActions,
+            self::NB_PAGEVIEWS         => $nbPageviews,
+            self::HITS                 => $hits,
+            self::REVENUE              => round($revenue, 2),
+            self::NB_CONVERSIONS       => $conversions,
+            self::ORDERS               => $orders,
+            self::ECOMMERCE_REVENUE    => round($ecommerceRevenue, 2),
+            self::AI_CHATBOTS_REQUESTS => $aiChatbotRequests,
         ];
     }
 }

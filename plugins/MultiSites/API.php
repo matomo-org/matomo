@@ -22,7 +22,6 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\BotTracking\Metrics as BotTrackingMetrics;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
 use Piwik\Plugins\PrivacyManager\DataRounding;
 use Piwik\Plugins\MultiSites\Columns\Metrics\EcommerceOnlyEvolutionMetric;
@@ -533,7 +532,7 @@ class API extends \Piwik\Plugin\API
             $metrics[self::AI_CHATBOTS_REQUESTS_LABEL] = [
                 self::METRIC_TRANSLATION_KEY        => 'MultiSites_AiChatbotsRequests',
                 self::METRIC_EVOLUTION_COL_NAME_KEY => self::AI_CHATBOTS_REQUESTS_EVOLUTION_LABEL,
-                self::METRIC_RECORD_NAME_KEY        => BotTrackingMetrics::METRIC_AI_CHATBOTS_REQUESTS,
+                self::METRIC_RECORD_NAME_KEY        => AllSitesMetrics::AI_CHATBOTS_REQUESTS,
                 self::METRIC_COL_NAME_KEY           => self::AI_CHATBOTS_REQUESTS_LABEL,
                 self::METRIC_IS_ECOMMERCE_KEY       => false,
             ];
