@@ -2929,6 +2929,9 @@ function defaultContentTransform() {
  * stored survives native removal, so the orphaned tooltip is cleaned up.
  */
 function closeOrphanedTooltips(el) {
+  if (!document.querySelector('.ui-tooltip')) {
+    return; // nothing open, so there's nothing to check
+  }
   let instance;
   try {
     instance = Tooltips_$(el).tooltip('instance');
