@@ -125,30 +125,7 @@ class API extends \Piwik\Plugin\API
             });
         }
 
-        $dataTable->filter(function (DataTable $table) {
-            foreach ($table->getRows() as $key => $row) {
-                $label = $row->getColumn('label');
-                // @phpstan-ignore-next-line  check in next line causes PHPStan violations as CHATBOT_MAPPING currently does not have an entry with empty value
-                if (array_key_exists($label, AIChatbotReports::CHATBOT_MAPPING) && !empty(AIChatbotReports::CHATBOT_MAPPING[$label])) {
-                    $row->setColumn('label', AIChatbotReports::CHATBOT_MAPPING[$label]);
-                }
-            }
-        });
-
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', [
-            'label',
-            'url',
-            function ($label) {
-                return AIAssistant::getInstance()->getMainUrlFromName($label);
-            },
-        ]);
-        $dataTable->queueFilter('MetadataCallbackAddMetadata', [
-            'url',
-            'logo',
-            function ($url) {
-                return AIAssistant::getInstance()->getLogoFromUrl($url ?: '');
-            },
-        ]);
+        $this->decorateAIChatbotLabels($dataTable);
 
         return $dataTable;
     }
@@ -172,7 +149,9 @@ class API extends \Piwik\Plugin\API
 
         $table = (new BotRequestsDao())->getAIChatbotsRealTime($idSites, $startDate, $endDate);
 
-        return $this->decorateAIChatbotLabels($table);
+        $this->decorateAIChatbotLabels($table);
+
+        return $table;
     }
 
     /**
@@ -441,7 +420,7 @@ class API extends \Piwik\Plugin\API
         );
     }
 
-    private function decorateAIChatbotLabels(DataTable $table): DataTable
+    private function decorateAIChatbotLabels(DataTableInterface $table): void
     {
         $table->filter(function (DataTable $table): void {
             foreach ($table->getRows() as $row) {
@@ -470,8 +449,6 @@ class API extends \Piwik\Plugin\API
                 return AIAssistant::getInstance()->getLogoFromUrl($url ?: '');
             },
         ]);
-
-        return $table;
     }
 
     private function decorateUrlLabels(DataTable $table): DataTable
