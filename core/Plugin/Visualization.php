@@ -20,6 +20,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
+use Piwik\Exception\MessageOnlyException;
 use Piwik\Http\BadRequestException;
 use Piwik\Log;
 use Piwik\Metrics\Formatter\Html as HtmlFormatter;
@@ -207,7 +208,7 @@ class Visualization extends ViewDataTable
                 'ignoreInScreenWriter' => true,
             ]);
 
-            $message = ExceptionToTextProcessor::getMessageAndWholeBacktrace($e);
+            $message = $this->getLoadingErrorMessage($e);
 
             $loadingError = array('message' => $message);
         }
@@ -274,6 +275,15 @@ class Visualization extends ViewDataTable
         }
 
         return $view->render();
+    }
+
+    private function getLoadingErrorMessage(\Exception $exception): string
+    {
+        if ($exception instanceof MessageOnlyException) {
+            return $exception->getMessage();
+        }
+
+        return ExceptionToTextProcessor::getMessageAndWholeBacktrace($exception);
     }
 
     protected function checkRequestIsNotForMultiplePeriods()
