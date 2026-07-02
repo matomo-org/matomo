@@ -55,6 +55,17 @@ class BotRequestsDaoTest extends IntegrationTestCase
         self::assertStringContainsString('log_bot_request', $tableName);
     }
 
+    public function testCreateTableAddsRealTimeLookupIndex(): void
+    {
+        $this->dao->dropTable();
+        $this->dao->createTable();
+
+        self::assertSame(
+            ['idsite', 'bot_type', 'server_time'],
+            $this->getIndexColumns(BotRequestsDao::INDEX_IDSITE_BOT_TYPE_SERVER_TIME)
+        );
+    }
+
     public function testInsertCreatesRecord(): void
     {
         $data = [
@@ -229,5 +240,22 @@ class BotRequestsDaoTest extends IntegrationTestCase
         }
 
         return $rows;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getIndexColumns(string $indexName): array
+    {
+        $tableName = BotRequestsDao::getPrefixedTableName();
+        $rows      = Db::fetchAll("SHOW INDEX FROM `{$tableName}`");
+        $rows      = array_filter($rows, function (array $row) use ($indexName): bool {
+            return $row['Key_name'] === $indexName;
+        });
+        usort($rows, function (array $left, array $right): int {
+            return (int) $left['Seq_in_index'] <=> (int) $right['Seq_in_index'];
+        });
+
+        return array_column($rows, 'Column_name');
     }
 }
