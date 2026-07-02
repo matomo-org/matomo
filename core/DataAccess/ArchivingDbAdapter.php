@@ -96,7 +96,7 @@ class ArchivingDbAdapter
      * Test error number
      *
      * @param Exception $e
-     * @param string $errno
+     * @param int|string $errno
      * @return bool
      */
     public function isErrNo($e, $errno)

@@ -406,21 +406,6 @@ parameters:
 			path: core/Container/IniConfigDefinitionSource.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with float\\|int\\|string will always evaluate to false\\.$#"
-			count: 1
-			path: core/Cookie.php
-
-		-
-			message: "#^Default value of the parameter \\#8 \\$sameSite \\(false\\) of method Piwik\\\\Cookie\\:\\:setCookie\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: core/Cookie.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\|integer Index name of the value to return\\)\\: Unexpected token \"Index\", expected variable at offset 99$#"
-			count: 1
-			path: core/Cookie.php
-
-		-
 			message: "#^Property Piwik\\\\Cookie\\:\\:\\$keyStore \\(string\\) does not accept default value of type false\\.$#"
 			count: 1
 			path: core/Cookie.php
@@ -451,16 +436,6 @@ parameters:
 			path: core/CronArchive.php
 
 		-
-			message: "#^Parameter \\#1 \\$str of function urlencode expects string, true given\\.$#"
-			count: 1
-			path: core/CronArchive.php
-
-		-
-			message: "#^Parameter \\#2 \\$minDatetimeArchiveProcessedUTC of static method Piwik\\\\DataAccess\\\\ArchiveSelector\\:\\:getArchiveIdAndVisits\\(\\) expects bool, Piwik\\\\Date\\|null given\\.$#"
-			count: 1
-			path: core/CronArchive.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\<1, max\\> given\\.$#"
 			count: 3
 			path: core/CronArchive.php
@@ -477,11 +452,6 @@ parameters:
 
 		-
 			message: "#^Method Piwik\\\\CronArchive\\\\ArchiveFilter\\:\\:getPeriodsToProcess\\(\\) is unused\\.$#"
-			count: 1
-			path: core/CronArchive/ArchiveFilter.php
-
-		-
-			message: "#^Method Piwik\\\\CronArchive\\\\ArchiveFilter\\:\\:getRestrictToDateRange\\(\\) should return string\\|false but returns array\\<Piwik\\\\Date\\>\\.$#"
 			count: 1
 			path: core/CronArchive/ArchiveFilter.php
 
@@ -521,11 +491,6 @@ parameters:
 			path: core/CronArchive/QueueConsumer.php
 
 		-
-			message: "#^Parameter \\#2 \\$minDatetimeArchiveProcessedUTC of static method Piwik\\\\DataAccess\\\\ArchiveSelector\\:\\:getArchiveIdAndVisits\\(\\) expects bool, Piwik\\\\Date given\\.$#"
-			count: 1
-			path: core/CronArchive/QueueConsumer.php
-
-		-
 			message: "#^Property Piwik\\\\CronArchive\\\\QueueConsumer\\:\\:\\$idSite \\(int\\) does not accept null\\.$#"
 			count: 2
 			path: core/CronArchive/QueueConsumer.php
@@ -551,11 +516,6 @@ parameters:
 			path: core/CronArchive/SharedSiteIds.php
 
 		-
-			message: "#^Call to function is_object\\(\\) with true will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataAccess/ArchiveSelector.php
-
-		-
 			message: "#^Call to method fetch\\(\\) on an unknown class Piwik\\\\Tracker\\\\PDOStatement\\.$#"
 			count: 1
 			path: core/DataAccess/ArchiveSelector.php
@@ -576,11 +536,6 @@ parameters:
 			path: core/DataAccess/ArchiveSelector.php
 
 		-
-			message: "#^Parameter \\#1 \\$dateString of static method Piwik\\\\Date\\:\\:factory\\(\\) expects int\\|Piwik\\\\Date\\|string, true given\\.$#"
-			count: 1
-			path: core/DataAccess/ArchiveSelector.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between int\\|string and null will always evaluate to false\\.$#"
 			count: 1
 			path: core/DataAccess/ArchiveSelector.php
@@ -588,11 +543,6 @@ parameters:
 		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
-			path: core/DataAccess/ArchivingDbAdapter.php
-
-		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\DataAccess\\\\ArchivingDbAdapter\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 2
 			path: core/DataAccess/ArchivingDbAdapter.php
 
 		-
@@ -607,16 +557,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 89$#"
-			count: 1
-			path: core/DataAccess/LogQueryBuilder.php
-
-		-
-			message: "#^PHPDoc tag @var above a method has no effect\\.$#"
-			count: 1
-			path: core/DataAccess/LogQueryBuilder.php
-
-		-
-			message: "#^PHPDoc tag @var does not specify variable name\\.$#"
 			count: 1
 			path: core/DataAccess/LogQueryBuilder.php
 
@@ -3642,11 +3582,6 @@ parameters:
 			message: "#^Call to an undefined method Piwik\\\\DataTable\\\\Renderer\\:\\:setRenderImageInline\\(\\)\\.$#"
 			count: 1
 			path: plugins/ScheduledReports/ScheduledReports.php
-
-		-
-			message: "#^Parameter \\#2 \\$minDatetimeArchiveProcessedUTC of static method Piwik\\\\DataAccess\\\\ArchiveSelector\\:\\:getArchiveIdAndVisits\\(\\) expects bool, null given\\.$#"
-			count: 1
-			path: plugins/SegmentEditor/SegmentEditor.php
 
 		-
 			message: "#^Variable \\$endDate in empty\\(\\) always exists and is not falsy\\.$#"
