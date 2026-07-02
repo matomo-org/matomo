@@ -47,6 +47,10 @@ function defaultContentTransform(this: HTMLElement) {
  * stored survives native removal, so the orphaned tooltip is cleaned up.
  */
 function closeOrphanedTooltips(el: HTMLElement): void {
+  if (!document.querySelector('.ui-tooltip')) {
+    return; // nothing open, so there's nothing to check
+  }
+
   let instance: TooltipInstance | undefined;
 
   try {
