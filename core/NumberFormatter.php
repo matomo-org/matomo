@@ -141,8 +141,8 @@ class NumberFormatter
     /**
      * Formats given number as percent value, but keep the leading + sign if found
      *
-     * @param $value
-     * @return string
+     * @param string|int|float $value
+     * @return mixed|string
      */
     public function formatPercentEvolution($value)
     {
