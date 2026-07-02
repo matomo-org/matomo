@@ -1,5 +1,6 @@
 {
     "CoreHome": {
+        "AIInsights": "Léargais AI",
         "AdblockIsMaybeUsed": "Sa chás go bhfuil bacaire ad á úsáid agat, déan é a dhíchumasú don suíomh seo chun a chinntiú go n-oibríonn Matomo gan aon saincheisteanna.",
         "AddTotalsRowDataTable": "Níl an tsraith iomlán %s Show totals row á thaispeáint sa tuarascáil",
         "CategoryNoData": "Níl aon sonraí sa chatagóir seo. Déan iarracht \"Cuir an daonra ar fad san áireamh\".",
