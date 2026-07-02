@@ -776,16 +776,6 @@ parameters:
 			path: core/DataTable/Map.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with Piwik\\\\DataTable\\\\DataTableInterface will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\\\Renderer\\:\\:\\$apiMetaData \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer.php
-
-		-
 			message: "#^Property Piwik\\\\DataTable\\\\Renderer\\:\\:\\$idSite \\(int\\) does not accept default value of type string\\.$#"
 			count: 1
 			path: core/DataTable/Renderer.php
@@ -797,11 +787,6 @@ parameters:
 
 		-
 			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: core/DataTable/Renderer.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between array\\|null and false will always evaluate to false\\.$#"
 			count: 1
 			path: core/DataTable/Renderer.php
 
@@ -847,11 +832,6 @@ parameters:
 
 		-
 			message: "#^Instanceof between array and Piwik\\\\DataTable\\\\Simple will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Xml.php
-
-		-
-			message: "#^Parameter \\#1 \\$table of method Piwik\\\\DataTable\\\\Renderer\\\\Xml\\:\\:renderTable\\(\\) expects Piwik\\\\DataTable\\|Piwik\\\\DataTable\\\\Map, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
 			count: 1
 			path: core/DataTable/Renderer/Xml.php
 
@@ -1029,11 +1009,6 @@ parameters:
 			message: "#^Method Piwik\\\\Log\\:\\:getInstance\\(\\) should return static\\(Piwik\\\\Log\\) but returns Piwik\\\\Log\\.$#"
 			count: 1
 			path: core/Log.php
-
-		-
-			message: "#^Parameter \\#6 \\$willDelete of method Piwik\\\\DataAccess\\\\RawLogDao\\:\\:forAllLogs\\(\\) expects string, true given\\.$#"
-			count: 1
-			path: core/LogDeleter.php
 
 		-
 			message: "#^Property Piwik\\\\LogDeleter\\:\\:\\$logTablesProvider is never read, only written\\.$#"
@@ -3822,11 +3797,6 @@ parameters:
 			message: "#^Call to function is_string\\(\\) with false will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/UserCountry/LocationProvider.php
-
-		-
-			message: "#^Parameter \\#6 \\$willDelete of method Piwik\\\\DataAccess\\\\RawLogDao\\:\\:forAllLogs\\(\\) expects string, false given\\.$#"
-			count: 1
-			path: plugins/UserCountry/VisitorGeolocator.php
 
 		-
 			message: "#^Function Piwik\\\\Plugins\\\\UserCountry\\\\getPrettyCityName\\(\\) never returns false so it can be removed from the return type\\.$#"
