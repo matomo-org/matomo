@@ -32,7 +32,7 @@ class Json extends Renderer
      * Computes the output for the given data table
      *
      * @param DataTable $table
-     * @return string
+     * @return string|false
      */
     protected function renderTable($table)
     {
