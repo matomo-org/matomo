@@ -256,7 +256,7 @@ jobs:
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
       - name: Upload bucket processed-files for aggregation
         if: ${{ always() && matrix.environment.php == '7.2' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: system-plugin-bucket-${{ matrix.bucket }}
           path: matomo/plugins/*/tests/System/processed/
