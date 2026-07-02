@@ -9,11 +9,12 @@
 
 namespace Piwik\Plugins\DevicesDetection\tests\System;
 
-use Exception;
 use Piwik\API\Request;
 use Piwik\DataTable;
+use Piwik\Plugins\DevicesDetection\API as DevicesDetectionApi;
 use Piwik\Plugins\DevicesDetection\tests\Fixtures\MultiDeviceGoalConversions;
 use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\Exceptions\DisabledByCompliancePolicyException;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -54,6 +55,11 @@ class GoalReportForDevicesTest extends SystemTestCase
         ]);
 
         return array_values($report->getColumn('label'));
+    }
+
+    private function getModelReportForSiteRequest(string $idSite)
+    {
+        return DevicesDetectionApi::getInstance()->getModel($idSite, 'day', self::$fixture->dateTime);
     }
 
     /**
@@ -152,10 +158,10 @@ class GoalReportForDevicesTest extends SystemTestCase
         $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
 
         try {
-            $this->expectException(Exception::class);
+            $this->expectException(DisabledByCompliancePolicyException::class);
             $this->expectExceptionMessage('Device model report is disabled by compliance policy.');
 
-            $this->getModelLabelsForSiteRequest((string) self::$fixture->idSite);
+            $this->getModelReportForSiteRequest((string) self::$fixture->idSite);
         } finally {
             $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
         }
@@ -167,10 +173,10 @@ class GoalReportForDevicesTest extends SystemTestCase
         $this->setSiteCompliancePolicy(self::$fixture->idSite2, true);
 
         try {
-            $this->expectException(Exception::class);
+            $this->expectException(DisabledByCompliancePolicyException::class);
             $this->expectExceptionMessage('Device model report is disabled by compliance policy.');
 
-            $this->getModelLabelsForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2);
+            $this->getModelReportForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2);
         } finally {
             $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
             $this->setSiteCompliancePolicy(self::$fixture->idSite2, false);
@@ -183,10 +189,10 @@ class GoalReportForDevicesTest extends SystemTestCase
         $this->setSiteCompliancePolicy(self::$fixture->idSite2, true);
 
         try {
-            $this->expectException(Exception::class);
+            $this->expectException(DisabledByCompliancePolicyException::class);
             $this->expectExceptionMessage('Device model report is disabled by compliance policy.');
 
-            $this->getModelLabelsForSiteRequest('all');
+            $this->getModelReportForSiteRequest('all');
         } finally {
             $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
             $this->setSiteCompliancePolicy(self::$fixture->idSite2, false);

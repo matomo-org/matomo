@@ -9,12 +9,13 @@
 
 namespace Piwik\Plugins\Resolution\tests\System;
 
-use Exception;
 use Piwik\API\Request;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\Resolution\API as ResolutionApi;
 use Piwik\Plugins\Resolution\tests\Fixtures\TwoSitesWithResolutions;
+use Piwik\Policy\Exceptions\DisabledByCompliancePolicyException;
 use Piwik\Policy\PolicyManager;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -64,10 +65,10 @@ class ApiTest extends SystemTestCase
         $this->setComplianceFeatureFlag(true);
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, self::$fixture->idSite);
 
-        $this->expectException(Exception::class);
+        $this->expectException(DisabledByCompliancePolicyException::class);
         $this->expectExceptionMessage('Screen resolution report is disabled by compliance policy.');
 
-        $this->getResolutionLabelsForSiteRequest((string) self::$fixture->idSite);
+        $this->getResolutionReportForSiteRequest((string) self::$fixture->idSite);
     }
 
     /**
@@ -84,6 +85,11 @@ class ApiTest extends SystemTestCase
         ]);
 
         return array_values($report->getColumn('label'));
+    }
+
+    private function getResolutionReportForSiteRequest(string $idSite)
+    {
+        return ResolutionApi::getInstance()->getResolution($idSite, 'day', self::$fixture->dateTime);
     }
 
     private function setComplianceFeatureFlag(bool $enableFlag): void

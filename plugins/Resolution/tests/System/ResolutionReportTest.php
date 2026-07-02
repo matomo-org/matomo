@@ -9,11 +9,12 @@
 
 namespace Piwik\Plugins\Resolution\tests\System;
 
-use Exception;
 use Piwik\API\Request;
 use Piwik\DataTable;
+use Piwik\Plugins\Resolution\API as ResolutionApi;
 use Piwik\Plugins\Resolution\tests\Fixtures\MultiSiteResolutionReport;
 use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\Exceptions\DisabledByCompliancePolicyException;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -53,6 +54,11 @@ class ResolutionReportTest extends SystemTestCase
         ]);
 
         return array_values($report->getColumn('label'));
+    }
+
+    private function getResolutionReportForSiteRequest(string $idSite)
+    {
+        return ResolutionApi::getInstance()->getResolution($idSite, 'day', self::$fixture->dateTime);
     }
 
     /**
@@ -95,10 +101,10 @@ class ResolutionReportTest extends SystemTestCase
         $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
 
         try {
-            $this->expectException(Exception::class);
+            $this->expectException(DisabledByCompliancePolicyException::class);
             $this->expectExceptionMessage('Screen resolution report is disabled by compliance policy.');
 
-            $this->getResolutionLabelsForSiteRequest((string) self::$fixture->idSite);
+            $this->getResolutionReportForSiteRequest((string) self::$fixture->idSite);
         } finally {
             $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
         }
