@@ -189,7 +189,7 @@ class Process
     /**
      * Tests only
      * @internal
-     * @param $content
+     * @param string|int $content
      */
     public function writePidFileContent($content)
     {

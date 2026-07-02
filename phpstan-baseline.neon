@@ -381,11 +381,6 @@ parameters:
 			path: core/Columns/Updater.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: core/Common.php
-
-		-
 			message: "#^Comparison operation \"\\<\" between int\\<2, 3\\> and 2 is always false\\.$#"
 			count: 1
 			path: core/Common.php

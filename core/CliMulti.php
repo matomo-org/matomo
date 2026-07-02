@@ -182,7 +182,7 @@ class CliMulti
     /**
      * Ok, this sounds weird. Why should we care about ssl certificates when we are in CLI mode? It is needed for
      * our simple fallback mode for Windows where we initiate HTTP requests instead of CLI.
-     * @param $acceptInvalidSSLCertificate
+     * @param bool $acceptInvalidSSLCertificate
      */
     public function setAcceptInvalidSSLCertificate($acceptInvalidSSLCertificate)
     {
@@ -190,7 +190,7 @@ class CliMulti
     }
 
     /**
-     * @param $limit int Maximum count of requests to issue in parallel
+     * @param int $limit Maximum count of requests to issue in parallel
      */
     public function setConcurrentProcessesLimit($limit)
     {
