@@ -64,8 +64,8 @@ class ArchiveQueryFactory
      * Parses the site ID string provided in the 'idSite' query parameter to a list of
      * website IDs.
      *
-     * @param string $idSites the value of the 'idSite' query parameter
-     * @param bool $_restrictSitesToLogin
+     * @param string|int|array $idSites the value of the 'idSite' query parameter
+     * @param string|null|false $_restrictSitesToLogin
      * @return array an array containing three elements:
      *     - an array of website IDs
      *     - string timezone to use (or false to use no timezone) when creating periods.
@@ -91,7 +91,7 @@ class ArchiveQueryFactory
      *
      * @param string $strDate the value of the 'date' query parameter
      * @param string $strPeriod the value of the 'period' query parameter
-     * @param string $timezone the timezone to use when constructing periods.
+     * @param string|false $timezone the timezone to use when constructing periods.
      * @return array an array containing two elements:
      *     - the list of period objects to query archive data for
      *     - true if the request was for multiple periods (ie, two months, two weeks, etc.), false if otherwise.
@@ -116,7 +116,7 @@ class ArchiveQueryFactory
     /**
      * Parses the segment query parameter into a Segment object.
      *
-     * @param string $strSegment the value of the 'segment' query parameter.
+     * @param string|false $strSegment the value of the 'segment' query parameter.
      * @param int[] $websiteIds the list of sites being queried.
      * @param Period[] $allPeriods list of all periods
      * @return Segment

@@ -111,22 +111,7 @@ parameters:
 			path: core/Application/Environment.php
 
 		-
-			message: "#^Method Piwik\\\\Application\\\\Kernel\\\\PluginList\\:\\:sortPluginsAndRespectDependencies\\(\\) has invalid return type string\\.$#"
-			count: 1
-			path: core/Application/Kernel/PluginList.php
-
-		-
-			message: "#^Method Piwik\\\\Application\\\\Kernel\\\\PluginList\\:\\:sortPluginsAndRespectDependencies\\(\\) should return array\\<string\\> but returns array\\<string\\>\\.$#"
-			count: 1
-			path: core/Application/Kernel/PluginList.php
-
-		-
 			message: "#^Method Piwik\\\\Archive\\\\ArchiveInvalidator\\:\\:getSegmentArchiving\\(\\) is unused\\.$#"
-			count: 1
-			path: core/Archive/ArchiveInvalidator.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$pluginName with type int\\|string is not subtype of native type string\\|null\\.$#"
 			count: 1
 			path: core/Archive/ArchiveInvalidator.php
 
@@ -159,21 +144,6 @@ parameters:
 			message: "#^Variable \\$entry might not be defined\\.$#"
 			count: 4
 			path: core/Archive/ArchiveInvalidator.php
-
-		-
-			message: "#^Method Piwik\\\\Archive\\\\ArchivePurger\\:\\:getOldestTemporaryArchiveToKeepThreshold\\(\\) should return bool\\|int but returns string\\.$#"
-			count: 2
-			path: core/Archive/ArchivePurger.php
-
-		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\$today\\)\\: Unexpected token \"\\$today\", expected type at offset 96$#"
-			count: 1
-			path: core/Archive/ArchivePurger.php
-
-		-
-			message: "#^Parameter \\#3 \\$oldestToKeep of method Piwik\\\\DataAccess\\\\Model\\:\\:getArchiveIdsForSegments\\(\\) expects string, bool\\|int given\\.$#"
-			count: 1
-			path: core/Archive/ArchivePurger.php
 
 		-
 			message: "#^Property Piwik\\\\Archive\\\\ArchivePurger\\:\\:\\$today is never read, only written\\.$#"
