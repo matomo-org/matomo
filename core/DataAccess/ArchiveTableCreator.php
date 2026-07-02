@@ -144,7 +144,8 @@ class ArchiveTableCreator
     /**
      * Returns all table names archive_*
      *
-     * @param string $type The type of table to return. Either `self::NUMERIC_TABLE` or `self::BLOB_TABLE`.
+     * @param string|null $type The type of table to return. Either `self::NUMERIC_TABLE` or `self::BLOB_TABLE`,
+     *                           or null to return both.
      * @param bool   $forceReload
      * @return array
      */
