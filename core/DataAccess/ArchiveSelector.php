@@ -61,7 +61,6 @@ class ArchiveSelector
      *               - the ts_archived for the latest usable archive
      *               - the doneFlag value for the latest archive
      *               - existing records contained in partial archives, if applicable
-     * @throws Exception
      */
     public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = null)
     {
