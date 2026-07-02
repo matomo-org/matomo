@@ -98,25 +98,19 @@ class ProcessedReport
         }
 
         $isMultiSiteRequest = count(Site::getIdSitesFromIdSitesString($idSite)) > 1;
+        $isNonDayPeriod     = $period && $period != 'day';
 
-        // Unique visitors / users are only archived where enable_processing_unique_visitors_<period>
-        // is enabled (day + week/month by default), and are not computed across multiple sites on
-        // non-day periods unless enable_processing_unique_visitors_multiple_sites is enabled. Mirror
-        // that here (see ArchiveProcessor::enrichWithUniqueVisitorsMetric) so metadata only advertises
-        // the metrics where a real value exists. VisitsSummary.get is exempt (it always returns them).
-        $stripUniqueVisitors = $period
-            && !($apiModule == 'VisitsSummary' && $apiAction == 'get')
-            && (
-                !SettingsPiwik::isUniqueVisitorsEnabled($period)
-                || (
-                    $period != 'day'
-                    && $isMultiSiteRequest
-                    && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites()
-                )
-            );
+        // Unique visitors / users can't be summed across days, so on non-day periods they only exist
+        // for aggregate (dimensionless) reports where archiving computed them. Strip them from
+        // per-dimension reports, and from unprocessed periods/scopes (year/range, multi-site).
+        $aggregateUniquesUnavailable =
+            !SettingsPiwik::isUniqueVisitorsEnabled($period)
+            || ($isMultiSiteRequest && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites());
 
         foreach ($reportsMetadata as $report) {
-            if ($stripUniqueVisitors) {
+            $isPerDimensionReport = !empty($report['dimension']) || !empty($report['dimensions']);
+
+            if ($isNonDayPeriod && ($aggregateUniquesUnavailable || $isPerDimensionReport)) {
                 unset($report['metrics']['nb_uniq_visitors'], $report['metrics']['nb_users']);
             }
             if (

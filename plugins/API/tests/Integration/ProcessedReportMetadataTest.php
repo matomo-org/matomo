@@ -110,14 +110,37 @@ class ProcessedReportMetadataTest extends IntegrationTestCase
         self::assertArrayNotHasKey('nb_users', $range);
     }
 
-    public function testGetMetadataKeepsUniqueVisitorsForVisitsSummaryGetRegardlessOfPeriod(): void
+    public function testGetMetadataAppliesSameUniqueVisitorsRuleToVisitsSummaryGetAsApiGet(): void
     {
-        // VisitsSummary.get is exempt from the strip because it always returns those metrics
-        $metadata = API::getInstance()->getMetadata($this->idSite, 'VisitsSummary', 'get', [], false, 'year', '2015-01-02');
+        // VisitsSummary.get is a pure aggregate (no dimension), so it follows the same rule as
+        // API.get: the metrics are advertised where they are processed (day + week/month by default)
+        // and dropped where they are not (year off by default).
+        foreach (['day', 'week', 'month'] as $period) {
+            $metrics = $this->getMetricsFor('VisitsSummary', 'get', $period, '2015-01-02');
+            self::assertArrayHasKey('nb_uniq_visitors', $metrics, "period=$period");
+            self::assertArrayHasKey('nb_users', $metrics, "period=$period");
+        }
 
-        self::assertIsArray($metadata);
-        self::assertArrayHasKey('nb_uniq_visitors', $metadata[0]['metrics']);
-        self::assertArrayHasKey('nb_users', $metadata[0]['metrics']);
+        $year = $this->getMetricsFor('VisitsSummary', 'get', 'year', '2015-01-02');
+        self::assertArrayNotHasKey('nb_uniq_visitors', $year);
+        self::assertArrayNotHasKey('nb_users', $year);
+    }
+
+    public function testGetMetadataStripsUniqueVisitorsFromPerDimensionReportsOnNonDayPeriods(): void
+    {
+        // Per-dimension reports (here: UserCountry.getCountry) can't have unique visitors / users
+        // summed across days, so those columns are deleted at aggregation time. They exist per row
+        // on the day period, but must not be advertised on non-day periods (otherwise they would
+        // show up as meaningless 0 values in exports, scheduled reports, Row Evolution, ...).
+        $day = $this->getMetricsFor('UserCountry', 'getCountry', 'day', '2015-01-02');
+        self::assertArrayHasKey('nb_uniq_visitors', $day);
+        self::assertArrayHasKey('nb_users', $day);
+
+        foreach (['week', 'month'] as $period) {
+            $metrics = $this->getMetricsFor('UserCountry', 'getCountry', $period, '2015-01-02');
+            self::assertArrayNotHasKey('nb_uniq_visitors', $metrics, "period=$period");
+            self::assertArrayNotHasKey('nb_users', $metrics, "period=$period");
+        }
     }
 
     public function testGetMetadataStripsUniqueVisitorsForMultiSiteNonDayRequests(): void
@@ -138,10 +161,24 @@ class ProcessedReportMetadataTest extends IntegrationTestCase
      */
     private function getApiGetMetrics(string $period, string $date, $idSite = null): array
     {
+        return $this->getMetricsFor('API', 'get', $period, $date, $idSite);
+    }
+
+    /**
+     * @param int|string|null $idSite
+     * @return array<string, string>
+     */
+    private function getMetricsFor(
+        string $apiModule,
+        string $apiAction,
+        string $period,
+        string $date,
+        $idSite = null
+    ): array {
         $metadata = API::getInstance()->getMetadata(
             $idSite ?? $this->idSite,
-            'API',
-            'get',
+            $apiModule,
+            $apiAction,
             [],
             false,
             $period,
