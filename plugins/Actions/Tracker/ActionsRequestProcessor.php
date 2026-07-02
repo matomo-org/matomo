@@ -102,5 +102,14 @@ class ActionsRequestProcessor extends RequestProcessor
             $visitor = Visitor::makeFromVisitProperties($visitProperties, $request);
             $action->record($visitor, $idReferrerActionUrl, $idReferrerActionName);
         }
+
+        if (
+            !$request->getMetadata('CoreHome', 'visitorNotFoundInDb')
+            && PageViewTimeWriter::isEnabled()
+        ) {
+            // Writer also runs when $action is null (ping requests) so the active pageview row
+            // accumulates time. Skipped only when the visit row could not be found.
+            (new PageViewTimeWriter())->write($action, $visitProperties, $request);
+        }
     }
 }

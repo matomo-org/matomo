@@ -278,6 +278,23 @@ class Mysql implements SchemaInterface
                                         ) $tableOptions
             ",
 
+            'log_page_view_time' => "CREATE TABLE {$prefixTables}log_page_view_time (
+                                        idpageviewtime BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                                        idsite INTEGER(10) UNSIGNED NOT NULL,
+                                        idvisit BIGINT(10) UNSIGNED NOT NULL,
+                                        idvisitor BINARY(8) NOT NULL,
+                                        idpageview CHAR(6) NULL DEFAULT NULL,
+                                        idaction_url INTEGER(10) UNSIGNED NULL DEFAULT NULL,
+                                        idaction_name INTEGER(10) UNSIGNED NULL DEFAULT NULL,
+                                        server_time DATETIME NOT NULL,
+                                        time_spent INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+                                          PRIMARY KEY(idpageviewtime),
+                                          UNIQUE KEY unique_idvisit_idpageview (idvisit, idpageview),
+                                          INDEX index_idvisit_idaction_url (idvisit, idaction_url),
+                                          INDEX index_idsite_server_time (idsite, server_time)
+                                        ) $tableOptions
+            ",
+
             'log_profiling'   => "CREATE TABLE {$prefixTables}log_profiling (
                                   query TEXT NOT NULL,
                                   count INTEGER UNSIGNED NULL,

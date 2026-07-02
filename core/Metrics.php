@@ -46,6 +46,7 @@ class Metrics
     // Specific to the Actions reports
     public const INDEX_PAGE_NB_HITS = 12;
     public const INDEX_PAGE_SUM_TIME_SPENT = 13;
+    public const INDEX_PAGE_NB_HITS_WITH_TIME_SPENT = 45;
     public const INDEX_PAGE_EXIT_NB_UNIQ_VISITORS = 14;
     public const INDEX_PAGE_EXIT_NB_VISITS = 15;
     public const INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS = 16;
@@ -136,6 +137,7 @@ class Metrics
         // Actions metrics
         Metrics::INDEX_PAGE_NB_HITS                          => 'nb_hits',
         Metrics::INDEX_PAGE_SUM_TIME_SPENT                   => 'sum_time_spent',
+        Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT          => 'nb_hits_with_time_spent',
         Metrics::INDEX_PAGE_SUM_TIME_GENERATION              => 'sum_time_generation',
         Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION     => 'nb_hits_with_time_generation',
         Metrics::INDEX_PAGE_MIN_TIME_GENERATION              => 'min_time_generation',

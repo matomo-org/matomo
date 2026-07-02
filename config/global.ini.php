@@ -1004,6 +1004,11 @@ cookie_domain =
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics = 1
 
+; Set to 0 to skip recording accurate per-pageview time-spent rows into the log_page_view_time table.
+; This is a temporary safety control (introduced in 5.13.0) — disabling it falls back to the legacy
+; time_spent_ref_action metric. To be removed in Matomo 6.0 once the new metric has been validated in production.
+record_accurate_page_view_time = 1
+
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
 ; after their last page view, it will be recorded as a new visit. In case you are using the Matomo JavaScript tracker to
 ; calculate the visit count correctly, make sure to call the method "setSessionCookieTimeout" eg

@@ -440,6 +440,7 @@ class Request
             'search'       => array('', 'string'),
             'search_cat'   => array('', 'string'),
             'pv_id'        => array('', 'string'),
+            'pv_time'      => array(-1, 'int'),
             'search_count' => array(-1, 'int'),
             'pf_net'       => array(-1, 'int'),
             'pf_srv'       => array(-1, 'int'),

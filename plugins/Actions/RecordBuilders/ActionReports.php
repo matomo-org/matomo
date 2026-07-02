@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\Cache;
+use Piwik\Config;
 use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
@@ -21,6 +22,7 @@ use Piwik\Metrics as PiwikMetrics;
 use Piwik\Plugins\Actions\Archiver;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Actions\Metrics;
+use Piwik\Plugins\Actions\Tracker\PageViewTimeWriter;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
@@ -737,9 +739,127 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     }
 
     /**
-     * Time per action
+     * Time per action.
+     *
+     * When the accurate-time feature is enabled (default), this reads from `log_page_view_time` so
+     * each pageview row contributes the time the user actually spent on that page, including any
+     * follow-up events / heartbeats. The legacy `time_spent_ref_action` query is retained behind
+     * the `record_accurate_page_view_time` kill-switch for safe rollback.
      */
     protected function archiveDayActionsTime(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
+    {
+        if (PageViewTimeWriter::isEnabled()) {
+            $this->archiveDayActionsTimeAccurate($logAggregator, $actionsTablesByType, $rankingQueryLimit, $tableModesByType);
+            return;
+        }
+
+        $this->archiveDayActionsTimeLegacy($logAggregator, $actionsTablesByType, $rankingQueryLimit, $tableModesByType);
+    }
+
+    /**
+     * Accurate time per action sourced from `log_page_view_time`.
+     *
+     * One row per pageview, with `time_spent` already accumulated by the tracker. By the time
+     * archiving runs the tracker has already closed every pageview that was followed by another
+     * one in the same visit (see {@see PageViewTimeWriter::insertPageView()} — it updates the
+     * previous PV row before inserting the new one) and heartbeat / event pings have updated
+     * the row in-flight. The archive-time backfill therefore only needs to estimate time for
+     * the visit's last pageview (no follow-up to close it): when `time_spent = 0`, use
+     * `LEAST(visit_last_action_time − server_time, visit_standard_length)`.
+     */
+    private function archiveDayActionsTimeAccurate(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType): void
+    {
+        $rankingQuery = false;
+        if ($rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($rankingQueryLimit);
+            $rankingQuery->addLabelColumn('idaction');
+            $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
+            $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT, 'sum');
+            $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($actionsTablesByType));
+
+            $extraSelects = "log_action.type, log_action.name, count(*) as `" . PiwikMetrics::INDEX_PAGE_NB_HITS . "`,";
+            $from = [
+                'log_page_view_time',
+                [
+                    'table'  => 'log_action',
+                    'joinOn' => 'log_page_view_time.%s = log_action.idaction',
+                ],
+                [
+                    'table'  => 'log_visit',
+                    'joinOn' => 'log_visit.idvisit = log_page_view_time.idvisit',
+                ],
+            ];
+            $orderBy = '`' . PiwikMetrics::INDEX_PAGE_NB_HITS . '` DESC, log_action.name ASC';
+        } else {
+            $extraSelects = false;
+            $from = [
+                'log_page_view_time',
+                [
+                    'table'  => 'log_visit',
+                    'joinOn' => 'log_visit.idvisit = log_page_view_time.idvisit',
+                ],
+            ];
+            $orderBy = false;
+        }
+
+        $cap = (int) (Config::getInstance()->Tracker['visit_standard_length'] ?? 1800);
+
+        $timeSpentExpression = "CASE
+                WHEN log_page_view_time.time_spent > 0 THEN log_page_view_time.time_spent
+                WHEN log_visit.visit_last_action_time IS NOT NULL
+                 AND UNIX_TIMESTAMP(log_visit.visit_last_action_time) > UNIX_TIMESTAMP(log_page_view_time.server_time)
+                    THEN LEAST(
+                        UNIX_TIMESTAMP(log_visit.visit_last_action_time) - UNIX_TIMESTAMP(log_page_view_time.server_time),
+                        $cap
+                    )
+                ELSE 0
+            END";
+
+        $select = "log_page_view_time.%s as idaction, $extraSelects
+                SUM($timeSpentExpression) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`,
+                SUM(($timeSpentExpression) > 0) as `" . PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT . "`";
+
+        $where = $logAggregator->getWhereStatement('log_page_view_time', 'server_time');
+        $where .= ' AND log_page_view_time.%s > 0';
+
+        $groupBy = 'log_page_view_time.%s';
+
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            'idaction_url',
+            $rankingQuery,
+            [],
+            $tableModesByType
+        );
+
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            'idaction_name',
+            $rankingQuery,
+            [],
+            $tableModesByType
+        );
+    }
+
+    /**
+     * Legacy time-per-action archive query.
+     *
+     * @deprecated since 5.13.0 retained behind the `record_accurate_page_view_time` kill-switch;
+     *             scheduled for removal in Matomo 6.0.
+     */
+    private function archiveDayActionsTimeLegacy(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType): void
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
