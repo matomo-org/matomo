@@ -422,8 +422,9 @@ abstract class Renderer extends BaseFactory
      *            'col2_name' => value2,
      *            'metadata1_name' => value_metadata )
      *
-     * @param null|array|DataTable|DataTable\Map|Simple $dataTable
-     * @return array  Php array representing the 'flat' version of the datatable
+     * @param null|array|DataTable\DataTableInterface $dataTable
+     * @return mixed  Php array representing the 'flat' version of the datatable, or a scalar value
+     *                when the table is a Simple table with a single column.
      */
     protected function convertDataTableToArray($dataTable = null)
     {
