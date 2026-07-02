@@ -67,10 +67,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   AI Chatbots top page URL reports.
 
 ### HTTP API
-* `API.getMetadata` and `API.getProcessedReport` no longer drop `nb_uniq_visitors` and `nb_users`
-  from report metadata on every non-`day` period; they now follow the
-  `enable_processing_unique_visitors_*` settings (week/month keep them by default). Metric pickers,
-  exports, scheduled reports and Row Evolution pick them up on those periods automatically.
+* `API.getMetadata` and `API.getProcessedReport` now advertise `nb_uniq_visitors` and `nb_users` on
+  non-`day` periods only where those metrics actually exist. Previously they were dropped for every
+  non-`day` period. They are now kept for the pure site-wide aggregate reports (`API.get` /
+  `VisitsSummary.get`) where the metrics are archived (week/month by default, per the
+  `enable_processing_unique_visitors_*` settings), so metric pickers, exports, scheduled reports and
+  Row Evolution pick them up automatically. Per-dimension reports (e.g. by country, page or referrer)
+  keep dropping them on non-`day` periods, since unique counts cannot be summed across days and are
+  not computed per dimension for higher periods.
 
 ## Matomo 5.11.0
 
