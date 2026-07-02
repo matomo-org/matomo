@@ -1689,11 +1689,6 @@ parameters:
 			path: core/TCPDF.php
 
 		-
-			message: "#^PHPDoc tag @var above a method has no effect\\.$#"
-			count: 1
-			path: core/Theme.php
-
-		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\:\\:disconnect\\(\\)\\.$#"
 			count: 2
 			path: core/Tracker.php
