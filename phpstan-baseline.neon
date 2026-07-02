@@ -796,51 +796,6 @@ parameters:
 			path: core/DataTable/Renderer/Html.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with Piwik\\\\DataTable will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Json.php
-
-		-
-			message: "#^Instanceof between \\*NEVER\\* and Piwik\\\\DataTable will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Json.php
-
-		-
-			message: "#^Instanceof between \\*NEVER\\* and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Json.php
-
-		-
-			message: "#^Instanceof between \\*NEVER\\* and Piwik\\\\DataTable\\\\Simple will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Json.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 2
-			path: core/DataTable/Renderer/Json.php
-
-		-
-			message: "#^Comparison operation \"\\!\\=\" between array and 0 results in an error\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Xml.php
-
-		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 2
-			path: core/DataTable/Renderer/Xml.php
-
-		-
-			message: "#^Instanceof between array and Piwik\\\\DataTable\\\\Simple will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Xml.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Xml.php
-
-		-
 			message: "#^Call to function is_array\\(\\) with 'array'\\|'boolean'\\|'double'\\|'integer'\\|'NULL'\\|'object'\\|'resource'\\|'resource \\(closed\\)'\\|'string'\\|'unknown type' will always evaluate to false\\.$#"
 			count: 1
 			path: core/DataTable/Row.php
