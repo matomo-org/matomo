@@ -40,6 +40,7 @@ use Piwik\Tracker\Cache;
 use Piwik\Url;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\NotEmpty;
+use Piwik\Validators\NumberRange;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -119,6 +120,9 @@ class API extends \Piwik\Plugin\API
 
     public const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     public const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
+
+    public const MIN_INVITE_EXPIRY_IN_DAYS = 1;
+    public const MAX_INVITE_EXPIRY_IN_DAYS = 3650;
 
     /**
      * @var API|null
@@ -822,6 +826,10 @@ class API extends \Piwik\Plugin\API
         if (empty($expiryInDays)) {
             $expiryInDays = GeneralConfig::getConfigValue('default_invite_user_token_expiry_days');
         }
+
+        BaseValidator::check(Piwik::translate('UsersManager_ExpiryInDays'), (int) $expiryInDays, [
+            new NumberRange(self::MIN_INVITE_EXPIRY_IN_DAYS, self::MAX_INVITE_EXPIRY_IN_DAYS),
+        ]);
 
         if (empty($initialIdSite)) {
             throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
@@ -1704,6 +1712,10 @@ class API extends \Piwik\Plugin\API
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
+        BaseValidator::check(Piwik::translate('UsersManager_ExpiryInDays'), (int) $expiryInDays, [
+            new NumberRange(self::MIN_INVITE_EXPIRY_IN_DAYS, self::MAX_INVITE_EXPIRY_IN_DAYS),
+        ]);
+
         if (!$this->model->isPendingUser($userLogin)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
         }
@@ -1748,6 +1760,10 @@ class API extends \Piwik\Plugin\API
         if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
+
+        BaseValidator::check(Piwik::translate('UsersManager_ExpiryInDays'), (int) $expiryInDays, [
+            new NumberRange(self::MIN_INVITE_EXPIRY_IN_DAYS, self::MAX_INVITE_EXPIRY_IN_DAYS),
+        ]);
 
         if (!$this->model->isPendingUser($userLogin)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
