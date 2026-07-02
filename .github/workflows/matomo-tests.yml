@@ -281,7 +281,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - name: Download per-bucket processed files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: system-plugin-bucket-*
           merge-multiple: true
