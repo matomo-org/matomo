@@ -134,7 +134,7 @@ class Cookie
      * @param string $Domain
      * @param bool $Secure
      * @param bool $HTTPOnly
-     * @param string $sameSite
+     * @param string|bool|null $sameSite
      */
     protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false, $sameSite = false)
     {
@@ -193,7 +193,7 @@ class Cookie
      * Saves the cookie (set the Cookie header).
      * You have to call this method before sending any text to the browser or you would get the
      * "Header already sent" error.
-     * @param string $sameSite Value for SameSite cookie property
+     * @param string|null $sameSite Value for SameSite cookie property
      */
     public function save($sameSite = null)
     {
@@ -348,7 +348,7 @@ class Cookie
      * A cookie has to stay small and its size shouldn't increase over time!
      *
      * @param string $name Name of the value to save; the name will be used to retrieve this value
-     * @param string|number $value Value to save. If null, entry will be deleted from cookie.
+     * @param string|int|float|null $value Value to save. If null, entry will be deleted from cookie.
      */
     public function set($name, $value)
     {
@@ -375,7 +375,7 @@ class Cookie
     /**
      * Returns the value defined by $name from the cookie.
      *
-     * @param string|integer Index name of the value to return
+     * @param string|int $name Index name of the value to return
      * @return mixed  The value if found, false if the value is not found
      */
     public function get($name)
@@ -422,7 +422,7 @@ class Cookie
      * Escape values from the cookie before sending them back to the client
      * (when using the get() method).
      *
-     * @param string $value Value to be escaped
+     * @param mixed $value Value to be escaped
      * @return mixed  The value once cleaned.
      */
     protected static function escapeValue($value)
@@ -480,7 +480,7 @@ class Cookie
 
     /**
      *  extend Cookie by timestamp or sting like + 30 years, + 10 months, default 2 years
-     * @param $time
+     * @param int|string|null $time
      * @return string
      */
     public function formatExpireTime($time = null)
