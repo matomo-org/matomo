@@ -134,7 +134,7 @@ class Cookie
      * @param string $Domain
      * @param bool $Secure
      * @param bool $HTTPOnly
-     * @param string|bool|null $sameSite
+     * @param string|false|null $sameSite
      */
     protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false, $sameSite = false)
     {
