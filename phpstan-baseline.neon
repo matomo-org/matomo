@@ -76,11 +76,6 @@ parameters:
 			path: core/API/Request.php
 
 		-
-			message: "#^Method Piwik\\\\API\\\\ResponseBuilder\\:\\:decorateExceptionWithDebugTrace\\(\\) should return Exception but returns Throwable\\.$#"
-			count: 1
-			path: core/API/ResponseBuilder.php
-
-		-
 			message: "#^Parameter \\#2 \\$columnToFilter of class Piwik\\\\DataTable\\\\Filter\\\\Pattern constructor expects string, array given\\.$#"
 			count: 1
 			path: core/API/ResponseBuilder.php
