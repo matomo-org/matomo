@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Plugins\BotTracking;
+namespace Piwik\Updates;
 
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Updater;
