@@ -66,6 +66,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * `live_ai_chatbots_top_page_urls_maximum_rows` caps the number of page URLs listed in the real-time
   AI Chatbots top page URL reports.
 
+### HTTP API
+* `API.getMetadata` and `API.getProcessedReport` no longer drop `nb_uniq_visitors` and `nb_users`
+  from report metadata on every non-`day` period; they now follow the
+  `enable_processing_unique_visitors_*` settings (week/month keep them by default). Metric pickers,
+  exports, scheduled reports and Row Evolution pick them up on those periods automatically.
+
 ## Matomo 5.11.0
 
 ### New APIs
