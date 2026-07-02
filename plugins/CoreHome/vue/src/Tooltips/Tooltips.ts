@@ -73,6 +73,10 @@ function closeOrphanedTooltips(el: HTMLElement): void {
 }
 
 function setupTooltips(el: HTMLElement, binding: DirectiveBinding<TooltipsArgs>) {
+  if (!el.isConnected) {
+    return;
+  }
+
   $(el).tooltip({
     track: true,
     content: binding.value?.content || defaultContentTransform,
