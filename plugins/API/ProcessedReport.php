@@ -12,6 +12,7 @@ namespace Piwik\Plugins\API;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Category\CategoryList;
@@ -28,6 +29,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Timer;
 
@@ -95,12 +97,27 @@ class ProcessedReport
             }
         }
 
+        $isMultiSiteRequest = count(Site::getIdSitesFromIdSitesString($idSite)) > 1;
+
+        // Unique visitors / users are only archived where enable_processing_unique_visitors_<period>
+        // is enabled (day + week/month by default), and are not computed across multiple sites on
+        // non-day periods unless enable_processing_unique_visitors_multiple_sites is enabled. Mirror
+        // that here (see ArchiveProcessor::enrichWithUniqueVisitorsMetric) so metadata only advertises
+        // the metrics where a real value exists. VisitsSummary.get is exempt (it always returns them).
+        $stripUniqueVisitors = $period
+            && !($apiModule == 'VisitsSummary' && $apiAction == 'get')
+            && (
+                !SettingsPiwik::isUniqueVisitorsEnabled($period)
+                || (
+                    $period != 'day'
+                    && $isMultiSiteRequest
+                    && Rules::shouldSkipUniqueVisitorsCalculationForMultipleSites()
+                )
+            );
+
         foreach ($reportsMetadata as $report) {
-            // See ArchiveProcessor/Aggregator.php - unique visitors are not processed for period != day
-            // todo: should use SettingsPiwik::isUniqueVisitorsEnabled instead
-            if (($period && $period != 'day') && !($apiModule == 'VisitsSummary' && $apiAction == 'get')) {
-                unset($report['metrics']['nb_uniq_visitors']);
-                unset($report['metrics']['nb_users']);
+            if ($stripUniqueVisitors) {
+                unset($report['metrics']['nb_uniq_visitors'], $report['metrics']['nb_users']);
             }
             if (
                 $report['module'] == $apiModule

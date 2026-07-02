@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\API\tests\Integration;
 
 use Piwik\API\Request;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
 use Piwik\Plugins\API\API;
@@ -85,6 +86,72 @@ class ProcessedReportMetadataTest extends IntegrationTestCase
             self::assertIsInt($metadataValue);
             self::assertGreaterThanOrEqual(0, $metadataValue);
         }
+    }
+
+    public function testGetMetadataKeepsUniqueVisitorsOnPeriodsWhereItIsProcessed(): void
+    {
+        // day + week/month enable unique visitors by default, so the labels must be advertised
+        foreach (['day', 'week', 'month'] as $period) {
+            $metrics = $this->getApiGetMetrics($period, '2015-01-02');
+            self::assertArrayHasKey('nb_uniq_visitors', $metrics, "period=$period");
+            self::assertArrayHasKey('nb_users', $metrics, "period=$period");
+        }
+    }
+
+    public function testGetMetadataStripsUniqueVisitorsOnPeriodsWhereItIsNotProcessed(): void
+    {
+        // year/range disable unique visitors by default, so the metrics must not be advertised
+        $year = $this->getApiGetMetrics('year', '2015-01-02');
+        self::assertArrayNotHasKey('nb_uniq_visitors', $year);
+        self::assertArrayNotHasKey('nb_users', $year);
+
+        $range = $this->getApiGetMetrics('range', '2015-01-01,2015-01-03');
+        self::assertArrayNotHasKey('nb_uniq_visitors', $range);
+        self::assertArrayNotHasKey('nb_users', $range);
+    }
+
+    public function testGetMetadataKeepsUniqueVisitorsForVisitsSummaryGetRegardlessOfPeriod(): void
+    {
+        // VisitsSummary.get is exempt from the strip because it always returns those metrics
+        $metadata = API::getInstance()->getMetadata($this->idSite, 'VisitsSummary', 'get', [], false, 'year', '2015-01-02');
+
+        self::assertIsArray($metadata);
+        self::assertArrayHasKey('nb_uniq_visitors', $metadata[0]['metrics']);
+        self::assertArrayHasKey('nb_users', $metadata[0]['metrics']);
+    }
+
+    public function testGetMetadataStripsUniqueVisitorsForMultiSiteNonDayRequests(): void
+    {
+        // unique visitors are not computed across sites on non-day periods unless
+        // enable_processing_unique_visitors_multiple_sites is enabled (off by default)
+        $idSite2 = Fixture::createWebsite('2015-01-01 00:00:00');
+        Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] = 0;
+
+        $metrics = $this->getApiGetMetrics('week', '2015-01-02', $this->idSite . ',' . $idSite2);
+        self::assertArrayNotHasKey('nb_uniq_visitors', $metrics);
+        self::assertArrayNotHasKey('nb_users', $metrics);
+    }
+
+    /**
+     * @param int|string|null $idSite
+     * @return array<string, string>
+     */
+    private function getApiGetMetrics(string $period, string $date, $idSite = null): array
+    {
+        $metadata = API::getInstance()->getMetadata(
+            $idSite ?? $this->idSite,
+            'API',
+            'get',
+            [],
+            false,
+            $period,
+            $date
+        );
+
+        self::assertIsArray($metadata);
+        self::assertArrayHasKey(0, $metadata);
+        self::assertIsArray($metadata[0]['metrics']);
+        return $metadata[0]['metrics'];
     }
 
     /**
