@@ -904,7 +904,7 @@ class Url
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public static function getHostFromServerNameVar()
     {
