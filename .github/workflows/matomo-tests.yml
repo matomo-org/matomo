@@ -355,14 +355,7 @@ jobs:
 
           plugins=$(find plugins -mindepth 2 -path '*/tests/UI/*_spec.js' \
             ! -path '*/node_modules/*' ! -path '*/vendor/*' \
-            | awk -F/ '{print $2}' | sort -u \
-            | while read -r plugin; do
-                [ -n "$plugin" ] || continue
-
-                if [ ! -e "plugins/$plugin/.git" ]; then
-                  printf '%s\n' "$plugin"
-                fi
-              done)
+            | awk -F/ '{print $2}' | sort -u)
 
           matrix=$(printf '%s\n' "$plugins" \
             | jq -Rsc 'split("\n") | map(select(length>0) | {plugin: .}) | {include: .}')
@@ -396,6 +389,11 @@ jobs:
           # Persisted so github-action-tests' own `git lfs pull --exclude=` stays scoped too
           git config lfs.fetchinclude "plugins/$PLUGIN/tests/UI/expected-screenshots/*"
           git lfs pull --include "plugins/$PLUGIN/tests/UI/expected-screenshots/*" --exclude=
+
+          # Submodule plugins store expected screenshots in their own repo's LFS.
+          if [ -e "plugins/$PLUGIN/.git" ]; then
+            git -C "plugins/$PLUGIN" lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
+          fi
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
