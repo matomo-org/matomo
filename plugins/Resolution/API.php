@@ -9,10 +9,10 @@
 
 namespace Piwik\Plugins\Resolution;
 
-use Exception;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Piwik;
+use Piwik\Policy\Exceptions\DisabledByCompliancePolicyException;
 use Piwik\Site;
 
 /**
@@ -72,7 +72,7 @@ class API extends \Piwik\Plugin\API
 
         // show an error only if none of the requested sites is left
         if (count($idSitesFiltered) === 0 && count($idSites) !== count($idSitesFiltered)) {
-            throw new Exception(Piwik::translate('Resolution_ScreenResolutionReportDisabledByCompliancePolicy'));
+            throw new DisabledByCompliancePolicyException(Piwik::translate('Resolution_ScreenResolutionReportDisabledByCompliancePolicy'));
         }
 
         $dataTable = $this->getDataTable(Archiver::RESOLUTION_RECORD_NAME, $idSitesFiltered, $period, $date, $segment);

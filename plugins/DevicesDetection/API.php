@@ -10,12 +10,12 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use DeviceDetector\Parser\Device\AbstractDeviceParser;
-use Exception;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use DeviceDetector\Parser\Client\Browser as BrowserParser;
+use Piwik\Policy\Exceptions\DisabledByCompliancePolicyException;
 use Piwik\Site;
 
 /**
@@ -154,7 +154,7 @@ class API extends \Piwik\Plugin\API
 
         // show an error only if none of the requested sites is left
         if (count($idSitesFiltered) === 0 && count($idSites) !== count($idSitesFiltered)) {
-            throw new Exception(Piwik::translate('DevicesDetection_DeviceModelReportDisabledByCompliancePolicy'));
+            throw new DisabledByCompliancePolicyException(Piwik::translate('DevicesDetection_DeviceModelReportDisabledByCompliancePolicy'));
         }
 
         $dataTable = $this->getDataTable('DevicesDetection_models', $idSitesFiltered, $period, $date, $segment);
