@@ -241,10 +241,6 @@ parameters:
 			count: 1
 			path: core/AssetManager.php
 
-		-
-			message: "#^Parameter \\#3 \\$theme of class Piwik\\\\AssetManager\\\\UIAssetFetcher\\\\StaticUIAssetFetcher constructor expects Piwik\\\\Theme, null given\\.$#"
-			count: 2
-			path: core/AssetManager.php
 
 		-
 			message: "#^Property Piwik\\\\AssetManager\\\\UIAsset\\\\OnDiskUIAsset\\:\\:\\$relativeRootDir \\(string\\) in isset\\(\\) is not nullable\\.$#"
@@ -261,25 +257,13 @@ parameters:
 			count: 1
 			path: core/AssetManager/UIAssetFetcher.php
 
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: core/AssetManager/UIAssetFetcher/JScriptUIAssetFetcher.php
 
 		-
 			message: "#^Parameter \\#3 \\$pending of static method Piwik\\\\Piwik\\:\\:postEvent\\(\\) expects bool, null given\\.$#"
 			count: 1
 			path: core/AssetManager/UIAssetFetcher/JScriptUIAssetFetcher.php
 
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: core/AssetManager/UIAssetFetcher/StylesheetUIAssetFetcher.php
 
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: core/AssetManager/UIAssetMerger.php
 
 		-
 			message: "#^Parameter \\#3 \\$pending of static method Piwik\\\\Piwik\\:\\:postEvent\\(\\) expects bool, null given\\.$#"
@@ -386,20 +370,6 @@ parameters:
 			count: 1
 			path: core/Container/IniConfigDefinitionSource.php
 
-		-
-			message: "#^Property Piwik\\\\Cookie\\:\\:\\$keyStore \\(string\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: core/Cookie.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
-			count: 1
-			path: core/Cookie.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
-			count: 2
-			path: core/Cookie.php
 
 		-
 			message: "#^Dead catch \\- UnexpectedValueException is never thrown in the try block\\.$#"
@@ -2094,10 +2064,6 @@ parameters:
 			count: 2
 			path: plugins/Actions/ArchivingHelper.php
 
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\Piwik\\\\DataTable\\\\Row\\)\\: Unexpected token \"\\\\n     \", expected variable at offset 150$#"
-			count: 1
-			path: plugins/Actions/ArchivingHelper.php
 
 		-
 			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:setColumn\\(\\) expects string, int given\\.$#"
@@ -3317,10 +3283,6 @@ parameters:
 			count: 1
 			path: plugins/PrivacyManager/DoNotTrackHeaderChecker.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\PrivacyManager\\\\LogDataPurger\\:\\:getDeleteIdVisitOffset\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: plugins/PrivacyManager/LogDataPurger.php
 
 		-
 			message: "#^Parameter \\#2 \\$first of static method Piwik\\\\Db\\:\\:segmentedFetchFirst\\(\\) expects int, string given\\.$#"
