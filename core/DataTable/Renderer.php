@@ -66,7 +66,7 @@ abstract class Renderer extends BaseFactory
 
     /**
      * The current idSite
-     * @var int
+     * @var int|string
      */
     public $idSite = 'all';
 
