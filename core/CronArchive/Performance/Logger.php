@@ -29,7 +29,7 @@ class Logger
     private $logger;
 
     /**
-     * @var int
+     * @var string|false
      */
     private $archivingRunId;
 
