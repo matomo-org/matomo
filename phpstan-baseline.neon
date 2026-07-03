@@ -451,15 +451,6 @@ parameters:
 			count: 1
 			path: core/CronArchive/Performance/Logger.php
 
-		-
-			message: "#^Property Piwik\\\\CronArchive\\\\Performance\\\\Logger\\:\\:\\$isEnabled \\(int\\) does not accept bool\\.$#"
-			count: 1
-			path: core/CronArchive/Performance/Logger.php
-
-		-
-			message: "#^Property Piwik\\\\CronArchive\\\\Performance\\\\Logger\\:\\:\\$isEnabled \\(int\\) does not accept false\\.$#"
-			count: 1
-			path: core/CronArchive/Performance/Logger.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -2656,10 +2647,6 @@ parameters:
 			count: 1
 			path: plugins/Dashboard/API.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Dashboard\\\\Model\\:\\:getLayoutForUser\\(\\) should return bool\\|string but returns array\\.$#"
-			count: 1
-			path: plugins/Dashboard/Model.php
 
 		-
 			message: "#^Parameter \\#1 \\$sqlFilterValue of method Piwik\\\\Plugin\\\\Segment\\:\\:setSqlFilterValue\\(\\) expects array\\|string, Closure given\\.$#"
