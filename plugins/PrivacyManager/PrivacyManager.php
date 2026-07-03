@@ -134,7 +134,7 @@ class PrivacyManager extends Plugin
     /**
      * @param DataTable $dataTable
      * @param int|null $logsOlderThan If set, it is assumed that log deletion is enabled with the given amount of days
-     * @return bool|void
+     * @return bool
      */
     public static function haveLogsBeenPurged($dataTable, $logsOlderThan = null)
     {
