@@ -40,7 +40,7 @@ class TrackerUpdater
     private $trackerFiles = array();
 
     /**
-     * @param string|null $fromFile If null then the minified JS tracker file in /js fill be used
+     * @param string|null $fromFile If null then the minified JS tracker file in /js will be used
      * @param string|null $toFile If null then the minified JS tracker will be updated.
      */
     public function __construct($fromFile = null, $toFile = null)
