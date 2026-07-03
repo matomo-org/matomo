@@ -10,7 +10,6 @@
 var fs = require('fs'),
   path = require('../../lib/screenshot-testing/support/path');
 
-const request = require('request-promise');
 const exec = require('child_process').exec;
 
 describe("OneClickUpdate", function () {
@@ -127,14 +126,13 @@ describe("OneClickUpdate", function () {
         // track one action
         const trackerUrl = config.piwikUrl + "latestStableInstall/piwik.php?";
 
-        await request({
+        await fetch(trackerUrl, {
             method: 'POST',
-            uri: trackerUrl,
-            form: {
+            body: new URLSearchParams({
                 idsite: 1,
                 url: 'http://piwik.net/test/url',
                 action_name: 'test page',
-            },
+            }),
         });
 
         // run cron archiving
