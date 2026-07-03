@@ -88,7 +88,7 @@ class ArchivePurger
      * table that stores data for `$date`.
      *
      * @param Date $date The date identifying the archive table.
-     * @return int The total number of archive rows deleted (from both the blog & numeric tables).
+     * @return int The total number of archive rows deleted (from both the blob & numeric tables).
      */
     public function purgeInvalidatedArchivesFrom(Date $date)
     {

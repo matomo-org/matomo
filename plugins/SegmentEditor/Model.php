@@ -42,7 +42,7 @@ class Model
     }
 
     /**
-     * Returns all stored segments.
+     * Returns all segments that are enabled for auto archiving.
      *
      * @param bool|int $idSite Whether to return stored segments for a specific idSite, or segments that are available
      *                         for all sites. If supplied, must be a valid site ID.
@@ -131,11 +131,10 @@ class Model
     }
 
     /**
-     * Gets a list of segments that have been deleted in the last week and therefore may have orphaned archives.
+     * Gets a list of segments that have been deleted on or after the given date and therefore may have orphaned archives.
      * @param Date $date Segments deleted on or after this date will be returned.
      * @return array of segments. The segments are only populated with the fields needed for archive invalidation
      * (e.g. definition, enable_only_idsite).
-     * @throws \Exception
      */
     public function getSegmentsDeletedSince(Date $date)
     {

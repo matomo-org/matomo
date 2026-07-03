@@ -629,7 +629,8 @@ class Visualization extends ViewDataTable
     }
 
     /**
-     * Return true if the config for the plug is disabled
+     * Returns true if a segment is applied to the request but segment archiving is disabled for the
+     * requested plugin/module.
      * @return bool
      */
 

@@ -150,25 +150,6 @@ parameters:
 			count: 1
 			path: core/Archive/ArchivePurger.php
 
-		-
-			message: "#^Offset 'date1' does not exist on string\\.$#"
-			count: 1
-			path: core/Archive/ArchiveState.php
-
-		-
-			message: "#^Offset 'date2' does not exist on string\\.$#"
-			count: 2
-			path: core/Archive/ArchiveState.php
-
-		-
-			message: "#^Offset 'idsite' does not exist on string\\.$#"
-			count: 1
-			path: core/Archive/ArchiveState.php
-
-		-
-			message: "#^Offset 'ts_archived' does not exist on string\\.$#"
-			count: 1
-			path: core/Archive/ArchiveState.php
 
 		-
 			message: "#^Parameter \\#3 \\$archiveIdsFlipped of method Piwik\\\\Archive\\\\ArchiveState\\:\\:checkArchiveStates\\(\\) expects array\\<string, array\\<int, bool\\>\\>, array\\<string, array\\<int, \\(int\\|string\\)\\>\\> given\\.$#"
@@ -1613,15 +1594,6 @@ parameters:
 			count: 1
 			path: core/Tracker/Db/Pdo/Mysql.php
 
-		-
-			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:fetchCol\\(\\) should return string but returns array\\|false\\.$#"
-			count: 1
-			path: core/Tracker/Db/Pdo/Mysql.php
-
-		-
-			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:fetchCol\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: core/Tracker/Db/Pdo/Mysql.php
 
 		-
 			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:lastInsertId\\(\\) should return int but returns string\\|false\\.$#"
@@ -3515,10 +3487,6 @@ parameters:
 			count: 2
 			path: plugins/SitesManager/API.php
 
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string Date to set as creation date\\.\\)\\: Unexpected token \"Date\", expected variable at offset 154$#"
-			count: 1
-			path: plugins/SitesManager/Model.php
 
 		-
 			message: "#^Variable \\$id_val might not be defined\\.$#"
