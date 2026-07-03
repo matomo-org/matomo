@@ -318,7 +318,7 @@ class DataTableFactory
     }
 
     /**
-     * Creates a Set from an array index.
+     * Creates a DataTable\Map from an array index.
      *
      * @param array $index @see DataCollection
      * @param array $resultIndices @see make
