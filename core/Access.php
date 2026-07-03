@@ -36,7 +36,7 @@ use Piwik\Session\SessionAuth;
  *                          Super user access is required to set some configuration options.
  *                          All other options are specific to the user or to a website.
  *
- * Access is granted per website. Uses with access for a website can view all
+ * Access is granted per website. Users with access for a website can view all
  * data associated with that website.
  *
  */
@@ -73,7 +73,7 @@ class Access
     protected $hasSuperUserAccess = false;
 
     /**
-     * Authentification object (see Auth)
+     * Authentication object (see Auth)
      *
      * @var Auth
      */
