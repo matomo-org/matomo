@@ -56,7 +56,7 @@ class DataTableFactory
      * The maximum number of subtable levels to create when creating an expanded
      * DataTable.
      *
-     * @var int
+     * @var int|null
      */
     private $maxSubtableDepth = null;
 
@@ -138,7 +138,7 @@ class DataTableFactory
      * Tells the factory instance to create a DataTable using a blob with the
      * supplied subtable ID.
      *
-     * @param int $idSubtable An in-database subtable ID.
+     * @param int|null $idSubtable An in-database subtable ID.
      * @throws \Exception
      */
     public function useSubtable($idSubtable)
@@ -478,7 +478,7 @@ class DataTableFactory
     }
 
     /**
-     * @param $data
+     * @param array $data
      * @return DataTable\Simple
      */
     private function makeFromMetricsArray($data, $keyMetadata)

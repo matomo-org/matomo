@@ -46,6 +46,14 @@ class Category
     protected $groups = array();
 
     /**
+     * Subset of {@link $groups} for which this category does not require tracked data, i.e. that should
+     * not trigger the "site has no data" tracker-setup screen.
+     *
+     * @var string[]
+     */
+    protected $groupsWithoutTrackingRequirement = array();
+
+    /**
      * @var Subcategory[]
      */
     protected $subcategories = array();
@@ -116,6 +124,28 @@ class Category
     public function getGroups(): array
     {
         return $this->groups ?: array(self::DEFAULT_GROUP);
+    }
+
+    /**
+     * Sets the reporting menu groups for which this category does not require tracked data.
+     *
+     * @param string[] $groups
+     * @return static
+     */
+    public function setGroupsWithoutTrackingRequirement(array $groups)
+    {
+        $this->groupsWithoutTrackingRequirement = array_values(array_unique(array_map('strval', $groups)));
+        return $this;
+    }
+
+    /**
+     * Returns the reporting menu groups for which this category does not require tracked data.
+     *
+     * @return string[]
+     */
+    public function getGroupsWithoutTrackingRequirement(): array
+    {
+        return $this->groupsWithoutTrackingRequirement;
     }
 
     public function getDisplayName()

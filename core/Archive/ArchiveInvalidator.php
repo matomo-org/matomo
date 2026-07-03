@@ -235,7 +235,7 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param $id
+     * @param string $id
      * @return bool true if a record was deleted, false otherwise.
      * @throws \Zend_Db_Statement_Exception
      */
@@ -262,9 +262,12 @@ class ArchiveInvalidator
      * @param int[] $idSites
      * @param Date[]|string[] $dates
      * @param string $period
+     * @param Segment|null $segment The segment to restrict invalidation to, or null for no segment.
+     * @param bool $cascadeDown Whether to also invalidate child periods (eg, the days within an invalidated month).
      * @param bool $forceInvalidateNonexistentRanges set true to force inserting rows for ranges in archive_invalidations
      * @param null|string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
      *                          or a plugin name to only archive the specific plugin.
+     * @param bool $ignorePurgeLogDataDate If true, invalidate dates even if they are older than the configured log deletion date.
      * @param bool $doNotCreateInvalidations If true, archives will only be marked as invalid, but no archive_invalidation record will be created
      * @return InvalidationResult
      * @throws \Exception
@@ -432,9 +435,10 @@ class ArchiveInvalidator
 
     /**
      * @param int[] $idSites
-     * @param Date[] $dates
+     * @param array<array{0: Date, 1: Date}> $dates Array of [startDate, endDate] pairs.
+     * @param Segment|null $segment The segment to restrict invalidation to, or null for no segment.
      * @param null|string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
-     * *                          or a plugin name to only archive the specific plugin.
+     *                          or a plugin name to only archive the specific plugin.
      * @return InvalidationResult
      * @throws \Exception
      */
@@ -534,7 +538,7 @@ class ArchiveInvalidator
      * archiving data in the past, you may want to call this method to remove any pending invalidations if, for example,
      * your plugin is deactivated or a report deleted.
      *
-     * @param int|int[] $idSite one or more site IDs or 'all' for all site IDs
+     * @param int|int[]|string $idSite one or more site IDs or 'all' for all site IDs
      * @param string $plugin
      * @param string|null $report
      */
@@ -552,7 +556,6 @@ class ArchiveInvalidator
      * since adding invalidations can take a long time and delay UI response times.
      *
      * @param int|int[]|'all' $idSites
-     * @param string|int $pluginName
      * @param string|null $report
      */
     public function scheduleReArchiving(
@@ -725,7 +728,9 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param Date[] $dates
+     * @param Date[]|string[] $dates
+     * @param string $period
+     * @param bool $ignorePurgeLogDataDate
      * @return \Piwik\Date[]
      */
     private function removeDatesThatHaveBeenPurged($dates, $period, InvalidationResult $invalidationInfo, $ignorePurgeLogDataDate)

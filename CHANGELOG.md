@@ -30,6 +30,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   within the same SPA and quick search. The first such section, "AI Insights", surfaces the existing
   AI Assistants reports.
 
+### New config.ini.php settings
+* `datatable_archiving_maximum_rows_actions_flat` caps the number of rows used when flat-archiving
+  page/title Actions reports before the hierarchy is rebuilt (set to `0` to keep the legacy
+  hierarchical-only Actions archiving). See `Record::setAggregatedRecordTransform()` above.
+* `datatable_archiving_maximum_rows_ai_chatbot_content` caps the number of content URLs
+  (pages/documents) listed in the AI Chatbots Content Requests reports.
+* `datatable_archiving_maximum_rows_ai_chatbot_favoured_pages` caps the number of page URLs listed in
+  the Human-Favoured / AI-Favoured Pages reports.
+
 ## Matomo 5.11.0
 
 ### New APIs

@@ -966,6 +966,22 @@ class APITest extends IntegrationTestCase
         self::assertResultCountHeader(5);
     }
 
+    public function testGetUsersPlusRoleDoesNotThrowWhenInviteExpiredAtIsCorrupted()
+    {
+        $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
+        self::assertTrue($this->model->isPendingUser('pendingLoginTest'));
+
+        // simulate a row corrupted by a bug that stored an out-of-range expiry date directly,
+        // bypassing the API validation (eg. from before this validation existed)
+        $this->model->updateUserFields('pendingLoginTest', ['invite_expired_at' => '0000-00-00 00:00:00']);
+
+        $users = $this->api->getUsersPlusRole(1, null, 0, 'pendingLoginTest');
+
+        self::assertCount(1, $users);
+        self::assertEquals('pendingLoginTest', $users[0]['login']);
+        self::assertEquals('expired', $users[0]['invite_status']);
+    }
+
     public function testGetSitesAccessForUserShouldReturnAccessForUser()
     {
         $this->api->setUserAccess('userLogin', 'admin', [1]);
@@ -1591,6 +1607,34 @@ class APITest extends IntegrationTestCase
         self::assertEquals($expiredDays, $diff / 3600 / 24);
     }
 
+    public function testInviteUserFailsWhenExpiryInDaysIsTooHigh()
+    {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('UsersManager_ExpiryInDays');
+
+        $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1, 99999);
+    }
+
+    public function testInviteUserFailsWhenExpiryInDaysIsNegative()
+    {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('UsersManager_ExpiryInDays');
+
+        $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1, -5);
+    }
+
+    public function testInviteUserDoesNotCreateUserWhenExpiryInDaysIsTooHigh()
+    {
+        try {
+            $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1, 99999);
+            self::fail('Expected exception was not thrown');
+        } catch (\Exception $e) {
+            // expected, asserted in testInviteUserFailsWhenExpiryInDaysIsTooHigh()
+        }
+
+        self::assertFalse($this->model->isPendingUser('pendingLoginTest'));
+    }
+
     public function testResendInviteAsSuperUser()
     {
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
@@ -1617,6 +1661,26 @@ class APITest extends IntegrationTestCase
         self::expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
 
         $this->api->resendInvite('notExistingUser');
+    }
+
+    public function testResendInviteFailsWhenExpiryInDaysIsTooHigh()
+    {
+        $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('UsersManager_ExpiryInDays');
+
+        $this->api->resendInvite('pendingLoginTest', 99999);
+    }
+
+    public function testGenerateInviteLinkFailsWhenExpiryInDaysIsTooHigh()
+    {
+        $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('UsersManager_ExpiryInDays');
+
+        $this->api->generateInviteLink('pendingLoginTest', 99999);
     }
 
     public function testResendInviteAsInviterWithAdminAccess()

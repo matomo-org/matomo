@@ -164,7 +164,7 @@ class DataCollection
      * @param int           $idSite
      * @param string        $period eg, '2012-01-01,2012-01-31'
      * @param string        $name   eg 'nb_visits'
-     * @param string        $value  eg 5
+     * @param mixed         $value  eg 5, or a serialized blob string
      * @param array|null    $meta   Optional metadata to add to the row
      */
     public function set($idSite, $period, $name, $value, ?array $meta = null)
@@ -189,7 +189,7 @@ class DataCollection
      * @param int $idSite
      * @param string $period eg, '2012-01-01,2012-01-31'
      * @param string $name The metadata name.
-     * @param mixed $value The metadata name.
+     * @param mixed $value The metadata value.
      */
     public function addMetadata($idSite, $period, $name, $value)
     {

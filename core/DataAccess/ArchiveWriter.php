@@ -62,7 +62,8 @@ class ArchiveWriter
     public const DONE_INVALIDATED = 4;
 
     /**
-     * Flag indicating that the archive is
+     * Flag indicating that the archive only contains data for a single requested plugin/report rather
+     * than the full set of reports for the period.
      *
      * @var int
      */

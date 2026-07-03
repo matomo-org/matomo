@@ -34,6 +34,7 @@ class OnDiskUIAsset extends UIAsset
     /**
      * @param string $baseDirectory
      * @param string $fileLocation
+     * @param string $relativeRootDir
      */
     public function __construct($baseDirectory, $fileLocation, $relativeRootDir = '')
     {

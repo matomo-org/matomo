@@ -61,7 +61,7 @@ class DocumentationGenerator
     /**
      * Used on developer.matomo.org
      *
-     * @param bool|true $outputExampleUrls
+     * @param bool $outputExampleUrls
      * @param string $prefixUrls
      * @return string
      */
@@ -165,7 +165,6 @@ class DocumentationGenerator
     /**
      * Check if Class contains @hide
      *
-     * @param ReflectionClass $rClass instance of ReflectionMethod
      * @return bool
      */
     public function checkIfClassCommentContainsHideAnnotation(ReflectionClass $rClass)
@@ -174,9 +173,9 @@ class DocumentationGenerator
     }
 
     /**
-     * Check if Class contains @internal
+     * Check if a class or method doc comment contains @internal
      *
-     * @param ReflectionClass|\ReflectionMethod $rClass instance of ReflectionMethod
+     * @param ReflectionClass|\ReflectionMethod $rClass
      * @return bool
      */
     private function checkIfCommentContainsInternalAnnotation($rClass)
@@ -187,8 +186,8 @@ class DocumentationGenerator
     /**
      * Check if documentation contains @hide annotation and deletes it
      *
-     * @param $moduleToCheck
-     * @return mixed
+     * @param string $moduleToCheck
+     * @return string
      */
     public function checkDocumentation($moduleToCheck)
     {
@@ -199,9 +198,10 @@ class DocumentationGenerator
     }
 
     /**
-     * Returns a string containing links to examples on how to call a given method on a given API
-     * It will export links to XML, CSV, HTML, JSON, PHP, etc.
-     * It will not export links for methods such as deleteSite or deleteUser
+     * Builds the example API request query string (starting with '?') for a given method,
+     * used by self::addExamples() to render example links.
+     * Returns false for methods such as deleteSite or deleteUser, or when a required
+     * parameter has no known default value.
      *
      * @param string $class the class
      * @param string $methodName the method
@@ -374,9 +374,9 @@ class DocumentationGenerator
     }
 
     /**
-     * @param $outputExampleUrls
-     * @param $prefixUrls
-     * @param $displayTitlesAsEnrichedHeadline
+     * @param bool $outputExampleUrls
+     * @param string $prefixUrls
+     * @param bool $displayTitlesAsEnrichedHeadline
      * @return array
      */
     protected function generateDocumentation($outputExampleUrls, $prefixUrls, $displayTitlesAsEnrichedHeadline)

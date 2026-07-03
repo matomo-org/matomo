@@ -10895,23 +10895,30 @@ function findContainer(widgetsByCategory, containerId) {
 Widgetvue_type_script_lang_ts.render = Widgetvue_type_template_id_17541248_render
 
 /* harmony default export */ var Widget_Widget = (Widgetvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=16afd136
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=f759ac26
 
-const ReportingPagevue_type_template_id_16afd136_hoisted_1 = {
+const ReportingPagevue_type_template_id_f759ac26_hoisted_1 = {
   class: "reporting-page"
 };
-const ReportingPagevue_type_template_id_16afd136_hoisted_2 = {
+const ReportingPagevue_type_template_id_f759ac26_hoisted_2 = {
   key: 1,
   class: "col s12 l6 leftWidgetColumn"
 };
-const ReportingPagevue_type_template_id_16afd136_hoisted_3 = {
+const ReportingPagevue_type_template_id_f759ac26_hoisted_3 = {
   key: 2,
   class: "col s12 l6 rightWidgetColumn"
 };
-function ReportingPagevue_type_template_id_16afd136_render(_ctx, _cache, $props, $setup, $data, $options) {
+function ReportingPagevue_type_template_id_f759ac26_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_SiteWithoutData = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SiteWithoutData");
   const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
   const _component_Widget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Widget");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_16afd136_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_f759ac26_hoisted_1, [_ctx.showEmptySiteScreen ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_SiteWithoutData, {
+    key: 0,
+    "embedded-in-reporting": true,
+    onDismissed: _ctx.onNoDataDismissed
+  }, null, 8, ["onDismissed"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+    key: 1
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     loading: _ctx.loading
   }, null, 8, ["loading"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreHome_NoSuchPage')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.hasNoPage]]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.widgets, widget => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
@@ -10921,20 +10928,20 @@ function ReportingPagevue_type_template_id_16afd136_render(_ctx, _cache, $props,
       key: 0,
       class: "col s12 fullWidgetColumn",
       widget: widget
-    }, null, 8, ["widget"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_16afd136_hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.left, widgetInGroup => {
+    }, null, 8, ["widget"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_f759ac26_hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.left, widgetInGroup => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
         widget: widgetInGroup,
         key: widgetInGroup.uniqueId
       }, null, 8, ["widget"]);
-    }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_16afd136_hoisted_3, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.right, widgetInGroup => {
+    }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), widget.group ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_f759ac26_hoisted_3, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(widget.right, widgetInGroup => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Widget, {
         widget: widgetInGroup,
         key: widgetInGroup.uniqueId
       }, null, 8, ["widget"]);
     }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-  }), 128))]);
+  }), 128))], 64))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=16afd136
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=template&id=f759ac26
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.store.ts
 function ReportingPage_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -11069,6 +11076,12 @@ class ReportingPage_store_ReportingPageStore {
 
 
 
+
+
+const SiteWithoutData = useExternalPluginComponent('SitesManager', 'SiteWithoutData');
+// Reuse the standalone page's id so its styling (SitesManager.less) and detection
+// (broadcast.isNoDataPage, UI tests) also apply to the in-SPA gate.
+const SITE_WITHOUT_DATA_BODY_ID = 'site-without-data';
 function showOnlyRawDataNotification() {
   const params = 'category=General_Visitors&subcategory=Live_VisitorLog';
   const url = window.broadcast.buildReportingUrl(params);
@@ -11090,7 +11103,15 @@ function hideOnlyRawDataNoticifation() {
 /* harmony default export */ var ReportingPagevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   components: {
     ActivityIndicator: ActivityIndicator,
-    Widget: Widget_Widget
+    Widget: Widget_Widget,
+    SiteWithoutData
+  },
+  props: {
+    // groups the empty-site gate is skipped for (e.g. AI Insights), resolved server-side
+    groupsWithoutTrackingRequirement: {
+      type: Array,
+      default: () => []
+    }
   },
   data() {
     return {
@@ -11098,13 +11119,22 @@ function hideOnlyRawDataNoticifation() {
       hasRawData: false,
       hasNoVisits: false,
       dateLastChecked: null,
-      hasNoPage: false
+      hasNoPage: false,
+      siteHasNoData: false,
+      noDataDismissed: false
     };
   },
   created() {
     ReportingPage_store.resetPage();
     this.loading = true; // we only set loading on initial load
     this.renderInitialPage();
+    // Fetched in parallel (not awaited) so the common has-data case isn't delayed by a round-trip.
+    // A no-data site therefore starts rendering the report first; the gate replaces it once this
+    // resolves. The discarded fetch is cheap (a no-data site has nothing to archive).
+    this.fetchSiteEmptyState();
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => this.showEmptySiteScreen, active => {
+      this.updateSiteWithoutDataBodyId(active);
+    });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => src_MatomoUrl_MatomoUrl.parsed.value, (newValue, oldValue) => {
       if (newValue.category === oldValue.category && newValue.subcategory === oldValue.subcategory && newValue.period === oldValue.period && newValue.date === oldValue.date && newValue.segment === oldValue.segment && JSON.stringify(newValue.compareDates) === JSON.stringify(oldValue.compareDates) && JSON.stringify(newValue.comparePeriods) === JSON.stringify(oldValue.comparePeriods) && JSON.stringify(newValue.compareSegments) === JSON.stringify(oldValue.compareSegments) && JSON.stringify(newValue.columns || '') === JSON.stringify(oldValue.columns || '')) {
         // this page is already loaded
@@ -11123,13 +11153,57 @@ function hideOnlyRawDataNoticifation() {
       this.renderPage(category, subcategory, parsedUrl.period, parsedUrl.date, parsedUrl.segment);
     });
   },
+  unmounted() {
+    this.updateSiteWithoutDataBodyId(false);
+  },
   computed: {
     widgets() {
       return ReportingPage_store.widgets.value;
+    },
+    showEmptySiteScreen() {
+      if (!this.siteHasNoData || this.noDataDismissed) {
+        return false;
+      }
+      const activeGroup = src_MatomoUrl_MatomoUrl.parsed.value.group || DEFAULT_GROUP;
+      return !this.groupsWithoutTrackingRequirement.includes(activeGroup);
     }
   },
   methods: {
+    fetchSiteEmptyState() {
+      AjaxHelper_AjaxHelper.fetch({
+        module: 'SitesManager',
+        action: 'getSiteEmptyState',
+        idSite: Matomo_Matomo.idSite
+      }, {
+        createErrorNotification: false
+      }).then(response => {
+        this.siteHasNoData = response === true;
+      }).catch(() => {
+        // ignore errors - don't block the dashboard on the empty-site check
+        this.siteHasNoData = false;
+      });
+    },
+    onNoDataDismissed() {
+      // stay on the current page and load it now that the screen is gone
+      this.noDataDismissed = true;
+      this.renderInitialPage();
+    },
+    updateSiteWithoutDataBodyId(active) {
+      if (active) {
+        document.body.id = SITE_WITHOUT_DATA_BODY_ID;
+      } else if (document.body.id === SITE_WITHOUT_DATA_BODY_ID) {
+        document.body.id = '';
+      }
+    },
     renderPage(category, subcategory, period, date, segment) {
+      // No report to render while the gate is shown; rendering would emit matomoPageChange and
+      // abort the requests the just-mounted SiteWithoutData component fired. Still clear transient
+      // notifications from the page we navigated away from (e.g. an archiving notice).
+      if (this.showEmptySiteScreen) {
+        Notifications_store.clearTransientNotifications();
+        this.loading = false;
+        return;
+      }
       if (!category || !subcategory) {
         ReportingPage_store.resetPage();
         this.loading = false;
@@ -11244,7 +11318,7 @@ function hideOnlyRawDataNoticifation() {
 
 
 
-ReportingPagevue_type_script_lang_ts.render = ReportingPagevue_type_template_id_16afd136_render
+ReportingPagevue_type_script_lang_ts.render = ReportingPagevue_type_template_id_f759ac26_render
 
 /* harmony default export */ var ReportingPage = (ReportingPagevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportExport/ReportExportPopover.vue?vue&type=template&id=67216619
@@ -11925,10 +11999,10 @@ const {
     });
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=e8b188a6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=6902c51a
 
-const Sparklinevue_type_template_id_e8b188a6_hoisted_1 = ["src", "width", "height"];
-function Sparklinevue_type_template_id_e8b188a6_render(_ctx, _cache, $props, $setup, $data, $options) {
+const Sparklinevue_type_template_id_6902c51a_hoisted_1 = ["src", "width", "height"];
+function Sparklinevue_type_template_id_6902c51a_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
     class: "sparklineImg",
     loading: "lazy",
@@ -11936,9 +12010,9 @@ function Sparklinevue_type_template_id_e8b188a6_render(_ctx, _cache, $props, $se
     src: _ctx.sparklineUrl,
     width: _ctx.width,
     height: _ctx.height
-  }, null, 8, Sparklinevue_type_template_id_e8b188a6_hoisted_1);
+  }, null, 8, Sparklinevue_type_template_id_6902c51a_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=e8b188a6
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=template&id=6902c51a
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Sparkline/Sparkline.vue?vue&type=script&lang=ts
 
@@ -11980,19 +12054,30 @@ function Sparklinevue_type_template_id_e8b188a6_render(_ctx, _cache, $props, $se
         sparklineColors.lineColor = sparklineColors.lineColor.filter((c, index) => seriesIndices.indexOf(index) !== -1);
       }
       const colors = JSON.stringify(sparklineColors);
-      const defaultParams = {
+      // The redesign lets sparklines be rendered server-side at a custom size; without it the
+      // width/height props only control the displayed size and the server uses its defaults.
+      // The width/height props are the displayed size; the PNG is rendered at twice that so it
+      // stays crisp on hi-DPI screens (matching the legacy 200x50-render / 100x25-display ratio).
+      const redesignEnabled = document.body.classList.contains('sparklines-redesign-enabled');
+      const sizeParams = redesignEnabled ? Object.assign(Object.assign({}, typeof this.width === 'number' ? {
+        width: this.width * 2
+      } : {}), typeof this.height === 'number' ? {
+        height: this.height * 2
+      } : {}) : {};
+      const defaultParams = Object.assign(Object.assign({
         forceView: '1',
         viewDataTable: 'sparkline',
         widget: this.isWidget ? '1' : '0',
         showtitle: '1',
         colors,
         random: Date.now(),
-        date: this.defaultDate,
+        date: this.defaultDate
+      }, sizeParams), {}, {
         // mixinDefaultGetParams() will use the raw, encoded value from the URL (legacy behavior),
         // which means MatomoUrl.stringify() will end up double encoding it if we don't set it
         // ourselves here.
         segment: src_MatomoUrl_MatomoUrl.parsed.value.segment
-      };
+      });
       const givenParams = typeof params === 'object' ? params : src_MatomoUrl_MatomoUrl.parse(params.substring(params.indexOf('?') + 1));
       const helper = new AjaxHelper_AjaxHelper();
       const urlParams = helper.mixinDefaultGetParams(Object.assign(Object.assign({}, defaultParams), givenParams));
@@ -12030,7 +12115,7 @@ function Sparklinevue_type_template_id_e8b188a6_render(_ctx, _cache, $props, $se
 
 
 
-Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_e8b188a6_render
+Sparklinevue_type_script_lang_ts.render = Sparklinevue_type_template_id_6902c51a_render
 
 /* harmony default export */ var Sparkline = (Sparklinevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/Progressbar/Progressbar.vue?vue&type=template&id=f800d6ec

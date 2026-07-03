@@ -42,6 +42,23 @@ class CategoryList
     }
 
     /**
+     * Returns the reporting menu groups that do not require tracked data, collected across all
+     * categories (it is a property of the group, so resolved globally rather than per category).
+     *
+     * @return string[]
+     */
+    public function getGroupsWithoutTrackingRequirement(): array
+    {
+        $groups = [];
+        foreach ($this->categories as $category) {
+            foreach ($category->getGroupsWithoutTrackingRequirement() as $group) {
+                $groups[$group] = true;
+            }
+        }
+        return array_keys($groups);
+    }
+
+    /**
      * @param string|null $categoryId
      * @return bool
      */

@@ -65,7 +65,7 @@ class EnvironmentValidator
     }
 
     /**
-     * @param $path
+     * @param string $path
      * @param bool $startInstaller
      * @throws \Exception
      */
@@ -101,7 +101,7 @@ class EnvironmentValidator
     }
 
     /**
-     * @param $exception
+     * @param NotYetInstalledException $exception
      */
     private function startInstallation($exception)
     {
@@ -117,7 +117,7 @@ class EnvironmentValidator
     }
 
     /**
-     * @param $path
+     * @param string $path
      * @return string
      */
     private function getMessageWhenFileExistsButNotReadable($path)
@@ -137,7 +137,7 @@ class EnvironmentValidator
     }
 
     /**
-     * @param $path
+     * @param string $path
      * @return string
      */
     private function getSpecificMessageWhetherFileExistsOrNot($path)
