@@ -227,10 +227,11 @@ describe("WidgetizedDashboard", function () {
         await clickDashboardMenuItem('copyDashboardToUser');
         await page.waitForSelector('.modal.open');
 
+        // Set the name directly rather than typing it: under the modern headless Chrome page.type
+        // drops the space preceding the multi-byte emoji, producing "new <dash>💩".
         await page.evaluate(function () {
-            $('#copyDashboardName').val('');
+            $('#copyDashboardName').val('new <dash> 💩').change();
         });
-        await page.type('#copyDashboardName', 'new <dash> 💩');
         await page.waitForSelector('#copyDashboardUser [value="superUserLogin"]');
         await page.select('#copyDashboardUser', 'superUserLogin');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
