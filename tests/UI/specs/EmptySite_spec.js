@@ -78,7 +78,9 @@ describe("EmptySite", function () {
   });
 
   it('should show SPA/PWA details when clicked', async function () {
+    await page.waitForSelector('#start-tracking-back');
     await page.click('#start-tracking-back');
+    await page.waitForSelector('#start-tracking-method-list a');
     await page.evaluate(() => $('#start-tracking-method-list a[href="#spapwa"]')[0].click());
 
     await makeTrackingCodeStatic();
@@ -88,7 +90,9 @@ describe("EmptySite", function () {
   });
 
   it('should show the Other methods when clicked', async function () {
+    await page.waitForSelector('#start-tracking-back');
     await page.click('#start-tracking-back');
+    await page.waitForSelector('#start-tracking-method-list a');
     await page.evaluate(() => $('#start-tracking-method-list a[href="#other"]')[0].click());
     await makeTrackingCodeStatic();
 
@@ -97,7 +101,9 @@ describe("EmptySite", function () {
   });
 
   it('should show the google tag manager details when clicked', async function () {
+    await page.waitForSelector('#start-tracking-back');
     await page.click('#start-tracking-back');
+    await page.waitForSelector('#start-tracking-method-list a');
     await page.evaluate(() => $('#start-tracking-method-list a[href="#googletagmanager"]')[0].click());
     await makeTrackingCodeStatic();
 
@@ -106,7 +112,9 @@ describe("EmptySite", function () {
   });
 
   it('should show the wordpress details when clicked', async function () {
+    await page.waitForSelector('#start-tracking-back');
     await page.click('#start-tracking-back');
+    await page.waitForSelector('#start-tracking-method-list a');
     await page.evaluate(() => $('#start-tracking-method-list a[href="#wordpress"]')[0].click());
 
     // wait till url check field is filled with data, which means loading has finished.
@@ -118,7 +126,9 @@ describe("EmptySite", function () {
   });
 
   it('should show the vue js details when clicked', async function () {
+    await page.waitForSelector('#start-tracking-back');
     await page.click('#start-tracking-back');
+    await page.waitForSelector('#start-tracking-method-list a');
     await page.evaluate(() => $('#start-tracking-method-list a[href="#vuejs"]')[0].click());
     await makeTrackingCodeStatic();
 
