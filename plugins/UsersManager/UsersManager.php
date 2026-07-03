@@ -186,7 +186,7 @@ class UsersManager extends \Piwik\Plugin
      * disabled, any non-empty password is accepted; otherwise the password must be at least
      * PASSWORD_MIN_LENGTH characters.
      *
-     * @param $input string
+     * @param string $input
      * @return bool
      */
     public static function isValidPasswordString($input)
