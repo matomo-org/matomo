@@ -535,7 +535,7 @@ class Updater
      * Returns any updates that should occur for core and all plugins that are both loaded and
      * installed. Also includes updates required for dimensions.
      *
-     * @return string[]|null Returns the result of `getComponentsWithUpdateFile()`.
+     * @return array|null Returns the result of `getComponentsWithUpdateFile()`.
      */
     public function getComponentUpdates()
     {

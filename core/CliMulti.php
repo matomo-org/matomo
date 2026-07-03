@@ -139,7 +139,8 @@ class CliMulti
      *                               **Make sure query parameter values are properly encoded in the URLs.**
      *
      * @return array The response of each URL in the same order as the URLs. The array can contain null values in case
-     *               there was a problem with a request, for instance if the process died unexpected.
+     *               there was a problem with a request, for instance if the process died unexpected. If a shutdown
+     *               signal is received mid-execution, remaining URLs are skipped and omitted from the result.
      */
     public function request(array $piwikUrls)
     {

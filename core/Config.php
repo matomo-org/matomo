@@ -197,7 +197,7 @@ class Config
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     private function getDatatableRowLimits()
     {
@@ -443,7 +443,7 @@ class Config
     }
 
     /**
-     * @throws \Exception
+     * @return MissingFilePermissionException
      */
     public function getConfigNotWritableException()
     {
