@@ -37,13 +37,13 @@ class Model
      * @param $period
      * @param $date
      * @param $segment
+     * @param $offset
      * @param $limit
      * @param $visitorId
      * @param $minTimestamp
      * @param $filterSortOrder
      * @param $checkforMoreEntries
      * @return array
-     * @throws Exception
      */
     public function queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, $checkforMoreEntries = false)
     {
