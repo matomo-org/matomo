@@ -14,6 +14,7 @@
         "AllWebsites": "All websites",
         "LastUsed": "Last used",
         "ExpireDate": "Expire date",
+        "ExpiryInDays": "Expiry in days",
         "TokenExpireDate": "Token expire date",
         "AuthTokens": "Auth tokens",
         "AuthTokenPurpose": "What are you using this token for?",
