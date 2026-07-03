@@ -1,0 +1,60 @@
+# Retry / notify handler for the "Build preview release" workflow.
+#
+# The nightly preview build occasionally fails on flaky UI/system tests.
+# Historically every failure fired a Slack alert, and an engineer had to
+# hand-rerun the job. This handler absorbs up to two flaky failures by
+# re-running only the failed jobs, and only pings Slack once the run has
+# failed three times.
+#
+# It has to live in its own workflow (not as a job inside
+# release-preview.yml) because GitHub refuses to rerun a workflow while any
+# of its jobs are still running — a `workflow_run: completed` listener sees
+# the run as complete and is allowed to rerun it.
+
+name: Preview release — retry or notify
+
+on:
+  workflow_run:
+    workflows: ["Build preview release"]
+    types: [completed]
+
+permissions:
+  actions: write   # required to call `gh run rerun`
+  contents: read
+
+jobs:
+  retry_or_notify:
+    runs-on: ubuntu-24.04
+    # Only act on scheduled runs that ended in failure. Manual dispatches
+    # of the preview build stay opt-in (no auto-retry, no Slack ping) so
+    # engineers can experiment without triggering alerts.
+    if: |
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.event == 'schedule'
+    env:
+      SOURCE_RUN_ID: ${{ github.event.workflow_run.id }}
+      SOURCE_RUN_URL: ${{ github.event.workflow_run.html_url }}
+      SOURCE_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CORE_ALERT_WEBHOOK_URL }}
+    steps:
+      - name: Retry failed jobs (attempts 1 and 2 of 3)
+        if: ${{ github.event.workflow_run.run_attempt < 3 }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Preview build attempt $SOURCE_ATTEMPT of 3 failed. Re-running failed jobs on run $SOURCE_RUN_ID..."
+          gh run rerun "$SOURCE_RUN_ID" --failed --repo "${{ github.repository }}"
+
+      - name: Notify Slack after final attempt
+        if: ${{ github.event.workflow_run.run_attempt >= 3 && env.SLACK_WEBHOOK_URL != '' }}
+        run: |
+          PAYLOAD=$(cat <<EOF
+          {"text":"*Preview build has failed for today after 3 attempts!*\n<${SOURCE_RUN_URL}|The automated preview build> failed 3 times in a row.\n*Impact:* Cloud might not get the latest build in the next deployment cycle, so customers may not receive the newest fixes.\nPlease investigate — this is unlikely to be flakiness alone."}
+          EOF
+          )
+          curl --fail-with-body -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "$SLACK_WEBHOOK_URL"
+
+      - name: Skip Slack notification when webhook is missing
+        if: ${{ github.event.workflow_run.run_attempt >= 3 && env.SLACK_WEBHOOK_URL == '' }}
+        run: |
+          echo "Info: SLACK_CORE_ALERT_WEBHOOK_URL is not configured. Skipping failure notification."

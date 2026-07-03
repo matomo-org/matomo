@@ -174,33 +174,7 @@ jobs:
       GPG_CERTIFICATE: ${{ secrets.GPG_CERTIFICATE }}
       GPG_CERTIFICATE_PASS: ${{ secrets.GPG_CERTIFICATE_PASS }}
 
-  notify_slack_on_failure:
-    runs-on: ubuntu-24.04
-    needs: [prepare_preview_version, run_matomo_tests, release_preview_version]
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CORE_ALERT_WEBHOOK_URL }}
-    if: |
-      always() &&
-      github.event_name == 'schedule' &&
-      (
-        needs.prepare_preview_version.result == 'failure' ||
-        needs.run_matomo_tests.result == 'failure' ||
-        needs.release_preview_version.result == 'failure'
-      )
-    steps:
-      - name: Notify Slack on failure
-        if: ${{ env.SLACK_WEBHOOK_URL != '' }}
-        env:
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          PAYLOAD=$(cat <<EOF
-          {"text":"*Preview build has failed for today!*\n<${RUN_URL}|The automated preview build> failed to run.\n*Impact:* Cloud might not get the latest build in the next deployment cycle, so customers may not receive the newest fixes.\nPlease investigate and re-run the build if this was flaky until it passes."}
-          EOF
-          )
-
-          curl --fail-with-body -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "$SLACK_WEBHOOK_URL"
-
-      - name: Skip Slack notification when webhook is missing
-        if: ${{ env.SLACK_WEBHOOK_URL == '' }}
-        run: |
-          echo "Info: SLACK_CORE_ALERT_WEBHOOK_URL is not configured. Skipping failure notification."
+  # Slack notifications on failure are handled by the separate
+  # preview-retry-handler.yml workflow, which listens for the completion of
+  # this workflow, auto-reruns failed jobs on attempts 1 and 2, and only
+  # pings Slack after the third failed attempt.
