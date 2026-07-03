@@ -62,7 +62,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Returns connection handle
      *
-     * @return resource
+     * @return \PDO
      */
     public function getConnection()
     {
@@ -273,7 +273,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Retrieve client version in PHP style
      *
-     * @return string
+     * @return string|null
      */
     public function getClientVersion()
     {

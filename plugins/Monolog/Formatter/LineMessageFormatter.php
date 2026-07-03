@@ -17,7 +17,7 @@ use Monolog\Formatter\FormatterInterface;
 class LineMessageFormatter implements FormatterInterface
 {
     /**
-     * The log message format string that turns a tag name, date-time and message into
+     * The log message format string that turns a tag name, date-time, level, trace and message into
      * one string to log.
      *
      * @var string

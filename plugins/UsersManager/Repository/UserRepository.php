@@ -240,7 +240,7 @@ class UserRepository
 
     /**
      * @param array $users
-     * @return mixed
+     * @return array
      * @throws \Exception
      */
     public function enrichUsers(array $users): array
