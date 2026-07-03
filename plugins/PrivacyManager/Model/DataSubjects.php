@@ -129,7 +129,7 @@ class DataSubjects
          *         $result['myplugin'] = $numDeletes;
          *     }
          *
-         * @param array &$results An array storing the result of how much data was deleted for .
+         * @param array &$results An array storing the result of how much data was deleted for each plugin.
          * @param array &$visits An array with multiple visit entries containing an idvisit and idsite each. The data
          *                       for these visits is requested to be deleted.
          */
