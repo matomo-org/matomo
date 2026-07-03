@@ -31,7 +31,7 @@ class Category
      * {@link Piwik\Report\getCategoryId()}. The id is used as the name in the menu and will be visible in the
      * URL.
      *
-     * @var string Should be a translation key, eg 'General_Vists'
+     * @var string Should be a translation key, eg 'General_Visits'
      */
     protected $id = '';
 
