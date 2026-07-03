@@ -20,12 +20,11 @@ class Model
     public const CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME = 'log_visit_has_index_idsite_idvisitor_time';
 
     /**
-     * Write an visit action record to the database
+     * Write a visit action record to the database
      *
      * @param array $visitAction
      *
      * @return int
-     * @throws Db\DbException
      */
     public function createAction($visitAction)
     {
