@@ -18,7 +18,7 @@ use Piwik\Updater\Migration;
  * SQL queries and/or PHP code to update an environment to a newer version.
  *
  * To create a new update script, create a class that extends `Updates`. Name the class and file
- * after the version, eg, `class Updates_3_0_0` and `3.0.0.php`. Override the {@link getMigrationQueries()}
+ * after the version, eg, `class Updates_3_0_0` and `3.0.0.php`. Override the {@link getMigrations()}
  * method if you need to run SQL queries. Override the {@link doUpdate()} method to do other types
  * of updating, eg, to activate/deactivate plugins or create files.
  *
