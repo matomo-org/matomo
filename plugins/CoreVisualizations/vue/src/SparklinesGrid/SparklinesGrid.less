@@ -41,10 +41,10 @@
   }
 }
 
-// Widget overrides: tighter gaps and zeroed legacy .row / .sparkline margins so cards sit
-// flush inside a dashboard widget.
+// Widget overrides so the cards sit neatly inside a dashboard widget.
 .widget .sparklinesGrid {
   .col {
+    // Inter-card gutter: 4px on every side, so 8px shows between adjacent cards.
     padding: 4px;
   }
 
@@ -52,9 +52,12 @@
     margin-left: 0;
   }
 
+  // The widget container adds no padding of its own, so the grid supplies an even frame around
+  // the cards: 16px of row padding plus each column's 4px gutter gives 20px on every side. The
+  // base .sparklinesGrid.row negative bottom margin is reset (margin: 0) so it can't pull the
+  // frame in and push the last row past the widget's bottom edge.
   &.row {
-    margin-left: 0;
-    margin-right: 0;
-    padding: 0 16px;
+    margin: 0;
+    padding: 16px;
   }
 }
