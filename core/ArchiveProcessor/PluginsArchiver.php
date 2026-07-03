@@ -359,7 +359,7 @@ class PluginsArchiver
          *
          * @param \Piwik\Plugin\Archiver &$archiver The newly created plugin archiver instance.
          * @param string $pluginName The name of plugin of which archiver instance was created.
-         * @param array $this->params Array containing archive parameters (Site, Period, Date and Segment)
+         * @param Parameters $params Object containing archive parameters (Site, Period, Date and Segment)
          * @param bool false This parameter is deprecated and will be removed.
          */
         Piwik::postEvent('Archiving.makeNewArchiverObject', array($archiver, $pluginName, $this->params, false));
