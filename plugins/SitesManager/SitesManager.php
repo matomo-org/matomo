@@ -227,7 +227,7 @@ class SitesManager extends \Piwik\Plugin
     }
 
     /**
-     * Returns whether we should keep URL fragments for a specific site.
+     * Returns the timezone configured for a specific site.
      *
      * @param array $site DB data for the site.
      * @return ?string
