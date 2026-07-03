@@ -400,6 +400,21 @@ PageRenderer.prototype.getActiveRequestCount = function () {
     return count;
 };
 
+// The settling evaluates in waitForNetworkIdle/waitForLazyImages may run while the page is still
+// navigating (e.g. a multi-step updater that self-submits through several pages). A navigation destroys
+// the execution context mid-evaluate and puppeteer throws "Execution context was destroyed". These
+// evaluates are best-effort, so treat that specific error as a no-op instead of failing the test.
+PageRenderer.prototype._evaluateIgnoringNavigation = async function (fn) {
+    try {
+        return await this.webpage.evaluate(fn);
+    } catch (e) {
+        if (e && /execution context/i.test(e.message || '')) {
+            return undefined;
+        }
+        throw e;
+    }
+};
+
 PageRenderer.prototype.waitForNetworkIdle = async function () {
     await new Promise(resolve => setTimeout(resolve, AJAX_IDLE_THRESHOLD));
 
@@ -410,7 +425,7 @@ PageRenderer.prototype.waitForNetworkIdle = async function () {
     await this.waitForLazyImages();
 
     // wait for any queued vue logic
-    await this.webpage.evaluate(function () {
+    await this._evaluateIgnoringNavigation(function () {
         if (window.Vue) {
           return window.Vue.nextTick(function () {
               // wait
@@ -419,7 +434,7 @@ PageRenderer.prototype.waitForNetworkIdle = async function () {
     });
 
     // if the visitor map is shown trigger a window resize, to ensure map always has the same height/width
-    await this.webpage.evaluate(function () {
+    await this._evaluateIgnoringNavigation(function () {
         if (window.jQuery && window.jQuery('.UserCountryMap_map').length) {
             window.jQuery(window).trigger('resize');
         }
@@ -428,7 +443,7 @@ PageRenderer.prototype.waitForNetworkIdle = async function () {
 
 PageRenderer.prototype.waitForLazyImages = async function () {
     // remove loading attribute from images
-    const hasImages = await this.webpage.evaluate(function(){
+    const hasImages = await this._evaluateIgnoringNavigation(function(){
         if (!window.jQuery) {
             return false; // skip if no jquery is available
         }
