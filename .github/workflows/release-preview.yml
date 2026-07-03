@@ -1,5 +1,10 @@
 # Matomo release action for automated PREVIEW releases
 #
+# Slack notifications on failure and automatic retries live in the
+# separate preview-retry-handler.yml workflow, which reacts to this
+# workflow's completion. Attempts 1 and 2 get rerun automatically;
+# only the third failure pings Slack.
+#
 # Required GitHub secrets:
 #
 # GPG_CERTIFICATE  |  ASCII armored or Base64 encoded GPG certificate that is used to create the signatures for the archives
@@ -173,8 +178,3 @@ jobs:
       RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
       GPG_CERTIFICATE: ${{ secrets.GPG_CERTIFICATE }}
       GPG_CERTIFICATE_PASS: ${{ secrets.GPG_CERTIFICATE_PASS }}
-
-  # Slack notifications on failure are handled by the separate
-  # preview-retry-handler.yml workflow, which listens for the completion of
-  # this workflow, auto-reruns failed jobs on attempts 1 and 2, and only
-  # pings Slack after the third failed attempt.

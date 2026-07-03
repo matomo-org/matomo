@@ -25,6 +25,7 @@ permissions:
 jobs:
   retry_or_notify:
     runs-on: ubuntu-24.04
+    timeout-minutes: 5
     # Only act on scheduled runs that ended in failure. Manual dispatches
     # of the preview build stay opt-in (no auto-retry, no Slack ping) so
     # engineers can experiment without triggering alerts.
@@ -35,9 +36,11 @@ jobs:
       SOURCE_RUN_ID: ${{ github.event.workflow_run.id }}
       SOURCE_RUN_URL: ${{ github.event.workflow_run.html_url }}
       SOURCE_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+      HANDLER_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CORE_ALERT_WEBHOOK_URL }}
     steps:
       - name: Retry failed jobs (attempts 1 and 2 of 3)
+        id: retry
         if: ${{ github.event.workflow_run.run_attempt < 3 }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,16 +48,42 @@ jobs:
           echo "Preview build attempt $SOURCE_ATTEMPT of 3 failed. Re-running failed jobs on run $SOURCE_RUN_ID..."
           gh run rerun "$SOURCE_RUN_ID" --failed --repo "${{ github.repository }}"
 
-      - name: Notify Slack after final attempt
-        if: ${{ github.event.workflow_run.run_attempt >= 3 && env.SLACK_WEBHOOK_URL != '' }}
+      # Ping Slack when either the source has hit its 3rd failed attempt OR
+      # the retry step above blew up (rate limit, permission edge, network).
+      # Without the failure() branch, a broken retry would leave the day's
+      # preview build silently unreleased and no one would know.
+      - name: Notify Slack on final failure or broken retry
+        if: |
+          always() &&
+          env.SLACK_WEBHOOK_URL != '' &&
+          (
+            github.event.workflow_run.run_attempt >= 3 ||
+            steps.retry.outcome == 'failure'
+          )
         run: |
+          if [ "${{ steps.retry.outcome }}" = "failure" ]; then
+            HEADLINE="*Preview build retry mechanism failed on attempt $SOURCE_ATTEMPT of 3*"
+            DETAIL="The auto-retry step could not re-run the failed jobs, so the preview build stopped here."
+            TRAILER="\nSource run: ${SOURCE_RUN_URL}\nHandler run (has the retry-step logs): ${HANDLER_RUN_URL}"
+          else
+            HEADLINE="*Preview build has failed for today after 3 attempts!*"
+            DETAIL="<${SOURCE_RUN_URL}|The automated preview build> failed on three consecutive attempts."
+            TRAILER=""
+          fi
+
           PAYLOAD=$(cat <<EOF
-          {"text":"*Preview build has failed for today after 3 attempts!*\n<${SOURCE_RUN_URL}|The automated preview build> failed 3 times in a row.\n*Impact:* Cloud might not get the latest build in the next deployment cycle, so customers may not receive the newest fixes.\nPlease investigate — this is unlikely to be flakiness alone."}
+          {"text":"${HEADLINE}\n${DETAIL}\n*Impact:* Cloud might not get the latest build in the next deployment cycle, so customers may not receive the newest fixes.${TRAILER}"}
           EOF
           )
           curl --fail-with-body -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "$SLACK_WEBHOOK_URL"
 
       - name: Skip Slack notification when webhook is missing
-        if: ${{ github.event.workflow_run.run_attempt >= 3 && env.SLACK_WEBHOOK_URL == '' }}
+        if: |
+          always() &&
+          env.SLACK_WEBHOOK_URL == '' &&
+          (
+            github.event.workflow_run.run_attempt >= 3 ||
+            steps.retry.outcome == 'failure'
+          )
         run: |
           echo "Info: SLACK_CORE_ALERT_WEBHOOK_URL is not configured. Skipping failure notification."
