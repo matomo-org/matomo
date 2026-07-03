@@ -751,9 +751,9 @@ class Piwik
     }
 
     /**
-     * Returns `true` if the login is valid.
+     * Checks that the login string is valid.
      *
-     * _Warning: does not check if the login already exists! You must use UsersManager_API->userExists as well._
+     * _Warning: does not check if the login already exists! You must use UsersManager\API->userExists as well._
      *
      * @param string $userLogin
      * @throws Exception
