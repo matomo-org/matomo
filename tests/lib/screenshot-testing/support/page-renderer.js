@@ -15,13 +15,18 @@ const parseUrl = urlModule.parse,
     formatUrl = urlModule.format;
 
 const AJAX_IDLE_THRESHOLD = 750; // same as networkIdle event
+// A request still pending after this long is treated as stalled and no longer blocks network-idle
+// detection. With request interception enabled, Chrome may leave a redundant resource fetch (e.g. a
+// webfont revalidation that is never needed because the font already rendered from cache) pending
+// indefinitely, never emitting requestfinished/requestfailed, which would otherwise hang
+// waitForNetworkIdle forever.
+const STALLED_REQUEST_THRESHOLD = 5000;
 const VERBOSE = false;
 const PAGE_METHODS_TO_PROXY = [
     '$',
     '$$',
     '$$eval',
     '$eval',
-    '$x',
     'bringToFront',
     'click',
     'content',
@@ -61,8 +66,6 @@ const PAGE_METHODS_TO_PROXY = [
     'waitForFunction',
     'waitForNavigation',
     'waitForSelector',
-    'waitForTimeout',
-    'waitForXPath',
     'screenshotNoResize',
 ];
 
@@ -79,6 +82,40 @@ const AUTO_WAIT_METHODS = {// TODO: remove this to keep it consistent?
     'reload': true,
 };
 
+// Chrome 149 headless workaround. Puppeteer's ElementHandle.scrollIntoViewIfNeeded() - run before every
+// native click and element screenshot - first probes visibility via isIntersectingViewport(), which
+// evaluates an in-page IntersectionObserver and resolves from its callback. On some pages that callback
+// never fires (the observer needs a rendering step the idle headless page does not perform), so the
+// promise never resolves and the click/screenshot hangs until the 240s test timeout. Bound the probe and
+// fall back to scrollIntoView() (a plain evaluate that cannot hang) so a stuck observer can no longer
+// wedge the suite. When the observer does fire (the normal case) this behaves exactly as before.
+(function boundScrollIntoViewIfNeeded() {
+    let ElementHandle;
+    try {
+        ElementHandle = require('puppeteer').ElementHandle;
+    } catch (e) {
+        return;
+    }
+    if (!ElementHandle || !ElementHandle.prototype || typeof ElementHandle.prototype.scrollIntoViewIfNeeded !== 'function') {
+        return;
+    }
+    ElementHandle.prototype.scrollIntoViewIfNeeded = async function () {
+        let intersecting = false;
+        try {
+            intersecting = await Promise.race([
+                this.isIntersectingViewport({ threshold: 1 }),
+                new Promise((resolve) => setTimeout(() => resolve(false), 2000)),
+            ]);
+        } catch (e) {
+            intersecting = false;
+        }
+        if (intersecting) {
+            return;
+        }
+        await this.scrollIntoView();
+    };
+})();
+
 var PageRenderer = function (baseUrl, browser, originalUserAgent) {
 
     this.browser = browser;
@@ -88,7 +125,7 @@ var PageRenderer = function (baseUrl, browser, originalUserAgent) {
     this.pageLogs = [];
     this.baseUrl = baseUrl;
     this.lifeCycleEventEmitter = new EventEmitter();
-    this.activeRequestCount = 0;
+    this.pendingRequests = new Map();
 
     if (this.baseUrl.substring(-1) !== '/') {
         this.baseUrl = this.baseUrl + '/';
@@ -107,13 +144,13 @@ PageRenderer.prototype.createPage = async function () {
     if (this.browserContext) {
       await this.browserContext.close();
     }
-    this.browserContext = await this.browser.createIncognitoBrowserContext();
+    this.browserContext = await this.browser.createBrowserContext();
     this.webpage = await this.browserContext.newPage();
 
-    if (this.activeRequestCount > 0) {
-      console.log('! activeRequestCount is ' + this.activeRequestCount + '. Resetting it as new browserContext has started.');
-      // unset active request count, to ensure unresolved requests from previous suites don't cause any issues
-      this.activeRequestCount = 0;
+    if (this.pendingRequests.size > 0) {
+      console.log('! pendingRequests size is ' + this.pendingRequests.size + '. Resetting it as new browserContext has started.');
+      // clear pending requests, to ensure unresolved requests from previous suites don't cause any issues
+      this.pendingRequests.clear();
     }
 
     // Present the test browser as a regular Chrome rather than headless Chrome. Puppeteer reports a
@@ -132,7 +169,7 @@ PageRenderer.prototype.createPage = async function () {
       });
     });
 
-    await this.webpage._client.send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
+    await this.webpage._client().send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
     await this.webpage.setViewport({
       width: 1350,
       height: 768,
@@ -145,6 +182,18 @@ PageRenderer.prototype.createPage = async function () {
 };
 
 /**
+ * Waits for the given number of milliseconds.
+ *
+ * Puppeteer removed page.waitForTimeout in v22, so we provide it here. Specs (including ones in
+ * plugin submodules) rely on the page.waitForTimeout(ms) API, so this keeps them working unchanged.
+ *
+ * @param {number} milliseconds
+ */
+PageRenderer.prototype.waitForTimeout = function (milliseconds) {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+/**
  * For BC only. Puppeteer drop support for waitFor function in Version 10
  * @param selectorOrTimeoutOrFunction
  */
@@ -153,7 +202,7 @@ PageRenderer.prototype.waitFor = function (selectorOrTimeoutOrFunction) {
     if (typeof selectorOrTimeoutOrFunction === 'function') {
         return this.webpage.waitForFunction(selectorOrTimeoutOrFunction)
     } else if (typeof selectorOrTimeoutOrFunction === 'number') {
-        return this.webpage.waitForTimeout(selectorOrTimeoutOrFunction)
+        return this.waitForTimeout(selectorOrTimeoutOrFunction)
     } else if (typeof selectorOrTimeoutOrFunction === 'string') {
         return this.webpage.waitForSelector(selectorOrTimeoutOrFunction)
     }
@@ -340,10 +389,21 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
     };
 });
 
+PageRenderer.prototype.getActiveRequestCount = function () {
+    const now = Date.now();
+    let count = 0;
+    for (const startedAt of this.pendingRequests.values()) {
+        if (now - startedAt < STALLED_REQUEST_THRESHOLD) {
+            count++;
+        }
+    }
+    return count;
+};
+
 PageRenderer.prototype.waitForNetworkIdle = async function () {
     await new Promise(resolve => setTimeout(resolve, AJAX_IDLE_THRESHOLD));
 
-    while (this.activeRequestCount > 0) {
+    while (this.getActiveRequestCount() > 0) {
         await new Promise(resolve => setTimeout(resolve, AJAX_IDLE_THRESHOLD));
     }
 
@@ -384,7 +444,7 @@ PageRenderer.prototype.waitForLazyImages = async function () {
     });
 
     if (hasImages) {
-        await this.webpage.waitForTimeout(200); // wait for the browser to request the images
+        await this.waitForTimeout(200); // wait for the browser to request the images
         await this.waitForNetworkIdle(); // wait till all requests are finished
     }
 };
@@ -411,8 +471,8 @@ PageRenderer.prototype._logMessage = function (message) {
 
 PageRenderer.prototype.clearCookies = async function () {
     // see https://github.com/GoogleChrome/puppeteer/issues/1632#issuecomment-353086292
-    await this.webpage._client.send('Network.clearBrowserCookies');
-    await this.webpage.waitForTimeout(250);
+    await this.webpage._client().send('Network.clearBrowserCookies');
+    await this.waitForTimeout(250);
 };
 
 PageRenderer.prototype._setupWebpageEvents = function () {
@@ -437,10 +497,17 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             }
         });
 
-        this.webpage.addStyleTag({content: '* { caret-color: transparent !important; -webkit-transition: none !important; transition: none !important; -webkit-animation: none !important; animation: none !important; }'});
+        this.webpage.addStyleTag({content: '* { caret-color: transparent !important; -webkit-transition: none !important; transition: none !important; -webkit-animation: none !important; animation: none !important; }'
+            // Materialize opens modals with a JS (anime.js / requestAnimationFrame) scale+fade animation
+            // rather than a CSS transition, so the rule above does not disable it. Under the modern
+            // headless Chrome that animation does not always advance (rAF is stalled on the idle page),
+            // leaving the modal at its initial transform: scaleX(0.8) scaleY(0.8); opacity: 0. The
+            // scaled-down box then makes element screenshots clip the modal. Force any open modal to its
+            // final visible state so it is captured correctly regardless of the animation.
+            + ' .modal.open { transform: none !important; opacity: 1 !important; }'});
     });
 
-    this.webpage._client.on('Page.lifecycleEvent', (event) => {
+    this.webpage._client().on('Page.lifecycleEvent', (event) => {
         this.lifeCycleEventEmitter.emit('lifecycleEvent', event);
     });
 
@@ -449,36 +516,58 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     var piwikHost = parsedPiwikUrl.hostname,
         piwikPort = parsedPiwikUrl.port;
 
-    this.webpage.setRequestInterception(true);
+    // Disable the browser cache so each navigation re-fetches the page. Puppeteer 8 disabled the
+    // cache implicitly when request interception was enabled; that no longer happens with the
+    // cooperative interception mode in current Puppeteer, which let navigations serve stale pages
+    // (e.g. a report rendered before a testEnvironment identity/permission change), causing flaky,
+    // state-dependent screenshot diffs under the modern headless Chrome.
+    this.webpage.setCacheEnabled(false);
+
+    // Only enable request interception when it is actually needed to rewrite the Piwik URL to add a
+    // port. Interception is off for the common (portless) case: current Puppeteer's cooperative
+    // interception mode makes every request go through the handler, which adds latency and can leave
+    // requests pending under the modern headless Chrome, causing intermittent, timing-dependent
+    // failures (e.g. modals/report widgets that never finish loading). We still track requests for
+    // the network-idle wait via the request/requestfinished/requestfailed events either way.
+    const rewritePiwikPort = !!(piwikPort && parseInt(piwikPort, 10) !== 0);
+    if (rewritePiwikPort) {
+        this.webpage.setRequestInterception(true);
+    }
+
     this.webpage.on('request', (request) => {
-        ++this.activeRequestCount;
+        this.pendingRequests.set(request, Date.now());
+
+        if (!rewritePiwikPort) {
+            if (VERBOSE) {
+                this._logMessage('Requesting resource (URL:' + request.url() + ')');
+            }
+            return;
+        }
 
         var url = request.url();
 
         // replaces the requested URL to the piwik URL w/ a port, if it does not have one.  This allows us to run UI
         // tests when Piwik is on a port, w/o having to have different UI screenshots. (This is one half of the
         // solution, the other half is in config/environment/ui-test.php, where we remove all ports from Piwik URLs.)
-        if (piwikPort && piwikPort !== 0) {
-            const parsedRequestUrl = parseUrl(url);
+        const parsedRequestUrl = parseUrl(url);
 
-            if (parsedRequestUrl.hostname === piwikHost && (!parsedRequestUrl.port || parseInt(parsedRequestUrl.port) === 0 || parseInt(parsedRequestUrl.port) === 80)) {
+        if (parsedRequestUrl.hostname === piwikHost && (!parsedRequestUrl.port || parseInt(parsedRequestUrl.port) === 0 || parseInt(parsedRequestUrl.port) === 80)) {
 
-                parsedRequestUrl.port = piwikPort;
-                parsedRequestUrl.host = piwikHost + ':' + piwikPort;
+            parsedRequestUrl.port = piwikPort;
+            parsedRequestUrl.host = piwikHost + ':' + piwikPort;
 
-                url = formatUrl(parsedRequestUrl);
+            url = formatUrl(parsedRequestUrl);
 
-                request.continue({
-                    url,
-                });
+            request.continue({
+                url,
+            });
 
 
-                if (VERBOSE) {
-                    this._logMessage('Requesting resource (#' + request.id + 'URL:' + url + ')');
-                }
-
-                return;
+            if (VERBOSE) {
+                this._logMessage('Requesting resource (#' + request.id + 'URL:' + url + ')');
             }
+
+            return;
         }
 
         request.continue();
@@ -490,7 +579,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
 
     // TODO: self.aborted?
     this.webpage.on('requestfailed', async (request) => {
-        --this.activeRequestCount;
+        this.pendingRequests.delete(request);
 
         const failure = request.failure();
         const response = request.response();
@@ -502,7 +591,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     });
 
     this.webpage.on('requestfinished', async (request) => {
-        --this.activeRequestCount;
+        this.pendingRequests.delete(request);
 
         const response = request.response();
 
@@ -521,12 +610,12 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     });
 
     this.webpage.on('console', async (consoleMessage) => {
-        const args = await Promise.all(consoleMessage.args().map(arg => arg.executionContext().evaluate(arg => {
+        const args = await Promise.all(consoleMessage.args().map(arg => arg.evaluate(arg => {
             if (arg instanceof Error) {
                 return arg.stack || arg.message;
             }
             return arg;
-        }, arg))).catch((e) => {
+        }))).catch((e) => {
           console.log(`Could not print message: ${e.message}`);
           console.log(consoleMessage.text());
         });
