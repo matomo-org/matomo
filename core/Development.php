@@ -59,7 +59,7 @@ class Development
 
     /**
      * Formats a method call depending on the given class/object and method name. It does not perform any checks whether
-     * does actually exists.
+     * the method actually exists.
      *
      * @param string|object $classOrObject
      * @param string $method
