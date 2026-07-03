@@ -486,6 +486,10 @@ describe("SegmentSelectorEditorTest", function () {
         });
 
         await page.waitForNetworkIdle();
+        // Applying the segment in-page does not reliably re-render the report under the modern headless
+        // Chrome (the SPA navigation to the segmented report ends up a no-op), so force a full reload to
+        // fetch the report for the now-applied segment.
+        await page.reload();
         // Saving & applying this multi-condition segment triggers on-demand archiving of the whole
         // year for the segment, which can take well over the default selector timeout, so allow more
         // time for the report to finish processing before it renders.
