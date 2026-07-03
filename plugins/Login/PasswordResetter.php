@@ -44,7 +44,7 @@ use Piwik\Url;
  *    a controller action that finishes the password reset process.
  * 5. When the link is clicked, PasswordResetter will update the user's password
  *    and remove the Option stored earlier. This is accomplished by
- *    {@link confirmNewPassword()}.
+ *    {@link setHashedPasswordForLogin()}.
  *
  * Note: this class does not contain any controller logic so it won't directly
  * handle certain requests. Controllers should call the appropriate methods.
@@ -274,17 +274,11 @@ class PasswordResetter
     }
 
     /**
-     * Confirms a password reset. This should be called after {@link initiatePasswordResetProcess()}
-     * is called.
+     * Sets the given already-hashed password as the specified user's password (executed as super
+     * user, so it can run before the user is authenticated during a password reset).
      *
-     * This method will get the new password associated with a reset token and set it
-     * as the specified user's password.
-     *
-     * @param string $login The login of the user whose password is being reset.
-     * @param string $passwordHash The generated string token contained in the reset password
-     *                           email.
-     * @throws Exception If there is no user with login '$login', if $resetToken is not a
-     *                   valid token or if the token has expired.
+     * @param string $login The login of the user whose password is being set.
+     * @param string $passwordHash The already-hashed password to set for the user.
      */
     public function setHashedPasswordForLogin(
         $login,
