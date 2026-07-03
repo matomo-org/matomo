@@ -22,7 +22,7 @@ use Piwik\Plugin;
  *
  * ## Custom Periods
  *
- * Plugins can define their own period factories all plugins to define new period types, in addition
+ * Plugins can define their own period factories to define new period types, in addition
  * to "day", "week", "month", "year" and "range".
  *
  * To define a new period type:
@@ -149,7 +149,7 @@ abstract class Factory
      * @param string $timezone The timezone of the date. Only used if `$date` is `'now'`, `'today'`,
      *                         `'yesterday'` or `'yesterdaySameTime'`.
      * @param string $period The period string: `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
-     * @param string $date The date or date range string. Can be a special value including
+     * @param string|Date $date The date or date range string. Can be a special value including
      *                     `'now'`, `'today'`, `'yesterday'`, `'yesterdaySameTime'`.
      * @return \Piwik\Period
      */
