@@ -30,7 +30,7 @@ class DbHelper
     }
 
     /**
-     * Returns `true` if a table in the database, `false` if otherwise.
+     * Returns `true` if a table exists in the database, `false` if otherwise.
      *
      * @param string $tableName The name of the table to check for. Must be prefixed.
      *                          Avoid using user input, as the variable will be used in a query unescaped.
