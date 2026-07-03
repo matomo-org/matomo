@@ -1658,10 +1658,6 @@ parameters:
 			count: 1
 			path: core/Tracker/GoalManager.php
 
-		-
-			message: "#^Method Piwik\\\\Tracker\\\\GoalManager\\:\\:detectGoalMatch\\(\\) should return bool\\|null but returns string\\.$#"
-			count: 1
-			path: core/Tracker/GoalManager.php
 
 		-
 			message: "#^Method Piwik\\\\Tracker\\\\GoalManager\\:\\:getRevenue\\(\\) should return float\\|int but returns string\\.$#"
@@ -3478,10 +3474,6 @@ parameters:
 			count: 1
 			path: plugins/Referrers/SearchEngine.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\Social\\:\\:getMainUrlFromName\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: plugins/Referrers/Social.php
 
 		-
 			message: "#^Function Piwik\\\\Plugins\\\\Referrers\\\\getReferrerTypeFromShortName\\(\\) should return string but returns int\\.$#"
