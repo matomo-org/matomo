@@ -316,7 +316,7 @@ jobs:
         with:
           test-type: 'JS'
           php-version: '8.1'
-          node-version: '12'
+          node-version: '24'
   Client:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
@@ -402,7 +402,7 @@ jobs:
           php-version: '8.1'
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
-          node-version: '16'
+          node-version: '24'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
@@ -439,7 +439,7 @@ jobs:
           php-version: '8.1'
           mysql-engine: 'Mysql'
           mysql-version: '8.0'
-          node-version: '16'
+          node-version: '24'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
