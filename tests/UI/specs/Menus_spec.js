@@ -126,12 +126,14 @@ describe("Menus", function () {
         await page.waitForNetworkIdle();
         await page.click('[data-target="mobile-left-menu"]');
         await page.waitForTimeout(150);
-        await page.click('ul#mobile-left-menu > li:nth-child(1) a');
-        await page.click('ul#mobile-left-menu > li:nth-child(2) a');
-        await page.click('ul#mobile-left-menu > li:nth-child(3) a');
-        await page.click('ul#mobile-left-menu > li:nth-child(4) a');
-        await page.click('ul#mobile-left-menu > li:nth-child(5) a');
-        await page.click('ul#mobile-left-menu > li:nth-child(6) a');
+        // Expand each category header one at a time, waiting for the accordion animation to settle
+        // between clicks. Clicking them back-to-back races the expand animations under the modern
+        // headless Chrome, and a click can land on a sub-item link (navigating away and changing which
+        // item is highlighted) instead of the header.
+        for (let i = 1; i <= 6; i++) {
+            await page.click('ul#mobile-left-menu > li:nth-child(' + i + ') > ul > li > a.collapsible-header');
+            await page.waitForTimeout(250);
+        }
         await page.waitForTimeout(500);
 
         expect(await page.screenshotSelector('#mobile-left-menu', false)).to.matchImage('mobile_left_admin');
