@@ -362,7 +362,7 @@ class IniFileChain
      *
      * @param mixed $elem1
      * @param mixed $elem2
-     * @return int;
+     * @return int
      */
     public static function compareElements($elem1, $elem2)
     {
