@@ -48,6 +48,7 @@ describe("Goals", function () {
 
       await page.waitForSelector('.ui-dialog');
       await page.waitForNetworkIdle();
+      await page.waitForTimeout(250);
 
       const dialog = await page.$('.ui-dialog');
       expect(await dialog.screenshot()).to.matchImage('goals_by_pages_row_evolution');
