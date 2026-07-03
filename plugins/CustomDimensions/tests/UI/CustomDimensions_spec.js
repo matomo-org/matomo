@@ -167,6 +167,10 @@ describe("CustomDimensions", function () {
     it('should go back to list when pressing cancel', async function () {
         await capturePageWrap('manage_edit_action_dimension_cancel', async function () {
             await page.click('.editCustomDimension .cancel');
+            // Cancelling re-renders the list including the "increase available dimensions" block with its
+            // console-command code snippets. That block renders slightly after the list, so wait for its
+            // code to be present - otherwise the screenshot is captured truncated (without the snippets).
+            await page.waitForSelector('#customDimensionsCreateMoreDimensions pre code', { visible: true });
         });
     });
 
