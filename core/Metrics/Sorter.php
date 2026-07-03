@@ -134,7 +134,7 @@ class Sorter
      * Detect the column to be used for sorting
      *
      * @param string|int $columnToSort  column name or column id
-     * @return int
+     * @return string|int
      */
     public function getPrimaryColumnToSort(DataTable $table, $columnToSort)
     {
