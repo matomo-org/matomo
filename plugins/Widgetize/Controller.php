@@ -74,7 +74,7 @@ class Controller extends \Piwik\Plugin\Controller
          *         }
          *     }
          *
-         * @param bool &$shouldEmbedEmpty Defines whether the iframe should be embedded empty or wrapped within the widgetized html.
+         * @param bool   &$shouldEmbedEmpty Defines whether the iframe should be embedded empty or wrapped within the widgetized html.
          * @param string $controllerName    The name of the controller that will be executed.
          * @param string $actionName        The name of the action within the controller that will be executed.
          */
