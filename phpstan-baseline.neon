@@ -628,10 +628,6 @@ parameters:
 			count: 1
 			path: core/DataTable/Map.php
 
-		-
-			message: "#^Property Piwik\\\\DataTable\\\\Renderer\\:\\:\\$idSite \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: core/DataTable/Renderer.php
 
 		-
 			message: "#^Result of && is always false\\.$#"
@@ -2124,10 +2120,6 @@ parameters:
 			count: 1
 			path: plugins/Actions/Columns/ActionType.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\ExitPageUrl\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/ExitPageUrl.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\VisitTotalActions\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
@@ -2571,10 +2563,6 @@ parameters:
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparklines/Config.php
 
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines\\\\Config\\:\\:\\$title_attributes \\(string\\) does not accept default value of type array\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines/Config.php
 
 		-
 			message: "#^Result of && is always false\\.$#"
@@ -2957,10 +2945,6 @@ parameters:
 			count: 1
 			path: plugins/Goals/RecordBuilders/ProductRecord.php
 
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines\\\\Config\\:\\:\\$title_attributes \\(string\\) does not accept array\\<string, string\\>\\.$#"
-			count: 1
-			path: plugins/Goals/Reports/Get.php
 
 		-
 			message: "#^Right side of && is always true\\.$#"
