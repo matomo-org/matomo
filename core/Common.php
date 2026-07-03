@@ -231,7 +231,7 @@ class Common
     /**
      * Multi-byte strlen() - works with UTF-8
      *
-     * Calls `mb_substr` if available and falls back to `substr` if not.
+     * Calls `mb_strlen` if available and falls back to `strlen` if not.
      *
      * @param string $string
      * @return int
