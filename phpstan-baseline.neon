@@ -621,15 +621,6 @@ parameters:
 			count: 1
 			path: core/DataTable/Filter/PivotByDimension.php
 
-		-
-			message: "#^Property Piwik\\\\DataTable\\\\Filter\\\\PivotByDimension\\:\\:\\$pivotDimensionReport \\(Piwik\\\\Plugin\\\\Report\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: core/DataTable/Filter/PivotByDimension.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\\\Filter\\\\PivotByDimension\\:\\:\\$thisReportDimensionSegment \\(Piwik\\\\Plugin\\\\Segment\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: core/DataTable/Filter/PivotByDimension.php
 
 		-
 			message: "#^Parameter \\$doSortBySecondaryColumn of method Piwik\\\\DataTable\\\\Filter\\\\Sort\\:\\:__construct\\(\\) has invalid type Piwik\\\\DataTable\\\\Filter\\\\callback\\.$#"
@@ -731,10 +722,6 @@ parameters:
 			count: 1
 			path: core/Db/Adapter/Pdo/Mysql.php
 
-		-
-			message: "#^Method Piwik\\\\Db\\\\Adapter\\\\Pdo\\\\Mysql\\:\\:getClientVersion\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: core/Db/Adapter/Pdo/Mysql.php
 
 		-
 			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\Adapter\\\\Pdo\\\\Mysql\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
@@ -2381,10 +2368,6 @@ parameters:
 			count: 1
 			path: plugins/CoreHome/Controller.php
 
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\Piwik\\\\View \\(the popover_rowevolution template\\)\\)\\: Unexpected token \"\\(\", expected variable at offset 117$#"
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
 
 		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(mixed\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
@@ -2536,10 +2519,6 @@ parameters:
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Graph.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\HtmlTable\\:\\:getCellHtmlAttributes\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
 
 		-
 			message: "#^Property Piwik\\\\Plugin\\\\Visualization\\:\\:\\$report \\(Piwik\\\\Plugin\\\\Report\\) in empty\\(\\) is not falsy\\.$#"
@@ -3643,10 +3622,6 @@ parameters:
 			count: 1
 			path: plugins/UsersManager/NewsletterSignup.php
 
-		-
-			message: "#^PHPDoc tag @return with type mixed is not subtype of native type array\\.$#"
-			count: 1
-			path: plugins/UsersManager/Repository/UserRepository.php
 
 		-
 			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\Sql\\\\UserTableFilter\\:\\:\\$filterByRole \\(string\\) does not accept null\\.$#"
