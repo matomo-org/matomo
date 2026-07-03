@@ -19,7 +19,7 @@ use Piwik\Log\LoggerInterface;
 class Logger
 {
     /**
-     * @var int
+     * @var bool
      */
     private $isEnabled;
 
