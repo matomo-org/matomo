@@ -381,8 +381,8 @@ class ArchiveProcessor
      * All these DataTables are then added together, and the resulting DataTable is returned.
      *
      * @param string $name
-     * @param array $columnsAggregationOperation Operations for aggregating columns, @see Row::sumRow()
-     * @param array $columnsToRenameAfterAggregation columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
+     * @param array|null $columnsAggregationOperation Operations for aggregating columns, @see Row::sumRow()
+     * @param array|null $columnsToRenameAfterAggregation columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
      * @return DataTable
      */
     protected function aggregateDataTableRecord($name, $columnsAggregationOperation = null, $columnsToRenameAfterAggregation = null)
@@ -439,8 +439,8 @@ class ArchiveProcessor
     /**
      * Note: public only for use in closure in PHP 5.3.
      *
-     * @param $table
-     * @return \Piwik\Period
+     * @param DataTable $table
+     * @return bool
      */
     public function areColumnsNotAlreadyRenamed($table)
     {
@@ -588,8 +588,8 @@ class ArchiveProcessor
     /**
      * If the DataTable is a Map, sums all DataTable in the map and return the DataTable.
      *
-     * @param $data DataTable|DataTable\Map
-     * @param $columnsToRenameAfterAggregation array
+     * @param DataTable|DataTable\Map $data
+     * @param array|null $columnsAggregationOperation
      * @return DataTable
      */
     protected function getAggregatedDataTableMap($data, $columnsAggregationOperation)
@@ -612,8 +612,6 @@ class ArchiveProcessor
 
     /**
      * Aggregates the DataTable\Map into the destination $aggregated
-     * @param $map
-     * @param $aggregated
      */
     protected function aggregatedDataTableMapsAsOne(Map $map, DataTable $aggregated)
     {

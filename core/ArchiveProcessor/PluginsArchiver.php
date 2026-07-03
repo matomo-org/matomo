@@ -34,7 +34,7 @@ class PluginsArchiver
     private static $currentPluginBeingArchived = null;
 
     /**
-     * @param ArchiveProcessor $archiveProcessor
+     * @var ArchiveProcessor
      */
     public $archiveProcessor;
 
@@ -51,7 +51,7 @@ class PluginsArchiver
     /**
      * Public only for tests. Won't be necessary after DI changes are complete.
      *
-     * @var Archiver[] $archivers
+     * @var array<string, class-string<Archiver>>
      */
     public static $archivers = array();
 
@@ -246,7 +246,7 @@ class PluginsArchiver
     /**
      * Loads Archiver class from any plugin that defines one.
      *
-     * @return \Piwik\Plugin\Archiver[]
+     * @return array<string, class-string<Archiver>>
      */
     protected static function getPluginArchivers()
     {
@@ -340,7 +340,8 @@ class PluginsArchiver
 
 
     /**
-     * @param $archiverClass
+     * @param class-string<Archiver> $archiverClass
+     * @param string $pluginName
      * @return Archiver
      */
     private function makeNewArchiverObject($archiverClass, $pluginName)

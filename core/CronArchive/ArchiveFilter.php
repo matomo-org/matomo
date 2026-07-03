@@ -157,7 +157,7 @@ class ArchiveFilter
     }
 
     /**
-     * @return null
+     * @return string[]|null
      */
     public function getSegmentsToForce()
     {
@@ -198,7 +198,7 @@ class ArchiveFilter
     }
 
     /**
-     * @return false|string
+     * @return Date[]|false
      */
     public function getRestrictToDateRange()
     {

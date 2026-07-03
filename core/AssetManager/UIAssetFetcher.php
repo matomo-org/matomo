@@ -54,7 +54,7 @@ abstract class UIAssetFetcher
     }
 
     /**
-     * $return UIAssetCatalog
+     * @return UIAssetCatalog
      */
     public function getCatalog()
     {

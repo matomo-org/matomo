@@ -1226,6 +1226,7 @@ class LogAggregator
      * @param false|string $where An optional SQL expression used in the SQL's **WHERE** clause.
      * @param array $additionalSelects Additional SELECT fields that are not included in the group by
      *                                 clause. These can be aggregate expressions, eg, `SUM(somecol)`.
+     * @param array $extraFrom Additional tables/joins to merge into the FROM clause alongside log_conversion.
      * @param RankingQuery|null|false $rankingQuery
      * @param bool $rankingQueryGenerate if `true`, generates a SQL query / bind array pair and returns it. If false, the
      *                                   ranking query SQL will be immediately executed and the results returned.

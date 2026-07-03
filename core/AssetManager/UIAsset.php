@@ -32,8 +32,7 @@ abstract class UIAsset
      * Removes the previous file if it exists.
      * Also tries to remove compressed version of the file.
      *
-     * @see ProxyStaticFile::serveStaticFile(serveFile
-     * @throws Exception if the file couldn't be deleted
+     * @see \Piwik\ProxyHttp::serverStaticFile()
      */
     abstract public function delete();
 

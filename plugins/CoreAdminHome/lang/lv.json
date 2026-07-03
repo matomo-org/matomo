@@ -12,7 +12,7 @@
         "CloudflareDescription": "Ja Jūsu vietne tiek izvietota Cloudflare, lūdzu skatiet %1$sšo ceļvedi%2$s.",
         "ConfirmDeleteAllTrackingFailures": "Vai esat pārliecināts, ka vēlaties dzēst visas izsekošanas kļūmes?",
         "ConfirmDeleteThisTrackingFailure": "Vai esat pārliecināts, ka vēlaties dzēst šo izsekošanas kļūdu?",
-        "Cors": "CORS",
+        "Cors": "Cors",
         "CorsDomains": "Starpizcelsmes resursu koplietošanas (CORS) domēni",
         "CorsDomainsHelp": "Varat definēt domēnus vai apakšdomēnus, piemēram, http://example.com vai http://stats.example.com., vai atļaut starpdomēnu pieprasījumus visiem domēniem, vienkārši pievienojot *",
         "CustomLogoFeedbackInfo": "Ja pielāgojat Matomo logotipu, jums varētu interesēt arī paslēpt %1$s saiti augšējā izvēlnē. Lai to izdarītu, atspējojiet atsauksmju spraudni %2$sspraudņu pārvaldības%3$s lapā.",

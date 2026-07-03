@@ -160,6 +160,7 @@ class Updater extends \Piwik\Updates
     /**
      * @param ActionDimension|ConversionDimension|VisitDimension $dimension
      * @param string $componentPrefix
+     * @param array $existingColumnsInDb
      * @return array
      */
     private function getUpdatesForDimension(PiwikUpdater $updater, $dimension, $componentPrefix, $existingColumnsInDb)
