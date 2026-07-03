@@ -349,13 +349,11 @@ class VisitExcluded
     }
 
     /**
-     * Returns true if the specified user agent should be excluded for the current site or not.
+     * Returns true if the current visit's user agent should be excluded for the current site.
      *
      * Visits whose user agent string contains one of the excluded_user_agents strings for the
      * site being tracked (or one of the global strings) will be excluded. Regular expressions
      * are also supported.
-     *
-     * @internal param string $this ->userAgent The user agent string.
      */
     protected function isUserAgentExcluded(): bool
     {

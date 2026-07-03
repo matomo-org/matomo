@@ -65,7 +65,6 @@ class Sparklines extends ViewDataTable
     }
 
     /**
-     * @see ViewDataTable::main()
      * @return mixed
      */
     public function render()
