@@ -1047,7 +1047,7 @@ class ArchivingHelper
      *
      * @param int $idAction
      * @param int $actionType
-     * @param \Piwik\DataTable\Row
+     * @param \Piwik\DataTable\Row|false|null $actionRow
      */
     private static function setCachedActionRow($idAction, $actionType, $actionRow)
     {
