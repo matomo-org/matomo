@@ -102,7 +102,33 @@ class ReleaseChannelTest extends IntegrationTestCase
         yield 'link-local IPv6 excluded' => ['http://[fe80::1]/', ''];
         yield 'public IPv6 excluded' => ['http://[2001:4860:4860::8888]/', ''];
         yield 'IPv4-mapped IPv6 excluded (brackets stripped before IP check)' => ['http://[::ffff:192.168.1.1]/', ''];
+        // Non-production TLD suffixes — see EXCLUDED_HOST_SUFFIXES.
+        yield '.test excluded (RFC 2606)' => ['http://matomo.test/', ''];
+        yield '.example excluded (RFC 2606)' => ['http://matomo.example/', ''];
+        yield '.invalid excluded (RFC 2606)' => ['http://matomo.invalid/', ''];
+        yield '.localhost excluded (RFC 2606)' => ['http://matomo.localhost/', ''];
+        yield '.local excluded (RFC 6762 mDNS)' => ['http://matomo.local/', ''];
+        yield '.home.arpa excluded (RFC 8375)' => ['http://matomo.home.arpa/', ''];
+        yield '.onion excluded (RFC 7686)' => ['http://exampleofonionservice.onion/', ''];
+        yield '.alt excluded (RFC 9476)' => ['http://matomo.alt/', ''];
+        yield '.internal excluded (ICANN 2024)' => ['http://matomo.internal/', ''];
+        yield '.ddev.site excluded (local dev)' => ['http://matomo.ddev.site/', ''];
+        yield 'multi-level .ddev.site excluded' => ['http://sub.project.ddev.site/', ''];
         yield 'public hostname produces hash' => ['https://stats.acme.com/matomo/', 'HASH'];
+    }
+
+    public function testAnonymiseUrlDoesNotConfuseSuffixWithSubstring()
+    {
+        // `.local` suffix must not match a host that merely contains
+        // "local" mid-label. Guards against a naive strpos-style check.
+        $this->assertRegExp(
+            '/^[a-f0-9]{64}$/',
+            ReleaseChannel::anonymiseUrl('https://foo.notlocal.com/')
+        );
+        $this->assertRegExp(
+            '/^[a-f0-9]{64}$/',
+            ReleaseChannel::anonymiseUrl('https://stats.example.com/')
+        );
     }
 
     public function testAnonymiseUrlIsStable()
