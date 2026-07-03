@@ -310,9 +310,14 @@ describe("SegmentSelectorEditorTest", function () {
         await page.type('input.edit_segment_name', 'edited segment');
         await (await page.jQuery('.segmentRow0 .segment-or:first')).click(); // click somewhere else to save new name
 
-        await selectFieldValue('.segmentRow0 .segment-row:first .metricMatchBlock', 'Is not');
-        await selectFieldValue('.segmentRow0 .segment-row:last .metricMatchBlock', 'Is not');
-        await selectFieldValue('.segmentRow1 .segment-row .metricMatchBlock', 'Is not');
+        // Use "Is" (equals a value nothing has) so the applied segment matches zero visits.
+        // With "Is not" it matched every visit, so the reload below re-archived the whole
+        // 2012 year (~228s) and tipped over Mocha's 240s timeout, cascading into the delete
+        // tests (see #24482). "Is" still changes the definition, so the confirmation modal
+        // this test checks for still fires.
+        await selectFieldValue('.segmentRow0 .segment-row:first .metricMatchBlock', 'Is');
+        await selectFieldValue('.segmentRow0 .segment-row:last .metricMatchBlock', 'Is');
+        await selectFieldValue('.segmentRow1 .segment-row .metricMatchBlock', 'Is');
 
         for (let i = 0; i < 3; i += 1) {
           await page.waitForTimeout(200);
@@ -358,11 +363,6 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should keep the updated segment name after page reload", async function() {
-        // Reloading re-archives the applied segment (its "is not" definition matches every
-        // visit) and takes ~228s on CI; give this one reload headroom so the 240s default
-        // doesn't abort it mid-flight and cascade into the delete tests (see #24482).
-        this.timeout(360000);
-
         await page.reload();
         await page.waitForSelector('.segmentationContainer .title');
         await page.waitForFunction(() => {
