@@ -20,9 +20,9 @@ class UIAssetCacheBuster extends Singleton
     /**
      * Cache buster based on
      *  - Piwik version
+     *  - PHP version
      *  - Loaded plugins (name and version)
-     *  - Super user salt
-     *  - Latest
+     *  - Latest git hash of the master branch (if available)
      *
      * @param string[]|false $pluginNames
      * @return string
