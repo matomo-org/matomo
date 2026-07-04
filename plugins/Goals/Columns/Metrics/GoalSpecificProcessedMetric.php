@@ -31,7 +31,7 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
     /**
      * The ID of the site the goal belongs to.
      *
-     * @var int
+     * @var int|null
      */
     protected $idSite;
 
