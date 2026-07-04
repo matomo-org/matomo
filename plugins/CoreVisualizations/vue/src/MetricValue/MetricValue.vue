@@ -10,7 +10,7 @@
     <div
       class="metricValue__title"
       :class="{ 'metricValue__title--documented': !!documentation }"
-      :title="documentation || null"
+      :title="documentation || title"
       v-tooltips="{ duration: 200, delay: 200 }"
     >{{ title }}</div>
     <div class="metricValue__primary">
@@ -54,7 +54,8 @@ export default defineComponent({
     // hands these out separately as metric.value + metric.description.
     secondaryValue: [String, Number],
     secondaryLabel: String,
-    // Optional documentation shown as a tooltip on the title.
+    // Optional metric documentation; when set it is shown as the title tooltip (otherwise the
+    // tooltip falls back to the full title so a clipped title stays recoverable on hover).
     documentation: String,
   },
   computed: {
