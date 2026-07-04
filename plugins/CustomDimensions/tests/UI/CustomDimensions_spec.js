@@ -168,9 +168,14 @@ describe("CustomDimensions", function () {
         await capturePageWrap('manage_edit_action_dimension_cancel', async function () {
             await page.click('.editCustomDimension .cancel');
             // Cancelling re-renders the list including the "increase available dimensions" block with its
-            // console-command code snippets. That block renders slightly after the list, so wait for its
-            // code to be present - otherwise the screenshot is captured truncated (without the snippets).
-            await page.waitForSelector('#customDimensionsCreateMoreDimensions pre code', { visible: true });
+            // two console-command code snippets. Those render slightly after the list, so wait until both
+            // are present and populated - otherwise the screenshot is captured truncated (missing one or
+            // both snippets).
+            await page.waitForFunction(() => {
+                const codes = document.querySelectorAll('#customDimensionsCreateMoreDimensions pre code');
+                return codes.length >= 2
+                    && Array.prototype.every.call(codes, (c) => c.textContent.trim().length > 0);
+            });
         });
     });
 
