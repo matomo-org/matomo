@@ -2883,10 +2883,6 @@ parameters:
 			count: 1
 			path: plugins/Goals/API.php
 
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Goals\\\\Columns\\\\Metrics\\\\GoalSpecificProcessedMetric\\:\\:\\$idSite \\(int\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: plugins/Goals/Columns/Metrics/GoalSpecificProcessedMetric.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Goals\\\\Commands\\\\CalculateConversionPages\\:\\:getDateRangeToCalculate\\(\\) never returns array\\<Piwik\\\\Date\\> so it can be removed from the return type\\.$#"
