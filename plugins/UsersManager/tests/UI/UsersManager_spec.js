@@ -167,9 +167,12 @@ describe("UsersManager", function () {
         await page.waitForTimeout(100);
 
         await page.click('.bulk-actions.btn');
-        await (await page.jQuery('a[data-target=user-list-bulk-actions]')).hover();
-        await page.waitForTimeout(300);
-        await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
+        await page.waitForSelector('#user-list-bulk-actions', { visible: true });
+        // The access levels live in a submenu that only opens when the "Set Permission" entry is
+        // hovered; hover it and wait for the option to become visible before clicking.
+        await (await page.jQuery('a[data-target=bulk-set-access]', { waitFor: true })).hover();
+        await page.waitForFunction("$('#bulk-set-access a:contains(Admin):visible').length > 0");
+        await (await page.jQuery('#bulk-set-access a:contains(Admin):visible')).click();
         await page.waitForTimeout(350); // wait for animation
 
         await page.waitForSelector('.confirm-password-modal.open', { visible: true });
