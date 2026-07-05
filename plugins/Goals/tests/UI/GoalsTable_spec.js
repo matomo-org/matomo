@@ -28,6 +28,9 @@ describe("GoalsTable", function () {
         // taken before the full-width table (all metric columns) has loaded. Wait for the column count to
         // stabilise so all columns are present.
         await page.waitForNetworkIdle();
+        // Nudge a layout recompute so the table renders its full column set on the faster CI.
+        await page.evaluate(() => window.dispatchEvent(new Event('resize')));
+        await page.waitForTimeout(250);
         await page.evaluate(() => { window.__gtCols = -1; window.__gtStable = 0; });
         await page.waitForFunction(() => {
             const n = document.querySelectorAll('table.dataTable thead th').length;

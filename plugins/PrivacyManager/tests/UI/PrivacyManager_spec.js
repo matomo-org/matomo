@@ -261,6 +261,9 @@ describe("PrivacyManager", function () {
         await page.evaluate(() => {
             const overlay = document.querySelector('.modal-overlay');
             if (overlay) {
+                // Anchor the overlay to the document (not the viewport) and span the whole page so the
+                // shadow covers everything behind the modal on this tall page.
+                overlay.style.position = 'absolute';
                 overlay.style.top = '0';
                 overlay.style.left = '0';
                 overlay.style.width = '100%';

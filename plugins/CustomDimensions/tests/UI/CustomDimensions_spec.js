@@ -42,6 +42,10 @@ describe("CustomDimensions", function () {
     // include the transient trailing whitespace left over from the list height.
     async function waitForEditFormToSettle() {
         await page.waitForNetworkIdle();
+        // Nudge a layout recompute: on the faster CI the page wrap does not always collapse from the list
+        // height on its own (it does locally), leaving trailing whitespace.
+        await page.evaluate(() => window.dispatchEvent(new Event('resize')));
+        await page.waitForTimeout(250);
         await page.evaluate(() => {
             window.__cdPeakH = 0;
             window.__cdLastH = -1;
