@@ -351,11 +351,18 @@ describe("Comparison", function () {
     it('should load a widgetized sparklines visualization correctly when comparing two years', async () => {
         await page.goto(visitOverviewWidgetCompareYear);
         await page.waitForNetworkIdle();
+        // The widget's evolution graph renders after the initial load, so wait for it before capturing -
+        // otherwise the screenshot is taken without the graph.
+        await page.waitForSelector('.piwik-graph', { visible: true });
+        await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_year');
     });
 
     it('should load a widgetized sparklines visualization correctly when comparing two segments over a year', async () => {
         await page.goto(visitOverviewWidgetComparePeriods);
+        await page.waitForNetworkIdle();
+        // The widget's evolution graph renders after the initial load, so wait for it before capturing.
+        await page.waitForSelector('.piwik-graph', { visible: true });
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_compareperiod_year');
     });

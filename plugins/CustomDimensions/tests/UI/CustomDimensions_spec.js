@@ -104,6 +104,10 @@ describe("CustomDimensions", function () {
     it('should open a page to create a new action dimension', async function () {
         await capturePageWrap('manage_new_action_dimension_open', async function () {
             await page.click('.scope-action .btn');
+            // Opening the form replaces the (taller) list; the page wrap only collapses to the form
+            // height once the re-render settles, so wait for it - otherwise the capture includes a large
+            // block of trailing whitespace left over from the list height.
+            await page.waitForNetworkIdle();
         });
     });
 
@@ -139,6 +143,8 @@ describe("CustomDimensions", function () {
     it('should be able to open created dimension and see same data but this time with tracking instructions', async function () {
         await capturePageWrap('manage_edit_action_dimension_verify_created', async function () {
             await page.click('.manageCustomDimensions .customdimension-8 .icon-edit');
+            // Wait for the list→form re-render to settle so the page wrap collapses to the form height.
+            await page.waitForNetworkIdle();
         });
     });
 
@@ -155,12 +161,16 @@ describe("CustomDimensions", function () {
         await capturePageWrap('manage_edit_action_dimension_updated', async function () {
             await page.click('.editCustomDimension .update');
             await page.waitForNetworkIdle();
+            // Move the cursor off the re-rendered list so no row is left in a :hover state.
+            await page.mouse.move(0, 0);
         });
     });
 
     it('should have actually updated values', async function () {
         await capturePageWrap('manage_edit_action_dimension_verify_updated', async function () {
             await page.click('.manageCustomDimensions .customdimension-8 .icon-edit');
+            // Wait for the list→form re-render to settle so the page wrap collapses to the form height.
+            await page.waitForNetworkIdle();
         });
     });
 
@@ -176,6 +186,8 @@ describe("CustomDimensions", function () {
                 return codes.length >= 2
                     && Array.prototype.every.call(codes, (c) => c.textContent.trim().length > 0);
             });
+            // Move the cursor off the re-rendered list so no row is left in a :hover state.
+            await page.mouse.move(0, 0);
         });
     });
 

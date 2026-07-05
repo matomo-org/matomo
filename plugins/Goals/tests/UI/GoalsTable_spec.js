@@ -24,6 +24,9 @@ describe("GoalsTable", function () {
     it("should show columns for all goals when idGoal is 0", async function () {
         const allGoalsUrl = page.url().replace(/viewDataTable=[^&]*/, "viewDataTable=tableGoals") + "&idGoal=0";
         await page.goto(allGoalsUrl);
+        // Wait for the all-goals table to finish rendering all of its per-goal metric columns; without
+        // this the screenshot can be taken before the full-width table has loaded.
+        await page.waitForNetworkIdle();
 
         const table = await page.$('table.dataTable');
         expect(await table.screenshot()).to.matchImage('goals_table_full');
