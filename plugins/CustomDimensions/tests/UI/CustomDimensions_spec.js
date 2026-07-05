@@ -36,6 +36,34 @@ describe("CustomDimensions", function () {
         expect(await page.screenshotSelector(selector)).to.matchImage(expectation);
     }
 
+    // Opening the edit form replaces the (taller) list; the page wrap only collapses to the form height
+    // a moment after the re-render, and on CI that lags the network-idle point (locally it is slower so
+    // it has already collapsed). Wait for the height to settle below its peak so the capture doesn't
+    // include the transient trailing whitespace left over from the list height.
+    async function waitForEditFormToSettle() {
+        await page.waitForNetworkIdle();
+        await page.evaluate(() => {
+            window.__cdPeakH = 0;
+            window.__cdLastH = -1;
+            window.__cdStable = 0;
+        });
+        await page.waitForFunction(() => {
+            const pw = document.querySelector('.pageWrap');
+            if (!pw) {
+                return false;
+            }
+            const h = Math.round(pw.getBoundingClientRect().height);
+            window.__cdPeakH = Math.max(window.__cdPeakH, h);
+            if (h === window.__cdLastH) {
+                window.__cdStable += 1;
+            } else {
+                window.__cdStable = 0;
+                window.__cdLastH = h;
+            }
+            return window.__cdStable >= 3 && h < window.__cdPeakH;
+        }, { polling: 150, timeout: 8000 }).catch(() => {});
+    }
+
     async function closeOpenedPopover()
     {
         await page.waitForTimeout(100);
@@ -104,10 +132,7 @@ describe("CustomDimensions", function () {
     it('should open a page to create a new action dimension', async function () {
         await capturePageWrap('manage_new_action_dimension_open', async function () {
             await page.click('.scope-action .btn');
-            // Opening the form replaces the (taller) list; the page wrap only collapses to the form
-            // height once the re-render settles, so wait for it - otherwise the capture includes a large
-            // block of trailing whitespace left over from the list height.
-            await page.waitForNetworkIdle();
+            await waitForEditFormToSettle();
         });
     });
 
@@ -143,8 +168,7 @@ describe("CustomDimensions", function () {
     it('should be able to open created dimension and see same data but this time with tracking instructions', async function () {
         await capturePageWrap('manage_edit_action_dimension_verify_created', async function () {
             await page.click('.manageCustomDimensions .customdimension-8 .icon-edit');
-            // Wait for the list→form re-render to settle so the page wrap collapses to the form height.
-            await page.waitForNetworkIdle();
+            await waitForEditFormToSettle();
         });
     });
 
@@ -169,8 +193,7 @@ describe("CustomDimensions", function () {
     it('should have actually updated values', async function () {
         await capturePageWrap('manage_edit_action_dimension_verify_updated', async function () {
             await page.click('.manageCustomDimensions .customdimension-8 .icon-edit');
-            // Wait for the list→form re-render to settle so the page wrap collapses to the form height.
-            await page.waitForNetworkIdle();
+            await waitForEditFormToSettle();
         });
     });
 

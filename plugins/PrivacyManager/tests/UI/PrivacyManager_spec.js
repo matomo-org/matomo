@@ -261,6 +261,9 @@ describe("PrivacyManager", function () {
         await page.evaluate(() => {
             const overlay = document.querySelector('.modal-overlay');
             if (overlay) {
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
                 overlay.style.height = Math.max(
                     document.body.scrollHeight, document.documentElement.scrollHeight) + 'px';
             }

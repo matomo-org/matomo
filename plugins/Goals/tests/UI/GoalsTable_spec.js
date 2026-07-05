@@ -24,9 +24,21 @@ describe("GoalsTable", function () {
     it("should show columns for all goals when idGoal is 0", async function () {
         const allGoalsUrl = page.url().replace(/viewDataTable=[^&]*/, "viewDataTable=tableGoals") + "&idGoal=0";
         await page.goto(allGoalsUrl);
-        // Wait for the all-goals table to finish rendering all of its per-goal metric columns; without
-        // this the screenshot can be taken before the full-width table has loaded.
+        // The all-goals table renders its per-goal metric columns progressively; on CI the capture can be
+        // taken before the full-width table (all metric columns) has loaded. Wait for the column count to
+        // stabilise so all columns are present.
         await page.waitForNetworkIdle();
+        await page.evaluate(() => { window.__gtCols = -1; window.__gtStable = 0; });
+        await page.waitForFunction(() => {
+            const n = document.querySelectorAll('table.dataTable thead th').length;
+            if (n === window.__gtCols) {
+                window.__gtStable += 1;
+            } else {
+                window.__gtStable = 0;
+                window.__gtCols = n;
+            }
+            return window.__gtStable >= 4;
+        }, { polling: 150, timeout: 8000 }).catch(() => {});
 
         const table = await page.$('table.dataTable');
         expect(await table.screenshot()).to.matchImage('goals_table_full');
