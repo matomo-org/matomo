@@ -43,11 +43,6 @@ class Updates_5_12_0_b2 extends Updates
         ];
     }
 
-    public static function isMajorUpdate(): bool
-    {
-        return true;
-    }
-
     public function doUpdate(Updater $updater): void
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
