@@ -254,23 +254,7 @@ describe("PrivacyManager", function () {
         await page.waitForSelector('div.randomizeConfigIdField label');
         await page.click('div.randomizeConfigIdField label');
         await page.click('#anonymizeIPAnchor input.btn[value=Save]');
-
-        // The modal's background overlay is only sized to the viewport under the modern headless Chrome;
-        // size it to the full document so the shadow covers the whole (tall) page as it did before.
         await page.waitForSelector('.modal-overlay');
-        await page.evaluate(() => {
-            const overlay = document.querySelector('.modal-overlay');
-            if (overlay) {
-                // Anchor the overlay to the document (not the viewport) and span the whole page so the
-                // shadow covers everything behind the modal on this tall page.
-                overlay.style.position = 'absolute';
-                overlay.style.top = '0';
-                overlay.style.left = '0';
-                overlay.style.width = '100%';
-                overlay.style.height = Math.max(
-                    document.body.scrollHeight, document.documentElement.scrollHeight) + 'px';
-            }
-        });
 
         await capturePage('config_id_randomisation_on_password_required');
     });
