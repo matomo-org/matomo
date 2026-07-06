@@ -33,11 +33,8 @@ use Piwik\Site;
 class API extends \Piwik\Plugin\API
 {
     public const REAL_TIME_DEFAULT_LOOKBACK_MINUTES = 30;
-
-    private const MINUTES_PER_HOUR = 60;
-    private const REAL_TIME_MAX_LOOKBACK_HOURS = 12;
     private const REAL_TIME_MIN_LOOKBACK_MINUTES = 1;
-    public const REAL_TIME_MAX_LOOKBACK_MINUTES = self::REAL_TIME_MAX_LOOKBACK_HOURS * self::MINUTES_PER_HOUR;
+    public const REAL_TIME_MAX_LOOKBACK_MINUTES = 720;
 
     /**
      * Returns the main bot tracking report.

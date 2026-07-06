@@ -16,10 +16,7 @@ use Piwik\Plugins\BotTracking\API;
 final class AIChatbotsRealTimeWidgets
 {
     public const LOOKBACK_LAST_30_MINUTES = API::REAL_TIME_DEFAULT_LOOKBACK_MINUTES;
-
-    private const MINUTES_PER_HOUR = 60;
-    private const LAST_8_HOURS = 8;
-    public const LOOKBACK_LAST_8_HOURS = self::LAST_8_HOURS * self::MINUTES_PER_HOUR;
+    public const LOOKBACK_LAST_480_MINUTES = 480; // 8 hours
 
     /**
      * @return array<int, array{name: string, documentation: string, lastMinutes: int, order: int}>
@@ -36,7 +33,7 @@ final class AIChatbotsRealTimeWidgets
             [
                 'name'          => 'BotTracking_AIChatbotsLast8HoursTitle',
                 'documentation' => 'BotTracking_AIChatbotsLast8HoursDocumentation',
-                'lastMinutes'   => self::LOOKBACK_LAST_8_HOURS,
+                'lastMinutes'   => self::LOOKBACK_LAST_480_MINUTES,
                 'order'         => 20,
             ],
         ];
@@ -57,7 +54,7 @@ final class AIChatbotsRealTimeWidgets
             [
                 'name'          => 'BotTracking_TopPageUrlsLast8HoursTitle',
                 'documentation' => 'BotTracking_TopPageUrlsLast8HoursDocumentation',
-                'lastMinutes'   => self::LOOKBACK_LAST_8_HOURS,
+                'lastMinutes'   => self::LOOKBACK_LAST_480_MINUTES,
                 'order'         => 40,
             ],
         ];
