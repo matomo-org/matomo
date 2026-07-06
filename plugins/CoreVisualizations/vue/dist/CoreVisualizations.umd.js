@@ -745,36 +745,36 @@ MetricsPickerOptionsvue_type_script_lang_ts.render = MetricsPickerOptionsvue_typ
 MetricsPickervue_type_script_lang_ts.render = MetricsPickervue_type_template_id_5b298d15_render
 
 /* harmony default export */ var MetricsPicker = (MetricsPickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=21624034
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=20c744f6
 
-const SingleMetricViewvue_type_template_id_21624034_hoisted_1 = {
+const SingleMetricViewvue_type_template_id_20c744f6_hoisted_1 = {
   class: "metric-sparkline"
 };
-const SingleMetricViewvue_type_template_id_21624034_hoisted_2 = {
+const SingleMetricViewvue_type_template_id_20c744f6_hoisted_2 = {
   class: "metric-value"
 };
-const SingleMetricViewvue_type_template_id_21624034_hoisted_3 = ["title"];
-const SingleMetricViewvue_type_template_id_21624034_hoisted_4 = ["title"];
-function SingleMetricViewvue_type_template_id_21624034_render(_ctx, _cache, $props, $setup, $data, $options) {
+const SingleMetricViewvue_type_template_id_20c744f6_hoisted_3 = ["title"];
+const SingleMetricViewvue_type_template_id_20c744f6_hoisted_4 = ["title"];
+function SingleMetricViewvue_type_template_id_20c744f6_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["singleMetricView", {
       'loading': _ctx.isLoading
     }]),
     ref: "root"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_21624034_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_20c744f6_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
     params: _ctx.sparklineParams
-  }, null, 8, ["params"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_21624034_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, null, 8, ["params"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_20c744f6_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     title: _ctx.metricDocumentation
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricValue), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])((_ctx.metricTranslation || '').toLowerCase()), 1)], 8, SingleMetricViewvue_type_template_id_21624034_hoisted_3), _ctx.pastValue !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricValue), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])((_ctx.metricTranslation || '').toLowerCase()), 1)], 8, SingleMetricViewvue_type_template_id_20c744f6_hoisted_3), _ctx.pastValue !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     class: "metricEvolution",
     title: _ctx.translate('General_EvolutionSummaryGeneric', _ctx.metricValue, _ctx.currentPeriod, _ctx.pastValue, _ctx.pastPeriod, _ctx.metricChangePercent)
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.evolutionClass)
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricChangePercent), 3)], 8, SingleMetricViewvue_type_template_id_21624034_hoisted_4)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 2);
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricChangePercent), 3)], 8, SingleMetricViewvue_type_template_id_20c744f6_hoisted_4)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 2);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=21624034
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=20c744f6
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts
 
@@ -940,7 +940,7 @@ const {
         const goalName = ((_props$goals$actualId = props.goals[actualIdGoal.value]) === null || _props$goals$actualId === void 0 ? void 0 : _props$goals$actualId.name) || Object(external_CoreHome_["translate"])('General_Unknown');
         title = `${goalName} - ${title}`;
       }
-      $(root.value).closest('div.widget').find('.widgetTop > .widgetName > span').text(title);
+      $(root.value).closest('div.widget').find('.widgetName > span').text(title);
     }
     function getLastPeriodDate() {
       const range = external_CoreHome_["Range"].getLastNRange(external_CoreHome_["Matomo"].period, 2, external_CoreHome_["Matomo"].currentDateString);
@@ -1014,7 +1014,7 @@ const {
     }
     function createSeriesPicker() {
       const element = $(root.value);
-      const $widgetName = element.closest('div.widget').find('.widgetTop > .widgetName');
+      const $widgetName = element.closest('div.widget').find('.widgetName');
       const $seriesPickerElem = $('<div class="single-metric-view-picker"><div></div></div>');
       const app = Object(external_CoreHome_["createVueApp"])({
         render: () => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(SeriesPicker, {
@@ -1073,7 +1073,7 @@ const {
 
 
 
-SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_21624034_render
+SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_20c744f6_render
 
 /* harmony default export */ var SingleMetricView = (SingleMetricViewvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=708ec4a6

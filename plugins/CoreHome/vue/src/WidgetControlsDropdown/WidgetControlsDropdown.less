@@ -1,0 +1,58 @@
+.widgetControls {
+  position: relative;
+  display: inline-block;
+
+  .widgetControls__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    line-height: 0;
+    cursor: pointer;
+    appearance: none;
+
+    // idle: the 3 dots are a light grey (#e0e0e0 in light mode)
+    color: @theme-color-border-alternative;
+
+    &:hover,
+    &:focus {
+      // hover / focus: the dots go dark (#212121 in light mode)
+      color: @theme-color-text;
+    }
+  }
+
+  .widgetControls__icon {
+    // fill/stroke inherit currentColor from .widgetControls__trigger
+    display: block;
+  }
+
+  // nest element: positions the shared panel below-right of the trigger and toggles it.
+  .widgetControls__menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    z-index: 1000;
+  }
+
+  &.expanded .widgetControls__menu {
+    display: block;
+  }
+
+  // open state also darkens the dots
+  &.expanded .widgetControls__trigger {
+    color: @theme-color-text;
+  }
+}
+
+// The dots also darken when the surrounding widget is hovered or the header is focused,
+// matching the reveal-on-hover behaviour of the old widget chrome.
+// override: reacts to external ancestor state (.widget chrome / .reportHeader block).
+.widget:hover .widgetControls__trigger,
+.reportHeader:focus-within .widgetControls__trigger {
+  color: @theme-color-text;
+}

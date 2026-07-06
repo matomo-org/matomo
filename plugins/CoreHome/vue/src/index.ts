@@ -75,6 +75,10 @@ export { default as ReportingMenuStore } from './ReportingMenu/ReportingMenu.sto
 export { default as ReportingPagesStore } from './ReportingPages/ReportingPages.store';
 export { default as ReportMetadataStore } from './ReportMetadata/ReportMetadata.store';
 export { default as WidgetsStore } from './Widget/Widgets.store';
+export { default as ReportHeader } from './ReportHeader/ReportHeader.vue';
+export {
+  default as WidgetControlsDropdown,
+} from './WidgetControlsDropdown/WidgetControlsDropdown.vue';
 export { default as WidgetLoader } from './WidgetLoader/WidgetLoader.vue';
 export { default as ClientWidgetRenderer } from './Widget/ClientWidgetRenderer.vue';
 export { default as WidgetContainer } from './WidgetContainer/WidgetContainer.vue';
