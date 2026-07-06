@@ -170,7 +170,7 @@ class BotRequestsDao
     /**
      * @param int[] $idSites
      */
-    public function getAIChatbotsRealTime(array $idSites, string $startDate, string $endDate): DataTable
+    public function getAIChatbotActivityForDateRange(array $idSites, string $startDate, string $endDate): DataTable
     {
         $idSites = $this->normalizeIdSites($idSites);
 
@@ -240,7 +240,7 @@ class BotRequestsDao
     /**
      * @param int[] $idSites
      */
-    public function getTopPageUrlsRealTime(array $idSites, string $startDate, string $endDate): DataTable
+    public function getTopPageUrlsForDateRange(array $idSites, string $startDate, string $endDate): DataTable
     {
         $idSites = $this->normalizeIdSites($idSites);
 

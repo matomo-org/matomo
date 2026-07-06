@@ -138,7 +138,7 @@ class BotRequestsDaoTest extends IntegrationTestCase
         self::assertEquals(1, $remainingCount);
     }
 
-    public function testGetAIChatbotsRealTimeAggregatesRecentAIChatbotRows(): void
+    public function testGetAIChatbotActivityForDateRangeAggregatesAIChatbotRows(): void
     {
         $pageA = $this->createAction('example.com/realtime/a', Action::TYPE_PAGE_URL);
         $pageB = $this->createAction('example.com/realtime/b', Action::TYPE_PAGE_URL);
@@ -156,7 +156,7 @@ class BotRequestsDaoTest extends IntegrationTestCase
         $this->insertTestRecord('2026-01-01 10:00:00', 'Regular-Bot', null, $pageA, 200, 'crawler');
         $this->insertTestRecord('2026-01-01 10:00:00', 'OtherSite-Bot', $this->idSite + 1, $pageA, 200);
 
-        $table = $this->dao->getAIChatbotsRealTime([$this->idSite], '2026-01-01 10:00:00', '2026-01-01 12:00:00');
+        $table = $this->dao->getAIChatbotActivityForDateRange([$this->idSite], '2026-01-01 10:00:00', '2026-01-01 12:00:00');
         $rows = $this->indexRowsByLabel($table);
 
         self::assertCount(2, $rows);
@@ -172,7 +172,7 @@ class BotRequestsDaoTest extends IntegrationTestCase
         self::assertSame(1, $rows['Claude-User'][Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS]);
     }
 
-    public function testGetTopPageUrlsRealTimeReturnsOnlyFlatPageUrls(): void
+    public function testGetTopPageUrlsForDateRangeReturnsOnlyFlatPageUrls(): void
     {
         $pageA = $this->createAction('example.com/realtime/a', Action::TYPE_PAGE_URL);
         $pageB = $this->createAction('example.com/realtime/b', Action::TYPE_PAGE_URL);
@@ -187,7 +187,7 @@ class BotRequestsDaoTest extends IntegrationTestCase
         $this->insertTestRecord('2026-01-01 09:59:59', 'OutOfWindow-Bot', null, $pageA, 200);
         $this->insertTestRecord('2026-01-01 10:00:00', 'Regular-Bot', null, $pageA, 200, 'crawler');
 
-        $table = $this->dao->getTopPageUrlsRealTime([$this->idSite], '2026-01-01 10:00:00', '2026-01-01 12:00:00');
+        $table = $this->dao->getTopPageUrlsForDateRange([$this->idSite], '2026-01-01 10:00:00', '2026-01-01 12:00:00');
         $rows = $table->getRows();
 
         self::assertCount(3, $rows);
@@ -199,7 +199,7 @@ class BotRequestsDaoTest extends IntegrationTestCase
         self::assertSame(1, $rows[2]->getColumn(Metrics::COLUMN_REQUESTS));
     }
 
-    public function testGetTopPageUrlsRealTimeUsesConfiguredLimit(): void
+    public function testGetTopPageUrlsForDateRangeUsesConfiguredLimit(): void
     {
         $config = Config::getInstance();
         $previousConfig = $config->General['live_ai_chatbots_top_page_urls_maximum_rows'] ?? null;
@@ -216,7 +216,7 @@ class BotRequestsDaoTest extends IntegrationTestCase
             $this->insertTestRecord('2026-01-01 10:20:00', 'Claude-User', null, $pageB, 200);
             $this->insertTestRecord('2026-01-01 10:30:00', 'Perplexity-User', null, $pageC, 200);
 
-            $table = $this->dao->getTopPageUrlsRealTime([$this->idSite], '2026-01-01 10:00:00', '2026-01-01 12:00:00');
+            $table = $this->dao->getTopPageUrlsForDateRange([$this->idSite], '2026-01-01 10:00:00', '2026-01-01 12:00:00');
 
             self::assertCount(2, $table->getRows());
         } finally {

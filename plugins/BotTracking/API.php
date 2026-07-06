@@ -144,7 +144,7 @@ class API extends \Piwik\Plugin\API
         [$startDate, $endDate] = $this->getRealTimeDateRange($lastMinutes);
         $idSites               = Site::getIdSitesFromIdSitesString($idSite, false, true);
 
-        $table = (new BotRequestsDao())->getAIChatbotsRealTime($idSites, $startDate, $endDate);
+        $table = (new BotRequestsDao())->getAIChatbotActivityForDateRange($idSites, $startDate, $endDate);
 
         $this->decorateAIChatbotLabels($table);
 
@@ -168,7 +168,7 @@ class API extends \Piwik\Plugin\API
         [$startDate, $endDate] = $this->getRealTimeDateRange($lastMinutes);
         $idSites               = Site::getIdSitesFromIdSitesString($idSite, false, true);
 
-        $table = (new BotRequestsDao())->getTopPageUrlsRealTime($idSites, $startDate, $endDate);
+        $table = (new BotRequestsDao())->getTopPageUrlsForDateRange($idSites, $startDate, $endDate);
 
         return $this->decorateUrlLabels($table);
     }
