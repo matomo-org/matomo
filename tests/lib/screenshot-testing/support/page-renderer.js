@@ -147,6 +147,29 @@ PageRenderer.prototype.createPage = async function () {
     this.browserContext = await this.browser.createBrowserContext();
     this.webpage = await this.browserContext.newPage();
 
+    // Present the test browser as a regular Chrome rather than headless Chrome. Puppeteer reports a
+    // "HeadlessChrome" user agent and Sec-CH-UA brand, which the TrackingSpamPrevention plugin blocks
+    // by default (block_headless). Without this, any tracking that originates from the test browser -
+    // the JS tracker, and server-side requests that inherit the browser user agent - is treated as a
+    // headless bot and excluded, so those tests record no visits/data.
+    const defaultUserAgent = await this.browser.userAgent();
+    const chromeUserAgent = defaultUserAgent.replace('HeadlessChrome', 'Chrome');
+    const chromeMajorVersion = (chromeUserAgent.match(/Chrome\/(\d+)/) || [])[1] || '';
+    await this.webpage.setUserAgent(chromeUserAgent, {
+        brands: [
+            { brand: 'Chromium', version: chromeMajorVersion },
+            { brand: 'Google Chrome', version: chromeMajorVersion },
+            { brand: 'Not?A_Brand', version: '24' },
+        ],
+        fullVersion: chromeMajorVersion ? chromeMajorVersion + '.0.0.0' : '',
+        platform: 'Linux',
+        platformVersion: '',
+        architecture: 'x86',
+        bitness: '64',
+        model: '',
+        mobile: false,
+    });
+
     if (this.pendingRequests.size > 0) {
       console.log('! pendingRequests size is ' + this.pendingRequests.size + '. Resetting it as new browserContext has started.');
       // clear pending requests, to ensure unresolved requests from previous suites don't cause any issues
