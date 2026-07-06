@@ -382,18 +382,41 @@ describe('CoreHome/AjaxHelper', () => {
       module: 'API',
       method: 'SomeReport.get',
       // a not pre-encoded segment value containing characters with query-string meaning
-      segment: 'x&method=Other.method&foo=bar#',
+      segment: 'x&method=Other.method&foo=bar?baz#',
     }, 'get');
 
     await helper.send();
 
     // the whole value stays inside the segment parameter (query-string characters escaped)
-    expect(requestedUrl).toContain('segment=x%26method=Other.method%26foo=bar%23');
+    expect(requestedUrl).toContain('segment=x%26method=Other.method%26foo=bar%3Fbaz%23');
     // so it does not turn into separate query parameters
     expect(requestedUrl).not.toContain('&method=Other.method');
     expect(requestedUrl).not.toContain('#');
     // and the other request parameters are still present
     expect(requestedUrl).toContain('&method=SomeReport.get');
+  });
+
+  it('keeps segment operators and inner separators intact while escaping query-string characters', async () => {
+    let requestedUrl = '';
+
+    installUrlCapturingAjaxMock((url) => {
+      requestedUrl = url;
+    });
+
+    const helper = new AjaxHelper();
+    helper.addParams({
+      module: 'API',
+      method: 'SomeReport.get',
+      // a realistic, not pre-encoded segment matching on a URL that itself carries a query string
+      segment: 'pageUrl==http://example.com/?a=1&b=2',
+    }, 'get');
+
+    await helper.send();
+
+    // '==' and the inner '=' must survive untouched, only '?' and '&' are escaped
+    expect(requestedUrl).toContain('segment=pageUrl==http://example.com/%3Fa=1%26b=2');
+    // the URL query string of the matched page must not leak out as a separate parameter
+    expect(requestedUrl).not.toContain('&b=2');
   });
 
   it('does not double-encode an already encoded segment value', async () => {
