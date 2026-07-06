@@ -46,9 +46,9 @@ a.rowevolution-startmulti {
 }
 
 // Pie graphs already label their slices via the in-chart pieLegend, so the footer
-// legend (a single-metric row) is redundant and the "Choose metrics" picker is hidden
-// with it. Overrides the .has-legend/.has-picker display:flex above for pie only.
-.dataTableVizPie .jqplot-legend-footer {
+// legend (a single-metric row) is redundant. Hide just the legend items and keep the
+// footer (and its "Choose metrics" picker, which is how the displayed metric is switched).
+.dataTableVizPie .jqplot-legend-footer .jqplot-legend-items {
     display: none;
 }
 

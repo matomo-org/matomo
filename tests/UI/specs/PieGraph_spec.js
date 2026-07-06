@@ -24,9 +24,23 @@ describe("PieGraph", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('pie_segment_tooltip');
     });
 
-    // Pie graphs no longer expose a metric picker: the legend footer that hosts the
-    // "Choose metrics" button is hidden for pie (slices are labelled by the in-chart
-    // pieLegend instead), so there is no picker interaction to test here.
+    it("should display the metric picker when the metric picker button is clicked", async function () {
+        await page.click('.metrics-picker__toggle');
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
+        await page.keyboard.press('Escape');
+    });
+
+    it("should change displayed metric when another metric picked", async function () {
+        await page.click('.metrics-picker__toggle');
+        await page.waitForSelector('.metrics-picker__options input');
+        var element = await page.jQuery('.metrics-picker__options input:not(:checked):eq(0)');
+        await element.click();
+
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('other_metric');
+    });
 
     it("should render the footer legend for pie graphs", async function () {
         await page.goto(multiMetricUrl);
