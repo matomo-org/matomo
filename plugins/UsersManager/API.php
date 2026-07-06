@@ -1297,10 +1297,10 @@ class API extends \Piwik\Plugin\API
      */
     public function addCapabilities(string $userLogin, $capabilities, $idSites): void
     {
+        $userLogin = $this->getCanonicalLogin($userLogin);
+
         $this->executeConcurrencySafe($userLogin, function () use ($userLogin, $capabilities, $idSites) {
             $idSites = $this->getIdSitesCheckAdminAccess($idSites);
-
-            $userLogin = $this->getCanonicalLogin($userLogin);
 
             if (strtolower($userLogin) === 'anonymous') {
                 throw new Exception(Piwik::translate("UsersManager_ExceptionAnonymousNoCapabilities"));
