@@ -42,6 +42,6 @@ abstract class AbstractAIChatbotsRealTimeTopPageUrlsReport extends AbstractAICha
 
     protected function getReportRowLimit(): int
     {
-        return BotRequestsDao::getTopPageUrlsForDateRangeLimit();
+        return BotRequestsDao::getAIChatbotTopPageUrlsForDateRangeLimit();
     }
 }

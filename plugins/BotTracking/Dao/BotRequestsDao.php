@@ -43,7 +43,7 @@ class BotRequestsDao
         return self::getRealTimeReportLimit(self::CONFIG_LIVE_AI_CHATBOTS_MAXIMUM_ROWS);
     }
 
-    public static function getTopPageUrlsForDateRangeLimit(): int
+    public static function getAIChatbotTopPageUrlsForDateRangeLimit(): int
     {
         return self::getRealTimeReportLimit(self::CONFIG_LIVE_AI_CHATBOTS_TOP_PAGE_URLS_MAXIMUM_ROWS);
     }
@@ -250,7 +250,7 @@ class BotRequestsDao
     /**
      * @param int[] $idSites
      */
-    public function getTopPageUrlsForDateRange(array $idSites, string $startDate, string $endDate): DataTable
+    public function getAIChatbotTopPageUrlsForDateRange(array $idSites, string $startDate, string $endDate): DataTable
     {
         $idSites = $this->normalizeIdSites($idSites);
 
@@ -258,7 +258,7 @@ class BotRequestsDao
             return new DataTable();
         }
 
-        $limit = self::getTopPageUrlsForDateRangeLimit();
+        $limit = self::getAIChatbotTopPageUrlsForDateRangeLimit();
 
         $idSitePlaceholders = Common::getSqlStringFieldsArray($idSites);
         $tableName          = self::getPrefixedTableName();

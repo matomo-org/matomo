@@ -168,7 +168,7 @@ class API extends \Piwik\Plugin\API
         [$startDate, $endDate] = $this->getRealTimeDateRange($lastMinutes);
         $idSites               = Site::getIdSitesFromIdSitesString($idSite, false, true);
 
-        $table = (new BotRequestsDao())->getTopPageUrlsForDateRange($idSites, $startDate, $endDate);
+        $table = (new BotRequestsDao())->getAIChatbotTopPageUrlsForDateRange($idSites, $startDate, $endDate);
 
         return $this->decorateUrlLabels($table);
     }
