@@ -142,7 +142,7 @@ class Auth implements \Piwik\Auth
     /**
      * Returns the login of the user being authenticated.
      *
-     * @return string
+     * @return ?string
      */
     public function getLogin()
     {
@@ -162,7 +162,7 @@ class Auth implements \Piwik\Auth
     /**
      * Returns the secret used to calculate a user's token auth.
      *
-     * @return string
+     * @return ?string
      */
     public function getTokenAuthSecret()
     {

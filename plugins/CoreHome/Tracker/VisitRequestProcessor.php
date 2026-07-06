@@ -31,7 +31,7 @@ use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
  * This RequestProcessor exposes the following metadata for the **CoreHome** plugin:
  *
  * * **visitorId**: A hash that identifies the current visitor being tracked. This value is
- *                  calculated using the Piwik\Tracker\Settings;:getConfigId() method.
+ *                  calculated using the Piwik\Tracker\Settings::getConfigId() method.
  *
  *                  Set in `processRequestParams()`.
  *
