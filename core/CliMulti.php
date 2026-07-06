@@ -53,7 +53,7 @@ class CliMulti
 
     /**
      * If set it will issue at most concurrentProcessesLimit requests
-     * @var int
+     * @var int|null
      */
     private $concurrentProcessesLimit = null;
 
@@ -72,14 +72,14 @@ class CliMulti
     /**
      * Only used when doing synchronous curl requests.
      *
-     * @var string
+     * @var string|null
      */
     private $urlToPiwik = null;
 
     private $phpCliOptions = '';
 
     /**
-     * @var callable
+     * @var callable|null
      */
     private $onProcessFinish = null;
 

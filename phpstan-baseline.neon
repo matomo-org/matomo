@@ -300,10 +300,6 @@ parameters:
 			count: 1
 			path: core/Changes/Model.php
 
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: core/CliMulti.php
 
 		-
 			message: "#^Variable \\$response in empty\\(\\) always exists and is always falsy\\.$#"
@@ -346,10 +342,6 @@ parameters:
 			count: 1
 			path: core/Concurrency/DistributedList.php
 
-		-
-			message: "#^Method Piwik\\\\Config\\\\IniFileChain\\:\\:dumpChanges\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: core/Config/IniFileChain.php
 
 		-
 			message: "#^Parameter \\#2 \\$data of method Matomo\\\\Cache\\\\Backend\\\\File\\:\\:doSave\\(\\) expects string, array\\<string, mixed\\> given\\.$#"
@@ -483,10 +475,6 @@ parameters:
 			count: 1
 			path: core/DataAccess/ArchivingDbAdapter.php
 
-		-
-			message: "#^Property Piwik\\\\DataAccess\\\\ArchivingDbAdapter\\:\\:\\$maxExecutionTime \\(int\\) does not accept float\\.$#"
-			count: 1
-			path: core/DataAccess/ArchivingDbAdapter.php
 
 		-
 			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 89$#"
@@ -781,10 +769,6 @@ parameters:
 			count: 3
 			path: core/Mail/EmailStyles.php
 
-		-
-			message: "#^Method Piwik\\\\Metrics\\\\Sorter\\:\\:getPrimaryColumnToSort\\(\\) should return int but returns string\\.$#"
-			count: 1
-			path: core/Metrics/Sorter.php
 
 		-
 			message: "#^Parameter \\#1 \\$default of static method Piwik\\\\Url\\:\\:getCurrentHost\\(\\) expects string, null given\\.$#"
@@ -1839,6 +1823,7 @@ parameters:
 			count: 2
 			path: core/ViewDataTable/Factory.php
 
+
 		-
 			message: "#^Method Piwik\\\\ViewDataTable\\\\Manager\\:\\:getFooterIconFor\\(\\) should return array but empty return statement found\\.$#"
 			count: 1
@@ -2266,10 +2251,6 @@ parameters:
 			count: 1
 			path: plugins/CoreHome/Columns/Metrics/EvolutionMetric.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Columns\\\\VisitGoalBuyer\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: plugins/CoreHome/Columns/VisitGoalBuyer.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Columns\\\\VisitTotalTime\\:\\:onConvertedVisit\\(\\) should return int but returns false\\.$#"
@@ -2831,10 +2812,6 @@ parameters:
 			count: 1
 			path: plugins/Goals/API.php
 
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Goals\\\\Columns\\\\Metrics\\\\GoalSpecificProcessedMetric\\:\\:\\$idSite \\(int\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: plugins/Goals/Columns/Metrics/GoalSpecificProcessedMetric.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Goals\\\\Commands\\\\CalculateConversionPages\\:\\:getDateRangeToCalculate\\(\\) never returns array\\<Piwik\\\\Date\\> so it can be removed from the return type\\.$#"
