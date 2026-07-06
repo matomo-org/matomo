@@ -5,39 +5,59 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// Scope every rule under .sparklinesGrid: Matomo concatenates all plugin LESS into a
-// single sheet, so this avoids colliding with the legacy .sparkline / .metricEvolution
-// styles that still render when the feature flag is off.
+// Scoped to .sparklinesGrid — Matomo concatenates all LESS into one sheet, so this avoids
+// colliding with the legacy .sparkline styles still used when the feature flag is off.
 .sparklinesGrid {
-  // Responsive columns come from Materialize's grid classes applied to each card
-  // (col s6 m6 l3 xl3 => 2 / 2 / 4 / 4 columns). The >=1920px tier below adds a 5th column.
+  // Row gap: each column's bottom padding, cancelled on the last row by an equal negative
+  // margin on the grid. Shared so the two stay in sync.
+  @_row-gap: 16px;
 
-  .sparkline {
-    box-sizing: border-box;
-    padding: 8px;
+  // Columns come from Materialize's float classes (col s6 m6 l4 xl3 = 2/2/4/4); the media
+  // queries below add a 5th tier. Floats keep an incomplete last row packed left (flex broke
+  // that). The card frame itself lives in SparklineCard.less.
+  .col {
+    padding: 0 8px @_row-gap;
   }
 
-  .sparkline-title {
-    margin: 0 0 4px;
+  // The grid is itself the .row; pull it up one gap to cancel the last row's bottom padding
+  // (the same offset idiom Materialize uses for the horizontal .col padding).
+  &.row {
+    margin-bottom: -@_row-gap;
   }
 
-  // 5-column tier above Materialize's largest breakpoint (xl = 1201px). 5 cols is not a
-  // native col class (12 / 5 = 2.4), so override the width directly. Materialize emits its
-  // width rule as `.row .col.xl3` (3 classes), so the override must include `.xl3` to be
-  // 4 classes and outrank it — `.sparklinesGrid.row > .col` alone would only tie and lose
-  // on source order. Matches only the responsive (non-widget) cards, which carry xl3.
-  @media only screen and (min-width: 1920px) {
+  // 5-column tier above xl (1201px). 5 isn't a native col fraction (12/5), so set the width
+  // directly; the selector needs .xl3 (4 classes) to outrank Materialize's `.row .col.xl3`.
+  @media (min-width: 1920px) {
     &.row > .col.xl3 {
       width: 20%;
     }
   }
 
-  // Single column on very small screens (<=320px). The smallest native tier here is s6
-  // (2 cols), so override the width directly, mirroring the 1920px tier above. The override
-  // includes `.s6` to reach 4 classes and outrank Materialize's `.row .col.s6` (3 classes).
-  @media only screen and (max-width: 320px) {
+  // Single column below 320px, same direct-width override; .s6 outranks `.row .col.s6`.
+  @media (max-width: 320px) {
     &.row > .col.s6 {
       width: 100%;
     }
+  }
+}
+
+// Widget overrides so the cards sit neatly inside a dashboard widget.
+.widget .sparklinesGrid {
+  .col {
+    // Inter-card gutter: 4px on every side, so 8px shows between adjacent cards.
+    padding: 4px;
+  }
+
+  .sparkline.sparklineCard {
+    margin-left: 0;
+  }
+
+  // The widget container adds no padding of its own, so the grid supplies an even frame around
+  // the cards: 16px of row padding plus each column's 4px gutter gives 20px on every side. The
+  // base .sparklinesGrid.row negative bottom margin is reset (margin: 0) so it can't pull the
+  // frame in and push the last row past the widget's bottom edge.
+  &.row {
+    margin: 0;
+    padding: 16px;
   }
 }

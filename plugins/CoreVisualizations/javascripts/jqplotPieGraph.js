@@ -62,7 +62,7 @@
 
         _showDataPointTooltip: function (element, seriesIndex, valueIndex) {
             var value = this.formatY(this.data[0][valueIndex][1], 0);
-            var series = this.jqplotParams.series[0].label;
+            var series = piwikHelper.htmlEntities(this.jqplotParams.series[0].label);
             var percentage = this.tooltip.percentages[0][valueIndex];
 
             var label = this.data[0][valueIndex][0];

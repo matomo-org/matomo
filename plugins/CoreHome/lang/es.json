@@ -1,5 +1,6 @@
 {
     "CoreHome": {
+        "AIInsights": "Insignias IA",
         "AdblockIsMaybeUsed": "En caso de que esté utilizando un ad-blocker, por favor deshabilítelo para este sitio para asegurarse que Matomo pueda trabajar sin problemas.",
         "AddTotalsRowDataTable": "El informe no está mostrando la fila de totales %s Mostrar fila de totales",
         "CategoryNoData": "No hay datos en esta categoría. Intente \"Incluir toda la población\".",

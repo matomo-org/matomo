@@ -197,8 +197,7 @@ class Config
     }
 
     /**
-     * @param $general
-     * @return mixed
+     * @return string[]
      */
     private function getDatatableRowLimits()
     {
@@ -444,7 +443,7 @@ class Config
     }
 
     /**
-     * @throws \Exception
+     * @return MissingFilePermissionException
      */
     public function getConfigNotWritableException()
     {

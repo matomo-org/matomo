@@ -120,11 +120,10 @@ class Model
 
 
     /**
-     * Loads the Ecommerce items from the request and records them in the DB
+     * Returns the ecommerce items currently stored in the cart/order for the given visit.
      *
      * @param array $goal
      * @param int   $defaultIdOrder
-     * @throws Exception
      * @return array
      */
     public function getAllItemsCurrentlyInTheCart($goal, $defaultIdOrder)

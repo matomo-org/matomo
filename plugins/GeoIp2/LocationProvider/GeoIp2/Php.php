@@ -422,7 +422,7 @@ class Php extends GeoIp2
      * Returns information about this location provider. Contains an id, title & description:
      *
      * array(
-     *     'id' => 'geoip2_php',
+     *     'id' => 'geoip2php',
      *     'title' => '...',
      *     'description' => '...'
      * );

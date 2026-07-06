@@ -127,7 +127,7 @@ class ProcessedReport
     }
 
     /**
-     * Verfies whether the given report exists for the given site.
+     * Verifies whether the given report exists for the given site.
      *
      * @param int $idSite
      * @param string $apiMethodUniqueId  For example 'MultiSites_getAll'
@@ -142,7 +142,7 @@ class ProcessedReport
     }
 
     /**
-     * Verfies whether the given metric belongs to the given report.
+     * Verifies whether the given metric belongs to the given report.
      *
      * @param int $idSite
      * @param string $metric     For example 'nb_visits'

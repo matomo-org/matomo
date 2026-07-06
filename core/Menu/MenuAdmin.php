@@ -132,7 +132,8 @@ class MenuAdmin extends MenuAbstract
     }
 
     /**
-     * Triggers the Menu.MenuAdmin.addItems hook and returns the admin menu.
+     * Builds the admin menu by letting each plugin's Menu class configure it (via configureAdminMenu())
+     * and returns the resulting admin menu.
      *
      * @return array
      */

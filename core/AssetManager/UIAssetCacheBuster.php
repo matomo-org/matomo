@@ -24,7 +24,7 @@ class UIAssetCacheBuster extends Singleton
      *  - Super user salt
      *  - Latest
      *
-     * @param string[] $pluginNames
+     * @param string[]|false $pluginNames
      * @return string
      */
     public function piwikVersionBasedCacheBuster($pluginNames = false)

@@ -182,15 +182,25 @@ class UserRepository
         $user['invite_status'] = 'active';
 
         if (!empty($user['invite_expired_at'])) {
-            $inviteExpireAt = Date::factory($user['invite_expired_at']);
-            // if token expired
-            if (Date::now()->isLater($inviteExpireAt)) {
+            try {
+                $inviteExpireAt = Date::factory($user['invite_expired_at']);
+            } catch (\Exception $e) {
+                // invite_expired_at is not a valid, in-range date (e.g. corrupted by a bug in the past);
+                // treat the invite as expired instead of letting the exception break the whole user list
+                $inviteExpireAt = null;
                 $user['invite_status'] = 'expired';
             }
-            // if token not expired
-            if (Date::now()->isEarlier($inviteExpireAt)) {
-                $dayLeft = floor(Date::secondsToDays($inviteExpireAt->getTimestamp() - Date::now()->getTimestamp()));
-                $user['invite_status'] = $dayLeft;
+
+            if ($inviteExpireAt) {
+                // if token expired
+                if (Date::now()->isLater($inviteExpireAt)) {
+                    $user['invite_status'] = 'expired';
+                }
+                // if token not expired
+                if (Date::now()->isEarlier($inviteExpireAt)) {
+                    $dayLeft = floor(Date::secondsToDays($inviteExpireAt->getTimestamp() - Date::now()->getTimestamp()));
+                    $user['invite_status'] = $dayLeft;
+                }
             }
         }
 
@@ -230,7 +240,7 @@ class UserRepository
 
     /**
      * @param array $users
-     * @return mixed
+     * @return array
      * @throws \Exception
      */
     public function enrichUsers(array $users): array

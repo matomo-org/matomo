@@ -688,7 +688,7 @@ class Model
      * @param string $archiveTableName
      * @param array $segments  List of segments to match against
      * @param string $oldestToKeep Datetime string
-     * @return array With keys idarchive, name, idsite
+     * @return int[] List of idarchive values.
      */
     public function getArchiveIdsForSegments($archiveTableName, array $segments, $oldestToKeep)
     {
@@ -931,7 +931,7 @@ class Model
     /**
      * Returns true if there is an archive that exists that can be used when aggregating an archive for $period.
      *
-     * @param $idSite
+     * @param int $idSite
      * @return bool
      * @throws Exception
      */

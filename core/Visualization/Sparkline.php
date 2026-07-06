@@ -25,11 +25,12 @@ class Sparkline implements ViewInterface
     public const DEFAULT_WIDTH = 200;
     public const DEFAULT_HEIGHT = 50;
     public const DEFAULT_LINE_THICKNESS = 1;
-    public const REDESIGN_LINE_THICKNESS = 2;
-    // Sparklines are small decorative graphics (100x25 displayed, 200x50 rendered by default).
-    // These caps bound the size of the image generated server-side from caller-supplied
-    // width/height request params, to avoid generating needlessly large images.
-    public const MAX_WIDTH = 500;
+    public const REDESIGN_LINE_THICKNESS = 4;
+    public const DEFAULT_POINT_SIZE = 5;
+    public const REDESIGN_POINT_SIZE = 6;
+    // We now create different sized width for Sparklines based on the card designs
+    // This max width will still be adjusted as we create new Sparkline modes.
+    public const MAX_WIDTH = 1000;
     public const MAX_HEIGHT = 250;
 
 
@@ -117,7 +118,10 @@ class Sparkline implements ViewInterface
         $sparkline->setWidth($this->getWidth());
         $sparkline->setHeight($this->getHeight());
         $sparkline->setLineThickness($this->getLineThickness());
-        $sparkline->setPadding('5');
+        // Pad by at least the point radius so edge dots (first/last, and min/max at the
+        // top/bottom) aren't clipped by the image boundary. Legacy used a fixed 5, which
+        // happened to equal the legacy point size; keep them coupled as the point size grows.
+        $sparkline->setPadding((string) $this->getPointSize());
 
         $this->sparkline = $sparkline;
     }
@@ -216,14 +220,15 @@ class Sparkline implements ViewInterface
         } else {
             $sparkline->deactivateFillColor();
         }
+        $pointSize = $this->getPointSize();
         if ($this->shouldApplyColor($colors['minPointColor'])) {
-            $sparkline->addPoint("minimum", 5, $colors['minPointColor'], $seriesIndex);
+            $sparkline->addPoint("minimum", $pointSize, $colors['minPointColor'], $seriesIndex);
         }
         if ($this->shouldApplyColor($colors['maxPointColor'])) {
-            $sparkline->addPoint("maximum", 5, $colors['maxPointColor'], $seriesIndex);
+            $sparkline->addPoint("maximum", $pointSize, $colors['maxPointColor'], $seriesIndex);
         }
         if ($this->shouldApplyColor($colors['lastPointColor'])) {
-            $sparkline->addPoint("last", 5, $colors['lastPointColor'], $seriesIndex);
+            $sparkline->addPoint("last", $pointSize, $colors['lastPointColor'], $seriesIndex);
         }
     }
 
@@ -234,6 +239,15 @@ class Sparkline implements ViewInterface
         }
 
         return self::DEFAULT_LINE_THICKNESS;
+    }
+
+    private function getPointSize(): int
+    {
+        if ($this->isSparklinesRedesignEnabled()) {
+            return self::REDESIGN_POINT_SIZE;
+        }
+
+        return self::DEFAULT_POINT_SIZE;
     }
 
     private function isSparklinesRedesignEnabled(): bool

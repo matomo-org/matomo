@@ -7,8 +7,22 @@
 
 import { flushPromises, mount } from '@vue/test-utils';
 
+// The grid mounts the real SparklineCard -> NoComparison -> MetricValue chain, so the mock
+// provides everything that chain pulls from CoreHome: the Tooltips directive (MetricValue),
+// MatomoUrl (SparklineCard derives graph-params from the url) and NumberFormatter
+// (NoComparison formats raw numeric metric values). CoreHome has no jest module mapping.
 jest.mock('CoreHome', () => ({
+  Tooltips: {},
   Sparkline: { template: '<img class="sparkline-stub" />' },
+  // SparklineCard calls MatomoUrl.parse to derive data-graph-params, but no test here
+  // asserts on it and the fixture urls carry no columns/rows/idGoal, so an empty object
+  // is enough to satisfy the `parsed[key]` lookups without crashing.
+  MatomoUrl: {
+    parse: () => ({}),
+  },
+  NumberFormatter: {
+    formatNumber: (value: number) => String(value),
+  },
 }), { virtual: true });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -76,16 +90,27 @@ describe('CoreVisualizations/SparklinesGrid', () => {
       },
     });
 
-    const titles = wrapper.findAll('.sparkline-title').map((node) => node.text());
+    const titles = wrapper.findAll('.metricValue__title').map((node) => node.text());
     expect(wrapper.findAllComponents({ name: 'SparklineCard' }).length).toBe(2);
     expect(titles).toEqual(['Visits', 'Actions']);
   });
 
-  it('uses the responsive grid columns (s6 m6 l3 xl3) on reporting pages', () => {
+  it('forwards allMetricsDocumentation to each card, surfacing it as the title tooltip', () => {
+    const wrapper = createWrapper({
+      sparklines: { 0: [{ ...entry('Visits'), metrics: { '': [{ value: '1', description: 'Visits', column: 'nb_visits' }] } }] },
+      allMetricsDocumentation: { nb_visits: 'The number of visits.' },
+    });
+
+    const card = wrapper.findComponent({ name: 'SparklineCard' });
+    expect(card.props('allMetricsDocumentation')).toEqual({ nb_visits: 'The number of visits.' });
+    expect(wrapper.find('.metricValue__title').attributes('title')).toBe('The number of visits.');
+  });
+
+  it('uses the responsive grid columns (s6 m6 l4 xl3) on reporting pages', () => {
     const wrapper = createWrapper();
     const col = wrapper.find('.row.sparklinesGrid > div');
 
-    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's6', 'm6', 'l3', 'xl3']));
+    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's6', 'm6', 'l4', 'xl3']));
   });
 
   it('orders cards by backend `order`, not by numeric group-key iteration order', () => {
@@ -101,15 +126,15 @@ describe('CoreVisualizations/SparklinesGrid', () => {
       },
     });
 
-    const titles = wrapper.findAll('.sparkline-title').map((node) => node.text());
+    const titles = wrapper.findAll('.metricValue__title').map((node) => node.text());
     expect(titles).toEqual(['First', 'Second', 'Third']);
   });
 
-  it('collapses to a single column in widget mode', () => {
+  it('collapses to two columns in widget mode', () => {
     const wrapper = createWrapper({ isWidget: true });
     const col = wrapper.find('.row.sparklinesGrid > div');
 
-    expect(col.classes()).toContain('s12');
+    expect(col.classes()).toContain('s6');
     expect(col.classes()).not.toContain('xl3');
   });
 

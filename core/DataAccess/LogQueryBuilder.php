@@ -37,7 +37,8 @@ class LogQueryBuilder
 
     /**
      * Forces to use a subselect when generating the query.
-     * @var string
+     *
+     * @param string $innerGroupBy
      */
     public function forceInnerGroupBySubselect($innerGroupBy)
     {

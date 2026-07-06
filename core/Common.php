@@ -212,7 +212,7 @@ class Common
      * If you are wanting to use the pid to check if the process is running eg using `ps`, then you also have to use
      * getmypid directly.
      *
-     * @return int|null
+     * @return int|false
      */
     public static function getProcessId()
     {
@@ -380,9 +380,9 @@ class Common
     }
 
     /**
-     * Sanitize a single input value and removes line breaks, tabs and null characters.
+     * Sanitize a single input value and removes line breaks and null characters.
      *
-     * @param string $value
+     * @param string|null $value
      * @return string  sanitized input
      */
     public static function sanitizeInputValue($value)
@@ -460,7 +460,7 @@ class Common
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      * @return string Line breaks and line carriage removed
      */
     public static function sanitizeLineBreaks($value)
@@ -720,7 +720,7 @@ class Common
     /**
      * Converts a User ID string to the Visitor ID Binary representation.
      *
-     * @param $userId
+     * @param string $userId
      * @return string
      */
     public static function convertUserIdToVisitorIdBin($userId)
@@ -781,10 +781,10 @@ class Common
     }
 
     /**
-     * Returns the list of parent classes for the given class.
+     * Returns the given class together with its parent classes.
      *
      * @param  string    $class   A class name.
-     * @return string[]  The list of parent classes in order from highest ancestor to the descended class.
+     * @return string[]  The class and its parent classes, in order from highest ancestor to the given class.
      */
     public static function getClassLineage($class)
     {
@@ -995,7 +995,7 @@ class Common
      *
      * @param string $country 2 letters iso code
      *
-     * @return string  Continent (3 letters code : afr, asi, eur, amn, ams, oce)
+     * @return string  Continent (3 letters code: afr, amc, amn, ams, ant, asi, eur, oce, unk)
      */
     public static function getContinent($country)
     {
@@ -1256,7 +1256,7 @@ class Common
     }
 
     /**
-     * @param $validLanguages
+     * @param array $validLanguages
      * @return array
      */
     protected static function checkValidLanguagesIsSet($validLanguages)

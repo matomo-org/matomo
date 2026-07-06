@@ -437,8 +437,6 @@ class Mysqli extends Db
     /**
      * Commit Transaction
      * @param $xid
-     * @throws DbException
-     * @internal param TransactionID $string from beginTransaction
      */
     public function commit($xid)
     {
@@ -458,8 +456,6 @@ class Mysqli extends Db
     /**
      * Rollback Transaction
      * @param $xid
-     * @throws DbException
-     * @internal param TransactionID $string from beginTransaction
      */
     public function rollBack($xid)
     {
