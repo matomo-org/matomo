@@ -139,5 +139,4 @@ class Metrics
             self::METRIC_AI_CHATBOTS_CLICK_THROUGH_RATE    => Dimension::TYPE_PERCENT,
         ];
     }
-
 }
