@@ -248,6 +248,14 @@
                 }
 
                 var title = self.options.title === null ? $('<span/>').text(widgetName) : self.options.title;
+                // Plain-text title for the ReportHeader `title` prop (options.title may be a string
+                // or a jQuery element for custom widget titles).
+                var titleText = widgetName;
+                if (self.options.title !== null) {
+                    titleText = (typeof self.options.title === 'string')
+                        ? self.options.title
+                        : $(self.options.title).text();
+                }
                 var emptyWidgetContent = require('piwik/UI/Dashboard').WidgetFactory.make(uniqueId, title);
                 self.element.html(emptyWidgetContent);
 
@@ -270,52 +278,14 @@
                     $('.widgetContent', widgetElement).toggleClass('hidden').closest('.widget').toggleClass('hiddenContent');
                 }
 
-                $('.button#close', widgetElement)
-                    .on('click.dashboardWidget', function (ev) {
-                        piwikHelper.modalConfirm('#confirm', {yes: function () {
-                            if (self.options.onRemove) {
-                                self.options.onRemove(self.element);
-                            } else {
-                                self.element.remove();
-                                self.options.onChange();
-                            }
-                        }});
-                    });
-
-                $('.button#maximise', widgetElement)
-                    .on('click.dashboardWidget', function (ev) {
-                        if (self.options.onMaximise) {
-                            self.options.onMaximise(self.element);
-                        } else {
-                            if ($('.widgetContent', $(this).parents('.widget')).hasClass('hidden')) {
-                                self.showContent();
-                            } else {
-                                self.maximise();
-                            }
-                        }
-                    });
-
-                $('.button#minimise', widgetElement)
-                    .on('click.dashboardWidget', function (ev) {
-                        if (self.options.onMinimise) {
-                            self.options.onMinimise(self.element);
-                        } else {
-                            if (!self.isMaximised) {
-                                self.hideContent();
-                            } else {
-                                self.element.dialog("close");
-                            }
-                        }
-                    });
-
-                $('.button#refresh', widgetElement)
-                    .on('click.dashboardWidget', function (ev) {
-                        if (self.options.onRefresh) {
-                            self.options.onRefresh(self.element);
-                        } else {
-                            self.reload(false, true);
-                        }
-                    });
+                // Render the shared ReportHeader (title + widget-controls dropdown) into the
+                // widget chrome. The controls are intentionally NOT wired to behaviour yet; the
+                // dropdown emits `widgetcontrol:*` events that Ticket B will bridge to the
+                // close/maximise/minimise/refresh handlers.
+                piwikHelper.compileVueEntryComponents($('.widgetTop', widgetElement), {
+                    title: titleText,
+                    context: 'dashboard'
+                });
             });
         },
 

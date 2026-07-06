@@ -1,0 +1,47 @@
+// Shared, widget-first report header: a leading region (title + future feedback actions)
+// on the left, a widget-controls group and a reserved report-actions anchor on the right.
+// Reuses the widget title-bar theme colours.
+.reportHeader {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  background: @theme-color-widget-title-background;
+
+  .reportHeader__main {
+    flex: auto;
+    min-width: 0;
+  }
+
+  .reportHeader__title {
+    margin: 0;
+    padding: 20px;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: normal;
+    color: @theme-color-widget-title-text;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .reportHeader__title--clickable {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .reportHeader__widgetControls {
+    flex: none;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+  }
+
+  .reportHeader__actions {
+    flex: none;
+    display: flex;
+    align-items: center;
+
+    &:empty {
+      display: none;
+    }
+  }
+}
