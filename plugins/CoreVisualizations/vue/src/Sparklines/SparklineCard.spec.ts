@@ -8,8 +8,8 @@
 import { mount } from '@vue/test-utils';
 
 // The shell renders the real NoComparison body, which mounts the real MetricValue (Tooltips
-// directive) and the Sparkline. CoreHome has no jest module mapping, so mock it virtually.
-jest.mock('CoreHome', () => ({
+// directive) and the Sparkline. CoreHome is aliased to its source by the vitest config, so mock it.
+vi.mock('CoreHome', () => ({
   Tooltips: {},
   Sparkline: {
     name: 'Sparkline',
@@ -27,10 +27,9 @@ jest.mock('CoreHome', () => ({
       return params;
     },
   },
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const SparklineCard = require('./SparklineCard.vue').default;
+import SparklineCard from './SparklineCard.vue';
 
 describe('CoreVisualizations/SparklineCard', () => {
   const baseSparkline = {

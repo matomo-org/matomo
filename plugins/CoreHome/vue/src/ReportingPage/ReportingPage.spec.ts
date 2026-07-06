@@ -33,7 +33,7 @@ function gateContext(overrides: Record<string, unknown>) {
 
 describe('CoreHome/ReportingPage', () => {
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
     MatomoUrl.url.value = new URL('http://localhost/index.php');
   });
 
@@ -70,11 +70,11 @@ describe('CoreHome/ReportingPage', () => {
 
   describe('renderPage while the empty-site gate is shown', () => {
     it('clears stale transient notifications but neither loads a report nor changes the page', () => {
-      const clearTransient = jest.spyOn(NotificationsStore, 'clearTransientNotifications')
+      const clearTransient = vi.spyOn(NotificationsStore, 'clearTransientNotifications')
         .mockImplementation(() => undefined);
-      const fetchPage = jest.spyOn(ReportingPageStoreInstance, 'fetchPage')
+      const fetchPage = vi.spyOn(ReportingPageStoreInstance, 'fetchPage')
         .mockResolvedValue(undefined as never);
-      const postEvent = jest.spyOn(Matomo, 'postEvent').mockImplementation(() => undefined);
+      const postEvent = vi.spyOn(Matomo, 'postEvent').mockImplementation(() => undefined);
 
       const ctx = { showEmptySiteScreen: true, loading: true };
       options.methods.renderPage.call(
@@ -89,9 +89,9 @@ describe('CoreHome/ReportingPage', () => {
     });
 
     it('renders the report normally when the gate is not shown', () => {
-      const clearTransient = jest.spyOn(NotificationsStore, 'clearTransientNotifications')
+      const clearTransient = vi.spyOn(NotificationsStore, 'clearTransientNotifications')
         .mockImplementation(() => undefined);
-      const resetPage = jest.spyOn(ReportingPageStoreInstance, 'resetPage')
+      const resetPage = vi.spyOn(ReportingPageStoreInstance, 'resetPage')
         .mockImplementation(() => undefined);
 
       // empty category short-circuits past the gate guard into the normal "no page" handling
