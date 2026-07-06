@@ -63,7 +63,7 @@ class AssetManager extends Singleton
     private $minimalStylesheetFetcher;
 
     /**
-     * @var Theme
+     * @var Theme|null
      */
     private $theme;
 

@@ -103,7 +103,7 @@ class CliPhp
 
     /**
      * @param string $bin PHP binary
-     * @return string
+     * @return string|null
      */
     private function getPhpVersion($bin)
     {

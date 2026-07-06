@@ -45,7 +45,7 @@ class Cookie
     protected $path = '';
 
     /**
-     * @var string
+     * @var bool|string
      */
     protected $keyStore = false;
 
