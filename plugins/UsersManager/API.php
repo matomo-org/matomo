@@ -1186,6 +1186,8 @@ class API extends \Piwik\Plugin\API
     ): void {
         UsersManager::dieIfUsersAdminIsDisabled();
 
+        $userLogin = $this->getCanonicalLogin($userLogin);
+
         if ($access != 'noaccess') {
             $this->checkAccessType($access);
         }
@@ -1297,6 +1299,8 @@ class API extends \Piwik\Plugin\API
     {
         $this->executeConcurrencySafe($userLogin, function () use ($userLogin, $capabilities, $idSites) {
             $idSites = $this->getIdSitesCheckAdminAccess($idSites);
+
+            $userLogin = $this->getCanonicalLogin($userLogin);
 
             if (strtolower($userLogin) === 'anonymous') {
                 throw new Exception(Piwik::translate("UsersManager_ExceptionAnonymousNoCapabilities"));
@@ -1471,6 +1475,8 @@ class API extends \Piwik\Plugin\API
 
     private function checkUserIsNotAnonymous(string $userLogin): void
     {
+        $userLogin = $this->getCanonicalLogin($userLogin);
+
         if (strtolower($userLogin) === 'anonymous') {
             throw new Exception(Piwik::translate("UsersManager_ExceptionEditAnonymous"));
         }
@@ -1597,6 +1603,24 @@ class API extends \Piwik\Plugin\API
         if (!$userExists) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
         }
+    }
+
+    /**
+     * Resolves the given login to the exact login stored in the database.
+     *
+     * Logins are matched case- and accent-insensitively by the database collation, so different
+     * representations of a login can refer to the same stored user. Checks that treat a specific
+     * login specially (such as the reserved anonymous user) must therefore be based on the resolved
+     * login rather than the raw request value, otherwise an equivalent representation of the login
+     * would not be recognised.
+     *
+     * @return string The stored login if a matching user exists, otherwise the given login unchanged.
+     */
+    private function getCanonicalLogin(string $userLogin): string
+    {
+        $user = $this->model->getUser($userLogin);
+
+        return $user['login'] ?? $userLogin;
     }
 
     /**

@@ -19,6 +19,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\DbHelper;
 use Piwik\EventDispatcher;
 use Piwik\Mail;
 use Piwik\NoAccessException;
@@ -395,6 +396,16 @@ class APITest extends IntegrationTestCase
     {
         $this->expectExceptionMessage('userlogin: General_ValidatorErrorEmptyValue');
         $this->api->logoutUser('');
+    }
+
+    public function testLogoutUserCollationEquivalentAnonymousLoginShouldFail()
+    {
+        DbHelper::createAnonymousUser();
+
+        // "anonymoüs" is a distinct byte string from "anonymous" but resolves to the reserved
+        // anonymous user under the database collation, so it must be treated as anonymous.
+        $this->expectExceptionMessage('UsersManager_ExceptionEditAnonymous');
+        $this->api->logoutUser('anonymoüs');
     }
 
     public function testLogoutUserDeleteSessionUserShouldNotThrowErrorIfNoSessionExists()
@@ -1213,6 +1224,29 @@ class APITest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_ExceptionAnonymousAccessNotPossible');
 
         $this->api->setUserAccess('anonymous', 'write', [1]);
+    }
+
+    public function testSetUserAccessCannotSetAdminToAnonymousUsingCollationEquivalentLogin()
+    {
+        DbHelper::createAnonymousUser();
+
+        // "anonymoüs" is a distinct byte string from "anonymous", but the database matches logins
+        // case- and accent-insensitively, so it resolves to the reserved anonymous user. The
+        // anonymous restriction must still apply.
+        $collationEquivalentLogin = 'anonymoüs';
+
+        try {
+            $this->api->setUserAccess($collationEquivalentLogin, 'admin', [1]);
+            self::fail('Expected UsersManager_ExceptionAnonymousAccessNotPossible to be thrown');
+        } catch (\Exception $e) {
+            self::assertStringContainsString('UsersManager_ExceptionAnonymousAccessNotPossible', $e->getMessage());
+        }
+
+        // no access row must have been created for either representation of the anonymous login
+        $access = $this->model->getSitesAccessFromUser('anonymous');
+        self::assertSame([], $access);
+        $access = $this->model->getSitesAccessFromUser($collationEquivalentLogin);
+        self::assertSame([], $access);
     }
 
     public function testSetUserAccessCannotSetViewToAnonymousWithoutPassword()
