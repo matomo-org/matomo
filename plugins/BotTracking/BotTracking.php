@@ -124,7 +124,6 @@ class BotTracking extends Plugin
     public function addMetricTranslations(array &$translations): void
     {
         $translations = array_merge($translations, BotMetrics::getMetricTranslations());
-        $translations = array_merge($translations, BotMetrics::getRealtimeMetricTranslations());
 
         // Register a default name for the generic 'requests' column used by the new content-URL
         // reports. Without this the Glossary majority heuristic renders name = null for the
@@ -142,7 +141,6 @@ class BotTracking extends Plugin
     public function addMetricDocumentationTranslations(array &$translations): void
     {
         $translations = array_merge($translations, BotMetrics::getMetricDocumentation());
-        $translations = array_merge($translations, BotMetrics::getRealtimeMetricDocumentation());
 
         // Register a default documentation for the generic 'requests' column used by the
         // new content-URL reports. Without this default the Glossary majority heuristic
@@ -161,7 +159,6 @@ class BotTracking extends Plugin
     public function addMetricSemanticTypes(array &$types): void
     {
         $types = array_merge($types, BotMetrics::getMetricSemanticTypes());
-        $types = array_merge($types, BotMetrics::getRealtimeMetricSemanticTypes());
     }
 
     /**

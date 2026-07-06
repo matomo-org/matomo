@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\BotTracking\Reports;
 
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\BotTracking\Columns\Metrics\ChatbotRequests;
+use Piwik\Plugins\BotTracking\Columns\Metrics\Requests;
 use Piwik\Plugins\BotTracking\Columns\PageUrl;
 use Piwik\Plugins\BotTracking\Metrics;
 
@@ -24,7 +24,7 @@ abstract class AbstractAIChatbotsRealTimeTopPageUrlsReport extends AbstractAICha
 
         $this->dimension = new PageUrl();
         $this->metrics   = [
-            new ChatbotRequests(),
+            new Requests(),
         ];
     }
 
@@ -33,7 +33,7 @@ abstract class AbstractAIChatbotsRealTimeTopPageUrlsReport extends AbstractAICha
         parent::configureView($view);
 
         $view->config->setDefaultColumnsToDisplay(
-            ['label', Metrics::COLUMN_CHATBOT_REQUESTS],
+            ['label', Metrics::COLUMN_REQUESTS],
             false,
             false
         );

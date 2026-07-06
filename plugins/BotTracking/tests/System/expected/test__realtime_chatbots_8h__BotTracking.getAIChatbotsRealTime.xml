@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<label>ChatGPT</label>
-		<chatbot_requests>2</chatbot_requests>
+		<requests>2</requests>
 		<BotTracking_AIChatbotsUniquePageUrls>2</BotTracking_AIChatbotsUniquePageUrls>
 		<BotTracking_AIChatbotsNotFoundRequests>1</BotTracking_AIChatbotsNotFoundRequests>
 		<BotTracking_AIChatbotsServerErrorRequests>0</BotTracking_AIChatbotsServerErrorRequests>
@@ -11,7 +11,7 @@
 	</row>
 	<row>
 		<label>Claude</label>
-		<chatbot_requests>2</chatbot_requests>
+		<requests>2</requests>
 		<BotTracking_AIChatbotsUniquePageUrls>1</BotTracking_AIChatbotsUniquePageUrls>
 		<BotTracking_AIChatbotsNotFoundRequests>0</BotTracking_AIChatbotsNotFoundRequests>
 		<BotTracking_AIChatbotsServerErrorRequests>1</BotTracking_AIChatbotsServerErrorRequests>
@@ -20,7 +20,7 @@
 	</row>
 	<row>
 		<label>Gemini</label>
-		<chatbot_requests>1</chatbot_requests>
+		<requests>1</requests>
 		<BotTracking_AIChatbotsUniquePageUrls>1</BotTracking_AIChatbotsUniquePageUrls>
 		<BotTracking_AIChatbotsNotFoundRequests>0</BotTracking_AIChatbotsNotFoundRequests>
 		<BotTracking_AIChatbotsServerErrorRequests>1</BotTracking_AIChatbotsServerErrorRequests>
@@ -29,7 +29,7 @@
 	</row>
 	<row>
 		<label>Le Chat</label>
-		<chatbot_requests>1</chatbot_requests>
+		<requests>1</requests>
 		<BotTracking_AIChatbotsUniquePageUrls>0</BotTracking_AIChatbotsUniquePageUrls>
 		<BotTracking_AIChatbotsNotFoundRequests>1</BotTracking_AIChatbotsNotFoundRequests>
 		<BotTracking_AIChatbotsServerErrorRequests>0</BotTracking_AIChatbotsServerErrorRequests>
@@ -38,7 +38,7 @@
 	</row>
 	<row>
 		<label>Perplexity</label>
-		<chatbot_requests>1</chatbot_requests>
+		<requests>1</requests>
 		<BotTracking_AIChatbotsUniquePageUrls>1</BotTracking_AIChatbotsUniquePageUrls>
 		<BotTracking_AIChatbotsNotFoundRequests>0</BotTracking_AIChatbotsNotFoundRequests>
 		<BotTracking_AIChatbotsServerErrorRequests>0</BotTracking_AIChatbotsServerErrorRequests>

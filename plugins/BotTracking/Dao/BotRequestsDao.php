@@ -204,7 +204,7 @@ class BotRequestsDao
              GROUP BY bot.bot_name
              ORDER BY %s DESC, bot.bot_name
              LIMIT %d",
-            Metrics::COLUMN_CHATBOT_REQUESTS,
+            Metrics::COLUMN_REQUESTS,
             Action::TYPE_PAGE_URL,
             Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS,
             Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS,
@@ -212,7 +212,7 @@ class BotRequestsDao
             $tableName,
             $actionTable,
             $idSitePlaceholders,
-            Metrics::COLUMN_CHATBOT_REQUESTS,
+            Metrics::COLUMN_REQUESTS,
             $limit
         );
 
@@ -231,7 +231,7 @@ class BotRequestsDao
             $table->addRow(new Row([
                 Row::COLUMNS => [
                     'label'                                      => (string) $row['label'],
-                    Metrics::COLUMN_CHATBOT_REQUESTS                   => (int) $row[Metrics::COLUMN_CHATBOT_REQUESTS],
+                    Metrics::COLUMN_REQUESTS                     => (int) $row[Metrics::COLUMN_REQUESTS],
                     Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS       => (int) $row[Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS],
                     Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS     => (int) $row[Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS],
                     Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS => (int) $row[Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS],
@@ -277,12 +277,12 @@ class BotRequestsDao
              GROUP BY log_action.name
              ORDER BY %s DESC, log_action.name
              LIMIT %d",
-            Metrics::COLUMN_CHATBOT_REQUESTS,
+            Metrics::COLUMN_REQUESTS,
             $tableName,
             $actionTable,
             $idSitePlaceholders,
             Action::TYPE_PAGE_URL,
-            Metrics::COLUMN_CHATBOT_REQUESTS,
+            Metrics::COLUMN_REQUESTS,
             $limit
         );
 
@@ -294,11 +294,11 @@ class BotRequestsDao
         $table = new DataTable();
 
         while ($row = $stmt->fetch()) {
-            /** @var array{label: string, chatbot_requests: int|string} $row */
+            /** @var array{label: string, requests: int|string} $row */
             $table->addRow(new Row([
                 Row::COLUMNS => [
-                    'label'                          => (string) $row['label'],
-                    Metrics::COLUMN_CHATBOT_REQUESTS => (int) $row[Metrics::COLUMN_CHATBOT_REQUESTS],
+                    'label'                  => (string) $row['label'],
+                    Metrics::COLUMN_REQUESTS => (int) $row[Metrics::COLUMN_REQUESTS],
                 ],
             ]));
         }

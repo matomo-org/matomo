@@ -26,7 +26,7 @@ abstract class AbstractAIChatbotsRealTimeReport extends Report
         $this->categoryId        = 'General_AIAssistants';
         $this->subcategoryId     = 'BotTracking_AIChatbotsRealtime';
         $this->processedMetrics  = [];
-        $this->defaultSortColumn = Metrics::COLUMN_CHATBOT_REQUESTS;
+        $this->defaultSortColumn = Metrics::COLUMN_REQUESTS;
     }
 
     public function configureReportMetadata(&$availableReports, $infos)

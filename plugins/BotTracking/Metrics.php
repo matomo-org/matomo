@@ -25,7 +25,6 @@ class Metrics
     public const METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS = 'BotTracking_AIChatbotsServerErrorRequests';
     public const METRIC_AI_CHATBOTS_CLICK_THROUGH_RATE = 'BotTracking_AIChatbotsClickThroughRate';
     public const COLUMN_REQUESTS = 'requests';
-    public const COLUMN_CHATBOT_REQUESTS = 'chatbot_requests';
     public const COLUMN_DOCUMENT_REQUESTS = 'document_requests';
     public const COLUMN_PAGE_REQUESTS = 'page_requests';
     public const COLUMN_ACQUIRED_VISITS = 'visits_acquired';
@@ -141,33 +140,4 @@ class Metrics
         ];
     }
 
-    /**
-     * @return array<string, string>
-     */
-    public static function getRealtimeMetricTranslations(): array
-    {
-        return [
-            self::COLUMN_CHATBOT_REQUESTS => Piwik::translate('BotTracking_ColumnChatbotRequests'),
-        ];
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public static function getRealtimeMetricDocumentation(): array
-    {
-        return [
-            self::COLUMN_CHATBOT_REQUESTS => Piwik::translate('BotTracking_ColumnChatbotRequestsDocumentation'),
-        ];
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public static function getRealtimeMetricSemanticTypes(): array
-    {
-        return [
-            self::COLUMN_CHATBOT_REQUESTS => Dimension::TYPE_NUMBER,
-        ];
-    }
 }

@@ -37,8 +37,6 @@
         "ColumnAvgResponseSizeDocumentation": "Average size of the responses returned for these requests. This relies on server or CDN tracking and may be empty if it is not configured, or empty for a URL when none of its requests carried this data.",
         "ColumnAvgServerTime": "Avg. Server Time",
         "ColumnAvgServerTimeDocumentation": "Average time the server took to respond to these requests. This relies on server or CDN tracking and may be empty if it is not configured, or empty for a URL when none of its requests carried this data.",
-        "ColumnChatbotRequests": "Chatbot requests",
-        "ColumnChatbotRequestsDocumentation": "Total number of requests recorded from AI chatbots during the real-time window. Includes both page and document URLs unless the report is scoped to page URLs.",
         "ColumnClickThroughRate": "Click-through rate",
         "ColumnClickThroughRateDocumentation": "Share of AI chatbot requests that resulted in acquired visits (acquired visits ÷ requests).",
         "ColumnDiscrepancyScore": "Discrepancy Score",

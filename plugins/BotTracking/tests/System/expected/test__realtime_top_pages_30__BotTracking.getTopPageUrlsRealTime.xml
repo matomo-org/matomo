@@ -2,12 +2,12 @@
 <result>
 	<row>
 		<label>example.com/realtime/a</label>
-		<chatbot_requests>1</chatbot_requests>
+		<requests>1</requests>
 		<url>https://example.com/realtime/a</url>
 	</row>
 	<row>
 		<label>example.com/realtime/b</label>
-		<chatbot_requests>1</chatbot_requests>
+		<requests>1</requests>
 		<url>https://example.com/realtime/b</url>
 	</row>
 </result>

@@ -13,7 +13,7 @@ namespace Piwik\Plugins\BotTracking\Reports;
 
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\BotTracking\Columns\AIChatbotName;
-use Piwik\Plugins\BotTracking\Columns\Metrics\ChatbotRequests;
+use Piwik\Plugins\BotTracking\Columns\Metrics\Requests;
 use Piwik\Plugins\BotTracking\Metrics;
 
 abstract class AbstractAIChatbotsRealTimeChatbotsReport extends AbstractAIChatbotsRealTimeReport
@@ -24,7 +24,7 @@ abstract class AbstractAIChatbotsRealTimeChatbotsReport extends AbstractAIChatbo
 
         $this->dimension = new AIChatbotName();
         $this->metrics   = [
-            new ChatbotRequests(),
+            new Requests(),
             Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS,
             Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS,
             Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS,
@@ -38,7 +38,7 @@ abstract class AbstractAIChatbotsRealTimeChatbotsReport extends AbstractAIChatbo
         $view->config->setDefaultColumnsToDisplay(
             [
                 'label',
-                Metrics::COLUMN_CHATBOT_REQUESTS,
+                Metrics::COLUMN_REQUESTS,
                 Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS,
                 Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS,
                 Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS,

@@ -160,12 +160,12 @@ class BotRequestsDaoTest extends IntegrationTestCase
 
         self::assertCount(2, $rows);
 
-        self::assertSame(4, $rows['ChatGPT-User'][Metrics::COLUMN_CHATBOT_REQUESTS]);
+        self::assertSame(4, $rows['ChatGPT-User'][Metrics::COLUMN_REQUESTS]);
         self::assertSame(2, $rows['ChatGPT-User'][Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS]);
         self::assertSame(2, $rows['ChatGPT-User'][Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS]);
         self::assertSame(1, $rows['ChatGPT-User'][Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS]);
 
-        self::assertSame(2, $rows['Claude-User'][Metrics::COLUMN_CHATBOT_REQUESTS]);
+        self::assertSame(2, $rows['Claude-User'][Metrics::COLUMN_REQUESTS]);
         self::assertSame(1, $rows['Claude-User'][Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS]);
         self::assertSame(0, $rows['Claude-User'][Metrics::METRIC_AI_CHATBOTS_NOT_FOUND_REQUESTS]);
         self::assertSame(1, $rows['Claude-User'][Metrics::METRIC_AI_CHATBOTS_SERVER_ERROR_REQUESTS]);
@@ -191,11 +191,11 @@ class BotRequestsDaoTest extends IntegrationTestCase
 
         self::assertCount(3, $rows);
         self::assertSame('example.com/realtime/a', $rows[0]->getColumn('label'));
-        self::assertSame(2, $rows[0]->getColumn(Metrics::COLUMN_CHATBOT_REQUESTS));
+        self::assertSame(2, $rows[0]->getColumn(Metrics::COLUMN_REQUESTS));
         self::assertSame('example.com/realtime/b', $rows[1]->getColumn('label'));
-        self::assertSame(1, $rows[1]->getColumn(Metrics::COLUMN_CHATBOT_REQUESTS));
+        self::assertSame(1, $rows[1]->getColumn(Metrics::COLUMN_REQUESTS));
         self::assertSame('example.com/realtime/c', $rows[2]->getColumn('label'));
-        self::assertSame(1, $rows[2]->getColumn(Metrics::COLUMN_CHATBOT_REQUESTS));
+        self::assertSame(1, $rows[2]->getColumn(Metrics::COLUMN_REQUESTS));
     }
 
     private function insertTestRecord(

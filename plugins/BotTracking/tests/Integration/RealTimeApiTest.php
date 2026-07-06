@@ -82,7 +82,7 @@ class RealTimeApiTest extends IntegrationTestCase
 
         self::assertCount(1, $rows);
         self::assertSame('ChatGPT', $rows[0]->getColumn('label'));
-        self::assertSame(1, $rows[0]->getColumn(Metrics::COLUMN_CHATBOT_REQUESTS));
+        self::assertSame(1, $rows[0]->getColumn(Metrics::COLUMN_REQUESTS));
     }
 
     public function testRealTimeReportsAreHiddenFromReportMetadata(): void
@@ -129,15 +129,15 @@ class RealTimeApiTest extends IntegrationTestCase
         );
     }
 
-    public function testChatbotRequestsMetricAppearsInGlossaryMetrics(): void
+    public function testRequestsMetricAppearsInGlossaryMetrics(): void
     {
         $metrics = MetadataApi::getInstance()->getGlossaryMetrics($this->idSite);
-        $metric = $this->findMetric($metrics, Metrics::COLUMN_CHATBOT_REQUESTS);
+        $metric = $this->findMetric($metrics, Metrics::COLUMN_REQUESTS);
 
         self::assertNotNull($metric);
-        self::assertSame(Piwik::translate('BotTracking_ColumnChatbotRequests'), $metric['name']);
+        self::assertSame(Piwik::translate('BotTracking_ColumnRequests'), $metric['name']);
         self::assertSame(
-            Piwik::translate('BotTracking_ColumnChatbotRequestsDocumentation'),
+            Piwik::translate('BotTracking_ColumnRequestsDocumentation'),
             $metric['documentation']
         );
     }
