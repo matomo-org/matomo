@@ -34,7 +34,7 @@ class API extends \Piwik\Plugin\API
 {
     public const REAL_TIME_DEFAULT_LOOKBACK_MINUTES = 30;
     private const REAL_TIME_MIN_LOOKBACK_MINUTES = 1;
-    public const REAL_TIME_MAX_LOOKBACK_MINUTES = 720;
+    private const REAL_TIME_MAX_LOOKBACK_MINUTES = 720;
 
     /**
      * Returns the main bot tracking report.
