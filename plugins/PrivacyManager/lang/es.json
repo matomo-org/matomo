@@ -2,6 +2,7 @@
     "PrivacyManager": {
         "Anonymize": "Anonimizar",
         "AnonymizeData": "Anonimizar datos",
+        "AnonymizeIp": "Anonimizar IP",
         "AnonymizeIpDescription": "Seleccione \"Si\" si desea que Matomo no registre direcciones IP completas.",
         "AnonymizeIpExtendedHelp": "Cuando los usuarios visiten su sitio web, Matomo no usará la dirección IP completa (como en %1$s) sino que Matomo la mantendrá anónima (como en %2$s). El anonimato de una dirección IP es uno de los requisitos dispuestos por leyes de privacidad en algunos países como Alemania.",
         "AnonymizeIpInlineHelp": "Ocultar los últimos bit(s) de la dirección IP del visitante para cumplir con las leyes/directrices de privacidad de su jurisdicción.",

@@ -231,7 +231,7 @@ class Common
     /**
      * Multi-byte strlen() - works with UTF-8
      *
-     * Calls `mb_substr` if available and falls back to `substr` if not.
+     * Calls `mb_strlen` if available and falls back to `strlen` if not.
      *
      * @param string $string
      * @return int
@@ -380,7 +380,7 @@ class Common
     }
 
     /**
-     * Sanitize a single input value and removes line breaks, tabs and null characters.
+     * Sanitize a single input value and removes line breaks and null characters.
      *
      * @param string|null $value
      * @return string  sanitized input
@@ -781,10 +781,10 @@ class Common
     }
 
     /**
-     * Returns the list of parent classes for the given class.
+     * Returns the given class together with its parent classes.
      *
      * @param  string    $class   A class name.
-     * @return string[]  The list of parent classes in order from highest ancestor to the descended class.
+     * @return string[]  The class and its parent classes, in order from highest ancestor to the given class.
      */
     public static function getClassLineage($class)
     {
@@ -995,7 +995,7 @@ class Common
      *
      * @param string $country 2 letters iso code
      *
-     * @return string  Continent (3 letters code : afr, asi, eur, amn, ams, oce)
+     * @return string  Continent (3 letters code: afr, amc, amn, ams, ant, asi, eur, oce, unk)
      */
     public static function getContinent($country)
     {

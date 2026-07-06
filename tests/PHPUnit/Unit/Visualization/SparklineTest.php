@@ -102,6 +102,36 @@ class SparklineTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(Sparkline::DEFAULT_LINE_THICKNESS, $method->invoke($sparkline));
     }
 
+    public function testGetPointSizeUsesRedesignSizeWhenFeatureFlagIsEnabled(): void
+    {
+        StaticContainer::getContainer()->set(
+            FeatureFlagManager::class,
+            $this->createFeatureFlagManager(true)
+        );
+
+        $sparkline = new Sparkline();
+
+        $method = new \ReflectionMethod(Sparkline::class, 'getPointSize');
+        $method->setAccessible(true);
+
+        $this->assertSame(Sparkline::REDESIGN_POINT_SIZE, $method->invoke($sparkline));
+    }
+
+    public function testGetPointSizeUsesDefaultSizeWhenFeatureFlagIsDisabled(): void
+    {
+        StaticContainer::getContainer()->set(
+            FeatureFlagManager::class,
+            $this->createFeatureFlagManager(false)
+        );
+
+        $sparkline = new Sparkline();
+
+        $method = new \ReflectionMethod(Sparkline::class, 'getPointSize');
+        $method->setAccessible(true);
+
+        $this->assertSame(Sparkline::DEFAULT_POINT_SIZE, $method->invoke($sparkline));
+    }
+
     public function testSetWidthClampsToMaxWidth(): void
     {
         $sparkline = new Sparkline();

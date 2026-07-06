@@ -576,7 +576,7 @@ class Request
     }
 
     /**
-     * Returns true if the timestamp is valid ie. timestamp is sometime in the last 10 years and is not in the future.
+     * Returns true if the timestamp is valid ie. timestamp is sometime in the last 20 years and is not in the future.
      *
      * @param $time int Timestamp to test
      * @param $now int Current timestamp

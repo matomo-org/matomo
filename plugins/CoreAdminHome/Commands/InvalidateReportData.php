@@ -374,8 +374,6 @@ class InvalidateReportData extends ConsoleCommand
      * If no segment is provided, a list of all segments available for the provided sites will be returned (including all visits segment)
      *
      * @param array<int> $idSites
-     *
-     * @return array<string>
      */
     private function getSegmentsToInvalidateFor(array $idSites): array
     {

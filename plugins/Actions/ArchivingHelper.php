@@ -43,6 +43,8 @@ class ArchivingHelper
      * @param Zend_Db_Statement|PDOStatement $query
      * @param string|bool $fieldQueried
      * @param array $actionsTablesByType
+     * @param array $metricsConfig
+     * @param array $tableModesByType
      * @return int
      */
     public static function updateActionsTableWithRowQuery($query, $fieldQueried, $actionsTablesByType, $metricsConfig, array $tableModesByType = [])
@@ -227,8 +229,7 @@ class ArchivingHelper
      *
      * @param array $row        The array of goals metric data to add to the action table row
      * @param bool  $isPages    True if page view goals metrics should be used, else entry goal metrics
-     *
-     * @throws \Exception
+     * @return bool True if the row was updated, false otherwise
      */
     private static function updateActionsTableRowWithGoals(array $row, bool $isPages): bool
     {
@@ -645,13 +646,15 @@ class ArchivingHelper
     }
 
     /**
-     * Given a page name and type, builds a recursive datatable where
-     * each level of the tree is a category, based on the page name split by a delimiter (slash / by default)
+     * Given a page name and type, returns the matching action row, building a recursive
+     * category-tree datatable (split by delimiter) in hierarchical mode, or a flat row
+     * keyed by the full label in flat mode.
      *
      * @param string $actionName
      * @param int $actionType
      * @param int $urlPrefix
      * @param array $actionsTablesByType
+     * @param string $tableMode One of self::ACTION_TABLE_MODE_HIERARCHICAL or self::ACTION_TABLE_MODE_FLAT
      * @return DataTable\Row
      */
     public static function getActionRow(
@@ -1044,7 +1047,7 @@ class ArchivingHelper
      *
      * @param int $idAction
      * @param int $actionType
-     * @param \Piwik\DataTable\Row
+     * @param \Piwik\DataTable\Row|false|null $actionRow
      */
     private static function setCachedActionRow($idAction, $actionType, $actionRow)
     {

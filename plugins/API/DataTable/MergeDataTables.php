@@ -28,8 +28,8 @@ class MergeDataTables
      * Merge the columns of two data tables. Only takes into consideration the first row of each table.
      * Manipulates the first table.
      *
-     * @param DataTable|DataTable\Map $table1 The table to eventually filter.
-     * @param DataTable|DataTable\Map $table2 Whether to delete rows with no visits or not.
+     * @param DataTable|DataTable\Map $table1 The table that is manipulated in place and receives the merged columns.
+     * @param DataTable|DataTable\Map $table2 The table whose (first row's) columns are merged into $table1.
      */
     public function mergeDataTables($table1, $table2)
     {

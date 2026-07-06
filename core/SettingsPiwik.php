@@ -345,13 +345,11 @@ class SettingsPiwik
     }
 
     /**
-     * Returns true if the Piwik server appears to be working.
+     * Checks whether the Piwik server appears to be working.
      *
      * If the Piwik server is in an error state (eg. some directories are not writable and Piwik displays error message),
      * or if the Piwik server is "offline",
-     * this will return false..
-     *
-     * @throws Exception
+     * this will throw an exception.
      */
     public static function checkPiwikServerWorking(string $piwikServerUrl, bool $acceptInvalidSSLCertificates = false): void
     {

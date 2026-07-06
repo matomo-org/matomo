@@ -48,7 +48,7 @@
         "ScopeDescriptionVisitMoreInfo": "Se você definir valores diferentes para uma determinada dimensão durante a vida útil de uma visita, o último valor definido será usado.",
         "ScopeTitleAction": "Dimensões da ação",
         "ScopeTitleVisit": "Dimensões da visita",
-        "UrlQueryStringParameter": "parâmetro de string de consulta de URL",
+        "UrlQueryStringParameter": "parâmetro de query string da url",
         "XofYLeft": "%1$s de %2$s dimensões restantes"
     }
 }

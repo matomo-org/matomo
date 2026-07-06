@@ -152,7 +152,7 @@ class ArchiveWriter
      * @param string $name
      * @param string|string[] $values  A blob string or an array of blob strings. If an array
      *                                 is used, the first element in the array will be inserted
-     *                                 with the `$name` name. The others will be splitted into chunks. All subtables
+     *                                 with the `$name` name. The others will be split into chunks. All subtables
      *                                 within one chunk will be serialized as an array where the index is the
      *                                 subtableId.
      */

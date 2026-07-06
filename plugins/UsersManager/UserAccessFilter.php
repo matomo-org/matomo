@@ -37,7 +37,7 @@ class UserAccessFilter
     private $access;
 
     /**
-     * Holds a list of all idSites the current user has view access to. Only used for caching.
+     * Holds a list of all idSites the current user has admin access to. Only used for caching.
      * @var array
      */
     private $idSitesWithAdmin;

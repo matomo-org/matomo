@@ -58,7 +58,7 @@
         this.multiSelect = !! dataTable.props.allow_multi_select_series_picker;
 
         // render the new "Choose metrics" button variant instead of the legacy "+" popover.
-        // Opted into by jqplot graphs when the PlotLinesTweaks feature flag is enabled.
+        // Opted into by jqplot graphs.
         this.useChooseMetricsButton = false;
     };
 

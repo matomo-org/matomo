@@ -55,7 +55,7 @@ class ProxyHttp
      *
      * @param string $file The location of the static file to serve
      * @param string $contentType The content type of the static file.
-     * @param int $expireFarFutureDays Day in the far future to set the Expires header to.
+     * @param int|false $expireFarFutureDays Day in the far future to set the Expires header to.
      *                                 Should be set to false for files that should not be cached.
      * @param int|false $byteStart The starting byte in the file to serve. If false, the data from the beginning
      *                             of the file will be served.
@@ -248,7 +248,7 @@ class ProxyHttp
      * @see https://support.microsoft.com/kb/316431/
      * @see RFC2616
      *
-     * @param string $override One of "public", "private", "no-cache", or "no-store". (optional)
+     * @param string|null $override One of "public", "private", "no-cache", or "no-store". (optional)
      */
     public static function overrideCacheControlHeaders($override = null)
     {

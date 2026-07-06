@@ -78,10 +78,9 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     /**
-     * This is only used for exported widgets
+     * Renders a widget container (used for dashboard/tab widget containers as well as
+     * widgetized/exported embeds).
      * @return string
-     * @throws Exception
-     * @throws \Piwik\NoAccessException
      */
     public function renderWidgetContainer()
     {

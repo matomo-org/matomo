@@ -29,16 +29,7 @@ use Piwik\Validators\CharacterLength;
 use Piwik\Validators\NotEmpty;
 
 /**
- * The UsersManager API lets you Manage Users and their permissions to access specific websites.
- *
- * You can create users via "addUser", update existing users via "updateUser" and delete users via "deleteUser".
- * There are many ways to list users based on their login "getUser" and "getUsers", their email "getUserByEmail",
- * or which users have permission (view or admin) to access the specified websites "getUsersWithSiteAccess".
- *
- * Existing Permissions are listed given a login via "getSitesAccessFromUser", or a website ID via "getUsersAccessFromSite",
- * or you can list all users and websites for a given permission via "getUsersSitesFromAccess". Permissions are set and updated
- * via the method "setUserAccess".
- * See also the documentation about <a href='https://matomo.org/docs/manage-users/' rel='noreferrer' target='_blank'>Managing Users</a> in Piwik.
+ * Persists and reads users, their auth tokens and their site access from the database backend.
  *
  * @phpstan-type UserRow array{
  *     login: string,
@@ -440,7 +431,7 @@ class Model
      * @param string|null $tokenAuth    The token auth string
      * @param bool $isTokenSecured      True if the token was sent via a secure mechanism (POST request, Auth header)
      *
-     * @return array|bool               An array representing the token record, or null if not found
+     * @return array|bool               An array representing the token record, or false if not found
      * @throws \Exception
      */
     private function getTokenByTokenAuthIfNotExpired(

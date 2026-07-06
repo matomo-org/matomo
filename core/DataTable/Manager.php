@@ -14,7 +14,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 
 /**
- * The DataTable_Manager registers all the instantiated DataTable and provides an
+ * The DataTable\Manager registers all the instantiated DataTable and provides an
  * easy way to access them. This is used to store all the DataTable during the archiving process.
  * At the end of archiving, the ArchiveProcessor will read the stored datatable and record them in the DB.
  */

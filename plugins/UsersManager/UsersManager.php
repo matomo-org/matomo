@@ -182,7 +182,9 @@ class UsersManager extends \Piwik\Plugin
     }
 
     /**
-     * Returns true if the password is complex enough (at least 6 characters and max 26 characters)
+     * Returns true if the password string is considered valid. When the credentials sanity check is
+     * disabled, any non-empty password is accepted; otherwise the password must be at least
+     * PASSWORD_MIN_LENGTH characters.
      *
      * @param $input string
      * @return bool

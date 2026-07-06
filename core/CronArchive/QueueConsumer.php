@@ -301,7 +301,7 @@ class QueueConsumer
             && empty($invalidationsToExcludeInBatch)
         ) { // no invalidated archive left
             /**
-             * This event is triggered immediately after the cron archiving process starts archiving data for a single
+             * This event is triggered immediately after the cron archiving process finishes archiving data for a single
              * site.
              *
              * Note: multiple archiving processes can post this event.

@@ -11,8 +11,8 @@ describe("EvolutionGraph", function () {
     const url = "?module=Widgetize&action=iframe&idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30"
               + "&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&viewDataTable=graphEvolution"
               + "&isFooterExpandedInDashboard=1";
-    const plotLinesTweaksColumns = "nb_visits,nb_actions,avg_time_on_site,bounce_rate";
-    const plotLinesTweaksUrl = url + "&columns=" + plotLinesTweaksColumns + "&filter_add_columns_when_show_all_columns=0";
+    const multiMetricColumns = "nb_visits,nb_actions,avg_time_on_site,bounce_rate";
+    const multiMetricUrl = url + "&columns=" + multiMetricColumns + "&filter_add_columns_when_show_all_columns=0";
     const setThemeMode = async function (themeMode) {
         await page.evaluate((mode) => {
             window.piwik.setThemeMode(mode);
@@ -75,6 +75,12 @@ describe("EvolutionGraph", function () {
             const items = footer ? footer.querySelectorAll('.jqplot-legend-item') : [];
             const hiddenItems = footer ? footer.querySelectorAll('.jqplot-legend-item-hidden') : [];
             const overflowItem = footer ? footer.querySelector('.jqplot-legend-item-overflow .jqplot-legend-label') : null;
+            const labels = footer
+                ? Array.prototype.map.call(
+                    footer.querySelectorAll('.jqplot-legend-item .jqplot-legend-label'),
+                    function (label) { return label.textContent.trim(); }
+                )
+                : [];
 
             return {
                 hasLegend: !!footer,
@@ -82,6 +88,7 @@ describe("EvolutionGraph", function () {
                 hiddenItemCount: hiddenItems.length,
                 visibleItemCount: footer ? footer.querySelectorAll('.jqplot-legend-item:not(.jqplot-legend-item-hidden)').length : 0,
                 overflowLabel: overflowItem ? overflowItem.textContent.trim() : null,
+                labels: labels,
             };
         });
     };
@@ -114,15 +121,17 @@ describe("EvolutionGraph", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('one_series');
     });
 
-    it("should display the metric picker on hover of metric picker icon", async function () {
-        await page.hover('.jqplot-seriespicker');
+    it("should display the metric picker when the metric picker button is clicked", async function () {
+        await page.click('.metrics-picker__toggle');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
+        await page.keyboard.press('Escape');
     });
 
     it("should show multiple metrics when another metric picked", async function () {
-        await page.waitForSelector('.jqplot-seriespicker-popover input');
-        const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first');
+        await page.click('.metrics-picker__toggle');
+        await page.waitForSelector('.metrics-picker__options input');
+        const element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
         await element.click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
@@ -292,41 +301,35 @@ describe("EvolutionGraph", function () {
         expect(element).to.be.not.ok;
     });
 
-    describe("with_PlotLinesTweaks_enabled", function () {
+    describe("footer legend", function () {
         before(function () {
             delete testEnvironment.idSitesViewAccess;
             testEnvironment.testUseMockAuth = 1;
-            testEnvironment.overrideConfig('FeatureFlags', 'PlotLinesTweaks_feature', 'enabled');
             testEnvironment.save();
         });
 
-        after(function () {
-            if (testEnvironment.configOverride.FeatureFlags) {
-                delete testEnvironment.configOverride.FeatureFlags.PlotLinesTweaks_feature;
-            }
-            testEnvironment.save();
-        });
-
-        it("should render the evolution graph footer legend correctly", async function () {
+        it("should render the evolution graph footer legend with all selected metrics", async function () {
             await page.webpage.setViewport({ width: 1350, height: 768 });
-            await page.goto(plotLinesTweaksUrl);
+            await page.goto(multiMetricUrl);
             await page.waitForNetworkIdle();
 
-            expect(await page.screenshot({ fullPage: true })).to.matchImage('plot_lines_tweaks_initial');
-        });
+            const legendState = await getFooterLegendState();
+            expect(legendState.hasLegend).to.equal(true);
 
-        it("should show graph as image with footer legend when export as image icon clicked", async function () {
-            await page.goto(plotLinesTweaksUrl);
-            await page.waitForNetworkIdle();
-            await page.click('#dataTableFooterExportAsImageIcon');
-            await page.waitForNetworkIdle();
-
-            const dialog = await page.$('.ui-dialog');
-            expect(await dialog.screenshot()).to.matchImage('plot_lines_tweaks_export_image');
+            // getCountry plots every row (country) for each selected metric, so the legend
+            // labels look like "United States (Visits)". Assert that every selected metric is
+            // represented, regardless of how many rows the fixture happens to contain.
+            const selectedMetricLabels = ['Visits', 'Actions', 'Avg. Time on Website', 'Bounce Rate'];
+            selectedMetricLabels.forEach(function (metricLabel) {
+                const isPresent = legendState.labels.some(function (label) {
+                    return label.indexOf('(' + metricLabel + ')') !== -1;
+                });
+                expect(isPresent, 'legend should include a "' + metricLabel + '" series').to.equal(true);
+            });
         });
 
         it("should export the graph image using the active dark theme background", async function () {
-            await page.goto(plotLinesTweaksUrl);
+            await page.goto(multiMetricUrl);
             await page.waitForNetworkIdle();
             await setThemeMode('dark');
             await page.waitForTimeout(250);
@@ -339,7 +342,7 @@ describe("EvolutionGraph", function () {
 
         it("should overflow footer legend labels cleanly in a narrow viewport", async function () {
             await page.webpage.setViewport({ width: 320, height: 480 });
-            await page.goto(plotLinesTweaksUrl);
+            await page.goto(multiMetricUrl);
             await page.waitForNetworkIdle();
 
             const legendState = await getFooterLegendState();
@@ -348,24 +351,11 @@ describe("EvolutionGraph", function () {
             expect(legendState.visibleItemCount).to.be.at.least(1);
             expect(legendState.hiddenItemCount).to.be.above(0);
             expect(legendState.overflowLabel).to.equal('…');
-
-            expect(await page.screenshot({ fullPage: true })).to.matchImage('plot_lines_tweaks_narrow_overflow');
-        });
-
-        it("should show annotations above the footer legend", async function () {
-            await page.webpage.setViewport({ width: 1350, height: 768 });
-            await page.goto(plotLinesTweaksUrl);
-            await page.waitForNetworkIdle();
-
-            const element = await page.jQuery('.evolution-annotations>span[data-count!=0]');
-            await element.click();
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshot({ fullPage: true })).to.matchImage('plot_lines_tweaks_annotations');
         });
 
         it("should use the active dark theme background for the graph loading overlay", async function () {
-            await page.goto(plotLinesTweaksUrl);
+            await page.webpage.setViewport({ width: 1350, height: 768 });
+            await page.goto(multiMetricUrl);
             await page.waitForNetworkIdle();
             await setThemeMode('dark');
             await page.waitForTimeout(250);

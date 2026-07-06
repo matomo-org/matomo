@@ -82,7 +82,7 @@ class VisitGoalBuyer extends VisitDimension
 
     /**
      * @param Action|null $action
-     * @return int
+     * @return int|false
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {

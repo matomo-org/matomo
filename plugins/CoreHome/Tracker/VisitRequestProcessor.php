@@ -31,7 +31,7 @@ use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
  * This RequestProcessor exposes the following metadata for the **CoreHome** plugin:
  *
  * * **visitorId**: A hash that identifies the current visitor being tracked. This value is
- *                  calculated using the Piwik\Tracker\Settings;:getConfigId() method.
+ *                  calculated using the Piwik\Tracker\Settings::getConfigId() method.
  *
  *                  Set in `processRequestParams()`.
  *
@@ -165,7 +165,7 @@ class VisitRequestProcessor extends RequestProcessor
     }
 
     /**
-     * Determines if the tracker if the current action should be treated as the start of a new visit or
+     * Determines if the current action should be treated as the start of a new visit or
      * an action in an existing visit.
      *
      * Note: public only for tests.
@@ -217,7 +217,7 @@ class VisitRequestProcessor extends RequestProcessor
     }
 
     /**
-     * Returns true if the last action was done during the last 30 minutes
+     * Returns true if the last action was done within the standard visit length.
      * @return bool
      */
     protected function isLastActionInTheSameVisit(VisitProperties $visitProperties, Request $request, $lastKnownVisit)

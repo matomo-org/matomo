@@ -25,13 +25,13 @@ class Model
     }
 
     /**
-     * Returns the layout in the DB for the given user, or false if the layout has not been set yet.
+     * Returns the raw layout rows in the DB for the given user (empty array if none set).
      * Parameters must be checked BEFORE this function call
      *
      * @param string $login
      * @param int $idDashboard
      *
-     * @return bool|string
+     * @return array
      */
     public function getLayoutForUser($login, $idDashboard)
     {

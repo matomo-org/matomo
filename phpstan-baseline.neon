@@ -150,25 +150,6 @@ parameters:
 			count: 1
 			path: core/Archive/ArchivePurger.php
 
-		-
-			message: "#^Offset 'date1' does not exist on string\\.$#"
-			count: 1
-			path: core/Archive/ArchiveState.php
-
-		-
-			message: "#^Offset 'date2' does not exist on string\\.$#"
-			count: 2
-			path: core/Archive/ArchiveState.php
-
-		-
-			message: "#^Offset 'idsite' does not exist on string\\.$#"
-			count: 1
-			path: core/Archive/ArchiveState.php
-
-		-
-			message: "#^Offset 'ts_archived' does not exist on string\\.$#"
-			count: 1
-			path: core/Archive/ArchiveState.php
 
 		-
 			message: "#^Parameter \\#3 \\$archiveIdsFlipped of method Piwik\\\\Archive\\\\ArchiveState\\:\\:checkArchiveStates\\(\\) expects array\\<string, array\\<int, bool\\>\\>, array\\<string, array\\<int, \\(int\\|string\\)\\>\\> given\\.$#"
@@ -260,10 +241,6 @@ parameters:
 			count: 1
 			path: core/AssetManager.php
 
-		-
-			message: "#^Parameter \\#3 \\$theme of class Piwik\\\\AssetManager\\\\UIAssetFetcher\\\\StaticUIAssetFetcher constructor expects Piwik\\\\Theme, null given\\.$#"
-			count: 2
-			path: core/AssetManager.php
 
 		-
 			message: "#^Property Piwik\\\\AssetManager\\\\UIAsset\\\\OnDiskUIAsset\\:\\:\\$relativeRootDir \\(string\\) in isset\\(\\) is not nullable\\.$#"
@@ -280,25 +257,13 @@ parameters:
 			count: 1
 			path: core/AssetManager/UIAssetFetcher.php
 
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: core/AssetManager/UIAssetFetcher/JScriptUIAssetFetcher.php
 
 		-
 			message: "#^Parameter \\#3 \\$pending of static method Piwik\\\\Piwik\\:\\:postEvent\\(\\) expects bool, null given\\.$#"
 			count: 1
 			path: core/AssetManager/UIAssetFetcher/JScriptUIAssetFetcher.php
 
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: core/AssetManager/UIAssetFetcher/StylesheetUIAssetFetcher.php
 
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: core/AssetManager/UIAssetMerger.php
 
 		-
 			message: "#^Parameter \\#3 \\$pending of static method Piwik\\\\Piwik\\:\\:postEvent\\(\\) expects bool, null given\\.$#"
@@ -335,10 +300,6 @@ parameters:
 			count: 1
 			path: core/Changes/Model.php
 
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: core/CliMulti.php
 
 		-
 			message: "#^Variable \\$response in empty\\(\\) always exists and is always falsy\\.$#"
@@ -370,15 +331,6 @@ parameters:
 			count: 1
 			path: core/Columns/Updater.php
 
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 2
-			path: core/Columns/Updater.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
-			count: 1
-			path: core/Columns/Updater.php
 
 		-
 			message: "#^Comparison operation \"\\<\" between int\\<2, 3\\> and 2 is always false\\.$#"
@@ -390,10 +342,6 @@ parameters:
 			count: 1
 			path: core/Concurrency/DistributedList.php
 
-		-
-			message: "#^Method Piwik\\\\Config\\\\IniFileChain\\:\\:dumpChanges\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: core/Config/IniFileChain.php
 
 		-
 			message: "#^Parameter \\#2 \\$data of method Matomo\\\\Cache\\\\Backend\\\\File\\:\\:doSave\\(\\) expects string, array\\<string, mixed\\> given\\.$#"
@@ -405,20 +353,6 @@ parameters:
 			count: 1
 			path: core/Container/IniConfigDefinitionSource.php
 
-		-
-			message: "#^Property Piwik\\\\Cookie\\:\\:\\$keyStore \\(string\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: core/Cookie.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
-			count: 1
-			path: core/Cookie.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
-			count: 2
-			path: core/Cookie.php
 
 		-
 			message: "#^Dead catch \\- UnexpectedValueException is never thrown in the try block\\.$#"
@@ -470,15 +404,6 @@ parameters:
 			count: 1
 			path: core/CronArchive/Performance/Logger.php
 
-		-
-			message: "#^Property Piwik\\\\CronArchive\\\\Performance\\\\Logger\\:\\:\\$isEnabled \\(int\\) does not accept bool\\.$#"
-			count: 1
-			path: core/CronArchive/Performance/Logger.php
-
-		-
-			message: "#^Property Piwik\\\\CronArchive\\\\Performance\\\\Logger\\:\\:\\$isEnabled \\(int\\) does not accept false\\.$#"
-			count: 1
-			path: core/CronArchive/Performance/Logger.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -550,10 +475,6 @@ parameters:
 			count: 1
 			path: core/DataAccess/ArchivingDbAdapter.php
 
-		-
-			message: "#^Property Piwik\\\\DataAccess\\\\ArchivingDbAdapter\\:\\:\\$maxExecutionTime \\(int\\) does not accept float\\.$#"
-			count: 1
-			path: core/DataAccess/ArchivingDbAdapter.php
 
 		-
 			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 89$#"
@@ -640,15 +561,6 @@ parameters:
 			count: 1
 			path: core/DataTable/Filter/PivotByDimension.php
 
-		-
-			message: "#^Property Piwik\\\\DataTable\\\\Filter\\\\PivotByDimension\\:\\:\\$pivotDimensionReport \\(Piwik\\\\Plugin\\\\Report\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: core/DataTable/Filter/PivotByDimension.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\\\Filter\\\\PivotByDimension\\:\\:\\$thisReportDimensionSegment \\(Piwik\\\\Plugin\\\\Segment\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: core/DataTable/Filter/PivotByDimension.php
 
 		-
 			message: "#^Parameter \\$doSortBySecondaryColumn of method Piwik\\\\DataTable\\\\Filter\\\\Sort\\:\\:__construct\\(\\) has invalid type Piwik\\\\DataTable\\\\Filter\\\\callback\\.$#"
@@ -665,20 +577,6 @@ parameters:
 			count: 1
 			path: core/DataTable/Map.php
 
-		-
-			message: "#^Call to function is_array\\(\\) with Piwik\\\\DataTable\\\\DataTableInterface will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\\\Renderer\\:\\:\\$apiMetaData \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\\\Renderer\\:\\:\\$idSite \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: core/DataTable/Renderer.php
 
 		-
 			message: "#^Result of && is always false\\.$#"
@@ -691,64 +589,9 @@ parameters:
 			path: core/DataTable/Renderer.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between array\\|null and false will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer.php
-
-		-
 			message: "#^Parameter \\#1 \\$table of method Piwik\\\\DataTable\\\\Renderer\\\\Html\\:\\:buildTableStructure\\(\\) expects Piwik\\\\DataTable\\|Piwik\\\\DataTable\\\\Map, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
 			count: 1
 			path: core/DataTable/Renderer/Html.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with Piwik\\\\DataTable will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Json.php
-
-		-
-			message: "#^Instanceof between \\*NEVER\\* and Piwik\\\\DataTable will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Json.php
-
-		-
-			message: "#^Instanceof between \\*NEVER\\* and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Json.php
-
-		-
-			message: "#^Instanceof between \\*NEVER\\* and Piwik\\\\DataTable\\\\Simple will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Json.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 2
-			path: core/DataTable/Renderer/Json.php
-
-		-
-			message: "#^Comparison operation \"\\!\\=\" between array and 0 results in an error\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Xml.php
-
-		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 2
-			path: core/DataTable/Renderer/Xml.php
-
-		-
-			message: "#^Instanceof between array and Piwik\\\\DataTable\\\\Simple will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Xml.php
-
-		-
-			message: "#^Parameter \\#1 \\$table of method Piwik\\\\DataTable\\\\Renderer\\\\Xml\\:\\:renderTable\\(\\) expects Piwik\\\\DataTable\\|Piwik\\\\DataTable\\\\Map, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Xml.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Xml.php
 
 		-
 			message: "#^Call to function is_array\\(\\) with 'array'\\|'boolean'\\|'double'\\|'integer'\\|'NULL'\\|'object'\\|'resource'\\|'resource \\(closed\\)'\\|'string'\\|'unknown type' will always evaluate to false\\.$#"
@@ -815,10 +658,6 @@ parameters:
 			count: 1
 			path: core/Db/Adapter/Pdo/Mysql.php
 
-		-
-			message: "#^Method Piwik\\\\Db\\\\Adapter\\\\Pdo\\\\Mysql\\:\\:getClientVersion\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: core/Db/Adapter/Pdo/Mysql.php
 
 		-
 			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\Adapter\\\\Pdo\\\\Mysql\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
@@ -921,11 +760,6 @@ parameters:
 			path: core/Log.php
 
 		-
-			message: "#^Parameter \\#6 \\$willDelete of method Piwik\\\\DataAccess\\\\RawLogDao\\:\\:forAllLogs\\(\\) expects string, true given\\.$#"
-			count: 1
-			path: core/LogDeleter.php
-
-		-
 			message: "#^Property Piwik\\\\LogDeleter\\:\\:\\$logTablesProvider is never read, only written\\.$#"
 			count: 1
 			path: core/LogDeleter.php
@@ -935,10 +769,6 @@ parameters:
 			count: 3
 			path: core/Mail/EmailStyles.php
 
-		-
-			message: "#^Method Piwik\\\\Metrics\\\\Sorter\\:\\:getPrimaryColumnToSort\\(\\) should return int but returns string\\.$#"
-			count: 1
-			path: core/Metrics/Sorter.php
 
 		-
 			message: "#^Parameter \\#1 \\$default of static method Piwik\\\\Url\\:\\:getCurrentHost\\(\\) expects string, null given\\.$#"
@@ -1325,10 +1155,6 @@ parameters:
 			count: 1
 			path: core/Scheduler/Schedule/Monthly.php
 
-		-
-			message: "#^Method Piwik\\\\Scheduler\\\\Schedule\\\\Schedule\\:\\:getScheduledTimeForPeriod\\(\\) should return Piwik\\\\Scheduler\\\\Schedule\\\\Daily\\|Piwik\\\\Scheduler\\\\Schedule\\\\Monthly\\|Piwik\\\\Scheduler\\\\Schedule\\\\Weekly but returns Piwik\\\\Scheduler\\\\Schedule\\\\Hourly\\.$#"
-			count: 1
-			path: core/Scheduler/Schedule/Schedule.php
 
 		-
 			message: "#^Parameter \\#3 \\$sec of function mktime expects int, string given\\.$#"
@@ -1579,11 +1405,6 @@ parameters:
 			path: core/TCPDF.php
 
 		-
-			message: "#^PHPDoc tag @var above a method has no effect\\.$#"
-			count: 1
-			path: core/Theme.php
-
-		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\:\\:disconnect\\(\\)\\.$#"
 			count: 2
 			path: core/Tracker.php
@@ -1658,10 +1479,6 @@ parameters:
 			count: 1
 			path: core/Tracker/Db/Mysqli.php
 
-		-
-			message: "#^Return type \\(bool\\|resource\\) of method Piwik\\\\Tracker\\\\Db\\\\Mysqli\\:\\:query\\(\\) should be compatible with return type \\(Piwik\\\\Tracker\\\\PDOStatement\\) of method Piwik\\\\Tracker\\\\Db\\:\\:query\\(\\)$#"
-			count: 1
-			path: core/Tracker/Db/Mysqli.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between array\\|bool and null will always evaluate to false\\.$#"
@@ -1688,15 +1505,6 @@ parameters:
 			count: 1
 			path: core/Tracker/Db/Pdo/Mysql.php
 
-		-
-			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:fetchCol\\(\\) should return string but returns array\\|false\\.$#"
-			count: 1
-			path: core/Tracker/Db/Pdo/Mysql.php
-
-		-
-			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:fetchCol\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: core/Tracker/Db/Pdo/Mysql.php
 
 		-
 			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:lastInsertId\\(\\) should return int but returns string\\|false\\.$#"
@@ -1733,10 +1541,6 @@ parameters:
 			count: 1
 			path: core/Tracker/GoalManager.php
 
-		-
-			message: "#^Method Piwik\\\\Tracker\\\\GoalManager\\:\\:detectGoalMatch\\(\\) should return bool\\|null but returns string\\.$#"
-			count: 1
-			path: core/Tracker/GoalManager.php
 
 		-
 			message: "#^Method Piwik\\\\Tracker\\\\GoalManager\\:\\:getRevenue\\(\\) should return float\\|int but returns string\\.$#"
@@ -1913,10 +1717,6 @@ parameters:
 			count: 1
 			path: core/UpdateCheck.php
 
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
-			count: 1
-			path: core/Updater.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between array\\<int\\>\\|int and false will always evaluate to false\\.$#"
@@ -2022,6 +1822,7 @@ parameters:
 			message: "#^Variable \\$report in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 2
 			path: core/ViewDataTable/Factory.php
+
 
 		-
 			message: "#^Method Piwik\\\\ViewDataTable\\\\Manager\\:\\:getFooterIconFor\\(\\) should return array but empty return statement found\\.$#"
@@ -2223,10 +2024,6 @@ parameters:
 			count: 2
 			path: plugins/Actions/ArchivingHelper.php
 
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\Piwik\\\\DataTable\\\\Row\\)\\: Unexpected token \"\\\\n     \", expected variable at offset 150$#"
-			count: 1
-			path: plugins/Actions/ArchivingHelper.php
 
 		-
 			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:setColumn\\(\\) expects string, int given\\.$#"
@@ -2253,10 +2050,6 @@ parameters:
 			count: 1
 			path: plugins/Actions/Columns/ActionType.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\ExitPageUrl\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/ExitPageUrl.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\VisitTotalActions\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
@@ -2458,10 +2251,6 @@ parameters:
 			count: 1
 			path: plugins/CoreHome/Columns/Metrics/EvolutionMetric.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Columns\\\\VisitGoalBuyer\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: plugins/CoreHome/Columns/VisitGoalBuyer.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Columns\\\\VisitTotalTime\\:\\:onConvertedVisit\\(\\) should return int but returns false\\.$#"
@@ -2488,10 +2277,6 @@ parameters:
 			count: 1
 			path: plugins/CoreHome/Controller.php
 
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\Piwik\\\\View \\(the popover_rowevolution template\\)\\)\\: Unexpected token \"\\(\", expected variable at offset 117$#"
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
 
 		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(mixed\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
@@ -2548,10 +2333,6 @@ parameters:
 			count: 1
 			path: plugins/CorePluginsAdmin/SettingsMetadata.php
 
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/CoreUpdater/Commands/Update.php
 
 		-
 			message: "#^Parameter \\#1 \\$https of method Piwik\\\\Plugins\\\\CoreUpdater\\\\Updater\\:\\:updatePiwik\\(\\) expects bool, int given\\.$#"
@@ -2643,10 +2424,6 @@ parameters:
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Graph.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\HtmlTable\\:\\:getCellHtmlAttributes\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
 
 		-
 			message: "#^Property Piwik\\\\Plugin\\\\Visualization\\:\\:\\$report \\(Piwik\\\\Plugin\\\\Report\\) in empty\\(\\) is not falsy\\.$#"
@@ -2708,10 +2485,6 @@ parameters:
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparklines/Config.php
 
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines\\\\Config\\:\\:\\$title_attributes \\(string\\) does not accept default value of type array\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines/Config.php
 
 		-
 			message: "#^Result of && is always false\\.$#"
@@ -2763,10 +2536,6 @@ parameters:
 			count: 1
 			path: plugins/Dashboard/API.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Dashboard\\\\Model\\:\\:getLayoutForUser\\(\\) should return bool\\|string but returns array\\.$#"
-			count: 1
-			path: plugins/Dashboard/Model.php
 
 		-
 			message: "#^Parameter \\#1 \\$sqlFilterValue of method Piwik\\\\Plugin\\\\Segment\\:\\:setSqlFilterValue\\(\\) expects array\\|string, Closure given\\.$#"
@@ -3043,10 +2812,6 @@ parameters:
 			count: 1
 			path: plugins/Goals/API.php
 
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Goals\\\\Columns\\\\Metrics\\\\GoalSpecificProcessedMetric\\:\\:\\$idSite \\(int\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: plugins/Goals/Columns/Metrics/GoalSpecificProcessedMetric.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Goals\\\\Commands\\\\CalculateConversionPages\\:\\:getDateRangeToCalculate\\(\\) never returns array\\<Piwik\\\\Date\\> so it can be removed from the return type\\.$#"
@@ -3098,10 +2863,6 @@ parameters:
 			count: 1
 			path: plugins/Goals/RecordBuilders/ProductRecord.php
 
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines\\\\Config\\:\\:\\$title_attributes \\(string\\) does not accept array\\<string, string\\>\\.$#"
-			count: 1
-			path: plugins/Goals/Reports/Get.php
 
 		-
 			message: "#^Right side of && is always true\\.$#"
@@ -3243,10 +3004,6 @@ parameters:
 			count: 1
 			path: plugins/LanguagesManager/Commands/PluginsWithTranslations.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\LanguagesManager\\\\LanguagesManager\\:\\:getLanguageNameForCurrentUser\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: plugins/LanguagesManager/LanguagesManager.php
 
 		-
 			message: "#^Parameter \\#5 \\$tooltip of method Piwik\\\\Menu\\\\MenuTop\\:\\:addHtml\\(\\) expects string, false given\\.$#"
@@ -3458,10 +3215,6 @@ parameters:
 			count: 1
 			path: plugins/PrivacyManager/DoNotTrackHeaderChecker.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\PrivacyManager\\\\LogDataPurger\\:\\:getDeleteIdVisitOffset\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: plugins/PrivacyManager/LogDataPurger.php
 
 		-
 			message: "#^Parameter \\#2 \\$first of static method Piwik\\\\Db\\:\\:segmentedFetchFirst\\(\\) expects int, string given\\.$#"
@@ -3548,15 +3301,7 @@ parameters:
 			count: 1
 			path: plugins/Referrers/DataTable/Filter/SetGetReferrerTypeSubtables.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\SearchEngine\\:\\:getBackLinkFromUrlAndKeyword\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: plugins/Referrers/SearchEngine.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\Social\\:\\:getMainUrlFromName\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: plugins/Referrers/Social.php
 
 		-
 			message: "#^Function Piwik\\\\Plugins\\\\Referrers\\\\getReferrerTypeFromShortName\\(\\) should return string but returns int\\.$#"
@@ -3598,10 +3343,6 @@ parameters:
 			count: 2
 			path: plugins/SitesManager/API.php
 
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string Date to set as creation date\\.\\)\\: Unexpected token \"Date\", expected variable at offset 154$#"
-			count: 1
-			path: plugins/SitesManager/Model.php
 
 		-
 			message: "#^Variable \\$id_val might not be defined\\.$#"
@@ -3709,11 +3450,6 @@ parameters:
 			path: plugins/UserCountry/LocationProvider.php
 
 		-
-			message: "#^Parameter \\#6 \\$willDelete of method Piwik\\\\DataAccess\\\\RawLogDao\\:\\:forAllLogs\\(\\) expects string, false given\\.$#"
-			count: 1
-			path: plugins/UserCountry/VisitorGeolocator.php
-
-		-
 			message: "#^Function Piwik\\\\Plugins\\\\UserCountry\\\\getPrettyCityName\\(\\) never returns false so it can be removed from the return type\\.$#"
 			count: 1
 			path: plugins/UserCountry/functions.php
@@ -3763,10 +3499,6 @@ parameters:
 			count: 1
 			path: plugins/UsersManager/NewsletterSignup.php
 
-		-
-			message: "#^PHPDoc tag @return with type mixed is not subtype of native type array\\.$#"
-			count: 1
-			path: plugins/UsersManager/Repository/UserRepository.php
 
 		-
 			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\Sql\\\\UserTableFilter\\:\\:\\$filterByRole \\(string\\) does not accept null\\.$#"

@@ -28,7 +28,7 @@ class ArchivingDbAdapter
     private $logger;
 
     /**
-     * @var int
+     * @var float
      */
     private $maxExecutionTime;
 

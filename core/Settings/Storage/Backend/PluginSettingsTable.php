@@ -330,7 +330,6 @@ class PluginSettingsTable extends BaseSettingsTable
      *
      * @internal
      * @param string $pluginName
-     * @throws \Exception If the `$userLogin` is empty.
      */
     public static function removeAllSettingsForPlugin($pluginName)
     {

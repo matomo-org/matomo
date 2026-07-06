@@ -15,6 +15,7 @@
       <SparklineCard
         :sparkline="sparkline"
         :are-sparklines-linkable="areSparklinesLinkable"
+        :all-metrics-documentation="allMetricsDocumentation"
       />
     </div>
   </div>
@@ -28,8 +29,8 @@ import {
   onMounted,
   PropType,
 } from 'vue';
-import SparklineCard from './SparklineCard.vue';
-import { SparklineEntry } from './types';
+import SparklineCard from '../Sparklines/SparklineCard.vue';
+import { SparklineEntry } from '../Sparklines/types';
 
 export default defineComponent({
   name: 'SparklinesGrid',
@@ -41,14 +42,15 @@ export default defineComponent({
       type: Object as PropType<Record<string, SparklineEntry[]>>,
       required: true,
     },
-    // From the backend for upcoming card-body work; not used yet.
-    allMetricsDocumentation: {
-      type: Object,
-      default: () => ({}),
-    },
     areSparklinesLinkable: {
       type: Boolean,
       default: true,
+    },
+    // Backend map of metric column -> documentation string, forwarded to each card for the
+    // metric-title tooltip.
+    allMetricsDocumentation: {
+      type: Object as PropType<Record<string, string>>,
+      default: () => ({}),
     },
     isWidget: {
       type: Boolean,
@@ -67,9 +69,9 @@ export default defineComponent({
         .sort((a, b) => a.order - b.order),
     );
 
-    // Widgets show one column; reporting pages use a responsive grid (2/4/5 cols).
+    // Widgets show two columns; reporting pages use a responsive grid (2/3/4/5 cols).
     // Keep xl3 so SparklinesGrid.less can widen it to 5 cols above 1920px.
-    const columnClasses = computed(() => (props.isWidget ? 'col s12' : 'col s6 m6 l3 xl3'));
+    const columnClasses = computed(() => (props.isWidget ? 'col s6' : 'col s6 m6 l4 xl3'));
 
     onMounted(() => {
       // Re-wire each sparkline to its evolution graph once the cards are in the DOM.

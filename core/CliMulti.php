@@ -53,7 +53,7 @@ class CliMulti
 
     /**
      * If set it will issue at most concurrentProcessesLimit requests
-     * @var int
+     * @var int|null
      */
     private $concurrentProcessesLimit = null;
 
@@ -72,14 +72,14 @@ class CliMulti
     /**
      * Only used when doing synchronous curl requests.
      *
-     * @var string
+     * @var string|null
      */
     private $urlToPiwik = null;
 
     private $phpCliOptions = '';
 
     /**
-     * @var callable
+     * @var callable|null
      */
     private $onProcessFinish = null;
 
@@ -139,7 +139,8 @@ class CliMulti
      *                               **Make sure query parameter values are properly encoded in the URLs.**
      *
      * @return array The response of each URL in the same order as the URLs. The array can contain null values in case
-     *               there was a problem with a request, for instance if the process died unexpected.
+     *               there was a problem with a request, for instance if the process died unexpected. If a shutdown
+     *               signal is received mid-execution, remaining URLs are skipped and omitted from the result.
      */
     public function request(array $piwikUrls)
     {

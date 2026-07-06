@@ -597,7 +597,7 @@
     var getPlotLinesLegendFooter = function (graphElem) {
         var legendFooter = $('.jqplot-legend-footer', graphElem);
 
-        if ($('body').hasClass('plotlines-tweaks-enabled') && legendFooter.length) {
+        if (legendFooter.length) {
             return legendFooter;
         }
 

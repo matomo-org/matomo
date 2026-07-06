@@ -66,8 +66,7 @@ abstract class Factory
      *
      * @param string $period `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param Date|string $date A date within the period or the range of dates.
-     * @param Date|string $timezone Optional timezone that will be used only when $period is 'range' or $date is 'last|previous'
-     * @throws Exception If `$strPeriod` is invalid or $date is invalid.
+     * @param string $timezone Optional timezone that will be used only when $period is 'range' or $date is 'last|previous'
      * @return \Piwik\Period
      */
     public static function build($period, $date, $timezone = 'UTC')

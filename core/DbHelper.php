@@ -30,7 +30,7 @@ class DbHelper
     }
 
     /**
-     * Returns `true` if a table in the database, `false` if otherwise.
+     * Returns `true` if a table exists in the database, `false` if otherwise.
      *
      * @param string $tableName The name of the table to check for. Must be prefixed.
      *                          Avoid using user input, as the variable will be used in a query unescaped.
@@ -451,8 +451,8 @@ class DbHelper
     /**
      * Returns true if the string is a valid database name for MySQL. MySQL allows + in the database names.
      * Database names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), plus(+), and dot(.) will be accepted.
-     * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).
-     * File names containing anything other than above mentioned will also be rejected (file names with spaces won't be accepted).
+     * Database names beginning with anything but a-Z or 0-9 will be rejected.
+     * Database names containing anything other than above mentioned will also be rejected (names with spaces won't be accepted).
      *
      * @param string $dbname
      * @return bool

@@ -199,6 +199,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      * Test error number
      *
      * @param Exception $e
+     * @param \mysqli|null $connection
      * @param string $errno
      * @return bool
      */
