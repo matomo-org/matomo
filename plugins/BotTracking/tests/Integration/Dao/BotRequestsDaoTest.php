@@ -61,8 +61,8 @@ class BotRequestsDaoTest extends IntegrationTestCase
         $this->dao->createTable();
 
         self::assertSame(
-            ['idsite', 'bot_type', 'server_time'],
-            $this->getIndexColumns(BotRequestsDao::INDEX_IDSITE_BOT_TYPE_SERVER_TIME)
+            ['idsite', 'server_time'],
+            $this->getIndexColumns('index_idsite_server_time')
         );
     }
 

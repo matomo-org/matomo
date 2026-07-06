@@ -24,8 +24,6 @@ use Piwik\Tracker\Action;
 
 class BotRequestsDao
 {
-    public const INDEX_IDSITE_BOT_TYPE_SERVER_TIME = 'index_idsite_bot_type_server_time';
-
     private const DEFAULT_REAL_TIME_CHATBOT_LIMIT = 250;
     private const DEFAULT_REAL_TIME_PAGE_URL_LIMIT = 50000;
 
@@ -58,8 +56,7 @@ class BotRequestsDao
             `response_time_ms` INT UNSIGNED NULL,
             `source` VARCHAR(50) NULL,
             PRIMARY KEY (`idrequest`),
-            INDEX `index_idsite_server_time` (`idsite`, `server_time`),
-            INDEX `' . self::INDEX_IDSITE_BOT_TYPE_SERVER_TIME . '` (`idsite`, `bot_type`, `server_time`)';
+            INDEX `index_idsite_server_time` (`idsite`, `server_time`)';
 
         DbHelper::createTable($tableName, $definition);
     }
