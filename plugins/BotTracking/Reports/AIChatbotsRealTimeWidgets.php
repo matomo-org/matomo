@@ -11,12 +11,10 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\Reports;
 
-use Piwik\Plugins\BotTracking\API;
-
 final class AIChatbotsRealTimeWidgets
 {
-    public const LOOKBACK_LAST_30_MINUTES = API::REAL_TIME_DEFAULT_LOOKBACK_MINUTES;
-    public const LOOKBACK_LAST_480_MINUTES = 480; // 8 hours
+    public const LOOKBACK_30_MINUTES = 30;
+    public const LOOKBACK_480_MINUTES = 480; // 8 hours
 
     /**
      * @return array<int, array{name: string, documentation: string, lastMinutes: int, order: int}>
@@ -27,13 +25,13 @@ final class AIChatbotsRealTimeWidgets
             [
                 'name'          => 'BotTracking_AIChatbotsLast30MinutesTitle',
                 'documentation' => 'BotTracking_AIChatbotsLast30MinutesDocumentation',
-                'lastMinutes'   => self::LOOKBACK_LAST_30_MINUTES,
+                'lastMinutes'   => self::LOOKBACK_30_MINUTES,
                 'order'         => 10,
             ],
             [
                 'name'          => 'BotTracking_AIChatbotsLast8HoursTitle',
                 'documentation' => 'BotTracking_AIChatbotsLast8HoursDocumentation',
-                'lastMinutes'   => self::LOOKBACK_LAST_480_MINUTES,
+                'lastMinutes'   => self::LOOKBACK_480_MINUTES,
                 'order'         => 20,
             ],
         ];
@@ -48,13 +46,13 @@ final class AIChatbotsRealTimeWidgets
             [
                 'name'          => 'BotTracking_TopPageUrlsLast30MinutesTitle',
                 'documentation' => 'BotTracking_TopPageUrlsLast30MinutesDocumentation',
-                'lastMinutes'   => self::LOOKBACK_LAST_30_MINUTES,
+                'lastMinutes'   => self::LOOKBACK_30_MINUTES,
                 'order'         => 30,
             ],
             [
                 'name'          => 'BotTracking_TopPageUrlsLast8HoursTitle',
                 'documentation' => 'BotTracking_TopPageUrlsLast8HoursDocumentation',
-                'lastMinutes'   => self::LOOKBACK_LAST_480_MINUTES,
+                'lastMinutes'   => self::LOOKBACK_480_MINUTES,
                 'order'         => 40,
             ],
         ];

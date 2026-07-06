@@ -188,7 +188,7 @@ class ApiTest extends SystemTestCase
                     'periods'    => ['day'],
                     'testSuffix' => '_realtime_chatbots_30',
                     'otherRequestParameters' => [
-                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_LAST_30_MINUTES,
+                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_30_MINUTES,
                     ],
                 ],
             ],
@@ -201,7 +201,7 @@ class ApiTest extends SystemTestCase
                     'periods'    => ['day'],
                     'testSuffix' => '_realtime_chatbots_8h',
                     'otherRequestParameters' => [
-                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_LAST_480_MINUTES,
+                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_480_MINUTES,
                     ],
                 ],
             ],
@@ -214,7 +214,7 @@ class ApiTest extends SystemTestCase
                     'periods'    => ['day'],
                     'testSuffix' => '_realtime_top_pages_30',
                     'otherRequestParameters' => [
-                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_LAST_30_MINUTES,
+                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_30_MINUTES,
                     ],
                 ],
             ],
@@ -227,7 +227,7 @@ class ApiTest extends SystemTestCase
                     'periods'    => ['day'],
                     'testSuffix' => '_realtime_top_pages_8h',
                     'otherRequestParameters' => [
-                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_LAST_480_MINUTES,
+                        'lastMinutes' => AIChatbotsRealTimeWidgets::LOOKBACK_480_MINUTES,
                     ],
                 ],
             ],
