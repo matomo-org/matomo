@@ -11,8 +11,10 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\tests\Integration;
 
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\API as MetadataApi;
 use Piwik\Plugins\BotTracking\API;
 use Piwik\Plugins\BotTracking\BotDetector;
@@ -22,6 +24,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\TableLogAction;
+use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 /**
  * @group BotTracking
@@ -92,6 +95,44 @@ class RealTimeApiTest extends IntegrationTestCase
 
         self::assertNotContains('BotTracking_getAIChatbotsRealTime', $uniqueIds);
         self::assertNotContains('BotTracking_getTopPageUrlsRealTime', $uniqueIds);
+    }
+
+    public function testRealTimeReportFooterShowsConfiguredLimit(): void
+    {
+        $config = Config::getInstance();
+        $previousConfig = $config->General['live_ai_chatbots_top_page_urls_maximum_rows'] ?? null;
+        $hadPreviousConfig = array_key_exists('live_ai_chatbots_top_page_urls_maximum_rows', $config->General);
+        $config->General['live_ai_chatbots_top_page_urls_maximum_rows'] = 37;
+
+        try {
+            Manager::getInstance()->loadPluginTranslations();
+
+            $_GET['idSite'] = (string) $this->idSite;
+            $_GET['date'] = 'today';
+            $_GET['period'] = 'day';
+
+            $view = ViewDataTableFactory::build(
+                $defaultType = null,
+                'BotTracking.getTopPageUrlsRealTime',
+                $controllerAction = 'BotTracking.getTopPageUrlsRealTime',
+                $forceDefault = false,
+                $loadViewDataTableParametersForUser = false
+            );
+
+            self::assertStringContainsString('37', $view->config->show_footer_message);
+            self::assertNotSame(
+                'BotTracking_AIChatbotsRealTimeReportLimitFooter',
+                $view->config->show_footer_message
+            );
+        } finally {
+            unset($_GET['idSite'], $_GET['date'], $_GET['period']);
+
+            if ($hadPreviousConfig) {
+                $config->General['live_ai_chatbots_top_page_urls_maximum_rows'] = $previousConfig;
+            } else {
+                unset($config->General['live_ai_chatbots_top_page_urls_maximum_rows']);
+            }
+        }
     }
 
     public function testHiddenRealTimeReportsAreAddedToGlossaryPageItems(): void

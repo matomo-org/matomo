@@ -25,6 +25,7 @@
         "AIChatbotsRealtime": "AI Chatbots Real-time",
         "AIChatbotsRealtimeHelp1": "The AI Chatbots Real-time page shows recent AI chatbot activity from raw bot tracking data, including chatbot request volume, unique page URLs, and HTTP error counts.",
         "AIChatbotsRealtimeHelp2": "These reports are limited to short real-time windows so they remain fast and predictable on large sites.",
+        "AIChatbotsRealTimeReportLimitFooter": "This report is limited to the top %1$s rows.",
         "AIChatbotsReportDocumentation": "Discover which AI chatbots are crawling your site and how many hits each one generates. Expand a chatbot to review the most frequently requested pages or documents.",
         "AIChatbotsReportTitle": "AI Chatbots",
         "ChatbotsOverTimeReportDocumentation": "This report charts the evolution of AI chatbot activity. Click any metric to enlarge its graph and review the underlying trend.",

@@ -14,6 +14,7 @@ namespace Piwik\Plugins\BotTracking\Reports;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\BotTracking\Columns\Metrics\Requests;
 use Piwik\Plugins\BotTracking\Columns\PageUrl;
+use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\BotTracking\Metrics;
 
 abstract class AbstractAIChatbotsRealTimeTopPageUrlsReport extends AbstractAIChatbotsRealTimeReport
@@ -37,5 +38,10 @@ abstract class AbstractAIChatbotsRealTimeTopPageUrlsReport extends AbstractAICha
             false,
             false
         );
+    }
+
+    protected function getReportRowLimit(): int
+    {
+        return BotRequestsDao::getTopPageUrlsForDateRangeLimit();
     }
 }

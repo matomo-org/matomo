@@ -14,6 +14,7 @@ namespace Piwik\Plugins\BotTracking\Reports;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\BotTracking\Columns\AIChatbotName;
 use Piwik\Plugins\BotTracking\Columns\Metrics\Requests;
+use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\BotTracking\Metrics;
 
 abstract class AbstractAIChatbotsRealTimeChatbotsReport extends AbstractAIChatbotsRealTimeReport
@@ -46,5 +47,10 @@ abstract class AbstractAIChatbotsRealTimeChatbotsReport extends AbstractAIChatbo
             false,
             false
         );
+    }
+
+    protected function getReportRowLimit(): int
+    {
+        return BotRequestsDao::getAIChatbotActivityForDateRangeLimit();
     }
 }

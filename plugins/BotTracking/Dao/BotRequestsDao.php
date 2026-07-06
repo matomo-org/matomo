@@ -38,6 +38,16 @@ class BotRequestsDao
         return Common::prefixTable(self::getTableName());
     }
 
+    public static function getAIChatbotActivityForDateRangeLimit(): int
+    {
+        return self::getRealTimeReportLimit(self::CONFIG_LIVE_AI_CHATBOTS_MAXIMUM_ROWS);
+    }
+
+    public static function getTopPageUrlsForDateRangeLimit(): int
+    {
+        return self::getRealTimeReportLimit(self::CONFIG_LIVE_AI_CHATBOTS_TOP_PAGE_URLS_MAXIMUM_ROWS);
+    }
+
     /**
      * Creates the log table
      */
@@ -178,7 +188,7 @@ class BotRequestsDao
             return new DataTable();
         }
 
-        $limit = $this->getRealTimeReportLimit(self::CONFIG_LIVE_AI_CHATBOTS_MAXIMUM_ROWS);
+        $limit = self::getAIChatbotActivityForDateRangeLimit();
 
         $idSitePlaceholders = Common::getSqlStringFieldsArray($idSites);
         $tableName          = self::getPrefixedTableName();
@@ -248,7 +258,7 @@ class BotRequestsDao
             return new DataTable();
         }
 
-        $limit = $this->getRealTimeReportLimit(self::CONFIG_LIVE_AI_CHATBOTS_TOP_PAGE_URLS_MAXIMUM_ROWS);
+        $limit = self::getTopPageUrlsForDateRangeLimit();
 
         $idSitePlaceholders = Common::getSqlStringFieldsArray($idSites);
         $tableName          = self::getPrefixedTableName();
@@ -331,7 +341,7 @@ class BotRequestsDao
         return DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->getRealTimeQueryMaxExecutionTime());
     }
 
-    private function getRealTimeReportLimit(string $configKey): int
+    private static function getRealTimeReportLimit(string $configKey): int
     {
         $limit = GeneralConfig::getIntegerConfigValue($configKey, self::DEFAULT_REAL_TIME_REPORT_LIMIT);
         if ($limit <= 0) {

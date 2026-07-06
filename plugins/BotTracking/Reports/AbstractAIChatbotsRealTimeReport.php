@@ -13,6 +13,7 @@ namespace Piwik\Plugins\BotTracking\Reports;
 
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Piwik;
 use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
@@ -40,6 +41,10 @@ abstract class AbstractAIChatbotsRealTimeReport extends Report
 
         $view->requestConfig->filter_sort_column = $this->defaultSortColumn;
         $view->requestConfig->filter_sort_order  = 'desc';
+        $view->config->show_footer_message        = Piwik::translate(
+            'BotTracking_AIChatbotsRealTimeReportLimitFooter',
+            [$this->getReportRowLimit()]
+        );
 
         $view->config->metrics_documentation = array_merge(
             $view->config->metrics_documentation,
@@ -71,4 +76,6 @@ abstract class AbstractAIChatbotsRealTimeReport extends Report
      * @return array<int, array{name: string, documentation: string, lastMinutes: int, order: int}>
      */
     abstract protected function getWidgetDefinitions(): array;
+
+    abstract protected function getReportRowLimit(): int;
 }
