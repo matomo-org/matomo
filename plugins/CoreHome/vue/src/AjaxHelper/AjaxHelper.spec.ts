@@ -370,6 +370,51 @@ describe('CoreHome/AjaxHelper', () => {
     expect(requestedUrl).toContain('segment=urlSegmentValue');
   });
 
+  it('escapes query-string characters in an unencoded segment value', async () => {
+    let requestedUrl = '';
+
+    installUrlCapturingAjaxMock((url) => {
+      requestedUrl = url;
+    });
+
+    const helper = new AjaxHelper();
+    helper.addParams({
+      module: 'API',
+      method: 'SomeReport.get',
+      // a not pre-encoded segment value containing characters with query-string meaning
+      segment: 'x&method=Other.method&foo=bar#',
+    }, 'get');
+
+    await helper.send();
+
+    // the whole value stays inside the segment parameter (query-string characters escaped)
+    expect(requestedUrl).toContain('segment=x%26method=Other.method%26foo=bar%23');
+    // so it does not turn into separate query parameters
+    expect(requestedUrl).not.toContain('&method=Other.method');
+    expect(requestedUrl).not.toContain('#');
+    // and the other request parameters are still present
+    expect(requestedUrl).toContain('&method=SomeReport.get');
+  });
+
+  it('does not double-encode an already encoded segment value', async () => {
+    let requestedUrl = '';
+
+    installUrlCapturingAjaxMock((url) => {
+      requestedUrl = url;
+    });
+
+    const helper = new AjaxHelper();
+    helper.addParams({
+      module: 'API',
+      method: 'SomeReport.get',
+      segment: 'pageUrl%3D%3Dhttps%253A%252F%252Fexample.com',
+    }, 'get');
+
+    await helper.send();
+
+    expect(requestedUrl).toContain('segment=pageUrl%3D%3Dhttps%253A%252F%252Fexample.com');
+  });
+
   describe('date/period validation', () => {
     const validCases: Array<[string, QueryParameters]> = [
       ['day + ISO date', { period: 'day', date: '2024-01-15' }],

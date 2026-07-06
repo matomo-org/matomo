@@ -1398,7 +1398,13 @@ class AjaxHelper_AjaxHelper {
       const segmentValue = parameters.segment;
       delete parameters.segment;
       if (segmentValue !== null && typeof segmentValue !== 'undefined') {
-        url = `${url}segment=${segmentValue}&`;
+        // We can't run the segment through a full encode helper here, as legacy callers may
+        // already pass a pre-encoded value and we would double-encode it. So we manually escape
+        // the few characters that carry query-string meaning to keep the value a single
+        // parameter. A correctly encoded segment never contains these literally, so this leaves
+        // already-encoded values untouched.
+        const safeSegmentValue = `${segmentValue}`.replace(/&/g, '%26').replace(/#/g, '%23').replace(/\?/g, '%3F');
+        url = `${url}segment=${safeSegmentValue}&`;
       }
     }
     if (parameters.date) {
