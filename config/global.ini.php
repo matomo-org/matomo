@@ -676,6 +676,11 @@ live_widget_visitor_count_last_minutes = 3
 ; this limit can be adjusted by changing this value
 live_visitor_profile_max_visits_to_aggregate = 100
 
+; maximum number of AI chatbots listed in the real-time AI Chatbots reports
+live_ai_chatbots_maximum_rows = 100
+; maximum number of page URLs listed in the real-time AI Chatbots top page URL reports
+live_ai_chatbots_top_page_urls_maximum_rows = 100
+
 ; If configured, will abort a MySQL query after the configured amount of seconds and show an error in the UI to for
 ; example lower the date range or tweak the segment (if one is applied). Set it to -1 if the query time should not be
 ; limited. Note: This feature requires a recent MySQL version (5.7 or newer) and the PDO\MYSQL extension must be used.

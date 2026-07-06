@@ -24,8 +24,9 @@ use Piwik\Tracker\Action;
 
 class BotRequestsDao
 {
-    private const DEFAULT_REAL_TIME_CHATBOT_LIMIT = 250;
-    private const DEFAULT_REAL_TIME_PAGE_URL_LIMIT = 50000;
+    private const CONFIG_LIVE_AI_CHATBOTS_MAXIMUM_ROWS = 'live_ai_chatbots_maximum_rows';
+    private const CONFIG_LIVE_AI_CHATBOTS_TOP_PAGE_URLS_MAXIMUM_ROWS = 'live_ai_chatbots_top_page_urls_maximum_rows';
+    private const DEFAULT_REAL_TIME_REPORT_LIMIT = 100;
 
     public static function getTableName(): string
     {
@@ -177,10 +178,7 @@ class BotRequestsDao
             return new DataTable();
         }
 
-        $limit = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_bots', self::DEFAULT_REAL_TIME_CHATBOT_LIMIT);
-        if ($limit <= 0) {
-            $limit = self::DEFAULT_REAL_TIME_CHATBOT_LIMIT;
-        }
+        $limit = $this->getRealTimeReportLimit(self::CONFIG_LIVE_AI_CHATBOTS_MAXIMUM_ROWS);
 
         $idSitePlaceholders = Common::getSqlStringFieldsArray($idSites);
         $tableName          = self::getPrefixedTableName();
@@ -250,10 +248,7 @@ class BotRequestsDao
             return new DataTable();
         }
 
-        $limit = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_ai_chatbot_content', self::DEFAULT_REAL_TIME_PAGE_URL_LIMIT);
-        if ($limit <= 0) {
-            $limit = self::DEFAULT_REAL_TIME_PAGE_URL_LIMIT;
-        }
+        $limit = $this->getRealTimeReportLimit(self::CONFIG_LIVE_AI_CHATBOTS_TOP_PAGE_URLS_MAXIMUM_ROWS);
 
         $idSitePlaceholders = Common::getSqlStringFieldsArray($idSites);
         $tableName          = self::getPrefixedTableName();
@@ -334,6 +329,16 @@ class BotRequestsDao
     private function addRealTimeQueryMaxExecutionTimeHint(string $sql): string
     {
         return DbHelper::addMaxExecutionTimeHintToQuery($sql, $this->getRealTimeQueryMaxExecutionTime());
+    }
+
+    private function getRealTimeReportLimit(string $configKey): int
+    {
+        $limit = GeneralConfig::getIntegerConfigValue($configKey, self::DEFAULT_REAL_TIME_REPORT_LIMIT);
+        if ($limit <= 0) {
+            return self::DEFAULT_REAL_TIME_REPORT_LIMIT;
+        }
+
+        return $limit;
     }
 
     private function getRealTimeQueryMaxExecutionTime(): float

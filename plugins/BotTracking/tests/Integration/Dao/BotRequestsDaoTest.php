@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\tests\Integration\Dao;
 
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\BotTracking\BotDetector;
@@ -196,6 +197,35 @@ class BotRequestsDaoTest extends IntegrationTestCase
         self::assertSame(1, $rows[1]->getColumn(Metrics::COLUMN_REQUESTS));
         self::assertSame('example.com/realtime/c', $rows[2]->getColumn('label'));
         self::assertSame(1, $rows[2]->getColumn(Metrics::COLUMN_REQUESTS));
+    }
+
+    public function testGetTopPageUrlsRealTimeUsesConfiguredLimit(): void
+    {
+        $config = Config::getInstance();
+        $previousConfig = $config->General['live_ai_chatbots_top_page_urls_maximum_rows'] ?? null;
+        $hadPreviousConfig = array_key_exists('live_ai_chatbots_top_page_urls_maximum_rows', $config->General);
+        $config->General['live_ai_chatbots_top_page_urls_maximum_rows'] = 2;
+
+        try {
+            $pageA = $this->createAction('example.com/realtime/a', Action::TYPE_PAGE_URL);
+            $pageB = $this->createAction('example.com/realtime/b', Action::TYPE_PAGE_URL);
+            $pageC = $this->createAction('example.com/realtime/c', Action::TYPE_PAGE_URL);
+
+            $this->insertTestRecord('2026-01-01 10:00:00', 'ChatGPT-User', null, $pageA, 200);
+            $this->insertTestRecord('2026-01-01 10:10:00', 'ChatGPT-User', null, $pageA, 200);
+            $this->insertTestRecord('2026-01-01 10:20:00', 'Claude-User', null, $pageB, 200);
+            $this->insertTestRecord('2026-01-01 10:30:00', 'Perplexity-User', null, $pageC, 200);
+
+            $table = $this->dao->getTopPageUrlsRealTime([$this->idSite], '2026-01-01 10:00:00', '2026-01-01 12:00:00');
+
+            self::assertCount(2, $table->getRows());
+        } finally {
+            if ($hadPreviousConfig) {
+                $config->General['live_ai_chatbots_top_page_urls_maximum_rows'] = $previousConfig;
+            } else {
+                unset($config->General['live_ai_chatbots_top_page_urls_maximum_rows']);
+            }
+        }
     }
 
     private function insertTestRecord(
