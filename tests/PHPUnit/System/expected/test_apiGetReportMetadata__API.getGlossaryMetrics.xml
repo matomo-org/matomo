@@ -106,11 +106,6 @@
 		<documentation>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</documentation>
 	</row>
 	<row>
-		<name>Chatbot requests</name>
-		<id>chatbot_requests</id>
-		<documentation>Total number of requests recorded from AI chatbots during the real-time window. Includes both page and document URLs unless the report is scoped to page URLs.</documentation>
-	</row>
-	<row>
 		<name>Click-through rate</name>
 		<id>BotTracking_AIChatbotsClickThroughRate</id>
 		<documentation>Share of AI chatbot requests that resulted in acquired visits (acquired visits ÷ requests).</documentation>
