@@ -61,6 +61,9 @@ abstract class Updates
      * This is not tied to semantic major versions. Use it for product-level changes that can
      * require substantial work or downtime on large instances, such as modifying large db tables.
      *
+     * NOTE to release manager: Remember to mention in the Changelog
+     * that this update contains major DB upgrades and will take some time!
+     *
      * @return bool
      */
     public static function isMajorUpdate()
