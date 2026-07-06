@@ -17,7 +17,7 @@
                         {{ metric.sparkline|raw }}
                     </td>
                     <td class="text">
-                        <span class="evolution-graph-colors" data-name="series{{ (i % seriesColorCount) + 1 }}">
+                        <span class="evolution-graph-colors" data-name="series{{ i % seriesColorCount }}">
                             {{- metric.label|rawSafeDecoded -}}
                         </span>
                         {% if metric.details %}:
