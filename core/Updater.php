@@ -162,8 +162,7 @@ class Updater
      * Returns the currently installed version of a Piwik component.
      *
      * @param string $name The component name. Eg, a plugin name, `'core'` or dimension column name.
-     * @return string A semantic version.
-     * @throws \Exception
+     * @return string|false A semantic version, or false if the component version is not recorded yet.
      */
     public function getCurrentComponentVersion($name)
     {

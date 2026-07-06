@@ -543,7 +543,7 @@ abstract class LocationProvider
      * will return an IPv4 address or IPv6 address.
      *
      * @param  array $info Must have 'ip' key.
-     * @return string|null
+     * @return string
      */
     protected function getIpFromInfo($info)
     {

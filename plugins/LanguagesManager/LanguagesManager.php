@@ -172,7 +172,7 @@ class LanguagesManager extends \Piwik\Plugin
     }
 
     /**
-     * @return string Full english language string, eg. "French"
+     * @return string|false Full english language string, eg. "French"
      */
     public static function getLanguageNameForCurrentUser()
     {

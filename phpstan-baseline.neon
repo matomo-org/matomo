@@ -335,15 +335,6 @@ parameters:
 			count: 1
 			path: core/Columns/Updater.php
 
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 2
-			path: core/Columns/Updater.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
-			count: 1
-			path: core/Columns/Updater.php
 
 		-
 			message: "#^Comparison operation \"\\<\" between int\\<2, 3\\> and 2 is always false\\.$#"
@@ -1184,10 +1175,6 @@ parameters:
 			count: 1
 			path: core/Scheduler/Schedule/Monthly.php
 
-		-
-			message: "#^Method Piwik\\\\Scheduler\\\\Schedule\\\\Schedule\\:\\:getScheduledTimeForPeriod\\(\\) should return Piwik\\\\Scheduler\\\\Schedule\\\\Daily\\|Piwik\\\\Scheduler\\\\Schedule\\\\Monthly\\|Piwik\\\\Scheduler\\\\Schedule\\\\Weekly but returns Piwik\\\\Scheduler\\\\Schedule\\\\Hourly\\.$#"
-			count: 1
-			path: core/Scheduler/Schedule/Schedule.php
 
 		-
 			message: "#^Parameter \\#3 \\$sec of function mktime expects int, string given\\.$#"
@@ -1512,10 +1499,6 @@ parameters:
 			count: 1
 			path: core/Tracker/Db/Mysqli.php
 
-		-
-			message: "#^Return type \\(bool\\|resource\\) of method Piwik\\\\Tracker\\\\Db\\\\Mysqli\\:\\:query\\(\\) should be compatible with return type \\(Piwik\\\\Tracker\\\\PDOStatement\\) of method Piwik\\\\Tracker\\\\Db\\:\\:query\\(\\)$#"
-			count: 1
-			path: core/Tracker/Db/Mysqli.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between array\\|bool and null will always evaluate to false\\.$#"
@@ -1754,10 +1737,6 @@ parameters:
 			count: 1
 			path: core/UpdateCheck.php
 
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
-			count: 1
-			path: core/Updater.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between array\\<int\\>\\|int and false will always evaluate to false\\.$#"
@@ -2381,10 +2360,6 @@ parameters:
 			count: 1
 			path: plugins/CorePluginsAdmin/SettingsMetadata.php
 
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/CoreUpdater/Commands/Update.php
 
 		-
 			message: "#^Parameter \\#1 \\$https of method Piwik\\\\Plugins\\\\CoreUpdater\\\\Updater\\:\\:updatePiwik\\(\\) expects bool, int given\\.$#"
@@ -3068,10 +3043,6 @@ parameters:
 			count: 1
 			path: plugins/LanguagesManager/Commands/PluginsWithTranslations.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\LanguagesManager\\\\LanguagesManager\\:\\:getLanguageNameForCurrentUser\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: plugins/LanguagesManager/LanguagesManager.php
 
 		-
 			message: "#^Parameter \\#5 \\$tooltip of method Piwik\\\\Menu\\\\MenuTop\\:\\:addHtml\\(\\) expects string, false given\\.$#"
@@ -3369,10 +3340,6 @@ parameters:
 			count: 1
 			path: plugins/Referrers/DataTable/Filter/SetGetReferrerTypeSubtables.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\SearchEngine\\:\\:getBackLinkFromUrlAndKeyword\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: plugins/Referrers/SearchEngine.php
 
 
 		-

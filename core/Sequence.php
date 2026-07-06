@@ -43,7 +43,7 @@ class Sequence
      * The name of the table or sequence you want to get an id for.
      *
      * @param string $name eg 'archive_numeric_2014_11'
-     * @param AdapterInterface $db You can optionally pass a DB adapter to make it work against another database.
+     * @param AdapterInterface|null $db You can optionally pass a DB adapter to make it work against another database.
      * @param string|null $tablePrefix
      */
     public function __construct($name, $db = null, $tablePrefix = null)

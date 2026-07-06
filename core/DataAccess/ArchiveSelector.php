@@ -49,7 +49,7 @@ class ArchiveSelector
     }
 
     /**
-     * @param false|int|string|Date|null $minDatetimeArchiveProcessedUTC deprecated. Will be removed in Matomo 4.
+     * @param false|int|string|Date|null $minDatetimeArchiveProcessedUTC The minimum ts_archived an archive must have to be considered usable, or false to accept any.
      * @param bool|null $includeInvalidated true to include archives that are DONE_INVALIDATED, false if only DONE_OK,
      *                                      null to determine automatically based on $params.
      * @return array An array with the following values:

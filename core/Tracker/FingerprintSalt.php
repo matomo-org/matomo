@@ -25,7 +25,7 @@ class FingerprintSalt
 
     public function deleteOldSalts()
     {
-        // we want to make sure to delete salts that were created more than three days ago as they are likely not in
+        // we want to make sure to delete salts that were created more than five days ago as they are likely not in
         // use anymore. We should delete them to ensure the fingerprint is truly random for each day because if we used
         // eg the regular salt then it would technically still be possible to try and regenerate the fingerprint based
         // on certain information.
