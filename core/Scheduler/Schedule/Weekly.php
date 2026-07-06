@@ -19,7 +19,7 @@ use Exception;
 class Weekly extends Schedule
 {
     /**
-     * @see ScheduledTime::getRescheduledTime
+     * @see Schedule::getRescheduledTime
      * @return int
      */
     public function getRescheduledTime()

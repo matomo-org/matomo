@@ -35,8 +35,6 @@ class NumberFormatter
      * that gets needed characters (ie, NumberFormatSource). The default implementation
      * can use the Translator. This will make it easier to unit test NumberFormatter,
      * w/o needing the Piwik Environment.
-     *
-     * @return NumberFormatter
      */
     public function __construct(Translator $translator)
     {
@@ -193,6 +191,7 @@ class NumberFormatter
      * @see \Piwik\NumberFormatter::format()
      *
      * @param string|int|float $value
+     * @param string $currency
      * @return mixed|string
      */
     public function formatCurrencyCompact($value, $currency)

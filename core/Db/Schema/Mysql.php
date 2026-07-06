@@ -561,7 +561,7 @@ class Mysql implements SchemaInterface
     /**
      * Create database
      *
-     * @param string $dbName Name of the database to create
+     * @param string|null $dbName Name of the database to create
      */
     public function createDatabase($dbName = null)
     {
