@@ -313,25 +313,25 @@ describe("BotTracking", function () {
 
         await assertHeaders(chatbots30WidgetId, [
             'AI Chatbot Name',
-            'Chatbot requests',
+            'Requests',
             'Unique page URLs',
             'Not found requests',
             'Server error (5xx) requests',
         ]);
         await assertHeaders(chatbots8hWidgetId, [
             'AI Chatbot Name',
-            'Chatbot requests',
+            'Requests',
             'Unique page URLs',
             'Not found requests',
             'Server error (5xx) requests',
         ]);
         await assertHeaders(pages30WidgetId, [
             'Page URL',
-            'Chatbot requests',
+            'Requests',
         ]);
         await assertHeaders(pages8hWidgetId, [
             'Page URL',
-            'Chatbot requests',
+            'Requests',
         ]);
 
         await assertMetricDocumentation(chatbots30WidgetId, 4);
