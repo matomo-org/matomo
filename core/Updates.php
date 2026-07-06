@@ -56,11 +56,10 @@ abstract class Updates
     }
 
     /**
-     * Tell the updater that this is a major update.
-     * Leads to a more visible notice.
+     * Tell the updater that this update has major operational impact.
      *
-     * NOTE to release manager: Remember to mention in the Changelog
-     * that this update contains major DB upgrades and will take some time!
+     * This is not tied to semantic major versions. Use it for product-level changes that can
+     * require substantial work or downtime on large instances, such as modifying large db tables.
      *
      * @return bool
      */
