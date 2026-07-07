@@ -3360,11 +3360,6 @@ parameters:
 			path: plugins/UsersManager/SystemSettings.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(API\\)\\: Unexpected token \"\\\\n     \", expected variable at offset 21$#"
-			count: 1
-			path: plugins/UsersManager/Tasks.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/UsersManager/TokenNotifications/TokenNotifierTask.php
@@ -3413,11 +3408,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
 			count: 4
 			path: plugins/WebsiteMeasurable/MeasurableSettings.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\|array urls\\)\\: Unexpected token \"urls\", expected variable at offset 172$#"
-			count: 1
-			path: plugins/WebsiteMeasurable/Settings/Urls.php
 
 		-
 			message: "#^If condition is always false\\.$#"
