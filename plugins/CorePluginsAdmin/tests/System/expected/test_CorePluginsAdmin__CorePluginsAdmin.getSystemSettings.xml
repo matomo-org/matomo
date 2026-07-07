@@ -1123,8 +1123,8 @@ Another line</defaultValue>
 			<row>
 				<name>block_headless</name>
 				<title>Block headless browsers</title>
-				<value>0</value>
-				<defaultValue>0</defaultValue>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
 				<type>boolean</type>
 				<uiControl>checkbox</uiControl>
 				<uiControlAttributes>
