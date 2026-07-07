@@ -30,6 +30,18 @@ describe("BarGraph", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('load');
     });
 
+    it("should render a label for every bar", async function () {
+        await page.goto(url + 'token_auth=' + viewTokenAuth);
+        await page.waitForNetworkIdle();
+
+        const renderedTicks = await page.evaluate(function () {
+            return document.querySelectorAll('.jqplot-xaxis-tick').length;
+        });
+
+        // One label per bar - none blanked out.
+        expect(renderedTicks).to.equal(6);
+    });
+
     it("should display the metric picker when the metric picker button is clicked", async function () {
         await page.click('.metrics-picker__toggle');
         expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
