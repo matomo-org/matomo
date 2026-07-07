@@ -28,7 +28,7 @@ class Category
 
     /**
      * The id of the category as specified eg in {@link Piwik\Widget\WidgetConfig::setCategoryId()`} or
-     * {@link Piwik\Report\getCategoryId()}. The id is used as the name in the menu and will be visible in the
+     * {@link Piwik\Plugin\Report::getCategoryId()}. The id is used as the name in the menu and will be visible in the
      * URL.
      *
      * @var string Should be a translation key, eg 'General_Visits'
