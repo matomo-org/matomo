@@ -32,7 +32,7 @@ use Piwik\View;
  * the sparklines are shown in one column.
  *
  * The sparklines view currently only supports requesting columns from the same API (the API method of the defining
- * report) via {Sparklines\Config::addSparklineMetric($columns = array('nb_visits', 'nb_unique_visitors'))}.
+ * report) via {Sparklines\Config::addSparklineMetric($columns = array('nb_visits', 'nb_uniq_visitors'))}.
  *
  * Example:
  * $view->config->addSparklineMetric('nb_visits'); // if an array of metrics given, they will be displayed comma separated
