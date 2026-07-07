@@ -119,6 +119,27 @@ class ForecastBuilder
     private const DAY_PRIOR_TARGET_SAMPLES = 10;
 
     /**
+     * Number of most-recent same-period samples whose median defines the "current level" used to
+     * detect a traffic level shift in {@see stripPreLevelShiftSamples()}. Matches
+     * MIN_SAMPLES_FOR_BOUNDED_RANGE so the same window that must exist for the envelope clamp also
+     * anchors the shift detector; four points is enough for a median to shrug off a single noisy
+     * recent day without being so wide it reaches back across the very shift it is meant to detect.
+     */
+    private const RECENT_LEVEL_WINDOW = 4;
+
+    /**
+     * Fold-change threshold marking a same-period sample as belonging to a pre-shift traffic
+     * regime rather than the current one, used by {@see stripPreLevelShiftSamples()}. A sample
+     * more than this factor above or below the current level (so outside
+     * [level / RATIO, level * RATIO]) reads as a discrete step change — a marketing, tracking or
+     * seasonality regime the current period no longer belongs to — not the gradual drift the
+     * damped linear trend is meant to model. 2.0 leaves a genuine trend (which does not double or
+     * halve within a ten-week same-DoW window) untouched while catching the multi-fold steps that
+     * otherwise drag the trend fit far below the current level.
+     */
+    private const LEVEL_SHIFT_RATIO = 2.0;
+
+    /**
      * Default number of same-DoW analog samples per remaining day slot when forecasting a week.
      * Smaller chunks lose accuracy from a single noisy analog; larger chunks pull in older
      * traffic that drifts away from current site level.
@@ -1399,7 +1420,7 @@ class ForecastBuilder
             );
 
             if (ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity) {
-                return $this->removeLeadingZeroSamples($samples);
+                return $this->stripPreLevelShiftSamples($this->removeLeadingZeroSamples($samples));
             }
 
             return array_values($samples);
@@ -1568,6 +1589,52 @@ class ForecastBuilder
         }
 
         return array_values($samples);
+    }
+
+    /**
+     * Strip the leading (oldest) run of same-period samples that sit on the far side of a traffic
+     * level shift from the current level, so the damped linear-trend prior fits the current
+     * regime instead of reading the pre-shift level as a steep ongoing trend.
+     *
+     * Without this, a site whose traffic stepped (e.g. a 3.5x drop) partway through the same-DoW
+     * window collapses: the fit runs a line from the old high samples down through the recent low
+     * ones and projects well below the current level, which the envelope clamp then only floors at
+     * a low bound. The current level is the median of the most recent {@see RECENT_LEVEL_WINDOW}
+     * samples; any unbroken run of oldest samples more than {@see LEVEL_SHIFT_RATIO} away from it
+     * (either direction) is dropped. A gradual trend never crosses that ratio within the window so
+     * it survives untouched — only a discrete multi-fold step is trimmed. Mirrors
+     * {@see removeLeadingZeroSamples()}, which strips a different kind of unrepresentative leading
+     * run (pre-tracking zeros).
+     *
+     * Skipped below RECENT_LEVEL_WINDOW samples (too few to tell a shift from noise) and when the
+     * recent level is <= 0 (the trailing-no-data path handles a genuinely empty recent window).
+     * Never trims into the recent-level window itself, so at least those samples always remain.
+     *
+     * @param array<int, float> $samples Oldest-first.
+     * @return array<int, float>
+     */
+    private function stripPreLevelShiftSamples(array $samples): array
+    {
+        $count = count($samples);
+        if ($count < self::RECENT_LEVEL_WINDOW) {
+            return $samples;
+        }
+
+        $recentLevel = $this->median(array_slice($samples, -self::RECENT_LEVEL_WINDOW));
+        if ($recentLevel <= 0.0) {
+            return $samples;
+        }
+
+        $lower = $recentLevel / self::LEVEL_SHIFT_RATIO;
+        $upper = $recentLevel * self::LEVEL_SHIFT_RATIO;
+        $maxTrim = $count - self::RECENT_LEVEL_WINDOW;
+
+        $trim = 0;
+        while ($trim < $maxTrim && ($samples[$trim] < $lower || $samples[$trim] > $upper)) {
+            ++$trim;
+        }
+
+        return array_values(array_slice($samples, $trim));
     }
 
     private function shouldRenderForecastValue(
