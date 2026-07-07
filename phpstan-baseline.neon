@@ -413,16 +413,6 @@ parameters:
 			path: core/DataAccess/ArchiveSelector.php
 
 		-
-			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 1330$#"
-			count: 1
-			path: core/DataAccess/ArchiveSelector.php
-
-		-
-			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 733$#"
-			count: 1
-			path: core/DataAccess/ArchiveSelector.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between int\\|string and null will always evaluate to false\\.$#"
 			count: 1
 			path: core/DataAccess/ArchiveSelector.php
@@ -436,11 +426,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$options of function json_encode expects int, true given\\.$#"
 			count: 1
 			path: core/DataAccess/ArchivingDbAdapter.php
-
-		-
-			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 89$#"
-			count: 1
-			path: core/DataAccess/LogQueryBuilder.php
 
 		-
 			message: "#^Parameter \\#3 \\$where of method Piwik\\\\DataAccess\\\\LogQueryBuilder\\:\\:buildSelectQuery\\(\\) expects string, false given\\.$#"
@@ -503,11 +488,6 @@ parameters:
 			path: core/DataTable/Filter/ColumnCallbackAddColumnQuotient.php
 
 		-
-			message: "#^Parameter \\$function of method Piwik\\\\DataTable\\\\Filter\\\\ColumnCallbackDeleteRow\\:\\:__construct\\(\\) has invalid type Piwik\\\\DataTable\\\\Filter\\\\callback\\.$#"
-			count: 1
-			path: core/DataTable/Filter/ColumnCallbackDeleteRow.php
-
-		-
 			message: "#^Property Piwik\\\\DataTable\\\\Filter\\\\Pattern\\:\\:\\$patternToSearch is never read, only written\\.$#"
 			count: 1
 			path: core/DataTable/Filter/Pattern.php
@@ -521,11 +501,6 @@ parameters:
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: core/DataTable/Filter/PivotByDimension.php
-
-		-
-			message: "#^Parameter \\$doSortBySecondaryColumn of method Piwik\\\\DataTable\\\\Filter\\\\Sort\\:\\:__construct\\(\\) has invalid type Piwik\\\\DataTable\\\\Filter\\\\callback\\.$#"
-			count: 1
-			path: core/DataTable/Filter/Sort.php
 
 		-
 			message: "#^Instanceof between Piwik\\\\DataTable\\|false and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
@@ -902,11 +877,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$dimension \\(Piwik\\\\Columns\\\\Dimension\\) in empty\\(\\) is not falsy\\.$#"
 			count: 1
 			path: core/Plugin/Report.php
-
-		-
-			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 138$#"
-			count: 1
-			path: core/Plugin/ViewDataTable.php
 
 		-
 			message: "#^Property Piwik\\\\ViewDataTable\\\\RequestConfig\\:\\:\\$filter_excludelowpop_value \\(Closure\\|string\\) in isset\\(\\) is not nullable\\.$#"
@@ -1763,11 +1733,6 @@ parameters:
 
 		-
 			message: "#^Method Piwik\\\\ViewDataTable\\\\Manager\\:\\:getFooterIconFor\\(\\) should return array but empty return statement found\\.$#"
-			count: 1
-			path: core/ViewDataTable/Manager.php
-
-		-
-			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 130$#"
 			count: 1
 			path: core/ViewDataTable/Manager.php
 
@@ -3296,11 +3261,6 @@ parameters:
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\UsersManager\\\\Controller\\:\\:noAdminAccessToWebsite\\(\\) is unused\\.$#"
-			count: 1
-			path: plugins/UsersManager/Controller.php
-
-		-
-			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \\* \", expected type at offset 149$#"
 			count: 1
 			path: plugins/UsersManager/Controller.php
 
