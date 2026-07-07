@@ -850,7 +850,7 @@ class Model
          * This event should be used to clean up any data that is related to the now deleted user.
          * The **Dashboard** plugin, for example, uses this event to remove the user's dashboards.
          *
-         * @param string $userLogins The login handle of the deleted user.
+         * @param string $userLogin The login handle of the deleted user.
          */
         try {
             Piwik::postEvent('UsersManager.deleteUser', array($userLogin));

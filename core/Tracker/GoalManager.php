@@ -857,7 +857,7 @@ class GoalManager
      * @param string $hook
      * @param Visitor $visitor
      * @param Action|null $action
-     * @param array|null $valuesToUpdate If null, $this->visitorInfo will be updated
+     * @param array|null $valuesToUpdate
      *
      * @return array|null The updated $valuesToUpdate or null if no $valuesToUpdate given
      */

@@ -564,8 +564,7 @@ class Model
      *                      visitor will be the visitor that appears chronologically later in the
      *                      log_visit table. The previous visitor will be the visitor that appears
      *                      earlier.
-     * @return string The hex visitor ID.
-     * @throws Exception
+     * @return string|false The hex visitor ID, or false if no adjacent visitor exists.
      */
     public function queryAdjacentVisitorId($idSite, $visitorId, $visitLastActionTime, $segment, $getNext)
     {

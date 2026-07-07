@@ -100,7 +100,7 @@ class PrivacyManager extends Plugin
      * - The data table for this report must either be empty or not have been fetched.
      * - The period of this report is not a multiple period.
      * - The date of this report must be older than the delete_reports_older_than config option.
-     * @param  DataTableInterface $dataTable
+     * @param  DataTableInterface|null $dataTable
      * @return bool
      */
     public static function hasReportBeenPurged($dataTable)
@@ -132,7 +132,7 @@ class PrivacyManager extends Plugin
     }
 
     /**
-     * @param DataTable $dataTable
+     * @param DataTable|null $dataTable
      * @param int|null $logsOlderThan If set, it is assumed that log deletion is enabled with the given amount of days
      * @return bool
      */
