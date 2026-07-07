@@ -261,7 +261,7 @@ class ArchiveInvalidator
     /**
      * @param int[] $idSites
      * @param Date[]|string[] $dates
-     * @param string $period
+     * @param string|false $period
      * @param Segment|null $segment The segment to restrict invalidation to, or null for no segment.
      * @param bool $cascadeDown Whether to also invalidate child periods (eg, the days within an invalidated month).
      * @param bool $forceInvalidateNonexistentRanges set true to force inserting rows for ranges in archive_invalidations
@@ -729,7 +729,7 @@ class ArchiveInvalidator
 
     /**
      * @param Date[]|string[] $dates
-     * @param string $period
+     * @param string|false $period
      * @param bool $ignorePurgeLogDataDate
      * @return \Piwik\Date[]
      */

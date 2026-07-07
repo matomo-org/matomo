@@ -29,17 +29,17 @@ class Updater extends \Piwik\Updates
     private static $cacheId = 'AllDimensionModifyTime';
 
     /**
-     * @var VisitDimension[]
+     * @var VisitDimension[]|null
      */
     public $visitDimensions;
 
     /**
-     * @var ActionDimension[]
+     * @var ActionDimension[]|null
      */
     private $actionDimensions;
 
     /**
-     * @var ConversionDimension[]
+     * @var ConversionDimension[]|null
      */
     private $conversionDimensions;
 
