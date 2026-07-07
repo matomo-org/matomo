@@ -533,11 +533,6 @@ parameters:
 			path: core/DataTable/Map.php
 
 		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\$subDataTableMap Map\\)\\: Unexpected token \"\\$subDataTableMap\", expected type at offset 9$#"
-			count: 1
-			path: core/DataTable/Map.php
-
-		-
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: core/DataTable/Renderer.php
@@ -751,11 +746,6 @@ parameters:
 		-
 			message: "#^PHPDoc tag @param for parameter \\$timezone with type array\\<Piwik\\\\Date\\> is incompatible with native type string\\.$#"
 			count: 1
-			path: core/Period.php
-
-		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\$currentPeriod Period\\)\\: Unexpected token \"\\$currentPeriod\", expected type at offset 9$#"
-			count: 2
 			path: core/Period.php
 
 		-
