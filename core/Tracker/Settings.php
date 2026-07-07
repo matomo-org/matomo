@@ -22,7 +22,7 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
 
     /**
      * If `true`, the config ID for a visitor will be the same no matter what site is being tracked.
-     * If `false, the config ID will be different.
+     * If `false`, the config ID will be different.
      *
      * @var bool
      */
