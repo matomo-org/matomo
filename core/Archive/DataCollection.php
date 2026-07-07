@@ -107,7 +107,7 @@ class DataCollection
      * @param array $sitesId @see $this->sitesId
      * @param \Piwik\Period[] $periods @see $this->periods
      * @param \Piwik\Segment $segment @see $this->segment
-     * @param array $defaultRow @see $this->defaultRow
+     * @param array|null $defaultRow @see $this->defaultRow
      */
     public function __construct($dataNames, $dataType, $sitesId, $periods, $segment, $defaultRow = null)
     {
