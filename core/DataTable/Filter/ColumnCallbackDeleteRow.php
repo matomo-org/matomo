@@ -34,7 +34,7 @@ class ColumnCallbackDeleteRow extends BaseFilter
      * @param DataTable $table The DataTable that will be filtered eventually.
      * @param array|string $columnsToFilter The column or array of columns that should be
      *                                      passed to the callback.
-     * @param callback $function The callback that determines whether a row should be deleted
+     * @param callable $function The callback that determines whether a row should be deleted
      *                           or not. Should return `true` if the row should be deleted.
      * @param array $functionParams deprecated - use an [anonymous function](https://php.net/manual/en/functions.anonymous.php)
      *                              instead.
