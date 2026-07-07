@@ -324,7 +324,6 @@ class Manager
      * Display a meaningful error message when any invalid parameter is being set.
      *
      * @param $params
-     * @throws
      */
     private static function errorWhenSettingNonOverridableParameter($controllerAction, $params)
     {

@@ -12,7 +12,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Plugin\Metric;
-use Piwik\Plugins\AbTesting\Columns\Metrics\ProcessedMetric;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugins\CoreVisualizations\Metrics\Formatter\Numeric;
 use Piwik\Piwik;
 use Piwik\Plugin\Visualization;
@@ -105,11 +105,10 @@ abstract class Graph extends Visualization
         // collect all selectable rows
         $self = $this;
 
-        $this->dataTable->filter(function ($dataTable) use ($self) {
+        $this->dataTable->filter(function (DataTable $dataTable) use ($self) {
 
             $identifier = $self->config->row_picker_match_rows_by;
 
-            /** @var DataTable $dataTable */
             foreach ($dataTable->getRows() as $row) {
                 $rowLabel = $row->getColumn('label');
                 $rowIdentifier = $row->hasColumn($identifier) ? $row->getColumn($identifier) : $row->getMetadata($identifier);

@@ -318,7 +318,6 @@ class LogQueryBuilder
      * @param $where
      * @param $segmentWhere
      * @return string
-     * @throws
      */
     protected function getWhereMatchBoth($where, $segmentWhere)
     {

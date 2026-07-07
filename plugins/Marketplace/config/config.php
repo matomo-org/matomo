@@ -17,8 +17,6 @@ return array(
         return 'https://' . $domain;
     },
     'Piwik\Plugins\Marketplace\Api\Service' => function (Container $c) {
-        /** @var Service $previous */
-
         $domain = $c->get('MarketplaceEndpoint');
 
         $service = new Service($domain);
