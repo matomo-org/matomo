@@ -175,8 +175,6 @@ parameters:
 			count: 1
 			path: core/ArchiveProcessor.php
 
-
-
 		-
 			message: "#^Left side of && is always true\\.$#"
 			count: 1
@@ -582,7 +580,6 @@ parameters:
 			count: 1
 			path: core/Db/Adapter/Pdo/Mysql.php
 
-
 		-
 			message: "#^Call to function is_null\\(\\) with mixed will always evaluate to false\\.$#"
 			count: 1
@@ -600,11 +597,6 @@ parameters:
 
 		-
 			message: "#^Method Piwik\\\\Db\\\\SchemaInterface\\:\\:dropDatabase\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: core/Db/Schema.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$tables with type array\\|string is not subtype of native type array\\.$#"
 			count: 1
 			path: core/Db/Schema.php
 
@@ -632,11 +624,6 @@ parameters:
 			message: "#^Right side of && is always false\\.$#"
 			count: 1
 			path: core/ExceptionHandler.php
-
-		-
-			message: "#^Method Piwik\\\\FileIntegrity\\:\\:getDirectoryParentFromList\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: core/FileIntegrity.php
 
 		-
 			message: "#^Method Piwik\\\\Filesystem\\:\\:getFileSize\\(\\) should return float\\|null but empty return statement found\\.$#"
@@ -1774,26 +1761,6 @@ parameters:
 			path: plugins/API/Filter/DataComparisonFilter.php
 
 		-
-			message: "#^Cannot call method getBoolParameter\\(\\) on array\\.$#"
-			count: 1
-			path: plugins/API/Filter/DataComparisonFilter.php
-
-		-
-			message: "#^Cannot call method getIntegerParameter\\(\\) on array\\.$#"
-			count: 3
-			path: plugins/API/Filter/DataComparisonFilter.php
-
-		-
-			message: "#^Cannot call method getJsonParameter\\(\\) on array\\.$#"
-			count: 1
-			path: plugins/API/Filter/DataComparisonFilter.php
-
-		-
-			message: "#^Cannot call method getStringParameter\\(\\) on array\\.$#"
-			count: 12
-			path: plugins/API/Filter/DataComparisonFilter.php
-
-		-
 			message: "#^Parameter \\#3 \\$segmentCount of static method Piwik\\\\Plugins\\\\API\\\\Filter\\\\DataComparisonFilter\\:\\:getIndividualComparisonRowIndices\\(\\) expects null, int\\<0, max\\> given\\.$#"
 			count: 2
 			path: plugins/API/Filter/DataComparisonFilter.php
@@ -1810,11 +1777,6 @@ parameters:
 
 		-
 			message: "#^Property Piwik\\\\Plugins\\\\API\\\\Filter\\\\DataComparisonFilter\\:\\:\\$compareSegments \\(array\\<string\\>\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: plugins/API/Filter/DataComparisonFilter.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\API\\\\Filter\\\\DataComparisonFilter\\:\\:\\$request \\(array\\) does not accept Piwik\\\\Request\\.$#"
 			count: 1
 			path: plugins/API/Filter/DataComparisonFilter.php
 
@@ -1864,16 +1826,6 @@ parameters:
 			path: plugins/API/SegmentMetadata.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\API\\\\WidgetMetadata\\:\\:buildCategoryMetadata\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: plugins/API/WidgetMetadata.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\API\\\\WidgetMetadata\\:\\:buildSubcategoryMetadata\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: plugins/API/WidgetMetadata.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: plugins/Actions/Actions/ActionSiteSearch.php
@@ -1917,9 +1869,6 @@ parameters:
 			message: "#^Empty array passed to foreach\\.$#"
 			count: 1
 			path: plugins/Actions/Columns/ActionType.php
-
-
-
 
 		-
 			message: "#^Parameter \\#1 \\$idSite of method Piwik\\\\Plugins\\\\Actions\\\\RecordBuilders\\\\ActionReports\\:\\:getGoalsForSite\\(\\) expects string, int given\\.$#"
@@ -2007,11 +1956,6 @@ parameters:
 			path: plugins/CoreAdminHome/Commands/ConfigGet.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreAdminHome\\\\Commands\\\\DeleteLogsData\\:\\:getDateRangeToDeleteFrom\\(\\) should return array\\<Piwik\\\\Date\\> but returns array\\<int, string\\>\\.$#"
-			count: 1
-			path: plugins/CoreAdminHome/Commands/DeleteLogsData.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\CoreAdminHome\\\\Commands\\\\DeleteLogsData\\:\\:\\$rawLogDao is never read, only written\\.$#"
 			count: 1
 			path: plugins/CoreAdminHome/Commands/DeleteLogsData.php
@@ -2085,7 +2029,6 @@ parameters:
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: plugins/CoreHome/Columns/Metrics/EvolutionMetric.php
-
 
 		-
 			message: "#^Parameter \\#1 \\$sqlFilterValue of method Piwik\\\\Plugin\\\\Segment\\:\\:setSqlFilterValue\\(\\) expects array\\|string, Closure given\\.$#"
@@ -2463,15 +2406,9 @@ parameters:
 			path: plugins/Diagnostics/Diagnostic/UserInformational.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Ecommerce\\\\Columns\\\\BaseConversion\\:\\:roundRevenueIfNeeded\\(\\) should return float\\|int but returns false\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Columns/BaseConversion.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between false and float\\|int will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/Ecommerce/Columns/BaseConversion.php
-
 
 		-
 			message: "#^Parameter \\#3 \\$escapeComment of static method Piwik\\\\Plugins\\\\Diagnostics\\\\Diagnostic\\\\DiagnosticResult\\:\\:informationalResult\\(\\) expects bool, string given\\.$#"
@@ -2492,11 +2429,6 @@ parameters:
 			message: "#^Property Piwik\\\\Notification\\:\\:\\$flags \\(int\\) does not accept null\\.$#"
 			count: 1
 			path: plugins/ExampleUI/Controller.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\FeatureFlags\\\\FeatureFlagManager\\:\\:\\$logger \\(Piwik\\\\Log\\\\Logger\\) does not accept Piwik\\\\Log\\\\LoggerInterface\\.$#"
-			count: 1
-			path: plugins/FeatureFlags/FeatureFlagManager.php
 
 		-
 			message: "#^Dead catch \\- Exception is never thrown in the try block\\.$#"
@@ -2564,16 +2496,6 @@ parameters:
 			path: plugins/GeoIp2/LocationProvider/GeoIp2.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\GeoIp2\\\\LocationProvider\\\\GeoIp2\\\\ServerModule\\:\\:getLocation\\(\\) should return array but returns false\\.$#"
-			count: 1
-			path: plugins/GeoIp2/LocationProvider/GeoIp2/ServerModule.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\GeoIp2\\\\LocationProvider\\\\GeoIp2\\\\ServerModule\\:\\:isWorking\\(\\) should return bool but returns string\\.$#"
-			count: 1
-			path: plugins/GeoIp2/LocationProvider/GeoIp2/ServerModule.php
-
-		-
 			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:deleteColumn\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Goals/API.php
@@ -2589,17 +2511,7 @@ parameters:
 			path: plugins/Goals/API.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Goals\\\\Commands\\\\CalculateConversionPages\\:\\:getDateRangeToCalculate\\(\\) never returns array\\<Piwik\\\\Date\\> so it can be removed from the return type\\.$#"
-			count: 1
-			path: plugins/Goals/Commands/CalculateConversionPages.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Goals\\\\Commands\\\\CalculateConversionPages\\:\\:getDateRangeToCalculate\\(\\) never returns null so it can be removed from the return type\\.$#"
-			count: 1
-			path: plugins/Goals/Commands/CalculateConversionPages.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Goals\\\\Commands\\\\CalculateConversionPages\\:\\:getDateRangeToCalculate\\(\\) should return array\\<Piwik\\\\Date\\>\\|null but returns array\\<int, string\\>\\.$#"
 			count: 1
 			path: plugins/Goals/Commands/CalculateConversionPages.php
 
@@ -2785,11 +2697,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$return of function var_export expects bool, int given\\.$#"
-			count: 1
-			path: plugins/LanguagesManager/TranslationWriter/Writer.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\LanguagesManager\\\\TranslationWriter\\\\Writer\\:\\:\\$validationMessage \\(string\\|null\\) does not accept array\\.$#"
 			count: 1
 			path: plugins/LanguagesManager/TranslationWriter/Writer.php
 
@@ -2983,7 +2890,6 @@ parameters:
 			count: 1
 			path: plugins/PrivacyManager/Model/LogDataAnonymizations.php
 
-
 		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int given\\.$#"
 			count: 5
@@ -2993,7 +2899,6 @@ parameters:
 			message: "#^Variable \\$dataTable in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/PrivacyManager/PrivacyManager.php
-
 
 		-
 			message: "#^Parameter \\#1 \\$reportDateYear of static method Piwik\\\\Plugins\\\\PrivacyManager\\\\ReportsPurger\\:\\:shouldReportBePurged\\(\\) expects int, string given\\.$#"
@@ -3030,7 +2935,6 @@ parameters:
 			count: 1
 			path: plugins/Referrers/Columns/Base.php
 
-
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\Columns\\\\Metrics\\\\VisitorsFromReferrerPercent\\:\\:getTranslatedName\\(\\) should return string but returns null\\.$#"
 			count: 1
@@ -3040,11 +2944,6 @@ parameters:
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: plugins/Referrers/DataTable/Filter/SetGetReferrerTypeSubtables.php
-
-		-
-			message: "#^Function Piwik\\\\Plugins\\\\Referrers\\\\getReferrerTypeFromShortName\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: plugins/Referrers/functions.php
 
 		-
 			message: "#^Variable \\$domain on left side of \\?\\? always exists and is not nullable\\.$#"
@@ -3167,11 +3066,6 @@ parameters:
 			path: plugins/UserCountry/Columns/Country.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\UserCountry\\\\Commands\\\\AttributeHistoricalDataWithLocations\\:\\:\\$processedPercent \\(int\\) does not accept float\\.$#"
-			count: 1
-			path: plugins/UserCountry/Commands/AttributeHistoricalDataWithLocations.php
-
-		-
 			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: plugins/UserCountry/Controller.php
@@ -3222,24 +3116,9 @@ parameters:
 			path: plugins/UsersManager/Controller.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\Emails\\\\UserInviteEmail\\:\\:\\$invitedUser \\(object\\) does not accept array\\.$#"
-			count: 1
-			path: plugins/UsersManager/Emails/UserInviteEmail.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/UsersManager/NewsletterSignup.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\Sql\\\\UserTableFilter\\:\\:\\$filterByRole \\(string\\) does not accept null\\.$#"
-			count: 1
-			path: plugins/UsersManager/Sql/UserTableFilter.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\Sql\\\\UserTableFilter\\:\\:\\$filterByRole \\(string\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: plugins/UsersManager/Sql/UserTableFilter.php
 
 		-
 			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\Sql\\\\UserTableFilter\\:\\:\\$filterByRoleSite \\(int\\) in isset\\(\\) is not nullable\\.$#"
