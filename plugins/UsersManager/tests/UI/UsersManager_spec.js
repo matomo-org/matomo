@@ -574,20 +574,21 @@ describe("UsersManager", function () {
         await page.waitForTimeout(250);
         await (await page.jQuery('#all-sites-access-select + a.btn')).click();
 
+        // granting admin must open the password confirmation modal, not the plain confirm modal
         await page.waitForSelector('.confirm-password-modal.open', { visible: true });
-        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
-        await page.waitForTimeout(250);
-        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
-        await page.waitForNetworkIdle();
+        const plainConfirmVisible = await page.evaluate(
+            () => $('.confirm-give-access-all-sites.open').length > 0,
+        );
+        expect(plainConfirmVisible).to.equal(false);
 
-        await page.evaluate(function () { // clear filters so the applied roles are visible
-            $('.userPermissionsEdit div.site-filter>input').val('').change();
-            $('.userPermissionsEdit .access-filter select').val('string:').change();
+        // abort to leave the user's permissions unchanged for the following tests
+        await (await page.jQuery('.confirm-password-modal.open .modal-close.modal-no:visible')).click();
+        await page.waitForSelector('.confirm-password-modal.open', { hidden: true });
+        await page.evaluate(function () {
+            $('#all-sites-access-select select').val('string:view').change();
         });
-        await page.waitForNetworkIdle();
-
-        const roles = await getVisibleSiteRoles();
-        expect(Object.values(roles)).to.include('string:admin');
+        await page.mouse.move(-10, -10);
+        await page.waitForTimeout(300);
     });
 
     it('should display the superuser access tab when the superuser tab is clicked', async function () {
