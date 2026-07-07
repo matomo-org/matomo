@@ -189,7 +189,7 @@ class WidgetMetadata
 
     /**
      * @param Category|null $category
-     * @return array
+     * @return array|null
      */
     private function buildCategoryMetadata($category)
     {
@@ -210,7 +210,7 @@ class WidgetMetadata
 
     /**
      * @param Subcategory|null $subcategory
-     * @return array
+     * @return array|null
      */
     private function buildSubcategoryMetadata($subcategory)
     {
