@@ -62,8 +62,6 @@ abstract class Factory
     /**
      * Creates a new Period instance with a period ID and {@link Date} instance.
      *
-     * _Note: This method cannot create {@link Period\Range} periods._
-     *
      * @param string $period `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param Date|string $date A date within the period or the range of dates.
      * @param string $timezone Optional timezone that will be used only when $period is 'range' or $date is 'last|previous'
