@@ -207,7 +207,6 @@ class ArchiveSelector
      *                       '2010-01-01' => array(1,2,3)
      *                   )
      *               )
-     * @throws
      */
     public static function getArchiveIds(
         $siteIds,
@@ -257,7 +256,6 @@ class ArchiveSelector
      *                       )
      *                   )
      *               )
-     * @throws
      */
     public static function getArchiveIdsAndStates(
         $siteIds,
