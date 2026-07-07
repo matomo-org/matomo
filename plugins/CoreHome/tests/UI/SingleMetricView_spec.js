@@ -142,4 +142,18 @@ describe('SingleMetricView', function () {
         expect(evolution.text).to.contain('-100');
         expect(evolution.className).to.contain('evolution-down');
     });
+
+    it('should show a message when the selected metric has no data for the period', async function () {
+        // unique visitors are not archived for year periods (enable_processing_unique_visitors_year=0),
+        // so a KPI widget pinned to that metric must show the "unavailable" message instead of a "0".
+        var unavailableUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=CoreVisualizations&"
+            + "actionToWidgetize=singleMetricView&column=nb_uniq_visitors&idSite=1&period=year&date=2012-08-09";
+        await page.goto(unavailableUrl);
+        await page.waitForSelector('.singleMetricView');
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(250);
+
+        var message = await page.$('.singleMetricView .metric-unavailable');
+        expect(message).to.not.equal(null);
+    });
 });
