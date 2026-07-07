@@ -25,7 +25,7 @@ class LogQueryBuilder
     private $logTableProvider;
 
     /**
-     * Forces to use a subselect when generating the query. Set value to `false` to force not using a subselect.
+     * Forces to use a subselect when generating the query. Set value to the FORCE_INNER_GROUP_BY_NO_SUBSELECT constant to force not using a subselect.
      * @var string
      */
     private $forcedInnerGroupBy = '';
