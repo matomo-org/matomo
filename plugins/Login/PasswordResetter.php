@@ -102,7 +102,7 @@ class PasswordResetter
      *
      * Defaults to the `[General] noreply_email_name` INI config option.
      *
-     * @var string
+     * @var string|null
      */
     private $emailFromName;
 
@@ -111,7 +111,7 @@ class PasswordResetter
      *
      * Defaults to the `[General] noreply_email_address` INI config option.
      *
-     * @var
+     * @var string|null
      */
     private $emailFromAddress;
 

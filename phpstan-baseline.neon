@@ -2972,11 +2972,6 @@ parameters:
 			path: plugins/Login/Model.php
 
 		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 171$#"
-			count: 1
-			path: plugins/Login/PasswordResetter.php
-
-		-
 			message: "#^Parameter \\#2 \\$password of method Piwik\\\\Plugins\\\\UsersManager\\\\UserUpdater\\:\\:updateUserWithoutCurrentPassword\\(\\) expects bool, string given\\.$#"
 			count: 1
 			path: plugins/Login/PasswordResetter.php
