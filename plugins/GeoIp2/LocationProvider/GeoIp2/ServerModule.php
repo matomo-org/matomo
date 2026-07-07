@@ -60,7 +60,7 @@ class ServerModule extends GeoIp2
      * information will not be available to Piwik.
      *
      * @param array $info Must have an 'ip' field.
-     * @return array
+     * @return array|false
      */
     public function getLocation($info)
     {
@@ -178,7 +178,7 @@ class ServerModule extends GeoIp2
     /**
      * Returns true if the MMDB_ADDR server variable is defined.
      *
-     * @return bool
+     * @return bool|string
      */
     public function isWorking()
     {
