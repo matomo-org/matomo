@@ -140,7 +140,13 @@ describe("Goals", function () {
         await page.waitForSelector('.ui-dialog');
         await page.waitForNetworkIdle();
 
-        const series = await page.waitForSelector('[data-name="series3"]');
+        // Select the metric whose label contains an XSS payload (the goal name),
+        // so this screenshot keeps guarding against XSS regressions in row evolution.
+        // Selecting by label (not by color-slot index like series3) is stable even
+        // when metric/series colors are reordered.
+        const series = await page.waitForXPath(
+            '//span[contains(@class, "evolution-graph-colors") and contains(., "_Vue.h.constructor")]'
+        );
         await series.click();
 
         await page.waitForTimeout(250); // rendering
