@@ -229,7 +229,7 @@ abstract class Db implements TransactionalDatabaseInterface
      * Test error number
      *
      * @param Exception $e
-     * @param string $errno
+     * @param string|int $errno
      * @return bool  True if error number matches; false otherwise
      */
     abstract public function isErrNo($e, $errno);
