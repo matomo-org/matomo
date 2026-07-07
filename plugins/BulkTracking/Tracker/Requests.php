@@ -48,7 +48,7 @@ class Requests
     }
 
     /**
-     * @return string
+     * @return string|false
      */
     public function getRawBulkRequest()
     {
