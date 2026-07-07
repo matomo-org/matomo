@@ -186,7 +186,7 @@ class SearchEngine extends Singleton
      *     eg. if the url is "https://www.google.com/partners.html" this will return false,
      *       as the google keyword parameter couldn't be found.
      *
-     * @see unit tests in /tests/core/Common.test.php
+     * @see \Piwik\Plugins\Referrers\tests\Unit\SearchEngineTest
      * @param string $referrerUrl URL referrer URL, eg. $_SERVER['HTTP_REFERER']
      * @return array|bool   false if a keyword couldn't be extracted,
      *                        or array(
