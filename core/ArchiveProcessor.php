@@ -106,7 +106,7 @@ class ArchiveProcessor
     private $params;
 
     /**
-     * @var int
+     * @var int|false
      */
     private $numberOfVisits = false;
 
