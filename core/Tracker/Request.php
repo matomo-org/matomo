@@ -56,7 +56,7 @@ class Request
      * whatever they want in this array, and other RequestProcessors can modify these
      * values to change tracker behavior.
      *
-     * @var string[][]
+     * @var array<string, array<string, mixed>> Keyed by plugin name, then metadata key.
      */
     private $requestMetadata = array();
 

@@ -10,7 +10,7 @@
 namespace Piwik\Db\Schema;
 
 /**
- * Mariadb schema
+ * TiDB schema
  */
 class Tidb extends Mysql
 {

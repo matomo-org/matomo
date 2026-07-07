@@ -85,8 +85,8 @@ class Model
     /**
      * Returns all stored segments that are available for the given site and login.
      *
-     * @param  string $userLogin
      * @param  int    $idSite Whether to return stored segments for a specific idSite, or all of them. If supplied, must be a valid site ID.
+     * @param  string $userLogin
      * @return array
      */
     public function getAllSegmentsForSite($idSite, $userLogin)

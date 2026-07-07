@@ -617,10 +617,6 @@ parameters:
 			count: 1
 			path: core/Db/Adapter/Pdo/Mysql.php
 
-		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\Adapter\\\\Pdo\\\\Mysql\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: core/Db/Adapter/Pdo/Mysql.php
 
 		-
 			message: "#^Call to function is_null\\(\\) with mixed will always evaluate to false\\.$#"
@@ -3157,15 +3153,6 @@ parameters:
 			count: 1
 			path: plugins/Referrers/Columns/Base.php
 
-		-
-			message: "#^PHPDoc type bool of property Piwik\\\\Plugins\\\\Referrers\\\\Columns\\\\Campaign\\:\\:\\$nameSingular is not covariant with PHPDoc type string of overridden property Piwik\\\\Columns\\\\Dimension\\:\\:\\$nameSingular\\.$#"
-			count: 1
-			path: plugins/Referrers/Columns/Campaign.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Referrers\\\\Columns\\\\Campaign\\:\\:\\$nameSingular \\(bool\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/Referrers/Columns/Campaign.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\Columns\\\\Metrics\\\\VisitorsFromReferrerPercent\\:\\:getTranslatedName\\(\\) should return string but returns null\\.$#"

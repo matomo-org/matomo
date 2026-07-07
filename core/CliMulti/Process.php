@@ -187,7 +187,8 @@ class Process
     }
 
     /**
-     * Tests only
+     * Writes the given content to the process' PID file.
+     *
      * @internal
      * @param string|int $content
      */
