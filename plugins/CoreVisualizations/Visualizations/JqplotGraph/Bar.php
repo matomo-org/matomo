@@ -35,6 +35,9 @@ class Bar extends JqplotGraph
         $config = new Config();
         $config->max_graph_elements = 6;
 
+        // Labels are angled and wrapped client-side, so they all fit; keep every one.
+        $config->show_all_ticks = true;
+
         return $config;
     }
 
