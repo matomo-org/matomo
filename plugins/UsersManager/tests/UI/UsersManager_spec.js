@@ -516,6 +516,7 @@ describe("UsersManager", function () {
         await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
         await page.waitForTimeout(250);
         await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+        await page.mouse.move(-10, -10); // avoid hovering the changed row after the modal closes
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
