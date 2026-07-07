@@ -172,11 +172,14 @@ describe("UsersManager", function () {
         await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
         await page.waitForTimeout(350); // wait for animation
 
-        expect(await (await page.$('.change-user-role-confirm-modal')).screenshot()).to.matchImage('bulk_set_access_confirm');
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
+        expect(await (await page.$('.confirm-password-modal.open')).screenshot()).to.matchImage('bulk_set_access_confirm');
     });
 
     it('should change access for all rows in search when confirmed', async function () {
-        await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
@@ -436,9 +439,10 @@ describe("UsersManager", function () {
         await page.waitForTimeout(500); // animation
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Admin):visible', { waitFor: true })).click();
 
-        await page.waitForSelector('.change-access-confirm-modal');
-
-        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
+        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
@@ -507,9 +511,11 @@ describe("UsersManager", function () {
             $('.userPermissionsEdit .role-select:eq(0) select').val('string:admin').change();
         });
 
-        await page.waitForSelector('.userPermissionsEdit .change-access-confirm-modal', { visible: true });
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
         await page.waitForTimeout(100); // animation
-        await (await page.jQuery('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({

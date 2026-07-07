@@ -1230,6 +1230,90 @@ class APITest extends IntegrationTestCase
         }
     }
 
+    public function testSetUserAccessCannotSetAdminWithoutPasswordInSessionScope()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
+
+        $_GET['token_auth'] = 'anyToken';
+        $_GET['force_api_session'] = 1;
+        try {
+            $this->api->setUserAccess($this->login, Admin::ID, [1]);
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_GET['force_api_session']);
+        }
+    }
+
+    public function testSetUserAccessCannotSetAdminWithIncorrectPasswordInSessionScope()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
+
+        $_GET['token_auth'] = 'anyToken';
+        $_GET['force_api_session'] = 1;
+        try {
+            $this->api->setUserAccess($this->login, Admin::ID, [1], 'wrongPassword');
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_GET['force_api_session']);
+        }
+    }
+
+    public function testSetUserAccessCannotSetAdminAsArrayWithoutPasswordInSessionScope()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
+
+        $_GET['token_auth'] = 'anyToken';
+        $_GET['force_api_session'] = 1;
+        try {
+            $this->api->setUserAccess($this->login, [Admin::ID, TestCap2::ID], [1]);
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_GET['force_api_session']);
+        }
+    }
+
+    public function testSetUserAccessSetsAdminWithCorrectPasswordInSessionScope()
+    {
+        $password = $this->createCurrentUser();
+
+        $_GET['token_auth'] = 'anyToken';
+        $_GET['force_api_session'] = 1;
+        try {
+            $this->api->setUserAccess($this->login, Admin::ID, [1], $password);
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_GET['force_api_session']);
+        }
+
+        self::assertEquals([Admin::ID], $this->getAccessInSite($this->login, 1));
+    }
+
+    public function testSetUserAccessSetsAdminWithoutPasswordWhenNotInSessionScope()
+    {
+        $this->api->setUserAccess($this->login, Admin::ID, [1]);
+
+        self::assertEquals([Admin::ID], $this->getAccessInSite($this->login, 1));
+    }
+
+    public function testSetUserAccessSetsViewWithoutPasswordInSessionScope()
+    {
+        // the re-authentication requirement must not over-trigger: granting a non-admin role to a regular
+        // user in the session scope still works without a password confirmation
+        $_GET['token_auth'] = 'anyToken';
+        $_GET['force_api_session'] = 1;
+        try {
+            $this->api->setUserAccess($this->login, View::ID, [1]);
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_GET['force_api_session']);
+        }
+
+        self::assertEquals([View::ID], $this->getAccessInSite($this->login, 1));
+    }
+
     public function testAddUserDoesNotRequirePasswordWhenPostSessionFlagIsZeroEvenIfGetFlagIsOne()
     {
         $_GET['force_api_session'] = 1;
@@ -1792,6 +1876,22 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('adminUser2', 'admin', 1);
 
         $this->api->deleteUser('pendingLoginTest');
+    }
+
+    private function createCurrentUser()
+    {
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = 'someOtherUser';
+
+        $password = 'testpwd';
+
+        try {
+            $this->api->addUser($identity, $password, 'currentuser@example.com');
+        } finally {
+            FakeAccess::$identity = $identity;
+        }
+
+        return $password;
     }
 
     private function getAccessInSite($login, $idSite)
