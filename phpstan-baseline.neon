@@ -704,11 +704,6 @@ parameters:
 			path: core/FrontController.php
 
 		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\$controller Controller\\)\\: Unexpected token \"\\$controller\", expected type at offset 9$#"
-			count: 1
-			path: core/Http/ControllerResolver.php
-
-		-
 			message: "#^Method Piwik\\\\Log\\:\\:getInstance\\(\\) should return static\\(Piwik\\\\Log\\) but returns Piwik\\\\Log\\.$#"
 			count: 1
 			path: core/Log.php
@@ -2960,11 +2955,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$login of method Piwik\\\\Auth\\:\\:setLogin\\(\\) expects string, null given\\.$#"
 			count: 1
 			path: plugins/Login/Login.php
-
-		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 15$#"
-			count: 1
-			path: plugins/Login/Model.php
 
 		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\|null given\\.$#"
