@@ -187,7 +187,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      * Test error number
      *
      * @param Exception $e
-     * @param string $errno
+     * @param string|int $errno
      * @return bool
      */
     public function isErrNo($e, $errno)
@@ -200,7 +200,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      *
      * @param Exception $e
      * @param \mysqli|null $connection
-     * @param string $errno
+     * @param string|int $errno
      * @return bool
      */
     public static function isMysqliErrorNumber($e, $connection, $errno)
