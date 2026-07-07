@@ -242,6 +242,8 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
+        $userLogin = $this->getCanonicalLogin($userLogin);
+
         if (!$this->model->userExists($userLogin)) {
             throw new Exception('User does not exist: ' . $userLogin);
         }

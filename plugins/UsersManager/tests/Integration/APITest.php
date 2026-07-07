@@ -233,6 +233,17 @@ class APITest extends IntegrationTestCase
         self::assertEquals('5', $siteId);
     }
 
+    public function testSetUserPreferenceStoresPreferenceUnderStoredLoginWhenUsingCollationEquivalentLogin()
+    {
+        // "userLogín" is a distinct byte string from the stored "userLogin", but the database matches
+        // logins case- and accent-insensitively, so it resolves to the same user. The preference must
+        // be stored under the stored login rather than the raw request value.
+        $this->api->setUserPreference('userLogín', API::PREFERENCE_DEFAULT_REPORT, 5);
+
+        $settingsStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
+        self::assertEquals(5, $settingsStore->get('UsersManager', $this->login, API::PREFERENCE_DEFAULT_REPORT, false));
+    }
+
     public function testSetUserPreferenceWritesLegacyOptionForIsLdapUserCompatibility()
     {
         $this->api->setUserPreference($this->login, 'isLDAPUser', 1);
