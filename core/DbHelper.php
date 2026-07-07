@@ -143,6 +143,12 @@ class DbHelper
     public static function createTables()
     {
         Schema::getInstance()->createTables();
+
+        // The tables were just (re)created without their dimension columns (those are added by the
+        // subsequent DB update). Invalidate the cache that would otherwise make Columns\Updater
+        // believe the dimension columns are already installed because the dimension files on disk
+        // are unchanged. See Columns\Updater::clearCache().
+        \Piwik\Columns\Updater::clearCache();
     }
 
     /**
