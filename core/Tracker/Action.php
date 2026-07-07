@@ -176,7 +176,7 @@ abstract class Action
     /**
      * Returns URL of the page currently being tracked, or the file being downloaded, or the outlink being clicked
      *
-     * @return string
+     * @return string|false|null
      */
     public function getActionUrl()
     {
