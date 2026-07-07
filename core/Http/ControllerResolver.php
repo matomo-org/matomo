@@ -71,7 +71,7 @@ class ControllerResolver
             return null;
         }
 
-        /** @var $controller Controller */
+        /** @var \Piwik\Plugin\Controller $controller */
         $controller = $this->abstractFactory->make($controllerClass);
 
         $action = $action ?: $controller->getDefaultAction();

@@ -1217,8 +1217,8 @@ class LogAggregator
      *
      * Additional data can be selected through the `$additionalSelects` parameter.
      *
-     * _Note: This method will only query the **log_conversion** table. Other tables cannot be joined
-     * using this method._
+     * _Note: By default this method queries the **log_conversion** table, but additional tables can be
+     * joined via the `$extraFrom` parameter._
      *
      * @param array<string>|string $dimensions One or more **SELECT** fields that will be used to group the log_conversion
      *                                 rows by. This parameter determines which **log_conversion** rows will be

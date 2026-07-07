@@ -130,7 +130,7 @@ class DataSubjects
          *     }
          *
          * @param array &$results An array storing the result of how much data was deleted for each plugin.
-         * @param array &$visits An array with multiple visit entries containing an idvisit and idsite each. The data
+         * @param array $visits An array with multiple visit entries containing an idvisit and idsite each. The data
          *                       for these visits is requested to be deleted.
          */
         Piwik::postEvent('PrivacyManager.deleteDataSubjects', [&$results, $visits]);
@@ -469,7 +469,7 @@ class DataSubjects
          *     }
          *
          * @param array &$results An array containing the exported data subjects.
-         * @param array &$visits An array with multiple visit entries containing an idvisit and idsite each. The data
+         * @param array $visits An array with multiple visit entries containing an idvisit and idsite each. The data
          *                       for these visits is requested to be exported.
          */
         Piwik::postEvent('PrivacyManager.exportDataSubjects', [&$results, $visits]);

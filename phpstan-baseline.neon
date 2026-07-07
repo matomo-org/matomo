@@ -258,11 +258,6 @@ parameters:
 			path: core/Auth/Password.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 193$#"
-			count: 1
-			path: core/Auth/Password.php
-
-		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\\\AdapterInterface\\:\\:fetchAll\\(\\)\\.$#"
 			count: 1
 			path: core/Changes/Model.php
@@ -533,11 +528,6 @@ parameters:
 			path: core/DataTable/Map.php
 
 		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\$subDataTableMap Map\\)\\: Unexpected token \"\\$subDataTableMap\", expected type at offset 9$#"
-			count: 1
-			path: core/DataTable/Map.php
-
-		-
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: core/DataTable/Renderer.php
@@ -704,11 +694,6 @@ parameters:
 			path: core/FrontController.php
 
 		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\$controller Controller\\)\\: Unexpected token \"\\$controller\", expected type at offset 9$#"
-			count: 1
-			path: core/Http/ControllerResolver.php
-
-		-
 			message: "#^Method Piwik\\\\Log\\:\\:getInstance\\(\\) should return static\\(Piwik\\\\Log\\) but returns Piwik\\\\Log\\.$#"
 			count: 1
 			path: core/Log.php
@@ -749,18 +734,8 @@ parameters:
 			path: core/NumberFormatter.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(mixed\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 88$#"
-			count: 1
-			path: core/Option.php
-
-		-
 			message: "#^PHPDoc tag @param for parameter \\$timezone with type array\\<Piwik\\\\Date\\> is incompatible with native type string\\.$#"
 			count: 1
-			path: core/Period.php
-
-		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\$currentPeriod Period\\)\\: Unexpected token \"\\$currentPeriod\", expected type at offset 9$#"
-			count: 2
 			path: core/Period.php
 
 		-
@@ -1160,14 +1135,6 @@ parameters:
 
 		-
 			message: "#^If condition is always false\\.$#"
-			count: 1
-			path: core/Segment.php
-
-		-
-			message: """
-				#^PHPDoc tag @param has invalid value \\(int If set to value \\>\\= 1 then the Select query \\(and All inner queries\\) will be LIMIT'ed by this value\\.
-				             Use only when you're not aggregating or it will sample the data\\.\\)\\: Unexpected token "If", expected variable at offset 1187$#
-			"""
 			count: 1
 			path: core/Segment.php
 
@@ -2962,19 +2929,9 @@ parameters:
 			path: plugins/Login/Login.php
 
 		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 15$#"
-			count: 1
-			path: plugins/Login/Model.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\|null given\\.$#"
 			count: 1
 			path: plugins/Login/Model.php
-
-		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 171$#"
-			count: 1
-			path: plugins/Login/PasswordResetter.php
 
 		-
 			message: "#^Parameter \\#2 \\$password of method Piwik\\\\Plugins\\\\UsersManager\\\\UserUpdater\\:\\:updateUserWithoutCurrentPassword\\(\\) expects bool, string given\\.$#"
@@ -3385,11 +3342,6 @@ parameters:
 			path: plugins/UsersManager/SystemSettings.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(API\\)\\: Unexpected token \"\\\\n     \", expected variable at offset 21$#"
-			count: 1
-			path: plugins/UsersManager/Tasks.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/UsersManager/TokenNotifications/TokenNotifierTask.php
@@ -3438,11 +3390,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
 			count: 4
 			path: plugins/WebsiteMeasurable/MeasurableSettings.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\|array urls\\)\\: Unexpected token \"urls\", expected variable at offset 172$#"
-			count: 1
-			path: plugins/WebsiteMeasurable/Settings/Urls.php
 
 		-
 			message: "#^If condition is always false\\.$#"

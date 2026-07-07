@@ -12,11 +12,9 @@ namespace Piwik\Category;
 use Piwik\Container\StaticContainer;
 
 /**
- * Base type for category. lets you change the name for a categoryId and specify a different order
- * so the category appears eg at a different order in the reporting menu.
+ * Holds the list of categories (with their subcategories) available in the Piwik reporting menu.
  *
- * This class is for now not exposed as public API until needed. Categories of plugins will be automatically
- * displayed in the menu at the very right after all core categories.
+ * This class is for now not exposed as public API until needed.
  */
 class CategoryList
 {
