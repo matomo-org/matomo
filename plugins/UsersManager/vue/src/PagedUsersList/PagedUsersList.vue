@@ -405,7 +405,7 @@
     </PasswordConfirmation>
 
     <PasswordConfirmation
-      v-model="showPasswordConfirmationForAnonymousAccess"
+      v-model="showPasswordConfirmationForAccessChange"
       @confirmed="changeUserRole"
       @aborted="resetUserAndRoleToChange"
     >
@@ -417,11 +417,20 @@
         v-if="!userToChange"
         v-html="$sanitize(deleteUserPermConfirmMultipleText)"
       ></h3>
-      <h3>
+      <h3 v-if="changeAffectsAnonymous && roleToChangeTo === 'view'">
         <em>{{ translate('General_Note') }}:
           <span v-html="$sanitize(translate(
               'UsersManager_AnonymousUserRoleChangeWarning',
               'anonymous',
+              getRoleDisplay(roleToChangeTo),
+            ))">
+            </span>
+        </em>
+      </h3>
+      <h3 v-if="roleToChangeTo === 'admin'">
+        <em>{{ translate('General_Note') }}:
+          <span v-html="$sanitize(translate(
+              'UsersManager_AdminUserRoleChangeWarning',
               getRoleDisplay(roleToChangeTo),
             ))">
             </span>
@@ -508,7 +517,7 @@ interface PagedUsersListState {
   userTextFilter: string;
   permissionsForSite: SiteRef;
   showPasswordConfirmationForUserRemoval: boolean;
-  showPasswordConfirmationForAnonymousAccess: boolean;
+  showPasswordConfirmationForAccessChange: boolean;
   showPasswordConfirmationForUserSignOut: boolean;
 }
 
@@ -576,7 +585,7 @@ export default defineComponent({
         name: this.initialSiteName,
       },
       showPasswordConfirmationForUserRemoval: false,
-      showPasswordConfirmationForAnonymousAccess: false,
+      showPasswordConfirmationForAccessChange: false,
       showPasswordConfirmationForUserSignOut: false,
     };
   },
@@ -624,7 +633,7 @@ export default defineComponent({
         this.isBulkActionsDisabled = false;
       }
     },
-    changeUserRole(password: string) {
+    changeUserRole(password = '') {
       this.$emit('changeUserRole', {
         users: this.userOperationSubject,
         role: this.roleToChangeTo,
@@ -661,13 +670,11 @@ export default defineComponent({
     },
 
     showAccessChangeConfirm() {
-      const containsAnonymous = this.userOperationSubject === 'all' || (
-        Array.isArray(this.userOperationSubject)
-        && this.userOperationSubject.filter((user) => user.login === 'anonymous').length
-      );
+      const grantsAnonymousView = this.changeAffectsAnonymous && this.roleToChangeTo === 'view';
+      const grantsAdminRole = this.roleToChangeTo === 'admin';
 
-      if (containsAnonymous && this.roleToChangeTo === 'view') {
-        this.showPasswordConfirmationForAnonymousAccess = true;
+      if (grantsAnonymousView || grantsAdminRole) {
+        this.showPasswordConfirmationForAccessChange = true;
       } else {
         $(this.$refs.changeUserRoleConfirmModal as HTMLElement)
           .modal({
@@ -677,7 +684,7 @@ export default defineComponent({
       }
     },
     getRoleDisplay(role: string | null) {
-      let result = null;
+      let result: unknown = role;
       (this.accessLevels as AccessLevel[]).forEach((entry) => {
         if (entry.key === role) {
           result = entry.value;
@@ -738,6 +745,12 @@ export default defineComponent({
       }
 
       return this.selectedUsers;
+    },
+    changeAffectsAnonymous() {
+      return this.userOperationSubject === 'all' || (
+        Array.isArray(this.userOperationSubject)
+        && this.userOperationSubject.some((user) => user.login === 'anonymous')
+      );
     },
     selectedUsers() {
       const users = this.users as User[];

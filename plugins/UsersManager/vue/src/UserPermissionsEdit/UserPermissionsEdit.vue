@@ -83,6 +83,7 @@
                     href=""
                     @click.prevent="
                       siteAccessToChange = null;
+                      accessChangeEvent = null;
                       roleToChangeTo = access.key;
                       showChangeAccessConfirm();"
                   >{{ access.value }}</a>
@@ -369,6 +370,45 @@
         >{{ translate('General_No') }}</a>
       </div>
     </div>
+    <PasswordConfirmation
+      v-model="showPasswordConfirmationForAccessChange"
+      @confirmed="changeUserRole"
+      @aborted="onAccessChangeAborted"
+    >
+      <h3
+        v-if="siteAccessToChange"
+        v-html="$sanitize(changePermToSiteConfirmSingleText)"
+      ></h3>
+      <p
+        v-if="!siteAccessToChange"
+        v-html="$sanitize(changePermToSiteConfirmMultipleText)"
+      ></p>
+      <h3 v-if="roleToChangeTo === 'admin'">
+        <em>{{ translate('General_Note') }}:
+          <span v-html="$sanitize(translate(
+              'UsersManager_AdminUserRoleChangeWarning',
+              getRoleDisplay(roleToChangeTo),
+            ))">
+            </span>
+        </em>
+      </h3>
+    </PasswordConfirmation>
+    <PasswordConfirmation
+      v-model="showPasswordConfirmationForAllSitesAccess"
+      @confirmed="giveAccessToAllSites"
+    >
+      <h3 v-html="$sanitize(changePermToAllSitesConfirmText)"></h3>
+      <p>{{ translate('UsersManager_ChangePermToAllSitesConfirm2') }}</p>
+      <h3 v-if="allWebsitesAccssLevelSet === 'admin'">
+        <em>{{ translate('General_Note') }}:
+          <span v-html="$sanitize(translate(
+              'UsersManager_AdminUserRoleChangeWarning',
+              getRoleDisplay(allWebsitesAccssLevelSet),
+            ))">
+            </span>
+        </em>
+      </h3>
+    </PasswordConfirmation>
   </div>
 </template>
 
@@ -385,7 +425,7 @@ import {
   Matomo,
   externalLink,
 } from 'CoreHome';
-import { Field, AbortableEvent } from 'CorePluginsAdmin';
+import { Field, AbortableEvent, PasswordConfirmation } from 'CorePluginsAdmin';
 import CapabilitiesEdit from '../CapabilitiesEdit/CapabilitiesEdit.vue';
 import Capability from '../CapabilitiesStore/Capability';
 
@@ -421,6 +461,8 @@ interface UserPermissionsEditState {
   isGivingAccessToAllSites: boolean;
   roleToChangeTo: string|null;
   siteAccessToChange: SiteAccess|null;
+  showPasswordConfirmationForAccessChange: boolean;
+  showPasswordConfirmationForAllSitesAccess: boolean;
 }
 
 const { $ } = window;
@@ -448,6 +490,7 @@ export default defineComponent({
     Notification,
     Field,
     CapabilitiesEdit,
+    PasswordConfirmation,
   },
   directives: {
     DropdownMenu,
@@ -473,6 +516,8 @@ export default defineComponent({
       isGivingAccessToAllSites: false,
       roleToChangeTo: null,
       siteAccessToChange: null,
+      showPasswordConfirmationForAccessChange: false,
+      showPasswordConfirmationForAllSitesAccess: false,
     };
   },
   emits: ['userHasAccessDetected', 'accessChanged'],
@@ -570,7 +615,7 @@ export default defineComponent({
         dismissible: false,
       }).modal('open');
     },
-    changeUserRole() {
+    changeUserRole(password = '') {
       const getSelectedSites = () => {
         const result: (string|number)[] = [];
         Object.keys(this.selectedRows).forEach((index) => {
@@ -614,16 +659,24 @@ export default defineComponent({
           userLogin: this.userLogin,
           access: this.roleToChangeTo,
           idSites,
+          passwordConfirmation: password,
         },
       )).catch(() => {
         // ignore (errors will still be displayed to the user)
       }).then(() => { // eslint-disable-line
+        // clear the consumed change event, mirroring the plain confirm modal's onCloseEnd cleanup
+        this.accessChangeEvent = null;
         this.$emit('accessChanged');
 
         return this.fetchAccess();
       });
     },
     showChangeAccessConfirm() {
+      if (this.roleToChangeTo === 'admin') {
+        this.showPasswordConfirmationForAccessChange = true;
+        return;
+      }
+
       $(this.$refs.changeAccessConfirmModal as HTMLElement).modal({
         dismissible: false,
         onCloseEnd: () => {
@@ -631,8 +684,16 @@ export default defineComponent({
         },
       }).modal('open');
     },
+    onAccessChangeAborted() {
+      if (this.accessChangeEvent) {
+        this.accessChangeEvent.abort();
+      }
+      this.accessChangeEvent = null;
+      this.siteAccessToChange = null;
+      this.roleToChangeTo = null;
+    },
     getRoleDisplay(role: string|null) {
-      let result = null;
+      let result: unknown = role;
       (this.filteredAccessLevels as AccessLevel[]).forEach((entry) => {
         if (entry.key === role) {
           result = entry.value;
@@ -640,7 +701,7 @@ export default defineComponent({
       });
       return result;
     },
-    giveAccessToAllSites() {
+    giveAccessToAllSites(password = '') {
       this.isGivingAccessToAllSites = true;
       AjaxHelper.fetch<Site[]>({
         method: 'SitesManager.getSitesWithAdminAccess',
@@ -654,6 +715,7 @@ export default defineComponent({
             userLogin: this.userLogin,
             access: this.allWebsitesAccssLevelSet,
             idSites,
+            passwordConfirmation: password,
           },
         );
       }).then(() => this.fetchAccess()).finally(() => {
@@ -661,6 +723,11 @@ export default defineComponent({
       });
     },
     showChangeAccessAllSitesModal() {
+      if (this.allWebsitesAccssLevelSet === 'admin') {
+        this.showPasswordConfirmationForAllSitesAccess = true;
+        return;
+      }
+
       $(this.$refs.confirmGiveAccessAllSitesModal as HTMLElement).modal({
         dismissible: false,
       }).modal('open');
