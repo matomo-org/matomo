@@ -84,7 +84,7 @@ class Password
      *
      * Can be used to verify whether a string is compatible with password_hash().
      *
-     * @param string
+     * @param string $hash
      * @return array
      */
     public function info($hash)

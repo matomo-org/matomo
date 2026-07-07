@@ -258,11 +258,6 @@ parameters:
 			path: core/Auth/Password.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(string\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 193$#"
-			count: 1
-			path: core/Auth/Password.php
-
-		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\\\AdapterInterface\\:\\:fetchAll\\(\\)\\.$#"
 			count: 1
 			path: core/Changes/Model.php
@@ -739,11 +734,6 @@ parameters:
 			path: core/NumberFormatter.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(mixed\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 88$#"
-			count: 1
-			path: core/Option.php
-
-		-
 			message: "#^PHPDoc tag @param for parameter \\$timezone with type array\\<Piwik\\\\Date\\> is incompatible with native type string\\.$#"
 			count: 1
 			path: core/Period.php
@@ -1145,14 +1135,6 @@ parameters:
 
 		-
 			message: "#^If condition is always false\\.$#"
-			count: 1
-			path: core/Segment.php
-
-		-
-			message: """
-				#^PHPDoc tag @param has invalid value \\(int If set to value \\>\\= 1 then the Select query \\(and All inner queries\\) will be LIMIT'ed by this value\\.
-				             Use only when you're not aggregating or it will sample the data\\.\\)\\: Unexpected token "If", expected variable at offset 1187$#
-			"""
 			count: 1
 			path: core/Segment.php
 

@@ -151,7 +151,7 @@ class Option
     /**
      * Sets the singleton instance. For testing purposes.
      *
-     * @param mixed
+     * @param mixed $instance
      * @ignore
      */
     public static function setSingletonInstance($instance)
