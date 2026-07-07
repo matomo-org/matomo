@@ -319,6 +319,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_AddExistingUser';
         $translationKeys[] = 'UsersManager_AddNewUser';
         $translationKeys[] = 'UsersManager_AddSuperuserAccessConfirm';
+        $translationKeys[] = 'UsersManager_AdminUserRoleChangeWarning';
         $translationKeys[] = 'UsersManager_AllUsersAreSelected';
         $translationKeys[] = 'UsersManager_AllWebsitesAreSelected';
         $translationKeys[] = 'UsersManager_AnonymousUserRoleChangeWarning';
