@@ -950,7 +950,7 @@ class ArchivingHelper
      *
      * @param string $name action name
      * @param int $type action type
-     * @param int $urlPrefix url prefix (only used for TYPE_PAGE_URL)
+     * @param int|null $urlPrefix url prefix (only used for TYPE_PAGE_URL)
      * @return array of exploded elements from $name
      */
     public static function getActionExplodedNames($name, $type, $urlPrefix = null)
@@ -1021,7 +1021,7 @@ class ArchivingHelper
     }
 
     /**
-     * Get cached action row by id & type. If $idAction is set to -1, the 'Others' row
+     * Get cached action row by id & type. If $idAction is set to RankingQuery::LABEL_SUMMARY_ROW, the 'Others' row
      * for the specific action type will be returned.
      *
      * @param int $idAction
