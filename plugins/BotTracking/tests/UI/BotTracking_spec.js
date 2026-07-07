@@ -24,6 +24,25 @@ describe("BotTracking", function () {
         await page.waitForTimeout(250);
     }
 
+    async function assertHeaders(widgetId, expectedHeaders) {
+        const headers = await page.$$eval(widgetId + ' thead th .thDIV', function (divs) {
+            return divs.map(function (d) { return (d.textContent || '').trim(); });
+        });
+
+        expect(headers).to.deep.equal(expectedHeaders);
+    }
+
+    async function assertMetricDocumentation(widgetId, expectedCount) {
+        const docs = await page.$$eval(widgetId + ' thead th .columnDocumentation', function (nodes) {
+            return nodes.map(function (node) { return (node.textContent || '').trim(); });
+        });
+
+        expect(docs.length).to.equal(expectedCount);
+        docs.forEach(function (text) {
+            expect(text.length).to.be.above(0);
+        });
+    }
+
     it('should render AI Assistants > AI Chatbots Overview page with evolution and sparkline', async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
         await page.waitForNetworkIdle();
@@ -251,6 +270,74 @@ describe("BotTracking", function () {
 
         var elem = await page.$('.pageWrap');
         expect(await elem.screenshot()).to.matchImage('bot_content_requests');
+    });
+
+    it('should render AI Assistants > AI Chatbots Real-time page', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsRealtime");
+        await page.waitForNetworkIdle();
+
+        const helpIconCount = await page.evaluate(function () {
+            return jQuery(
+                '.reportingMenu ul.navbar > li.menuTab.active > ul > li.active .item-help-icon'
+            ).length;
+        });
+        expect(helpIconCount).to.equal(1);
+
+        await page.evaluate(function () {
+            jQuery(
+                '.reportingMenu ul.navbar > li.menuTab.active > ul > li.active .item-help-icon'
+            ).trigger('click');
+        });
+        await page.waitForSelector('#notificationContainer .help-notification', { visible: true });
+
+        const helpNotificationText = await page.evaluate(function () {
+            var notif = document.querySelector('#notificationContainer .help-notification .notification-body');
+            return notif ? notif.textContent.trim() : '';
+        });
+        expect(helpNotificationText).to.contain('recent AI chatbot activity');
+
+        await page.evaluate(function () {
+            jQuery('#notificationContainer .notification .close').trigger('click');
+        });
+        await page.waitForNetworkIdle();
+
+        const widgets = await page.$$('.matomo-widget');
+        expect(widgets.length).to.equal(4);
+
+        const chatbots30WidgetId = '#widgetBotTrackinggetAIChatbotsRealTimelastMinutes30';
+        const chatbots8hWidgetId = '#widgetBotTrackinggetAIChatbotsRealTimelastMinutes480';
+        const pages30WidgetId = '#widgetBotTrackinggetTopPageUrlsRealTimelastMinutes30';
+        const pages8hWidgetId = '#widgetBotTrackinggetTopPageUrlsRealTimelastMinutes480';
+
+        await page.waitForSelector(chatbots30WidgetId + ' thead th .thDIV', { visible: true });
+
+        await assertHeaders(chatbots30WidgetId, [
+            'AI Chatbot Name',
+            'Requests',
+            'Unique page URLs',
+            'Not found requests',
+            'Server error (5xx) requests',
+        ]);
+        await assertHeaders(chatbots8hWidgetId, [
+            'AI Chatbot Name',
+            'Requests',
+            'Unique page URLs',
+            'Not found requests',
+            'Server error (5xx) requests',
+        ]);
+        await assertHeaders(pages30WidgetId, [
+            'Page URL',
+            'Requests',
+        ]);
+        await assertHeaders(pages8hWidgetId, [
+            'Page URL',
+            'Requests',
+        ]);
+
+        await assertMetricDocumentation(chatbots30WidgetId, 4);
+        await assertMetricDocumentation(chatbots8hWidgetId, 4);
+        await assertMetricDocumentation(pages30WidgetId, 1);
+        await assertMetricDocumentation(pages8hWidgetId, 1);
     });
 
     it('should offer Row Evolution on the Favoured Pages reports and render its chart', async function () {
