@@ -175,15 +175,7 @@ parameters:
 			count: 1
 			path: core/ArchiveProcessor.php
 
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\:\\:\\$numberOfVisits \\(int\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: core/ArchiveProcessor.php
 
-		-
-			message: "#^Strict comparison using \\=\\=\\= between int and false will always evaluate to false\\.$#"
-			count: 1
-			path: core/ArchiveProcessor.php
 
 		-
 			message: "#^Left side of && is always true\\.$#"
@@ -2008,35 +2000,8 @@ parameters:
 			count: 1
 			path: plugins/Actions/Columns/ActionType.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\VisitTotalActions\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
-			count: 2
-			path: plugins/Actions/Columns/VisitTotalActions.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\VisitTotalActions\\:\\:onExistingVisit\\(\\) should return int but returns string\\.$#"
-			count: 2
-			path: plugins/Actions/Columns/VisitTotalActions.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\VisitTotalInteractions\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/VisitTotalInteractions.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\VisitTotalInteractions\\:\\:onExistingVisit\\(\\) should return int but returns string\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/VisitTotalInteractions.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\VisitTotalSearches\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/VisitTotalSearches.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\VisitTotalSearches\\:\\:onExistingVisit\\(\\) should return int but returns string\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/VisitTotalSearches.php
 
 		-
 			message: "#^Parameter \\#1 \\$idSite of method Piwik\\\\Plugins\\\\Actions\\\\RecordBuilders\\\\ActionReports\\:\\:getGoalsForSite\\(\\) expects string, int given\\.$#"
@@ -2203,10 +2168,6 @@ parameters:
 			count: 1
 			path: plugins/CoreHome/Columns/Metrics/EvolutionMetric.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Columns\\\\VisitTotalTime\\:\\:onConvertedVisit\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: plugins/CoreHome/Columns/VisitTotalTime.php
 
 		-
 			message: "#^Parameter \\#1 \\$sqlFilterValue of method Piwik\\\\Plugin\\\\Segment\\:\\:setSqlFilterValue\\(\\) expects array\\|string, Closure given\\.$#"
@@ -2623,15 +2584,6 @@ parameters:
 			count: 1
 			path: plugins/Ecommerce/Columns/BaseConversion.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\Columns\\\\TotalEvents\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: plugins/Events/Columns/TotalEvents.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\Columns\\\\TotalEvents\\:\\:onExistingVisit\\(\\) should return int but returns string\\.$#"
-			count: 1
-			path: plugins/Events/Columns/TotalEvents.php
 
 		-
 			message: "#^Parameter \\#3 \\$escapeComment of static method Piwik\\\\Plugins\\\\Diagnostics\\\\Diagnostic\\\\DiagnosticResult\\:\\:informationalResult\\(\\) expects bool, string given\\.$#"
@@ -3158,10 +3110,6 @@ parameters:
 			count: 1
 			path: plugins/PrivacyManager/Model/LogDataAnonymizations.php
 
-		-
-			message: "#^Call to function is_null\\(\\) with Piwik\\\\DataTable\\\\DataTableInterface will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/PrivacyManager/PrivacyManager.php
 
 		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int given\\.$#"
@@ -3170,8 +3118,9 @@ parameters:
 
 		-
 			message: "#^Variable \\$dataTable in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 2
+			count: 1
 			path: plugins/PrivacyManager/PrivacyManager.php
+
 
 		-
 			message: "#^Parameter \\#1 \\$reportDateYear of static method Piwik\\\\Plugins\\\\PrivacyManager\\\\ReportsPurger\\:\\:shouldReportBePurged\\(\\) expects int, string given\\.$#"
