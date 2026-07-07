@@ -527,6 +527,64 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[null, null, null, 50.0]], $forecastData);
     }
 
+    public function testBuildDayTargetTracksRecentLevelAcrossTrafficLevelShift(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Sunday May 31 forecast. The same-DoW Sunday history spans a 3.5x traffic level shift:
+        // the four oldest Sundays sit at 220 (pre-shift regime), the six recent ones at 62. The
+        // damped linear-trend prior over the raw window reads the old high samples as a steep
+        // ongoing decline and projects far below the current level (the envelope clamp then only
+        // floors it near ~26) -- the reported collapse. stripPreLevelShiftSamples drops the four
+        // pre-shift Sundays so the prior fits the current regime and tracks 62.
+        $dailySamples = [
+            '2026-03-22' => 220.0, '2026-03-29' => 220.0, '2026-04-05' => 220.0, '2026-04-12' => 220.0,
+            '2026-04-19' => 62.0,  '2026-04-26' => 62.0,  '2026-05-03' => 62.0,  '2026-05-10' => 62.0,
+            '2026-05-17' => 62.0,  '2026-05-24' => 62.0,
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Visits' => [5.0]],
+            [$this->createDataTableForDay('2026-05-31', $site, '2026-05-31 12:00:00')],
+            [ArchiveState::INCOMPLETE],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples]
+        );
+
+        self::assertSame([[62.0]], $forecastData);
+    }
+
+    public function testBuildDayTargetKeepsGradualTrendAcrossLevelShiftStrip(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Guard against over-trimming: a gradual same-DoW up-trend (40..76, no sample more than
+        // 2x from the recent level) must not be treated as a level shift, so the damped trend is
+        // preserved and the forecast continues the climb (36 + 4 * (10 + 0.5) = 78) rather than
+        // being flattened onto the recent level.
+        $dailySamples = [
+            '2026-03-22' => 40.0, '2026-03-29' => 44.0, '2026-04-05' => 48.0, '2026-04-12' => 52.0,
+            '2026-04-19' => 56.0, '2026-04-26' => 60.0, '2026-05-03' => 64.0, '2026-05-10' => 68.0,
+            '2026-05-17' => 72.0, '2026-05-24' => 76.0,
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Visits' => [5.0]],
+            [$this->createDataTableForDay('2026-05-31', $site, '2026-05-31 12:00:00')],
+            [ArchiveState::INCOMPLETE],
+            ['Visits' => false],
+            [],
+            [],
+            [],
+            ['Visits' => $dailySamples]
+        );
+
+        self::assertSame([[78.0]], $forecastData);
+    }
+
     public function testBuildDayTargetWithSingleSameDoWSampleInDailySamplesReturnsThatSample(): void
     {
         $site = $this->createSiteMock();
@@ -1737,6 +1795,71 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[null, 2730.0]], $forecastData);
     }
 
+    public function testBuildMonthSeasonalUpAppliesNonTrivialMonthOfYearScale(): void
+    {
+        $site = $this->createSiteMock();
+
+        // Companion to testBuildMonthSeasonalDecompositionUsesCompletedDaysAndDoWAnalogs, which
+        // leaves $monthlySamples empty so computeMonthOfYearScale() short-circuits to 1.0. Here
+        // we feed it a non-empty same-month-of-year (April) history so the scale is genuinely
+        // != 1.0 and multiplies the analog daily projections in the UP month decomposition.
+        //
+        // Target month 2026-04 (30 days). Apr 1 2026 is a Wednesday; archive at 2026-04-04
+        // 12:00:00 -> today is index 3 (Apr 4). Apr 1-3 are completed real; Apr 4 is today;
+        // Apr 5-30 (26 days) are remaining analog-projected days.
+        //
+        // Daily samples are a flat 1000.0 across Jan 1 - Apr 30 2026 (120 days), so:
+        //   - every completed real day (Apr 1-3) contributes 1000 -> completedReal = 3000
+        //   - every same-DoW analog mean is 1000 (n=4 < MIN_SAMPLES_FOR_DAY_LEVEL_TREND -> mean)
+        //
+        // Month-of-year scale (computeMonthOfYearScale, analogChunk = MONTH_ANALOG_CHUNK = 4):
+        //   - recentSameMoYValues('2026-04', 4) -> [2022-04, 2023-04, 2024-04, 2025-04], all 60875
+        //   - numer = computeHistoricalPrior([60875 x 4]) = 60875 (flat fit, slope 0)
+        //   - denom = (sum/count of daily samples) * 30.4375 = 1000 * 30.4375 = 30437.5
+        //   - scale = 60875 / 30437.5 = 2.0 (exact)
+        //
+        // decomposeAndForecast with scale 2.0:
+        //   - completedReal (Apr 1-3, unscaled)           = 3 * 1000            = 3000
+        //   - today (Apr 4): partial = max(0, 3000 - 3000) = 0; prior = 1000 * 2 = 2000
+        //     -> contribution = max(0, 2000)                                    = 2000
+        //   - remaining (Apr 5-30, 26 days): each 1000 * 2 = 2000 -> 26 * 2000  = 52000
+        //   Forecast = 3000 + 2000 + 52000 = 57000.
+        //
+        // With the scale suppressed to 1.0 (empty $monthlySamples) the same setup yields
+        // 3000 + 1000 + 26000 = 30000, so 57000 confirms the scale is both non-trivial and
+        // applied to the rendered forecast.
+        $dataTables = [
+            $this->createDataTableForMonth('2026-03-01', $site),
+            $this->createDataTableForMonth('2026-04-01', $site, '2026-04-04 12:00:00'),
+        ];
+
+        $dailySamples = $this->buildUniformDailySamples('2026-01-01', 120, 1000.0);
+
+        $monthlySamples = [
+            '2022-04' => 60875.0,
+            '2023-04' => 60875.0,
+            '2024-04' => 60875.0,
+            '2025-04' => 60875.0,
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Visits' => [30000.0, 3000.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Visits' => false],
+            [],
+            ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP],
+            [],
+            ['Visits' => $dailySamples],
+            ['Visits' => $monthlySamples]
+        );
+
+        self::assertSame([[null, 57000.0]], $forecastData);
+    }
+
     public function testBuildYearSeasonalDecompositionUsesCompletedMonthsAndMoYAnalogs(): void
     {
         $site = $this->createSiteMock();
@@ -2126,6 +2249,25 @@ class ForecastBuilderTest extends TestCase
                 $samples[$cursor->toString('Y-m-d')] = $pattern[$d] * $scale;
                 $cursor = $cursor->addDay(1);
             }
+        }
+        return $samples;
+    }
+
+    /**
+     * Flat daily sample map: $days consecutive 'Y-m-d' keys from $start, every value $value.
+     * Used by the month-of-year scale test so the MoY denominator
+     * ((sum/count) * 30.4375) reduces to a single clean number and the per-day analog means
+     * are all identical, isolating the scale factor as the only non-trivial term.
+     *
+     * @return array<string, float>
+     */
+    private function buildUniformDailySamples(string $start, int $days, float $value): array
+    {
+        $samples = [];
+        $cursor = Date::factory($start);
+        for ($i = 0; $i < $days; ++$i) {
+            $samples[$cursor->toString('Y-m-d')] = $value;
+            $cursor = $cursor->addDay(1);
         }
         return $samples;
     }
