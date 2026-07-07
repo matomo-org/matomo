@@ -1275,6 +1275,23 @@ class APITest extends IntegrationTestCase
         }
     }
 
+    public function testSetUserAccessSetsAdminAsArrayWithCorrectPasswordInSessionScope()
+    {
+        $password = $this->createCurrentUser();
+
+        $_GET['token_auth'] = 'anyToken';
+        $_GET['force_api_session'] = 1;
+        try {
+            $this->api->setUserAccess($this->login, [Admin::ID, TestCap2::ID], [1], $password);
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_GET['force_api_session']);
+        }
+
+        // TestCap2 is included in the admin role, so only the admin role is stored
+        self::assertEquals([Admin::ID], $this->getAccessInSite($this->login, 1));
+    }
+
     public function testSetUserAccessSetsAdminWithCorrectPasswordInSessionScope()
     {
         $password = $this->createCurrentUser();

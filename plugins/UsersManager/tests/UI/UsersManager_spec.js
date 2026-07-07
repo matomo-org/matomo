@@ -567,6 +567,29 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_access');
     });
 
+    it('should require password confirmation when giving admin access to all websites', async function () {
+        await page.evaluate(function () {
+            $('#all-sites-access-select select').val('string:admin').change();
+        });
+        await page.waitForTimeout(250);
+        await (await page.jQuery('#all-sites-access-select + a.btn')).click();
+
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
+        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+        await page.waitForNetworkIdle();
+
+        await page.evaluate(function () { // clear filters so the applied roles are visible
+            $('.userPermissionsEdit div.site-filter>input').val('').change();
+            $('.userPermissionsEdit .access-filter select').val('string:').change();
+        });
+        await page.waitForNetworkIdle();
+
+        const roles = await getVisibleSiteRoles();
+        expect(Object.values(roles)).to.include('string:admin');
+    });
+
     it('should display the superuser access tab when the superuser tab is clicked', async function () {
         await page.click('.userEditForm .menuSuperuser');
         await page.mouse.move(0, 0);
