@@ -26,7 +26,6 @@ class BotRequestsDao
 {
     private const CONFIG_LIVE_AI_CHATBOTS_MAXIMUM_ROWS = 'live_ai_chatbots_maximum_rows';
     private const CONFIG_LIVE_AI_CHATBOTS_TOP_PAGE_URLS_MAXIMUM_ROWS = 'live_ai_chatbots_top_page_urls_maximum_rows';
-    private const DEFAULT_REAL_TIME_REPORT_LIMIT = 100;
 
     public static function getTableName(): string
     {
@@ -343,9 +342,9 @@ class BotRequestsDao
 
     private static function getRealTimeReportLimit(string $configKey): int
     {
-        $limit = GeneralConfig::getIntegerConfigValue($configKey, self::DEFAULT_REAL_TIME_REPORT_LIMIT);
-        if ($limit <= 0) {
-            return self::DEFAULT_REAL_TIME_REPORT_LIMIT;
+        $limit = GeneralConfig::getIntegerConfigValue($configKey);
+        if ($limit === null || $limit <= 0) {
+            throw new \UnexpectedValueException(sprintf('Config option "%s" must be greater than 0.', $configKey));
         }
 
         return $limit;
