@@ -448,7 +448,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             var widthOfAllColumns = 0;
             columnsInFirstRow.each(function (index, column) {
-                widthOfAllColumns += $(column).outerWidth();
+                // Round each measurement so the sum is a stable integer; raw sub-pixel widths
+                // made the label width (and where labels get truncated) jitter between runs.
+                widthOfAllColumns += Math.round($(column).outerWidth());
             });
 
             if (tableWidth - widthOfAllColumns >= minLabelWidth) {
