@@ -13,7 +13,7 @@ jest.mock('CoreHome', () => ({
   Tooltips: {},
   Sparkline: {
     name: 'Sparkline',
-    props: ['params', 'seriesIndices'],
+    props: ['params', 'seriesIndices', 'width', 'height'],
     template: '<img class="sparkline-stub" />',
   },
   // SparklineCard derives graph-params from the sparkline url; parse a query string like the real
@@ -64,6 +64,7 @@ describe('CoreVisualizations/SparklineCard', () => {
       'Monday, May 4, 2026': [{ value: '10,558', description: 'Visits', title: 'Visits' }],
       'Sunday, May 3, 2026': [{ value: '12,558', description: 'Visits', title: 'Visits' }],
     },
+    metricsOrder: ['Monday, May 4, 2026', 'Sunday, May 3, 2026'],
     order: 1,
     title: null,
     group: '0',
@@ -87,7 +88,7 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(body.exists()).toBe(true);
     expect(body.props('sparkline')).toEqual(comparisonSparkline);
     expect(wrapper.findComponent({ name: 'NoComparison' }).exists()).toBe(false);
-    expect(wrapper.find('.dateComparison__metric').text()).toBe('Visits');
+    expect(wrapper.find('.sparklineDateComparison__title').text()).toBe('Visits');
     expect(wrapper.findAll('.dateAtom').length).toBe(2);
   });
 
@@ -108,6 +109,33 @@ describe('CoreVisualizations/SparklineCard', () => {
     expect(wrapper.find('.metricValue__title').text()).toBe('Visits');
     expect(wrapper.find('.metricValue__number').text()).toBe('1,234');
     expect(wrapper.find('.sparkline-stub').exists()).toBe(true);
+  });
+
+  it('renders the shared sparkline slot, forwarding the entry url and series indices', () => {
+    // The shell owns the single sparkline for both bodies; here the comparison entry carries a
+    // series index per compared date.
+    const wrapper = createWrapper(comparisonSparkline);
+
+    expect(wrapper.find('.sparklineCard__sparkline').exists()).toBe(true);
+    const sparkline = wrapper.findComponent({ name: 'Sparkline' });
+    expect(sparkline.props('params')).toBe(
+      '?module=API&action=get&columns=nb_visits&compareDates[]=2026-05-03',
+    );
+    expect(sparkline.props('seriesIndices')).toEqual([0, 1]);
+  });
+
+  it('sizes the shared sparkline per mode — wider (760) when comparing, 380 otherwise', () => {
+    const plain = createWrapper();
+    const plainSparkline = plain.findComponent({ name: 'Sparkline' });
+    expect(plainSparkline.props('width')).toBe(380);
+    expect(plainSparkline.props('height')).toBe(40);
+    expect(plain.find('.sparklineCard__sparkline--wide').exists()).toBe(false);
+
+    const comparing = createWrapper(comparisonSparkline);
+    const comparingSparkline = comparing.findComponent({ name: 'Sparkline' });
+    expect(comparingSparkline.props('width')).toBe(760);
+    expect(comparingSparkline.props('height')).toBe(40);
+    expect(comparing.find('.sparklineCard__sparkline--wide').exists()).toBe(true);
   });
 
   it('does not render the segment title region in no-comparison mode', () => {

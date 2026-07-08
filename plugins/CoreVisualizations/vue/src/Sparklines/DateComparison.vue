@@ -6,46 +6,48 @@
 -->
 
 <template>
-  <div class="dateComparison">
-    <div class="dateComparison__metric">{{ metricTitle }}</div>
-    <div class="dateComparison__periods">
-      <div
-        v-for="period in periods"
+  <div class="sparklineDateComparison">
+    <div
+      class="sparklineDateComparison__title"
+      :title="metricTitle"
+    >{{ metricTitle }}</div>
+    <div class="sparklineDateComparison__periods">
+      <template
+        v-for="(period, index) in periods"
         :key="period.label"
-        class="dateComparison__period"
       >
-        <DateAtom :label="period.label" />
-        <MetricValue
-          :value="period.primaryValue"
-          :secondary-value="period.secondaryValue"
-          :secondary-label="period.secondaryLabel"
-        >
-          <template
-            v-if="period.evolution"
-            #evolution
+        <div
+          v-if="index > 0"
+          class="sparklineDateComparison__separator"
+        />
+        <div class="sparklineDateComparison__date">
+          <DateAtom :label="period.label" />
+          <MetricValue
+            class="metricValue--noTitle"
+            :value="period.primaryValue"
+            :secondary-value="period.secondaryValue"
+            :secondary-label="period.secondaryLabel"
           >
-            <EvolutionBadge
-              :percent="period.evolution.percent"
-              :trend="period.evolution.trend"
-              :is-lower-value-better="period.evolution.isLowerValueBetter"
-              :tooltip="period.evolution.tooltip || ''"
-            />
-          </template>
-        </MetricValue>
-      </div>
-    </div>
-    <div class="sparklineSlot">
-      <Sparkline :width="380" :height="40"
-        :params="sparkline.url"
-        :series-indices="sparkline.seriesIndices"
-      />
+            <template
+              v-if="period.evolution"
+              #evolution
+            >
+              <EvolutionBadge
+                :percent="period.evolution.percent"
+                :trend="period.evolution.trend"
+                :is-lower-value-better="period.evolution.isLowerValueBetter"
+                :tooltip="period.evolution.tooltip || ''"
+              />
+            </template>
+          </MetricValue>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
-import { Sparkline, NumberFormatter } from 'CoreHome';
 import MetricValue from '../MetricValue/MetricValue.vue';
 import EvolutionBadge from '../EvolutionBadge/EvolutionBadge.vue';
 import DateAtom from './DateAtom.vue';
@@ -60,9 +62,10 @@ interface PeriodColumn {
 }
 
 /**
- * Date-comparison body for a sparkline card: metric name as title, one column per compared date,
- * and a sparkline drawing a coloured series per date. Sparklines arrive grouped by date label
- * (one column each, in seriesIndices order). Only two-date comparison reaches here.
+ * Date-comparison body for a sparkline card: metric name as title and one column per compared date
+ * (the shell renders the shared sparkline below, which draws a coloured series per date). Metrics
+ * arrive grouped by date label (one column each, in seriesIndices order). Only two-date comparison
+ * reaches here.
  */
 export default defineComponent({
   name: 'DateComparison',
@@ -70,7 +73,6 @@ export default defineComponent({
     DateAtom,
     MetricValue,
     EvolutionBadge,
-    Sparkline,
   },
   props: {
     sparkline: {
@@ -79,33 +81,31 @@ export default defineComponent({
     },
   },
   setup(props) {
-    // All groups share the metric, so take its name from the first.
+    // Read the metric name from the first column via metricsOrder (like periods below),
+    // not Object.values, whose order JS shuffles for integer-like labels. The name is
+    // the same across columns, so this is for consistency, not correctness.
     const metricTitle = computed(() => {
-      const firstGroup = Object.values(props.sparkline.metrics || {})[0];
-      const primary = firstGroup?.[0];
+      const metrics = props.sparkline.metrics || {};
+      const firstLabel = (props.sparkline.metricsOrder || [])[0] ?? Object.keys(metrics)[0];
+      const primary = firstLabel !== undefined ? metrics[firstLabel]?.[0] : undefined;
       return primary?.title || primary?.description || '';
     });
 
-    // Format raw numbers; leave already-formatted strings (eg "50%") as-is, like NoComparison.
-    const formatValue = (
-      value?: string | number,
-    ): string | number | undefined => (
-      typeof value === 'number' ? NumberFormatter.formatNumber(value, 2) : value
-    );
-
-    // One column per compared date (backend group order): primary metric is the large value +
-    // evolution, optional second metric is the "unique" sub-line.
+    // One column per compared date, in backend order via `metricsOrder` (not Object.keys, which
+    // JS re-sorts for integer-like year labels). Primary metric = big value + evolution, optional
+    // second = the "unique" sub-line. Values pass raw to MetricValue, which formats numbers.
     const periods = computed<PeriodColumn[]>(() => {
       const metrics = props.sparkline.metrics || {};
-      return Object.keys(metrics).map((label) => {
+      const order = props.sparkline.metricsOrder || [];
+      return order.map((label) => {
         const groupMetrics = metrics[label] || [];
         const primary = groupMetrics[0];
         const secondary = groupMetrics[1];
         return {
           label,
-          primaryValue: formatValue(primary?.value) ?? '',
+          primaryValue: primary?.value ?? '',
           evolution: primary?.evolution,
-          secondaryValue: formatValue(secondary?.value),
+          secondaryValue: secondary?.value,
           secondaryLabel: secondary?.description,
         };
       });

@@ -7,15 +7,11 @@
 
 import { mount } from '@vue/test-utils';
 
-// CoreHome has no jest module mapping, so virtual-mock it: Sparkline as a prop-declaring stub,
-// Tooltips the directive the real MetricValue registers, and NumberFormatter to format numbers.
+// CoreHome has no jest module mapping, so virtual-mock it: Tooltips the directive the real
+// MetricValue registers, and NumberFormatter to format numbers. The sparkline itself is rendered
+// by the shell, not this body.
 jest.mock('CoreHome', () => ({
   Tooltips: {},
-  Sparkline: {
-    name: 'Sparkline',
-    props: ['params', 'seriesIndices'],
-    template: '<img class="sparkline-stub" />',
-  },
   NumberFormatter: {
     formatNumber: (value: number) => String(value),
   },
@@ -44,6 +40,7 @@ function createWrapper(overrides = {}) {
         { value: '10,527', description: 'unique visitors', title: 'Unique visitors' },
       ],
     },
+    metricsOrder: ['Monday, May 4, 2026', 'Sunday, May 3, 2026'],
     order: 1,
     title: null,
     group: '0',
@@ -60,7 +57,31 @@ describe('CoreVisualizations/DateComparison', () => {
   it('renders the metric name as the card title', () => {
     const wrapper = createWrapper();
 
-    expect(wrapper.find('.dateComparison__metric').text()).toBe('Visits');
+    expect(wrapper.find('.sparklineDateComparison__title').text()).toBe('Visits');
+  });
+
+  it('exposes the full title as a title attribute so a clipped metric name stays recoverable', () => {
+    // The title is clamped to one line in DateComparison.less; the title attribute is the hover
+    // fallback, matching MetricValue on the no-comparison card.
+    const wrapper = createWrapper();
+
+    expect(wrapper.find('.sparklineDateComparison__title').attributes('title')).toBe('Visits');
+  });
+
+  it('reads the card title from the first column in metricsOrder, not object-key order', () => {
+    // Bare-integer labels: JS reorders Object.keys to ['2025','2026'], so Object.values()[0] would
+    // read the 2025 column; metricsOrder pins the backend's first column (2026). (Real cards share
+    // one title across columns; distinct titles here only to prove which column is read.)
+    const wrapper = createWrapper({
+      metrics: {
+        2026: [{ value: '10,558', description: 'Visits', title: 'Visits 2026' }],
+        2025: [{ value: '9,000', description: 'Visits', title: 'Visits 2025' }],
+      },
+      metricsOrder: ['2026', '2025'],
+      seriesIndices: [0, 1],
+    });
+
+    expect(wrapper.find('.sparklineDateComparison__title').text()).toBe('Visits 2026');
   });
 
   it('renders one column per compared date with its date label', () => {
@@ -68,13 +89,13 @@ describe('CoreVisualizations/DateComparison', () => {
 
     const labels = wrapper.findAll('.dateAtom').map((node) => node.text());
     expect(labels).toEqual(['Monday, May 4, 2026', 'Sunday, May 3, 2026']);
-    expect(wrapper.findAll('.dateComparison__period').length).toBe(2);
+    expect(wrapper.findAll('.sparklineDateComparison__date').length).toBe(2);
   });
 
   it('renders the primary and secondary value of each date column', () => {
     const wrapper = createWrapper();
 
-    const columns = wrapper.findAll('.dateComparison__period');
+    const columns = wrapper.findAll('.sparklineDateComparison__date');
     expect(columns[0].find('.metricValue__number').text()).toBe('10,558');
     expect(columns[0].find('.metricValue__secondaryValue').text()).toBe('9,527');
     expect(columns[0].find('.metricValue__secondaryLabel').text()).toBe('unique visitors');
@@ -92,7 +113,7 @@ describe('CoreVisualizations/DateComparison', () => {
     expect(badges[0].props('tooltip')).toBe('since last period');
 
     // ...and it belongs to the first column.
-    const columns = wrapper.findAll('.dateComparison__period');
+    const columns = wrapper.findAll('.sparklineDateComparison__date');
     expect(columns[0].findComponent({ name: 'EvolutionBadge' }).exists()).toBe(true);
     expect(columns[1].findComponent({ name: 'EvolutionBadge' }).exists()).toBe(false);
   });
@@ -111,6 +132,7 @@ describe('CoreVisualizations/DateComparison', () => {
           },
         ],
       },
+      metricsOrder: ['Monday, May 4, 2026'],
       seriesIndices: [0],
     });
 
@@ -122,20 +144,30 @@ describe('CoreVisualizations/DateComparison', () => {
       metrics: {
         'Monday, May 4, 2026': [{ value: 10558, description: 'Visits', title: 'Visits' }],
       },
+      metricsOrder: ['Monday, May 4, 2026'],
       seriesIndices: [0],
     });
 
     expect(wrapper.find('.metricValue__number').text()).toBe('10558');
   });
 
-  it('passes the sparkline url and every series index to the single Sparkline', () => {
-    const wrapper = createWrapper();
+  it('orders columns by metricsOrder, not object-key order, for bare-integer year labels', () => {
+    // Bare year labels: JS re-sorts integer-like keys, so Object.keys(metrics) yields
+    // ['2025','2026'] and swaps the columns; metricsOrder pins the backend order.
+    const wrapper = createWrapper({
+      metrics: {
+        2026: [{ value: '10,558', description: 'Visits', title: 'Visits' }],
+        2025: [{ value: '9,000', description: 'Visits', title: 'Visits' }],
+      },
+      metricsOrder: ['2026', '2025'],
+      seriesIndices: [0, 1],
+    });
 
-    const sparklines = wrapper.findAllComponents({ name: 'Sparkline' });
-    expect(sparklines.length).toBe(1);
-    expect(sparklines[0].props('params')).toBe(
-      '?module=API&action=get&columns=nb_visits&compareDates[]=2026-05-03',
-    );
-    expect(sparklines[0].props('seriesIndices')).toEqual([0, 1]);
+    const labels = wrapper.findAll('.dateAtom').map((node) => node.text());
+    expect(labels).toEqual(['2026', '2025']);
+
+    const columns = wrapper.findAll('.sparklineDateComparison__date');
+    expect(columns[0].find('.metricValue__number').text()).toBe('10,558');
+    expect(columns[1].find('.metricValue__number').text()).toBe('9,000');
   });
 });

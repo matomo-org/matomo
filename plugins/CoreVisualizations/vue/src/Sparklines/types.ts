@@ -43,6 +43,9 @@ export interface SparklineEntry {
   url: string;
   tooltip?: string;
   metrics: Record<string, SparklineMetric[]>;
+  // Ordered `metrics` group keys = the date-comparison column order. Needed because JS re-sorts
+  // integer-like object keys (eg year "2025"/"2026"), so `Object.keys(metrics)` loses it.
+  metricsOrder?: string[];
   order: number;
   title: string | null;
   group: string;
