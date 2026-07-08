@@ -165,7 +165,6 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/ReportHeader/ReportHeader.less";
-        $stylesheets[] = "plugins/CoreHome/vue/src/WidgetControlsDropdown/WidgetControlsDropdown.less";
     }
 
     public function getJsFiles(&$jsFiles)
