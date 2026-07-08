@@ -235,6 +235,10 @@ class Visit implements VisitInterface
     }
 
     /**
+     * @deprecated since 5.13.0 superseded by the accurate per-pageview time captured in
+     *             `log_page_view_time` by {@see \Piwik\Plugins\Actions\Tracker\PageViewTimeWriter}.
+     *             Scheduled for removal in Matomo 6.0 along with the
+     *             `log_link_visit_action.time_spent_ref_action` column.
      * @return int Time in seconds
      */
     protected function getTimeSpentReferrerAction()
