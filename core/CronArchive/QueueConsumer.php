@@ -77,7 +77,7 @@ class QueueConsumer
     private $periodIdsToLabels;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $idSite;
 

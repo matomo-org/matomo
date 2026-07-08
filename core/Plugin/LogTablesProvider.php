@@ -22,7 +22,7 @@ class LogTablesProvider
     private $pluginManager;
 
     /**
-     * @var LogTable[]
+     * @var LogTable[]|null
      */
     private $tablesCache;
 

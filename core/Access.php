@@ -53,14 +53,14 @@ class Access
     /**
      * Login of the current user
      *
-     * @var string
+     * @var string|null
      */
     protected $login = null;
 
     /**
      * token_auth of the current user
      *
-     * @var string
+     * @var string|null
      */
     protected $token_auth = null;
 
