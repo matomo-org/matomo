@@ -24,6 +24,9 @@
       >
         <span>{{ title }}</span>
       </h3>
+      <!-- Visually-hidden label so assistive tech announces the region as a widget,
+           restoring the old `.widgetNameOffScreen` text. -->
+      <span class="u-visuallyHidden">{{ translate('General_Widget') }}</span>
       <!-- future: report-feedback actions live here alongside the title -->
     </div>
 

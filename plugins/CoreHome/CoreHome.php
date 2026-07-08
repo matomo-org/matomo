@@ -429,6 +429,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_CopyX';
         $translationKeys[] = 'CoreHome_CopyXDescription';
         $translationKeys[] = 'CoreHome_WebAnalyticsReports';
+        $translationKeys[] = 'CoreHome_WidgetControls';
+        $translationKeys[] = 'General_Widget';
 
         // add admin menu translations
         if (
