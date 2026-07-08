@@ -91,21 +91,6 @@ parameters:
 			path: core/Access.php
 
 		-
-			message: "#^Property Piwik\\\\Access\\:\\:\\$login \\(string\\) does not accept null\\.$#"
-			count: 3
-			path: core/Access.php
-
-		-
-			message: "#^Property Piwik\\\\Access\\:\\:\\$login \\(string\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: core/Access.php
-
-		-
-			message: "#^Property Piwik\\\\Access\\:\\:\\$token_auth \\(string\\) does not accept null\\.$#"
-			count: 1
-			path: core/Access.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 6
 			path: core/Application/Environment.php
@@ -122,16 +107,6 @@ parameters:
 
 		-
 			message: "#^Property Piwik\\\\Archive\\\\ArchiveInvalidator\\:\\:\\$allIdSitesCache is never written, only read\\.$#"
-			count: 1
-			path: core/Archive/ArchiveInvalidator.php
-
-		-
-			message: "#^Property Piwik\\\\Archive\\\\ArchiveInvalidator\\:\\:\\$segmentArchiving \\(Piwik\\\\CronArchive\\\\SegmentArchiving\\) does not accept null\\.$#"
-			count: 1
-			path: core/Archive/ArchiveInvalidator.php
-
-		-
-			message: "#^Property Piwik\\\\Archive\\\\ArchiveInvalidator\\:\\:\\$segmentArchiving \\(Piwik\\\\CronArchive\\\\SegmentArchiving\\) in empty\\(\\) is not falsy\\.$#"
 			count: 1
 			path: core/Archive/ArchiveInvalidator.php
 
@@ -164,16 +139,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between array and false will always evaluate to false\\.$#"
 			count: 1
 			path: core/Archive/DataTableFactory.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\:\\:\\$archive \\(Piwik\\\\Archive\\) does not accept Piwik\\\\Archive\\\\ArchiveQuery\\.$#"
-			count: 1
-			path: core/ArchiveProcessor.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\:\\:\\$archive \\(Piwik\\\\Archive\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: core/ArchiveProcessor.php
 
 		-
 			message: "#^Left side of && is always true\\.$#"
@@ -346,16 +311,6 @@ parameters:
 			path: core/CronArchive/ArchiveFilter.php
 
 		-
-			message: "#^Property Piwik\\\\CronArchive\\\\ArchiveFilter\\:\\:\\$restrictToDateRange \\(array\\<Piwik\\\\Date\\>\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: core/CronArchive/ArchiveFilter.php
-
-		-
-			message: "#^Property Piwik\\\\CronArchive\\\\ArchiveFilter\\:\\:\\$restrictToDateRange \\(array\\<Piwik\\\\Date\\>\\) does not accept string\\|false\\.$#"
-			count: 1
-			path: core/CronArchive/ArchiveFilter.php
-
-		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: core/CronArchive/Performance/Logger.php
@@ -368,11 +323,6 @@ parameters:
 		-
 			message: "#^Method Piwik\\\\CronArchive\\\\QueueConsumer\\:\\:isArchiveNonSegmentAndInProgressArchiveSegment\\(\\) is unused\\.$#"
 			count: 1
-			path: core/CronArchive/QueueConsumer.php
-
-		-
-			message: "#^Property Piwik\\\\CronArchive\\\\QueueConsumer\\:\\:\\$idSite \\(int\\) does not accept null\\.$#"
-			count: 2
 			path: core/CronArchive/QueueConsumer.php
 
 		-
@@ -802,16 +752,6 @@ parameters:
 
 		-
 			message: "#^Method Piwik\\\\Plugin\\\\LogTablesProvider\\:\\:getLogTable\\(\\) should return Piwik\\\\Tracker\\\\LogTable\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Plugin/LogTablesProvider.php
-
-		-
-			message: "#^Property Piwik\\\\Plugin\\\\LogTablesProvider\\:\\:\\$tablesCache \\(array\\<Piwik\\\\Tracker\\\\LogTable\\>\\) does not accept null\\.$#"
-			count: 1
-			path: core/Plugin/LogTablesProvider.php
-
-		-
-			message: "#^Property Piwik\\\\Plugin\\\\LogTablesProvider\\:\\:\\$tablesCache \\(array\\<Piwik\\\\Tracker\\\\LogTable\\>\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: core/Plugin/LogTablesProvider.php
 
@@ -1286,18 +1226,8 @@ parameters:
 			path: core/Tracker.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with Piwik\\\\Db will always evaluate to false\\.$#"
-			count: 3
-			path: core/Tracker.php
-
-		-
 			message: "#^Parameter \\#2 \\$options of function json_encode expects int, true given\\.$#"
 			count: 1
-			path: core/Tracker.php
-
-		-
-			message: "#^Static property Piwik\\\\Tracker\\:\\:\\$db \\(Piwik\\\\Db\\) does not accept null\\.$#"
-			count: 2
 			path: core/Tracker.php
 
 		-
@@ -1356,11 +1286,6 @@ parameters:
 			path: core/Tracker/Db/Mysqli.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with PDO will always evaluate to false\\.$#"
-			count: 1
-			path: core/Tracker/Db/Pdo/Mysql.php
-
-		-
 			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:beginTransaction\\(\\) should return string\\|null but empty return statement found\\.$#"
 			count: 1
 			path: core/Tracker/Db/Pdo/Mysql.php
@@ -1378,11 +1303,6 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
 			count: 1
-			path: core/Tracker/Db/Pdo/Mysql.php
-
-		-
-			message: "#^Property Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:\\$connection \\(PDO\\) does not accept null\\.$#"
-			count: 2
 			path: core/Tracker/Db/Pdo/Mysql.php
 
 		-
@@ -1536,11 +1456,6 @@ parameters:
 			path: core/Tracker/TrackerCodeGenerator.php
 
 		-
-			message: "#^Property Piwik\\\\Tracker\\\\Visit\\:\\:\\$visitProperties \\(Piwik\\\\Tracker\\\\Visit\\\\VisitProperties\\) does not accept null\\.$#"
-			count: 1
-			path: core/Tracker/Visit.php
-
-		-
 			message: "#^Instanceof between \\*NEVER\\* and Piwik\\\\Tracker\\\\VisitInterface will always evaluate to false\\.$#"
 			count: 1
 			path: core/Tracker/Visit/Factory.php
@@ -1557,11 +1472,6 @@ parameters:
 
 		-
 			message: "#^Call to function is_null\\(\\) with array will always evaluate to false\\.$#"
-			count: 1
-			path: core/Tracker/VisitorRecognizer.php
-
-		-
-			message: "#^Property Piwik\\\\Tracker\\\\VisitorRecognizer\\:\\:\\$visitRow \\(array\\) does not accept false\\.$#"
 			count: 1
 			path: core/Tracker/VisitorRecognizer.php
 
