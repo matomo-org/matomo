@@ -8,11 +8,6 @@
 import { mount } from '@vue/test-utils';
 import WidgetControlsDropdown from './WidgetControlsDropdown.vue';
 
-jest.mock('../ExpandOnClick/ExpandOnClick', () => ({
-  __esModule: true,
-  default: {}, // no-op directive; the real one wires document listeners / Matomo helpers
-}));
-
 jest.mock('../translate', () => ({
   translate: (key: string) => {
     const messages: Record<string, string> = {
@@ -20,7 +15,6 @@ jest.mock('../translate', () => ({
       Dashboard_Maximise: 'Maximise',
       General_Refresh: 'Refresh',
       General_Close: 'Close',
-      CoreHome_WidgetControls: 'Widget controls',
     };
 
     return messages[key] || key;
@@ -54,8 +48,7 @@ describe('WidgetControlsDropdown', () => {
       canClose: false,
     });
 
-    const items = wrapper.findAll('.mtm-dropdownPanel__menuLink');
-    expect(items.length).toBe(2);
+    expect(wrapper.findAll('.mtm-dropdownPanel__menuLink').length).toBe(2);
     expect(wrapper.find('.widgetControl-minimise').exists()).toBe(true);
     expect(wrapper.find('.widgetControl-refresh').exists()).toBe(true);
     expect(wrapper.find('.widgetControl-maximise').exists()).toBe(false);
@@ -80,15 +73,5 @@ describe('WidgetControlsDropdown', () => {
 
     expect(wrapper.emitted('close')).toBeTruthy();
     expect(wrapper.emitted('minimise')).toBeFalsy();
-  });
-
-  it('should dispatch a bubbling widgetcontrol:* CustomEvent for the jQuery bridge', async () => {
-    const wrapper = mountComponent();
-    const received: string[] = [];
-    wrapper.element.addEventListener('widgetcontrol:maximise', () => received.push('maximise'));
-
-    await wrapper.find('.widgetControl-maximise').trigger('click');
-
-    expect(received).toEqual(['maximise']);
   });
 });

@@ -1,6 +1,7 @@
 // Shared, widget-first report header: a leading region (title + future feedback actions)
-// on the left, a widget-controls group and a reserved report-actions anchor on the right.
-// Reuses the widget title-bar theme colours.
+// on the left, a widget-controls dropdown and a reserved report-actions anchor on the right.
+// The dropdown shell (3-dots trigger + panel) is owned here so it can be reused across
+// widgets and full-page reports; action groups (e.g. WidgetControlsDropdown) slot into it.
 .reportHeader {
   display: flex;
   align-items: flex-start;
@@ -35,6 +36,49 @@
     align-items: center;
     width: 24px;
     height: 24px;
+  }
+
+  .reportHeader__dropdown {
+    position: relative;
+    line-height: 0;
+  }
+
+  .reportHeader__dropdownTrigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    line-height: 0;
+    cursor: pointer;
+    appearance: none;
+    color: @theme-color-border-alternative; // idle: light grey (#e0e0e0 in light mode)
+  }
+
+  .reportHeader__dropdownTrigger:hover,
+  .reportHeader__dropdownTrigger:focus,
+  .reportHeader__dropdown.expanded .reportHeader__dropdownTrigger,
+  .widget:hover & .reportHeader__dropdownTrigger {
+    color: @theme-color-text;
+  }
+
+  .reportHeader__dropdownIcon {
+    display: block; // fill/stroke inherit currentColor from the trigger
+  }
+
+  .reportHeader__dropdownMenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    z-index: 1000;
+  }
+
+  .reportHeader__dropdown.expanded .reportHeader__dropdownMenu {
+    display: block;
   }
 
   .reportHeader__actions {

@@ -65,9 +65,9 @@ describe('ReportHeader', () => {
     expect(wrapper.find('.widgetControl-close').exists()).toBe(false);
   });
 
-  it('should render no controls in the preview and widgetized contexts', () => {
-    expect(mountComponent({ context: 'preview' }).find('.widgetControls').exists()).toBe(false);
-    expect(mountComponent({ context: 'widgetized' }).find('.widgetControls').exists()).toBe(false);
+  it('should render no dropdown in the preview and widgetized contexts', () => {
+    expect(mountComponent({ context: 'preview' }).find('.reportHeader__dropdown').exists()).toBe(false);
+    expect(mountComponent({ context: 'widgetized' }).find('.reportHeader__dropdown').exists()).toBe(false);
   });
 
   it('should re-emit control intents from the dropdown', async () => {
@@ -76,6 +76,16 @@ describe('ReportHeader', () => {
     await wrapper.find('.widgetControl-refresh').trigger('click');
 
     expect(wrapper.emitted('refresh')).toBeTruthy();
+  });
+
+  it('should dispatch a bubbling widgetcontrol:* CustomEvent for the jQuery bridge', async () => {
+    const wrapper = mountComponent({ context: 'dashboard' });
+    const received: string[] = [];
+    wrapper.element.addEventListener('widgetcontrol:maximise', () => received.push('maximise'));
+
+    await wrapper.find('.widgetControl-maximise').trigger('click');
+
+    expect(received).toEqual(['maximise']);
   });
 
   it('should mark the title clickable and emit titleClick when clickable', async () => {
