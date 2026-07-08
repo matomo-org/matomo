@@ -60,7 +60,7 @@ class Visit implements VisitInterface
     protected $requestProcessors;
 
     /**
-     * @var VisitProperties
+     * @var VisitProperties|null
      */
     protected $visitProperties;
 
