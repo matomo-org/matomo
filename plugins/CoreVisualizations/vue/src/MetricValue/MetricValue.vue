@@ -8,6 +8,7 @@
 <template>
   <div class="metricValue">
     <div
+      v-if="title"
       class="metricValue__title"
       :class="{ 'metricValue__title--documented': !!documentation }"
       :title="documentation || title"
@@ -40,9 +41,11 @@ export default defineComponent({
     Tooltips,
   },
   props: {
+    // Optional: the date-comparison card reuses MetricValue for a value column with no title
+    // (the date label is rendered separately by DateAtom). The title div is skipped when empty.
     title: {
       type: String,
-      required: true,
+      default: '',
     },
     // Pre-formatted value (e.g. "9,527" or "4min 22s"); rendered verbatim, no formatting here.
     value: {

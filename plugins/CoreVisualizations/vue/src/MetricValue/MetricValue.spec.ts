@@ -95,6 +95,17 @@ describe('CoreVisualizations/MetricValue', () => {
     expect(title.classes()).not.toContain('metricValue__title--documented');
   });
 
+  it('omits the title element when no title is given (date-comparison value column)', () => {
+    const wrapper = mount(MetricValue as any, {
+      props: {
+        value: '10,558',
+      },
+    });
+
+    expect(wrapper.find('.metricValue__title').exists()).toBe(false);
+    expect(wrapper.find('.metricValue__number').text()).toBe('10,558');
+  });
+
   it('renders content passed to the evolution slot next to the value', () => {
     const wrapper = mount(MetricValue as any, {
       props: {
