@@ -5,65 +5,39 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// Date-comparison body: a metric-name title, two compared-date columns side by side, and one
-// full-width sparkline drawing a coloured series per date.
-.dateComparison {
-  // Sparkline dimensions: the height is the fixed slot height; the width is the base size the image
-  // scales from and must match the <Sparkline :width> passed in DateComparison.vue.
-  @_sparkline-height: 40px;
-  @_sparkline-width: 380px;
+// Date-comparison body: a metric-name title and two compared-date columns side by side (split by a
+// divider). The full-width sparkline below the columns is rendered by the shell (SparklineCard).
 
-  // Card title = the metric name, matching MetricValue's title so both card bodies read the same.
-  // Clamped to one line so a long metric name can't grow the card.
-  &__metric {
-    color: @theme-color-text;
-    font-size: 18px;
-    line-height: 24px;
-    height: 24px;
-    margin-bottom: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+// Card title = the metric name, matching MetricValue's title so both card bodies read the same.
+// Clamped to one line so a long metric name can't grow the card.
+.sparklineDateComparison__title {
+  color: @theme-color-text;
+  font-size: 18px;
+  line-height: 24px;
+  height: 24px;
+  margin-bottom: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  // The two date columns share the width evenly, split by a divider on the second column.
-  &__periods {
-    display: flex;
-    margin-bottom: 12px;
-  }
+// The two date columns share the width evenly; the gap spaces them and the separator element
+// between them draws the divider.
+.sparklineDateComparison__periods {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
 
-  &__period {
-    flex: 1;
-    min-width: 0;
+.sparklineDateComparison__date {
+  flex: auto;
+  min-width: 0;
+}
 
-    & + & {
-      padding-left: 16px;
-      margin-left: 16px;
-      border-left: 1px solid @theme-color-border-alternative;
-    }
-  }
-
-  // No title inside a value column (DateAtom renders the date above it), so pin the height to the
-  // primary (36) + secondary (24) lines. Fixing it keeps the two columns aligned even when one date
-  // has no "unique" line (eg unique visitors disabled for that period).
-  .metricValue {
-    height: 60px;
-  }
-
-  // Fixed-height slot keeps the card height constant regardless of the image; centering sits the
-  // image mid-slot once it becomes shorter than the slot. Mirrors the no-comparison body.
-  .sparklineSlot {
-    height: @_sparkline-height;
-    display: flex;
-    align-items: center;
-  }
-
-  // Fluid width, height derived from the 380x40 aspect ratio via the img attributes, capped at the
-  // base width so it never renders taller than the fixed slot. The 2x source stays crisp scaling.
-  .sparklineImg {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-width: @_sparkline-width;
-  }
+// Divider between the two date columns. A real element (not a positional sibling selector) so the
+// separator's presence is decided in the template, one per gap between columns.
+.sparklineDateComparison__separator {
+  flex: none;
+  width: 1px;
+  background: @theme-color-border-alternative;
 }

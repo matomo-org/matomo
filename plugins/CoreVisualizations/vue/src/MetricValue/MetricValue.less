@@ -1,38 +1,57 @@
-.metricValue {
-  &__title {
-    color: @theme-color-text;
-    font-size: 18px;
-    line-height: 24px;
+// Title-less variant (date-comparison value column): DateAtom shows the date above instead, so
+// the height is pinned to the primary (36) + secondary (24) lines to keep the columns aligned.
+.metricValue--noTitle {
+  height: 60px;
+}
 
-    // Signals the title carries a documentation tooltip.
-    &--documented {
-      cursor: help;
-    }
-  }
+// Fixed-height variant (no-comparison card readout): pins the height to title (24) + primary (36)
+// + secondary (24) so cards line up whether or not the optional secondary line is present, and
+// clamps the title to one line so a long metric name can't grow the card (full title shows on hover).
+.metricValue--fixedHeight {
+  height: 84px;
+  margin-bottom: 12px;
+}
 
-  &__primary {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-  }
+.metricValue--fixedHeight .metricValue__title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 24px;
+}
 
-  &__number {
-    font-size: 28px;
-    font-weight: 600;
-    line-height: 36px;
-    color: @theme-color-text;
-  }
+.metricValue__title {
+  color: @theme-color-text;
+  font-size: 18px;
+  line-height: 24px;
+}
 
-  &__secondaryValue {
-    color: @theme-color-text;
-    font-size: 14px;
-    line-height: 24px;
-  }
+// Signals the title carries a documentation tooltip.
+.metricValue__title--documented {
+  cursor: help;
+}
 
-  &__secondaryLabel {
-    margin-left: 4px;
-    font-size: 12px;
-    line-height: 24px;
-    color: @theme-color-text-lighter;
-  }
+.metricValue__primary {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.metricValue__number {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 36px;
+  color: @theme-color-text;
+}
+
+.metricValue__secondaryValue {
+  color: @theme-color-text;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.metricValue__secondaryLabel {
+  margin-left: 4px;
+  font-size: 12px;
+  line-height: 24px;
+  color: @theme-color-text-lighter;
 }

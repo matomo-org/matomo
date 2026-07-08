@@ -58,6 +58,7 @@ describe('CoreVisualizations/SparklinesGrid', () => {
         'Monday, May 4, 2026': [{ value: '1', description: 'Visits', title: 'Visits' }],
         'Sunday, May 3, 2026': [{ value: '2', description: 'Visits', title: 'Visits' }],
       },
+      metricsOrder: ['Monday, May 4, 2026', 'Sunday, May 3, 2026'],
       order,
       title: null,
       group: '0',

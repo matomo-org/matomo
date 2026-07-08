@@ -30,12 +30,27 @@
       :sparkline="sparkline"
       :all-metrics-documentation="allMetricsDocumentation"
     />
+    <!-- Both bodies put the sparkline last, so the shell owns the one slot: it keeps the fixed
+         card height and the reused Sparkline sizing in one place (see SparklineCard.less).
+         Comparison cards are wider, so the sparkline is too — the --wide modifier caps it at a
+         wider max-width that must match sparklineWidth (Sparkline renders the PNG at 2x width). -->
+    <div
+      class="sparklineCard__sparkline"
+      :class="{ 'sparklineCard__sparkline--wide': isComparison }"
+    >
+      <Sparkline
+        :width="sparklineWidth"
+        :height="40"
+        :params="sparkline.url"
+        :series-indices="sparkline.seriesIndices"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
-import { MatomoUrl } from 'CoreHome';
+import { MatomoUrl, Sparkline } from 'CoreHome';
 import NoComparison from './NoComparison.vue';
 import DateComparison from './DateComparison.vue';
 import { SparklineEntry } from './types';
@@ -51,6 +66,7 @@ export default defineComponent({
   components: {
     NoComparison,
     DateComparison,
+    Sparkline,
   },
   props: {
     sparkline: {
@@ -109,10 +125,16 @@ export default defineComponent({
       return seriesIndices && seriesIndices.length ? JSON.stringify(seriesIndices) : null;
     });
 
+    // Displayed sparkline width; comparison cards are wider so their sparkline is too. Kept in sync
+    // with the .sparklineCard__sparkline max-width in the .less (Sparkline renders the PNG at 2x
+    // this, and the CSS cap stops it scaling past that crisp source). Height stays 40 for both.
+    const sparklineWidth = computed(() => (isComparison.value ? 760 : 380));
+
     return {
       isComparison,
       graphParamsAttr,
       seriesIndicesAttr,
+      sparklineWidth,
     };
   },
 });
