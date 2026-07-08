@@ -25,11 +25,25 @@
     margin-bottom: -@_row-gap;
   }
 
-  // 5-column tier above xl (1201px). 5 isn't a native col fraction (12/5), so set the width
-  // directly; the selector needs .xl3 (4 classes) to outrank Materialize's `.row .col.xl3`.
+  // Comparison cards: 3-column tier from 1600px (xl6 is 2 cols up to there). 1600 isn't a native
+  // Materialize breakpoint, so set the width directly. xl6 is emitted only for comparison cards, so
+  // this never affects the no-comparison grid.
+  @media (min-width: 1600px) {
+    &.row > .col.xl6 {
+      width: 33.3333%;
+    }
+  }
+
+  // Top tier above 1920px: no-comparison widens to 5 cols, comparison to 4. 5 isn't a native col
+  // fraction (12/5), so set the width directly; the selectors need .xl3/.xl6 (4 classes) to outrank
+  // Materialize's `.row .col.xlN`. Placed after the 1600 block so the comparison rule wins at ≥1920.
   @media (min-width: 1920px) {
     &.row > .col.xl3 {
       width: 20%;
+    }
+
+    &.row > .col.xl6 {
+      width: 25%;
     }
   }
 

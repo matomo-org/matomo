@@ -117,11 +117,11 @@ class Sparklines extends ViewDataTable
         $view->areSparklinesLinkable = $this->config->areSparklinesLinkable();
         $view->isComparing = $this->isComparing();
 
-        // The redesigned Vue card grid (gated by the SparklinesRedesign feature flag) currently only
-        // covers the no-comparison layout, so fall back to the legacy Twig layout while comparing.
+        // The redesigned Vue card grid (gated by the SparklinesRedesign feature flag) covers the
+        // no-comparison layout and two-date comparison; other comparison modes stay on legacy Twig.
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         $view->useNewSparklinesGrid = $featureFlagManager->isFeatureActive(SparklinesRedesign::class)
-            && !$this->isComparing();
+            && $this->isRedesignSupportedForComparison();
 
         $view->title = '';
         if ($this->config->show_title) {
@@ -129,6 +129,26 @@ class Sparklines extends ViewDataTable
         }
 
         return $view->render();
+    }
+
+    /**
+     * Whether the redesigned Vue card grid can render the current request. It handles the
+     * no-comparison layout and date comparison of exactly two dates; segment comparison,
+     * segment + date comparison, and comparing three or more dates stay on the legacy Twig layout.
+     */
+    private function isRedesignSupportedForComparison(): bool
+    {
+        if (!$this->isComparing()) {
+            return true;
+        }
+
+        $request = $this->getRequestArray();
+        $compareSegments = $request['compareSegments'] ?? [];
+        $compareDates = $request['compareDates'] ?? [];
+
+        return empty($compareSegments)
+            && is_array($compareDates)
+            && count($compareDates) === 1;
     }
 
     /**
