@@ -10,11 +10,16 @@
 namespace Piwik\Plugins\Login\tests\Integration;
 
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Auth;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\Plugins\Login\Controller;
+use Piwik\Plugins\Login\PasswordResetter;
 use Piwik\Nonce;
 use Piwik\Auth\PasswordStrength;
 use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Session\SessionInitializer;
 
 /**
  * @group Login
@@ -115,5 +120,66 @@ class ControllerTest extends IntegrationTestCase
 
         $response = $this->controller->acceptInvitation();
         $this->assertStringNotContainsString('General_PasswordStrengthValidationFailed', $response);
+    }
+
+    public function testAcceptInvitationIsOnlyProcessedForPostRequest()
+    {
+        [$userEmail, $token] = $this->generateTestUser();
+
+        // provide a complete, valid acceptance form, but through GET instead of POST
+        $_GET['token'] = $token;
+        $_GET['password'] = 'Password111!';
+        $_GET['passwordConfirmation'] = 'Password111!';
+        $_GET['email'] = $userEmail;
+        $_GET['invitation_form'] = 'Confirm';
+        $_GET['conditionCheck'] = true;
+
+        try {
+            $response = $this->controller->acceptInvitation();
+        } finally {
+            foreach (['token', 'password', 'passwordConfirmation', 'email', 'invitation_form', 'conditionCheck'] as $key) {
+                unset($_GET[$key]);
+            }
+        }
+
+        // the form is only processed for POST requests, so the user must still be pending
+        $this->assertTrue((new Model())->isPendingUser('test'));
+        // and the set password form is rendered again instead
+        $this->assertStringContainsString('invitation_form', $response);
+    }
+
+    public function testAuthenticateAndRedirectRebuildsFormRedirectUrl()
+    {
+        $host = 'localhost';
+        $_SERVER['HTTP_HOST'] = $host;
+        $_SESSION = [];
+        Config::getInstance()->General['trusted_hosts'] = [$host];
+
+        // the redirect url is rebuilt from its parsed parts, so special characters in the user info part
+        // are escaped instead of being passed through verbatim
+        $_POST['form_redirect'] = 'http://foo\\@' . $host . '/?module=CoreHome';
+
+        $controller = new Controller(
+            $this->createMock(PasswordResetter::class),
+            $this->createMock(Auth::class),
+            $this->createMock(SessionInitializer::class),
+            $passwordVerify = null,
+            $bruteForceDetection = null,
+            $systemSettings = null,
+            new PasswordStrength(true)
+        );
+
+        $method = new \ReflectionMethod(Controller::class, 'authenticateAndRedirect');
+        $method->setAccessible(true);
+
+        try {
+            $method->invoke($controller, 'test', 'Password111!');
+            $this->fail('Expected a redirect to be triggered');
+        } catch (\Exception $e) {
+            $redirectUrl = Common::$headersSentInTests['Location'] ?? '';
+            // the backslash in the user info part must be escaped rather than passed through verbatim
+            $this->assertStringNotContainsString('foo\\@' . $host, $redirectUrl);
+            $this->assertStringContainsString('foo%5C@' . $host, $redirectUrl);
+        }
     }
 }
