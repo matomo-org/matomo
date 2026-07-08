@@ -96,7 +96,7 @@
 	<reportTotal>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
-		<sum_time_spent>1080</sum_time_spent>
+		<sum_time_spent>1620</sum_time_spent>
 		<nb_hits_with_time_network>4</nb_hits_with_time_network>
 		<min_time_network>0.0000</min_time_network>
 		<max_time_network>0.0620</max_time_network>
@@ -117,6 +117,7 @@
 		<max_time_on_load>0.6660</max_time_on_load>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<nb_hits_with_time_spent>2</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal="1">
 				<nb_conversions>2</nb_conversions>

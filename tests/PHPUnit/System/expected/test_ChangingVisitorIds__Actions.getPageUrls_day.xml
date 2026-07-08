@@ -5,7 +5,7 @@
 		<nb_visits>2</nb_visits>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>4</nb_hits>
-		<sum_time_spent>90</sum_time_spent>
+		<sum_time_spent>110</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -17,6 +17,7 @@
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 		<exit_nb_visits>2</exit_nb_visits>
+		<nb_hits_with_time_spent>3</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='ecommerceOrder'>
 				<nb_conversions>3</nb_conversions>
@@ -34,7 +35,7 @@
 		</goals>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>23</avg_time_on_page>
+		<avg_time_on_page>37</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/index.htm</url>
@@ -45,11 +46,12 @@
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
-		<sum_time_spent>26</sum_time_spent>
+		<sum_time_spent>46</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
 		<max_bandwidth />
+		<nb_hits_with_time_spent>2</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='ecommerceOrder'>
 				<nb_conversions>3</nb_conversions>
@@ -63,7 +65,7 @@
 		</goals>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>13</avg_time_on_page>
+		<avg_time_on_page>23</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>http://example.org/product.htm</url>

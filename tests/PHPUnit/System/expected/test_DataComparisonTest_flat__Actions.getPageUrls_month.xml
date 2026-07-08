@@ -17,6 +17,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>9</entry_bounce_count>
 		<exit_nb_visits>9</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>9</nb_conversions>
@@ -58,6 +59,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>9</entry_bounce_count>
 				<exit_nb_visits>9</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>9</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>9</sum_daily_exit_nb_uniq_visitors>
@@ -91,6 +93,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -122,6 +125,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -154,6 +158,8 @@
 				<entry_bounce_count_change_from>+800%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-88.9%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+800%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-88.9%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+800%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-88.9%</sum_daily_entry_nb_uniq_visitors_change>
@@ -194,6 +200,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -231,6 +238,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -278,6 +287,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>2</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -319,6 +329,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>2</entry_bounce_count>
 				<exit_nb_visits>2</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
@@ -350,6 +361,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -382,6 +394,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -419,6 +432,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -461,6 +476,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -498,6 +514,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -545,6 +563,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>2</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -586,6 +605,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>2</entry_bounce_count>
 				<exit_nb_visits>2</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
@@ -617,6 +637,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -649,6 +670,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -686,6 +708,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -728,6 +752,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -765,6 +790,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -812,6 +839,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>2</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -853,6 +881,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>2</entry_bounce_count>
 				<exit_nb_visits>2</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
@@ -886,6 +915,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -919,6 +949,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -956,6 +987,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -998,6 +1031,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -1035,6 +1069,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -1082,6 +1118,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1123,6 +1160,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -1154,6 +1192,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -1186,6 +1225,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -1223,6 +1263,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -1265,6 +1307,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -1302,6 +1345,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -1349,6 +1394,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1390,6 +1436,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -1423,6 +1470,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -1456,6 +1504,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -1493,6 +1542,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -1535,6 +1586,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -1572,6 +1624,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -1619,6 +1673,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1660,6 +1715,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -1693,6 +1749,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -1726,6 +1783,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -1763,6 +1821,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -1805,6 +1865,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -1842,6 +1903,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -1889,6 +1952,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1930,6 +1994,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -1963,6 +2028,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -1996,6 +2062,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -2033,6 +2100,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -2075,6 +2144,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -2112,6 +2182,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -2159,6 +2231,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -2200,6 +2273,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -2233,6 +2307,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -2266,6 +2341,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -2303,6 +2379,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -2345,6 +2423,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -2382,6 +2461,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -2429,6 +2510,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -2470,6 +2552,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -2503,6 +2586,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -2536,6 +2620,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -2573,6 +2658,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -2615,6 +2702,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -2652,6 +2740,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -2699,6 +2789,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -2740,6 +2831,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -2771,6 +2863,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -2803,6 +2896,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -2840,6 +2934,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -2882,6 +2978,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -2919,6 +3016,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -2966,6 +3065,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -3007,6 +3107,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -3038,6 +3139,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -3070,6 +3172,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -3107,6 +3210,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -3149,6 +3254,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -3186,6 +3292,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -3233,6 +3341,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -3274,6 +3383,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -3305,6 +3415,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -3335,6 +3446,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -3367,6 +3479,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -3405,6 +3519,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -3437,6 +3552,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -3482,6 +3599,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -3523,6 +3641,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -3556,6 +3675,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -3589,6 +3709,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -3626,6 +3747,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -3668,6 +3791,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -3705,6 +3829,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -3751,6 +3877,7 @@
 		<entry_nb_actions>2</entry_nb_actions>
 		<entry_sum_visit_length>182</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
+		<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -3790,6 +3917,7 @@
 				<entry_nb_actions>2</entry_nb_actions>
 				<entry_sum_visit_length>182</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
+				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<avg_bandwidth>3574</avg_bandwidth>
@@ -3821,6 +3949,7 @@
 				<entry_nb_actions>0</entry_nb_actions>
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
@@ -3852,6 +3981,7 @@
 				<entry_nb_actions>0</entry_nb_actions>
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
@@ -3886,6 +4016,8 @@
 				<entry_sum_visit_length_change_from>+100%</entry_sum_visit_length_change_from>
 				<entry_bounce_count_change>+0%</entry_bounce_count_change>
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
+				<nb_hits_with_time_spent_change>-100%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+100%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -3925,6 +4057,7 @@
 				<entry_nb_actions>0</entry_nb_actions>
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
@@ -3959,6 +4092,8 @@
 				<entry_sum_visit_length_change_from>+0%</entry_sum_visit_length_change_from>
 				<entry_bounce_count_change>+0%</entry_bounce_count_change>
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -4004,6 +4139,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -4045,6 +4181,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -4076,6 +4213,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -4108,6 +4246,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -4145,6 +4284,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -4187,6 +4328,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -4224,6 +4366,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -4271,6 +4415,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -4312,6 +4457,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -4343,6 +4489,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -4373,6 +4520,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -4405,6 +4553,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -4443,6 +4593,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -4475,6 +4626,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -4516,6 +4669,7 @@
 		<min_bandwidth>3574</min_bandwidth>
 		<max_bandwidth>3574</max_bandwidth>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>3574</avg_bandwidth>
@@ -4537,6 +4691,7 @@
 				<min_bandwidth>3574</min_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>3574</avg_bandwidth>
@@ -4565,6 +4720,7 @@
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
@@ -4593,6 +4749,7 @@
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
@@ -4621,6 +4778,8 @@
 				<max_bandwidth_change_from>+100%</max_bandwidth_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_exit_nb_uniq_visitors_change>-100%</sum_daily_exit_nb_uniq_visitors_change>
@@ -4657,6 +4816,7 @@
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
@@ -4685,6 +4845,8 @@
 				<max_bandwidth_change_from>+0%</max_bandwidth_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
@@ -4730,6 +4892,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -4771,6 +4934,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -4804,6 +4968,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -4837,6 +5002,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -4874,6 +5040,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -4916,6 +5084,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -4953,6 +5122,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -5000,6 +5171,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -5041,6 +5213,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -5072,6 +5245,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -5104,6 +5278,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -5141,6 +5316,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -5183,6 +5360,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -5220,6 +5398,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -5267,6 +5447,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -5308,6 +5489,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -5341,6 +5523,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -5374,6 +5557,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -5411,6 +5595,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -5453,6 +5639,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -5490,6 +5677,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
@@ -5537,6 +5726,7 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -5580,6 +5770,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -5615,6 +5806,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -5650,6 +5842,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -5691,6 +5884,8 @@
 				<entry_bounce_count_change_from>+100%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>-100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+100%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+100%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
@@ -5735,6 +5930,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>0</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
@@ -5776,6 +5972,8 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
+				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
+				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_uniq_visitors_change_from>+0%</sum_daily_nb_uniq_visitors_change_from>
 				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>

@@ -4,7 +4,7 @@
 		<label>page_A</label>
 		<nb_visits>12</nb_visits>
 		<nb_hits>14</nb_hits>
-		<sum_time_spent>4320</sum_time_spent>
+		<sum_time_spent>5040</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -13,6 +13,7 @@
 		<entry_nb_actions>33</entry_nb_actions>
 		<entry_sum_visit_length>9373</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
+		<nb_hits_with_time_spent>14</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>9</nb_conversions>
@@ -44,7 +45,7 @@
 		<exit_nb_visits>2</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>309</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>17%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fpage_A</segment>
@@ -53,7 +54,7 @@
 				<label>/index.html</label>
 				<nb_visits>7</nb_visits>
 				<nb_hits>9</nb_hits>
-				<sum_time_spent>2880</sum_time_spent>
+				<sum_time_spent>3240</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -62,6 +63,7 @@
 				<entry_nb_actions>33</entry_nb_actions>
 				<entry_sum_visit_length>9373</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
+				<nb_hits_with_time_spent>9</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>5</nb_conversions>
@@ -94,7 +96,7 @@
 				<sum_daily_entry_nb_uniq_visitors>7</sum_daily_entry_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
-				<avg_time_on_page>320</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>14%</exit_rate>
 				<url>http://example.org/page_A/index.html</url>
@@ -104,11 +106,12 @@
 				<label>/Z</label>
 				<nb_visits>3</nb_visits>
 				<nb_hits>3</nb_hits>
-				<sum_time_spent>720</sum_time_spent>
+				<sum_time_spent>1080</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
+				<nb_hits_with_time_spent>3</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>2</nb_conversions>
@@ -132,7 +135,7 @@
 				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
-				<avg_time_on_page>240</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>33%</exit_rate>
 				<url>http://example.org/page_A/Z</url>
@@ -147,6 +150,7 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
+				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -174,6 +178,7 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
+				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -212,6 +217,7 @@
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
 		<max_bandwidth />
+		<nb_hits_with_time_spent>4</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -245,12 +251,13 @@
 		<label>/page_C</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>6</nb_hits>
-		<sum_time_spent>720</sum_time_spent>
+		<sum_time_spent>2880</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
 		<max_bandwidth />
 		<exit_nb_visits>4</exit_nb_visits>
+		<nb_hits_with_time_spent>6</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>4</nb_conversions>
@@ -275,7 +282,7 @@
 		<sum_daily_exit_nb_uniq_visitors>4</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>120</avg_time_on_page>
+		<avg_time_on_page>480</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/page_C</url>
@@ -291,6 +298,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>

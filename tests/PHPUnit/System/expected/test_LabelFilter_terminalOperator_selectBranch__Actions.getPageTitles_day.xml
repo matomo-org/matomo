@@ -27,6 +27,7 @@
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
 		<max_bandwidth />
+		<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_network>0.25</avg_time_network>
 		<avg_time_server>0.212</avg_time_server>

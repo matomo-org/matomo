@@ -75,6 +75,7 @@ class RawLogDaoTest extends SystemTestCase
             'log_conversion_item' => 'idvisit',
             'log_link_visit_action' => 'idlink_va',
             'log_visit' => 'idvisit',
+            'log_page_view_time' => 'idpageviewtime',
         );
         $this->assertSame($expected, $this->dao->getTableIdColumns());
     }
@@ -101,6 +102,7 @@ class RawLogDaoTest extends SystemTestCase
             'log_conversion_item' => null,
             'log_conversion' => null,
             'log_link_visit_action' => '11',
+            'log_page_view_time' => '11',
             'log_visit' => '1',
         );
         $this->assertEquals($expected, $this->dao->getMaxIdsInLogTables());

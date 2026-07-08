@@ -13,6 +13,7 @@
 		<entry_nb_actions>18</entry_nb_actions>
 		<entry_sum_visit_length>5047</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
+		<nb_hits_with_time_spent>7</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>5</nb_conversions>
@@ -71,6 +72,7 @@
 				<entry_nb_actions>18</entry_nb_actions>
 				<entry_sum_visit_length>5047</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
+				<nb_hits_with_time_spent>5</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>3</nb_conversions>

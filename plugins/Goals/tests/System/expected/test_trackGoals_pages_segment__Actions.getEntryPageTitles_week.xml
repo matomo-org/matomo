@@ -4,7 +4,7 @@
 		<label> Page A - index.html</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>360</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -14,6 +14,7 @@
 		<entry_sum_visit_length>362</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -43,7 +44,7 @@
 		<goal_1_nb_conversions>1</goal_1_nb_conversions>
 		<goal_1_revenue_per_visit>10</goal_1_revenue_per_visit>
 		<goal_1_revenue>10</goal_1_revenue>
-		<avg_time_on_page>0</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<exit_rate>100%</exit_rate>
 		<segment>entryPageTitle==Page%2BA%2B-%2Bindex.html</segment>
 	</row>

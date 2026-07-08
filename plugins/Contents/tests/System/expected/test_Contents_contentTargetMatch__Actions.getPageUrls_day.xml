@@ -35,6 +35,7 @@
 		<entry_bounce_count>2</entry_bounce_count>
 		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 		<exit_nb_visits>2</exit_nb_visits>
+		<nb_hits_with_time_spent>2</nb_hits_with_time_spent>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_network>0.033</avg_time_network>
 		<avg_time_server>0.325</avg_time_server>

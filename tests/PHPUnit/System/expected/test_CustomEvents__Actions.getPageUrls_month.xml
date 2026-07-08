@@ -4,7 +4,7 @@
 		<label>/movies</label>
 		<nb_visits>3</nb_visits>
 		<nb_hits>3</nb_hits>
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>5400</sum_time_spent>
 		<nb_hits_with_time_network>3</nb_hits_with_time_network>
 		<min_time_network>0.0000</min_time_network>
 		<max_time_network>0.0000</max_time_network>
@@ -32,6 +32,7 @@
 		<entry_sum_visit_length>7082</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_visits>3</exit_nb_visits>
+		<nb_hits_with_time_spent>3</nb_hits_with_time_spent>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>3</sum_daily_exit_nb_uniq_visitors>
@@ -43,7 +44,7 @@
 		<avg_time_dom_completion>0.099</avg_time_dom_completion>
 		<avg_time_on_load>0.16</avg_time_on_load>
 		<avg_page_load_time>0.903</avg_page_load_time>
-		<avg_time_on_page>0</avg_time_on_page>
+		<avg_time_on_page>1800</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/movies</url>
@@ -53,7 +54,7 @@
 		<label>/webradio</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
-		<sum_time_spent>1499</sum_time_spent>
+		<sum_time_spent>1800</sum_time_spent>
 		<nb_hits_with_time_network>1</nb_hits_with_time_network>
 		<min_time_network>0.0050</min_time_network>
 		<max_time_network>0.0050</max_time_network>
@@ -80,6 +81,7 @@
 		<entry_nb_actions>18</entry_nb_actions>
 		<entry_sum_visit_length>3601</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
+		<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -118,7 +120,7 @@
 		<avg_time_dom_completion>0.066</avg_time_dom_completion>
 		<avg_time_on_load>0</avg_time_on_load>
 		<avg_page_load_time>0.572</avg_page_load_time>
-		<avg_time_on_page>1499</avg_time_on_page>
+		<avg_time_on_page>1800</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>http://example.org/webradio</url>

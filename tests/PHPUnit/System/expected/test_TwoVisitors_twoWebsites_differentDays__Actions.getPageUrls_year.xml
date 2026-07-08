@@ -34,6 +34,7 @@
 				<entry_sum_visit_length>7208</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>8</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>9</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -45,7 +46,7 @@
 				<avg_time_dom_completion>0.286</avg_time_dom_completion>
 				<avg_time_on_load>0.331</avg_time_on_load>
 				<avg_page_load_time>2.287</avg_page_load_time>
-				<avg_time_on_page>320</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<bounce_rate>11%</bounce_rate>
 				<exit_rate>11%</exit_rate>
 				<url>http://example.org/index.htm</url>
@@ -121,6 +122,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<exit_nb_visits>8</exit_nb_visits>
+				<nb_hits_with_time_spent>8</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>8</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
@@ -131,7 +133,7 @@
 				<avg_time_dom_completion>0.277</avg_time_dom_completion>
 				<avg_time_on_load>0.284</avg_time_on_load>
 				<avg_page_load_time>2.476</avg_page_load_time>
-				<avg_time_on_page>270</avg_time_on_page>
+				<avg_time_on_page>540</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://example.org/thankyou</url>
@@ -169,6 +171,7 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -228,6 +231,7 @@
 				<entry_sum_visit_length>1</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
+				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>

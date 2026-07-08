@@ -31,6 +31,7 @@
 		<max_bandwidth />
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>1</exit_nb_visits>
+		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_network>0.042</avg_time_network>
 		<avg_time_server>0.096</avg_time_server>

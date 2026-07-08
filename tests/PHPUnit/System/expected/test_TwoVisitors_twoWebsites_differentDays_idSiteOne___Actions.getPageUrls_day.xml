@@ -36,6 +36,7 @@
 			<entry_bounce_count>1</entry_bounce_count>
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
+			<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.036</avg_time_network>
 			<avg_time_server>0.228</avg_time_server>
@@ -85,6 +86,7 @@
 			<entry_bounce_count>1</entry_bounce_count>
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
+			<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.062</avg_time_network>
 			<avg_time_server>0.305</avg_time_server>
@@ -154,6 +156,7 @@
 			<entry_nb_actions>5</entry_nb_actions>
 			<entry_sum_visit_length>901</entry_sum_visit_length>
 			<entry_bounce_count>0</entry_bounce_count>
+			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.027</avg_time_network>
 			<avg_time_server>0.268</avg_time_server>
@@ -198,6 +201,7 @@
 			<max_bandwidth />
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
+			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.017</avg_time_network>
 			<avg_time_server>0.278</avg_time_server>
@@ -206,7 +210,7 @@
 			<avg_time_dom_completion>0.277</avg_time_dom_completion>
 			<avg_time_on_load>0.284</avg_time_on_load>
 			<avg_page_load_time>2.476</avg_page_load_time>
-			<avg_time_on_page>270</avg_time_on_page>
+			<avg_time_on_page>540</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<url>http://example.org/thankyou</url>
@@ -289,6 +293,7 @@
 			<entry_nb_actions>5</entry_nb_actions>
 			<entry_sum_visit_length>901</entry_sum_visit_length>
 			<entry_bounce_count>0</entry_bounce_count>
+			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.027</avg_time_network>
 			<avg_time_server>0.268</avg_time_server>
@@ -333,6 +338,7 @@
 			<max_bandwidth />
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
+			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.017</avg_time_network>
 			<avg_time_server>0.278</avg_time_server>
@@ -341,7 +347,7 @@
 			<avg_time_dom_completion>0.277</avg_time_dom_completion>
 			<avg_time_on_load>0.284</avg_time_on_load>
 			<avg_page_load_time>2.476</avg_page_load_time>
-			<avg_time_on_page>270</avg_time_on_page>
+			<avg_time_on_page>540</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<url>http://example.org/thankyou</url>
@@ -424,6 +430,7 @@
 			<entry_nb_actions>5</entry_nb_actions>
 			<entry_sum_visit_length>901</entry_sum_visit_length>
 			<entry_bounce_count>0</entry_bounce_count>
+			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.027</avg_time_network>
 			<avg_time_server>0.268</avg_time_server>
@@ -468,6 +475,7 @@
 			<max_bandwidth />
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
+			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.017</avg_time_network>
 			<avg_time_server>0.278</avg_time_server>
@@ -476,7 +484,7 @@
 			<avg_time_dom_completion>0.277</avg_time_dom_completion>
 			<avg_time_on_load>0.284</avg_time_on_load>
 			<avg_page_load_time>2.476</avg_page_load_time>
-			<avg_time_on_page>270</avg_time_on_page>
+			<avg_time_on_page>540</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<url>http://example.org/thankyou</url>
@@ -559,6 +567,7 @@
 			<entry_nb_actions>5</entry_nb_actions>
 			<entry_sum_visit_length>901</entry_sum_visit_length>
 			<entry_bounce_count>0</entry_bounce_count>
+			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.027</avg_time_network>
 			<avg_time_server>0.268</avg_time_server>
@@ -603,6 +612,7 @@
 			<max_bandwidth />
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
+			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.017</avg_time_network>
 			<avg_time_server>0.278</avg_time_server>
@@ -611,7 +621,7 @@
 			<avg_time_dom_completion>0.277</avg_time_dom_completion>
 			<avg_time_on_load>0.284</avg_time_on_load>
 			<avg_page_load_time>2.476</avg_page_load_time>
-			<avg_time_on_page>270</avg_time_on_page>
+			<avg_time_on_page>540</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<url>http://example.org/thankyou</url>
@@ -694,6 +704,7 @@
 			<entry_nb_actions>5</entry_nb_actions>
 			<entry_sum_visit_length>901</entry_sum_visit_length>
 			<entry_bounce_count>0</entry_bounce_count>
+			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.027</avg_time_network>
 			<avg_time_server>0.268</avg_time_server>
@@ -738,6 +749,7 @@
 			<max_bandwidth />
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
+			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.017</avg_time_network>
 			<avg_time_server>0.278</avg_time_server>
@@ -746,7 +758,7 @@
 			<avg_time_dom_completion>0.277</avg_time_dom_completion>
 			<avg_time_on_load>0.284</avg_time_on_load>
 			<avg_page_load_time>2.476</avg_page_load_time>
-			<avg_time_on_page>270</avg_time_on_page>
+			<avg_time_on_page>540</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<url>http://example.org/thankyou</url>

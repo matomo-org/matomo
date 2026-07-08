@@ -12,6 +12,7 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
+				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_page_load_time>0</avg_page_load_time>
@@ -23,16 +24,17 @@
 				<label> This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>216</sum_time_spent>
+				<sum_time_spent>612</sum_time_spent>
 				<nb_hits_following_search>1</nb_hits_following_search>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
+				<nb_hits_with_time_spent>2</nb_hits_with_time_spent>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_page_load_time>0</avg_page_load_time>
-				<avg_time_on_page>108</avg_time_on_page>
+				<avg_time_on_page>306</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 			</row>

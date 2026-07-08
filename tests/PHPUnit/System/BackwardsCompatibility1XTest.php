@@ -150,6 +150,10 @@ class BackwardsCompatibility1XTest extends SystemTestCase
                 'nb_visits_converted',
                 'interactionPosition',
                 'pageviewPosition',
+                // Legacy 1.x SQL dumps don't populate log_page_view_time, so the archiver falls
+                // back to the legacy time-spent path which doesn't emit nb_hits_with_time_spent.
+                // Strip it from the diff so the test stays neutral to the DEV-20451 metric.
+                'nb_hits_with_time_spent',
             ], $performanceMetrics),
         ];
 

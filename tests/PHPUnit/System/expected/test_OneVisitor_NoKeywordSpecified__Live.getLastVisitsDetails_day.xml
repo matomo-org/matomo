@@ -139,8 +139,8 @@
 				
 				<pageId>1</pageId>
 				<bandwidth />
-				<timeSpent>1084</timeSpent>
-				<timeSpentPretty>18 min 4s</timeSpentPretty>
+				<timeSpent>1080</timeSpent>
+				<timeSpentPretty>18 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title! (Page URL contains a HTML entity)</title>
 				<subtitle>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</subtitle>
