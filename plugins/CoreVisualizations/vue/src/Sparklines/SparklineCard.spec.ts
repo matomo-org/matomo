@@ -27,6 +27,10 @@ jest.mock('CoreHome', () => ({
       return params;
     },
   },
+  // The DateComparison body (rendered for comparison entries) formats raw numeric metric values.
+  NumberFormatter: {
+    formatNumber: (value: number) => String(value),
+  },
 }), { virtual: true });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -54,12 +58,37 @@ describe('CoreVisualizations/SparklineCard', () => {
     });
   }
 
+  const comparisonSparkline = {
+    url: '?module=API&action=get&columns=nb_visits&compareDates[]=2026-05-03',
+    metrics: {
+      'Monday, May 4, 2026': [{ value: '10,558', description: 'Visits', title: 'Visits' }],
+      'Sunday, May 3, 2026': [{ value: '12,558', description: 'Visits', title: 'Visits' }],
+    },
+    order: 1,
+    title: null,
+    group: '0',
+    seriesIndices: [0, 1],
+    graphParams: null,
+  };
+
   it('renders the no-comparison body and forwards the sparkline to it', () => {
     const wrapper = createWrapper();
 
     const body = wrapper.findComponent({ name: 'NoComparison' });
     expect(body.exists()).toBe(true);
     expect(body.props('sparkline')).toEqual(baseSparkline);
+    expect(wrapper.findComponent({ name: 'DateComparison' }).exists()).toBe(false);
+  });
+
+  it('renders the date-comparison body for entries carrying series indices', () => {
+    const wrapper = createWrapper(comparisonSparkline);
+
+    const body = wrapper.findComponent({ name: 'DateComparison' });
+    expect(body.exists()).toBe(true);
+    expect(body.props('sparkline')).toEqual(comparisonSparkline);
+    expect(wrapper.findComponent({ name: 'NoComparison' }).exists()).toBe(false);
+    expect(wrapper.find('.dateComparison__metric').text()).toBe('Visits');
+    expect(wrapper.findAll('.dateAtom').length).toBe(2);
   });
 
   it('forwards allMetricsDocumentation to the body so the title shows the metric tooltip', () => {

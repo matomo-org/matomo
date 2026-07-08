@@ -12,15 +12,21 @@
     :data-graph-params="graphParamsAttr"
     :data-series-indices="seriesIndicesAttr"
   >
-    <!-- Segment header, set only in comparison mode (sparkline.title is null otherwise).
-         The seam for Phase 3 comparison bodies, which render under the same title. -->
+    <!-- Segment header, set only when comparing more than one segment (sparkline.title is null
+         otherwise). Dormant in the supported modes: no-comparison and single-segment date
+         comparison both leave it null; the date-comparison body renders its own metric title. -->
     <div
       v-if="sparkline.title"
       class="sparklineCard__title"
     >
       {{ sparkline.title }}
     </div>
+    <DateComparison
+      v-if="isComparison"
+      :sparkline="sparkline"
+    />
     <NoComparison
+      v-else
       :sparkline="sparkline"
       :all-metrics-documentation="allMetricsDocumentation"
     />
@@ -31,17 +37,20 @@
 import { computed, defineComponent, PropType } from 'vue';
 import { MatomoUrl } from 'CoreHome';
 import NoComparison from './NoComparison.vue';
+import DateComparison from './DateComparison.vue';
 import { SparklineEntry } from './types';
 
 /**
  * Card shell: the frame around a sparkline body. Owns the legacy `.sparkline` wrapper and
- * its evolution-graph data attributes; delegates the content to a body component. Only the
- * no-comparison body exists today; Phase 3 adds the comparison body behind the same shell.
+ * its evolution-graph data attributes; delegates the content to a body component. Comparison
+ * entries carry seriesIndices (one per compared date), so they get the DateComparison body;
+ * everything else gets the no-comparison body.
  */
 export default defineComponent({
   name: 'SparklineCard',
   components: {
     NoComparison,
+    DateComparison,
   },
   props: {
     sparkline: {
@@ -59,6 +68,10 @@ export default defineComponent({
     },
   },
   setup(props) {
+    // Comparison entries set seriesIndices (one series per compared date); no-comparison entries
+    // leave it null. This picks the card body — only two-date comparison reaches the Vue grid.
+    const isComparison = computed(() => !!props.sparkline.seriesIndices?.length);
+
     // The legacy click-to-evolution wiring (window.initializeSparklines) reads these
     // attributes off the .sparkline wrapper, so only emit them when populated.
     const graphParamsAttr = computed(() => {
@@ -97,6 +110,7 @@ export default defineComponent({
     });
 
     return {
+      isComparison,
       graphParamsAttr,
       seriesIndicesAttr,
     };

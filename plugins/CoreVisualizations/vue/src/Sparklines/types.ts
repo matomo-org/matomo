@@ -15,6 +15,9 @@ export interface SparklineMetric {
   column?: string;
   // Clean column name (eg "Bounce Rate"), used as the card title; falls back to `description`.
   title?: string;
+  // Per-metric evolution, attached only in date-comparison mode (Sparklines.php nests it inside
+  // each compared period's metric). No-comparison mode carries evolution on SparklineEntry instead.
+  evolution?: SparklineEvolution;
 }
 
 /**

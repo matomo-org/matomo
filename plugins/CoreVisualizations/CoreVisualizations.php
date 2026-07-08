@@ -62,6 +62,7 @@ class CoreVisualizations extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.less";
         $stylesheets[] = "plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.less";
         $stylesheets[] = "plugins/CoreVisualizations/vue/src/Sparklines/DateAtom.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/Sparklines/DateComparison.less";
 
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/dataTableVisualizations.less";
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/jqplot.less";
