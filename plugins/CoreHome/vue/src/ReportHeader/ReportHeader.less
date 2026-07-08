@@ -3,9 +3,10 @@
 // Reuses the widget title-bar theme colours.
 .reportHeader {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  gap: 20px;
   border-radius: 8px;
-  background: @theme-color-widget-title-background;
+  padding: 20px;
 
   .reportHeader__main {
     flex: auto;
@@ -14,7 +15,6 @@
 
   .reportHeader__title {
     margin: 0;
-    padding: 20px;
     font-size: 20px;
     line-height: 24px;
     font-weight: normal;
@@ -31,8 +31,10 @@
   .reportHeader__widgetControls {
     flex: none;
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 0 12px;
+    width: 24px;
+    height: 24px;
   }
 
   .reportHeader__actions {
