@@ -11,7 +11,7 @@
         margin: 0;
         padding: 12px 10px 7px;
     }
-    h3 {
+    h3:not(.reportHeader__title) {
         font-weight: normal;
         font-size: 15px;
         margin: 0;
@@ -37,7 +37,8 @@
         font-weight: normal;
         border-radius: 8px;
         background: @theme-color-widget-title-background;
-        h3 {
+
+        h3:not(.reportHeader__title) {
             .font-default(20px, 24px);
             color: @theme-color-widget-title-text;
             padding: 20px !important;

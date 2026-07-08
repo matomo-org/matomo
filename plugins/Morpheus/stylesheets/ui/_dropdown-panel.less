@@ -9,8 +9,9 @@
 // global classes (`.dropdown`, `.dropdown-content`). See matomo-css-development-rules.
 
 .mtm-dropdownPanel {
-  .font-default(14px, 20px);
-  min-width: 240px;
+  font-size: 14px;
+  line-height: 20px;
+  min-width: 140px;
   padding: 8px;
   background-color: @theme-color-background-contrast;
   border: 1px solid @theme-color-border;
@@ -85,6 +86,6 @@
 }
 
 .mtm-dropdownPanel__menuLabel {
-  // lets the label shrink/ellipsize when a consumer constrains the panel width
+  // lets the label shrink/ellipsis when a consumer constrains the panel width
   min-width: 0;
 }
