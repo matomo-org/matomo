@@ -96,7 +96,7 @@ class ArchiveProcessor
     private $logAggregator;
 
     /**
-     * @var Archive
+     * @var \Piwik\Archive\ArchiveQuery|null
      */
     public $archive = null;
 
