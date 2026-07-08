@@ -66,6 +66,23 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     };
   }
 
+  function comparisonEntry3Dates(order = 1) {
+    // Same as comparisonEntry() but comparing three dates, so the grid should widen the card.
+    return {
+      url: '?module=API&action=get&compareDates[]=2026-05-03&compareDates[]=2026-05-02',
+      metrics: {
+        'Monday, May 4, 2026': [{ value: '1', description: 'Visits', title: 'Visits' }],
+        'Sunday, May 3, 2026': [{ value: '2', description: 'Visits', title: 'Visits' }],
+        'Saturday, May 2, 2026': [{ value: '3', description: 'Visits', title: 'Visits' }],
+      },
+      order,
+      title: null,
+      group: '0',
+      seriesIndices: [0, 1, 2],
+      graphParams: null,
+    };
+  }
+
   function placeholder(order: number) {
     // Mirrors Config::addPlaceholder(): empty url + no metrics, used only for legacy layout.
     return {
@@ -122,11 +139,16 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(wrapper.find('.metricValue__title').attributes('title')).toBe('The number of visits.');
   });
 
-  it('uses the responsive grid columns (s6 m6 l4 xl3) on reporting pages', () => {
+  it('lays cards out on a CSS grid, not the Materialize float row', () => {
     const wrapper = createWrapper();
-    const col = wrapper.find('.row.sparklinesGrid > div');
+    const grid = wrapper.find('.sparklinesGrid');
 
-    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's6', 'm6', 'l4', 'xl3']));
+    // The `row` class must be gone: its clearfix ::after pseudo-element would otherwise become a
+    // stray empty grid cell.
+    expect(grid.classes()).not.toContain('row');
+    // Cards are direct grid children now (no per-card col wrapper div).
+    expect(wrapper.findAllComponents({ name: 'SparklineCard' }).length).toBe(3);
+    expect(grid.attributes('style')).toContain('--sparklines-card-min-width: 260px');
   });
 
   it('orders cards by backend `order`, not by numeric group-key iteration order', () => {
@@ -146,33 +168,32 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(titles).toEqual(['First', 'Second', 'Third']);
   });
 
-  it('collapses to two columns in widget mode', () => {
+  it('uses a smaller card minimum in widget mode so two still fit across', () => {
     const wrapper = createWrapper({ isWidget: true });
-    const col = wrapper.find('.row.sparklinesGrid > div');
+    const grid = wrapper.find('.sparklinesGrid');
 
-    expect(col.classes()).toContain('s6');
-    expect(col.classes()).not.toContain('xl3');
+    expect(grid.attributes('style')).toContain('--sparklines-card-min-width: 160px');
   });
 
-  it('uses the wider comparison columns (s12 m12 l6 xl6) when comparing', () => {
+  it('widens the card minimum when comparing and renders the comparison body', () => {
     const wrapper = createWrapper({ sparklines: { 0: [comparisonEntry()] }, isComparing: true });
-    const col = wrapper.find('.row.sparklinesGrid > div');
+    const grid = wrapper.find('.sparklinesGrid');
 
-    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's12', 'm12', 'l6', 'xl6']));
-    // ...and the comparison body is what renders inside.
+    // 2 compared dates -> 64 + 150 * 2.
+    expect(grid.attributes('style')).toContain('--sparklines-card-min-width: 364px');
     expect(wrapper.findComponent({ name: 'DateComparison' }).exists()).toBe(true);
   });
 
-  it('collapses comparison cards to a single column in widget mode', () => {
+  it('scales the comparison card minimum with the number of compared dates', () => {
     const wrapper = createWrapper({
-      sparklines: { 0: [comparisonEntry()] },
+      sparklines: { 0: [comparisonEntry3Dates()] },
       isComparing: true,
-      isWidget: true,
     });
-    const col = wrapper.find('.row.sparklinesGrid > div');
+    const grid = wrapper.find('.sparklinesGrid');
 
-    expect(col.classes()).toContain('s12');
-    expect(col.classes()).not.toContain('xl6');
+    // 3 compared dates -> 64 + 150 * 3, and one column per date renders inside the card.
+    expect(grid.attributes('style')).toContain('--sparklines-card-min-width: 514px');
+    expect(wrapper.findAll('.dateComparison__period').length).toBe(3);
   });
 
   it('re-runs the sparkline click-to-evolution wiring after mount', async () => {

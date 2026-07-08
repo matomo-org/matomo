@@ -133,8 +133,8 @@ class Sparklines extends ViewDataTable
 
     /**
      * Whether the redesigned Vue card grid can render the current request. It handles the
-     * no-comparison layout and date comparison of exactly two dates; segment comparison,
-     * segment + date comparison, and comparing three or more dates stay on the legacy Twig layout.
+     * no-comparison layout and date comparison of two or more dates; segment comparison and
+     * segment + date comparison stay on the legacy Twig layout.
      */
     private function isRedesignSupportedForComparison(): bool
     {
@@ -146,9 +146,12 @@ class Sparklines extends ViewDataTable
         $compareSegments = $request['compareSegments'] ?? [];
         $compareDates = $request['compareDates'] ?? [];
 
+        // A non-empty compareDates (one entry beyond the main date, i.e. two total) means a pure
+        // date comparison. The upper bound is enforced upstream by DataComparisonFilter, which
+        // rejects more than the configured periodCompareLimit before rendering.
         return empty($compareSegments)
             && is_array($compareDates)
-            && count($compareDates) === 1;
+            && count($compareDates) >= 1;
     }
 
     /**

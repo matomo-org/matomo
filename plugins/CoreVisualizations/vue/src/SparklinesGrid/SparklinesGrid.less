@@ -8,70 +8,30 @@
 // Scoped to .sparklinesGrid — Matomo concatenates all LESS into one sheet, so this avoids
 // colliding with the legacy .sparkline styles still used when the feature flag is off.
 .sparklinesGrid {
-  // Row gap: each column's bottom padding, cancelled on the last row by an equal negative
-  // margin on the grid. Shared so the two stay in sync.
-  @_row-gap: 16px;
+  @_gap: 16px;
 
-  // Columns come from Materialize's float classes (col s6 m6 l4 xl3 = 2/2/4/4); the media
-  // queries below add a 5th tier. Floats keep an incomplete last row packed left (flex broke
-  // that). The card frame itself lives in SparklineCard.less.
-  .col {
-    padding: 0 8px @_row-gap;
-  }
+  // Auto-fill CSS Grid: the column count follows the available width instead of fixed
+  // breakpoints. `--sparklines-card-min-width` is set inline by SparklinesGrid.vue (larger for
+  // comparison cards, and scaled by the number of compared dates), so wider cards pack fewer per
+  // row. `auto-fill` (not `auto-fit`) keeps an incomplete last row packed left at track width,
+  // preserving the old float behaviour. `min(…, 100%)` stops a card whose minimum is wider than
+  // the container (narrow widget / mobile) from forcing horizontal overflow — it is escaped
+  // (~"…") because less.php has a built-in min() that would otherwise fold it to 100% at compile
+  // time, collapsing the grid to a single full-width column.
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(~"min(var(--sparklines-card-min-width, 260px), 100%)", 1fr));
+  gap: @_gap;
 
-  // The grid is itself the .row; pull it up one gap to cancel the last row's bottom padding
-  // (the same offset idiom Materialize uses for the horizontal .col padding).
-  &.row {
-    margin-bottom: -@_row-gap;
-  }
-
-  // Comparison cards: 3-column tier from 1600px (xl6 is 2 cols up to there). 1600 isn't a native
-  // Materialize breakpoint, so set the width directly. xl6 is emitted only for comparison cards, so
-  // this never affects the no-comparison grid.
-  @media (min-width: 1600px) {
-    &.row > .col.xl6 {
-      width: 33.3333%;
-    }
-  }
-
-  // Top tier above 1920px: no-comparison widens to 5 cols, comparison to 4. 5 isn't a native col
-  // fraction (12/5), so set the width directly; the selectors need .xl3/.xl6 (4 classes) to outrank
-  // Materialize's `.row .col.xlN`. Placed after the 1600 block so the comparison rule wins at ≥1920.
-  @media (min-width: 1920px) {
-    &.row > .col.xl3 {
-      width: 20%;
-    }
-
-    &.row > .col.xl6 {
-      width: 25%;
-    }
-  }
-
-  // Single column below 320px, same direct-width override; .s6 outranks `.row .col.s6`.
-  @media (max-width: 320px) {
-    &.row > .col.s6 {
-      width: 100%;
-    }
+  // Grid items default to min-width:auto, which would refuse to shrink below their content;
+  // let each card shrink to its track so long titles/sparklines truncate instead of overflowing.
+  > .sparklineCard {
+    min-width: 0;
   }
 }
 
-// Widget overrides so the cards sit neatly inside a dashboard widget.
+// Widget frame so the cards sit neatly inside a dashboard widget: the widget container adds no
+// padding of its own, so the grid supplies an even 16px frame plus an 8px inter-card gutter.
 .widget .sparklinesGrid {
-  .col {
-    // Inter-card gutter: 4px on every side, so 8px shows between adjacent cards.
-    padding: 4px;
-  }
-
-  .sparkline.sparklineCard {
-    margin-left: 0;
-  }
-
-  // The widget container adds no padding of its own, so the grid supplies an even frame around
-  // the cards: 16px of row padding plus each column's 4px gutter gives 20px on every side. The
-  // base .sparklinesGrid.row negative bottom margin is reset (margin: 0) so it can't pull the
-  // frame in and push the last row past the widget's bottom edge.
-  &.row {
-    margin: 0;
-    padding: 16px;
-  }
+  gap: 8px;
+  padding: 16px;
 }

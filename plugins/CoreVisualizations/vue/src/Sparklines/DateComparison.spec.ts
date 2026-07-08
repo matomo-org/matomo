@@ -71,6 +71,24 @@ describe('CoreVisualizations/DateComparison', () => {
     expect(wrapper.findAll('.dateComparison__period').length).toBe(2);
   });
 
+  it('renders a column for every compared date, including three or more', () => {
+    const wrapper = createWrapper(makeSparkline({
+      url: '?module=API&action=get&columns=nb_visits&compareDates[]=2026-05-03&compareDates[]=2026-05-02',
+      metrics: {
+        'Monday, May 4, 2026': [{ value: '10,558', description: 'Visits', title: 'Visits' }],
+        'Sunday, May 3, 2026': [{ value: '12,558', description: 'Visits', title: 'Visits' }],
+        'Saturday, May 2, 2026': [{ value: '9,213', description: 'Visits', title: 'Visits' }],
+      },
+      seriesIndices: [0, 1, 2],
+    }));
+
+    const labels = wrapper.findAll('.dateAtom').map((node) => node.text());
+    expect(labels).toEqual(['Monday, May 4, 2026', 'Sunday, May 3, 2026', 'Saturday, May 2, 2026']);
+    expect(wrapper.findAll('.dateComparison__period').length).toBe(3);
+    expect(wrapper.findAll('.metricValue__number').map((node) => node.text()))
+      .toEqual(['10,558', '12,558', '9,213']);
+  });
+
   it('renders the primary and secondary value of each date column', () => {
     const wrapper = createWrapper();
 
