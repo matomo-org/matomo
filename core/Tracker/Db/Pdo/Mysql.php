@@ -23,7 +23,7 @@ use Piwik\Tracker\Db\DbException;
 class Mysql extends Db
 {
     /**
-     * @var PDO
+     * @var PDO|null
      */
     protected $connection = null;
 
