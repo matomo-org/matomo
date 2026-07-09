@@ -51,7 +51,7 @@
                     "name": "3.0.1",
                     "release": "2018-06-18 11:16:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -133,7 +133,7 @@
                     "name": "5.1.11",
                     "release": "2026-05-11 04:52:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,

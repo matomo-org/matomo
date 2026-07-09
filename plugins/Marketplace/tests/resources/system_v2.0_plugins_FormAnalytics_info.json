@@ -63,7 +63,7 @@
             "name": "5.2.2",
             "release": "2026-06-08 05:12:27",
             "requires": {
-                "matomo": ">=5.0.0-rc1,<6.0.0-b1"
+                "matomo": ">=5.0.0-rc1,<7.0.0-b1"
             },
             "wordPressCompatible": true,
             "onPremiseCompatible": true,
