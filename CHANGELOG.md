@@ -38,6 +38,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (pages/documents) listed in the AI Chatbots Content Requests reports.
 * `datatable_archiving_maximum_rows_ai_chatbot_favoured_pages` caps the number of page URLs listed in
   the Human-Favoured / AI-Favoured Pages reports.
+* `live_ai_chatbots_maximum_rows` caps the number of AI chatbots listed in the real-time AI Chatbots
+  reports.
+* `live_ai_chatbots_top_page_urls_maximum_rows` caps the number of page URLs listed in the real-time
+  AI Chatbots top page URL reports.
 
 ## Matomo 5.11.0
 
