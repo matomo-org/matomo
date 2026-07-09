@@ -13,124 +13,123 @@
   >
     <p class="recommendGoals-intro">{{ translate('Goals_RecommendedGoalsIntro') }}</p>
 
-    <div class="recommendGoals-controls">
-      <div class="recommendGoals-aiToggle">
-        <button
-          type="button"
-          class="recommendGoals-switch"
-          :class="{ 'recommendGoals-switchEnabled': useAi }"
-          :aria-pressed="useAi ? 'true' : 'false'"
-          @click="useAi = !useAi"
-        >
-          <span></span>
-        </button>
-        <div>
-          <div class="recommendGoals-aiToggleTitle">
-            {{ translate('Goals_RecommendUseAi') }}
-          </div>
-          <p class="recommendGoals-aiToggleHelp">
-            {{ translate('Goals_RecommendAiToggleHelp') }}
-          </p>
-        </div>
-      </div>
-      <button
-        type="button"
-        class="btn recommendGoals-run"
-        @click="recommend()"
-        :disabled="isLoading || isCreating"
-      >
-        <span class="icon-search"></span>
-        {{ translate('Goals_RecommendGoals') }}
-      </button>
-    </div>
-
-    <ActivityIndicator :loading="isLoading" />
-
-    <Alert severity="warning" v-if="aiError">{{ aiError }}</Alert>
+    <ActivityIndicator :loading="isLoadingSaved" />
 
     <div v-if="hasRun && !isLoading">
-      <div v-if="visibleRecommendations.length">
-        <table v-content-table>
-          <thead>
-            <tr>
-              <th>{{ translate('Goals_GoalName') }}</th>
-              <th>{{ translate('Goals_GoalIsTriggeredWhen') }}</th>
-              <th>{{ translate('Goals_RecommendWhy') }}</th>
-              <th v-if="userCanEditGoals" class="recommendGoals-actionCell"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(rec, index) in visibleRecommendations" :key="index">
-              <td>{{ rec.name }}</td>
-              <td>
-                <span>{{ triggerDescription(rec) }}</span>
-                <code class="recommendGoals-pattern">{{ rec.pattern }}</code>
-              </td>
-              <td>
-                <div>{{ rec.reason }}</div>
-                <div class="recommendGoals-note" v-if="rec.implementationNote">
-                  {{ rec.implementationNote }}
-                </div>
-              </td>
-              <td v-if="userCanEditGoals" class="recommendGoals-actionCell">
-                <button
-                  type="button"
-                  class="btn btn-flat"
-                  @click="createOne(rec)"
-                  :disabled="isCreating"
-                >
-                  {{ translate('Goals_RecommendCreate') }}
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div v-if="recommendations.length">
+        <div class="recommendGoals-list">
+          <RecommendGoalCard
+            v-for="rec in recommendations"
+            :key="recKey(rec)"
+            :rec="rec"
+            :accepted="isAccepted(rec)"
+            :creating="creatingId === recKey(rec)"
+            :busy="isBusy"
+            @create="createOne(rec)"
+            @dismiss="dismissOne(rec)"
+          />
+        </div>
 
-        <div class="recommendGoals-actions" v-if="userCanEditGoals">
+        <div class="recommendGoals-actions">
           <button
+            type="button"
+            class="btn-flat"
+            @click="dismiss()"
+            :disabled="isBusy"
+          >
+            {{ translate('Goals_RecommendDismiss') }}
+          </button>
+          <button
+            v-if="pendingRecommendations.length > 1"
             type="button"
             class="btn"
             @click="createAll()"
-            :disabled="isCreating"
+            :disabled="isBusy"
           >
-            {{ translate('Goals_RecommendCreateAll') }}
-          </button>
-          <button
-            type="button"
-            class="btn btn-flat"
-            @click="dismiss()"
-            :disabled="isCreating"
-          >
-            {{ translate('Goals_RecommendDismiss') }}
+            {{ isCreatingAll
+              ? translate('Goals_RecommendCreating')
+              : translate('Goals_RecommendCreateAll') }}
           </button>
         </div>
       </div>
       <p v-else class="recommendGoals-empty">{{ translate('Goals_RecommendNoneFound') }}</p>
 
-      <div class="recommendGoals-manual" v-if="manualGoals.length">
-        <h3 class="recommendGoals-manualTitle">{{ translate('Goals_RecommendManualTitle') }}</h3>
+      <details class="recommendGoals-manual" v-if="manualGoals.length">
+        <summary>
+          <span class="icon-chevron-right"></span>
+          {{ translate('Goals_RecommendManualTitle') }} ({{ manualGoals.length }})
+        </summary>
         <p class="recommendGoals-intro">{{ translate('Goals_RecommendManualIntro') }}</p>
-        <table v-content-table>
-          <thead>
-            <tr>
-              <th>{{ translate('Goals_GoalName') }}</th>
-              <th>{{ translate('Goals_RecommendManualHowTo') }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(rec, index) in manualGoals" :key="'manual-' + index">
-              <td>{{ rec.name }}</td>
-              <td>{{ rec.howTo }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- TODO: remove debug output before release. -->
-      <details class="recommendGoals-debug" v-if="debugOutput">
-        <summary>{{ translate('Goals_RecommendDebugDetails') }}</summary>
-        <pre>{{ debugOutput }}</pre>
+        <ul class="recommendGoals-manualList">
+          <li v-for="(rec, index) in manualGoals" :key="'manual-' + index">
+            <div class="recommendGoals-manualBody">
+              <span class="recommendGoals-manualName">{{ rec.name }}</span>
+              <span class="recommendGoals-manualHowTo">{{ rec.howTo }}</span>
+            </div>
+            <button
+              type="button"
+              class="btn-flat"
+              @click="$emit('prefill', rec)"
+              :disabled="isBusy"
+            >
+              {{ translate('Goals_RecommendManualStartInForm') }}
+            </button>
+          </li>
+        </ul>
       </details>
+    </div>
+
+    <Alert severity="warning" v-if="aiError && !isLoading">{{ aiError }}</Alert>
+    <Alert severity="warning" v-if="fallbackModeMessage">
+      {{ fallbackModeMessage }}
+    </Alert>
+    <Alert severity="danger" v-if="createError && !isLoading">{{ createError }}</Alert>
+
+    <div class="recommendGoals-scanProgress" v-if="isLoading">
+      <Progressbar :progress="scanProgress" :label="scanProgressLabel" />
+      <p class="recommendGoals-scanHint">{{ translate('Goals_RecommendProgressHint') }}</p>
+    </div>
+
+    <div class="recommendGoals-footer" v-else>
+      <p class="recommendGoals-meta" aria-live="polite" v-if="lastScannedAgo">
+        {{ translate('Goals_RecommendLastScanned', lastScannedAgo) }}
+      </p>
+      <div class="recommendGoals-toolbar">
+        <button
+          type="button"
+          class="btn recommendGoals-run"
+          @click="recommend()"
+          :disabled="isBusy"
+        >
+          <span class="icon-search"></span>
+          {{ scanButtonLabel }}
+        </button>
+        <div class="switch recommendGoals-aiSwitch">
+          <label>
+            <input
+              type="checkbox"
+              v-model="useAi"
+              :disabled="isBusy"
+            />
+            <span class="lever"></span>
+            {{ translate('Goals_RecommendUseAi') }}
+          </label>
+        </div>
+        <button
+          type="button"
+          class="recommendGoals-privacyLink"
+          :aria-expanded="showPrivacyNote ? 'true' : 'false'"
+          aria-controls="recommendGoalsPrivacyNote"
+          @click="showPrivacyNote = !showPrivacyNote"
+        >{{ translate('Goals_RecommendWhatDataIsShared') }}</button>
+      </div>
+      <p
+        class="recommendGoals-privacyNote"
+        id="recommendGoalsPrivacyNote"
+        v-show="showPrivacyNote"
+      >
+        {{ translate('Goals_RecommendAiToggleHelp') }}
+      </p>
     </div>
   </ContentBlock>
 </template>
@@ -144,39 +143,40 @@ import {
   ContentBlock,
   ActivityIndicator,
   Alert,
-  ContentTable,
+  Progressbar,
 } from 'CoreHome';
+import RecommendGoalCard from './RecommendGoalCard.vue';
+import type { RecommendedGoal, RecommendedManualGoal, RecommendationsResponse } from './types';
 
-interface RecommendedGoal {
-  name: string;
-  matchAttribute: string;
-  pattern: string;
-  patternType: string;
-  caseSensitive?: boolean;
-  allowMultipleConversionsPerVisit?: boolean;
-  revenue?: number;
-  useEventValueAsRevenue?: boolean;
-  description?: string;
-  reason: string;
-  source: string;
-  implementationNote?: string;
-}
-
-interface RecommendedManualGoal {
-  name: string;
-  howTo: string;
-  category: string;
-}
+// fake, time-based progress: the backend reports no incremental scan status. The
+// crawl phase eases to 60%, the (AI) ranking phase approaches but never reaches 100%.
+const SCAN_CRAWL_PHASE_MS = 15000;
+const SCAN_EXPECTED_TOTAL_MS = 30000;
+const SCAN_CRAWL_PHASE_PROGRESS = 60;
+const SCAN_RANKING_PHASE_PROGRESS = 93;
+const SCAN_PROGRESS_TICK_MS = 250;
 
 interface RecommendGoalsState {
   useAi: boolean;
+  lastRunUsedAi: boolean;
   isLoading: boolean;
-  isCreating: boolean;
+  isLoadingSaved: boolean;
+  creatingId: string|null;
+  isCreatingAll: boolean;
+  isDismissing: boolean;
+  dismissingId: string|null;
   hasRun: boolean;
+  showPrivacyNote: boolean;
   aiError: string|null;
+  createError: string|null;
+  recommendationMode: string|null;
   recommendations: RecommendedGoal[];
   manualGoals: RecommendedManualGoal[];
-  debug: Record<string, unknown>|null;
+  generatedAt: number|null;
+  createdRecommendationKeys: string[];
+  scanProgress: number;
+  scanStartedAt: number|null;
+  scanProgressTimer: number|null;
 }
 
 export default defineComponent({
@@ -191,49 +191,139 @@ export default defineComponent({
     ContentBlock,
     ActivityIndicator,
     Alert,
+    Progressbar,
+    RecommendGoalCard,
   },
-  directives: {
-    ContentTable,
-  },
+  emits: ['created', 'prefill'],
   data(): RecommendGoalsState {
     return {
       useAi: true,
+      lastRunUsedAi: false,
       isLoading: false,
-      isCreating: false,
+      isLoadingSaved: false,
+      creatingId: null,
+      isCreatingAll: false,
+      isDismissing: false,
+      dismissingId: null,
       hasRun: false,
+      showPrivacyNote: false,
       aiError: null,
+      createError: null,
+      recommendationMode: null,
       recommendations: [],
       manualGoals: [],
-      debug: null,
+      generatedAt: null,
+      createdRecommendationKeys: [],
+      scanProgress: 0,
+      scanStartedAt: null,
+      scanProgressTimer: null,
     };
   },
+  created() {
+    if (this.shouldShowRecommendations) {
+      this.loadSavedRecommendations();
+    }
+  },
+  beforeUnmount() {
+    this.stopScanProgress();
+  },
   methods: {
+    recKey(rec: RecommendedGoal): string {
+      return rec.id || rec.name;
+    },
+    loadSavedRecommendations() {
+      this.isLoadingSaved = true;
+
+      AjaxHelper.fetch<RecommendationsResponse>({
+        method: 'Goals.getSavedRecommendedGoals',
+        idSite: this.idSite,
+      }).then((response) => {
+        if (!response || !response.generatedAt) {
+          return;
+        }
+
+        this.recommendations = response.goals || [];
+        this.manualGoals = response.manualGoals || [];
+        this.recommendationMode = response.mode || null;
+        this.generatedAt = response.generatedAt;
+        this.useAi = !!response.useAi;
+        this.lastRunUsedAi = !!response.useAi;
+        this.hasRun = true;
+      }).catch(() => {
+        // saved recommendations are optional; the user can still run a fresh scan
+      }).finally(() => {
+        this.isLoadingSaved = false;
+      });
+    },
     recommend() {
       this.isLoading = true;
       this.aiError = null;
+      this.createError = null;
+      this.recommendationMode = null;
+      const requestedAi = this.useAi;
+      this.lastRunUsedAi = requestedAi;
+      this.startScanProgress();
 
-      AjaxHelper.fetch({
+      AjaxHelper.fetch<RecommendationsResponse>({
         method: 'Goals.getRecommendedGoals',
         idSite: this.idSite,
-        useAi: this.useAi ? 1 : 0,
+        useAi: requestedAi ? 1 : 0,
       }).then((response) => {
         this.recommendations = (response && response.goals) || [];
         this.manualGoals = (response && response.manualGoals) || [];
         this.aiError = (response && response.aiError) || null;
-        this.debug = (response && response.debug) || null;
-        console.debug('[Goals recommendations] raw debug payload', this.debug);
+        this.recommendationMode = (response && response.mode) || null;
+        this.generatedAt = (response && response.generatedAt) || null;
         this.hasRun = true;
       }).catch(() => {
         this.recommendations = [];
         this.manualGoals = [];
         this.aiError = translate('Goals_RecommendError');
-        this.debug = null;
+        this.recommendationMode = null;
         this.hasRun = true;
       }).finally(() => {
+        this.stopScanProgress();
         this.isLoading = false;
       });
     },
-    addGoalRequest(rec: RecommendedGoal) {
+    startScanProgress() {
+      this.scanStartedAt = Date.now();
+      this.scanProgress = 0;
+      this.scanProgressTimer = window.setInterval(() => {
+        this.scanProgress = this.computeScanProgress();
+      }, SCAN_PROGRESS_TICK_MS);
+    },
+    stopScanProgress() {
+      if (this.scanProgressTimer !== null) {
+        window.clearInterval(this.scanProgressTimer);
+        this.scanProgressTimer = null;
+      }
+      this.scanStartedAt = null;
+      this.scanProgress = 0;
+    },
+    computeScanProgress(): number {
+      if (this.scanStartedAt === null) {
+        return 0;
+      }
+
+      const elapsed = Date.now() - this.scanStartedAt;
+      if (elapsed <= SCAN_CRAWL_PHASE_MS) {
+        return (elapsed / SCAN_CRAWL_PHASE_MS) * SCAN_CRAWL_PHASE_PROGRESS;
+      }
+
+      const rankingElapsed = elapsed - SCAN_CRAWL_PHASE_MS;
+      const rankingDuration = SCAN_EXPECTED_TOTAL_MS - SCAN_CRAWL_PHASE_MS;
+      if (rankingElapsed <= rankingDuration) {
+        return SCAN_CRAWL_PHASE_PROGRESS
+          + (rankingElapsed / rankingDuration)
+            * (SCAN_RANKING_PHASE_PROGRESS - SCAN_CRAWL_PHASE_PROGRESS);
+      }
+
+      // past the expected duration: creep slowly towards (but never reach) 99%
+      const overtimeSeconds = (rankingElapsed - rankingDuration) / 1000;
+      return Math.min(99, SCAN_RANKING_PHASE_PROGRESS + (overtimeSeconds * 0.1));
+    },
+    addGoalRequest(rec: RecommendedGoal): Promise<{ value?: number }> {
       return AjaxHelper.fetch({
         method: 'Goals.addGoal',
         idSite: this.idSite,
@@ -246,29 +336,47 @@ export default defineComponent({
         revenue: rec.revenue || 0,
         description: rec.description || rec.reason || '',
         useEventValueAsRevenue: rec.useEventValueAsRevenue ? 1 : 0,
+        createdFromRecommendedGoal: 1,
       });
     },
     createOne(rec: RecommendedGoal) {
-      this.isCreating = true;
-      this.addGoalRequest(rec).then(() => {
-        window.location.reload();
+      this.creatingId = this.recKey(rec);
+      this.createError = null;
+      this.addGoalRequest(rec).then((response) => {
+        if (response && response.value) {
+          this.createdRecommendationKeys.push(this.recKey(rec));
+        }
+        this.$emit('created', response && response.value ? [response.value] : []);
       }).catch(() => {
-        this.isCreating = false;
+        this.createError = translate('Goals_RecommendCreateError');
+      }).finally(() => {
+        this.creatingId = null;
       });
     },
     createAll() {
-      this.isCreating = true;
-      this.visibleRecommendations.reduce(
-        (promise, rec) => promise.then(() => this.addGoalRequest(rec)),
-        Promise.resolve() as Promise<unknown>,
-      ).then(() => {
-        window.location.reload();
-      }).catch(() => {
-        this.isCreating = false;
+      this.isCreatingAll = true;
+      this.createError = null;
+      const createdIds: number[] = [];
+
+      this.pendingRecommendations.reduce(
+        (promise, rec) => promise.then(() => this.addGoalRequest(rec)).then((response) => {
+          if (response && response.value) {
+            this.createdRecommendationKeys.push(this.recKey(rec));
+            createdIds.push(response.value);
+          }
+        }),
+        Promise.resolve(),
+      ).catch(() => {
+        this.createError = translate('Goals_RecommendCreateError');
+      }).finally(() => {
+        this.isCreatingAll = false;
+        if (createdIds.length) {
+          this.$emit('created', createdIds);
+        }
       });
     },
     dismiss() {
-      this.isCreating = true;
+      this.isDismissing = true;
       AjaxHelper.fetch({
         method: 'Goals.dismissRecommendedGoals',
         idSite: this.idSite,
@@ -277,45 +385,48 @@ export default defineComponent({
         this.recommendations = [];
         this.manualGoals = [];
         this.aiError = null;
-        this.debug = null;
+        this.createError = null;
+        this.recommendationMode = null;
+        this.lastRunUsedAi = false;
+        this.generatedAt = null;
       }).finally(() => {
-        this.isCreating = false;
+        this.isDismissing = false;
       });
     },
-    triggerDescription(rec: RecommendedGoal): string {
-      const matchAttribute = rec.matchAttribute || 'url';
-      const patternType = rec.patternType || 'contains';
-      const matchLabel = this.matchAttributeLabel(matchAttribute);
+    dismissOne(rec: RecommendedGoal) {
+      this.dismissingId = this.recKey(rec);
+      this.isDismissing = true;
+      this.createError = null;
+      AjaxHelper.fetch<{ success?: boolean }>({
+        method: 'Goals.dismissRecommendedGoal',
+        idSite: this.idSite,
+        recommendationId: rec.id || '',
+      }).then((response) => {
+        if (!response || !response.success) {
+          this.createError = translate('Goals_RecommendDismissError');
+          return;
+        }
 
-      if (patternType === 'greater_than') {
-        return `${matchLabel}: ${translate('General_OperationGreaterThan')} `;
-      }
-
-      if (patternType === 'exact') {
-        return `${matchLabel}: ${translate('Goals_IsExactly', '')}`;
-      }
-
-      if (patternType === 'regex') {
-        return `${matchLabel}: ${translate('Goals_MatchesExpression', '')}`;
-      }
-
-      return `${matchLabel}: ${translate('Goals_Contains', '')}`;
+        this.recommendations = this.recommendations.filter((other) => other !== rec);
+        if (!this.recommendations.length && !this.manualGoals.length) {
+          this.hasRun = false;
+          this.recommendationMode = null;
+          this.generatedAt = null;
+        }
+      }).catch(() => {
+        this.createError = translate('Goals_RecommendDismissError');
+      }).finally(() => {
+        this.dismissingId = null;
+        this.isDismissing = false;
+      });
     },
-    matchAttributeLabel(matchAttribute: string): string {
-      const labels: Record<string, string> = {
-        url: translate('Goals_VisitUrl'),
-        title: translate('Goals_VisitPageTitle'),
-        file: translate('Goals_Download'),
-        external_website: translate('Goals_ClickOutlink'),
-        event_action: `${translate('Goals_SendEvent')} (${translate('Events_EventAction')})`,
-        event_category: `${translate('Goals_SendEvent')} (${translate('Events_EventCategory')})`,
-        event_name: `${translate('Goals_SendEvent')} (${translate('Events_EventName')})`,
-        visit_duration: translate('Goals_VisitDurationMatchAttr'),
-        visit_total_actions: translate('Goals_CategoryTextGeneral_Actions'),
-        visit_total_pageviews: translate('Goals_VisitUrl'),
-      };
+    isAccepted(rec: RecommendedGoal): boolean {
+      if (this.createdRecommendationKeys.indexOf(this.recKey(rec)) !== -1) {
+        return true;
+      }
 
-      return labels[matchAttribute] || matchAttribute;
+      return this.existingGoalKeys
+        .indexOf(this.goalKey(rec.matchAttribute || 'url', rec.pattern)) !== -1;
     },
     goalKey(matchAttribute: string, pattern: string): string {
       let normalizedPattern = `${pattern || ''}`.trim().toLowerCase().replace(/\/+$/, '');
@@ -330,26 +441,75 @@ export default defineComponent({
     idSite(): number|string {
       return Matomo.idSite;
     },
-    visibleRecommendations(): RecommendedGoal[] {
-      const existingGoalKeys = Object.values(this.goals || {})
+    isBusy(): boolean {
+      return this.isLoading
+        || this.isCreatingAll
+        || this.isDismissing
+        || this.creatingId !== null
+        || this.dismissingId !== null;
+    },
+    existingGoalKeys(): string[] {
+      return Object.values(this.goals || {})
         .filter((goal: Record<string, unknown>) => goal.pattern)
         .map((goal: Record<string, unknown>) => this.goalKey(
           `${goal.match_attribute || 'url'}`,
           `${goal.pattern || ''}`,
         ));
-
-      return this.recommendations.filter(
-        (rec) => existingGoalKeys.indexOf(this.goalKey(rec.matchAttribute || 'url', rec.pattern)) === -1,
-      );
     },
-    goalCount(): number {
-      return Object.values(this.goals || {}).length;
+    pendingRecommendations(): RecommendedGoal[] {
+      return this.recommendations.filter((rec) => !this.isAccepted(rec));
     },
     shouldShowRecommendations(): boolean {
-      return this.userCanEditGoals && (this.goalCount < 3 || this.hasRun);
+      return this.userCanEditGoals;
     },
-    debugOutput(): string {
-      return this.debug ? JSON.stringify(this.debug, null, 2) : '';
+    scanButtonLabel(): string {
+      return this.hasRun
+        ? translate('Goals_RecommendRescan')
+        : translate('Goals_RecommendGoals');
+    },
+    lastScannedAgo(): string {
+      if (!this.generatedAt) {
+        return '';
+      }
+
+      const date = new Date(this.generatedAt * 1000);
+      if (typeof Intl === 'undefined' || !Intl.RelativeTimeFormat) {
+        return date.toLocaleString();
+      }
+
+      const formatter = new Intl.RelativeTimeFormat(Matomo.language, { numeric: 'auto' });
+      const elapsedSeconds = Math.max(0, Math.round((Date.now() - date.getTime()) / 1000));
+      if (elapsedSeconds < 60) {
+        return formatter.format(-elapsedSeconds, 'second');
+      }
+
+      if (elapsedSeconds < 3600) {
+        return formatter.format(-Math.round(elapsedSeconds / 60), 'minute');
+      }
+
+      if (elapsedSeconds < 86400) {
+        return formatter.format(-Math.round(elapsedSeconds / 3600), 'hour');
+      }
+
+      return formatter.format(-Math.round(elapsedSeconds / 86400), 'day');
+    },
+    scanProgressLabel(): string {
+      const isRankingPhase = this.lastRunUsedAi && this.scanProgress >= SCAN_CRAWL_PHASE_PROGRESS;
+
+      return isRankingPhase
+        ? translate('Goals_RecommendProgressAiRanking')
+        : translate('Goals_RecommendProgressCrawling');
+    },
+    fallbackModeMessage(): string {
+      if (!this.hasRun || this.isLoading || !this.lastRunUsedAi) {
+        return '';
+      }
+
+      if (this.recommendationMode === 'deterministic') {
+        return translate('Goals_RecommendationFallbackUsed');
+      }
+
+      return '';
     },
   },
 });

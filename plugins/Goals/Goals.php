@@ -543,16 +543,31 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_RecommendUseAi';
         $translationKeys[] = 'Goals_RecommendAiToggleHelp';
         $translationKeys[] = 'Goals_RecommendGoals';
-        $translationKeys[] = 'Goals_RecommendWhy';
         $translationKeys[] = 'Goals_RecommendCreate';
         $translationKeys[] = 'Goals_RecommendCreateAll';
-        $translationKeys[] = 'Goals_RecommendDebugDetails';
+        $translationKeys[] = 'Goals_RecommendCreateError';
+        $translationKeys[] = 'Goals_RecommendCreating';
         $translationKeys[] = 'Goals_RecommendDismiss';
+        $translationKeys[] = 'Goals_RecommendDismissError';
+        $translationKeys[] = 'Goals_RecommendDismissSuggestion';
+        $translationKeys[] = 'Goals_RecommendNeedsSetup';
+        $translationKeys[] = 'Goals_RecommendNeedsSetupHelp';
         $translationKeys[] = 'Goals_RecommendNoneFound';
         $translationKeys[] = 'Goals_RecommendError';
         $translationKeys[] = 'Goals_RecommendManualTitle';
         $translationKeys[] = 'Goals_RecommendManualIntro';
         $translationKeys[] = 'Goals_RecommendManualHowTo';
+        $translationKeys[] = 'Goals_RecommendManualStartInForm';
+        $translationKeys[] = 'Goals_RecommendationFallbackUsed';
+        $translationKeys[] = 'Goals_RecommendLastScanned';
+        $translationKeys[] = 'Goals_RecommendGoalsCreated';
+        $translationKeys[] = 'Goals_RecommendProgressAiRanking';
+        $translationKeys[] = 'Goals_RecommendProgressCrawling';
+        $translationKeys[] = 'Goals_RecommendProgressHint';
+        $translationKeys[] = 'Goals_RecommendRescan';
+        $translationKeys[] = 'Goals_RecommendWhatDataIsShared';
+        $translationKeys[] = 'Goals_RecommendWhySuggested';
+        $translationKeys[] = 'General_Added';
     }
 
     public function filterSegments(SegmentsList &$list, array $idSites)
