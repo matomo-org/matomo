@@ -46,9 +46,9 @@ class CorePluginsAdmin extends Plugin
     }
 
     /**
-     * Remove any changes from a plugin that has been uninstalled
+     * Remove any changes from a plugin that has been deactivated
      *
-     * @param string $pluginName The name of the plugin that was uninstalled
+     * @param string $pluginName The name of the plugin that was deactivated
      */
     public function removePluginChanges(string $pluginName)
     {

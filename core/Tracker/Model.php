@@ -20,12 +20,11 @@ class Model
     public const CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME = 'log_visit_has_index_idsite_idvisitor_time';
 
     /**
-     * Write an visit action record to the database
+     * Write a visit action record to the database
      *
      * @param array $visitAction
      *
      * @return int
-     * @throws Db\DbException
      */
     public function createAction($visitAction)
     {
@@ -120,11 +119,10 @@ class Model
 
 
     /**
-     * Loads the Ecommerce items from the request and records them in the DB
+     * Returns the ecommerce items currently stored in the cart/order for the given visit.
      *
      * @param array $goal
      * @param int   $defaultIdOrder
-     * @throws Exception
      * @return array
      */
     public function getAllItemsCurrentlyInTheCart($goal, $defaultIdOrder)

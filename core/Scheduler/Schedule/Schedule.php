@@ -47,8 +47,7 @@ abstract class Schedule
 
     /**
      * @param $period
-     * @return Daily|Monthly|Weekly
-     * @throws \Exception
+     * @return Daily|Monthly|Weekly|Hourly
      * @ignore
      */
     public static function getScheduledTimeForPeriod($period)

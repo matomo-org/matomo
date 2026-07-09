@@ -583,6 +583,51 @@ END;
         $this->assertEquals($expectedXml, $xmlContent);
     }
 
+    public function testCompareTablesShouldMatchByCombinedLabelWhenDimensionsShownSeparately()
+    {
+        // When a flattened report is displayed with "show dimensions separately", the visualization
+        // replaces the 'label' column with the first dimension's value (here "google") and keeps the
+        // full flattened label in 'combinedLabel' metadata. Two rows can therefore share the same
+        // 'label' but differ by 'combinedLabel'.
+        $table1 = new DataTable();
+
+        $row1 = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => 'google', 'nb_visits' => 5, 'nb_actions' => 10]]);
+        $row1->setMetadata('combinedLabel', 'google - cpc');
+        $table1->addRow($row1);
+
+        $row2 = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => 'google', 'nb_visits' => 7, 'nb_actions' => 20]]);
+        $row2->setMetadata('combinedLabel', 'google - organic');
+        $table1->addRow($row2);
+
+        // the comparison table is fetched via the raw API and is still keyed by the combined label
+        $table2 = $this->makeTable([
+            ['label' => 'google - cpc', 'nb_visits' => 50, 'nb_actions' => 100],
+            ['label' => 'google - organic', 'nb_visits' => 70, 'nb_actions' => 200],
+        ]);
+
+        $compareMetadata = [
+            'compareSegment' => self::TEST_SEGMENT,
+            'comparePeriod' => 'day',
+            'compareDate' => '2012-03-04',
+        ];
+
+        $comparisonRowGenerator = new ComparisonRowGenerator('reportSegment', false, []);
+        $comparisonRowGenerator->compareTables($compareMetadata, $table1, $table2);
+
+        // each row must be matched to the comparison row sharing its *combined* label, not just "google".
+        // before the fix both rows matched nothing (no "google" row in the comparison table) and every
+        // comparison metric defaulted to 0.
+        $rows = array_values($table1->getRows());
+
+        $comparison1 = $rows[0]->getComparisons()->getFirstRow();
+        $this->assertEquals(50, $comparison1->getColumn('nb_visits'));
+        $this->assertEquals(100, $comparison1->getColumn('nb_actions'));
+
+        $comparison2 = $rows[1]->getComparisons()->getFirstRow();
+        $this->assertEquals(70, $comparison2->getColumn('nb_visits'));
+        $this->assertEquals(200, $comparison2->getColumn('nb_actions'));
+    }
+
     private function makeTable(array $rows)
     {
         $table = new DataTable();

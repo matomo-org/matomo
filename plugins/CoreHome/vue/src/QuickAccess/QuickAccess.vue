@@ -191,6 +191,15 @@ export default defineComponent({
       classes.toggle('active', newValue);
       classes.toggle('expanded', newValue);
     },
+    reportingGroup() {
+      // Switching reporting section only changes the URL hash, so this component is not
+      // remounted and its scraped menu cache stays pointed at the previous section. Drop it
+      // (re-scraped on the next search) and reset the search.
+      this.topMenuItems = null;
+      this.leftMenuItems = null;
+      this.segmentItems = null;
+      this.deactivateSearch();
+    },
   },
   mounted() {
     const root = this.$refs.root as HTMLElement;
@@ -242,6 +251,9 @@ export default defineComponent({
     this.searchMenu = debounce(this.searchMenu.bind(this));
   },
   computed: {
+    reportingGroup() {
+      return (MatomoUrl.parsed.value.group as string) || DEFAULT_GROUP;
+    },
     hasSitesSelector() {
       return !!document.querySelector(
         '.top_controls .siteSelector,.top_controls [vue-entry="CoreHome.SiteSelector"]',

@@ -6,6 +6,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.12.0
 
+### JavaScript Tracker
+
+#### New APIs
+* The methods `setIgnoreCampaignAttributionForSources` and `getIgnoreCampaignAttributionForSources` have been added to
+  the JavaScript tracker. They allow setting/getting sources whose campaign values in the current URL should be ignored 
+  for attribution. Matching campaign parameters are still kept in the tracked URL/request.
+
 ### New APIs
 * `Record::setAggregatedRecordTransform()` lets a blob record register a callback that is applied to its aggregated
   table during non-day archiving, after the day blobs are aggregated together and before the table is truncated and
@@ -22,6 +29,19 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   single-page-app filtered to that group (the active section is carried in the URL hash), so reports stay
   within the same SPA and quick search. The first such section, "AI Insights", surfaces the existing
   AI Assistants reports.
+
+### New config.ini.php settings
+* `datatable_archiving_maximum_rows_actions_flat` caps the number of rows used when flat-archiving
+  page/title Actions reports before the hierarchy is rebuilt (set to `0` to keep the legacy
+  hierarchical-only Actions archiving). See `Record::setAggregatedRecordTransform()` above.
+* `datatable_archiving_maximum_rows_ai_chatbot_content` caps the number of content URLs
+  (pages/documents) listed in the AI Chatbots Content Requests reports.
+* `datatable_archiving_maximum_rows_ai_chatbot_favoured_pages` caps the number of page URLs listed in
+  the Human-Favoured / AI-Favoured Pages reports.
+* `live_ai_chatbots_maximum_rows` caps the number of AI chatbots listed in the real-time AI Chatbots
+  reports.
+* `live_ai_chatbots_top_page_urls_maximum_rows` caps the number of page URLs listed in the real-time
+  AI Chatbots top page URL reports.
 
 ## Matomo 5.11.0
 

@@ -28,10 +28,10 @@ class Category
 
     /**
      * The id of the category as specified eg in {@link Piwik\Widget\WidgetConfig::setCategoryId()`} or
-     * {@link Piwik\Report\getCategoryId()}. The id is used as the name in the menu and will be visible in the
+     * {@link Piwik\Plugin\Report::getCategoryId()}. The id is used as the name in the menu and will be visible in the
      * URL.
      *
-     * @var string Should be a translation key, eg 'General_Vists'
+     * @var string Should be a translation key, eg 'General_Visits'
      */
     protected $id = '';
 
@@ -44,6 +44,14 @@ class Category
      * @var string[]
      */
     protected $groups = array();
+
+    /**
+     * Subset of {@link $groups} for which this category does not require tracked data, i.e. that should
+     * not trigger the "site has no data" tracker-setup screen.
+     *
+     * @var string[]
+     */
+    protected $groupsWithoutTrackingRequirement = array();
 
     /**
      * @var Subcategory[]
@@ -116,6 +124,28 @@ class Category
     public function getGroups(): array
     {
         return $this->groups ?: array(self::DEFAULT_GROUP);
+    }
+
+    /**
+     * Sets the reporting menu groups for which this category does not require tracked data.
+     *
+     * @param string[] $groups
+     * @return static
+     */
+    public function setGroupsWithoutTrackingRequirement(array $groups)
+    {
+        $this->groupsWithoutTrackingRequirement = array_values(array_unique(array_map('strval', $groups)));
+        return $this;
+    }
+
+    /**
+     * Returns the reporting menu groups for which this category does not require tracked data.
+     *
+     * @return string[]
+     */
+    public function getGroupsWithoutTrackingRequirement(): array
+    {
+        return $this->groupsWithoutTrackingRequirement;
     }
 
     public function getDisplayName()

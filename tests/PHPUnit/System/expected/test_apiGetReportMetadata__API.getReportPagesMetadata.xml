@@ -258,6 +258,89 @@
 		</widgets>
 	</row>
 	<row>
+		<uniqueId>General_AIAssistants.BotTracking_AIChatbotsRealtime</uniqueId>
+		<category>
+			<id>General_AIAssistants</id>
+			<name>AI Assistants</name>
+			<order>80</order>
+			<icon>icon-ai-assistants</icon>
+			<help />
+			<widget />
+			<groups>
+				<row/>
+				<row>CoreHome_AIInsights</row>
+			</groups>
+		</category>
+		<subcategory>
+			<id>BotTracking_AIChatbotsRealtime</id>
+			<name>AI Chatbots Real-time</name>
+			<order>12</order>
+			<help>&lt;p&gt;The AI Chatbots Real-time page shows recent AI chatbot activity from raw bot tracking data, including chatbot request volume, unique page URLs, and HTTP error counts.&lt;/p&gt;&lt;p&gt;These reports are limited to short real-time windows so they remain fast and predictable on large sites.&lt;/p&gt;</help>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>AI Chatbots - Last 30 Minutes</name>
+				<module>BotTracking</module>
+				<action>getAIChatbotsRealTime</action>
+				<order>10</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIChatbotsRealTime</action>
+					<lastMinutes>30</lastMinutes>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIChatbotsRealTimelastMinutes30</uniqueId>
+				<isWide>1</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>AI Chatbots - Last 8 Hours</name>
+				<module>BotTracking</module>
+				<action>getAIChatbotsRealTime</action>
+				<order>20</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIChatbotsRealTime</action>
+					<lastMinutes>480</lastMinutes>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIChatbotsRealTimelastMinutes480</uniqueId>
+				<isWide>1</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>Top Page URLs - Last 30 minutes</name>
+				<module>BotTracking</module>
+				<action>getTopPageUrlsRealTime</action>
+				<order>30</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getTopPageUrlsRealTime</action>
+					<lastMinutes>30</lastMinutes>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetTopPageUrlsRealTimelastMinutes30</uniqueId>
+				<isWide>1</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>Top Page URLs - Last 8 hours</name>
+				<module>BotTracking</module>
+				<action>getTopPageUrlsRealTime</action>
+				<order>40</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getTopPageUrlsRealTime</action>
+					<lastMinutes>480</lastMinutes>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetTopPageUrlsRealTimelastMinutes480</uniqueId>
+				<isWide>1</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+		</widgets>
+	</row>
+	<row>
 		<uniqueId>General_Actions.VisitorInterest_Engagement</uniqueId>
 		<category>
 			<id>General_Actions</id>

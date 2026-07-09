@@ -36,7 +36,7 @@ use Piwik\Session\SessionAuth;
  *                          Super user access is required to set some configuration options.
  *                          All other options are specific to the user or to a website.
  *
- * Access is granted per website. Uses with access for a website can view all
+ * Access is granted per website. Users with access for a website can view all
  * data associated with that website.
  *
  */
@@ -53,14 +53,14 @@ class Access
     /**
      * Login of the current user
      *
-     * @var string
+     * @var string|null
      */
     protected $login = null;
 
     /**
      * token_auth of the current user
      *
-     * @var string
+     * @var string|null
      */
     protected $token_auth = null;
 
@@ -73,7 +73,7 @@ class Access
     protected $hasSuperUserAccess = false;
 
     /**
-     * Authentification object (see Auth)
+     * Authentication object (see Auth)
      *
      * @var Auth
      */
@@ -448,7 +448,7 @@ class Access
     }
 
     /**
-     * Returns `true` if the current user has admin access to at least one site.
+     * Returns `true` if the current user has write access to at least one site.
      *
      * @return bool
      */
@@ -568,11 +568,11 @@ class Access
     }
 
     /**
-     * This method checks that the user has VIEW or ADMIN access for the given list of websites.
-     * If the user doesn't have VIEW or ADMIN access for at least one website of the list, we throw an exception.
+     * This method checks that the user has WRITE access for the given list of websites.
+     * If the user doesn't have WRITE access for at least one website of the list, we throw an exception.
      *
      * @param int|array|string $idSites List of ID sites to check (integer, array of integers, string comma separated list of integers)
-     * @throws \Piwik\NoAccessException  If for any of the websites the user doesn't have an VIEW or ADMIN access
+     * @throws \Piwik\NoAccessException  If for any of the websites the user doesn't have a WRITE access
      */
     public function checkUserHasWriteAccess($idSites)
     {
@@ -694,7 +694,7 @@ class Access
      * Returns the level of access the current user has to the given site.
      *
      * @param int $idSite The site to check.
-     * @return string The access level, eg, 'view', 'admin', 'noaccess'.
+     * @return string The access level, eg, 'view', 'write', 'admin', 'noaccess'.
      */
     public function getRoleForSite($idSite)
     {
@@ -741,7 +741,7 @@ class Access
      * Throw a NoAccessException with the given message, or a more generic 'You need to log in' message if the
      * user is not currently logged in (e.g. if session has expired).
      *
-     * @param $message
+     * @param string $message
      * @throws NoAccessException
      */
     private function throwNoAccessException($message)

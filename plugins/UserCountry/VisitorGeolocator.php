@@ -162,7 +162,7 @@ class VisitorGeolocator
     }
 
     /**
-     * Geolcates an existing visit and then updates it if it's current attributes are different than
+     * Geolocates an existing visit and then updates it if its current attributes are different than
      * what was geolocated. Also updates all conversions of a visit.
      *
      * **This method should NOT be used from within the tracker.**

@@ -3693,6 +3693,36 @@ if ($mysql) {
         equal( tracker2.getAttributionReferrerUrl(), 'http://www.google.fr/?query=test', "getAttributionReferrerUrl() should be read from cookie in new tracker")
     });
 
+    test("ignored AI campaign does not overwrite attribution cookie on a new session", function() {
+        expect(8);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+        tracker.setReferrerUrl('');
+        tracker.setCustomUrl('https://matomo.org/blog/?utm_campaign=newsletter&utm_term=spring');
+        tracker.trackPageView('seedAttributionCookie');
+
+        var attributionInfos = tracker.getAttributionInfo();
+        equal(attributionInfos[0], ['newsletter'], "initial campaign is stored in the attribution cookie");
+        equal(attributionInfos[1], ['spring'], "initial campaign keyword is stored in the attribution cookie");
+
+        var sessionCookieName = tracker.hook.test._getCookieName('ses');
+        document.cookie = sessionCookieName + '=;expires=Sun, 01 Dec 2019 00:00:01 GMT;path=/';
+
+        var tracker2 = Piwik.getTracker();
+        tracker2.setTrackerUrl("matomo.php");
+        tracker2.setSiteId(1);
+        tracker2.setReferrerUrl('');
+        tracker2.setCustomUrl('https://matomo.org/blog/?utm_source=chatgpt.com');
+        tracker2.trackPageView('ignoredAiCampaignNewSession');
+
+        attributionInfos = tracker2.getAttributionInfo();
+        equal(attributionInfos[0], ['newsletter'], "AI campaign does not overwrite the existing campaign on a new session");
+        equal(attributionInfos[1], ['spring'], "AI campaign does not overwrite the existing campaign keyword on a new session");
+        equal(attributionInfos[3], [''], "AI campaign does not inject a referrer URL on a new session");
+    });
+
     test("referrer ignore list", function() {
         expect(25);
 
@@ -3732,9 +3762,15 @@ if ($mysql) {
         }
     });
 
-    test("ignore campaigns for referrer", function () {
-        expect(25);
+    var defaultIgnoredCampaignAttributionSources = [
+        'chatgpt.com',
+        'perplexity',
+        'copilot.com'
+    ];
 
+    var defaultIgnoredCampaignReferrers = ['chatgpt.com', 'chat.openai.com'];
+
+    test("ignore campaign attribution for referrer", function () {
         var testCases = [
             ['no exclusion', 'https://www.google.fr/?query=test', '', false],
             ['host exclusion matches', 'https://www.google.fr/?query=test', 'www.google.fr', true],
@@ -3749,23 +3785,58 @@ if ($mysql) {
             ['host with wild card path exclusion matches again', 'https://www.paypal.com/proceed-my-payment/', 'www.paypal.com/proceed*', true],
         ];
 
+        expect(25);
+
         for (var i = 0; i < testCases.length; i++) {
             var testName = testCases[i][0];
             var referrerUrl = testCases[i][1];
-            var excludedReferrer = testCases[i][2];
+            var ignoredCampaignReferrers = testCases[i][2];
             var result = testCases[i][3];
-            var expectedExcludedReferrer = [];
+            var expectedIgnoredCampaignReferrers = [];
 
             var tracker = Piwik.getTracker();
-            if (excludedReferrer) {
-                tracker.setIgnoreCampaignsForReferrers(excludedReferrer);
-                expectedExcludedReferrer = tracker.hook.test._isString(excludedReferrer) ? [excludedReferrer] : excludedReferrer;
+            if (ignoredCampaignReferrers) {
+                tracker.setIgnoreCampaignsForReferrers(ignoredCampaignReferrers);
+                expectedIgnoredCampaignReferrers = tracker.hook.test._isString(ignoredCampaignReferrers) ? [ignoredCampaignReferrers] : ignoredCampaignReferrers;
             } else {
-                expectedExcludedReferrer = ['chatgpt.com', 'chat.openai.com'];
+                expectedIgnoredCampaignReferrers = defaultIgnoredCampaignReferrers;
             }
-            deepEqual(tracker.getIgnoreCampaignsForReferrers(), expectedExcludedReferrer, testName + " - check getIgnoreCampaignsForReferrers()");
+            deepEqual(tracker.getIgnoreCampaignsForReferrers(), expectedIgnoredCampaignReferrers, testName + " - check getIgnoreCampaignsForReferrers()");
             deepEqual(tracker.hook.test._shouldIgnoreCampaignForReferrer(referrerUrl), result, testName + " - check shouldIgnoreCampaignForReferrer()");
         }
+    });
+
+    test("ignore campaign attribution for sources", function () {
+        expect(18);
+
+        var tracker = Piwik.getTracker();
+
+        deepEqual(tracker.getIgnoreCampaignAttributionForSources(), defaultIgnoredCampaignAttributionSources, "default ignored campaign attribution sources");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=chatgpt.com'), true, "default campaign value is ignored for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=perplexity'), true, "additional default campaign value is ignored for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=copilot.com'), true, "additional default campaign value is ignored for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=ChatGPT.com'), false, "campaign source matching is exact and case-sensitive");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=https%3A%2F%2Fchatgpt.com%2F'), false, "campaign source values are matched exactly and not normalized");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=newsletter'), false, "other campaign values can be used for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?pk_campaign=chatgpt.com'), false, "campaign names are not ignored as sources");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_campaign=perplexity.ai'), false, "utm_campaign values are not ignored as sources");
+        deepEqual(tracker.hook.test._purify('https://matomo.org/blog/?utm_source=chatgpt.com'), 'https://matomo.org/blog/?utm_source=chatgpt.com', "campaign values ignored for attribution are kept in tracked URLs");
+
+        var trackerWithReferrer = Piwik.getTracker();
+        trackerWithReferrer.setTrackerUrl("matomo.php");
+        trackerWithReferrer.setSiteId(1);
+        trackerWithReferrer.deleteCookies();
+        trackerWithReferrer.setReferrerUrl('https://example.com/referrer');
+        trackerWithReferrer.setCustomUrl('https://matomo.org/blog/?utm_source=chatgpt.com');
+        trackerWithReferrer.trackPageView('ignoredCampaignAttributionWithReferrer');
+        var attributionInfos = trackerWithReferrer.getAttributionInfo();
+        equal(attributionInfos[0], '', "ignored campaign value does not set campaign attribution when another referrer exists");
+        equal(attributionInfos[3], 'https://example.com/referrer', "non-ignored referrer is still stored when campaign value is ignored for attribution");
+
+        tracker.setIgnoreCampaignAttributionForSources(['perplexity.ai']);
+        deepEqual(tracker.getIgnoreCampaignAttributionForSources(), ['perplexity.ai'], "custom ignored campaign attribution sources are returned");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=perplexity.ai'), true, "custom campaign value is ignored for attribution");
+        deepEqual(tracker.hook.test._shouldIgnoreCampaignAttributionForSource('https://matomo.org/blog/?utm_source=chatgpt.com'), false, "default campaign values ignored for attribution can be replaced");
     });
 
     test("tracking", function() {
@@ -4453,6 +4524,33 @@ if ($mysql) {
 
             start();
         }, 5000);
+    });
+
+    test("ignored AI campaign does not overwrite attribution cookie on a new session", function () {
+        expect(8);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+        tracker.setCustomData({ "token" : getToken() });
+        tracker.deleteCookies();
+        tracker.setConversionAttributionFirstReferrer(false);
+
+        tracker.setReferrerUrl('https://example.com/referrer');
+        tracker.setCustomUrl('https://matomo.org/?pk_campaign=Initial%20Campaign&pk_kwd=Initial%20Keyword');
+        tracker.trackPageView('initialCampaign');
+
+        equal(tracker.getAttributionCampaignName(), 'Initial Campaign', 'initial campaign is stored');
+        equal(tracker.getAttributionCampaignKeyword(), 'Initial Keyword', 'initial campaign keyword is stored');
+
+        tracker.hook.test._setCookie(tracker.hook.test._getCookieName('ses'), '', -129600000);
+        tracker.setReferrerUrl('');
+        tracker.setCustomUrl('https://matomo.org/blog/?utm_source=chatgpt.com');
+        tracker.trackPageView('ignoredCampaign');
+
+        equal(tracker.getAttributionCampaignName(), 'Initial Campaign', 'AI-style source does not overwrite campaign name');
+        equal(tracker.getAttributionCampaignKeyword(), 'Initial Keyword', 'AI-style source does not overwrite campaign keyword');
+        equal(tracker.getAttributionReferrerUrl(), 'https://example.com/referrer', 'AI-style source does not overwrite referrer url');
     });
 
     // heartbeat tests

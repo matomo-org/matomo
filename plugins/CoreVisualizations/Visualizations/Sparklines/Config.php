@@ -44,7 +44,7 @@ class Config extends \Piwik\ViewDataTable\Config
 
     /**
      * Adds possibility to set html attributes on the sparklines title / headline.
-     * @var string
+     * @var array
      */
     public $title_attributes = array();
 
@@ -56,7 +56,7 @@ class Config extends \Piwik\ViewDataTable\Config
     /**
      * If supplied, this function is used to compute the evolution percent displayed next to non-comparison sparkline views.
      *
-     * The function is passed three parameters:
+     * The function is passed two parameters:
      * - an array mapping column names with column values ['column' => 123]
      * - an array of \Piwik\Plugin\Metrics objects available for the report - useful for formatting values
      *

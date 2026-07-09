@@ -15,7 +15,6 @@ use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Request;
-use Piwik\Url;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -40,12 +39,9 @@ class Menu extends \Piwik\Plugin\Menu
      * within a section) and lets categories opt into sections via Category::setGroups() instead of any
      * plugin scraping another plugin's reports.
      *
-     * The active section (`group`) is placed in the URL hash, like `category`/`subcategory`, rather than
-     * the query string. This is important because top-menu links are built from the current query string
-     * (Url::getCurrentQueryStringWithParametersModified), so a query parameter would leak into every other
-     * top-menu link. The reporting SPA reads `group` from the hash, filters the menu to that section and
-     * selects its first page. The `data-reporting-group` attribute lets the active top-menu highlight be
-     * kept in sync client-side (the server cannot read the hash).
+     * The reporting SPA reads the section from the hash, filters the menu to it and selects its first
+     * page. The `data-reporting-group` attribute lets the active top-menu highlight be kept in sync
+     * client-side (the server cannot read the hash).
      */
     private function configureReportingGroupMenuItems(MenuTop $menu): void
     {
@@ -60,13 +56,7 @@ class Menu extends \Piwik\Plugin\Menu
                 continue;
             }
 
-            $hashParams = array_merge(
-                array_intersect_key($params, array_flip(['idSite', 'period', 'date'])),
-                ['group' => $group]
-            );
-
-            $url = 'index.php?' . Url::getQueryStringFromParameters($params)
-                . '#?' . Url::getQueryStringFromParameters($hashParams);
+            $url = $this->urlForReportingSection($params, $group);
 
             $menu->addItem($group, null, $url, $order, false, false, false, 'data-reporting-group="' . $group . '"');
         }

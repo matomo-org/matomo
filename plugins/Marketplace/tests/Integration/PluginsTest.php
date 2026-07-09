@@ -43,6 +43,8 @@ class PluginsTest extends IntegrationTestCase
      */
     private $consumerService;
 
+    private const TEST_UNIQUE_ID = 'test-unique-id';
+
     public function setUp(): void
     {
         parent::setUp();
@@ -387,6 +389,7 @@ class PluginsTest extends IntegrationTestCase
             'mysql' => '5.7.1',
             'num_users' => 5,
             'num_websites' => 21,
+            'uid' => self::TEST_UNIQUE_ID,
         ];
         $this->assertSame($params, $this->service->params);
     }
@@ -413,6 +416,7 @@ class PluginsTest extends IntegrationTestCase
             'mysql' => '5.7.1',
             'num_users' => 5,
             'num_websites' => 21,
+            'uid' => self::TEST_UNIQUE_ID,
         ];
         $this->assertSame($params, $this->service->params);
     }

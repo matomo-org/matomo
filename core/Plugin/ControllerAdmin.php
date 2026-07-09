@@ -137,7 +137,7 @@ abstract class ControllerAdmin extends Controller
     }
 
     /**
-     * Calls {@link setBasicVariablesView()} and {@link setBasicVariablesAdminView()}
+     * Calls {@link setBasicVariablesNoneAdminView()} and {@link setBasicVariablesAdminView()}
      * using the supplied view.
      *
      * @param View $view

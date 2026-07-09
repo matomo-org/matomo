@@ -26,13 +26,16 @@ use Piwik\Log\LoggerInterface;
 
 /**
  * Provides a simple interface for invalidating report data by date ranges, site IDs and periods.
+ *
+ * @phpstan-import-type StoredSegment from API
  */
 class InvalidateReportData extends ConsoleCommand
 {
     public const ALL_OPTION_VALUE = 'all';
 
     /**
-     * @var null|array<Segment>
+     * @var array<array<string, mixed>>|null
+     * @phpstan-var list<StoredSegment>|null
      */
     private $allSegments = null;
 
@@ -374,8 +377,6 @@ class InvalidateReportData extends ConsoleCommand
      * If no segment is provided, a list of all segments available for the provided sites will be returned (including all visits segment)
      *
      * @param array<int> $idSites
-     *
-     * @return array<string>
      */
     private function getSegmentsToInvalidateFor(array $idSites): array
     {
@@ -452,7 +453,8 @@ class InvalidateReportData extends ConsoleCommand
     /**
      * @param array<int> $idSites
      *
-     * @return array<Segment>
+     * @return array<array<string, mixed>>
+     * @phpstan-return list<StoredSegment>
      */
     private function getAllSegments(array $idSites): array
     {

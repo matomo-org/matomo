@@ -9,14 +9,14 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Plugins\CoreVisualizations\FeatureFlags;
+namespace Piwik\Plugins\CoreHome\FeatureFlags;
 
 use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 
-class PlotLinesTweaks implements FeatureFlagInterface
+class ReportHeaderRedesign implements FeatureFlagInterface
 {
     public function getName(): string
     {
-        return 'PlotLinesTweaks';
+        return 'ReportHeaderRedesign';
     }
 }

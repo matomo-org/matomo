@@ -16,7 +16,7 @@ use Exception;
 /**
  * Measurable settings backend. Stores all settings in a "site_setting" database table.
  *
- * If a value that needs to be stored is an array, will insert a new row for each value of this array.
+ * If a value that needs to be stored is an array, it will be JSON-encoded and stored in a single row.
  */
 class MeasurableSettingsTable extends BaseSettingsTable
 {

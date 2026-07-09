@@ -1217,8 +1217,8 @@ class LogAggregator
      *
      * Additional data can be selected through the `$additionalSelects` parameter.
      *
-     * _Note: This method will only query the **log_conversion** table. Other tables cannot be joined
-     * using this method._
+     * _Note: By default this method queries the **log_conversion** table, but additional tables can be
+     * joined via the `$extraFrom` parameter._
      *
      * @param array<string>|string $dimensions One or more **SELECT** fields that will be used to group the log_conversion
      *                                 rows by. This parameter determines which **log_conversion** rows will be
@@ -1226,6 +1226,7 @@ class LogAggregator
      * @param false|string $where An optional SQL expression used in the SQL's **WHERE** clause.
      * @param array $additionalSelects Additional SELECT fields that are not included in the group by
      *                                 clause. These can be aggregate expressions, eg, `SUM(somecol)`.
+     * @param array $extraFrom Additional tables/joins to merge into the FROM clause alongside log_conversion.
      * @param RankingQuery|null|false $rankingQuery
      * @param bool $rankingQueryGenerate if `true`, generates a SQL query / bind array pair and returns it. If false, the
      *                                   ranking query SQL will be immediately executed and the results returned.

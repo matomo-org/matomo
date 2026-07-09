@@ -18,7 +18,7 @@ abstract class BaseConversion extends ConversionDimension
      * Returns rounded decimal revenue, or if revenue is integer, then returns as is.
      *
      * @param int|float $revenue
-     * @return int|float
+     * @return int|float|false
      */
     protected function roundRevenueIfNeeded($revenue)
     {

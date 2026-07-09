@@ -22,7 +22,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     private $usersModel;
 
     /**
-     * @param API
+     * @var API
      */
     private $usersManagerApi;
 
