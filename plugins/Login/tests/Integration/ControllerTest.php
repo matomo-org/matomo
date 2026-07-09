@@ -151,6 +151,12 @@ class ControllerTest extends IntegrationTestCase
     public function testAuthenticateAndRedirectRebuildsFormRedirectUrl()
     {
         $host = 'localhost';
+
+        // remember the process-global state we are about to mutate, so it can be restored afterwards
+        $previousHttpHost = $_SERVER['HTTP_HOST'] ?? null;
+        $previousSession = $_SESSION ?? null;
+        $previousTrustedHosts = Config::getInstance()->General['trusted_hosts'] ?? null;
+
         $_SERVER['HTTP_HOST'] = $host;
         $_SESSION = [];
         Config::getInstance()->General['trusted_hosts'] = [$host];
@@ -180,6 +186,14 @@ class ControllerTest extends IntegrationTestCase
             // the backslash in the user info part must be escaped rather than passed through verbatim
             $this->assertStringNotContainsString('foo\\@' . $host, $redirectUrl);
             $this->assertStringContainsString('foo%5C@' . $host, $redirectUrl);
+        } finally {
+            if (null === $previousHttpHost) {
+                unset($_SERVER['HTTP_HOST']);
+            } else {
+                $_SERVER['HTTP_HOST'] = $previousHttpHost;
+            }
+            $_SESSION = $previousSession ?? [];
+            Config::getInstance()->General['trusted_hosts'] = $previousTrustedHosts;
         }
     }
 }
