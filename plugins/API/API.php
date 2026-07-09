@@ -28,6 +28,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Translation\Translator;
@@ -575,9 +576,17 @@ class API extends \Piwik\Plugin\API
         $queryParameters = $request->getParameters();
         unset($queryParameters['urls']);
 
+        $authToken = StaticContainer::get(AuthenticationToken::class);
+        $rootIsSessionToken = $authToken->isSessionToken();
+        $rootTokenAuth = $authToken->getAuthToken();
+
         $result = [];
         foreach ($urls as $url) {
-            $params = \Piwik\Request::fromQueryString($url)->getParameters();
+            $nestedRequest = \Piwik\Request::fromQueryString($url);
+
+            $this->checkNestedRequestAuthMatchesRoot($nestedRequest, $rootIsSessionToken, $rootTokenAuth);
+
+            $params = $nestedRequest->getParameters();
             $params['format'] = 'json';
 
             $params += $queryParameters;
@@ -595,6 +604,41 @@ class API extends \Piwik\Plugin\API
             $result[] = json_decode($req->process(), true);
         }
         return $result;
+    }
+
+    /**
+     * A bulk sub-request runs inside the authentication context that was established for the outer
+     * request, so it must not redefine that context. Within a browser session a sub-request may
+     * change neither the session flag nor the acting user; outside a session it may still not
+     * change the session flag, but it may supply its own token_auth to authenticate that single
+     * call. Any attempt to change the established context is treated as a conflicting set of
+     * authentication parameters and aborts the whole bulk request.
+     *
+     * @param bool $rootIsSessionToken Whether the outer request authenticated via a session token.
+     * @param string $rootTokenAuth The token the outer request authenticated with.
+     */
+    private function checkNestedRequestAuthMatchesRoot(
+        \Piwik\Request $nestedRequest,
+        bool $rootIsSessionToken,
+        #[\SensitiveParameter]
+        string $rootTokenAuth
+    ): void {
+        $params = $nestedRequest->getParameters();
+
+        if (
+            array_key_exists('force_api_session', $params)
+            && $nestedRequest->getBoolParameter('force_api_session', false) !== $rootIsSessionToken
+        ) {
+            throw new BadRequestException(Piwik::translate('General_ConflictingAuthenticationParametersProvided'));
+        }
+
+        if (
+            $rootIsSessionToken
+            && array_key_exists('token_auth', $params)
+            && $nestedRequest->getStringParameter('token_auth', '') !== $rootTokenAuth
+        ) {
+            throw new BadRequestException(Piwik::translate('General_ConflictingAuthenticationParametersProvided'));
+        }
     }
 
     /**
