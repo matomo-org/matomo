@@ -11,6 +11,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Removed `Piwik\Db::optimizeTables()`. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
 * Removed `Piwik\Db::isOptimizeInnoDBSupported()`. Use `Piwik\Db\Schema::getInstance()->isOptimizeInnoDBSupported()` instead.
 * Removed `Piwik\Db\TransactionLevel::setUncommitted()`. Use `Piwik\Db\TransactionLevel::setTransactionLevelForNonLockingReads()` instead.
+* Removed the `SitesManager.setGlobalExcludedQueryParameters` API method. Use `SitesManager.setGlobalQueryParamExclusion` instead.
 
 ## Matomo 5.12.0
 
