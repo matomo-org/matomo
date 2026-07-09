@@ -64,7 +64,7 @@ class ManualSuggestionRecommender
             ];
         }
 
-        // Universal engagement fallback, always offered last.
+        // Universal engagement goal that fits any site; always offered last.
         $suggestions[] = [
             'category' => 'visit_duration',
             'name' => Piwik::translate('Goals_RecommendManualDurationName'),

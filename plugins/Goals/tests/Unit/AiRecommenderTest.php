@@ -37,6 +37,7 @@ class AiRecommenderTest extends TestCase
                     && $request->getFeatureKey() === 'goal-recommendation'
                     && $request->getIdSite() === 1
                     && $request->isJsonResponse()
+                    && $request->getMaxTokens() === 4000
                     && strpos($request->getUserPrompt(), '"signals"') !== false
                     && strpos($request->getUserPrompt(), '"baselineGoals"') !== false
                     && strpos($request->getUserPrompt(), '"existingGoals"') !== false
@@ -136,5 +137,94 @@ class AiRecommenderTest extends TestCase
         $this->assertSame('Buying intent.', $goals[0]['reason']);
         $this->assertSame('ai', $goals[0]['source']);
         $this->assertTrue($goals[1]['allowMultipleConversionsPerVisit']);
+    }
+
+    public function testRecommendParsesJsonCodeFence(): void
+    {
+        $service = $this->getMockBuilder(AIProviderService::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['complete'])
+            ->getMock();
+
+        $service->expects($this->once())
+            ->method('complete')
+            ->willReturn(new AIProviderResponse(
+                'test',
+                'Test provider',
+                'test-model',
+                "```json\n{\"goals\":[{\"name\":\"Pricing\",\"matomoGoal\":{\"matchAttribute\":\"url\",\"pattern\":\"/pricing\"},\"display\":{\"whyItMatters\":\"Buying intent.\"}}]}\n```"
+            ));
+
+        $goals = (new AiRecommender($service))->recommend($this->getMinimalAnalysis(), 1);
+
+        $this->assertCount(1, $goals);
+        $this->assertSame('Pricing', $goals[0]['name']);
+        $this->assertSame('/pricing', $goals[0]['pattern']);
+    }
+
+    public function testRecommendRejectsMaxTokenResponse(): void
+    {
+        $service = $this->getMockBuilder(AIProviderService::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['complete'])
+            ->getMock();
+
+        $service->expects($this->once())
+            ->method('complete')
+            ->willReturn(new AIProviderResponse(
+                'test',
+                'Test provider',
+                'test-model',
+                '{"goals":[{"name":"Pricing"',
+                10,
+                4000,
+                AIRequest::REASONING_NONE,
+                false,
+                null,
+                'max_tokens'
+            ));
+
+        $this->expectException(\RuntimeException::class);
+
+        (new AiRecommender($service))->recommend($this->getMinimalAnalysis(), 1);
+    }
+
+    public function testRecommendRejectsInvalidJsonResponse(): void
+    {
+        $service = $this->getMockBuilder(AIProviderService::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['complete'])
+            ->getMock();
+
+        $service->expects($this->once())
+            ->method('complete')
+            ->willReturn(new AIProviderResponse(
+                'test',
+                'Test provider',
+                'test-model',
+                'not json'
+            ));
+
+        $this->expectException(\RuntimeException::class);
+
+        (new AiRecommender($service))->recommend($this->getMinimalAnalysis(), 1);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getMinimalAnalysis(): array
+    {
+        return [
+            'url' => 'https://example.com',
+            'pagesCrawled' => 1,
+            'errors' => [],
+            'technologies' => [],
+            'links' => [],
+            'forms' => [],
+            'downloads' => [],
+            'contactLinks' => [],
+            'externalLinks' => [],
+        ];
     }
 }
