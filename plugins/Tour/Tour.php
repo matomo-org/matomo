@@ -16,6 +16,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
 use Piwik\Plugins\Tour\Engagement\Challenge;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedAnnotation;
+use Piwik\Plugins\Tour\Engagement\ChallengeAddRecommendedGoals;
 use Piwik\Plugins\Tour\Engagement\ChallengeInvitedUser;
 use Piwik\Plugins\Tour\Engagement\ChallengeBrowseMarketplace;
 use Piwik\Plugins\Tour\Engagement\ChallengeChangeVisualisation;
@@ -109,6 +110,11 @@ class Tour extends \Piwik\Plugin
         if (Piwik::hasUserSuperUserAccess() && !empty($response)) {
             $annotation = new ChallengeCreatedGoal();
             $annotation->setCompleted(Piwik::getCurrentUserLogin());
+
+            if (Common::getRequestVar(ChallengeAddRecommendedGoals::REQUEST_PARAMETER, 0, 'int')) {
+                $recommendedGoal = new ChallengeAddRecommendedGoals();
+                $recommendedGoal->setCompleted(Piwik::getCurrentUserLogin());
+            }
         }
     }
 
