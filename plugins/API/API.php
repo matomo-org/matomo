@@ -614,6 +614,7 @@ class API extends \Piwik\Plugin\API
      * call. Any attempt to change the established context is treated as a conflicting set of
      * authentication parameters and aborts the whole bulk request.
      *
+     * @param \Piwik\Request $nestedRequest The bulk sub-request to validate against the root context.
      * @param bool $rootIsSessionToken Whether the outer request authenticated via a session token.
      * @param string $rootTokenAuth The token the outer request authenticated with.
      */
