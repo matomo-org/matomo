@@ -268,6 +268,8 @@ class Goals extends \Piwik\Plugin
     {
         $model = new Model();
         $model->deleteGoalsForSite($idSite);
+
+        (new Recommendations\RecommendationStore())->delete((int) $idSite);
     }
 
     /**

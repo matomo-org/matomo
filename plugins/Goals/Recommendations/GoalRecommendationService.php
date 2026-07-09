@@ -20,7 +20,8 @@ use Psr\Log\LoggerInterface;
 /**
  * Orchestrates goal recommendations: analyse the homepage once, then either run
  * the AI recommender (when the user opted in and a provider is available) or the
- * deterministic rules.
+ * deterministic rules. Scan results are persisted per site so they can be shown
+ * again without re-running the scan.
  */
 class GoalRecommendationService
 {
@@ -42,6 +43,11 @@ class GoalRecommendationService
     private $manualRecommender;
 
     /**
+     * @var RecommendationStore
+     */
+    private $store;
+
+    /**
      * @var AiRecommender|null
      */
     private $aiRecommender = null;
@@ -50,19 +56,22 @@ class GoalRecommendationService
         ?HomepageAnalyzer $homepageAnalyzer = null,
         ?DeterministicRecommender $deterministicRecommender = null,
         ?AiRecommender $aiRecommender = null,
-        ?ManualSuggestionRecommender $manualRecommender = null
+        ?ManualSuggestionRecommender $manualRecommender = null,
+        ?RecommendationStore $store = null
     ) {
         $this->homepageAnalyzer = $homepageAnalyzer ?? new HomepageAnalyzer();
         $this->deterministicRecommender = $deterministicRecommender ?? new DeterministicRecommender();
         $this->aiRecommender = $aiRecommender;
         $this->manualRecommender = $manualRecommender ?? new ManualSuggestionRecommender();
+        $this->store = $store ?? new RecommendationStore();
     }
 
     /**
-     * Returns fresh goal recommendations for a site.
+     * Returns fresh goal recommendations for a site and persists them so they can
+     * be retrieved again via {@link getSavedRecommendations()}.
      *
      * @param array<int|string, array<string, mixed>> $existingGoals
-     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, debug: array<string, mixed>}
+     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int}
      */
     public function getRecommendations(int $idSite, bool $useAi, array $existingGoals = []): array
     {
@@ -76,20 +85,19 @@ class GoalRecommendationService
                 'goals' => [],
                 'manualGoals' => [],
                 'aiError' => Piwik::translate('Goals_RecommendCouldNotAnalyze'),
-                'debug' => $this->buildDebug($idSite, $useAi, null, 0, false, 0),
+                'generatedAt' => null,
             ];
         }
 
-        $deterministic = $this->filterExistingGoals(
+        $deterministic = $this->assignRecommendationIds($this->filterExistingGoals(
             $this->deterministicRecommender->recommend($analysis),
             $existingGoalSummaries
-        );
+        ));
 
         $mode = 'deterministic';
         $goals = $deterministic;
         $aiError = null;
         $aiAvailable = false;
-        $aiDebug = null;
 
         if ($useAi) {
             $aiAvailable = $this->isAiAvailable();
@@ -98,7 +106,6 @@ class GoalRecommendationService
                 $aiRecommender = $this->getAiRecommender();
                 try {
                     $aiResult = $aiRecommender->recommendWithDebug($analysis, $idSite, $existingGoalSummaries, $deterministic);
-                    $aiDebug = $aiResult['debug'];
                     $aiGoals = $this->filterExistingGoals(
                         $aiResult['goals'],
                         $existingGoalSummaries
@@ -109,12 +116,10 @@ class GoalRecommendationService
                     }
                 } catch (\InvalidArgumentException $e) {
                     // No / unknown provider configured.
-                    $aiDebug = $aiRecommender->getLastDebug();
                     $this->getLogger()->info('Goals recommendations: AI provider unavailable: {message}', ['message' => $e->getMessage()]);
                     $aiError = Piwik::translate('Goals_RecommendationAiUnavailable');
                 } catch (\Exception $e) {
                     // Surface the provider's own (user-safe) message, e.g. "rejected the API key".
-                    $aiDebug = $aiRecommender->getLastDebug();
                     $this->getLogger()->warning('Goals recommendations: AI request failed: {message}', ['message' => $e->getMessage()]);
                     $aiError = $e->getMessage();
                 }
@@ -123,16 +128,81 @@ class GoalRecommendationService
             }
         }
 
-        $result = [
+        $goals = $this->assignRecommendationIds($goals);
+        $manualGoals = $this->filterManualSuggestions($this->manualRecommender->recommend($analysis), $goals);
+        $saved = $this->store->save($idSite, $useAi, $mode, $goals, $manualGoals);
+
+        return [
             'mode' => $mode,
             'goals' => $goals,
-            'manualGoals' => $this->filterManualSuggestions($this->manualRecommender->recommend($analysis), $goals),
+            'manualGoals' => $manualGoals,
             'aiError' => $aiError,
-            // TODO: remove debug payload before release.
-            'debug' => $this->buildDebug($idSite, $useAi, $analysis, count($deterministic), $aiAvailable, count($existingGoalSummaries), $aiDebug),
+            'generatedAt' => $saved['generatedAt'],
         ];
+    }
 
-        return $result;
+    /**
+     * Returns the recommendations persisted by the last scan. Individually dismissed
+     * recommendations are excluded. Returns an empty result with a null `generatedAt`
+     * when no scan was saved.
+     *
+     * @return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int}
+     */
+    public function getSavedRecommendations(int $idSite): array
+    {
+        $saved = $this->store->get($idSite);
+        if ($saved === null) {
+            return [
+                'mode' => null,
+                'goals' => [],
+                'manualGoals' => [],
+                'useAi' => false,
+                'generatedAt' => null,
+            ];
+        }
+
+        $goals = array_values(array_filter($saved['goals'], function (array $goal) use ($saved): bool {
+            $recommendationId = (string) ($goal['id'] ?? '');
+
+            return $recommendationId === '' || !isset($saved['dismissed'][$recommendationId]);
+        }));
+
+        return [
+            'mode' => $saved['mode'],
+            'goals' => $goals,
+            'manualGoals' => $saved['manualGoals'],
+            'useAi' => $saved['useAi'],
+            'generatedAt' => $saved['generatedAt'],
+        ];
+    }
+
+    /**
+     * Removes the persisted recommendations for a site.
+     */
+    public function dismiss(int $idSite): void
+    {
+        $this->store->delete($idSite);
+    }
+
+    /**
+     * Dismisses a single saved recommendation so it is no longer shown. The
+     * dismissal lasts until the next scan replaces the saved recommendations.
+     */
+    public function dismissRecommendation(int $idSite, string $recommendationId): bool
+    {
+        return $this->store->markDismissed($idSite, $recommendationId);
+    }
+
+    private function assignRecommendationIds(array $goals): array
+    {
+        foreach ($goals as &$goal) {
+            $goal['id'] = RecommendationMatcher::buildKey(
+                (string) ($goal['matchAttribute'] ?? 'url'),
+                (string) ($goal['pattern'] ?? '')
+            );
+        }
+
+        return $goals;
     }
 
     private function isAiAvailable(): bool
@@ -179,45 +249,6 @@ class GoalRecommendationService
         }
 
         return $this->aiRecommender;
-    }
-
-    /**
-     * @param array<string, mixed>|null $analysis
-     * @return array<string, mixed>
-     */
-    private function buildDebug(int $idSite, bool $useAi, ?array $analysis, int $deterministicCount, bool $aiAvailable, int $existingGoalCount, ?array $aiDebug = null): array
-    {
-        return [
-            'idSite' => $idSite,
-            'useAi' => $useAi,
-            'aiAvailable' => $aiAvailable,
-            'existingGoalCount' => $existingGoalCount,
-            'deterministicCount' => $deterministicCount,
-            'pagesCrawled' => $analysis['pagesCrawled'] ?? 0,
-            'linkCount' => isset($analysis['links']) ? count($analysis['links']) : 0,
-            'formCount' => isset($analysis['forms']) ? count($analysis['forms']) : 0,
-            'downloadCount' => isset($analysis['downloads']) ? count($analysis['downloads']) : 0,
-            'contactLinkCount' => isset($analysis['contactLinks']) ? count($analysis['contactLinks']) : 0,
-            'externalLinkCount' => isset($analysis['externalLinks']) ? count($analysis['externalLinks']) : 0,
-            'technologies' => $analysis['technologies'] ?? [],
-            'manualSignals' => $analysis['manualSignals'] ?? null,
-            'errors' => $analysis['errors'] ?? [],
-            'topUrlSignals' => isset($analysis['links']) ? array_slice($analysis['links'], 0, 12) : [],
-            'topFormSignals' => isset($analysis['forms']) ? array_slice($analysis['forms'], 0, 6) : [],
-            'topDownloadSignals' => isset($analysis['downloads']) ? array_slice($analysis['downloads'], 0, 6) : [],
-            'topContactSignals' => isset($analysis['contactLinks']) ? array_slice($analysis['contactLinks'], 0, 6) : [],
-            'topExternalSignals' => isset($analysis['externalLinks']) ? array_slice($analysis['externalLinks'], 0, 6) : [],
-            'crawl' => [
-                'homepageUrl' => $analysis['url'] ?? null,
-                'pages' => $analysis['crawledPages'] ?? [],
-                'rankedLinks' => $analysis['links'] ?? [],
-                'rankedForms' => $analysis['forms'] ?? [],
-                'rankedDownloads' => $analysis['downloads'] ?? [],
-                'rankedContactLinks' => $analysis['contactLinks'] ?? [],
-                'rankedExternalLinks' => $analysis['externalLinks'] ?? [],
-            ],
-            'ai' => $aiDebug,
-        ];
     }
 
     /**
@@ -272,49 +303,15 @@ class GoalRecommendationService
     private function matchesExistingGoal(array $recommendation, array $existingGoals): bool
     {
         $candidateAttribute = (string) ($recommendation['matchAttribute'] ?? 'url');
-        $candidate = $this->normalizeGoalPatternForComparison((string) ($recommendation['pattern'] ?? ''), $candidateAttribute);
-        if ($candidate === '') {
-            return false;
-        }
+        $candidatePattern = (string) ($recommendation['pattern'] ?? '');
 
         foreach ($existingGoals as $goal) {
-            $existingAttribute = $goal['matchAttribute'];
-            if ($candidateAttribute !== $existingAttribute) {
-                continue;
-            }
-
-            $existing = $this->normalizeGoalPatternForComparison($goal['pattern'], $existingAttribute);
-            if ($existing === '') {
-                continue;
-            }
-
-            if (
-                $candidate === $existing
-                || strpos($candidate, $existing) !== false
-                || strpos($existing, $candidate) !== false
-            ) {
+            if (RecommendationMatcher::covers($candidateAttribute, $candidatePattern, $goal['matchAttribute'], $goal['pattern'])) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    private function normalizeGoalPatternForComparison(string $pattern, string $matchAttribute): string
-    {
-        $pattern = strtolower(trim($pattern));
-
-        if ($matchAttribute === 'url' && preg_match('#^https?://#', $pattern)) {
-            $path = parse_url($pattern, PHP_URL_PATH);
-            $pattern = is_string($path) ? $path : $pattern;
-        }
-
-        if ($matchAttribute === 'file' && preg_match('#^https?://#', $pattern)) {
-            $path = parse_url($pattern, PHP_URL_PATH);
-            $pattern = is_string($path) ? basename($path) : $pattern;
-        }
-
-        return trim(rtrim($pattern, '/'), '/');
     }
 
     /**
