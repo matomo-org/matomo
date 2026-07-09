@@ -930,7 +930,7 @@ function RecommendGoalCardvue_type_template_id_3a8f6eea_render(_ctx, _cache, $pr
   }
 }));
 // CONCATENATED MODULE: ./plugins/Goals/vue/src/RecommendGoals/RecommendGoalCard.vue?vue&type=script&lang=ts
-
+ 
 // CONCATENATED MODULE: ./plugins/Goals/vue/src/RecommendGoals/RecommendGoalCard.vue
 
 
