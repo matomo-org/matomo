@@ -843,13 +843,4 @@ class Db implements TransactionalDatabaseInterface
     {
         return self::$logQueries;
     }
-
-    /**
-     * @deprecated will be removed with Matomo 6
-     *             use Schema::getInstance()->isOptimizeInnoDBSupported() instead
-     */
-    public static function isOptimizeInnoDBSupported($version = null)
-    {
-        return Db\Schema::getInstance()->isOptimizeInnoDBSupported();
-    }
 }

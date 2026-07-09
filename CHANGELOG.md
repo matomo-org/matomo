@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 * Removed `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()`. Use the `SitesManager.getExcludedQueryParameters` API method instead.
 * Removed `Piwik\Db::optimizeTables()`. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
+* Removed `Piwik\Db::isOptimizeInnoDBSupported()`. Use `Piwik\Db\Schema::getInstance()->isOptimizeInnoDBSupported()` instead.
 
 ## Matomo 5.12.0
 
