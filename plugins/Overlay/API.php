@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\Overlay;
 
 use Exception;
-use Piwik\API\Request;
 use Piwik\Config\GeneralConfig;
 use Piwik\DataTable;
 use Piwik\Plugins\Transitions\API as APITransitions;
@@ -38,20 +37,6 @@ class API extends \Piwik\Plugin\API
         );
 
         return array_map(array('\\Piwik\\Piwik','translate'), $translations);
-    }
-
-    /**
-     * Returns the excluded query parameters configured for a website.
-     * This information is used for client-side URL normalization.
-     *
-     * @param int $idSite Deprecated site ID parameter retained for backward compatibility.
-     * @return array Excluded query parameter names returned by `SitesManager.getExcludedQueryParameters`.
-     * @deprecated use SitesManager.getExcludedQueryParameters instead
-     * @todo Remove in Matomo 6
-     */
-    public function getExcludedQueryParameters(int $idSite)
-    {
-        return Request::processRequest('SitesManager.getExcludedQueryParameters');
     }
 
     /**
