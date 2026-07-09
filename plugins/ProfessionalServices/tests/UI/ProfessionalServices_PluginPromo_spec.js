@@ -7,10 +7,10 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// Temporarily skipped until Matomo 6 compatible plugins are published on the Marketplace.
-// These promo detail views load plugin information from the Marketplace, which currently
-// serves no version compatible with Matomo 6, so the views render an error instead.
-describe.skip("ProfessionalServices_PluginPromo", function () {
+// The tests below are temporarily skipped until Matomo 6 compatible plugins are published
+// on the Marketplace. These promo detail views load plugin information from the Marketplace,
+// which currently serves no version compatible with Matomo 6, so the views render an error.
+describe("ProfessionalServices_PluginPromo", function () {
     var generalParams = 'idSite=1&period=day&date=2017-01-02',
         urlBase = '?module=CoreHome&' + generalParams + '&action=index&';
 
@@ -25,7 +25,7 @@ describe.skip("ProfessionalServices_PluginPromo", function () {
         testEnvironment.save();
     });
 
-    it('should load A/B Testing plugin promo detail view', async function() {
+    it.skip('should load A/B Testing plugin promo detail view', async function() {
         const category = 'ProfessionalServices_PromoAbTesting';
         const subcategory = 'ProfessionalServices_PromoOverview';
 
@@ -34,7 +34,7 @@ describe.skip("ProfessionalServices_PluginPromo", function () {
         expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_abtesting');
     });
 
-    it('should load Crash Analytics plugin promo detail view', async function() {
+    it.skip('should load Crash Analytics plugin promo detail view', async function() {
         const category = 'ProfessionalServices_PromoCrashAnalytics';
         const subcategory = 'ProfessionalServices_PromoOverview';
 
@@ -43,7 +43,7 @@ describe.skip("ProfessionalServices_PluginPromo", function () {
         expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_crashanalytics');
     });
 
-    it('should load Custom Reports plugin promo detail view', async function() {
+    it.skip('should load Custom Reports plugin promo detail view', async function() {
         const category = 'ProfessionalServices_PromoCustomReports';
         const subcategory = 'ProfessionalServices_PromoManage';
 
@@ -52,7 +52,7 @@ describe.skip("ProfessionalServices_PluginPromo", function () {
         expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_customreports');
     });
 
-    it('should load Form Analytics plugin promo detail view', async function() {
+    it.skip('should load Form Analytics plugin promo detail view', async function() {
         const category = 'ProfessionalServices_PromoFormAnalytics';
         const subcategory = 'ProfessionalServices_PromoOverview';
 
@@ -61,7 +61,7 @@ describe.skip("ProfessionalServices_PluginPromo", function () {
         expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_formanalytics');
     });
 
-    it('should load Funnels plugin promo detail view', async function() {
+    it.skip('should load Funnels plugin promo detail view', async function() {
         const category = 'ProfessionalServices_PromoFunnels';
         const subcategory = 'ProfessionalServices_PromoOverview';
 
@@ -70,7 +70,7 @@ describe.skip("ProfessionalServices_PluginPromo", function () {
         expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_funnels');
     });
 
-    it('should load Heatmaps plugin promo detail view', async function() {
+    it.skip('should load Heatmaps plugin promo detail view', async function() {
         const category = 'ProfessionalServices_PromoHeatmaps';
         const subcategory = 'ProfessionalServices_PromoManage';
 
@@ -79,7 +79,7 @@ describe.skip("ProfessionalServices_PluginPromo", function () {
         expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_heatmaps');
     });
 
-    it('should load Media Analytics plugin promo detail view', async function() {
+    it.skip('should load Media Analytics plugin promo detail view', async function() {
         const category = 'ProfessionalServices_PromoMediaAnalytics';
         const subcategory = 'ProfessionalServices_PromoOverview';
 
@@ -88,7 +88,7 @@ describe.skip("ProfessionalServices_PluginPromo", function () {
         expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_mediaanalytics');
     });
 
-    it('should load Session Recordings plugin promo detail view', async function() {
+    it.skip('should load Session Recordings plugin promo detail view', async function() {
         const category = 'ProfessionalServices_PromoSessionRecording';
         const subcategory = 'ProfessionalServices_PromoManage';
 
@@ -97,7 +97,7 @@ describe.skip("ProfessionalServices_PluginPromo", function () {
         expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_sessionrecordings');
     });
 
-    it('can dismiss a promo and no longer see it in menu', async function() {
+    it.skip('can dismiss a promo and no longer see it in menu', async function() {
         const category = 'ProfessionalServices_PromoFormAnalytics';
         const subcategory = 'ProfessionalServices_PromoOverview';
 
