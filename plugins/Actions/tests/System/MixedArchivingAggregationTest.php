@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Actions\tests\System;
 
+use Piwik\API\Request as ApiRequest;
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\Config;
@@ -215,10 +216,231 @@ class MixedArchivingAggregationTest extends IntegrationTestCase
         $this->assertSame(2, $hierarchicalRows[0][Metrics::INDEX_PAGE_NB_HITS]);
     }
 
+    public function testFlatPageReportsAreUnchangedWhetherServedFromFlatBlobOrHierarchy()
+    {
+        $siteId = Fixture::createWebsite('2026-03-01 00:00:00');
+        $this->trackUrlHits($siteId, '2026-03-02', [
+            '/shop/shoes/nike' => 5,
+            '/shop/shoes/adidas' => 3,
+            '/about' => 2,
+        ]);
+
+        $config = Config::getInstance();
+        $configBackup = $this->backupGeneralConfig([
+            'datatable_archiving_maximum_rows_actions_flat',
+            'datatable_archiving_maximum_rows_actions',
+            'datatable_archiving_maximum_rows_subtable_actions',
+            'archiving_ranking_query_row_limit',
+        ]);
+
+        try {
+            $config->General['datatable_archiving_maximum_rows_actions'] = 50000;
+            $config->General['datatable_archiving_maximum_rows_subtable_actions'] = 50000;
+            $config->General['archiving_ranking_query_row_limit'] = 100000;
+
+            // Archive with flat-first enabled: both the flat and the hierarchical record are stored.
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 50000;
+            Archive::build($siteId, 'day', '2026-03-02')->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+
+            // Retrieval served directly from the flat record (new behavior).
+            $flatUrls = $this->requestFlatReportRows('Actions.getPageUrls', $siteId, '2026-03-02');
+            $flatTitles = $this->requestFlatReportRows('Actions.getPageTitles', $siteId, '2026-03-02');
+
+            // Previous behavior: flattened from the hierarchical record, same archive (flat-first
+            // gate turned off for the request only, no re-archiving).
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 0;
+            $hierarchyUrls = $this->requestFlatReportRows('Actions.getPageUrls', $siteId, '2026-03-02');
+            $hierarchyTitles = $this->requestFlatReportRows('Actions.getPageTitles', $siteId, '2026-03-02');
+        } finally {
+            $this->restoreGeneralConfig($configBackup);
+        }
+
+        $this->assertContains('/shop/shoes/nike', array_map([$this, 'extractRowLabel'], $flatUrls));
+
+        // Identical row data from either record; compared as a set because the tie-break order of
+        // equal-valued rows is not a guaranteed contract (PHP's sort is order dependent for ties).
+        $this->assertSame($hierarchyUrls, $flatUrls);
+        $this->assertSame($hierarchyTitles, $flatTitles);
+    }
+
+    public function testFlatEntryPagesReportListsOnlyActualEntryPagesWhenServedFromFlatBlob()
+    {
+        $siteId = Fixture::createWebsite('2026-03-05 00:00:00');
+        // A single visit walks /shop/shoes/nike (entry) -> /shop/shoes/adidas -> /about, so only
+        // /shop/shoes/nike is ever an entry page.
+        $this->trackUrlHits($siteId, '2026-03-06', [
+            '/shop/shoes/nike' => 5,
+            '/shop/shoes/adidas' => 3,
+            '/about' => 2,
+        ]);
+
+        $config = Config::getInstance();
+        $configBackup = $this->backupGeneralConfig([
+            'datatable_archiving_maximum_rows_actions_flat',
+            'datatable_archiving_maximum_rows_actions',
+            'datatable_archiving_maximum_rows_subtable_actions',
+            'archiving_ranking_query_row_limit',
+        ]);
+
+        try {
+            $config->General['datatable_archiving_maximum_rows_actions'] = 50000;
+            $config->General['datatable_archiving_maximum_rows_subtable_actions'] = 50000;
+            $config->General['archiving_ranking_query_row_limit'] = 100000;
+
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 50000;
+            Archive::build($siteId, 'day', '2026-03-06')->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+
+            $flatEntryLabels = array_map(
+                [$this, 'extractRowLabel'],
+                $this->requestFlatReportRows('Actions.getEntryPageUrls', $siteId, '2026-03-06')
+            );
+
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 0;
+            $hierarchyEntryLabels = array_map(
+                [$this, 'extractRowLabel'],
+                $this->requestFlatReportRows('Actions.getEntryPageUrls', $siteId, '2026-03-06')
+            );
+        } finally {
+            $this->restoreGeneralConfig($configBackup);
+        }
+
+        // From the flat record the report lists only real entry pages. The hierarchical path also
+        // surfaces non-entry leaves sharing a folder with an entry page (the folder-level filter
+        // runs before flattening), which the flat record correctly excludes.
+        $this->assertContains('/shop/shoes/nike', $flatEntryLabels);
+        $this->assertNotContains('/shop/shoes/adidas', $flatEntryLabels);
+        $this->assertContains('/shop/shoes/adidas', $hierarchyEntryLabels);
+    }
+
+    public function testFlatRequestFallsBackToHierarchyWhenFlatRecordIsMissing()
+    {
+        $siteId = Fixture::createWebsite('2026-03-10 00:00:00');
+        $this->trackUrlHits($siteId, '2026-03-11', [
+            '/shop/shoes/nike' => 5,
+            '/shop/shoes/adidas' => 3,
+            '/about' => 2,
+        ]);
+
+        $config = Config::getInstance();
+        $configBackup = $this->backupGeneralConfig([
+            'datatable_archiving_maximum_rows_actions_flat',
+            'datatable_archiving_maximum_rows_actions',
+            'datatable_archiving_maximum_rows_subtable_actions',
+            'archiving_ranking_query_row_limit',
+        ]);
+
+        try {
+            $config->General['datatable_archiving_maximum_rows_actions'] = 50000;
+            $config->General['datatable_archiving_maximum_rows_subtable_actions'] = 50000;
+            $config->General['archiving_ranking_query_row_limit'] = 100000;
+
+            // Archive while flat-first is disabled: only the hierarchical record is stored and the
+            // archive is marked done, so enabling flat-first later will not add the flat record.
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 0;
+            Archive::build($siteId, 'day', '2026-03-11')->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+            $legacyUrls = $this->requestFlatReport('Actions.getPageUrls', $siteId, '2026-03-11');
+
+            // Enable flat-first without re-archiving. The flat record is absent, so the request must
+            // fall back to the hierarchical record instead of returning an empty report.
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 50000;
+            $fallbackUrls = $this->requestFlatReport('Actions.getPageUrls', $siteId, '2026-03-11');
+        } finally {
+            $this->restoreGeneralConfig($configBackup);
+        }
+
+        $this->assertStringContainsString('/shop/shoes/nike', $fallbackUrls);
+        $this->assertSame($legacyUrls, $fallbackUrls);
+    }
+
+    public function testFlatRangeRequestMixesFlatRecordAndHierarchicalFallbackPerPeriod()
+    {
+        $siteId = Fixture::createWebsite('2026-04-01 00:00:00');
+        $this->trackUrlHits($siteId, '2026-04-06', [
+            '/shop/shoes/nike' => 5,
+            '/about' => 2,
+        ]);
+        $this->trackUrlHits($siteId, '2026-04-07', [
+            '/shop/shoes/adidas' => 4,
+            '/contact' => 1,
+        ]);
+
+        $config = Config::getInstance();
+        $configBackup = $this->backupGeneralConfig([
+            'datatable_archiving_maximum_rows_actions_flat',
+            'datatable_archiving_maximum_rows_actions',
+            'datatable_archiving_maximum_rows_subtable_actions',
+            'archiving_ranking_query_row_limit',
+        ]);
+
+        try {
+            $config->General['datatable_archiving_maximum_rows_actions'] = 50000;
+            $config->General['datatable_archiving_maximum_rows_subtable_actions'] = 50000;
+            $config->General['archiving_ranking_query_row_limit'] = 100000;
+
+            // Day 1 archived with flat-first enabled -> has a flat record.
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 50000;
+            Archive::build($siteId, 'day', '2026-04-06')->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+
+            // Day 2 archived before flat-first -> hierarchical record only.
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 0;
+            Archive::build($siteId, 'day', '2026-04-07')->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+            $hierarchyRows = $this->requestFlatReportRows('Actions.getPageUrls', $siteId, '2026-04-06,2026-04-07');
+
+            // With flat-first enabled the range Map mixes day 1 (from the flat record) with day 2
+            // (recovered from the hierarchical record), and must equal the pure-hierarchical result.
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 50000;
+            $mixedRows = $this->requestFlatReportRows('Actions.getPageUrls', $siteId, '2026-04-06,2026-04-07');
+        } finally {
+            $this->restoreGeneralConfig($configBackup);
+        }
+
+        $labels = array_map([$this, 'extractRowLabel'], $mixedRows);
+        $this->assertContains('/shop/shoes/nike', $labels);
+        $this->assertContains('/shop/shoes/adidas', $labels);
+        $this->assertSame($hierarchyRows, $mixedRows);
+    }
+
     protected static function configureFixture($fixture)
     {
         parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
+    }
+
+    private function requestFlatReport(string $method, int $idSite, string $date): string
+    {
+        return ApiRequest::processRequest($method, [
+            'idSite'       => $idSite,
+            'period'       => 'day',
+            'date'         => $date,
+            'flat'         => 1,
+            'filter_limit' => -1,
+            'format'       => 'xml',
+        ]);
+    }
+
+    /**
+     * Returns the flat report's `<row>` blocks sorted so two runs can be compared independently
+     * of the tie-break order of equal-valued rows.
+     *
+     * @return string[]
+     */
+    private function requestFlatReportRows(string $method, int $idSite, string $date): array
+    {
+        $xml = $this->requestFlatReport($method, $idSite, $date);
+        preg_match_all('#<row>.*?</row>#s', $xml, $matches);
+        $rows = $matches[0];
+        sort($rows);
+
+        return $rows;
+    }
+
+    private function extractRowLabel(string $rowXml): string
+    {
+        if (preg_match('#<label>(.*?)</label>#s', $rowXml, $matches)) {
+            return $matches[1];
+        }
+
+        return '';
     }
 
     private function trackUrlHits(int $idSite, string $day, array $urlHits): void
