@@ -7,7 +7,10 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-describe("ProfessionalServices_PluginPromo", function () {
+// Temporarily skipped until Matomo 6 compatible plugins are published on the Marketplace.
+// These promo detail views load plugin information from the Marketplace, which currently
+// serves no version compatible with Matomo 6, so the views render an error instead.
+describe.skip("ProfessionalServices_PluginPromo", function () {
     var generalParams = 'idSite=1&period=day&date=2017-01-02',
         urlBase = '?module=CoreHome&' + generalParams + '&action=index&';
 
