@@ -69,7 +69,7 @@ class ArchiveInvalidator
     private $model;
 
     /**
-     * @var SegmentArchiving
+     * @var SegmentArchiving|null
      */
     private $segmentArchiving;
 

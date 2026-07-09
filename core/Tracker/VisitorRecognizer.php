@@ -65,7 +65,7 @@ class VisitorRecognizer
     private $eventDispatcher;
 
     /**
-     * @var array
+     * @var array|false
      */
     private $visitRow;
 

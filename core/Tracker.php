@@ -35,7 +35,7 @@ use Piwik\Log\LoggerInterface;
 class Tracker
 {
     /**
-     * @var Db
+     * @var Db|null
      */
     private static $db = null;
 
