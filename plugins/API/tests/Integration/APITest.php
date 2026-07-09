@@ -21,7 +21,9 @@ use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\API\BulkRequestLimit;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model as UsersManagerModel;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -198,6 +200,170 @@ class APITest extends IntegrationTestCase
         $response = $this->getBulkRequestAsRootApiRequest([$this->makeArchiveReportsBulkUrl(1, Fixture::getTokenAuth())]);
         $this->assertCount(1, $response);
         $this->assertResponseIsSuccess($response[0]);
+    }
+
+    /**
+     * Case 1b: a session-authenticated root must not let a nested bulk sub-request downgrade
+     * force_api_session to bypass the session-token password-confirmation gate.
+     */
+    public function testGetBulkRequestSessionRootRejectsNestedForceApiSessionDowngrade()
+    {
+        $this->enterSessionRootScope();
+
+        $this->expectException(BadRequestException::class);
+
+        try {
+            $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'force_api_session' => 0]),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    /**
+     * Case 1c/1d: a session-authenticated root must not let a nested bulk sub-request change the
+     * authenticated identity by supplying a different token_auth (with or without force_api_session).
+     */
+    public function testGetBulkRequestSessionRootRejectsNestedDifferentTokenAuthWithDowngrade()
+    {
+        $this->enterSessionRootScope();
+
+        $this->expectException(BadRequestException::class);
+
+        try {
+            $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'token_auth' => 'aDifferentToken', 'force_api_session' => 0]),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    public function testGetBulkRequestSessionRootRejectsNestedDifferentTokenAuthWithoutDowngrade()
+    {
+        $this->enterSessionRootScope();
+
+        $this->expectException(BadRequestException::class);
+
+        try {
+            $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'token_auth' => 'aDifferentToken']),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    /**
+     * Case 2c: a real-token (non-session) root must not let a nested bulk sub-request assert
+     * force_api_session=1, which would flip it into session semantics.
+     */
+    public function testGetBulkRequestRealTokenRootRejectsNestedForceApiSessionUpgrade()
+    {
+        $this->enterRealTokenRootScope();
+
+        $this->expectException(BadRequestException::class);
+
+        try {
+            $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'force_api_session' => 1]),
+            ]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    /**
+     * Case 3d: a non-session (anonymous) root must not let a nested bulk sub-request assert
+     * force_api_session=1.
+     */
+    public function testGetBulkRequestAnonymousRootRejectsNestedForceApiSessionUpgrade()
+    {
+        $this->expectException(BadRequestException::class);
+
+        $this->getBulkRequestAsRootApiRequest([
+            $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'token_auth' => 'aDifferentToken', 'force_api_session' => 1]),
+        ]);
+    }
+
+    /**
+     * Case 1a: a session-authenticated root allows nested sub-requests that inherit the root auth
+     * (no conflicting token_auth or force_api_session).
+     */
+    public function testGetBulkRequestSessionRootAllowsInheritedNestedAuth()
+    {
+        $this->enterSessionRootScope();
+
+        try {
+            $response = $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01']),
+            ]);
+            $this->assertCount(1, $response);
+            $this->assertResponseIsSuccess($response[0]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    /**
+     * Case 2d: a real-token (non-session) root allows a nested bulk sub-request to authenticate with
+     * a different token_auth (per-URL auth overwrites the root token outside session scope).
+     */
+    public function testGetBulkRequestRealTokenRootAllowsNestedDifferentTokenAuth()
+    {
+        $secondToken = $this->createSecondSuperUserToken();
+        $this->enterRealTokenRootScope();
+
+        try {
+            $response = $this->getBulkRequestAsRootApiRequest([
+                $this->makeBulkUrl(['method' => 'VisitsSummary.get', 'idSite' => 1, 'period' => 'day', 'date' => '2012-01-01', 'token_auth' => $secondToken]),
+            ]);
+            $this->assertCount(1, $response);
+            $this->assertResponseIsSuccess($response[0]);
+        } finally {
+            $this->leaveRootScope();
+        }
+    }
+
+    private function makeBulkUrl(array $params): string
+    {
+        return rawurlencode(http_build_query($params, '', '&', PHP_QUERY_RFC3986));
+    }
+
+    private function enterSessionRootScope(): void
+    {
+        $_POST['token_auth'] = Fixture::getTokenAuth();
+        $_POST['force_api_session'] = 1;
+        StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
+        $this->setSuperUserContext();
+    }
+
+    private function enterRealTokenRootScope(): void
+    {
+        $_POST['token_auth'] = Fixture::getTokenAuth();
+        unset($_POST['force_api_session']);
+        StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
+        $this->setSuperUserContext();
+    }
+
+    private function leaveRootScope(): void
+    {
+        unset($_POST['token_auth'], $_POST['force_api_session']);
+        StaticContainer::getContainer()->set(AuthenticationToken::class, new AuthenticationToken());
+        $this->setAnonymousContext();
+    }
+
+    private function createSecondSuperUserToken(): string
+    {
+        return Access::doAsSuperUser(function () {
+            $api = UsersManagerAPI::getInstance();
+            if (!$api->userExists('bulk_second')) {
+                $api->addUser('bulk_second', 'BulkSecond!2026abc', 'bulk_second@example.test');
+            }
+            (new UsersManagerModel())->setSuperUserAccess('bulk_second', true);
+            return $api->createAppSpecificTokenAuth('bulk_second', 'BulkSecond!2026abc', 'bulk second token');
+        });
     }
 
     public function testArchiveReportsAllowsViewAccessForNonBulkRootApiMethod()
