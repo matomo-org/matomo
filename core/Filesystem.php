@@ -453,7 +453,7 @@ class Filesystem
         }
 
         if (!file_exists($pathToFile)) {
-            return;
+            return null;
         }
 
         $filesize  = filesize($pathToFile);

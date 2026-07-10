@@ -237,6 +237,8 @@ class SitesManager extends \Piwik\Plugin
         if (!empty($site['timezone'])) {
             return $site['timezone'];
         }
+
+        return null;
     }
 
     /**
