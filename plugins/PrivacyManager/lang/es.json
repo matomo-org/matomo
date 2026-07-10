@@ -13,8 +13,12 @@
         "AnonymizeIpMaskLengthSettingTitle": "Longitud de la máscara de dirección IP",
         "AnonymizeIpPolicySettingRequirementNote": "Se debe habilitar la anonimización de las direcciones IP de los visitantes.",
         "AnonymizeIpPolicySettingTitle": "Anonimización de IP habilitada",
+        "AnonymizeLocation": "Anonimizar Ubicación",
         "AnonymizeReferrer": "Anonimizar remitente",
+        "AnonymizeReferrerExcludeAll": "No registres la URL de referencia, pero detecta igualmente el tipo de referencia",
+        "AnonymizeReferrerExcludeNone": "No ocultes la fuente de la visita",
         "AnonymizeReferrerExcludePath": "Solo mantener el dominio de un URL referido",
+        "AnonymizeReferrerExcludeQuery": "Eliminar los parámetros de consulta de la URL de referencia",
         "AnonymizeReferrerNote": "Matomo almacena la URL (referente) desde la que un usuario llega a su sitio. En algunos casos, dicha URL puede contener información que puede considerarse información personal. Si desea evitar que se rastree dicha información, puede restringir la cantidad de datos de referencia que Matomo almacenará cuando un visitante ingrese a su sitio web. Cuanta más información se elimine de la información de referencia, menos probable será que se registre información personal. Cuanta más información elimine de la información de referencia, menos claro será cómo un visitante llegó a su sitio web.",
         "AnonymizeRowDataFrom": "Anonimizar todos los datos sin procesar a partir de:",
         "AnonymizeRowDataTo": "Anonimizar todos los datos sin procesar hasta:",
@@ -25,8 +29,10 @@
         "Compliance": "Cumplimiento",
         "ComplianceComplianceUnknown": "desconocido",
         "ComplianceCompliant": "conforme",
+        "ComplianceEnforceCheckboxHelp": "Al activar esta opción, los cambios de configuración compatibles se aplicarán automáticamente en Matomo. <br><br>Ten en cuenta que algunas condiciones requieren cambios en la implementación del cliente fuera del entorno de Matomo.<br>Estos elementos no se controlan ni se verifican a través de esta interfaz de usuario.",
         "ComplianceEnforceCheckboxIntro": "Garantizar el cumplimiento siempre que sea posible",
         "ComplianceEnforceCheckboxTitle": "Reforzar ajustes que ayuden a alinear la exención de consentimiento con la CNIL siempre que sea posible",
+        "ComplianceNonCompliant": "no conforme",
         "ComplianceSelectSite": "A continuación selecciona un sitio para obtener una indicación si el sitio dado cumple con la ley de privacidad indicada",
         "ComplianceTableSettingName": "Nombre de la configuración",
         "ComplianceTableSettingNotes": "Notas",
@@ -140,6 +146,7 @@
         "ValidConsentRequirement6": "El consentimiento no debe ir acompañado de otros términos.",
         "ValidConsentRequirement7": "Se deben ofrecer opciones de consentimiento detalladas.",
         "ValidConsentRequirement8": "El consentimiento debe quedar registrado como prueba de cumplimiento.",
-        "ValidConsentRequirement9": "No se permite el seguimiento antes del consentimiento cuando este sea requerido."
+        "ValidConsentRequirement9": "No se permite el seguimiento antes del consentimiento cuando este sea requerido.",
+        "WhenDoINeedConsent": "¿Cuándo tengo que solicitar el consentimiento del usuario?"
     }
 }
