@@ -17,6 +17,14 @@
 		<url>index.php?module=Goals&amp;action=manage</url>
 	</row>
 	<row>
+		<id>add_recommended_goals</id>
+		<name>Add recommended goals</name>
+		<description>Review goal recommendations for your website and create the goals that fit.</description>
+		<isCompleted>0</isCompleted>
+		<isSkipped>0</isSkipped>
+		<url>index.php?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=yesterday#?idSite=1&amp;period=day&amp;date=yesterday&amp;category=Goals_Goals&amp;subcategory=Goals_ManageGoals</url>
+	</row>
+	<row>
 		<id>custom_logo</id>
 		<name>Upload your logo</name>
 		<description>You can customize the Matomo logo which will be displayed in the user interface and email reports.</description>
