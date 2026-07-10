@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Tour;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Request;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
 use Piwik\Plugins\Tour\Engagement\Challenge;
@@ -111,7 +112,7 @@ class Tour extends \Piwik\Plugin
             $annotation = new ChallengeCreatedGoal();
             $annotation->setCompleted(Piwik::getCurrentUserLogin());
 
-            if (Common::getRequestVar(ChallengeAddRecommendedGoals::REQUEST_PARAMETER, 0, 'int')) {
+            if (Request::fromRequest()->getIntegerParameter(ChallengeAddRecommendedGoals::REQUEST_PARAMETER, 0)) {
                 $recommendedGoal = new ChallengeAddRecommendedGoals();
                 $recommendedGoal->setCompleted(Piwik::getCurrentUserLogin());
             }
