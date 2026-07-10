@@ -120,7 +120,7 @@ class Annotations extends \Piwik\Plugin
      */
     public static function canUserModifyOrDelete(array $annotation): bool
     {
-        // user can save if user is admin or if has view access, is not anonymous & is user who wrote note
+        // user can modify or delete if user has write access, or is not anonymous & is the user who wrote the note
         return Piwik::isUserHasWriteAccess($annotation['idsite'])
             || (!Piwik::isUserIsAnonymous()
                 && Piwik::getCurrentUserLogin() === $annotation['user']);

@@ -375,7 +375,7 @@ class AnnotationsTest extends SystemTestCase
         ];
 
         yield 'Annotations.save should throw if user has view access but did not edit note' => [
-            'view', 'module=API&method=Annotations.save&idSite=1&idNote=1&date=2011-03-01&note=newnote', true,
+            'view', 'module=API&method=Annotations.save&idSite=1&idNote=53&date=2011-03-01&note=newnote', true,
         ];
 
         yield 'Annotations.save should not throw if user has write access' => [
@@ -391,7 +391,7 @@ class AnnotationsTest extends SystemTestCase
         ];
 
         yield 'Annotations.delete should throw if user has view access but did not edit note' => [
-            'view', 'module=API&method=Annotations.delete&idSite=1&idNote=1', true,
+            'view', 'module=API&method=Annotations.delete&idSite=1&idNote=53', true,
         ];
 
         yield 'Annotations.delete should not throw if user has write access' => [
@@ -417,9 +417,9 @@ class AnnotationsTest extends SystemTestCase
         // create fake access that denies user access
         FakeAccess::clearAccess(false);
         FakeAccess::$identity = 'user' . $permissionLevel;
-        FakeAccess::$idSitesAdmin = $permissionLevel === 'admin' ? array(self::$fixture->idSite1) : [];
-        FakeAccess::$idSitesWrite = $permissionLevel === 'write' ? array(self::$fixture->idSite1) : [];
-        FakeAccess::$idSitesView = $permissionLevel === 'view' ? array(self::$fixture->idSite1) : [];
+        FakeAccess::$idSitesAdmin = $permissionLevel === 'admin' ? [self::$fixture->idSite1] : [];
+        FakeAccess::$idSitesWrite = $permissionLevel === 'write' ? [self::$fixture->idSite1] : [];
+        FakeAccess::$idSitesView = $permissionLevel === 'view' ? [self::$fixture->idSite1] : [];
 
         $request = new Request(Request::getRequestArrayFromString($request . '&format=original'));
         $request->process();
