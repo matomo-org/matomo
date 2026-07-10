@@ -13,6 +13,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated method `Piwik\Db\TransactionLevel::setUncommitted()` has been removed. Use `Piwik\Db\TransactionLevel::setTransactionLevelForNonLockingReads()` instead.
 * The deprecated `SitesManager.setGlobalExcludedQueryParameters` API method has been removed. Use `SitesManager.setGlobalQueryParamExclusion` instead.
 * The deprecated method `Piwik\API\Request::isTokenAuthProvidedSecurely()` has been removed.
+* The API methods `Annotations.add`, `Annotations.save` and `Annotations.delete` now require `Write` permission. Previously `Annotations.add` required only `View` permission, and the author of an annotation could modify or delete it with only `View` permission.
 
 ## Matomo 5.12.0
 
