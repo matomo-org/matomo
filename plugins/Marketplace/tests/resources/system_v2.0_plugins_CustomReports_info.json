@@ -60,7 +60,7 @@
             "name": "5.4.12",
             "release": "2026-05-19 04:07:20",
             "requires": {
-                "matomo": ">=5.0.0-rc5,<7.0.0-b1"
+                "matomo": ">=6.0.0-b1,<7.0.0-b1"
             },
             "wordPressCompatible": true,
             "onPremiseCompatible": true,

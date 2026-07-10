@@ -49,7 +49,7 @@
                     "name": "1.0.0",
                     "release": "2024-01-01 00:00:00",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -125,7 +125,7 @@
                     "name": "1.0.0",
                     "release": "2024-01-01 00:00:00",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -201,7 +201,7 @@
                     "name": "1.0.0",
                     "release": "2024-01-01 00:00:00",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -277,7 +277,7 @@
                     "name": "1.0.0",
                     "release": "2024-01-01 00:00:00",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -353,7 +353,7 @@
                     "name": "1.0.0",
                     "release": "2024-01-01 00:00:00",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -429,7 +429,7 @@
                     "name": "1.0.0",
                     "release": "2024-01-01 00:00:00",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -505,7 +505,7 @@
                     "name": "1.0.0",
                     "release": "2024-01-01 00:00:00",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -581,7 +581,7 @@
                     "name": "1.0.0",
                     "release": "2024-01-01 00:00:00",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -657,7 +657,7 @@
                     "name": "1.0.0",
                     "release": "2024-01-01 00:00:00",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -733,7 +733,7 @@
                     "name": "1.0.0",
                     "release": "2024-01-01 00:00:00",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,

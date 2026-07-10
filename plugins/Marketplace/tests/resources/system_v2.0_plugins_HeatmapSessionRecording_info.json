@@ -68,7 +68,7 @@
             "name": "5.4.0",
             "release": "2026-05-25 06:07:17",
             "requires": {
-                "matomo": ">=5.0.0-rc1,<7.0.0-b1"
+                "matomo": ">=6.0.0-b1,<7.0.0-b1"
             },
             "wordPressCompatible": true,
             "onPremiseCompatible": true,

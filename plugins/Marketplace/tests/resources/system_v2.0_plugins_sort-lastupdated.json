@@ -58,7 +58,7 @@
                     "name": "5.3.5",
                     "release": "2026-06-08 19:27:40",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -139,7 +139,7 @@
                     "name": "5.1.0",
                     "release": "2026-06-08 05:14:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -221,7 +221,7 @@
                     "name": "5.2.2",
                     "release": "2026-06-08 05:12:27",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -303,7 +303,7 @@
                     "name": "5.0.7",
                     "release": "2026-06-08 05:12:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -383,7 +383,7 @@
                     "name": "5.0.3",
                     "release": "2026-06-08 05:04:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -462,7 +462,7 @@
                     "name": "5.3.1",
                     "release": "2026-06-08 05:02:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -546,7 +546,7 @@
                     "name": "1.0.0",
                     "release": "2026-06-02 21:42:52",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -630,7 +630,7 @@
                     "name": "1.0.0",
                     "release": "2026-06-02 21:42:40",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -714,7 +714,7 @@
                     "name": "1.0.0",
                     "release": "2026-06-02 21:42:19",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -801,7 +801,7 @@
                     "name": "5.0.4",
                     "release": "2026-05-28 13:54:10",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -880,7 +880,7 @@
                     "name": "5.2.1",
                     "release": "2026-05-26 00:10:06",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -961,7 +961,7 @@
                     "name": "5.1.0",
                     "release": "2026-05-25 06:10:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1048,7 +1048,7 @@
                     "name": "5.4.0",
                     "release": "2026-05-25 06:07:17",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1126,7 +1126,7 @@
                     "name": "5.1.8",
                     "release": "2026-05-25 06:06:09",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1210,7 +1210,7 @@
                     "name": "5.0.14",
                     "release": "2026-05-25 06:04:16",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1289,7 +1289,7 @@
                     "name": "5.4.12",
                     "release": "2026-05-19 04:07:20",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1376,7 +1376,7 @@
                     "name": "5.5.2",
                     "release": "2026-05-14 02:17:05",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1464,7 +1464,7 @@
                     "name": "5.3.7",
                     "release": "2026-05-11 09:03:48",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1551,7 +1551,7 @@
                     "name": "5.5.3",
                     "release": "2026-05-11 04:54:31",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1633,7 +1633,7 @@
                     "name": "5.1.11",
                     "release": "2026-05-11 04:52:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1717,7 +1717,7 @@
                     "name": "5.4.0",
                     "release": "2026-05-11 04:40:24",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1797,7 +1797,7 @@
                     "name": "5.0.9",
                     "release": "2026-05-11 04:34:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1876,7 +1876,7 @@
                     "name": "5.1.8",
                     "release": "2026-04-27 08:25:44",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1961,7 +1961,7 @@
                     "name": "5.0.14",
                     "release": "2026-04-27 06:46:35",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2040,7 +2040,7 @@
                     "name": "5.0.6",
                     "release": "2026-04-27 06:36:02",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2120,7 +2120,7 @@
                     "name": "5.0.7",
                     "release": "2026-04-27 05:14:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2207,7 +2207,7 @@
                     "name": "5.0.9",
                     "release": "2026-04-27 05:13:57",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2291,7 +2291,7 @@
                     "name": "5.0.11",
                     "release": "2026-04-27 05:11:56",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2374,7 +2374,7 @@
                     "name": "5.0.29",
                     "release": "2026-04-27 05:10:32",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2459,7 +2459,7 @@
                     "name": "5.0.11",
                     "release": "2026-04-27 05:09:21",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2542,7 +2542,7 @@
                     "name": "5.0.12",
                     "release": "2026-04-27 04:57:56",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2622,7 +2622,7 @@
                     "name": "5.0.6",
                     "release": "2026-04-27 04:54:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2698,7 +2698,7 @@
                     "name": "5.0.6",
                     "release": "2026-04-27 04:36:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2779,7 +2779,7 @@
                     "name": "5.0.3",
                     "release": "2026-04-27 04:34:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2858,7 +2858,7 @@
                     "name": "5.0.6",
                     "release": "2026-04-27 04:22:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2939,7 +2939,7 @@
                     "name": "5.1.9",
                     "release": "2026-04-27 04:14:27",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3017,7 +3017,7 @@
                     "name": "5.0.4",
                     "release": "2026-01-05 04:02:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3096,7 +3096,7 @@
                     "name": "5.2.0",
                     "release": "2025-11-25 07:34:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3173,7 +3173,7 @@
                     "name": "5.1.5",
                     "release": "2025-11-24 04:06:06",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3252,7 +3252,7 @@
                     "name": "5.0.2",
                     "release": "2025-07-07 10:22:02",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3332,7 +3332,7 @@
                     "name": "5.0.5",
                     "release": "2025-07-07 10:21:39",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3412,7 +3412,7 @@
                     "name": "5.0.2",
                     "release": "2025-07-07 10:08:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3488,7 +3488,7 @@
                     "name": "5.0.2",
                     "release": "2025-01-20 07:48:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3567,7 +3567,7 @@
                     "name": "5.0.3",
                     "release": "2025-01-20 07:46:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3644,7 +3644,7 @@
                     "name": "5.0.4",
                     "release": "2025-01-20 07:40:08",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3724,7 +3724,7 @@
                     "name": "5.0.1",
                     "release": "2024-04-22 06:44:02",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3801,7 +3801,7 @@
                     "name": "5.0.2",
                     "release": "2024-04-22 06:24:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3883,7 +3883,7 @@
                     "name": "5.0.1",
                     "release": "2024-04-22 06:06:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3962,7 +3962,7 @@
                     "name": "5.0.3",
                     "release": "2024-04-22 05:58:02",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<7.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
