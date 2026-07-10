@@ -32,7 +32,7 @@
     ],
     "repositoryUrl": null,
     "lastUpdated": "2026-05-25 06:07:17",
-    "latestVersion": "5.4.0",
+    "latestVersion": "6.4.0",
     "numDownloads": 0,
     "screenshots": [],
     "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -65,7 +65,7 @@
     "category": "uncategorised",
     "versions": [
         {
-            "name": "5.4.0",
+            "name": "6.4.0",
             "release": "2026-05-25 06:07:17",
             "requires": {
                 "matomo": ">=6.0.0-b1,<7.0.0-b1"
@@ -75,7 +75,7 @@
             "numDownloads": 0,
             "license": {
                 "name": "InnoCraft EULA",
-                "url": "https://plugins.matomo.org/HeatmapSessionRecording/5.4.0/license"
+                "url": "https://plugins.matomo.org/HeatmapSessionRecording/6.4.0/license"
             },
             "repositoryChangelogUrl": null,
             "readmeHtml": {

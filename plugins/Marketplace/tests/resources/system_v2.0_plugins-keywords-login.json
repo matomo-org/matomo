@@ -107,7 +107,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-11 04:52:04",
-            "latestVersion": "5.1.11",
+            "latestVersion": "6.1.11",
             "numDownloads": 336611,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -130,7 +130,7 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.1.11",
+                    "name": "6.1.11",
                     "release": "2026-05-11 04:52:04",
                     "requires": {
                         "matomo": ">=6.0.0-b1,<7.0.0-b1"
@@ -149,7 +149,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/LoginLdap/download/5.1.11"
+                    "download": "/api/2.0/plugins/LoginLdap/download/6.1.11"
                 }
             ],
             "isDownloadable": true,

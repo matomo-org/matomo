@@ -29,7 +29,7 @@
     ],
     "repositoryUrl": null,
     "lastUpdated": "2026-05-11 04:40:24",
-    "latestVersion": "5.4.0",
+    "latestVersion": "6.4.0",
     "numDownloads": 0,
     "screenshots": [],
     "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -62,7 +62,7 @@
     "category": "uncategorised",
     "versions": [
         {
-            "name": "5.4.0",
+            "name": "6.4.0",
             "release": "2026-05-11 04:40:24",
             "requires": {
                 "matomo": ">=6.0.0-b1,<7.0.0-b1"
@@ -72,7 +72,7 @@
             "numDownloads": 0,
             "license": {
                 "name": "InnoCraft EULA",
-                "url": "https://plugins.matomo.org/Funnels/5.4.0/license"
+                "url": "https://plugins.matomo.org/Funnels/6.4.0/license"
             },
             "repositoryChangelogUrl": null,
             "readmeHtml": {
