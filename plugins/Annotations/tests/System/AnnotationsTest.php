@@ -379,11 +379,11 @@ class AnnotationsTest extends SystemTestCase
         ];
 
         yield 'Annotations.save should not throw if user has write access' => [
-            'write', 'module=API&method=Annotations.save&idSite=1&idNote=1&date=2011-03-01&note=newnote', false,
+            'write', 'module=API&method=Annotations.save&idSite=1&idNote=53&date=2011-03-01&note=newnote', false,
         ];
 
         yield 'Annotations.save should not throw if user has admin access' => [
-            'admin', 'module=API&method=Annotations.save&idSite=1&idNote=1&date=2011-03-01&note=newnote', false,
+            'admin', 'module=API&method=Annotations.save&idSite=1&idNote=53&date=2011-03-01&note=newnote', false,
         ];
 
         yield 'Annotations.delete should throw if user does not have view access' => [
@@ -395,7 +395,7 @@ class AnnotationsTest extends SystemTestCase
         ];
 
         yield 'Annotations.delete should not throw if user has write access' => [
-            'write', 'module=API&method=Annotations.delete&idSite=1&idNote=1', false,
+            'write', 'module=API&method=Annotations.delete&idSite=1&idNote=55', false,
         ];
 
         yield 'Annotations.delete should not throw if user has admin access' => [
