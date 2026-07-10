@@ -14,7 +14,7 @@ use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 
 class LastForcedInstall extends LatestStableInstall
 {
-    public const FORCED_VERSION = "4.16.2";
+    public const FORCED_VERSION = "5.11.2";
 
     public function setUp(): void
     {
