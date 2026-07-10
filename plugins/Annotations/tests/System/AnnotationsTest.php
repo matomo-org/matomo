@@ -374,7 +374,7 @@ class AnnotationsTest extends SystemTestCase
             null, 'module=API&method=Annotations.save&idSite=1&idNote=1&date=2011-03-01&note=newnote', true,
         ];
 
-        yield 'Annotations.save should throw if user has view access but did not edit note' => [
+        yield 'Annotations.save should throw if user only has view access' => [
             'view', 'module=API&method=Annotations.save&idSite=1&idNote=53&date=2011-03-01&note=newnote', true,
         ];
 
@@ -390,7 +390,7 @@ class AnnotationsTest extends SystemTestCase
             null, 'module=API&method=Annotations.delete&idSite=1&idNote=1', true,
         ];
 
-        yield 'Annotations.delete should throw if user has view access but did not edit note' => [
+        yield 'Annotations.delete should throw if user only has view access' => [
             'view', 'module=API&method=Annotations.delete&idSite=1&idNote=53', true,
         ];
 

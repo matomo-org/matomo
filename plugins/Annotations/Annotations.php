@@ -112,17 +112,13 @@ class Annotations extends \Piwik\Plugin
     /**
      * Returns true if the current user can modify or delete a specific annotation.
      *
-     * A user can modify/delete a note if the user has write access for the site OR
-     * the user has view access, is not the anonymous user and is the user that
-     * created the note in question.
+     * A user can modify/delete a note if the user has write access for the site.
      *
      * @param array $annotation The annotation.
      */
     public static function canUserModifyOrDelete(array $annotation): bool
     {
-        // user can modify or delete if user has write access, or is not anonymous & is the user who wrote the note
-        return Piwik::isUserHasWriteAccess($annotation['idsite'])
-            || (!Piwik::isUserIsAnonymous()
-                && Piwik::getCurrentUserLogin() === $annotation['user']);
+        // only users with write access may modify or delete annotations
+        return Piwik::isUserHasWriteAccess($annotation['idsite']);
     }
 }
