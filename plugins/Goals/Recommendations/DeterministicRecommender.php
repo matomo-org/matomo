@@ -14,11 +14,9 @@ namespace Piwik\Plugins\Goals\Recommendations;
 use Piwik\Piwik;
 
 /**
- * Rule-based goal recommender inspired by the ID-6 simple-new prototype.
- *
- * It turns aggregated crawl signals into Matomo-compatible goal definitions.
- * URL goals are created directly from high-intent destinations; form, download,
- * contact, and outlink goals are included only when the crawl contains concrete
+ * Rule-based goal recommender. Turns aggregated crawl signals into
+ * Matomo-compatible goal definitions: URL goals from high-intent destinations,
+ * and form/download/contact/outlink goals only when the crawl has concrete
  * matching evidence.
  */
 class DeterministicRecommender
@@ -259,7 +257,7 @@ class DeterministicRecommender
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationFormSetupNote', [$label]),
                 'evidence' => array_filter([
-                    sprintf('%s form sightings across %s pages.', (string) ($form['count'] ?? 1), (string) count($form['sourcePages'] ?? [])),
+                    Piwik::translate('Goals_RecommendationEvidenceFormSightings', [(string) ($form['count'] ?? 1), (string) count($form['sourcePages'] ?? [])]),
                     (string) (($form['contexts'][0] ?? '') ?: ($form['submitTexts'][0] ?? '')),
                 ]),
                 'sourcePages' => $form['sourcePages'] ?? [],
@@ -300,7 +298,7 @@ class DeterministicRecommender
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationDownloadSetupNote', [$pattern]),
                 'evidence' => array_filter([
-                    sprintf('%s download link sightings across %s pages.', (string) ($download['count'] ?? 1), (string) count($download['sourcePages'] ?? [])),
+                    Piwik::translate('Goals_RecommendationEvidenceDownloadSightings', [(string) ($download['count'] ?? 1), (string) count($download['sourcePages'] ?? [])]),
                     (string) ($download['labels'][0] ?? $href),
                 ]),
                 'sourcePages' => $download['sourcePages'] ?? [],
@@ -339,7 +337,7 @@ class DeterministicRecommender
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationOutlinkSetupNote', [$href]),
                 'evidence' => array_filter([
-                    sprintf('%s contact link sightings across %s pages.', (string) ($link['count'] ?? 1), (string) count($link['sourcePages'] ?? [])),
+                    Piwik::translate('Goals_RecommendationEvidenceContactSightings', [(string) ($link['count'] ?? 1), (string) count($link['sourcePages'] ?? [])]),
                     (string) ($link['labels'][0] ?? $href),
                 ]),
                 'sourcePages' => $link['sourcePages'] ?? [],
@@ -379,7 +377,7 @@ class DeterministicRecommender
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationOutlinkSetupNote', [$host]),
                 'evidence' => array_filter([
-                    sprintf('%s external links across %s pages.', (string) ($link['count'] ?? 1), (string) count($link['sourcePages'] ?? [])),
+                    Piwik::translate('Goals_RecommendationEvidenceExternalLinks', [(string) ($link['count'] ?? 1), (string) count($link['sourcePages'] ?? [])]),
                     (string) ($link['labels'][0] ?? $host),
                 ]),
                 'sourcePages' => $link['sourcePages'] ?? [],

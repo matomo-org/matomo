@@ -21,29 +21,24 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Fetches a small same-origin slice of a site and turns it into the minimal,
- * safe signal set used to recommend URL goals: ranked destination paths plus
- * the names of any detected site technologies (CMS, …).
- *
- * Only same-origin pages under the site's configured main URL are fetched, and
- * only reduced path/link metadata (never raw HTML) leaves this class, in line with the feature's
- * prompt-injection and privacy constraints.
+ * safe signal set used to recommend URL goals. Only reduced path/link metadata
+ * (never raw HTML) leaves this class.
  */
 class HomepageAnalyzer
 {
-    /**
-     * Upper bound on the number of links handed downstream, to keep prompt size
-     * and processing predictable.
-     */
     public const MAX_LINKS = 60;
 
     private const MAX_PAGES = 50;
     private const MAX_LINKS_PER_PAGE = 40;
     private const MAX_LINK_TEXT_LENGTH = 120;
 
-    /**
-     * A descriptive, browser-like user agent: some sites reject requests with an
-     * empty or obviously non-browser user agent.
-     */
+    /** Hard cap on bytes kept per fetched page (Range hint plus post-fetch enforcement). */
+    private const MAX_RESPONSE_BYTES = 2000000;
+
+    /** Wall-clock budget for the whole crawl; once exceeded, analysis uses what was collected. */
+    private const MAX_CRAWL_SECONDS = 25;
+
+    // Some sites reject requests with an empty or obviously non-browser user agent.
     private const USER_AGENT = 'Mozilla/5.0 (compatible; MatomoGoalRecommendations/1.0)';
 
     /**
@@ -57,11 +52,7 @@ class HomepageAnalyzer
     }
 
     /**
-     * Fetches and analyses the homepage of the given site.
-     *
-     * @return array<string, mixed>|null
-     *         Null when the homepage cannot be fetched (internet features disabled,
-     *         no main URL configured, or the site is unreachable).
+     * @return array<string, mixed>|null Null when the homepage cannot be fetched.
      */
     public function analyze(int $idSite, int $timeout = 5): ?array
     {
@@ -130,15 +121,23 @@ class HomepageAnalyzer
             return null;
         }
 
+        if (!$this->isFetchableHost($url)) {
+            $this->getLogger()->debug(
+                'Goals recommendations: refusing to fetch {url}; host resolves to a private or reserved address.',
+                ['url' => $url]
+            );
+            return null;
+        }
+
         try {
-            return Http::sendHttpRequest(
+            $response = Http::sendHttpRequest(
                 $url,
                 $timeout,
                 self::USER_AGENT,
                 null,
                 0,
                 false,
-                false,
+                [0, self::MAX_RESPONSE_BYTES], // $byteRange: Range hint to keep responses small
                 true // $getExtendedInfo: returns ['status', 'headers', 'data']
             );
         } catch (\Exception $e) {
@@ -148,6 +147,107 @@ class HomepageAnalyzer
             );
             return null;
         }
+
+        if (is_array($response) && is_string($response['data'] ?? null) && strlen($response['data']) > self::MAX_RESPONSE_BYTES) {
+            // Enforce the cap for servers that ignore the Range header.
+            $response['data'] = substr($response['data'], 0, self::MAX_RESPONSE_BYTES);
+        }
+
+        return $response;
+    }
+
+    /**
+     * SSRF guard: rejects a URL whose host resolves to any private, loopback,
+     * link-local or reserved IP.
+     */
+    private function isFetchableHost(string $url): bool
+    {
+        $host = trim((string) parse_url($url, PHP_URL_HOST), '[]');
+        if ($host === '') {
+            return false;
+        }
+
+        $ips = $this->resolveHostIps($host);
+        if (empty($ips)) {
+            return false;
+        }
+
+        foreach ($ips as $ip) {
+            if (!$this->isPublicIp($ip)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // IPv4 ranges filter_var does not flag but a crawl must not reach (CGNAT, benchmarking, protocol).
+    private const EXTRA_BLOCKED_CIDRS = ['100.64.0.0/10', '192.0.0.0/24', '198.18.0.0/15'];
+
+    private function isPublicIp(string $ip): bool
+    {
+        // Normalise IPv4-mapped IPv6 (e.g. ::ffff:169.254.169.254) to the embedded
+        // IPv4 address: PHP before 8.1 does not treat these as reserved.
+        if (stripos($ip, '::ffff:') === 0) {
+            $mapped = substr($ip, 7);
+            if (filter_var($mapped, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                $ip = $mapped;
+            }
+        }
+
+        if (false === filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            return false;
+        }
+
+        foreach (self::EXTRA_BLOCKED_CIDRS as $cidr) {
+            if ($this->ipv4InCidr($ip, $cidr)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function ipv4InCidr(string $ip, string $cidr): bool
+    {
+        $ipLong = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) ? ip2long($ip) : false;
+        if ($ipLong === false) {
+            return false; // not IPv4; the extra list is IPv4-only
+        }
+
+        [$subnet, $bits] = explode('/', $cidr);
+        $subnetLong = ip2long($subnet);
+        $mask = -1 << (32 - (int) $bits);
+
+        return ($ipLong & $mask) === ($subnetLong & $mask);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function resolveHostIps(string $host): array
+    {
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            return [$host];
+        }
+
+        $ips = [];
+
+        $ipv4 = @gethostbynamel($host);
+        if (is_array($ipv4)) {
+            $ips = $ipv4;
+        }
+
+        $records = @dns_get_record($host, DNS_AAAA);
+        if (is_array($records)) {
+            foreach ($records as $record) {
+                if (!empty($record['ipv6'])) {
+                    $ips[] = (string) $record['ipv6'];
+                }
+            }
+        }
+
+        return $ips;
     }
 
     private function getLogger(): LoggerInterface
@@ -165,8 +265,9 @@ class HomepageAnalyzer
         $visited = [];
         $pages = [];
         $htmlByUrl = [$startUrl => $homepageHtml];
+        $deadline = microtime(true) + self::MAX_CRAWL_SECONDS;
 
-        while (!empty($queue) && count($pages) < self::MAX_PAGES) {
+        while (!empty($queue) && count($pages) < self::MAX_PAGES && microtime(true) < $deadline) {
             $currentUrl = array_shift($queue);
             if (!is_string($currentUrl) || isset($visited[$currentUrl])) {
                 continue;
@@ -279,8 +380,7 @@ class HomepageAnalyzer
     }
 
     /**
-     * Loads HTML into a DOMXPath once so links and manual-goal signals can be
-     * extracted from the same parse. Returns null when the HTML cannot be parsed.
+     * Returns null when the HTML cannot be parsed.
      */
     private function loadXpath(string $html): ?\DOMXPath
     {

@@ -566,7 +566,13 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_RecommendRescan';
         $translationKeys[] = 'Goals_RecommendWhatDataIsShared';
         $translationKeys[] = 'Goals_RecommendWhySuggested';
+        $translationKeys[] = 'Goals_RecommendTriggerContains';
+        $translationKeys[] = 'Goals_RecommendTriggerExact';
+        $translationKeys[] = 'Goals_RecommendTriggerGreaterThan';
+        $translationKeys[] = 'Goals_RecommendTriggerMatchesExpression';
+        $translationKeys[] = 'Goals_RecommendTriggerEventLabel';
         $translationKeys[] = 'General_Added';
+        $translationKeys[] = 'General_ColumnPageviews';
     }
 
     public function filterSegments(SegmentsList &$list, array $idSites)

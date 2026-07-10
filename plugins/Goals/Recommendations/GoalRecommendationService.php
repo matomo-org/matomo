@@ -27,6 +27,9 @@ class GoalRecommendationService
 {
     private const CONSENT_KEY_PREFIX = 'Goals.aiRecommendationsConsent.';
 
+    /** Minimum time between crawls per site; rescans within this window reuse the saved scan. */
+    private const RESCAN_COOLDOWN_SECONDS = 60;
+
     /**
      * @var HomepageAnalyzer
      */
@@ -75,6 +78,11 @@ class GoalRecommendationService
      */
     public function getRecommendations(int $idSite, bool $useAi, array $existingGoals = []): array
     {
+        $recentScan = $this->getScanWithinCooldown($idSite, $useAi);
+        if ($recentScan !== null) {
+            return $recentScan;
+        }
+
         $existingGoalSummaries = $this->getExistingGoalSummaries($existingGoals);
         $analysis = $this->homepageAnalyzer->analyze($idSite);
         if ($analysis === null) {
@@ -172,6 +180,34 @@ class GoalRecommendationService
             'manualGoals' => $saved['manualGoals'],
             'useAi' => $saved['useAi'],
             'generatedAt' => $saved['generatedAt'],
+        ];
+    }
+
+    /**
+     * Returns the saved scan when it is within the cooldown and used the same AI
+     * mode, so a fresh crawl is skipped. Null otherwise.
+     *
+     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, aiError: ?string, generatedAt: ?int}|null
+     */
+    private function getScanWithinCooldown(int $idSite, bool $useAi): ?array
+    {
+        $saved = $this->store->get($idSite);
+        if (
+            $saved === null
+            || $saved['useAi'] !== $useAi
+            || Date::now()->getTimestamp() - $saved['generatedAt'] >= self::RESCAN_COOLDOWN_SECONDS
+        ) {
+            return null;
+        }
+
+        $recent = $this->getSavedRecommendations($idSite);
+
+        return [
+            'mode' => (string) $recent['mode'],
+            'goals' => $recent['goals'],
+            'manualGoals' => $recent['manualGoals'],
+            'aiError' => null,
+            'generatedAt' => $recent['generatedAt'],
         ];
     }
 

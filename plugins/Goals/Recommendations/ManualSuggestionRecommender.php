@@ -14,16 +14,10 @@ namespace Piwik\Plugins\Goals\Recommendations;
 use Piwik\Piwik;
 
 /**
- * Produces non-URL goal *ideas* (form/event, file download, outbound link, visit
- * duration) from the crawl signals collected by {@see HomepageAnalyzer}.
- *
- * Unlike the URL recommendations, these are presented as manual suggestions only:
- * they are never auto-created, because they either need tracking code on the site
- * (events) or fall outside this MVP's URL-goal scope. The UI shows them with a
- * "how to set it up" hint and no create button.
- *
- * Inspired by the ID-6 "simple-new" prototype, which derived form/download/outlink/
- * time-on-site goals deterministically from the same kind of signals.
+ * Produces non-URL goal ideas (form/event, file download, outbound link, visit
+ * duration) from the crawl signals. These are manual suggestions only, never
+ * auto-created, because they need tracking code on the site or fall outside the
+ * URL-goal scope; the UI shows them with a "how to set it up" hint.
  */
 class ManualSuggestionRecommender
 {

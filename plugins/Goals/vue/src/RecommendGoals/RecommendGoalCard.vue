@@ -137,18 +137,18 @@ export default defineComponent({
       const matchLabel = this.matchAttributeLabel(matchAttribute);
 
       if (patternType === 'greater_than') {
-        return `${matchLabel}: ${translate('General_OperationGreaterThan')}`;
+        return translate('Goals_RecommendTriggerGreaterThan', matchLabel);
       }
 
       if (patternType === 'exact') {
-        return `${matchLabel}: ${translate('Goals_IsExactly', '').trim()}`;
+        return translate('Goals_RecommendTriggerExact', matchLabel);
       }
 
       if (patternType === 'regex') {
-        return `${matchLabel}: ${translate('Goals_MatchesExpression', '').trim()}`;
+        return translate('Goals_RecommendTriggerMatchesExpression', matchLabel);
       }
 
-      return `${matchLabel}: ${translate('Goals_Contains', '').trim()}`;
+      return translate('Goals_RecommendTriggerContains', matchLabel);
     },
   },
   methods: {
@@ -158,12 +158,12 @@ export default defineComponent({
         title: translate('Goals_VisitPageTitle'),
         file: translate('Goals_Download'),
         external_website: translate('Goals_ClickOutlink'),
-        event_action: `${translate('Goals_SendEvent')} (${translate('Events_EventAction')})`,
-        event_category: `${translate('Goals_SendEvent')} (${translate('Events_EventCategory')})`,
-        event_name: `${translate('Goals_SendEvent')} (${translate('Events_EventName')})`,
+        event_action: translate('Goals_RecommendTriggerEventLabel', translate('Goals_SendEvent'), translate('Events_EventAction')),
+        event_category: translate('Goals_RecommendTriggerEventLabel', translate('Goals_SendEvent'), translate('Events_EventCategory')),
+        event_name: translate('Goals_RecommendTriggerEventLabel', translate('Goals_SendEvent'), translate('Events_EventName')),
         visit_duration: translate('Goals_VisitDurationMatchAttr'),
         visit_total_actions: translate('Goals_CategoryTextGeneral_Actions'),
-        visit_total_pageviews: translate('Goals_VisitUrl'),
+        visit_total_pageviews: translate('General_ColumnPageviews'),
       };
 
       return labels[matchAttribute] || matchAttribute;

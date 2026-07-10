@@ -179,7 +179,6 @@ class API extends \Piwik\Plugin\API
      *               non-URL `{name, howTo, category}` ideas the user must create manually, an optional
      *               `aiError`, and the `generatedAt` timestamp of the scan.
      * @phpstan-return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int}
-     * @throws Exception
      */
     public function getRecommendedGoals(int $idSite, bool $useAi = false): array
     {
