@@ -105,9 +105,8 @@ class GoalRecommendationService
                 $this->recordAiConsent();
                 $aiRecommender = $this->getAiRecommender();
                 try {
-                    $aiResult = $aiRecommender->recommendWithDebug($analysis, $idSite, $existingGoalSummaries, $deterministic);
                     $aiGoals = $this->filterExistingGoals(
-                        $aiResult['goals'],
+                        $aiRecommender->recommend($analysis, $idSite, $existingGoalSummaries, $deterministic),
                         $existingGoalSummaries
                     );
                     if (!empty($aiGoals)) {

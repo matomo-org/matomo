@@ -237,7 +237,7 @@ export default defineComponent({
       AjaxHelper.fetch<RecommendationsResponse>({
         method: 'Goals.getSavedRecommendedGoals',
         idSite: this.idSite,
-      }).then((response) => {
+      }, { createErrorNotification: false }).then((response) => {
         if (!response || !response.generatedAt) {
           return;
         }
@@ -268,7 +268,7 @@ export default defineComponent({
         method: 'Goals.getRecommendedGoals',
         idSite: this.idSite,
         useAi: requestedAi ? 1 : 0,
-      }).then((response) => {
+      }, { createErrorNotification: false }).then((response) => {
         this.recommendations = (response && response.goals) || [];
         this.manualGoals = (response && response.manualGoals) || [];
         this.aiError = (response && response.aiError) || null;
@@ -337,7 +337,7 @@ export default defineComponent({
         description: rec.description || rec.reason || '',
         useEventValueAsRevenue: rec.useEventValueAsRevenue ? 1 : 0,
         createdFromRecommendedGoal: 1,
-      });
+      }, { createErrorNotification: false });
     },
     createOne(rec: RecommendedGoal) {
       this.creatingId = this.recKey(rec);
@@ -401,7 +401,7 @@ export default defineComponent({
         method: 'Goals.dismissRecommendedGoal',
         idSite: this.idSite,
         recommendationId: rec.id || '',
-      }).then((response) => {
+      }, { createErrorNotification: false }).then((response) => {
         if (!response || !response.success) {
           this.createError = translate('Goals_RecommendDismissError');
           return;

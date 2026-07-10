@@ -207,7 +207,7 @@ external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', $element => {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=65eb546e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=bcd8742c
 
 const _hoisted_1 = {
   class: "manageGoals"
@@ -410,12 +410,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[0] || (_cache[0] = $event => _ctx.createGoal())
     }, [_hoisted_32, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_AddNewGoal')), 1)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]),
     _: 1
-  }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showGoalList]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_RecommendGoals, {
+  }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showGoalList]]), !_ctx.onlyShowAddNewGoal ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_RecommendGoals, {
+    key: 0,
     goals: _ctx.currentGoals,
     "user-can-edit-goals": _ctx.userCanEditGoals,
     onCreated: _ctx.onRecommendedGoalsCreated,
     onPrefill: _ctx.prefillManualGoal
-  }, null, 8, ["goals", "user-can-edit-goals", "onCreated", "onPrefill"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showGoalList]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_33, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_DeleteGoalConfirm', `"${(_ctx$goalToDelete = _ctx.goalToDelete) === null || _ctx$goalToDelete === void 0 ? void 0 : _ctx$goalToDelete.name}"`)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 8, ["goals", "user-can-edit-goals", "onCreated", "onPrefill"])), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showGoalList]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_33, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_DeleteGoalConfirm', `"${(_ctx$goalToDelete = _ctx.goalToDelete) === null || _ctx$goalToDelete === void 0 ? void 0 : _ctx$goalToDelete.name}"`)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     role: "yes",
     type: "button",
     value: _ctx.translate('General_Yes')
@@ -423,12 +424,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "no",
     type: "button",
     value: _ctx.translate('General_No')
-  }, null, 8, _hoisted_35)], 512)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.onlyShowAddNewGoal]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_RecommendGoals, {
+  }, null, 8, _hoisted_35)], 512)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.onlyShowAddNewGoal]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [_ctx.onlyShowAddNewGoal ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_RecommendGoals, {
+    key: 0,
     goals: _ctx.currentGoals,
     "user-can-edit-goals": _ctx.userCanEditGoals,
     onCreated: _ctx.onRecommendedGoalsCreated,
     onPrefill: _ctx.prefillManualGoal
-  }, null, 8, ["goals", "user-can-edit-goals", "onCreated", "onPrefill"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.onlyShowAddNewGoal]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_36, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+  }, null, 8, ["goals", "user-can-edit-goals", "onCreated", "onPrefill"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_36, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.goal.idgoal ? _ctx.translate('Goals_UpdateGoal') : _ctx.translate('Goals_AddNewGoal')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
@@ -563,7 +565,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEditGoal]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.userCanEditGoals]]), _hoisted_64]);
 }
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=65eb546e
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=bcd8742c
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -587,84 +589,84 @@ class ManageGoals_store_ManageGoalsStore {
   }
 }
 /* harmony default export */ var ManageGoals_store = (new ManageGoals_store_ManageGoalsStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/RecommendGoals/RecommendGoals.vue?vue&type=template&id=804c77cc
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/RecommendGoals/RecommendGoals.vue?vue&type=template&id=17825bdc
 
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_1 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_1 = {
   class: "recommendGoals-intro"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_2 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_2 = {
   key: 0
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_3 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_3 = {
   key: 0
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_4 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_4 = {
   class: "recommendGoals-list"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_5 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_5 = {
   class: "recommendGoals-actions"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_6 = ["disabled"];
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_7 = ["disabled"];
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_8 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_6 = ["disabled"];
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_7 = ["disabled"];
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_8 = {
   key: 1,
   class: "recommendGoals-empty"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_9 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_9 = {
   key: 2,
   class: "recommendGoals-manual"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-chevron-right"
 }, null, -1);
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_11 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_11 = {
   class: "recommendGoals-intro"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_12 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_12 = {
   class: "recommendGoals-manualList"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_13 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_13 = {
   class: "recommendGoals-manualBody"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_14 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_14 = {
   class: "recommendGoals-manualName"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_15 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_15 = {
   class: "recommendGoals-manualHowTo"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_16 = ["onClick", "disabled"];
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_17 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_16 = ["onClick", "disabled"];
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_17 = {
   key: 4,
   class: "recommendGoals-scanProgress"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_18 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_18 = {
   class: "recommendGoals-scanHint"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_19 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_19 = {
   key: 5,
   class: "recommendGoals-footer"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_20 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_20 = {
   key: 0,
   class: "recommendGoals-meta",
   "aria-live": "polite"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_21 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_21 = {
   class: "recommendGoals-toolbar"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_22 = ["disabled"];
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_22 = ["disabled"];
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-search"
 }, null, -1);
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_24 = {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_24 = {
   class: "switch recommendGoals-aiSwitch"
 };
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_25 = ["disabled"];
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_25 = ["disabled"];
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "lever"
 }, null, -1);
-const RecommendGoalsvue_type_template_id_804c77cc_hoisted_27 = ["aria-expanded"];
-function RecommendGoalsvue_type_template_id_804c77cc_render(_ctx, _cache, $props, $setup, $data, $options) {
+const RecommendGoalsvue_type_template_id_17825bdc_hoisted_27 = ["aria-expanded"];
+function RecommendGoalsvue_type_template_id_17825bdc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
   const _component_RecommendGoalCard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("RecommendGoalCard");
   const _component_Alert = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Alert");
@@ -675,9 +677,9 @@ function RecommendGoalsvue_type_template_id_804c77cc_render(_ctx, _cache, $props
     "content-title": _ctx.translate('Goals_RecommendedGoals'),
     class: "recommendGoals"
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", RecommendGoalsvue_type_template_id_804c77cc_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendedGoalsIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", RecommendGoalsvue_type_template_id_17825bdc_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendedGoalsIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
       loading: _ctx.isLoadingSaved
-    }, null, 8, ["loading"]), _ctx.hasRun && !_ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RecommendGoalsvue_type_template_id_804c77cc_hoisted_2, [_ctx.recommendations.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RecommendGoalsvue_type_template_id_804c77cc_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RecommendGoalsvue_type_template_id_804c77cc_hoisted_4, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.recommendations, rec => {
+    }, null, 8, ["loading"]), _ctx.hasRun && !_ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RecommendGoalsvue_type_template_id_17825bdc_hoisted_2, [_ctx.recommendations.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RecommendGoalsvue_type_template_id_17825bdc_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RecommendGoalsvue_type_template_id_17825bdc_hoisted_4, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.recommendations, rec => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_RecommendGoalCard, {
         key: _ctx.recKey(rec),
         rec: rec,
@@ -687,26 +689,26 @@ function RecommendGoalsvue_type_template_id_804c77cc_render(_ctx, _cache, $props
         onCreate: $event => _ctx.createOne(rec),
         onDismiss: $event => _ctx.dismissOne(rec)
       }, null, 8, ["rec", "accepted", "creating", "busy", "onCreate", "onDismiss"]);
-    }), 128))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RecommendGoalsvue_type_template_id_804c77cc_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+    }), 128))]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RecommendGoalsvue_type_template_id_17825bdc_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
       type: "button",
       class: "btn-flat",
       onClick: _cache[0] || (_cache[0] = $event => _ctx.dismiss()),
       disabled: _ctx.isBusy
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendDismiss')), 9, RecommendGoalsvue_type_template_id_804c77cc_hoisted_6), _ctx.pendingRecommendations.length > 1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendDismiss')), 9, RecommendGoalsvue_type_template_id_17825bdc_hoisted_6), _ctx.pendingRecommendations.length > 1 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
       key: 0,
       type: "button",
       class: "btn",
       onClick: _cache[1] || (_cache[1] = $event => _ctx.createAll()),
       disabled: _ctx.isBusy
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.isCreatingAll ? _ctx.translate('Goals_RecommendCreating') : _ctx.translate('Goals_RecommendCreateAll')), 9, RecommendGoalsvue_type_template_id_804c77cc_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", RecommendGoalsvue_type_template_id_804c77cc_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendNoneFound')), 1)), _ctx.manualGoals.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("details", RecommendGoalsvue_type_template_id_804c77cc_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("summary", null, [RecommendGoalsvue_type_template_id_804c77cc_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendManualTitle')) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.manualGoals.length) + ") ", 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", RecommendGoalsvue_type_template_id_804c77cc_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendManualIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", RecommendGoalsvue_type_template_id_804c77cc_hoisted_12, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.manualGoals, (rec, index) => {
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.isCreatingAll ? _ctx.translate('Goals_RecommendCreating') : _ctx.translate('Goals_RecommendCreateAll')), 9, RecommendGoalsvue_type_template_id_17825bdc_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", RecommendGoalsvue_type_template_id_17825bdc_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendNoneFound')), 1)), _ctx.manualGoals.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("details", RecommendGoalsvue_type_template_id_17825bdc_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("summary", null, [RecommendGoalsvue_type_template_id_17825bdc_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendManualTitle')) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.manualGoals.length) + ") ", 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", RecommendGoalsvue_type_template_id_17825bdc_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendManualIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", RecommendGoalsvue_type_template_id_17825bdc_hoisted_12, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.manualGoals, (rec, index) => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
         key: 'manual-' + index
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RecommendGoalsvue_type_template_id_804c77cc_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", RecommendGoalsvue_type_template_id_804c77cc_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rec.name), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", RecommendGoalsvue_type_template_id_804c77cc_hoisted_15, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rec.howTo), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RecommendGoalsvue_type_template_id_17825bdc_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", RecommendGoalsvue_type_template_id_17825bdc_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rec.name), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", RecommendGoalsvue_type_template_id_17825bdc_hoisted_15, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rec.howTo), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
         type: "button",
         class: "btn-flat",
         onClick: $event => _ctx.$emit('prefill', rec),
         disabled: _ctx.isBusy
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendManualStartInForm')), 9, RecommendGoalsvue_type_template_id_804c77cc_hoisted_16)]);
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendManualStartInForm')), 9, RecommendGoalsvue_type_template_id_17825bdc_hoisted_16)]);
     }), 128))])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.aiError && !_ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Alert, {
       key: 1,
       severity: "warning"
@@ -725,32 +727,32 @@ function RecommendGoalsvue_type_template_id_804c77cc_render(_ctx, _cache, $props
     }, {
       default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.createError), 1)]),
       _: 1
-    })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RecommendGoalsvue_type_template_id_804c77cc_hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Progressbar, {
+    })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RecommendGoalsvue_type_template_id_17825bdc_hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Progressbar, {
       progress: _ctx.scanProgress,
       label: _ctx.scanProgressLabel
-    }, null, 8, ["progress", "label"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", RecommendGoalsvue_type_template_id_804c77cc_hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendProgressHint')), 1)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RecommendGoalsvue_type_template_id_804c77cc_hoisted_19, [_ctx.lastScannedAgo ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", RecommendGoalsvue_type_template_id_804c77cc_hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendLastScanned', _ctx.lastScannedAgo)), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RecommendGoalsvue_type_template_id_804c77cc_hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+    }, null, 8, ["progress", "label"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", RecommendGoalsvue_type_template_id_17825bdc_hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendProgressHint')), 1)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", RecommendGoalsvue_type_template_id_17825bdc_hoisted_19, [_ctx.lastScannedAgo ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", RecommendGoalsvue_type_template_id_17825bdc_hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendLastScanned', _ctx.lastScannedAgo)), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RecommendGoalsvue_type_template_id_17825bdc_hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
       type: "button",
       class: "btn recommendGoals-run",
       onClick: _cache[2] || (_cache[2] = $event => _ctx.recommend()),
       disabled: _ctx.isBusy
-    }, [RecommendGoalsvue_type_template_id_804c77cc_hoisted_23, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.scanButtonLabel), 1)], 8, RecommendGoalsvue_type_template_id_804c77cc_hoisted_22), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RecommendGoalsvue_type_template_id_804c77cc_hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    }, [RecommendGoalsvue_type_template_id_17825bdc_hoisted_23, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.scanButtonLabel), 1)], 8, RecommendGoalsvue_type_template_id_17825bdc_hoisted_22), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", RecommendGoalsvue_type_template_id_17825bdc_hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
       type: "checkbox",
       "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => _ctx.useAi = $event),
       disabled: _ctx.isBusy
-    }, null, 8, RecommendGoalsvue_type_template_id_804c77cc_hoisted_25), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.useAi]]), RecommendGoalsvue_type_template_id_804c77cc_hoisted_26, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendUseAi')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+    }, null, 8, RecommendGoalsvue_type_template_id_17825bdc_hoisted_25), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.useAi]]), RecommendGoalsvue_type_template_id_17825bdc_hoisted_26, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendUseAi')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
       type: "button",
       class: "recommendGoals-privacyLink",
       "aria-expanded": _ctx.showPrivacyNote ? 'true' : 'false',
       "aria-controls": "recommendGoalsPrivacyNote",
       onClick: _cache[4] || (_cache[4] = $event => _ctx.showPrivacyNote = !_ctx.showPrivacyNote)
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendWhatDataIsShared')), 9, RecommendGoalsvue_type_template_id_804c77cc_hoisted_27)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendWhatDataIsShared')), 9, RecommendGoalsvue_type_template_id_17825bdc_hoisted_27)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
       class: "recommendGoals-privacyNote",
       id: "recommendGoalsPrivacyNote"
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_RecommendAiToggleHelp')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showPrivacyNote]])]))]),
     _: 1
   }, 8, ["content-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/RecommendGoals/RecommendGoals.vue?vue&type=template&id=804c77cc
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/RecommendGoals/RecommendGoals.vue?vue&type=template&id=17825bdc
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/RecommendGoals/RecommendGoalCard.vue?vue&type=template&id=3a8f6eea
 
@@ -1006,6 +1008,8 @@ const SCAN_PROGRESS_TICK_MS = 250;
       external_CoreHome_["AjaxHelper"].fetch({
         method: 'Goals.getSavedRecommendedGoals',
         idSite: this.idSite
+      }, {
+        createErrorNotification: false
       }).then(response => {
         if (!response || !response.generatedAt) {
           return;
@@ -1035,6 +1039,8 @@ const SCAN_PROGRESS_TICK_MS = 250;
         method: 'Goals.getRecommendedGoals',
         idSite: this.idSite,
         useAi: requestedAi ? 1 : 0
+      }, {
+        createErrorNotification: false
       }).then(response => {
         this.recommendations = response && response.goals || [];
         this.manualGoals = response && response.manualGoals || [];
@@ -1099,6 +1105,8 @@ const SCAN_PROGRESS_TICK_MS = 250;
         description: rec.description || rec.reason || '',
         useEventValueAsRevenue: rec.useEventValueAsRevenue ? 1 : 0,
         createdFromRecommendedGoal: 1
+      }, {
+        createErrorNotification: false
       });
     },
     createOne(rec) {
@@ -1159,6 +1167,8 @@ const SCAN_PROGRESS_TICK_MS = 250;
         method: 'Goals.dismissRecommendedGoal',
         idSite: this.idSite,
         recommendationId: rec.id || ''
+      }, {
+        createErrorNotification: false
       }).then(response => {
         if (!response || !response.success) {
           this.createError = Object(external_CoreHome_["translate"])('Goals_RecommendDismissError');
@@ -1254,7 +1264,7 @@ const SCAN_PROGRESS_TICK_MS = 250;
 
 
 
-RecommendGoalsvue_type_script_lang_ts.render = RecommendGoalsvue_type_template_id_804c77cc_render
+RecommendGoalsvue_type_script_lang_ts.render = RecommendGoalsvue_type_template_id_17825bdc_render
 
 /* harmony default export */ var RecommendGoals = (RecommendGoalsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts

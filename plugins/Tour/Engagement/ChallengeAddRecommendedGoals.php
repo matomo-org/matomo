@@ -9,9 +9,9 @@
 
 namespace Piwik\Plugins\Tour\Engagement;
 
-use Piwik\API\Request;
-use Piwik\Common;
+use Piwik\API\Request as ApiRequest;
 use Piwik\Piwik;
+use Piwik\Request;
 use Piwik\Url;
 
 class ChallengeAddRecommendedGoals extends Challenge
@@ -35,9 +35,10 @@ class ChallengeAddRecommendedGoals extends Challenge
 
     public function getUrl()
     {
-        $idSite = Common::getRequestVar('idSite', 1, 'int');
-        $period = urlencode(Common::getRequestVar('period', 'day', 'string'));
-        $date = urlencode(Common::getRequestVar('date', 'yesterday', 'string'));
+        $request = Request::fromRequest();
+        $idSite = $request->getIntegerParameter('idSite', 1);
+        $period = urlencode($request->getStringParameter('period', 'day'));
+        $date = urlencode($request->getStringParameter('date', 'yesterday'));
 
         $reportingPageParameters = array(
             'module' => 'CoreHome',
@@ -60,7 +61,7 @@ class ChallengeAddRecommendedGoals extends Challenge
 
     private function getGoalsSubcategory(int $idSite): string
     {
-        $goals = Request::processRequest('Goals.getGoals', array('idSite' => $idSite, 'filter_limit' => '-1'), $default = array());
+        $goals = ApiRequest::processRequest('Goals.getGoals', array('idSite' => $idSite, 'filter_limit' => '-1'), $default = array());
 
         if (count($goals)) {
             return 'Goals_ManageGoals';

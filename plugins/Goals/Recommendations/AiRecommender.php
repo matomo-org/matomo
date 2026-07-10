@@ -70,11 +70,6 @@ class AiRecommender
      */
     private $service;
 
-    /**
-     * @var array<string, mixed>
-     */
-    private $lastDebug = [];
-
     public function __construct(?AIProviderService $service = null)
     {
         $this->service = $service;
@@ -88,90 +83,32 @@ class AiRecommender
      */
     public function recommend(array $analysis, int $idSite, array $existingGoals = [], array $baselineGoals = []): array
     {
-        $result = $this->recommendWithDebug($analysis, $idSite, $existingGoals, $baselineGoals);
-
-        return $result['goals'];
-    }
-
-    /**
-     * @param array<string, mixed> $analysis
-     * @param array<int, array<string, mixed>> $existingGoals
-     * @param array<int, array<string, mixed>> $baselineGoals
-     * @return array{goals: array<int, array<string, mixed>>, debug: array<string, mixed>}
-     */
-    public function recommendWithDebug(array $analysis, int $idSite, array $existingGoals = [], array $baselineGoals = []): array
-    {
         $payload = $this->buildPromptPayload($analysis, $existingGoals, $baselineGoals);
         $userPrompt = json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         if (!is_string($userPrompt)) {
-            $this->lastDebug = [
-                'error' => 'Could not encode AI prompt payload as JSON.',
-                'payload' => $payload,
-            ];
-
-            return ['goals' => [], 'debug' => $this->lastDebug];
+            return [];
         }
 
-        $systemPrompt = $this->getSystemPrompt();
         $request = (new AIRequest($userPrompt, 'Goals'))
-            ->withSystemPrompt($systemPrompt)
+            ->withSystemPrompt($this->getSystemPrompt())
             ->withJsonResponse()
             ->withIdSite($idSite)
             ->withFeatureKey('goal-recommendation')
             ->withThinkingBudget(0)
             ->withMaxTokens(self::MAX_TOKENS);
 
-        $this->lastDebug = [
-            'request' => [
-                'callerPluginName' => $request->getCallerPluginName(),
-                'featureKey' => $request->getFeatureKey(),
-                'idSite' => $request->getIdSite(),
-                'isJsonResponse' => $request->isJsonResponse(),
-                'maxTokens' => $request->getMaxTokens(),
-                'thinkingBudget' => $request->getThinkingBudget(),
-                'systemPrompt' => $systemPrompt,
-                'userPrompt' => $userPrompt,
-                'payload' => $payload,
-            ],
-        ];
-
         $response = $this->getService()->complete($request);
         $data = $response->getJsonData();
 
-        $this->lastDebug['response'] = [
-            'provider' => [
-                'model' => $response->getModel(),
-                'inputTokens' => $response->getInputTokens(),
-                'outputTokens' => $response->getOutputTokens(),
-                'stopReason' => $response->getStopReason(),
-            ],
-            'rawText' => $response->getText(),
-            'json' => $data,
-        ];
-
         if ($response->getStopReason() === 'max_tokens' || $response->getStopReason() === 'length') {
-            $this->lastDebug['error'] = 'AI provider stopped because the max token limit was reached.';
             throw new \RuntimeException(Piwik::translate('Goals_RecommendationAiInvalidResponse'));
         }
 
         if (!is_array($data)) {
-            $this->lastDebug['error'] = 'AI provider returned invalid JSON.';
             throw new \RuntimeException(Piwik::translate('Goals_RecommendationAiInvalidResponse'));
         }
 
-        $goals = $this->parseGoals($data, (string) ($analysis['url'] ?? ''), $existingGoals, $baselineGoals);
-
-        $this->lastDebug['response']['acceptedGoals'] = $goals;
-
-        return ['goals' => $goals, 'debug' => $this->lastDebug];
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function getLastDebug(): array
-    {
-        return $this->lastDebug;
+        return $this->parseGoals($data, (string) ($analysis['url'] ?? ''), $existingGoals, $baselineGoals);
     }
 
     /**

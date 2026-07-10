@@ -124,6 +124,7 @@
       </div>
 
       <RecommendGoals
+        v-if="!onlyShowAddNewGoal"
         v-show="showGoalList"
         :goals="currentGoals"
         :user-can-edit-goals="userCanEditGoals"
@@ -140,7 +141,7 @@
 
     <div v-show="userCanEditGoals">
       <RecommendGoals
-        v-show="onlyShowAddNewGoal"
+        v-if="onlyShowAddNewGoal"
         :goals="currentGoals"
         :user-can-edit-goals="userCanEditGoals"
         @created="onRecommendedGoalsCreated"

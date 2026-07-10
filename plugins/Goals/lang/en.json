@@ -151,7 +151,7 @@
         "RecommendNeedsSetup": "Requires event tracking",
         "RecommendNeedsSetupHelp": "Your website must also send the matching tracking event (for example via Matomo Tag Manager). Open 'Why this was suggested' below for setup details.",
         "RecommendNoneFound": "We could not find any goals to recommend for this website right now. Check that the site URL is correct and reachable, or try scanning again with AI enabled.",
-        "RecommendProgressAiRanking": "Handing the results over to AI to pick and rank the best goals",
+        "RecommendProgressAiRanking": "Picking the strongest suggestions",
         "RecommendProgressCrawling": "Crawling your website for goal ideas",
         "RecommendProgressHint": "This usually takes about 30 seconds.",
         "RecommendRescan": "Scan again",

@@ -98,26 +98,24 @@ class HomepageAnalyzer
             return null;
         }
 
-        $crawl = $this->crawlSameOriginPages($startUrl, $host, $html, $timeout);
-        $links = $this->rankLinks($crawl['pages']);
+        $pages = $this->crawlSameOriginPages($startUrl, $host, $html, $timeout);
+        $links = $this->rankLinks($pages);
 
         $this->getLogger()->debug(
             'Goals recommendations: analysed {url} (HTTP status {status}, {bytes} bytes, {pages} pages, {links} ranked links).',
-            ['url' => $startUrl, 'status' => $status, 'bytes' => strlen($html), 'pages' => count($crawl['pages']), 'links' => count($links)]
+            ['url' => $startUrl, 'status' => $status, 'bytes' => strlen($html), 'pages' => count($pages), 'links' => count($links)]
         );
 
         return [
             'url' => $startUrl,
             'links' => $links,
-            'forms' => $this->rankForms($crawl['pages']),
-            'downloads' => $this->rankDownloads($crawl['pages']),
-            'contactLinks' => $this->rankContactLinks($crawl['pages']),
-            'externalLinks' => $this->rankExternalLinks($crawl['pages']),
+            'forms' => $this->rankForms($pages),
+            'downloads' => $this->rankDownloads($pages),
+            'contactLinks' => $this->rankContactLinks($pages),
+            'externalLinks' => $this->rankExternalLinks($pages),
             'technologies' => $this->detectTechnologies($idSite, $html, $response['headers'] ?? []),
-            'pagesCrawled' => count($crawl['pages']),
-            'crawledPages' => $this->buildCrawledPagesDebug($crawl['pages']),
-            'manualSignals' => $this->aggregateManualSignals($crawl['pages']),
-            'errors' => $crawl['errors'],
+            'pagesCrawled' => count($pages),
+            'manualSignals' => $this->aggregateManualSignals($pages),
         ];
     }
 
@@ -158,7 +156,7 @@ class HomepageAnalyzer
     }
 
     /**
-     * @return array{pages: array<int, array{url: string, links: array<int, array{linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, weight: int}>, signals: array<string, mixed>}>, errors: string[]}
+     * @return array<int, array{url: string, links: array<int, array{linkText: string, linkTarget: string, url: string, area: string, isButtonLike: bool, weight: int}>, signals: array<string, mixed>}>
      */
     private function crawlSameOriginPages(string $startUrl, string $host, string $homepageHtml, int $timeout): array
     {
@@ -166,7 +164,6 @@ class HomepageAnalyzer
         $queued = [$startUrl => true];
         $visited = [];
         $pages = [];
-        $errors = [];
         $htmlByUrl = [$startUrl => $homepageHtml];
 
         while (!empty($queue) && count($pages) < self::MAX_PAGES) {
@@ -184,7 +181,7 @@ class HomepageAnalyzer
             }
 
             if ($html === '') {
-                $errors[] = sprintf('Could not fetch %s', $currentUrl);
+                $this->getLogger()->debug('Goals recommendations: could not fetch {url}.', ['url' => $currentUrl]);
                 continue;
             }
 
@@ -208,7 +205,7 @@ class HomepageAnalyzer
             }
         }
 
-        return ['pages' => $pages, 'errors' => $errors];
+        return $pages;
     }
 
     /**
@@ -1017,32 +1014,6 @@ class HomepageAnalyzer
         }
 
         return substr($text, 0, $maxLength);
-    }
-
-    /**
-     * @param array<int, array<string, mixed>> $pages
-     * @return array<int, array<string, mixed>>
-     */
-    private function buildCrawledPagesDebug(array $pages): array
-    {
-        return array_map(function (array $page): array {
-            return [
-                'url' => $page['url'],
-                'linkCount' => count($page['links']),
-                'formCount' => count($page['signals']['forms'] ?? []),
-                'downloadCount' => count($page['signals']['downloads'] ?? []),
-                'contactCount' => count($page['signals']['contactLinks'] ?? []),
-                'externalLinkCount' => count($page['signals']['externalLinks'] ?? []),
-                'sampleLinks' => array_map(function (array $link): array {
-                    return [
-                        'linkText' => $link['linkText'],
-                        'linkTarget' => $link['linkTarget'],
-                        'area' => $link['area'],
-                        'isButtonLike' => $link['isButtonLike'],
-                    ];
-                }, array_slice($page['links'], 0, 10)),
-            ];
-        }, $pages);
     }
 
     /**
