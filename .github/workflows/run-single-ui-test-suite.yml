@@ -46,7 +46,7 @@ jobs:
         with:
           ui-test-options: '${{ inputs.test_suite_name }}'
           test-type: 'UI'
-          php-version: '7.2'
+          php-version: '8.1'
           node-version: '16'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}

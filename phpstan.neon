@@ -3,7 +3,7 @@ includes:
 
 parameters:
     level: 5
-    phpVersion: 70200
+    phpVersion: 80100
     paths:
         - core
         - plugins

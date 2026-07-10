@@ -616,10 +616,6 @@ class ApiTest extends IntegrationTestCase
             'getReportSubjectAndReportTitle'
         );
 
-        if (PHP_VERSION_ID < 80100) {
-            $getReportSubjectAndReportTitle->setAccessible(true);
-        }
-
         [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke(APIScheduledReports::getInstance(), $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
         $this->assertEquals($expectedReportTitle, $reportTitle);
