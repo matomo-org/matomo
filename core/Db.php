@@ -11,7 +11,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Db\Adapter;
-use Piwik\Db\Schema;
 use Piwik\Db\TransactionalDatabaseInterface;
 use Piwik\Db\TransactionalDatabaseStaticTrait;
 
@@ -459,29 +458,6 @@ class Db implements TransactionalDatabaseInterface
     }
 
     /**
-     * Runs an `OPTIMIZE TABLE` query on the supplied table or tables.
-     *
-     * Tables will only be optimized if the `[General] enable_sql_optimize_queries` INI config option is
-     * set to **1**.
-     *
-     * @param string|array $tables The name of the table to optimize or an array of tables to optimize.
-     *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
-     * @param bool $force If true, the `OPTIMIZE TABLE` query will be run even if InnoDB tables are being used.
-     * @return bool
-     * @deprecated  will be removed in Matomo 6
-     *              use Schema::getInstance()->optimizeTables() instead
-     */
-    public static function optimizeTables($tables, $force = false)
-    {
-        if (empty($tables)) {
-            return false;
-        }
-
-        $tables = !is_array($tables) ? [$tables] : $tables;
-        return Schema::getInstance()->optimizeTables($tables, (bool) $force);
-    }
-
-    /**
      * Drops the supplied table or tables.
      *
      * @param string|array $tables The name of the table to drop or an array of table names to drop.
@@ -866,14 +842,5 @@ class Db implements TransactionalDatabaseInterface
     public static function isQueryLogEnabled()
     {
         return self::$logQueries;
-    }
-
-    /**
-     * @deprecated will be removed with Matomo 6
-     *             use Schema::getInstance()->isOptimizeInnoDBSupported() instead
-     */
-    public static function isOptimizeInnoDBSupported($version = null)
-    {
-        return Db\Schema::getInstance()->isOptimizeInnoDBSupported();
     }
 }

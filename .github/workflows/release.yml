@@ -123,7 +123,7 @@ jobs:
 
             if ! [[ ${GITHUB_REF#refs/heads/} =~ ^[4-9]\.x-(dev|preview)$ || ${GITHUB_REF#refs/heads/} == "next_release" ]]
             then
-              echo "A tag can only be created from branches '5.x-dev', '5.x-preview' or 'next_release'. Please create the tag manually if a release needs to be built from another branch."
+              echo "A tag can only be created from branches '6.x-dev', '6.x-preview' or 'next_release'. Please create the tag manually if a release needs to be built from another branch."
               exit 1
             fi
 

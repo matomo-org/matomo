@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "theme": false,
   "require": {
-    "matomo": ">=5.0.0-b1,<6.0.0-b1"
+    "matomo": ">=6.0.0-b1,<7.0.0-b1"
   },
   "authors": [
     {

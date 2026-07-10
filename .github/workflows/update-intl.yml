@@ -112,7 +112,7 @@ jobs:
           CLDR_VERSION: ${{ steps.cldr.outputs.cldr-version }}
         run: |
           jq -n --arg cldr "$CLDR_VERSION" \
-              '{title:("[automatic Intl data updates from CLDR " + $cldr + "]"), body:("Updated Intl plugin data with changes from CLDR " + $cldr), head:"update-intl", base:"5.x-dev"}' \
+              '{title:("[automatic Intl data updates from CLDR " + $cldr + "]"), body:("Updated Intl plugin data with changes from CLDR " + $cldr), head:"update-intl", base:"6.x-dev"}' \
             | curl \
                  --request POST \
                  --header "authorization: Bearer ${CUSTOM_ACCESS_TOKEN}" \

@@ -75,11 +75,11 @@ jobs:
           DIFF=""
           if [ -n "$LATEST_PREVIEW" ]; then
             # using || true to always exit either with a diff or a success exit code to not fail the whole workflow
-            DIFF=$(git diff "$LATEST_PREVIEW..5.x-dev" --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
+            DIFF=$(git diff "$LATEST_PREVIEW..6.x-dev" --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
           fi
           
           if [ -z "$DIFF" ]; then
-            echo "No changes in 5.x-dev since last preview version was created."
+            echo "No changes in 6.x-dev since last preview version was created."
             DO_RELEASE=0
           else
             DO_RELEASE=1
@@ -110,7 +110,7 @@ jobs:
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
         run: |
           if [[ $OLD_VERSION =~ -rc[0-9]+$ ]]; then
-            echo "Preview releases are skipped while VERSION is an RC ($OLD_VERSION). Set VERSION to the next -alpha on 5.x-dev."
+            echo "Preview releases are skipped while VERSION is an RC ($OLD_VERSION). Set VERSION to the next -alpha on 6.x-dev."
             exit 1
           fi
 
@@ -125,10 +125,10 @@ jobs:
             exit 1
           fi
 
-      - name: Update 5.x-preview branch to latest 5.x-dev
+      - name: Update 6.x-preview branch to latest 6.x-dev
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
         run: |
-          git checkout -B 5.x-preview
+          git checkout -B 6.x-preview
 
       - name: Update version file with new version
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'

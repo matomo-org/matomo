@@ -35,14 +35,6 @@ class TransactionLevel
         return strtolower($dbSettings->getEngine()) === 'innodb';
     }
 
-    /**
-     * @deprecated Use `setTransactionLevelForNonLockingReads`
-     */
-    public function setUncommitted()
-    {
-        return $this->setTransactionLevelForNonLockingReads();
-    }
-
     public function setTransactionLevelForNonLockingReads(): bool
     {
         if ($this->transactionalDatabase->getSupportsTransactionLevelForNonLockingReads() === false) {

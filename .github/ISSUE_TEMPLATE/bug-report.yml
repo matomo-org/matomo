@@ -84,9 +84,9 @@ body:
       label: Validations
       description: "Before submitting the issue, please make sure you do the following:"
       options:
-        - label: Read our [Contributing Guidelines](https://github.com/matomo-org/matomo/blob/5.x-dev/CONTRIBUTING.md).
+        - label: Read our [Contributing Guidelines](https://github.com/matomo-org/matomo/blob/6.x-dev/CONTRIBUTING.md).
           required: true
-        - label: Follow our [Security Policy](https://github.com/matomo-org/matomo/blob/5.x-dev/SECURITY.md).
+        - label: Follow our [Security Policy](https://github.com/matomo-org/matomo/blob/6.x-dev/SECURITY.md).
           required: true
         - label: Check that there isn't already an issue that reports the same bug to avoid creating duplicates.
           required: true

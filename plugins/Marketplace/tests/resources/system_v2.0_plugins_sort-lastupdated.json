@@ -32,7 +32,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-06-08 19:27:40",
-            "latestVersion": "5.3.5",
+            "latestVersion": "6.3.5",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -55,10 +55,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.3.5",
+                    "name": "6.3.5",
                     "release": "2026-06-08 19:27:40",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -74,7 +74,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/WooCommerceAnalytics/download/5.3.5"
+                    "download": "/api/2.0/plugins/WooCommerceAnalytics/download/6.3.5"
                 }
             ],
             "isDownloadable": false,
@@ -113,7 +113,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-06-08 05:14:04",
-            "latestVersion": "5.1.0",
+            "latestVersion": "6.1.0",
             "numDownloads": 2705,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -136,10 +136,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.1.0",
+                    "name": "6.1.0",
                     "release": "2026-06-08 05:14:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -155,7 +155,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/OAuth2/download/5.1.0"
+                    "download": "/api/2.0/plugins/OAuth2/download/6.1.0"
                 }
             ],
             "isDownloadable": true,
@@ -195,7 +195,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-06-08 05:12:27",
-            "latestVersion": "5.2.2",
+            "latestVersion": "6.2.2",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -218,10 +218,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.2.2",
+                    "name": "6.2.2",
                     "release": "2026-06-08 05:12:27",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -237,7 +237,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/FormAnalytics/download/5.2.2"
+                    "download": "/api/2.0/plugins/FormAnalytics/download/6.2.2"
                 }
             ],
             "isDownloadable": false,
@@ -277,7 +277,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-06-08 05:12:03",
-            "latestVersion": "5.0.7",
+            "latestVersion": "6.0.7",
             "numDownloads": 50581,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -300,10 +300,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.7",
+                    "name": "6.0.7",
                     "release": "2026-06-08 05:12:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -319,7 +319,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/Migration/download/5.0.7"
+                    "download": "/api/2.0/plugins/Migration/download/6.0.7"
                 }
             ],
             "isDownloadable": true,
@@ -357,7 +357,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-06-08 05:04:04",
-            "latestVersion": "5.0.3",
+            "latestVersion": "6.0.3",
             "numDownloads": 658,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -380,10 +380,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.3",
+                    "name": "6.0.3",
                     "release": "2026-06-08 05:04:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -399,7 +399,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/ApiReference/download/5.0.3"
+                    "download": "/api/2.0/plugins/ApiReference/download/6.0.3"
                 }
             ],
             "isDownloadable": true,
@@ -436,7 +436,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-06-08 05:02:04",
-            "latestVersion": "5.3.1",
+            "latestVersion": "6.3.1",
             "numDownloads": 195910,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -459,10 +459,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.3.1",
+                    "name": "6.3.1",
                     "release": "2026-06-08 05:02:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -478,7 +478,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/CustomAlerts/download/5.3.1"
+                    "download": "/api/2.0/plugins/CustomAlerts/download/6.3.1"
                 }
             ],
             "isDownloadable": true,
@@ -546,7 +546,7 @@
                     "name": "1.0.0",
                     "release": "2026-06-02 21:42:52",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -630,7 +630,7 @@
                     "name": "1.0.0",
                     "release": "2026-06-02 21:42:40",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -714,7 +714,7 @@
                     "name": "1.0.0",
                     "release": "2026-06-02 21:42:19",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -775,7 +775,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-28 13:54:10",
-            "latestVersion": "5.0.4",
+            "latestVersion": "6.0.4",
             "numDownloads": 9536,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -798,10 +798,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.4",
+                    "name": "6.0.4",
                     "release": "2026-05-28 13:54:10",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -817,7 +817,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/McpServer/download/5.0.4"
+                    "download": "/api/2.0/plugins/McpServer/download/6.0.4"
                 }
             ],
             "isDownloadable": true,
@@ -854,7 +854,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-26 00:10:06",
-            "latestVersion": "5.2.1",
+            "latestVersion": "6.2.1",
             "numDownloads": 642715,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -877,10 +877,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.2.1",
+                    "name": "6.2.1",
                     "release": "2026-05-26 00:10:06",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -896,7 +896,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/MarketingCampaignsReporting/download/5.2.1"
+                    "download": "/api/2.0/plugins/MarketingCampaignsReporting/download/6.2.1"
                 }
             ],
             "isDownloadable": true,
@@ -935,7 +935,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-25 06:10:04",
-            "latestVersion": "5.1.0",
+            "latestVersion": "6.1.0",
             "numDownloads": 3932,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -958,10 +958,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.1.0",
+                    "name": "6.1.0",
                     "release": "2026-05-25 06:10:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -977,7 +977,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/MicrosoftTeams/download/5.1.0"
+                    "download": "/api/2.0/plugins/MicrosoftTeams/download/6.1.0"
                 }
             ],
             "isDownloadable": true,
@@ -1022,7 +1022,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-25 06:07:17",
-            "latestVersion": "5.4.0",
+            "latestVersion": "6.4.0",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1045,10 +1045,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.4.0",
+                    "name": "6.4.0",
                     "release": "2026-05-25 06:07:17",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1064,7 +1064,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/HeatmapSessionRecording/download/5.4.0"
+                    "download": "/api/2.0/plugins/HeatmapSessionRecording/download/6.4.0"
                 }
             ],
             "isDownloadable": false,
@@ -1100,7 +1100,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-25 06:06:09",
-            "latestVersion": "5.1.8",
+            "latestVersion": "6.1.8",
             "numDownloads": 128244,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1123,10 +1123,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.1.8",
+                    "name": "6.1.8",
                     "release": "2026-05-25 06:06:09",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1142,7 +1142,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/GoogleAnalyticsImporter/download/5.1.8"
+                    "download": "/api/2.0/plugins/GoogleAnalyticsImporter/download/6.1.8"
                 }
             ],
             "isDownloadable": true,
@@ -1184,7 +1184,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-25 06:04:16",
-            "latestVersion": "5.0.14",
+            "latestVersion": "6.0.14",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1207,10 +1207,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.14",
+                    "name": "6.0.14",
                     "release": "2026-05-25 06:04:16",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1226,7 +1226,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/CrashAnalytics/download/5.0.14"
+                    "download": "/api/2.0/plugins/CrashAnalytics/download/6.0.14"
                 }
             ],
             "isDownloadable": false,
@@ -1263,7 +1263,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-19 04:07:20",
-            "latestVersion": "5.4.12",
+            "latestVersion": "6.4.12",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1286,10 +1286,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.4.12",
+                    "name": "6.4.12",
                     "release": "2026-05-19 04:07:20",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1305,7 +1305,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/CustomReports/download/5.4.12"
+                    "download": "/api/2.0/plugins/CustomReports/download/6.4.12"
                 }
             ],
             "isDownloadable": false,
@@ -1350,7 +1350,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-14 02:17:05",
-            "latestVersion": "5.5.2",
+            "latestVersion": "6.5.2",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1373,10 +1373,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.5.2",
+                    "name": "6.5.2",
                     "release": "2026-05-14 02:17:05",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1392,7 +1392,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/LoginSaml/download/5.5.2"
+                    "download": "/api/2.0/plugins/LoginSaml/download/6.5.2"
                 }
             ],
             "isDownloadable": false,
@@ -1438,7 +1438,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-11 09:03:48",
-            "latestVersion": "5.3.7",
+            "latestVersion": "6.3.7",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1461,10 +1461,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.3.7",
+                    "name": "6.3.7",
                     "release": "2026-05-11 09:03:48",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1480,7 +1480,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/AdvertisingConversionExport/download/5.3.7"
+                    "download": "/api/2.0/plugins/AdvertisingConversionExport/download/6.3.7"
                 }
             ],
             "isDownloadable": false,
@@ -1525,7 +1525,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-11 04:54:31",
-            "latestVersion": "5.5.3",
+            "latestVersion": "6.5.3",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1548,10 +1548,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.5.3",
+                    "name": "6.5.3",
                     "release": "2026-05-11 04:54:31",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1567,7 +1567,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/AbTesting/download/5.5.3"
+                    "download": "/api/2.0/plugins/AbTesting/download/6.5.3"
                 }
             ],
             "isDownloadable": false,
@@ -1607,7 +1607,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-11 04:52:04",
-            "latestVersion": "5.1.11",
+            "latestVersion": "6.1.11",
             "numDownloads": 336632,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1630,10 +1630,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.1.11",
+                    "name": "6.1.11",
                     "release": "2026-05-11 04:52:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1649,7 +1649,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/LoginLdap/download/5.1.11"
+                    "download": "/api/2.0/plugins/LoginLdap/download/6.1.11"
                 }
             ],
             "isDownloadable": true,
@@ -1691,7 +1691,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-11 04:40:24",
-            "latestVersion": "5.4.0",
+            "latestVersion": "6.4.0",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1714,10 +1714,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.4.0",
+                    "name": "6.4.0",
                     "release": "2026-05-11 04:40:24",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1733,7 +1733,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/Funnels/download/5.4.0"
+                    "download": "/api/2.0/plugins/Funnels/download/6.4.0"
                 }
             ],
             "isDownloadable": false,
@@ -1771,7 +1771,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-05-11 04:34:04",
-            "latestVersion": "5.0.9",
+            "latestVersion": "6.0.9",
             "numDownloads": 55161,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1794,10 +1794,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.9",
+                    "name": "6.0.9",
                     "release": "2026-05-11 04:34:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1813,7 +1813,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/TrackingSpamPrevention/download/5.0.9"
+                    "download": "/api/2.0/plugins/TrackingSpamPrevention/download/6.0.9"
                 }
             ],
             "isDownloadable": true,
@@ -1850,7 +1850,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 08:25:44",
-            "latestVersion": "5.1.8",
+            "latestVersion": "6.1.8",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1873,10 +1873,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.1.8",
+                    "name": "6.1.8",
                     "release": "2026-04-27 08:25:44",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1892,7 +1892,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/Cohorts/download/5.1.8"
+                    "download": "/api/2.0/plugins/Cohorts/download/6.1.8"
                 }
             ],
             "isDownloadable": false,
@@ -1935,7 +1935,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 06:46:35",
-            "latestVersion": "5.0.14",
+            "latestVersion": "6.0.14",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -1958,10 +1958,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.14",
+                    "name": "6.0.14",
                     "release": "2026-04-27 06:46:35",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -1977,7 +1977,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/MediaAnalytics/download/5.0.14"
+                    "download": "/api/2.0/plugins/MediaAnalytics/download/6.0.14"
                 }
             ],
             "isDownloadable": false,
@@ -2014,7 +2014,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 06:36:02",
-            "latestVersion": "5.0.6",
+            "latestVersion": "6.0.6",
             "numDownloads": 229926,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2037,10 +2037,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.6",
+                    "name": "6.0.6",
                     "release": "2026-04-27 06:36:02",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2056,7 +2056,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/Provider/download/5.0.6"
+                    "download": "/api/2.0/plugins/Provider/download/6.0.6"
                 }
             ],
             "isDownloadable": true,
@@ -2094,7 +2094,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 05:14:03",
-            "latestVersion": "5.0.7",
+            "latestVersion": "6.0.7",
             "numDownloads": 101606,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2117,10 +2117,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.7",
+                    "name": "6.0.7",
                     "release": "2026-04-27 05:14:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2136,7 +2136,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/TreemapVisualization/download/5.0.7"
+                    "download": "/api/2.0/plugins/TreemapVisualization/download/6.0.7"
                 }
             ],
             "isDownloadable": true,
@@ -2181,7 +2181,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 05:13:57",
-            "latestVersion": "5.0.9",
+            "latestVersion": "6.0.9",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2204,10 +2204,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.9",
+                    "name": "6.0.9",
                     "release": "2026-04-27 05:13:57",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2223,7 +2223,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/UsersFlow/download/5.0.9"
+                    "download": "/api/2.0/plugins/UsersFlow/download/6.0.9"
                 }
             ],
             "isDownloadable": false,
@@ -2265,7 +2265,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 05:11:56",
-            "latestVersion": "5.0.11",
+            "latestVersion": "6.0.11",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2288,10 +2288,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.11",
+                    "name": "6.0.11",
                     "release": "2026-04-27 05:11:56",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2307,7 +2307,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/SEOWebVitals/download/5.0.11"
+                    "download": "/api/2.0/plugins/SEOWebVitals/download/6.0.11"
                 }
             ],
             "isDownloadable": false,
@@ -2348,7 +2348,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 05:10:32",
-            "latestVersion": "5.0.29",
+            "latestVersion": "6.0.29",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2371,10 +2371,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.29",
+                    "name": "6.0.29",
                     "release": "2026-04-27 05:10:32",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2390,7 +2390,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/SearchEngineKeywordsPerformance/download/5.0.29"
+                    "download": "/api/2.0/plugins/SearchEngineKeywordsPerformance/download/6.0.29"
                 }
             ],
             "isDownloadable": false,
@@ -2433,7 +2433,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 05:09:21",
-            "latestVersion": "5.0.11",
+            "latestVersion": "6.0.11",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2456,10 +2456,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.11",
+                    "name": "6.0.11",
                     "release": "2026-04-27 05:09:21",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2475,7 +2475,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/RollUpReporting/download/5.0.11"
+                    "download": "/api/2.0/plugins/RollUpReporting/download/6.0.11"
                 }
             ],
             "isDownloadable": false,
@@ -2516,7 +2516,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 04:57:56",
-            "latestVersion": "5.0.12",
+            "latestVersion": "6.0.12",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2539,10 +2539,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.12",
+                    "name": "6.0.12",
                     "release": "2026-04-27 04:57:56",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2558,7 +2558,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/MultiChannelConversionAttribution/download/5.0.12"
+                    "download": "/api/2.0/plugins/MultiChannelConversionAttribution/download/6.0.12"
                 }
             ],
             "isDownloadable": false,
@@ -2596,7 +2596,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 04:54:03",
-            "latestVersion": "5.0.6",
+            "latestVersion": "6.0.6",
             "numDownloads": 120700,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2619,10 +2619,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.6",
+                    "name": "6.0.6",
                     "release": "2026-04-27 04:54:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2638,7 +2638,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/LogViewer/download/5.0.6"
+                    "download": "/api/2.0/plugins/LogViewer/download/6.0.6"
                 }
             ],
             "isDownloadable": true,
@@ -2672,7 +2672,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 04:36:04",
-            "latestVersion": "5.0.6",
+            "latestVersion": "6.0.6",
             "numDownloads": 280785,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2695,10 +2695,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.6",
+                    "name": "6.0.6",
                     "release": "2026-04-27 04:36:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2714,7 +2714,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/CustomVariables/download/5.0.6"
+                    "download": "/api/2.0/plugins/CustomVariables/download/6.0.6"
                 }
             ],
             "isDownloadable": true,
@@ -2753,7 +2753,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 04:34:03",
-            "latestVersion": "5.0.3",
+            "latestVersion": "6.0.3",
             "numDownloads": 23008,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2776,10 +2776,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.3",
+                    "name": "6.0.3",
                     "release": "2026-04-27 04:34:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2795,7 +2795,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/CustomTranslations/download/5.0.3"
+                    "download": "/api/2.0/plugins/CustomTranslations/download/6.0.3"
                 }
             ],
             "isDownloadable": true,
@@ -2832,7 +2832,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 04:22:03",
-            "latestVersion": "5.0.6",
+            "latestVersion": "6.0.6",
             "numDownloads": 132008,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2855,10 +2855,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.6",
+                    "name": "6.0.6",
                     "release": "2026-04-27 04:22:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2874,7 +2874,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/Bandwidth/download/5.0.6"
+                    "download": "/api/2.0/plugins/Bandwidth/download/6.0.6"
                 }
             ],
             "isDownloadable": true,
@@ -2913,7 +2913,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-04-27 04:14:27",
-            "latestVersion": "5.1.9",
+            "latestVersion": "6.1.9",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -2936,10 +2936,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.1.9",
+                    "name": "6.1.9",
                     "release": "2026-04-27 04:14:27",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -2955,7 +2955,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/ActivityLog/download/5.1.9"
+                    "download": "/api/2.0/plugins/ActivityLog/download/6.1.9"
                 }
             ],
             "isDownloadable": false,
@@ -2991,7 +2991,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2026-01-05 04:02:03",
-            "latestVersion": "5.0.4",
+            "latestVersion": "6.0.4",
             "numDownloads": 6262,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3014,10 +3014,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.4",
+                    "name": "6.0.4",
                     "release": "2026-01-05 04:02:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3033,7 +3033,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/Slack/download/5.0.4"
+                    "download": "/api/2.0/plugins/Slack/download/6.0.4"
                 }
             ],
             "isDownloadable": true,
@@ -3070,7 +3070,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2025-11-25 07:34:04",
-            "latestVersion": "5.2.0",
+            "latestVersion": "6.2.0",
             "numDownloads": 866913,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3093,10 +3093,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.2.0",
+                    "name": "6.2.0",
                     "release": "2025-11-25 07:34:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3112,7 +3112,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/QueuedTracking/download/5.2.0"
+                    "download": "/api/2.0/plugins/QueuedTracking/download/6.2.0"
                 }
             ],
             "isDownloadable": true,
@@ -3147,7 +3147,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2025-11-24 04:06:06",
-            "latestVersion": "5.1.5",
+            "latestVersion": "6.1.5",
             "numDownloads": 88251,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3170,10 +3170,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.1.5",
+                    "name": "6.1.5",
                     "release": "2025-11-24 04:06:06",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3189,7 +3189,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/VisitorGenerator/download/5.1.5"
+                    "download": "/api/2.0/plugins/VisitorGenerator/download/6.1.5"
                 }
             ],
             "isDownloadable": true,
@@ -3226,7 +3226,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2025-07-07 10:22:02",
-            "latestVersion": "5.0.2",
+            "latestVersion": "6.0.2",
             "numDownloads": 204242,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3249,10 +3249,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.2",
+                    "name": "6.0.2",
                     "release": "2025-07-07 10:22:02",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3268,7 +3268,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/TasksTimetable/download/5.0.2"
+                    "download": "/api/2.0/plugins/TasksTimetable/download/6.0.2"
                 }
             ],
             "isDownloadable": true,
@@ -3306,7 +3306,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2025-07-07 10:21:39",
-            "latestVersion": "5.0.5",
+            "latestVersion": "6.0.5",
             "numDownloads": null,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3329,10 +3329,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.5",
+                    "name": "6.0.5",
                     "release": "2025-07-07 10:21:39",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3348,7 +3348,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/WhiteLabel/download/5.0.5"
+                    "download": "/api/2.0/plugins/WhiteLabel/download/6.0.5"
                 }
             ],
             "isDownloadable": false,
@@ -3386,7 +3386,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2025-07-07 10:08:03",
-            "latestVersion": "5.0.2",
+            "latestVersion": "6.0.2",
             "numDownloads": 35357,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3409,10 +3409,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.2",
+                    "name": "6.0.2",
                     "release": "2025-07-07 10:08:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3428,7 +3428,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/AnonymousPiwikUsageMeasurement/download/5.0.2"
+                    "download": "/api/2.0/plugins/AnonymousPiwikUsageMeasurement/download/6.0.2"
                 }
             ],
             "isDownloadable": true,
@@ -3462,7 +3462,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2025-01-20 07:48:03",
-            "latestVersion": "5.0.2",
+            "latestVersion": "6.0.2",
             "numDownloads": 44239,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3485,10 +3485,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.2",
+                    "name": "6.0.2",
                     "release": "2025-01-20 07:48:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3504,7 +3504,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/JsTrackerCustom/download/5.0.2"
+                    "download": "/api/2.0/plugins/JsTrackerCustom/download/6.0.2"
                 }
             ],
             "isDownloadable": true,
@@ -3541,7 +3541,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2025-01-20 07:46:03",
-            "latestVersion": "5.0.3",
+            "latestVersion": "6.0.3",
             "numDownloads": 46859,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3564,10 +3564,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.3",
+                    "name": "6.0.3",
                     "release": "2025-01-20 07:46:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3583,7 +3583,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/EnvironmentVariables/download/5.0.3"
+                    "download": "/api/2.0/plugins/EnvironmentVariables/download/6.0.3"
                 }
             ],
             "isDownloadable": true,
@@ -3618,7 +3618,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2025-01-20 07:40:08",
-            "latestVersion": "5.0.4",
+            "latestVersion": "6.0.4",
             "numDownloads": 155168,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3641,10 +3641,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.4",
+                    "name": "6.0.4",
                     "release": "2025-01-20 07:40:08",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3660,7 +3660,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/SecurityInfo/download/5.0.4"
+                    "download": "/api/2.0/plugins/SecurityInfo/download/6.0.4"
                 }
             ],
             "isDownloadable": true,
@@ -3698,7 +3698,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2024-04-22 06:44:02",
-            "latestVersion": "5.0.1",
+            "latestVersion": "6.0.1",
             "numDownloads": 27248,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3721,10 +3721,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.1",
+                    "name": "6.0.1",
                     "release": "2024-04-22 06:44:02",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3740,7 +3740,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/JsTrackerForceAsync/download/5.0.1"
+                    "download": "/api/2.0/plugins/JsTrackerForceAsync/download/6.0.1"
                 }
             ],
             "isDownloadable": true,
@@ -3775,7 +3775,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2024-04-22 06:24:03",
-            "latestVersion": "5.0.2",
+            "latestVersion": "6.0.2",
             "numDownloads": 421293,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3798,10 +3798,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.2",
+                    "name": "6.0.2",
                     "release": "2024-04-22 06:24:03",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3817,7 +3817,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/InvalidateReports/download/5.0.2"
+                    "download": "/api/2.0/plugins/InvalidateReports/download/6.0.2"
                 }
             ],
             "isDownloadable": true,
@@ -3857,7 +3857,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2024-04-22 06:06:04",
-            "latestVersion": "5.0.1",
+            "latestVersion": "6.0.1",
             "numDownloads": 457126,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3880,10 +3880,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.1",
+                    "name": "6.0.1",
                     "release": "2024-04-22 06:06:04",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3899,7 +3899,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/ForceSSL/download/5.0.1"
+                    "download": "/api/2.0/plugins/ForceSSL/download/6.0.1"
                 }
             ],
             "isDownloadable": true,
@@ -3936,7 +3936,7 @@
             ],
             "repositoryUrl": null,
             "lastUpdated": "2024-04-22 05:58:02",
-            "latestVersion": "5.0.3",
+            "latestVersion": "6.0.3",
             "numDownloads": 37516,
             "screenshots": [],
             "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -3959,10 +3959,10 @@
             "category": "uncategorised",
             "versions": [
                 {
-                    "name": "5.0.3",
+                    "name": "6.0.3",
                     "release": "2024-04-22 05:58:02",
                     "requires": {
-                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                        "matomo": ">=6.0.0-b1,<7.0.0-b1"
                     },
                     "wordPressCompatible": true,
                     "onPremiseCompatible": true,
@@ -3978,7 +3978,7 @@
                         "changelog": "",
                         "documentation": ""
                     },
-                    "download": "/api/2.0/plugins/DeviceDetectorCache/download/5.0.3"
+                    "download": "/api/2.0/plugins/DeviceDetectorCache/download/6.0.3"
                 }
             ],
             "isDownloadable": true,
