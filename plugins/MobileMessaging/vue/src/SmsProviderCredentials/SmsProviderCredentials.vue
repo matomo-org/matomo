@@ -24,7 +24,7 @@ import { defineComponent, reactive } from 'vue';
 import { AjaxHelper } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
-interface FieldInfo {
+export interface FieldInfo {
   name: string;
   type: string;
   title: string;

@@ -12,12 +12,12 @@
     <p v-if="credentialSupplied">
       <span v-if="credentialError">
         <Alert severity="danger">
-          {{ translate('MobileMessaging_Settings_CredentialInvalid', provider) }}<br />
+          {{ translate('MobileMessaging_Settings_CredentialInvalid', provider || '') }}<br />
           {{ credentialError }}
         </Alert>
       </span>
       <span v-else>
-        {{ translate('MobileMessaging_Settings_CredentialProvided', provider) }}
+        {{ translate('MobileMessaging_Settings_CredentialProvided', provider || '') }}
         {{ creditLeft }}
       </span>
       <br />
@@ -44,9 +44,8 @@
         </Field>
       </div>
       <SmsProviderCredentials
-        :provider="smsProvider"
-        v-model="credentials"
-        :model-value="credentials"
+        :provider="smsProvider || ''"
+        :model-value="credentials ?? undefined"
         @update:model-value="credentials = $event;"
       />
       <SaveButton
@@ -74,9 +73,9 @@ import {
   ActivityIndicator,
 } from 'CoreHome';
 import { Form, Field, SaveButton } from 'CorePluginsAdmin';
-import SmsProviderCredentials from '../SmsProviderCredentials/SmsProviderCredentials';
+import SmsProviderCredentials from '../SmsProviderCredentials/SmsProviderCredentials.vue';
 
-interface ManageSmsProviderState {
+export interface ManageSmsProviderState {
   isDeletingAccount: boolean;
   isUpdatingAccount: boolean;
   showAccountForm: boolean;

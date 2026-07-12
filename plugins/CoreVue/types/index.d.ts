@@ -256,6 +256,10 @@ declare global {
   }
 
   interface Window {
+    // Report-parameter registries keyed by report type, populated by report plugins.
+    resetReportParametersFunctions: Record<string, (report: any) => void>;
+    updateReportParametersFunctions: Record<string, (report: any) => void>;
+    getReportParametersFunctions: Record<string, (report: any) => unknown>;
     globalAjaxQueue: GlobalAjaxQueue;
     piwik: PiwikGlobal;
     piwikHelper: PiwikHelperGlobal;
