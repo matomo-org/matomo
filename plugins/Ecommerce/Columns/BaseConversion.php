@@ -26,6 +26,11 @@ abstract class BaseConversion extends ConversionDimension
             return false;
         }
 
+        // Reject out-of-range values (see GoalManager::MAX_ALLOWED_REVENUE); treat as not set.
+        if (abs((float) $revenue) > GoalManager::MAX_ALLOWED_REVENUE) {
+            return false;
+        }
+
         if (round($revenue) == $revenue) {
             return $revenue;
         }
