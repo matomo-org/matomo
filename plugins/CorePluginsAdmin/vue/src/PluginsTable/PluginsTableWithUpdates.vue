@@ -10,7 +10,7 @@
     v-if="Object.keys(pluginsHavingUpdate).length"
     :content-title="translate(
       'CorePluginsAdmin_NUpdatesAvailable',
-      Object.keys(pluginsHavingUpdate).length,
+      String(Object.keys(pluginsHavingUpdate).length),
     )"
   >
     <p>{{ translate('CorePluginsAdmin_InfoPluginUpdateIsRecommended') }}</p>
@@ -33,7 +33,7 @@
               <input
                 type="checkbox"
                 id="select-plugin-all"
-                @change="selectAll($event.target.checked)"
+                @change="selectAll(($event.target as HTMLInputElement).checked)"
               />
               <span></span>
             </label>

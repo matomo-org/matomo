@@ -100,7 +100,7 @@
             </span>
           </div>
           <div class="plugin-desc-text">
-            {{ plugin.info.description.replaceAll('\n', '<br/>') }}
+            {{ plugin.info.description?.replaceAll('\n', '<br/>') }}
 
             <span
               v-if="plugin.info?.homepage && !isMatomoUrl(plugin.info?.homepage)"

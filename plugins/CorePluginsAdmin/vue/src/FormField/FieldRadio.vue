@@ -42,7 +42,7 @@
 import { defineComponent, PropType } from 'vue';
 import AbortableModifiers from './AbortableModifiers';
 
-interface RadioOption {
+export interface RadioOption {
   key: string | number;
   value: unknown;
   description?: string;
