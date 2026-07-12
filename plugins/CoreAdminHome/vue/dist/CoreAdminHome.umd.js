@@ -180,9 +180,9 @@
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_ReportsWillBeProcessedAtMostEveryHour")) + " " + vue.toDisplayString(_ctx.translate("General_IfArchivingIsFastYouCanSetupCronRunMoreOften")), 1),
                   _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1))
                 ])) : vue.createCommentVNode("", true),
-                vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_SmallTrafficYouCanLeaveDefault", _ctx.todayArchiveTimeToLiveDefault)) + " ", 1),
+                vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_SmallTrafficYouCanLeaveDefault", String(_ctx.todayArchiveTimeToLiveDefault))) + " ", 1),
                 _cache[6] || (_cache[6] = vue.createElementVNode("br", null, null, -1)),
-                vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_MediumToHighTrafficItIsRecommendedTo", 1800, 3600)), 1)
+                vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_MediumToHighTrafficItIsRecommendedTo", "1800", "3600")), 1)
               ])) : vue.createCommentVNode("", true)
             ])
           ]),
@@ -1131,7 +1131,7 @@ ${part2}`;
           title: _ctx.translate("CoreAdminHome_JSTracking_VisitorCustomVars"),
           "inline-help": _ctx.translate("CoreAdminHome_JSTracking_VisitorCustomVarsDesc")
         }, null, 8, ["model-value", "disabled", "title", "inline-help"]), [
-          [vue.vShow, _ctx.maxCustomVariables > 0]
+          [vue.vShow, (_ctx.maxCustomVariables || 0) > 0]
         ]),
         vue.withDirectives(vue.createElementVNode("div", _hoisted_11$1, [
           vue.createElementVNode("div", _hoisted_12$1, [
@@ -1590,6 +1590,9 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
       }
     },
     methods: {
+      asComponent(component) {
+        return component;
+      },
       updateTrackingCode(code) {
         this.trackingCode = code;
         const jsCodeTextarea = $(this.$refs.trackingCode);
@@ -1647,7 +1650,7 @@ ${CoreHome.translate("CoreAdminHome_JSTracking_ConsentManagerConnected", this.co
         ])
       ]),
       _ctx.isJsTrackerInstallCheckAvailable ? (vue.openBlock(), vue.createElementBlock("li", _hoisted_4$3, [
-        (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.testComponent), { site: _ctx.site }, null, 8, ["site"]))
+        (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.asComponent(_ctx.testComponent)), { site: _ctx.site }, null, 8, ["site"]))
       ])) : vue.createCommentVNode("", true)
     ]);
   }
