@@ -107,7 +107,16 @@ export default defineConfig({
       ? [dts({
         outDir: path.join(rootDir, '@types', pluginName),
         entryRoot: path.join(rootDir, pluginPath, 'vue', 'src'),
-        include: [path.join(rootDir, pluginPath, 'vue', 'src', '**', '*')],
+        // Only the plugin's own sources are declaration-emitted (entryRoot keeps the output layout),
+        // but the ambient global declarations must be part of the same program. They augment
+        // `Window` and Vue's component instance (e.g. `translate`, `$sanitize`) and define shared
+        // globals such as `QueryParameters`; without them the declaration type-check reports the
+        // globals as missing for every component. This `include` overrides the one from tsconfig.json
+        // (which references the same file), so it has to be listed here explicitly.
+        include: [
+          path.join(rootDir, pluginPath, 'vue', 'src', '**', '*'),
+          path.join(rootDir, 'plugins', 'CoreVue', 'types', 'index.d.ts'),
+        ],
         tsconfigPath: path.join(rootDir, 'tsconfig.json'),
         // Resolve cross-plugin type imports (e.g. `from 'CoreHome'`) against previously generated
         // declarations in @types, exactly as the old ts-loader override did.
