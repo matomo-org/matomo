@@ -77,9 +77,9 @@
               {{ translate('General_ReportsWillBeProcessedAtMostEveryHour') }}
               {{ translate('General_IfArchivingIsFastYouCanSetupCronRunMoreOften') }}<br/>
             </strong>
-            {{ translate('General_SmallTrafficYouCanLeaveDefault', todayArchiveTimeToLiveDefault) }}
+            {{ translate('General_SmallTrafficYouCanLeaveDefault', String(todayArchiveTimeToLiveDefault)) }}
             <br/>
-            {{ translate('General_MediumToHighTrafficItIsRecommendedTo', 1800, 3600) }}
+            {{ translate('General_MediumToHighTrafficItIsRecommendedTo', '1800', '3600') }}
           </div>
         </div>
       </div>

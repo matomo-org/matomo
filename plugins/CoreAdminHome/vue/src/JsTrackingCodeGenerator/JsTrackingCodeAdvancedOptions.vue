@@ -85,7 +85,7 @@
         :model-value="trackCustomVars"
         @update:model-value="trackCustomVars = $event; updateTrackingCode()"
         :disabled="isLoading"
-        v-show="maxCustomVariables > 0"
+        v-show="(maxCustomVariables || 0) > 0"
         :title="translate('CoreAdminHome_JSTracking_VisitorCustomVars')"
         :inline-help="translate('CoreAdminHome_JSTracking_VisitorCustomVarsDesc')"
       />
@@ -246,7 +246,7 @@ interface CustomVar {
   value: string;
 }
 
-interface JsTrackingCodeAdvancedOptionsState {
+export interface JsTrackingCodeAdvancedOptionsState {
   showAdvanced: boolean;
   trackAllSubdomains: boolean;
   isLoading: boolean;
