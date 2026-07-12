@@ -158,7 +158,7 @@ export default defineComponent({
       }
 
       // Call adapter's beforeShowModal if defined
-      let beforeShowModal: void | Promise<void>;
+      let beforeShowModal: void | Promise<void> = undefined;
       if (this.modalStore.adapter.beforeShowModal) {
         beforeShowModal = this.modalStore.adapter.beforeShowModal();
       }

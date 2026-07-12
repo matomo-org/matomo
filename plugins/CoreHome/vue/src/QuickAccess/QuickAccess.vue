@@ -45,7 +45,7 @@
         <li
           class="result"
           :class="{ selected: submenuEntry.menuIndex === searchIndex }"
-          @mouseenter="searchIndex = submenuEntry.menuIndex"
+          @mouseenter="searchIndex = submenuEntry.menuIndex ?? 0"
           @click="selectMenuItem(submenuEntry)"
           v-for="submenuEntry in subcategory.items"
           :key="submenuEntry.index"
