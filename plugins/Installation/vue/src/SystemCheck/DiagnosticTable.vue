@@ -8,7 +8,7 @@
 <template>
   <Passthrough v-for="(result, index) in results" :key="index">
     <tr>
-      <td v-html="$sanitize(result.label)"></td>
+      <td v-html="$sanitize(result.label || '')"></td>
       <td>
         <span v-for="(item, index) in result.items" :key="index">
           <span v-if="item.status === 'error'">
@@ -46,7 +46,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+
+export interface DiagnosticItem {
+  comment?: string;
+  status?: string;
+}
+
+export interface DiagnosticResult {
+  label?: string;
+  longErrorMessage?: string;
+  items?: DiagnosticItem[];
+}
 import { Passthrough } from 'CoreHome';
 
 export default defineComponent({
@@ -64,7 +75,7 @@ export default defineComponent({
       required: true,
     },
     results: {
-      type: Array,
+      type: Array as PropType<DiagnosticResult[]>,
       required: true,
     },
   },

@@ -81,9 +81,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { Matomo, ContentTable } from 'CoreHome';
-import DiagnosticTable from './DiagnosticTable.vue';
+import DiagnosticTable, { DiagnosticResult } from './DiagnosticTable.vue';
 
 const { $ } = window;
 
@@ -106,15 +106,15 @@ export default defineComponent({
       required: true,
     },
     mandatoryResults: {
-      type: Array,
+      type: Array as PropType<DiagnosticResult[]>,
       required: true,
     },
     optionalResults: {
-      type: Array,
+      type: Array as PropType<DiagnosticResult[]>,
       required: true,
     },
     informationalResults: {
-      type: Array,
+      type: Array as PropType<DiagnosticResult[]>,
       required: true,
     },
     isInstallation: Boolean,

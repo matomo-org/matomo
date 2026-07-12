@@ -44,9 +44,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import SystemCheckLegend from './SystemCheckLegend.vue';
 import SystemCheckSection from './SystemCheckSection.vue';
+import { DiagnosticResult } from './DiagnosticTable.vue';
 
 const { $ } = window;
 
@@ -74,15 +75,15 @@ export default defineComponent({
       required: true,
     },
     mandatoryResults: {
-      type: Array,
+      type: Array as PropType<DiagnosticResult[]>,
       required: true,
     },
     optionalResults: {
-      type: Array,
+      type: Array as PropType<DiagnosticResult[]>,
       required: true,
     },
     informationalResults: {
-      type: Array,
+      type: Array as PropType<DiagnosticResult[]>,
       required: true,
     },
     isInstallation: Boolean,
