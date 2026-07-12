@@ -25,7 +25,7 @@
         </div>
         <p>
           {{ translate('CustomDimensions_HowToManyCreateCustomDimensions') }}
-          {{ translate('CustomDimensions_ExampleCreateCustomDimensions', 5) }}
+          {{ translate('CustomDimensions_ExampleCreateCustomDimensions', '5') }}
         </p>
         <div>
           <pre v-copy-to-clipboard="{}"><code v-text="addMultipleCustomDimCode"></code></pre>
@@ -35,7 +35,7 @@
     <div v-if="editMode">
       <div>
         <CustomDimensionsEdit
-          :dimension-id="dimensionId"
+          :dimension-id="dimensionId ?? undefined"
           :dimension-scope="dimensionScope"
         />
       </div>
@@ -51,8 +51,8 @@ import {
   CopyToClipboard,
   MatomoUrl,
 } from 'CoreHome';
-import CustomDimensionsList from '../List/List';
-import CustomDimensionsEdit from '../Edit/Edit';
+import CustomDimensionsList from '../List/List.vue';
+import CustomDimensionsEdit from '../Edit/Edit.vue';
 
 interface ManageState {
   editMode: boolean;
