@@ -12,7 +12,7 @@
 
     <ul v-select-on-focus="{}" class="twoFactorRecoveryCodes browser-default" v-if="codes?.length">
       <li v-for="(code, index) in codes" :key="index">
-        {{ code.toUpperCase().match(/.{1,4}/g).join('-') }}
+        {{ (code.toUpperCase().match(/.{1,4}/g) || []).join('-') }}
       </li>
     </ul>
     <div class="alert alert-danger" v-else>
@@ -46,13 +46,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { Matomo, SelectOnFocus } from 'CoreHome';
 
 export default defineComponent({
   props: {
     codes: {
-      type: Array,
+      type: Array as PropType<string[]>,
       default() { return []; },
     },
   },

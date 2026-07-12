@@ -19,12 +19,12 @@
         {{ translate('TwoFactorAuth_SetupIntroFollowSteps') }}
       </p>
       <h2>
-        {{ translate('TwoFactorAuth_StepX', 1) }} - {{ translate('TwoFactorAuth_RecoveryCodes') }}
+        {{ translate('TwoFactorAuth_StepX', '1') }} - {{ translate('TwoFactorAuth_RecoveryCodes') }}
       </h2>
 
       <ShowRecoveryCodes
         :codes="codes"
-        @downloaded="this.hasDownloadedRecoveryCode = true"
+        @downloaded="hasDownloadedRecoveryCode = true"
       />
 
       <div
@@ -48,7 +48,7 @@
       />
       <div v-show="step >= 2">
         <h2>
-          {{ translate('TwoFactorAuth_StepX', 2) }} -
+          {{ translate('TwoFactorAuth_StepX', '2') }} -
           {{ translate('TwoFactorAuth_SetupAuthenticatorOnDevice') }}
         </h2>
         <InstallOTPApp />
@@ -69,7 +69,7 @@
       />
       <div v-show="step >= 3">
         <h2>
-          {{ translate('TwoFactorAuth_StepX', 3) }} - {{ translate('TwoFactorAuth_ConfirmSetup') }}
+          {{ translate('TwoFactorAuth_StepX', '3') }} - {{ translate('TwoFactorAuth_ConfirmSetup') }}
         </h2>
         <p>{{ translate('TwoFactorAuth_VerifyAuthCodeIntro') }}</p>
         <div class="message_container" v-if="accessErrorString">
@@ -135,7 +135,7 @@
                 <span
                   id="qrcode"
                   ref="qrcode"
-                  title
+                  title=""
                 />
               </p>
               <p>{{ translate('TwoFactorAuth_ShowCodeModalInstructions2') }}</p>
@@ -164,7 +164,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent , PropType } from 'vue';
 import {
   translate,
   Matomo,
@@ -204,7 +204,7 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    codes: Array,
+    codes: Array as PropType<string[]>,
     twoFaBarCodeSetupUrl: {
       type: String,
       required: true,
