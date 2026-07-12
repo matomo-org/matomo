@@ -854,6 +854,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const _hoisted_14 = ["title"];
   const _hoisted_15 = ["title"];
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a, _b, _c, _d;
     return vue.openBlock(), vue.createElementBlock("div", null, [
       vue.createElementVNode("table", _hoisted_1, [
         vue.createElementVNode("thead", null, [
@@ -879,25 +880,25 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         ]),
         vue.createElementVNode("tbody", null, [
           vue.createElementVNode("tr", _hoisted_8, [
-            vue.createElementVNode("td", _hoisted_9, vue.toDisplayString(_ctx.translate("Live_LastHours", 24)), 1),
+            vue.createElementVNode("td", _hoisted_9, vue.toDisplayString(_ctx.translate("Live_LastHours", "24")), 1),
             vue.createElementVNode("td", {
               class: "column",
-              title: _ctx.countErrorToday
+              title: (_a = _ctx.countErrorToday) == null ? void 0 : _a.toString()
             }, vue.toDisplayString(_ctx.visitorsCountToday || 0), 9, _hoisted_10),
             vue.createElementVNode("td", {
               class: "column",
-              title: _ctx.countErrorToday
+              title: (_b = _ctx.countErrorToday) == null ? void 0 : _b.toString()
             }, vue.toDisplayString(_ctx.pisToday || 0), 9, _hoisted_11)
           ]),
           vue.createElementVNode("tr", _hoisted_12, [
-            vue.createElementVNode("td", _hoisted_13, vue.toDisplayString(_ctx.translate("Live_LastMinutes", 30)), 1),
+            vue.createElementVNode("td", _hoisted_13, vue.toDisplayString(_ctx.translate("Live_LastMinutes", "30")), 1),
             vue.createElementVNode("td", {
               class: "column",
-              title: _ctx.countErrorHalfHour
+              title: (_c = _ctx.countErrorHalfHour) == null ? void 0 : _c.toString()
             }, vue.toDisplayString(_ctx.visitorsCountHalfHour || 0), 9, _hoisted_14),
             vue.createElementVNode("td", {
               class: "column",
-              title: _ctx.countErrorHalfHour
+              title: (_d = _ctx.countErrorHalfHour) == null ? void 0 : _d.toString()
             }, vue.toDisplayString(_ctx.pisHalfhour || 0), 9, _hoisted_15)
           ])
         ])
