@@ -85,7 +85,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       vue.createElementVNode("div", _hoisted_1$5, vue.toDisplayString(_ctx.translate("TwoFactorAuth_RecoveryCodesSecurity")), 1),
       ((_a = _ctx.codes) == null ? void 0 : _a.length) ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("ul", _hoisted_2$5, [
         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.codes, (code, index) => {
-          return vue.openBlock(), vue.createElementBlock("li", { key: index }, vue.toDisplayString(code.toUpperCase().match(/.{1,4}/g).join("-")), 1);
+          return vue.openBlock(), vue.createElementBlock("li", { key: index }, vue.toDisplayString((code.toUpperCase().match(/.{1,4}/g) || []).join("-")), 1);
         }), 128))
       ])), [
         [_directive_select_on_focus, {}]
@@ -386,10 +386,10 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         vue.createElementVNode("div", _hoisted_1$3, [
           _ctx.isAlreadyUsing2fa ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$3, vue.toDisplayString(_ctx.translate("TwoFactorAuth_WarningChangingConfiguredDevice")), 1)) : vue.createCommentVNode("", true),
           vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_SetupIntroFollowSteps")), 1),
-          vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_StepX", 1)) + " - " + vue.toDisplayString(_ctx.translate("TwoFactorAuth_RecoveryCodes")), 1),
+          vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_StepX", "1")) + " - " + vue.toDisplayString(_ctx.translate("TwoFactorAuth_RecoveryCodes")), 1),
           vue.createVNode(_component_ShowRecoveryCodes, {
             codes: _ctx.codes,
-            onDownloaded: _cache[0] || (_cache[0] = ($event) => this.hasDownloadedRecoveryCode = true)
+            onDownloaded: _cache[0] || (_cache[0] = ($event) => _ctx.hasDownloadedRecoveryCode = true)
           }, null, 8, ["codes"]),
           vue.withDirectives(vue.createElementVNode("div", { class: "alert alert-info backupRecoveryCodesAlert" }, vue.toDisplayString(_ctx.translate("TwoFactorAuth_SetupBackupRecoveryCodes")), 513), [
             [vue.vShow, _ctx.step === 1]
@@ -409,7 +409,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             style: { "opacity": "0" }
           }, null, -1)),
           vue.withDirectives(vue.createElementVNode("div", null, [
-            vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_StepX", 2)) + " - " + vue.toDisplayString(_ctx.translate("TwoFactorAuth_SetupAuthenticatorOnDevice")), 1),
+            vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_StepX", "2")) + " - " + vue.toDisplayString(_ctx.translate("TwoFactorAuth_SetupAuthenticatorOnDevice")), 1),
             vue.createVNode(_component_InstallOTPApp),
             vue.createElementVNode("p", {
               innerHTML: _ctx.$sanitize(_ctx.setupAuthenticatorOnDeviceStep2ShowCodes)
@@ -432,7 +432,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             style: { "opacity": "0" }
           }, null, -1)),
           vue.withDirectives(vue.createElementVNode("div", null, [
-            vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_StepX", 3)) + " - " + vue.toDisplayString(_ctx.translate("TwoFactorAuth_ConfirmSetup")), 1),
+            vue.createElementVNode("h2", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_StepX", "3")) + " - " + vue.toDisplayString(_ctx.translate("TwoFactorAuth_ConfirmSetup")), 1),
             vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("TwoFactorAuth_VerifyAuthCodeIntro")), 1),
             _ctx.accessErrorString ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$2, [
               vue.createElementVNode("div", null, [
@@ -675,7 +675,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                 autocapitalize: "none",
                 autocomplete: "one-time-code",
                 tabindex: "10",
-                autofocus: "autofocus"
+                autofocus: ""
               }, null, -1)),
               vue.createElementVNode("label", _hoisted_6$1, [
                 _cache[2] || (_cache[2] = vue.createElementVNode("i", { class: "icon-user icon" }, null, -1)),
