@@ -1092,14 +1092,28 @@ const {
 SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_21624034_render
 
 /* harmony default export */ var SingleMetricView = (SingleMetricViewvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=7918d400
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=3cebf146
 
-const SparklinesGridvue_type_template_id_7918d400_hoisted_1 = {
+const SparklinesGridvue_type_template_id_3cebf146_hoisted_1 = {
   class: "row sparklinesGrid"
 };
-function SparklinesGridvue_type_template_id_7918d400_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SparklinesGridvue_type_template_id_3cebf146_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_SegmentComparisonCard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SegmentComparisonCard");
   const _component_SparklineCard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SparklineCard");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklinesGridvue_type_template_id_7918d400_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.flatSparklines, (sparkline, index) => {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklinesGridvue_type_template_id_3cebf146_hoisted_1, [_ctx.comparisonMode === 'segment' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+    key: 0
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segmentGroups, (segments, index) => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+      key: index,
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.columnClasses)
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SegmentComparisonCard, {
+      segments: segments,
+      "are-sparklines-linkable": _ctx.areSparklinesLinkable,
+      "all-metrics-documentation": _ctx.allMetricsDocumentation
+    }, null, 8, ["segments", "are-sparklines-linkable", "all-metrics-documentation"])], 2);
+  }), 128)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+    key: 1
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.flatSparklines, (sparkline, index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       key: index,
       class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.columnClasses)
@@ -1110,16 +1124,16 @@ function SparklinesGridvue_type_template_id_7918d400_render(_ctx, _cache, $props
     }, null, 8, ["sparkline", "are-sparklines-linkable", "all-metrics-documentation"])], 2);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=7918d400
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=3cebf146
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=6414c2f7
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=4308735a
 
-const SparklineCardvue_type_template_id_6414c2f7_hoisted_1 = ["data-graph-params", "data-series-indices"];
-const SparklineCardvue_type_template_id_6414c2f7_hoisted_2 = {
+const SparklineCardvue_type_template_id_4308735a_hoisted_1 = ["data-graph-params", "data-series-indices"];
+const SparklineCardvue_type_template_id_4308735a_hoisted_2 = {
   key: 0,
   class: "sparklineCard__title"
 };
-function SparklineCardvue_type_template_id_6414c2f7_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SparklineCardvue_type_template_id_4308735a_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_DateComparison = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DateComparison");
   const _component_NoComparison = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("NoComparison");
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
@@ -1129,7 +1143,7 @@ function SparklineCardvue_type_template_id_6414c2f7_render(_ctx, _cache, $props,
     }]),
     "data-graph-params": _ctx.graphParamsAttr,
     "data-series-indices": _ctx.seriesIndicesAttr
-  }, [_ctx.sparkline.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklineCardvue_type_template_id_6414c2f7_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.sparkline.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparison ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DateComparison, {
+  }, [_ctx.sparkline.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklineCardvue_type_template_id_4308735a_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.sparkline.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparison ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DateComparison, {
     key: 1,
     sparkline: _ctx.sparkline
   }, null, 8, ["sparkline"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_NoComparison, {
@@ -1145,9 +1159,9 @@ function SparklineCardvue_type_template_id_6414c2f7_render(_ctx, _cache, $props,
     height: 40,
     params: _ctx.sparkline.url,
     "series-indices": _ctx.sparkline.seriesIndices
-  }, null, 8, ["width", "params", "series-indices"])], 2)], 10, SparklineCardvue_type_template_id_6414c2f7_hoisted_1);
+  }, null, 8, ["width", "params", "series-indices"])], 2)], 10, SparklineCardvue_type_template_id_4308735a_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=6414c2f7
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=4308735a
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=44e340e0
 
@@ -1416,7 +1430,61 @@ DateAtomvue_type_script_lang_ts.render = DateAtomvue_type_template_id_c76a1e74_r
 DateComparisonvue_type_script_lang_ts.render = DateComparisonvue_type_template_id_cd7453de_render
 
 /* harmony default export */ var DateComparison = (DateComparisonvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/sparklineDataAttrs.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/**
+ * The `data-graph-params` value for a sparkline's `.sparkline` wrapper, or null when none can be
+ * derived. The legacy click-to-evolution wiring (window.initializeSparklines) reads it to open the
+ * metric's evolution graph, so it must be set whenever the sparkline is linkable.
+ *
+ * Prefers the explicit backend `graphParams`; otherwise derives the reload params (columns/rows/
+ * idGoal) from the url — the reused Sparkline renders the image with `src` (no `data-src`), so
+ * sparkline.js can't read the columns off the img and we supply them here.
+ *
+ * Shared by SparklineCard and SegmentComparisonCard, where the whole card is one linkable
+ * sparkline, so these attributes ride on the card root.
+ */
+function sparklineGraphParamsAttr(entry) {
+  const {
+    graphParams,
+    url
+  } = entry;
+  if (graphParams && Object.keys(graphParams).length) {
+    return JSON.stringify(graphParams);
+  }
+  if (url) {
+    const parsed = external_CoreHome_["MatomoUrl"].parse(url.substring(url.indexOf('?') + 1));
+    const derived = {};
+    ['columns', 'rows', 'idGoal'].forEach(key => {
+      if (parsed[key]) {
+        derived[key] = parsed[key];
+      }
+    });
+    if (Object.keys(derived).length) {
+      return JSON.stringify(derived);
+    }
+  }
+  return null;
+}
+/**
+ * The `data-series-indices` value for a sparkline's `.sparkline` wrapper, or null when the entry
+ * carries no series indices (no-comparison sparklines). Comparison entries set one index per series
+ * so the evolution graph highlights the matching coloured line(s).
+ */
+function sparklineSeriesIndicesAttr(entry) {
+  const {
+    seriesIndices
+  } = entry;
+  return seriesIndices && seriesIndices.length ? JSON.stringify(seriesIndices) : null;
+}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=script&lang=ts
+
 
 
 
@@ -1456,42 +1524,10 @@ DateComparisonvue_type_script_lang_ts.render = DateComparisonvue_type_template_i
       var _props$sparkline$seri;
       return !!((_props$sparkline$seri = props.sparkline.seriesIndices) !== null && _props$sparkline$seri !== void 0 && _props$sparkline$seri.length);
     });
-    // The legacy click-to-evolution wiring (window.initializeSparklines) reads these
-    // attributes off the .sparkline wrapper, so only emit them when populated.
-    const graphParamsAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      const {
-        graphParams,
-        url
-      } = props.sparkline;
-      // Prefer explicit backend graphParams (set for comparison/segment sparklines).
-      if (graphParams && Object.keys(graphParams).length) {
-        return JSON.stringify(graphParams);
-      }
-      // Otherwise derive the evolution-graph reload params from the sparkline url. The reused
-      // CoreHome Sparkline renders the image with `src` (no `data-src`), so the click handler's
-      // own url fallback (sparkline.js) can't read the columns off the img — we supply them here
-      // so data-graph-params is always populated. Mirrors the columns/rows/idGoal the legacy
-      // fallback would have parsed.
-      if (url) {
-        const parsed = external_CoreHome_["MatomoUrl"].parse(url.substring(url.indexOf('?') + 1));
-        const derived = {};
-        ['columns', 'rows', 'idGoal'].forEach(key => {
-          if (parsed[key]) {
-            derived[key] = parsed[key];
-          }
-        });
-        if (Object.keys(derived).length) {
-          return JSON.stringify(derived);
-        }
-      }
-      return null;
-    });
-    const seriesIndicesAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      const {
-        seriesIndices
-      } = props.sparkline;
-      return seriesIndices && seriesIndices.length ? JSON.stringify(seriesIndices) : null;
-    });
+    // The legacy click-to-evolution wiring (window.initializeSparklines) reads these attributes off
+    // the .sparkline wrapper. Shared with SegmentComparisonCard, which puts them on the card root.
+    const graphParamsAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => sparklineGraphParamsAttr(props.sparkline));
+    const seriesIndicesAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => sparklineSeriesIndicesAttr(props.sparkline));
     // Displayed sparkline width; comparison cards are wider so their sparkline is too. Kept in sync
     // with the .sparklineCard__sparkline max-width in the .less (Sparkline renders the PNG at 2x
     // this, and the CSS cap stops it scaling past that crisp source). Height stays 40 for both.
@@ -1510,16 +1546,226 @@ DateComparisonvue_type_script_lang_ts.render = DateComparisonvue_type_template_i
 
 
 
-SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_6414c2f7_render
+SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_4308735a_render
 
 /* harmony default export */ var SparklineCard = (SparklineCardvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=template&id=24a8b8cc
+
+const SegmentComparisonCardvue_type_template_id_24a8b8cc_hoisted_1 = ["data-graph-params", "data-series-indices"];
+const SegmentComparisonCardvue_type_template_id_24a8b8cc_hoisted_2 = ["title"];
+const SegmentComparisonCardvue_type_template_id_24a8b8cc_hoisted_3 = {
+  class: "sparklineSegmentComparisonCard__rows"
+};
+function SegmentComparisonCardvue_type_template_id_24a8b8cc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_SegmentComparisonRow = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SegmentComparisonRow");
+  const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparkline sparklineSegmentComparisonCard", {
+      notLinkable: !_ctx.areSparklinesLinkable
+    }]),
+    "data-graph-params": _ctx.graphParamsAttr,
+    "data-series-indices": _ctx.seriesIndicesAttr
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparklineSegmentComparisonCard__title", {
+      'sparklineSegmentComparisonCard__title--documented': !!_ctx.documentation
+    }]),
+    title: _ctx.documentation || _ctx.metricTitle
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricTitle), 1)], 10, SegmentComparisonCardvue_type_template_id_24a8b8cc_hoisted_2)), [[_directive_tooltips, {
+    duration: 200,
+    delay: 200
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SegmentComparisonCardvue_type_template_id_24a8b8cc_hoisted_3, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segments, (segment, index) => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_SegmentComparisonRow, {
+      key: index,
+      segment: segment
+    }, null, 8, ["segment"]);
+  }), 128))])], 10, SegmentComparisonCardvue_type_template_id_24a8b8cc_hoisted_1);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=template&id=24a8b8cc
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=36705ca3
+
+const SegmentComparisonRowvue_type_template_id_36705ca3_hoisted_1 = {
+  class: "sparklineSegmentComparisonRow"
+};
+const SegmentComparisonRowvue_type_template_id_36705ca3_hoisted_2 = ["title"];
+const SegmentComparisonRowvue_type_template_id_36705ca3_hoisted_3 = {
+  class: "sparklineSegmentComparisonRow__sparkline"
+};
+function SegmentComparisonRowvue_type_template_id_36705ca3_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_MetricValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MetricValue");
+  const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SegmentComparisonRowvue_type_template_id_36705ca3_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    class: "sparklineSegmentComparisonRow__chip",
+    title: _ctx.segmentLabel
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.segmentLabel), 9, SegmentComparisonRowvue_type_template_id_36705ca3_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MetricValue, {
+    class: "metricValue--noTitle",
+    value: _ctx.primaryValue,
+    "secondary-value": _ctx.secondaryValue,
+    "secondary-label": _ctx.secondaryLabel
+  }, null, 8, ["value", "secondary-value", "secondary-label"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SegmentComparisonRowvue_type_template_id_36705ca3_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
+    width: 380,
+    height: 40,
+    params: _ctx.segment.url,
+    "series-indices": _ctx.segment.seriesIndices
+  }, null, 8, ["params", "series-indices"])])]);
+}
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=36705ca3
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=script&lang=ts
+
+
+
+/**
+ * One compared segment inside a segment-comparison card: a presentational block with a segment-name
+ * chip, the metric readout (no title — the card shows the metric name once above the rows), and its
+ * own single-series sparkline. The row is not a link — the whole card is the single `.sparkline`
+ * click-to-evolution unit (SegmentComparisonCard). Segment-only comparison carries no evolution, so
+ * no EvolutionBadge shows.
+ */
+/* harmony default export */ var SegmentComparisonRowvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'SegmentComparisonRow',
+  components: {
+    MetricValue: MetricValue,
+    Sparkline: external_CoreHome_["Sparkline"]
+  },
+  props: {
+    segment: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
+    // Segment name (compareSegmentPretty); always populated in segment comparison.
+    const segmentLabel = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.segment.title || '');
+    // Segment comparison groups the metric under a single period label; read that one group.
+    // Values pass raw to MetricValue, which locale-formats numbers.
+    const groupMetrics = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _;
+      const metrics = props.segment.metrics || {};
+      const label = (_ = (props.segment.metricsOrder || [])[0]) !== null && _ !== void 0 ? _ : Object.keys(metrics)[0];
+      return label !== undefined ? metrics[label] || [] : [];
+    });
+    const primaryValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _groupMetrics$value$, _groupMetrics$value$2;
+      return (_groupMetrics$value$ = (_groupMetrics$value$2 = groupMetrics.value[0]) === null || _groupMetrics$value$2 === void 0 ? void 0 : _groupMetrics$value$2.value) !== null && _groupMetrics$value$ !== void 0 ? _groupMetrics$value$ : '';
+    });
+    const secondaryValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _groupMetrics$value$3;
+      return (_groupMetrics$value$3 = groupMetrics.value[1]) === null || _groupMetrics$value$3 === void 0 ? void 0 : _groupMetrics$value$3.value;
+    });
+    const secondaryLabel = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _groupMetrics$value$4;
+      return (_groupMetrics$value$4 = groupMetrics.value[1]) === null || _groupMetrics$value$4 === void 0 ? void 0 : _groupMetrics$value$4.description;
+    });
+    return {
+      segmentLabel,
+      primaryValue,
+      secondaryValue,
+      secondaryLabel
+    };
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue
+
+
+
+SegmentComparisonRowvue_type_script_lang_ts.render = SegmentComparisonRowvue_type_template_id_36705ca3_render
+
+/* harmony default export */ var SegmentComparisonRow = (SegmentComparisonRowvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=script&lang=ts
+
+
+
+
+/**
+ * Segment-comparison card: one card per metric, showing the metric name once and a stacked block
+ * per compared segment (SegmentComparisonRow). The whole card is a single `.sparkline`
+ * click-to-evolution link — every segment reloads the same evolution graph (same metric columns,
+ * segments plotted as its series), so the card, not each row, is the clickable/hover unit. Rows are
+ * presentational.
+ */
+/* harmony default export */ var SegmentComparisonCardvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'SegmentComparisonCard',
+  directives: {
+    Tooltips: external_CoreHome_["Tooltips"]
+  },
+  components: {
+    SegmentComparisonRow: SegmentComparisonRow
+  },
+  props: {
+    // One entry per compared segment for this metric (same metric, different segment).
+    segments: {
+      type: Array,
+      required: true
+    },
+    areSparklinesLinkable: {
+      type: Boolean,
+      default: true
+    },
+    // Backend map of metric column -> documentation string, for the card-title tooltip.
+    allMetricsDocumentation: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  setup(props) {
+    // Same metric across segments; read its name + column from the first segment's primary metric
+    // (its single period group). Columns are populated in segment comparison, so the doc tooltip
+    // resolves (unlike date comparison, where the column is empty).
+    const primaryMetric = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _, _metrics$label;
+      const first = props.segments[0];
+      const metrics = (first === null || first === void 0 ? void 0 : first.metrics) || {};
+      const label = (_ = ((first === null || first === void 0 ? void 0 : first.metricsOrder) || [])[0]) !== null && _ !== void 0 ? _ : Object.keys(metrics)[0];
+      return label !== undefined ? (_metrics$label = metrics[label]) === null || _metrics$label === void 0 ? void 0 : _metrics$label[0] : undefined;
+    });
+    const metricTitle = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _primaryMetric$value, _primaryMetric$value2;
+      return ((_primaryMetric$value = primaryMetric.value) === null || _primaryMetric$value === void 0 ? void 0 : _primaryMetric$value.title) || ((_primaryMetric$value2 = primaryMetric.value) === null || _primaryMetric$value2 === void 0 ? void 0 : _primaryMetric$value2.description) || '';
+    });
+    const documentation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      var _primaryMetric$value$, _primaryMetric$value3;
+      return props.allMetricsDocumentation[(_primaryMetric$value$ = (_primaryMetric$value3 = primaryMetric.value) === null || _primaryMetric$value3 === void 0 ? void 0 : _primaryMetric$value3.column) !== null && _primaryMetric$value$ !== void 0 ? _primaryMetric$value$ : ''] || undefined;
+    });
+    // The whole card is one click-to-evolution link (window.initializeSparklines reads these off
+    // the `.sparkline` root). Segments share the metric's columns, so derive reload params from the
+    // first segment; series indices are the union of the card's segments.
+    const graphParamsAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      const first = props.segments[0];
+      return first ? sparklineGraphParamsAttr(first) : null;
+    });
+    const seriesIndicesAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      const indices = props.segments.flatMap(segment => segment.seriesIndices || []);
+      return indices.length ? JSON.stringify(indices) : null;
+    });
+    return {
+      metricTitle,
+      documentation,
+      graphParamsAttr,
+      seriesIndicesAttr
+    };
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue
+
+
+
+SegmentComparisonCardvue_type_script_lang_ts.render = SegmentComparisonCardvue_type_template_id_24a8b8cc_render
+
+/* harmony default export */ var SegmentComparisonCard = (SegmentComparisonCardvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=script&lang=ts
+
 
 
 /* harmony default export */ var SparklinesGridvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   name: 'SparklinesGrid',
   components: {
-    SparklineCard: SparklineCard
+    SparklineCard: SparklineCard,
+    SegmentComparisonCard: SegmentComparisonCard
   },
   props: {
     sparklines: {
@@ -1540,38 +1786,44 @@ SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_
       type: Boolean,
       default: false
     },
-    // True for date comparison (the only comparison mode the grid handles). Comparison cards are
-    // wider — two value columns + a full-width sparkline — so they use a lower-density column tier.
-    isComparing: {
-      type: Boolean,
-      default: false
+    // Comparison layout from the backend: 'none', 'date' or 'segment'. Date cards are wider
+    // (value columns + a full-width sparkline) so lower density; segment groups a metric's
+    // per-segment entries into one taller card.
+    comparisonMode: {
+      type: String,
+      default: 'none'
     }
   },
   setup(props) {
     // `order` is the backend's source of truth for display order: a total order across
     // all cards (even comparison metrics/segments). Flatten every group and sort by it.
     // Drop placeholders (Config::addPlaceholder()): no url, they only padded the legacy
-    // 2-column layout and would render as empty cards here.
+    // 2-column layout and would render as empty cards here. Used by 'none' and 'date'.
     const flatSparklines = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => [].concat(...Object.values(props.sparklines || {})).filter(sparkline => !!sparkline.url).sort((a, b) => a.order - b.order));
-    // Column density per card. No-comparison: widgets show two columns, reporting pages a
-    // responsive 2/3/4/5-col grid (xl3 is widened to 5 cols above 1920px in the .less).
-    // Comparison cards are wider: one per row in a widget, else 1 col ≤992px, 2 cols 993–1599px,
-    // 3 cols 1600–1919px, 4 cols ≥1920px (xl6 is widened at 1600/1920 in the .less).
+    // Segment comparison emits one entry per (metric x segment), grouped by metric in `sparklines`.
+    // One card per group (stacking per-segment rows); drop placeholders (no url) and order groups
+    // by their lowest entry `order`.
+    const segmentGroups = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object.values(props.sparklines || {}).map(group => group.filter(sparkline => !!sparkline.url)).filter(group => group.length > 0).sort((a, b) => Math.min(...a.map(s => s.order)) - Math.min(...b.map(s => s.order))));
+    // Per-card column density: date-comparison cards are wider (fewer per row), the rest share the
+    // standard width; widget mode uses one/two columns. See the .less for the per-tier widths
+    // (xl3/xl6 widened above 1600/1920px).
     const columnClasses = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      if (props.isComparing) {
+      if (props.comparisonMode === 'date') {
         return props.isWidget ? 'col s12' : 'col s12 m12 l6 xl6';
       }
       return props.isWidget ? 'col s6' : 'col s6 m6 l4 xl3';
     });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(() => {
-      // Re-wire each sparkline to its evolution graph once the cards are in the DOM.
-      // Safe to re-run (it unbinds first); CoreHome ships sparkline.js in the global JS bundle.
+      // Wire each sparkline to its evolution graph once the cards are in the DOM (per-segment row
+      // in segment mode, per card otherwise). Safe to re-run (it unbinds first); CoreHome's
+      // sparkline.js is in the global JS bundle.
       Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(() => {
         window.initializeSparklines();
       });
     });
     return {
       flatSparklines,
+      segmentGroups,
       columnClasses
     };
   }
@@ -1582,7 +1834,7 @@ SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_
 
 
 
-SparklinesGridvue_type_script_lang_ts.render = SparklinesGridvue_type_template_id_7918d400_render
+SparklinesGridvue_type_script_lang_ts.render = SparklinesGridvue_type_template_id_3cebf146_render
 
 /* harmony default export */ var SparklinesGrid = (SparklinesGridvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/index.ts

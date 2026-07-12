@@ -115,13 +115,16 @@ class Sparklines extends ViewDataTable
         $view->titleAttributes = $this->config->title_attributes;
         $view->footerMessage = $this->config->show_footer_message;
         $view->areSparklinesLinkable = $this->config->areSparklinesLinkable();
-        $view->isComparing = $this->isComparing();
 
         // The redesigned Vue card grid (gated by the SparklinesRedesign feature flag) covers the
-        // no-comparison layout and two-date comparison; other comparison modes stay on legacy Twig.
+        // no-comparison layout, two-date comparison, and segment comparison; other comparison modes
+        // (segment + date, or three or more dates) stay on the legacy Twig layout.
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        $comparisonMode = $this->getSupportedRedesignComparisonMode();
         $view->useNewSparklinesGrid = $featureFlagManager->isFeatureActive(SparklinesRedesign::class)
-            && $this->isRedesignSupportedForComparison();
+            && $comparisonMode !== null;
+        // Layout the grid should render: 'none', 'date' or 'segment' (see getSupportedRedesignComparisonMode()).
+        $view->sparklinesComparisonMode = $comparisonMode ?? 'none';
 
         $view->title = '';
         if ($this->config->show_title) {
@@ -132,23 +135,37 @@ class Sparklines extends ViewDataTable
     }
 
     /**
-     * Whether the redesigned Vue card grid can render the current request. It handles the
-     * no-comparison layout and date comparison of exactly two dates; segment comparison,
-     * segment + date comparison, and comparing three or more dates stay on the legacy Twig layout.
+     * Which layout the redesigned Vue card grid should render for the current request, or null when
+     * the request is not supported and must fall back to the legacy Twig layout. Supported modes:
+     *
+     *  - 'none'    no comparison
+     *  - 'date'    comparison of exactly two dates (one extra compareDate), without segment comparison
+     *  - 'segment' segment comparison of any number of segments over a single date
+     *
+     * Segment + date comparison and comparing three or more dates stay on the legacy layout.
      */
-    private function isRedesignSupportedForComparison(): bool
+    private function getSupportedRedesignComparisonMode(): ?string
     {
         if (!$this->isComparing()) {
-            return true;
+            return 'none';
         }
 
         $request = $this->getRequestArray();
         $compareSegments = $request['compareSegments'] ?? [];
         $compareDates = $request['compareDates'] ?? [];
+        $comparedDatesCount = is_array($compareDates) ? count($compareDates) : 0;
 
-        return empty($compareSegments)
-            && is_array($compareDates)
-            && count($compareDates) === 1;
+        // Date comparison of exactly two dates (one extra compareDate), without segment comparison.
+        if (empty($compareSegments) && $comparedDatesCount === 1) {
+            return 'date';
+        }
+
+        // Segment comparison over a single date, without date comparison.
+        if (!empty($compareSegments) && $comparedDatesCount === 0) {
+            return 'segment';
+        }
+
+        return null;
     }
 
     /**
