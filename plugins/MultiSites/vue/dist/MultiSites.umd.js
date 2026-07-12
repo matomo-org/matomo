@@ -642,7 +642,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       vue.createElementVNode("td", {
         colspan: _ctx.displaySparkline ? 1 : 2
       }, [
-        !_ctx.site.isGroup && _ctx.sparklineMetric in _ctx.site ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
+        !_ctx.site.isGroup && (_ctx.sparklineMetric || "") in _ctx.site ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
           vue.createElementVNode("img", {
             src: _ctx.evolutionIconSrc,
             alt: ""
@@ -650,7 +650,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           vue.createElementVNode("span", {
             class: vue.normalizeClass(_ctx.evolutionTrendClass)
           }, vue.toDisplayString(_ctx.calculateAndFormatEvolution(
-            _ctx.site[_ctx.sparklineMetric],
+            _ctx.site[_ctx.sparklineMetric || ""],
             _ctx.site[`previous_${_ctx.sparklineMetric}`] * _ctx.site.ratio,
             true
           )), 3)
@@ -966,9 +966,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         ]),
         vue.createElementVNode("span", _hoisted_20, vue.toDisplayString(_ctx.translate(
           "General_Pagination",
-          _ctx.paginationLowerBound,
-          _ctx.paginationUpperBound,
-          _ctx.numberOfFilteredSites
+          String(_ctx.paginationLowerBound),
+          String(_ctx.paginationUpperBound),
+          String(_ctx.numberOfFilteredSites)
         )), 1),
         vue.withDirectives(vue.createElementVNode("span", {
           class: "dataTableNext",
