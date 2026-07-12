@@ -107,12 +107,8 @@ export default defineConfig({
       ? [dts({
         outDir: path.join(rootDir, '@types', pluginName),
         entryRoot: path.join(rootDir, pluginPath, 'vue', 'src'),
-        // Only the plugin's own sources are declaration-emitted (entryRoot keeps the output layout),
-        // but the ambient global declarations must be part of the same program. They augment
-        // `Window` and Vue's component instance (e.g. `translate`, `$sanitize`) and define shared
-        // globals such as `QueryParameters`; without them the declaration type-check reports the
-        // globals as missing for every component. This `include` overrides the one from tsconfig.json
-        // (which references the same file), so it has to be listed here explicitly.
+        // Include the ambient globals here too: this `include` overrides tsconfig's, and without
+        // them the declaration type-check reports Window/translate/$sanitize/etc. as missing.
         include: [
           path.join(rootDir, pluginPath, 'vue', 'src', '**', '*'),
           path.join(rootDir, 'plugins', 'CoreVue', 'types', 'index.d.ts'),

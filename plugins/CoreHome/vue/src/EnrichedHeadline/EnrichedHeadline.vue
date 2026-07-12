@@ -191,9 +191,7 @@ export default defineComponent({
     }
   },
   methods: {
-    // The rate-feature plugin component is typed as the defineAsyncComponent factory; expose it to
-    // `<component :is>` as a plain Component so the dynamic element's attributes are not type-checked
-    // against the factory's argument type.
+    // Expose the plugin component to `<component :is>` as a plain Component.
     asComponent(component: unknown): Component {
       return component as Component;
     },

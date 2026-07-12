@@ -33,8 +33,7 @@ export interface Widget extends Orderable {
   isWide?: boolean;
   isFirstInPage?: boolean;
 
-  // Discriminant against GroupedWidgets: a plain widget is never a group. Lets the reporting page
-  // template narrow `Widget | GroupedWidgets` via `widget.group`.
+  // Discriminant against GroupedWidgets (a plain widget is never a group).
   group?: false;
 }
 
@@ -46,8 +45,7 @@ export interface WidgetContainer extends Widget {
 
 export interface GroupedWidgets {
   group: true;
-  // Grouped widgets have no id of their own; declared optional so the shared `Widget | GroupedWidgets`
-  // list can be keyed by uniqueId in templates.
+  // No id of its own; declared so the shared list can be keyed by uniqueId in templates.
   uniqueId?: undefined;
   left?: Widget[];
   right?: Widget[];
