@@ -22,7 +22,7 @@
       >
         <component
           v-if="category.component"
-          :is="category.component"
+          :is="asComponent(category.component)"
           @action="loadCategory(category)"
         ></component>
         <a
@@ -112,7 +112,7 @@
       >
         <component
           v-if="category.component"
-          :is="category.component"
+          :is="asComponent(category.component)"
           @action="loadCategory(category)"
         ></component>
         <ul
@@ -156,7 +156,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue';
+import { defineComponent, watch, Component } from 'vue';
 import MenuItemsDropdown from '../MenuItemsDropdown/MenuItemsDropdown.vue';
 import SideNav from '../SideNav/SideNav';
 import { NotificationsStore } from '../Notification';
@@ -303,6 +303,12 @@ export default defineComponent({
     });
   },
   methods: {
+    // The plugin component is typed as the defineAsyncComponent factory; expose it to `<component
+    // :is>` as a plain Component so the dynamic element's attributes are not type-checked against
+    // the factory's argument type.
+    asComponent(component: unknown): Component {
+      return component as Component;
+    },
     loadFirstPageOfActiveSection() {
       const menu = ReportingMenuStoreInstance.menu.value;
       const categoryToLoad = menu[0];

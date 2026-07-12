@@ -47,7 +47,7 @@
         :title="translate(reportGenerated ? 'General_HelpReport' : 'General_Help')"
       ><span class="icon-info" /></a>
       <div class="ratingIcons" v-if="showRateFeature">
-        <component :title="actualFeatureName" :is="rateFeature"></component>
+        <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
       </div>
     </span>
     <div
@@ -70,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, Component } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
 import { translateOrDefault } from '../translate';
@@ -191,6 +191,12 @@ export default defineComponent({
     }
   },
   methods: {
+    // The rate-feature plugin component is typed as the defineAsyncComponent factory; expose it to
+    // `<component :is>` as a plain Component so the dynamic element's attributes are not type-checked
+    // against the factory's argument type.
+    asComponent(component: unknown): Component {
+      return component as Component;
+    },
     htmlEntities(v: string) {
       return Matomo.helper.htmlEntities(v);
     },
