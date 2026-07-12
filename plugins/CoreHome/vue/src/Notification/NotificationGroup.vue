@@ -29,9 +29,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, DeepReadonly } from 'vue';
 import NotificationsStore from './Notifications.store';
 import Notification from './Notification.vue';
+import type NotificationData from './Notification';
 
 export default defineComponent({
   props: {
@@ -41,7 +42,7 @@ export default defineComponent({
     Notification,
   },
   computed: {
-    notifications() {
+    notifications(): DeepReadonly<NotificationData>[] {
       return NotificationsStore.state.notifications.filter((n) => {
         if (this.group) {
           return this.group === n.group;
@@ -52,8 +53,10 @@ export default defineComponent({
     },
   },
   methods: {
-    removeNotification(id: string) {
-      NotificationsStore.remove(id);
+    removeNotification(id?: string) {
+      if (id) {
+        NotificationsStore.remove(id);
+      }
     },
   },
 });

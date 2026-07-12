@@ -140,11 +140,11 @@ interface MenuItem {
 }
 
 interface QuickAccessState {
-  menuItems: Array<unknown>;
+  menuItems: MenuItem[];
   numMenuItems: number;
   searchActive: boolean;
   searchTerm: string;
-  searchIndex: number;
+  searchIndex: number | string;
 
   menuIndexCounter: number;
   topMenuItems: SubMenuItem[]|null;
@@ -302,20 +302,22 @@ export default defineComponent({
       }
     },
     highlightPreviousItem() {
-      if ((this.searchIndex - 1) < 0) {
+      const currentIndex = Number(this.searchIndex);
+      if ((currentIndex - 1) < 0) {
         this.searchIndex = 0;
       } else {
-        this.searchIndex -= 1;
+        this.searchIndex = currentIndex - 1;
       }
       this.makeSureSelectedItemIsInViewport();
     },
     highlightNextItem() {
       const numTotal = (this.$refs.root as HTMLElement).querySelectorAll('li.result').length;
+      const currentIndex = Number(this.searchIndex);
 
-      if (numTotal <= (this.searchIndex + 1)) {
+      if (numTotal <= (currentIndex + 1)) {
         this.searchIndex = numTotal - 1;
       } else {
-        this.searchIndex += 1;
+        this.searchIndex = currentIndex + 1;
       }
 
       this.makeSureSelectedItemIsInViewport();
@@ -345,8 +347,8 @@ export default defineComponent({
     },
     getCurrentlySelectedElement(): HTMLElement|undefined {
       const results = (this.$refs.root as HTMLElement).querySelectorAll('li.result');
-      if (results && results.length && results.item(this.searchIndex)) {
-        return results.item(this.searchIndex) as HTMLElement;
+      if (results && results.length && results.item(Number(this.searchIndex))) {
+        return results.item(Number(this.searchIndex)) as HTMLElement;
       }
       return undefined;
     },
@@ -470,7 +472,7 @@ export default defineComponent({
 
         if (!text || (element.parentElement != null && element.parentElement.tagName != null
           && element.parentElement.tagName === 'DIV')) {
-          text = element.getAttribute('title')?.trim(); // possibly a icon, use title instead
+          text = element.getAttribute('title')?.trim() || ''; // possibly a icon, use title instead
         }
 
         if (text) {
