@@ -67,7 +67,7 @@ import WidgetPreview from './WidgetPreview.vue';
 
 const OPEN_EVENT = 'Dashboard.AddWidget.open';
 
-interface AddWidgetModalState {
+export interface AddWidgetModalState {
   isOpen: boolean;
   chosenCategory: string | null;
   hoveredWidgetId: string | null;
