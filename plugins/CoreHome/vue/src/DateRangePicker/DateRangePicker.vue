@@ -70,7 +70,6 @@
 import { defineComponent } from 'vue';
 import DatePicker from '../DatePicker/DatePicker.vue';
 import { parseDate, format } from '../Periods/utilities';
-import ChangeEvent = JQuery.ChangeEvent;
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -147,12 +146,13 @@ export default defineComponent({
 
       this.rangeChanged();
     },
-    onRangeInputChanged(source: string, event: ChangeEvent) {
+    onRangeInputChanged(source: string, event: KeyboardEvent) {
+      const input = event.target as HTMLInputElement;
       setTimeout(() => {
         if (source === 'from') {
-          this.setStartRangeDateFromStr(event.target.value);
+          this.setStartRangeDateFromStr(input.value);
         } else {
-          this.setEndRangeDateFromStr(event.target.value);
+          this.setEndRangeDateFromStr(input.value);
         }
       });
     },
