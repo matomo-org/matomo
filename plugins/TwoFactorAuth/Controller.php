@@ -12,7 +12,6 @@ namespace Piwik\Plugins\TwoFactorAuth;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\IP;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -104,14 +103,7 @@ class Controller extends \Piwik\Plugin\Controller
                     Url::redirectToUrl(Url::getCurrentUrl());
                 } else {
                     $messageNoAccess = Piwik::translate('TwoFactorAuth_InvalidAuthCode');
-                    try {
-                        $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
-                        if ($bruteForce->isEnabled()) {
-                            $bruteForce->addFailedAttempt(IP::getIpFromHeader(), Piwik::getCurrentUserLogin());
-                        }
-                    } catch (Exception $e) {
-                        // ignore error eg if login plugin is disabled
-                    }
+                    $this->twoFa->recordFailedAuthAttempt(Piwik::getCurrentUserLogin());
                 }
             }
         }

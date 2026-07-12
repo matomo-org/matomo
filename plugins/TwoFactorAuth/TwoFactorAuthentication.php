@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\IP;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
@@ -273,5 +275,20 @@ class TwoFactorAuthentication
     private function makeAuthenticator(): \TwoFactorAuthenticator
     {
         return new \TwoFactorAuthenticator();
+    }
+
+    /**
+     * Records a failed attempt for the brute force detection, if the Login plugin is available and enabled.
+     */
+    public function recordFailedAuthAttempt(string $login): void
+    {
+        try {
+            $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
+            if ($bruteForce->isEnabled()) {
+                $bruteForce->addFailedAttempt(IP::getIpFromHeader(), $login);
+            }
+        } catch (Exception $e) {
+            // ignore error eg if login plugin is disabled
+        }
     }
 }
