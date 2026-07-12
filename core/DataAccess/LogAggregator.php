@@ -136,6 +136,8 @@ class LogAggregator
 
     public const LOG_TABLE_SEGMENT_TEMPORARY_PREFIX = 'logtmpsegment';
 
+    private const MYSQL_DOUBLE_MAX = '1.7976931348623157e308';
+
     /** @var Date */
     protected $dateStart;
 
@@ -547,6 +549,29 @@ class LogAggregator
     public static function getSqlRevenue($field)
     {
         return "ROUND(" . $field . "," . GoalManager::REVENUE_PRECISION . ")";
+    }
+
+    /**
+     * Builds the SUM() expression for ecommerce item revenue (quantity * price).
+     *
+     * Extreme tracked prices can make quantity * price exceed the MySQL DOUBLE
+     * range and abort archiving with error 1690. Products whose
+     * multiplication would overflow are skipped (contribute 0) instead of failing
+     * the whole aggregation. quantity is UNSIGNED, so the only extra guard needed
+     * for the division is quantity = 0.
+     *
+     * This only guards the per-row multiplication. Accumulation overflow of the
+     * whole SUM() across many near-DBL_MAX rows is a generic SQL limitation and
+     * is out of scope here.
+     */
+    private static function getSqlEcommerceItemRevenueSum(): string
+    {
+        return sprintf(
+            'SUM(CASE WHEN log_conversion_item.quantity = 0 THEN 0 ' .
+            'WHEN ABS(log_conversion_item.price) > %s / log_conversion_item.quantity THEN 0 ' .
+            'ELSE log_conversion_item.quantity * log_conversion_item.price END)',
+            self::MYSQL_DOUBLE_MAX
+        );
     }
 
     /**
@@ -984,7 +1009,7 @@ class LogAggregator
                     sprintf("log_conversion_item.%s AS labelIdAction", $dimension),
                     sprintf(
                         '%s AS `%d`',
-                        self::getSqlRevenue('SUM(log_conversion_item.quantity * log_conversion_item.price)'),
+                        self::getSqlRevenue(self::getSqlEcommerceItemRevenueSum()),
                         Metrics::INDEX_ECOMMERCE_ITEM_REVENUE
                     ),
                     sprintf(

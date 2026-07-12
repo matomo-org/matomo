@@ -17,12 +17,15 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Db\Schema;
+use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Piwik\Tests\Framework\TestDataHelper\LogHelper;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tracker\Action;
 use Piwik\Updater\Migration\Db as DbMigration;
 
 /**
@@ -651,6 +654,46 @@ class LogAggregatorTest extends IntegrationTestCase
             ],
         ];
         $this->assertEquals($expected, $result);
+    }
+
+    public function testQueryEcommerceItemsIgnoresItemRevenueThatWouldOverflowMysqlDouble()
+    {
+        Db::query(
+            'INSERT INTO ' . Common::prefixTable('log_action') . ' (name, hash, type) VALUES (?, ?, ?)',
+            ['Overflow SKU', 0, Action::TYPE_ECOMMERCE_ITEM_SKU]
+        );
+        $idActionSku = Db::fetchOne('SELECT LAST_INSERT_ID()');
+
+        $logInserter = new LogHelper();
+        $visit = $logInserter->insertVisit([
+            'visit_last_action_time' => '2010-03-06 12:00:00',
+        ]);
+
+        $logInserter->insertConversionItem($visit['idvisit'], 'normal-order', [
+            'server_time' => '2010-03-06 12:00:00',
+            'idaction_sku' => $idActionSku,
+            'price' => 40,
+            'quantity' => 4,
+        ]);
+        $logInserter->insertConversionItem($visit['idvisit'], 'zero-quantity-order', [
+            'server_time' => '2010-03-06 12:00:00',
+            'idaction_sku' => $idActionSku,
+            'price' => -50,
+            'quantity' => 0,
+        ]);
+        $logInserter->insertConversionItem($visit['idvisit'], 'overflow-order', [
+            'server_time' => '2010-03-06 12:00:00',
+            'idaction_sku' => $idActionSku,
+            'price' => '1e308',
+            'quantity' => 999999,
+        ]);
+
+        $query = $this->logAggregator->queryEcommerceItems('idaction_sku');
+        $rows = $query->fetchAll();
+
+        $this->assertCount(1, $rows);
+        $this->assertSame('Overflow SKU', $rows[0]['label']);
+        $this->assertSame(160.0, (float) $rows[0][Metrics::INDEX_ECOMMERCE_ITEM_REVENUE]);
     }
 }
 
