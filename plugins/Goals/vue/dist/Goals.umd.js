@@ -731,7 +731,7 @@ var __async = (__this, __arguments, generator) => {
           }, {
             default: vue.withCtx(() => [
               vue.createElementVNode("div", {
-                innerHTML: _ctx.$sanitize(_ctx.addNewGoalIntro)
+                innerHTML: _ctx.$sanitize(_ctx.addNewGoalIntro || "")
               }, null, 8, _hoisted_30),
               vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", null, [
                 vue.createElementVNode("div", null, [
