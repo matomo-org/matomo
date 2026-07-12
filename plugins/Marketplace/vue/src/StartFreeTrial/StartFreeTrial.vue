@@ -83,7 +83,7 @@ import { PluginDetails } from '../types';
 
 const { $ } = window;
 
-interface StartFreeTrialState {
+export interface StartFreeTrialState {
   createAccountEmail: string;
   createAccountError: string | null;
   trialStartError: string | null;

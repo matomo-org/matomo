@@ -8,16 +8,16 @@
 <template>
   <RequestTrial
     v-model="showRequestTrialForPlugin"
-    @trialRequested="this.$emit('triggerUpdate')"
+    @trialRequested="$emit('triggerUpdate')"
   />
 
   <StartFreeTrial
     :current-user-email="currentUserEmail"
     :is-valid-consumer="isValidConsumer"
     v-model="showStartFreeTrialForPlugin"
-    @trialStarted="this.$emit('triggerUpdate');"
-    @startTrialStart="this.$emit('startTrialStart');"
-    @startTrialStop="this.$emit('startTrialStop');"
+    @trialStarted="$emit('triggerUpdate');"
+    @startTrialStart="$emit('startTrialStart');"
+    @startTrialStop="$emit('startTrialStop');"
   />
 
   <PluginDetailsModal
@@ -33,8 +33,8 @@
     :install-nonce="installNonce"
     :update-nonce="updateNonce"
     :num-users="numUsers"
-    @requestTrial="this.requestTrial($event)"
-    @startFreeTrial="this.startFreeTrial($event)"
+    @requestTrial="requestTrial($event)"
+    @startFreeTrial="startFreeTrial($event)"
   />
 
   <div class="pluginListContainer row" v-if="pluginsToShow.length > 0">
@@ -93,9 +93,9 @@
                     :update-nonce="updateNonce"
                     :plugin="plugin"
                     :in-modal="false"
-                    @openDetailsModal="this.openDetailsModal(plugin)"
-                    @requestTrial="this.requestTrial(plugin)"
-                    @startFreeTrial="this.startFreeTrial(plugin)"
+                    @openDetailsModal="openDetailsModal(plugin)"
+                    @requestTrial="requestTrial(plugin)"
+                    @startFreeTrial="startFreeTrial(plugin)"
                   />
                 </div>
                 <img v-if="'piwik' == plugin.owner || 'matomo-org' == plugin.owner"
@@ -114,17 +114,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue';
+import { defineComponent, watch, PropType } from 'vue';
 import { MatomoUrl } from 'CoreHome';
 import CTAContainer from './CTAContainer.vue';
 import RequestTrial from '../RequestTrial/RequestTrial.vue';
 import StartFreeTrial from '../StartFreeTrial/StartFreeTrial.vue';
 import PluginDetailsModal from '../PluginDetailsModal/PluginDetailsModal.vue';
-import { TObject } from '../types';
+import { TObject, PluginDetails } from '../types';
 
 const { $ } = window;
 
-interface PluginListState {
+export interface PluginListState {
   showRequestTrialForPlugin: TObject | null;
   showStartFreeTrialForPlugin: TObject | null;
   showPluginDetailsForPlugin: TObject | null;
@@ -134,7 +134,7 @@ export default defineComponent({
   props: {
     currentUserEmail: String,
     pluginsToShow: {
-      type: Array,
+      type: Array as PropType<PluginDetails[]>,
       required: true,
     },
     isAutoUpdatePossible: {

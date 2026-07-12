@@ -209,14 +209,14 @@
                 >
                   <template v-if="support.name && support.value">
                     <dt v-html="$sanitize(support.name)"></dt>
-                    <dd v-if="this.isValidHttpUrl(support.value)">
+                    <dd v-if="isValidHttpUrl(support.value)">
                       <a
                         target="_blank"
                         rel="noreferrer noopener"
                         :href="externalRawLink($sanitize(support.value))"
                       >{{ $sanitize(support.value) }}</a>
                     </dd>
-                    <dd v-else-if="this.isValidEmail(support.value)">
+                    <dd v-else-if="isValidEmail(support.value)">
                       <a
                         :href="`mailto:${ encodeURIComponent(support.value) }`"
                       >{{ $sanitize(support.value) }}</a>
@@ -238,7 +238,7 @@
               :key="`screenshot-${screenshot}`"
             >
               <img :src="`${screenshot}?w=800`" width="800" alt="">
-              <figcaption>{{ this.getScreenshotBaseName(screenshot) }}</figcaption>
+              <figcaption>{{ getScreenshotBaseName(screenshot) }}</figcaption>
             </figure>
           </div>
         </div>
@@ -343,7 +343,24 @@ import ChangeEvent = JQuery.ChangeEvent;
 
 const { $ } = window;
 
-interface PluginDetailsModalState {
+export interface PluginAuthor {
+  name?: string;
+  email?: string;
+  homepage?: string;
+}
+
+export interface PluginActivityInfo {
+  numCommits?: string | number;
+  numContributors?: string | number;
+  lastCommitDate?: string;
+}
+
+export interface PluginSupportItem {
+  name?: string;
+  value?: string;
+}
+
+export interface PluginDetailsModalState {
   isLoading: boolean;
   currentPluginShopVariationUrl: string;
 }
@@ -456,18 +473,18 @@ export default defineComponent({
     pluginKeywords(): string[] {
       return this.plugin?.keywords || [];
     },
-    pluginAuthors(): TObjectArray {
-      const authors = this.plugin.authors || [];
+    pluginAuthors(): PluginAuthor[] {
+      const authors = (this.plugin.authors || []) as PluginAuthor[];
       return authors.filter((author) => author.name);
     },
-    pluginActivity(): TObject {
-      return this.plugin.activity || {};
+    pluginActivity(): PluginActivityInfo {
+      return (this.plugin.activity || {}) as PluginActivityInfo;
     },
     pluginChangelogUrl(): string {
       return this.plugin.changelog.url as string || '';
     },
-    pluginSupport(): TObjectArray[] {
-      return this.plugin.support || [];
+    pluginSupport(): PluginSupportItem[] {
+      return (this.plugin.support || []) as PluginSupportItem[];
     },
     isMatomoPlugin(): boolean {
       return ['piwik', 'matomo-org'].includes(this.plugin.owner);
