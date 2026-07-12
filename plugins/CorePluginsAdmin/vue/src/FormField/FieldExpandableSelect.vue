@@ -72,24 +72,24 @@ import { defineComponent } from 'vue';
 import { Matomo, FocusAnywhereButHere, FocusIf } from 'CoreHome';
 import AbortableModifiers from './AbortableModifiers';
 
-interface SelectValueInfo {
+export interface SelectValueInfo {
   key: unknown;
 }
 
-interface AvailableOptions {
+export interface AvailableOptions {
   group: string;
   key: string|number;
   value: unknown;
   tooltip?: string;
 }
 
-interface Option {
+export interface Option {
   key: string|number;
   value: unknown;
   tooltip?: string;
 }
 
-interface OptionGroup {
+export interface OptionGroup {
   group: string;
   values: Option[];
 }

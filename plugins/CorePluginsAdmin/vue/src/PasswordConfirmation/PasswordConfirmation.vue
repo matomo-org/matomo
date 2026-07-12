@@ -69,7 +69,7 @@ interface PluginComponent {
   component: string,
 }
 
-interface PasswordConfirmationState {
+export interface PasswordConfirmationState {
   passwordConfirmation: string;
   slotHasContent: boolean;
   altIdConfirmComponent: PluginComponent;

@@ -43,7 +43,7 @@ window.broadcast.addPopoverHandler('browsePluginDetail', (value) => {
   window.Piwik_Popover.createPopupAndLoadUrl(url, 'details');
 });
 
-interface PluginNameDirectiveValue {
+export interface PluginNameDirectiveValue {
   // input
   pluginName: string;
   activePluginTab?: string;

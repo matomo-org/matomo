@@ -37,7 +37,7 @@
 import { defineComponent } from 'vue';
 import AbortableModifiers from './AbortableModifiers';
 
-interface Option {
+export interface Option {
   key: unknown;
 }
 
