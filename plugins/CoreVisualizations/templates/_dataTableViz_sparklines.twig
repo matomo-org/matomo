@@ -11,8 +11,8 @@
          sparklines="{{ sparklines|json_encode|e('html_attr') }}"
          all-metrics-documentation="{{ allMetricsDocumentation|json_encode|e('html_attr') }}"
          are-sparklines-linkable="{{ areSparklinesLinkable|json_encode|e('html_attr') }}"
-         is-comparing="{{ isComparing|json_encode|e('html_attr') }}"
-         is-widget="{{ isWidget|json_encode|e('html_attr') }}"></div>
+         comparison-mode="{{ sparklinesComparisonMode|json_encode|e('html_attr') }}"
+         is-widget="{{ (isWidget == 1)|json_encode|e('html_attr') }}"></div>
     {% else %}
     {% if not isWidget %}
     <div class="row">

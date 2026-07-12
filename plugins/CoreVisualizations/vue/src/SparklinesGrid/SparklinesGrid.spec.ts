@@ -67,6 +67,27 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     };
   }
 
+  function segmentEntry(title: string, seriesIndex: number, order: number, value = '1') {
+    // Segment-comparison entry: metrics under a single period label + one series index per segment.
+    return {
+      url: '?module=API&action=get&columns=nb_visits',
+      metrics: {
+        'Jan 12 - 17, 2012': [
+          {
+            value, description: 'visits', title: 'Visits', column: 'nb_visits',
+          },
+          { value: '0', description: 'unique visitors', title: 'Unique visitors' },
+        ],
+      },
+      metricsOrder: ['Jan 12 - 17, 2012'],
+      order,
+      title,
+      group: '0',
+      seriesIndices: [seriesIndex],
+      graphParams: null,
+    };
+  }
+
   function placeholder(order: number) {
     // Mirrors Config::addPlaceholder(): empty url + no metrics, used only for legacy layout.
     return {
@@ -155,8 +176,8 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(col.classes()).not.toContain('xl3');
   });
 
-  it('uses the wider comparison columns (s12 m12 l6 xl6) when comparing', () => {
-    const wrapper = createWrapper({ sparklines: { 0: [comparisonEntry()] }, isComparing: true });
+  it('uses the wider comparison columns (s12 m12 l6 xl6) in date comparison', () => {
+    const wrapper = createWrapper({ sparklines: { 0: [comparisonEntry()] }, comparisonMode: 'date' });
     const col = wrapper.find('.row.sparklinesGrid > div');
 
     expect(col.classes()).toEqual(expect.arrayContaining(['col', 's12', 'm12', 'l6', 'xl6']));
@@ -164,16 +185,77 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(wrapper.findComponent({ name: 'DateComparison' }).exists()).toBe(true);
   });
 
-  it('collapses comparison cards to a single column in widget mode', () => {
+  it('collapses date-comparison cards to a single column in widget mode', () => {
     const wrapper = createWrapper({
       sparklines: { 0: [comparisonEntry()] },
-      isComparing: true,
+      comparisonMode: 'date',
       isWidget: true,
     });
     const col = wrapper.find('.row.sparklinesGrid > div');
 
     expect(col.classes()).toContain('s12');
     expect(col.classes()).not.toContain('xl6');
+  });
+
+  it('renders one SegmentComparisonCard per metric group in segment mode', () => {
+    const wrapper = createWrapper({
+      comparisonMode: 'segment',
+      sparklines: {
+        0: [segmentEntry('All visits', 0, 0), segmentEntry('Eu visitors', 1, 1)],
+        1: [segmentEntry('All visits', 0, 100), segmentEntry('Eu visitors', 1, 101)],
+      },
+    });
+
+    const cards = wrapper.findAllComponents({ name: 'SegmentComparisonCard' });
+    expect(cards.length).toBe(2);
+    expect(wrapper.findAllComponents({ name: 'SparklineCard' }).length).toBe(0);
+    // Each card stacks one row per compared segment.
+    expect(cards[0].findAllComponents({ name: 'SegmentComparisonRow' }).length).toBe(2);
+  });
+
+  it('shows the segment chips and values per stacked segment in segment mode', () => {
+    const wrapper = createWrapper({
+      comparisonMode: 'segment',
+      sparklines: {
+        0: [segmentEntry('All visits', 0, 0, '10'), segmentEntry('Eu visitors', 1, 1, '20')],
+      },
+    });
+
+    expect(wrapper.findAll('.sparklineSegmentComparisonRow__chip').map((n) => n.text())).toEqual(['All visits', 'Eu visitors']);
+    expect(wrapper.findAll('.metricValue__number').map((n) => n.text())).toEqual(['10', '20']);
+  });
+
+  it('uses the standard (non-wide) grid columns for segment cards', () => {
+    const wrapper = createWrapper({
+      comparisonMode: 'segment',
+      sparklines: { 0: [segmentEntry('All visits', 0, 0)] },
+    });
+    const col = wrapper.find('.row.sparklinesGrid > div');
+
+    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's6', 'm6', 'l4', 'xl3']));
+  });
+
+  it('orders segment cards by each metric group\'s lowest entry order', () => {
+    const wrapper = createWrapper({
+      comparisonMode: 'segment',
+      sparklines: {
+        0: [segmentEntry('All', 0, 300, '3')],
+        1: [segmentEntry('All', 0, 100, '1')],
+        2: [segmentEntry('All', 0, 200, '2')],
+      },
+    });
+
+    // One card (one row) per group; sorting by the group's lowest order yields values 1, 2, 3.
+    expect(wrapper.findAll('.metricValue__number').map((n) => n.text())).toEqual(['1', '2', '3']);
+  });
+
+  it('renders no EvolutionBadge in segment mode', () => {
+    const wrapper = createWrapper({
+      comparisonMode: 'segment',
+      sparklines: { 0: [segmentEntry('All visits', 0, 0), segmentEntry('Eu visitors', 1, 1)] },
+    });
+
+    expect(wrapper.findAllComponents({ name: 'EvolutionBadge' }).length).toBe(0);
   });
 
   it('re-runs the sparkline click-to-evolution wiring after mount', async () => {
