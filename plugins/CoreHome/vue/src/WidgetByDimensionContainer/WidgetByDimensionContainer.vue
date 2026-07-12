@@ -44,11 +44,11 @@ import WidgetLoader from '../WidgetLoader/WidgetLoader.vue';
 import { Widget } from '../Widget/types';
 import { sortOrderables } from '../Orderable';
 
-interface WidgetByDimensionContainerState {
+export interface WidgetByDimensionContainerState {
   selectedWidget: Widget|null;
 }
 
-interface WidgetCategory {
+export interface WidgetCategory {
   name: string;
   order: number;
   widgets: Widget[];

@@ -82,7 +82,7 @@ import useExternalPluginComponent from '../useExternalPluginComponent';
 
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
-interface ComparePeriodOption {
+export interface ComparePeriodOption {
   key: string;
   value: string;
 }

@@ -76,7 +76,7 @@ import Periods from '../Periods/Periods';
 import { translateOrDefault } from '../translate';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
-interface EnrichedHeadlineData {
+export interface EnrichedHeadlineData {
   showIcons: boolean;
   showInlineHelp: boolean;
   actualFeatureName?: string | null;

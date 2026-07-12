@@ -74,7 +74,7 @@ import ChangeEvent = JQuery.ChangeEvent;
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 
-interface DateRangePickerState {
+export interface DateRangePickerState {
   fromPickerSelectedDate: Date|null;
   toPickerSelectedDate: Date|null;
   fromPickerHoveredDate: Date|null;
