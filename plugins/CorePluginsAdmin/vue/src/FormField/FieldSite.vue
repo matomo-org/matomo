@@ -7,17 +7,17 @@
 
 <template>
   <div>
-    <label :for="id" class="siteSelectorLabel" v-html="$sanitize(title)"></label>
+    <label :for="id" class="siteSelectorLabel" v-html="$sanitize(title || '')"></label>
     <div class="sites_autocomplete">
       <SiteSelector
         :model-value="modelValue"
         @update:modelValue="onChange($event)"
         :id="id"
-        :show-all-sites-item="uiControlAttributes.showAllSitesItem || false"
+        :show-all-sites-item="uiControlAttributes?.showAllSitesItem || false"
         :switch-site-on-select="false"
         :show-selected-site="true"
-        :only-sites-with-admin-access="uiControlAttributes.onlySitesWithAdminAccess || false"
-        :only-sites-with-at-least-write-access="uiControlAttributes.onlySitesWithAtLeastWriteAccess
+        :only-sites-with-admin-access="uiControlAttributes?.onlySitesWithAdminAccess || false"
+        :only-sites-with-at-least-write-access="uiControlAttributes?.onlySitesWithAtLeastWriteAccess
          || false"
         v-bind="uiControlAttributes"
       />

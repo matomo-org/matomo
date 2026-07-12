@@ -7,18 +7,18 @@
 
 <template>
   <div class="fieldMultiTuple">
-    <label :for="id" v-html="$sanitize(title)"></label>
+    <label :for="id" v-html="$sanitize(title || '')"></label>
     <MultiPairField
       :name="name"
       :id="id"
       :model-value="modelValue"
       @update:modelValue="onUpdateValue"
       :model-modifiers="modelModifiers"
-      :field1="uiControlAttributes.field1"
-      :field2="uiControlAttributes.field2"
-      :field3="uiControlAttributes.field3"
-      :field4="uiControlAttributes.field4"
-      :rows="uiControlAttributes.rows"
+      :field1="uiControlAttributes?.field1"
+      :field2="uiControlAttributes?.field2"
+      :field3="uiControlAttributes?.field3"
+      :field4="uiControlAttributes?.field4"
+      :rows="uiControlAttributes?.rows"
     >
     </MultiPairField>
   </div>

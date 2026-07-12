@@ -17,7 +17,7 @@
     class="materialize-textarea"
     ref="textarea"
   ></textarea>
-  <label :for="id" v-html="$sanitize(title)"></label>
+  <label :for="id" v-html="$sanitize(title || '')"></label>
 </template>
 
 <script lang="ts">

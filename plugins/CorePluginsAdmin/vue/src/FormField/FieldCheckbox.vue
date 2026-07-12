@@ -18,7 +18,7 @@
         :name="name"
       />
 
-      <span v-html="$sanitize(title)"/>
+      <span v-html="$sanitize(title || '')"/>
     </label>
   </div>
 </template>

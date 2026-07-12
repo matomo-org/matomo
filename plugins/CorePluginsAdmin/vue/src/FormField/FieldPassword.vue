@@ -23,7 +23,7 @@
   />
   <label
     :for="id"
-    v-html="$sanitize(title)"
+    v-html="$sanitize(title || '')"
   />
   <PasswordStrength
     :password="modelValueText"

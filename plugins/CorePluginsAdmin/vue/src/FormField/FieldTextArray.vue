@@ -10,7 +10,7 @@
   <div>
     <label
       :for="id"
-      v-html="$sanitize(title)"
+      v-html="$sanitize(title || '')"
     />
     <input
       :class="`control_${ uiControl }`"

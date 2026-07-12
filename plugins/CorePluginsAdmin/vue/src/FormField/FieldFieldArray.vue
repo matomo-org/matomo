@@ -7,7 +7,7 @@
 
 <template>
   <div>
-    <label :for="id" v-html="$sanitize(title)"></label>
+    <label :for="id" v-html="$sanitize(title || '')"></label>
 
     <FieldArray
       :name="name"
@@ -15,8 +15,8 @@
       :model-value="modelValue"
       @update:modelValue="onValueUpdate($event)"
       :model-modifiers="modelModifiers"
-      :field="uiControlAttributes.field"
-      :rows="uiControlAttributes.rows"
+      :field="uiControlAttributes?.field"
+      :rows="uiControlAttributes?.rows"
     />
   </div>
 </template>
