@@ -146,7 +146,7 @@
                         entry.subtitle ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_17, vue.toDisplayString(_ctx.translate(entry.subtitle)), 1)) : vue.createCommentVNode("", true),
                         vue.createElementVNode("p", null, [
                           vue.createElementVNode("span", {
-                            innerHTML: _ctx.$sanitize(entry.documentation)
+                            innerHTML: _ctx.$sanitize(entry.documentation || "")
                           }, null, 8, _hoisted_18),
                           entry.id ? (vue.openBlock(), vue.createElementBlock("br", _hoisted_19)) : vue.createCommentVNode("", true),
                           entry.id ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_20, vue.toDisplayString(entry.id) + vue.toDisplayString(keyword === "metrics" || entry.is_metric ? " (API)" : ""), 1)) : vue.createCommentVNode("", true)
