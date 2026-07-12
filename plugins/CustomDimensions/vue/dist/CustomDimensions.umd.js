@@ -707,8 +707,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("CustomDimensions_ConfigureNewDimension")) + " ", 1),
                   vue.createElementVNode("span", _hoisted_16, "(" + vue.toDisplayString(_ctx.translate(
                     "CustomDimensions_XofYLeft",
-                    scope.numSlotsLeft,
-                    scope.numSlotsAvailable
+                    String(scope.numSlotsLeft),
+                    String(scope.numSlotsAvailable)
                   )) + ")", 1)
                 ], 8, _hoisted_15), [
                   [vue.vShow, !_ctx.isLoading]
@@ -796,6 +796,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const _hoisted_4 = ["textContent"];
   const _hoisted_5 = { key: 1 };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a;
     const _component_CustomDimensionsList = vue.resolveComponent("CustomDimensionsList");
     const _component_ContentBlock = vue.resolveComponent("ContentBlock");
     const _component_CustomDimensionsEdit = vue.resolveComponent("CustomDimensionsEdit");
@@ -827,7 +828,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                 [_directive_copy_to_clipboard, {}]
               ])
             ]),
-            vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("CustomDimensions_HowToManyCreateCustomDimensions")) + " " + vue.toDisplayString(_ctx.translate("CustomDimensions_ExampleCreateCustomDimensions", 5)), 1),
+            vue.createElementVNode("p", null, vue.toDisplayString(_ctx.translate("CustomDimensions_HowToManyCreateCustomDimensions")) + " " + vue.toDisplayString(_ctx.translate("CustomDimensions_ExampleCreateCustomDimensions", "5")), 1),
             vue.createElementVNode("div", null, [
               vue.withDirectives((vue.openBlock(), vue.createElementBlock("pre", null, [
                 vue.createElementVNode("code", {
@@ -844,7 +845,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       _ctx.editMode ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5, [
         vue.createElementVNode("div", null, [
           vue.createVNode(_component_CustomDimensionsEdit, {
-            "dimension-id": _ctx.dimensionId,
+            "dimension-id": (_a = _ctx.dimensionId) != null ? _a : void 0,
             "dimension-scope": _ctx.dimensionScope
           }, null, 8, ["dimension-id", "dimension-scope"])
         ])
