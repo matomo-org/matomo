@@ -116,7 +116,7 @@ import SegmentGeneratorStore from './SegmentGenerator.store';
 import { SegmentAndCondition, SegmentMetadata, SegmentOrCondition } from '../types';
 import ValueInput from './ValueInput.vue';
 
-interface SegmentGeneratorState {
+export interface SegmentGeneratorState {
   conditions: SegmentAndCondition[];
   matches: Record<string, { key: string, value: string }[]>;
   queriedSegments: DeepReadonly<SegmentMetadata[]>;

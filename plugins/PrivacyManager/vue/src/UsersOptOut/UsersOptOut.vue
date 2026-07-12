@@ -18,7 +18,7 @@
 
       <OptOutCustomizer
         :matomo-url="matomoUrl"
-        :language="language"
+        :current-language-code="language"
         :language-options="languageOptions"
       />
     </ContentBlock>
