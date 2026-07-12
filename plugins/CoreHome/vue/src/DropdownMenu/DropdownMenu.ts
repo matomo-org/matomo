@@ -7,7 +7,7 @@
 
 import { DirectiveBinding, nextTick } from 'vue';
 
-interface DropdownArgs {
+export interface DropdownArgs {
   activates?: HTMLElement|string,
 }
 

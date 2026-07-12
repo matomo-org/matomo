@@ -279,7 +279,7 @@ const DEFAULT_USER: User = {
   invite_status: '',
 };
 
-interface UserEditFormState {
+export interface UserEditFormState {
   theUser: User;
   activeTab: string;
   permissionsForIdSite: string | number;

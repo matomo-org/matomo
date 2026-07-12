@@ -429,20 +429,20 @@ import { Field, AbortableEvent, PasswordConfirmation } from 'CorePluginsAdmin';
 import CapabilitiesEdit from '../CapabilitiesEdit/CapabilitiesEdit.vue';
 import Capability from '../CapabilitiesStore/Capability';
 
-interface SiteAccess {
+export interface SiteAccess {
   idsite: string|number;
   site_name: string;
   role: string;
   capabilities: Capability[];
 }
 
-interface AccessLevel {
+export interface AccessLevel {
   key: string|number;
   value: unknown;
   type: string;
 }
 
-interface UserPermissionsEditState {
+export interface UserPermissionsEditState {
   siteAccess: SiteAccess[];
   offset: number;
   totalEntries: number|null;

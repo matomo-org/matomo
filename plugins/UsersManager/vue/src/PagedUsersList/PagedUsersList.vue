@@ -498,13 +498,13 @@ import { Field, PasswordConfirmation } from 'CorePluginsAdmin';
 import User from '../User';
 import SearchParams from './SearchParams';
 
-interface AccessLevel {
+export interface AccessLevel {
   key: string;
   value: unknown;
   type: string
 }
 
-interface PagedUsersListState {
+export interface PagedUsersListState {
   areAllResultsSelected: boolean;
   selectedRows: Record<string, boolean>;
   isAllCheckboxSelected: boolean;

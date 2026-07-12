@@ -46,7 +46,7 @@ import {
 } from 'CoreHome';
 import { SaveButton, Field } from 'CorePluginsAdmin';
 
-interface NewsletterSettingsState {
+export interface NewsletterSettingsState {
   showNewsletterSignup: boolean;
   newsletterSignupCheckbox: boolean;
   isProcessingNewsletterSignup: boolean;
