@@ -50,7 +50,7 @@
         default: vue.withCtx(() => [
           vue.createElementVNode("tr", null, [
             vue.createElementVNode("td", {
-              innerHTML: _ctx.$sanitize(result.label)
+              innerHTML: _ctx.$sanitize(result.label || "")
             }, null, 8, _hoisted_1$4),
             vue.createElementVNode("td", null, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(result.items, (item, index2) => {
