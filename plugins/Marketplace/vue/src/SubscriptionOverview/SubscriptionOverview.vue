@@ -44,14 +44,14 @@
         <tr v-for="(subscription, index) in (subscriptions || [])" :key="index">
           <td class="subscriptionName">
             <a
-              v-if="subscription.plugin.htmlUrl"
-              :href="subscription.plugin.htmlUrl"
+              v-if="subscription.plugin?.htmlUrl"
+              :href="subscription.plugin?.htmlUrl"
               rel="noreferrer noopener"
               target="_blank"
             >
-              {{ subscription.plugin.displayName }}
+              {{ subscription.plugin?.displayName }}
             </a>
-            <span v-else>{{ subscription.plugin.displayName }}</span>
+            <span v-else>{{ subscription.plugin?.displayName }}</span>
           </td>
           <td class="subscriptionType">{{ subscription.productType }}</td>
           <td
@@ -114,6 +114,13 @@ import {
 export interface Subscription {
   isValid: boolean;
   isExpiredSoon: boolean;
+  isExceeded?: boolean;
+  productType?: string;
+  status?: string;
+  start?: string;
+  end?: string;
+  nextPayment?: string;
+  plugin?: { displayName?: string; htmlUrl?: string };
 }
 
 export default defineComponent({

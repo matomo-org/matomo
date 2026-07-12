@@ -39,7 +39,7 @@
               <dd>{{ plugin.latestVersion }}</dd>
             </div>
 
-            <div class="pair" v-if="plugin.numDownloads > 0">
+            <div class="pair" v-if="(plugin.numDownloads || 0) > 0">
               <dt>{{ translate('General_Downloads') }}</dt>
               <dd>{{ plugin.numDownloadsPretty }}</dd>
             </div>
@@ -177,15 +177,15 @@
                   {{ plugin.activity.numCommits }} commits
 
                   <template
-                    v-if="pluginActivity?.numContributors > 1">
+                    v-if="Number(pluginActivity?.numContributors) > 1">
                     {{
-                      ' ' + translate('Marketplace_ByXDevelopers', pluginActivity.numContributors)
+                      ' ' + translate('Marketplace_ByXDevelopers', String(pluginActivity.numContributors))
                     }}
                   </template>
                   <template
                     v-if="pluginActivity?.lastCommitDate">
                     {{
-                      ' ' + translate('Marketplace_LastCommitTime', pluginActivity.lastCommitDate)
+                      ' ' + translate('Marketplace_LastCommitTime', String(pluginActivity.lastCommitDate))
                     }}
                   </template>
                 </dd>
@@ -282,7 +282,7 @@
               class="free-trial-dropdown"
               :title="`${translate('Marketplace_ShownPriceIsExclTax')} ${translate(
                 'Marketplace_CurrentNumPiwikUsers',
-                numUsers
+                String(numUsers)
                 )}`"
               v-model="selectedPluginShopVariationUrl"
               @change="changeSelectedPluginShopVariationUrl"
@@ -291,9 +291,9 @@
                       :value="variation.addToCartUrl"
                       :title="`${translate(
                       'Marketplace_PriceExclTax',
-                      variation.price,
+                      String(variation.price),
                       variation.currency
-                    )} ${translate('Marketplace_CurrentNumPiwikUsers', numUsers)}`"
+                    )} ${translate('Marketplace_CurrentNumPiwikUsers', String(numUsers))}`"
               >{{ variation.name }} - {{ variation.prettyPrice }} / {{ variation.period }}</option>
             </select>
           </div>
@@ -327,7 +327,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent , PropType } from 'vue';
 import { MatomoUrl, translate, externalLink } from 'CoreHome';
 import {
   IPluginShopDetails,
@@ -339,9 +339,13 @@ import {
 } from '../types';
 import CTAContainer from '../PluginList/CTAContainer.vue';
 import MissingReqsNotice from '../MissingReqsNotice/MissingReqsNotice.vue';
-import ChangeEvent = JQuery.ChangeEvent;
 
 const { $ } = window;
+
+export interface PluginVersion {
+  readmeHtml?: { description?: string; documentation?: string; faq?: string };
+  license?: { url?: string; name?: string };
+}
 
 export interface PluginAuthor {
   name?: string;
@@ -369,8 +373,8 @@ export default defineComponent({
   components: { MissingReqsNotice, CTAContainer },
   props: {
     modelValue: {
-      type: Object,
-      default: () => ({}),
+      type: Object as PropType<PluginDetails | null>,
+      default: () => null,
     },
     activateNonce: {
       type: String,
@@ -445,12 +449,12 @@ export default defineComponent({
     plugin(): PluginDetails {
       return this.modelValue as PluginDetails;
     },
-    pluginLatestVersion(): TObject {
+    pluginLatestVersion(): PluginVersion {
       const versions: TObjectArray = this.plugin.versions || [{}];
-      return versions[versions.length - 1] as TObject;
+      return versions[versions.length - 1] as PluginVersion;
     },
-    pluginReadmeHtml(): TObject {
-      return this.pluginLatestVersion?.readmeHtml as TObject || {};
+    pluginReadmeHtml(): { description?: string; documentation?: string; faq?: string } {
+      return this.pluginLatestVersion?.readmeHtml || {};
     },
     pluginDescription(): string {
       return this.pluginReadmeHtml?.description as string || '';
@@ -467,8 +471,8 @@ export default defineComponent({
     pluginShopVariations(): IPluginShopVariation[] {
       return this.pluginShop?.variations || [];
     },
-    pluginReviews(): IPluginShopReviews | TObject {
-      return this.pluginShop?.reviews || {};
+    pluginReviews(): IPluginShopReviews {
+      return (this.pluginShop?.reviews || {}) as IPluginShopReviews;
     },
     pluginKeywords(): string[] {
       return this.plugin?.keywords || [];
@@ -493,10 +497,10 @@ export default defineComponent({
       return this.isMatomoPlugin ? 'Matomo' : this.plugin.owner;
     },
     showReviews(): boolean {
-      return (this.pluginReviews
+      return !!(this.pluginReviews
         && this.pluginReviews.embedUrl
         && this.pluginReviews.averageRating
-      ) as boolean;
+      );
     },
     showMissingLicenseDescription(): boolean {
       return this.hasSomeAdminAccess && this.plugin.isMissingLicense;
@@ -552,9 +556,9 @@ export default defineComponent({
     },
   },
   methods: {
-    changeSelectedPluginShopVariationUrl(event: ChangeEvent) {
+    changeSelectedPluginShopVariationUrl(event: Event) {
       if (event) {
-        this.currentPluginShopVariationUrl = event.target.value;
+        this.currentPluginShopVariationUrl = (event.target as HTMLSelectElement).value;
       }
     },
     applyExternalTarget() {
@@ -574,7 +578,7 @@ export default defineComponent({
         const root = this.$refs.root as HTMLElement;
         const elements = $(selector, root);
 
-        if (elements.length && elements[0] && elements[0].scrollIntoView) {
+        if (elements.length && elements[0] && typeof elements[0].scrollIntoView === 'function') {
           elements[0].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
         }
       });

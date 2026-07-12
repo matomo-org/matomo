@@ -39,7 +39,7 @@
 
   <div class="pluginListContainer row" v-if="pluginsToShow.length > 0">
     <div class="col s12 m6 l4" v-for="plugin in pluginsToShow" :key="plugin.name">
-      <div :class="`card-holder ${plugin.numDownloads > 0 ? 'card-with-downloads' : '' }`"
+      <div :class="`card-holder ${(plugin.numDownloads || 0) > 0 ? 'card-with-downloads' : '' }`"
            @click="clickCard($event, plugin)">
         <div class="card">
           <div class="card-content">
@@ -71,7 +71,7 @@
                 <div class="card-description">{{ plugin.description }}</div>
               </div>
               <div class="card-content-bottom">
-                <div v-if="plugin.numDownloads > 0" class="downloads">
+                <div v-if="(plugin.numDownloads || 0) > 0" class="downloads">
                   {{ plugin.numDownloadsPretty }} {{ translate('General_Downloads').toLowerCase() }}
                 </div>
                 <div class="owner">
@@ -125,9 +125,9 @@ import { TObject, PluginDetails } from '../types';
 const { $ } = window;
 
 export interface PluginListState {
-  showRequestTrialForPlugin: TObject | null;
-  showStartFreeTrialForPlugin: TObject | null;
-  showPluginDetailsForPlugin: TObject | null;
+  showRequestTrialForPlugin: PluginDetails | null;
+  showStartFreeTrialForPlugin: PluginDetails | null;
+  showPluginDetailsForPlugin: PluginDetails | null;
 }
 
 export default defineComponent({
@@ -228,7 +228,7 @@ export default defineComponent({
         (plugin: any) => plugin.name === showPlugin,
       );
       if (pluginToShow.length === 1) {
-        const [plugin] = pluginToShow as TObject[];
+        const [plugin] = pluginToShow as PluginDetails[];
 
         this.openDetailsModal(plugin);
         this.scrollPluginCardIntoView(plugin);
@@ -303,7 +303,7 @@ export default defineComponent({
         }
       });
     },
-    clickCard(event: MouseEvent, plugin: TObject) {
+    clickCard(event: MouseEvent, plugin: PluginDetails) {
       // check if the target is a link or is a descendant of a link
       // to skip direct clicks on links within the card, we want those honoured
       if ($(event.target as HTMLElement).closest('a:not(.card-title-link)').length) {
@@ -313,10 +313,10 @@ export default defineComponent({
       event.stopPropagation();
       this.openDetailsModal(plugin);
     },
-    openDetailsModal(plugin: TObject) {
+    openDetailsModal(plugin: PluginDetails) {
       this.showPluginDetailsForPlugin = plugin;
     },
-    scrollPluginCardIntoView(plugin: TObject) {
+    scrollPluginCardIntoView(plugin: PluginDetails) {
       const $titles = $(`.pluginListContainer .card-title:contains("${plugin.displayName}")`);
 
       if ($titles.length !== 1) {
@@ -331,10 +331,10 @@ export default defineComponent({
 
       $cards[0].scrollIntoView({ block: 'start', behavior: 'smooth' });
     },
-    requestTrial(plugin: TObject) {
+    requestTrial(plugin: PluginDetails) {
       this.showRequestTrialForPlugin = plugin;
     },
-    startFreeTrial(plugin: TObject) {
+    startFreeTrial(plugin: PluginDetails) {
       this.showStartFreeTrialForPlugin = plugin;
     },
   },

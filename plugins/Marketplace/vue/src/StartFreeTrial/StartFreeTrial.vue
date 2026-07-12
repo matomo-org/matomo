@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import {
   AjaxHelper,
   externalLink,
@@ -97,8 +97,8 @@ export default defineComponent({
   components: { Field },
   props: {
     modelValue: {
-      type: Object,
-      default: () => ({}),
+      type: Object as PropType<PluginDetails | null>,
+      default: () => null,
     },
     currentUserEmail: String,
     isValidConsumer: Boolean,
