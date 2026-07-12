@@ -13,6 +13,8 @@ interface SiteType {
   id: string;
   name: string;
   howToSetupUrl?: string;
+  longDescription?: string;
+  description?: string;
   settings?: SettingsForSinglePlugin[];
 }
 

@@ -237,7 +237,7 @@ import CurrencyStore from '../CurrencyStore/CurrencyStore';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
 import SiteType from '../SiteTypesStore/SiteType';
 
-interface SiteFieldsState {
+export interface SiteFieldsState {
   isLoading: boolean;
   isLoadingPrivacy: boolean;
   isSaving: boolean;
@@ -329,7 +329,7 @@ export default defineComponent({
 
       const settingValues: Record<string, unknown> = {};
       settings.forEach((settingsForPlugin) => {
-        settingsForPlugin.settings.forEach((setting) => {
+        settingsForPlugin.settings.forEach((setting: Setting) => {
           settingValues[`${settingsForPlugin.pluginName}.${setting.name}`] = setting.value;
         });
       });
