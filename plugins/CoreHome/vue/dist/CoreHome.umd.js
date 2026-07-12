@@ -3228,6 +3228,12 @@ var __async = (__this, __arguments, generator) => {
       }
     },
     methods: {
+      // The rate-feature plugin component is typed as the defineAsyncComponent factory; expose it to
+      // `<component :is>` as a plain Component so the dynamic element's attributes are not type-checked
+      // against the factory's argument type.
+      asComponent(component) {
+        return component;
+      },
       htmlEntities(v) {
         return Matomo.helper.htmlEntities(v);
       }
@@ -3299,7 +3305,7 @@ var __async = (__this, __arguments, generator) => {
           vue.createElementVNode("span", { class: "icon-info" }, null, -1)
         ])], 10, _hoisted_5$j)) : vue.createCommentVNode("", true),
         _ctx.showRateFeature ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$g, [
-          (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.rateFeature), { title: _ctx.actualFeatureName }, null, 8, ["title"]))
+          (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.asComponent(_ctx.rateFeature)), { title: _ctx.actualFeatureName }, null, 8, ["title"]))
         ])) : vue.createCommentVNode("", true)
       ], 512), [
         [vue.vShow, _ctx.showIcons || _ctx.showInlineHelp]
@@ -4062,7 +4068,7 @@ var __async = (__this, __arguments, generator) => {
       }, [
         vue.createElementVNode("span", {
           class: "title-label",
-          innerHTML: _ctx.$sanitize(_ctx.actualMenuTitle)
+          innerHTML: _ctx.$sanitize(_ctx.actualMenuTitle || "")
         }, null, 8, _hoisted_3$m),
         _cache[5] || (_cache[5] = vue.createElementVNode("span", { class: "icon-chevron-down reporting-menu-sub-icon" }, null, -1))
       ], 8, _hoisted_2$p),
@@ -4071,7 +4077,7 @@ var __async = (__this, __arguments, generator) => {
           vue.withDirectives(vue.createElementVNode("input", {
             type: "text",
             "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.searchTerm = $event),
-            onKeydown: _cache[2] || (_cache[2] = ($event) => _ctx.onSearchTermKeydown($event)),
+            onKeydown: _cache[2] || (_cache[2] = ($event) => _ctx.onSearchTermKeydown()),
             placeholder: _ctx.translate("General_Search")
           }, null, 40, _hoisted_6$d), [
             [vue.vModelText, _ctx.searchTerm],
@@ -5050,7 +5056,9 @@ var __async = (__this, __arguments, generator) => {
     },
     methods: {
       removeNotification(id) {
-        instance.remove(id);
+        if (id) {
+          instance.remove(id);
+        }
       }
     }
   });
@@ -6119,19 +6127,21 @@ var __async = (__this, __arguments, generator) => {
         }
       },
       highlightPreviousItem() {
-        if (this.searchIndex - 1 < 0) {
+        const currentIndex = Number(this.searchIndex);
+        if (currentIndex - 1 < 0) {
           this.searchIndex = 0;
         } else {
-          this.searchIndex -= 1;
+          this.searchIndex = currentIndex - 1;
         }
         this.makeSureSelectedItemIsInViewport();
       },
       highlightNextItem() {
         const numTotal = this.$refs.root.querySelectorAll("li.result").length;
-        if (numTotal <= this.searchIndex + 1) {
+        const currentIndex = Number(this.searchIndex);
+        if (numTotal <= currentIndex + 1) {
           this.searchIndex = numTotal - 1;
         } else {
-          this.searchIndex += 1;
+          this.searchIndex = currentIndex + 1;
         }
         this.makeSureSelectedItemIsInViewport();
       },
@@ -6159,8 +6169,8 @@ var __async = (__this, __arguments, generator) => {
       },
       getCurrentlySelectedElement() {
         const results = this.$refs.root.querySelectorAll("li.result");
-        if (results && results.length && results.item(this.searchIndex)) {
-          return results.item(this.searchIndex);
+        if (results && results.length && results.item(Number(this.searchIndex))) {
+          return results.item(Number(this.searchIndex));
         }
         return void 0;
       },
@@ -6257,7 +6267,7 @@ var __async = (__this, __arguments, generator) => {
           var _a2, _b;
           let text = (_a2 = element.textContent) == null ? void 0 : _a2.trim();
           if (!text || element.parentElement != null && element.parentElement.tagName != null && element.parentElement.tagName === "DIV") {
-            text = (_b = element.getAttribute("title")) == null ? void 0 : _b.trim();
+            text = ((_b = element.getAttribute("title")) == null ? void 0 : _b.trim()) || "";
           }
           if (text) {
             topMenuItems.push({ name: text, index: this.menuIndexCounter += 1, category });
@@ -6425,7 +6435,10 @@ var __async = (__this, __arguments, generator) => {
             (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(subcategory.items, (submenuEntry) => {
               return vue.openBlock(), vue.createElementBlock("li", {
                 class: vue.normalizeClass(["result", { selected: submenuEntry.menuIndex === _ctx.searchIndex }]),
-                onMouseenter: ($event) => _ctx.searchIndex = submenuEntry.menuIndex,
+                onMouseenter: ($event) => {
+                  var _a2;
+                  return _ctx.searchIndex = (_a2 = submenuEntry.menuIndex) != null ? _a2 : 0;
+                },
                 onClick: ($event) => _ctx.selectMenuItem(submenuEntry),
                 key: submenuEntry.index
               }, [
@@ -6731,13 +6744,14 @@ var __async = (__this, __arguments, generator) => {
     const _component_Field = vue.resolveComponent("Field");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$m, [
       (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.modelValue, (item, index) => {
+        var _a2;
         return vue.openBlock(), vue.createElementBlock("div", {
           class: vue.normalizeClass(["multiPairFieldTable multiple valign-wrapper", { [`multiPairFieldTable${index}`]: true, [`has${_ctx.fieldCount}Fields`]: true }]),
           key: index
         }, [
           _ctx.field1 ? (vue.openBlock(), vue.createElementBlock("div", {
             key: 0,
-            class: vue.normalizeClass(["fieldUiControl fieldUiControl1", { hasMultiFields: _ctx.field1.type && _ctx.field2.type }])
+            class: vue.normalizeClass(["fieldUiControl fieldUiControl1", { hasMultiFields: _ctx.field1.type && ((_a2 = _ctx.field2) == null ? void 0 : _a2.type) }])
           }, [
             vue.createVNode(_component_Field, {
               "full-width": true,
@@ -6807,7 +6821,7 @@ var __async = (__this, __arguments, generator) => {
             class: "icon-minus valign",
             title: _ctx.translate("General_Remove")
           }, null, 8, _hoisted_5$b), [
-            [vue.vShow, index + 1 !== _ctx.modelValue.length]
+            [vue.vShow, index + 1 !== (_ctx.modelValue || []).length]
           ])
         ], 2);
       }), 128))
@@ -7689,6 +7703,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_2$c = { class: "period-date" };
   const _hoisted_3$c = ["disabled", "value"];
   function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a2, _b, _c;
     const _component_DateRangePicker = vue.resolveComponent("DateRangePicker");
     const _component_PeriodDatePicker = vue.resolveComponent("PeriodDatePicker");
     const _component_PeriodSelectorCompareControls = vue.resolveComponent("PeriodSelectorCompareControls");
@@ -7696,8 +7711,8 @@ var __async = (__this, __arguments, generator) => {
       vue.createElementVNode("div", null, [
         vue.withDirectives(vue.createVNode(_component_DateRangePicker, {
           class: "period-range",
-          "start-date": _ctx.displayRangeStartDate,
-          "end-date": _ctx.displayRangeEndDate,
+          "start-date": (_a2 = _ctx.displayRangeStartDate) != null ? _a2 : void 0,
+          "end-date": (_b = _ctx.displayRangeEndDate) != null ? _b : void 0,
           onRangeChange: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("range-change", $event)),
           onSubmit: _cache[1] || (_cache[1] = ($event) => _ctx.$emit("apply-click"))
         }, null, 8, ["start-date", "end-date"]), [
@@ -7708,7 +7723,7 @@ var __async = (__this, __arguments, generator) => {
         vue.createVNode(_component_PeriodDatePicker, {
           id: "datepicker",
           period: _ctx.singleCalendarPeriod,
-          date: _ctx.singleCalendarSelectedDate,
+          date: (_c = _ctx.singleCalendarSelectedDate) != null ? _c : void 0,
           onSelect: _cache[2] || (_cache[2] = ($event) => _ctx.$emit("single-date-select", $event.date))
         }, null, 8, ["period", "date"])
       ], 512), [
@@ -8767,6 +8782,12 @@ var __async = (__this, __arguments, generator) => {
       });
     },
     methods: {
+      // The plugin component is typed as the defineAsyncComponent factory; expose it to `<component
+      // :is>` as a plain Component so the dynamic element's attributes are not type-checked against
+      // the factory's argument type.
+      asComponent(component) {
+        return component;
+      },
       loadFirstPageOfActiveSection() {
         const menu = ReportingMenuStoreInstance.menu.value;
         const categoryToLoad = menu[0];
@@ -8936,7 +8957,7 @@ var __async = (__this, __arguments, generator) => {
             key: category.id,
             "data-category-id": category.id
           }, [
-            category.component ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(category.component), {
+            category.component ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.asComponent(category.component)), {
               key: 0,
               onAction: ($event) => _ctx.loadCategory(category)
             }, null, 40, ["onAction"])) : vue.createCommentVNode("", true),
@@ -9012,7 +9033,7 @@ var __async = (__this, __arguments, generator) => {
             key: category.id,
             "data-category-id": category.id
           }, [
-            category.component ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(category.component), {
+            category.component ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.asComponent(category.component)), {
               key: 0,
               onAction: ($event) => _ctx.loadCategory(category)
             }, null, 40, ["onAction"])) : vue.createCommentVNode("", true),
@@ -9523,6 +9544,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_5$5 = { class: "dimension" };
   const _hoisted_6$4 = { class: "reportContainer" };
   function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a2;
     const _component_WidgetLoader = vue.resolveComponent("WidgetLoader");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$c, [
       vue.createElementVNode("div", _hoisted_2$8, [
@@ -9534,8 +9556,9 @@ var __async = (__this, __arguments, generator) => {
             vue.createTextVNode(vue.toDisplayString(category.name) + " ", 1),
             vue.createElementVNode("ul", _hoisted_3$8, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(category.widgets, (widget) => {
+                var _a3;
                 return vue.openBlock(), vue.createElementBlock("li", {
-                  class: vue.normalizeClass(["reportDimension", { activeDimension: _ctx.selectedWidget.uniqueId === widget.uniqueId }]),
+                  class: vue.normalizeClass(["reportDimension", { activeDimension: ((_a3 = _ctx.selectedWidget) == null ? void 0 : _a3.uniqueId) === widget.uniqueId }]),
                   key: widget.uniqueId,
                   onClick: ($event) => _ctx.selectWidget(widget)
                 }, [
@@ -9547,7 +9570,7 @@ var __async = (__this, __arguments, generator) => {
         }), 128))
       ]),
       vue.createElementVNode("div", _hoisted_6$4, [
-        _ctx.selectedWidget.parameters ? (vue.openBlock(), vue.createBlock(_component_WidgetLoader, {
+        ((_a2 = _ctx.selectedWidget) == null ? void 0 : _a2.parameters) ? (vue.openBlock(), vue.createBlock(_component_WidgetLoader, {
           key: 0,
           "widget-params": _ctx.selectedWidget.parameters,
           class: "dimensionReport"
@@ -9685,7 +9708,7 @@ var __async = (__this, __arguments, generator) => {
       _ctx.actualWidget.isContainer && _ctx.actualWidget.layout !== "ByDimension" && !_ctx.preventRecursion ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$7, [
         vue.createElementVNode("div", null, [
           vue.createVNode(_component_WidgetContainer, {
-            container: _ctx.actualWidget.widgets
+            container: _ctx.actualWidget.widgets || []
           }, null, 8, ["container"])
         ])
       ])) : vue.createCommentVNode("", true),
@@ -9755,7 +9778,8 @@ var __async = (__this, __arguments, generator) => {
           }
           return report.relatedReports;
         };
-        (page.widgets || []).forEach((widget) => {
+        const pageWidgets = page.widgets || [];
+        pageWidgets.forEach((widget) => {
           if (isIgnoredReport(widget)) {
             return;
           }
@@ -10530,6 +10554,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_18$1 = ["href", "title"];
   const _hoisted_19$1 = ["innerHTML"];
   function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a2, _b;
     const _component_Field = vue.resolveComponent("Field");
     const _directive_select_on_focus = vue.resolveDirective("select-on-focus");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$9, [
@@ -10624,7 +10649,7 @@ var __async = (__this, __arguments, generator) => {
           ], 512), [
             [vue.vShow, !_ctx.maxFilterLimit || _ctx.maxFilterLimit <= 0]
           ]),
-          _ctx.reportLimitAll === "no" && _ctx.maxFilterLimit <= 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_12$2, [
+          _ctx.reportLimitAll === "no" && ((_a2 = _ctx.maxFilterLimit) != null ? _a2 : 0) <= 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_12$2, [
             vue.createVNode(_component_Field, {
               uicontrol: "number",
               name: "filter_limit",
@@ -10634,7 +10659,7 @@ var __async = (__this, __arguments, generator) => {
               "full-width": true
             }, null, 8, ["modelValue"])
           ])) : vue.createCommentVNode("", true),
-          _ctx.reportLimitAll === "no" && _ctx.maxFilterLimit > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_13$2, [
+          _ctx.reportLimitAll === "no" && ((_b = _ctx.maxFilterLimit) != null ? _b : 0) > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_13$2, [
             vue.createVNode(_component_Field, {
               uicontrol: "number",
               name: "filter_limit",
@@ -11834,7 +11859,7 @@ var __async = (__this, __arguments, generator) => {
           vue.withDirectives((vue.openBlock(), vue.createElementBlock("ul", _hoisted_2$1, [
             vue.createElementVNode("li", null, [
               vue.createElementVNode("a", _hoisted_3$1, [
-                vue.createTextVNode(vue.toDisplayString(_ctx.translateOrDefault(level1)), 1),
+                vue.createTextVNode(vue.toDisplayString(_ctx.translateOrDefault(String(level1))), 1),
                 vue.createElementVNode("i", {
                   class: vue.normalizeClass(level2._icon || "icon-chevron-down")
                 }, null, 2)
@@ -12161,7 +12186,7 @@ var __async = (__this, __arguments, generator) => {
         if (!newValue) {
           return;
         }
-        let beforeShowModal;
+        let beforeShowModal = void 0;
         if (this.modalStore.adapter.beforeShowModal) {
           beforeShowModal = this.modalStore.adapter.beforeShowModal();
         }
