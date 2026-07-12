@@ -898,7 +898,7 @@ var __async = (__this, __arguments, generator) => {
                 tabindex: "4",
                 onClick: ($event) => _ctx.onClickAction($event, actionName),
                 class: "generalAction",
-                disabled: _ctx.isActionDisabled[actionName] ? "disabled" : void 0,
+                disabled: _ctx.isActionDisabled[actionName] ? true : void 0,
                 title: _ctx.actionTooltips[actionName] || void 0,
                 "data-action": actionName
               }, vue.toDisplayString(_ctx.translate(title)), 9, _hoisted_4)
@@ -919,7 +919,7 @@ var __async = (__this, __arguments, generator) => {
                 type: "button",
                 tabindex: "4",
                 onClick: ($event) => _ctx.onClickAction($event, actionName),
-                disabled: _ctx.isActionDisabled[actionName] ? "disabled" : void 0,
+                disabled: _ctx.isActionDisabled[actionName] ? true : void 0,
                 title: _ctx.actionTooltips[actionName] || void 0,
                 "data-action": actionName
               }, vue.toDisplayString(_ctx.translate(title)), 9, _hoisted_5)
