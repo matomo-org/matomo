@@ -42,12 +42,14 @@ class SparklinesTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Encodes the product-scope decision of which comparison modes the redesigned Vue grid may
-     * render: no comparison, or date comparison of exactly two dates (one extra compareDate) with
-     * no segment comparison. Everything else falls back to the legacy Twig layout.
+     * render: no comparison ('none'), date comparison of exactly two dates ('date', one extra
+     * compareDate, no segments), or segment comparison over a single date ('segment'). Everything
+     * else (segment + date combined, or three or more dates) returns null and falls back to the
+     * legacy Twig layout.
      *
-     * @dataProvider getRedesignComparisonSupportData
+     * @dataProvider getRedesignComparisonModeData
      */
-    public function testIsRedesignSupportedForComparison(bool $isComparing, array $request, bool $expected)
+    public function testGetSupportedRedesignComparisonMode(bool $isComparing, array $request, ?string $expected)
     {
         // Stub the two request-reading helpers so the pure decision logic can be exercised without
         // the full ViewDataTable request/config setup; invoke the private method under test directly.
@@ -58,26 +60,29 @@ class SparklinesTest extends \PHPUnit\Framework\TestCase
         $view->method('isComparing')->willReturn($isComparing);
         $view->method('getRequestArray')->willReturn($request);
 
-        $method = new \ReflectionMethod(Sparklines::class, 'isRedesignSupportedForComparison');
+        $method = new \ReflectionMethod(Sparklines::class, 'getSupportedRedesignComparisonMode');
         $method->setAccessible(true);
 
         $this->assertSame($expected, $method->invoke($view));
     }
 
-    public function getRedesignComparisonSupportData(): array
+    public function getRedesignComparisonModeData(): array
     {
         return [
             // No comparison is always supported, regardless of the request contents.
-            'no comparison' => [false, [], true],
+            'no comparison' => [false, [], 'none'],
             // Two-date comparison = the original date plus exactly one compareDate, no segments.
-            'two dates, no segments' => [true, ['compareDates' => ['2026-05-03']], true],
-            'two dates, empty segments' => [true, ['compareDates' => ['2026-05-03'], 'compareSegments' => []], true],
-            // Segment comparison stays on the legacy layout, even with a single compareDate.
-            'segment comparison' => [true, ['compareDates' => ['2026-05-03'], 'compareSegments' => ['browserCode==FF']], false],
+            'two dates, no segments' => [true, ['compareDates' => ['2026-05-03']], 'date'],
+            'two dates, empty segments' => [true, ['compareDates' => ['2026-05-03'], 'compareSegments' => []], 'date'],
+            // Segment comparison over the single (base) date, no extra compareDates.
+            'segment comparison' => [true, ['compareSegments' => ['browserCode==FF']], 'segment'],
+            'segment comparison, empty compareDates' => [true, ['compareSegments' => ['browserCode==FF'], 'compareDates' => []], 'segment'],
+            // Segment + date comparison combined stays on the legacy layout.
+            'segment and date comparison' => [true, ['compareDates' => ['2026-05-03'], 'compareSegments' => ['browserCode==FF']], null],
             // Three or more compared dates (2+ compareDates) are out of scope.
-            'three dates' => [true, ['compareDates' => ['2026-05-03', '2026-05-02']], false],
-            // Comparing but no compareDates at all is not a supported date comparison.
-            'comparing without compareDates' => [true, [], false],
+            'three dates' => [true, ['compareDates' => ['2026-05-03', '2026-05-02']], null],
+            // Comparing but no compareDates and no segments is not a supported comparison.
+            'comparing without compare params' => [true, [], null],
         ];
     }
 }

@@ -1,0 +1,50 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Segment-comparison card: the metric name once, then a stacked block per compared segment. The card
+// frame (border/padding/radius) is the shared `.sparklineCardFrame()` mixin (SparklineCard.less), applied
+// to this block's own root; the per-segment rows are a nested block styled in SegmentComparisonRow.less.
+// Frame selectors are qualified with `.sparkline` for the same reason as SparklineCard (JS contract +
+// out-specifying the legacy global `.sparkline` spacing).
+.widget .widgetContent .sparkline.sparklineSegmentComparisonCard,
+.sparkline.sparklineSegmentComparisonCard {
+  .sparklineCardFrame();
+}
+
+// The whole card is the single click-to-evolution link (every segment reloads the same graph), so it
+// carries the legacy `.sparkline` class for the JS wiring. Reuse the shared clickable-card treatment
+// (block flow + focus-ring hover border) from SparklineCard.less — all sparkline `.less` compile in
+// one pass and that file is registered first, so the mixin is in scope here.
+.sparkline.sparklineSegmentComparisonCard {
+  .sparklineCardClickable();
+}
+
+// Card title = the metric name, matching the other card bodies (18px, clamped to one line so a long
+// name can't grow the card; the full name shows on hover).
+.sparklineSegmentComparisonCard__title {
+  color: @theme-color-text;
+  font-size: 18px;
+  line-height: 24px;
+  height: 24px;
+  margin-bottom: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Signals the title carries a documentation tooltip.
+.sparklineSegmentComparisonCard__title--documented {
+  cursor: help;
+}
+
+// Stacks the per-segment rows. The gap between rows is the card's layout concern (it owns the
+// stack), so it lives here rather than on the row — no adjacent-sibling selector needed.
+.sparklineSegmentComparisonCard__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
