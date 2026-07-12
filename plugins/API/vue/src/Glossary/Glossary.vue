@@ -69,7 +69,7 @@
                   {{ translate(entry.subtitle) }}
                 </p>
                 <p>
-                  <span v-html="$sanitize(entry.documentation)"></span>
+                  <span v-html="$sanitize(entry.documentation || '')"></span>
 
                   <br v-if="entry.id"/>
                   <span style="color: #bbb;" v-if="entry.id">
@@ -93,6 +93,11 @@ const { $ } = window;
 
 interface GlossaryItemEntry {
   letter: string;
+  id?: string;
+  name?: string;
+  subtitle?: string;
+  documentation?: string;
+  is_metric?: boolean;
 }
 
 export default defineComponent({
