@@ -510,7 +510,7 @@ export default defineComponent({
       reportParams.reportDescription = this.report.reportDescription || '';
       apiParameters.parameters = reportParams as unknown as QueryParameters;
 
-      const isUpdate = this.report.idreport > 0;
+      const isUpdate = Number(this.report.idreport) > 0;
       AjaxHelper.post(
         {
           method: isUpdate ? 'ScheduledReports.updateReport' : 'ScheduledReports.addReport',
