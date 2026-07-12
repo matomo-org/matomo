@@ -3275,7 +3275,7 @@ var __async = (__this, __arguments, generator) => {
         key: 1,
         class: "title",
         href: _ctx.editUrl,
-        title: _ctx.translate("CoreHome_ClickToEditX", _ctx.htmlEntities(_ctx.actualFeatureName))
+        title: _ctx.translate("CoreHome_ClickToEditX", _ctx.htmlEntities(_ctx.actualFeatureName || ""))
       }, [
         vue.renderSlot(_ctx.$slots, "default")
       ], 8, _hoisted_2$s)) : vue.createCommentVNode("", true),
@@ -3306,12 +3306,12 @@ var __async = (__this, __arguments, generator) => {
       ]),
       vue.withDirectives(vue.createElementVNode("div", _hoisted_7$b, [
         vue.createElementVNode("div", {
-          innerHTML: _ctx.$sanitize(_ctx.actualInlineHelp)
+          innerHTML: _ctx.$sanitize(_ctx.actualInlineHelp || "")
         }, null, 8, _hoisted_8$a),
         _ctx.reportGenerated != "" ? (vue.openBlock(), vue.createElementBlock("span", {
           key: 0,
           class: "helpDate",
-          innerHTML: _ctx.$sanitize(_ctx.reportGenerated)
+          innerHTML: _ctx.$sanitize(_ctx.reportGenerated || "")
         }, null, 8, _hoisted_9$8)) : vue.createCommentVNode("", true),
         _ctx.helpUrl ? (vue.openBlock(), vue.createElementBlock("a", {
           key: 1,
@@ -3414,7 +3414,7 @@ var __async = (__this, __arguments, generator) => {
   function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     return vue.openBlock(), vue.createElementBlock("div", {
-      class: vue.normalizeClass({ card: true, "card-with-image": !!this.imageUrl }),
+      class: vue.normalizeClass({ card: true, "card-with-image": !!_ctx.imageUrl }),
       ref: "root"
     }, [
       vue.createElementVNode("div", _hoisted_1$y, [
@@ -4062,7 +4062,7 @@ var __async = (__this, __arguments, generator) => {
       }, [
         vue.createElementVNode("span", {
           class: "title-label",
-          innerHTML: _ctx.$sanitize(this.actualMenuTitle)
+          innerHTML: _ctx.$sanitize(_ctx.actualMenuTitle)
         }, null, 8, _hoisted_3$m),
         _cache[5] || (_cache[5] = vue.createElementVNode("span", { class: "icon-chevron-down reporting-menu-sub-icon" }, null, -1))
       ], 8, _hoisted_2$p),
@@ -4441,11 +4441,12 @@ var __async = (__this, __arguments, generator) => {
         this.rangeChanged();
       },
       onRangeInputChanged(source, event) {
+        const input = event.target;
         setTimeout(() => {
           if (source === "from") {
-            this.setStartRangeDateFromStr(event.target.value);
+            this.setStartRangeDateFromStr(input.value);
           } else {
-            this.setEndRangeDateFromStr(event.target.value);
+            this.setEndRangeDateFromStr(input.value);
           }
         });
       },
@@ -5330,12 +5331,12 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$r = ["innerHTML", "href"];
   function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", {
-      onClick: _cache[1] || (_cache[1] = ($event) => this.onClick($event)),
+      onClick: _cache[1] || (_cache[1] = ($event) => _ctx.onClick($event)),
       class: "custom_select_all"
     }, [
       vue.createElementVNode("a", {
         onClick: _cache[0] || (_cache[0] = ($event) => $event.preventDefault()),
-        innerHTML: _ctx.$sanitize(_ctx.allSitesText),
+        innerHTML: _ctx.$sanitize(_ctx.allSitesText || ""),
         tabindex: "4",
         href: _ctx.href
       }, null, 8, _hoisted_1$r)
@@ -6536,7 +6537,10 @@ var __async = (__this, __arguments, generator) => {
       modelValue: Array,
       name: String,
       id: String,
-      field: Object,
+      field: {
+        type: Object,
+        required: true
+      },
       rows: String
     },
     components: {
@@ -6605,7 +6609,7 @@ var __async = (__this, __arguments, generator) => {
             class: "icon-minus valign",
             title: _ctx.translate("General_Remove")
           }, null, 8, _hoisted_3$h), [
-            [vue.vShow, index + 1 !== _ctx.modelValue.length]
+            [vue.vShow, index + 1 !== (_ctx.modelValue || []).length]
           ])
         ], 2);
       }), 128))
@@ -9678,7 +9682,7 @@ var __async = (__this, __arguments, generator) => {
         widget: _ctx.actualWidget,
         widgetized: _ctx.widgetized
       }, null, 8, ["widget", "widgetized"])) : vue.createCommentVNode("", true),
-      _ctx.actualWidget.isContainer && _ctx.actualWidget.layout !== "ByDimension" && !this.preventRecursion ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$7, [
+      _ctx.actualWidget.isContainer && _ctx.actualWidget.layout !== "ByDimension" && !_ctx.preventRecursion ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$7, [
         vue.createElementVNode("div", null, [
           vue.createVNode(_component_WidgetContainer, {
             container: _ctx.actualWidget.widgets
@@ -10922,7 +10926,7 @@ var __async = (__this, __arguments, generator) => {
         vue.createVNode(_component_MatomoLoader),
         vue.createElementVNode("span", {
           class: "label",
-          innerHTML: _ctx.$sanitize(_ctx.label)
+          innerHTML: _ctx.$sanitize(_ctx.label || "")
         }, null, 8, _hoisted_3$4)
       ], 512), [
         [vue.vShow, !!_ctx.label]
@@ -11746,7 +11750,7 @@ var __async = (__this, __arguments, generator) => {
           _ctx.isInternetEnabled ? (vue.openBlock(), vue.createElementBlock("a", {
             key: 0,
             class: "title",
-            innerHTML: _ctx.$sanitize(_ctx.updateCheck)
+            innerHTML: _ctx.$sanitize(_ctx.updateCheck || "")
           }, null, 8, _hoisted_3$2)) : (vue.openBlock(), vue.createElementBlock("a", {
             key: 1,
             class: "title",
@@ -11767,7 +11771,7 @@ var __async = (__this, __arguments, generator) => {
           key: 1,
           innerHTML: _ctx.$sanitize(_ctx.updateAvailableText)
         }, null, 8, _hoisted_8$1)) : vue.createCommentVNode("", true),
-        vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_YouAreCurrentlyUsing", _ctx.piwikVersion)), 1)
+        vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("General_YouAreCurrentlyUsing", _ctx.piwikVersion || "")), 1)
       ])
     ], 2)), [
       [_directive_expand_on_hover, { expander: "expander" }]
