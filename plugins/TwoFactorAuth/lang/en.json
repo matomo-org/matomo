@@ -32,6 +32,7 @@
         "DisableTwoFA": "Turn off two-factor authentication",
         "EnableTwoFA": "Turn on two-factor authentication",
         "ConfirmDisableTwoFA": "Turn off two-factor authentication for your account? This will lower your account security.",
+        "ConfirmDisableTwoFAAuthCode": "To turn off two-factor authentication, enter the code from your authentication app or one of your recovery codes.",
         "VerifyAuthCodeIntro": "Please enter the six-digit code from your OTP app below to confirm you have set up on your device.",
         "VerifyAuthCodeHelp": "Please enter the six-digit code generated on your mobile device after scanning the barcode.",
         "Your2FaAuthSecret": "Your two-factor authentication secret",

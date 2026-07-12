@@ -13,8 +13,10 @@ use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Auth;
 use Piwik\AuthResult;
+use Piwik\Nonce;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
@@ -91,6 +93,108 @@ class TwoFactorAuthTest extends IntegrationTestCase
     {
         $this->bruteForceDetection->deleteAll();
         unset($_GET['authCode'], $_GET['module'], $_GET['action']);
+        unset($_POST['authCode'], $_POST['disableNonce']);
+    }
+
+    public function testDisableTwoFactorAuthRendersAuthCodeFormWhenPasswordVerifiedButNoAuthCodeProvided()
+    {
+        $nonce = $this->setUpVerifiedDisableFlow($this->userWith2Fa);
+        $_POST['disableNonce'] = $nonce;
+
+        $result = StaticContainer::get(Controller::class)->disableTwoFactorAuth();
+
+        // the auth code form is shown and 2fa stays enabled until a valid code is provided
+        $this->assertStringContainsString('disable_2fa_authcode', $result);
+        $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($this->userWith2Fa));
+    }
+
+    public function testDisableTwoFactorAuthRejectsInvalidAuthCodeAndKeeps2FaEnabled()
+    {
+        $this->assertCount(0, $this->bruteForceDetection->getAll());
+
+        $nonce = $this->setUpVerifiedDisableFlow($this->userWith2Fa);
+        $_POST['disableNonce'] = $nonce;
+        $_POST['authCode'] = '000000';
+
+        $result = StaticContainer::get(Controller::class)->disableTwoFactorAuth();
+
+        $this->assertStringContainsString('disable_2fa_authcode', $result);
+        $this->assertStringContainsString('TwoFactorAuth_InvalidAuthCode', $result);
+        $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($this->userWith2Fa));
+
+        // an invalid code is treated as a failed authentication attempt
+        $attempts = $this->bruteForceDetection->getAll();
+        $this->assertCount(1, $attempts);
+        $this->assertSame($this->userWith2Fa, $attempts[0]['login']);
+    }
+
+    public function testDisableTwoFactorAuthDisables2FaWhenValidAuthCodeProvided()
+    {
+        $nonce = $this->setUpVerifiedDisableFlow($this->userWith2Fa);
+        $_POST['disableNonce'] = $nonce;
+        $_POST['authCode'] = $this->generateValidAuthCode($this->user2faSecret);
+
+        try {
+            StaticContainer::get(Controller::class)->disableTwoFactorAuth();
+        } catch (\Exception $e) {
+            // the redirect after disabling becomes an exception in CLI mode
+        }
+
+        $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($this->userWith2Fa));
+    }
+
+    public function testDisableTwoFactorAuthDisables2FaWhenValidRecoveryCodeProvided()
+    {
+        $recoveryCode = $this->dao->getAllRecoveryCodesForLogin($this->userWith2Fa)[0];
+
+        $nonce = $this->setUpVerifiedDisableFlow($this->userWith2Fa);
+        $_POST['disableNonce'] = $nonce;
+        $_POST['authCode'] = $recoveryCode;
+
+        try {
+            StaticContainer::get(Controller::class)->disableTwoFactorAuth();
+        } catch (\Exception $e) {
+            // the redirect after disabling becomes an exception in CLI mode
+        }
+
+        $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($this->userWith2Fa));
+    }
+
+    public function testDisableTwoFactorAuthThrowsWhenNonceIsInvalidEvenWhenPasswordVerified()
+    {
+        $this->setUpVerifiedDisableFlow($this->userWith2Fa);
+        $_POST['disableNonce'] = 'not-a-valid-nonce';
+        $_POST['authCode'] = $this->generateValidAuthCode($this->user2faSecret);
+
+        try {
+            StaticContainer::get(Controller::class)->disableTwoFactorAuth();
+            $this->fail('Expected a security check exception to be thrown for the invalid nonce');
+        } catch (\Exception $e) {
+            $this->assertStringContainsString('General_ExceptionSecurityCheckFailed', $e->getMessage());
+        }
+
+        // 2fa must remain enabled when the nonce is invalid
+        $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($this->userWith2Fa));
+    }
+
+    /**
+     * Puts the session into the state right before the auth code confirmation: 2FA verified on login and the
+     * password verified recently. Returns a valid disable nonce.
+     */
+    private function setUpVerifiedDisableFlow(string $login): string
+    {
+        $this->setCurrentUser($login);
+
+        $fingerprint = new SessionFingerprint();
+        $fingerprint->initialize($login, $login . '-token');
+        $fingerprint->setTwoFactorAuthenticationVerified($login);
+
+        $verifier = new PasswordVerifier();
+        $verifier->setDisableRedirect();
+        $verifier->requirePasswordVerifiedRecently(['module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth']);
+        $verifier->setPasswordVerifiedCorrectly($login);
+
+        return Nonce::getNonce(Controller::DISABLE_2FA_NONCE);
     }
 
     public function testLoginTwoFactorAuthRequiresFreshLoginWhenCurrentUserDoesNotMatchPendingSessionUser()
