@@ -13,7 +13,7 @@
   >
     <div
       class="row"
-      v-form=""
+      v-form
     >
       <div
         class="col m2 entityList"
@@ -132,7 +132,7 @@
                   v-if="currentUserRole === 'superuser'"
                   :value="translate('UsersManager_SaveBasicInfo')"
                   :saving="isSavingUserInfo"
-                  @confirm="this.isShowingPasswordConfirm = true"
+                  @confirm="isShowingPasswordConfirm = true"
                 />
               </div>
             </div>
@@ -250,7 +250,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import {
   ContentBlock,
   translate,
@@ -296,7 +296,7 @@ export interface UserEditFormState {
 
 export default defineComponent({
   props: {
-    user: Object,
+    user: Object as PropType<User>,
     currentUserRole: {
       type: String,
       required: true,

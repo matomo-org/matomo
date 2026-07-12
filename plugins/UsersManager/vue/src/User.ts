@@ -13,6 +13,8 @@ interface User {
   email: string;
   role?: string;
   invite_status?: string;
+  last_seen_ago?: string;
+  invited_by?: string;
 }
 
 export default User;
