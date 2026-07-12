@@ -349,7 +349,7 @@
               name: "actionName",
               modelValue: _ctx.actionName,
               "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.actionName = $event),
-              title: _ctx.translate("Transitions_TopX", 100),
+              title: _ctx.translate("Transitions_TopX", "100"),
               "full-width": true,
               disabled: !_ctx.isEnabled,
               options: _ctx.actionNameOptions
