@@ -7,12 +7,12 @@
 
 <template>
   <div
-    @click="this.onClick($event)"
+    @click="onClick($event)"
     class="custom_select_all"
   >
     <a
       @click="$event.preventDefault()"
-      v-html="$sanitize(allSitesText)"
+      v-html="$sanitize(allSitesText || '')"
       tabindex="4"
       :href="href"
     />

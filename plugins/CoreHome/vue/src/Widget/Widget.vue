@@ -26,7 +26,7 @@
     />
     <div v-if="actualWidget.isContainer
       && actualWidget.layout !== 'ByDimension'
-      && !this.preventRecursion"
+      && !preventRecursion"
     >
       <div>
         <WidgetContainer :container="actualWidget.widgets" />
