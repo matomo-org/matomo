@@ -29,7 +29,7 @@
     <div class="sparklineSlot">
       <Sparkline :width="380" :height="40"
         :params="sparkline.url"
-        :series-indices="sparkline.seriesIndices"
+        :series-indices="sparkline.seriesIndices ?? undefined"
       />
     </div>
   </div>

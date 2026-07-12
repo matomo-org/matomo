@@ -23,8 +23,7 @@
         class="metricEvolution"
         v-if="pastValue !== null"
         :title="translate(
-          'General_EvolutionSummaryGeneric', metricValue, currentPeriod, pastValue,
-          pastPeriod, metricChangePercent)"
+          'General_EvolutionSummaryGeneric', String(metricValue ?? ''), String(currentPeriod ?? ''), String(pastValue ?? ''), String(pastPeriod ?? ''), String(metricChangePercent ?? ''))"
       >
         <span :class="evolutionClass">
           {{ metricChangePercent }}
