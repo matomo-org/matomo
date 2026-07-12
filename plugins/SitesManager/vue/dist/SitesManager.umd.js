@@ -1286,6 +1286,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const _hoisted_13 = { key: 0 };
   const _hoisted_14 = { class: "bottomButtonBar" };
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a, _b;
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _component_MatomoLoader = vue.resolveComponent("MatomoLoader");
     const _component_ButtonBar = vue.resolveComponent("ButtonBar");
@@ -1344,13 +1345,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           hasNext: _ctx.hasNext,
           "offset-start": _ctx.offsetStart,
           "offset-end": _ctx.offsetEnd,
-          "total-number-of-sites": _ctx.totalNumberOfSites,
+          "total-number-of-sites": (_a = _ctx.totalNumberOfSites) != null ? _a : void 0,
           "is-loading": _ctx.isLoading,
           "search-term": _ctx.searchTerm,
           "is-searching": !!_ctx.activeSearchTerm,
           "onUpdate:searchTerm": _cache[0] || (_cache[0] = ($event) => _ctx.searchTerm = $event),
           onAdd: _cache[1] || (_cache[1] = ($event) => _ctx.addNewEntity()),
-          onSearch: _cache[2] || (_cache[2] = ($event) => _ctx.searchSites($event)),
+          onSearch: _cache[2] || (_cache[2] = ($event) => _ctx.searchSites()),
           onPrev: _cache[3] || (_cache[3] = ($event) => _ctx.previousPage()),
           onNext: _cache[4] || (_cache[4] = ($event) => _ctx.nextPage())
         }, null, 8, ["site-is-being-edited", "has-prev", "hasNext", "offset-start", "offset-end", "total-number-of-sites", "is-loading", "search-term", "is-searching"])
@@ -1410,7 +1411,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               "utc-time": _ctx.utcTime,
               "global-settings": _ctx.globalSettings,
               "privacy-manager-enabled": _ctx.privacyManagerEnabled,
-              onEditSite: _cache[6] || (_cache[6] = ($event) => this.isSiteBeingEdited = true),
+              onEditSite: _cache[6] || (_cache[6] = ($event) => _ctx.isSiteBeingEdited = true),
               onCancelEditSite: _cache[7] || (_cache[7] = ($event) => _ctx.afterCancelEdit($event)),
               onCancelEditPrivacy: _cache[8] || (_cache[8] = ($event) => _ctx.afterCancelEdit($event)),
               onDelete: _cache[9] || (_cache[9] = ($event) => _ctx.afterDelete($event)),
@@ -1426,13 +1427,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           hasNext: _ctx.hasNext,
           "offset-start": _ctx.offsetStart,
           "offset-end": _ctx.offsetEnd,
-          "total-number-of-sites": _ctx.totalNumberOfSites,
+          "total-number-of-sites": (_b = _ctx.totalNumberOfSites) != null ? _b : void 0,
           "is-loading": _ctx.isLoading,
           "search-term": _ctx.searchTerm,
           "is-searching": !!_ctx.activeSearchTerm,
           "onUpdate:searchTerm": _cache[10] || (_cache[10] = ($event) => _ctx.searchTerm = $event),
           onAdd: _cache[11] || (_cache[11] = ($event) => _ctx.addNewEntity()),
-          onSearch: _cache[12] || (_cache[12] = ($event) => _ctx.searchSites($event)),
+          onSearch: _cache[12] || (_cache[12] = ($event) => _ctx.searchSites()),
           onPrev: _cache[13] || (_cache[13] = ($event) => _ctx.previousPage()),
           onNext: _cache[14] || (_cache[14] = ($event) => _ctx.nextPage())
         }, null, 8, ["site-is-being-edited", "has-prev", "hasNext", "offset-start", "offset-end", "total-number-of-sites", "is-loading", "search-term", "is-searching"])
@@ -1549,7 +1550,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.showListOfCommonExclusions = true, ["prevent"]))
             }, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("SitesManager_ExclusionViewListLink")) + " ", 1),
-              _cache[6] || (_cache[6] = vue.createElementVNode("span", { class: "icon-chevron-down" }, null, -1))
+              _cache[5] || (_cache[5] = vue.createElementVNode("span", { class: "icon-chevron-down" }, null, -1))
             ])) : vue.createCommentVNode("", true),
             _ctx.showListOfCommonExclusions ? (vue.openBlock(), vue.createElementBlock("a", {
               key: 1,
@@ -1557,12 +1558,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               onClick: _cache[1] || (_cache[1] = vue.withModifiers(($event) => _ctx.showListOfCommonExclusions = false, ["prevent"]))
             }, [
               vue.createTextVNode(vue.toDisplayString(_ctx.translate("SitesManager_ExclusionViewListLink")) + " ", 1),
-              _cache[7] || (_cache[7] = vue.createElementVNode("span", { class: "icon-chevron-up" }, null, -1))
+              _cache[6] || (_cache[6] = vue.createElementVNode("span", { class: "icon-chevron-up" }, null, -1))
             ])) : vue.createCommentVNode("", true)
           ]),
           _ctx.showListOfCommonExclusions ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$2, vue.toDisplayString(_ctx.commonSensitiveQueryParams.join(", ")), 1)) : vue.createCommentVNode("", true),
+          _cache[7] || (_cache[7] = vue.createElementVNode("br", null, null, -1)),
           _cache[8] || (_cache[8] = vue.createElementVNode("br", null, null, -1)),
-          _cache[9] || (_cache[9] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(
             "SitesManager_MatomoWillAutomaticallyExcludeCommonSessionParametersInAddition",
             "phpsessid, sessionid, ..."
@@ -1572,8 +1573,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         ]),
         vue.withDirectives(vue.createElementVNode("div", null, [
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("SitesManager_ExclusionTypeDescriptionCustom")) + " ", 1),
+          _cache[9] || (_cache[9] = vue.createElementVNode("br", null, null, -1)),
           _cache[10] || (_cache[10] = vue.createElementVNode("br", null, null, -1)),
-          _cache[11] || (_cache[11] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(
             "SitesManager_MatomoWillAutomaticallyExcludeCommonSessionParametersInAddition",
             "phpsessid, sessionid, ..."
@@ -1599,16 +1600,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           name: "excludedQueryParametersGlobal",
           "var-type": "array",
           class: "limited-height-scrolling-textarea",
-          modelValue: _ctx.localExcludedQueryParametersGlobal,
-          "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => _ctx.localExcludedQueryParametersGlobal = $event),
           "model-value": _ctx.localExcludedQueryParametersGlobal.join("\n"),
-          onInput: _cache[4] || (_cache[4] = ($event) => _ctx.onInputExcludedQueryParametersGlobal($event.target.value)),
+          onInput: _cache[3] || (_cache[3] = ($event) => _ctx.onInputExcludedQueryParametersGlobal($event.target.value)),
           title: _ctx.translate("SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites"),
           "inline-help": "#excludedQueryParametersGlobalHelp"
-        }, null, 8, ["modelValue", "model-value", "title"]),
+        }, null, 8, ["model-value", "title"]),
         vue.createElementVNode("input", {
           type: "button",
-          onClick: _cache[5] || (_cache[5] = ($event) => _ctx.addCommonPIIQueryParams()),
+          onClick: _cache[4] || (_cache[4] = ($event) => _ctx.addCommonPIIQueryParams()),
           class: "btn",
           value: _ctx.translate("SitesManager_AddSensibleExclusionsToMyCustomListButtonText")
         }, null, 8, _hoisted_5$2)
