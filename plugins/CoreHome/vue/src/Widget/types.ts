@@ -32,6 +32,10 @@ export interface Widget extends Orderable {
   layout?: string;
   isWide?: boolean;
   isFirstInPage?: boolean;
+
+  // Discriminant against GroupedWidgets: a plain widget is never a group. Lets the reporting page
+  // template narrow `Widget | GroupedWidgets` via `widget.group`.
+  group?: false;
 }
 
 // get around DeepReadonly<> not being able to handle recursive types by moving the
@@ -41,7 +45,10 @@ export interface WidgetContainer extends Widget {
 }
 
 export interface GroupedWidgets {
-  group: boolean;
+  group: true;
+  // Grouped widgets have no id of their own; declared optional so the shared `Widget | GroupedWidgets`
+  // list can be keyed by uniqueId in templates.
+  uniqueId?: undefined;
   left?: Widget[];
   right?: Widget[];
 }
