@@ -353,6 +353,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   const _hoisted_6$2 = { id: "accountForm" };
   const _hoisted_7$1 = ["innerHTML"];
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a;
     const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
     const _component_Alert = vue.resolveComponent("Alert");
     const _component_Field = vue.resolveComponent("Field");
@@ -361,19 +362,19 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     const _directive_form = vue.resolveDirective("form");
     return vue.openBlock(), vue.createElementBlock("div", null, [
       vue.createVNode(_component_ActivityIndicator, { loading: _ctx.isDeletingAccount }, null, 8, ["loading"]),
-      _cache[7] || (_cache[7] = vue.createElementVNode("div", { id: "ajaxErrorManageSmsProviderSettings" }, null, -1)),
+      _cache[6] || (_cache[6] = vue.createElementVNode("div", { id: "ajaxErrorManageSmsProviderSettings" }, null, -1)),
       _ctx.credentialSupplied ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_1$2, [
         _ctx.credentialError ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_2$2, [
           vue.createVNode(_component_Alert, { severity: "danger" }, {
             default: vue.withCtx(() => [
-              vue.createTextVNode(vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_CredentialInvalid", _ctx.provider)), 1),
-              _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1)),
+              vue.createTextVNode(vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_CredentialInvalid", _ctx.provider || "")), 1),
+              _cache[4] || (_cache[4] = vue.createElementVNode("br", null, null, -1)),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.credentialError), 1)
             ]),
             _: 1
           })
-        ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$2, vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_CredentialProvided", _ctx.provider)) + " " + vue.toDisplayString(_ctx.creditLeft), 1)),
-        _cache[6] || (_cache[6] = vue.createElementVNode("br", null, null, -1)),
+        ])) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$2, vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_CredentialProvided", _ctx.provider || "")) + " " + vue.toDisplayString(_ctx.creditLeft), 1)),
+        _cache[5] || (_cache[5] = vue.createElementVNode("br", null, null, -1)),
         vue.createElementVNode("span", {
           innerHTML: _ctx.$sanitize(_ctx.updateOrDeleteAccountText),
           onClick: _cache[0] || (_cache[0] = ($event) => _ctx.onUpdateOrDeleteClick($event))
@@ -392,21 +393,17 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           }, null, 8, ["modelValue", "title", "options", "value"])
         ]),
         vue.createVNode(_component_SmsProviderCredentials, {
-          provider: _ctx.smsProvider,
-          modelValue: _ctx.credentials,
-          "onUpdate:modelValue": [
-            _cache[2] || (_cache[2] = ($event) => _ctx.credentials = $event),
-            _cache[3] || (_cache[3] = ($event) => {
-              _ctx.credentials = $event;
-            })
-          ],
-          "model-value": _ctx.credentials
-        }, null, 8, ["provider", "modelValue", "model-value"]),
+          provider: _ctx.smsProvider || "",
+          "model-value": (_a = _ctx.credentials) != null ? _a : void 0,
+          "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => {
+            _ctx.credentials = $event;
+          })
+        }, null, 8, ["provider", "model-value"]),
         vue.createVNode(_component_SaveButton, {
           id: "apiAccountSubmit",
           disabled: !_ctx.isUpdateAccountPossible,
           saving: _ctx.isUpdatingAccount,
-          onConfirm: _cache[4] || (_cache[4] = ($event) => _ctx.updateAccount())
+          onConfirm: _cache[3] || (_cache[3] = ($event) => _ctx.updateAccount())
         }, null, 8, ["disabled", "saving"]),
         vue.createElementVNode("div", {
           class: "providerDescription",
@@ -830,7 +827,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
               vue.createElementVNode("div", null, [
                 vue.createTextVNode(vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_VerificationCodeJustSent")) + " ", 1),
                 vue.createElementVNode("a", {
-                  onClick: ($event) => _ctx.resendVerificationCode(phoneNumber, index)
+                  onClick: ($event) => _ctx.resendVerificationCode(phoneNumber)
                 }, vue.toDisplayString(_ctx.translate("MobileMessaging_Settings_ResendVerification")), 9, _hoisted_20)
               ]),
               _cache[5] || (_cache[5] = vue.createTextVNode("   ", -1))
