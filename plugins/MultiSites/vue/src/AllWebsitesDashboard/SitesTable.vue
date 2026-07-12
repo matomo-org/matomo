@@ -85,7 +85,7 @@
             <select
                 class="browser-default"
                 :value="evolutionSelector"
-                @change="changeEvolutionSelector($event.target.value)"
+                @change="changeEvolutionSelector(($event.target as HTMLInputElement).value)"
             >
               <option value="hits_evolution">
                 {{ translate('General_ColumnHits')}}
@@ -148,9 +148,9 @@
     <span class="dataTablePages">
       {{ translate(
         'General_Pagination',
-        paginationLowerBound,
-        paginationUpperBound,
-        numberOfFilteredSites,
+        String(paginationLowerBound),
+        String(paginationUpperBound),
+        String(numberOfFilteredSites),
       ) }}
     </span>
 
@@ -172,7 +172,7 @@ import DashboardStore from './AllWebsitesDashboard.store';
 import SitesTableSite from './SitesTableSite.vue';
 import { DashboardSiteData, DashboardSortOrder } from '../types';
 
-interface SitesTableState {
+export interface SitesTableState {
   evolutionSelector: string;
 }
 
