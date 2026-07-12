@@ -95,7 +95,7 @@ import {
   DuplicateRequestResponse,
   ValidationResult,
 } from './EntityDuplicatorAdapter';
-import MatomoLoader from '../MatomoLoader/MatomoLoader';
+import MatomoLoader from '../MatomoLoader/MatomoLoader.vue';
 
 // async since we're referencing a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');

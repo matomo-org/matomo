@@ -11,7 +11,7 @@
       v-dropdown-button
       class="dropdown-button dropdownConfigureIcon dataTableAction"
       :class="{highlighted: isAnyConfigureIconHighlighted}"
-      href
+      href=""
       @click.prevent
       :data-target="`dropdownConfigure${randomIdForDropdown}`"
       :title="translate('CoreHome_ReportConfigure')"
@@ -24,7 +24,7 @@
     <a v-if="hasFooterIconsToShow"
       class="dropdown-button dataTableAction activateVisualizationSelection"
       v-dropdown-button
-      href
+      href=""
       :data-target="`dropdownVisualizations${randomIdForDropdown}`"
       style="margin-right:3.5px"
       @click.prevent
@@ -100,7 +100,7 @@
     <a
       v-if="showExportAsImageIcon"
       class="dataTableAction tableIcon"
-      href
+      href=""
       id="dataTableFooterExportAsImageIcon"
       @click.prevent="showExportImage($event)"
       :title="translate('General_ExportAsImage')"
@@ -112,7 +112,7 @@
     <a
       v-if="showAnnotations"
       class="dataTableAction annotationView"
-      href
+      href=""
       :title="translate('Annotations_Annotations')"
       @click.prevent
       style="margin-right:3.5px"
@@ -121,7 +121,7 @@
     <a
       v-if="showSearch"
       class="dropdown-button dataTableAction searchAction"
-      href
+      href=""
       :title="translate('General_Search')"
       style="margin-right:3.5px"
       draggable="false"
@@ -141,7 +141,7 @@
       v-for="action in dataTableActions"
       :key="action.id"
       :class="`dataTableAction ${action.id}`"
-      href
+      href=""
       @click.prevent
       :title="action.title"
       style="margin-right:3.5px"
@@ -229,7 +229,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import Passthrough from '../Passthrough/Passthrough.vue';
 import DropdownButton from '../DropdownButton/DropdownButton';
 import ReportExport from '../ReportExport/ReportExport';
@@ -239,10 +239,18 @@ import { isBooleanLikeSet, resolveExportSupportsFlat } from './DataTableActions.
 interface FooterIcon {
   id: string;
   icon?: string;
+  title?: string;
 }
 
 interface FooterIconGroup {
   buttons: FooterIcon[];
+  class?: string;
+}
+
+interface DataTableAction {
+  id: string;
+  icon?: string;
+  title?: string;
 }
 
 const { $ } = window;
@@ -282,7 +290,7 @@ export default defineComponent({
     reportSupportsFlatten: Boolean,
     exportSupportsFlatten: Boolean,
     footerIcons: {
-      type: Array,
+      type: Array as PropType<FooterIconGroup[]>,
       required: true,
     },
     viewDataTable: {
@@ -310,7 +318,7 @@ export default defineComponent({
       required: true,
     },
     dataTableActions: {
-      type: Array,
+      type: Array as PropType<DataTableAction[]>,
       required: true,
     },
     clientSideParameters: {
@@ -322,7 +330,7 @@ export default defineComponent({
     showTotalsRow: Boolean,
     showExcludeLowPopulation: Boolean,
     showPivotBySubtable: Boolean,
-    selectablePeriods: Array,
+    selectablePeriods: Array as PropType<string[]>,
     translations: {
       type: Object,
       required: true,
