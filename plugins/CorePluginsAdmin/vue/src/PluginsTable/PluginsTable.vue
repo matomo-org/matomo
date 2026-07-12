@@ -272,6 +272,19 @@ interface PluginInfo {
   isCorePlugin?: boolean;
   isOfficialPlugin?: boolean;
   alwaysActivated?: boolean;
+  activated?: boolean;
+  invalid?: boolean;
+  uninstallable?: boolean;
+  missingRequirements?: string;
+  info: {
+    license?: string;
+    license_file?: string;
+    description?: string;
+    homepage?: string;
+    version?: string;
+    donate?: { length?: number; paypal?: string; bitcoin?: string };
+    authors?: { name?: string; homepage?: string }[];
+  };
 }
 
 export default defineComponent({
@@ -328,7 +341,7 @@ export default defineComponent({
 
       return 'thirdparty';
     },
-    getPluginDonateLink(pluginName: string, business: string) {
+    getPluginDonateLink(pluginName: string | number, business: string) {
       return `https://www.paypal.com/cgi-bin/webscr?${MatomoUrl.stringify({
         cmd: '_donations',
         item_name: `Matomo Plugin ${pluginName}`,
@@ -336,7 +349,7 @@ export default defineComponent({
         business,
       })}`;
     },
-    getUninstallLink(pluginName: string) {
+    getUninstallLink(pluginName: string | number) {
       return `?${MatomoUrl.stringify({
         module: 'CorePluginsAdmin',
         action: 'uninstall',
@@ -344,10 +357,10 @@ export default defineComponent({
         nonce: this.uninstallNonce,
       })}`;
     },
-    isDefaultTheme(pluginName: string) {
+    isDefaultTheme(pluginName: string | number) {
       return this.isTheme && pluginName === 'Morpheus';
     },
-    getDeactivateLink(pluginName: string) {
+    getDeactivateLink(pluginName: string | number) {
       return `?${MatomoUrl.stringify({
         module: 'CorePluginsAdmin',
         action: 'deactivate',
@@ -356,7 +369,7 @@ export default defineComponent({
         redirectTo: 'referrer',
       })}`;
     },
-    getActivateLink(pluginName: string) {
+    getActivateLink(pluginName: string | number) {
       return `?${MatomoUrl.stringify({
         module: 'CorePluginsAdmin',
         action: 'activate',
