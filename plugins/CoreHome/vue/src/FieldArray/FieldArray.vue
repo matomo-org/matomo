@@ -50,7 +50,7 @@ import useExternalPluginComponent from '../useExternalPluginComponent';
 // async since this is a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
-interface FieldArrayControl {
+export interface FieldArrayControl {
   uiControl?: string;
   availableValues?: unknown;
   modelModifiers?: Record<string, boolean>;
