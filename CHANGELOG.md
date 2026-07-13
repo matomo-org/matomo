@@ -4,6 +4,15 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 5.13.0
+
+### HTTP API
+* `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
+  the outer request. Within a browser session a nested request may change neither the session flag
+  (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
+  authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
+  parameters conflict with the outer request's authentication context aborts the whole bulk request.
+
 ## Matomo 5.12.0
 
 ### JavaScript Tracker
