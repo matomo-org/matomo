@@ -74,7 +74,6 @@
     },
     "require-dev": {
         "matomo-org/matomo-coding-standards": "dev-master",
-        "phpstan/phpdoc-parser": "~1.24.0",
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^9.0",
         "symfony/var-dumper": "~6.4.0",
