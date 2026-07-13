@@ -15,6 +15,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated method `Piwik\API\Request::isTokenAuthProvidedSecurely()` has been removed.
 * The API methods `Annotations.add`, `Annotations.save` and `Annotations.delete` now require `Write` permission. Previously `Annotations.add` required only `View` permission, and the author of an annotation could modify or delete it with only `View` permission.
 
+### HTTP API
+* `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
+  the outer request. Within a browser session a nested request may change neither the session flag
+  (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
+  authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
+  parameters conflict with the outer request's authentication context aborts the whole bulk request.
+
 ## Matomo 5.12.0
 
 ### JavaScript Tracker
