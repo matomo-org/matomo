@@ -2,6 +2,8 @@
 
 namespace Piwik\Tests\Framework\Mock;
 
+use Monolog\Level;
+use Monolog\LogRecord;
 use Monolog\Processor\PsrLogMessageProcessor;
 use Psr\Log\AbstractLogger;
 use Piwik\Log\LoggerInterface;
@@ -23,13 +25,19 @@ class FakeLogger extends AbstractLogger implements LoggerInterface
         $this->processor = new PsrLogMessageProcessor();
     }
 
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = array()): void
     {
         if (strpos($message, 'Running command') !== false) {
             return;
         }
 
-        $record = $this->processor->__invoke(array('message' => $message, 'context' => $context));
+        $record = $this->processor->__invoke(new LogRecord(
+            new \DateTimeImmutable(),
+            'logger',
+            Level::Info,
+            (string) $message,
+            $context
+        ));
 
         $this->output .= $record['message'] . PHP_EOL;
     }

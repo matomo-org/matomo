@@ -14,6 +14,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated `SitesManager.setGlobalExcludedQueryParameters` API method has been removed. Use `SitesManager.setGlobalQueryParamExclusion` instead.
 * The deprecated method `Piwik\API\Request::isTokenAuthProvidedSecurely()` has been removed.
 * The API methods `Annotations.add`, `Annotations.save` and `Annotations.delete` now require `Write` permission. Previously `Annotations.add` required only `View` permission, and the author of an annotation could modify or delete it with only `View` permission.
+* Following the upgrade to psr/log 3, `Piwik\Log\LoggerInterface` (which extends `Psr\Log\LoggerInterface`) now requires the PSR-3 `void` return type on its logging methods (`log()`, `debug()`, `info()`, `notice()`,
+  `warning()`, `error()`, `critical()`, `alert()`, `emergency()`). Plugins that implement this interface directly must add the `: void` return type to these methods. Plugins that obtain the logger through
+  dependency injection or extend `Piwik\Log\Logger` are not affected.
 
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against

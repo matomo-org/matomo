@@ -1,6 +1,15 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Class Piwik\\\\Log\\\\Logger extends @final class Monolog\\\\Logger\\.$#"
+			count: 1
+			path: core/Log/Logger.php
+
+		-
+			message: "#^Class Piwik\\\\Plugins\\\\Monolog\\\\Formatter\\\\ConsoleFormatter extends @final class Symfony\\\\Bridge\\\\Monolog\\\\Formatter\\\\ConsoleFormatter\\.$#"
+			count: 1
+			path: plugins/Monolog/Formatter/ConsoleFormatter.php
+		-
 			message: "#^Instanceof between Piwik\\\\DataTable and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
 			count: 1
 			path: core/API/DataTableGenericFilter.php
@@ -2386,12 +2395,12 @@ parameters:
 			path: plugins/ImageGraph/ImageGraph.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
+			message: "#^Method Piwik\\\\Plugins\\\\ImageGraph\\\\StaticGraph\\:\\:getRenderedImage\\(\\) should return resource but returns GdImage\\.$#"
 			count: 1
 			path: plugins/ImageGraph/StaticGraph.php
 
 		-
-			message: "#^Parameter \\#3 \\$Format of method CpChart\\\\Data\\:\\:setAxisDisplay\\(\\) expects array\\|null, string given\\.$#"
+			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: plugins/ImageGraph/StaticGraph.php
 

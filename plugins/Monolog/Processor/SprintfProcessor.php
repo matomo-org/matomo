@@ -9,12 +9,14 @@
 
 namespace Piwik\Plugins\Monolog\Processor;
 
+use Monolog\LogRecord;
+
 /**
  * Processes a log message using `sprintf()`.
  */
 class SprintfProcessor
 {
-    public function __invoke(array $record)
+    public function __invoke(LogRecord $record): LogRecord
     {
         $message = $record['message'];
         $parameters = $record['context'];
@@ -22,7 +24,7 @@ class SprintfProcessor
         if (is_string($message) && !empty($parameters) && strpos($message, '%') !== false) {
             $parameters = $this->ensureParametersAreStrings($parameters);
 
-            $record['message'] = vsprintf($message, $parameters);
+            $record = $record->with(message: vsprintf($message, $parameters));
         }
 
         return $record;

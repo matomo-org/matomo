@@ -61,8 +61,6 @@ class ContainerFactory
     {
         $builder = new ContainerBuilder(Container::class);
 
-        $builder->useAnnotations(false);
-
         // INI config
         $builder->addDefinitions(new IniConfigDefinitionSource($this->settings));
 

@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Monolog\Formatter;
 
 use Monolog\Formatter\FormatterInterface;
+use Monolog\LogRecord;
 
 /**
  * Formats a log message into a line of text using our custom Piwik log format.
@@ -36,7 +37,7 @@ class LineMessageFormatter implements FormatterInterface
         $this->allowInlineLineBreaks = $allowInlineLineBreaks;
     }
 
-    public function format(array $record)
+    public function format(LogRecord $record)
     {
         $class = isset($record['extra']['class']) ? $record['extra']['class'] : '';
         $date = $record['datetime']->format('Y-m-d H:i:s T');
@@ -106,7 +107,7 @@ class LineMessageFormatter implements FormatterInterface
         return $records;
     }
 
-    private function prefixMessageWithRequestId(array $record, $message)
+    private function prefixMessageWithRequestId(LogRecord $record, $message)
     {
         $requestId = isset($record['extra']['request_id']) ? $record['extra']['request_id'] : '';
 

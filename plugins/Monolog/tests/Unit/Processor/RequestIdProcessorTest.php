@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
 
+use DateTimeImmutable;
+use Monolog\Level;
+use Monolog\LogRecord;
 use PHPUnit\Framework\TestCase;
 use Piwik\Common;
 use Piwik\Plugins\Monolog\Processor\RequestIdProcessor;
@@ -35,7 +38,7 @@ class RequestIdProcessorTest extends TestCase
     {
         $processor = new RequestIdProcessor();
 
-        $result = $processor(array());
+        $result = $processor($this->makeRecord());
 
         $this->assertArrayHasKey('request_id', $result['extra']);
         self::assertIsString($result['extra']['request_id']);
@@ -46,12 +49,24 @@ class RequestIdProcessorTest extends TestCase
     {
         $processor = new RequestIdProcessor();
 
-        $result = $processor(array());
+        $result = $processor($this->makeRecord());
         $id1 = $result['extra']['request_id'];
 
-        $result = $processor(array());
+        $result = $processor($this->makeRecord());
         $id2 = $result['extra']['request_id'];
 
         $this->assertEquals($id1, $id2);
+    }
+
+    private function makeRecord(): LogRecord
+    {
+        return new LogRecord(
+            new DateTimeImmutable(),
+            'logger',
+            Level::Debug,
+            '',
+            array(),
+            array()
+        );
     }
 }
