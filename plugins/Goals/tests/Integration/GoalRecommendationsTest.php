@@ -9,7 +9,16 @@
 
 namespace Piwik\Plugins\Goals\tests\Integration;
 
+use Piwik\Config;
+use Piwik\Date;
+use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
+use Piwik\Plugins\Goals\Recommendations\AiRecommender;
+use Piwik\Plugins\Goals\Recommendations\DeterministicRecommender;
+use Piwik\Plugins\Goals\Recommendations\GoalRecommendationService;
+use Piwik\Plugins\Goals\Recommendations\HomepageAnalyzer;
+use Piwik\Plugins\Goals\Recommendations\ManualSuggestionRecommender;
 use Piwik\Plugins\Goals\Recommendations\RecommendationStore;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -50,6 +59,7 @@ class GoalRecommendationsTest extends IntegrationTestCase
             'manualGoals' => [],
             'useAi' => false,
             'generatedAt' => null,
+            'remainingAiScans' => null,
         ], $result);
     }
 
@@ -145,6 +155,75 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
 
         $this->api->getRecommendedGoals($this->idSite);
+    }
+
+    public function testAiScanQuotaCountsScansPerSiteAndDay()
+    {
+        $store = new RecommendationStore();
+
+        $this->assertSame(0, $store->countAiScansToday($this->idSite));
+
+        $store->recordAiScan($this->idSite);
+        $store->recordAiScan($this->idSite);
+
+        $this->assertSame(2, $store->countAiScansToday($this->idSite));
+        $this->assertSame(0, $store->countAiScansToday($this->idSite + 1));
+    }
+
+    public function testAiScanQuotaResetsOnANewDay()
+    {
+        Option::set('Goals.aiScanQuota.' . $this->idSite, json_encode([
+            'date' => Date::now()->subDay(1)->toString(),
+            'count' => 3,
+        ]));
+
+        $this->assertSame(0, (new RecommendationStore())->countAiScansToday($this->idSite));
+    }
+
+    public function testGetRecommendationsSkipsAiWhenDailyScanLimitIsReached()
+    {
+        Config::getInstance()->Goals = ['ai_recommendation_daily_scan_limit' => 2];
+
+        $store = new RecommendationStore();
+        $store->recordAiScan($this->idSite);
+        $store->recordAiScan($this->idSite);
+
+        $aiRecommender = $this->createMock(AiRecommender::class);
+        $aiRecommender->expects($this->never())->method('recommend');
+
+        $result = $this->makeRecommendationService($aiRecommender)->getRecommendations($this->idSite, true);
+
+        $this->assertSame('deterministic', $result['mode']);
+        $this->assertSame(Piwik::translate('Goals_RecommendationAiDailyLimitReached', 2), $result['aiError']);
+        $this->assertSame(0, $result['remainingAiScans']);
+        $this->assertSame(2, $store->countAiScansToday($this->idSite));
+    }
+
+    public function testGetRecommendationsDoesNotConsumeQuotaWhenAiIsUnavailable()
+    {
+        Config::getInstance()->Goals = ['ai_recommendation_daily_scan_limit' => 2];
+
+        $result = $this->makeRecommendationService($this->createMock(AiRecommender::class))
+            ->getRecommendations($this->idSite, true);
+
+        // no AI provider is configured in tests, so the scan falls back without spending quota
+        $this->assertSame(Piwik::translate('Goals_RecommendationAiUnavailable'), $result['aiError']);
+        $this->assertSame(2, $result['remainingAiScans']);
+        $this->assertSame(0, (new RecommendationStore())->countAiScansToday($this->idSite));
+    }
+
+    private function makeRecommendationService(AiRecommender $aiRecommender): GoalRecommendationService
+    {
+        $analyzer = $this->createMock(HomepageAnalyzer::class);
+        $analyzer->method('analyze')->willReturn(['url' => 'https://example.org']);
+
+        $deterministic = $this->createMock(DeterministicRecommender::class);
+        $deterministic->method('recommend')->willReturn([]);
+
+        $manual = $this->createMock(ManualSuggestionRecommender::class);
+        $manual->method('recommend')->willReturn([]);
+
+        return new GoalRecommendationService($analyzer, $deterministic, $aiRecommender, $manual);
     }
 
     /**

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Goals\Recommendations;
 
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
@@ -26,9 +27,6 @@ use Psr\Log\LoggerInterface;
 class GoalRecommendationService
 {
     private const CONSENT_KEY_PREFIX = 'Goals.aiRecommendationsConsent.';
-
-    /** Minimum time between crawls per site; rescans within this window reuse the saved scan. */
-    private const RESCAN_COOLDOWN_SECONDS = 60;
 
     /**
      * @var HomepageAnalyzer
@@ -74,15 +72,10 @@ class GoalRecommendationService
      * be retrieved again via {@link getSavedRecommendations()}.
      *
      * @param array<int|string, array<string, mixed>> $existingGoals
-     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int}
+     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int}
      */
     public function getRecommendations(int $idSite, bool $useAi, array $existingGoals = []): array
     {
-        $recentScan = $this->getScanWithinCooldown($idSite, $useAi);
-        if ($recentScan !== null) {
-            return $recentScan;
-        }
-
         $existingGoalSummaries = $this->getExistingGoalSummaries($existingGoals);
         $analysis = $this->homepageAnalyzer->analyze($idSite);
         if ($analysis === null) {
@@ -94,6 +87,7 @@ class GoalRecommendationService
                 'manualGoals' => [],
                 'aiError' => Piwik::translate('Goals_RecommendCouldNotAnalyze'),
                 'generatedAt' => null,
+                'remainingAiScans' => $this->getRemainingAiScans($idSite),
             ];
         }
 
@@ -105,12 +99,14 @@ class GoalRecommendationService
         $mode = 'deterministic';
         $goals = $deterministic;
         $aiError = null;
-        $aiAvailable = false;
 
-        if ($useAi) {
-            $aiAvailable = $this->isAiAvailable();
-            if ($aiAvailable) {
+        $dailyLimit = $this->getDailyAiScanLimit();
+        if ($useAi && $dailyLimit > 0 && $this->store->countAiScansToday($idSite) >= $dailyLimit) {
+            $aiError = Piwik::translate('Goals_RecommendationAiDailyLimitReached', $dailyLimit);
+        } elseif ($useAi) {
+            if ($this->isAiAvailable()) {
                 $this->recordAiConsent();
+                $this->store->recordAiScan($idSite);
                 $aiRecommender = $this->getAiRecommender();
                 try {
                     $aiGoals = $this->filterExistingGoals(
@@ -145,6 +141,7 @@ class GoalRecommendationService
             'manualGoals' => $manualGoals,
             'aiError' => $aiError,
             'generatedAt' => $saved['generatedAt'],
+            'remainingAiScans' => $this->getRemainingAiScans($idSite),
         ];
     }
 
@@ -153,7 +150,7 @@ class GoalRecommendationService
      * recommendations are excluded. Returns an empty result with a null `generatedAt`
      * when no scan was saved.
      *
-     * @return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int}
+     * @return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int, remainingAiScans: ?int}
      */
     public function getSavedRecommendations(int $idSite): array
     {
@@ -165,6 +162,7 @@ class GoalRecommendationService
                 'manualGoals' => [],
                 'useAi' => false,
                 'generatedAt' => null,
+                'remainingAiScans' => $this->getRemainingAiScans($idSite),
             ];
         }
 
@@ -180,34 +178,7 @@ class GoalRecommendationService
             'manualGoals' => $saved['manualGoals'],
             'useAi' => $saved['useAi'],
             'generatedAt' => $saved['generatedAt'],
-        ];
-    }
-
-    /**
-     * Returns the saved scan when it is within the cooldown and used the same AI
-     * mode, so a fresh crawl is skipped. Null otherwise.
-     *
-     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, aiError: ?string, generatedAt: ?int}|null
-     */
-    private function getScanWithinCooldown(int $idSite, bool $useAi): ?array
-    {
-        $saved = $this->store->get($idSite);
-        if (
-            $saved === null
-            || $saved['useAi'] !== $useAi
-            || Date::now()->getTimestamp() - $saved['generatedAt'] >= self::RESCAN_COOLDOWN_SECONDS
-        ) {
-            return null;
-        }
-
-        $recent = $this->getSavedRecommendations($idSite);
-
-        return [
-            'mode' => (string) $recent['mode'],
-            'goals' => $recent['goals'],
-            'manualGoals' => $recent['manualGoals'],
-            'aiError' => null,
-            'generatedAt' => $recent['generatedAt'],
+            'remainingAiScans' => $this->getRemainingAiScans($idSite),
         ];
     }
 
@@ -238,6 +209,27 @@ class GoalRecommendationService
         }
 
         return $goals;
+    }
+
+    /**
+     * Maximum number of AI-assisted scans allowed per site and day. 0 means unlimited.
+     */
+    private function getDailyAiScanLimit(): int
+    {
+        return (int) (Config::getInstance()->Goals['ai_recommendation_daily_scan_limit'] ?? 0);
+    }
+
+    /**
+     * How many AI-assisted scans the site has left today, or null when unlimited.
+     */
+    private function getRemainingAiScans(int $idSite): ?int
+    {
+        $dailyLimit = $this->getDailyAiScanLimit();
+        if ($dailyLimit <= 0) {
+            return null;
+        }
+
+        return max(0, $dailyLimit - $this->store->countAiScansToday($idSite));
     }
 
     private function isAiAvailable(): bool

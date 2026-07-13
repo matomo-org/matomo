@@ -26,6 +26,7 @@
             :accepted="isAccepted(rec)"
             :creating="creatingId === recKey(rec)"
             :busy="isBusy"
+            :primary="pendingRecommendations.length === 1"
             @create="createOne(rec)"
             @dismiss="dismissOne(rec)"
           />
@@ -94,11 +95,15 @@
     <div class="recommendGoals-footer" v-else>
       <p class="recommendGoals-meta" aria-live="polite" v-if="lastScannedAgo">
         {{ translate('Goals_RecommendLastScanned', lastScannedAgo) }}
+        <span v-if="useAi && remainingAiScans !== null">
+          ({{ translate('Goals_RecommendScansRemainingToday', `${remainingAiScans}`) }})
+        </span>
       </p>
       <div class="recommendGoals-toolbar">
         <button
           type="button"
           class="btn recommendGoals-run"
+          :class="{ 'btn-outline': pendingRecommendations.length > 0 }"
           @click="recommend()"
           :disabled="isBusy"
         >
@@ -180,6 +185,7 @@ const recommendationMode = ref<string|null>(null);
 const recommendations = ref<RecommendedGoal[]>([]);
 const manualGoals = ref<RecommendedManualGoal[]>([]);
 const generatedAt = ref<number|null>(null);
+const remainingAiScans = ref<number|null>(null);
 const createdRecommendationKeys = ref<string[]>([]);
 
 const {
@@ -290,6 +296,9 @@ function loadSavedRecommendations() {
       return;
     }
 
+    remainingAiScans.value = typeof response.remainingAiScans === 'number'
+      ? response.remainingAiScans
+      : null;
     recommendations.value = response.goals || [];
     manualGoals.value = response.manualGoals || [];
     recommendationMode.value = response.mode || null;
@@ -323,6 +332,9 @@ function recommend() {
     aiError.value = (response && response.aiError) || null;
     recommendationMode.value = (response && response.mode) || null;
     generatedAt.value = (response && response.generatedAt) || null;
+    remainingAiScans.value = response && typeof response.remainingAiScans === 'number'
+      ? response.remainingAiScans
+      : null;
     hasRun.value = true;
   }).catch(() => {
     recommendations.value = [];

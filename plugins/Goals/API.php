@@ -177,8 +177,9 @@ class API extends \Piwik\Plugin\API
      * @return array Recommendation result with `mode` ("ai" or "deterministic"), a `goals` list of
      *               Matomo-compatible goal suggestions, a `manualGoals` list of
      *               non-URL `{name, howTo, category}` ideas the user must create manually, an optional
-     *               `aiError`, and the `generatedAt` timestamp of the scan.
-     * @phpstan-return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int}
+     *               `aiError`, the `generatedAt` timestamp of the scan, and `remainingAiScans`
+     *               (AI-assisted scans left today, or null when unlimited).
+     * @phpstan-return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int}
      */
     public function getRecommendedGoals(int $idSite, bool $useAi = false): array
     {
@@ -194,8 +195,9 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The numeric ID of the website whose saved recommendations should be returned.
      * @return array Saved recommendation result with `mode`, `goals`, `manualGoals`, `useAi`
-     *               (whether the saved scan used AI), and the `generatedAt` timestamp.
-     * @phpstan-return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int}
+     *               (whether the saved scan used AI), the `generatedAt` timestamp, and
+     *               `remainingAiScans` (AI-assisted scans left today, or null when unlimited).
+     * @phpstan-return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int, remainingAiScans: ?int}
      */
     public function getSavedRecommendedGoals(int $idSite): array
     {

@@ -39,6 +39,7 @@
           <button
             type="button"
             class="btn"
+            :class="{ 'btn-outline': !primary }"
             @click="$emit('create')"
             :disabled="busy"
           >
@@ -90,6 +91,7 @@ const props = defineProps<{
   accepted?: boolean;
   creating?: boolean;
   busy?: boolean;
+  primary?: boolean;
 }>();
 
 /* eslint-disable func-call-spacing, no-spaced-func */

@@ -23,6 +23,8 @@ class RecommendationStore
 {
     private const OPTION_PREFIX = 'Goals.recommendedGoals.';
 
+    private const AI_SCAN_QUOTA_PREFIX = 'Goals.aiScanQuota.';
+
     /**
      * Saves a scan result, replacing any previous dismissed marks.
      *
@@ -100,6 +102,44 @@ class RecommendationStore
     public function delete(int $idSite): void
     {
         Option::delete(self::OPTION_PREFIX . $idSite);
+    }
+
+    /**
+     * Returns how many AI-assisted scans were recorded for the site today (UTC).
+     */
+    public function countAiScansToday(int $idSite): int
+    {
+        $value = Option::get(self::AI_SCAN_QUOTA_PREFIX . $idSite);
+        if (!is_string($value) || $value === '') {
+            return 0;
+        }
+
+        $data = json_decode($value, true);
+        if (!is_array($data) || ($data['date'] ?? '') !== $this->today()) {
+            return 0;
+        }
+
+        return (int) ($data['count'] ?? 0);
+    }
+
+    /**
+     * Records one AI-assisted scan for a site. The counter resets automatically
+     * when the (UTC) day changes, so stale entries never need cleaning up.
+     */
+    public function recordAiScan(int $idSite): void
+    {
+        $encoded = json_encode([
+            'date' => $this->today(),
+            'count' => $this->countAiScansToday($idSite) + 1,
+        ]);
+        if (is_string($encoded)) {
+            Option::set(self::AI_SCAN_QUOTA_PREFIX . $idSite, $encoded);
+        }
+    }
+
+    private function today(): string
+    {
+        return Date::now()->toString();
     }
 
     /**
