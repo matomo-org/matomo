@@ -157,6 +157,15 @@ export default defineConfig({
     },
     rollupOptions: {
       external: isExternal,
+      // Third-party deps (e.g. mathjs) ship `/* #__PURE__ */` annotations in positions Rollup
+      // can't interpret; it harmlessly drops the comment but logs a warning per occurrence. We
+      // can't fix those files, so silence that specific node_modules noise and keep real warnings.
+      onwarn(warning, warn) {
+        if (warning.code === 'INVALID_ANNOTATION' && warning.message.includes('node_modules')) {
+          return;
+        }
+        warn(warning);
+      },
       output: {
         globals: externalGlobals,
         // Match the previous output: keep everything in a single UMD file (no shared chunks).
