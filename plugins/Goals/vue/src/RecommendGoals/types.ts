@@ -18,7 +18,6 @@ export interface RecommendedGoal {
   description?: string;
   reason: string;
   source: string;
-  category?: string;
   implementationNote?: string;
   evidence?: string[];
   sourcePages?: string[];

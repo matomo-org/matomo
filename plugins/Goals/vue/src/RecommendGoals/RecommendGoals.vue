@@ -9,6 +9,7 @@
   <ContentBlock
     v-if="shouldShowRecommendations"
     :content-title="translate('Goals_RecommendedGoals')"
+    feature="Recommended goals"
     class="recommendGoals"
   >
     <p class="recommendGoals-intro">{{ translate('Goals_RecommendedGoalsIntro') }}</p>
@@ -134,8 +135,8 @@
   </ContentBlock>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { computed, ref } from 'vue';
 import {
   Matomo,
   AjaxHelper,
@@ -146,371 +147,298 @@ import {
   Progressbar,
 } from 'CoreHome';
 import RecommendGoalCard from './RecommendGoalCard.vue';
+import useScanProgress from './useScanProgress';
 import type { RecommendedGoal, RecommendedManualGoal, RecommendationsResponse } from './types';
 
-// fake, time-based progress: the backend reports no incremental scan status. The
-// crawl phase eases to 60%, the (AI) ranking phase approaches but never reaches 100%.
-const SCAN_CRAWL_PHASE_MS = 15000;
-const SCAN_EXPECTED_TOTAL_MS = 30000;
-const SCAN_CRAWL_PHASE_PROGRESS = 60;
-const SCAN_RANKING_PHASE_PROGRESS = 93;
-const SCAN_PROGRESS_TICK_MS = 250;
+const props = withDefaults(defineProps<{
+  goals?: Record<string, Record<string, unknown>>;
+  userCanEditGoals?: boolean;
+}>(), {
+  goals: () => ({}),
+});
 
-interface RecommendGoalsState {
-  useAi: boolean;
-  lastRunUsedAi: boolean;
-  isLoading: boolean;
-  isLoadingSaved: boolean;
-  creatingId: string|null;
-  isCreatingAll: boolean;
-  isDismissing: boolean;
-  dismissingId: string|null;
-  hasRun: boolean;
-  showPrivacyNote: boolean;
-  aiError: string|null;
-  createError: string|null;
-  recommendationMode: string|null;
-  recommendations: RecommendedGoal[];
-  manualGoals: RecommendedManualGoal[];
-  generatedAt: number|null;
-  createdRecommendationKeys: string[];
-  scanProgress: number;
-  scanStartedAt: number|null;
-  scanProgressTimer: number|null;
+/* eslint-disable func-call-spacing, no-spaced-func */
+const emit = defineEmits<{
+  (e: 'created', idGoals: number[]): void;
+  (e: 'prefill', goal: RecommendedManualGoal): void;
+}>();
+/* eslint-enable func-call-spacing, no-spaced-func */
+
+const useAi = ref(true);
+const lastRunUsedAi = ref(false);
+const isLoading = ref(false);
+const isLoadingSaved = ref(false);
+const creatingId = ref<string|null>(null);
+const isCreatingAll = ref(false);
+const isDismissing = ref(false);
+const dismissingId = ref<string|null>(null);
+const hasRun = ref(false);
+const showPrivacyNote = ref(false);
+const aiError = ref<string|null>(null);
+const createError = ref<string|null>(null);
+const recommendationMode = ref<string|null>(null);
+const recommendations = ref<RecommendedGoal[]>([]);
+const manualGoals = ref<RecommendedManualGoal[]>([]);
+const generatedAt = ref<number|null>(null);
+const createdRecommendationKeys = ref<string[]>([]);
+
+const {
+  progress: scanProgress,
+  isInRankingPhase,
+  start: startScanProgress,
+  stop: stopScanProgress,
+} = useScanProgress();
+
+const idSite = computed((): number|string => Matomo.idSite);
+
+const shouldShowRecommendations = computed(() => props.userCanEditGoals);
+
+const isBusy = computed(() => isLoading.value
+  || isCreatingAll.value
+  || isDismissing.value
+  || creatingId.value !== null
+  || dismissingId.value !== null);
+
+function recKey(rec: RecommendedGoal): string {
+  return rec.id || rec.name;
 }
 
-export default defineComponent({
-  props: {
-    goals: {
-      type: Object,
-      default: () => ({}),
-    },
-    userCanEditGoals: Boolean,
-  },
-  components: {
-    ContentBlock,
-    ActivityIndicator,
-    Alert,
-    Progressbar,
-    RecommendGoalCard,
-  },
-  emits: ['created', 'prefill'],
-  data(): RecommendGoalsState {
-    return {
-      useAi: true,
-      lastRunUsedAi: false,
-      isLoading: false,
-      isLoadingSaved: false,
-      creatingId: null,
-      isCreatingAll: false,
-      isDismissing: false,
-      dismissingId: null,
-      hasRun: false,
-      showPrivacyNote: false,
-      aiError: null,
-      createError: null,
-      recommendationMode: null,
-      recommendations: [],
-      manualGoals: [],
-      generatedAt: null,
-      createdRecommendationKeys: [],
-      scanProgress: 0,
-      scanStartedAt: null,
-      scanProgressTimer: null,
-    };
-  },
-  created() {
-    if (this.shouldShowRecommendations) {
-      this.loadSavedRecommendations();
-    }
-  },
-  beforeUnmount() {
-    this.stopScanProgress();
-  },
-  methods: {
-    recKey(rec: RecommendedGoal): string {
-      return rec.id || rec.name;
-    },
-    loadSavedRecommendations() {
-      this.isLoadingSaved = true;
+function goalKey(matchAttribute: string, pattern: string): string {
+  let normalizedPattern = `${pattern || ''}`.trim().toLowerCase().replace(/\/+$/, '');
+  if (matchAttribute === 'url') {
+    normalizedPattern = normalizedPattern.replace(/^https?:\/\/[^/]+/i, '');
+  }
 
-      AjaxHelper.fetch<RecommendationsResponse>({
-        method: 'Goals.getSavedRecommendedGoals',
-        idSite: this.idSite,
-      }, { createErrorNotification: false }).then((response) => {
-        if (!response || !response.generatedAt) {
-          return;
-        }
+  return `${matchAttribute}:${normalizedPattern.replace(/^\/|\/$/g, '')}`;
+}
 
-        this.recommendations = response.goals || [];
-        this.manualGoals = response.manualGoals || [];
-        this.recommendationMode = response.mode || null;
-        this.generatedAt = response.generatedAt;
-        this.useAi = !!response.useAi;
-        this.lastRunUsedAi = !!response.useAi;
-        this.hasRun = true;
-      }).catch(() => {
-        // saved recommendations are optional; the user can still run a fresh scan
-      }).finally(() => {
-        this.isLoadingSaved = false;
-      });
-    },
-    recommend() {
-      this.isLoading = true;
-      this.aiError = null;
-      this.createError = null;
-      this.recommendationMode = null;
-      const requestedAi = this.useAi;
-      this.lastRunUsedAi = requestedAi;
-      this.startScanProgress();
+const existingGoalKeys = computed(() => Object.values(props.goals || {})
+  .filter((goal) => goal.pattern)
+  .map((goal) => goalKey(
+    `${goal.match_attribute || 'url'}`,
+    `${goal.pattern || ''}`,
+  )));
 
-      AjaxHelper.fetch<RecommendationsResponse>({
-        method: 'Goals.getRecommendedGoals',
-        idSite: this.idSite,
-        useAi: requestedAi ? 1 : 0,
-      }, { createErrorNotification: false }).then((response) => {
-        this.recommendations = (response && response.goals) || [];
-        this.manualGoals = (response && response.manualGoals) || [];
-        this.aiError = (response && response.aiError) || null;
-        this.recommendationMode = (response && response.mode) || null;
-        this.generatedAt = (response && response.generatedAt) || null;
-        this.hasRun = true;
-      }).catch(() => {
-        this.recommendations = [];
-        this.manualGoals = [];
-        this.aiError = translate('Goals_RecommendError');
-        this.recommendationMode = null;
-        this.hasRun = true;
-      }).finally(() => {
-        this.stopScanProgress();
-        this.isLoading = false;
-      });
-    },
-    startScanProgress() {
-      this.scanStartedAt = Date.now();
-      this.scanProgress = 0;
-      this.scanProgressTimer = window.setInterval(() => {
-        this.scanProgress = this.computeScanProgress();
-      }, SCAN_PROGRESS_TICK_MS);
-    },
-    stopScanProgress() {
-      if (this.scanProgressTimer !== null) {
-        window.clearInterval(this.scanProgressTimer);
-        this.scanProgressTimer = null;
-      }
-      this.scanStartedAt = null;
-      this.scanProgress = 0;
-    },
-    computeScanProgress(): number {
-      if (this.scanStartedAt === null) {
-        return 0;
-      }
+function isAccepted(rec: RecommendedGoal): boolean {
+  if (createdRecommendationKeys.value.indexOf(recKey(rec)) !== -1) {
+    return true;
+  }
 
-      const elapsed = Date.now() - this.scanStartedAt;
-      if (elapsed <= SCAN_CRAWL_PHASE_MS) {
-        return (elapsed / SCAN_CRAWL_PHASE_MS) * SCAN_CRAWL_PHASE_PROGRESS;
-      }
+  return existingGoalKeys.value
+    .indexOf(goalKey(rec.matchAttribute || 'url', rec.pattern)) !== -1;
+}
 
-      const rankingElapsed = elapsed - SCAN_CRAWL_PHASE_MS;
-      const rankingDuration = SCAN_EXPECTED_TOTAL_MS - SCAN_CRAWL_PHASE_MS;
-      if (rankingElapsed <= rankingDuration) {
-        return SCAN_CRAWL_PHASE_PROGRESS
-          + (rankingElapsed / rankingDuration)
-            * (SCAN_RANKING_PHASE_PROGRESS - SCAN_CRAWL_PHASE_PROGRESS);
-      }
+const pendingRecommendations = computed(
+  () => recommendations.value.filter((rec) => !isAccepted(rec)),
+);
 
-      // past the expected duration: creep slowly towards (but never reach) 99%
-      const overtimeSeconds = (rankingElapsed - rankingDuration) / 1000;
-      return Math.min(99, SCAN_RANKING_PHASE_PROGRESS + (overtimeSeconds * 0.1));
-    },
-    addGoalRequest(rec: RecommendedGoal): Promise<{ value?: number }> {
-      return AjaxHelper.fetch({
-        method: 'Goals.addGoal',
-        idSite: this.idSite,
-        name: rec.name,
-        matchAttribute: rec.matchAttribute || 'url',
-        pattern: rec.pattern,
-        patternType: rec.patternType || 'contains',
-        caseSensitive: rec.caseSensitive ? 1 : 0,
-        allowMultipleConversionsPerVisit: rec.allowMultipleConversionsPerVisit ? 1 : 0,
-        revenue: rec.revenue || 0,
-        description: rec.description || rec.reason || '',
-        useEventValueAsRevenue: rec.useEventValueAsRevenue ? 1 : 0,
-        createdFromRecommendedGoal: 1,
-      }, { createErrorNotification: false });
-    },
-    createOne(rec: RecommendedGoal) {
-      this.creatingId = this.recKey(rec);
-      this.createError = null;
-      this.addGoalRequest(rec).then((response) => {
-        if (response && response.value) {
-          this.createdRecommendationKeys.push(this.recKey(rec));
-        }
-        this.$emit('created', response && response.value ? [response.value] : []);
-      }).catch(() => {
-        this.createError = translate('Goals_RecommendCreateError');
-      }).finally(() => {
-        this.creatingId = null;
-      });
-    },
-    createAll() {
-      this.isCreatingAll = true;
-      this.createError = null;
-      const createdIds: number[] = [];
+const scanButtonLabel = computed(() => (hasRun.value
+  ? translate('Goals_RecommendRescan')
+  : translate('Goals_RecommendGoals')));
 
-      this.pendingRecommendations.reduce(
-        (promise, rec) => promise.then(() => this.addGoalRequest(rec)).then((response) => {
-          if (response && response.value) {
-            this.createdRecommendationKeys.push(this.recKey(rec));
-            createdIds.push(response.value);
-          }
-        }),
-        Promise.resolve(),
-      ).catch(() => {
-        this.createError = translate('Goals_RecommendCreateError');
-      }).finally(() => {
-        this.isCreatingAll = false;
-        if (createdIds.length) {
-          this.$emit('created', createdIds);
-        }
-      });
-    },
-    dismiss() {
-      this.isDismissing = true;
-      AjaxHelper.fetch({
-        method: 'Goals.dismissRecommendedGoals',
-        idSite: this.idSite,
-      }).then(() => {
-        this.hasRun = false;
-        this.recommendations = [];
-        this.manualGoals = [];
-        this.aiError = null;
-        this.createError = null;
-        this.recommendationMode = null;
-        this.lastRunUsedAi = false;
-        this.generatedAt = null;
-      }).finally(() => {
-        this.isDismissing = false;
-      });
-    },
-    dismissOne(rec: RecommendedGoal) {
-      this.dismissingId = this.recKey(rec);
-      this.isDismissing = true;
-      this.createError = null;
-      AjaxHelper.fetch<{ success?: boolean }>({
-        method: 'Goals.dismissRecommendedGoal',
-        idSite: this.idSite,
-        recommendationId: rec.id || '',
-      }, { createErrorNotification: false }).then((response) => {
-        if (!response || !response.success) {
-          this.createError = translate('Goals_RecommendDismissError');
-          return;
-        }
+const lastScannedAgo = computed(() => {
+  if (!generatedAt.value) {
+    return '';
+  }
 
-        this.recommendations = this.recommendations.filter((other) => other !== rec);
-        if (!this.recommendations.length && !this.manualGoals.length) {
-          this.hasRun = false;
-          this.recommendationMode = null;
-          this.generatedAt = null;
-        }
-      }).catch(() => {
-        this.createError = translate('Goals_RecommendDismissError');
-      }).finally(() => {
-        this.dismissingId = null;
-        this.isDismissing = false;
-      });
-    },
-    isAccepted(rec: RecommendedGoal): boolean {
-      if (this.createdRecommendationKeys.indexOf(this.recKey(rec)) !== -1) {
-        return true;
-      }
+  const date = new Date(generatedAt.value * 1000);
+  if (typeof Intl === 'undefined' || !Intl.RelativeTimeFormat) {
+    return date.toLocaleString();
+  }
 
-      return this.existingGoalKeys
-        .indexOf(this.goalKey(rec.matchAttribute || 'url', rec.pattern)) !== -1;
-    },
-    goalKey(matchAttribute: string, pattern: string): string {
-      let normalizedPattern = `${pattern || ''}`.trim().toLowerCase().replace(/\/+$/, '');
-      if (matchAttribute === 'url') {
-        normalizedPattern = normalizedPattern.replace(/^https?:\/\/[^/]+/i, '');
-      }
+  const formatter = new Intl.RelativeTimeFormat(Matomo.language, { numeric: 'auto' });
+  const elapsedSeconds = Math.max(0, Math.round((Date.now() - date.getTime()) / 1000));
+  if (elapsedSeconds < 60) {
+    return formatter.format(-elapsedSeconds, 'second');
+  }
 
-      return `${matchAttribute}:${normalizedPattern.replace(/^\/|\/$/g, '')}`;
-    },
-  },
-  computed: {
-    idSite(): number|string {
-      return Matomo.idSite;
-    },
-    isBusy(): boolean {
-      return this.isLoading
-        || this.isCreatingAll
-        || this.isDismissing
-        || this.creatingId !== null
-        || this.dismissingId !== null;
-    },
-    existingGoalKeys(): string[] {
-      return Object.values(this.goals || {})
-        .filter((goal: Record<string, unknown>) => goal.pattern)
-        .map((goal: Record<string, unknown>) => this.goalKey(
-          `${goal.match_attribute || 'url'}`,
-          `${goal.pattern || ''}`,
-        ));
-    },
-    pendingRecommendations(): RecommendedGoal[] {
-      return this.recommendations.filter((rec) => !this.isAccepted(rec));
-    },
-    shouldShowRecommendations(): boolean {
-      return this.userCanEditGoals;
-    },
-    scanButtonLabel(): string {
-      return this.hasRun
-        ? translate('Goals_RecommendRescan')
-        : translate('Goals_RecommendGoals');
-    },
-    lastScannedAgo(): string {
-      if (!this.generatedAt) {
-        return '';
-      }
+  if (elapsedSeconds < 3600) {
+    return formatter.format(-Math.round(elapsedSeconds / 60), 'minute');
+  }
 
-      const date = new Date(this.generatedAt * 1000);
-      if (typeof Intl === 'undefined' || !Intl.RelativeTimeFormat) {
-        return date.toLocaleString();
-      }
+  if (elapsedSeconds < 86400) {
+    return formatter.format(-Math.round(elapsedSeconds / 3600), 'hour');
+  }
 
-      const formatter = new Intl.RelativeTimeFormat(Matomo.language, { numeric: 'auto' });
-      const elapsedSeconds = Math.max(0, Math.round((Date.now() - date.getTime()) / 1000));
-      if (elapsedSeconds < 60) {
-        return formatter.format(-elapsedSeconds, 'second');
-      }
-
-      if (elapsedSeconds < 3600) {
-        return formatter.format(-Math.round(elapsedSeconds / 60), 'minute');
-      }
-
-      if (elapsedSeconds < 86400) {
-        return formatter.format(-Math.round(elapsedSeconds / 3600), 'hour');
-      }
-
-      return formatter.format(-Math.round(elapsedSeconds / 86400), 'day');
-    },
-    scanProgressLabel(): string {
-      const isRankingPhase = this.lastRunUsedAi && this.scanProgress >= SCAN_CRAWL_PHASE_PROGRESS;
-
-      return isRankingPhase
-        ? translate('Goals_RecommendProgressAiRanking')
-        : translate('Goals_RecommendProgressCrawling');
-    },
-    fallbackModeMessage(): string {
-      if (!this.hasRun || this.isLoading || !this.lastRunUsedAi) {
-        return '';
-      }
-
-      if (this.recommendationMode === 'deterministic') {
-        return translate('Goals_RecommendationFallbackUsed');
-      }
-
-      return '';
-    },
-  },
+  return formatter.format(-Math.round(elapsedSeconds / 86400), 'day');
 });
+
+const scanProgressLabel = computed(() => (lastRunUsedAi.value && isInRankingPhase.value
+  ? translate('Goals_RecommendProgressAiRanking')
+  : translate('Goals_RecommendProgressCrawling')));
+
+const fallbackModeMessage = computed(() => {
+  if (!hasRun.value || isLoading.value || !lastRunUsedAi.value) {
+    return '';
+  }
+
+  if (recommendationMode.value === 'deterministic') {
+    return translate('Goals_RecommendationFallbackUsed');
+  }
+
+  return '';
+});
+
+function loadSavedRecommendations() {
+  isLoadingSaved.value = true;
+
+  AjaxHelper.fetch<RecommendationsResponse>({
+    method: 'Goals.getSavedRecommendedGoals',
+    idSite: idSite.value,
+  }, { createErrorNotification: false }).then((response) => {
+    if (!response || !response.generatedAt) {
+      return;
+    }
+
+    recommendations.value = response.goals || [];
+    manualGoals.value = response.manualGoals || [];
+    recommendationMode.value = response.mode || null;
+    generatedAt.value = response.generatedAt;
+    useAi.value = !!response.useAi;
+    lastRunUsedAi.value = !!response.useAi;
+    hasRun.value = true;
+  }).catch(() => {
+    // saved recommendations are optional; the user can still run a fresh scan
+  }).finally(() => {
+    isLoadingSaved.value = false;
+  });
+}
+
+function recommend() {
+  isLoading.value = true;
+  aiError.value = null;
+  createError.value = null;
+  recommendationMode.value = null;
+  const requestedAi = useAi.value;
+  lastRunUsedAi.value = requestedAi;
+  startScanProgress();
+
+  AjaxHelper.fetch<RecommendationsResponse>({
+    method: 'Goals.getRecommendedGoals',
+    idSite: idSite.value,
+    useAi: requestedAi ? 1 : 0,
+  }, { createErrorNotification: false }).then((response) => {
+    recommendations.value = (response && response.goals) || [];
+    manualGoals.value = (response && response.manualGoals) || [];
+    aiError.value = (response && response.aiError) || null;
+    recommendationMode.value = (response && response.mode) || null;
+    generatedAt.value = (response && response.generatedAt) || null;
+    hasRun.value = true;
+  }).catch(() => {
+    recommendations.value = [];
+    manualGoals.value = [];
+    aiError.value = translate('Goals_RecommendError');
+    recommendationMode.value = null;
+    hasRun.value = true;
+  }).finally(() => {
+    stopScanProgress();
+    isLoading.value = false;
+  });
+}
+
+function addGoalRequest(rec: RecommendedGoal): Promise<{ value?: number }> {
+  return AjaxHelper.fetch({
+    method: 'Goals.addGoal',
+    idSite: idSite.value,
+    name: rec.name,
+    matchAttribute: rec.matchAttribute || 'url',
+    pattern: rec.pattern,
+    patternType: rec.patternType || 'contains',
+    caseSensitive: rec.caseSensitive ? 1 : 0,
+    allowMultipleConversionsPerVisit: rec.allowMultipleConversionsPerVisit ? 1 : 0,
+    revenue: rec.revenue || 0,
+    description: rec.description || rec.reason || '',
+    useEventValueAsRevenue: rec.useEventValueAsRevenue ? 1 : 0,
+    createdFromRecommendedGoal: 1,
+  }, { createErrorNotification: false });
+}
+
+function createOne(rec: RecommendedGoal) {
+  creatingId.value = recKey(rec);
+  createError.value = null;
+  addGoalRequest(rec).then((response) => {
+    if (response && response.value) {
+      createdRecommendationKeys.value.push(recKey(rec));
+    }
+    emit('created', response && response.value ? [response.value] : []);
+  }).catch(() => {
+    createError.value = translate('Goals_RecommendCreateError');
+  }).finally(() => {
+    creatingId.value = null;
+  });
+}
+
+function createAll() {
+  isCreatingAll.value = true;
+  createError.value = null;
+  const createdIds: number[] = [];
+
+  pendingRecommendations.value.reduce(
+    (promise, rec) => promise.then(() => addGoalRequest(rec)).then((response) => {
+      if (response && response.value) {
+        createdRecommendationKeys.value.push(recKey(rec));
+        createdIds.push(response.value);
+      }
+    }),
+    Promise.resolve(),
+  ).catch(() => {
+    createError.value = translate('Goals_RecommendCreateError');
+  }).finally(() => {
+    isCreatingAll.value = false;
+    if (createdIds.length) {
+      emit('created', createdIds);
+    }
+  });
+}
+
+function dismiss() {
+  isDismissing.value = true;
+  AjaxHelper.fetch({
+    method: 'Goals.dismissRecommendedGoals',
+    idSite: idSite.value,
+  }).then(() => {
+    hasRun.value = false;
+    recommendations.value = [];
+    manualGoals.value = [];
+    aiError.value = null;
+    createError.value = null;
+    recommendationMode.value = null;
+    lastRunUsedAi.value = false;
+    generatedAt.value = null;
+  }).finally(() => {
+    isDismissing.value = false;
+  });
+}
+
+function dismissOne(rec: RecommendedGoal) {
+  dismissingId.value = recKey(rec);
+  isDismissing.value = true;
+  createError.value = null;
+  AjaxHelper.fetch<{ success?: boolean }>({
+    method: 'Goals.dismissRecommendedGoal',
+    idSite: idSite.value,
+    recommendationId: rec.id || '',
+  }, { createErrorNotification: false }).then((response) => {
+    if (!response || !response.success) {
+      createError.value = translate('Goals_RecommendDismissError');
+      return;
+    }
+
+    recommendations.value = recommendations.value.filter((other) => other !== rec);
+    if (!recommendations.value.length && !manualGoals.value.length) {
+      hasRun.value = false;
+      recommendationMode.value = null;
+      generatedAt.value = null;
+    }
+  }).catch(() => {
+    createError.value = translate('Goals_RecommendDismissError');
+  }).finally(() => {
+    dismissingId.value = null;
+    isDismissing.value = false;
+  });
+}
+
+if (shouldShowRecommendations.value) {
+  loadSavedRecommendations();
+}
 </script>

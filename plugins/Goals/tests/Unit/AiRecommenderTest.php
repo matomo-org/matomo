@@ -65,7 +65,7 @@ class AiRecommenderTest extends TestCase
                         [
                             'name' => '<b>Pricing</b>',
                             'matomoGoal' => ['matchAttribute' => 'url', 'pattern' => 'https://example.com/pricing'],
-                            'display' => ['whyItMatters' => '<i>Buying intent.</i>', 'category' => 'High-intent page'],
+                            'display' => ['whyItMatters' => '<i>Buying intent.</i>'],
                         ],
                         [
                             'name' => 'Guide download',

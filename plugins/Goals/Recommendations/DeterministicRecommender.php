@@ -57,7 +57,7 @@ class DeterministicRecommender
     /**
      * Ordered by priority (highest business value first).
      *
-     * @var array<int, array{category: string, needles: string[], nameKey: string, reasonKey: string, displayCategoryKey: string}>
+     * @var array<int, array{category: string, needles: string[], nameKey: string, reasonKey: string}>
      */
     private const RULES = [
         [
@@ -65,49 +65,42 @@ class DeterministicRecommender
             'needles' => ['checkout', '/cart', 'basket', 'warenkorb', '/panier', 'panier', 'kasse'],
             'nameKey' => 'Goals_RecommendationCheckoutName',
             'reasonKey' => 'Goals_RecommendationCheckoutReason',
-            'displayCategoryKey' => 'Goals_RecommendationCategoryPurchase',
         ],
         [
             'category' => 'signup',
             'needles' => ['sign-up', 'signup', 'sign_up', 'register', '/join', 'create-account', 'get-started', 'free-trial', '/trial', '/apply', 'application'],
             'nameKey' => 'Goals_RecommendationSignupName',
             'reasonKey' => 'Goals_RecommendationSignupReason',
-            'displayCategoryKey' => 'Goals_RecommendationCategoryLeadGeneration',
         ],
         [
             'category' => 'contact',
             'needles' => ['contact', 'kontakt', '/contacto'],
             'nameKey' => 'Goals_RecommendationContactName',
             'reasonKey' => 'Goals_RecommendationContactReason',
-            'displayCategoryKey' => 'Goals_RecommendationCategoryContact',
         ],
         [
             'category' => 'demo',
             'needles' => ['/demo', 'request-demo', 'book-a-demo', '/booking', 'book-now', 'appointment', 'schedule', 'get-a-quote', '/quote', 'consultation'],
             'nameKey' => 'Goals_RecommendationDemoName',
             'reasonKey' => 'Goals_RecommendationDemoReason',
-            'displayCategoryKey' => 'Goals_RecommendationCategoryLeadGeneration',
         ],
         [
             'category' => 'pricing',
             'needles' => ['pricing', '/plans', '/preise', '/tarife', 'donate', '/donation', '/spenden'],
             'nameKey' => 'Goals_RecommendationPricingName',
             'reasonKey' => 'Goals_RecommendationPricingReason',
-            'displayCategoryKey' => 'Goals_RecommendationCategoryHighIntentPage',
         ],
         [
             'category' => 'newsletter',
             'needles' => ['newsletter', 'subscribe', '/abonnieren'],
             'nameKey' => 'Goals_RecommendationNewsletterName',
             'reasonKey' => 'Goals_RecommendationNewsletterReason',
-            'displayCategoryKey' => 'Goals_RecommendationCategoryLeadGeneration',
         ],
         [
             'category' => 'download',
             'needles' => ['/download', '/downloads', '.pdf'],
             'nameKey' => 'Goals_RecommendationDownloadName',
             'reasonKey' => 'Goals_RecommendationDownloadReason',
-            'displayCategoryKey' => 'Goals_RecommendationCategoryDownload',
         ],
     ];
 
@@ -164,7 +157,6 @@ class DeterministicRecommender
                         'pattern' => $pattern,
                         'reason' => Piwik::translate($rule['reasonKey']),
                         'source' => 'rule',
-                        'category' => Piwik::translate($rule['displayCategoryKey']),
                         'exampleMatches' => [$pattern],
                         'sourcePages' => $link['exampleUrls'] ?? [],
                     ]);
@@ -219,7 +211,6 @@ class DeterministicRecommender
                 'pattern' => $pattern,
                 'reason' => Piwik::translate('Goals_RecommendationKeyPageReason'),
                 'source' => 'rule-generic',
-                'category' => Piwik::translate('Goals_RecommendationCategoryHighIntentPage'),
                 'exampleMatches' => [$pattern],
                 'sourcePages' => $link['exampleUrls'] ?? [],
             ]);
@@ -253,7 +244,6 @@ class DeterministicRecommender
                 'pattern' => $label,
                 'reason' => Piwik::translate('Goals_RecommendationFormReason'),
                 'source' => 'rule-form',
-                'category' => Piwik::translate('Goals_RecommendationCategoryLeadGeneration'),
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationFormSetupNote', [$label]),
                 'evidence' => array_filter([
@@ -294,7 +284,6 @@ class DeterministicRecommender
                 'pattern' => $pattern,
                 'reason' => Piwik::translate('Goals_RecommendationDownloadReason'),
                 'source' => 'rule-download',
-                'category' => Piwik::translate('Goals_RecommendationCategoryDownload'),
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationDownloadSetupNote', [$pattern]),
                 'evidence' => array_filter([
@@ -333,7 +322,6 @@ class DeterministicRecommender
                 'pattern' => $href,
                 'reason' => Piwik::translate('Goals_RecommendationContactLinkReason'),
                 'source' => 'rule-contact-link',
-                'category' => Piwik::translate('Goals_RecommendationCategoryContact'),
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationOutlinkSetupNote', [$href]),
                 'evidence' => array_filter([
@@ -373,7 +361,6 @@ class DeterministicRecommender
                 'pattern' => $host,
                 'reason' => Piwik::translate('Goals_RecommendationExternalLinkReason'),
                 'source' => 'rule-external-link',
-                'category' => Piwik::translate('Goals_RecommendationCategoryExternalConversion'),
                 'allowMultipleConversionsPerVisit' => true,
                 'implementationNote' => Piwik::translate('Goals_RecommendationOutlinkSetupNote', [$host]),
                 'evidence' => array_filter([
@@ -511,7 +498,6 @@ class DeterministicRecommender
             'pattern' => $pattern,
             'reason' => Piwik::translate('Goals_RecommendationPurchaseReason'),
             'source' => 'rule',
-            'category' => Piwik::translate('Goals_RecommendationCategoryPurchase'),
             'exampleMatches' => [$pattern],
         ]);
     }
@@ -637,7 +623,6 @@ class DeterministicRecommender
             'reason' => (string) ($values['reason'] ?? ''),
             'description' => (string) ($values['reason'] ?? ''),
             'source' => (string) ($values['source'] ?? 'rule'),
-            'category' => (string) ($values['category'] ?? Piwik::translate('Goals_RecommendationCategoryGoal')),
             'implementationNote' => (string) ($values['implementationNote'] ?? Piwik::translate('Goals_RecommendationDefaultSetupNote')),
             'evidence' => array_values($values['evidence'] ?? []),
             'sourcePages' => array_values($values['sourcePages'] ?? []),

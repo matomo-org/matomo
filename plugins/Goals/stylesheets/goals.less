@@ -67,7 +67,7 @@ ul.ulGoalTopElements img {
     }
 }
 
-.recommendGoals {
+#content .recommendGoals {
     .recommendGoals-footer {
         margin-top: 20px;
     }
@@ -242,14 +242,13 @@ ul.ulGoalTopElements img {
     }
 
     .recommendGoals-cardReason {
-        color: @theme-color-text-light;
-        margin: 3px 0 0;
         max-width: 58em;
     }
 
     .recommendGoals-cardTrigger {
         color: @theme-color-text-lighter;
         font-size: 12px;
+        margin-top: 2px;
         padding: 0;
     }
 
@@ -423,11 +422,13 @@ ul.ulGoalTopElements img {
         border: 1px solid @theme-color-border-alternative;
         border-radius: 3px;
         color: @theme-color-text;
-        display: inline-block;
-        margin-top: 2px;
+        line-height: 1;
         overflow-wrap: anywhere;
         padding: 1px 4px;
         white-space: normal;
+
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
     }
 
     .recommendGoals-manual {
