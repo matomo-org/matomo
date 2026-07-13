@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UsersManager;
 use DeviceDetector\DeviceDetector;
 use Exception;
 use Piwik\Access;
+use Piwik\API\Request as ApiRequest;
 use Piwik\Access\CapabilitiesProvider;
 use Piwik\Access\Role\Admin;
 use Piwik\Access\RolesProvider;
@@ -1546,6 +1547,11 @@ class API extends \Piwik\Plugin\API
         $expireHours = 0,
         bool $secureOnly = false
     ) {
+        // Only allowed as a top-level request, not nested within another API request.
+        if (ApiRequest::isRootRequestApiRequest() && !ApiRequest::isCurrentApiRequestTheRootApiRequest()) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionCreateTokenAuthWithinNestedRequest'));
+        }
+
         $user = $this->model->getUser($userLogin);
         if (empty($user) && Piwik::isValidEmailString($userLogin)) {
             $user = $this->model->getUserByEmail($userLogin);
