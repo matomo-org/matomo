@@ -144,10 +144,6 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
         // This is not proper, but it avoids using sleep and stopping the tests for several seconds
         $r = new ReflectionProperty($this->process, 'timeCreation');
 
-        if (PHP_VERSION_ID < 80100) {
-            $r->setAccessible(true);
-        }
-
         $r->setValue($this->process, time() - 2);
 
         $seconds = $this->process->getSecondsSinceCreation();

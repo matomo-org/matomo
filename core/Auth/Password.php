@@ -22,7 +22,7 @@ class Password
     /**
      * Choose the used algorithm for password_hash depending on the config option
      *
-     * @return string|int depending on PHP version
+     * @return string
      * @throws Exception
      */
     private function preferredAlgorithm()
@@ -36,9 +36,6 @@ class Password
             case "argon2i":
                 return PASSWORD_ARGON2I;
             case "argon2id":
-                if (version_compare(PHP_VERSION, '7.3.0', '<')) {
-                    throw new Exception("argon2id needs at leat PHP 7.3.0");
-                }
                 return PASSWORD_ARGON2ID;
             default:
                 throw new Exception("invalid password_hash_algorithm");

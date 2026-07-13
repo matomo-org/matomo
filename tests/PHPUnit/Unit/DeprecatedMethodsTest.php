@@ -87,14 +87,14 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
         $validTill = '2021-03-01';
         $this->assertDeprecatedMethodIsRemovedBeforeDate(CronArchive::class, 'checkNoDanglingInvalidations', $validTill);
 
-        $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Common', 'getRequestVar');
+        $this->assertDeprecatedMethodIsRemovedInMatomo7('Piwik\Common', 'getRequestVar');
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Plugins\Overlay\API', 'getExcludedQueryParameters');
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Db', 'isOptimizeInnoDBSupported');
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Db', 'optimizeTables');
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Db\TransactionLevel', 'setUncommitted');
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\Plugins\SitesManager\API', 'setGlobalExcludedQueryParameters');
         $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\API\Request', 'isTokenAuthProvidedSecurely');
-        $this->assertDeprecatedMethodIsRemovedInMatomo6('Piwik\DataAccess\ArchiveTableCreator', 'triggerLegacyDefaultDeprecation');
+        $this->assertDeprecatedMethodIsRemovedInMatomo7('Piwik\DataAccess\ArchiveTableCreator', 'triggerLegacyDefaultDeprecation');
     }
 
 
@@ -156,6 +156,11 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
     private function assertDeprecatedMethodIsRemovedInMatomo6($className, $method)
     {
         $this->assertDeprecatedMethodIsRemovedInPiwikVersion('6.0.0-b1', $className, $method);
+    }
+
+    private function assertDeprecatedMethodIsRemovedInMatomo7($className, $method)
+    {
+        $this->assertDeprecatedMethodIsRemovedInPiwikVersion('7.0.0-b1', $className, $method);
     }
 
     private function assertDeprecatedMethodIsRemovedInPiwikVersion($piwikVersion, $className, $method)

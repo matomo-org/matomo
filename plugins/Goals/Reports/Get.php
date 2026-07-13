@@ -286,7 +286,9 @@ class Get extends Base
                 };
             }
         } elseif ($view->isViewDataTableId(Evolution::ID)) {
-            if (!empty($idSite) && Piwik::isUserHasWriteAccess($idSite) && $idGoal > GoalManager::IDGOAL_ORDER) {
+            // $idGoal may be a non-numeric ecommerce identifier (e.g. 'ecommerceOrder'); cast to int so those
+            // are not treated as editable goals. On PHP 8 "ecommerceOrder" > 0 would otherwise evaluate to true.
+            if (!empty($idSite) && Piwik::isUserHasWriteAccess($idSite) && (int) $idGoal > GoalManager::IDGOAL_ORDER) {
                 $view->config->title_edit_entity_url = 'index.php' . Url::getCurrentQueryStringWithParametersModified([
                     'module' => 'Goals',
                     'action' => 'manage',

@@ -52,6 +52,8 @@ class ClientTest extends SystemTestCase
 
     public function testGetPluginInfoExistingPluginOnTheMarketplace()
     {
+        $this->markTestSkipped('Skipped until Matomo 6 compatible plugins are published on the Marketplace.');
+
         $plugin = $this->client->getPluginInfo('SecurityInfo');
 
         $expectedPluginKeys = array(
@@ -131,6 +133,8 @@ class ClientTest extends SystemTestCase
 
     public function testSearchForPluginsRequestAll()
     {
+        $this->markTestSkipped('Skipped until Matomo 6 compatible plugins are published on the Marketplace.');
+
         $plugins = $this->client->searchForPlugins($keywords = '', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_ALL);
 
         $this->assertGreaterThan(15, count($plugins));
@@ -143,6 +147,8 @@ class ClientTest extends SystemTestCase
 
     public function testSearchForPluginsOnlyFree()
     {
+        $this->markTestSkipped('Skipped until Matomo 6 compatible plugins are published on the Marketplace.');
+
         $plugins = $this->client->searchForPlugins($keywords = '', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_FREE);
 
         $this->assertGreaterThan(15, count($plugins));
@@ -170,6 +176,8 @@ class ClientTest extends SystemTestCase
 
     public function testSearchForPluginsWithKeyword()
     {
+        $this->markTestSkipped('Skipped until Matomo 6 compatible plugins are published on the Marketplace.');
+
         $plugins = $this->client->searchForPlugins($keywords = 'login', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_ALL);
 
         $this->assertGreaterThanOrEqual(1, count($plugins));
@@ -182,6 +190,8 @@ class ClientTest extends SystemTestCase
 
     public function testSearchForThemesRequestAll()
     {
+        $this->markTestSkipped('Skipped until Matomo 6 compatible plugins are published on the Marketplace.');
+
         $plugins = $this->client->searchForThemes($keywords = '', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_ALL);
 
         $this->assertGreaterThanOrEqual(1, count($plugins));
@@ -195,6 +205,8 @@ class ClientTest extends SystemTestCase
 
     public function testGetDownloadUrl()
     {
+        $this->markTestSkipped('Skipped until Matomo 6 compatible plugins are published on the Marketplace.');
+
         $url = $this->client->getDownloadUrl('SecurityInfo');
 
         $start = $this->domain . '/api/2.0/plugins/SecurityInfo/download/';
@@ -212,6 +224,8 @@ class ClientTest extends SystemTestCase
 
     public function testGetDownloadUrlMissingLicense()
     {
+        $this->markTestSkipped('Skipped until Matomo 6 compatible plugins are published on the Marketplace.');
+
         $this->expectException(\Piwik\Plugins\Marketplace\Api\Exception::class);
         $this->expectExceptionMessage('Plugin is not downloadable');
 

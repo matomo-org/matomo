@@ -71,6 +71,11 @@ parameters:
 			path: core/API/Proxy.php
 
 		-
+			message: "#^Call to an undefined method ReflectionType\\:\\:isBuiltin\\(\\)\\.$#"
+			count: 1
+			path: core/API/Proxy.php
+
+		-
 			message: "#^Negated boolean expression is always true\\.$#"
 			count: 1
 			path: core/API/Request.php
@@ -113,11 +118,6 @@ parameters:
 		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
-			path: core/Archive/ArchiveInvalidator.php
-
-		-
-			message: "#^Variable \\$entry might not be defined\\.$#"
-			count: 4
 			path: core/Archive/ArchiveInvalidator.php
 
 		-
@@ -216,11 +216,6 @@ parameters:
 			path: core/AssetManager/UIAssetMerger/JScriptUIAssetMerger.php
 
 		-
-			message: "#^Constant PASSWORD_ARGON2ID not found\\.$#"
-			count: 1
-			path: core/Auth/Password.php
-
-		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\\\AdapterInterface\\:\\:fetchAll\\(\\)\\.$#"
 			count: 1
 			path: core/Changes/Model.php
@@ -244,11 +239,6 @@ parameters:
 			message: "#^Variable \\$response in empty\\(\\) always exists and is always falsy\\.$#"
 			count: 1
 			path: core/CliMulti.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between false and string\\|null will always evaluate to false\\.$#"
-			count: 1
-			path: core/CliMulti/Process.php
 
 		-
 			message: "#^Parameter \\#1 \\$environment of class Piwik\\\\Application\\\\Environment constructor expects string, null given\\.$#"
@@ -286,7 +276,7 @@ parameters:
 			path: core/CronArchive.php
 
 		-
-			message: "#^Parameter \\#1 \\$number of function round expects float, string given\\.$#"
+			message: "#^Parameter \\#1 \\$num of function round expects float\\|int, string given\\.$#"
 			count: 1
 			path: core/CronArchive.php
 
@@ -366,7 +356,7 @@ parameters:
 			path: core/DataAccess/ArchivingDbAdapter.php
 
 		-
-			message: "#^Parameter \\#2 \\$options of function json_encode expects int, true given\\.$#"
+			message: "#^Parameter \\#2 \\$flags of function json_encode expects int, true given\\.$#"
 			count: 1
 			path: core/DataAccess/ArchivingDbAdapter.php
 
@@ -621,7 +611,7 @@ parameters:
 			path: core/Nonce.php
 
 		-
-			message: "#^Parameter \\#1 \\$number of function round expects float, string given\\.$#"
+			message: "#^Parameter \\#1 \\$num of function round expects float\\|int, string given\\.$#"
 			count: 1
 			path: core/NumberFormatter.php
 
@@ -636,7 +626,7 @@ parameters:
 			path: core/NumberFormatter.php
 
 		-
-			message: "#^Parameter \\#2 \\$str of function explode expects string, float given\\.$#"
+			message: "#^Parameter \\#2 \\$string of function explode expects string, float given\\.$#"
 			count: 1
 			path: core/NumberFormatter.php
 
@@ -901,42 +891,42 @@ parameters:
 			path: core/Scheduler/Schedule/Daily.php
 
 		-
-			message: "#^Parameter \\#2 \\$min of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#2 \\$minute of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Daily.php
 
 		-
-			message: "#^Parameter \\#3 \\$sec of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#3 \\$second of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Daily.php
 
 		-
-			message: "#^Parameter \\#4 \\$mon of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#4 \\$month of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Daily.php
 
 		-
-			message: "#^Parameter \\#6 \\$year of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#6 \\$year of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Daily.php
 
 		-
-			message: "#^Parameter \\#3 \\$sec of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#3 \\$second of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Hourly.php
 
 		-
-			message: "#^Parameter \\#4 \\$mon of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#4 \\$month of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Hourly.php
 
 		-
-			message: "#^Parameter \\#5 \\$day of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#5 \\$day of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Hourly.php
 
 		-
-			message: "#^Parameter \\#6 \\$year of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#6 \\$year of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Hourly.php
 
@@ -946,37 +936,37 @@ parameters:
 			path: core/Scheduler/Schedule/Monthly.php
 
 		-
-			message: "#^Parameter \\#2 \\$min of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#2 \\$minute of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Monthly.php
 
 		-
-			message: "#^Parameter \\#3 \\$sec of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#3 \\$second of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Monthly.php
 
 		-
-			message: "#^Parameter \\#6 \\$year of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#6 \\$year of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Monthly.php
 
 		-
-			message: "#^Parameter \\#3 \\$sec of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#3 \\$second of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Schedule.php
 
 		-
-			message: "#^Parameter \\#4 \\$mon of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#4 \\$month of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Schedule.php
 
 		-
-			message: "#^Parameter \\#5 \\$day of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#5 \\$day of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Schedule.php
 
 		-
-			message: "#^Parameter \\#6 \\$year of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#6 \\$year of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Schedule.php
 
@@ -986,22 +976,22 @@ parameters:
 			path: core/Scheduler/Schedule/Weekly.php
 
 		-
-			message: "#^Parameter \\#2 \\$min of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#2 \\$minute of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Weekly.php
 
 		-
-			message: "#^Parameter \\#3 \\$sec of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#3 \\$second of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Weekly.php
 
 		-
-			message: "#^Parameter \\#4 \\$mon of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#4 \\$month of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Weekly.php
 
 		-
-			message: "#^Parameter \\#6 \\$year of function mktime expects int, string given\\.$#"
+			message: "#^Parameter \\#6 \\$year of function mktime expects int\\|null, string given\\.$#"
 			count: 1
 			path: core/Scheduler/Schedule/Weekly.php
 
@@ -1126,7 +1116,12 @@ parameters:
 			path: core/SettingsPiwik.php
 
 		-
-			message: "#^Parameter \\#2 \\$newvalue of function ini_set expects string, int given\\.$#"
+			message: "#^Binary operation \"\\*\" between string and 1024 results in an error\\.$#"
+			count: 1
+			path: core/SettingsServer.php
+
+		-
+			message: "#^Binary operation \"/\" between string and 1024 results in an error\\.$#"
 			count: 1
 			path: core/SettingsServer.php
 
@@ -1186,7 +1181,7 @@ parameters:
 			path: core/Tracker.php
 
 		-
-			message: "#^Parameter \\#2 \\$options of function json_encode expects int, true given\\.$#"
+			message: "#^Parameter \\#2 \\$flags of function json_encode expects int, true given\\.$#"
 			count: 1
 			path: core/Tracker.php
 
@@ -1391,7 +1386,7 @@ parameters:
 			path: core/Tracker/TrackerCodeGenerator.php
 
 		-
-			message: "#^Parameter \\#2 \\$str of function explode expects string, true given\\.$#"
+			message: "#^Parameter \\#2 \\$string of function explode expects string, true given\\.$#"
 			count: 1
 			path: core/Tracker/TrackerCodeGenerator.php
 
@@ -1496,6 +1491,11 @@ parameters:
 			path: core/Updates/5.3.0-rc1.php
 
 		-
+			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
+			count: 1
+			path: core/UrlHelper.php
+
+		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
 			count: 1
 			path: core/Validators/IpRanges.php
@@ -1569,11 +1569,6 @@ parameters:
 			message: "#^Property Piwik\\\\ViewDataTable\\\\RequestConfig\\:\\:\\$pivotByColumnLimit \\(int\\) does not accept default value of type false\\.$#"
 			count: 1
 			path: core/ViewDataTable/RequestConfig.php
-
-		-
-			message: "#^Parameter \\#2 \\$newvalue of function ini_set expects string, int given\\.$#"
-			count: 2
-			path: core/bootstrap.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -1826,22 +1821,17 @@ parameters:
 			path: plugins/CoreAdminHome/Controller.php
 
 		-
-			message: "#^Instanceof between resource\\|false and GdImage will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/CoreAdminHome/CustomLogo.php
-
-		-
 			message: "#^Left side of && is always true\\.$#"
 			count: 1
 			path: plugins/CoreAdminHome/CustomLogo.php
 
 		-
-			message: "#^Parameter \\#1 \\$x_size of function imagecreatetruecolor expects int, float given\\.$#"
+			message: "#^Parameter \\#1 \\$width of function imagecreatetruecolor expects int, float given\\.$#"
 			count: 1
 			path: plugins/CoreAdminHome/CustomLogo.php
 
 		-
-			message: "#^Parameter \\#7 \\$dst_w of function imagecopyresampled expects int, float given\\.$#"
+			message: "#^Parameter \\#7 \\$dst_width of function imagecopyresampled expects int, float given\\.$#"
 			count: 1
 			path: plugins/CoreAdminHome/CustomLogo.php
 
@@ -2221,7 +2211,7 @@ parameters:
 			path: plugins/Diagnostics/Diagnostic/ReportInformational.php
 
 		-
-			message: "#^Parameter \\#2 \\$timestamp of function date expects int, string given\\.$#"
+			message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, string given\\.$#"
 			count: 2
 			path: plugins/Diagnostics/Diagnostic/ReportInformational.php
 
@@ -2281,7 +2271,7 @@ parameters:
 			path: plugins/GeoIp2/Commands/ConvertRegionCodesToIso.php
 
 		-
-			message: "#^Parameter \\#2 \\$timestamp of function date expects int, string\\|false given\\.$#"
+			message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, string\\|false given\\.$#"
 			count: 1
 			path: plugins/GeoIp2/Commands/ConvertRegionCodesToIso.php
 
@@ -2411,7 +2401,7 @@ parameters:
 			path: plugins/ImageGraph/StaticGraph/GridGraph.php
 
 		-
-			message: "#^Parameter \\#3 \\$length of function substr expects int, float given\\.$#"
+			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, float given\\.$#"
 			count: 1
 			path: plugins/ImageGraph/StaticGraph/GridGraph.php
 
@@ -2521,7 +2511,7 @@ parameters:
 			path: plugins/LanguagesManager/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$arr1 of function array_merge expects array, string given\\.$#"
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, string given\\.$#"
 			count: 1
 			path: plugins/LanguagesManager/Commands/PluginsWithTranslations.php
 
@@ -2881,7 +2871,7 @@ parameters:
 			path: plugins/TwoFactorAuth/Controller.php
 
 		-
-			message: "#^Parameter \\#1 \\$input of function str_pad expects string, \\(float\\|int\\) given\\.$#"
+			message: "#^Parameter \\#1 \\$string of function str_pad expects string, \\(float\\|int\\) given\\.$#"
 			count: 1
 			path: plugins/TwoFactorAuth/Dao/RecoveryCodeStaticGenerator.php
 

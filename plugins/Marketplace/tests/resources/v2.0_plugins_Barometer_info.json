@@ -102,7 +102,7 @@
             "name": "0.1.1",
             "release": "2014-12-23 00:38:20",
             "requires": {
-                "piwik": ">=1.10.0,<6.0.0-b1"
+                "piwik": ">=1.10.0,<7.0.0-b1"
             },
             "numDownloads": 0,
             "license": {

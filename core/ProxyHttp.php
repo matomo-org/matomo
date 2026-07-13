@@ -192,9 +192,7 @@ class ProxyHttp
         if (
             $phpOutputCompressionEnabled
             && (
-                version_compare(PHP_VERSION, '8.0.17', '=')
-                || version_compare(PHP_VERSION, '8.0.18', '=')
-                || version_compare(PHP_VERSION, '8.1.4', '=')
+                version_compare(PHP_VERSION, '8.1.4', '=')
                 || version_compare(PHP_VERSION, '8.1.5', '=')
             )
         ) {
