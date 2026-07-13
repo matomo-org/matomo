@@ -674,21 +674,6 @@ export default defineComponent({
       parameters.revenue = this.goal.revenue || 0;
       parameters.allowMultipleConversionsPerVisit = ambiguousBoolToInt(this.goal.allow_multiple);
 
-      // Validate the required condition value client-side before submitting so the user gets
-      // inline feedback instead of a round-trip error. Mirrors the server guard in
-      // Goals\API::checkPattern(), which rejects an empty pattern for any non-manual goal.
-      if (
-        parameters.matchAttribute !== 'manually'
-        && (parameters.pattern === undefined
-          || parameters.pattern === null
-          || `${parameters.pattern}` === '')
-      ) {
-        this.patternMissing = true;
-        this.scrollToTop();
-        return;
-      }
-      this.patternMissing = false;
-
       parameters.idGoal = this.goal.idgoal;
       parameters.method = this.apiMethod;
 
@@ -706,6 +691,23 @@ export default defineComponent({
       if (parameters?.cancelRequest) {
         return;
       }
+
+      // Validate the required condition value client-side before submitting so the user gets
+      // inline feedback instead of a round-trip error. Mirrors the server guard in
+      // Goals\API::checkPattern(), which rejects an empty pattern for any non-manual goal.
+      // Run this after the beforeAddGoal/beforeUpdateGoal events and the cancelRequest check
+      // so extensions can still set or cancel the pattern before it is validated.
+      if (
+        parameters.matchAttribute !== 'manually'
+        && (parameters.pattern === undefined
+          || parameters.pattern === null
+          || `${parameters.pattern}` === '')
+      ) {
+        this.patternMissing = true;
+        this.scrollToTop();
+        return;
+      }
+      this.patternMissing = false;
 
       this.isLoading = true;
 

@@ -206,7 +206,7 @@ external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', $element => {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=2643d2ec
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=73318c0b
 
 const _hoisted_1 = {
   class: "manageGoals"
@@ -552,7 +552,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEditGoal]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.userCanEditGoals]]), _hoisted_64]);
 }
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=2643d2ec
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=73318c0b
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -764,15 +764,6 @@ function ambiguousBoolToInt(n) {
       }
       parameters.revenue = this.goal.revenue || 0;
       parameters.allowMultipleConversionsPerVisit = ambiguousBoolToInt(this.goal.allow_multiple);
-      // Validate the required condition value client-side before submitting so the user gets
-      // inline feedback instead of a round-trip error. Mirrors the server guard in
-      // Goals\API::checkPattern(), which rejects an empty pattern for any non-manual goal.
-      if (parameters.matchAttribute !== 'manually' && (parameters.pattern === undefined || parameters.pattern === null || `${parameters.pattern}` === '')) {
-        this.patternMissing = true;
-        this.scrollToTop();
-        return;
-      }
-      this.patternMissing = false;
       parameters.idGoal = this.goal.idgoal;
       parameters.method = this.apiMethod;
       const isCreate = parameters.method === 'Goals.addGoal';
@@ -792,6 +783,17 @@ function ambiguousBoolToInt(n) {
       if (parameters !== null && parameters !== void 0 && parameters.cancelRequest) {
         return;
       }
+      // Validate the required condition value client-side before submitting so the user gets
+      // inline feedback instead of a round-trip error. Mirrors the server guard in
+      // Goals\API::checkPattern(), which rejects an empty pattern for any non-manual goal.
+      // Run this after the beforeAddGoal/beforeUpdateGoal events and the cancelRequest check
+      // so extensions can still set or cancel the pattern before it is validated.
+      if (parameters.matchAttribute !== 'manually' && (parameters.pattern === undefined || parameters.pattern === null || `${parameters.pattern}` === '')) {
+        this.patternMissing = true;
+        this.scrollToTop();
+        return;
+      }
+      this.patternMissing = false;
       this.isLoading = true;
       external_CoreHome_["AjaxHelper"].fetch(parameters, options).then(async response => {
         let idToUse = parameters.idGoal;
