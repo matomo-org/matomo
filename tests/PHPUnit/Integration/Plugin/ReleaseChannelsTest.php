@@ -76,7 +76,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
         return array(
             array($exists = true, $id = 'latest_stable'),
             array($exists = true, $id = 'latest_beta'),
-            array($exists = true, $id = 'latest_5x_stable'),
+            array($exists = true, $id = 'latest_6x_stable'),
             array($exists = true, $id = 'latest_preview'),
             array($exists = true, $id = 'laTest_stable'), // we do not check for exact match
             array($exists = false, $id = ''),

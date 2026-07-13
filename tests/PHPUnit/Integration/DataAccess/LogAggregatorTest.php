@@ -76,10 +76,6 @@ class LogAggregatorTest extends IntegrationTestCase
         $class = new \ReflectionClass(LogAggregator::class);
         $method = $class->getMethod('getSelectDimensions');
 
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
         $output = $method->invoke($this->logAggregator, $dimensions, $tableName);
         $this->assertEquals($expectedResult, $output);
     }
@@ -131,10 +127,6 @@ class LogAggregatorTest extends IntegrationTestCase
     {
         $class = new \ReflectionClass(LogAggregator::class);
         $method = $class->getMethod('getGroupByDimensions');
-
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
 
         $output = $method->invoke($this->logAggregator, $dimensions, $tableName);
         $this->assertEquals($expectedResult, $output);

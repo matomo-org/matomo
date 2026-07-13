@@ -63,10 +63,7 @@ class API extends \Piwik\Plugin\API
      * Updates an annotation for a site and returns the updated annotation.
      *
      * If the current user is not allowed to modify an annotation, an exception
-     * will be thrown. A user can modify a note if:
-     *  - the user has admin access for the site, OR
-     *  - the user has view access, is not the anonymous user and is the user that
-     *    created the note
+     * will be thrown. A user can modify a note if the user has write access for the site.
      *
      * @param int $idSite The site ID to add the annotation to.
      * @param int $idNote The ID of the note.
@@ -122,10 +119,7 @@ class API extends \Piwik\Plugin\API
      * Removes an annotation from a site's list of annotations.
      *
      * If the current user is not allowed to delete the annotation, an exception
-     * will be thrown. A user can delete a note if:
-     *  - the user has admin access for the site, OR
-     *  - the user has view access, is not the anonymous user and is the user that
-     *    created the note
+     * will be thrown. A user can delete a note if the user has write access for the site.
      *
      * @param int $idSite The site ID to add the annotation to.
      * @param int $idNote The ID of the note to delete.
@@ -299,7 +293,7 @@ class API extends \Piwik\Plugin\API
 
     private static function checkUserCanAddNotesFor(int $idSite): void
     {
-        if (!Piwik::isUserHasViewAccess($idSite) || Piwik::isUserIsAnonymous()) {
+        if (!Piwik::isUserHasWriteAccess($idSite)) {
             throw new Exception("The current user is not allowed to add notes for site #$idSite.");
         }
     }

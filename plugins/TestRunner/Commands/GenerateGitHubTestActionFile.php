@@ -20,7 +20,7 @@ use Piwik\View;
 class GenerateGitHubTestActionFile extends ConsoleCommand
 {
     public const COMMAND_NAME = 'generate:test-action';
-    public const LATEST_PHP_VERSION = '8.1';
+    public const LATEST_PHP_VERSION = '8.5';
 
     protected $plugin = null;
     protected $phpVersions = null;
@@ -40,7 +40,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
         $this->setName(self::COMMAND_NAME)
              ->setDescription('Generates a github action workflow file for a plugin. The file can be auto-updating based on the parameters supplied.')
              ->addRequiredValueOption('plugin', null, 'The plugin for whom a action yml file should be generated. If not provided yml file for core will be generated.')
-             ->addOptionalValueOption('php-versions', null, "List of PHP versions to test against, ie, 7.2,8.1.")
+             ->addOptionalValueOption('php-versions', null, "List of PHP versions to test against, ie, 8.1,8.5.")
              ->addOptionalValueOption('dependent-plugins', null, 'List of additional plugins that need to be checked out before running tests. Comma separated list. e.g. "matomo-org/plugin-CustomVariables,nickname/PluginName"')
              ->addRequiredValueOption('repo-root-dir', null, "Path to the repo for whom a action yml file will be generated for.")
              ->addNoValueOption('force-php-tests', null, "Forces the presence of the PHP tests jobs for plugin builds.")

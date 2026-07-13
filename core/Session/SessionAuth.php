@@ -59,7 +59,7 @@ class SessionAuth implements Auth
 
     public function getName()
     {
-        // empty
+        return null;
     }
 
     public function setTokenAuth(
@@ -74,11 +74,13 @@ class SessionAuth implements Auth
         if (isset($this->user['login'])) {
             return $this->user['login'];
         }
+
+        return null;
     }
 
     public function getTokenAuthSecret()
     {
-        // empty
+        return null;
     }
 
     public function setLogin($login)

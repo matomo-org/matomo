@@ -18,10 +18,6 @@ class APITest extends \PHPUnit\Framework\TestCase
     {
         $method = new ReflectionMethod(API::class, 'parseOrdinateValue');
 
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
         $actual = $method->invoke(null, $value);
 
         $this->assertIsFloat($actual);

@@ -57,7 +57,7 @@ use Piwik\Validators\WhitelistedValue;
  * "getSitesWithAdminAccess", "getSitesWithViewAccess" or "getSitesWithAtLeastViewAccess" (which returns both).
  *
  * Some methods will affect all websites globally: "setGlobalExcludedIps" will set the list of IPs to be excluded on all websites,
- * "setGlobalExcludedQueryParameters" will set the list of URL parameters to remove from URLs for all websites.
+ * "setGlobalQueryParamExclusion" will set the URL parameters to remove from URLs for all websites.
  * The existing values can be fetched via "getExcludedIpsGlobal" and "getExcludedQueryParametersGlobal".
  * See also the documentation about <a href='https://matomo.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Matomo.
  *
@@ -1446,29 +1446,6 @@ class API extends \Piwik\Plugin\API
 
         // make sure tracker cache will reflect change
         Cache::deleteTrackerCache();
-    }
-
-    /**
-     * Sets list of URL query parameters to be excluded on all websites.
-     * Will also apply to websites created in the future.
-     *
-     * Requires Superuser access.
-     *
-     * @param string $excludedQueryParameters Comma-separated list of URL query parameters to exclude from URLs.
-     * @return bool Always `true`.
-     * @deprecated Use {@see setGlobalQueryParamExclusion()} instead.
-     */
-    public function setGlobalExcludedQueryParameters($excludedQueryParameters): bool
-    {
-        if (empty($excludedQueryParameters)) {
-            $this->setGlobalQueryParamExclusion(SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS);
-            return true;
-        }
-        $this->setGlobalQueryParamExclusion(
-            SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM,
-            $excludedQueryParameters
-        );
-        return true;
     }
 
     /**

@@ -1,7 +1,7 @@
 name: matomo
 type: php
 docroot: ""
-php_version: "7.2"
+php_version: "8.1"
 webserver_type: apache-fpm
 xdebug_enabled: false
 additional_hostnames: []

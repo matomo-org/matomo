@@ -61,7 +61,7 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
         environment: &php-environments
-          - php: '7.2'
+          - php: '8.1'
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mysql'
             mysql-version: '5.7'
@@ -91,7 +91,7 @@ jobs:
           php-version: ${{ matrix.environment.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
   PHP-extra:
@@ -122,7 +122,7 @@ jobs:
           php-version: ${{ matrix.environment.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
   PHP-integration-core:
@@ -164,7 +164,7 @@ jobs:
           php-version: ${{ matrix.environment.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
   PHP-integration-plugins:
@@ -206,7 +206,7 @@ jobs:
           php-version: ${{ matrix.environment.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          upload-artifacts: ${{ matrix.environment.php == '8.1' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
   PHP-system-plugins:
@@ -255,7 +255,7 @@ jobs:
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
       - name: Upload bucket processed-files for aggregation
-        if: ${{ always() && matrix.environment.php == '7.2' }}
+        if: ${{ always() && matrix.environment.php == '8.1' }}
         uses: actions/upload-artifact@v7
         with:
           name: system-plugin-bucket-${{ matrix.bucket }}
@@ -315,7 +315,7 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'JS'
-          php-version: '7.2'
+          php-version: '8.1'
           node-version: '12'
   Client:
     runs-on: ubuntu-24.04
@@ -399,7 +399,7 @@ jobs:
         with:
           ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
-          php-version: '7.2'
+          php-version: '8.1'
           node-version: '16'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
@@ -434,7 +434,7 @@ jobs:
             --core-tests-only --num-test-groups=${{ strategy.job-total }}
             --test-group=${{ strategy.job-index }}
           test-type: 'UI'
-          php-version: '7.2'
+          php-version: '8.1'
           node-version: '16'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}

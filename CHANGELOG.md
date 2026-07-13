@@ -4,7 +4,16 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
-## Matomo 5.13.0
+## Matomo 6.0.0
+
+### Breaking Changes
+* The deprecated method `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()` has been removed. Use the `SitesManager.getExcludedQueryParameters` API method instead.
+* The deprecated method `Piwik\Db::optimizeTables()` has been removed. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
+* The deprecated method `Piwik\Db::isOptimizeInnoDBSupported()` has been removed. Use `Piwik\Db\Schema::getInstance()->isOptimizeInnoDBSupported()` instead.
+* The deprecated method `Piwik\Db\TransactionLevel::setUncommitted()` has been removed. Use `Piwik\Db\TransactionLevel::setTransactionLevelForNonLockingReads()` instead.
+* The deprecated `SitesManager.setGlobalExcludedQueryParameters` API method has been removed. Use `SitesManager.setGlobalQueryParamExclusion` instead.
+* The deprecated method `Piwik\API\Request::isTokenAuthProvidedSecurely()` has been removed.
+* The API methods `Annotations.add`, `Annotations.save` and `Annotations.delete` now require `Write` permission. Previously `Annotations.add` required only `View` permission, and the author of an annotation could modify or delete it with only `View` permission.
 
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against

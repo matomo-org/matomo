@@ -52,6 +52,8 @@ class LogTablesProvider
                 return $table;
             }
         }
+
+        return null;
     }
 
     /**
