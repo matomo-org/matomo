@@ -36,4 +36,5 @@ export interface RecommendationsResponse {
   aiError?: string|null;
   useAi?: boolean;
   generatedAt?: number|null;
+  remainingAiScans?: number|null;
 }
