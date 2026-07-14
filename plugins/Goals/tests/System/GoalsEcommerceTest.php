@@ -38,7 +38,7 @@ class GoalsEcommerceTest extends SystemTestCase
         $this->runApiTests($api, $params);
     }
 
-    public function testMonthlySalesByReferrerTypeKeepsAIAssistantConversionsAttributedToCampaign(): void
+    public function testSalesByReferrerTypeSeparatesAIAssistantAndCampaignEcommerceOrders(): void
     {
         $this->trackAIAssistantEcommerceOrder('2011-06-03 10:00:00', 'ai-campaign-order-1', 100, 'http://chatgpt.com');
         $this->trackAIAssistantEcommerceOrder('2011-06-05 10:00:00', 'ai-campaign-order-2', 200, 'http://chatgpt.com');
