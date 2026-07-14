@@ -7755,7 +7755,7 @@ var __async = (__this, __arguments, generator) => {
           name: _ctx.name
         }), null, 16, _hoisted_2$n),
         vue.createElementVNode("span", {
-          innerHTML: _ctx.$sanitize(_ctx.title || "")
+          innerHTML: _ctx.$sanitize(_ctx.title)
         }, null, 8, _hoisted_3$c)
       ])
     ]);
@@ -8086,7 +8086,7 @@ var __async = (__this, __arguments, generator) => {
     return vue.openBlock(), vue.createElementBlock("div", null, [
       vue.createElementVNode("label", {
         for: _ctx.id,
-        innerHTML: _ctx.$sanitize(_ctx.title || "")
+        innerHTML: _ctx.$sanitize(_ctx.title)
       }, null, 8, _hoisted_1$m),
       vue.createVNode(_component_FieldArray, {
         name: _ctx.name,
@@ -8157,7 +8157,7 @@ var __async = (__this, __arguments, generator) => {
       vue.createElementVNode("div", _hoisted_1$l, [
         vue.createElementVNode("span", {
           for: _ctx.id,
-          innerHTML: _ctx.$sanitize(_ctx.title || "")
+          innerHTML: _ctx.$sanitize(_ctx.title)
         }, null, 8, _hoisted_2$k),
         vue.createElementVNode("input", {
           ref: "fileInput",
@@ -8235,7 +8235,7 @@ var __async = (__this, __arguments, generator) => {
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$j, [
       vue.createElementVNode("label", {
         for: _ctx.id,
-        innerHTML: _ctx.$sanitize(_ctx.title || "")
+        innerHTML: _ctx.$sanitize(_ctx.title)
       }, null, 8, _hoisted_2$j),
       vue.createVNode(_component_MultiPairField, {
         name: _ctx.name,
@@ -8321,7 +8321,7 @@ var __async = (__this, __arguments, generator) => {
       }, _ctx.uiControlAttributes), null, 16, _hoisted_1$i),
       vue.createElementVNode("label", {
         for: _ctx.id,
-        innerHTML: _ctx.$sanitize(_ctx.title || "")
+        innerHTML: _ctx.$sanitize(_ctx.title)
       }, null, 8, _hoisted_2$i)
     ], 64);
   }
@@ -8648,7 +8648,7 @@ var __async = (__this, __arguments, generator) => {
         ], 16, _hoisted_2$g),
         vue.createElementVNode("label", {
           for: _ctx.id,
-          innerHTML: _ctx.$sanitize(_ctx.title || "")
+          innerHTML: _ctx.$sanitize(_ctx.title)
         }, null, 8, _hoisted_5$7)
       ])) : vue.createCommentVNode("", true),
       !_ctx.groupedOptions && _ctx.options ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$4, [
@@ -8671,7 +8671,7 @@ var __async = (__this, __arguments, generator) => {
         ], 16, _hoisted_7$4),
         vue.createElementVNode("label", {
           for: _ctx.id,
-          innerHTML: _ctx.$sanitize(_ctx.title || "")
+          innerHTML: _ctx.$sanitize(_ctx.title)
         }, null, 8, _hoisted_9$4)
       ])) : vue.createCommentVNode("", true)
     ], 64);
@@ -8716,7 +8716,7 @@ var __async = (__this, __arguments, generator) => {
       vue.createElementVNode("label", {
         for: _ctx.id,
         class: "siteSelectorLabel",
-        innerHTML: _ctx.$sanitize(_ctx.title || "")
+        innerHTML: _ctx.$sanitize(_ctx.title)
       }, null, 8, _hoisted_1$f),
       vue.createElementVNode("div", _hoisted_2$f, [
         vue.createVNode(_component_SiteSelector, vue.mergeProps({
@@ -8806,7 +8806,7 @@ var __async = (__this, __arguments, generator) => {
       }, _ctx.uiControlAttributes), null, 16, _hoisted_1$e),
       vue.createElementVNode("label", {
         for: _ctx.id,
-        innerHTML: _ctx.$sanitize(_ctx.title || "")
+        innerHTML: _ctx.$sanitize(_ctx.title)
       }, null, 8, _hoisted_2$e)
     ], 64);
   }
@@ -8862,7 +8862,7 @@ var __async = (__this, __arguments, generator) => {
     return vue.openBlock(), vue.createElementBlock("div", null, [
       vue.createElementVNode("label", {
         for: _ctx.id,
-        innerHTML: _ctx.$sanitize(_ctx.title || "")
+        innerHTML: _ctx.$sanitize(_ctx.title)
       }, null, 8, _hoisted_1$d),
       vue.createElementVNode("input", vue.mergeProps({
         class: `control_${_ctx.uiControl}`,
@@ -8945,7 +8945,7 @@ var __async = (__this, __arguments, generator) => {
       }), null, 16, _hoisted_1$c),
       vue.createElementVNode("label", {
         for: _ctx.id,
-        innerHTML: _ctx.$sanitize(_ctx.title || "")
+        innerHTML: _ctx.$sanitize(_ctx.title)
       }, null, 8, _hoisted_2$c)
     ], 64);
   }
@@ -9029,7 +9029,7 @@ var __async = (__this, __arguments, generator) => {
     return vue.openBlock(), vue.createElementBlock("div", null, [
       vue.createElementVNode("label", {
         for: _ctx.id,
-        innerHTML: _ctx.$sanitize(_ctx.title || "")
+        innerHTML: _ctx.$sanitize(_ctx.title)
       }, null, 8, _hoisted_1$b),
       vue.createElementVNode("textarea", vue.mergeProps({
         ref: "textarea",
@@ -9153,7 +9153,7 @@ var __async = (__this, __arguments, generator) => {
       }, _ctx.uiControlAttributes), null, 16, _hoisted_1$a),
       vue.createElementVNode("label", {
         for: _ctx.id,
-        innerHTML: _ctx.$sanitize(_ctx.title || "")
+        innerHTML: _ctx.$sanitize(_ctx.title)
       }, null, 8, _hoisted_2$a),
       vue.createVNode(_component_PasswordStrength, {
         password: _ctx.modelValueText,

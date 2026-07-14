@@ -16,7 +16,7 @@
     </div>
     <span v-show="!!label">
       <MatomoLoader />
-      <span class="label" v-html="$sanitize(label || '')" />
+      <span class="label" v-html="$sanitize(label)" />
     </span>
   </div>
 </template>

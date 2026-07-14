@@ -7,7 +7,7 @@
 
 <template>
   <div>
-    <label :for="id" v-html="$sanitize(title || '')"></label>
+    <label :for="id" v-html="$sanitize(title)"></label>
 
     <FieldArray
       :name="name"

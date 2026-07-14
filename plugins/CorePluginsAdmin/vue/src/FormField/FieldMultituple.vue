@@ -7,7 +7,7 @@
 
 <template>
   <div class="fieldMultiTuple">
-    <label :for="id" v-html="$sanitize(title || '')"></label>
+    <label :for="id" v-html="$sanitize(title)"></label>
     <MultiPairField
       :name="name"
       :id="id"

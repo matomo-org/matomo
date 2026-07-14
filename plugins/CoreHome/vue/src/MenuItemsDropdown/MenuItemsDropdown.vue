@@ -16,7 +16,7 @@
       @click="showItems = !showItems"
       :title="tooltip"
     >
-      <span class="title-label" v-html="$sanitize(actualMenuTitle || '')" />
+      <span class="title-label" v-html="$sanitize(actualMenuTitle)" />
       <span class="icon-chevron-down reporting-menu-sub-icon" />
     </span>
     <div

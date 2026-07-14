@@ -11,7 +11,7 @@
   >
     <ul class="ulGoalTopElements">
       <li>
-        {{ translate('General_ColumnRevenue') }}: <span v-html="$sanitize(revenue || '')"></span>
+        {{ translate('General_ColumnRevenue') }}: <span v-html="$sanitize(revenue)"></span>
         <span v-if="revenue_subtotal">,
           {{ translate('General_Subtotal') }}: <span v-html="$sanitize(revenue_subtotal)"></span>
         </span>
@@ -22,7 +22,7 @@
           {{ translate('General_Shipping') }}: <span v-html="$sanitize(revenue_shipping)"></span>
         </span>
         <span v-if="revenue_shipping">,
-          {{ translate('General_Discount') }}: <span v-html="$sanitize(revenue_discount || '')"></span>
+          {{ translate('General_Discount') }}: <span v-html="$sanitize(revenue_discount)"></span>
         </span>
       </li>
     </ul>

@@ -282,7 +282,9 @@ declare global {
     require(p: string): any;
     initTopControls(): void;
     initializeSparklines(): void;
-    vueSanitize(content: string): string;
+    // Accepts unknown to match the runtime implementation (DOMPurify tolerates non-string input),
+    // so callers don't have to coerce possibly-undefined bindings before sanitizing.
+    vueSanitize(content?: unknown): string;
     vueSanitizeUrl(url: string): string;
     showEmptyDashboardNotification(): void;
   }

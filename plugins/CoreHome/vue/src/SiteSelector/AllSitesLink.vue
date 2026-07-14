@@ -12,7 +12,7 @@
   >
     <a
       @click="$event.preventDefault()"
-      v-html="$sanitize(allSitesText || '')"
+      v-html="$sanitize(allSitesText)"
       tabindex="4"
       :href="href"
     />

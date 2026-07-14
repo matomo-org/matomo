@@ -3310,12 +3310,12 @@ var __async = (__this, __arguments, generator) => {
       ]),
       vue.withDirectives(vue.createElementVNode("div", _hoisted_7$b, [
         vue.createElementVNode("div", {
-          innerHTML: _ctx.$sanitize(_ctx.actualInlineHelp || "")
+          innerHTML: _ctx.$sanitize(_ctx.actualInlineHelp)
         }, null, 8, _hoisted_8$a),
         _ctx.reportGenerated != "" ? (vue.openBlock(), vue.createElementBlock("span", {
           key: 0,
           class: "helpDate",
-          innerHTML: _ctx.$sanitize(_ctx.reportGenerated || "")
+          innerHTML: _ctx.$sanitize(_ctx.reportGenerated)
         }, null, 8, _hoisted_9$8)) : vue.createCommentVNode("", true),
         _ctx.helpUrl ? (vue.openBlock(), vue.createElementBlock("a", {
           key: 1,
@@ -4066,7 +4066,7 @@ var __async = (__this, __arguments, generator) => {
       }, [
         vue.createElementVNode("span", {
           class: "title-label",
-          innerHTML: _ctx.$sanitize(_ctx.actualMenuTitle || "")
+          innerHTML: _ctx.$sanitize(_ctx.actualMenuTitle)
         }, null, 8, _hoisted_3$m),
         _cache[5] || (_cache[5] = vue.createElementVNode("span", { class: "icon-chevron-down reporting-menu-sub-icon" }, null, -1))
       ], 8, _hoisted_2$p),
@@ -5342,7 +5342,7 @@ var __async = (__this, __arguments, generator) => {
     }, [
       vue.createElementVNode("a", {
         onClick: _cache[0] || (_cache[0] = ($event) => $event.preventDefault()),
-        innerHTML: _ctx.$sanitize(_ctx.allSitesText || ""),
+        innerHTML: _ctx.$sanitize(_ctx.allSitesText),
         tabindex: "4",
         href: _ctx.href
       }, null, 8, _hoisted_1$r)
@@ -10947,7 +10947,7 @@ var __async = (__this, __arguments, generator) => {
         vue.createVNode(_component_MatomoLoader),
         vue.createElementVNode("span", {
           class: "label",
-          innerHTML: _ctx.$sanitize(_ctx.label || "")
+          innerHTML: _ctx.$sanitize(_ctx.label)
         }, null, 8, _hoisted_3$4)
       ], 512), [
         [vue.vShow, !!_ctx.label]
@@ -11771,7 +11771,7 @@ var __async = (__this, __arguments, generator) => {
           _ctx.isInternetEnabled ? (vue.openBlock(), vue.createElementBlock("a", {
             key: 0,
             class: "title",
-            innerHTML: _ctx.$sanitize(_ctx.updateCheck || "")
+            innerHTML: _ctx.$sanitize(_ctx.updateCheck)
           }, null, 8, _hoisted_3$2)) : (vue.openBlock(), vue.createElementBlock("a", {
             key: 1,
             class: "title",

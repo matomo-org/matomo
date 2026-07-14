@@ -54,10 +54,10 @@
       class="inlineHelp"
       v-show="showInlineHelp"
     >
-      <div v-html="$sanitize(actualInlineHelp || '')"/>
+      <div v-html="$sanitize(actualInlineHelp)"/>
       <span class="helpDate"
             v-if="reportGenerated!=''"
-            v-html="$sanitize(reportGenerated || '')"></span>
+            v-html="$sanitize(reportGenerated)"></span>
       <a
         v-if="helpUrl"
         rel="noreferrer noopener"

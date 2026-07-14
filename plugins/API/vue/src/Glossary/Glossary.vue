@@ -69,7 +69,7 @@
                   {{ translate(entry.subtitle) }}
                 </p>
                 <p>
-                  <span v-html="$sanitize(entry.documentation || '')"></span>
+                  <span v-html="$sanitize(entry.documentation)"></span>
 
                   <br v-if="entry.id"/>
                   <span style="color: #bbb;" v-if="entry.id">

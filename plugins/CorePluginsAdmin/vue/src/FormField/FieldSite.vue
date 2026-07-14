@@ -7,7 +7,7 @@
 
 <template>
   <div>
-    <label :for="id" class="siteSelectorLabel" v-html="$sanitize(title || '')"></label>
+    <label :for="id" class="siteSelectorLabel" v-html="$sanitize(title)"></label>
     <div class="sites_autocomplete">
       <SiteSelector
         :model-value="modelValue"

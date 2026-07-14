@@ -17,7 +17,7 @@
     @change="onChange($event)"
     v-bind="uiControlAttributes"
   />
-  <label :for="id" v-html="$sanitize(title || '')"></label>
+  <label :for="id" v-html="$sanitize(title)"></label>
 </template>
 
 <script lang="ts">

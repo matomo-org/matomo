@@ -55,7 +55,7 @@
           vue.createElementVNode("li", null, [
             vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ColumnRevenue")) + ": ", 1),
             vue.createElementVNode("span", {
-              innerHTML: _ctx.$sanitize(_ctx.revenue || "")
+              innerHTML: _ctx.$sanitize(_ctx.revenue)
             }, null, 8, _hoisted_2),
             _ctx.revenue_subtotal ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_3, [
               vue.createTextVNode(", " + vue.toDisplayString(_ctx.translate("General_Subtotal")) + ": ", 1),
@@ -78,7 +78,7 @@
             _ctx.revenue_shipping ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_9, [
               vue.createTextVNode(", " + vue.toDisplayString(_ctx.translate("General_Discount")) + ": ", 1),
               vue.createElementVNode("span", {
-                innerHTML: _ctx.$sanitize(_ctx.revenue_discount || "")
+                innerHTML: _ctx.$sanitize(_ctx.revenue_discount)
               }, null, 8, _hoisted_10)
             ])) : vue.createCommentVNode("", true)
           ])

@@ -8,7 +8,7 @@
 <template>
   <div>
     <div class="btn">
-      <span :for="id" v-html="$sanitize(title || '')"></span>
+      <span :for="id" v-html="$sanitize(title)"></span>
       <input ref="fileInput" :name="name" type="file" :id="id" @change="onChange($event)" />
     </div>
 

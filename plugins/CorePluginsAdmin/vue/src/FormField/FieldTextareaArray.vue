@@ -10,7 +10,7 @@
   <div>
     <label
       :for="id"
-      v-html="$sanitize(title || '')"
+      v-html="$sanitize(title)"
     ></label>
     <textarea
       ref="textarea"

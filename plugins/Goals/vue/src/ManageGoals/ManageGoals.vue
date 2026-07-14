@@ -137,7 +137,7 @@
             ? translate('Goals_UpdateGoal')
             : translate('Goals_AddNewGoal')"
         >
-          <div v-html="$sanitize(addNewGoalIntro || '')"></div>
+          <div v-html="$sanitize(addNewGoalIntro)"></div>
 
           <div v-form>
             <div>

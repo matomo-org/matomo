@@ -36,7 +36,7 @@
       </a>
     </Passthrough>
     <Passthrough v-else-if="isSuperUser && (isAdminArea || lastUpdateCheckFailed)">
-      <a v-if="isInternetEnabled" class="title" v-html="$sanitize(updateCheck || '')"></a>
+      <a v-if="isInternetEnabled" class="title" v-html="$sanitize(updateCheck)"></a>
       <a
         v-else
         class="title"
