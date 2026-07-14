@@ -327,6 +327,10 @@ class GoalManager
     {
         // Reject out-of-range values (see self::MAX_ALLOWED_REVENUE); treat as no revenue.
         if (abs((float) $revenue) > self::MAX_ALLOWED_REVENUE) {
+            StaticContainer::get(LoggerInterface::class)->debug(
+                "Ecommerce value ({$revenue}) exceeds the allowed maximum of " . self::MAX_ALLOWED_REVENUE . " and was rejected (treated as no revenue)."
+            );
+
             return 0;
         }
 
