@@ -72,7 +72,7 @@ class GoalRecommendationService
      * be retrieved again via {@link getSavedRecommendations()}.
      *
      * @param array<int|string, array<string, mixed>> $existingGoals
-     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int}
+     * @return array{mode: string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array{name: string, howTo: string, category: string}>, aiError: ?string, generatedAt: ?int, remainingAiScans: ?int, providerName: string}
      */
     public function getRecommendations(int $idSite, bool $useAi, array $existingGoals = []): array
     {
@@ -88,6 +88,7 @@ class GoalRecommendationService
                 'aiError' => Piwik::translate('Goals_RecommendCouldNotAnalyze'),
                 'generatedAt' => null,
                 'remainingAiScans' => $this->getRemainingAiScans($idSite),
+                'providerName' => $this->getConfiguredProviderName(),
             ];
         }
 
@@ -142,6 +143,7 @@ class GoalRecommendationService
             'aiError' => $aiError,
             'generatedAt' => $saved['generatedAt'],
             'remainingAiScans' => $this->getRemainingAiScans($idSite),
+            'providerName' => $this->getConfiguredProviderName(),
         ];
     }
 
@@ -150,7 +152,7 @@ class GoalRecommendationService
      * recommendations are excluded. Returns an empty result with a null `generatedAt`
      * when no scan was saved.
      *
-     * @return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int, remainingAiScans: ?int}
+     * @return array{mode: ?string, goals: array<int, array<string, mixed>>, manualGoals: array<int, array<string, mixed>>, useAi: bool, generatedAt: ?int, remainingAiScans: ?int, providerName: string}
      */
     public function getSavedRecommendations(int $idSite): array
     {
@@ -163,6 +165,7 @@ class GoalRecommendationService
                 'useAi' => false,
                 'generatedAt' => null,
                 'remainingAiScans' => $this->getRemainingAiScans($idSite),
+                'providerName' => $this->getConfiguredProviderName(),
             ];
         }
 
@@ -179,6 +182,7 @@ class GoalRecommendationService
             'useAi' => $saved['useAi'],
             'generatedAt' => $saved['generatedAt'],
             'remainingAiScans' => $this->getRemainingAiScans($idSite),
+            'providerName' => $this->getConfiguredProviderName(),
         ];
     }
 
@@ -234,16 +238,12 @@ class GoalRecommendationService
 
     private function isAiAvailable(): bool
     {
-        if (
-            !Manager::getInstance()->isPluginActivated('AIProviders')
-            || !class_exists('Piwik\\Plugins\\AIProviders\\AIProviderService')
-        ) {
+        $service = $this->getAiProviderService();
+        if ($service === null) {
             return false;
         }
 
         try {
-            /** @var \Piwik\Plugins\AIProviders\AIProviderService $service */
-            $service = StaticContainer::get('Piwik\\Plugins\\AIProviders\\AIProviderService');
             foreach ($service->getAvailableProviderStatuses() as $provider) {
                 if (!empty($provider['isDefault']) && !empty($provider['isConfigured'])) {
                     return true;
@@ -254,6 +254,37 @@ class GoalRecommendationService
         }
 
         return false;
+    }
+
+    /**
+     * Display name of the configured AI provider,
+     * or a generic fallback label when none is resolvable. Shown in the privacy
+     * note, so the user knows where their site signals are sent.
+     */
+    private function getConfiguredProviderName(): string
+    {
+        $service = $this->getAiProviderService();
+        if ($service !== null) {
+            try {
+                return $service->getDefaultProvider()->getName();
+            } catch (\Exception $e) {
+                $this->getLogger()->debug('Goals recommendations: could not read AI provider name: {message}', ['message' => $e->getMessage()]);
+            }
+        }
+
+        return Piwik::translate('Goals_RecommendAiProviderFallback');
+    }
+
+    private function getAiProviderService(): ?\Piwik\Plugins\AIProviders\AIProviderService
+    {
+        if (
+            !Manager::getInstance()->isPluginActivated('AIProviders')
+            || !class_exists('Piwik\\Plugins\\AIProviders\\AIProviderService')
+        ) {
+            return null;
+        }
+
+        return StaticContainer::get('Piwik\\Plugins\\AIProviders\\AIProviderService');
     }
 
     private function getLogger(): LoggerInterface

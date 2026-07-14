@@ -134,7 +134,7 @@
         id="recommendGoalsPrivacyNote"
         v-show="showPrivacyNote"
       >
-        {{ translate('Goals_RecommendAiToggleHelp') }}
+        {{ privacyNote }}
       </p>
     </div>
   </ContentBlock>
@@ -186,6 +186,7 @@ const recommendations = ref<RecommendedGoal[]>([]);
 const manualGoals = ref<RecommendedManualGoal[]>([]);
 const generatedAt = ref<number|null>(null);
 const remainingAiScans = ref<number|null>(null);
+const providerName = ref<string>(translate('Goals_RecommendAiProviderFallback'));
 const createdRecommendationKeys = ref<string[]>([]);
 
 const {
@@ -285,6 +286,10 @@ const fallbackModeMessage = computed(() => {
   return '';
 });
 
+const privacyNote = computed(
+  () => translate('Goals_RecommendAiToggleHelp', providerName.value),
+);
+
 function loadSavedRecommendations() {
   isLoadingSaved.value = true;
 
@@ -299,6 +304,9 @@ function loadSavedRecommendations() {
     remainingAiScans.value = typeof response.remainingAiScans === 'number'
       ? response.remainingAiScans
       : null;
+    if (response.providerName) {
+      providerName.value = response.providerName;
+    }
     recommendations.value = response.goals || [];
     manualGoals.value = response.manualGoals || [];
     recommendationMode.value = response.mode || null;
@@ -335,6 +343,9 @@ function recommend() {
     remainingAiScans.value = response && typeof response.remainingAiScans === 'number'
       ? response.remainingAiScans
       : null;
+    if (response && response.providerName) {
+      providerName.value = response.providerName;
+    }
     hasRun.value = true;
   }).catch(() => {
     recommendations.value = [];

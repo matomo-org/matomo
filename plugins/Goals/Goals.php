@@ -541,6 +541,7 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_RecommendedGoalsIntro';
         $translationKeys[] = 'Goals_RecommendUseAi';
         $translationKeys[] = 'Goals_RecommendAiToggleHelp';
+        $translationKeys[] = 'Goals_RecommendAiProviderFallback';
         $translationKeys[] = 'Goals_RecommendGoals';
         $translationKeys[] = 'Goals_RecommendCreate';
         $translationKeys[] = 'Goals_RecommendCreateAll';

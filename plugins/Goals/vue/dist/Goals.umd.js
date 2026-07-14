@@ -953,6 +953,7 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
     const manualGoals = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([]);
     const generatedAt = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
     const remainingAiScans = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    const providerName = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(Object(external_CoreHome_["translate"])('Goals_RecommendAiProviderFallback'));
     const createdRecommendationKeys = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([]);
     const {
       progress: scanProgress,
@@ -1015,6 +1016,7 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
       }
       return '';
     });
+    const privacyNote = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_CoreHome_["translate"])('Goals_RecommendAiToggleHelp', providerName.value));
     function loadSavedRecommendations() {
       isLoadingSaved.value = true;
       external_CoreHome_["AjaxHelper"].fetch({
@@ -1027,6 +1029,9 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
           return;
         }
         remainingAiScans.value = typeof response.remainingAiScans === 'number' ? response.remainingAiScans : null;
+        if (response.providerName) {
+          providerName.value = response.providerName;
+        }
         recommendations.value = response.goals || [];
         manualGoals.value = response.manualGoals || [];
         recommendationMode.value = response.mode || null;
@@ -1061,6 +1066,9 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
         recommendationMode.value = response && response.mode || null;
         generatedAt.value = response && response.generatedAt || null;
         remainingAiScans.value = response && typeof response.remainingAiScans === 'number' ? response.remainingAiScans : null;
+        if (response && response.providerName) {
+          providerName.value = response.providerName;
+        }
         hasRun.value = true;
       }).catch(() => {
         recommendations.value = [];
@@ -1253,7 +1261,7 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
         }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('Goals_RecommendWhatDataIsShared')), 9, RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
           class: "recommendGoals-privacyNote",
           id: "recommendGoalsPrivacyNote"
-        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('Goals_RecommendAiToggleHelp')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], showPrivacyNote.value]])]))]),
+        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(privacyNote)), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], showPrivacyNote.value]])]))]),
         _: 1
       }, 8, ["content-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
     };

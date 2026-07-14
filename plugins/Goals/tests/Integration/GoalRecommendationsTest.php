@@ -60,6 +60,7 @@ class GoalRecommendationsTest extends IntegrationTestCase
             'useAi' => false,
             'generatedAt' => null,
             'remainingAiScans' => null,
+            'providerName' => Piwik::translate('Goals_RecommendAiProviderFallback'),
         ], $result);
     }
 
