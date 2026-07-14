@@ -94,7 +94,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
 
         $result = $this->executeCommand();
 
-        $this->assertRegExp('/Converting region codes already done/', $result);
+        $this->assertMatchesRegularExpression('/Converting region codes already done/', $result);
     }
 
     public function testExecuteShouldConvertRegionCodes()

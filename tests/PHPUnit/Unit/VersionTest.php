@@ -167,7 +167,7 @@ class VersionTest extends \PHPUnit\Framework\TestCase
 
     private function assertCorrectPreviewVersionWithoutSuffix($versionNumber, $newVersionNumber)
     {
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "/^$newVersionNumber.\d{14}$/",
             $this->version->nextPreviewVersion($versionNumber)
         );

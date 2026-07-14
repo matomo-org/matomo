@@ -137,10 +137,10 @@ class UsersManagerTest extends IntegrationTestCase
         $userAfter = $this->model->getUser($user["login"]);
 
         $this->assertArrayHasKey('date_registered', $userAfter);
-        $this->assertRegExp(self::DATETIME_REGEX, $userAfter['date_registered']);
+        $this->assertMatchesRegularExpression(self::DATETIME_REGEX, $userAfter['date_registered']);
 
         $this->assertArrayHasKey('ts_password_modified', $userAfter);
-        $this->assertRegExp(self::DATETIME_REGEX, $userAfter['date_registered']);
+        $this->assertMatchesRegularExpression(self::DATETIME_REGEX, $userAfter['date_registered']);
 
         $this->assertArrayHasKey('password', $userAfter);
         $this->assertNotEmpty($userAfter['password']);
@@ -438,7 +438,7 @@ class UsersManagerTest extends IntegrationTestCase
             $this->api->getUser("geggeqgeqag");
             $this->fail("Exception not raised.");
         } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
+            $this->assertMatchesRegularExpression("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
         }
 
         // add the same user
@@ -1363,7 +1363,7 @@ class UsersManagerTest extends IntegrationTestCase
             $this->api->getUser($login);
             $this->fail("User $login still exists!");
         } catch (Exception $expected) {
-            $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
+            $this->assertMatchesRegularExpression("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
         }
     }
 

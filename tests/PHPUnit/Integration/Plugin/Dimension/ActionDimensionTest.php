@@ -164,7 +164,7 @@ class ActionDimensionTest extends IntegrationTestCase
 
         foreach ($dimensions as $dimension) {
             $this->assertInstanceOf('\Piwik\Plugin\Dimension\ActionDimension', $dimension);
-            $this->assertRegExp('/Piwik.Plugins.(Actions|Events).Columns/', get_class($dimension));
+            $this->assertMatchesRegularExpression('/Piwik.Plugins.(Actions|Events).Columns/', get_class($dimension));
         }
     }
 }

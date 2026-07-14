@@ -1,96 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/8.5/phpunit.xsd"
-         backupGlobals="true"
-         backupStaticAttributes="false"
-         bootstrap="bootstrap.php"
-         colors="false"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         forceCoversAnnotation="false"
-         processIsolation="false"
-         stopOnError="false"
-         stopOnFailure="false"
-         stopOnIncomplete="false"
-         stopOnSkipped="false"
-         testdox="false"
-         verbose="true">
-
-<testsuites>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" backupGlobals="true" backupStaticAttributes="false" bootstrap="bootstrap.php" colors="false" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" forceCoversAnnotation="false" processIsolation="false" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" testdox="false" verbose="true">
+  <coverage includeUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">../../core</directory>
+      <directory suffix=".php">../../plugins</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">../../core/Updates</directory>
+      <directory suffix=".php">../../plugins/Example*</directory>
+      <directory suffix=".php">../../plugins/SecurityInfo*</directory>
+      <directory suffix=".php">../../plugins/*/Updates</directory>
+      <directory suffix=".php">../../plugins/*/libs</directory>
+      <directory suffix=".php">../../plugins/*/tests</directory>
+      <directory suffix=".php">../../plugins/*/Test</directory>
+    </exclude>
+  </coverage>
+  <testsuites>
     <testsuite name="SystemTests">
-        <directory>./System</directory>
-        <directory>../../plugins/*/tests</directory><!-- There should be actually a tests/System but this way we make sure to execute all tests even if some are not moved to correct subdirectory. We will execute Unit and Integration tests twice :( ... -->
-        <directory>../../plugins/*/Test</directory>
-        <directory>../../tests/resources/custompluginsdir/*/tests/System</directory>
-        <directory>../../tests/resources/custompluginsdir/*/Test/System</directory>
-        <exclude>../../plugins/*/tests/Integration</exclude>
-        <exclude>../../plugins/*/Test/Integration</exclude>
-        <exclude>../../plugins/*/tests/Unit</exclude>
-        <exclude>../../plugins/*/Test/Unit</exclude>
+      <directory>./System</directory>
+      <directory>../../plugins/*/tests</directory>
+      <!-- There should be actually a tests/System but this way we make sure to execute all tests even if some are not moved to correct subdirectory. We will execute Unit and Integration tests twice :( ... -->
+      <directory>../../plugins/*/Test</directory>
+      <directory>../../tests/resources/custompluginsdir/*/tests/System</directory>
+      <directory>../../tests/resources/custompluginsdir/*/Test/System</directory>
+      <exclude>../../plugins/*/tests/Integration</exclude>
+      <exclude>../../plugins/*/Test/Integration</exclude>
+      <exclude>../../plugins/*/tests/Unit</exclude>
+      <exclude>../../plugins/*/Test/Unit</exclude>
     </testsuite>
     <testsuite name="SystemTestsCore">
-        <directory>./System</directory>
+      <directory>./System</directory>
     </testsuite>
     <testsuite name="SystemTestsPlugins">
-        <directory>../../plugins/*/tests</directory><!-- There should be actually a tests/System but this way we make sure to execute all tests even if some are not moved to correct subdirectory. We will execute Unit and Integration tests twice :( ... -->
-        <directory>../../plugins/*/Test</directory>
-        <directory>../../tests/resources/custompluginsdir/*/tests/System</directory>
-        <directory>../../tests/resources/custompluginsdir/*/Test/System</directory>
-        <exclude>../../plugins/*/tests/Integration</exclude>
-        <exclude>../../plugins/*/Test/Integration</exclude>
-        <exclude>../../plugins/*/tests/Unit</exclude>
-        <exclude>../../plugins/*/Test/Unit</exclude>
+      <directory>../../plugins/*/tests</directory>
+      <!-- There should be actually a tests/System but this way we make sure to execute all tests even if some are not moved to correct subdirectory. We will execute Unit and Integration tests twice :( ... -->
+      <directory>../../plugins/*/Test</directory>
+      <directory>../../tests/resources/custompluginsdir/*/tests/System</directory>
+      <directory>../../tests/resources/custompluginsdir/*/Test/System</directory>
+      <exclude>../../plugins/*/tests/Integration</exclude>
+      <exclude>../../plugins/*/Test/Integration</exclude>
+      <exclude>../../plugins/*/tests/Unit</exclude>
+      <exclude>../../plugins/*/Test/Unit</exclude>
     </testsuite>
     <testsuite name="IntegrationTests">
-        <directory>./Integration</directory>
-        <directory>../../plugins/*/tests/Integration</directory>
-        <directory>../../plugins/*/Test/Integration</directory>
-        <directory>../../tests/resources/custompluginsdir/*/tests/Integration</directory>
-        <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory>
+      <directory>./Integration</directory>
+      <directory>../../plugins/*/tests/Integration</directory>
+      <directory>../../plugins/*/Test/Integration</directory>
+      <directory>../../tests/resources/custompluginsdir/*/tests/Integration</directory>
+      <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory>
     </testsuite>
     <testsuite name="IntegrationTestsCore">
-        <directory>./Integration</directory>
-        <directory>../../tests/resources/custompluginsdir/*/tests/Integration</directory>
-        <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory>
+      <directory>./Integration</directory>
+      <directory>../../tests/resources/custompluginsdir/*/tests/Integration</directory>
+      <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory>
     </testsuite>
     <testsuite name="IntegrationTestsPlugins">
-        <directory>../../plugins/*/tests/Integration</directory>
-        <directory>../../plugins/*/Test/Integration</directory>
+      <directory>../../plugins/*/tests/Integration</directory>
+      <directory>../../plugins/*/Test/Integration</directory>
     </testsuite>
     <testsuite name="UnitTests">
-        <directory>./Unit</directory>
-        <directory>../../plugins/*/tests/Unit</directory>
-        <directory>../../plugins/*/Test/Unit</directory>
-        <directory>../../tests/resources/custompluginsdir/*/tests/Unit</directory>
-        <directory>../../tests/resources/custompluginsdir/*/Test/Unit</directory>
+      <directory>./Unit</directory>
+      <directory>../../plugins/*/tests/Unit</directory>
+      <directory>../../plugins/*/Test/Unit</directory>
+      <directory>../../tests/resources/custompluginsdir/*/tests/Unit</directory>
+      <directory>../../tests/resources/custompluginsdir/*/Test/Unit</directory>
     </testsuite>
     <testsuite name="PluginTests">
-        <directory>../../plugins/*/tests</directory>
-        <directory>../../plugins/*/Test</directory>
+      <directory>../../plugins/*/tests</directory>
+      <directory>../../plugins/*/Test</directory>
     </testsuite>
     <testsuite name="CoreTests">
-        <directory>./Unit</directory>
-        <directory>./Integration</directory>
-        <directory>./System</directory>
+      <directory>./Unit</directory>
+      <directory>./Integration</directory>
+      <directory>./System</directory>
     </testsuite>
-</testsuites>
-
-<filter>
-    <whitelist addUncoveredFilesFromWhitelist="true">
-        <directory suffix=".php">../../core</directory>
-        <directory suffix=".php">../../plugins</directory>
-        <exclude>
-            <directory suffix=".php">../../core/Updates</directory>
-            <directory suffix=".php">../../plugins/Example*</directory>
-            <directory suffix=".php">../../plugins/SecurityInfo*</directory>
-            <directory suffix=".php">../../plugins/*/Updates</directory>
-            <directory suffix=".php">../../plugins/*/libs</directory>
-            <directory suffix=".php">../../plugins/*/tests</directory>
-            <directory suffix=".php">../../plugins/*/Test</directory>
-        </exclude>
-    </whitelist>
-</filter>
-
+  </testsuites>
 </phpunit>
