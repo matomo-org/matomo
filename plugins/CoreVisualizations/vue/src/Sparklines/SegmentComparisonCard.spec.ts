@@ -175,8 +175,8 @@ describe('CoreVisualizations/SegmentComparisonCard segment + date', () => {
 
     expect(wrapper.findAllComponents({ name: 'SegmentComparisonRow' }).length).toBe(2);
     // Two segments x two dates = four value columns; one date separator per row.
-    expect(wrapper.findAll('.sparklineSegmentComparisonRow__date').length).toBe(4);
-    expect(wrapper.findAll('.sparklineSegmentComparisonRow__separator').length).toBe(2);
+    expect(wrapper.findAll('.periodColumns__column').length).toBe(4);
+    expect(wrapper.findAll('.periodColumns__separator').length).toBe(2);
     expect(wrapper.findAll('.sparklineSegmentComparisonRow__chip').map((node) => node.text()))
       .toEqual(['NZ visitors', 'Mobile users']);
   });

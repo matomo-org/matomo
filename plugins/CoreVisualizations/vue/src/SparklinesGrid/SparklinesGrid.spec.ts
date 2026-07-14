@@ -305,7 +305,7 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(wrapper.findAllComponents({ name: 'SparklineCard' }).length).toBe(0);
     // Two segments stacked as rows, each with a column per compared date (2 x 2 = 4 columns).
     expect(cards[0].findAllComponents({ name: 'SegmentComparisonRow' }).length).toBe(2);
-    expect(wrapper.findAll('.sparklineSegmentComparisonRow__date').length).toBe(4);
+    expect(wrapper.findAll('.periodColumns__column').length).toBe(4);
   });
 
   it('uses the wider comparison columns (s12 m12 l6 xl6) in segment + date mode', () => {

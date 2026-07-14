@@ -11,68 +11,25 @@
       class="sparklineDateComparison__title"
       :title="metricTitle"
     >{{ metricTitle }}</div>
-    <div class="sparklineDateComparison__periods">
-      <template
-        v-for="(period, index) in periods"
-        :key="period.label"
-      >
-        <div
-          v-if="index > 0"
-          class="sparklineDateComparison__separator"
-        />
-        <div class="sparklineDateComparison__date">
-          <DateAtom :label="period.label" />
-          <MetricValue
-            class="metricValue--noTitle"
-            :value="period.primaryValue"
-            :secondary-value="period.secondaryValue"
-            :secondary-label="period.secondaryLabel"
-          >
-            <template
-              v-if="period.evolution"
-              #evolution
-            >
-              <EvolutionBadge
-                :percent="period.evolution.percent"
-                :trend="period.evolution.trend"
-                :is-lower-value-better="period.evolution.isLowerValueBetter"
-                :tooltip="period.evolution.tooltip || ''"
-              />
-            </template>
-          </MetricValue>
-        </div>
-      </template>
-    </div>
+    <PeriodColumns :periods="periods" />
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
-import MetricValue from '../MetricValue/MetricValue.vue';
-import EvolutionBadge from '../EvolutionBadge/EvolutionBadge.vue';
-import DateAtom from './DateAtom.vue';
-import { SparklineEntry, SparklineEvolution } from './types';
-
-interface PeriodColumn {
-  label: string;
-  primaryValue: string | number;
-  evolution?: SparklineEvolution;
-  secondaryValue?: string | number;
-  secondaryLabel?: string;
-}
+import PeriodColumns from './PeriodColumns.vue';
+import { PeriodColumn, SparklineEntry } from './types';
 
 /**
  * Date-comparison body for a sparkline card: metric name as title and one column per compared date
  * (the shell renders the shared sparkline below, which draws a coloured series per date). Metrics
  * arrive grouped by date label (one column each, in seriesIndices order). Only two-date comparison
- * reaches here.
+ * reaches here. The columns themselves are rendered by the shared PeriodColumns component.
  */
 export default defineComponent({
   name: 'DateComparison',
   components: {
-    DateAtom,
-    MetricValue,
-    EvolutionBadge,
+    PeriodColumns,
   },
   props: {
     sparkline: {

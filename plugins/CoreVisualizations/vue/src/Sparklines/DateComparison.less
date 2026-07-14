@@ -21,23 +21,8 @@
   text-overflow: ellipsis;
 }
 
-// The two date columns share the width evenly; the gap spaces them and the separator element
-// between them draws the divider.
-.sparklineDateComparison__periods {
-  display: flex;
-  gap: 16px;
+// The date columns come from the shared PeriodColumns component (PeriodColumns.less). It is
+// margin-free, so this body owns the gap between the columns and the shell-rendered sparkline below.
+.sparklineDateComparison .periodColumns {
   margin-bottom: 12px;
-}
-
-.sparklineDateComparison__date {
-  flex: auto;
-  min-width: 0;
-}
-
-// Divider between the two date columns. A real element (not a positional sibling selector) so the
-// separator's presence is decided in the template, one per gap between columns.
-.sparklineDateComparison__separator {
-  flex: none;
-  width: 1px;
-  background: @theme-color-border-alternative;
 }
