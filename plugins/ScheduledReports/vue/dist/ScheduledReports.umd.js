@@ -818,7 +818,7 @@ var __async = (__this, __arguments, generator) => {
                                 })
                               }, null, 40, _hoisted_24$1),
                               vue.createElementVNode("span", null, vue.toDisplayString(_ctx.decode(report.name)), 1),
-                              report.uniqueId === "MultiSites_getAll" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_25$1, vue.toDisplayString(_ctx.translate("ScheduledReports_ReportIncludeNWebsites", String(_ctx.countWebsites))), 1)) : vue.createCommentVNode("", true)
+                              report.uniqueId === "MultiSites_getAll" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_25$1, vue.toDisplayString(_ctx.translate("ScheduledReports_ReportIncludeNWebsites", _ctx.countWebsites)), 1)) : vue.createCommentVNode("", true)
                             ])
                           ]);
                         }), 128))

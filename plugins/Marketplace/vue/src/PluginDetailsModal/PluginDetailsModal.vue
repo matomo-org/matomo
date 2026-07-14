@@ -185,7 +185,7 @@
                   <template
                     v-if="pluginActivity?.lastCommitDate">
                     {{
-                      ' ' + translate('Marketplace_LastCommitTime', String(pluginActivity.lastCommitDate))
+                      ' ' + translate('Marketplace_LastCommitTime', pluginActivity.lastCommitDate)
                     }}
                   </template>
                 </dd>
@@ -282,7 +282,7 @@
               class="free-trial-dropdown"
               :title="`${translate('Marketplace_ShownPriceIsExclTax')} ${translate(
                 'Marketplace_CurrentNumPiwikUsers',
-                String(numUsers)
+                numUsers
                 )}`"
               v-model="selectedPluginShopVariationUrl"
               @change="changeSelectedPluginShopVariationUrl"
@@ -293,7 +293,7 @@
                       'Marketplace_PriceExclTax',
                       String(variation.price),
                       variation.currency
-                    )} ${translate('Marketplace_CurrentNumPiwikUsers', String(numUsers))}`"
+                    )} ${translate('Marketplace_CurrentNumPiwikUsers', numUsers)}`"
               >{{ variation.name }} - {{ variation.prettyPrice }} / {{ variation.period }}</option>
             </select>
           </div>

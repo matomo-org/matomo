@@ -966,9 +966,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         ]),
         vue.createElementVNode("span", _hoisted_20, vue.toDisplayString(_ctx.translate(
           "General_Pagination",
-          String(_ctx.paginationLowerBound),
-          String(_ctx.paginationUpperBound),
-          String(_ctx.numberOfFilteredSites)
+          _ctx.paginationLowerBound,
+          _ctx.paginationUpperBound,
+          _ctx.numberOfFilteredSites
         )), 1),
         vue.withDirectives(vue.createElementVNode("span", {
           class: "dataTableNext",

@@ -871,11 +871,11 @@ var __spreadValues = (a, b) => {
           class: "metricEvolution",
           title: _ctx.translate(
             "General_EvolutionSummaryGeneric",
-            String((_a = _ctx.metricValue) != null ? _a : ""),
-            String((_b = _ctx.currentPeriod) != null ? _b : ""),
-            String((_c = _ctx.pastValue) != null ? _c : ""),
-            String((_d = _ctx.pastPeriod) != null ? _d : ""),
-            String((_e = _ctx.metricChangePercent) != null ? _e : "")
+            (_a = _ctx.metricValue) != null ? _a : "",
+            (_b = _ctx.currentPeriod) != null ? _b : "",
+            (_c = _ctx.pastValue) != null ? _c : "",
+            (_d = _ctx.pastPeriod) != null ? _d : "",
+            (_e = _ctx.metricChangePercent) != null ? _e : ""
           )
         }, [
           vue.createElementVNode("span", {

@@ -11,7 +11,7 @@
       <EnrichedHeadline>{{ translate('DBStats_DatabaseUsage') }}</EnrichedHeadline>
     </h2>
     <p>
-      {{ translate("DBStats_MainDescription", String(totalSpaceUsed)) }}<br/>
+      {{ translate("DBStats_MainDescription", totalSpaceUsed) }}<br/>
       <span v-html="$sanitize(learnMoreText)"></span>
     </p>
   </div>

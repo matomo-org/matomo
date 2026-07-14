@@ -148,9 +148,9 @@
     <span class="dataTablePages">
       {{ translate(
         'General_Pagination',
-        String(paginationLowerBound),
-        String(paginationUpperBound),
-        String(numberOfFilteredSites),
+        paginationLowerBound,
+        paginationUpperBound,
+        numberOfFilteredSites,
       ) }}
     </span>
 

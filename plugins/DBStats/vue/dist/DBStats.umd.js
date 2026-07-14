@@ -46,7 +46,7 @@
         })
       ]),
       vue.createElementVNode("p", null, [
-        vue.createTextVNode(vue.toDisplayString(_ctx.translate("DBStats_MainDescription", String(_ctx.totalSpaceUsed))), 1),
+        vue.createTextVNode(vue.toDisplayString(_ctx.translate("DBStats_MainDescription", _ctx.totalSpaceUsed)), 1),
         _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
         vue.createElementVNode("span", {
           innerHTML: _ctx.$sanitize(_ctx.learnMoreText)

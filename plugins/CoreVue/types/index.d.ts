@@ -292,8 +292,16 @@ declare global {
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
-    translate: (translationStringId: string, ...values: string[]|string[][]) => string;
-    translateOrDefault: (translationStringIdOrText: string, ...values: string[]|string[][]) => string;
+    // Value types mirror the translate() implementation, which accepts numbers/booleans (not just
+    // strings), so callers don't have to String()-wrap numeric interpolation arguments.
+    translate: (
+      translationStringId: string,
+      ...values: (string|string[]|number|number[]|boolean|boolean[])[]
+    ) => string;
+    translateOrDefault: (
+      translationStringIdOrText: string,
+      ...values: (string|string[]|number|number[]|boolean|boolean[])[]
+    ) => string;
     $sanitize: Window['vueSanitize'];
     $sanitizeUrl: Window['vueSanitizeUrl'];
     externalLink: (url: string, ...values:string[]) => string;

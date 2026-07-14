@@ -1357,7 +1357,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                       vue.createTextVNode(vue.toDisplayString(" " + _ctx.translate("Marketplace_ByXDevelopers", String(_ctx.pluginActivity.numContributors))), 1)
                     ], 64)) : vue.createCommentVNode("", true),
                     ((_b = _ctx.pluginActivity) == null ? void 0 : _b.lastCommitDate) ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
-                      vue.createTextVNode(vue.toDisplayString(" " + _ctx.translate("Marketplace_LastCommitTime", String(_ctx.pluginActivity.lastCommitDate))), 1)
+                      vue.createTextVNode(vue.toDisplayString(" " + _ctx.translate("Marketplace_LastCommitTime", _ctx.pluginActivity.lastCommitDate)), 1)
                     ], 64)) : vue.createCommentVNode("", true)
                   ])
                 ])) : vue.createCommentVNode("", true),
@@ -1455,7 +1455,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                 class: "free-trial-dropdown",
                 title: `${_ctx.translate("Marketplace_ShownPriceIsExclTax")} ${_ctx.translate(
                   "Marketplace_CurrentNumPiwikUsers",
-                  String(_ctx.numUsers)
+                  _ctx.numUsers
                 )}`,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.selectedPluginShopVariationUrl = $event),
                 onChange: _cache[2] || (_cache[2] = (...args) => _ctx.changeSelectedPluginShopVariationUrl && _ctx.changeSelectedPluginShopVariationUrl(...args))
@@ -1468,7 +1468,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                       "Marketplace_PriceExclTax",
                       String(variation.price),
                       variation.currency
-                    )} ${_ctx.translate("Marketplace_CurrentNumPiwikUsers", String(_ctx.numUsers))}`
+                    )} ${_ctx.translate("Marketplace_CurrentNumPiwikUsers", _ctx.numUsers)}`
                   }, vue.toDisplayString(variation.name) + " - " + vue.toDisplayString(variation.prettyPrice) + " / " + vue.toDisplayString(variation.period), 9, _hoisted_54);
                 }), 128))
               ], 40, _hoisted_53), [

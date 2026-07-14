@@ -20,8 +20,8 @@
         <br/>
         {{ translate(
           'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell',
-          String(otherUsersCount ?? 0),
-          String(themeEnabled),
+          otherUsersCount ?? 0,
+          themeEnabled,
         ) }}
       </span>
 

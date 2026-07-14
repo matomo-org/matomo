@@ -707,8 +707,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                   vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("CustomDimensions_ConfigureNewDimension")) + " ", 1),
                   vue.createElementVNode("span", _hoisted_16, "(" + vue.toDisplayString(_ctx.translate(
                     "CustomDimensions_XofYLeft",
-                    String(scope.numSlotsLeft),
-                    String(scope.numSlotsAvailable)
+                    scope.numSlotsLeft,
+                    scope.numSlotsAvailable
                   )) + ")", 1)
                 ], 8, _hoisted_15), [
                   [vue.vShow, !_ctx.isLoading]

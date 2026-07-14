@@ -296,7 +296,7 @@
                   />
                   <span>{{ decode(report.name) }}</span>
                   <div class="entityInlineHelp" v-if="report.uniqueId === 'MultiSites_getAll'">
-                    {{ translate('ScheduledReports_ReportIncludeNWebsites', String(countWebsites)) }}
+                    {{ translate('ScheduledReports_ReportIncludeNWebsites', countWebsites) }}
                   </div>
                 </label>
               </li>

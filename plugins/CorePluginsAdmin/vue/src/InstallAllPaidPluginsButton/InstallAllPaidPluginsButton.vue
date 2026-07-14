@@ -36,7 +36,7 @@
           :data-href="installAllPaidPluginsLink"
           :value="translate(
                   'Marketplace_InstallAllPurchasedPluginsAction',
-                  String(paidPluginsToInstallAtOnce.length),
+                  paidPluginsToInstallAtOnce.length,
                 )"
         />
         <input

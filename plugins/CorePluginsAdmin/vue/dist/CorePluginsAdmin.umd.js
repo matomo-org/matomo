@@ -10372,7 +10372,7 @@ var __async = (__this, __arguments, generator) => {
             "data-href": _ctx.installAllPaidPluginsLink,
             value: _ctx.translate(
               "Marketplace_InstallAllPurchasedPluginsAction",
-              String(_ctx.paidPluginsToInstallAtOnce.length)
+              _ctx.paidPluginsToInstallAtOnce.length
             )
           }, null, 8, _hoisted_4$3),
           vue.createElementVNode("input", {
@@ -10521,8 +10521,8 @@ var __async = (__this, __arguments, generator) => {
           _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(
             "CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell",
-            String((_a2 = _ctx.otherUsersCount) != null ? _a2 : 0),
-            String(_ctx.themeEnabled)
+            (_a2 = _ctx.otherUsersCount) != null ? _a2 : 0,
+            _ctx.themeEnabled
           )), 1)
         ])) : vue.createCommentVNode("", true),
         !_ctx.isPluginsAdminEnabled ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$3, [
@@ -11217,7 +11217,7 @@ var __async = (__this, __arguments, generator) => {
       key: 0,
       "content-title": _ctx.translate(
         "CorePluginsAdmin_NUpdatesAvailable",
-        String(Object.keys(_ctx.pluginsHavingUpdate).length)
+        Object.keys(_ctx.pluginsHavingUpdate).length
       )
     }, {
       default: vue.withCtx(() => [

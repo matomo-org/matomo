@@ -10,7 +10,7 @@
     v-if="Object.keys(pluginsHavingUpdate).length"
     :content-title="translate(
       'CorePluginsAdmin_NUpdatesAvailable',
-      String(Object.keys(pluginsHavingUpdate).length),
+      Object.keys(pluginsHavingUpdate).length,
     )"
   >
     <p>{{ translate('CorePluginsAdmin_InfoPluginUpdateIsRecommended') }}</p>

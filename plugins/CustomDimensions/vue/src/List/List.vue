@@ -83,8 +83,8 @@
             <span class="icon-add" /> {{ translate('CustomDimensions_ConfigureNewDimension') }}
             <span class="info">({{ translate(
               'CustomDimensions_XofYLeft',
-              String(scope.numSlotsLeft),
-              String(scope.numSlotsAvailable),
+              scope.numSlotsLeft,
+              scope.numSlotsAvailable,
             ) }})</span>
           </button>
         </div>
