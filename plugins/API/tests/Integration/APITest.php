@@ -393,14 +393,18 @@ class APITest extends IntegrationTestCase
 
     private function createSecondUserTokenWithViewAccessToSite1(): string
     {
-        return Access::doAsSuperUser(function () {
+        Access::doAsSuperUser(function () {
             $api = UsersManagerAPI::getInstance();
             if (!$api->userExists('bulk_viewer')) {
                 $api->addUser('bulk_viewer', 'BulkViewer!2026abc', 'bulk_viewer@example.test');
             }
             $api->setUserAccess('bulk_viewer', 'view', [1]);
-            return $api->createAppSpecificTokenAuth('bulk_viewer', 'BulkViewer!2026abc', 'bulk viewer token');
         });
+
+        // the token is created from an unauthenticated request using the user's credentials
+        $this->setAnonymousContext();
+
+        return UsersManagerAPI::getInstance()->createAppSpecificTokenAuth('bulk_viewer', 'BulkViewer!2026abc', 'bulk viewer token');
     }
 
     public function testArchiveReportsAllowsViewAccessForNonBulkRootApiMethod()

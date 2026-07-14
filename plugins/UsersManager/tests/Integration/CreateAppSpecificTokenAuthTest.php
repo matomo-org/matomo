@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
+use Piwik\Access;
 use Piwik\API\Request as ApiRequest;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\UsersManager\API as UsersAPI;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -62,9 +64,21 @@ class CreateAppSpecificTokenAuthTest extends IntegrationTestCase
 
     public function testCreateAppSpecificTokenAuthWorksAsATopLevelRequest()
     {
+        $this->setAnonymousUser();
         $token = UsersAPI::getInstance()->createAppSpecificTokenAuth(self::LOGIN, self::PASSWORD, 'test');
 
         $this->assertNotEmpty($token);
         $this->assertNotEmpty($this->model->getAllNonSystemTokensForLogin(self::LOGIN));
+    }
+
+    private function setAnonymousUser(): void
+    {
+        $auth = StaticContainer::get('Piwik\Auth');
+        $auth->setLogin('anonymous');
+        $auth->setTokenAuth('anonymous');
+        $auth->setPasswordHash(null);
+
+        Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess($auth);
     }
 }

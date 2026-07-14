@@ -1560,6 +1560,16 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        // A logged-in user may only create a token for their own account. Creating a token
+        // for a different account requires that account's credentials via an anonymous request.
+        $currentLogin = Piwik::getCurrentUserLogin();
+        if (
+            strtolower((string) $currentLogin) !== 'anonymous'
+            && ($user['login'] ?? $userLogin) !== $currentLogin
+        ) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionCreateTokenAuthForOtherUser'));
+        }
+
         if (empty($user) || !$this->passwordVerifier->isPasswordCorrect($userLogin, $passwordConfirmation)) {
             if (empty($user)) {
                 /**
