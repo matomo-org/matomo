@@ -973,12 +973,6 @@ parameters:
 			path: core/Log.php
 
 		-
-			message: '#^Class Piwik\\Log\\Logger extends @final class Monolog\\Logger\.$#'
-			identifier: class.extendsFinalByPhpDoc
-			count: 1
-			path: core/Log/Logger.php
-
-		-
 			message: '#^Property Piwik\\LogDeleter\:\:\$logTablesProvider is never read, only written\.$#'
 			identifier: property.onlyWritten
 			count: 1
@@ -4157,12 +4151,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: plugins/MobileMessaging/SMSProvider/StubbedProvider.php
-
-		-
-			message: '#^Class Piwik\\Plugins\\Monolog\\Formatter\\ConsoleFormatter extends @final class Symfony\\Bridge\\Monolog\\Formatter\\ConsoleFormatter\.$#'
-			identifier: class.extendsFinalByPhpDoc
-			count: 1
-			path: plugins/Monolog/Formatter/ConsoleFormatter.php
 
 		-
 			message: '#^Variable \$parts in empty\(\) always exists and is not falsy\.$#'
