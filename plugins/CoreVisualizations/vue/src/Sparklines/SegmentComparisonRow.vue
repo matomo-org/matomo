@@ -11,7 +11,7 @@
       class="sparklineSegmentComparisonRow__chip"
       :title="segmentLabel"
     >{{ segmentLabel }}</span>
-    <PeriodColumns :periods="periods" />
+    <PeriodColumns :entry="segment" />
     <div
       class="sparklineSegmentComparisonRow__sparkline"
       :class="{ 'sparklineSegmentComparisonRow__sparkline--wide': isMultiPeriod }"
@@ -30,7 +30,7 @@
 import { computed, defineComponent, PropType } from 'vue';
 import { Sparkline } from 'CoreHome';
 import PeriodColumns from './PeriodColumns.vue';
-import { PeriodColumn, SparklineEntry } from './types';
+import { SparklineEntry } from './types';
 
 /**
  * One compared segment inside a segment-comparison card: a presentational block with a segment-name
@@ -56,29 +56,9 @@ export default defineComponent({
     // Segment name (compareSegmentPretty); always populated in segment comparison.
     const segmentLabel = computed(() => props.segment.title || '');
 
-    // One column per compared date, in backend order via `metricsOrder` (not Object.keys, which JS
-    // re-sorts for integer-like year labels). Segment-only comparison has exactly one column, so
-    // this is one-or-many. Values pass raw to MetricValue, which locale-formats numbers. Mirrors
-    // DateComparison.vue's `periods`.
-    const periods = computed<PeriodColumn[]>(() => {
-      const metrics = props.segment.metrics || {};
-      const order = props.segment.metricsOrder || [];
-      return order.map((label) => {
-        const groupMetrics = metrics[label] || [];
-        const primary = groupMetrics[0];
-        const secondary = groupMetrics[1];
-        return {
-          label,
-          primaryValue: primary?.value ?? '',
-          evolution: primary?.evolution,
-          secondaryValue: secondary?.value,
-          secondaryLabel: secondary?.description,
-        };
-      });
-    });
-
-    // More than one compared date (segment + date) → widen the sparkline.
-    const isMultiPeriod = computed(() => periods.value.length > 1);
+    // More than one compared date (segment + date) → widen the sparkline. The period columns
+    // themselves are derived and rendered by PeriodColumns from the same entry.
+    const isMultiPeriod = computed(() => (props.segment.metricsOrder || []).length > 1);
 
     // Displayed sparkline width; segment + date rows draw one series per date so they are wider,
     // matching the date-comparison card. Kept in sync with the `--wide` max-width in the .less
@@ -87,7 +67,6 @@ export default defineComponent({
 
     return {
       segmentLabel,
-      periods,
       isMultiPeriod,
       sparklineWidth,
     };

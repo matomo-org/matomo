@@ -1274,43 +1274,43 @@ function NoComparisonvue_type_template_id_44e340e0_render(_ctx, _cache, $props, 
 NoComparisonvue_type_script_lang_ts.render = NoComparisonvue_type_template_id_44e340e0_render
 
 /* harmony default export */ var NoComparison = (NoComparisonvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/DateComparison.vue?vue&type=template&id=608da5e0
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/DateComparison.vue?vue&type=template&id=39102a6a
 
-const DateComparisonvue_type_template_id_608da5e0_hoisted_1 = {
+const DateComparisonvue_type_template_id_39102a6a_hoisted_1 = {
   class: "sparklineDateComparison"
 };
-const DateComparisonvue_type_template_id_608da5e0_hoisted_2 = ["title"];
-function DateComparisonvue_type_template_id_608da5e0_render(_ctx, _cache, $props, $setup, $data, $options) {
+const DateComparisonvue_type_template_id_39102a6a_hoisted_2 = ["title"];
+function DateComparisonvue_type_template_id_39102a6a_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_PeriodColumns = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodColumns");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DateComparisonvue_type_template_id_608da5e0_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DateComparisonvue_type_template_id_39102a6a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: "sparklineDateComparison__title",
     title: _ctx.metricTitle
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricTitle), 9, DateComparisonvue_type_template_id_608da5e0_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodColumns, {
-    periods: _ctx.periods
-  }, null, 8, ["periods"])]);
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricTitle), 9, DateComparisonvue_type_template_id_39102a6a_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodColumns, {
+    entry: _ctx.sparkline
+  }, null, 8, ["entry"])]);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/DateComparison.vue?vue&type=template&id=608da5e0
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/DateComparison.vue?vue&type=template&id=39102a6a
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/PeriodColumns.vue?vue&type=template&id=ff5087f4
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/PeriodColumns.vue?vue&type=template&id=eb849e72
 
-const PeriodColumnsvue_type_template_id_ff5087f4_hoisted_1 = {
+const PeriodColumnsvue_type_template_id_eb849e72_hoisted_1 = {
   class: "periodColumns"
 };
-const PeriodColumnsvue_type_template_id_ff5087f4_hoisted_2 = {
+const PeriodColumnsvue_type_template_id_eb849e72_hoisted_2 = {
   key: 0,
   class: "periodColumns__separator"
 };
-const PeriodColumnsvue_type_template_id_ff5087f4_hoisted_3 = {
+const PeriodColumnsvue_type_template_id_eb849e72_hoisted_3 = {
   class: "periodColumns__column"
 };
-function PeriodColumnsvue_type_template_id_ff5087f4_render(_ctx, _cache, $props, $setup, $data, $options) {
+function PeriodColumnsvue_type_template_id_eb849e72_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_DateAtom = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DateAtom");
   const _component_EvolutionBadge = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EvolutionBadge");
   const _component_MetricValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MetricValue");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodColumnsvue_type_template_id_ff5087f4_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periods, (period, index) => {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodColumnsvue_type_template_id_eb849e72_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periods, (period, index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
       key: period.label
-    }, [index > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodColumnsvue_type_template_id_ff5087f4_hoisted_2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodColumnsvue_type_template_id_ff5087f4_hoisted_3, [_ctx.showLabels ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DateAtom, {
+    }, [index > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodColumnsvue_type_template_id_eb849e72_hoisted_2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodColumnsvue_type_template_id_eb849e72_hoisted_3, [_ctx.showLabels ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DateAtom, {
       key: 0,
       label: period.label
     }, null, 8, ["label"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MetricValue, {
@@ -1332,7 +1332,7 @@ function PeriodColumnsvue_type_template_id_ff5087f4_render(_ctx, _cache, $props,
     } : undefined]), 1032, ["value", "secondary-value", "secondary-label"])])], 64);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/PeriodColumns.vue?vue&type=template&id=ff5087f4
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/PeriodColumns.vue?vue&type=template&id=eb849e72
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/DateAtom.vue?vue&type=template&id=c76a1e74
 
@@ -1377,11 +1377,12 @@ DateAtomvue_type_script_lang_ts.render = DateAtomvue_type_template_id_c76a1e74_r
 
 
 /**
- * Shared compared-period columns for comparison cards: one column per period (a DateAtom label, the
- * MetricValue readout with no title, and an EvolutionBadge when the period has evolution), split by
- * dividers. Rendered by DateComparison (date comparison) and SegmentComparisonRow (segment + date).
- * The host owns the outer spacing; this only lays the columns out. The date label shows only when
- * comparing more than one period — a single column (segment-only) needs no label.
+ * Shared compared-period columns for comparison cards: takes a SparklineEntry and renders one
+ * column per compared period (a DateAtom label, the MetricValue readout with no title, and an
+ * EvolutionBadge when the period has evolution), split by dividers. Used by DateComparison (date
+ * comparison) and SegmentComparisonRow (segment + date). The host owns the outer spacing; this
+ * derives the columns from the entry's per-period metric groups (metricsOrder order) and lays
+ * them out. The date label shows only when comparing >1 period — a single column needs no label.
  */
 /* harmony default export */ var PeriodColumnsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   name: 'PeriodColumns',
@@ -1391,14 +1392,36 @@ DateAtomvue_type_script_lang_ts.render = DateAtomvue_type_template_id_c76a1e74_r
     EvolutionBadge: EvolutionBadge
   },
   props: {
-    periods: {
-      type: Array,
+    entry: {
+      type: Object,
       required: true
     }
   },
   setup(props) {
-    const showLabels = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.periods.length > 1);
+    // One column per period, in backend order via `metricsOrder` (not Object.keys, which JS
+    // re-sorts integer-like year labels). Primary = big value + evolution; optional second = the
+    // "unique" sub-line. Values pass raw to MetricValue, which locale-formats numbers.
+    const periods = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
+      const metrics = props.entry.metrics || {};
+      const order = props.entry.metricsOrder || [];
+      return order.map(label => {
+        var _primary$value;
+        const groupMetrics = metrics[label] || [];
+        const primary = groupMetrics[0];
+        const secondary = groupMetrics[1];
+        return {
+          label,
+          primaryValue: (_primary$value = primary === null || primary === void 0 ? void 0 : primary.value) !== null && _primary$value !== void 0 ? _primary$value : '',
+          evolution: primary === null || primary === void 0 ? void 0 : primary.evolution,
+          secondaryValue: secondary === null || secondary === void 0 ? void 0 : secondary.value,
+          secondaryLabel: secondary === null || secondary === void 0 ? void 0 : secondary.description
+        };
+      });
+    });
+    // Label the columns only when comparing more than one period (segment-only has one column).
+    const showLabels = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => periods.value.length > 1);
     return {
+      periods,
       showLabels
     };
   }
@@ -1409,7 +1432,7 @@ DateAtomvue_type_script_lang_ts.render = DateAtomvue_type_template_id_c76a1e74_r
 
 
 
-PeriodColumnsvue_type_script_lang_ts.render = PeriodColumnsvue_type_template_id_ff5087f4_render
+PeriodColumnsvue_type_script_lang_ts.render = PeriodColumnsvue_type_template_id_eb849e72_render
 
 /* harmony default export */ var PeriodColumns = (PeriodColumnsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/DateComparison.vue?vue&type=script&lang=ts
@@ -1433,9 +1456,9 @@ PeriodColumnsvue_type_script_lang_ts.render = PeriodColumnsvue_type_template_id_
     }
   },
   setup(props) {
-    // Read the metric name from the first column via metricsOrder (like periods below),
-    // not Object.values, whose order JS shuffles for integer-like labels. The name is
-    // the same across columns, so this is for consistency, not correctness.
+    // Read the metric name from the first column via metricsOrder, not Object.values, whose order
+    // JS shuffles for integer-like labels. The name is the same across columns, so this is for
+    // consistency, not correctness.
     const metricTitle = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
       var _, _metrics$firstLabel;
       const metrics = props.sparkline.metrics || {};
@@ -1443,29 +1466,8 @@ PeriodColumnsvue_type_script_lang_ts.render = PeriodColumnsvue_type_template_id_
       const primary = firstLabel !== undefined ? (_metrics$firstLabel = metrics[firstLabel]) === null || _metrics$firstLabel === void 0 ? void 0 : _metrics$firstLabel[0] : undefined;
       return (primary === null || primary === void 0 ? void 0 : primary.title) || (primary === null || primary === void 0 ? void 0 : primary.description) || '';
     });
-    // One column per compared date, in backend order via `metricsOrder` (not Object.keys, which
-    // JS re-sorts for integer-like year labels). Primary metric = big value + evolution, optional
-    // second = the "unique" sub-line. Values pass raw to MetricValue, which formats numbers.
-    const periods = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      const metrics = props.sparkline.metrics || {};
-      const order = props.sparkline.metricsOrder || [];
-      return order.map(label => {
-        var _primary$value;
-        const groupMetrics = metrics[label] || [];
-        const primary = groupMetrics[0];
-        const secondary = groupMetrics[1];
-        return {
-          label,
-          primaryValue: (_primary$value = primary === null || primary === void 0 ? void 0 : primary.value) !== null && _primary$value !== void 0 ? _primary$value : '',
-          evolution: primary === null || primary === void 0 ? void 0 : primary.evolution,
-          secondaryValue: secondary === null || secondary === void 0 ? void 0 : secondary.value,
-          secondaryLabel: secondary === null || secondary === void 0 ? void 0 : secondary.description
-        };
-      });
-    });
     return {
-      metricTitle,
-      periods
+      metricTitle
     };
   }
 }));
@@ -1475,7 +1477,7 @@ PeriodColumnsvue_type_script_lang_ts.render = PeriodColumnsvue_type_template_id_
 
 
 
-DateComparisonvue_type_script_lang_ts.render = DateComparisonvue_type_template_id_608da5e0_render
+DateComparisonvue_type_script_lang_ts.render = DateComparisonvue_type_template_id_39102a6a_render
 
 /* harmony default export */ var DateComparison = (DateComparisonvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/sparklineDataAttrs.ts
@@ -1630,21 +1632,21 @@ function SegmentComparisonCardvue_type_template_id_22c119ee_render(_ctx, _cache,
 }
 // CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=template&id=22c119ee
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=2131c2d4
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=fd8e0dde
 
-const SegmentComparisonRowvue_type_template_id_2131c2d4_hoisted_1 = {
+const SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_1 = {
   class: "sparklineSegmentComparisonRow"
 };
-const SegmentComparisonRowvue_type_template_id_2131c2d4_hoisted_2 = ["title"];
-function SegmentComparisonRowvue_type_template_id_2131c2d4_render(_ctx, _cache, $props, $setup, $data, $options) {
+const SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_2 = ["title"];
+function SegmentComparisonRowvue_type_template_id_fd8e0dde_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_PeriodColumns = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodColumns");
   const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SegmentComparisonRowvue_type_template_id_2131c2d4_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "sparklineSegmentComparisonRow__chip",
     title: _ctx.segmentLabel
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.segmentLabel), 9, SegmentComparisonRowvue_type_template_id_2131c2d4_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodColumns, {
-    periods: _ctx.periods
-  }, null, 8, ["periods"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.segmentLabel), 9, SegmentComparisonRowvue_type_template_id_fd8e0dde_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodColumns, {
+    entry: _ctx.segment
+  }, null, 8, ["entry"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparklineSegmentComparisonRow__sparkline", {
       'sparklineSegmentComparisonRow__sparkline--wide': _ctx.isMultiPeriod
     }])
@@ -1655,7 +1657,7 @@ function SegmentComparisonRowvue_type_template_id_2131c2d4_render(_ctx, _cache, 
     "series-indices": _ctx.segment.seriesIndices
   }, null, 8, ["width", "params", "series-indices"])], 2)]);
 }
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=2131c2d4
+// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=template&id=fd8e0dde
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonRow.vue?vue&type=script&lang=ts
 
@@ -1684,36 +1686,15 @@ function SegmentComparisonRowvue_type_template_id_2131c2d4_render(_ctx, _cache, 
   setup(props) {
     // Segment name (compareSegmentPretty); always populated in segment comparison.
     const segmentLabel = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.segment.title || '');
-    // One column per compared date, in backend order via `metricsOrder` (not Object.keys, which JS
-    // re-sorts for integer-like year labels). Segment-only comparison has exactly one column, so
-    // this is one-or-many. Values pass raw to MetricValue, which locale-formats numbers. Mirrors
-    // DateComparison.vue's `periods`.
-    const periods = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      const metrics = props.segment.metrics || {};
-      const order = props.segment.metricsOrder || [];
-      return order.map(label => {
-        var _primary$value;
-        const groupMetrics = metrics[label] || [];
-        const primary = groupMetrics[0];
-        const secondary = groupMetrics[1];
-        return {
-          label,
-          primaryValue: (_primary$value = primary === null || primary === void 0 ? void 0 : primary.value) !== null && _primary$value !== void 0 ? _primary$value : '',
-          evolution: primary === null || primary === void 0 ? void 0 : primary.evolution,
-          secondaryValue: secondary === null || secondary === void 0 ? void 0 : secondary.value,
-          secondaryLabel: secondary === null || secondary === void 0 ? void 0 : secondary.description
-        };
-      });
-    });
-    // More than one compared date (segment + date) → widen the sparkline.
-    const isMultiPeriod = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => periods.value.length > 1);
+    // More than one compared date (segment + date) → widen the sparkline. The period columns
+    // themselves are derived and rendered by PeriodColumns from the same entry.
+    const isMultiPeriod = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => (props.segment.metricsOrder || []).length > 1);
     // Displayed sparkline width; segment + date rows draw one series per date so they are wider,
     // matching the date-comparison card. Kept in sync with the `--wide` max-width in the .less
     // (Sparkline renders the PNG at 2x this; the CSS cap stops it scaling past that crisp source).
     const sparklineWidth = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => isMultiPeriod.value ? 760 : 380);
     return {
       segmentLabel,
-      periods,
       isMultiPeriod,
       sparklineWidth
     };
@@ -1725,7 +1706,7 @@ function SegmentComparisonRowvue_type_template_id_2131c2d4_render(_ctx, _cache, 
 
 
 
-SegmentComparisonRowvue_type_script_lang_ts.render = SegmentComparisonRowvue_type_template_id_2131c2d4_render
+SegmentComparisonRowvue_type_script_lang_ts.render = SegmentComparisonRowvue_type_template_id_fd8e0dde_render
 
 /* harmony default export */ var SegmentComparisonRow = (SegmentComparisonRowvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SegmentComparisonCard.vue?vue&type=script&lang=ts

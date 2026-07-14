@@ -19,24 +19,31 @@ jest.mock('CoreHome', () => ({
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PeriodColumns = require('./PeriodColumns.vue').default;
 
-function multiPeriod() {
-  return [
-    {
-      label: 'Apr 23 - May 2, 2026',
-      primaryValue: '23,558',
-      secondaryValue: '9,527',
-      secondaryLabel: 'unique visitors',
-      evolution: {
-        percent: '+28.5%', trend: 5000, isLowerValueBetter: false, tooltip: 'more than before',
-      },
+// A SparklineEntry as it reaches PeriodColumns: metric groups keyed by period label, ordered by
+// metricsOrder. PeriodColumns derives its columns (primary + optional secondary) from this.
+function multiPeriodEntry() {
+  return {
+    metricsOrder: ['Apr 23 - May 2, 2026', 'Mar 24 - Apr 2, 2026'],
+    metrics: {
+      'Apr 23 - May 2, 2026': [
+        {
+          value: '23,558',
+          evolution: {
+            percent: '+28.5%', trend: 5000, isLowerValueBetter: false, tooltip: 'more than before',
+          },
+        },
+        { value: '9,527', description: 'unique visitors' },
+      ],
+      'Mar 24 - Apr 2, 2026': [
+        { value: '30,119' },
+      ],
     },
-    { label: 'Mar 24 - Apr 2, 2026', primaryValue: '30,119' },
-  ];
+  };
 }
 
-function createWrapper(periods = multiPeriod()) {
+function createWrapper(entry: Record<string, unknown> = multiPeriodEntry()) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return mount(PeriodColumns as any, { props: { periods } });
+  return mount(PeriodColumns as any, { props: { entry } });
 }
 
 describe('CoreVisualizations/PeriodColumns', () => {
@@ -77,7 +84,10 @@ describe('CoreVisualizations/PeriodColumns', () => {
   });
 
   it('renders a single column with no date label and no separator (one period)', () => {
-    const wrapper = createWrapper([{ label: 'Jan 12 - 17, 2012', primaryValue: '10,558' }]);
+    const wrapper = createWrapper({
+      metricsOrder: ['Jan 12 - 17, 2012'],
+      metrics: { 'Jan 12 - 17, 2012': [{ value: '10,558' }] },
+    });
 
     expect(wrapper.findAll('.periodColumns__column')).toHaveLength(1);
     expect(wrapper.findAll('.periodColumns__separator')).toHaveLength(0);
