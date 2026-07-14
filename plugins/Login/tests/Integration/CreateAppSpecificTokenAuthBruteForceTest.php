@@ -144,6 +144,46 @@ class CreateAppSpecificTokenAuthBruteForceTest extends IntegrationTestCase
         $plugin->beforeLoginCheckBruteForce();
     }
 
+    public function testCreateAppSpecificTokenAuthRecordsFailedAttemptForTheTargetLogin(): void
+    {
+        // an unauthenticated request creating a token by credentials
+        StaticContainer::get(\Piwik\Auth::class)->setLogin('anonymous');
+
+        try {
+            Request::processRequest('UsersManager.createAppSpecificTokenAuth', [
+                'userLogin' => $this->userLogin,
+                'passwordConfirmation' => 'wrongPassword123!',
+                'description' => 'wrong password test',
+            ]);
+            $this->fail('expected an exception for the wrong password');
+        } catch (\Exception $e) {
+            // expected: password is not correct
+        }
+
+        $recordedLogins = array_column($this->bruteForceDetection->getAll(), 'login');
+        $this->assertContains($this->userLogin, $recordedLogins);
+    }
+
+    public function testCreateAppSpecificTokenAuthRecordsFailedAttemptForTheTargetLoginWhenGivenAnEmail(): void
+    {
+        StaticContainer::get(\Piwik\Auth::class)->setLogin('anonymous');
+
+        try {
+            Request::processRequest('UsersManager.createAppSpecificTokenAuth', [
+                'userLogin' => $this->userEmail,
+                'passwordConfirmation' => 'wrongPassword123!',
+                'description' => 'wrong password test',
+            ]);
+            $this->fail('expected an exception for the wrong password');
+        } catch (\Exception $e) {
+            // expected: password is not correct
+        }
+
+        // the email is normalized to the login, matching the brute-force check
+        $recordedLogins = array_column($this->bruteForceDetection->getAll(), 'login');
+        $this->assertContains($this->userLogin, $recordedLogins);
+    }
+
     private function blockLogin(string $userLogin): void
     {
         $requiredAttempts = BruteForceDetection::OVERALL_LOGIN_LOCKOUT_THRESHOLD_MIN + 1;

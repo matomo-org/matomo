@@ -77,7 +77,7 @@ class PasswordVerifier
          * @ignore
          * @internal
          */
-        Piwik::postEvent('Login.recordFailedLoginAttempt');
+        Piwik::postEvent('Login.recordFailedLoginAttempt', [$userLogin]);
         return false;
     }
 
