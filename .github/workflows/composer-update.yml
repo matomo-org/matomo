@@ -25,7 +25,7 @@ jobs:
     steps:
     - uses: actions/checkout@v7
       with:
-        ref: '5.x-dev'
+        ref: '6.x-dev'
         lfs: false
         persist-credentials: false
     - name: Install composer dependencies
@@ -39,8 +39,8 @@ jobs:
 
           git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" --delete composer-update || true
           git branch -D composer-update || true
-          git fetch upstream 5.x-dev
-          git checkout -f upstream/5.x-dev
+          git fetch upstream 6.x-dev
+          git checkout -f upstream/6.x-dev
           git branch composer-update
           git checkout -f composer-update
       env:
@@ -80,7 +80,7 @@ jobs:
         PR_BODY: ${{ steps.update.outputs.message }}
       run: |
           jq -n --argjson body "$PR_BODY" \
-              '{title:"[automatic composer updates]", body:$body, head:"composer-update", base:"5.x-dev"}' \
+              '{title:"[automatic composer updates]", body:$body, head:"composer-update", base:"6.x-dev"}' \
             | curl \
                    --request POST \
                    --header "authorization: Bearer ${CUSTOM_ACCESS_TOKEN}" \

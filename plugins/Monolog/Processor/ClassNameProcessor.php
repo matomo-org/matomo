@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Monolog\Processor;
 
+use Monolog\LogRecord;
 use Piwik\Plugin;
 
 /**
@@ -25,7 +26,7 @@ class ClassNameProcessor
         'Piwik\Log\Logger',
     );
 
-    public function __invoke(array $record)
+    public function __invoke(LogRecord $record): LogRecord
     {
         $record['extra']['class'] = $this->getLoggingClassName();
 

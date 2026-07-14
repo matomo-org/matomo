@@ -4,6 +4,27 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 6.0.0
+
+### Breaking Changes
+* The deprecated method `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()` has been removed. Use the `SitesManager.getExcludedQueryParameters` API method instead.
+* The deprecated method `Piwik\Db::optimizeTables()` has been removed. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
+* The deprecated method `Piwik\Db::isOptimizeInnoDBSupported()` has been removed. Use `Piwik\Db\Schema::getInstance()->isOptimizeInnoDBSupported()` instead.
+* The deprecated method `Piwik\Db\TransactionLevel::setUncommitted()` has been removed. Use `Piwik\Db\TransactionLevel::setTransactionLevelForNonLockingReads()` instead.
+* The deprecated `SitesManager.setGlobalExcludedQueryParameters` API method has been removed. Use `SitesManager.setGlobalQueryParamExclusion` instead.
+* The deprecated method `Piwik\API\Request::isTokenAuthProvidedSecurely()` has been removed.
+* The API methods `Annotations.add`, `Annotations.save` and `Annotations.delete` now require `Write` permission. Previously `Annotations.add` required only `View` permission, and the author of an annotation could modify or delete it with only `View` permission.
+* Following the upgrade to psr/log 3, `Piwik\Log\LoggerInterface` (which extends `Psr\Log\LoggerInterface`) now requires the PSR-3 `void` return type on its logging methods (`log()`, `debug()`, `info()`, `notice()`,
+  `warning()`, `error()`, `critical()`, `alert()`, `emergency()`). Plugins that implement this interface directly must add the `: void` return type to these methods. Plugins that obtain the logger through
+  dependency injection or extend `Piwik\Log\Logger` are not affected.
+
+### HTTP API
+* `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
+  the outer request. Within a browser session a nested request may change neither the session flag
+  (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
+  authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
+  parameters conflict with the outer request's authentication context aborts the whole bulk request.
+
 ## Matomo 5.12.0
 
 ### JavaScript Tracker
@@ -38,6 +59,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   (pages/documents) listed in the AI Chatbots Content Requests reports.
 * `datatable_archiving_maximum_rows_ai_chatbot_favoured_pages` caps the number of page URLs listed in
   the Human-Favoured / AI-Favoured Pages reports.
+* `live_ai_chatbots_maximum_rows` caps the number of AI chatbots listed in the real-time AI Chatbots
+  reports.
+* `live_ai_chatbots_top_page_urls_maximum_rows` caps the number of page URLs listed in the real-time
+  AI Chatbots top page URL reports.
 
 ## Matomo 5.11.0
 

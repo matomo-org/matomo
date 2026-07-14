@@ -356,7 +356,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             });
             await page.mouse.move(-10, -10);
 
-            expect(await screenshotPageWrap()).to.matchImage('actions_pages_tooltip_help');
+            // the report itself is already covered by the `actions_pages` screenshot, so here we
+            // only capture the headline together with its expanded inline help box
+            expect(await page.screenshotSelector('.enrichedHeadline:has(.helpIcon.active)')).to.matchImage('actions_pages_tooltip_help');
         });
 
         it('should load the actions > entry pages page correctly', async function () {

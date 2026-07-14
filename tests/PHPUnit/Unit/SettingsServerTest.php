@@ -41,10 +41,6 @@ class SettingsServerTest extends \PHPUnit\Framework\TestCase
         $class = new \ReflectionClass(SettingsServer::class);
         $method = $class->getMethod('getMegaBytesFromShorthandByte');
 
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
         $output = $method->invoke($class, $data);
 
         $this->assertEquals($expected, $output);

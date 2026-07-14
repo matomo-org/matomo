@@ -264,7 +264,7 @@ class Sparkline implements ViewInterface
     public function render()
     {
         if (!$this->sparkline instanceof \Davaxi\Sparkline) {
-            return;
+            return null;
         }
 
         if (0 === $this->sparkline->getSeriesCount()) {
@@ -275,5 +275,7 @@ class Sparkline implements ViewInterface
 
         $this->sparkline->display();
         $this->sparkline->destroy();
+
+        return null;
     }
 }

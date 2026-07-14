@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Config;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tracker\Action;
@@ -332,7 +333,7 @@ class ActionTest extends IntegrationTestCase
             $excludedUserAgents = null,
             $keepURLFragments = 1
         );
-        API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
+        API::getInstance()->setGlobalQueryParamExclusion(SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM, $excludedGlobalParameters);
         $this->assertEquals($filteredUrl[1], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
 

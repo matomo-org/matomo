@@ -97,6 +97,26 @@ describe('UsersManager_AnonymousUser', function () {
 
       expect(await getUserAccess('anonymous')).to.equal('No access');
     });
+
+    it('should reset selected access if admin confirmation is aborted', async function () {
+      await setUserAccess('regularUser', 'string:admin');
+      await abortPasswordConfirmation();
+
+      expect(await getUserAccess('regularUser')).to.equal('No access');
+    });
+
+    it('should show a password confirmation when giving admin access to a user', async function () {
+      await setUserAccess('regularUser', 'string:admin');
+      await confirmPassword();
+
+      expect(await getUserAccess('regularUser')).to.equal('Admin');
+
+      // revert so subsequent tests start from a clean state
+      await setUserAccess('regularUser', 'string:noaccess');
+      await confirmRoleChange();
+
+      expect(await getUserAccess('regularUser')).to.equal('No access');
+    });
   });
 
   describe('bulk user handling', function() {

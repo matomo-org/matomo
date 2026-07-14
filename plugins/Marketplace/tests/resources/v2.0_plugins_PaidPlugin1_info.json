@@ -160,7 +160,7 @@
             "name": "1.1",
             "release": null,
             "requires": {
-                "piwik": ">=2.0.0,<6.0.0-b1",
+                "piwik": ">=2.0.0,<7.0.0-b1",
                 "php": ">=5.3.0"
             },
             "numDownloads": null,

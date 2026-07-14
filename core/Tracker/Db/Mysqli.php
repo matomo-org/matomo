@@ -422,13 +422,15 @@ class Mysqli extends Db
     public function beginTransaction()
     {
         if ($this->activeTransaction !== null) {
-            return;
+            return null;
         }
 
         if ($this->connection->autocommit(false)) {
             $this->activeTransaction = uniqid();
             return $this->activeTransaction;
         }
+
+        return null;
     }
 
     /**

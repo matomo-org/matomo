@@ -1,10 +1,10 @@
 /* compile_me_once={{{CACHE-BUSTER-JS}}} */
 /* Matomo CSS file is compiled with Less. You may be interested in writing a custom Theme for Matomo! */
 #page #header {
-  color: #ffffff;
+  color: white;
 }
 #footer {
-  color: #ff0000;
+  color: red;
 }
 .box {
   color: #fe33ac;

@@ -23,7 +23,7 @@ use Piwik\Tracker\Db\DbException;
 class Mysql extends Db
 {
     /**
-     * @var PDO
+     * @var PDO|null
      */
     protected $connection = null;
 
@@ -355,7 +355,7 @@ class Mysql extends Db
     public function beginTransaction()
     {
         if ($this->activeTransaction !== null) {
-            return;
+            return null;
         }
 
         try {
@@ -375,6 +375,8 @@ class Mysql extends Db
             $this->activeTransaction = uniqid();
             return $this->activeTransaction;
         }
+
+        return null;
     }
 
     /**

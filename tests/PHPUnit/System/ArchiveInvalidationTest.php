@@ -327,10 +327,6 @@ class ArchiveInvalidationTest extends SystemTestCase
         $reflection = new \ReflectionClass(CoreAdminHomeApi::class);
         $method     = $reflection->getMethod('getDatesToInvalidateFromString');
 
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-
         $parameters = [$dates, $period];
 
         $result = $method->invokeArgs($api, $parameters);

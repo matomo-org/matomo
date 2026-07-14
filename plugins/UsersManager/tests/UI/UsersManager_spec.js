@@ -172,11 +172,14 @@ describe("UsersManager", function () {
         await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
         await page.waitForTimeout(350); // wait for animation
 
-        expect(await (await page.$('.change-user-role-confirm-modal')).screenshot()).to.matchImage('bulk_set_access_confirm');
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
+        expect(await (await page.$('.confirm-password-modal.open')).screenshot()).to.matchImage('bulk_set_access_confirm');
     });
 
     it('should change access for all rows in search when confirmed', async function () {
-        await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
@@ -436,9 +439,10 @@ describe("UsersManager", function () {
         await page.waitForTimeout(500); // animation
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Admin):visible', { waitFor: true })).click();
 
-        await page.waitForSelector('.change-access-confirm-modal');
-
-        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
+        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
@@ -507,9 +511,12 @@ describe("UsersManager", function () {
             $('.userPermissionsEdit .role-select:eq(0) select').val('string:admin').change();
         });
 
-        await page.waitForSelector('.userPermissionsEdit .change-access-confirm-modal', { visible: true });
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
         await page.waitForTimeout(100); // animation
-        await (await page.jQuery('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+        await page.mouse.move(-10, -10); // avoid hovering the changed row after the modal closes
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
@@ -558,6 +565,30 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_access');
+    });
+
+    it('should require password confirmation when giving admin access to all websites', async function () {
+        await page.evaluate(function () {
+            $('#all-sites-access-select select').val('string:admin').change();
+        });
+        await page.waitForTimeout(250);
+        await (await page.jQuery('#all-sites-access-select + a.btn')).click();
+
+        // granting admin must open the password confirmation modal, not the plain confirm modal
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
+        const plainConfirmVisible = await page.evaluate(
+            () => $('.confirm-give-access-all-sites.open').length > 0,
+        );
+        expect(plainConfirmVisible).to.equal(false);
+
+        // abort to leave the user's permissions unchanged for the following tests
+        await (await page.jQuery('.confirm-password-modal.open .modal-close.modal-no:visible')).click();
+        await page.waitForSelector('.confirm-password-modal.open', { hidden: true });
+        await page.evaluate(function () {
+            $('#all-sites-access-select select').val('string:view').change();
+        });
+        await page.mouse.move(-10, -10);
+        await page.waitForTimeout(300);
     });
 
     it('should display the superuser access tab when the superuser tab is clicked', async function () {

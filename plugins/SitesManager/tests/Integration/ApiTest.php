@@ -1554,7 +1554,7 @@ class ApiTest extends IntegrationTestCase
         $newGlobalExcludedQueryParameters = 'PHPSESSID,blabla, TesT';
         // removed the space
         $expectedGlobalExcludedQueryParameters = 'PHPSESSID,blabla,TesT';
-        API::getInstance()->setGlobalExcludedQueryParameters($newGlobalExcludedQueryParameters);
+        API::getInstance()->setGlobalQueryParamExclusion(SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM, $newGlobalExcludedQueryParameters);
         $globalExcludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal();
         $this->assertEquals($expectedGlobalExcludedQueryParameters, $globalExcludedQueryParameters);
 
@@ -1989,23 +1989,6 @@ class ApiTest extends IntegrationTestCase
             'matomo_recommended_pii',
         ];
         yield 'custom' => ['custom', 'one,two', 'one,two', 'custom'];
-    }
-
-    /**
-     * @dataProvider deprecatedSetGlobalExcludedQueryParametersShouldReturnExpectedParameters
-     */
-    public function testDeprecatedSetGlobalExcludedQueryParametersShouldReturnExpectedParameters(string $excludedParameters, string $expectedExclusionType): void
-    {
-        Api::getInstance()->setGlobalExcludedQueryParameters($excludedParameters);
-
-        $this->assertEquals($excludedParameters, Api::getInstance()->getExcludedQueryParametersGlobal());
-        $this->assertEquals($expectedExclusionType, Api::getInstance()->getExclusionTypeForQueryParams());
-    }
-
-    public function deprecatedSetGlobalExcludedQueryParametersShouldReturnExpectedParameters(): \Generator
-    {
-        yield 'non empty list of exclusions' => ['one,two,three', 'custom'];
-        yield 'empty list of exclusions' => ['', 'common_session_parameters'];
     }
 
     /**

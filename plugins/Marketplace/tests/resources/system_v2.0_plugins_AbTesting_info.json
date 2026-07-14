@@ -32,7 +32,7 @@
     ],
     "repositoryUrl": null,
     "lastUpdated": "2026-05-11 04:54:31",
-    "latestVersion": "5.5.3",
+    "latestVersion": "6.5.3",
     "numDownloads": 0,
     "screenshots": [],
     "coverImage": "https://plugins.matomo.org/img/categories/web.png",
@@ -65,17 +65,17 @@
     "category": "uncategorised",
     "versions": [
         {
-            "name": "5.5.3",
+            "name": "6.5.3",
             "release": "2026-05-11 04:54:31",
             "requires": {
-                "matomo": ">=5.0.0,<6.0.0-b1"
+                "matomo": ">=6.0.0-b1,<7.0.0-b1"
             },
             "wordPressCompatible": true,
             "onPremiseCompatible": true,
             "numDownloads": 0,
             "license": {
                 "name": "InnoCraft EULA",
-                "url": "https://plugins.matomo.org/AbTesting/5.5.3/license"
+                "url": "https://plugins.matomo.org/AbTesting/6.5.3/license"
             },
             "repositoryChangelogUrl": null,
             "readmeHtml": {

@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Monolog\Handler;
 
 use Monolog\Handler\AbstractHandler;
+use Monolog\LogRecord;
 use Piwik\Log\Logger;
 
 /**
@@ -27,7 +28,7 @@ class FailureLogMessageDetector extends AbstractHandler
         parent::__construct($level, $bubble = true);
     }
 
-    public function handle(array $record)
+    public function handle(LogRecord $record): bool
     {
         if ($this->isHandling($record)) {
             $this->hasEncounteredImportantLog = true;
@@ -47,7 +48,7 @@ class FailureLogMessageDetector extends AbstractHandler
     /**
      * for tests
      */
-    public function reset()
+    public function reset(): void
     {
         $this->hasEncounteredImportantLog = false;
     }

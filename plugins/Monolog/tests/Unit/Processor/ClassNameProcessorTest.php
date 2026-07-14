@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
 
+use DateTimeImmutable;
+use Monolog\Level;
+use Monolog\LogRecord;
 use Piwik\Plugins\Monolog\Processor\ClassNameProcessor;
 
 /**
@@ -21,19 +24,22 @@ class ClassNameProcessorTest extends \PHPUnit\Framework\TestCase
     {
         $processor = new ClassNameProcessor();
 
-        $result = $processor(array(
-            'extra' => array(
+        $result = $processor(new LogRecord(
+            new DateTimeImmutable(),
+            'logger',
+            Level::Debug,
+            '',
+            array(),
+            array(
                 'foo' => 'bar',
-            ),
+            )
         ));
 
         $expected = array(
-            'extra' => array(
-                'foo' => 'bar',
-                'class' => 'Monolog',
-            ),
+            'foo' => 'bar',
+            'class' => 'Monolog',
         );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result['extra']);
     }
 }
