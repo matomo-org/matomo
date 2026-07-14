@@ -708,6 +708,73 @@ class LogAggregatorTest extends IntegrationTestCase
         // The item price metric excludes both out-of-range rows too: price sum = 40 + (-50).
         $this->assertSame(-10.0, (float) $rows[0][Metrics::INDEX_ECOMMERCE_ITEM_PRICE]);
     }
+
+    public function testQueryConversionsByDimensionExcludesOrderRevenueAboveMaxAllowedRevenue()
+    {
+        $logInserter = new LogHelper();
+        $visit = $logInserter->insertVisit([
+            'visit_last_action_time' => '2010-03-06 12:00:00',
+        ]);
+
+        $conversionDefaults = [
+            'idgoal' => GoalManager::IDGOAL_ORDER,
+            'server_time' => '2010-03-06 12:00:00',
+        ];
+
+        // In-range order: the only conversion whose money values should be counted.
+        // The log_conversion primary key is (idvisit, idgoal, buster), so each order uses a
+        // distinct buster to sit in the same idgoal group without colliding.
+        $logInserter->insertConversion($visit['idvisit'], array_merge($conversionDefaults, [
+            'idorder' => 'normal-order',
+            'buster' => 1,
+            'revenue' => 100,
+            'revenue_subtotal' => 90,
+            'revenue_tax' => 5,
+            'revenue_shipping' => 4,
+            'revenue_discount' => 1,
+        ]));
+        // Above the tracking bound but not large enough to overflow on its own: must still be
+        // excluded so archiving matches what tracking now rejects.
+        $logInserter->insertConversion($visit['idvisit'], array_merge($conversionDefaults, [
+            'idorder' => 'above-cap-order',
+            'buster' => 2,
+            'revenue' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+            'revenue_subtotal' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+            'revenue_tax' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+            'revenue_shipping' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+            'revenue_discount' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+        ]));
+        // Extreme legacy value: an unguarded SUM() would either abort archiving with error 1690
+        // (MariaDB / MySQL 8) or silently collapse the whole group to 0 (MySQL 5.7).
+        $logInserter->insertConversion($visit['idvisit'], array_merge($conversionDefaults, [
+            'idorder' => 'overflow-order',
+            'buster' => 3,
+            'revenue' => '1e308',
+            'revenue_subtotal' => '1e308',
+            'revenue_tax' => '1e308',
+            'revenue_shipping' => '1e308',
+            'revenue_discount' => '1e308',
+        ]));
+
+        $query = $this->logAggregator->queryConversionsByDimension();
+        $rows = $query->fetchAll();
+
+        // The fixture also has conversions for other goals; isolate the ecommerce-order group.
+        $orderRows = array_values(array_filter($rows, static function ($row) {
+            return (int) $row['idgoal'] === GoalManager::IDGOAL_ORDER;
+        }));
+
+        $this->assertCount(1, $orderRows);
+        $row = $orderRows[0];
+        // Only the in-range order contributes to every order-level money metric.
+        $this->assertSame(100.0, (float) $row[Metrics::INDEX_GOAL_REVENUE]);
+        $this->assertSame(90.0, (float) $row[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL]);
+        $this->assertSame(5.0, (float) $row[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX]);
+        $this->assertSame(4.0, (float) $row[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING]);
+        $this->assertSame(1.0, (float) $row[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT]);
+        // The three orders are still all counted; only their out-of-range money is excluded.
+        $this->assertSame(3, (int) $row[Metrics::INDEX_GOAL_NB_CONVERSIONS]);
+    }
 }
 
 LogAggregatorTest::$fixture = new OneVisitorTwoVisits();
