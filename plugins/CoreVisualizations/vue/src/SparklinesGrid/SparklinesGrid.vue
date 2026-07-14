@@ -7,8 +7,10 @@
 
 <template>
   <div class="row sparklinesGrid">
-    <!-- Segment comparison: one card per metric, each stacking its per-segment rows. -->
-    <template v-if="comparisonMode === 'segment'">
+    <!-- Segment and segment + date comparison: one card per metric, each stacking its per-segment
+         rows (each row shows one value in 'segment' mode, or its compared-date columns in
+         'segmentDate' mode). -->
+    <template v-if="isSegmentMode">
       <div
         v-for="(segments, index) in segmentGroups"
         :key="index"
@@ -75,15 +77,21 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    // Comparison layout from the backend: 'none', 'date' or 'segment'. Date cards are wider
-    // (value columns + a full-width sparkline) so lower density; segment groups a metric's
-    // per-segment entries into one taller card.
+    // Comparison layout from the backend: 'none', 'date', 'segment' or 'segmentDate'. Date and
+    // segment+date cards are wider (value columns + a full-width sparkline) so use a lower density;
+    // segment / segment+date group a metric's per-segment entries into one taller card.
     comparisonMode: {
       type: String,
       default: 'none',
     },
   },
   setup(props) {
+    // Both segment modes render one SegmentComparisonCard per metric group (a row per segment);
+    // they differ only in how many date columns each row shows and in card width (columnClasses).
+    const isSegmentMode = computed(
+      () => props.comparisonMode === 'segment' || props.comparisonMode === 'segmentDate',
+    );
+
     // `order` is the backend's source of truth for display order: a total order across
     // all cards (even comparison metrics/segments). Flatten every group and sort by it.
     // Drop placeholders (Config::addPlaceholder()): no url, they only padded the legacy
@@ -95,9 +103,9 @@ export default defineComponent({
         .sort((a, b) => a.order - b.order),
     );
 
-    // Segment comparison emits one entry per (metric x segment), grouped by metric in `sparklines`.
-    // One card per group (stacking per-segment rows); drop placeholders (no url) and order groups
-    // by their lowest entry `order`.
+    // Segment (and segment + date) comparison emits one entry per (metric x segment), grouped by
+    // metric in `sparklines`. One card per group (stacking per-segment rows); drop placeholders
+    // (no url) and order groups by their lowest entry `order`.
     const segmentGroups = computed<SparklineEntry[][]>(
       () => Object.values(props.sparklines || {})
         .map((group) => group.filter((sparkline) => !!sparkline.url))
@@ -105,11 +113,12 @@ export default defineComponent({
         .sort((a, b) => Math.min(...a.map((s) => s.order)) - Math.min(...b.map((s) => s.order))),
     );
 
-    // Per-card column density: date-comparison cards are wider (fewer per row), the rest share the
+    // Per-card column density: date and segment+date cards are wider (compared-date columns + a
+    // full-width sparkline, so fewer per row); no-comparison and segment-only cards share the
     // standard width; widget mode uses one/two columns. See the .less for the per-tier widths
     // (xl3/xl6 widened above 1600/1920px).
     const columnClasses = computed(() => {
-      if (props.comparisonMode === 'date') {
+      if (props.comparisonMode === 'date' || props.comparisonMode === 'segmentDate') {
         return props.isWidget ? 'col s12' : 'col s12 m12 l6 xl6';
       }
       return props.isWidget ? 'col s6' : 'col s6 m6 l4 xl3';
@@ -125,6 +134,7 @@ export default defineComponent({
     });
 
     return {
+      isSegmentMode,
       flatSparklines,
       segmentGroups,
       columnClasses,

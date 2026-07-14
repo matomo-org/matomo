@@ -30,12 +30,33 @@
   vertical-align: top;
 }
 
-// Per-segment sparkline slot: same fixed height + fluid image cap as the no-comparison slot. Normal
-// width (380 — no wide variant); the max-width must match <Sparkline :width> in
-// SegmentComparisonRow.vue (the PNG is rendered at 2x that).
+// Compared-date columns (segment + date): one column per date, split by a thin divider. Mirrors
+// DateComparison.less so the two column layouts can be lifted into a shared component later.
+// Segment-only comparison renders a single full-width column here (no divider); the gap before the
+// sparkline stays on `__sparkline`'s margin-top, so segment-only spacing is unchanged.
+.sparklineSegmentComparisonRow__periods {
+  display: flex;
+  gap: 16px;
+}
+
+.sparklineSegmentComparisonRow__date {
+  flex: auto;
+  min-width: 0;
+}
+
+.sparklineSegmentComparisonRow__separator {
+  flex: none;
+  width: 1px;
+  background: @theme-color-border-alternative;
+}
+
+// Per-segment sparkline slot: same fixed height + fluid image cap as the no-comparison slot. The
+// max-width must match <Sparkline :width> in SegmentComparisonRow.vue (the PNG is rendered at 2x
+// that): the base width for segment-only, the wider variant for segment + date.
 .sparklineSegmentComparisonRow__sparkline {
   @_height: 40px;
   @_width: 380px;
+  @_width-wide: 760px;
 
   height: @_height;
   margin-top: 4px;
@@ -49,5 +70,11 @@
     width: 100%;
     height: auto;
     max-width: @_width;
+  }
+
+  // Segment + date rows draw one series per compared date, so the sparkline is wider (matching the
+  // date-comparison card). Keep @_width-wide in sync with sparklineWidth in SegmentComparisonRow.vue.
+  &--wide .sparklineImg {
+    max-width: @_width-wide;
   }
 }

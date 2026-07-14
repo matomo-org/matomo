@@ -67,9 +67,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    // Same metric across segments; read its name + column from the first segment's primary metric
-    // (its single period group). Columns are populated in segment comparison, so the doc tooltip
-    // resolves (unlike date comparison, where the column is empty).
+    // Same metric across segments; read its name + column from the first segment's first period
+    // group. In segment-only comparison the column is populated so the doc tooltip resolves; in
+    // segment + date it comes back empty (two periods, so Config::addSparkline can't map columns),
+    // so no tooltip shows — correct parity with date comparison, not a regression.
     const primaryMetric = computed<SparklineMetric | undefined>(() => {
       const first = props.segments[0];
       const metrics = first?.metrics || {};

@@ -96,3 +96,76 @@ describe('CoreVisualizations/SegmentComparisonRow', () => {
     expect(createWrapper().findComponent({ name: 'EvolutionBadge' }).exists()).toBe(false);
   });
 });
+
+// Segment + date: the same row, but the segment entry carries one value column per compared date
+// (metricsOrder length > 1), a per-date evolution on the current period, and a multi-series sparkline.
+function segmentDate(overrides = {}) {
+  return {
+    url: '?module=API&action=get&columns=nb_visits&segment=continentCode==eur&comparePeriods[]=range',
+    metrics: {
+      'Apr 23 - May 2, 2026': [
+        {
+          value: 23558,
+          description: 'visits',
+          title: 'Visits',
+          column: '',
+          group: 'Apr 23 - May 2, 2026',
+          evolution: {
+            percent: '+28.5%', trend: 5000, isLowerValueBetter: false, tooltip: 'more than before',
+          },
+        },
+      ],
+      'Mar 24 - Apr 2, 2026': [
+        {
+          value: 30119, description: 'visits', title: 'Visits', column: '', group: 'Mar 24 - Apr 2, 2026',
+        },
+      ],
+    },
+    metricsOrder: ['Apr 23 - May 2, 2026', 'Mar 24 - Apr 2, 2026'],
+    order: 501,
+    title: 'Eu visitors',
+    group: '0',
+    seriesIndices: [1, 3],
+    graphParams: null,
+    ...overrides,
+  };
+}
+
+function createSegmentDateWrapper(props = {}) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return mount(SegmentComparisonRow as any, { props: { segment: segmentDate(), ...props } });
+}
+
+describe('CoreVisualizations/SegmentComparisonRow segment + date', () => {
+  it('renders one value column per compared date, split by a separator', () => {
+    const wrapper = createSegmentDateWrapper();
+
+    expect(wrapper.findAll('.sparklineSegmentComparisonRow__date')).toHaveLength(2);
+    expect(wrapper.findAll('.sparklineSegmentComparisonRow__separator')).toHaveLength(1);
+
+    const numbers = wrapper.findAll('.metricValue__number').map((n) => n.text());
+    expect(numbers).toEqual(['23558', '30119']);
+  });
+
+  it('labels each column with its compared date (only shown when comparing more than one date)', () => {
+    const labels = createSegmentDateWrapper().findAll('.dateAtom').map((d) => d.text());
+
+    expect(labels).toEqual(['Apr 23 - May 2, 2026', 'Mar 24 - Apr 2, 2026']);
+  });
+
+  it('shows the evolution badge only on the period that carries evolution (the current date)', () => {
+    const wrapper = createSegmentDateWrapper();
+
+    expect(wrapper.findAllComponents({ name: 'EvolutionBadge' })).toHaveLength(1);
+    expect(wrapper.findComponent({ name: 'EvolutionBadge' }).props('percent')).toBe('+28.5%');
+  });
+
+  it('renders a wider, multi-series sparkline (one series per compared date)', () => {
+    const wrapper = createSegmentDateWrapper();
+    const sparkline = wrapper.findComponent({ name: 'Sparkline' });
+
+    expect(sparkline.props('seriesIndices')).toEqual([1, 3]);
+    expect(sparkline.props('width')).toBe(760);
+    expect(wrapper.find('.sparklineSegmentComparisonRow__sparkline--wide').exists()).toBe(true);
+  });
+});
