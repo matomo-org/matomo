@@ -53,7 +53,6 @@ trait PolicyComparisonTrait
      */
     protected static function getStrictestValueFromArray(array $policies)
     {
-        /** @var callable-string */
         $callback = [__CLASS__, 'compareValuesHandleNull'];
 
         return array_reduce($policies, $callback);

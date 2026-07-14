@@ -19,7 +19,6 @@ use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Piwik\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -175,7 +174,6 @@ class Console extends Application
         } elseif (!is_subclass_of($command, 'Piwik\Plugin\ConsoleCommand')) {
             Log::warning(sprintf('Cannot add command %s, class does not extend Piwik\Plugin\ConsoleCommand', $command));
         } else {
-            /** @var Command $commandInstance */
             $commandInstance = new $command();
 
             // do not add the command if it already exists; this way we can add the command ourselves in tests
