@@ -667,7 +667,6 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        /** @var DataTable|DataTable\Map $table */
         $table = null;
 
         $segments = array(

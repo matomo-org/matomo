@@ -26,7 +26,7 @@ class DisabledProvider extends LocationProvider
      * Guesses a visitor's location using a visitor's browser language.
      *
      * @param array $info Contains 'ip' & 'lang' keys.
-     * @return false.
+     * @return false
      */
     public function getLocation($info)
     {

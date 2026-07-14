@@ -18,7 +18,7 @@ class FileIntegrity
     /**
      * Get file integrity information
      *
-     * @return array(bool $success, array $messages)
+     * @return array [bool $success, array $messages]
      */
     public static function getFileIntegrityInformation()
     {

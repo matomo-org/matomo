@@ -127,12 +127,6 @@ parameters:
 			path: core/API/Request.php
 
 		-
-			message: '#^PHPDoc tag @return has invalid value \(array\( \$module, \$action \)\)\: Unexpected token "\(", expected TOKEN_HORIZONTAL_WS at offset 207 on line 7$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: core/API/Request.php
-
-		-
 			message: '#^Parameter \#2 \$columnToFilter of class Piwik\\DataTable\\Filter\\Pattern constructor expects string, array given\.$#'
 			identifier: argument.type
 			count: 1
@@ -425,12 +419,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: core/Config/IniFileChain.php
-
-		-
-			message: '#^PHPDoc tag @var with type Symfony\\Component\\Console\\Command\\Command is not subtype of native type Piwik\\Plugin\\ConsoleCommand\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: core/Console.php
 
 		-
 			message: '#^Strict comparison using \=\=\= between null and null will always evaluate to true\.$#'
@@ -899,12 +887,6 @@ parameters:
 			identifier: booleanAnd.rightAlwaysFalse
 			count: 1
 			path: core/ExceptionHandler.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(array\(bool \$success, array \$messages\)\)\: Unexpected token "\(", expected TOKEN_HORIZONTAL_WS at offset 69 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: core/FileIntegrity.php
 
 		-
 			message: '#^Strict comparison using \!\=\= between string and false will always evaluate to true\.$#'
@@ -1867,12 +1849,6 @@ parameters:
 			path: core/Tracker/Cache.php
 
 		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: core/Tracker/Config/ThirdPartyCookies.php
-
-		-
 			message: '#^Method Piwik\\Tracker\\Db\:\:query\(\) has invalid return type Piwik\\Tracker\\PDOStatement\.$#'
 			identifier: class.notFound
 			count: 1
@@ -2125,12 +2101,6 @@ parameters:
 			path: core/Tracker/VisitorRecognizer.php
 
 		-
-			message: '#^PHPDoc tag @return has invalid value \(array\( datetimeMin, datetimeMax \)\)\: Unexpected token "\(", expected TOKEN_HORIZONTAL_WS at offset 411 on line 8$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: core/Tracker/VisitorRecognizer.php
-
-		-
 			message: '#^Variable \$translationId on left side of \?\? always exists and is not nullable\.$#'
 			identifier: nullCoalesce.variable
 			count: 1
@@ -2147,18 +2117,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: core/UpdateCheck.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(array\( componentName \=\> array\( file1 \=\> version1, \[\.\.\.\]\), \[\.\.\.\]\)\)\: Unexpected token "\(", expected TOKEN_HORIZONTAL_WS at offset 509 on line 9$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: core/Updater.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(array\( componentName \=\> array\( file1 \=\> version1, \[\.\.\.\]\), \[\.\.\.\]\)\)\: Unexpected token "\(", expected TOKEN_HORIZONTAL_WS at offset 97 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: core/Updater.php
 
 		-
 			message: '#^Strict comparison using \=\=\= between array\<int\>\|int and false will always evaluate to false\.$#'
@@ -3055,12 +3013,6 @@ parameters:
 			path: plugins/CorePluginsAdmin/PluginInstaller.php
 
 		-
-			message: '#^PHPDoc tag @throws has invalid value \(Exception;\)\: Unexpected token ";", expected TOKEN_HORIZONTAL_WS at offset 172 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: plugins/CorePluginsAdmin/SettingsMetadata.php
-
-		-
 			message: '#^Variable \$setting in empty\(\) always exists and is not falsy\.$#'
 			identifier: empty.variable
 			count: 1
@@ -3325,12 +3277,6 @@ parameters:
 			path: plugins/DevicesDetection/Columns/Os.php
 
 		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/DevicesDetection/Settings/OnlyMajorVersions.php
-
-		-
 			message: '#^Variable \$label in empty\(\) always exists and is not falsy\.$#'
 			identifier: empty.variable
 			count: 1
@@ -3493,12 +3439,6 @@ parameters:
 			path: plugins/Ecommerce/Columns/BaseConversion.php
 
 		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/Ecommerce/Settings/OrderIdAnonymization.php
-
-		-
 			message: '#^Call to function is_array\(\) with array\<mixed, mixed\> will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -3619,12 +3559,6 @@ parameters:
 			path: plugins/GeoIp2/LocationProvider/GeoIp2.php
 
 		-
-			message: '#^PHPDoc tag @var with type Piwik\\DataTable\|Piwik\\DataTable\\Map is not subtype of native type null\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/Goals/API.php
-
-		-
 			message: '#^Parameter \#1 \$name of method Piwik\\DataTable\\Row\:\:deleteColumn\(\) expects string, int given\.$#'
 			identifier: argument.type
 			count: 1
@@ -3633,12 +3567,6 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$oldName of method Piwik\\DataTable\\Row\:\:renameColumn\(\) expects string, int given\.$#'
 			identifier: argument.type
-			count: 1
-			path: plugins/Goals/API.php
-
-		-
-			message: '#^Variable \$table in isset\(\) always exists and is not nullable\.$#'
-			identifier: isset.variable
 			count: 1
 			path: plugins/Goals/API.php
 
@@ -3979,12 +3907,6 @@ parameters:
 			path: plugins/Live/Model.php
 
 		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/Live/Settings/VisitorLogDisabled.php
-
-		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1
@@ -4291,42 +4213,6 @@ parameters:
 			path: plugins/PrivacyManager/ReportsPurger.php
 
 		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/PrivacyManager/Settings/CampaignParameterValuesMasked.php
-
-		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/PrivacyManager/Settings/CompliancePolicyEnforcedSetting.php
-
-		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/PrivacyManager/Settings/IPAnonymisation.php
-
-		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/PrivacyManager/Settings/IpAddressMaskLength.php
-
-		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/PrivacyManager/Settings/ReferrerAnonymisation.php
-
-		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/PrivacyManager/Settings/ReportRetention.php
-
-		-
 			message: '#^Property Piwik\\Plugins\\ProfessionalServices\\Widgets\\PromoServices\:\:\$advertising is never read, only written\.$#'
 			identifier: property.onlyWritten
 			count: 1
@@ -4471,12 +4357,6 @@ parameters:
 			path: plugins/SitesManager/Model.php
 
 		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/SitesManager/Settings/FilterPIIParameters.php
-
-		-
 			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(string\)\: bool\)\|null, ''strlen'' given\.$#'
 			identifier: argument.type
 			count: 1
@@ -4597,12 +4477,6 @@ parameters:
 			path: plugins/UserCountry/LocationProvider.php
 
 		-
-			message: '#^PHPDoc tag @return has invalid value \(false\.\)\: Unexpected token "\.", expected TOKEN_HORIZONTAL_WS at offset 158 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: plugins/UserCountry/LocationProvider/DisabledProvider.php
-
-		-
 			message: '#^Function Piwik\\Plugins\\UserCountry\\getPrettyCityName\(\) never returns false so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
@@ -4625,12 +4499,6 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: plugins/UserId/Reports/GetUsers.php
-
-		-
-			message: '#^PHPDoc tag @var with type callable\-string is not subtype of native type array\{class\-string&literal\-string, ''compareValuesHandle…''\}\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: plugins/UserId/Settings/UserIdDisabled.php
 
 		-
 			message: '#^Call to function is_array\(\) with array\{login\: string, password\: string, email\: string, twofactor_secret\: string, superuser_access\: int\|string, date_registered\: string\|null, ts_password_modified\: string\|null, idchange_last_viewed\: int\|string\|null, \.\.\.\} will always evaluate to true\.$#'
