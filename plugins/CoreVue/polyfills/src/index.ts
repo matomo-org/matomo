@@ -20,7 +20,7 @@ import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 
 window.tslib = tslib;
 
-// fromEntries does not have a polyfill in @vue/cli-plugin-babel/preset
+// Kept as a defensive fallback for Object.fromEntries in addition to the core-js/stable import above.
 Object.fromEntries = function fromEntries(it) {
   return [...it].reduce((result, [key, value]) => {
     result[key] = value;

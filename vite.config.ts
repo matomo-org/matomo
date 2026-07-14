@@ -127,7 +127,9 @@ export default defineConfig({
   },
   build: {
     outDir: distDir,
-    // Never wipe dist between the prod and min passes; Build.php handles stale-file cleanup.
+    // Never wipe dist between the prod and min passes. dist is committed and regenerated with
+    // stable filenames (<Plugin>.umd.js / .umd.min.js / .development.umd.js), so nothing needs to
+    // clear it between passes.
     emptyOutDir: false,
     target: 'es2015',
     // Keep the single scoped SFC style (ExampleVue) emitted as <Plugin>.css, as before.

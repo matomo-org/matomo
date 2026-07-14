@@ -49,7 +49,11 @@ EOF
             null,
             true
         );
-        $this->addRequiredValueOption('plugin', null, 'The plugin to run Vue tests for (eg CoreHome or plugins/CoreHome).');
+        $this->addRequiredValueOption(
+            'plugin',
+            null,
+            'The plugin to run Vue tests for (eg CoreHome or plugins/CoreHome).'
+        );
         $this->addNoValueOption('run-in-band', null, 'Run the tests serially without file parallelism.');
     }
 
@@ -73,7 +77,6 @@ EOF
             $testOptions[] = '--reporter=verbose';
         }
 
-        $pluginEnv = '';
         if (!empty($plugin)) {
             $plugin = trim((string) $plugin);
             if (strpos($plugin, 'plugins/') !== 0) {
@@ -94,8 +97,6 @@ EOF
             if (!empty($specs)) {
                 $output->writeln('<comment>Ignoring specs arguments because --plugin scopes test discovery.</comment>');
             }
-
-            $pluginEnv = 'MATOMO_CURRENT_PLUGIN=' . escapeshellarg($plugin) . ' ';
         } elseif (!empty($specs)) {
             // Each spec argument is passed as a positional Vitest file path filter.
             foreach ($specs as $spec) {
@@ -103,7 +104,7 @@ EOF
             }
         }
 
-        $cmd = "cd '" . PIWIK_INCLUDE_PATH . "' && " . $pluginEnv . 'npm test';
+        $cmd = "cd '" . PIWIK_INCLUDE_PATH . "' && npm test";
         if (!empty($testOptions)) {
             $cmd .= ' -- ' . implode(' ', $testOptions);
         }
