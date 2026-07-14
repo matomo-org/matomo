@@ -136,8 +136,6 @@ class LogAggregator
 
     public const LOG_TABLE_SEGMENT_TEMPORARY_PREFIX = 'logtmpsegment';
 
-    private const MYSQL_DOUBLE_MAX = '1.7976931348623157e308';
-
     /** @var Date */
     protected $dateStart;
 
@@ -552,25 +550,23 @@ class LogAggregator
     }
 
     /**
-     * Builds the SUM() expression for ecommerce item revenue (quantity * price).
+     * Wraps an ecommerce item value expression in a SUM() that excludes rows whose
+     * price is outside the tracked-value bound (GoalManager::MAX_ALLOWED_REVENUE).
      *
-     * Extreme tracked prices can make quantity * price exceed the MySQL DOUBLE
-     * range and abort archiving with error 1690. Products whose
-     * multiplication would overflow are skipped (contribute 0) instead of failing
-     * the whole aggregation. quantity is UNSIGNED, so the only extra guard needed
-     * for the division is quantity = 0.
+     * Such rows are rejected at tracking time; excluding them here keeps archiving
+     * consistent with tracking for values that were stored before the bound existed,
+     * so both the item revenue (quantity * price) and item price metrics ignore them.
      *
-     * This only guards the per-row multiplication. Accumulation overflow of the
-     * whole SUM() across many near-DBL_MAX rows is a generic SQL limitation and
-     * is out of scope here.
+     * It also removes the archiving overflow vector: once |price| <= 1e12 and quantity
+     * is bounded by its INT UNSIGNED column (<= ~4.29e9), quantity * price stays well
+     * within the MySQL DOUBLE range and can no longer abort archiving with error 1690.
      */
-    private static function getSqlEcommerceItemRevenueSum(): string
+    private static function getSqlEcommerceItemValueExcludingOutOfRange(string $valueExpression): string
     {
         return sprintf(
-            'SUM(CASE WHEN log_conversion_item.quantity = 0 THEN 0 ' .
-            'WHEN ABS(log_conversion_item.price) > %s / log_conversion_item.quantity THEN 0 ' .
-            'ELSE log_conversion_item.quantity * log_conversion_item.price END)',
-            self::MYSQL_DOUBLE_MAX
+            'SUM(CASE WHEN ABS(log_conversion_item.price) > %d THEN 0 ELSE %s END)',
+            GoalManager::MAX_ALLOWED_REVENUE,
+            $valueExpression
         );
     }
 
@@ -1009,7 +1005,7 @@ class LogAggregator
                     sprintf("log_conversion_item.%s AS labelIdAction", $dimension),
                     sprintf(
                         '%s AS `%d`',
-                        self::getSqlRevenue(self::getSqlEcommerceItemRevenueSum()),
+                        self::getSqlRevenue(self::getSqlEcommerceItemValueExcludingOutOfRange('log_conversion_item.quantity * log_conversion_item.price')),
                         Metrics::INDEX_ECOMMERCE_ITEM_REVENUE
                     ),
                     sprintf(
@@ -1019,7 +1015,7 @@ class LogAggregator
                     ),
                     sprintf(
                         '%s AS `%d`',
-                        self::getSqlRevenue('SUM(log_conversion_item.price)'),
+                        self::getSqlRevenue(self::getSqlEcommerceItemValueExcludingOutOfRange('log_conversion_item.price')),
                         Metrics::INDEX_ECOMMERCE_ITEM_PRICE
                     ),
                     sprintf(

@@ -26,6 +26,7 @@ use Piwik\Tests\Framework\TestDataHelper\LogHelper;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\GoalManager;
 use Piwik\Updater\Migration\Db as DbMigration;
 
 /**
@@ -656,7 +657,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testQueryEcommerceItemsIgnoresItemRevenueThatWouldOverflowMysqlDouble()
+    public function testQueryEcommerceItemsExcludesPricesAboveMaxAllowedRevenueFromRevenueAndPriceMetrics()
     {
         Db::query(
             'INSERT INTO ' . Common::prefixTable('log_action') . ' (name, hash, type) VALUES (?, ?, ?)',
@@ -681,6 +682,15 @@ class LogAggregatorTest extends IntegrationTestCase
             'price' => -50,
             'quantity' => 0,
         ]);
+        // Above the tracking bound but small enough that quantity * price would NOT overflow
+        // MySQL DOUBLE: must still be excluded so archiving matches what tracking now rejects.
+        $logInserter->insertConversionItem($visit['idvisit'], 'above-cap-order', [
+            'server_time' => '2010-03-06 12:00:00',
+            'idaction_sku' => $idActionSku,
+            'price' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+            'quantity' => 1,
+        ]);
+        // Extreme legacy value whose quantity * price would overflow MySQL DOUBLE (error 1690).
         $logInserter->insertConversionItem($visit['idvisit'], 'overflow-order', [
             'server_time' => '2010-03-06 12:00:00',
             'idaction_sku' => $idActionSku,
@@ -693,7 +703,10 @@ class LogAggregatorTest extends IntegrationTestCase
 
         $this->assertCount(1, $rows);
         $this->assertSame('Overflow SKU', $rows[0]['label']);
+        // Only the in-range rows contribute: revenue = 40 * 4 (+ 0 for the zero-quantity row).
         $this->assertSame(160.0, (float) $rows[0][Metrics::INDEX_ECOMMERCE_ITEM_REVENUE]);
+        // The item price metric excludes both out-of-range rows too: price sum = 40 + (-50).
+        $this->assertSame(-10.0, (float) $rows[0][Metrics::INDEX_ECOMMERCE_ITEM_PRICE]);
     }
 }
 
