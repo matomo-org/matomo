@@ -29,7 +29,7 @@ class Build extends ConsoleCommand
         $this->addOptionalArgument('plugins', 'Plugins whose vue modules to build. Defaults to all plugins.', [], true);
         $this->addNoValueOption('bail', null, 'If supplied, will exit immediately.');
         $this->addNoValueOption('watch', null, 'If supplied, will watch for changes and automatically rebuild.');
-        $this->addNoValueOption('clear-webpack-cache');
+        $this->addNoValueOption('clear-cache');
         $this->addNoValueOption('print-build-command');
     }
 
@@ -46,9 +46,9 @@ class Build extends ConsoleCommand
         self::checkViteAvailable();
         $this->checkNodeJsVersion();
 
-        $clearWebpackCache = $input->getOption('clear-webpack-cache');
-        if ($clearWebpackCache) {
-            $this->clearWebpackCache();
+        $clearCache = $input->getOption('clear-cache');
+        if ($clearCache) {
+            $this->clearViteCache();
         }
 
         $printBuildCommand = $input->getOption('print-build-command');
@@ -73,9 +73,6 @@ class Build extends ConsoleCommand
 
         $plugins = $this->ensureUntranspiledPluginDependenciesArePresent($plugins);
         $plugins = PluginUmdAssetFetcher::orderPluginsByPluginDependencies($plugins);
-
-        // remove webpack cache since it can result in strange builds if present
-        Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/node_modules/.cache', true);
 
         $bail = $input->getOption('bail');
 
@@ -241,9 +238,9 @@ class Build extends ConsoleCommand
         }
     }
 
-    private function clearWebpackCache(): void
+    private function clearViteCache(): void
     {
-        $path = PIWIK_INCLUDE_PATH . '/node_modules/.cache';
+        $path = PIWIK_INCLUDE_PATH . '/node_modules/.vite';
         Filesystem::unlinkRecursive($path, true);
     }
 
