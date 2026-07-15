@@ -165,6 +165,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/ReportHeader/ReportHeader.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/WidgetControls/WidgetControls.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -429,7 +430,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_CopyX';
         $translationKeys[] = 'CoreHome_CopyXDescription';
         $translationKeys[] = 'CoreHome_WebAnalyticsReports';
-        $translationKeys[] = 'CoreHome_WidgetControls';
         $translationKeys[] = 'General_Widget';
 
         // add admin menu translations

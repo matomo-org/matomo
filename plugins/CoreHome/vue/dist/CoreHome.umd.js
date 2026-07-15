@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 (function(global, factory) {
   typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require("vue")) : typeof define === "function" && define.amd ? define(["exports", "vue"], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, factory(global.CoreHome = {}, global.Vue));
 })(this, (function(exports2, vue) {
@@ -17,6 +18,337 @@ var __spreadValues = (a, b) => {
     for (var prop of __getOwnPropSymbols(b)) {
       if (__propIsEnum.call(b, prop))
         __defNormalProp(a, prop, b[prop]);
+=======
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("vue"));
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["CoreHome"] = factory(require("vue"));
+	else
+		root["CoreHome"] = factory(root["Vue"]);
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__8bbf__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "plugins/CoreHome/vue/dist/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "2342":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+// see https://github.com/matomo-org/matomo/issues/5094 used to detect an ad blocker
+window.hasBlockedContent = false;
+
+/***/ }),
+
+/***/ "8bbf":
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
+
+/***/ }),
+
+/***/ "fae3":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "createVueApp", function() { return /* reexport */ createVueApp; });
+__webpack_require__.d(__webpack_exports__, "importPluginUmd", function() { return /* reexport */ importPluginUmd; });
+__webpack_require__.d(__webpack_exports__, "useExternalPluginComponent", function() { return /* reexport */ useExternalPluginComponent; });
+__webpack_require__.d(__webpack_exports__, "DirectiveUtilities", function() { return /* reexport */ directiveUtilities; });
+__webpack_require__.d(__webpack_exports__, "debounce", function() { return /* reexport */ debounce; });
+__webpack_require__.d(__webpack_exports__, "clone", function() { return /* reexport */ clone; });
+__webpack_require__.d(__webpack_exports__, "VueEntryContainer", function() { return /* reexport */ VueEntryContainer; });
+__webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
+__webpack_require__.d(__webpack_exports__, "MatomoLoader", function() { return /* reexport */ MatomoLoader; });
+__webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
+__webpack_require__.d(__webpack_exports__, "translateOrDefault", function() { return /* reexport */ translateOrDefault; });
+__webpack_require__.d(__webpack_exports__, "externalRawLink", function() { return /* reexport */ externalRawLink; });
+__webpack_require__.d(__webpack_exports__, "externalLink", function() { return /* reexport */ externalLink; });
+__webpack_require__.d(__webpack_exports__, "Alert", function() { return /* reexport */ Alert; });
+__webpack_require__.d(__webpack_exports__, "AjaxHelper", function() { return /* reexport */ AjaxHelper_AjaxHelper; });
+__webpack_require__.d(__webpack_exports__, "setCookie", function() { return /* reexport */ setCookie; });
+__webpack_require__.d(__webpack_exports__, "getCookie", function() { return /* reexport */ getCookie; });
+__webpack_require__.d(__webpack_exports__, "deleteCookie", function() { return /* reexport */ deleteCookie; });
+__webpack_require__.d(__webpack_exports__, "MatomoUrl", function() { return /* reexport */ src_MatomoUrl_MatomoUrl; });
+__webpack_require__.d(__webpack_exports__, "Matomo", function() { return /* reexport */ Matomo_Matomo; });
+__webpack_require__.d(__webpack_exports__, "Periods", function() { return /* reexport */ Periods_Periods; });
+__webpack_require__.d(__webpack_exports__, "Day", function() { return /* reexport */ Day_DayPeriod; });
+__webpack_require__.d(__webpack_exports__, "Week", function() { return /* reexport */ Week_WeekPeriod; });
+__webpack_require__.d(__webpack_exports__, "Month", function() { return /* reexport */ Month_MonthPeriod; });
+__webpack_require__.d(__webpack_exports__, "Year", function() { return /* reexport */ Year_YearPeriod; });
+__webpack_require__.d(__webpack_exports__, "Range", function() { return /* reexport */ Range_RangePeriod; });
+__webpack_require__.d(__webpack_exports__, "format", function() { return /* reexport */ format; });
+__webpack_require__.d(__webpack_exports__, "getToday", function() { return /* reexport */ getToday; });
+__webpack_require__.d(__webpack_exports__, "parseDate", function() { return /* reexport */ parseDate; });
+__webpack_require__.d(__webpack_exports__, "todayIsInRange", function() { return /* reexport */ todayIsInRange; });
+__webpack_require__.d(__webpack_exports__, "getWeekNumber", function() { return /* reexport */ getWeekNumber; });
+__webpack_require__.d(__webpack_exports__, "datesAreInTheSamePeriod", function() { return /* reexport */ datesAreInTheSamePeriod; });
+__webpack_require__.d(__webpack_exports__, "NumberFormatter", function() { return /* reexport */ src_NumberFormatter_NumberFormatter; });
+__webpack_require__.d(__webpack_exports__, "formatNumber", function() { return /* reexport */ formatNumber; });
+__webpack_require__.d(__webpack_exports__, "formatPercent", function() { return /* reexport */ formatPercent; });
+__webpack_require__.d(__webpack_exports__, "formatCurrency", function() { return /* reexport */ formatCurrency; });
+__webpack_require__.d(__webpack_exports__, "formatEvolution", function() { return /* reexport */ formatEvolution; });
+__webpack_require__.d(__webpack_exports__, "calculateAndFormatEvolution", function() { return /* reexport */ calculateAndFormatEvolution; });
+__webpack_require__.d(__webpack_exports__, "DropdownMenu", function() { return /* reexport */ DropdownMenu; });
+__webpack_require__.d(__webpack_exports__, "FocusAnywhereButHere", function() { return /* reexport */ FocusAnywhereButHere; });
+__webpack_require__.d(__webpack_exports__, "FocusIf", function() { return /* reexport */ FocusIf; });
+__webpack_require__.d(__webpack_exports__, "Tooltips", function() { return /* reexport */ Tooltips; });
+__webpack_require__.d(__webpack_exports__, "MatomoDialog", function() { return /* reexport */ MatomoDialog; });
+__webpack_require__.d(__webpack_exports__, "MatomoModal", function() { return /* reexport */ MatomoModal; });
+__webpack_require__.d(__webpack_exports__, "ExpandOnClick", function() { return /* reexport */ ExpandOnClick; });
+__webpack_require__.d(__webpack_exports__, "ExpandOnHover", function() { return /* reexport */ ExpandOnHover; });
+__webpack_require__.d(__webpack_exports__, "ShowSensitiveData", function() { return /* reexport */ ShowSensitiveData; });
+__webpack_require__.d(__webpack_exports__, "DropdownButton", function() { return /* reexport */ DropdownButton; });
+__webpack_require__.d(__webpack_exports__, "DraggableList", function() { return /* reexport */ DraggableList; });
+__webpack_require__.d(__webpack_exports__, "SelectOnFocus", function() { return /* reexport */ SelectOnFocus; });
+__webpack_require__.d(__webpack_exports__, "CopyToClipboard", function() { return /* reexport */ CopyToClipboard; });
+__webpack_require__.d(__webpack_exports__, "SideNav", function() { return /* reexport */ SideNav; });
+__webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
+__webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
+__webpack_require__.d(__webpack_exports__, "Comparisons", function() { return /* reexport */ Comparisons; });
+__webpack_require__.d(__webpack_exports__, "ComparisonsStore", function() { return /* reexport */ Comparisons_store_ComparisonsStore; });
+__webpack_require__.d(__webpack_exports__, "ComparisonsStoreInstance", function() { return /* reexport */ Comparisons_store_instance; });
+__webpack_require__.d(__webpack_exports__, "MenuItemsDropdown", function() { return /* reexport */ MenuItemsDropdown; });
+__webpack_require__.d(__webpack_exports__, "DatePicker", function() { return /* reexport */ DatePicker; });
+__webpack_require__.d(__webpack_exports__, "DateRangePicker", function() { return /* reexport */ DateRangePicker; });
+__webpack_require__.d(__webpack_exports__, "PeriodDatePicker", function() { return /* reexport */ PeriodDatePicker; });
+__webpack_require__.d(__webpack_exports__, "Notification", function() { return /* reexport */ Notification; });
+__webpack_require__.d(__webpack_exports__, "NotificationGroup", function() { return /* reexport */ Notification_NotificationGroup; });
+__webpack_require__.d(__webpack_exports__, "NotificationsStore", function() { return /* reexport */ Notifications_store; });
+__webpack_require__.d(__webpack_exports__, "ShowHelpLink", function() { return /* reexport */ ShowHelpLink; });
+__webpack_require__.d(__webpack_exports__, "SitesStore", function() { return /* reexport */ SiteSelector_SitesStore; });
+__webpack_require__.d(__webpack_exports__, "SiteSelector", function() { return /* reexport */ SiteSelector; });
+__webpack_require__.d(__webpack_exports__, "QuickAccess", function() { return /* reexport */ QuickAccess; });
+__webpack_require__.d(__webpack_exports__, "SearchInput", function() { return /* reexport */ SearchInput; });
+__webpack_require__.d(__webpack_exports__, "FieldArray", function() { return /* reexport */ FieldArray; });
+__webpack_require__.d(__webpack_exports__, "MultiPairField", function() { return /* reexport */ MultiPairField; });
+__webpack_require__.d(__webpack_exports__, "PeriodSelector", function() { return /* reexport */ PeriodSelector; });
+__webpack_require__.d(__webpack_exports__, "ReportingMenu", function() { return /* reexport */ ReportingMenu; });
+__webpack_require__.d(__webpack_exports__, "ReportingMenuStore", function() { return /* reexport */ ReportingMenu_store; });
+__webpack_require__.d(__webpack_exports__, "ReportingPagesStore", function() { return /* reexport */ ReportingPages_store; });
+__webpack_require__.d(__webpack_exports__, "ReportMetadataStore", function() { return /* reexport */ ReportMetadata_store; });
+__webpack_require__.d(__webpack_exports__, "WidgetsStore", function() { return /* reexport */ Widgets_store; });
+__webpack_require__.d(__webpack_exports__, "ReportHeader", function() { return /* reexport */ ReportHeader; });
+__webpack_require__.d(__webpack_exports__, "WidgetControls", function() { return /* reexport */ WidgetControls; });
+__webpack_require__.d(__webpack_exports__, "WidgetLoader", function() { return /* reexport */ WidgetLoader; });
+__webpack_require__.d(__webpack_exports__, "ClientWidgetRenderer", function() { return /* reexport */ ClientWidgetRenderer; });
+__webpack_require__.d(__webpack_exports__, "WidgetContainer", function() { return /* reexport */ WidgetContainer; });
+__webpack_require__.d(__webpack_exports__, "WidgetByDimensionContainer", function() { return /* reexport */ WidgetByDimensionContainer; });
+__webpack_require__.d(__webpack_exports__, "Widget", function() { return /* reexport */ Widget_Widget; });
+__webpack_require__.d(__webpack_exports__, "ReportingPage", function() { return /* reexport */ ReportingPage; });
+__webpack_require__.d(__webpack_exports__, "ReportExport", function() { return /* reexport */ ReportExport; });
+__webpack_require__.d(__webpack_exports__, "Sparkline", function() { return /* reexport */ Sparkline; });
+__webpack_require__.d(__webpack_exports__, "Progressbar", function() { return /* reexport */ Progressbar; });
+__webpack_require__.d(__webpack_exports__, "ContentIntro", function() { return /* reexport */ ContentIntro; });
+__webpack_require__.d(__webpack_exports__, "ContentTable", function() { return /* reexport */ ContentTable; });
+__webpack_require__.d(__webpack_exports__, "AjaxForm", function() { return /* reexport */ AjaxForm; });
+__webpack_require__.d(__webpack_exports__, "Passthrough", function() { return /* reexport */ Passthrough; });
+__webpack_require__.d(__webpack_exports__, "DataTableActions", function() { return /* reexport */ DataTableActions; });
+__webpack_require__.d(__webpack_exports__, "VersionInfoHeaderMessage", function() { return /* reexport */ VersionInfoHeaderMessage; });
+__webpack_require__.d(__webpack_exports__, "MobileLeftMenu", function() { return /* reexport */ MobileLeftMenu; });
+__webpack_require__.d(__webpack_exports__, "scrollToAnchorInUrl", function() { return /* reexport */ scrollToAnchorInUrl; });
+__webpack_require__.d(__webpack_exports__, "SearchFiltersPersistenceStore", function() { return /* reexport */ SearchFiltersPersistence_store; });
+__webpack_require__.d(__webpack_exports__, "AutoClearPassword", function() { return /* reexport */ AutoClearPassword; });
+__webpack_require__.d(__webpack_exports__, "PasswordStrength", function() { return /* reexport */ PasswordStrength; });
+__webpack_require__.d(__webpack_exports__, "EntityDuplicatorModal", function() { return /* reexport */ EntityDuplicatorModal; });
+__webpack_require__.d(__webpack_exports__, "EntityDuplicatorAction", function() { return /* reexport */ EntityDuplicatorAction; });
+__webpack_require__.d(__webpack_exports__, "EntityDuplicatorStore", function() { return /* reexport */ EntityDuplicatorStore_EntityDuplicatorStore; });
+__webpack_require__.d(__webpack_exports__, "BaseDuplicatorAdapter", function() { return /* reexport */ EntityDuplicatorAdapter_BaseDuplicatorAdapter; });
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
+// This file is imported into lib/wc client bundles.
+
+if (typeof window !== 'undefined') {
+  var currentScript = window.document.currentScript
+  if (false) { var getCurrentScript; }
+
+  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
+  if (src) {
+    __webpack_require__.p = src[1] // eslint-disable-line
+  }
+}
+
+// Indicate to webpack that this file can be concatenated
+/* harmony default export */ var setPublicPath = (null);
+
+// EXTERNAL MODULE: ./plugins/CoreHome/vue/src/noAdblockFlag.ts
+var noAdblockFlag = __webpack_require__("2342");
+
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/translate.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+function translate(translationStringId, ...values) {
+  if (!translationStringId) {
+    return '';
+  }
+  let pkArgs = values;
+  // handle variadic args AND single array of values (to match _pk_translate signature)
+  if (values.length === 1 && values[0] && Array.isArray(values[0])) {
+    [pkArgs] = values;
+  }
+  return window._pk_translate(translationStringId, pkArgs); // eslint-disable-line
+}
+function translateOrDefault(translationStringIdOrText, ...values) {
+  if (!translationStringIdOrText || !window.piwik_translations[translationStringIdOrText]) {
+    return translationStringIdOrText;
+  }
+  return translate(translationStringIdOrText, ...values);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+/**
+ * Matomo period management service for the frontend.
+ *
+ * Usage:
+ *
+ *     var DayPeriod = matomoPeriods.get('day');
+ *     var day = new DayPeriod(new Date());
+ *
+ * or
+ *
+ *     var day = matomoPeriods.parse('day', '2013-04-05');
+ *
+ * Adding custom periods:
+ *
+ * To add your own period to the frontend, create a period class for it
+ * w/ the following methods:
+ *
+ * - **getPrettyString()**: returns a human readable display string for the period.
+ * - **getDateRange()**: returns an array w/ two elements, the first being the start
+ *                       Date of the period, the second being the end Date. The dates
+ *                       must be Date objects, not strings, and are inclusive.
+ * - **containsToday()**: returns true if the date period contains today. False if not.
+ * - (_static_) **parse(strDate)**: creates a new instance of this period from the
+ *                                  value of the 'date' query parameter.
+ * - (_static_) **getDisplayText**: returns translated text for the period, eg, 'month',
+ *                                  'week', etc.
+ *
+ * Then call Periods.addCustomPeriod w/ your period class:
+ *
+ *     Periods.addCustomPeriod('mycustomperiod', MyCustomPeriod);
+ *
+ * NOTE: currently only single date periods like day, week, month year can
+ *       be extended. Other types of periods that require a special UI to
+ *       view/edit aren't, since there is currently no way to use a
+ *       custom UI for a custom period.
+ */
+class Periods {
+  constructor() {
+    _defineProperty(this, "periods", {});
+    _defineProperty(this, "periodOrder", []);
+  }
+  addCustomPeriod(name, periodClass) {
+    if (this.periods[name]) {
+      throw new Error(`The "${name}" period already exists! It cannot be overridden.`);
+>>>>>>> 5eb7b67532 (Remove 3-dots dropdown menu)
     }
   return a;
 };
@@ -9051,72 +9383,27 @@ class ReportMetadata_store_ReportMetadataStore {
   }
 }
 /* harmony default export */ var ReportMetadata_store = (new ReportMetadata_store_ReportMetadataStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=template&id=5e9b65eb
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=template&id=536bc52c
 
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_1 = {
+const ReportHeadervue_type_template_id_536bc52c_hoisted_1 = {
   class: "reportHeader"
 };
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_2 = {
+const ReportHeadervue_type_template_id_536bc52c_hoisted_2 = {
   class: "reportHeader__main"
 };
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_3 = ["role", "tabindex", "title"];
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_4 = {
+const ReportHeadervue_type_template_id_536bc52c_hoisted_3 = ["role", "tabindex", "title"];
+const ReportHeadervue_type_template_id_536bc52c_hoisted_4 = {
   class: "u-visuallyHidden"
 };
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_5 = {
+const ReportHeadervue_type_template_id_536bc52c_hoisted_5 = {
   class: "reportHeader__widgetControls"
 };
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_6 = {
-  key: 0,
-  ref: "dropdown",
-  class: "reportHeader__dropdown"
-};
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_7 = ["title", "aria-label"];
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("svg", {
-  class: "reportHeader__dropdownIcon",
-  width: "20",
-  height: "20",
-  viewBox: "0 0 20 20",
-  fill: "none",
-  xmlns: "http://www.w3.org/2000/svg",
-  "aria-hidden": "true",
-  focusable: "false"
-}, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("path", {
-  d: "M9.99935 10.834C10.4596 10.834 10.8327 10.4609 10.8327 10.0007C10.8327 9.54041\n                10.4596 9.16732 9.99935 9.16732C9.53911 9.16732 9.16602 9.54041 9.16602\n                10.0007C9.16602 10.4609 9.53911 10.834 9.99935 10.834Z",
-  fill: "currentColor",
-  stroke: "currentColor",
-  "stroke-width": "2",
-  "stroke-linecap": "round",
-  "stroke-linejoin": "round"
-}), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("path", {
-  d: "M9.99935 5.00065C10.4596 5.00065 10.8327 4.62755 10.8327 4.16732C10.8327\n                3.70708 10.4596 3.33398 9.99935 3.33398C9.53911 3.33398 9.16602 3.70708 9.16602\n                4.16732C9.16602 4.62755 9.53911 5.00065 9.99935 5.00065Z",
-  fill: "currentColor",
-  stroke: "currentColor",
-  "stroke-width": "2",
-  "stroke-linecap": "round",
-  "stroke-linejoin": "round"
-}), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("path", {
-  d: "M9.99935 16.6673C10.4596 16.6673 10.8327 16.2942 10.8327 15.834C10.8327\n                15.3737 10.4596 15.0007 9.99935 15.0007C9.53911 15.0007 9.16602 15.3737 9.16602\n                15.834C9.16602 16.2942 9.53911 16.6673 9.99935 16.6673Z",
-  fill: "currentColor",
-  stroke: "currentColor",
-  "stroke-width": "2",
-  "stroke-linecap": "round",
-  "stroke-linejoin": "round"
-})], -1);
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_9 = [ReportHeadervue_type_template_id_5e9b65eb_hoisted_8];
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_10 = {
-  class: "reportHeader__dropdownMenu"
-};
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_11 = {
-  class: "mtm-dropdownPanel"
-};
-const ReportHeadervue_type_template_id_5e9b65eb_hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+const ReportHeadervue_type_template_id_536bc52c_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "reportHeader__actions"
 }, null, -1);
-function ReportHeadervue_type_template_id_5e9b65eb_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_WidgetControlsDropdown = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetControlsDropdown");
-  const _directive_expand_on_click = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("expand-on-click");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportHeadervue_type_template_id_5e9b65eb_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_5e9b65eb_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", {
+function ReportHeadervue_type_template_id_536bc52c_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_WidgetControls = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetControls");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportHeadervue_type_template_id_536bc52c_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_536bc52c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["reportHeader__title widgetName", {
       'reportHeader__title--clickable': _ctx.titleClickable
     }]),
@@ -9125,13 +9412,8 @@ function ReportHeadervue_type_template_id_5e9b65eb_render(_ctx, _cache, $props, 
     title: _ctx.titleClickable ? _ctx.titleClickHint : null,
     onClick: _cache[0] || (_cache[0] = (...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args)),
     onKeydown: [_cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])((...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args), ["prevent"]), ["enter"])), _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])((...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args), ["prevent"]), ["space"]))]
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)], 42, ReportHeadervue_type_template_id_5e9b65eb_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", ReportHeadervue_type_template_id_5e9b65eb_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Widget')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_5e9b65eb_hoisted_5, [_ctx.hasControls ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportHeadervue_type_template_id_5e9b65eb_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
-    ref: "dropdownTrigger",
-    type: "button",
-    class: "reportHeader__dropdownTrigger",
-    title: _ctx.translate('CoreHome_WidgetControls'),
-    "aria-label": _ctx.translate('CoreHome_WidgetControls')
-  }, ReportHeadervue_type_template_id_5e9b65eb_hoisted_9, 8, ReportHeadervue_type_template_id_5e9b65eb_hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_5e9b65eb_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_5e9b65eb_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetControlsDropdown, {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)], 42, ReportHeadervue_type_template_id_536bc52c_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", ReportHeadervue_type_template_id_536bc52c_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Widget')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_536bc52c_hoisted_5, [_ctx.hasControls ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_WidgetControls, {
+    key: 0,
     "can-minimise": _ctx.controls.minimise,
     "can-maximise": _ctx.controls.maximise,
     "can-refresh": _ctx.controls.refresh,
@@ -9140,41 +9422,36 @@ function ReportHeadervue_type_template_id_5e9b65eb_render(_ctx, _cache, $props, 
     onMaximise: _cache[4] || (_cache[4] = $event => _ctx.onControl('maximise')),
     onRefresh: _cache[5] || (_cache[5] = $event => _ctx.onControl('refresh')),
     onClose: _cache[6] || (_cache[6] = $event => _ctx.onControl('close'))
-  }, null, 8, ["can-minimise", "can-maximise", "can-refresh", "can-close"])])])])), [[_directive_expand_on_click, {
-    expander: 'dropdownTrigger'
-  }]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), ReportHeadervue_type_template_id_5e9b65eb_hoisted_12]);
+  }, null, 8, ["can-minimise", "can-maximise", "can-refresh", "can-close"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), ReportHeadervue_type_template_id_536bc52c_hoisted_6]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=template&id=5e9b65eb
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=template&id=536bc52c
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/WidgetControlsDropdown/WidgetControlsDropdown.vue?vue&type=template&id=71dbfd29
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/WidgetControls/WidgetControls.vue?vue&type=template&id=03428934
 
-const WidgetControlsDropdownvue_type_template_id_71dbfd29_hoisted_1 = {
-  class: "mtm-dropdownPanel__menu"
+const WidgetControlsvue_type_template_id_03428934_hoisted_1 = {
+  class: "widgetControls"
 };
-const WidgetControlsDropdownvue_type_template_id_71dbfd29_hoisted_2 = ["onClick"];
-const WidgetControlsDropdownvue_type_template_id_71dbfd29_hoisted_3 = {
-  class: "mtm-dropdownPanel__menuLabel"
-};
-function WidgetControlsDropdownvue_type_template_id_71dbfd29_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", WidgetControlsDropdownvue_type_template_id_71dbfd29_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.visibleControls, control => {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+const WidgetControlsvue_type_template_id_03428934_hoisted_2 = ["title", "aria-label", "onClick"];
+function WidgetControlsvue_type_template_id_03428934_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetControlsvue_type_template_id_03428934_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.visibleControls, control => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
       key: control.id,
-      class: "mtm-dropdownPanel__menuItem"
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
       type: "button",
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["mtm-dropdownPanel__menuLink", `widgetControl-${control.id}`]),
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["widgetControls__action", `widgetControl-${control.id}`]),
+      title: control.label,
+      "aria-label": control.label,
       onClick: $event => _ctx.$emit(control.id)
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["mtm-dropdownPanel__menuIcon", control.icon])
-    }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", WidgetControlsDropdownvue_type_template_id_71dbfd29_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(control.label), 1)], 10, WidgetControlsDropdownvue_type_template_id_71dbfd29_hoisted_2)]);
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["widgetControls__icon", control.icon])
+    }, null, 2)], 10, WidgetControlsvue_type_template_id_03428934_hoisted_2);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetControlsDropdown/WidgetControlsDropdown.vue?vue&type=template&id=71dbfd29
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetControls/WidgetControls.vue?vue&type=template&id=03428934
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/WidgetControlsDropdown/WidgetControlsDropdown.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/WidgetControls/WidgetControls.vue?vue&type=script&lang=ts
 
 
-/* harmony default export */ var WidgetControlsDropdownvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+/* harmony default export */ var WidgetControlsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     canMinimise: Boolean,
     canMaximise: Boolean,
@@ -9185,6 +9462,11 @@ function WidgetControlsDropdownvue_type_template_id_71dbfd29_render(_ctx, _cache
   computed: {
     visibleControls() {
       const controls = [{
+        id: 'refresh',
+        icon: 'icon-reload',
+        label: translate('General_Refresh'),
+        visible: this.canRefresh
+      }, {
         id: 'minimise',
         icon: 'icon-minimise',
         label: translate('Dashboard_Minimise'),
@@ -9195,11 +9477,6 @@ function WidgetControlsDropdownvue_type_template_id_71dbfd29_render(_ctx, _cache
         label: translate('Dashboard_Maximise'),
         visible: this.canMaximise
       }, {
-        id: 'refresh',
-        icon: 'icon-reload',
-        label: translate('General_Refresh'),
-        visible: this.canRefresh
-      }, {
         id: 'close',
         icon: 'icon-close',
         label: translate('General_Close'),
@@ -9209,17 +9486,16 @@ function WidgetControlsDropdownvue_type_template_id_71dbfd29_render(_ctx, _cache
     }
   }
 }));
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetControlsDropdown/WidgetControlsDropdown.vue?vue&type=script&lang=ts
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetControls/WidgetControls.vue?vue&type=script&lang=ts
  
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetControlsDropdown/WidgetControlsDropdown.vue
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/WidgetControls/WidgetControls.vue
 
 
 
-WidgetControlsDropdownvue_type_script_lang_ts.render = WidgetControlsDropdownvue_type_template_id_71dbfd29_render
+WidgetControlsvue_type_script_lang_ts.render = WidgetControlsvue_type_template_id_03428934_render
 
-/* harmony default export */ var WidgetControlsDropdown = (WidgetControlsDropdownvue_type_script_lang_ts);
+/* harmony default export */ var WidgetControls = (WidgetControlsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=script&lang=ts
-
 
 
 
@@ -9262,10 +9538,7 @@ const CONTROLS_BY_CONTEXT = {
     titleClickHint: String
   },
   components: {
-    WidgetControlsDropdown: WidgetControlsDropdown
-  },
-  directives: {
-    ExpandOnClick: ExpandOnClick
+    WidgetControls: WidgetControls
   },
   emits: ['minimise', 'maximise', 'refresh', 'close', 'titleClick'],
   computed: {
@@ -9292,11 +9565,6 @@ const CONTROLS_BY_CONTEXT = {
       this.$el.dispatchEvent(new CustomEvent(`widgetcontrol:${intent}`, {
         bubbles: true
       }));
-      // Close the panel after a selection (ExpandOnClick only auto-closes on outside click).
-      const dropdown = this.$refs.dropdown;
-      if (dropdown) {
-        dropdown.classList.remove('expanded');
-      }
     }
   }
 }));
@@ -9306,7 +9574,7 @@ const CONTROLS_BY_CONTEXT = {
 
 
 
-ReportHeadervue_type_script_lang_ts.render = ReportHeadervue_type_template_id_5e9b65eb_render
+ReportHeadervue_type_script_lang_ts.render = ReportHeadervue_type_template_id_536bc52c_render
 
 /* harmony default export */ var ReportHeader = (ReportHeadervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=template&id=24b8f926

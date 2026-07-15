@@ -89,14 +89,11 @@ describe("WidgetizedDashboard", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move');
     });
 
-    // Skipped until the report-header widget controls are wired to behaviour (the legacy
-    // `.button#...` controls no longer exist). The add/row-evolution/remove trio is skipped too:
-    // remove needs the close control, and keeping add would unbalance the later widget-count checks.
-    it.skip("should refresh widget when widget refresh icon clicked", async function() {
+    it("should refresh widget when widget refresh icon clicked", async function() {
         var widget = await page.$('.widgetTop');
         await widget.hover();
 
-        await page.click('.button#refresh');
+        await page.click('.widgetControl-refresh');
         await page.mouse.move(-10, -10);
 
         await page.waitForNetworkIdle();
@@ -104,40 +101,40 @@ describe("WidgetizedDashboard", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_refresh');
     });
 
-    it.skip("should minimise widget when widget minimise icon clicked", async function() {
+    it("should minimise widget when widget minimise icon clicked", async function() {
         var widget = await page.$('.widgetTop');
         await widget.hover();
-        await page.click('.button#minimise');
+        await page.click('.widgetControl-minimise');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_minimised');
     });
 
-    it.skip("should unminimise widget when widget maximise icon is clicked after being minimised", async function() {
+    it("should unminimise widget when widget maximise icon is clicked after being minimised", async function() {
         var widget = await page.$('.widgetTop');
         await widget.hover();
-        await page.click('.button#maximise');
+        await page.click('.widgetControl-maximise');
         await page.mouse.move(-10, -10);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_unminimise');
     });
 
-    it.skip("should maximise widget when widget maximise icon is clicked", async function() {
+    it("should maximise widget when widget maximise icon is clicked", async function() {
         var widget = await page.$('.widgetTop');
         await widget.hover();
-        await page.click('.button#maximise');
+        await page.click('.widgetControl-maximise');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_maximise');
     });
 
-    it.skip("should close maximise dialog when minimise icon is clicked", async function() {
+    it("should close maximise dialog when minimise icon is clicked", async function() {
         var widget = await page.$('.widgetTop');
         await widget.hover();
-        await page.click('.button#minimise');
+        await page.click('.widgetControl-minimise');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_unmaximise');
     });
 
-    it.skip("should add a widget when a widget is selected in the dashboard manager", async function() {
+    it("should add a widget when a widget is selected in the dashboard manager", async function() {
         const modalSelector = '.modal.open.add-widget-modal';
 
         await page.click('.dashboard-manager .title');
@@ -169,7 +166,7 @@ describe("WidgetizedDashboard", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_add_widget');
     });
 
-    it.skip("should open row evolution", async function() {
+    it("should open row evolution", async function() {
         var row = await page.jQuery('#dashboardWidgetsArea .dataTable tbody td:contains(thankyou)');
         await row.hover();
         var icon = await page.waitForSelector('#dashboardWidgetsArea .dataTable tbody a.actionRowEvolution');
@@ -180,7 +177,7 @@ describe("WidgetizedDashboard", function () {
         expect(await dialog.screenshot()).to.matchImage('rowevolution');
     });
 
-    it.skip("should remove widget when remove widget icon is clicked", async function() {
+    it("should remove widget when remove widget icon is clicked", async function() {
         await page.click('.ui-dialog-titlebar-close'); // close row evolution
 
         var widget = '#dashboardWidgetsArea [id="widgetActionsgetPageUrls"]';
@@ -188,7 +185,7 @@ describe("WidgetizedDashboard", function () {
         var titlebar = await page.$(widget + ' .widgetTop');
         await titlebar.hover();
 
-        var icon = await page.$(widget + ' .button#close');
+        var icon = await page.$(widget + ' .widgetControl-close');
         await icon.click();
 
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');

@@ -8,11 +8,6 @@
 import { mount } from '@vue/test-utils';
 import ReportHeader from './ReportHeader.vue';
 
-jest.mock('../ExpandOnClick/ExpandOnClick', () => ({
-  __esModule: true,
-  default: {}, // no-op directive; the real one wires document listeners / Matomo helpers
-}));
-
 jest.mock('../translate', () => ({
   translate: (key: string) => {
     const messages: Record<string, string> = {
@@ -20,7 +15,7 @@ jest.mock('../translate', () => ({
       Dashboard_Maximise: 'Maximise',
       General_Refresh: 'Refresh',
       General_Close: 'Close',
-      CoreHome_WidgetControls: 'Widget controls',
+      General_Widget: 'Widget',
     };
 
     return messages[key] || key;
@@ -53,7 +48,7 @@ describe('ReportHeader', () => {
   it('should show all four controls in the dashboard context', () => {
     const wrapper = mountComponent({ context: 'dashboard' });
 
-    expect(wrapper.findAll('.mtm-dropdownPanel__menuItem').length).toBe(4);
+    expect(wrapper.findAll('.widgetControls__action').length).toBe(4);
   });
 
   it('should show only minimise and refresh in the maximised context', () => {
@@ -65,12 +60,12 @@ describe('ReportHeader', () => {
     expect(wrapper.find('.widgetControl-close').exists()).toBe(false);
   });
 
-  it('should render no dropdown in the preview and widgetized contexts', () => {
-    expect(mountComponent({ context: 'preview' }).find('.reportHeader__dropdown').exists()).toBe(false);
-    expect(mountComponent({ context: 'widgetized' }).find('.reportHeader__dropdown').exists()).toBe(false);
+  it('should render no controls in the preview and widgetized contexts', () => {
+    expect(mountComponent({ context: 'preview' }).find('.widgetControls').exists()).toBe(false);
+    expect(mountComponent({ context: 'widgetized' }).find('.widgetControls').exists()).toBe(false);
   });
 
-  it('should re-emit control intents from the dropdown', async () => {
+  it('should re-emit control intents from the row', async () => {
     const wrapper = mountComponent({ context: 'dashboard' });
 
     await wrapper.find('.widgetControl-refresh').trigger('click');

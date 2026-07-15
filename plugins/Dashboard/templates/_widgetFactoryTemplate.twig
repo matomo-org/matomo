@@ -1,9 +1,10 @@
 <div id="widgetTemplate" style="display:none;" vue-entry-ignore>
-    <div class="widget">
+    {# `__reportHeader-onHover` is the ReportHeader context hook: it marks this widget as the
+       hover scope, so hovering anywhere on it reveals the header controls (see ReportHeader.less). #}
+    <div class="widget __reportHeader-onHover">
         {# .widgetTop stays as the drag handle (see dashboardObject.js sortable `handle`).
-           Its title + controls are now rendered by the shared ReportHeader Vue component,
-           hydrated per-widget in dashboardWidget.js with the widget name + context.
-           NOTE: the controls dropdown is intentionally not wired yet (visual only). #}
+           Its title + controls are rendered by the shared ReportHeader Vue component,
+           hydrated per-widget in dashboardWidget.js with the widget name + context. #}
         <div class="widgetTop">
             <div vue-entry="CoreHome.ReportHeader" context="dashboard"></div>
         </div>

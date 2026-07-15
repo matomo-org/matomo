@@ -6,29 +6,25 @@
 -->
 
 <!--
-  A group of widget-control actions (minimise / maximise / refresh / close), rendered as a
-  dropdown-panel menu. It owns no trigger or panel of its own: the dropdown shell (3-dots
-  trigger + panel + open/close) is provided by the host (ReportHeader), and this group is
-  slotted inside that panel. Each action only emits an intent; the host decides what to do.
+  An inline row of widget-control actions (minimise / maximise / refresh / close), rendered as
+  icon buttons. Each action only emits an intent; the host (ReportHeader) decides what to do
+  and bridges it to the jQuery widget. Visibility per control is driven by the host.
 -->
 <template>
-  <ul class="mtm-dropdownPanel__menu">
-    <li
+  <div class="widgetControls">
+    <button
       v-for="control in visibleControls"
       :key="control.id"
-      class="mtm-dropdownPanel__menuItem"
+      type="button"
+      class="widgetControls__action"
+      :class="`widgetControl-${control.id}`"
+      :title="control.label"
+      :aria-label="control.label"
+      @click="$emit(control.id)"
     >
-      <button
-        type="button"
-        class="mtm-dropdownPanel__menuLink"
-        :class="`widgetControl-${control.id}`"
-        @click="$emit(control.id)"
-      >
-        <span class="mtm-dropdownPanel__menuIcon" :class="control.icon"></span>
-        <span class="mtm-dropdownPanel__menuLabel">{{ control.label }}</span>
-      </button>
-    </li>
-  </ul>
+      <span class="widgetControls__icon" :class="control.icon"></span>
+    </button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -54,6 +50,12 @@ export default defineComponent({
     visibleControls(): WidgetControl[] {
       const controls: WidgetControl[] = [
         {
+          id: 'refresh',
+          icon: 'icon-reload',
+          label: translate('General_Refresh'),
+          visible: this.canRefresh,
+        },
+        {
           id: 'minimise',
           icon: 'icon-minimise',
           label: translate('Dashboard_Minimise'),
@@ -64,12 +66,6 @@ export default defineComponent({
           icon: 'icon-fullscreen',
           label: translate('Dashboard_Maximise'),
           visible: this.canMaximise,
-        },
-        {
-          id: 'refresh',
-          icon: 'icon-reload',
-          label: translate('General_Refresh'),
-          visible: this.canRefresh,
         },
         {
           id: 'close',

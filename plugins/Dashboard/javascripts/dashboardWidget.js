@@ -278,14 +278,50 @@
                     $('.widgetContent', widgetElement).toggleClass('hidden').closest('.widget').toggleClass('hiddenContent');
                 }
 
-                // Render the shared ReportHeader (title + widget-controls dropdown) into the
-                // widget chrome. The controls are intentionally NOT wired to behaviour yet; the
-                // dropdown emits `widgetcontrol:*` events that Ticket B will bridge to the
-                // close/maximise/minimise/refresh handlers.
+                // Render the shared ReportHeader (title + widget-controls row) into the widget
+                // chrome. The controls emit bubbling `widgetcontrol:*` events which are bridged
+                // to the widget behaviour just below.
                 piwikHelper.compileVueEntryComponents($('.widgetTop', widgetElement), {
                     title: titleText,
                     context: 'dashboard'
                 });
+
+                widgetElement
+                    .on('widgetcontrol:close.dashboardWidget', function () {
+                        piwikHelper.modalConfirm('#confirm', {yes: function () {
+                            if (self.options.onRemove) {
+                                self.options.onRemove(self.element);
+                            } else {
+                                self.element.remove();
+                                self.options.onChange();
+                            }
+                        }});
+                    })
+                    .on('widgetcontrol:maximise.dashboardWidget', function () {
+                        if (self.options.onMaximise) {
+                            self.options.onMaximise(self.element);
+                        } else if ($('.widgetContent', self.element).hasClass('hidden')) {
+                            self.showContent();
+                        } else {
+                            self.maximise();
+                        }
+                    })
+                    .on('widgetcontrol:minimise.dashboardWidget', function () {
+                        if (self.options.onMinimise) {
+                            self.options.onMinimise(self.element);
+                        } else if (!self.isMaximised) {
+                            self.hideContent();
+                        } else {
+                            self.element.dialog("close");
+                        }
+                    })
+                    .on('widgetcontrol:refresh.dashboardWidget', function () {
+                        if (self.options.onRefresh) {
+                            self.options.onRefresh(self.element);
+                        } else {
+                            self.reload(false, true);
+                        }
+                    });
             });
         },
 

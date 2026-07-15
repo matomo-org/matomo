@@ -6,7 +6,7 @@
  */
 
 import { mount } from '@vue/test-utils';
-import WidgetControlsDropdown from './WidgetControlsDropdown.vue';
+import WidgetControls from './WidgetControls.vue';
 
 jest.mock('../translate', () => ({
   translate: (key: string) => {
@@ -21,9 +21,9 @@ jest.mock('../translate', () => ({
   },
 }));
 
-describe('WidgetControlsDropdown', () => {
+describe('WidgetControls', () => {
   function mountComponent(customProps = {}) {
-    return mount(WidgetControlsDropdown, {
+    return mount(WidgetControls, {
       props: {
         canMinimise: true,
         canMaximise: true,
@@ -34,10 +34,10 @@ describe('WidgetControlsDropdown', () => {
     });
   }
 
-  it('should render one menu item per enabled control', () => {
+  it('should render one action button per enabled control', () => {
     const wrapper = mountComponent();
 
-    expect(wrapper.findAll('.mtm-dropdownPanel__menuItem').length).toBe(4);
+    expect(wrapper.findAll('.widgetControls__action').length).toBe(4);
   });
 
   it('should only render controls whose flag is set', () => {
@@ -48,7 +48,7 @@ describe('WidgetControlsDropdown', () => {
       canClose: false,
     });
 
-    expect(wrapper.findAll('.mtm-dropdownPanel__menuLink').length).toBe(2);
+    expect(wrapper.findAll('.widgetControls__action').length).toBe(2);
     expect(wrapper.find('.widgetControl-minimise').exists()).toBe(true);
     expect(wrapper.find('.widgetControl-refresh').exists()).toBe(true);
     expect(wrapper.find('.widgetControl-maximise').exists()).toBe(false);
@@ -63,7 +63,7 @@ describe('WidgetControlsDropdown', () => {
       canClose: false,
     });
 
-    expect(wrapper.findAll('.mtm-dropdownPanel__menuItem').length).toBe(0);
+    expect(wrapper.findAll('.widgetControls__action').length).toBe(0);
   });
 
   it('should emit the matching intent when a control is clicked', async () => {
