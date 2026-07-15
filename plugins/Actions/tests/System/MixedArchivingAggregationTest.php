@@ -263,6 +263,60 @@ class MixedArchivingAggregationTest extends IntegrationTestCase
         $this->assertSame($hierarchyTitles, $flatTitles);
     }
 
+    public function testFlatPageReportsAreUnchangedUnderTruncationWhetherServedFromFlatBlobOrHierarchy()
+    {
+        $siteId = Fixture::createWebsite('2026-03-03 00:00:00');
+        $this->trackUrlHits($siteId, '2026-03-04', [
+            '/shop/shoes/nike' => 9,
+            '/shop/shoes/adidas' => 7,
+            '/shop/shoes/puma' => 5,
+            '/about' => 3,
+            '/contact' => 1,
+        ]);
+
+        $config = Config::getInstance();
+        $configBackup = $this->backupGeneralConfig([
+            'datatable_archiving_maximum_rows_actions_flat',
+            'datatable_archiving_maximum_rows_actions',
+            'datatable_archiving_maximum_rows_subtable_actions',
+            'archiving_ranking_query_row_limit',
+        ]);
+
+        try {
+            $config->General['datatable_archiving_maximum_rows_actions'] = 50000;
+            $config->General['datatable_archiving_maximum_rows_subtable_actions'] = 50000;
+            $config->General['archiving_ranking_query_row_limit'] = 100000;
+
+            // Archive with flat-first enabled and a small flat cap, so the flat record itself is
+            // truncated and gets a summary ("Others") row; the hierarchical record is rebuilt from
+            // this already-capped flat record, so both serving paths must agree on the capped set.
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 2;
+            Archive::build($siteId, 'day', '2026-03-04')->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+
+            // Retrieval served directly from the flat record (new behavior).
+            $flatUrlsXml = $this->requestFlatReport('Actions.getPageUrls', $siteId, '2026-03-04');
+            $flatUrls = $this->requestFlatReportRows('Actions.getPageUrls', $siteId, '2026-03-04');
+            $flatTitles = $this->requestFlatReportRows('Actions.getPageTitles', $siteId, '2026-03-04');
+
+            // Previous behavior: flattened from the hierarchical record, same archive (flat-first
+            // gate turned off for the request only, no re-archiving).
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 0;
+            $hierarchyUrls = $this->requestFlatReportRows('Actions.getPageUrls', $siteId, '2026-03-04');
+            $hierarchyTitles = $this->requestFlatReportRows('Actions.getPageTitles', $siteId, '2026-03-04');
+        } finally {
+            $this->restoreGeneralConfig($configBackup);
+        }
+
+        // The truncated flat report includes a summary ("Others") row for the rows that did not
+        // fit within the cap.
+        $this->assertStringContainsString('<is_summary>1</is_summary>', $flatUrlsXml);
+
+        // Identical row data from either record; compared as a set because the tie-break order of
+        // equal-valued rows is not a guaranteed contract (PHP's sort is order dependent for ties).
+        $this->assertSame($hierarchyUrls, $flatUrls);
+        $this->assertSame($hierarchyTitles, $flatTitles);
+    }
+
     public function testFlatEntryPagesReportListsOnlyActualEntryPagesWhenServedFromFlatBlob()
     {
         $siteId = Fixture::createWebsite('2026-03-05 00:00:00');
@@ -310,6 +364,55 @@ class MixedArchivingAggregationTest extends IntegrationTestCase
         $this->assertContains('/shop/shoes/nike', $flatEntryLabels);
         $this->assertNotContains('/shop/shoes/adidas', $flatEntryLabels);
         $this->assertContains('/shop/shoes/adidas', $hierarchyEntryLabels);
+    }
+
+    public function testFlatExitPagesReportListsOnlyActualExitPagesWhenServedFromFlatBlob()
+    {
+        $siteId = Fixture::createWebsite('2026-03-07 00:00:00');
+        // A single visit walks /about -> /shop/shoes/nike -> /shop/shoes/adidas (exit), so only
+        // /shop/shoes/adidas is ever an exit page.
+        $this->trackUrlHits($siteId, '2026-03-08', [
+            '/about' => 2,
+            '/shop/shoes/nike' => 5,
+            '/shop/shoes/adidas' => 3,
+        ]);
+
+        $config = Config::getInstance();
+        $configBackup = $this->backupGeneralConfig([
+            'datatable_archiving_maximum_rows_actions_flat',
+            'datatable_archiving_maximum_rows_actions',
+            'datatable_archiving_maximum_rows_subtable_actions',
+            'archiving_ranking_query_row_limit',
+        ]);
+
+        try {
+            $config->General['datatable_archiving_maximum_rows_actions'] = 50000;
+            $config->General['datatable_archiving_maximum_rows_subtable_actions'] = 50000;
+            $config->General['archiving_ranking_query_row_limit'] = 100000;
+
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 50000;
+            Archive::build($siteId, 'day', '2026-03-08')->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+
+            $flatExitLabels = array_map(
+                [$this, 'extractRowLabel'],
+                $this->requestFlatReportRows('Actions.getExitPageUrls', $siteId, '2026-03-08')
+            );
+
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 0;
+            $hierarchyExitLabels = array_map(
+                [$this, 'extractRowLabel'],
+                $this->requestFlatReportRows('Actions.getExitPageUrls', $siteId, '2026-03-08')
+            );
+        } finally {
+            $this->restoreGeneralConfig($configBackup);
+        }
+
+        // From the flat record the report lists only real exit pages. The hierarchical path also
+        // surfaces non-exit leaves sharing a folder with an exit page (the folder-level filter runs
+        // before flattening), which the flat record correctly excludes.
+        $this->assertContains('/shop/shoes/adidas', $flatExitLabels);
+        $this->assertNotContains('/shop/shoes/nike', $flatExitLabels);
+        $this->assertContains('/shop/shoes/nike', $hierarchyExitLabels);
     }
 
     public function testFlatRequestFallsBackToHierarchyWhenFlatRecordIsMissing()
