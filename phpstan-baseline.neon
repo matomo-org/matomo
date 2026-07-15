@@ -2221,18 +2221,6 @@ parameters:
 			path: core/View/MethodCallExpression.php
 
 		-
-			message: '#^Property Piwik\\View\\UIControl\:\:\$htmlAttributes \(string\) does not accept default value of type array\.$#'
-			identifier: property.defaultValue
-			count: 1
-			path: core/View/UIControl.php
-
-		-
-			message: '#^Property Piwik\\ViewDataTable\\Config\:\:\$onlineGuideUrl \(string\) does not accept default value of type false\.$#'
-			identifier: property.defaultValue
-			count: 1
-			path: core/ViewDataTable/Config.php
-
-		-
 			message: '#^Method Piwik\\ViewDataTable\\Factory\:\:createViewDataTableInstance\(\) should return Piwik\\Plugin\\ViewDataTable but returns Piwik\\View\\ViewInterface\.$#'
 			identifier: return.type
 			count: 1
@@ -2276,24 +2264,6 @@ parameters:
 
 		-
 			message: '#^Property Piwik\\ViewDataTable\\RequestConfig\:\:\$filter_excludelowpop_value \(Closure\|string\) does not accept default value of type false\.$#'
-			identifier: property.defaultValue
-			count: 1
-			path: core/ViewDataTable/RequestConfig.php
-
-		-
-			message: '#^Property Piwik\\ViewDataTable\\RequestConfig\:\:\$pivotBy \(string\) does not accept default value of type false\.$#'
-			identifier: property.defaultValue
-			count: 1
-			path: core/ViewDataTable/RequestConfig.php
-
-		-
-			message: '#^Property Piwik\\ViewDataTable\\RequestConfig\:\:\$pivotByColumn \(string\) does not accept default value of type false\.$#'
-			identifier: property.defaultValue
-			count: 1
-			path: core/ViewDataTable/RequestConfig.php
-
-		-
-			message: '#^Property Piwik\\ViewDataTable\\RequestConfig\:\:\$pivotByColumnLimit \(int\) does not accept default value of type false\.$#'
 			identifier: property.defaultValue
 			count: 1
 			path: core/ViewDataTable/RequestConfig.php
@@ -3707,18 +3677,6 @@ parameters:
 			identifier: constructor.unusedParameter
 			count: 1
 			path: plugins/Insights/DataTable/Filter/OrderBy.php
-
-		-
-			message: '#^Property Piwik\\ViewDataTable\\RequestConfig\:\:\$pivotBy \(string\) does not accept false\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: plugins/Insights/Visualizations/Insight/RequestConfig.php
-
-		-
-			message: '#^Property Piwik\\ViewDataTable\\RequestConfig\:\:\$pivotByColumn \(string\) does not accept false\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: plugins/Insights/Visualizations/Insight/RequestConfig.php
 
 		-
 			message: '#^Call to an undefined method Piwik\\Db\|Piwik\\Db\\AdapterInterface\|Piwik\\Tracker\\Db\:\:checkClientVersion\(\)\.$#'
