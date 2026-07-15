@@ -13,6 +13,7 @@ use Composer\CaBundle\CaBundle;
 use Exception;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Http\EgressHostValidator;
 
 /**
  * Contains HTTP client related helper methods that can retrieve content from remote servers
@@ -78,6 +79,10 @@ class Http
      * @param string $httpPassword HTTP Auth password
      * @param bool $checkHostIsAllowed whether we should check if the target host is allowed or not. This should only
      *                                 be set to false when using a hardcoded URL.
+     * @param bool $validateEgressIp when true, the request is served over the SSRF-safe path: the resolved host must
+     *                               be a public IP, every redirect hop is re-validated, and the connection is pinned to
+     *                               the validated address. Enable this whenever the URL is derived from untrusted input
+     *                               (e.g. a site's own configured URL). Requires the curl transport and no forward proxy.
      *
      * @return string|array|bool  If `$destinationPath` is not specified the HTTP response is returned on success. `false`
      *                            is returned on failure.
@@ -89,8 +94,6 @@ class Http
      *                            - **data**: the HTTP response data
      *
      *                            `false` is still returned on failure.
-     * @throws Exception if the response cannot be saved to `$destinationPath`, if the HTTP response cannot be sent,
-     *                   if there are more than 5 redirects or if the request times out.
      * @phpstan-return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string} : string|false) : bool)
      * @api
      */
@@ -106,14 +109,25 @@ class Http
         $httpMethod = 'GET',
         $httpUsername = null,
         $httpPassword = null,
-        $checkHostIsAllowed = true
+        $checkHostIsAllowed = true,
+        $validateEgressIp = false
     ) {
         // create output file
         $file = self::ensureDestinationDirectoryExists($destinationPath);
 
+        $transport = self::getTransportMethod();
+        if ($validateEgressIp) {
+            // The SSRF-safe path only pins and re-validates reliably over curl, so fail
+            // closed rather than silently degrade to an unprotected transport.
+            if (!self::isCurlEnabled()) {
+                throw new Exception('SSRF-safe HTTP requests require the curl PHP extension.');
+            }
+            $transport = 'curl';
+        }
+
         $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
         return self::sendHttpRequestBy(
-            self::getTransportMethod(),
+            $transport,
             $aUrl,
             $timeout,
             $userAgent,
@@ -130,7 +144,8 @@ class Http
             null,
             [],
             null,
-            $checkHostIsAllowed
+            $checkHostIsAllowed,
+            $validateEgressIp
         );
     }
 
@@ -202,7 +217,6 @@ class Http
      *                                 be set to false when using a hardcoded URL.
      *
      * @return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string} : string|false) : bool)
-     * @throws Exception
      */
     public static function sendHttpRequestBy(
         $method,
@@ -222,7 +236,8 @@ class Http
         $requestBody = null,
         $additionalHeaders = array(),
         $forcePost = null,
-        $checkHostIsAllowed = true
+        $checkHostIsAllowed = true,
+        $validateEgressIp = false
     ) {
         if ($followDepth > 5) {
             throw new Exception('Too many redirects (' . $followDepth . ')');
@@ -271,6 +286,44 @@ class Http
                     'Hostname %s is in list of disallowed hosts',
                     $parsedUrl['host']
                 ));
+            }
+        }
+
+        // SSRF-safe path: only curl can pin the validated address
+        // we handle redirects manually below, and refuse any other transport
+        // or a forward proxy rather than fetch unsafely.
+        $pinnedResolveEntry = null;
+        if ($validateEgressIp) {
+            if ($method !== 'curl') {
+                throw new Exception('SSRF-safe HTTP requests require the curl transport.');
+            }
+
+            // Restrict to http(s): other schemes have different default ports
+            $scheme = strtolower((string) $parsedUrl['scheme']);
+            if ($scheme !== 'http' && $scheme !== 'https') {
+                throw new Exception('SSRF-safe HTTP requests only support the http and https schemes.');
+            }
+
+            [$configuredProxyHost] = self::getProxyConfiguration($aUrl);
+            if (!empty($configuredProxyHost)) {
+                throw new Exception('SSRF-safe HTTP requests cannot be routed through a configured proxy.');
+            }
+
+            $effectivePort = isset($parsedUrl['port']) ? (int) $parsedUrl['port'] : ($scheme === 'https' ? 443 : 80);
+
+            [$canonicalHost, $pinnedIp] = (new EgressHostValidator())->resolveTarget((string) ($parsedUrl['host'] ?? ''));
+
+            // Rewrite the URL to the canonical host when it differs (IDN folding, casing, a trailing dot)
+            if ($canonicalHost !== trim((string) ($parsedUrl['host'] ?? ''), '[]')) {
+                $aUrl = self::replaceUrlHost($parsedUrl, $canonicalHost);
+            }
+
+            // For a DNS host, pin the name to the validated IP so curl cannot re-resolve to
+            // a different address. An IP literal (canonicalHost === pinnedIp) needs no pin.
+            // @todo PHP 8.1 min: strpos($pinnedIp, ':') !== false can become str_contains().
+            if ($canonicalHost !== $pinnedIp) {
+                $pinnedAddress = strpos($pinnedIp, ':') !== false ? '[' . $pinnedIp . ']' : $pinnedIp;
+                $pinnedResolveEntry = $canonicalHost . ':' . $effectivePort . ':' . $pinnedAddress;
             }
         }
 
@@ -736,11 +789,24 @@ class Http
             @curl_setopt_array($ch, $curl_options);
             self::configCurlCertificate($ch);
 
+            if ($validateEgressIp) {
+                // Follow redirects manually so every hop is re-validated, and pin
+                // the connection to the address we validated to close the DNS-rebinding window.
+                // CURLOPT_RESOLVE keeps the original hostname for SNI and certificate checks.
+                // @todo when switching to a new HTTP library: this transport-specific
+                //      pinning/redirect wiring should probably be re-implemented against it (e.g. Guzzle's
+                //      curl.options + redirect middleware). EgressHostValidator is reusable as-is.
+                @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+                if ($pinnedResolveEntry !== null) {
+                    @curl_setopt($ch, CURLOPT_RESOLVE, array($pinnedResolveEntry));
+                }
+            }
+
             /*
              * as of php 5.2.0, CURLOPT_FOLLOWLOCATION can't be set if
              * in safe_mode or open_basedir is set
              */
-            if ((string)ini_get('safe_mode') == '' && ini_get('open_basedir') == '') {
+            if (!$validateEgressIp && (string)ini_get('safe_mode') == '' && ini_get('open_basedir') == '') {
                 $protocols = 0;
 
                 foreach (explode(',', $allowedProtocols) as $protocol) {
@@ -808,6 +874,35 @@ class Http
 
             @curl_close($ch);
             unset($ch);
+
+            // SSRF-safe path follows redirects here instead of via curl, so the target of each
+            // hop passes host validation and IP pinning again before we connect to it.
+            if ($validateEgressIp && $status >= 300 && $status < 400 && !is_resource($file)) {
+                $location = $headers['Location'] ?? null;
+                if (is_string($location) && $location !== '') {
+                    return self::sendHttpRequestBy(
+                        $method,
+                        self::resolveRedirectUrl($aUrl, trim($location)),
+                        $timeout,
+                        $userAgent,
+                        $destinationPath,
+                        $file,
+                        $followDepth + 1,
+                        $acceptLanguage,
+                        $acceptInvalidSslCertificate,
+                        $byteRange,
+                        $getExtendedInfo,
+                        $httpMethod,
+                        $httpUsername,
+                        $httpPassword,
+                        $requestBody,
+                        $additionalHeaders,
+                        $forcePost,
+                        $checkHostIsAllowed,
+                        $validateEgressIp
+                    );
+                }
+            }
         } else {
             throw new Exception('Invalid request method: ' . $method);
         }
@@ -1106,6 +1201,63 @@ class Http
         if ($camelName !== $name) {
             $headers[$camelName] = trim($value);
         }
+    }
+
+    /**
+     * Resolves a redirect `Location` (absolute, protocol-relative, absolute-path, or relative)
+     * against the URL it was returned from, for the SSRF-safe path's manual redirect handling.
+     * Fails with an exception when the base URL cannot provide a scheme and host.
+     */
+    private static function resolveRedirectUrl(string $baseUrl, string $location): string
+    {
+        // @todo when PHP 8.1: the strpos(...) === 0 prefix checks below can become str_starts_with().
+        if (preg_match('~^[a-z][a-z0-9+.-]*://~i', $location)) {
+            return $location;
+        }
+
+        $base = @parse_url($baseUrl);
+        if (empty($base['scheme']) || empty($base['host'])) {
+            throw new Exception('Cannot resolve redirect target from base URL: ' . $baseUrl);
+        }
+
+        if (strpos($location, '//') === 0) {
+            return $base['scheme'] . ':' . $location;
+        }
+
+        $authority = $base['scheme'] . '://' . $base['host']
+            . (isset($base['port']) ? ':' . $base['port'] : '');
+
+        if (strpos($location, '/') === 0) {
+            return $authority . $location;
+        }
+
+        $path = $base['path'] ?? '/';
+        $lastSlash = strrpos($path, '/');
+        $dir = $lastSlash === false ? '/' : substr($path, 0, $lastSlash + 1);
+
+        return $authority . $dir . $location;
+    }
+
+    /**
+     * Rebuilds a URL from its parse_url() parts with a replacement host, preserving every other
+     * component. Used on the SSRF-safe path, so the connected URL carries the pinned canonical host.
+     *
+     * @param array<string, mixed> $parts
+     */
+    private static function replaceUrlHost(array $parts, string $newHost): string
+    {
+        // @todoyes PHP 8.1 min (Matomo 6): strpos($newHost, ':') !== false can become str_contains().
+        $scheme = isset($parts['scheme']) ? $parts['scheme'] . '://' : '';
+        $user = (string) ($parts['user'] ?? '');
+        $pass = isset($parts['pass']) ? ':' . $parts['pass'] : '';
+        $auth = $user !== '' ? $user . $pass . '@' : '';
+        $hostPart = strpos($newHost, ':') !== false ? '[' . $newHost . ']' : $newHost;
+        $port = isset($parts['port']) ? ':' . $parts['port'] : '';
+        $path = (string) ($parts['path'] ?? '');
+        $query = isset($parts['query']) ? '?' . $parts['query'] : '';
+        $fragment = isset($parts['fragment']) ? '#' . $parts['fragment'] : '';
+
+        return $scheme . $auth . $hostPart . $port . $path . $query . $fragment;
     }
 
     /**
