@@ -907,12 +907,6 @@ parameters:
 			path: core/Filesystem.php
 
 		-
-			message: '#^PHPDoc tag @param for parameter \$beforeUnlink with type Closure\|false is not subtype of native type Closure\|null\.$#'
-			identifier: parameter.phpDocType
-			count: 1
-			path: core/Filesystem.php
-
-		-
 			message: '#^Call to function method_exists\(\) with ''Piwik\\\\SettingsPiwik'' and ''getPiwikUrl'' will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -1019,12 +1013,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: core/NumberFormatter.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$timezone with type array\<Piwik\\Date\> is incompatible with native type string\.$#'
-			identifier: parameter.phpDocType
-			count: 1
-			path: core/Period.php
 
 		-
 			message: '#^If condition is always false\.$#'
@@ -4405,12 +4393,6 @@ parameters:
 			path: plugins/Tour/Engagement/ChallengeCustomLogo.php
 
 		-
-			message: '#^Method Piwik\\Plugins\\Tour\\Engagement\\ChallengeSetupConsentManager\:\:isDisabled\(\) should return false but returns bool\.$#'
-			identifier: return.type
-			count: 1
-			path: plugins/Tour/Engagement/ChallengeSetupConsentManager.php
-
-		-
 			message: '#^Property Piwik\\Plugins\\Tour\\Engagement\\ChallengeSetupConsentManager\:\:\$detectedContentManager \(Piwik\\Plugins\\SitesManager\\SiteContentDetection\\ConsentManagerDetectionAbstract\|null\) does not accept Piwik\\Plugins\\SitesManager\\SiteContentDetection\\SiteContentDetectionAbstract\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -4475,18 +4457,6 @@ parameters:
 			identifier: function.impossibleType
 			count: 1
 			path: plugins/UserCountry/LocationProvider.php
-
-		-
-			message: '#^Function Piwik\\Plugins\\UserCountry\\getPrettyCityName\(\) never returns false so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: plugins/UserCountry/functions.php
-
-		-
-			message: '#^Function Piwik\\Plugins\\UserCountry\\getPrettyRegionName\(\) never returns false so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: plugins/UserCountry/functions.php
 
 		-
 			message: '#^Argument of an invalid type Zend_Db_Statement supplied for foreach, only iterables are supported\.$#'

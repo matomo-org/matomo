@@ -215,7 +215,7 @@ class Filesystem
      *
      * @param string $dir Path of the directory to delete.
      * @param boolean $deleteRootToo If true, `$dir` is deleted, otherwise just its contents.
-     * @param \Closure|false $beforeUnlink An optional closure to execute on a file path before unlinking.
+     * @param \Closure|null $beforeUnlink An optional closure to execute on a file path before unlinking.
      * @api
      */
     public static function unlinkRecursive($dir, $deleteRootToo, ?\Closure $beforeUnlink = null)

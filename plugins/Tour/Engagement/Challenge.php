@@ -65,7 +65,7 @@ abstract class Challenge
      * still be run every time the challenges are loaded. To disable a challenge based on plugin availablilty it is better
      * to add a check to the Piwik\Plugins\Tour\Engagement::getChallenges() method
      *
-     * @return false
+     * @return bool
      */
     public function isDisabled()
     {

@@ -199,7 +199,7 @@ function getRegionName($label)
  *
  * @param string $label A label containing a region code followed by '|' and a country code, eg,
  *                      'P3|GB'.
- * @return string|false eg. 'Ile de France, France' or false if $label == DataTable::LABEL_SUMMARY_ROW.
+ * @return string eg. 'Ile de France, France', or the label itself if $label == DataTable::LABEL_SUMMARY_ROW.
  */
 function getPrettyRegionName($label)
 {
@@ -226,8 +226,8 @@ function getPrettyRegionName($label)
  *
  * @param string $label A label containing a city name, region code + country code,
  *                      separated by two '|' chars: 'Paris|A8|FR'
- * @return string|false eg. 'Paris, Ile de France, France' or false if $label ==
- *                      DataTable::LABEL_SUMMARY_ROW.
+ * @return string eg. 'Paris, Ile de France, France', or the label itself if $label ==
+ *                 DataTable::LABEL_SUMMARY_ROW.
  */
 function getPrettyCityName($label)
 {
