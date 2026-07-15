@@ -96,6 +96,8 @@ class Http
      *                            - **data**: the HTTP response data
      *
      *                            `false` is still returned on failure.
+     * @throws Exception if the response cannot be saved to `$destinationPath`, if the HTTP response cannot be sent,
+     *                   if there are more than 5 redirects or if the request times out.
      * @phpstan-return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string} : string|false) : bool)
      * @api
      */
@@ -223,6 +225,7 @@ class Http
      *                               {@see sendHttpRequest()} for the full contract.
      *
      * @return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string} : string|false) : bool)
+     * @throws Exception
      */
     public static function sendHttpRequestBy(
         $method,
