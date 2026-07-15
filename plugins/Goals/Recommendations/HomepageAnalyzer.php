@@ -146,7 +146,26 @@ class HomepageAnalyzer
             return null;
         }
 
-        if (is_array($response) && is_string($response['data'] ?? null) && strlen($response['data']) > self::MAX_RESPONSE_BYTES) {
+        $status = $response['status'] ?? null;
+        $contentType = (string) ($response['headers']['Content-Type'] ?? '');
+
+        // reject error pages and non-html bodies
+        if (
+            !is_int($status) || $status < 200 || $status >= 300
+            || (
+                $contentType !== ''
+                && stripos($contentType, 'text/html') === false
+                && stripos($contentType, 'application/xhtml+xml') === false
+            )
+        ) {
+            $this->getLogger()->debug(
+                'Goals recommendations: skipping {url} (HTTP status {status}, content type {contentType}).',
+                ['url' => $url, 'status' => $status, 'contentType' => $contentType]
+            );
+            return null;
+        }
+
+        if (is_string($response['data'] ?? null) && strlen($response['data']) > self::MAX_RESPONSE_BYTES) {
             // Enforce the cap for servers that ignore the Range header.
             $response['data'] = substr($response['data'], 0, self::MAX_RESPONSE_BYTES);
         }
