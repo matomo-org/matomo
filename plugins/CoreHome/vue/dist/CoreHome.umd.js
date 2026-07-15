@@ -9383,27 +9383,27 @@ class ReportMetadata_store_ReportMetadataStore {
   }
 }
 /* harmony default export */ var ReportMetadata_store = (new ReportMetadata_store_ReportMetadataStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=template&id=536bc52c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=template&id=f802816a
 
-const ReportHeadervue_type_template_id_536bc52c_hoisted_1 = {
+const ReportHeadervue_type_template_id_f802816a_hoisted_1 = {
   class: "reportHeader"
 };
-const ReportHeadervue_type_template_id_536bc52c_hoisted_2 = {
+const ReportHeadervue_type_template_id_f802816a_hoisted_2 = {
   class: "reportHeader__main"
 };
-const ReportHeadervue_type_template_id_536bc52c_hoisted_3 = ["role", "tabindex", "title"];
-const ReportHeadervue_type_template_id_536bc52c_hoisted_4 = {
+const ReportHeadervue_type_template_id_f802816a_hoisted_3 = ["role", "tabindex", "title"];
+const ReportHeadervue_type_template_id_f802816a_hoisted_4 = {
   class: "u-visuallyHidden"
 };
-const ReportHeadervue_type_template_id_536bc52c_hoisted_5 = {
+const ReportHeadervue_type_template_id_f802816a_hoisted_5 = {
   class: "reportHeader__widgetControls"
 };
-const ReportHeadervue_type_template_id_536bc52c_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+const ReportHeadervue_type_template_id_f802816a_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "reportHeader__actions"
 }, null, -1);
-function ReportHeadervue_type_template_id_536bc52c_render(_ctx, _cache, $props, $setup, $data, $options) {
+function ReportHeadervue_type_template_id_f802816a_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_WidgetControls = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetControls");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportHeadervue_type_template_id_536bc52c_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_536bc52c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportHeadervue_type_template_id_f802816a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_f802816a_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["reportHeader__title widgetName", {
       'reportHeader__title--clickable': _ctx.titleClickable
     }]),
@@ -9412,7 +9412,7 @@ function ReportHeadervue_type_template_id_536bc52c_render(_ctx, _cache, $props, 
     title: _ctx.titleClickable ? _ctx.titleClickHint : null,
     onClick: _cache[0] || (_cache[0] = (...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args)),
     onKeydown: [_cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])((...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args), ["prevent"]), ["enter"])), _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])((...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args), ["prevent"]), ["space"]))]
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)], 42, ReportHeadervue_type_template_id_536bc52c_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", ReportHeadervue_type_template_id_536bc52c_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Widget')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_536bc52c_hoisted_5, [_ctx.hasControls ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_WidgetControls, {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)], 42, ReportHeadervue_type_template_id_f802816a_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", ReportHeadervue_type_template_id_f802816a_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Widget')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportHeadervue_type_template_id_f802816a_hoisted_5, [_ctx.hasControls ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_WidgetControls, {
     key: 0,
     "can-minimise": _ctx.controls.minimise,
     "can-maximise": _ctx.controls.maximise,
@@ -9422,9 +9422,9 @@ function ReportHeadervue_type_template_id_536bc52c_render(_ctx, _cache, $props, 
     onMaximise: _cache[4] || (_cache[4] = $event => _ctx.onControl('maximise')),
     onRefresh: _cache[5] || (_cache[5] = $event => _ctx.onControl('refresh')),
     onClose: _cache[6] || (_cache[6] = $event => _ctx.onControl('close'))
-  }, null, 8, ["can-minimise", "can-maximise", "can-refresh", "can-close"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), ReportHeadervue_type_template_id_536bc52c_hoisted_6]);
+  }, null, 8, ["can-minimise", "can-maximise", "can-refresh", "can-close"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), ReportHeadervue_type_template_id_f802816a_hoisted_6]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=template&id=536bc52c
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportHeader/ReportHeader.vue?vue&type=template&id=f802816a
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/WidgetControls/WidgetControls.vue?vue&type=template&id=03428934
 
@@ -9500,7 +9500,10 @@ WidgetControlsvue_type_script_lang_ts.render = WidgetControlsvue_type_template_i
 
 
 // Which widget controls each context exposes. Kept here so every surface that renders
-// the header stays consistent with the redesign spec.
+// the header stays consistent with the redesign spec. `dashboard` is the normal widget state
+// (all controls only make sense on a dashboard); `maximised`/`collapsed` are its state
+// variants; `widgetized`/`preview` render no controls. Consumers outside a widget (e.g.
+// full-page reports) pass a no-control context.
 const CONTROLS_BY_CONTEXT = {
   dashboard: {
     minimise: true,
@@ -9513,6 +9516,12 @@ const CONTROLS_BY_CONTEXT = {
     maximise: false,
     refresh: true,
     close: false
+  },
+  collapsed: {
+    minimise: false,
+    maximise: true,
+    refresh: false,
+    close: true
   },
   widgetized: {
     minimise: false,
@@ -9574,7 +9583,7 @@ const CONTROLS_BY_CONTEXT = {
 
 
 
-ReportHeadervue_type_script_lang_ts.render = ReportHeadervue_type_template_id_536bc52c_render
+ReportHeadervue_type_script_lang_ts.render = ReportHeadervue_type_template_id_f802816a_render
 
 /* harmony default export */ var ReportHeader = (ReportHeadervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/WidgetLoader/WidgetLoader.vue?vue&type=template&id=24b8f926

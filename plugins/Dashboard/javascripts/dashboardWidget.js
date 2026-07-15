@@ -101,6 +101,7 @@
          */
         maximise: function () {
             this.isMaximised = true;
+            this._setHeaderContext('maximised');
 
             if (this.options.onMaximise) {
                 this.options.onMaximise(this.element);
@@ -336,6 +337,7 @@
         hideContent: function () {
             $('.widgetContent', this.element.find('.widget').addClass('hiddenContent')).addClass('hidden');
             this.options.isHidden = true;
+            this._setHeaderContext('collapsed');
             this.options.onChange();
         },
 
@@ -347,8 +349,26 @@
             this.options.isHidden = false;
             this.element.find('.widget').removeClass('hiddenContent').find('.widgetContent').removeClass('hidden');
             this.element.find('.widget').find('div.piwik-graph').trigger('resizeGraph');
+            this._setHeaderContext('dashboard');
             this.options.onChange();
             $('.widgetContent', this.element).trigger('widget:minimise');
+        },
+
+        /**
+         * Sync the ReportHeader (mounted into .widgetTop) to the widget's current state: it
+         * decides which controls to show (via the `context` prop) and whether controls are
+         * hover-revealed. Maximised keeps them always visible (no `__reportHeader-onHover`
+         * hook); every other state hover-reveals them.
+         *
+         * @param {String} context  one of 'dashboard' | 'maximised' | 'collapsed'
+         */
+        _setHeaderContext: function (context) {
+            var app = this.element.find('.widgetTop [vue-entry]').data('vueAppInstance');
+            if (app) {
+                app.context_ = context;
+            }
+            this.element.find('.widget').toggleClass('__reportHeader-onHover', context !== 'maximised');
+            return this;
         },
 
         /**
@@ -370,6 +390,7 @@
                 autoOpen: true,
                 close: function (event, ui) {
                     self.isMaximised = false;
+                    self._setHeaderContext('dashboard');
                     $('body').off('.dashboardWidget');
                     $(this).dialog("destroy");
                     $('[id="' + self.uniqueId + '-placeholder"]').replaceWith(this);

@@ -60,6 +60,15 @@ describe('ReportHeader', () => {
     expect(wrapper.find('.widgetControl-close').exists()).toBe(false);
   });
 
+  it('should show only maximise and close in the collapsed context', () => {
+    const wrapper = mountComponent({ context: 'collapsed' });
+
+    expect(wrapper.find('.widgetControl-maximise').exists()).toBe(true);
+    expect(wrapper.find('.widgetControl-close').exists()).toBe(true);
+    expect(wrapper.find('.widgetControl-minimise').exists()).toBe(false);
+    expect(wrapper.find('.widgetControl-refresh').exists()).toBe(false);
+  });
+
   it('should render no controls in the preview and widgetized contexts', () => {
     expect(mountComponent({ context: 'preview' }).find('.widgetControls').exists()).toBe(false);
     expect(mountComponent({ context: 'widgetized' }).find('.widgetControls').exists()).toBe(false);

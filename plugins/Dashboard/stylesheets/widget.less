@@ -108,12 +108,6 @@
     }
 }
 
-// When the widget content is collapsed, minimise/refresh don't apply.
-.widget.hiddenContent .widgetControl-minimise,
-.widget.hiddenContent .widgetControl-refresh {
-    display: none;
-}
-
 .widget table.dataTable tr td {
   background-color: @theme-color-widget-background;
 }
@@ -130,15 +124,4 @@
   .widget, .ui-dialog-content {
       position: static;
   }
-}
-
-// While maximised (in the dialog) the controls are always shown, and maximise/close
-// don't apply — only minimise (closes the dialog) and refresh remain.
-.ui-dialog .widget .reportHeader__widgetControls {
-    opacity: 1;
-}
-
-.ui-dialog .widget .widgetControl-maximise,
-.ui-dialog .widget .widgetControl-close {
-    display: none;
 }

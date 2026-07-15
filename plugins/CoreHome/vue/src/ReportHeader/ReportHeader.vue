@@ -65,13 +65,19 @@ interface ControlVisibility {
 }
 
 // Which widget controls each context exposes. Kept here so every surface that renders
-// the header stays consistent with the redesign spec.
+// the header stays consistent with the redesign spec. `dashboard` is the normal widget state
+// (all controls only make sense on a dashboard); `maximised`/`collapsed` are its state
+// variants; `widgetized`/`preview` render no controls. Consumers outside a widget (e.g.
+// full-page reports) pass a no-control context.
 const CONTROLS_BY_CONTEXT: Record<string, ControlVisibility> = {
   dashboard: {
     minimise: true, maximise: true, refresh: true, close: true,
   },
   maximised: {
     minimise: true, maximise: false, refresh: true, close: false,
+  },
+  collapsed: {
+    minimise: false, maximise: true, refresh: false, close: true,
   },
   widgetized: {
     minimise: false, maximise: false, refresh: false, close: false,
