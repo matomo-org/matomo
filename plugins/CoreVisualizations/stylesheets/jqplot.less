@@ -156,6 +156,7 @@ a.rowevolution-startmulti {
 .rowevolution table.metrics td.text {
     font-size: 13px;
     line-height: 18px;
+    color: #7E7363;
     font-weight: bold;
 }
 
@@ -170,6 +171,7 @@ a.rowevolution-startmulti {
 
 .rowevolution table.metrics td.text span.details {
     font-weight: normal;
+    color: #444;
 }
 
 .rowevolution table.metrics td.text span.change {
@@ -193,6 +195,7 @@ a.rowevolution-startmulti {
 
 .rowevolution .metric-selectbox select {
     font-size: 13px;
+    color: #444;
     margin: 8px 0 0 0;
     padding: 0;
     display: block;
@@ -290,5 +293,17 @@ a.rowevolution-startmulti {
   .jqplot-seriespicker-popover p.pickColumn:hover,
   .jqplot-seriespicker-popover p.pickRow:hover {
     background-color: @theme-color-background-tinyContrast;
+  }
+
+  .rowevolution table.metrics td.text {
+    color: @theme-color-text-light;
+  }
+
+  .rowevolution table.metrics td.text span.details {
+    color: @theme-color-text;
+  }
+
+  .rowevolution .metric-selectbox select {
+    color: @theme-color-text;
   }
 });
