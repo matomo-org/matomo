@@ -49,6 +49,23 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
             array('2002:7f00:0001::', false), // 6to4 wrapping 127.0.0.1
             array('2001:0:1234::', false),    // Teredo
             array('64:ff9b::a9fe:a9fe', false), // NAT64 wrapping 169.254.169.254
+            // TEST-NET / documentation ranges and 6to4 relay anycast
+            array('192.0.2.1', false),
+            array('198.51.100.1', false),
+            array('203.0.113.1', false),
+            array('192.88.99.1', false),
+            array('2001:db8::1', false),
+            // multicast
+            array('224.0.0.1', false),
+            array('239.255.255.250', false),
+            array('ff02::1', false),
+            // IPv6 discard and reserved fe00::/8 (link-local, site-local, unallocated)
+            array('100::1', false),
+            array('fe00::1', false), // bottom of fe00::/8
+            array('fec0::1', false), // site-local
+            array('feff::1', false), // top of fe00::/8
+            // global unicast (2000::/3) must stay public
+            array('2001:4860:4860::8888', true),
         );
     }
 

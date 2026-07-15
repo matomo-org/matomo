@@ -20,11 +20,31 @@ use Exception;
  */
 class EgressHostValidator
 {
-    // IPv4 ranges filter_var does not flag but an SSRF-safe fetch must not reach (CGNAT, IETF protocol, benchmarking).
-    private const EXTRA_BLOCKED_CIDRS = ['100.64.0.0/10', '192.0.0.0/24', '198.18.0.0/15'];
+    // IPv4 ranges filter_var does not flag but an SSRF-safe fetch must not reach:
+    // CGNAT, IETF protocol, TEST-NET-1/2/3, 6to4 relay anycast, benchmarking, multicast.
+    private const EXTRA_BLOCKED_CIDRS = [
+        '100.64.0.0/10',
+        '192.0.0.0/24',
+        '192.0.2.0/24',
+        '192.88.99.0/24',
+        '198.18.0.0/15',
+        '198.51.100.0/24',
+        '203.0.113.0/24',
+        '224.0.0.0/4',
+    ];
 
-    // IPv6 transition ranges that can smuggle a private IPv4 destination past filter_var (6to4, Teredo, NAT64).
-    private const EXTRA_BLOCKED_IPV6_CIDRS = ['2002::/16', '2001::/32', '64:ff9b::/96'];
+    // IPv6 ranges filter_var does not flag: transition ranges that can smuggle a private IPv4
+    // destination (6to4, Teredo, NAT64) plus documentation, discard, reserved space (fe00::/8
+    // covers link-local, site-local and the unallocated block), and multicast.
+    private const EXTRA_BLOCKED_IPV6_CIDRS = [
+        '2002::/16',
+        '2001::/32',
+        '2001:db8::/32',
+        '64:ff9b::/96',
+        '100::/64',
+        'fe00::/8',
+        'ff00::/8',
+    ];
 
     /** @var callable(string): string[] */
     private $resolver;
