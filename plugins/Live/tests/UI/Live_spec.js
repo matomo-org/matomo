@@ -120,14 +120,10 @@ describe("Live", function () {
     });
 
     it('should show action tooltip', async function() {
-        await page.mouse.move(-10, -10);
-        await page.waitForFunction(() => !$('.ui-tooltip:visible').length);
+        await page.hover('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child');
+        await page.waitForSelector('.ui-tooltip', {visible: true, timeout: 250});
 
-        await page.hover('.visitor-profile-visits li:first-child .visitor-profile-actions .action-list-url');
-        await page.waitForFunction(() => $('.ui-tooltip:visible').text().includes('Page load time'));
-
-        const tooltip = await page.jQuery('.ui-tooltip:visible');
-        expect(await tooltip.screenshot()).to.matchImage('visitor_profile_action_tooltip');
+        expect(await page.screenshotSelector('.ui-tooltip')).to.matchImage('visitor_profile_action_tooltip');
     });
 
     it('should show limited profile message', async function () {
