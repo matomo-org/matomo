@@ -237,15 +237,16 @@ class DeterministicRecommender
                 continue;
             }
 
-            $label = $this->formGoalLabel($form);
+            $pattern = $this->formGoalPattern($form);
+            $label = $this->formGoalLabel($form, $pattern);
             $goals[] = $this->buildGoal([
                 'name' => Piwik::translate('Goals_RecommendationFormName', [$label]),
                 'matchAttribute' => 'event_name',
-                'pattern' => $label,
+                'pattern' => $pattern,
                 'reason' => Piwik::translate('Goals_RecommendationFormReason'),
                 'source' => 'rule-form',
                 'allowMultipleConversionsPerVisit' => true,
-                'implementationNote' => Piwik::translate('Goals_RecommendationFormSetupNote', [$label]),
+                'implementationNote' => Piwik::translate('Goals_RecommendationFormSetupNote', [$pattern]),
                 'evidence' => array_filter([
                     Piwik::translate('Goals_RecommendationEvidenceFormSightings', [(string) ($form['count'] ?? 1), (string) count($form['sourcePages'] ?? [])]),
                     (string) (($form['contexts'][0] ?? '') ?: ($form['submitTexts'][0] ?? '')),
@@ -519,7 +520,7 @@ class DeterministicRecommender
     /**
      * @param array<string, mixed> $form
      */
-    private function formGoalLabel(array $form): string
+    private function formGoalLabel(array $form, string $pattern): string
     {
         $labels = strtolower(implode(' ', array_merge(
             $form['submitTexts'] ?? [],
@@ -529,30 +530,44 @@ class DeterministicRecommender
         )));
 
         if (strpos($labels, 'demo') !== false) {
-            return 'Demo request';
+            return Piwik::translate('Goals_RecommendationDemoRequestLabel');
         }
         if (strpos($labels, 'contact') !== false && strpos($labels, 'sales') !== false) {
-            return 'Contact sales';
+            return Piwik::translate('Goals_RecommendationContactSalesLabel');
         }
         if (strpos($labels, 'trial') !== false || strpos($labels, 'signup') !== false || strpos($labels, 'sign up') !== false) {
-            return 'Free trial';
+            return Piwik::translate('Goals_RecommendationFreeTrialLabel');
         }
         if (strpos($labels, 'newsletter') !== false || strpos($labels, 'subscribe') !== false) {
-            return 'Newsletter signup';
+            return Piwik::translate('Goals_RecommendationNewsletterName');
         }
         if (strpos($labels, 'quote') !== false) {
-            return 'Quote request';
+            return Piwik::translate('Goals_RecommendationQuoteRequestLabel');
         }
         if (strpos($labels, 'booking') !== false || strpos($labels, 'book ') !== false) {
-            return 'Booking request';
+            return Piwik::translate('Goals_RecommendationBookingRequestLabel');
         }
 
+        return $pattern === 'form'
+            ? Piwik::translate('Goals_RecommendationFormFallbackLabel')
+            : $pattern;
+    }
+
+    /**
+     * @param array<string, mixed> $form
+     */
+    private function formGoalPattern(array $form): string
+    {
         $submitText = $this->titleFromText((string) ($form['submitTexts'][0] ?? ''));
         if ($submitText !== '' && strcasecmp($submitText, 'Submit') !== 0) {
             return $submitText;
         }
 
-        return $this->readablePathName((string) (($form['sourcePages'][0] ?? '') ?: ($form['action'] ?? 'form')));
+        $source = (string) (($form['sourcePages'][0] ?? '') ?: ($form['action'] ?? ''));
+
+        return $source !== ''
+            ? $this->readablePathName($source)
+            : 'form';
     }
 
     private function downloadGoalPattern(string $href): string
@@ -588,7 +603,7 @@ class DeterministicRecommender
         $parts = array_filter(explode('/', (string) parse_url($path, PHP_URL_PATH)));
         $label = implode(' ', array_slice($parts, -2));
 
-        return $this->titleFromText($label ?: $path ?: 'Page');
+        return $this->titleFromText($label ?: $path);
     }
 
     private function titleFromText(string $value): string

@@ -1184,7 +1184,7 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(shouldShowRecommendations) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["ContentBlock"]), {
         key: 0,
         "content-title": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('Goals_RecommendedGoals'),
-        feature: "Recommended goals",
+        feature: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('Goals_RecommendedGoals'),
         class: "recommendGoals"
       }, {
         default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["translate"])('Goals_RecommendedGoalsIntro')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(external_CoreHome_["ActivityIndicator"]), {
@@ -1263,7 +1263,7 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
           id: "recommendGoalsPrivacyNote"
         }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["unref"])(privacyNote)), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], showPrivacyNote.value]])]))]),
         _: 1
-      }, 8, ["content-title"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
+      }, 8, ["content-title", "feature"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
     };
   }
 }));

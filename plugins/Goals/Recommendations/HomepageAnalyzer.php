@@ -121,15 +121,8 @@ class HomepageAnalyzer
             return null;
         }
 
-        if (!$this->isFetchableHost($url)) {
-            $this->getLogger()->debug(
-                'Goals recommendations: refusing to fetch {url}; host resolves to a private or reserved address.',
-                ['url' => $url]
-            );
-            return null;
-        }
-
         try {
+            // @todo PHP 8.1 min (Matomo 6): use named arguments to drop the positional null filler.
             $response = Http::sendHttpRequest(
                 $url,
                 $timeout,
@@ -138,7 +131,12 @@ class HomepageAnalyzer
                 0,
                 false,
                 [0, self::MAX_RESPONSE_BYTES], // $byteRange: Range hint to keep responses small
-                true // $getExtendedInfo: returns ['status', 'headers', 'data']
+                true, // $getExtendedInfo: returns ['status', 'headers', 'data']
+                'GET',
+                null,
+                null,
+                true, // $checkHostIsAllowed
+                true // $validateEgressIp: SSRF-safe fetch (public-IP only, per-redirect revalidation, pinned)
             );
         } catch (\Exception $e) {
             $this->getLogger()->debug(
@@ -154,100 +152,6 @@ class HomepageAnalyzer
         }
 
         return $response;
-    }
-
-    /**
-     * SSRF guard: rejects a URL whose host resolves to any private, loopback,
-     * link-local or reserved IP.
-     */
-    private function isFetchableHost(string $url): bool
-    {
-        $host = trim((string) parse_url($url, PHP_URL_HOST), '[]');
-        if ($host === '') {
-            return false;
-        }
-
-        $ips = $this->resolveHostIps($host);
-        if (empty($ips)) {
-            return false;
-        }
-
-        foreach ($ips as $ip) {
-            if (!$this->isPublicIp($ip)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    // IPv4 ranges filter_var does not flag but a crawl must not reach (CGNAT, benchmarking, protocol).
-    private const EXTRA_BLOCKED_CIDRS = ['100.64.0.0/10', '192.0.0.0/24', '198.18.0.0/15'];
-
-    private function isPublicIp(string $ip): bool
-    {
-        // Normalise IPv4-mapped IPv6 (e.g. ::ffff:169.254.169.254) to the embedded
-        // IPv4 address: PHP before 8.1 does not treat these as reserved.
-        if (stripos($ip, '::ffff:') === 0) {
-            $mapped = substr($ip, 7);
-            if (filter_var($mapped, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-                $ip = $mapped;
-            }
-        }
-
-        if (false === filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-            return false;
-        }
-
-        foreach (self::EXTRA_BLOCKED_CIDRS as $cidr) {
-            if ($this->ipv4InCidr($ip, $cidr)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private function ipv4InCidr(string $ip, string $cidr): bool
-    {
-        $ipLong = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) ? ip2long($ip) : false;
-        if ($ipLong === false) {
-            return false; // not IPv4; the extra list is IPv4-only
-        }
-
-        [$subnet, $bits] = explode('/', $cidr);
-        $subnetLong = ip2long($subnet);
-        $mask = -1 << (32 - (int) $bits);
-
-        return ($ipLong & $mask) === ($subnetLong & $mask);
-    }
-
-    /**
-     * @return string[]
-     */
-    private function resolveHostIps(string $host): array
-    {
-        if (filter_var($host, FILTER_VALIDATE_IP)) {
-            return [$host];
-        }
-
-        $ips = [];
-
-        $ipv4 = @gethostbynamel($host);
-        if (is_array($ipv4)) {
-            $ips = $ipv4;
-        }
-
-        $records = @dns_get_record($host, DNS_AAAA);
-        if (is_array($records)) {
-            foreach ($records as $record) {
-                if (!empty($record['ipv6'])) {
-                    $ips[] = (string) $record['ipv6'];
-                }
-            }
-        }
-
-        return $ips;
     }
 
     private function getLogger(): LoggerInterface

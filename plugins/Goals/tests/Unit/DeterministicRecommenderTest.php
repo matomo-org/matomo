@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\Goals\tests\Unit;
 
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\Recommendations\DeterministicRecommender;
 use PHPUnit\Framework\TestCase;
 
@@ -146,7 +147,10 @@ class DeterministicRecommenderTest extends TestCase
             ['event_name', 'file', 'external_website', 'external_website'],
             array_column($goals, 'matchAttribute')
         );
-        $this->assertSame('Demo request', $goals[0]['pattern']);
+        $this->assertSame(Piwik::translate('Goals_RecommendationFormName', [
+            Piwik::translate('Goals_RecommendationDemoRequestLabel'),
+        ]), $goals[0]['name']);
+        $this->assertSame('Request Demo', $goals[0]['pattern']);
         $this->assertSame('brochure.pdf', $goals[1]['pattern']);
         $this->assertSame('mailto:sales@example.com', $goals[2]['pattern']);
         $this->assertSame('marketplace.example', $goals[3]['pattern']);
@@ -189,5 +193,38 @@ class DeterministicRecommenderTest extends TestCase
         $this->assertCount(1, $goals);
         $this->assertSame('/services', $goals[0]['pattern']);
         $this->assertSame('rule-generic', $goals[0]['source']);
+    }
+
+    /**
+     * @dataProvider getFormRecommendationLabels
+     */
+    public function testRecommendTranslatesKnownFormLabelsWithoutTranslatingPatterns(
+        array $form,
+        string $translationKey,
+        string $expectedPattern
+    ): void {
+        $goals = $this->recommender->recommend([
+            'url' => 'https://example.com',
+            'links' => [],
+            'forms' => [$form],
+        ]);
+
+        $this->assertSame(Piwik::translate('Goals_RecommendationFormName', [
+            Piwik::translate($translationKey),
+        ]), $goals[0]['name']);
+        $this->assertSame($expectedPattern, $goals[0]['pattern']);
+    }
+
+    public function getFormRecommendationLabels(): array
+    {
+        return [
+            'demo' => [['submitTexts' => ['Request demo']], 'Goals_RecommendationDemoRequestLabel', 'Request Demo'],
+            'contact sales' => [['submitTexts' => ['Contact sales']], 'Goals_RecommendationContactSalesLabel', 'Contact Sales'],
+            'free trial' => [['submitTexts' => ['Start trial']], 'Goals_RecommendationFreeTrialLabel', 'Start Trial'],
+            'newsletter' => [['submitTexts' => ['Subscribe']], 'Goals_RecommendationNewsletterName', 'Subscribe'],
+            'quote' => [['submitTexts' => ['Request quote']], 'Goals_RecommendationQuoteRequestLabel', 'Request Quote'],
+            'booking' => [['submitTexts' => ['Book appointment']], 'Goals_RecommendationBookingRequestLabel', 'Book Appointment'],
+            'fallback' => [[], 'Goals_RecommendationFormFallbackLabel', 'form'],
+        ];
     }
 }

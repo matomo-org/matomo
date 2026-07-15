@@ -9,7 +9,7 @@
   <ContentBlock
     v-if="shouldShowRecommendations"
     :content-title="translate('Goals_RecommendedGoals')"
-    feature="Recommended goals"
+    :feature="translate('Goals_RecommendedGoals')"
     class="recommendGoals"
   >
     <p class="recommendGoals-intro">{{ translate('Goals_RecommendedGoalsIntro') }}</p>
