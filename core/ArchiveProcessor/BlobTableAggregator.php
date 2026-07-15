@@ -21,9 +21,9 @@ use Piwik\DataTable\Row;
 final class BlobTableAggregator
 {
     /**
-     * @param iterable<array{name: string, date1: string, date2: string, value: string}> $archiveDataRows
+     * @param iterable<array{idsite: int|string, name: string, date1: string, date2: string, value: string}> $archiveDataRows
      * @param callable(DataTable):void $renameColumnsCallback
-     * @param callable(array{name: string, date1: string, date2: string, value: string}):bool|null $shouldIncludeRow
+     * @param callable(array{idsite: int|string, name: string, date1: string, date2: string, value: string}):bool|null $shouldIncludeRow
      * @param callable(string, int):void|null $onMissingParentTable
      * @return array{0: DataTable, 1: bool}
      */
@@ -35,8 +35,10 @@ final class BlobTableAggregator
         ?callable $shouldIncludeRow = null,
         ?callable $onMissingParentTable = null
     ): array {
-        // maps period & subtable ID in database to the Row instance in $result that subtable should be added to
-        // [$row['date1'].','.$row['date2']][$tableId] = $row in $result
+        // maps site, period & subtable ID in database to the Row instance in $result that subtable should be added to.
+        // the site is part of the key because an archive query can span multiple sites for the same period
+        // (eg for roll-up day archives) and each site's blobs use their own subtable ID space.
+        // [$row['idsite'].'|'.$row['date1'].','.$row['date2']][$tableId] = $row in $result
         $tableIdToResultRowMapping = [];
         $result = new DataTable();
         $hasRows = false;
@@ -51,7 +53,7 @@ final class BlobTableAggregator
             }
 
             $hasRows = true;
-            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            $sitePeriod = self::getSitePeriodKey($archiveDataRow);
             $tableId = $archiveDataRow['name'] === $recordName
                 ? null
                 : self::parseSubtableIdFromBlobName($archiveDataRow['name']);
@@ -63,14 +65,14 @@ final class BlobTableAggregator
 
             if ($tableId === null) {
                 $tableToAddTo = $result;
-            } elseif (empty($tableIdToResultRowMapping[$period][$tableId])) {
+            } elseif (empty($tableIdToResultRowMapping[$sitePeriod][$tableId])) {
                 if ($onMissingParentTable !== null) {
-                    $onMissingParentTable($period, $tableId);
+                    $onMissingParentTable($sitePeriod, $tableId);
                 }
                 Common::destroy($blobTable);
                 continue;
             } else {
-                $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
+                $rowToAddTo = $tableIdToResultRowMapping[$sitePeriod][$tableId];
                 if (!$rowToAddTo->getIdSubDataTable()) {
                     $newTable = new DataTable();
                     if (!empty($columnsAggregationOperation)) {
@@ -93,7 +95,7 @@ final class BlobTableAggregator
 
                 $rowToAddTo = $tableToAddTo->getRowFromLabel($label);
                 if ($rowToAddTo instanceof Row) {
-                    $tableIdToResultRowMapping[$period][$subtableId] = $rowToAddTo;
+                    $tableIdToResultRowMapping[$sitePeriod][$subtableId] = $rowToAddTo;
                 }
             }
 
@@ -101,6 +103,16 @@ final class BlobTableAggregator
         }
 
         return [$result, $hasRows];
+    }
+
+    /**
+     * Returns a key uniquely identifying the site and period an archive data row belongs to.
+     *
+     * @param array{idsite: int|string, date1: string, date2: string} $archiveDataRow
+     */
+    public static function getSitePeriodKey(array $archiveDataRow): string
+    {
+        return $archiveDataRow['idsite'] . '|' . $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
     }
 
     public static function parseSubtableIdFromBlobName(string $recordName): ?int
