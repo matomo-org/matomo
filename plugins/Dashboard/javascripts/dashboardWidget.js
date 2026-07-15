@@ -73,6 +73,11 @@
             if (this.isMaximised) {
                 $('[widgetId="' + this.uniqueId + '"]').dialog('destroy');
             }
+            // Unmount the ReportHeader Vue app mounted into the widget chrome (.widgetTop).
+            // widget:destroy below only tears down .widgetContent, so without this the header's
+            // Vue instance (and any listeners it registers) leaks on every widget removal /
+            // dashboard switch.
+            piwikHelper.destroyVueComponent($('.widgetTop', this.element));
             $('*', this.element).off('.dashboardWidget'); // unbind all events
             $('.widgetContent', this.element).trigger('widget:destroy');
             require('piwik/UI').UIControl.cleanupUnusedControls();
