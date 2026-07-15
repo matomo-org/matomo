@@ -223,6 +223,57 @@ class MixedArchivingAggregationTest extends IntegrationTestCase
         );
     }
 
+    public function testWeekArchiveAggregatingMultipleSitesWorksWithFlatFirstEnabled()
+    {
+        [$childSiteA, $childSiteB, $multiSite] = $this->setUpMultiSiteDayAggregation();
+
+        $config = Config::getInstance();
+        $configKeys = [
+            'datatable_archiving_maximum_rows_actions_flat',
+            'datatable_archiving_maximum_rows_actions',
+            'datatable_archiving_maximum_rows_subtable_actions',
+            'archiving_ranking_query_row_limit',
+        ];
+        $configBackup = $this->backupGeneralConfig($configKeys);
+
+        try {
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 50000;
+            $config->General['datatable_archiving_maximum_rows_actions'] = 50000;
+            $config->General['datatable_archiving_maximum_rows_subtable_actions'] = 50000;
+            $config->General['archiving_ranking_query_row_limit'] = 100000;
+
+            // archive the child sites' days first, so the multi-site week archive can aggregate the
+            // day archives of every site within the week
+            Archive::build($childSiteA, 'day', '2026-03-02')->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+            Archive::build($childSiteB, 'day', '2026-03-02')->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+
+            $archive = Archive::build($multiSite, 'week', '2026-03-02');
+            $flatUrls = $archive->getDataTable(Archiver::PAGE_URLS_FLAT_RECORD_NAME);
+            $hierarchicalUrls = $archive->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+        } finally {
+            $this->restoreGeneralConfig($configBackup);
+        }
+
+        $expectedHits = [
+            '/a' => 3,
+            '/b' => 1,
+            '/c' => 3,
+        ];
+        $actualHits = array_map(function (array $columns) {
+            return (int) $columns[Metrics::INDEX_PAGE_NB_HITS];
+        }, $this->exportFlatTableValues($flatUrls)['rows']);
+        $this->assertSame($expectedHits, $actualHits);
+
+        $this->assertSame(
+            [
+                '["\/a"]' => 3,
+                '["\/b"]' => 1,
+                '["\/c"]' => 3,
+            ],
+            $this->exportHierarchyHits($hierarchicalUrls)
+        );
+    }
+
     public function testDayArchiveAggregatingMultipleSitesAggregatesAllSitesWithLegacyArchiving()
     {
         // nested paths ensure the day archives contain subtables, whose IDs overlap between the sites

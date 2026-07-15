@@ -24,7 +24,9 @@ final class BlobTableAggregator
      * @param iterable<array{idsite: int|string, name: string, date1: string, date2: string, value: string}> $archiveDataRows
      * @param callable(DataTable):void $renameColumnsCallback
      * @param callable(array{idsite: int|string, name: string, date1: string, date2: string, value: string}):bool|null $shouldIncludeRow
-     * @param callable(string, int):void|null $onMissingParentTable
+     * @param callable(string, int):void|null $onMissingParentTable Called with the site/period key of the orphaned
+     *                                                              subtable blob (see {@link self::getSitePeriodKey()})
+     *                                                              and the subtable ID it references.
      * @return array{0: DataTable, 1: bool}
      */
     public static function aggregateBlobRows(

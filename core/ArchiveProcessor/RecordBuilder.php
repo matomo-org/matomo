@@ -433,7 +433,7 @@ abstract class RecordBuilder
         ?array $sitePeriodsToInclude
     ): bool {
         $currentSitePeriod = null;
-        $currentPeriodRows = [];
+        $currentSitePeriodRows = [];
         $hasRows = false;
 
         foreach ($this->querySingleBlobRows($archiveProcessor, $recordName) as $archiveDataRow) {
@@ -444,7 +444,7 @@ abstract class RecordBuilder
 
             if ($currentSitePeriod !== null && $sitePeriod !== $currentSitePeriod) {
                 $hasRows = $this->reduceLegacyHierarchyPeriodRowsIntoFlatTable(
-                    $currentPeriodRows,
+                    $currentSitePeriodRows,
                     $recordName,
                     $flatTable,
                     $legacyReducerCallback,
@@ -453,16 +453,16 @@ abstract class RecordBuilder
                     $columnsAggregationOperation,
                     $columnsToRenameAfterAggregation
                 ) || $hasRows;
-                $currentPeriodRows = [];
+                $currentSitePeriodRows = [];
             }
 
             $currentSitePeriod = $sitePeriod;
-            $currentPeriodRows[] = $archiveDataRow;
+            $currentSitePeriodRows[] = $archiveDataRow;
         }
 
-        if (!empty($currentPeriodRows)) {
+        if (!empty($currentSitePeriodRows)) {
             $hasRows = $this->reduceLegacyHierarchyPeriodRowsIntoFlatTable(
-                $currentPeriodRows,
+                $currentSitePeriodRows,
                 $recordName,
                 $flatTable,
                 $legacyReducerCallback,
@@ -477,7 +477,7 @@ abstract class RecordBuilder
     }
 
     protected function reduceLegacyHierarchyPeriodRowsIntoFlatTable(
-        array $periodRows,
+        array $sitePeriodRows,
         string $recordName,
         DataTable $flatTable,
         callable $legacyReducerCallback,
@@ -487,7 +487,7 @@ abstract class RecordBuilder
         ?array $columnsToRenameAfterAggregation
     ): bool {
         [$legacyHierarchicalTable, $hasRows] = BlobTableAggregator::aggregateBlobRows(
-            $periodRows,
+            $sitePeriodRows,
             $recordName,
             $columnsAggregationOperation,
             function (DataTable $table) use ($archiveProcessor, $columnsToRenameAfterAggregation): void {

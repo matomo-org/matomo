@@ -25,6 +25,14 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
   parameters conflict with the outer request's authentication context aborts the whole bulk request.
 
+### Internal Changes
+* Blob rows processed when aggregating records from other archives are now identified per site and period, so
+  archives that aggregate multiple sites for the same period (for example roll-up day archives) are aggregated
+  correctly.
+  Plugins overriding the protected `RecordBuilder` methods `querySingleBlobRows()` or `getAllSubperiodKeys()`
+  must adapt: blob rows now need to contain an `idsite` field, and subperiod keys are now built per site and
+  period using `BlobTableAggregator::getSitePeriodKey()` instead of the former `date1,date2` format.
+
 ## Matomo 5.12.0
 
 ### JavaScript Tracker

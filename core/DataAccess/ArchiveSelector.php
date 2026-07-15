@@ -618,7 +618,7 @@ class ArchiveSelector
 
         $archiveIdsPerMonth = self::getArchiveIdsByYearMonth($archiveIds);
 
-        $periodsSeen = [];
+        $sitePeriodsSeen = [];
 
         // $yearMonth = "2022-11",
         foreach ($archiveIdsPerMonth as $yearMonth => $ids) {
@@ -650,11 +650,11 @@ class ArchiveSelector
                 }
 
                 // only use the first site/period/blob name combination seen (since we order by ts_archived descending)
-                if (!empty($periodsSeen[$row['idsite']][$period][$recordName])) {
+                if (!empty($sitePeriodsSeen[$row['idsite']][$period][$recordName])) {
                     continue;
                 }
 
-                $periodsSeen[$row['idsite']][$period][$recordName] = true;
+                $sitePeriodsSeen[$row['idsite']][$period][$recordName] = true;
 
                 $row['value'] = ArchiveSelector::uncompress($row['value']);
                 if ($chunk->isRecordNameAChunk($row['name'])) {
@@ -662,6 +662,7 @@ class ArchiveSelector
                     $blobs = Common::safe_unserialize($row['value']);
                     if (!is_array($blobs)) {
                         yield $row;
+                        continue;
                     }
 
                     ksort($blobs);

@@ -620,6 +620,8 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
 
             public function getSubPeriods(): array
             {
+                // unlike the real Parameters::getSubPeriods() this fake does not special-case
+                // day periods, so it must only be used with non-day periods
                 return $this->period->getSubperiods();
             }
 
