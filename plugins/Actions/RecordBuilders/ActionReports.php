@@ -42,6 +42,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
+        ArchivingHelper::reloadConfig();
+
         $pageUrlsRecord = Record::make(Record::TYPE_BLOB, Archiver::PAGE_URLS_RECORD_NAME)
             ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation());
         $pageTitlesRecord = Record::make(Record::TYPE_BLOB, Archiver::PAGE_TITLES_RECORD_NAME)
