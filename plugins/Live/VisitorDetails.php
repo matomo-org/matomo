@@ -315,7 +315,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     }
 
     /**
-     * @return array<int, array<string>>
+     * @return string[]
      */
     private function getAdditionalUrlsForSite(int $idSite): array
     {

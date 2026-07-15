@@ -739,24 +739,6 @@ parameters:
 			path: core/DataTable/Row.php
 
 		-
-			message: '#^Method Piwik\\DataTable\\Row\:\:compareElements\(\) should return bool but returns int\.$#'
-			identifier: return.type
-			count: 4
-			path: core/DataTable/Row.php
-
-		-
-			message: '#^Method Piwik\\DataTable\\Row\:\:compareElements\(\) should return bool but returns int\<\-1, 1\>\.$#'
-			identifier: return.type
-			count: 1
-			path: core/DataTable/Row.php
-
-		-
-			message: '#^Parameter \#3 \$data_comp_func of function array_udiff expects callable\(mixed, mixed\)\: int, array\{''Piwik\\\\DataTable\\\\Row'', ''compareElements''\} given\.$#'
-			identifier: argument.type
-			count: 2
-			path: core/DataTable/Row.php
-
-		-
 			message: '#^Strict comparison using \=\=\= between array\|float\|int and false will always evaluate to false\.$#'
 			identifier: identical.alwaysFalse
 			count: 1
@@ -1721,18 +1703,6 @@ parameters:
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: core/SettingsServer.php
-
-		-
-			message: '#^Method Piwik\\Site\:\:isEcommerceEnabledFor\(\) should return string but returns bool\.$#'
-			identifier: return.type
-			count: 1
-			path: core/Site.php
-
-		-
-			message: '#^Method Piwik\\Site\:\:isSiteSearchEnabledFor\(\) should return string but returns bool\.$#'
-			identifier: return.type
-			count: 1
-			path: core/Site.php
 
 		-
 			message: '#^Parameter \#1 \$array \(list\<int\<1, max\>\>\) to function array_filter does not contain falsy values, the array will always stay the same\.$#'
@@ -3607,12 +3577,6 @@ parameters:
 			path: plugins/ImageGraph/ImageGraph.php
 
 		-
-			message: '#^Method Piwik\\Plugins\\ImageGraph\\StaticGraph\:\:getRenderedImage\(\) should return resource but returns GdImage\.$#'
-			identifier: return.type
-			count: 1
-			path: plugins/ImageGraph/StaticGraph.php
-
-		-
 			message: '#^Negated boolean expression is always false\.$#'
 			identifier: booleanNot.alwaysFalse
 			count: 1
@@ -3855,12 +3819,6 @@ parameters:
 		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
-			count: 1
-			path: plugins/Live/VisitorDetails.php
-
-		-
-			message: '#^Method Piwik\\Plugins\\Live\\VisitorDetails\:\:getAdditionalUrlsForSite\(\) should return array\<int, array\<string\>\> but returns array\<string\>\.$#'
-			identifier: return.type
 			count: 1
 			path: plugins/Live/VisitorDetails.php
 
@@ -4529,12 +4487,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: plugins/VisitTime/RecordBuilders/Base.php
-
-		-
-			message: '#^Function Piwik\\Plugins\\VisitTime\\dayOfWeekFromDate\(\) should return int but returns string\.$#'
-			identifier: return.type
-			count: 1
-			path: plugins/VisitTime/functions.php
 
 		-
 			message: '#^Parameter \#1 \$array \(array\{''nb_uniq_visitors'', ''nb_users'', ''nb_visits'', ''nb_actions'', ''nb_visits_converted'', ''bounce_count'', ''sum_visit_length'', ''max_actions''\}\|array\{''nb_visits'', ''nb_actions'', ''nb_visits_converted'', ''bounce_count'', ''sum_visit_length'', ''max_actions''\}\) of array_values is already a list, call has no effect\.$#'

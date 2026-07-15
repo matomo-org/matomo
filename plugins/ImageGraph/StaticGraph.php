@@ -120,7 +120,7 @@ abstract class StaticGraph extends BaseFactory
     }
 
     /**
-     * @return resource  rendered static graph
+     * @return \GdImage  rendered static graph
      */
     public function getRenderedImage()
     {

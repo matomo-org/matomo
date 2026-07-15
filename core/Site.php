@@ -591,7 +591,7 @@ class Site
      * Returns whether the site with the specified ID is ecommerce enabled or not.
      *
      * @param int $idsite The site ID.
-     * @return string
+     * @return bool
      */
     public static function isEcommerceEnabledFor($idsite)
     {
@@ -602,7 +602,7 @@ class Site
      * Returns whether the site with the specified ID is Site Search enabled.
      *
      * @param int $idsite The site ID.
-     * @return string
+     * @return bool
      */
     public static function isSiteSearchEnabledFor($idsite)
     {

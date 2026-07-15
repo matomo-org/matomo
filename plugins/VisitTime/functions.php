@@ -39,7 +39,7 @@ function getTimeLabel($label)
  * Date instance.
  *
  * @param string $dateStr
- * @return int The day of the week (1-7)
+ * @return string The day of the week (1-7)
  */
 function dayOfWeekFromDate($dateStr)
 {

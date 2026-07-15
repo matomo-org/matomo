@@ -714,7 +714,7 @@ class Row extends \ArrayObject
      *
      * @param mixed $elem1
      * @param mixed $elem2
-     * @return bool
+     * @return int
      * @ignore
      */
     public static function compareElements($elem1, $elem2)
