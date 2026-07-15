@@ -189,8 +189,9 @@ class HomepageAnalyzer
         $pages = [];
         $htmlByUrl = [$startUrl => $homepageHtml];
         $deadline = microtime(true) + self::MAX_CRAWL_SECONDS;
+        $maxPages = max(1, GeneralConfig::getIntegerConfigValue('goal_recommendations_max_crawl_pages', self::MAX_PAGES));
 
-        while (!empty($queue) && count($pages) < self::MAX_PAGES && microtime(true) < $deadline) {
+        while (!empty($queue) && count($pages) < $maxPages && microtime(true) < $deadline) {
             $currentUrl = array_shift($queue);
             if (!is_string($currentUrl) || isset($visited[$currentUrl])) {
                 continue;
