@@ -576,11 +576,6 @@ parameters:
 			path: core/ExceptionHandler.php
 
 		-
-			message: "#^Method Piwik\\\\Filesystem\\:\\:getFileSize\\(\\) should return float\\|null but empty return statement found\\.$#"
-			count: 1
-			path: core/Filesystem.php
-
-		-
 			message: "#^Negated boolean expression is always true\\.$#"
 			count: 1
 			path: core/Filesystem.php
@@ -751,11 +746,6 @@ parameters:
 			path: core/Plugin/LogTablesProvider.php
 
 		-
-			message: "#^Method Piwik\\\\Plugin\\\\LogTablesProvider\\:\\:getLogTable\\(\\) should return Piwik\\\\Tracker\\\\LogTable\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Plugin/LogTablesProvider.php
-
-		-
 			message: "#^Right side of \\|\\| is always false\\.$#"
 			count: 1
 			path: core/Plugin/Manager.php
@@ -814,16 +804,6 @@ parameters:
 			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: core/Plugin/Visualization.php
-
-		-
-			message: "#^Method Piwik\\\\Plugin\\\\WidgetsProvider\\:\\:factory\\(\\) should return Piwik\\\\Widget\\\\Widget\\|null but empty return statement found\\.$#"
-			count: 3
-			path: core/Plugin/WidgetsProvider.php
-
-		-
-			message: "#^Method Piwik\\\\Plugin\\\\WidgetsProvider\\:\\:factory\\(\\) should return Piwik\\\\Widget\\\\Widget\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Plugin/WidgetsProvider.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -1091,21 +1071,6 @@ parameters:
 			path: core/Session/SaveHandler/DbTable.php
 
 		-
-			message: "#^Method Piwik\\\\Session\\\\SessionAuth\\:\\:getLogin\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Session/SessionAuth.php
-
-		-
-			message: "#^Method Piwik\\\\Session\\\\SessionAuth\\:\\:getName\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Session/SessionAuth.php
-
-		-
-			message: "#^Method Piwik\\\\Session\\\\SessionAuth\\:\\:getTokenAuthSecret\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Session/SessionAuth.php
-
-		-
 			message: "#^Parameter \\#2 \\$login of class Piwik\\\\AuthResult constructor expects string, null given\\.$#"
 			count: 1
 			path: core/Session/SessionAuth.php
@@ -1129,11 +1094,6 @@ parameters:
 			message: "#^Property Piwik\\\\Settings\\\\Setting\\:\\:\\$type \\(string\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: core/Settings/Setting.php
-
-		-
-			message: "#^Method Piwik\\\\Settings\\\\Settings\\:\\:getSetting\\(\\) should return Piwik\\\\Settings\\\\Setting\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Settings/Settings.php
 
 		-
 			message: "#^Property Piwik\\\\Settings\\\\Storage\\\\Backend\\\\BaseSettingsTable\\:\\:\\$db \\(Piwik\\\\Db\\\\AdapterInterface\\) in isset\\(\\) is not nullable\\.$#"
@@ -1261,16 +1221,6 @@ parameters:
 			path: core/Tracker/Db.php
 
 		-
-			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Mysqli\\:\\:beginTransaction\\(\\) should return string\\|null but empty return statement found\\.$#"
-			count: 1
-			path: core/Tracker/Db/Mysqli.php
-
-		-
-			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Mysqli\\:\\:beginTransaction\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Tracker/Db/Mysqli.php
-
-		-
 			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Mysqli\\:\\:prepare\\(\\) is unused\\.$#"
 			count: 1
 			path: core/Tracker/Db/Mysqli.php
@@ -1284,16 +1234,6 @@ parameters:
 			message: "#^Variable \\$timer in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 4
 			path: core/Tracker/Db/Mysqli.php
-
-		-
-			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:beginTransaction\\(\\) should return string\\|null but empty return statement found\\.$#"
-			count: 1
-			path: core/Tracker/Db/Pdo/Mysql.php
-
-		-
-			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:beginTransaction\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Tracker/Db/Pdo/Mysql.php
 
 		-
 			message: "#^Method Piwik\\\\Tracker\\\\Db\\\\Pdo\\\\Mysql\\:\\:lastInsertId\\(\\) should return int but returns string\\|false\\.$#"
@@ -1581,11 +1521,6 @@ parameters:
 			path: core/ViewDataTable/Factory.php
 
 		-
-			message: "#^Method Piwik\\\\ViewDataTable\\\\Factory\\:\\:getReport\\(\\) should return Piwik\\\\Plugin\\\\Report\\|null but empty return statement found\\.$#"
-			count: 1
-			path: core/ViewDataTable/Factory.php
-
-		-
 			message: "#^Static property Piwik\\\\ViewDataTable\\\\Factory\\:\\:\\$defaultViewTypes is never read, only written\\.$#"
 			count: 1
 			path: core/ViewDataTable/Factory.php
@@ -1634,16 +1569,6 @@ parameters:
 			message: "#^Property Piwik\\\\ViewDataTable\\\\RequestConfig\\:\\:\\$pivotByColumnLimit \\(int\\) does not accept default value of type false\\.$#"
 			count: 1
 			path: core/ViewDataTable/RequestConfig.php
-
-		-
-			message: "#^Method Piwik\\\\Visualization\\\\Sparkline\\:\\:render\\(\\) should return string\\|null but empty return statement found\\.$#"
-			count: 1
-			path: core/Visualization/Sparkline.php
-
-		-
-			message: "#^Method Piwik\\\\Visualization\\\\Sparkline\\:\\:render\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Visualization/Sparkline.php
 
 		-
 			message: "#^Parameter \\#2 \\$newvalue of function ini_set expects string, int given\\.$#"
@@ -2611,11 +2536,6 @@ parameters:
 			path: plugins/LanguagesManager/TranslationWriter/Writer.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Reports\\\\GetLastVisits\\:\\:buildReportMetadata\\(\\) should return array\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/Live/Reports/GetLastVisits.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: plugins/Live/VisitorDetails.php
@@ -2894,11 +2814,6 @@ parameters:
 			message: "#^Variable \\$id_val might not be defined\\.$#"
 			count: 1
 			path: plugins/SitesManager/Model.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\SitesManager\\\\SitesManager\\:\\:getTimezoneFromWebsite\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/SitesManager/SitesManager.php
 
 		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
