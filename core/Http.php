@@ -79,10 +79,12 @@ class Http
      * @param string $httpPassword HTTP Auth password
      * @param bool $checkHostIsAllowed whether we should check if the target host is allowed or not. This should only
      *                                 be set to false when using a hardcoded URL.
-     * @param bool $validateEgressIp when true, the request is served over the SSRF-safe path: the resolved host must
-     *                               be a public IP, every redirect hop is re-validated, and the connection is pinned to
-     *                               the validated address. Enable this whenever the URL is derived from untrusted input
-     *                               (e.g. a site's own configured URL). Requires the curl transport and no forward proxy.
+     * @param bool $validateEgressIp when true, serves the request over the SSRF-safe path: the resolved host must be a
+     *                               public IP, every redirect hop is re-validated and the connection pinned to it. Use
+     *                               this whenever the URL comes from untrusted input (e.g. a site's own configured URL).
+     *                               Requires curl, bypasses any configured or environment proxy, retains the method and
+     *                               body across hops, drops credentials and caller headers on an origin change, and does
+     *                               not follow redirects when downloading to a file.
      *
      * @return string|array|bool  If `$destinationPath` is not specified the HTTP response is returned on success. `false`
      *                            is returned on failure.
@@ -212,9 +214,13 @@ class Http
      * @param string|null $httpPassword HTTP Auth password
      * @param array|string|null $requestBody If $httpMethod is 'POST' this may accept an array of variables or a string that needs to be posted
      * @param array $additionalHeaders List of additional headers to set for the request
-     * @param bool|null $forcePost If true, forces POST redirects to remain POST requests (curl only).
+     * @param bool|null $forcePost If true, forces POST redirects to remain POST requests (curl only). Ignored on the
+     *                             `$validateEgressIp` path, where the method and body are always retained across hops.
      * @param bool $checkHostIsAllowed whether we should check if the target host is allowed or not. This should only
      *                                 be set to false when using a hardcoded URL.
+     * @param bool $validateEgressIp when true, the request is served over the SSRF-safe path: public-IP validation,
+     *                               manual per-hop redirect re-validation and connection pinning. See
+     *                               {@see sendHttpRequest()} for the full contract.
      *
      * @return ($destinationPath is null ? ($getExtendedInfo is true ? array{status: ?int, headers?: ?array, data?: ?string} : string|false) : bool)
      */
@@ -797,6 +803,8 @@ class Http
                 //      pinning/redirect wiring should probably be re-implemented against it (e.g. Guzzle's
                 //      curl.options + redirect middleware). EgressHostValidator is reusable as-is.
                 @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+                // Disable any environment proxy (http_proxy etc.) so it cannot re-resolve the host and bypass the pin.
+                @curl_setopt($ch, CURLOPT_PROXY, '');
                 if ($pinnedResolveEntry !== null) {
                     @curl_setopt($ch, CURLOPT_RESOLVE, array($pinnedResolveEntry));
                 }
@@ -875,14 +883,28 @@ class Http
             @curl_close($ch);
             unset($ch);
 
-            // SSRF-safe path follows redirects here instead of via curl, so the target of each
-            // hop passes host validation and IP pinning again before we connect to it.
-            if ($validateEgressIp && $status >= 300 && $status < 400 && !is_resource($file)) {
+            // SSRF-safe path follows redirects manually so each hop is re-validated and re-pinned.
+            if ($validateEgressIp && $status >= 300 && $status < 400 && $status !== 304) {
+                if (is_resource($file)) {
+                    // CURLOPT_HEADER is off for file downloads, so the Location cannot be re-validated: fail closed.
+                    @fclose($file);
+                    throw new Exception('SSRF-safe HTTP requests cannot follow redirects when downloading to a file.');
+                }
+
                 $location = $headers['Location'] ?? null;
                 if (is_string($location) && $location !== '') {
+                    $redirectUrl = self::resolveRedirectUrl($aUrl, trim($location));
+
+                    // On an origin change, drop credentials and caller headers so no secret leaks cross-origin.
+                    if (!self::urlsSameOrigin($aUrl, $redirectUrl)) {
+                        $httpUsername = null;
+                        $httpPassword = null;
+                        $additionalHeaders = array();
+                    }
+
                     return self::sendHttpRequestBy(
                         $method,
-                        self::resolveRedirectUrl($aUrl, trim($location)),
+                        $redirectUrl,
                         $timeout,
                         $userAgent,
                         $destinationPath,
@@ -1204,9 +1226,37 @@ class Http
     }
 
     /**
+     * Whether two URLs share the same origin (scheme, host and effective port). Fails closed:
+     * a parse failure or missing component counts as a different origin.
+     */
+    private static function urlsSameOrigin(string $urlA, string $urlB): bool
+    {
+        $a = @parse_url($urlA);
+        $b = @parse_url($urlB);
+
+        if (!is_array($a) || !is_array($b) || !isset($a['host'], $b['host'], $a['scheme'], $b['scheme'])) {
+            return false;
+        }
+
+        $schemeA = strtolower($a['scheme']);
+        $schemeB = strtolower($b['scheme']);
+        if ($schemeA !== $schemeB || strcasecmp($a['host'], $b['host']) !== 0) {
+            return false;
+        }
+
+        $defaultPort = $schemeA === 'https' ? 443 : 80;
+        $portA = isset($a['port']) ? (int) $a['port'] : $defaultPort;
+        $portB = isset($b['port']) ? (int) $b['port'] : $defaultPort;
+
+        return $portA === $portB;
+    }
+
+    /**
      * Resolves a redirect `Location` (absolute, protocol-relative, absolute-path, or relative)
-     * against the URL it was returned from, for the SSRF-safe path's manual redirect handling.
-     * Fails with an exception when the base URL cannot provide a scheme and host.
+     * against the URL it was returned from. Throws when the base URL lacks a scheme and host.
+     *
+     * Not full RFC 3986 resolution: query-only references (`?page=2`) resolve against the base
+     * directory and dot segments are not normalised. Both stay on the same, re-validated host.
      */
     private static function resolveRedirectUrl(string $baseUrl, string $location): string
     {
@@ -1246,7 +1296,7 @@ class Http
      */
     private static function replaceUrlHost(array $parts, string $newHost): string
     {
-        // @todoyes PHP 8.1 min (Matomo 6): strpos($newHost, ':') !== false can become str_contains().
+        // @todo PHP 8.1 min (Matomo 6): strpos($newHost, ':') !== false can become str_contains().
         $scheme = isset($parts['scheme']) ? $parts['scheme'] . '://' : '';
         $user = (string) ($parts['user'] ?? '');
         $pass = isset($parts['pass']) ? ':' . $parts['pass'] : '';
