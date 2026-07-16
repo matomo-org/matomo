@@ -374,7 +374,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
 					LEFT JOIN `" . Common::prefixTable('log_page_view_time') . "` AS log_page_view_time
 					ON  log_page_view_time.idvisit = log_link_visit_action.idvisit
-					AND log_page_view_time.idpageview = log_link_visit_action.idpageview
+					AND log_page_view_time.idpageview COLLATE utf8mb4_bin = log_link_visit_action.idpageview
 					" . implode(" ", $customJoins) . "
 				WHERE log_link_visit_action.idvisit IN ('" . implode("','", $idVisits) . "')
 				ORDER BY log_link_visit_action.idvisit, log_link_visit_action.server_time, log_link_visit_action.idlink_va

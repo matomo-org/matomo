@@ -872,7 +872,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                  AND NOT EXISTS (
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
                          WHERE pvt.idvisit = log_link_visit_action.idvisit
-                           AND pvt.idpageview = log_link_visit_action.idpageview
+                           AND pvt.idpageview COLLATE utf8mb4_bin = log_link_visit_action.idpageview
                      )"
             . $this->getWhereClauseActionIsNotEvent();
 
