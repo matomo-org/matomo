@@ -135,7 +135,7 @@ class Login extends \Piwik\Plugin
     /**
      * @return void
      */
-    public function onFailedLoginRecordAttempt()
+    public function onFailedLoginRecordAttempt($login = null)
     {
         // we're always making sure on any success or failed login to check if user is actually allowed to log in
         // in case for some reason it forgot to run the check
@@ -147,7 +147,8 @@ class Login extends \Piwik\Plugin
         // time frame
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if ($bruteForce->isEnabled() && !$this->hasAddedFailedAttempt) {
-            $login = $this->getUsernameUsedInPasswordLogin();
+            // prefer the login the attempt was made for; otherwise derive it from the request
+            $login = empty($login) ? $this->getUsernameUsedInPasswordLogin() : $this->normalizeUserLogin($login);
             $bruteForce->addFailedAttempt(IP::getIpFromHeader(), $login);
             // we make sure to log max one failed login attempt per request... otherwise we might log 3 or many more
             // if eg API is called etc.

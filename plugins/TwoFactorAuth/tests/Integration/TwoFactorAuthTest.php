@@ -85,6 +85,9 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $this->bruteForceDetection->deleteAll();
 
         unset($_GET['authCode']);
+
+        // default to an unauthenticated request; tests that need a specific user set it explicitly
+        $this->setCurrentUser('anonymous');
     }
 
     public function tearDown(): void
@@ -339,6 +342,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
     public function testOnDeleteUserRemovesAllRecoveryCodesWhenUsingTwoFa()
     {
+        Access::getInstance()->setSuperUserAccess(true);
         $this->assertNotEmpty($this->dao->getAllRecoveryCodesForLogin($this->userWith2Fa));
         Request::processRequest('UsersManager.deleteUser', array(
             'userLogin' => $this->userWith2Fa,
@@ -348,6 +352,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
     public function testOnDeleteUserDoesNotFailToDeleteUserNotUsingTwoFa()
     {
+        Access::getInstance()->setSuperUserAccess(true);
         $this->expectNotToPerformAssertions();
         Request::processRequest('UsersManager.deleteUser', array(
             'userLogin' => $this->userWithout2Fa,
