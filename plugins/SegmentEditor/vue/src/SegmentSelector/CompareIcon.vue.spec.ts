@@ -7,8 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const CompareIcon = require('./CompareIcon.vue').default;
+import CompareIcon from './CompareIcon.vue';
 
 describe('SegmentEditor/CompareIcon.vue', () => {
   it('renders transparent fills until the segment is actively compared', async () => {

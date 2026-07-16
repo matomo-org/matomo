@@ -8,7 +8,7 @@
 import { mount } from '@vue/test-utils';
 import PeriodOptions from './PeriodOptions.vue';
 
-jest.mock('../translate', () => ({
+vi.mock('../translate', () => ({
   translate: (key: string) => {
     const messages: Record<string, string> = {
       Intl_PeriodDay: 'day',

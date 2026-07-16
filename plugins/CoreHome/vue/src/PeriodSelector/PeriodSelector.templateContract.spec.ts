@@ -44,7 +44,7 @@ describe('PeriodSelector template contract', () => {
 
   beforeEach(() => {
     if (!window.initTopControls) {
-      window.initTopControls = jest.fn();
+      window.initTopControls = vi.fn();
     }
 
     setUrl(

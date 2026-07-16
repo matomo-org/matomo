@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
+    "isolatedModules": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
@@ -17,7 +18,6 @@
       "./plugins/CoreVue/types/index.d.ts"
     ],
     "types": [
-      "webpack-env",
       "jquery",
       "jqueryui",
       "materialize-css",

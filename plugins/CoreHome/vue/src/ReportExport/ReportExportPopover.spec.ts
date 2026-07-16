@@ -4,16 +4,18 @@
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+import type { Mock } from 'vitest';
 import { mount } from '@vue/test-utils';
 import ReportExportPopover from './ReportExportPopover.vue';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
-jest.mock('../translate', () => ({
+vi.mock('../translate', () => ({
   translate: (key: string) => key,
 }));
 
-jest.mock('../Matomo/Matomo', () => ({
+vi.mock('../Matomo/Matomo', () => ({
   __esModule: true,
   default: {
     config: {
@@ -21,23 +23,23 @@ jest.mock('../Matomo/Matomo', () => ({
     },
     language: 'en',
     token_auth: 'test-token',
-    postEvent: jest.fn(),
+    postEvent: vi.fn(),
   },
 }));
 
-jest.mock('../MatomoUrl/MatomoUrl', () => ({
+vi.mock('../MatomoUrl/MatomoUrl', () => ({
   __esModule: true,
   default: {
-    stringify: jest.fn(() => 'encoded=params'),
+    stringify: vi.fn(() => 'encoded=params'),
   },
 }));
 
-jest.mock('../SelectOnFocus/SelectOnFocus', () => ({
+vi.mock('../SelectOnFocus/SelectOnFocus', () => ({
   __esModule: true,
   default: {},
 }));
 
-jest.mock('../useExternalPluginComponent', () => ({
+vi.mock('../useExternalPluginComponent', () => ({
   __esModule: true,
   default: () => ({
     name: 'FieldStub',
@@ -107,7 +109,7 @@ function createWrapper(extraProps: Record<string, unknown> = {}) {
 
 describe('CoreHome/ReportExportPopover', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should generate processed export URL params and post the mounted event', () => {
@@ -117,7 +119,7 @@ describe('CoreHome/ReportExportPopover', () => {
     });
 
     const exportLink = wrapper.vm.exportLink as string;
-    const stringifyMock = MatomoUrl.stringify as jest.Mock;
+    const stringifyMock = MatomoUrl.stringify as Mock;
     const calls = stringifyMock.mock.calls.map((call) => call[0]);
     const processedCall = calls.find(
       (params) => params.method === 'API.getProcessedReport' && params.force_api_session === 1,
@@ -142,7 +144,7 @@ describe('CoreHome/ReportExportPopover', () => {
     });
 
     const exportLinkWithoutToken = wrapper.vm.exportLinkWithoutToken as string;
-    const stringifyMock = MatomoUrl.stringify as jest.Mock;
+    const stringifyMock = MatomoUrl.stringify as Mock;
     const calls = stringifyMock.mock.calls.map((call) => call[0]);
     const withoutTokenCall = calls.find(
       (params) => params.token_auth === 'ENTER_YOUR_TOKEN_AUTH_HERE',
@@ -185,7 +187,7 @@ describe('CoreHome/ReportExportPopover', () => {
     const exportLink = wrapper.vm.exportLink as string;
     expect(exportLink).toContain('encoded=params');
 
-    const stringifyMock = MatomoUrl.stringify as jest.Mock;
+    const stringifyMock = MatomoUrl.stringify as Mock;
     const calls = stringifyMock.mock.calls.map((call) => call[0]);
     const exportCall = calls.find(
       (params) => params.method === 'Actions.getPageUrls' && params.format === 'TSV',
@@ -215,7 +217,7 @@ describe('CoreHome/ReportExportPopover', () => {
       apiMethod: 'Referrers.getWebsites',
     });
 
-    const stringifyMock = MatomoUrl.stringify as jest.Mock;
+    const stringifyMock = MatomoUrl.stringify as Mock;
     const calls = stringifyMock.mock.calls.map((call) => call[0]);
     const exportCall = calls.find(
       (params) => params.method === 'Referrers.getWebsites' && params.format === 'CSV',

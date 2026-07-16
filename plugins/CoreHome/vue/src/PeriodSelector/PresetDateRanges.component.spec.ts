@@ -9,7 +9,7 @@ import { mount } from '@vue/test-utils';
 import { format } from '../Periods';
 import PresetDateRanges from './PresetDateRanges.vue';
 
-jest.mock('../translate', () => ({
+vi.mock('../translate', () => ({
   translate: (key: string) => {
     const messages: Record<string, string> = {
       General_DoubleClickToChangePeriod: 'Double click to change period',

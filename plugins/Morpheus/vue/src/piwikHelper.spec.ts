@@ -15,16 +15,16 @@ describe('piwikHelper', () => {
 
   it('should pass a component name to createVueApp for vue-entry components', () => {
     const app = {
-      component: jest.fn(),
-      mount: jest.fn(() => ({})),
-      unmount: jest.fn(),
+      component: vi.fn(),
+      mount: vi.fn(() => ({})),
+      unmount: vi.fn(),
     };
 
-    const createVueApp = jest.fn(() => app);
+    const createVueApp = vi.fn(() => app);
 
     (window as any).CoreHome = {
       createVueApp,
-      useExternalPluginComponent: jest.fn(),
+      useExternalPluginComponent: vi.fn(),
     };
     (window as any).MyPlugin = {
       MyComponent: {},

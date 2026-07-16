@@ -85,7 +85,7 @@ describe('CoreHome/SitesStore', () => {
 
   beforeEach(() => {
     // Mock AjaxHelper.fetch to return a collection of sites based on the provided filters
-    jest.spyOn(AjaxHelper, 'fetch').mockImplementation((params) => {
+    vi.spyOn(AjaxHelper, 'fetch').mockImplementation((params) => {
       if (params.method !== 'SitesManager.getSitesWithMinimumAccess') {
         return Promise.resolve([]);
       }

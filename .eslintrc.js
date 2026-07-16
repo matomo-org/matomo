@@ -42,5 +42,23 @@ module.exports = {
     'vue/component-tags-order': ['warn', {
       order: ['template', 'script', 'style'],
     }],
+
+    // Plugin Vue libraries are referenced by their plain name (e.g. `from 'CoreHome'`) and resolved
+    // at runtime against UMD globals; the eslint import resolver cannot follow that scheme, and
+    // TypeScript/the build already validate these imports.
+    'import/no-unresolved': 'off',
+    // Matomo intentionally uses single-word component names (e.g. Alert, Field) for its libraries.
+    'vue/multi-word-component-names': 'off',
   },
+  overrides: [
+    {
+      // Vue/Vitest specs intentionally place component imports after vi.mock() calls and import
+      // test utilities that live in devDependencies.
+      files: ['**/*.spec.ts', '**/*.spec.js'],
+      rules: {
+        'import/first': 'off',
+        'import/no-extraneous-dependencies': 'off',
+      },
+    },
+  ],
 };

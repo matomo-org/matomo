@@ -5,6 +5,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import type { Mock } from 'vitest';
+
 import { mount } from '@vue/test-utils';
 import { defineComponent } from 'vue';
 
@@ -16,10 +18,10 @@ type MockStore = {
       isInitialized: boolean;
     };
   };
-  getSelectorViewModel: jest.Mock;
-  notifyChange: jest.Mock;
-  onStarChange: jest.Mock;
-  toggleStarredSegmentById: jest.Mock;
+  getSelectorViewModel: Mock;
+  notifyChange: Mock;
+  onStarChange: Mock;
+  toggleStarredSegmentById: Mock;
 };
 
 function createViewModel() {
@@ -122,19 +124,19 @@ function createLoggedInReadOnlyViewModel() {
   };
 }
 
-const mockStore: MockStore = {
+const mockStore: MockStore = vi.hoisted(() => ({
   state: {
     value: {
       isInitialized: true,
     },
   },
-  getSelectorViewModel: jest.fn((searchValue = '') => createViewModelForSearch(searchValue)),
-  notifyChange: jest.fn(),
-  onStarChange: jest.fn(() => jest.fn()),
-  toggleStarredSegmentById: jest.fn(),
-};
+  getSelectorViewModel: vi.fn((searchValue = '') => createViewModelForSearch(searchValue)),
+  notifyChange: vi.fn(),
+  onStarChange: vi.fn(() => vi.fn()),
+  toggleStarredSegmentById: vi.fn(),
+}));
 
-jest.mock('CoreHome', () => ({
+vi.mock('CoreHome', () => ({
   SearchInput: defineComponent({
     name: 'SearchInput',
     props: {
@@ -165,15 +167,14 @@ jest.mock('CoreHome', () => ({
     `,
   }),
   translate: (key: string) => key,
-}), { virtual: true });
+}));
 
-jest.mock('./SegmentSelector.store', () => ({
+vi.mock('./SegmentSelector.store', () => ({
   __esModule: true,
   default: mockStore,
 }));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const SegmentSelector = require('./SegmentSelector.vue').default;
+import SegmentSelector from './SegmentSelector.vue';
 
 function mountComponent() {
   const panelContainer = document.createElement('div');
@@ -194,14 +195,14 @@ function mountComponent() {
 
 describe('SegmentEditor/SegmentSelector.vue', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockStore.state.value.isInitialized = true;
     mockStore.getSelectorViewModel.mockImplementation((searchValue = '') => createViewModelForSearch(searchValue));
-    mockStore.onStarChange.mockImplementation(() => jest.fn());
+    mockStore.onStarChange.mockImplementation(() => vi.fn());
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
     document.body.innerHTML = '';
   });
 
@@ -240,7 +241,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
 
   it('dispatches a segment selection event when a segment is clicked', async () => {
     const { wrapper, panelContainer } = mountComponent();
-    const segmentSelectListener = jest.fn();
+    const segmentSelectListener = vi.fn();
     panelContainer.addEventListener('SegmentEditor:select-segment', segmentSelectListener);
 
     await wrapper.find('.segname').trigger('click');
@@ -252,7 +253,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
   });
 
   it('debounces search input changes and clears the filter cleanly', async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const { wrapper } = mountComponent();
 
     await wrapper.find('input.searchInputField').setValue('ca');
@@ -260,7 +261,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
     expect((wrapper.vm as PlainObject).searchInput).toBe('ca');
     expect(mockStore.notifyChange).not.toHaveBeenCalled();
 
-    jest.advanceTimersByTime(500);
+    vi.advanceTimersByTime(500);
     await wrapper.vm.$nextTick();
 
     expect(mockStore.notifyChange).toHaveBeenCalledTimes(1);
@@ -282,7 +283,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
 
   it('dispatches an add-segment event when the add button is clicked', async () => {
     const { wrapper, panelContainer } = mountComponent();
-    const openAddListener = jest.fn();
+    const openAddListener = vi.fn();
     panelContainer.addEventListener('SegmentEditor:open-add-segment', openAddListener);
 
     await wrapper.find('.add_new_segment').trigger('click');
@@ -318,7 +319,7 @@ describe('SegmentEditor/SegmentSelector.vue', () => {
 
   it('dispatches a toggle-panel event when the title is clicked', async () => {
     const { wrapper, panelContainer } = mountComponent();
-    const togglePanelListener = jest.fn();
+    const togglePanelListener = vi.fn();
     panelContainer.addEventListener('SegmentEditor:toggle-panel', togglePanelListener);
 
     await wrapper.find('a.title').trigger('click');

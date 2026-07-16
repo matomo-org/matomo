@@ -5,16 +5,18 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { ref } from 'vue';
 import { shallowMount } from '@vue/test-utils';
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
-const mockMatomo = { on: jest.fn(), off: jest.fn() };
+// mockWidgets stands in for a Vue ref; tests assign mockWidgets.value before mounting, so a plain
+// holder is sufficient (and can be created in vi.hoisted, which runs before imports).
+const { mockMatomo, mockWidgets } = vi.hoisted(() => ({
+  mockMatomo: { on: vi.fn(), off: vi.fn() },
+  mockWidgets: { value: {} as Record<string, unknown[]> },
+}));
 
-const mockWidgets = ref<Record<string, unknown[]>>({});
-
-jest.mock('CoreHome', () => ({
+vi.mock('CoreHome', () => ({
   Matomo: mockMatomo,
   translate: (key: string) => key,
   WidgetsStore: {
@@ -23,10 +25,9 @@ jest.mock('CoreHome', () => ({
   WidgetType: {},
   MatomoModal: { template: '<div><slot /></div>' },
   Widget: { template: '<div />' },
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const AddWidgetModal = require('./AddWidgetModal.vue').default;
+import AddWidgetModal from './AddWidgetModal.vue';
 
 describe('Dashboard/AddWidgetModal', () => {
   function mountComponent() {
@@ -38,7 +39,7 @@ describe('Dashboard/AddWidgetModal', () => {
   }
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockWidgets.value = {};
   });
 
@@ -116,7 +117,7 @@ describe('Dashboard/AddWidgetModal', () => {
 
   it('closes without emitting select when the widget is missing from the store', () => {
     const wrapper = mountComponent();
-    const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation();
 
     (wrapper.vm as any).onSelect('Widget.missing');
 
