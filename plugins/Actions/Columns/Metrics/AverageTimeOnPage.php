@@ -35,6 +35,7 @@ class AverageTimeOnPage extends ProcessedMetric
             PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT,
             'nb_hits_with_time_spent',
         )));
+        return true;
     }
 
     public function compute(Row $row)
