@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Monolog\Handler;
 
 use Monolog\Handler\AbstractHandler;
+use Monolog\LogRecord;
 
 class LogCaptureHandler extends AbstractHandler
 {
@@ -18,7 +19,7 @@ class LogCaptureHandler extends AbstractHandler
      */
     private $allLogs;
 
-    public function handle(array $record)
+    public function handle(LogRecord $record): bool
     {
         $this->allLogs[] = $record;
 

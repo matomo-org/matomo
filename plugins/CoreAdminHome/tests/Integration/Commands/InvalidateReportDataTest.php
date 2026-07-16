@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
 use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\LogRecord;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Db;
@@ -1074,7 +1075,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             self::$captureHandler = new class extends AbstractProcessingHandler {
                 public $messages = [];
 
-                protected function write(array $record)
+                protected function write(LogRecord $record): void
                 {
                     $this->messages[] = (string)$record['formatted'];
                 }

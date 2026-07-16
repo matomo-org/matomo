@@ -26,7 +26,7 @@ class SettingsMetadata
     /**
      * @param Settings[]  $settingsInstances
      * @param array $settingValues   array('pluginName' => array('settingName' => 'settingValue'))
-     * @throws Exception;
+     * @throws Exception
      */
     public function setPluginSettings($settingsInstances, $settingValues)
     {

@@ -124,7 +124,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertOutputContainsConfigFileMissingError($fileName, $output)
     {
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "/.*The configuration file \\{.*\\/" . preg_quote($fileName) . "\\} has not been found or could not be read\\..*/",
             (string) $output,
             "Output did not contain the expected exception for $fileName --- Output was --- $output"
@@ -133,8 +133,8 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertOutputContainsBadConfigFileError($output)
     {
-        $this->assertRegExp("/Unable to read INI file \\{.*\\/matomo.php\\}:/", $output);
-        $this->assertRegExp("/Your host may have disabled parse_ini_file\\(\\)/", $output);
+        $this->assertMatchesRegularExpression("/Unable to read INI file \\{.*\\/matomo.php\\}:/", $output);
+        $this->assertMatchesRegularExpression("/Your host may have disabled parse_ini_file\\(\\)/", $output);
     }
 
     private function assertInstallationProcessStarted($output)

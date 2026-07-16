@@ -165,7 +165,7 @@ class Request
      *
      * @param $module
      * @param $action
-     * @return array( $module, $action )
+     * @return array [$module, $action]
      * @ignore
      */
     public static function getRenamedModuleAndAction($module, $action)

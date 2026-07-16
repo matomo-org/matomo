@@ -63,7 +63,7 @@ class UIControl extends \Piwik\View
     /**
      * HTML Attributes for the root element
      *
-     * @var string
+     * @var array
      */
     public $htmlAttributes = array();
 

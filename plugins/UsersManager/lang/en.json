@@ -43,6 +43,8 @@
         "EmailYourAdministrator": "%1$sE-mail your administrator about this problem%2$s.",
         "EnterUsernameOrEmail": "Enter a username or email address",
         "ExceptionAccessValues": "The parameter access must have one of the following values: [ %1$s ], '%2$s' given.",
+        "ExceptionCreateTokenAuthForOtherUser": "You can only create an authentication token for your own account.",
+        "ExceptionCreateTokenAuthWithinNestedRequest": "This method cannot be called from within another API request.",
         "ExceptionNoRoleSet": "No role is set but one of these needs to be set: %s",
         "ExceptionMultipleRoleSet": "Only one role can be set but multiple have been set. Use only one of: %s",
         "ExceptionAnonymousNoCapabilities": "You cannot grant any capability to the 'anonymous' user.",

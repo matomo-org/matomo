@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Formatter;
 
-use DateTime;
+use DateTimeImmutable;
+use Monolog\Level;
+use Monolog\LogRecord;
 use Piwik\Plugins\Monolog\Formatter\LineMessageFormatter;
 
 /**
@@ -22,14 +24,7 @@ class LineMessageFormatterTest extends \PHPUnit\Framework\TestCase
     {
         $formatter = new LineMessageFormatter('%level% %tag% %datetime% %message%');
 
-        $record = array(
-            'message'    => 'Hello world',
-            'datetime'   => DateTime::createFromFormat('U', 0),
-            'level_name' => 'ERROR',
-            'extra'      => array(
-                'class' => 'Foo',
-            ),
-        );
+        $record = $this->makeRecord('Hello world', array('class' => 'Foo'));
 
         $formatted = "ERROR Foo 1970-01-01 00:00:00 GMT+0000 Hello world\n";
 
@@ -40,14 +35,7 @@ class LineMessageFormatterTest extends \PHPUnit\Framework\TestCase
     {
         $formatter = new LineMessageFormatter('%message%');
 
-        $record = array(
-            'message'    => 'Hello world',
-            'datetime'   => DateTime::createFromFormat('U', 0),
-            'level_name' => 'ERROR',
-            'extra'      => array(
-                'request_id' => 'request id',
-            ),
-        );
+        $record = $this->makeRecord('Hello world', array('request_id' => 'request id'));
 
         $formatted = "[request id] Hello world\n";
 
@@ -58,11 +46,7 @@ class LineMessageFormatterTest extends \PHPUnit\Framework\TestCase
     {
         $formatter = new LineMessageFormatter('%level% %message%');
 
-        $record = array(
-            'message'    => "Hello world\ntest\x0Atest",
-            'datetime'   => DateTime::createFromFormat('U', 0),
-            'level_name' => 'ERROR',
-        );
+        $record = $this->makeRecord("Hello world\ntest\x0Atest");
 
         $formatted = <<<LOG
 ERROR Hello world
@@ -78,12 +62,7 @@ LOG;
     {
         $formatter = new LineMessageFormatter('%level% %message%', $allowInlineLineBreaks = false);
 
-        $record = array(
-            'message'    => "Hello world\ntest\ntest",
-            'datetime'   => DateTime::createFromFormat('U', 0),
-            'level_name' => 'ERROR',
-            'extra'      => array('request_id' => '1234'),
-        );
+        $record = $this->makeRecord("Hello world\ntest\ntest", array('request_id' => '1234'));
 
         $formatted = <<<LOG
 ERROR [1234] Hello world
@@ -99,11 +78,7 @@ LOG;
     {
         $formatter = new LineMessageFormatter('%level% %message%', $allowInlineLineBreaks = false);
 
-        $record = array(
-            'message'    => "Hello world\x1Btest\ntesttest",
-            'datetime'   => DateTime::createFromFormat('U', 0),
-            'level_name' => 'ERROR',
-        );
+        $record = $this->makeRecord("Hello world\x1Btest\ntest\x1Btest");
 
         $formatted = <<<LOG
 ERROR Hello world\\033test
@@ -112,5 +87,17 @@ ERROR test\\033test
 LOG;
 
         $this->assertEquals($formatted, $formatter->format($record));
+    }
+
+    private function makeRecord(string $message, array $extra = array()): LogRecord
+    {
+        return new LogRecord(
+            DateTimeImmutable::createFromFormat('U', '0'),
+            'logger',
+            Level::Error,
+            $message,
+            array(),
+            $extra
+        );
     }
 }

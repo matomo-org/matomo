@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
 
+use DateTimeImmutable;
+use Monolog\Level;
+use Monolog\LogRecord;
 use Piwik\Plugins\Monolog\Processor\SprintfProcessor;
 
 /**
@@ -19,36 +22,36 @@ class SprintfProcessorTest extends \PHPUnit\Framework\TestCase
 {
     public function testItShouldReplacePlaceholders()
     {
-        $result = $this->process(array(
-            'message' => 'Test %s and %s.',
-            'context' => array('here', 'there'),
-        ));
+        $result = $this->process('Test %s and %s.', array('here', 'there'));
 
         $this->assertEquals('Test here and there.', $result['message']);
     }
 
     public function testItShouldIgnoreStringsWithoutPlaceholders()
     {
-        $result = $this->process(array(
-            'message' => 'Hello world!',
-            'context' => array('foo', 'bar'),
-        ));
+        $result = $this->process('Hello world!', array('foo', 'bar'));
 
         $this->assertEquals('Hello world!', $result['message']);
     }
 
     public function testItShouldSerializeArrays()
     {
-        $result = $this->process(array(
-            'message' => 'Error in the following modules: %s',
-            'context' => array(array('import', 'export')),
-        ));
+        $result = $this->process('Error in the following modules: %s', array(array('import', 'export')));
 
         $this->assertEquals('Error in the following modules: ["import","export"]', $result['message']);
     }
 
-    private function process($record)
+    private function process(string $message, array $context)
     {
+        $record = new LogRecord(
+            new DateTimeImmutable(),
+            'logger',
+            Level::Debug,
+            $message,
+            $context,
+            array()
+        );
+
         $processor = new SprintfProcessor();
         return $processor($record);
     }

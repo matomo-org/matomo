@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Monolog\Processor;
 
+use Monolog\LogRecord;
 use Piwik\Common;
 use Piwik\ErrorHandler;
 use Piwik\Exception\InvalidRequestParameterException;
@@ -28,7 +29,7 @@ class ExceptionToTextProcessor
         $this->forcePrintBacktrace = $forcePrintBacktrace;
     }
 
-    public function __invoke(array $record)
+    public function __invoke(LogRecord $record): LogRecord
     {
         if (!$this->contextContainsException($record)) {
             return $record;
@@ -52,14 +53,14 @@ class ExceptionToTextProcessor
             !isset($record['message'])
             || strpos($record['message'], '{exception}') === false
         ) {
-            $record['message'] = $exceptionStr;
+            $message = $exceptionStr;
         } else {
-            $record['message'] = str_replace('{exception}', $exceptionStr, ExceptionHandler::replaceSensitiveValues($record['message']));
+            $message = str_replace('{exception}', $exceptionStr, ExceptionHandler::replaceSensitiveValues($record['message']));
         }
 
-        $record['message'] .= ' [' . $this->getErrorContext() . ']';
+        $message .= ' [' . $this->getErrorContext() . ']';
 
-        return $record;
+        return $record->with(message: $message);
     }
 
     private function contextContainsException($record)

@@ -275,7 +275,7 @@ class RequestConfig
     /**
      * Dimension ID to pivot by. See {@link Piwik\DataTable\Filter\PivotByDimension} for more info.
      *
-     * @var string
+     * @var string|false
      */
     public $pivotBy = false;
 
@@ -283,7 +283,7 @@ class RequestConfig
      * The column to display in a pivot table, eg, `'nb_visits'`. See {@link Piwik\DataTable\Filter\PivotByDimension}
      * for more info.
      *
-     * @var string
+     * @var string|false
      */
     public $pivotByColumn = false;
 
@@ -291,7 +291,7 @@ class RequestConfig
      * The maximum number of columns to display in a pivot table. See {@link Piwik\DataTable\Filter\PivotByDimension}
      * for more info.
      *
-     * @var int
+     * @var int|false
      */
     public $pivotByColumnLimit = false;
 

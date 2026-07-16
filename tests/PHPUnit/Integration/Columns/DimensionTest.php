@@ -158,7 +158,7 @@ class ColumnDimensionTest extends IntegrationTestCase
                 continue;
             }
 
-            $this->assertRegExp('/Piwik.Plugins.(Actions|Events|DevicesDetector|Goals|CustomVariables).Columns/', get_class($dimension));
+            $this->assertMatchesRegularExpression('/Piwik.Plugins.(Actions|Events|DevicesDetector|Goals|CustomVariables).Columns/', get_class($dimension));
         }
 
         $this->assertTrue($foundConversion);
@@ -185,7 +185,7 @@ class ColumnDimensionTest extends IntegrationTestCase
                 $foundVisit = true;
             }
 
-            $this->assertRegExp('/Piwik.Plugins.Actions.Columns/', get_class($dimension));
+            $this->assertMatchesRegularExpression('/Piwik.Plugins.Actions.Columns/', get_class($dimension));
         }
 
         $this->assertTrue($foundAction);
@@ -207,7 +207,7 @@ class ColumnDimensionTest extends IntegrationTestCase
                 $foundConversion = true;
             }
 
-            $this->assertRegExp('/Piwik.Plugins.Goals.Columns/', get_class($dimension));
+            $this->assertMatchesRegularExpression('/Piwik.Plugins.Goals.Columns/', get_class($dimension));
         }
 
         $this->assertTrue($foundConversion);

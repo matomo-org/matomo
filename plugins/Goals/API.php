@@ -220,9 +220,9 @@ class API extends \Piwik\Plugin\API
 
         $patternType = Common::unsanitizeInputValue($patternType);
 
-        $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
-        $pattern = $this->checkPattern($pattern, $matchAttribute);
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
+        $pattern = $this->checkPattern($pattern, $matchAttribute);
+        $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
@@ -392,6 +392,10 @@ class API extends \Piwik\Plugin\API
      */
     private function checkPattern($pattern, $matchAttribute): string
     {
+        if ($matchAttribute !== 'manually' && $pattern === '') {
+            throw new \Exception(Piwik::translate('General_PleaseSpecifyValue', ['pattern']));
+        }
+
         if (
             in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)
             && !is_numeric($pattern)
@@ -667,7 +671,6 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        /** @var DataTable|DataTable\Map $table */
         $table = null;
 
         $segments = array(

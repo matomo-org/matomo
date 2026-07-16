@@ -38,6 +38,18 @@ class GoalManager
 
     public const REVENUE_PRECISION = 2;
 
+    /**
+     * Upper sanity limit for a single tracked ecommerce money value (item price, order
+     * revenue, tax, shipping, discount, subtotal). Values whose absolute value exceeds
+     * this are rejected at tracking time.
+     *
+     * No legitimate single transaction is this large, and such values corrupt revenue
+     * reports. Rejecting them also removes the archiving overflow vector: quantity is
+     * bounded by its INT UNSIGNED column (<= ~4.29e9), so quantity * price can no longer
+     * exceed the MySQL DOUBLE range and abort archiving with error 1690.
+     */
+    public const MAX_ALLOWED_REVENUE = 1000000000000;
+
     public const MAXIMUM_PRODUCT_CATEGORIES = 5;
 
     // In the GET items parameter, each item has the following array of information
@@ -313,6 +325,15 @@ class GoalManager
      */
     protected function getRevenue($revenue)
     {
+        // Reject out-of-range values (see self::MAX_ALLOWED_REVENUE); treat as no revenue.
+        if (abs((float) $revenue) > self::MAX_ALLOWED_REVENUE) {
+            StaticContainer::get(LoggerInterface::class)->debug(
+                "Ecommerce value ({$revenue}) exceeds the allowed maximum of " . self::MAX_ALLOWED_REVENUE . " and was rejected (treated as no revenue)."
+            );
+
+            return 0;
+        }
+
         if (round($revenue) != $revenue) {
             $revenue = round($revenue, self::REVENUE_PRECISION);
         }

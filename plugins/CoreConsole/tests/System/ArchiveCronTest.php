@@ -465,7 +465,7 @@ class ArchiveCronTest extends SystemTestCase
     {
         $output = $this->runArchivePhpCron(array('--help' => null), PIWIK_INCLUDE_PATH . '/misc/cron/archive.php');
 
-        $this->assertRegExp('/Usage:\s*core:archive/', $output);
+        $this->assertMatchesRegularExpression('/Usage:\s*core:archive/', $output);
         self::assertStringNotContainsString("Starting Piwik reports archiving...", $output);
     }
 

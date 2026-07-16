@@ -272,8 +272,6 @@ abstract class Period
 
     /**
      * Returns the start day and day after the end day for this period in the given timezone.
-     *
-     * @param Date[] $timezone
      */
     public function getBoundsInTimezone(string $timezone)
     {

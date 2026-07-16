@@ -230,7 +230,7 @@ class VisitorRecognizer
      *
      * The returned value is the window range (Min, max) that the matched visitor should fall within
      *
-     * @return array( datetimeMin, datetimeMax )
+     * @return array [datetimeMin, datetimeMax]
      */
     protected function getWindowLookupThisVisit(Request $request)
     {
