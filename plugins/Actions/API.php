@@ -119,7 +119,18 @@ class API extends \Piwik\Plugin\API
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $dataTable = Archive::createDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable, $depth);
+        $dataTable = $this->createActionsTableFromArchive(
+            Archiver::PAGE_URLS_RECORD_NAME,
+            Archiver::PAGE_URLS_FLAT_RECORD_NAME,
+            $idSite,
+            $period,
+            $date,
+            $segment,
+            $expanded,
+            $idSubtable,
+            $depth,
+            $flat
+        );
 
         $this->filterActionsDataTable($dataTable, Action::TYPE_PAGE_URL);
 
@@ -335,7 +346,18 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $dataTable = Archive::createDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
+        $dataTable = $this->createActionsTableFromArchive(
+            Archiver::PAGE_TITLES_RECORD_NAME,
+            Archiver::PAGE_TITLES_FLAT_RECORD_NAME,
+            $idSite,
+            $period,
+            $date,
+            $segment,
+            $expanded,
+            $idSubtable,
+            null,
+            $flat
+        );
 
         $this->filterActionsDataTable($dataTable, Action::TYPE_PAGE_TITLE);
 
@@ -799,6 +821,174 @@ class API extends \Piwik\Plugin\API
             $table = call_user_func_array('\Piwik\Archive::createDataTableFromArchive', $callBackParameters);
             return $this->doFilterPageDatatableSearch($callBackParameters, $table, $searchTree);
         }
+    }
+
+    /**
+     * Reads the pre-flattened archive record directly for top-level flat requests when flat-first
+     * archiving is enabled, avoiding loading the hierarchy and collapsing it again at request time.
+     * Otherwise (and for subtable drill-downs) reads the hierarchical record as before.
+     *
+     * @param int|string|int[] $idSite
+     * @param string|null|false $segment
+     * @param int|null|false $idSubtable
+     * @param int|null|false $depth
+     * @return DataTable|DataTable\Map
+     */
+    private function createActionsTableFromArchive(
+        string $hierarchicalRecord,
+        string $flatRecord,
+        $idSite,
+        string $period,
+        string $date,
+        $segment,
+        bool $expanded,
+        $idSubtable,
+        $depth,
+        bool $flat
+    ) {
+        $useFlatRecord = $flat && empty($idSubtable) && ArchivingHelper::isFlatArchivingEnabled();
+
+        if (!$useFlatRecord) {
+            return Archive::createDataTableFromArchive($hierarchicalRecord, $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable, $depth);
+        }
+
+        // Read the flat record as-is: no expansion (which the flat flag would force) is needed,
+        // and the request-level flat=1 still drives the Actions filter and request-time Flattener.
+        $flatTable = Archive::createDataTableFromArchive($flatRecord, $idSite, $period, $date, $segment, false, false, null, null);
+
+        // Match the hierarchical record's column order so exports stay identical.
+        $this->reorderFlatRowColumnsToHierarchicalOrder($flatTable);
+
+        if (!$this->flatResultHasEmptyTable($flatTable)) {
+            return $flatTable;
+        }
+
+        // Some periods are empty. Read the hierarchical record unexpanded (top-level only, no
+        // subtable loading, so cheap) to tell a genuinely empty period apart from one archived
+        // before flat-first was enabled (which has no flat record but does have hierarchical data).
+        $hierarchicalTop = Archive::createDataTableFromArchive($hierarchicalRecord, $idSite, $period, $date, $segment, false, false, null, null);
+
+        if (!$this->hasRecoverableHierarchicalData($flatTable, $hierarchicalTop)) {
+            return $flatTable;
+        }
+
+        // At least one empty period predates flat-first and still holds hierarchical data; rebuild
+        // those periods from the fully expanded hierarchical record (the request-time Flattener then
+        // flattens them), keeping the flat rows for every period that has a flat record.
+        $hierarchicalTable = Archive::createDataTableFromArchive($hierarchicalRecord, $idSite, $period, $date, $segment, true, true, null, $depth);
+
+        return $this->replaceEmptyFlatTablesWithHierarchical($flatTable, $hierarchicalTable);
+    }
+
+    /**
+     * Moves the leading metrics to the front in the order the hierarchical record uses (the flat
+     * record appends nb_uniq_visitors instead of keeping it second); other columns keep their order.
+     *
+     * @param DataTable|DataTable\Map $table
+     */
+    private function reorderFlatRowColumnsToHierarchicalOrder($table): void
+    {
+        $leadingColumns = ArchivingHelper::getHierarchyRowColumnOrder();
+
+        $table->filter(function (DataTable $dataTable) use ($leadingColumns) {
+            foreach ($dataTable->getRows() as $row) {
+                $columns = $row->getColumns();
+
+                $ordered = [];
+                if (array_key_exists('label', $columns)) {
+                    $ordered['label'] = $columns['label'];
+                }
+                foreach ($leadingColumns as $index) {
+                    if (array_key_exists($index, $columns)) {
+                        $ordered[$index] = $columns[$index];
+                    }
+                }
+                foreach ($columns as $index => $value) {
+                    if (!array_key_exists($index, $ordered)) {
+                        $ordered[$index] = $value;
+                    }
+                }
+
+                $row->setColumns($ordered);
+            }
+        });
+    }
+
+    /**
+     * True if any leaf table is empty, i.e. a period whose flat record is not archived yet.
+     *
+     * @param DataTable|DataTable\Map $table
+     */
+    private function flatResultHasEmptyTable($table): bool
+    {
+        if ($table instanceof DataTable\Map) {
+            foreach ($table->getDataTables() as $child) {
+                if ($this->flatResultHasEmptyTable($child)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        return $table->getRowsCount() === 0;
+    }
+
+    /**
+     * True if any empty flat leaf has a non-empty hierarchical counterpart, i.e. a period that
+     * predates flat-first and still holds hierarchical data worth recovering. A genuinely empty
+     * period is empty in both records, so it does not trigger the expensive expanded read.
+     *
+     * @param DataTable|DataTable\Map $flatTable
+     * @param DataTable|DataTable\Map $hierarchicalTable Read unexpanded (top-level rows only).
+     */
+    private function hasRecoverableHierarchicalData($flatTable, $hierarchicalTable): bool
+    {
+        if ($flatTable instanceof DataTable\Map && $hierarchicalTable instanceof DataTable\Map) {
+            $hierarchicalChildren = $hierarchicalTable->getDataTables();
+            foreach ($flatTable->getDataTables() as $label => $flatChild) {
+                if (!array_key_exists($label, $hierarchicalChildren)) {
+                    continue;
+                }
+                if ($this->hasRecoverableHierarchicalData($flatChild, $hierarchicalChildren[$label])) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if ($flatTable instanceof DataTable && $hierarchicalTable instanceof DataTable) {
+            return $flatTable->getRowsCount() === 0 && $hierarchicalTable->getRowsCount() > 0;
+        }
+
+        return false;
+    }
+
+    /**
+     * Replaces each empty leaf table in the flat result with the matching hierarchical table, so a
+     * result spanning the flat-first enablement date mixes both sources correctly.
+     *
+     * @param DataTable|DataTable\Map $flatTable
+     * @param DataTable|DataTable\Map $hierarchicalTable
+     * @return DataTable|DataTable\Map
+     */
+    private function replaceEmptyFlatTablesWithHierarchical($flatTable, $hierarchicalTable)
+    {
+        if ($flatTable instanceof DataTable\Map && $hierarchicalTable instanceof DataTable\Map) {
+            $hierarchicalChildren = $hierarchicalTable->getDataTables();
+            foreach ($flatTable->getDataTables() as $label => $flatChild) {
+                if (!array_key_exists($label, $hierarchicalChildren)) {
+                    continue;
+                }
+                $flatTable->addTable($this->replaceEmptyFlatTablesWithHierarchical($flatChild, $hierarchicalChildren[$label]), $label);
+            }
+            return $flatTable;
+        }
+
+        if ($flatTable instanceof DataTable && $flatTable->getRowsCount() === 0) {
+            return $hierarchicalTable;
+        }
+
+        return $flatTable;
     }
 
     /**

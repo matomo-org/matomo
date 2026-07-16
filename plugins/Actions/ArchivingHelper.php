@@ -598,6 +598,32 @@ class ArchivingHelper
     protected static $defaultActionNameWhenNotDefined = null;
     protected static $defaultActionUrlWhenNotDefined = null;
 
+    /**
+     * Whether flat-first archiving is enabled, i.e. page URL/title reports are archived in a flat
+     * form (and the hierarchy rebuilt from it) rather than hierarchically only.
+     */
+    public static function isFlatArchivingEnabled(): bool
+    {
+        return (int) (Config::getInstance()->General['datatable_archiving_maximum_rows_actions_flat'] ?? 0) > 0;
+    }
+
+    /**
+     * Leading metric columns of a hierarchical action row, in their canonical order. This is the
+     * order the hierarchical record (and therefore the report output and its exports) uses, so the
+     * flat record's rows are reordered to match it when served directly.
+     *
+     * @return int[]
+     */
+    public static function getHierarchyRowColumnOrder(): array
+    {
+        return [
+            PiwikMetrics::INDEX_NB_VISITS,
+            PiwikMetrics::INDEX_NB_UNIQ_VISITORS,
+            PiwikMetrics::INDEX_PAGE_NB_HITS,
+            PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT,
+        ];
+    }
+
     public static function reloadConfig()
     {
         // for BC, we read the old style delimiter first (see #1067)
