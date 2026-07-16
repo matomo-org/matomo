@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Login\tests\Integration;
 
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\NoAccessException;
@@ -94,7 +95,7 @@ class CreateAppSpecificTokenAuthBruteForceTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Login_LoginNotAllowedBecauseUserLoginBlocked');
 
-        Request::processRequest('UsersManager.createAppSpecificTokenAuth', [
+        $this->createAppSpecificTokenAuthAnonymously([
             'userLogin' => $this->userLogin,
             'passwordConfirmation' => $this->userPassword,
             'description' => 'blocked login test',
@@ -109,7 +110,7 @@ class CreateAppSpecificTokenAuthBruteForceTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Login_LoginNotAllowedBecauseUserLoginBlocked');
 
-        Request::processRequest('UsersManager.createAppSpecificTokenAuth', [
+        $this->createAppSpecificTokenAuthAnonymously([
             'userLogin' => $this->userEmail,
             'passwordConfirmation' => $this->userPassword,
             'description' => 'blocked email test',
@@ -118,7 +119,7 @@ class CreateAppSpecificTokenAuthBruteForceTest extends IntegrationTestCase
 
     public function testCreateAppSpecificTokenAuthCreatesTokenUsingEmailWhenUserNotBlocked(): void
     {
-        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', [
+        $token = $this->createAppSpecificTokenAuthAnonymously([
             'userLogin' => $this->userEmail,
             'passwordConfirmation' => $this->userPassword,
             'description' => 'allowed email test',
@@ -142,6 +143,23 @@ class CreateAppSpecificTokenAuthBruteForceTest extends IntegrationTestCase
 
         $plugin = new LoginPlugin();
         $plugin->beforeLoginCheckBruteForce();
+    }
+
+    /**
+     * Creates a token through the unauthenticated credential-exchange flow (a fresh, anonymous access),
+     * matching how a token is obtained by supplying a user's credentials without an authenticated session.
+     */
+    private function createAppSpecificTokenAuthAnonymously(array $params)
+    {
+        $container = StaticContainer::getContainer();
+        $previousAccess = $container->get('Piwik\Access');
+        $container->set('Piwik\Access', new Access());
+
+        try {
+            return Request::processRequest('UsersManager.createAppSpecificTokenAuth', $params);
+        } finally {
+            $container->set('Piwik\Access', $previousAccess);
+        }
     }
 
     private function blockLogin(string $userLogin): void
