@@ -7,12 +7,11 @@
 
 import { mount } from '@vue/test-utils';
 
-jest.mock('CoreHome', () => ({
+vi.mock('CoreHome', () => ({
   translate: (key: string) => key,
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const WidgetsList = require('./WidgetsList.vue').default;
+import WidgetsList from './WidgetsList.vue';
 
 const widgetVisits = {
   uniqueId: 'widgetVisits',
@@ -48,26 +47,26 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     Object.defineProperty(window, 'matchMedia', {
       configurable: true,
       writable: true,
-      value: jest.fn().mockImplementation((query: string) => ({
+      value: vi.fn().mockImplementation((query: string) => ({
         matches: query === '(any-hover: hover)' ? matches : false,
         media: query,
         onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
       })),
     });
   };
 
   beforeEach(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     originalMatchMedia = window.matchMedia;
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
     Object.defineProperty(window, 'matchMedia', {
       configurable: true,
       writable: true,
@@ -99,10 +98,10 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     await wrapper.findAll('li button')[0].trigger('mouseenter');
     expect(wrapper.emitted().hover).toBeUndefined();
 
-    jest.advanceTimersByTime(399);
+    vi.advanceTimersByTime(399);
     expect(wrapper.emitted().hover).toBeUndefined();
 
-    jest.advanceTimersByTime(1);
+    vi.advanceTimersByTime(1);
     expect(wrapper.emitted().hover).toEqual([['widgetVisits']]);
   });
 
@@ -114,7 +113,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
     await wrapper.findAll('li button')[0].trigger('mouseenter');
     await wrapper.findAll('li button')[0].trigger('mouseleave');
 
-    jest.advanceTimersByTime(500);
+    vi.advanceTimersByTime(500);
     expect(wrapper.emitted().hover).toBeUndefined();
   });
 
@@ -222,10 +221,10 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       await wrapper.findAll('li button')[0].trigger('focus');
       expect(wrapper.emitted().hover).toBeUndefined();
 
-      jest.advanceTimersByTime(399);
+      vi.advanceTimersByTime(399);
       expect(wrapper.emitted().hover).toBeUndefined();
 
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       expect(wrapper.emitted().hover).toEqual([['widgetVisits']]);
     });
 
@@ -237,7 +236,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       await wrapper.findAll('li button')[0].trigger('focus');
       await wrapper.findAll('li button')[0].trigger('blur');
 
-      jest.advanceTimersByTime(500);
+      vi.advanceTimersByTime(500);
       expect(wrapper.emitted().hover).toBeUndefined();
     });
 
@@ -254,7 +253,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       await wrapper.findAll('li button')[0].trigger('focus');
       await wrapper.findAll('li button')[0].trigger('blur');
 
-      jest.advanceTimersByTime(400);
+      vi.advanceTimersByTime(400);
       expect(wrapper.emitted().hover).toEqual([['widgetBlocked']]);
     });
 
@@ -267,7 +266,7 @@ describe('Dashboard/AddWidgetModal/WidgetsList', () => {
       await wrapper.findAll('li button')[0].trigger('keydown', { key: 'Enter' });
 
       expect(wrapper.emitted().select).toEqual([['widgetVisits']]);
-      jest.advanceTimersByTime(500);
+      vi.advanceTimersByTime(500);
       expect(wrapper.emitted().hover).toBeUndefined();
     });
 

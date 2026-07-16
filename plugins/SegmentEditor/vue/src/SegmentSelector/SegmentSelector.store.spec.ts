@@ -34,7 +34,7 @@ type SegmentSelectorStoreModule = {
   };
 };
 
-const mockTranslate = jest.fn((key: string, params?: unknown[]) => {
+const mockTranslate = vi.fn((key: string, params?: unknown[]) => {
   if (key === 'SegmentEditor_CurrentlySelectedSegment') {
     return `Currently selected: ${params?.[0] || ''}`;
   }
@@ -47,8 +47,8 @@ const mockTranslate = jest.fn((key: string, params?: unknown[]) => {
 });
 
 const mockComparisonsStore = {
-  getSegmentComparisons: jest.fn(() => []),
-  isComparisonEnabled: jest.fn(() => false),
+  getSegmentComparisons: vi.fn(() => []),
+  isComparisonEnabled: vi.fn(() => false),
 };
 
 function createTranslations() {
@@ -111,20 +111,20 @@ function createConfig(overrides: Record<string, unknown> = {}) {
   };
 }
 
-function loadFreshStore() {
-  jest.resetModules();
-  jest.doMock('CoreHome', () => ({
+async function loadFreshStore() {
+  vi.resetModules();
+  vi.doMock('CoreHome', () => ({
     ComparisonsStoreInstance: mockComparisonsStore,
     translate: mockTranslate,
-  }), { virtual: true });
+  }));
 
-  const module = require('./SegmentSelector.store') as SegmentSelectorStoreModule;
+  const module = await import('./SegmentSelector.store') as SegmentSelectorStoreModule;
   return module.default;
 }
 
 describe('SegmentEditor/SegmentSelector.store', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     (window as unknown as {
       piwikHelper: {
@@ -152,8 +152,8 @@ describe('SegmentEditor/SegmentSelector.store', () => {
     };
   });
 
-  it('populates the main state on init', () => {
-    const store = loadFreshStore();
+  it('populates the main state on init', async () => {
+    const store = await loadFreshStore();
     const config = createConfig();
 
     store.init(config);
@@ -165,8 +165,8 @@ describe('SegmentEditor/SegmentSelector.store', () => {
     expect(store.state.value.segmentAccess).toBe('write');
   });
 
-  it('builds a base view model without mutating source segment starred values', () => {
-    const store = loadFreshStore();
+  it('builds a base view model without mutating source segment starred values', async () => {
+    const store = await loadFreshStore();
     const segments = createSegments();
 
     store.init(createConfig({ availableSegments: segments }));
@@ -184,8 +184,8 @@ describe('SegmentEditor/SegmentSelector.store', () => {
     expect(segments[0].starred).toBe('1');
   });
 
-  it('normalizes rebuild-time available segments without mutating the source segments', () => {
-    const store = loadFreshStore();
+  it('normalizes rebuild-time available segments without mutating the source segments', async () => {
+    const store = await loadFreshStore();
     const segments = createSegments();
 
     store.init(createConfig());
@@ -200,8 +200,8 @@ describe('SegmentEditor/SegmentSelector.store', () => {
     expect(segments[2].starred).toBe(0);
   });
 
-  it('filters entries case- and diacritic-insensitively and shows no-results when needed', () => {
-    const store = loadFreshStore();
+  it('filters entries case- and diacritic-insensitively and shows no-results when needed', async () => {
+    const store = await loadFreshStore();
 
     store.init(createConfig());
 
@@ -215,8 +215,8 @@ describe('SegmentEditor/SegmentSelector.store', () => {
     expect(noResultsViewModel.entries.map((entry) => entry.label)).toContain('No results');
   });
 
-  it('matches Cyrillic and Chinese segment names without transliteration', () => {
-    const store = loadFreshStore();
+  it('matches Cyrillic and Chinese segment names without transliteration', async () => {
+    const store = await loadFreshStore();
 
     store.init(createConfig());
 
@@ -234,8 +234,8 @@ describe('SegmentEditor/SegmentSelector.store', () => {
     expect(transliteratedViewModel.entries.map((entry) => entry.label)).toContain('No results');
   });
 
-  it('hides star buttons for anonymous users while keeping saved segments in the list', () => {
-    const store = loadFreshStore();
+  it('hides star buttons for anonymous users while keeping saved segments in the list', async () => {
+    const store = await loadFreshStore();
 
     store.init(createConfig({
       isUserAnonymous: true,

@@ -9,7 +9,8 @@ import { mount } from '@vue/test-utils';
 
 type PlainObject = Record<string, unknown>;
 
-const mockTranslate = (key: string, ...values: Array<string|number>) => {
+const { mockTranslate, mockMatomo, mockExternalLink } = vi.hoisted(() => {
+  const mockTranslate = (key: string, ...values: Array<string|number>) => {
   const translations: Record<string, string> = {
     ScheduledReports_CreateTooltip: 'Create tooltip',
     General_Website: 'Website',
@@ -34,19 +35,23 @@ const mockTranslate = (key: string, ...values: Array<string|number>) => {
 const mockMatomo = {
   helper: {
     htmlDecode: (value: string) => value,
-    compileVueEntryComponents: jest.fn(),
-    destroyVueComponent: jest.fn(),
+    compileVueEntryComponents: vi.fn(),
+    destroyVueComponent: vi.fn(),
   },
   timezoneOffset: 0,
 };
 
-const mockExternalLink = jest.fn((url: string) => `<a href="${url}">`);
+  const mockExternalLink = vi.fn((url: string) => `<a href="${url}">`);
 
-jest.mock('CoreHome', () => ({
+  return { mockTranslate, mockMatomo, mockExternalLink };
+});
+
+vi.mock('CoreHome', () => ({
   ContentBlock: {
     template: '<div><slot /></div>',
     props: ['contentTitle'],
   },
+  DraggableList: { template: '<div><slot /></div>' },
   Matomo: mockMatomo,
   MatomoUrl: {
     stringify: () => 'module=CoreHome',
@@ -55,9 +60,9 @@ jest.mock('CoreHome', () => ({
   translate: mockTranslate,
   debounce: (fn: unknown) => fn,
   externalLink: mockExternalLink,
-}), { virtual: true });
+}));
 
-jest.mock('CorePluginsAdmin', () => ({
+vi.mock('CorePluginsAdmin', () => ({
   Field: {
     template: '<div class="field-stub"><div v-if="errorMessage" class="form-group__error-message">{{ errorMessage }}</div><slot /><slot name="inline-help" /></div>',
     props: ['title', 'modelValue', 'uiControlAttributes', 'inlineHelp', 'errorMessage'],
@@ -67,10 +72,9 @@ jest.mock('CorePluginsAdmin', () => ({
     template: '<button type="button"><slot /></button>',
     props: ['value'],
   },
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const AddReport = require('./AddReport.vue').default;
+import AddReport from './AddReport.vue';
 
 const defaultProps = {
   report: {
@@ -131,7 +135,7 @@ describe('ScheduledReports/AddReport', () => {
   });
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   function mountComponent(overrideProps: PlainObject = {}) {

@@ -5,7 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-export { default as SiteType } from './SiteTypesStore/SiteType';
+export type { default as SiteType } from './SiteTypesStore/SiteType';
 export { default as SiteTypesStore } from './SiteTypesStore/SiteTypesStore';
 export { default as CurrencyStore } from './CurrencyStore/CurrencyStore';
 export { default as TimezoneStore } from './TimezoneStore/TimezoneStore';

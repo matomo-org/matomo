@@ -49,8 +49,12 @@ EOF
             null,
             true
         );
-        $this->addRequiredValueOption('plugin', null, 'The plugin to run Vue tests for (eg CoreHome or plugins/CoreHome).');
-        $this->addNoValueOption('run-in-band', null, 'Run Jest tests serially in a single process.');
+        $this->addRequiredValueOption(
+            'plugin',
+            null,
+            'The plugin to run Vue tests for (eg CoreHome or plugins/CoreHome).'
+        );
+        $this->addNoValueOption('run-in-band', null, 'Run the tests serially without file parallelism.');
     }
 
     protected function doExecute(): int
@@ -66,14 +70,13 @@ EOF
         $testOptions = [];
 
         if ($runInBand) {
-            $testOptions[] = '--runInBand';
+            $testOptions[] = '--no-file-parallelism';
         }
 
         if ($verbose) {
-            $testOptions[] = '--verbose';
+            $testOptions[] = '--reporter=verbose';
         }
 
-        $pluginEnv = '';
         if (!empty($plugin)) {
             $plugin = trim((string) $plugin);
             if (strpos($plugin, 'plugins/') !== 0) {
@@ -87,20 +90,21 @@ EOF
                 return 1;
             }
 
-            $pluginPattern = preg_quote($plugin, '/') . '\/vue\/.*\.spec\.[tj]s$';
-            $testOptions[] = '--testPathPattern=' . escapeshellarg($pluginPattern);
+            // Vitest treats positional arguments as file path filters; scope discovery to the
+            // plugin's vue specs.
+            $testOptions[] = escapeshellarg($plugin . '/vue/');
 
             if (!empty($specs)) {
                 $output->writeln('<comment>Ignoring specs arguments because --plugin scopes test discovery.</comment>');
             }
-
-            $pluginEnv = 'MATOMO_CURRENT_PLUGIN=' . escapeshellarg($plugin) . ' ';
         } elseif (!empty($specs)) {
-            $pattern = implode('|', $specs);
-            $testOptions[] = '--testPathPattern=' . escapeshellarg($pattern);
+            // Each spec argument is passed as a positional Vitest file path filter.
+            foreach ($specs as $spec) {
+                $testOptions[] = escapeshellarg($spec);
+            }
         }
 
-        $cmd = "cd '" . PIWIK_INCLUDE_PATH . "' && " . $pluginEnv . 'npm test';
+        $cmd = "cd '" . PIWIK_INCLUDE_PATH . "' && npm test";
         if (!empty($testOptions)) {
             $cmd .= ' -- ' . implode(' ', $testOptions);
         }

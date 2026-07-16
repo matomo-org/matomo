@@ -7,8 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const CompareButton = require('./CompareButton.vue').default;
+import CompareButton from './CompareButton.vue';
 
 function createSegment(overrides: Record<string, unknown> = {}) {
   return {

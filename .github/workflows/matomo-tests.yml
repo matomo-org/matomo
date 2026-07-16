@@ -332,7 +332,7 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'Client'
-          node-version: '16'
+          node-version: '24'
           mysql-service: false
   generate-plugin-ui-matrices:
     runs-on: ubuntu-24.04

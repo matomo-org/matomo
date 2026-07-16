@@ -7,5 +7,5 @@
 
 export { default as TranslationSearch } from './TranslationSearch/TranslationSearch.vue';
 export { default as TranslationSearchPage } from './TranslationSearch/TranslationSearchPage.vue';
-export { default as LanguageSelector } from './LanguageSelector/LanguageSelector.ts';
+export { default as LanguageSelector } from './LanguageSelector/LanguageSelector';
 export { default as LanguagesDropdown } from './LanguagesDropdown/LanguagesDropdown.vue';

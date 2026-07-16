@@ -10,24 +10,36 @@ import { consumeStoredValue, getStoredValue, removeStoredValue, setStoredValue }
 
 type PlainObject = Record<string, unknown>;
 
-const mockOn = jest.fn();
-const mockDollar = jest.fn(() => ({ on: mockOn }));
+const {
+  mockOn,
+  mockDollar,
+  mockFetch,
+  mockPost,
+  mockShowNotification,
+  mockRemoveNotification,
+  DASHBOARD_EXPORT_STORAGE_KEY,
+  mockMatomo,
+  mockMatomoUrl,
+  mockTranslate,
+} = vi.hoisted(() => {
+  const mockOn = vi.fn();
+  const mockDollar = vi.fn(() => ({ on: mockOn }));
 
-const mockFetch = jest.fn();
-const mockPost = jest.fn();
-const mockShowNotification = jest.fn();
-const mockRemoveNotification = jest.fn();
+const mockFetch = vi.fn();
+const mockPost = vi.fn();
+const mockShowNotification = vi.fn();
+const mockRemoveNotification = vi.fn();
 const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
 
 const mockMatomo = {
   helper: {
-    lazyScrollTo: jest.fn(),
+    lazyScrollTo: vi.fn(),
     htmlDecode: (value: string) => value,
-    refreshAfter: jest.fn(),
-    hideAjaxError: jest.fn(),
-    modalConfirm: jest.fn(),
+    refreshAfter: vi.fn(),
+    hideAjaxError: vi.fn(),
+    modalConfirm: vi.fn(),
   },
-  postEvent: jest.fn(),
+  postEvent: vi.fn(),
   idSite: 1,
   timezoneOffset: 0,
 };
@@ -36,9 +48,23 @@ const mockMatomoUrl = {
   parsed: { value: {} as PlainObject },
 };
 
-const mockTranslate = (key: string) => key;
+  const mockTranslate = (key: string) => key;
 
-jest.mock('CoreHome', () => ({
+  return {
+    mockOn,
+    mockDollar,
+    mockFetch,
+    mockPost,
+    mockShowNotification,
+    mockRemoveNotification,
+    DASHBOARD_EXPORT_STORAGE_KEY,
+    mockMatomo,
+    mockMatomoUrl,
+    mockTranslate,
+  };
+});
+
+vi.mock('CoreHome', () => ({
   AjaxHelper: {
     fetch: mockFetch,
     post: mockPost,
@@ -54,14 +80,20 @@ jest.mock('CoreHome', () => ({
     remove: mockRemoveNotification,
   },
   translate: mockTranslate,
-}), { virtual: true });
+  // Stubs for exports pulled in transitively via the rendered AddReport component.
+  ContentBlock: { template: '<div><slot /></div>' },
+  DraggableList: { template: '<div><slot /></div>' },
+  debounce: (fn: unknown) => fn,
+  externalLink: () => '',
+}));
 
-jest.mock('CorePluginsAdmin', () => ({
+vi.mock('CorePluginsAdmin', () => ({
+  Field: { template: '<div><slot /></div>' },
   Form: {},
-}), { virtual: true });
+  SaveButton: { template: '<button type="button"><slot /></button>' },
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const ManageScheduledReport = require('./ManageScheduledReport.vue').default;
+import ManageScheduledReport from './ManageScheduledReport.vue';
 
 const defaultProps = {
   contentTitle: '',
@@ -147,7 +179,7 @@ describe('ScheduledReports/ManageScheduledReport dashboard export bootstrap', ()
   });
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     sessionStorage.clear();
     mockMatomoUrl.parsed.value = {};
     mockFetch.mockResolvedValue({
@@ -241,7 +273,7 @@ describe('ScheduledReports/ManageScheduledReport dashboard export bootstrap', ()
 
 describe('ScheduledReports/ManageScheduledReport validation', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   function createEditableWrapper() {

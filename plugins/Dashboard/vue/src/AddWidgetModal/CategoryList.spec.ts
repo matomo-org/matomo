@@ -7,10 +7,9 @@
 
 import { mount } from '@vue/test-utils';
 
-jest.mock('CoreHome', () => ({}), { virtual: true });
+vi.mock('CoreHome', () => ({}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const CategoryList = require('./CategoryList.vue').default;
+import CategoryList from './CategoryList.vue';
 
 describe('Dashboard/AddWidgetModal/CategoryList', () => {
   const longCategory = 'A very long category name that should wrap onto another line in the modal';

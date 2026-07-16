@@ -6,12 +6,13 @@
  */
 
 import { flushPromises, mount } from '@vue/test-utils';
+import type { Mock } from 'vitest';
 
 // The grid mounts the real SparklineCard -> NoComparison -> MetricValue chain, so the mock
 // provides everything that chain pulls from CoreHome: the Tooltips directive (MetricValue),
 // MatomoUrl (SparklineCard derives graph-params from the url) and NumberFormatter
-// (NoComparison formats raw numeric metric values). CoreHome has no jest module mapping.
-jest.mock('CoreHome', () => ({
+// (NoComparison formats raw numeric metric values). CoreHome is aliased to its source by config.
+vi.mock('CoreHome', () => ({
   Tooltips: {},
   Sparkline: { template: '<img class="sparkline-stub" />' },
   // SparklineCard calls MatomoUrl.parse to derive data-graph-params, but no test here
@@ -23,18 +24,17 @@ jest.mock('CoreHome', () => ({
   NumberFormatter: {
     formatNumber: (value: number) => String(value),
   },
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const SparklinesGrid = require('./SparklinesGrid.vue').default;
+import SparklinesGrid from './SparklinesGrid.vue';
 
 describe('CoreVisualizations/SparklinesGrid', () => {
-  let initializeSparklinesSpy: jest.Mock;
+  let initializeSparklinesSpy: Mock;
 
   beforeEach(() => {
     // sparkline.js (which defines window.initializeSparklines) is loaded on every real
-    // Matomo page but not in the jest bootstrap, so stub it here.
-    initializeSparklinesSpy = jest.fn();
+    // Matomo page but not in the test bootstrap, so stub it here.
+    initializeSparklinesSpy = vi.fn();
     window.initializeSparklines = initializeSparklinesSpy;
   });
 

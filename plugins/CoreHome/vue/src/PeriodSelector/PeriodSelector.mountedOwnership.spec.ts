@@ -44,7 +44,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
 
   beforeEach(() => {
     if (!window.initTopControls) {
-      window.initTopControls = jest.fn();
+      window.initTopControls = vi.fn();
     }
 
     setUrl(
@@ -61,7 +61,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
   it('allows single-calendar interaction after a preset shortcut is selected', async () => {
     const wrapper = mountSelector();
 
-    const commitSelectionToUrl = jest.fn();
+    const commitSelectionToUrl = vi.fn();
     (wrapper.vm as any).commitSelectionToUrl = commitSelectionToUrl;
     await wrapper.setData({
       uiSelection: { type: 'period', id: 'day' },
@@ -80,7 +80,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
   it('allows single-calendar interaction after switching to a period option', async () => {
     const wrapper = mountSelector();
 
-    const commitSelectionToUrl = jest.fn();
+    const commitSelectionToUrl = vi.fn();
     (wrapper.vm as any).commitSelectionToUrl = commitSelectionToUrl;
     await wrapper.setData({
       uiSelection: { type: 'period', id: 'day' },
@@ -223,7 +223,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
   it('closes on outside click without committing a staged range selection', async () => {
     const wrapper = mountSelector();
 
-    const updateLocationSpy = jest.spyOn(MatomoUrl, 'updateLocation');
+    const updateLocationSpy = vi.spyOn(MatomoUrl, 'updateLocation');
 
     (wrapper.vm as any).onPresetDateRangeSelected({
       id: 'last30days',

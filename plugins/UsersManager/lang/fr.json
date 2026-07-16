@@ -6,6 +6,7 @@
         "AddNewUser": "Ajouter un nouvel utilisateur",
         "AddSuperuserAccessConfirm": "Accorder à un utilisateur des droits de superutilisateur lui permettra d'avoir un contrôle total sur Matomo et doit être fait avec parcimonie.",
         "AddUserNoInitialAccessError": "Les nouveaux utilisateurs doivent recevoir un accès à un site web, veuillez définir le paramètre 'initialIdSite'.",
+        "AdminUserRoleChangeWarning": "Attribuer le rôle %1$s à un utilisateur lui accorde un contrôle administratif complet sur les sites web concernés, y compris la possibilité de gérer les accès des autres utilisateurs.",
         "AllUsersAreSelected": "Tous les %1$s utilisateurs sont sélectionnés.",
         "AllWebsites": "Tous les sites Internet",
         "AllWebsitesAreSelected": "Tous les %1$s sites web sont sélectionnés.",

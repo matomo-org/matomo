@@ -1,5 +1,6 @@
 {
     "CoreHome": {
+        "AIInsights": "KI-Einblicke",
         "AdblockIsMaybeUsed": "Für den Fall, dass Sie einen Ad-Blocker verwenden, deaktivieren Sie diesen bitte für diese Seite, um sicherzustellen, dass Matomo problemlos läuft.",
         "AddTotalsRowDataTable": "Der Bericht zeigt die Totalzeile nicht %s Zeige Totalzeile",
         "CategoryNoData": "Keine Daten in dieser Kategorie. Probieren Sie \"Gesamte Daten einbeziehen\".",
@@ -15,7 +16,9 @@
         "ClickToSeeFullInformation": "Klicken Sie hier für die komplette Information",
         "CloseSearch": "Suche schließen",
         "CloseWidgetDirections": "Sie können das Widget schließen, indem Sie auf das 'X' oben im Widget klicken.",
+        "CopyModalNote": "%1$sHinweis:%2$s Der kopierte%3$s muss möglicherweise angepasst werden, wenn er Verweise enthält, die spezifisch für die ursprüngliche Webseite sind. Überprüfen Sie die Einstellungen, um die Kompatibilität sicherzustellen.",
         "CopyX": "%1$s kopieren",
+        "CopyXDescription": "Wählen Sie die Webseite aus, auf die Sie diese %1$s kopieren möchten. Dadurch wird eine exakte Kopie einschließlich der Einstellungen auf der ausgewählten Seite erstellt.",
         "CssDidntLoad": "Ihr Browser war nicht in der Lage die Stylesheet-Definitionen der Seite zu laden.",
         "CustomLimit": "Eigenes Limit",
         "DataForThisReportHasBeenDisabled": "Segmentierung ist für diesen Bericht momentan außer Betrieb. Bitte sehen Sie %1$sdieses FAQ%2$s ein für weitere Einzelheiten.",
@@ -56,6 +59,7 @@
         "InjectedHostNonSuperUserWarning": "%1$sHier klicken um Matomo sicher zu betreten%2$s und die Warnung zu entfernen. Zusätzlich können Sie den Matomo Administrator kontaktieren und ihn auf dieses Problem hinweisen (%3$sHier klicken um eine E-Mail zu senden%4$s).",
         "InjectedHostSuperUserWarning": "Matomo könnte falsch konfiguriert sein (zum Beispiel, wenn Matomo vor kurzem auf einen neuen Server oder eine neue URL umgezogen ist). Sie können entweder %1$shier klicken und %2$s als gültigen Hostnamen hinzufügen (wenn Sie ihm vertrauen)%3$s, oder %4$shier klicken, um zu %5$s zu gehen und Matomo sicher zu betreten%6$s.",
         "InjectedHostWarningIntro": "Sie betreten Matomo aktuell von %1$s, allerdings wurde Matomo so konfiguriert, dass es unter dieser Adresse läuft: %2$s.",
+        "InvalidComparisonDateRange": "Geben Sie einen gültigen Vergleichszeitraum ein.",
         "JavascriptDisabled": "JavaScript muss aktiviert sein, um die Standardansicht von Matomo zu benutzen.<br>Es scheint jedoch so, als wäre JavaScript bei Ihnen deaktiviert bzw. würde nicht von Ihrem Browser unterstützt.<br>Um die Standardansicht zu benutzen, aktivieren Sie JavaScript in Ihren Browseroptionen und %1$sversuchen Sie es erneut%2$s.<br>",
         "JsDidntLoad": "Ihr Browser war nicht in der Lage die Skripte der Seite zu laden.",
         "LeadingAnalyticsPlatformRespectsYourPrivacy": "Die führende Open-Source-Analyseplattform, die Ihre Privatsphäre achtet.",
@@ -89,6 +93,7 @@
         "PresetDateToday": "Heute",
         "PresetDateYesterday": "Gestern",
         "Profilable": "Profilierbar",
+        "ProfilableSegmentHelp": "1 für profilierbar (z. B. wurden Cookies verwendet), 0 für nicht profilierbar (z. B. wurden keine Cookies verwendet)",
         "QuickAccessTitle": "Suche nach '%s'. Benutzen Sie die Pfeiltasten um durch die Ergebnisse zu navigieren. Tastenkürzel: Drücken Sie 'f' um zu suchen.",
         "QuickLinks": "Schnelllinks",
         "ReadMoreOnlineGuide": "Lesen Sie mehr zu diesem Thema in der Online-Anleitung.",

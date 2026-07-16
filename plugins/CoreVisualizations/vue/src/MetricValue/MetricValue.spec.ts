@@ -7,14 +7,13 @@
 
 import { mount } from '@vue/test-utils';
 
-// CoreHome is a package-style cross-plugin import with no jest module mapping,
-// so it must be virtually mocked. Tooltips is used only as a (no-op here) directive.
-jest.mock('CoreHome', () => ({
+// CoreHome is a package-style cross-plugin import; the vitest config aliases it to its source
+// entry point, so mock it here. Tooltips is used only as a (no-op here) directive.
+vi.mock('CoreHome', () => ({
   Tooltips: {},
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const MetricValue = require('./MetricValue.vue').default;
+import MetricValue from './MetricValue.vue';
 
 describe('CoreVisualizations/MetricValue', () => {
   it('renders the title and the pre-formatted value', () => {

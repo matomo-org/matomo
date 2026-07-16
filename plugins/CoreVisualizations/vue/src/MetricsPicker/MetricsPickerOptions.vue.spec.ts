@@ -8,12 +8,11 @@
 import { mount } from '@vue/test-utils';
 
 // translate just echoes the key.
-jest.mock('CoreHome', () => ({
+vi.mock('CoreHome', () => ({
   translate: (key: string) => key,
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const MetricsPickerOptions = require('./MetricsPickerOptions.vue').default;
+import MetricsPickerOptions from './MetricsPickerOptions.vue';
 
 const selectableColumns = [
   { column: 'nb_visits', translation: 'Visits' },

@@ -1,10 +1,10 @@
 // ignore certain console.log errors from jsdom
 const oldEmit = window._virtualConsole.emit;
-window._virtualConsole.emit = (message) => {
+window._virtualConsole.emit = function emitOverride(message, ...args) {
   if (/navigation \(except hash changes\)/.test(message)) {
-    return;
+    return undefined;
   }
-  return oldEmit.call(window._virtualConsole, ...arguments);
+  return oldEmit.call(window._virtualConsole, message, ...args);
 };
 
 // setup jquery and jquery-ui

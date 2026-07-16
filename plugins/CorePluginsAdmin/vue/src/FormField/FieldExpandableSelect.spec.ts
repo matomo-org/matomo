@@ -7,7 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 
-jest.mock('CoreHome', () => ({
+vi.mock('CoreHome', () => ({
   Matomo: {
     helper: {
       normalize: (value: string) => value
@@ -18,10 +18,9 @@ jest.mock('CoreHome', () => ({
   },
   FocusAnywhereButHere: {},
   FocusIf: {},
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const FieldExpandableSelect = require('./FieldExpandableSelect.vue').default;
+import FieldExpandableSelect from './FieldExpandableSelect.vue';
 
 const availableOptions = [
   {
