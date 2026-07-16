@@ -59,7 +59,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             // when available. It already represents the full time on this page (including events,
             // content impressions and heartbeats), so we use it directly and skip the legacy
             // walk-forward summation which would otherwise double-count.
-            if (isset($action['pageTimeSpent']) && $action['pageTimeSpent'] !== null) {
+            if (isset($action['pageTimeSpent'])) {
                 $action['timeSpent']       = (int) $action['pageTimeSpent'];
                 $action['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($action['timeSpent'], true);
                 $nextActionId              = $idx + 1;

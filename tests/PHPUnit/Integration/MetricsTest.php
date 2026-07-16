@@ -57,6 +57,7 @@ class MetricsTest extends IntegrationTestCase
             'sum_daily_nb_users' => 40,
             'nb_hits' => 12,
             'sum_time_spent' => 13,
+            'nb_hits_with_time_spent' => 45,
             'sum_time_generation' => 30,
             'nb_hits_with_time_generation' => 31,
             'min_time_generation' => 32,
