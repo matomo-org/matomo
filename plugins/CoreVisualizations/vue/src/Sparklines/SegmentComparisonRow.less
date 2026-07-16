@@ -30,35 +30,15 @@
   vertical-align: top;
 }
 
-// Compared-date columns (segment + date): one column per date, split by a thin divider. Mirrors
-// DateComparison.less so the two column layouts can be lifted into a shared component later.
-// Segment-only comparison renders a single full-width column here (no divider); the gap before the
-// sparkline stays on `__sparkline`'s margin-top, so segment-only spacing is unchanged.
-.sparklineSegmentComparisonRow__periods {
-  display: flex;
-  gap: 16px;
-}
-
-.sparklineSegmentComparisonRow__date {
-  flex: auto;
-  min-width: 0;
-}
-
-.sparklineSegmentComparisonRow__separator {
-  flex: none;
-  width: 1px;
-  background: @theme-color-border-alternative;
-}
+// The date columns come from the shared PeriodColumns component (PeriodColumns.less). It is
+// margin-free; the gap before the sparkline is owned by `__sparkline`'s margin-top below, so
+// segment-only spacing is unchanged.
 
 // Per-segment sparkline slot: same fixed height + fluid image cap as the no-comparison slot. The
 // max-width must match <Sparkline :width> in SegmentComparisonRow.vue (the PNG is rendered at 2x
 // that): the base width for segment-only, the wider variant for segment + date.
 .sparklineSegmentComparisonRow__sparkline {
-  @_height: 40px;
-  @_width: 380px;
-  @_width-wide: 760px;
-
-  height: @_height;
+  height: 40px;
   margin-top: 4px;
   display: flex;
   align-items: safe center;
@@ -69,12 +49,13 @@
     display: block;
     width: 100%;
     height: auto;
-    max-width: @_width;
+    max-width: 380px;
   }
+}
 
-  // Segment + date rows draw one series per compared date, so the sparkline is wider (matching the
-  // date-comparison card). Keep @_width-wide in sync with sparklineWidth in SegmentComparisonRow.vue.
-  &--wide .sparklineImg {
-    max-width: @_width-wide;
-  }
+// Segment + date rows draw one series per compared date, so the sparkline is wider (matching the
+// date-comparison card). Keep 380px / 760px in sync with sparklineWidth in SegmentComparisonRow.vue
+// (the PNG is rendered at 2x these caps).
+.sparklineSegmentComparisonRow__sparkline--wide .sparklineImg {
+  max-width: 760px;
 }

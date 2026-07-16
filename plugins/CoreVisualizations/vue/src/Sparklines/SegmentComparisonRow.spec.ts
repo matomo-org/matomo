@@ -140,8 +140,8 @@ describe('CoreVisualizations/SegmentComparisonRow segment + date', () => {
   it('renders one value column per compared date, split by a separator', () => {
     const wrapper = createSegmentDateWrapper();
 
-    expect(wrapper.findAll('.sparklineSegmentComparisonRow__date')).toHaveLength(2);
-    expect(wrapper.findAll('.sparklineSegmentComparisonRow__separator')).toHaveLength(1);
+    expect(wrapper.findAll('.periodColumns__column')).toHaveLength(2);
+    expect(wrapper.findAll('.periodColumns__separator')).toHaveLength(1);
 
     const numbers = wrapper.findAll('.metricValue__number').map((n) => n.text());
     expect(numbers).toEqual(['23558', '30119']);
