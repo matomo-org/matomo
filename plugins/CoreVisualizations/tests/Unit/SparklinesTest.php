@@ -43,9 +43,9 @@ class SparklinesTest extends \PHPUnit\Framework\TestCase
     /**
      * Encodes the product-scope decision of which comparison modes the redesigned Vue grid may
      * render: no comparison ('none'), date comparison of exactly two dates ('date', one extra
-     * compareDate, no segments), or segment comparison over a single date ('segment'). Everything
-     * else (segment + date combined, or three or more dates) returns null and falls back to the
-     * legacy Twig layout.
+     * compareDate, no segments), segment comparison over a single date ('segment'), or segment
+     * comparison over exactly two dates ('segmentDate'). Everything else (three or more dates, with
+     * or without segments) returns null and falls back to the legacy Twig layout.
      *
      * @dataProvider getRedesignComparisonModeData
      */
@@ -77,10 +77,11 @@ class SparklinesTest extends \PHPUnit\Framework\TestCase
             // Segment comparison over the single (base) date, no extra compareDates.
             'segment comparison' => [true, ['compareSegments' => ['browserCode==FF']], 'segment'],
             'segment comparison, empty compareDates' => [true, ['compareSegments' => ['browserCode==FF'], 'compareDates' => []], 'segment'],
-            // Segment + date comparison combined stays on the legacy layout.
-            'segment and date comparison' => [true, ['compareDates' => ['2026-05-03'], 'compareSegments' => ['browserCode==FF']], null],
-            // Three or more compared dates (2+ compareDates) are out of scope.
+            // Segment + date: segments compared over exactly two dates (one extra compareDate).
+            'segment and date comparison' => [true, ['compareDates' => ['2026-05-03'], 'compareSegments' => ['browserCode==FF']], 'segmentDate'],
+            // Three or more compared dates (2+ compareDates) are out of scope, with or without segments.
             'three dates' => [true, ['compareDates' => ['2026-05-03', '2026-05-02']], null],
+            'segment and three dates' => [true, ['compareDates' => ['2026-05-03', '2026-05-02'], 'compareSegments' => ['browserCode==FF']], null],
             // Comparing but no compareDates and no segments is not a supported comparison.
             'comparing without compare params' => [true, [], null],
         ];

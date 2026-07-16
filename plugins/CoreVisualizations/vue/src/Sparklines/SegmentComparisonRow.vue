@@ -11,15 +11,13 @@
       class="sparklineSegmentComparisonRow__chip"
       :title="segmentLabel"
     >{{ segmentLabel }}</span>
-    <MetricValue
-      class="metricValue--noTitle"
-      :value="primaryValue"
-      :secondary-value="secondaryValue"
-      :secondary-label="secondaryLabel"
-    />
-    <div class="sparklineSegmentComparisonRow__sparkline">
+    <PeriodColumns :entry="segment" />
+    <div
+      class="sparklineSegmentComparisonRow__sparkline"
+      :class="{ 'sparklineSegmentComparisonRow__sparkline--wide': isMultiPeriod }"
+    >
       <Sparkline
-        :width="380"
+        :width="sparklineWidth"
         :height="40"
         :params="segment.url"
         :series-indices="segment.seriesIndices"
@@ -31,20 +29,21 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
 import { Sparkline } from 'CoreHome';
-import MetricValue from '../MetricValue/MetricValue.vue';
+import PeriodColumns from './PeriodColumns.vue';
 import { SparklineEntry } from './types';
 
 /**
  * One compared segment inside a segment-comparison card: a presentational block with a segment-name
- * chip, the metric readout (no title — the card shows the metric name once above the rows), and its
- * own single-series sparkline. The row is not a link — the whole card is the single `.sparkline`
- * click-to-evolution unit (SegmentComparisonCard). Segment-only comparison carries no evolution, so
- * no EvolutionBadge shows.
+ * chip, one value column per compared date (a bare value for segment-only, or a labelled column
+ * with an evolution badge per date for segment + date, rendered by the shared PeriodColumns), and
+ * its own single- or multi-series sparkline. The row is not itself a link — the whole card is the
+ * single `.sparkline` click-to-evolution unit (SegmentComparisonCard); every segment reloads the
+ * same evolution graph.
  */
 export default defineComponent({
   name: 'SegmentComparisonRow',
   components: {
-    MetricValue,
+    PeriodColumns,
     Sparkline,
   },
   props: {
@@ -57,22 +56,19 @@ export default defineComponent({
     // Segment name (compareSegmentPretty); always populated in segment comparison.
     const segmentLabel = computed(() => props.segment.title || '');
 
-    // Segment comparison groups the metric under a single period label; read that one group.
-    // Values pass raw to MetricValue, which locale-formats numbers.
-    const groupMetrics = computed<SparklineEntry['metrics'][string]>(() => {
-      const metrics = props.segment.metrics || {};
-      const label = (props.segment.metricsOrder || [])[0] ?? Object.keys(metrics)[0];
-      return label !== undefined ? metrics[label] || [] : [];
-    });
-    const primaryValue = computed(() => groupMetrics.value[0]?.value ?? '');
-    const secondaryValue = computed(() => groupMetrics.value[1]?.value);
-    const secondaryLabel = computed(() => groupMetrics.value[1]?.description);
+    // More than one compared date (segment + date) → widen the sparkline. The period columns
+    // themselves are derived and rendered by PeriodColumns from the same entry.
+    const isMultiPeriod = computed(() => (props.segment.metricsOrder || []).length > 1);
+
+    // Displayed sparkline width; segment + date rows draw one series per date so they are wider,
+    // matching the date-comparison card. Kept in sync with the `--wide` max-width in the .less
+    // (Sparkline renders the PNG at 2x this; the CSS cap stops it scaling past that crisp source).
+    const sparklineWidth = computed(() => (isMultiPeriod.value ? 760 : 380));
 
     return {
       segmentLabel,
-      primaryValue,
-      secondaryValue,
-      secondaryLabel,
+      isMultiPeriod,
+      sparklineWidth,
     };
   },
 });

@@ -87,6 +87,38 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     };
   }
 
+  function segmentDateEntry(
+    title: string,
+    seriesIndices: number[],
+    order: number,
+    values: [string, string],
+  ) {
+    // Segment + date entry: metrics grouped by two pretty date labels + one series index per date.
+    return {
+      url: '?module=API&action=get&columns=nb_visits&compareDates[]=2026-05-03',
+      metrics: {
+        'Apr 23 - May 2, 2026': [{
+          value: values[0],
+          description: 'visits',
+          title: 'Visits',
+          column: '',
+          evolution: {
+            percent: '+28.5%', trend: 5000, isLowerValueBetter: false, tooltip: '',
+          },
+        }],
+        'Mar 24 - Apr 2, 2026': [{
+          value: values[1], description: 'visits', title: 'Visits', column: '',
+        }],
+      },
+      metricsOrder: ['Apr 23 - May 2, 2026', 'Mar 24 - Apr 2, 2026'],
+      order,
+      title,
+      group: '0',
+      seriesIndices,
+      graphParams: null,
+    };
+  }
+
   function placeholder(order: number) {
     // Mirrors Config::addPlaceholder(): empty url + no metrics, used only for legacy layout.
     return {
@@ -255,6 +287,35 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     });
 
     expect(wrapper.findAllComponents({ name: 'EvolutionBadge' }).length).toBe(0);
+  });
+
+  it('renders one SegmentComparisonCard per metric group in segment + date mode', () => {
+    const wrapper = createWrapper({
+      comparisonMode: 'segmentDate',
+      sparklines: {
+        0: [
+          segmentDateEntry('NZ visitors', [0, 2], 0, ['23558', '30119']),
+          segmentDateEntry('Mobile users', [1, 3], 1, ['12049', '11748']),
+        ],
+      },
+    });
+
+    const cards = wrapper.findAllComponents({ name: 'SegmentComparisonCard' });
+    expect(cards.length).toBe(1);
+    expect(wrapper.findAllComponents({ name: 'SparklineCard' }).length).toBe(0);
+    // Two segments stacked as rows, each with a column per compared date (2 x 2 = 4 columns).
+    expect(cards[0].findAllComponents({ name: 'SegmentComparisonRow' }).length).toBe(2);
+    expect(wrapper.findAll('.periodColumns__column').length).toBe(4);
+  });
+
+  it('uses the wider comparison columns (s12 m12 l6 xl6) in segment + date mode', () => {
+    const wrapper = createWrapper({
+      comparisonMode: 'segmentDate',
+      sparklines: { 0: [segmentDateEntry('NZ visitors', [0, 2], 0, ['23558', '30119'])] },
+    });
+    const col = wrapper.find('.row.sparklinesGrid > div');
+
+    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's12', 'm12', 'l6', 'xl6']));
   });
 
   it('re-runs the sparkline click-to-evolution wiring after mount', async () => {
