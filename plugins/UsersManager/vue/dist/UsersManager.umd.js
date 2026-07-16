@@ -2748,7 +2748,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
                 "General_Pagination",
                 _ctx.paginationLowerBound,
                 _ctx.paginationUpperBound,
-                _ctx.totalEntries
+                _ctx.totalEntries || 0
               )), 3),
               vue.createVNode(_component_ActivityIndicator, { loading: _ctx.isLoadingUsers }, null, 8, ["loading"])
             ]),
