@@ -135,7 +135,7 @@
                 'General_Pagination',
                 paginationLowerBound,
                 paginationUpperBound,
-                totalEntries
+                totalEntries || 0
             ) }}
             </span>
             <ActivityIndicator
