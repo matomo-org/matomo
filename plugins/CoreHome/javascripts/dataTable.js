@@ -1727,27 +1727,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             if ($title.length) {
                 $title.text(relatedReportName);
 
-                var scope = $title.scope();
-
-                if (scope) {
-                    var $doc = domElem.find('.reportDocumentation');
-                    if ($doc.length) {
-                        // hackish solution to get binded html of p tag within the help node
-                        // at this point the ng-bind-html is not yet converted into html when report is not
-                        // initially loaded. Using $compile doesn't work. So get and set it manually
-                        var helpParagraph = $doc.attr('data-content');
-
-                        if (helpParagraph.length) {
-                            helpParagraph.html(window.vueSanitize(helpParagraph));
-                        }
-
-                        scope.inlineHelp = $.trim($doc.html());
-
-                    }
-                    scope.featureName = $.trim(relatedReportName);
-                    setTimeout(function (){
-                        scope.$apply();
-                    }, 1);
+                // The report title is a Vue EnrichedHeadline component rendered outside the
+                // reloaded datatable, so it is not re-mounted here. Notify it with a native
+                // event (so it can listen via addEventListener, without jQuery) to re-read
+                // the freshly loaded report's documentation instead of keeping the previous
+                // report's help text.
+                if ($headline.length) {
+                    $headline[0].dispatchEvent(new CustomEvent('piwik:reportChanged'));
                 }
             }
         }

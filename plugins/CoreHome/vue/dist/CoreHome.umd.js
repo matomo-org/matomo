@@ -3196,18 +3196,18 @@ var __async = (__this, __arguments, generator) => {
       var _a2, _b, _c;
       const root = this.$refs.root;
       if (!this.actualInlineHelp) {
-        let helpNode = root.querySelector(".title .inlineHelp");
-        if (!helpNode && ((_a2 = root.parentElement) == null ? void 0 : _a2.nextElementSibling)) {
-          helpNode = root.parentElement.nextElementSibling.querySelector(".reportDocumentation");
-        }
-        if (helpNode) {
-          const helpDocs = (_b = helpNode.getAttribute("data-content")) == null ? void 0 : _b.trim();
+        const inlineHelpNode = root.querySelector(".title .inlineHelp");
+        if (inlineHelpNode) {
+          const helpDocs = (_a2 = inlineHelpNode.getAttribute("data-content")) == null ? void 0 : _a2.trim();
           if (helpDocs && helpDocs.length) {
             this.actualInlineHelp = `<p>${helpDocs}</p>`;
-            setTimeout(() => helpNode.remove(), 0);
+            setTimeout(() => inlineHelpNode.remove(), 0);
           }
+        } else {
+          this.actualInlineHelp = this.readReportDocumentation();
         }
       }
+      (_b = root.parentElement) == null ? void 0 : _b.addEventListener("piwik:reportChanged", this.onReportChanged);
       if (!this.actualFeatureName) {
         this.actualFeatureName = (_c = root.querySelector(".title")) == null ? void 0 : _c.textContent;
       }
@@ -3227,6 +3227,11 @@ var __async = (__this, __arguments, generator) => {
         }
       }
     },
+    beforeUnmount() {
+      var _a2;
+      const root = this.$refs.root;
+      (_a2 = root == null ? void 0 : root.parentElement) == null ? void 0 : _a2.removeEventListener("piwik:reportChanged", this.onReportChanged);
+    },
     methods: {
       // Expose the plugin component to `<component :is>` as a plain Component.
       asComponent(component) {
@@ -3234,6 +3239,18 @@ var __async = (__this, __arguments, generator) => {
       },
       htmlEntities(v) {
         return Matomo.helper.htmlEntities(v);
+      },
+      onReportChanged() {
+        this.actualInlineHelp = this.readReportDocumentation();
+        if (!this.actualInlineHelp) {
+          this.showInlineHelp = false;
+        }
+      },
+      readReportDocumentation() {
+        var _a2, _b, _c, _d;
+        const root = this.$refs.root;
+        const helpDocs = (_d = (_c = (_b = (_a2 = root == null ? void 0 : root.parentElement) == null ? void 0 : _a2.nextElementSibling) == null ? void 0 : _b.querySelector(".reportDocumentation")) == null ? void 0 : _c.getAttribute("data-content")) == null ? void 0 : _d.trim();
+        return helpDocs && helpDocs.length ? `<p>${helpDocs}</p>` : "";
       }
     },
     computed: {
