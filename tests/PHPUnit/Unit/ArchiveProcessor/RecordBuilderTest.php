@@ -618,7 +618,7 @@ class RecordBuilderTest extends TestCase
                 $table = new DataTable();
                 if ($recordName === 'TestPlugin_flat') {
                     $table->addRowFromSimpleArray(['label' => '/flat-path', 'nb_visits' => 5]);
-                    return [$table, true, ['2020-03-04,2020-03-04' => true]];
+                    return [$table, true, ['1|2020-03-04,2020-03-04' => true]];
                 }
 
                 return [$table, false, []];
@@ -626,7 +626,7 @@ class RecordBuilderTest extends TestCase
 
             protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
             {
-                return ['2020-03-04,2020-03-04' => true];
+                return ['1|2020-03-04,2020-03-04' => true];
             }
         };
 
@@ -689,7 +689,7 @@ class RecordBuilderTest extends TestCase
                 if ($recordName === 'TestPlugin_flat') {
                     $table->addRowFromSimpleArray(['label' => '/flat-path-a', 'nb_visits' => 5]);
                     $table->addRowFromSimpleArray(['label' => '/flat-path-b', 'nb_visits' => 3]);
-                    return [$table, true, ['2020-03-04,2020-03-04' => true]];
+                    return [$table, true, ['1|2020-03-04,2020-03-04' => true]];
                 }
 
                 return [$table, false, []];
@@ -697,7 +697,7 @@ class RecordBuilderTest extends TestCase
 
             protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
             {
-                return ['2020-03-04,2020-03-04' => true];
+                return ['1|2020-03-04,2020-03-04' => true];
             }
         };
 
@@ -765,6 +765,7 @@ class RecordBuilderTest extends TestCase
 
                 return [[
                     'name' => 'TestPlugin_flat',
+                    'idsite' => 1,
                     'date1' => '2020-03-04',
                     'date2' => '2020-03-04',
                     'value' => $this->flatRootBlob,
@@ -773,7 +774,7 @@ class RecordBuilderTest extends TestCase
 
             protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
             {
-                return ['2020-03-04,2020-03-04' => true];
+                return ['1|2020-03-04,2020-03-04' => true];
             }
         };
 
@@ -829,7 +830,7 @@ class RecordBuilderTest extends TestCase
                 $table = new DataTable();
                 if ($recordName === 'TestPlugin_flat') {
                     $table->addRowFromSimpleArray(['label' => '/flat-path', 'nb_visits' => 5]);
-                    return [$table, true, ['2020-03-04,2020-03-04' => true]];
+                    return [$table, true, ['1|2020-03-04,2020-03-04' => true]];
                 }
 
                 return [$table, false, []];
@@ -845,6 +846,7 @@ class RecordBuilderTest extends TestCase
                 $legacyTable->addRowFromSimpleArray(['label' => '/legacy-path', 'nb_visits' => 7]);
 
                 yield [
+                    'idsite' => 1,
                     'date1' => '2020-03-05',
                     'date2' => '2020-03-05',
                     'name' => 'TestPlugin_hierarchy',
@@ -855,8 +857,8 @@ class RecordBuilderTest extends TestCase
             protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
             {
                 return [
-                    '2020-03-04,2020-03-04' => true,
-                    '2020-03-05,2020-03-05' => true,
+                    '1|2020-03-04,2020-03-04' => true,
+                    '1|2020-03-05,2020-03-05' => true,
                 ];
             }
         };
@@ -923,7 +925,7 @@ class RecordBuilderTest extends TestCase
                     $table->addRowFromSimpleArray(['label' => '/flat-path-b', 'nb_visits' => 3]);
                     $table->addSummaryRow(new Row([Row::COLUMNS => ['label' => '-1', 'nb_visits' => 2]]));
 
-                    return [$table, true, ['2020-03-04,2020-03-04' => true]];
+                    return [$table, true, ['1|2020-03-04,2020-03-04' => true]];
                 }
 
                 return [$table, false, []];
@@ -931,7 +933,7 @@ class RecordBuilderTest extends TestCase
 
             protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
             {
-                return ['2020-03-04,2020-03-04' => true];
+                return ['1|2020-03-04,2020-03-04' => true];
             }
 
             protected function beforeInsertBuiltFromFlatHierarchyRecord(
@@ -1004,7 +1006,7 @@ class RecordBuilderTest extends TestCase
                 $table = new DataTable();
                 if ($recordName === 'TestPlugin_flat') {
                     $table->addRowFromSimpleArray(['label' => '/flat-path', 'nb_visits' => 5]);
-                    return [$table, true, ['2020-03-04,2020-03-04' => true]];
+                    return [$table, true, ['1|2020-03-04,2020-03-04' => true]];
                 }
 
                 return [$table, false, []];
@@ -1023,6 +1025,7 @@ class RecordBuilderTest extends TestCase
                 $legacyTableB->addRowFromSimpleArray(['label' => '/legacy-path-b', 'nb_visits' => 3]);
 
                 yield [
+                    'idsite' => 1,
                     'date1' => '2020-03-05',
                     'date2' => '2020-03-05',
                     'name' => 'TestPlugin_hierarchy',
@@ -1030,6 +1033,7 @@ class RecordBuilderTest extends TestCase
                 ];
 
                 yield [
+                    'idsite' => 1,
                     'date1' => '2020-03-06',
                     'date2' => '2020-03-06',
                     'name' => 'TestPlugin_hierarchy',
@@ -1040,9 +1044,9 @@ class RecordBuilderTest extends TestCase
             protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
             {
                 return [
-                    '2020-03-04,2020-03-04' => true,
-                    '2020-03-05,2020-03-05' => true,
-                    '2020-03-06,2020-03-06' => true,
+                    '1|2020-03-04,2020-03-04' => true,
+                    '1|2020-03-05,2020-03-05' => true,
+                    '1|2020-03-06,2020-03-06' => true,
                 ];
             }
         };
@@ -1132,7 +1136,7 @@ class RecordBuilderTest extends TestCase
 
             protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
             {
-                return ['2020-03-04,2020-03-04' => true];
+                return ['1|2020-03-04,2020-03-04' => true];
             }
         };
 
@@ -1246,8 +1250,8 @@ class RecordBuilderTest extends TestCase
             protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
             {
                 return [
-                    '2020-03-05,2020-03-05' => true,
-                    '2020-03-06,2020-03-06' => true,
+                    '1|2020-03-05,2020-03-05' => true,
+                    '1|2020-03-06,2020-03-06' => true,
                 ];
             }
         };
@@ -1313,7 +1317,7 @@ class RecordBuilderTest extends TestCase
                     // Period 03-04 already has a flat record with paths overlapping the legacy hierarchy.
                     $table->addRowFromSimpleArray(['label' => '/products/shoes', 'nb_visits' => 10]);
                     $table->addRowFromSimpleArray(['label' => '/contact', 'nb_visits' => 2]);
-                    return [$table, true, ['2020-03-04,2020-03-04' => true]];
+                    return [$table, true, ['1|2020-03-04,2020-03-04' => true]];
                 }
                 return [$table, false, []];
             }
@@ -1341,8 +1345,8 @@ class RecordBuilderTest extends TestCase
             protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
             {
                 return [
-                    '2020-03-04,2020-03-04' => true,
-                    '2020-03-05,2020-03-05' => true,
+                    '1|2020-03-04,2020-03-04' => true,
+                    '1|2020-03-05,2020-03-05' => true,
                 ];
             }
         };
@@ -1820,7 +1824,7 @@ class RecordBuilderTest extends TestCase
      * spec), subtable blobs named $recordName_<id>. Root is yielded first so consumers can rely
      * on parent-before-child ordering, mirroring how ArchiveSelector orders rows.
      *
-     * @return iterable<array{name: string, date1: string, date2: string, value: string}>
+     * @return iterable<array{idsite: int, name: string, date1: string, date2: string, value: string}>
      */
     public static function serializeToArchiveRows(string $recordName, string $date, DataTable $table): iterable
     {
@@ -1828,6 +1832,7 @@ class RecordBuilderTest extends TestCase
         ksort($serialized);
         foreach ($serialized as $key => $value) {
             yield [
+                'idsite' => 1,
                 'name' => $key === 0 ? $recordName : $recordName . '_' . $key,
                 'date1' => $date,
                 'date2' => $date,

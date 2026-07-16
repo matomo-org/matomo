@@ -618,7 +618,7 @@ class ArchiveSelector
 
         $archiveIdsPerMonth = self::getArchiveIdsByYearMonth($archiveIds);
 
-        $periodsSeen = [];
+        $sitePeriodsSeen = [];
 
         // $yearMonth = "2022-11",
         foreach ($archiveIdsPerMonth as $yearMonth => $ids) {
@@ -649,12 +649,12 @@ class ArchiveSelector
                     continue;
                 }
 
-                // only use the first period/blob name combination seen (since we order by ts_archived descending)
-                if (!empty($periodsSeen[$period][$recordName])) {
+                // only use the first site/period/blob name combination seen (since we order by ts_archived descending)
+                if (!empty($sitePeriodsSeen[$row['idsite']][$period][$recordName])) {
                     continue;
                 }
 
-                $periodsSeen[$period][$recordName] = true;
+                $sitePeriodsSeen[$row['idsite']][$period][$recordName] = true;
 
                 $row['value'] = ArchiveSelector::uncompress($row['value']);
                 if ($chunk->isRecordNameAChunk($row['name'])) {
@@ -662,6 +662,7 @@ class ArchiveSelector
                     $blobs = Common::safe_unserialize($row['value']);
                     if (!is_array($blobs)) {
                         yield $row;
+                        continue;
                     }
 
                     ksort($blobs);
@@ -688,8 +689,8 @@ class ArchiveSelector
      *
      * @param array $recordNames The list of records to look for.
      * @param string|int $idSubtable The idSubtable to look for or 'all' to load all of them.
-     * @param boolean $orderBySubtableId If true, orders the result set by start date ascending, subtable ID
-     *                                   ascending and ts_archived descending. Only applied if loading all
+     * @param boolean $orderBySubtableId If true, orders the result set by start date ascending, site ID ascending,
+     *                                   subtable ID ascending and ts_archived descending. Only applied if loading all
      *                                   subtables for a single record.
      *
      *                                   This parameter is used when aggregating blob data for a single record
@@ -724,6 +725,7 @@ class ArchiveSelector
                 $idSubtableAsInt = self::getExtractIdSubtableFromBlobNameSql($chunk, $name);
 
                 $orderBy = "ORDER BY date1 ASC, " . // ordering by date just so column order in tests will be predictable
+                    " idsite ASC, " . // an archive query can span multiple sites for the same period, so keep each site's rows together
                     " $idSubtableAsInt ASC,
                   ts_archived DESC"; // ascending order so we use the latest data found
             }
