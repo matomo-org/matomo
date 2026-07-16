@@ -138,6 +138,14 @@ class APITest extends IntegrationTestCase
         $this->api->addGoal($this->idSite, 'MyName', 'external_website', 'www.test.de', 'invalid');
     }
 
+    public function testAddGoalShouldThrowExceptionIfPatternIsEmptyForExternalWebsite()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_PleaseSpecifyValue');
+
+        $this->api->addGoal($this->idSite, 'MyName', 'external_website', '', 'contains');
+    }
+
     public function testAddGoalShouldThrowExceptionIfPatternRegexIsInvalid()
     {
         $this->expectException(\Exception::class);
@@ -198,6 +206,15 @@ class APITest extends IntegrationTestCase
 
         $idGoal = $this->createAnyGoal();
         $this->api->updateGoal($this->idSite, $idGoal, 'MyName', 'url', 'www.test.de', 'exact');
+    }
+
+    public function testUpdateGoalShouldThrowExceptionIfPatternIsEmptyForExternalWebsite()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_PleaseSpecifyValue');
+
+        $idGoal = $this->createAnyGoal();
+        $this->api->updateGoal($this->idSite, $idGoal, 'MyName', 'external_website', '', 'contains');
     }
 
     public function testUpdateGoalShouldNotThrowExceptionIfPatternTypeIsExactAndMatchAttributeIsEvent()
