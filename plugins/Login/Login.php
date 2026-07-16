@@ -167,9 +167,9 @@ class Login extends \Piwik\Plugin
         if ($this->isModuleIsAPI()) {
             // Throw an exception if a token was provided but it was invalid
             if (StaticContainer::get(AuthenticationToken::class)->wasTokenAuthProvidedSecurely()) {
-                throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid or expired.');
+                throw new NoAccessException(Piwik::translate('Login_TokenAuthenticationFailed'));
             } else {
-                throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter.');
+                throw new NoAccessException(Piwik::translate('Login_TokenAuthenticationFailedInsecure'));
             }
         }
     }
