@@ -410,13 +410,6 @@ class Model
 
         $bind = self::getPatternMatchSqlBind($pattern);
 
-        // Also match the idsite
-        $where = '';
-        if (is_numeric($pattern)) {
-            $bind[] = $pattern;
-            $where  = 'OR s.idsite = ?';
-        }
-
         $typeWhere = '';
         if (!empty($siteTypesToExclude)) {
             $bind = array_merge($bind, $siteTypesToExclude);
@@ -425,8 +418,7 @@ class Model
 
         $query = "SELECT *
                   FROM " . $this->table . " s
-                  WHERE ( " . self::getPatternMatchSqlQuery('s') . "
-                          $where ) $typeWhere
+                  WHERE ( " . self::getPatternMatchSqlQuery('s') . " ) $typeWhere
                      AND idsite in ($ids_str)";
 
         if ($limit && intval($limit) > 0) {
@@ -441,12 +433,15 @@ class Model
 
     public static function getPatternMatchSqlQuery($table)
     {
-        return "($table.name like ? OR $table.main_url like ? OR $table.group like ?)";
+        if (!in_array($table, ['s', 'site', 'a', 'access'])) {
+            $table = 's';
+        }
+        return "($table.name like ? OR $table.main_url like ? OR $table.group like ? OR $table.idsite = ?)";
     }
 
     public static function getPatternMatchSqlBind($pattern)
     {
-        return array('%' . $pattern . '%', 'http%' . $pattern . '%', '%' . $pattern . '%');
+        return array('%' . $pattern . '%', 'http%' . $pattern . '%', '%' . $pattern . '%', (int)$pattern);
     }
 
     /**
