@@ -6,6 +6,7 @@
         "AddNewUser": "Cuir úsáideoir nua leis",
         "AddSuperuserAccessConfirm": "Trí rochtain superuser úsáideora a thabhairt, beidh an t-úsáideoir in ann smacht iomlán a bheith aige ar Matomo agus ba chóir é a dhéanamh go coigilteach.",
         "AddUserNoInitialAccessError": "Ní mór rochtain a thabhairt d'úsáideoirí nua ar shuíomh gréasáin, socraigh an paraiméadar 'initialIdSite'.",
+        "AdminUserRoleChangeWarning": "Trí ról %1$s a thabhairt d'úsáideoir, tugtar smacht riaracháin iomlán dóibh ar na suíomhanna gréasáin lena mbaineann, lena n-áirítear an cumas rochtain úsáideoirí eile a bhainistiú.",
         "AllUsersAreSelected": "Roghnaítear gach úsáideoir%1$s.",
         "AllWebsites": "Gach suíomh gréasáin",
         "AllWebsitesAreSelected": "Roghnaítear gach suíomh Gréasáin%1$s.",

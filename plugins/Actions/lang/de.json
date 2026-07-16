@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "Typ der Aktion",
+        "ActionTypeSegmentHelp": "Ein Aktionstyp, zum Beispiel: %s",
         "ActionTypes": "Aktionstypen",
         "ActionsInVisit": "Aktionen beim Besuch",
         "AvgGenerationTimeTooltip": "Durchschnitt basierend auf %1$s Aufruf(en) %2$s zwischen %3$s und %4$s",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "Benutzen Sie zur Navigation die Symbole Plus und Minus auf der linken Seite.",
         "PluginDescription": "Berichte über die Seitenansichten und Seitentitel. Lässt Sie die interne Suchmaschine Ihrer Webseite bewerten. Registriert Klicks auf externe Links und Dateidownloads automatisch.",
         "RevisitedPages": "Seiten die mehrmals angesehen wurden",
+        "SearchesSegmentHelp": "Um alle Besuche auszuwählen, bei denen die interne Suchfunktion genutzt wurde, verwenden Sie: %s",
         "SiteSearchCategories": "Kategorien (Interne Suche)",
         "SiteSearchCategories1": "Dieser Bericht zeigt die Kategorien, welche bei der internen Suche ausgewählt wurden.",
         "SiteSearchCategories2": "Onlineshops haben beispielsweise meist eine Kategorieauswahl, mit der Besucher ihre Suche auf eine bestimmte Produktkategorie einschränken können.",

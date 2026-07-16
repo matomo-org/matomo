@@ -4,6 +4,8 @@
         "AvgValue": "Durchschnittswert",
         "AvgValueDocumentation": "Der Durchschnitt aller Werte für dieses Ereigniss",
         "Category": "Kategorie",
+        "ColumnNbUniqVisitorsDocumentation": "Die Anzahl der deduplizierten Besucher, die ein Ereignis auf Ihrer Website ausgelöst haben. Jeder Besucher wird nur einmal gezählt, auch wenn er die Website mehrmals besucht oder mehrere Ereignisse auslöst.",
+        "ColumnNbVisitsDocumentation": "Die Gesamtzahl der Besuche, bei denen mindestens ein Ereignis ausgelöst wurde.",
         "Event": "Ereignis",
         "EventAction": "Ereignisaktion",
         "EventActions": "Ereignisaktionen",

@@ -50,7 +50,7 @@
         "ServerBasedVariablesConfiguration": "Configuração para as variáveis de servidor usadas pelos módulos GeoIP2 do servidor",
         "ServerVariableFor": "Variável de servidor para %s",
         "SetupAutomaticUpdatesOfGeoIP": "Configurar atualizações automáticas das bases de dados de geolocalização",
-        "ShowCustomServerVariablesConfig": "Eu uso o módulo GeoIP2 para servidor (Nginx, Apache...) e quero configurar variáveis de servidor",
+        "ShowCustomServerVariablesConfig": "Utilizo o módulo de servidor Geoip2 (Nginx, Apache...) e quero configurar variáveis de servidor",
         "ThisUrlIsNotAValidGeoIPDB": "O arquivo baixado não é uma base de dados de geolocalização válida. Por favor verifique novamente a URL ou baixe o arquivo manualmente.",
         "UnsupportedArchiveType": "Encontrado tipo de arquivo não suportado %1$s.",
         "UpdaterHasNotBeenRun": "O atualizador nunca foi executado.",
