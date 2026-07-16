@@ -14,7 +14,6 @@
 		<entry_sum_visit_length>727</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -64,7 +63,6 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>2</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -93,7 +91,6 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>2</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>2</nb_conversions>

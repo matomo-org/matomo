@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\Cache;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\LogAggregator;
@@ -22,7 +23,6 @@ use Piwik\Metrics as PiwikMetrics;
 use Piwik\Plugins\Actions\Archiver;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Actions\Metrics;
-use Piwik\Plugins\Actions\Tracker\PageViewTimeWriter;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
@@ -740,61 +740,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     /**
      * Time per action.
-     *
-     * When the accurate-time feature is enabled (default), this reads from `log_page_view_time` so
-     * each pageview row contributes the time the user actually spent on that page, including any
-     * follow-up events / heartbeats. The legacy `time_spent_ref_action` query is retained behind
-     * the `record_accurate_page_view_time` kill-switch for safe rollback.
      */
     protected function archiveDayActionsTime(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
-        // The accurate path only produces correct numbers for days on which the writer was active,
-        // so we probe `log_page_view_time` for the archive period first. When empty (e.g. a
-        // pre-upgrade day being re-archived after invalidation, or the earlier days of the week
-        // in the mid-week-upgrade case), fall back to the legacy `time_spent_ref_action` query so
-        // historical numbers stay stable instead of collapsing to zero.
-        if (PageViewTimeWriter::isEnabled() && $this->hasAccuratePageViewTimeRowsInPeriod($logAggregator)) {
-            $this->archiveDayActionsTimeAccurate($logAggregator, $actionsTablesByType, $rankingQueryLimit, $tableModesByType);
-            return;
-        }
-
+        $this->archiveDayActionsTimeAccurate($logAggregator, $actionsTablesByType, $rankingQueryLimit, $tableModesByType);
         $this->archiveDayActionsTimeLegacy($logAggregator, $actionsTablesByType, $rankingQueryLimit, $tableModesByType);
     }
 
-    /**
-     * Returns true when at least one `log_page_view_time` row exists in the archive period.
-     * Kept intentionally cheap — a segment-aware `SELECT 1 ... LIMIT 1` — so it costs almost
-     * nothing when the accurate path is on and rows exist, and only saves an empty JOIN when
-     * they don't.
-     */
-    private function hasAccuratePageViewTimeRowsInPeriod(LogAggregator $logAggregator): bool
-    {
-        $where = $logAggregator->getWhereStatement('log_page_view_time', 'server_time');
-        $query = $logAggregator->generateQuery(
-            'log_page_view_time.idpageviewtime',
-            'log_page_view_time',
-            $where,
-            false,
-            false
-        );
-
-        $sql = $query['sql'] . ' LIMIT 1';
-        $result = $logAggregator->getDb()->fetchOne($sql, $query['bind']);
-
-        return $result !== null && $result !== false;
-    }
-
-    /**
-     * Accurate time per action sourced from `log_page_view_time`.
-     *
-     * One row per pageview, with `time_spent` already accumulated by the tracker. By the time
-     * archiving runs the tracker has already closed every pageview that was followed by another
-     * one in the same visit (see {@see PageViewTimeWriter::insertPageView()} — it updates the
-     * previous PV row before inserting the new one) and heartbeat / event pings have updated
-     * the row in-flight. The archive-time backfill therefore only needs to estimate time for
-     * the visit's last pageview (no follow-up to close it): when `time_spent = 0`, use
-     * `LEAST(visit_last_action_time − server_time, visit_standard_length)`.
-     */
     private function archiveDayActionsTimeAccurate(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType): void
     {
         $rankingQuery = false;
@@ -831,11 +783,17 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         }
 
         $cap = (int) (Config::getInstance()->Tracker['visit_standard_length'] ?? 1800);
+        $pageViewTimeTable = Common::prefixTable('log_page_view_time');
 
         $timeSpentExpression = "CASE
                 WHEN log_page_view_time.time_spent > 0 THEN log_page_view_time.time_spent
                 WHEN log_visit.visit_last_action_time IS NOT NULL
                  AND UNIX_TIMESTAMP(log_visit.visit_last_action_time) > UNIX_TIMESTAMP(log_page_view_time.server_time)
+                 AND NOT EXISTS (
+                        SELECT 1 FROM `$pageViewTimeTable` AS later_pvt
+                         WHERE later_pvt.idvisit = log_page_view_time.idvisit
+                           AND later_pvt.idpageviewtime > log_page_view_time.idpageviewtime
+                     )
                     THEN LEAST(
                         UNIX_TIMESTAMP(log_visit.visit_last_action_time) - UNIX_TIMESTAMP(log_page_view_time.server_time),
                         $cap
@@ -881,12 +839,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         );
     }
 
-    /**
-     * Legacy time-per-action archive query.
-     *
-     * @deprecated since 5.13.0 retained behind the `record_accurate_page_view_time` kill-switch;
-     *             scheduled for removal in Matomo 6.0.
-     */
     private function archiveDayActionsTimeLegacy(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType): void
     {
         $rankingQuery = false;
@@ -894,6 +846,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
+            $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT, 'sum');
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($actionsTablesByType));
 
             $extraSelects = "log_action.type, log_action.name, count(*) as `" . PiwikMetrics::INDEX_PAGE_NB_HITS . "`,";
@@ -911,12 +864,20 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $orderBy = false;
         }
 
+        $pageViewTimeTable = Common::prefixTable('log_page_view_time');
+
         $select = "log_link_visit_action.%s as idaction, $extraSelects
-                sum(log_link_visit_action.time_spent_ref_action) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
+                sum(log_link_visit_action.time_spent_ref_action) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`,
+                sum(log_link_visit_action.time_spent_ref_action > 0) as `" . PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT . "`";
 
         $where = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
         $where .= " AND log_link_visit_action.time_spent_ref_action > 0
-                 AND log_link_visit_action.%s > 0"
+                 AND log_link_visit_action.%s > 0
+                 AND NOT EXISTS (
+                        SELECT 1 FROM `$pageViewTimeTable` AS pvt
+                         WHERE pvt.idvisit = log_link_visit_action.idvisit
+                           AND pvt.idpageview = log_link_visit_action.idpageview
+                     )"
             . $this->getWhereClauseActionIsNotEvent();
 
         $groupBy = "log_link_visit_action.%s";

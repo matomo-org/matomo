@@ -17,7 +17,6 @@
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 		<exit_nb_visits>2</exit_nb_visits>
-		<nb_hits_with_time_spent>3</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='ecommerceOrder'>
 				<nb_conversions>3</nb_conversions>
@@ -51,7 +50,6 @@
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
 		<max_bandwidth />
-		<nb_hits_with_time_spent>2</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='ecommerceOrder'>
 				<nb_conversions>3</nb_conversions>

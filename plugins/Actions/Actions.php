@@ -56,7 +56,6 @@ class Actions extends \Piwik\Plugin
             'exit_nb_visits'       => Dimension::TYPE_NUMBER,
             'nb_pages_per_search'      => Dimension::TYPE_NUMBER,
             'nb_hits_following_search' => Dimension::TYPE_NUMBER,
-            'nb_hits_with_time_spent'  => Dimension::TYPE_NUMBER,
         );
 
         $types = array_merge($types, $metrics);

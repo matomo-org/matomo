@@ -14,7 +14,6 @@
 		<entry_sum_visit_length>388</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_visits>6</exit_nb_visits>
-		<nb_hits_with_time_spent>9</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='ecommerceOrder'>
 				<nb_conversions>7</nb_conversions>
@@ -50,7 +49,6 @@
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
 		<max_bandwidth />
-		<nb_hits_with_time_spent>6</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='ecommerceOrder'>
 				<nb_conversions>7</nb_conversions>

@@ -35,7 +35,6 @@
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 		<exit_nb_visits>2</exit_nb_visits>
-		<nb_hits_with_time_spent>2</nb_hits_with_time_spent>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_network>0</avg_time_network>
 		<avg_time_server>0.455</avg_time_server>
@@ -83,7 +82,6 @@
 		<entry_nb_actions>18</entry_nb_actions>
 		<entry_sum_visit_length>3601</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
-		<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>

@@ -36,7 +36,6 @@
 			<entry_bounce_count>2</entry_bounce_count>
 			<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 			<exit_nb_visits>2</exit_nb_visits>
-			<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.049</avg_time_network>
 			<avg_time_server>0.267</avg_time_server>
@@ -101,7 +100,6 @@
 			<max_bandwidth />
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
-			<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.033</avg_time_network>
 			<avg_time_server>0.356</avg_time_server>
@@ -148,7 +146,6 @@
 			<entry_nb_actions>5</entry_nb_actions>
 			<entry_sum_visit_length>901</entry_sum_visit_length>
 			<entry_bounce_count>0</entry_bounce_count>
-			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.027</avg_time_network>
 			<avg_time_server>0.268</avg_time_server>
@@ -190,7 +187,6 @@
 			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 			<min_bandwidth />
 			<max_bandwidth />
-			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0</avg_time_network>
 			<avg_time_server>0.199</avg_time_server>
@@ -236,7 +232,6 @@
 			<max_bandwidth />
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
-			<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.033</avg_time_network>
 			<avg_time_server>0.356</avg_time_server>
@@ -283,7 +278,6 @@
 			<entry_nb_actions>5</entry_nb_actions>
 			<entry_sum_visit_length>901</entry_sum_visit_length>
 			<entry_bounce_count>0</entry_bounce_count>
-			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.027</avg_time_network>
 			<avg_time_server>0.268</avg_time_server>
@@ -325,7 +319,6 @@
 			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 			<min_bandwidth />
 			<max_bandwidth />
-			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0</avg_time_network>
 			<avg_time_server>0.199</avg_time_server>
@@ -371,7 +364,6 @@
 			<max_bandwidth />
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
-			<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.033</avg_time_network>
 			<avg_time_server>0.356</avg_time_server>
@@ -418,7 +410,6 @@
 			<entry_nb_actions>5</entry_nb_actions>
 			<entry_sum_visit_length>901</entry_sum_visit_length>
 			<entry_bounce_count>0</entry_bounce_count>
-			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.027</avg_time_network>
 			<avg_time_server>0.268</avg_time_server>
@@ -460,7 +451,6 @@
 			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 			<min_bandwidth />
 			<max_bandwidth />
-			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0</avg_time_network>
 			<avg_time_server>0.199</avg_time_server>
@@ -506,7 +496,6 @@
 			<max_bandwidth />
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
-			<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.033</avg_time_network>
 			<avg_time_server>0.356</avg_time_server>
@@ -553,7 +542,6 @@
 			<entry_nb_actions>5</entry_nb_actions>
 			<entry_sum_visit_length>901</entry_sum_visit_length>
 			<entry_bounce_count>0</entry_bounce_count>
-			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.027</avg_time_network>
 			<avg_time_server>0.268</avg_time_server>
@@ -595,7 +583,6 @@
 			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 			<min_bandwidth />
 			<max_bandwidth />
-			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0</avg_time_network>
 			<avg_time_server>0.199</avg_time_server>
@@ -641,7 +628,6 @@
 			<max_bandwidth />
 			<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 			<exit_nb_visits>1</exit_nb_visits>
-			<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.033</avg_time_network>
 			<avg_time_server>0.356</avg_time_server>
@@ -688,7 +674,6 @@
 			<entry_nb_actions>5</entry_nb_actions>
 			<entry_sum_visit_length>901</entry_sum_visit_length>
 			<entry_bounce_count>0</entry_bounce_count>
-			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0.027</avg_time_network>
 			<avg_time_server>0.268</avg_time_server>
@@ -730,7 +715,6 @@
 			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 			<min_bandwidth />
 			<max_bandwidth />
-			<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 			<avg_bandwidth>0</avg_bandwidth>
 			<avg_time_network>0</avg_time_network>
 			<avg_time_server>0.199</avg_time_server>

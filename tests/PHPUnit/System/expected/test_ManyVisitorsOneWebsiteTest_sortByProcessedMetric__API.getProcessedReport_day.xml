@@ -118,7 +118,6 @@
 		<entry_sum_visit_length>6484</entry_sum_visit_length>
 		<entry_bounce_count>4</entry_bounce_count>
 		<exit_nb_visits>4</exit_nb_visits>
-		<nb_hits_with_time_spent>4</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal="1">
 				<nb_conversions>8</nb_conversions>

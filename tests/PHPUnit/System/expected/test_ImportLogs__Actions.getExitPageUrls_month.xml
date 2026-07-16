@@ -17,7 +17,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>11</entry_bounce_count>
 		<exit_nb_visits>11</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>11</nb_conversions>
@@ -58,7 +57,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>10</entry_bounce_count>
 				<exit_nb_visits>10</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>10</nb_conversions>
@@ -96,7 +94,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>9</entry_bounce_count>
 						<exit_nb_visits>9</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>9</nb_conversions>
@@ -134,7 +131,6 @@
 								<entry_sum_visit_length>0</entry_sum_visit_length>
 								<entry_bounce_count>9</entry_bounce_count>
 								<exit_nb_visits>9</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<goals>
 									<row idgoal='1'>
 										<nb_conversions>9</nb_conversions>
@@ -178,7 +174,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
@@ -216,7 +211,6 @@
 								<entry_sum_visit_length>0</entry_sum_visit_length>
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_visits>1</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<goals>
 									<row idgoal='1'>
 										<nb_conversions>1</nb_conversions>
@@ -262,7 +256,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -300,7 +293,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
@@ -338,7 +330,6 @@
 								<entry_sum_visit_length>0</entry_sum_visit_length>
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_visits>1</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<goals>
 									<row idgoal='1'>
 										<nb_conversions>1</nb_conversions>
@@ -376,7 +367,6 @@
 										<entry_sum_visit_length>0</entry_sum_visit_length>
 										<entry_bounce_count>1</entry_bounce_count>
 										<exit_nb_visits>1</exit_nb_visits>
-										<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 										<goals>
 											<row idgoal='1'>
 												<nb_conversions>1</nb_conversions>
@@ -426,7 +416,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>4</entry_bounce_count>
 		<exit_nb_visits>4</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>4</nb_conversions>
@@ -467,7 +456,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>2</entry_bounce_count>
 				<exit_nb_visits>2</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>2</nb_conversions>
@@ -505,7 +493,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>2</entry_bounce_count>
 						<exit_nb_visits>2</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>2</nb_conversions>
@@ -549,7 +536,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -591,7 +577,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -629,7 +614,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
@@ -675,7 +659,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>4</entry_bounce_count>
 		<exit_nb_visits>4</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>4</nb_conversions>
@@ -716,7 +699,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>2</entry_bounce_count>
 				<exit_nb_visits>2</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>2</nb_conversions>
@@ -758,7 +740,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -796,7 +777,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
@@ -840,7 +820,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -878,7 +857,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
@@ -924,7 +902,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>3</entry_bounce_count>
 		<exit_nb_visits>3</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>3</nb_conversions>
@@ -969,7 +946,6 @@
 		<entry_sum_visit_length>2</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
-		<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>4</nb_conversions>
@@ -1010,7 +986,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>2</nb_conversions>
@@ -1048,7 +1023,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>2</nb_conversions>
@@ -1092,7 +1066,6 @@
 				<entry_sum_visit_length>2</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>2</nb_conversions>
@@ -1130,7 +1103,6 @@
 						<entry_sum_visit_length>2</entry_sum_visit_length>
 						<entry_bounce_count>0</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>2</nb_conversions>
@@ -1168,7 +1140,6 @@
 								<entry_sum_visit_length>2</entry_sum_visit_length>
 								<entry_bounce_count>0</entry_bounce_count>
 								<exit_nb_visits>1</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<goals>
 									<row idgoal='1'>
 										<nb_conversions>2</nb_conversions>
@@ -1206,7 +1177,6 @@
 										<entry_sum_visit_length>2</entry_sum_visit_length>
 										<entry_bounce_count>0</entry_bounce_count>
 										<exit_nb_visits>1</exit_nb_visits>
-										<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 										<goals>
 											<row idgoal='1'>
 												<nb_conversions>2</nb_conversions>
@@ -1255,7 +1225,6 @@
 		<entry_nb_actions>2</entry_nb_actions>
 		<entry_sum_visit_length>242</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
-		<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1296,7 +1265,6 @@
 				<entry_nb_actions>2</entry_nb_actions>
 				<entry_sum_visit_length>242</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -1334,7 +1302,6 @@
 						<entry_nb_actions>2</entry_nb_actions>
 						<entry_sum_visit_length>242</entry_sum_visit_length>
 						<entry_bounce_count>0</entry_bounce_count>
-						<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
@@ -1372,7 +1339,6 @@
 								<entry_nb_actions>2</entry_nb_actions>
 								<entry_sum_visit_length>242</entry_sum_visit_length>
 								<entry_bounce_count>0</entry_bounce_count>
-								<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 								<goals>
 									<row idgoal='1'>
 										<nb_conversions>1</nb_conversions>
@@ -1407,7 +1373,6 @@
 										<min_bandwidth>5609</min_bandwidth>
 										<max_bandwidth>5609</max_bandwidth>
 										<exit_nb_visits>1</exit_nb_visits>
-										<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 										<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 										<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 										<avg_time_on_page>0</avg_time_on_page>
@@ -1441,7 +1406,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -1482,7 +1446,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>2</nb_conversions>
@@ -1526,7 +1489,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1571,7 +1533,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1612,7 +1573,6 @@
 		<min_bandwidth>3574</min_bandwidth>
 		<max_bandwidth>3574</max_bandwidth>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>3574</avg_bandwidth>
@@ -1641,7 +1601,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1686,7 +1645,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1727,7 +1685,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -1771,7 +1728,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1812,7 +1768,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -1850,7 +1805,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
@@ -1896,7 +1850,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1937,7 +1890,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -1981,7 +1933,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -2022,7 +1973,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -2066,7 +2016,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -2107,7 +2056,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -2151,7 +2099,6 @@
 		<entry_sum_visit_length>2</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -2192,7 +2139,6 @@
 				<entry_sum_visit_length>2</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>2</nb_conversions>
@@ -2236,7 +2182,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -2277,7 +2222,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -2315,7 +2259,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
@@ -2353,7 +2296,6 @@
 								<entry_sum_visit_length>0</entry_sum_visit_length>
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_visits>1</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<goals>
 									<row idgoal='1'>
 										<nb_conversions>1</nb_conversions>
@@ -2391,7 +2333,6 @@
 										<entry_sum_visit_length>0</entry_sum_visit_length>
 										<entry_bounce_count>1</entry_bounce_count>
 										<exit_nb_visits>1</exit_nb_visits>
-										<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 										<goals>
 											<row idgoal='1'>
 												<nb_conversions>1</nb_conversions>
@@ -2429,7 +2370,6 @@
 												<entry_sum_visit_length>0</entry_sum_visit_length>
 												<entry_bounce_count>1</entry_bounce_count>
 												<exit_nb_visits>1</exit_nb_visits>
-												<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 												<goals>
 													<row idgoal='1'>
 														<nb_conversions>1</nb_conversions>
@@ -2467,7 +2407,6 @@
 														<entry_sum_visit_length>0</entry_sum_visit_length>
 														<entry_bounce_count>1</entry_bounce_count>
 														<exit_nb_visits>1</exit_nb_visits>
-														<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 														<goals>
 															<row idgoal='1'>
 																<nb_conversions>1</nb_conversions>
@@ -2505,7 +2444,6 @@
 																<entry_sum_visit_length>0</entry_sum_visit_length>
 																<entry_bounce_count>1</entry_bounce_count>
 																<exit_nb_visits>1</exit_nb_visits>
-																<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 																<goals>
 																	<row idgoal='1'>
 																		<nb_conversions>1</nb_conversions>
@@ -2543,7 +2481,6 @@
 																		<entry_sum_visit_length>0</entry_sum_visit_length>
 																		<entry_bounce_count>1</entry_bounce_count>
 																		<exit_nb_visits>1</exit_nb_visits>
-																		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 																		<goals>
 																			<row idgoal='1'>
 																				<nb_conversions>1</nb_conversions>
@@ -2581,7 +2518,6 @@
 																				<entry_sum_visit_length>0</entry_sum_visit_length>
 																				<entry_bounce_count>1</entry_bounce_count>
 																				<exit_nb_visits>1</exit_nb_visits>
-																				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 																				<goals>
 																					<row idgoal='1'>
 																						<nb_conversions>1</nb_conversions>
@@ -2641,7 +2577,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -2682,7 +2617,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -2726,7 +2660,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -2767,7 +2700,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -2805,7 +2737,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>

@@ -37,7 +37,6 @@
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.036</avg_time_network>
 				<avg_time_server>0.228</avg_time_server>
@@ -87,7 +86,6 @@
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.062</avg_time_network>
 				<avg_time_server>0.305</avg_time_server>
@@ -157,7 +155,6 @@
 				<entry_nb_actions>5</entry_nb_actions>
 				<entry_sum_visit_length>901</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.027</avg_time_network>
 				<avg_time_server>0.268</avg_time_server>
@@ -202,7 +199,6 @@
 				<max_bandwidth />
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.017</avg_time_network>
 				<avg_time_server>0.278</avg_time_server>
@@ -294,7 +290,6 @@
 				<entry_nb_actions>5</entry_nb_actions>
 				<entry_sum_visit_length>901</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.027</avg_time_network>
 				<avg_time_server>0.268</avg_time_server>
@@ -339,7 +334,6 @@
 				<max_bandwidth />
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.017</avg_time_network>
 				<avg_time_server>0.278</avg_time_server>
@@ -431,7 +425,6 @@
 				<entry_nb_actions>5</entry_nb_actions>
 				<entry_sum_visit_length>901</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.027</avg_time_network>
 				<avg_time_server>0.268</avg_time_server>
@@ -476,7 +469,6 @@
 				<max_bandwidth />
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.017</avg_time_network>
 				<avg_time_server>0.278</avg_time_server>
@@ -568,7 +560,6 @@
 				<entry_nb_actions>5</entry_nb_actions>
 				<entry_sum_visit_length>901</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.027</avg_time_network>
 				<avg_time_server>0.268</avg_time_server>
@@ -613,7 +604,6 @@
 				<max_bandwidth />
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.017</avg_time_network>
 				<avg_time_server>0.278</avg_time_server>
@@ -705,7 +695,6 @@
 				<entry_nb_actions>5</entry_nb_actions>
 				<entry_sum_visit_length>901</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.027</avg_time_network>
 				<avg_time_server>0.268</avg_time_server>
@@ -750,7 +739,6 @@
 				<max_bandwidth />
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.017</avg_time_network>
 				<avg_time_server>0.278</avg_time_server>
@@ -847,7 +835,6 @@
 				<entry_bounce_count>0</entry_bounce_count>
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_network>0.027</avg_time_network>
 				<avg_time_server>0.244</avg_time_server>

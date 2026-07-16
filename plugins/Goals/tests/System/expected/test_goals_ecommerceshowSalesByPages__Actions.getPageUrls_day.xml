@@ -17,7 +17,6 @@
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>3</exit_nb_visits>
-		<nb_hits_with_time_spent>12</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='ecommerceAbandonedCart'>
 				<nb_conversions>9</nb_conversions>

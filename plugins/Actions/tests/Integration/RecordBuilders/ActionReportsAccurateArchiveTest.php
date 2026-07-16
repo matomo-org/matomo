@@ -21,17 +21,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
 
 /**
- * Integration tests for the mid-upgrade transition and invalidation paths of the accurate
- * Time-on-Page archiver.
- *
- * Two adversarial scenarios that the standard writer tests don't cover:
- *  - Weekly archive that spans days tracked before and after the kill-switch flip.
- *  - Invalidation and re-archiving of a day tracked before the kill-switch flip.
- *
- * In both cases the invariant is: sum_time_spent MUST come from `log_link_visit_action.
- * time_spent_ref_action` on days where `log_page_view_time` has no rows for the site,
- * so historical numbers stay stable when the accurate path is enabled retroactively.
- *
  * @group Actions
  * @group PageViewTime
  * @group Plugins
@@ -49,7 +38,6 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         Fixture::createSuperUser(true);
         $this->idSite = Fixture::createWebsite('2026-01-01 00:00:00');
 
-        // Deterministic: block browser-triggered archiving so we control when archives are built.
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
         Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
 
@@ -63,32 +51,17 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    /**
-     * Mid-week upgrade: legacy write path for the first 4 days of the ISO week, accurate write
-     * path for the last 3. The archiver dispatch is per-day, so:
-     *   - Day 1-4 daily archives must use the legacy `time_spent_ref_action` query (no
-     *     log_page_view_time rows).
-     *   - Day 5-7 daily archives must use the accurate query.
-     *   - The weekly archive is a sum of the seven daily archives.
-     *
-     * The assertion the customer cares about: weekly sum_time_spent is strictly greater than
-     * either half alone, i.e. both halves contribute and neither is silently dropped when the
-     * flag is flipped mid-week.
-     */
     public function testWeeklyArchiveThatSpansTheKillSwitchFlipSumsBothLegacyAndAccurateDays(): void
     {
-        // ISO week starting Monday 2026-06-01. Days 1-4 tracked legacy, 5-7 tracked accurate.
         $weekStart = '2026-06-01';
         $legacyDays   = ['2026-06-01', '2026-06-02', '2026-06-03', '2026-06-04'];
         $accurateDays = ['2026-06-05', '2026-06-06', '2026-06-07'];
 
-        // Days 1-4: kill switch off → writer skips log_page_view_time.
         $this->setAccurateFlag(false);
         foreach ($legacyDays as $day) {
             $this->trackTimedPageviewPair($day, 'https://example.org/landing');
         }
 
-        // Days 5-7: kill switch on → writer populates log_page_view_time.
         $this->setAccurateFlag(true);
         foreach ($accurateDays as $day) {
             $this->trackTimedPageviewPair($day, 'https://example.org/landing');
@@ -103,9 +76,6 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
             $weeklySumTimeSpent,
             'Weekly archive must retain time_spent from legacy days after the mid-week flip'
         );
-        // Each of the 7 tracked days contributes a ~20s gap between its two pageviews, so we
-        // expect around 7 * 20 = 140s. We accept a wide band (>= 100s) to leave headroom for
-        // second-boundary rounding in the test-scaffold clock.
         $this->assertGreaterThanOrEqual(
             100,
             $weeklySumTimeSpent,
@@ -113,17 +83,10 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         );
     }
 
-    /**
-     * Invalidation of a pre-upgrade day: the day was originally archived with the flag off (so
-     * its numbers came from `time_spent_ref_action`). After the flag flips to on and the day is
-     * invalidated, re-archiving MUST NOT silently drop the numbers to zero just because
-     * log_page_view_time has no rows for that day.
-     */
     public function testInvalidatingAPreUpgradeDayReArchivesUsingLegacySumTimeSpent(): void
     {
         $day = '2026-06-10';
 
-        // Track with the accurate writer off → only log_link_visit_action gets time_spent_ref_action.
         $this->setAccurateFlag(false);
         $this->trackTimedPageviewPair($day, 'https://example.org/stable');
 
@@ -132,8 +95,6 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         $sumBefore = $this->readSumTimeSpent('day', $day);
         $this->assertGreaterThan(0, $sumBefore, 'Legacy tracked day must produce non-zero sum_time_spent');
 
-        // Flip the flag on and invalidate the historical day. `log_page_view_time` is still empty
-        // for the day because it wasn't populated during tracking.
         $this->setAccurateFlag(true);
         CoreAdminHomeAPI::getInstance()->invalidateArchivedReports($this->idSite, $day, 'day');
 
@@ -148,8 +109,6 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
             . ' not collapse historical sum_time_spent to zero.'
         );
 
-        // Cross-check that log_page_view_time is genuinely empty for the day — protects against
-        // a false pass if a future change starts populating it retroactively.
         $rowCount = (int) Db::fetchOne(
             'SELECT COUNT(*) FROM ' . Common::prefixTable('log_page_view_time')
             . ' WHERE idsite = ? AND server_time BETWEEN ? AND ?',
@@ -158,20 +117,136 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         $this->assertSame(0, $rowCount, 'log_page_view_time must be empty for the pre-upgrade day');
     }
 
-    /**
-     * Reads the total `sum_time_spent` (INDEX_PAGE_SUM_TIME_SPENT = 13) across every row of the
-     * `Actions.getPageUrls` report for the given period. Archive records surface metrics keyed
-     * by integer index, not by the human string name — string keys like `sum_time_spent` only
-     * exist after the ProcessedMetrics layer wraps the row, which the API does not do here.
-     */
+    public function testMidDayKillSwitchFlipKeepsMorningPageviewsInDayArchive(): void
+    {
+        $day = '2026-06-15';
+        $morningUrl   = 'https://example.org/morning';
+        $afternoonUrl = 'https://example.org/afternoon';
+
+        $this->setAccurateFlag(false);
+        $this->trackTimedPageviewPair($day . ' 08:00:00', $day . ' 08:00:30', $morningUrl, $morningUrl);
+
+        $this->setAccurateFlag(true);
+        $this->trackTimedPageviewPair($day . ' 14:00:00', $day . ' 14:00:45', $afternoonUrl, $afternoonUrl);
+
+        (new CronArchive())->main();
+
+        $rows = $this->readPageUrlRows('day', $day);
+
+        $this->assertNotEmpty($rows[$morningUrl] ?? null, 'Morning pageview URL must appear in day archive');
+        $this->assertNotEmpty($rows[$afternoonUrl] ?? null, 'Afternoon pageview URL must appear in day archive');
+        $this->assertGreaterThan(
+            0,
+            (int) $rows[$morningUrl]['sum_time_spent'],
+            'Morning URL (tracked before the writer was enabled) must still contribute time via the legacy path'
+        );
+        $this->assertGreaterThan(
+            0,
+            (int) $rows[$afternoonUrl]['sum_time_spent'],
+            'Afternoon URL (writer enabled) must contribute time via the accurate path'
+        );
+    }
+
+    public function testTransitionWeekAverageStaysBoundedByPerRowContributions(): void
+    {
+        $weekStart = '2026-07-06';
+        $url = 'https://example.org/transition';
+
+        $legacyDays   = ['2026-07-06', '2026-07-07', '2026-07-08'];
+        $accurateDays = ['2026-07-09', '2026-07-10'];
+
+        $this->setAccurateFlag(false);
+        foreach ($legacyDays as $day) {
+            $this->trackTimedPageviewPair($day, $url);
+        }
+
+        $this->setAccurateFlag(true);
+        foreach ($accurateDays as $day) {
+            $this->trackTimedPageviewPair($day, $url);
+        }
+
+        (new CronArchive())->main();
+
+        $rows = $this->readPageUrlRows('week', $weekStart);
+        $this->assertNotEmpty($rows[$url] ?? null, 'Transition-week URL must appear in weekly archive');
+
+        $row = $rows[$url];
+        $sum = (int) $row['sum_time_spent'];
+        $hitsWithTime = (int) $row['nb_hits_with_time_spent'];
+
+        $this->assertGreaterThan(0, $sum);
+        $this->assertGreaterThanOrEqual(count($legacyDays) + count($accurateDays), $hitsWithTime, 'Each day contributes at least one time-carrying observation');
+
+        $avg = $sum / $hitsWithTime;
+        $this->assertGreaterThanOrEqual(10, $avg, 'Avg per contribution stays plausible for a ~20s pageview gap');
+        $this->assertLessThanOrEqual(60, $avg, 'Avg must not inflate when legacy/accurate days are mixed');
+    }
+
+    public function testRedirectPageviewInSameSecondDoesNotInflateFirstPageBackfill(): void
+    {
+        $day = '2026-06-20';
+        $baseTime = $day . ' 12:00:00';
+
+        $this->setAccurateFlag(true);
+
+        $tracker = Fixture::getTracker($this->idSite, $baseTime, true, true);
+        $tracker->setTokenAuth(Fixture::getTokenAuth());
+
+        $tracker->setUrl('https://example.org/page-a');
+        $tracker->setPageviewId('aaaaaa');
+        Fixture::checkResponse($tracker->doTrackPageView('Page A'));
+
+        $tracker->setForceVisitDateTime($baseTime);
+        $tracker->setUrl('https://example.org/page-b');
+        $tracker->setPageviewId('bbbbbb');
+        Fixture::checkResponse($tracker->doTrackPageView('Page B'));
+
+        $tracker->setForceVisitDateTime($day . ' 12:05:00');
+        $tracker->setUrl('https://example.org/page-c');
+        $tracker->setPageviewId('cccccc');
+        Fixture::checkResponse($tracker->doTrackPageView('Page C'));
+
+        (new CronArchive())->main();
+
+        $rows = $this->readPageUrlRows('day', $day);
+        $pageA = $rows['https://example.org/page-a'] ?? null;
+        $this->assertNotEmpty($pageA, 'Page A must appear in the archive');
+
+        $sumA = (int) $pageA['sum_time_spent'];
+        $this->assertLessThan(
+            60,
+            $sumA,
+            'Page A (immediately-redirected pageview) must NOT be credited with the whole 5-minute visit duration —'
+            . ' the visit_last_action_time backfill must only apply to the visit\'s TRUE last pageview'
+        );
+    }
+
     private function readSumTimeSpent(string $period, string $date): int
     {
-        $report = ActionsAPI::getInstance()->getPageUrls($this->idSite, $period, $date);
+        $rows = $this->readPageUrlRows($period, $date);
         $sum = 0;
-        foreach ($report->getRows() as $row) {
-            $sum += (int) $row->getColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT);
+        foreach ($rows as $row) {
+            $sum += (int) $row['sum_time_spent'];
         }
         return $sum;
+    }
+
+    private function readPageUrlRows(string $period, string $date): array
+    {
+        $report = ActionsAPI::getInstance()->getPageUrls($this->idSite, $period, $date, false, false, false, -1, false, 'flat');
+        $out = [];
+        foreach ($report->getRows() as $row) {
+            $label = $row->getMetadata('url') ?: $row->getColumn('label');
+            if (!$label) {
+                continue;
+            }
+            $out[$label] = [
+                'sum_time_spent'          => (int) $row->getColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT),
+                'nb_hits_with_time_spent' => (int) $row->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT),
+                'nb_hits'                 => (int) $row->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS),
+            ];
+        }
+        return $out;
     }
 
     private function setAccurateFlag(bool $on): void
@@ -183,16 +258,19 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
         Cache::deleteTrackerCache();
     }
 
-    /**
-     * Fires two pageviews 20 seconds apart against the same URL in the same visit. This is the
-     * minimal shape that makes both the accurate writer (closePreviousPageView UPDATE) and the
-     * legacy path (time_spent_ref_action of the second row) produce a non-zero sum_time_spent
-     * for the URL — so the two paths are directly comparable.
-     */
-    private function trackTimedPageviewPair(string $day, string $url): void
+    private function trackTimedPageviewPair(string $firstAt, ?string $secondAtOrUrl = null, ?string $urlOrNull = null, ?string $secondUrl = null): void
     {
-        $firstAt  = $day . ' 12:00:00';
-        $secondAt = $day . ' 12:00:20';
+        if ($urlOrNull === null) {
+            $day = $firstAt;
+            $firstAt  = $day . ' 12:00:00';
+            $secondAt = $day . ' 12:00:20';
+            $url = $secondAtOrUrl;
+            $urlSecond = $url;
+        } else {
+            $secondAt = $secondAtOrUrl;
+            $url = $urlOrNull;
+            $urlSecond = $secondUrl ?? $url;
+        }
 
         $tracker = Fixture::getTracker($this->idSite, $firstAt, true, true);
         $tracker->setTokenAuth(Fixture::getTokenAuth());
@@ -202,7 +280,7 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
 
         $tracker->setForceVisitDateTime($secondAt);
         $tracker->setPageviewId('bbbbbb');
-        $tracker->setUrl($url);
+        $tracker->setUrl($urlSecond);
         Fixture::checkResponse($tracker->doTrackPageView('Stable'));
     }
 }

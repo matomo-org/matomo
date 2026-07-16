@@ -10,22 +10,12 @@
 namespace Piwik\Plugins\Actions\Columns\Metrics;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics as PiwikMetrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Columns\Dimension;
 
-/**
- * The average amount of time spent on a page. Calculated as:
- *
- *     sum_time_spent / nb_hits_with_time_spent
- *
- * `nb_hits_with_time_spent` is preferred over `nb_hits` so that rows without measurable time-on-page
- * (e.g. the visit's last pageview with no follow-up event and no heartbeat) do not drag the average
- * down toward zero. Archives produced before the accurate-time-on-page metric was introduced
- * (Matomo 5.13.0) report `nb_hits` only; in that case we fall back to it to keep historical numbers
- * comparable.
- */
 class AverageTimeOnPage extends ProcessedMetric
 {
     public function getName()
@@ -41,9 +31,9 @@ class AverageTimeOnPage extends ProcessedMetric
     public function compute(Row $row)
     {
         $sumTimeSpent = $this->getMetric($row, 'sum_time_spent');
-        $hitsWithTime = $this->getMetric($row, 'nb_hits_with_time_spent');
+        $hitsWithTime = $row->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT);
 
-        if ($hitsWithTime <= 0) {
+        if ($hitsWithTime === false || $hitsWithTime <= 0) {
             $hitsWithTime = $this->getMetric($row, 'nb_hits');
         }
 
@@ -57,7 +47,7 @@ class AverageTimeOnPage extends ProcessedMetric
 
     public function getDependentMetrics()
     {
-        return array('sum_time_spent', 'nb_hits_with_time_spent', 'nb_hits');
+        return array('sum_time_spent', 'nb_hits');
     }
 
     public function getSemanticType(): ?string

@@ -15,6 +15,21 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated method `Piwik\API\Request::isTokenAuthProvidedSecurely()` has been removed.
 * The API methods `Annotations.add`, `Annotations.save` and `Annotations.delete` now require `Write` permission. Previously `Annotations.add` required only `View` permission, and the author of an annotation could modify or delete it with only `View` permission.
 
+### Deprecations
+* `Piwik\Tracker\Visit::getTimeSpentReferrerAction()` and the `log_link_visit_action.time_spent_ref_action` column are
+  deprecated. The accurate per-pageview time-on-page metric is now sourced from the new `log_page_view_time` log table
+  written by `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter`. The deprecated method and column remain functional
+  through 6.x for the fallback archive path (behind the `record_accurate_page_view_time` kill-switch) and are scheduled
+  for removal in a future major version.
+
+### Schema
+* New log table `log_page_view_time` (one row per `(idvisit, idpageview)`) records the accurate time each pageview was
+  visible, populated by the tracker on every hit. It participates in raw-log purging via the
+  `Piwik\Plugins\Actions\Tracker\LogTable\PageViewTime` `LogTable`. The archiver reads from it via
+  `Piwik\Plugins\Actions\RecordBuilders\ActionReports` and falls back to the legacy `log_link_visit_action`-based
+  `time_spent_ref_action` query when the new table has no rows for the archive period. A temporary `[Tracker]
+  record_accurate_page_view_time` config key (default `1`) is available as a kill-switch.
+
 ## Matomo 5.12.0
 
 ### JavaScript Tracker

@@ -14,7 +14,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>3</entry_bounce_count>
 		<exit_nb_visits>3</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>3</nb_conversions>
@@ -46,7 +45,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>3</entry_bounce_count>
 				<exit_nb_visits>3</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<nb_hits_with_bandwidth>3</nb_hits_with_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -74,7 +72,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>10</entry_bounce_count>
 				<exit_nb_visits>10</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<nb_hits_with_bandwidth>10</nb_hits_with_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -100,8 +97,6 @@
 				<entry_bounce_count_change_from>-70%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+233.3%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>-70%</exit_nb_visits_change_from>
-				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
-				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<nb_hits_with_bandwidth_change>+233.3%</nb_hits_with_bandwidth_change>
 				<nb_hits_with_bandwidth_change_from>-70%</nb_hits_with_bandwidth_change_from>
 				<max_bandwidth_change>+0%</max_bandwidth_change>
@@ -145,7 +140,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>2</entry_bounce_count>
 				<exit_nb_visits>2</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>2</nb_conversions>
@@ -175,7 +169,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>2</entry_bounce_count>
 						<exit_nb_visits>2</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
@@ -197,7 +190,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>9</entry_bounce_count>
 						<exit_nb_visits>9</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
@@ -226,7 +218,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>2</entry_bounce_count>
 						<exit_nb_visits>2</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>2</nb_conversions>
@@ -256,7 +247,6 @@
 								<entry_sum_visit_length>0</entry_sum_visit_length>
 								<entry_bounce_count>2</entry_bounce_count>
 								<exit_nb_visits>2</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
@@ -278,7 +268,6 @@
 								<entry_sum_visit_length>0</entry_sum_visit_length>
 								<entry_bounce_count>8</entry_bounce_count>
 								<exit_nb_visits>8</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
@@ -310,7 +299,6 @@
 								<entry_bounce_count>2</entry_bounce_count>
 								<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 								<exit_nb_visits>2</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<goals>
 									<row idgoal='1'>
 										<nb_conversions>2</nb_conversions>
@@ -343,7 +331,6 @@
 										<entry_bounce_count>2</entry_bounce_count>
 										<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 										<exit_nb_visits>2</exit_nb_visits>
-										<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 										<avg_time_on_page>0</avg_time_on_page>
 										<bounce_rate>100%</bounce_rate>
 										<exit_rate>100%</exit_rate>
@@ -365,7 +352,6 @@
 										<entry_sum_visit_length>0</entry_sum_visit_length>
 										<entry_bounce_count>8</entry_bounce_count>
 										<exit_nb_visits>8</exit_nb_visits>
-										<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 										<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 										<sum_daily_entry_nb_uniq_visitors>8</sum_daily_entry_nb_uniq_visitors>
 										<sum_daily_exit_nb_uniq_visitors>8</sum_daily_exit_nb_uniq_visitors>
@@ -402,7 +388,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -432,7 +417,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
@@ -454,7 +438,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
@@ -483,7 +466,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
@@ -513,7 +495,6 @@
 								<entry_sum_visit_length>0</entry_sum_visit_length>
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_visits>1</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
@@ -535,7 +516,6 @@
 								<entry_sum_visit_length>0</entry_sum_visit_length>
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_visits>1</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
@@ -564,7 +544,6 @@
 								<entry_sum_visit_length>0</entry_sum_visit_length>
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_visits>1</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<goals>
 									<row idgoal='1'>
 										<nb_conversions>1</nb_conversions>
@@ -594,7 +573,6 @@
 										<entry_sum_visit_length>0</entry_sum_visit_length>
 										<entry_bounce_count>1</entry_bounce_count>
 										<exit_nb_visits>1</exit_nb_visits>
-										<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 										<avg_time_on_page>0</avg_time_on_page>
 										<bounce_rate>100%</bounce_rate>
 										<exit_rate>100%</exit_rate>
@@ -616,7 +594,6 @@
 										<entry_sum_visit_length>0</entry_sum_visit_length>
 										<entry_bounce_count>1</entry_bounce_count>
 										<exit_nb_visits>1</exit_nb_visits>
-										<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 										<avg_time_on_page>0</avg_time_on_page>
 										<bounce_rate>100%</bounce_rate>
 										<exit_rate>100%</exit_rate>
@@ -648,7 +625,6 @@
 										<entry_bounce_count>1</entry_bounce_count>
 										<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 										<exit_nb_visits>1</exit_nb_visits>
-										<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 										<goals>
 											<row idgoal='1'>
 												<nb_conversions>1</nb_conversions>
@@ -681,7 +657,6 @@
 												<entry_bounce_count>1</entry_bounce_count>
 												<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 												<exit_nb_visits>1</exit_nb_visits>
-												<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 												<avg_time_on_page>0</avg_time_on_page>
 												<bounce_rate>100%</bounce_rate>
 												<exit_rate>100%</exit_rate>
@@ -703,7 +678,6 @@
 												<entry_sum_visit_length>0</entry_sum_visit_length>
 												<entry_bounce_count>1</entry_bounce_count>
 												<exit_nb_visits>1</exit_nb_visits>
-												<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 												<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 												<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 												<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -744,7 +718,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>2</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -776,7 +749,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>2</entry_bounce_count>
 				<exit_nb_visits>2</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -804,7 +776,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>4</entry_bounce_count>
 				<exit_nb_visits>4</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -830,8 +801,6 @@
 				<entry_bounce_count_change_from>-50%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+100%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>-50%</exit_nb_visits_change_from>
-				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
-				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<nb_hits_with_bandwidth_change>+100%</nb_hits_with_bandwidth_change>
 				<nb_hits_with_bandwidth_change_from>-50%</nb_hits_with_bandwidth_change_from>
 				<max_bandwidth_change>+0%</max_bandwidth_change>
@@ -878,7 +847,6 @@
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -911,7 +879,6 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
@@ -933,7 +900,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>2</entry_bounce_count>
 						<exit_nb_visits>2</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 						<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
@@ -966,7 +932,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -996,7 +961,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
@@ -1018,7 +982,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
@@ -1050,7 +1013,6 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
@@ -1083,7 +1045,6 @@
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 								<exit_nb_visits>1</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
@@ -1105,7 +1066,6 @@
 								<entry_sum_visit_length>0</entry_sum_visit_length>
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_visits>1</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 								<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -1142,7 +1102,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1174,7 +1133,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -1202,7 +1160,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>4</entry_bounce_count>
 				<exit_nb_visits>4</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -1228,8 +1185,6 @@
 				<entry_bounce_count_change_from>-75%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+300%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>-75%</exit_nb_visits_change_from>
-				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
-				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<nb_hits_with_bandwidth_change>+300%</nb_hits_with_bandwidth_change>
 				<nb_hits_with_bandwidth_change_from>-75%</nb_hits_with_bandwidth_change_from>
 				<max_bandwidth_change>+0%</max_bandwidth_change>
@@ -1273,7 +1228,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -1303,7 +1257,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
@@ -1325,7 +1278,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>2</entry_bounce_count>
 						<exit_nb_visits>2</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
@@ -1357,7 +1309,6 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<goals>
 							<row idgoal='1'>
 								<nb_conversions>1</nb_conversions>
@@ -1390,7 +1341,6 @@
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 								<exit_nb_visits>1</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
@@ -1412,7 +1362,6 @@
 								<entry_sum_visit_length>0</entry_sum_visit_length>
 								<entry_bounce_count>2</entry_bounce_count>
 								<exit_nb_visits>2</exit_nb_visits>
-								<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 								<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 								<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
@@ -1449,7 +1398,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1481,7 +1429,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -1509,7 +1456,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -1535,8 +1481,6 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
-				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
-				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<nb_hits_with_bandwidth_change_from>+0%</nb_hits_with_bandwidth_change_from>
 				<max_bandwidth_change>+0%</max_bandwidth_change>
@@ -1583,7 +1527,6 @@
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -1616,7 +1559,6 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
@@ -1638,7 +1580,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 						<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
@@ -1673,7 +1614,6 @@
 		<entry_sum_visit_length>0</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>1</exit_nb_visits>
-		<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -1705,7 +1645,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -1733,7 +1672,6 @@
 				<entry_sum_visit_length>0</entry_sum_visit_length>
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -1759,8 +1697,6 @@
 				<entry_bounce_count_change_from>+0%</entry_bounce_count_change_from>
 				<exit_nb_visits_change>+0%</exit_nb_visits_change>
 				<exit_nb_visits_change_from>+0%</exit_nb_visits_change_from>
-				<nb_hits_with_time_spent_change>+0%</nb_hits_with_time_spent_change>
-				<nb_hits_with_time_spent_change_from>+0%</nb_hits_with_time_spent_change_from>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<nb_hits_with_bandwidth_change_from>+0%</nb_hits_with_bandwidth_change_from>
 				<max_bandwidth_change>+0%</max_bandwidth_change>
@@ -1807,7 +1743,6 @@
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -1840,7 +1775,6 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
@@ -1862,7 +1796,6 @@
 						<entry_sum_visit_length>0</entry_sum_visit_length>
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
-						<nb_hits_with_time_spent>0</nb_hits_with_time_spent>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 						<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>

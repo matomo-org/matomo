@@ -137,7 +137,6 @@ class Metrics
         // Actions metrics
         Metrics::INDEX_PAGE_NB_HITS                          => 'nb_hits',
         Metrics::INDEX_PAGE_SUM_TIME_SPENT                   => 'sum_time_spent',
-        Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT          => 'nb_hits_with_time_spent',
         Metrics::INDEX_PAGE_SUM_TIME_GENERATION              => 'sum_time_generation',
         Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION     => 'nb_hits_with_time_generation',
         Metrics::INDEX_PAGE_MIN_TIME_GENERATION              => 'min_time_generation',

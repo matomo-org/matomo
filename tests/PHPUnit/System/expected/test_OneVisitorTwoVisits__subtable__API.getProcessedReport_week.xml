@@ -117,7 +117,6 @@
 		<max_time_on_load>0.6660</max_time_on_load>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-		<nb_hits_with_time_spent>2</nb_hits_with_time_spent>
 		<goals>
 			<row idgoal="1">
 				<nb_conversions>2</nb_conversions>

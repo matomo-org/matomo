@@ -33,7 +33,6 @@
 		<entry_nb_actions>9</entry_nb_actions>
 		<entry_sum_visit_length>1441</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
-		<nb_hits_with_time_spent>1</nb_hits_with_time_spent>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_network>0.043</avg_time_network>
 		<avg_time_server>0.21</avg_time_server>
