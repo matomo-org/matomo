@@ -17,12 +17,16 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Db\Schema;
+use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Piwik\Tests\Framework\TestDataHelper\LogHelper;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\GoalManager;
 use Piwik\Updater\Migration\Db as DbMigration;
 
 /**
@@ -643,6 +647,125 @@ class LogAggregatorTest extends IntegrationTestCase
             ],
         ];
         $this->assertEquals($expected, $result);
+    }
+
+    public function testQueryEcommerceItemsExcludesPricesAboveMaxAllowedRevenueFromRevenueAndPriceMetrics()
+    {
+        Db::query(
+            'INSERT INTO ' . Common::prefixTable('log_action') . ' (name, hash, type) VALUES (?, ?, ?)',
+            ['Overflow SKU', 0, Action::TYPE_ECOMMERCE_ITEM_SKU]
+        );
+        $idActionSku = Db::fetchOne('SELECT LAST_INSERT_ID()');
+
+        $logInserter = new LogHelper();
+        $visit = $logInserter->insertVisit([
+            'visit_last_action_time' => '2010-03-06 12:00:00',
+        ]);
+
+        $logInserter->insertConversionItem($visit['idvisit'], 'normal-order', [
+            'server_time' => '2010-03-06 12:00:00',
+            'idaction_sku' => $idActionSku,
+            'price' => 40,
+            'quantity' => 4,
+        ]);
+        $logInserter->insertConversionItem($visit['idvisit'], 'zero-quantity-order', [
+            'server_time' => '2010-03-06 12:00:00',
+            'idaction_sku' => $idActionSku,
+            'price' => -50,
+            'quantity' => 0,
+        ]);
+        // Above the tracking bound but small enough that quantity * price would NOT overflow
+        // MySQL DOUBLE: must still be excluded so archiving matches what tracking now rejects.
+        $logInserter->insertConversionItem($visit['idvisit'], 'above-cap-order', [
+            'server_time' => '2010-03-06 12:00:00',
+            'idaction_sku' => $idActionSku,
+            'price' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+            'quantity' => 1,
+        ]);
+        // Extreme legacy value whose quantity * price would overflow MySQL DOUBLE (error 1690).
+        $logInserter->insertConversionItem($visit['idvisit'], 'overflow-order', [
+            'server_time' => '2010-03-06 12:00:00',
+            'idaction_sku' => $idActionSku,
+            'price' => '1e308',
+            'quantity' => 999999,
+        ]);
+
+        $query = $this->logAggregator->queryEcommerceItems('idaction_sku');
+        $rows = $query->fetchAll();
+
+        $this->assertCount(1, $rows);
+        $this->assertSame('Overflow SKU', $rows[0]['label']);
+        // Only the in-range rows contribute: revenue = 40 * 4 (+ 0 for the zero-quantity row).
+        $this->assertSame(160.0, (float) $rows[0][Metrics::INDEX_ECOMMERCE_ITEM_REVENUE]);
+        // The item price metric excludes both out-of-range rows too: price sum = 40 + (-50).
+        $this->assertSame(-10.0, (float) $rows[0][Metrics::INDEX_ECOMMERCE_ITEM_PRICE]);
+    }
+
+    public function testQueryConversionsByDimensionExcludesOrderRevenueAboveMaxAllowedRevenue()
+    {
+        $logInserter = new LogHelper();
+        $visit = $logInserter->insertVisit([
+            'visit_last_action_time' => '2010-03-06 12:00:00',
+        ]);
+
+        $conversionDefaults = [
+            'idgoal' => GoalManager::IDGOAL_ORDER,
+            'server_time' => '2010-03-06 12:00:00',
+        ];
+
+        // In-range order: the only conversion whose money values should be counted.
+        // The log_conversion primary key is (idvisit, idgoal, buster), so each order uses a
+        // distinct buster to sit in the same idgoal group without colliding.
+        $logInserter->insertConversion($visit['idvisit'], array_merge($conversionDefaults, [
+            'idorder' => 'normal-order',
+            'buster' => 1,
+            'revenue' => 100,
+            'revenue_subtotal' => 90,
+            'revenue_tax' => 5,
+            'revenue_shipping' => 4,
+            'revenue_discount' => 1,
+        ]));
+        // Above the tracking bound but not large enough to overflow on its own: must still be
+        // excluded so archiving matches what tracking now rejects.
+        $logInserter->insertConversion($visit['idvisit'], array_merge($conversionDefaults, [
+            'idorder' => 'above-cap-order',
+            'buster' => 2,
+            'revenue' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+            'revenue_subtotal' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+            'revenue_tax' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+            'revenue_shipping' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+            'revenue_discount' => GoalManager::MAX_ALLOWED_REVENUE * 2,
+        ]));
+        // Extreme legacy value: an unguarded SUM() would either abort archiving with error 1690
+        // (MariaDB / MySQL 8) or silently collapse the whole group to 0 (MySQL 5.7).
+        $logInserter->insertConversion($visit['idvisit'], array_merge($conversionDefaults, [
+            'idorder' => 'overflow-order',
+            'buster' => 3,
+            'revenue' => '1e308',
+            'revenue_subtotal' => '1e308',
+            'revenue_tax' => '1e308',
+            'revenue_shipping' => '1e308',
+            'revenue_discount' => '1e308',
+        ]));
+
+        $query = $this->logAggregator->queryConversionsByDimension();
+        $rows = $query->fetchAll();
+
+        // The fixture also has conversions for other goals; isolate the ecommerce-order group.
+        $orderRows = array_values(array_filter($rows, static function ($row) {
+            return (int) $row['idgoal'] === GoalManager::IDGOAL_ORDER;
+        }));
+
+        $this->assertCount(1, $orderRows);
+        $row = $orderRows[0];
+        // Only the in-range order contributes to every order-level money metric.
+        $this->assertSame(100.0, (float) $row[Metrics::INDEX_GOAL_REVENUE]);
+        $this->assertSame(90.0, (float) $row[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL]);
+        $this->assertSame(5.0, (float) $row[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX]);
+        $this->assertSame(4.0, (float) $row[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING]);
+        $this->assertSame(1.0, (float) $row[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT]);
+        // The three orders are still all counted; only their out-of-range money is excluded.
+        $this->assertSame(3, (int) $row[Metrics::INDEX_GOAL_NB_CONVERSIONS]);
     }
 }
 

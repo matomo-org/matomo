@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\Period\Factory;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Mock\Site;
+use Piwik\Tracker\GoalManager;
 
 /**
  * @group Core
@@ -58,16 +59,17 @@ class LogAggregatorTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
+        $maxRevenue = GoalManager::MAX_ALLOWED_REVENUE;
         $expectedSelect = "log_conversion.idgoal AS `idgoal`, 
 			log_conversion.custom_var_k1 AS `custom_var_k1`, 
 			log_conversion.custom_var_v1 AS `custom_var_v1`, 
 			count(*) AS `1`, 
 			count(distinct log_conversion.idvisit) AS `3`, 
-			ROUND(SUM(log_conversion.revenue),2) AS `2`, 
-			ROUND(SUM(log_conversion.revenue_subtotal),2) AS `4`, 
-			ROUND(SUM(log_conversion.revenue_tax),2) AS `5`, 
-			ROUND(SUM(log_conversion.revenue_shipping),2) AS `6`, 
-			ROUND(SUM(log_conversion.revenue_discount),2) AS `7`, 
+			ROUND(SUM(CASE WHEN ABS(log_conversion.revenue) > {$maxRevenue} THEN 0 ELSE log_conversion.revenue END),2) AS `2`, 
+			ROUND(SUM(CASE WHEN ABS(log_conversion.revenue_subtotal) > {$maxRevenue} THEN 0 ELSE log_conversion.revenue_subtotal END),2) AS `4`, 
+			ROUND(SUM(CASE WHEN ABS(log_conversion.revenue_tax) > {$maxRevenue} THEN 0 ELSE log_conversion.revenue_tax END),2) AS `5`, 
+			ROUND(SUM(CASE WHEN ABS(log_conversion.revenue_shipping) > {$maxRevenue} THEN 0 ELSE log_conversion.revenue_shipping END),2) AS `6`, 
+			ROUND(SUM(CASE WHEN ABS(log_conversion.revenue_discount) > {$maxRevenue} THEN 0 ELSE log_conversion.revenue_discount END),2) AS `7`, 
 			SUM(log_conversion.items) AS `8`";
         $expectedFrom = $forceIndex
             ? [['table' => LogAggregator::LOG_CONVERSION_TABLE, 'useIndex' => 'index_idsite_datetime']]
