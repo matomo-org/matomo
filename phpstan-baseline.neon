@@ -4183,24 +4183,6 @@ parameters:
 			path: plugins/Referrers/DataTable/Filter/SetGetReferrerTypeSubtables.php
 
 		-
-			message: '#^Instanceof between Piwik\\Plugins\\SEO\\Metric\\Metric and Piwik\\Plugins\\SEO\\Metric\\Metric will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: plugins/SEO/API.php
-
-		-
-			message: '#^Variable \$domain on left side of \?\? always exists and is not nullable\.$#'
-			identifier: nullCoalesce.variable
-			count: 1
-			path: plugins/SEO/Metric/DomainAge.php
-
-		-
-			message: '#^Variable \$domain on left side of \?\? always exists and is not nullable\.$#'
-			identifier: nullCoalesce.variable
-			count: 1
-			path: plugins/SEO/Metric/ProviderCache.php
-
-		-
 			message: '#^Method Piwik\\Plugins\\ScheduledReports\\API\:\:validateIdSegment\(\) never assigns false to &\$idSegment so it can be removed from the by\-ref type\.$#'
 			identifier: parameterByRef.unusedType
 			count: 1
