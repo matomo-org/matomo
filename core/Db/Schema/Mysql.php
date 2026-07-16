@@ -283,7 +283,7 @@ class Mysql implements SchemaInterface
                                         idsite INTEGER(10) UNSIGNED NOT NULL,
                                         idvisit BIGINT(10) UNSIGNED NOT NULL,
                                         idvisitor BINARY(8) NOT NULL,
-                                        idpageview CHAR(6) NULL DEFAULT NULL,
+                                        idpageview CHAR(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
                                         idaction_url INTEGER(10) UNSIGNED NULL DEFAULT NULL,
                                         idaction_name INTEGER(10) UNSIGNED NULL DEFAULT NULL,
                                         server_time DATETIME NOT NULL,
