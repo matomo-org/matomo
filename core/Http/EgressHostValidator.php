@@ -33,10 +33,11 @@ class EgressHostValidator
         '224.0.0.0/4',
     ];
 
-    // IPv6 ranges filter_var does not flag: transition ranges that can smuggle a private IPv4
-    // destination (6to4, Teredo, NAT64) plus documentation, discard, reserved space (fe00::/8
-    // covers link-local, site-local and the unallocated block), and multicast.
+    // IPv6 ranges filter_var does not flag: deprecated IPv4-compatible space (::/96), transition
+    // ranges that can smuggle a private IPv4 destination (6to4, Teredo, NAT64), documentation,
+    // discard, reserved space (fe00::/8), and multicast.
     private const EXTRA_BLOCKED_IPV6_CIDRS = [
+        '::/96',
         '2002::/16',
         '2001::/32',
         '2001:db8::/32',
@@ -122,13 +123,14 @@ class EgressHostValidator
 
     public static function isPublicIp(string $ip): bool
     {
-        // Unwrap IPv4-mapped IPv6 (e.g. ::ffff:169.254.169.254); PHP < 8.1 does not flag these.
+        // Unwrap IPv4-mapped IPv6 in any textual form (::ffff:169.254.169.254, ::ffff:a9fe:a9fe,
+        // 0:0:0:0:0:ffff:a9fe:a9fe) via the binary form; PHP < 8.1 does not flag these.
         // @todo When min PHP version >= 8.1 (Matomo 6), verify filter_var() flags IPv4-mapped IPv6
         //      in the reserved/private ranges natively - if so, remove this block and rely on filter_var()
-        if (stripos($ip, '::ffff:') === 0) {
-            $mapped = substr($ip, 7);
-            if (filter_var($mapped, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-                $ip = $mapped;
+        if (strpos($ip, ':') !== false) {
+            $bin = @inet_pton($ip);
+            if ($bin !== false && strlen($bin) === 16 && substr($bin, 0, 12) === "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff") {
+                $ip = inet_ntop(substr($bin, 12));
             }
         }
 

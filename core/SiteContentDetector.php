@@ -12,6 +12,7 @@ namespace Piwik;
 use Matomo\Cache\Lazy;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 
@@ -377,6 +378,11 @@ class SiteContentDetector
                 true // $validateEgressIp: SSRF-safe fetch of the site's own (user-set) URL
             );
         } catch (\Exception $e) {
+            // intentionally fail closed, but leave a diagnostic trail
+            StaticContainer::get(LoggerInterface::class)->debug('Site content detection request for {url} failed: {message}', [
+                'url' => $url,
+                'message' => $e->getMessage(),
+            ]);
         }
 
         return $siteData;

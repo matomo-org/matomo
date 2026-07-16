@@ -39,8 +39,16 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
             array('169.254.169.254', false),
             array('0.0.0.0', false),
             array('::1', false),
-            // IPv4-mapped IPv6 pointing at the link-local metadata endpoint
+            // IPv4-mapped IPv6 pointing at private space is blocked in any textual form
             array('::ffff:169.254.169.254', false),
+            array('::ffff:a9fe:a9fe', false),
+            array('0:0:0:0:0:ffff:a9fe:a9fe', false),
+            array('::ffff:7f00:1', false), // 127.0.0.1
+            array('::ffff:5db8:d822', true), // 93.184.216.34, mapped public IPv4 stays allowed
+            array('::ffff:6440:1', false), // 100.64.0.1, mapped CGNAT hits the extra IPv4 ranges
+            // deprecated IPv4-compatible space (::/96)
+            array('::a9fe:a9fe', false),
+            array('::7f00:1', false),
             // extra IPv4 ranges filter_var does not flag (CGNAT, IETF protocol, benchmarking)
             array('100.64.0.1', false),
             array('192.0.0.1', false),
