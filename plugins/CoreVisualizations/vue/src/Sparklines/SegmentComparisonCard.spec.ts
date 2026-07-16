@@ -122,3 +122,79 @@ describe('CoreVisualizations/SegmentComparisonCard', () => {
     expect(wrapper.findAll('.sparklineSegmentComparisonRow.notLinkable').length).toBe(0);
   });
 });
+
+// Segment + date: each segment entry carries two compared-date columns, and the entry's
+// seriesIndices are period-major (segment s over periods -> [s, segmentCount + s]).
+function segmentDate(title: string, seriesIndices: number[], values: [number, number]) {
+  return {
+    url: '?module=API&action=get&columns=nb_visits&comparePeriods[]=range',
+    metrics: {
+      'Apr 23 - May 2, 2026': [
+        {
+          value: values[0],
+          description: 'visits',
+          title: 'Visits',
+          column: '',
+          group: 'Apr 23 - May 2, 2026',
+          evolution: {
+            percent: '+28.5%', trend: 5000, isLowerValueBetter: false, tooltip: '',
+          },
+        },
+      ],
+      'Mar 24 - Apr 2, 2026': [
+        {
+          value: values[1], description: 'visits', title: 'Visits', column: '', group: 'Mar 24 - Apr 2, 2026',
+        },
+      ],
+    },
+    metricsOrder: ['Apr 23 - May 2, 2026', 'Mar 24 - Apr 2, 2026'],
+    order: seriesIndices[0],
+    title,
+    group: '0',
+    seriesIndices,
+    graphParams: null,
+  };
+}
+
+function createSegmentDateWrapper(props = {}) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return mount(SegmentComparisonCard as any, {
+    props: {
+      segments: [
+        segmentDate('NZ visitors', [0, 2], [23558, 30119]),
+        segmentDate('Mobile users', [1, 3], [12049, 11748]),
+      ],
+      ...props,
+    },
+  });
+}
+
+describe('CoreVisualizations/SegmentComparisonCard segment + date', () => {
+  it('stacks one row per segment, each with a value column per compared date', () => {
+    const wrapper = createSegmentDateWrapper();
+
+    expect(wrapper.findAllComponents({ name: 'SegmentComparisonRow' }).length).toBe(2);
+    // Two segments x two dates = four value columns; one date separator per row.
+    expect(wrapper.findAll('.periodColumns__column').length).toBe(4);
+    expect(wrapper.findAll('.periodColumns__separator').length).toBe(2);
+    expect(wrapper.findAll('.sparklineSegmentComparisonRow__chip').map((node) => node.text()))
+      .toEqual(['NZ visitors', 'Mobile users']);
+  });
+
+  it('carries the union of every segment\'s series indices for the one card-level link', () => {
+    const wrapper = createSegmentDateWrapper();
+
+    expect(wrapper.classes()).toContain('sparkline');
+    expect(wrapper.attributes('data-series-indices')).toBe('[0,2,1,3]');
+  });
+
+  it('shows no doc tooltip (column is empty in segment + date, matching date comparison)', () => {
+    const wrapper = createSegmentDateWrapper({
+      allMetricsDocumentation: { nb_visits: 'The number of visits.' },
+    });
+    const title = wrapper.find('.sparklineSegmentComparisonCard__title');
+
+    expect(title.attributes('title')).toBe('Visits');
+    expect(title.classes()).not.toContain('sparklineSegmentComparisonCard__title--documented');
+  });
+});

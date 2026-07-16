@@ -88,13 +88,13 @@ describe('CoreVisualizations/DateComparison', () => {
 
     const labels = wrapper.findAll('.dateAtom').map((node) => node.text());
     expect(labels).toEqual(['Monday, May 4, 2026', 'Sunday, May 3, 2026']);
-    expect(wrapper.findAll('.sparklineDateComparison__date').length).toBe(2);
+    expect(wrapper.findAll('.periodColumns__column').length).toBe(2);
   });
 
   it('renders the primary and secondary value of each date column', () => {
     const wrapper = createWrapper();
 
-    const columns = wrapper.findAll('.sparklineDateComparison__date');
+    const columns = wrapper.findAll('.periodColumns__column');
     expect(columns[0].find('.metricValue__number').text()).toBe('10,558');
     expect(columns[0].find('.metricValue__secondaryValue').text()).toBe('9,527');
     expect(columns[0].find('.metricValue__secondaryLabel').text()).toBe('unique visitors');
@@ -112,7 +112,7 @@ describe('CoreVisualizations/DateComparison', () => {
     expect(badges[0].props('tooltip')).toBe('since last period');
 
     // ...and it belongs to the first column.
-    const columns = wrapper.findAll('.sparklineDateComparison__date');
+    const columns = wrapper.findAll('.periodColumns__column');
     expect(columns[0].findComponent({ name: 'EvolutionBadge' }).exists()).toBe(true);
     expect(columns[1].findComponent({ name: 'EvolutionBadge' }).exists()).toBe(false);
   });
@@ -165,7 +165,7 @@ describe('CoreVisualizations/DateComparison', () => {
     const labels = wrapper.findAll('.dateAtom').map((node) => node.text());
     expect(labels).toEqual(['2026', '2025']);
 
-    const columns = wrapper.findAll('.sparklineDateComparison__date');
+    const columns = wrapper.findAll('.periodColumns__column');
     expect(columns[0].find('.metricValue__number').text()).toBe('10,558');
     expect(columns[1].find('.metricValue__number').text()).toBe('9,000');
   });
