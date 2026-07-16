@@ -50,6 +50,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * The `sparkline(src, width, height)` Twig helper accepts optional `width`/`height` display-size parameters (in px, defaults `Piwik\Visualization\Sparkline::DEFAULT_WIDTH`/`DEFAULT_HEIGHT`); the sparkline PNG is rendered at twice the displayed size for hi-DPI screens.
 * A new `#[Piwik\Http\JsonResponse]` attribute can be applied to a plugin controller action to declare that it returns a JSON response. When present, Matomo (re-)sends the `Content-Type: application/json` header after the action has returned, so it can no longer be overwritten by output produced while the action builds its response (for example a rendered `Piwik\View`, which sends `text/html`). An action using the attribute must return the JSON string, must not send the header itself, and must not emit output (`echo`/`print`/`flush`) or call `exit`/`die` before returning — otherwise the response headers are committed first and the JSON `Content-Type` cannot be applied. The attribute is not inherited: a subclass overriding a JSON action must re-declare it. These requirements are enforced by PHPStan rules.
 
+### New APIs
+* `Piwik\Http::sendHttpRequest()` and `Piwik\Http::sendHttpRequestBy()` accept a new optional `$validateEgressIp`
+  parameter enabling an SSRF-safe request path (public-IP validation, redirect re-validation, IP pinning). Use it
+  whenever the target URL derives from untrusted input, such as a site's configured URL. Requires curl.
+
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
   the outer request. Within a browser session a nested request may change neither the session flag
