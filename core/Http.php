@@ -183,9 +183,9 @@ class Http
      * @param string|null $method
      * @param string $aUrl
      * @param int $timeout in seconds
-     * @param string $userAgent
-     * @param string $destinationPath
-     * @param resource $file
+     * @param string|null $userAgent
+     * @param string|null $destinationPath
+     * @param resource|null $file
      * @param int $followDepth
      * @param string|false $acceptLanguage Accept-language header
      * @param bool $acceptInvalidSslCertificate Only used with $method == 'curl'. If set to true (NOT recommended!) the SSL certificate will not be checked
@@ -193,10 +193,11 @@ class Http
      *                                                  Doesn't work w/ fopen method.
      * @param bool $getExtendedInfo True to return status code, headers & response, false if just response.
      * @param string $httpMethod The HTTP method to use. Defaults to `'GET'`.
-     * @param string $httpUsername HTTP Auth username
-     * @param string $httpPassword HTTP Auth password
-     * @param array|string $requestBody If $httpMethod is 'POST' this may accept an array of variables or a string that needs to be posted
+     * @param string|null $httpUsername HTTP Auth username
+     * @param string|null $httpPassword HTTP Auth password
+     * @param array|string|null $requestBody If $httpMethod is 'POST' this may accept an array of variables or a string that needs to be posted
      * @param array $additionalHeaders List of additional headers to set for the request
+     * @param bool|null $forcePost If true, forces POST redirects to remain POST requests (curl only).
      * @param bool $checkHostIsAllowed whether we should check if the target host is allowed or not. This should only
      *                                 be set to false when using a hardcoded URL.
      *

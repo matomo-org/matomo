@@ -51,10 +51,10 @@ class LoaderLock
     }
 
     /**
-     * @description check if the lock is available to user
+     * Checks if the lock is available to use.
+     *
      * @param string $key
      * @return bool
-     * @throws \Exception
      */
     public static function isLockAvailable($key)
     {

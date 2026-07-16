@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Period;
@@ -43,6 +44,7 @@ class ScheduledReports extends \Piwik\Plugin
     public const ADDITIONAL_EMAILS_PARAMETER = 'additionalEmails';
     public const DISPLAY_FORMAT_PARAMETER = 'displayFormat';
     public const ENFORCE_ORDER_PARAMETER = 'enforceOrder';
+    public const REPORT_DESCRIPTION_PARAMETER = 'reportDescription';
     public const EMAIL_ME_PARAMETER_DEFAULT_VALUE = true;
     public const EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE = false;
     public const ENFORCE_ORDER_PARAMETER_DEFAULT_VALUE = false;
@@ -55,6 +57,7 @@ class ScheduledReports extends \Piwik\Plugin
         self::ADDITIONAL_EMAILS_PARAMETER => false,
         self::DISPLAY_FORMAT_PARAMETER    => true,
         self::ENFORCE_ORDER_PARAMETER     => false,
+        self::REPORT_DESCRIPTION_PARAMETER => false,
     );
 
     private static $managedReportTypes = array(
@@ -134,7 +137,10 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_SegmentDeleted';
         $translationKeys[] = 'ScheduledReports_NoRecipients';
         $translationKeys[] = 'ScheduledReports_CreateAndScheduleReport';
-        $translationKeys[] = 'ScheduledReports_DescriptionOnFirstPageScheduledReport';
+        $translationKeys[] = 'ScheduledReports_ReportMissingName';
+        $translationKeys[] = 'ScheduledReports_ReportMissingReports';
+        $translationKeys[] = 'ScheduledReports_ReportNameHelpText';
+        $translationKeys[] = 'ScheduledReports_ReportDescriptionHelpText';
         $translationKeys[] = 'SegmentEditor_ChooseASegment';
         $translationKeys[] = 'ScheduledReports_WeeklyScheduleHelp';
         $translationKeys[] = 'ScheduledReports_MonthlyScheduleHelp';
@@ -146,6 +152,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_AggregateReportsFormat';
         $translationKeys[] = 'ScheduledReports_EvolutionGraph';
         $translationKeys[] = 'ScheduledReports_ReportsIncluded';
+        $translationKeys[] = 'ScheduledReports_ReportsIncludedHelp';
         $translationKeys[] = 'ScheduledReports_ReportIncludeNWebsites';
         $translationKeys[] = 'SegmentEditor_LoadingSegmentedDataMayTakeSomeTime';
         $translationKeys[] = 'General_Download';
@@ -157,8 +164,11 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_SendingReport';
         $translationKeys[] = 'ScheduledReports_CreateTooltip';
         $translationKeys[] = 'CoreHome_LearnMoreFullStop';
+        $translationKeys[] = 'ScheduledReports_ReportNamePlaceholder';
+        $translationKeys[] = 'ScheduledReports_ReportDescriptionPlaceholder';
         $translationKeys[] = 'ScheduledReports_SelectedReports';
         $translationKeys[] = 'ScheduledReports_SelectedReportsHelp';
+        $translationKeys[] = 'Goals_Optional';
         $translationKeys[] = "ScheduledReports_ReportAdded";
         $translationKeys[] = "ScheduledReports_ReportWillBeSentAt";
         $translationKeys[] = "ScheduledReports_ReportHourEqualsUtc";
@@ -247,6 +257,10 @@ class ScheduledReports extends \Piwik\Plugin
             $parameters[self::ENFORCE_ORDER_PARAMETER] = self::ENFORCE_ORDER_PARAMETER_DEFAULT_VALUE;
         } else {
             $parameters[self::ENFORCE_ORDER_PARAMETER] = self::valueIsTrue($parameters[self::ENFORCE_ORDER_PARAMETER]);
+        }
+
+        if (isset($parameters[self::REPORT_DESCRIPTION_PARAMETER])) {
+            $parameters[self::REPORT_DESCRIPTION_PARAMETER] = trim((string) $parameters[self::REPORT_DESCRIPTION_PARAMETER]);
         }
     }
 
@@ -392,8 +406,16 @@ class ScheduledReports extends \Piwik\Plugin
             return;
         }
 
-        // Safeguard against sending the same report twice to the same email (unless $force is true)
-        if (!$force && $this->reportAlreadySent($report, $period)) {
+        // The $period passed to this event covers the report's data window, which can be
+        // wider than the schedule cadence (e.g. a Daily-schedule + Weekly-data report has
+        // a 7-day data range that stays constant for ~7 consecutive dispatches). The
+        // duplicate-send safeguard must therefore compare against the schedule cadence,
+        // not the data range, otherwise it suppresses every same-cadence-window dispatch
+        // after the first.
+        $schedulePeriod = Period\Factory::build($report['period'], Date::today());
+
+        // Safeguard against sending the same report twice for the same scheduled cadence (unless $force is true)
+        if (!$force && $this->reportAlreadySent($report, $schedulePeriod)) {
             Log::warning(
                 'Preventing the same scheduled report from being sent again (report #%s for period "%s")',
                 $report['idreport'],
@@ -442,7 +464,7 @@ class ScheduledReports extends \Piwik\Plugin
         $emails = array_unique($emails);
 
         if (! $force) {
-            $this->markReportAsSent($report, $period);
+            $this->markReportAsSent($report, $schedulePeriod);
         }
 
         $subscriptionModel = new SubscriptionModel();

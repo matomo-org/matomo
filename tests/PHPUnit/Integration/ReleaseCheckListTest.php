@@ -19,6 +19,7 @@ use Piwik\Filesystem;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
+use Piwik\Version;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -689,6 +690,37 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertGreaterThan(50, $numTestedCorePlugins);
         // eg this here shows the plugins that have update files but from older matomo versions.
         $this->assertSame(array('CustomDimensions', 'DevicesDetection', 'ExamplePlugin', 'Goals', 'LanguagesManager'), array_values(array_unique($pluginsWithUpdates)));
+    }
+
+    public function testCoreUpdateFilesDoNotTargetFutureVersions()
+    {
+        $pathToUpdates = PIWIK_INCLUDE_PATH . '/core/Updates/*.php';
+        $files = _glob($pathToUpdates);
+        if (empty($files)) {
+            $files = array();
+        }
+
+        $futureUpdateFiles = array();
+        foreach ($files as $file) {
+            $fileVersion = basename($file, '.php');
+            if (version_compare($fileVersion, Version::VERSION) === 1) {
+                $futureUpdateFiles[] = sprintf(
+                    '%s targets %s, but core/Version.php is %s',
+                    $file,
+                    $fileVersion,
+                    Version::VERSION
+                );
+            }
+        }
+
+        // sanity check that the glob picked something up so an accidentally wrong path does not
+        // make the assertion below pass vacuously
+        $this->assertGreaterThan(0, count($files));
+
+        $this->assertEmpty(
+            $futureUpdateFiles,
+            "The following core update files target a future Matomo version:\n" . implode("\n", $futureUpdateFiles)
+        );
     }
 
     public function testBowerComponentsBcReferencesFilesThatExists()

@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\CoreVisualizations;
 
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\CoreVisualizations\FeatureFlags\SparklinesRedesign;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator.php';
@@ -29,6 +32,7 @@ class CoreVisualizations extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'UsersManager.deleteUser'                => 'deleteUser',
+            'Template.bodyClass'                     => 'addBodyClass',
         );
     }
 
@@ -37,10 +41,26 @@ class CoreVisualizations extends \Piwik\Plugin
         ViewDataTableManager::clearUserViewDataTableParameters($userLogin);
     }
 
+    public function addBodyClass(&$out, $type)
+    {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+
+        // The sparklines redesign refreshes sparkline styling app-wide (gated by the flag),
+        // so sparklines also appear on other page types (e.g. admin).
+        if ($featureFlagManager->isFeatureActive(SparklinesRedesign::class)) {
+            $out .= ' sparklines-redesign-enabled';
+        }
+    }
+
     public function getStylesheetFiles(&$stylesheets)
     {
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.less";
         $stylesheets[] = "plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.less";
         $stylesheets[] = "plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.less";
+        $stylesheets[] = "plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.less";
 
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/dataTableVisualizations.less";
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/jqplot.less";
@@ -60,6 +80,7 @@ class CoreVisualizations extends \Piwik\Plugin
     {
         $translationKeys[] = 'General_MetricsToPlot';
         $translationKeys[] = 'General_MetricToPlot';
+        $translationKeys[] = 'General_ChooseMetrics';
         $translationKeys[] = 'General_RecordsToPlot';
         $translationKeys[] = 'General_SaveImageOnYourComputer';
         $translationKeys[] = 'General_ExportAsImage';

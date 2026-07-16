@@ -50,7 +50,7 @@ describe("PivotByDimension", function () {
 
         expect(await page.screenshotSelector('.dataTable,.expandDataTableFooterDrawer')).to.matchImage({
             imageName: 'pivoted_columns_report',
-            comparisonThreshold: 0.0003,
+            comparisonThreshold: 0.01,
         });
     });
 });

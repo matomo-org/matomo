@@ -71,6 +71,7 @@
         "OverviewPluginSubscriptions": "Resumen de tus suscripciones a complementos",
         "OverviewPluginSubscriptionsAllDetails": "Para ver todos los detalles, o para cambiar una suscripción, inicia sesión en tu cuenta.",
         "OverviewPluginSubscriptionsMissingInfo": "Puede ser posible que no aparezcan algunas de las suscripciones, por ejemplo, si el pago no ha sido completado todavía. En tal caso, prueba de nuevo en unas horas o contacta con el equipo de Matomo.",
+        "OverviewPluginSubscriptionsMissingLicenseMessage": "No tienes una clave de licencia configurada. Si has adquirido una suscripción a un plugin, ve a la %1$spágina de claves de licencia%2$s e introduce tu clave. Si te interesa comprar un plugin, visita el %3$sMercado%4$s para explorar los plugins y paquetes disponibles.",
         "PaidPlugins": "Funcionalidades Premium",
         "PluginDescription": "Extiende y expande la funcionalidad de Matomo, por medio del \"Mercado\", descargando complementos y temas.",
         "PluginDownloadLinkMissingDescription": "No se ha podido obtener el enlace de descarga del plugin %1$s, intente instalarlo manualmente desde el marketplace. %2$sMás información%3$s.",

@@ -780,6 +780,10 @@ class UserIdVisitorIdTest extends IntegrationTestCase
     {
         $visitorIdsCount = Db::fetchOne("SELECT COUNT(DISTINCT idvisitor) FROM " . Common::prefixTable('log_visit'));
         $this->assertEquals($expected, $visitorIdsCount);
+
+        // check that idvisitor column was updated.
+        $visitorIdsCount = Db::fetchOne("SELECT COUNT(DISTINCT idvisitor) FROM " . Common::prefixTable('log_link_visit_action'));
+        $this->assertEquals($expected, $visitorIdsCount);
     }
 
     private function assertUserIdsCount($expected)

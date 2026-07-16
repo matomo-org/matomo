@@ -1,0 +1,77 @@
+{
+    "name": "SecurityInfo",
+    "displayName": "Security Info",
+    "owner": "matomo-org",
+    "description": "Provides security information about your PHP environment and offers suggestions based on PhpSecInfo from the PHP Security Consortium.",
+    "homepage": "https://matomo.org",
+    "createdDateTime": "2013-10-31 22:12:08",
+    "donate": [],
+    "support": [],
+    "isTheme": false,
+    "keywords": [
+        "security",
+        "phpsec"
+    ],
+    "basePrice": 0,
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
+        }
+    ],
+    "repositoryUrl": null,
+    "lastUpdated": "2025-01-20 07:40:08",
+    "latestVersion": "5.0.4",
+    "numDownloads": 155161,
+    "screenshots": [],
+    "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+    "previews": [],
+    "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": null
+    },
+    "featured": false,
+    "isFree": true,
+    "isPaid": false,
+    "isBundle": false,
+    "isCustomPlugin": false,
+    "shop": null,
+    "bundle": {
+        "plugins": []
+    },
+    "specialOffer": "",
+    "category": "security",
+    "versions": [
+        {
+            "name": "5.0.4",
+            "release": "2025-01-20 07:40:08",
+            "requires": {
+                "matomo": ">=5.0.0-rc5,<6.0.0-b1"
+            },
+            "wordPressCompatible": true,
+            "onPremiseCompatible": true,
+            "numDownloads": 0,
+            "license": {
+                "name": "GPL v3+",
+                "url": "https://plugins.matomo.org/SecurityInfo/5.0.4/license"
+            },
+            "repositoryChangelogUrl": null,
+            "readmeHtml": {
+                "description": "",
+                "faq": "",
+                "changelog": "",
+                "documentation": ""
+            },
+            "download": "/api/2.0/plugins/SecurityInfo/download/5.0.4"
+        }
+    ],
+    "isDownloadable": true,
+    "changelog": {
+        "url": ""
+    },
+    "consumer": {
+        "license": null
+    }
+}

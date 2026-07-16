@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>example.com/resources/guide.pdf</label>
+		<requests>2</requests>
+		<sum_server_time>900</sum_server_time>
+		<nb_server_time>2</nb_server_time>
+		<sum_response_size>33658</sum_response_size>
+		<nb_response_size>1</nb_response_size>
+		<page_not_found_404_requests>0</page_not_found_404_requests>
+		<server_error_5xx_requests>1</server_error_5xx_requests>
+		<avg_server_time>0.45</avg_server_time>
+		<avg_response_size>33658</avg_response_size>
+	</row>
+	<row>
+		<label>Others</label>
+		<requests>2</requests>
+		<sum_server_time>4500</sum_server_time>
+		<nb_server_time>1</nb_server_time>
+		<sum_response_size>123456</sum_response_size>
+		<nb_response_size>1</nb_response_size>
+		<page_not_found_404_requests>1</page_not_found_404_requests>
+		<server_error_5xx_requests>0</server_error_5xx_requests>
+		<avg_server_time>4.5</avg_server_time>
+		<avg_response_size>123456</avg_response_size>
+	</row>
+</result>

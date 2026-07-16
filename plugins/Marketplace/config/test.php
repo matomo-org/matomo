@@ -3,10 +3,19 @@
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as MockConsumer;
+use Piwik\Plugins\Marketplace\tests\Framework\Mock\FixtureRepository;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as MockService;
 use Piwik\Container\Container;
 
 return array(
+    'observers.global' => \Piwik\DI::add(array(
+        array('Http.sendHttpRequest', \Piwik\DI::value(
+            function ($url, $params, &$response, &$status, &$headers) {
+                (new FixtureRepository())->respond($url, $params, $response, $status, $headers);
+            }
+        )),
+    )),
+
     'MarketplaceEndpoint' => function (Container $c) {
         // if you wonder why this here is configured here again, and the same as in `config.php`,
         // it is because someone might have overwritten MarketplaceEndpoit in local config.php and we want

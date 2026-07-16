@@ -1,0 +1,89 @@
+{
+    "name": "CustomReports",
+    "displayName": "Custom Reports",
+    "owner": "matomo-org",
+    "description": "Pull out the information you need in order to be successful. Develop your custom strategy to meet your individualized goals while saving money & time.",
+    "homepage": "https://matomo.org",
+    "createdDateTime": "2017-10-12 03:42:12",
+    "donate": [],
+    "support": [],
+    "isTheme": false,
+    "keywords": [
+        "segment",
+        "custom",
+        "reports",
+        "filter"
+    ],
+    "basePrice": 220,
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
+        }
+    ],
+    "repositoryUrl": null,
+    "lastUpdated": "2026-05-19 04:07:20",
+    "latestVersion": "5.4.12",
+    "numDownloads": 0,
+    "screenshots": [],
+    "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+    "previews": [],
+    "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": null
+    },
+    "featured": false,
+    "isFree": false,
+    "isPaid": true,
+    "isBundle": false,
+    "isCustomPlugin": false,
+    "shop": {
+        "url": "https://plugins.matomo.org/CustomReports",
+        "variations": [],
+        "reviews": {
+            "embedUrl": "",
+            "height": 200,
+            "averageRating": "0",
+            "ratingCount": 0,
+            "reviewCount": 0
+        }
+    },
+    "bundle": {
+        "plugins": []
+    },
+    "specialOffer": "",
+    "category": "uncategorised",
+    "versions": [
+        {
+            "name": "5.4.12",
+            "release": "2026-05-19 04:07:20",
+            "requires": {
+                "matomo": ">=5.0.0-rc5,<6.0.0-b1"
+            },
+            "wordPressCompatible": true,
+            "onPremiseCompatible": true,
+            "numDownloads": 0,
+            "license": {
+                "name": "InnoCraft EULA",
+                "url": "https://plugins.matomo.org/CustomReports/5.4.12/license"
+            },
+            "repositoryChangelogUrl": null,
+            "readmeHtml": {
+                "description": "",
+                "faq": "",
+                "changelog": "",
+                "documentation": ""
+            },
+            "download": null
+        }
+    ],
+    "isDownloadable": false,
+    "changelog": {
+        "url": ""
+    },
+    "consumer": {
+        "license": null
+    }
+}

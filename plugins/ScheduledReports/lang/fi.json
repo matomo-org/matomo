@@ -35,7 +35,6 @@
         "SegmentAppliedToReports": "Segmentti '%s' on asetettu raportteihin.",
         "SegmentDeleted": "Segmentti poistettu",
         "Segment_Deletion_Error": "Tätä ryhmää ei voida poistaa tai tehdä näkymättömäksi muille käyttäjille, koska sitä käytetään sähköpostiraportin tai -raporttien %s luomiseen. Yritä uudelleen poistettuasi tämä ryhmä raport(e)ista.",
-        "SendReportNow": "Lähetä raportti nyt",
         "SendReportTo": "Lähetä raportti osoitteeseen",
         "SentFromX": "Lähettänyt %s.",
         "SentToMe": "Lähetä minulle",

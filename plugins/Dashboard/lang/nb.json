@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirm": "Sett dette miniprogramsutvalget og kolonneoppsettet som forvalgt mal?",
         "SetAsDefaultWidgetsConfirmHelp": "Dette widgetutvalget og kolonnelayouten vil bli brukt når brukere lager nye oversikter, eller når funksjonen \"%s\" brukes.",
         "TopLinkTooltip": "Vis webstatistikkrapporter for %s.",
+        "TopMenuTitle": "Analyse",
         "WidgetNotFound": "Finner ikke element",
         "WidgetPreview": "Forhåndsvisning av element"
     }

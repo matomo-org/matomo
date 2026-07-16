@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>/index</label>
+		<nb_visits>25</nb_visits>
+		<nb_hits>25</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_visits>25</entry_nb_visits>
+		<entry_nb_actions>25</entry_nb_actions>
+		<entry_sum_visit_length>0</entry_sum_visit_length>
+		<entry_bounce_count>25</entry_bounce_count>
+		<exit_nb_visits>25</exit_nb_visits>
+		<sum_daily_nb_uniq_visitors>25</sum_daily_nb_uniq_visitors>
+		<sum_daily_entry_nb_uniq_visitors>25</sum_daily_entry_nb_uniq_visitors>
+		<sum_daily_exit_nb_uniq_visitors>25</sum_daily_exit_nb_uniq_visitors>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<url>http://example.com/piwik/</url>
+		<segment>pageUrl==http%253A%252F%252Flocalhost%252F</segment>
+	</row>
+	<row>
+		<label>8</label>
+		<nb_visits>16</nb_visits>
+		<nb_hits>16</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_visits>2</exit_nb_visits>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>13%</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252F8</segment>
+		<subtable>
+			<row>
+				<label>/32</label>
+				<nb_visits>8</nb_visits>
+				<nb_hits>8</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<exit_nb_visits>1</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>13%</exit_rate>
+				<url>http://piwik.net/8/32</url>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F8%252F32</segment>
+			</row>
+			<row>
+				<label>/33</label>
+				<nb_visits>8</nb_visits>
+				<nb_hits>8</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<exit_nb_visits>1</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>13%</exit_rate>
+				<url>http://piwik.net/8/33</url>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F8%252F33</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>203</nb_visits>
+		<nb_hits>203</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_visits>93</entry_nb_visits>
+		<entry_nb_actions>219</entry_nb_actions>
+		<entry_sum_visit_length>16</entry_sum_visit_length>
+		<entry_bounce_count>77</entry_bounce_count>
+		<exit_nb_visits>91</exit_nb_visits>
+		<sum_daily_nb_uniq_visitors>14</sum_daily_nb_uniq_visitors>
+		<sum_daily_entry_nb_uniq_visitors>7</sum_daily_entry_nb_uniq_visitors>
+		<sum_daily_exit_nb_uniq_visitors>7</sum_daily_exit_nb_uniq_visitors>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>83%</bounce_rate>
+		<exit_rate>45%</exit_rate>
+	</row>
+</result>

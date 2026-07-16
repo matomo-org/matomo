@@ -6,6 +6,7 @@
  */
 
 import { Orderable } from '../Orderable';
+import { Category } from '../ReportingMenu/Category';
 import { Subcategory } from '../ReportingMenu/Subcategory';
 
 export interface ClientComponent {
@@ -21,6 +22,7 @@ export interface Widget extends Orderable {
   action?: string;
   viewDataTable?: string;
   parameters?: Record<string, unknown>;
+  category?: Category;
   subcategory?: Subcategory;
   isContainer?: boolean;
   isReport?: boolean;

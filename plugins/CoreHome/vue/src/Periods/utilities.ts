@@ -51,20 +51,20 @@ export function parseDate(date: string|Date): Date {
     return yesterday;
   }
 
-  if (strDate.match(/last[ -]?week/i)) {
+  if (strDate.match(/^last[ -]?week$/i)) {
     const lastWeek = getToday();
     lastWeek.setDate(lastWeek.getDate() - 7);
     return lastWeek;
   }
 
-  if (strDate.match(/last[ -]?month/i)) {
+  if (strDate.match(/^last[ -]?month$/i)) {
     const lastMonth = getToday();
     lastMonth.setDate(1);
     lastMonth.setMonth(lastMonth.getMonth() - 1);
     return lastMonth;
   }
 
-  if (strDate.match(/last[ -]?year/i)) {
+  if (strDate.match(/^last[ -]?year$/i)) {
     const lastYear = getToday();
     lastYear.setFullYear(lastYear.getFullYear() - 1);
     return lastYear;

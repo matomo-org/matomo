@@ -174,7 +174,6 @@
         "PurgingData": "清理数据…",
         "RawDataNeverRemoved": "访问和操作原始数据永远<strong>不会</strong>删除。",
         "RawDataRemovedAfter": "所有访问和操作原始数据都会在%1$s之后删除。",
-        "RecommendedForPrivacy": "推荐用于隐私",
         "ReportsDataSavedEstimate": "数据库大小",
         "ReportsNeverRemoved": "汇总报告永远<strong>不会</strong>删除。",
         "ReportsRemovedAfter": "所有汇总的报告将在%1$s后删除。",

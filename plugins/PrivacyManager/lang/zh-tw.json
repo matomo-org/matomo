@@ -174,7 +174,6 @@
         "PurgingData": "清除資料中…",
         "RawDataNeverRemoved": "訪問和動作的原始數據<strong>永遠不會</strong>被刪除。",
         "RawDataRemovedAfter": "所有訪問和動作的原始數據在 %1$s 後被刪除。",
-        "RecommendedForPrivacy": "保護隱私時推薦",
         "ReportsDataSavedEstimate": "資料庫大小",
         "ReportsNeverRemoved": "匯總報表<strong>永遠不會</strong>被刪除。",
         "ReportsRemovedAfter": "所有匯總報告在%1$s後被刪除。",

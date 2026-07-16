@@ -1,0 +1,80 @@
+{
+    "name": "TreemapVisualization",
+    "displayName": "Treemap Visualization",
+    "owner": "matomo-org",
+    "description": "Visualise any report in Matomo as a Treemap. Click on the Treemap icon in each report to load the visualisation.",
+    "homepage": "https://matomo.org",
+    "createdDateTime": "2013-09-30 01:03:48",
+    "donate": [],
+    "support": [],
+    "isTheme": false,
+    "keywords": [
+        "treemap",
+        "graph",
+        "visualization",
+        "infovis",
+        "jit"
+    ],
+    "basePrice": 0,
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
+        }
+    ],
+    "repositoryUrl": null,
+    "lastUpdated": "2026-04-27 05:14:03",
+    "latestVersion": "4.0.2",
+    "numDownloads": 101607,
+    "screenshots": [],
+    "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+    "previews": [],
+    "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": null
+    },
+    "featured": false,
+    "isFree": true,
+    "isPaid": false,
+    "isBundle": false,
+    "isCustomPlugin": false,
+    "shop": null,
+    "bundle": {
+        "plugins": []
+    },
+    "specialOffer": "",
+    "category": "insights",
+    "versions": [
+        {
+            "name": "4.0.2",
+            "release": "2022-08-01 08:14:02",
+            "requires": {
+                "matomo": ">=4.0.0-b1,<5.0.0-b1"
+            },
+            "wordPressCompatible": true,
+            "onPremiseCompatible": true,
+            "numDownloads": 0,
+            "license": {
+                "name": "GPL v3+",
+                "url": "https://plugins.matomo.org/TreemapVisualization/4.0.2/license"
+            },
+            "repositoryChangelogUrl": null,
+            "readmeHtml": {
+                "description": "",
+                "faq": "",
+                "changelog": "",
+                "documentation": ""
+            },
+            "download": "/api/2.0/plugins/TreemapVisualization/download/4.0.2"
+        }
+    ],
+    "isDownloadable": true,
+    "changelog": {
+        "url": ""
+    },
+    "consumer": {
+        "license": null
+    }
+}

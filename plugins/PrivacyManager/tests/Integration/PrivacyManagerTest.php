@@ -22,8 +22,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class PrivacyManagerTest extends IntegrationTestCase
 {
-    public const DELETE_LOGS_OLDER_THAN = 270;
-    public const DELETE_LOGS_OLDER_THAN_CNIL = 180;
+    public const DELETE_LOGS_OLDER_THAN = 1000;
+    public const DELETE_LOGS_OLDER_THAN_CNIL = 759;
 
     /**
      * @var PrivacyManager

@@ -540,7 +540,7 @@ class Controller extends ControllerAdmin
     }
 
     /**
-     * Return the base.less compiled to css
+     * Return the compiled JavaScript for the installation screen.
      *
      * @return string
      */

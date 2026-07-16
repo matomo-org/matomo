@@ -373,9 +373,11 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_OperatorOR';
         $translationKeys[] = 'SegmentEditor_AddANDorORCondition';
         $translationKeys[] = 'SegmentEditor_DefaultAllVisits';
+        $translationKeys[] = 'SegmentEditor_SelectSegmentOfVisits';
         $translationKeys[] = 'SegmentEditor_AreYouSureDeleteSegment';
         $translationKeys[] = 'SegmentEditor_AddNewSegment';
         $translationKeys[] = 'SegmentEditor_ManageSegments';
+        $translationKeys[] = 'SegmentEditor_YouMustBeLoggedInToCreateSegments';
         $translationKeys[] = 'SegmentEditor_SegmentPageTitle';
         $translationKeys[] = 'SegmentEditor_SegmentPageDescription';
         $translationKeys[] = 'SegmentEditor_SeeDashboardForThisSegment';
@@ -417,6 +419,7 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_ThisSegmentIsCompared';
         $translationKeys[] = 'SegmentEditor_ThisSegmentIsSelectedAndCannotBeCompared';
         $translationKeys[] = 'SegmentEditor_CompareThisSegment';
+        $translationKeys[] = 'Login_LogIn';
         $translationKeys[] = 'Live_VisitsLog';
         $translationKeys[] = 'General_MaximumNumberOfSegmentsComparedIs';
     }

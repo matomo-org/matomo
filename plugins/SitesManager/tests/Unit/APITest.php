@@ -10,9 +10,16 @@
 namespace Piwik\Plugins\SitesManager\tests\Unit;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Measurable\Type\TypeManager;
+use Piwik\Plugin\SettingsProvider;
+use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\SettingsServer;
+use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Translation\Translator;
 
 /**
  * @group SitesManaager
@@ -33,6 +40,10 @@ class APITest extends \PHPUnit\Framework\TestCase
         if (!SettingsServer::isTimezoneSupportEnabled()) {
             $this->markTestSkipped('timezones needs to be supported');
         }
+
+        $access = new FakeAccess();
+        $access->setSuperUserAccess();
+        StaticContainer::getContainer()->set('Piwik\Access', $access);
 
         Fixture::loadAllTranslations();
 
@@ -91,5 +102,44 @@ class APITest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('UTC+6', $timezones['UTC']);
         $this->assertArrayHasKey('UTC+13.75', $timezones['UTC']);
         $this->assertArrayHasKey('UTC-11.5', $timezones['UTC']);
+    }
+
+    public function getDetectConsentManagerTimeoutData(): array
+    {
+        return [
+            'huge value clamps down to 60'  => [99999, 60],
+            'default (60) is preserved'     => [60, 60],
+            'mid-range value is preserved'  => [30, 30],
+            'lower bound (1) is preserved'  => [1, 1],
+            'zero clamps up to 1'           => [0, 1],
+            'negative clamps up to 1'       => [-100, 1],
+        ];
+    }
+
+    /**
+     * @dataProvider getDetectConsentManagerTimeoutData
+     */
+    public function testDetectConsentManagerClampsTimeOut(int $input, int $expectedClamped): void
+    {
+        $detector = $this->createMock(SiteContentDetector::class);
+        $detector->expects($this->once())
+            ->method('detectContent')
+            ->with(
+                $this->equalTo([SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER]),
+                $this->equalTo(1),
+                $this->isNull(),
+                $this->equalTo($expectedClamped)
+            );
+        $detector->method('getDetectsByType')->willReturn([]);
+
+        $api = new API(
+            $this->createMock(SettingsProvider::class),
+            $this->createMock(SettingsMetadata::class),
+            $this->createMock(Translator::class),
+            $detector,
+            $this->createMock(TypeManager::class)
+        );
+
+        $this->assertNull($api->detectConsentManager(1, $input));
     }
 }

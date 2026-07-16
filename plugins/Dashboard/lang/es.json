@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Añadir un módulo",
+        "AddAWidget": "Añadir widget a este tablero",
         "AddPreviewedWidget": "Añade el módulo al panel de control",
         "ChangeDashboardLayout": "Modificar distribución del tablero",
         "CopyDashboardToUser": "Copiar tablero al usuario",
@@ -14,8 +14,9 @@
         "DefaultDashboard": "Panel de control por defecto - Usando la selección por defecto de módulos y la disposición de columnas",
         "DeleteWidgetConfirm": "¿Está seguro que desea borrar este módulo de su panel de control?",
         "EmptyDashboard": "Panel de control vacío - Elija sus módulos preferidos",
+        "ExportThisDashboard": "Exportar tablero",
         "LoadingWidget": "Cargando módulo, por favor espere…",
-        "ManageDashboard": "Configurar el tablero",
+        "ManageDashboard": "Gestionar tablero",
         "Maximise": "Maximizar",
         "Minimise": "Minimizar",
         "NotUndo": "No podrá deshacer esta operación.",
@@ -32,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "¿Está seguro que desea establecer esta selección y disposición de tablero como la plantilla de tablero por defecto?",
         "SetAsDefaultWidgetsConfirmHelp": "Esta selección de módulos y disposición de columnas del panel de control será usada cuando un usuario cree un nuevo panel de control o cuando se use la función \"%s\".",
         "TopLinkTooltip": "Ver los reportes de Análisis de internet para %s.",
+        "TopMenuTitle": "Analíticas",
         "WidgetNotFound": "Reproductor no encontrado",
         "WidgetPreview": "Previsualización del reproductor"
     }

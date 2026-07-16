@@ -198,7 +198,7 @@ class SettingsServer
      * Prior to PHP 5.2.1, or on Windows, --enable-memory-limit is not a
      * compile-time default, so ini_get('memory_limit') may return false.
      *
-     * @return int|bool  memory limit in megabytes, or false if there is no limit
+     * @return int|float|string|false  memory limit in megabytes, or false if there is no limit
      */
     public static function getMemoryLimitValue()
     {
@@ -213,7 +213,7 @@ class SettingsServer
     /**
      * Get php post_max_size (in Megabytes)
      *
-     * @return int|bool  max upload size in megabytes, or false if there is no limit
+     * @return int|float|string|false  max upload size in megabytes, or false if there is no limit
      */
     public static function getPostMaxUploadSize()
     {
@@ -228,7 +228,7 @@ class SettingsServer
     /**
      * @see https://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
      * @param $value
-     * @return false|float|int
+     * @return false|float|int|string
      */
     private static function getMegaBytesFromShorthandByte($value)
     {

@@ -58,35 +58,32 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     window.initTopControls = originalInitTopControls;
   });
 
-  it('blocks single-calendar interaction while preset owns selection', async () => {
+  it('allows single-calendar interaction after a preset shortcut is selected', async () => {
     const wrapper = mountSelector();
 
     const commitSelectionToUrl = jest.fn();
     (wrapper.vm as any).commitSelectionToUrl = commitSelectionToUrl;
     await wrapper.setData({
-      uiSelection: { type: 'preset', id: 'today' },
+      uiSelection: { type: 'period', id: 'day' },
       selectedPeriod: 'day',
       calendarViewport: 'single',
     });
-
-    expect(wrapper.find('.period-date').classes()).toContain('calendar-disabled');
-    expect(wrapper.findComponent({ name: 'PeriodDatePicker' }).props('disabled')).toBe(true);
 
     wrapper.findComponent({ name: 'PeriodDatePicker' }).vm.$emit('select', {
       date: new Date('2026-02-18'),
     });
 
-    expect(commitSelectionToUrl).not.toHaveBeenCalled();
+    expect(commitSelectionToUrl).toHaveBeenCalledTimes(1);
     wrapper.unmount();
   });
 
-  it('allows single-calendar interaction after switching ownership to period option', async () => {
+  it('allows single-calendar interaction after switching to a period option', async () => {
     const wrapper = mountSelector();
 
     const commitSelectionToUrl = jest.fn();
     (wrapper.vm as any).commitSelectionToUrl = commitSelectionToUrl;
     await wrapper.setData({
-      uiSelection: { type: 'preset', id: 'today' },
+      uiSelection: { type: 'period', id: 'day' },
       selectedPeriod: 'day',
       calendarViewport: 'single',
     });
@@ -100,10 +97,10 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     wrapper.unmount();
   });
 
-  it('blocks dual-calendar interaction while preset owns selection', async () => {
+  it('allows dual-calendar interaction after a preset shortcut is selected', async () => {
     const wrapper = mountSelector();
     await wrapper.setData({
-      uiSelection: { type: 'preset', id: 'last30days' },
+      uiSelection: { type: 'period', id: 'range' },
       selectedPeriod: 'range',
       calendarViewport: 'range',
       isRangeValid: false,
@@ -111,16 +108,14 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
       appliedRangeEndDate: '2026-01-31',
     });
 
-    expect(wrapper.findComponent({ name: 'DateRangePicker' }).props('disabled')).toBe(true);
-
     wrapper.findComponent({ name: 'DateRangePicker' }).vm.$emit('range-change', {
       start: '2026-02-01',
       end: '2026-02-18',
     });
 
-    expect((wrapper.vm as any).isRangeValid).toBe(false);
-    expect((wrapper.vm as any).appliedRangeStartDate).toBe('2026-01-01');
-    expect((wrapper.vm as any).appliedRangeEndDate).toBe('2026-01-31');
+    expect((wrapper.vm as any).isRangeValid).toBe(true);
+    expect((wrapper.vm as any).appliedRangeStartDate).toBe('2026-02-01');
+    expect((wrapper.vm as any).appliedRangeEndDate).toBe('2026-02-18');
     wrapper.unmount();
   });
 
@@ -146,35 +141,70 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     wrapper.unmount();
   });
 
-  it('keeps preset ownership after close/reopen without apply', async () => {
+  it('marks the corresponding period as selected when a preset resolves to that period', async () => {
     const wrapper = mountSelector();
 
     (wrapper.vm as any).onPresetDateRangeSelected({
       id: 'today',
       period: 'day',
-      date: 'today',
+      date: '2026-02-18',
+      urlDate: 'today',
+      selectedDate: new Date('2026-02-18'),
       startDate: new Date('2026-02-18'),
       endDate: new Date('2026-02-18'),
     });
 
-    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'today' });
-    expect((wrapper.vm as any).activePresetId).toBe('today');
+    await wrapper.vm.$nextTick();
+    expect(wrapper.findComponent({ name: 'PeriodOptions' }).props('checkedPeriodId')).toBe('day');
 
-    (wrapper.vm as any).onClosed({ detail: 1 });
-    (wrapper.vm as any).onExpand({ detail: 1 });
+    (wrapper.vm as any).onPresetDateRangeSelected({
+      id: 'lastWeekMonSun',
+      period: 'week',
+      date: '2026-02-09',
+      urlDate: 'lastweek',
+      selectedDate: new Date('2026-02-09'),
+      startDate: new Date('2026-02-09'),
+      endDate: new Date('2026-02-15'),
+    });
 
-    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'today' });
-    expect((wrapper.vm as any).activePresetId).toBe('today');
+    await wrapper.vm.$nextTick();
+    expect(wrapper.findComponent({ name: 'PeriodOptions' }).props('checkedPeriodId')).toBe('week');
     wrapper.unmount();
   });
 
-  it('switches checked ownership from preset to period when a period option is selected', async () => {
+  it('keeps a preset shortcut highlighted after close/reopen without apply', async () => {
     const wrapper = mountSelector();
 
     (wrapper.vm as any).onPresetDateRangeSelected({
       id: 'last30days',
       period: 'range',
-      date: 'last30',
+      date: '2026-01-20,2026-02-18',
+      urlDate: 'last30',
+      selectedDate: new Date('2026-02-18'),
+      startDate: new Date('2026-01-20'),
+      endDate: new Date('2026-02-18'),
+    });
+
+    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'last30days' });
+    expect((wrapper.vm as any).activePresetId).toBe('last30days');
+
+    (wrapper.vm as any).onClosed({ detail: 1 });
+    (wrapper.vm as any).onExpand({ detail: 1 });
+
+    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'last30days' });
+    expect((wrapper.vm as any).activePresetId).toBe('last30days');
+    wrapper.unmount();
+  });
+
+  it('switches the highlighted preset off when a period option is selected', async () => {
+    const wrapper = mountSelector();
+
+    (wrapper.vm as any).onPresetDateRangeSelected({
+      id: 'last30days',
+      period: 'range',
+      date: '2026-01-20,2026-02-18',
+      urlDate: 'last30',
+      selectedDate: new Date('2026-02-18'),
       startDate: new Date('2026-01-20'),
       endDate: new Date('2026-02-18'),
     });
@@ -185,12 +215,12 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     wrapper.findComponent({ name: 'PeriodOptions' }).vm.$emit('select', { period: 'month' });
 
     expect((wrapper.vm as any).uiSelection).toEqual({ type: 'period', id: 'month' });
-    expect((wrapper.vm as any).activePresetId).toBeNull();
+    expect((wrapper.vm as any).activePresetId).toBe('thisMonth');
     expect((wrapper.vm as any).pendingPresetSelection).toBeNull();
     wrapper.unmount();
   });
 
-  it('closes on outside click without applying pending preset selection', async () => {
+  it('closes on outside click without committing a staged range selection', async () => {
     const wrapper = mountSelector();
 
     const updateLocationSpy = jest.spyOn(MatomoUrl, 'updateLocation');
@@ -198,7 +228,9 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     (wrapper.vm as any).onPresetDateRangeSelected({
       id: 'last30days',
       period: 'range',
-      date: 'last30',
+      date: '2026-01-20,2026-02-18',
+      urlDate: 'last30',
+      selectedDate: new Date('2026-02-18'),
       startDate: new Date('2026-01-20'),
       endDate: new Date('2026-02-18'),
     });
@@ -212,7 +244,11 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     expect(root.classList.contains('expanded')).toBe(false);
     expect(updateLocationSpy).not.toHaveBeenCalled();
     expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'last30days' });
-    expect((wrapper.vm as any).pendingPresetSelection).toBeTruthy();
+    expect((wrapper.vm as any).pendingPresetSelection).toEqual(expect.objectContaining({
+      id: 'last30days',
+      period: 'range',
+    }));
+    expect((wrapper.vm as any).activePresetId).toBe('last30days');
 
     updateLocationSpy.mockRestore();
     wrapper.unmount();

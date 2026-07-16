@@ -7,7 +7,8 @@
         {% include "_jsGlobalVariables.twig" %}
         {% include "_jsCssIncludes.twig" %}
     </head>
-    <body class="widgetized">
+    {% set bodyClass = postEvent('Template.bodyClass', 'widgetized') %}
+    <body class="widgetized{{ bodyClass }}">
         <div class="widget">
             {{ content|raw }}
         </div>

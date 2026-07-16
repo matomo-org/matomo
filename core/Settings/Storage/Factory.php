@@ -44,7 +44,7 @@ class Factory
 
     /**
      * @param string $section
-     * @return mixed
+     * @return Storage
      */
     public function getConfigStorage($section)
     {

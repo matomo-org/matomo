@@ -414,19 +414,12 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 }
 
                 if ($('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).length) {
-                    var addWidgetsSubmenu = $('.dashboard-manager .addWidgetsSubmenu');
-
                     var position = $('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).position().top -
-                        $('.' + settings.categorylistClass, widgetPreview).position().top +
-                        (addWidgetsSubmenu.length ? addWidgetsSubmenu.position().top : 0);
-
-                    if (!$('#content.admin').length) {
-                        position += 3; // + padding defined in dashboard view
-                    }
+                        $('.' + settings.categorylistClass, widgetPreview).position().top;
 
                     $('.' + settings.widgetlistClass, widgetPreview).css({
                         top: position,
-                        marginBottom: position
+                        marginBottom: position + 10
                     });
                 }
 
@@ -480,7 +473,6 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 $('li', widgetList).on('click', function () {
                     if (!$('.widgetLoading', widgetPreview).length) {
                         settings.onSelect($(this).attr('uniqueid'));
-                        $(widgetPreview).closest('.dashboard-manager').removeClass('expanded');
                         if (settings.resetOnSelect) {
                             resetWidgetPreview(widgetPreview);
                         }
@@ -536,15 +528,17 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                     previewElement.html(emptyWidgetHtml);
 
                     var onWidgetLoadedCallback = function (response) {
-                        var widgetElement = $(document.getElementById(widgetUniqueId));
-                        // document.getElementById needed for widgets with uniqueid like widgetOpens+Contact+Form
+                        var widgetElement = previewElement.children('.widget').first();
                         $('.widgetContent', widgetElement).html($(response));
                         piwikHelper.compileVueEntryComponents($('.widgetContent', widgetElement));
-                        $('.widgetContent', widgetElement).trigger('widget:create');
+                        // `widget:create` handlers should only rely on `.element`, the widget's
+                        // root jQuery node. Dashboard widgets pass their full plugin instance;
+                        // previews pass `{ element }` so handlers scope to this preview instead
+                        // of grabbing the first matching node in the document.
+                        $('.widgetContent', widgetElement).trigger('widget:create', [{ element: widgetElement }]);
                         settings.onPreviewLoaded(widgetUniqueId, widgetElement);
                         $('.' + settings.widgetpreviewClass + ' .widgetTop', widgetPreview).on('click', function () {
                             settings.onSelect(widgetUniqueId);
-                            $(widgetPreview).closest('.dashboard-manager').removeClass('expanded');
                             if (settings.resetOnSelect) {
                                 resetWidgetPreview(widgetPreview);
                             }

@@ -4,7 +4,7 @@
         "AddNewSegment": "Afegir un nou segment",
         "AddThisToMatomo": "Afegeix aquest segment a Matomo",
         "AddingSegmentForAllWebsitesDisabled": "S'ha desactivat l'addició de segments per a tots els llocs web.",
-        "AreYouSureDeleteSegment": "Esteu segur que voleu suprimir aquest segment?",
+        "AreYouSureDeleteSegment": "Esteu segur que voleu suprimir aquest segment \"%s\"?",
         "AutoArchivePreProcessed": "els informes segmentats es processen prèviament (més ràpid, requereix cron)",
         "AutoArchiveRealTime": "els informes segmentats es processen en temps real",
         "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Esteu a punt de canviar la definició del segment. Els vostres informes d'anàlisi d'aquest segment nou no estaran disponibles fins que no es tornin a processar. Les dades dels informes d'aquest segment poden trigar unes quantes hores a mostrar-se. Voleu continuar igualment?",

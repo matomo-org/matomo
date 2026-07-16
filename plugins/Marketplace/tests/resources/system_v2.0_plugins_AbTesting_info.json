@@ -1,0 +1,97 @@
+{
+    "name": "AbTesting",
+    "displayName": "A/B Testing",
+    "owner": "matomo-org",
+    "description": "Increase revenue and conversions by comparing different versions of your websites or apps & detect the winning variation that will grow your business!",
+    "homepage": "https://matomo.org",
+    "createdDateTime": "2016-10-25 21:08:10",
+    "donate": [],
+    "support": [],
+    "isTheme": false,
+    "keywords": [
+        "Marketing",
+        "a/b",
+        "tests",
+        "split",
+        "abtests",
+        "test",
+        "experiments",
+        "variation",
+        "variant",
+        "optimze",
+        "improve",
+        "cro"
+    ],
+    "basePrice": 220,
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
+        }
+    ],
+    "repositoryUrl": null,
+    "lastUpdated": "2026-05-11 04:54:31",
+    "latestVersion": "5.5.3",
+    "numDownloads": 0,
+    "screenshots": [],
+    "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+    "previews": [],
+    "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": null
+    },
+    "featured": false,
+    "isFree": false,
+    "isPaid": true,
+    "isBundle": false,
+    "isCustomPlugin": false,
+    "shop": {
+        "url": "https://plugins.matomo.org/AbTesting",
+        "variations": [],
+        "reviews": {
+            "embedUrl": "",
+            "height": 200,
+            "averageRating": "0",
+            "ratingCount": 0,
+            "reviewCount": 0
+        }
+    },
+    "bundle": {
+        "plugins": []
+    },
+    "specialOffer": "",
+    "category": "uncategorised",
+    "versions": [
+        {
+            "name": "5.5.3",
+            "release": "2026-05-11 04:54:31",
+            "requires": {
+                "matomo": ">=5.0.0,<6.0.0-b1"
+            },
+            "wordPressCompatible": true,
+            "onPremiseCompatible": true,
+            "numDownloads": 0,
+            "license": {
+                "name": "InnoCraft EULA",
+                "url": "https://plugins.matomo.org/AbTesting/5.5.3/license"
+            },
+            "repositoryChangelogUrl": null,
+            "readmeHtml": {
+                "description": "",
+                "faq": "",
+                "changelog": "",
+                "documentation": ""
+            },
+            "download": null
+        }
+    ],
+    "isDownloadable": false,
+    "changelog": {
+        "url": ""
+    },
+    "consumer": {
+        "license": null
+    }
+}

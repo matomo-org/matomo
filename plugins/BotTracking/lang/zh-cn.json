@@ -4,6 +4,8 @@
         "NoDataHttpTrackingApi": "HTTP跟踪API",
         "SiteWithoutDataBackToMatomo": "返回 Matomo",
         "SiteWithoutDataInstallWithX": "使用 %1$s 安装",
-        "SiteWithoutDataStepByStepGuide": "分步指南"
+        "SiteWithoutDataStepByStepGuide": "分步指南",
+        "AIChatbotsContentPagesTitle": "页数",
+        "ContentUrl": "網址"
     }
 }

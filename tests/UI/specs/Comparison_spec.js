@@ -44,6 +44,82 @@ describe("Comparison", function () {
         "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&idSite=1&period=range&date=2012-01-12,2014-02-12&compareDates[]=2011-01-31,2013-02-31&comparePeriods[]=range"
     ;
 
+    async function getSparklineEvolutionForMetric(metricText) {
+        await page.waitForSelector('.sparkline .metricEvolution');
+
+        return page.evaluate(function (text) {
+            function normalize(value) {
+                return value.replace(/\s+/g, ' ').trim().toLowerCase();
+            }
+
+            var textToFind = text.toLowerCase();
+            var sparklines = Array.prototype.slice.call(document.querySelectorAll('.sparkline'));
+
+            for (var i = 0; i < sparklines.length; i++) {
+                var metrics = Array.prototype.slice.call(sparklines[i].querySelectorAll('.sparkline-metrics'));
+
+                for (var j = 0; j < metrics.length; j++) {
+                    if (normalize(metrics[j].textContent).indexOf(textToFind) === -1) {
+                        continue;
+                    }
+
+                    var evolution = metrics[j].nextElementSibling;
+                    if (!evolution || !evolution.classList.contains('metricEvolution')) {
+                        continue;
+                    }
+
+                    var value = evolution.querySelector('strong');
+                    var image = evolution.querySelector('img');
+                    if (!value || !image) {
+                        continue;
+                    }
+
+                    return {
+                        className: value.className,
+                        image: image.getAttribute('src'),
+                        text: value.textContent.trim(),
+                    };
+                }
+            }
+
+            return null;
+        }, metricText);
+    }
+
+    function expectEvolutionPolarity(evolution, isLowerValueBetter) {
+        expect(evolution).to.not.equal(null);
+
+        var isPositive = evolution.className.indexOf('positive-evolution') !== -1;
+        var isNegative = evolution.className.indexOf('negative-evolution') !== -1;
+        expect(isPositive || isNegative).to.equal(true);
+
+        var isUp = evolution.image.indexOf('arrow_up') !== -1;
+        var isDown = evolution.image.indexOf('arrow_down') !== -1;
+        expect(isUp || isDown).to.equal(true);
+
+        if (isUp) {
+            if (isLowerValueBetter) {
+                expect(evolution.className).to.contain('negative-evolution');
+                expect(evolution.image).to.contain('arrow_up_red.svg');
+            } else {
+                expect(evolution.className).to.contain('positive-evolution');
+                expect(evolution.image).to.contain('arrow_up.svg');
+                expect(evolution.image).to.not.contain('arrow_up_red.svg');
+            }
+        }
+
+        if (isDown) {
+            if (isLowerValueBetter) {
+                expect(evolution.className).to.contain('positive-evolution');
+                expect(evolution.image).to.contain('arrow_down_green.svg');
+            } else {
+                expect(evolution.className).to.contain('negative-evolution');
+                expect(evolution.image).to.contain('arrow_down.svg');
+                expect(evolution.image).to.not.contain('arrow_down_green.svg');
+            }
+        }
+    }
+
     it('should compare periods correctly when comparing the last period', async () => {
         await page.goto(dashboardUrl);
         await page.waitForNetworkIdle();
@@ -294,6 +370,17 @@ describe("Comparison", function () {
         await page.goto(visitOverviewWidgetCompareLargeRange);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_largerange');
+    });
+
+    it('should apply lower-is-better polarity to comparison sparkline evolution', async () => {
+        await page.goto(visitOverviewSparklines);
+        await page.waitForNetworkIdle();
+
+        var visitsEvolution = await getSparklineEvolutionForMetric('visits');
+        expectEvolutionPolarity(visitsEvolution, false);
+
+        var bounceEvolution = await getSparklineEvolutionForMetric('bounced');
+        expectEvolutionPolarity(bounceEvolution, true);
     });
 
     it('should show evolution metrics correctly formatted in other language', async () => {

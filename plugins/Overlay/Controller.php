@@ -185,6 +185,10 @@ class Controller extends \Piwik\Plugin\Controller
         $view->mainUrl   = $site['main_url'];
 
         $this->outputCORSHeaders();
+        // piwik.js::isOverlaySession() detects an Overlay session from this navigation URL.
+        // A strict referrer policy would strip the path/query and break that handshake, so the
+        // policy is relaxed here. Keep the URL canonical: only module, action, idSite, period,
+        // date, and segment belong on it. See canonicalizeOverlayUrl() in startOverlaySession.twig.
         $view->setUseStrictReferrerPolicy(false);
         Common::sendHeader('Content-Type: text/html; charset=UTF-8');
 

@@ -10,7 +10,6 @@ import { shallowMount } from '@vue/test-utils';
 type PlainObject = Record<string, unknown>;
 
 const mockRootJQuery = {
-  widgetPreview: jest.fn(),
   hide: jest.fn(),
   dashboard: jest.fn(),
   find: jest.fn(() => ({ length: 0 })),
@@ -36,6 +35,7 @@ const mockMatomo = {
   userHasSomeAdminAccess: false,
   postEvent: jest.fn(),
   on: jest.fn(),
+  off: jest.fn(),
   getLoginModule: mockGetLoginModule,
 };
 
@@ -212,6 +212,19 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledTimes(1);
       expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith();
       expect(sessionStorage.getItem(DASHBOARD_EXPORT_STORAGE_KEY)).toBeNull();
+    });
+  });
+
+  describe('#openAddWidget()', () => {
+    it('closes the expanded dropdown and posts the add-widget open event', () => {
+      const wrapper = mountComponent();
+      const root = wrapper.element as HTMLElement;
+      root.classList.add('expanded');
+
+      (wrapper.vm as any).openAddWidget();
+
+      expect(root.classList.contains('expanded')).toBe(false);
+      expect(mockMatomo.postEvent).toHaveBeenCalledWith('Dashboard.AddWidget.open');
     });
   });
 

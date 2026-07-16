@@ -339,8 +339,40 @@ class Updater
         return $disabledPluginNames;
     }
 
+    /**
+     * Some dependency classes move to a different file path between Matomo major versions (for example
+     * psr/log moved from Psr/Log to src). Loading them now - while the current files are still in place -
+     * keeps them available to this already running process after installNewFiles() has replaced the files.
+     * Otherwise the initialised autoloader can no longer resolve them from their old paths and the rest of
+     * the update request fails (e.g. "Class Psr\Log\NullLogger not found").
+     *
+     * This is only needed for the one-click update from Matomo 5 to Matomo 6 (the upgrade in which psr/log
+     * relocates). It can be removed again in Matomo 6: once an install runs Matomo 6 the classes are already
+     * at their new location, so no preloading is required for subsequent updates.
+     */
+    private function preloadRelocatedClasses(): void
+    {
+        $classesToPreload = [
+            'Psr\Log\LoggerInterface',
+            'Psr\Log\AbstractLogger',
+            'Psr\Log\NullLogger',
+            'Psr\Log\LoggerTrait',
+            'Psr\Log\LogLevel',
+            'Psr\Log\InvalidArgumentException',
+            'Psr\Log\LoggerAwareInterface',
+            'Psr\Log\LoggerAwareTrait',
+        ];
+
+        foreach ($classesToPreload as $classToPreload) {
+            class_exists($classToPreload) || interface_exists($classToPreload) || trait_exists($classToPreload);
+        }
+    }
+
     private function installNewFiles($extractedArchiveDirectory)
     {
+        // Load classes that move to a different file path in the new version before any files are replaced.
+        $this->preloadRelocatedClasses();
+
         // Make sure the execute bit is set for this shell script
         if (!Rules::isBrowserTriggerEnabled()) {
             @chmod($extractedArchiveDirectory . '/misc/cron/archive.sh', 0755);

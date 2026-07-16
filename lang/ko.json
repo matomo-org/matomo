@@ -319,14 +319,12 @@
         "Password": "비밀번호",
         "Period": "기간",
         "Piechart": "파이차트",
-        "PiwikCannotBeUpgradedBecausePhpIsTooOld": "PHP 버전이 오래되어 Matomo는 최신 메이저 버전으로 업그레이드를 할 수 없습니다.",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s가 가능합니다. %2$sMatomo 관리자%3$s에게 알려주세요.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s 이 사용 가능합니다. %2$s 지금 업데이트하세요!%3$s (보기: %4$s 변경사항%5$s).",
         "PleaseContactYourPiwikAdministrator": "Matomo 관리자에 연락해주세요.",
         "PleaseSpecifyValue": "'%s'의 값을 지정하세요.",
         "PleaseTryAgain": "다시 시도하십시오",
         "PleaseUpdatePiwik": "Matomo을 업데이트하세요",
-        "PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure": "Matomo 분석 데이터를 안전하게 보관하기 위해서 PHP 버전을 최소 PHP %s이상으로 업그레이드 해주세요.",
         "Plugin": "플러그인",
         "Plugins": "플러그인",
         "PoweredBy": "기술 제공",
@@ -455,7 +453,6 @@
         "Yes": "예",
         "YouAreCurrentlyUsing": "현재 Matomo %s를 이용하고 있습니다.",
         "YouMustBeLoggedIn": "이 기능에 접근하려면 로그인해야합니다.",
-        "YouMustUpgradePhpVersionToReceiveLatestPiwik": "Matomo 최신 업데이트를 받기 위해서는 PHP 버전을 업그레이드 하셔야 합니다.",
         "YourChangesHaveBeenSaved": "변경 사항이 저장되었습니다."
     },
     "Mobile": {

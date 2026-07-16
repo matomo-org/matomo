@@ -29,7 +29,6 @@
         "ReportsIncluded": "보고서에 포함할 정보",
         "SegmentAppliedToReports": "세그먼트 '%s'는 보고서에 적용됩니다.",
         "Segment_Deletion_Error": "이 세그멘트는 다른 사용자들이 삭제나 감추도록 할 수 없습니다. 왜냐하면 %s의 이메일 보고서(들)를 만드는데 사용되기 때문입니다. 해당 보고서(들)에서 이 세그먼트를 제거하신 후 다시 시도하시길 바랍니다.",
-        "SendReportNow": "보고서 즉시 제출",
         "SendReportTo": "보고서를 전송할 대상",
         "SentFromX": "%s에서 보내기",
         "SentToMe": "나에게 보내기",

@@ -22,6 +22,8 @@ use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ThemeStyles;
+use Piwik\Plugins\CoreHome\FeatureFlags\ReportHeaderRedesign;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 use Piwik\SettingsPiwik;
@@ -53,7 +55,20 @@ class CoreHome extends \Piwik\Plugin
             'Request.dispatchCoreAndPluginUpdatesScreen' => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
             'Tracker.setTrackerCacheGeneral'             => 'setTrackerCacheGeneral',
             'Segment.filterSegments'                     => 'filterSegments',
+            'Template.bodyClass'                         => 'addBodyClass',
         );
+    }
+
+    public function addBodyClass(&$out, $type)
+    {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+
+        // The report header redesign moves widget controls and report actions to a shared
+        // top-right header. It is gated app-wide by this flag so later tickets can scope
+        // CSS/JS with `body.report-header-redesign-enabled` across every report surface.
+        if ($featureFlagManager->isFeatureActive(ReportHeaderRedesign::class)) {
+            $out .= ' report-header-redesign-enabled';
+        }
     }
 
     public function isTrackerPlugin()
@@ -146,6 +161,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Notification/Notification.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/QuickAccess/QuickAccess.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/SearchInput/SearchInput.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/selector.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/ReportingPage/ReportingPage.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/ReportExport/ReportExport.less";
@@ -155,6 +171,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/MultiPairField/MultiPairField.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/DraggableList/DraggableList.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Sparkline/Sparkline.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/FieldArray/FieldArray.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";

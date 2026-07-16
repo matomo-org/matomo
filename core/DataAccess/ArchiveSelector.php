@@ -49,15 +49,18 @@ class ArchiveSelector
     }
 
     /**
-     * @param bool $minDatetimeArchiveProcessedUTC deprecated. Will be removed in Matomo 4.
-     * @return array An array with four values:
-     *               - the latest archive ID or false if none
+     * @param false|int|string|Date|null $minDatetimeArchiveProcessedUTC The minimum ts_archived an archive must have to be considered usable, or false to accept any.
+     * @param bool|null $includeInvalidated true to include archives that are DONE_INVALIDATED, false if only DONE_OK,
+     *                                      null to determine automatically based on $params.
+     * @return array An array with the following values:
+     *               - the latest archive ID(s) or false if none
      *               - the latest visits value for the latest archive, regardless of whether the archive is invalidated or not
      *               - the latest visits converted value for the latest archive, regardless of whether the archive is invalidated or not
      *               - whether there is an archive that exists or not. if this is true and the latest archive is false, it means
      *                 the archive found was not usable (for example, it was invalidated and we are not looking for invalidated archives)
      *               - the ts_archived for the latest usable archive
-     * @throws Exception
+     *               - the doneFlag value for the latest archive
+     *               - existing records contained in partial archives, if applicable
      */
     public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = null)
     {
@@ -204,7 +207,6 @@ class ArchiveSelector
      *                       '2010-01-01' => array(1,2,3)
      *                   )
      *               )
-     * @throws
      */
     public static function getArchiveIds(
         $siteIds,
@@ -254,7 +256,6 @@ class ArchiveSelector
      *                       )
      *                   )
      *               )
-     * @throws
      */
     public static function getArchiveIdsAndStates(
         $siteIds,
@@ -510,8 +511,9 @@ class ArchiveSelector
      * - the ts_archived for the latest idarchive
      * - the doneFlag value for the latest archive
      *
-     * @param $results
-     * @param $doneFlags
+     * @param array $results
+     * @param array $requestedPluginDoneFlags
+     * @param string $allPluginsDoneFlag
      * @return array
      */
     private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $allPluginsDoneFlag)

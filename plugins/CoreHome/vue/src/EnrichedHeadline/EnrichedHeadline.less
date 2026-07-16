@@ -15,11 +15,11 @@
 
     .inlineHelp {
         display: block;
-        background: #F7F7F7;
+        background: @theme-color-background-base;
         font-size: 12px;
         line-height: 1.1;
         font-weight: normal;
-        border: 1px solid #E4E5E4;
+        border: 1px solid @theme-color-border-alternative;
         margin: 10px 0 10px 0;
         padding: 10px;
         border-radius: 2px;
@@ -56,7 +56,7 @@
         text-decoration: none;
 
         &:hover, &.active {
-            color: @theme-color-help-background-color !important;
+            color: @theme-color-link !important;
             opacity: 0.9;
             text-decoration: none;
         }

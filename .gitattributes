@@ -20,6 +20,8 @@ plugins/*/tests/UI/expected-screenshots/*.png filter=lfs diff=lfs merge=lfs
 
 # binary
 *.z binary
+*.zip binary
+*.ZIP binary
 *.xls binary
 *.xlsx binary
 *.png binary

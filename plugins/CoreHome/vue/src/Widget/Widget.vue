@@ -17,6 +17,7 @@
       v-if="!actualWidget.isContainer && actualWidget.parameters && !actualWidget.clientComponent"
       :widget-params="actualWidget.parameters"
       :widget-name="actualWidget.name"
+      :suppress-notifications="suppressNotifications"
     />
     <ClientWidgetRenderer
       v-if="!actualWidget.isContainer && actualWidget.clientComponent"
@@ -98,6 +99,7 @@ export default defineComponent({
     widgetized: Boolean,
     containerid: String,
     preventRecursion: Boolean,
+    suppressNotifications: Boolean,
   },
   components: {
     WidgetLoader,

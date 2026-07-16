@@ -68,7 +68,8 @@
 .UserCountryMap-tooltip .content {
     padding: 5px;
     border-radius: 3px;
-    background: rgba(255, 255, 255, 0.9);
+    color: @theme-color-text;
+    background: @theme-color-background-contrast;
 }
 
 .UserCountryMap-tooltip .content.unlocated-stats {
@@ -78,6 +79,10 @@
 .UserCountryMap-title {
     top: 5px;
     left: 5px;
+}
+
+.UserCountryMap-title .map-stats {
+    color: @theme-color-text-lighter;
 }
 
 .UserCountryMap-legend {

@@ -4,6 +4,8 @@
         "NoDataHttpTrackingApi": "HTTP Tracking API",
         "SiteWithoutDataBackToMatomo": "Terug naar Matomo",
         "SiteWithoutDataInstallWithX": "Installeren met %1$s",
-        "SiteWithoutDataStepByStepGuide": "Stapsgewijze handleiding"
+        "SiteWithoutDataStepByStepGuide": "Stapsgewijze handleiding",
+        "AIChatbotsContentPagesTitle": "Pagina's",
+        "ContentUrl": "URL"
     }
 }

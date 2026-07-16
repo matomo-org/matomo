@@ -54,6 +54,46 @@ describe("PrivacyManager_SiteSpecific", function () {
         await resetPrivacySettings();
     });
 
+    after(async function () {
+        // The "should show site-specific settings defaulting to instance-level..."
+        // tests use testEnvironment.optionsOverride to write PrivacyManager.* rows
+        // to the option table, then reset optionsOverride to {}. That stops future
+        // bootstraps from re-setting them, but the rows already written stay. Under
+        // --plugin=PrivacyManager --persist-fixture-data the next spec sharing this
+        // fixture DB (PrivacyManager_spec) then renders privacy settings with leaked
+        // mask length, anonymize order id and anonymize referrer values. Re-apply
+        // fixture-matching values so the following bootstraps overwrite the leaks.
+        // randomizeConfigId is intentionally omitted because PrivacyManager_spec
+        // saves it via the form and would be reset on every reload otherwise.
+        testEnvironment.optionsOverride = testEnvironment.optionsOverride || {};
+        testEnvironment.optionsOverride['PrivacyManager.ipAnonymizerEnabled'] = '0';
+        testEnvironment.optionsOverride['PrivacyManager.ipAddressMaskLength'] = '0';
+        testEnvironment.optionsOverride['PrivacyManager.useAnonymizedIpForVisitEnrichment'] = '0';
+        testEnvironment.optionsOverride['PrivacyManager.doNotTrackEnabled'] = '0';
+        testEnvironment.optionsOverride['PrivacyManager.anonymizeUserId'] = '0';
+        testEnvironment.optionsOverride['PrivacyManager.anonymizeOrderId'] = '0';
+        testEnvironment.optionsOverride['PrivacyManager.anonymizeReferrer'] = '';
+        testEnvironment.save();
+
+        // The "should save site-specific" / "...for site 2" tests write per-site
+        // rows like PrivacyManager.idSite(N).%. Config::useSiteSpecificSettings()
+        // returns true while any such row exists, so even values that match the
+        // defaults still flip the compliance page rendering. optionsOverride can
+        // only Option::set, so call setAnonymizeIpSettings with
+        // useSiteSpecificSettings=false to invoke Config::removeForSite() and
+        // delete every row under that prefix. Each call also bootstraps the
+        // proxy, applying the instance-level overrides above.
+        for (const idSiteSpecific of [1, 2]) {
+            await testEnvironment.callApi('PrivacyManager.setAnonymizeIpSettings', {
+                anonymizeIPEnable: false,
+                ipAddressMaskLength: 0,
+                useAnonymizedIpForVisitEnrichment: false,
+                idSiteSpecific,
+                useSiteSpecificSettings: false,
+            });
+        }
+    });
+
     async function loadBasePage()
     {
         await page.goto(urlBase);

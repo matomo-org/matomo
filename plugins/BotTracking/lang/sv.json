@@ -7,6 +7,8 @@
         "SiteWithoutDataStepByStepGuide": "Steg-för-steg-guide",
         "AIChatbotsOverview": "Översikt över AI-chattbottar",
         "ColumnUniqueAiChatbots": "Unika AI-chattbottar",
-        "ColumnClickThroughRate": "Klickfrekvens"
+        "ColumnClickThroughRate": "Klickfrekvens",
+        "AIChatbotsContentPagesTitle": "Sidor",
+        "ContentUrl": "URL"
     }
 }

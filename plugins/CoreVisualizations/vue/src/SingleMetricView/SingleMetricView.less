@@ -6,7 +6,7 @@
     opacity: 0.5;
   }
 
-  span, .metric-sparkline, .positive-evolution::before {
+  span, .metric-sparkline {
     margin-right: 3.5px;
   }
 
@@ -39,19 +39,29 @@
       }
     }
 
-    .positive-evolution::before {
+    .evolution-up::before,
+    .evolution-down::before {
       content: "";
-      background: url(plugins/MultiSites/images/arrow_up.svg) no-repeat center center;
       display: inline-block;
       height: 7px;
       width: 12px;
+      margin-right: 3.5px;
+      background: no-repeat center center;
     }
-    .negative-evolution::before {
-      content: "";
-      background: url(plugins/MultiSites/images/arrow_down.svg) no-repeat center center;
-      display: inline-block;
-      height: 7px;
-      width: 12px;
+
+    // arrow points up/down depending on the value change, its colour matches
+    // whether that change is good (positive) or bad (negative) for the metric
+    .evolution-up.positive-evolution::before {
+      background-image: url(plugins/MultiSites/images/arrow_up.svg);
+    }
+    .evolution-up.negative-evolution::before {
+      background-image: url(plugins/MultiSites/images/arrow_up_red.svg);
+    }
+    .evolution-down.positive-evolution::before {
+      background-image: url(plugins/MultiSites/images/arrow_down_green.svg);
+    }
+    .evolution-down.negative-evolution::before {
+      background-image: url(plugins/MultiSites/images/arrow_down.svg);
     }
   }
 }

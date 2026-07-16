@@ -20,15 +20,29 @@ class FeatureFlagFinder
      */
     public static function findFeatureFlagByName(string $name): ?FeatureFlagInterface
     {
-        $directoryToCheck = StaticContainer::get('featureflag.dir_of_feature_flags');
-        $featureFlagClasses = Manager::getInstance()->findMultipleComponents($directoryToCheck, FeatureFlagInterface::class);
-
-        foreach ($featureFlagClasses as $featureFlagClass) {
-            if ((new $featureFlagClass())->getName() === $name) {
-                return new $featureFlagClass();
+        foreach (self::findAll() as $featureFlag) {
+            if ($featureFlag->getName() === $name) {
+                return $featureFlag;
             }
         }
 
         return null;
+    }
+
+    /**
+     * @internal
+     * @return FeatureFlagInterface[]
+     */
+    public static function findAll(): array
+    {
+        $directoryToCheck = StaticContainer::get('featureflag.dir_of_feature_flags');
+        $featureFlagClasses = Manager::getInstance()->findMultipleComponents($directoryToCheck, FeatureFlagInterface::class);
+
+        $featureFlags = [];
+        foreach ($featureFlagClasses as $featureFlagClass) {
+            $featureFlags[] = new $featureFlagClass();
+        }
+
+        return $featureFlags;
     }
 }

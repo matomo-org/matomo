@@ -322,12 +322,10 @@
         "Password": "סיסמה",
         "Period": "תקופה",
         "Piechart": "גרף עוגה",
-        "PiwikCannotBeUpgradedBecausePhpIsTooOld": "לא ניתן לשדרג את פיוויק לגירסה הראשית האחרונה מכיוון שגירסת ה-PHP שלך ישן מדי.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s עכשיו זמינה. %2$s נא לשדרג עכשיו! %3$s (ראו %4$s שינויים %5$s)",
         "PleaseContactYourPiwikAdministrator": "נא צרו קשר עם מנהל הפיוויק שלכם.",
         "PleaseSpecifyValue": "יד להגדיר ערך עבור '%s'.",
         "PleaseUpdatePiwik": "יש לעדכן את ה-Matomo שלך",
-        "PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure": "נא שדרגו את גירסת ה-PHP שלכם לפחות לגירסת PHP %s על מנת שנתוני הסטטיסטיקה של פיוויק יישארו מאובטחים.",
         "Plugin": "תוסף",
         "Plugins": "תוספים",
         "PoweredBy": "מופעל על ידי",
@@ -451,7 +449,6 @@
         "Yes": "כן",
         "YouAreCurrentlyUsing": "אתה משתמש כעת בפיוויק %s.",
         "YouMustBeLoggedIn": "חובה להתחבר למערכת בכדי לבצע פעולה זו.",
-        "YouMustUpgradePhpVersionToReceiveLatestPiwik": "עליכם לשדרג את גירסת ה-PHP שלכם על מהת לקבל את גירסת הפיוויק האחרונה.",
         "YourChangesHaveBeenSaved": "השינויים נשמרו."
     },
     "Mobile": {

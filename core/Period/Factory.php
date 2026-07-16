@@ -22,7 +22,7 @@ use Piwik\Plugin;
  *
  * ## Custom Periods
  *
- * Plugins can define their own period factories all plugins to define new period types, in addition
+ * Plugins can define their own period factories to define new period types, in addition
  * to "day", "week", "month", "year" and "range".
  *
  * To define a new period type:
@@ -62,12 +62,9 @@ abstract class Factory
     /**
      * Creates a new Period instance with a period ID and {@link Date} instance.
      *
-     * _Note: This method cannot create {@link Period\Range} periods._
-     *
      * @param string $period `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param Date|string $date A date within the period or the range of dates.
-     * @param Date|string $timezone Optional timezone that will be used only when $period is 'range' or $date is 'last|previous'
-     * @throws Exception If `$strPeriod` is invalid or $date is invalid.
+     * @param string $timezone Optional timezone that will be used only when $period is 'range' or $date is 'last|previous'
      * @return \Piwik\Period
      */
     public static function build($period, $date, $timezone = 'UTC')
@@ -150,7 +147,7 @@ abstract class Factory
      * @param string $timezone The timezone of the date. Only used if `$date` is `'now'`, `'today'`,
      *                         `'yesterday'` or `'yesterdaySameTime'`.
      * @param string $period The period string: `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
-     * @param string $date The date or date range string. Can be a special value including
+     * @param string|Date $date The date or date range string. Can be a special value including
      *                     `'now'`, `'today'`, `'yesterday'`, `'yesterdaySameTime'`.
      * @return \Piwik\Period
      */

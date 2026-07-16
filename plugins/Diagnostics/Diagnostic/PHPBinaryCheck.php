@@ -21,10 +21,6 @@ class PHPBinaryCheck implements Diagnostic
      */
     private $translator;
 
-    /**
-     * @var int
-     */
-
     public function __construct(Translator $translator)
     {
         $this->translator = $translator;

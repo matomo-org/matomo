@@ -27,51 +27,43 @@ class SegmentGeneratorStore {
 
   readonly state = computed(() => readonly(this.privateState));
 
-  private loadSegmentsAbort?: AbortController;
-
-  private loadSegmentsPromise?: Promise<SegmentMetadata[]>;
-
-  private fetchedSiteId?: string|number;
-
   loadSegments(
     siteId?: string|number,
     visitSegmentsOnly?: boolean,
   ): Promise<DeepReadonly<SegmentMetadata[]>> {
-    if (this.loadSegmentsAbort) {
-      this.loadSegmentsAbort.abort();
-      this.loadSegmentsAbort = undefined;
-    }
-
+    // Do not cache the in-flight promise. AjaxHelper silently swallows
+    // aborts (when globalAjaxQueue.abort() fires during navigation), which
+    // means a cached promise can stay pending forever and any subsequent
+    // call returns that stuck promise so queriedSegments never populates
+    // and the segment editor form fails to render any condition rows.
     this.privateState.isLoading = true;
 
-    if (this.fetchedSiteId !== siteId) {
-      this.loadSegmentsAbort = undefined;
-      this.fetchedSiteId = siteId;
+    let idSites: string|number|undefined = undefined;
+    let idSite: string|number|undefined = undefined;
+
+    if (siteId === 'all' || !siteId) {
+      idSites = 'all';
+      idSite = 'all';
+    } else if (siteId) {
+      idSites = siteId;
+      idSite = siteId;
     }
 
-    if (!this.loadSegmentsPromise) {
-      let idSites: string|number|undefined = undefined;
-      let idSite: string|number|undefined = undefined;
-
-      if (siteId === 'all' || !siteId) {
-        idSites = 'all';
-        idSite = 'all';
-      } else if (siteId) {
-        idSites = siteId;
-        idSite = siteId;
-      }
-
-      this.loadSegmentsAbort = new AbortController();
-      this.loadSegmentsPromise = AjaxHelper.fetch<SegmentMetadata[]>({
-        method: 'API.getSegmentsMetadata',
-        filter_limit: '-1',
-        _hideImplementationData: 0,
-        idSites,
-        idSite,
-      });
-    }
-
-    return this.loadSegmentsPromise.then((response) => {
+    return AjaxHelper.fetch<SegmentMetadata[]>({
+      method: 'API.getSegmentsMetadata',
+      filter_limit: '-1',
+      _hideImplementationData: 0,
+      idSites,
+      idSite,
+    }, {
+      // Stay out of globalAjaxQueue so a navigation-triggered
+      // globalAjaxQueue.abort() (e.g. when the panel close re-renders
+      // hashchange listeners) cannot kill the metadata fetch.
+      // AjaxHelper silently swallows aborts, which would leave the
+      // promise pending forever and the segment editor form rendered
+      // without dimension labels or condition rows.
+      abortable: false,
+    }).then((response) => {
       this.privateState.isLoading = false;
 
       if (response) {
@@ -87,7 +79,6 @@ class SegmentGeneratorStore {
       return this.state.value.segments;
     }).finally(() => {
       this.privateState.isLoading = false;
-      delete this.loadSegmentsPromise;
     });
   }
 }

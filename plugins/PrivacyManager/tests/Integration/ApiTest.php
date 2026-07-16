@@ -13,7 +13,9 @@ use Exception;
 use Piwik\Access;
 use Piwik\Container\StaticContainer;
 use Piwik\NoAccessException;
+use Piwik\Policy\CnilPolicy;
 use Piwik\Plugins\PrivacyManager\API;
+use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -124,6 +126,30 @@ class ApiTest extends IntegrationTestCase
             unset($_POST['token_auth']);
             unset($_POST['force_api_session']);
         }
+    }
+
+    public function testIpAddressMaskLengthComplianceUsesCurrentMaskLengthWhenIpAnonymizationIsDisabled(): void
+    {
+        $anonymizeIp = true;
+        $maskLength = 3;
+        $this->api->setAnonymizeIpSettings(
+            $anonymizeIp,
+            $maskLength,
+            true
+        );
+
+        $this->assertSame(3, IpAddressMaskLength::getCustomValue());
+        $this->assertTrue(IpAddressMaskLength::isCompliant(CnilPolicy::class, $this->siteId));
+
+        $anonymizeIp = false;
+        $this->api->setAnonymizeIpSettings(
+            $anonymizeIp,
+            $maskLength,
+            true
+        );
+
+        $this->assertSame($maskLength, IpAddressMaskLength::getCustomValue());
+        $this->assertFalse(IpAddressMaskLength::isCompliant(CnilPolicy::class, $this->siteId));
     }
 
     public function provideContainerConfig()

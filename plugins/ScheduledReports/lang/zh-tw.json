@@ -37,7 +37,6 @@
         "SegmentAppliedToReports": "區隔「%s」已套用至報表。",
         "SegmentDeleted": "區隔已刪除",
         "Segment_Deletion_Error": "這個區隔不能對其他使用者刪除或隱藏，因為他已經用於建立報表信件 %s。請先將區隔從報表中移除後再重試。",
-        "SendReportNow": "立即寄送報表",
         "SendReportTo": "寄送報表至",
         "SentFromX": "寄送自 %s。",
         "SentToMe": "寄給我自己",

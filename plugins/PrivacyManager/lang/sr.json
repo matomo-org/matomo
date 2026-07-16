@@ -37,7 +37,6 @@
         "PurgeNow": "Očisti bazu",
         "PurgeNowConfirm": "Na putu ste da trajno obrišete podatke iz baze. Da li želite da nastavite?",
         "PurgingData": "Čišćenje baze…",
-        "RecommendedForPrivacy": "Preporučljivo zbog privatnosti",
         "ReportsDataSavedEstimate": "Veličina baze",
         "SaveSettingsBeforePurge": "Izmenili ste pravila oko brisanja podataka. Molimo vas da ih sačuvate pre nego što počnete sa čišćenjem podataka.",
         "SeeAlsoOurOfficialGuidePrivacy": "Pogledajte i naš zvanični vodič: %1$sPrivatnost u analitikama%2$s",

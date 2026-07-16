@@ -24,22 +24,31 @@ class PasswordVerifier
      * @var Date|null
      */
     private $now;
+
+    /**
+     * @var bool
+     */
     private $enableRedirect = true;
 
     /**
-     * @ignore
-     * tests only
+     * @return void
+     * @ignore tests only
      */
     public function setDisableRedirect()
     {
         $this->enableRedirect = false;
     }
 
-    private function getLoginSession()
+    private function getLoginSession(): SessionNamespace
     {
         return new SessionNamespace('Login');
     }
 
+    /**
+     * @param string $userLogin
+     * @param string $password
+     * @return bool
+     */
     public function isPasswordCorrect(
         $userLogin,
         #[\SensitiveParameter]
@@ -71,31 +80,38 @@ class PasswordVerifier
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function hasPasswordVerifyBeenRequested()
     {
         $sessionNamespace = $this->getLoginSession();
         return !empty($sessionNamespace->redirectParams);
     }
 
+    /**
+     * @return void
+     */
     public function forgetVerifiedPassword()
     {
         // call this method if you want the user to enter the password again after some action was finished which needed
         // the password
         $sessionNamespace = $this->getLoginSession();
         unset($sessionNamespace->lastPasswordAuth);
+        unset($sessionNamespace->passwordVerifiedLogin);
         unset($sessionNamespace->redirectParams);
     }
 
     /**
-     * @ignore
-     * tests only
+     * @return void
+     * @ignore tests only
      */
     public function setNow(Date $now)
     {
         $this->now = $now;
     }
 
-    private function getNow()
+    private function getNow(): Date
     {
         if ($this->now) {
             return $this->now;
@@ -103,11 +119,20 @@ class PasswordVerifier
         return Date::now();
     }
 
-    public function setPasswordVerifiedCorrectly()
+    /**
+     * @return void
+     */
+    public function setPasswordVerifiedCorrectly(?string $login = null)
     {
+        if ($login === null) {
+            $login = Piwik::getCurrentUserLogin();
+        }
+
         $sessionNamespace = $this->getLoginSession();
         $sessionNamespace->lastPasswordAuth = $this->getNow()->getDatetime();
+        $sessionNamespace->passwordVerifiedLogin = $login;
         $sessionNamespace->setExpirationSeconds(self::VERIFY_VALID_FOR_MINUTES * 60, 'lastPasswordAuth');
+        $sessionNamespace->setExpirationSeconds(self::VERIFY_VALID_FOR_MINUTES * 60, 'passwordVerifiedLogin');
         $sessionNamespace->setExpirationSeconds(self::VERIFY_VALID_FOR_MINUTES * 60, 'redirectParams');
 
         if ($this->enableRedirect) {
@@ -117,6 +142,9 @@ class PasswordVerifier
         }
     }
 
+    /**
+     * @return bool
+     */
     public function hasBeenVerified()
     {
         $lastAuthValidTo = $this->getPasswordVerifyValidUpToDateIfVerified();
@@ -128,15 +156,25 @@ class PasswordVerifier
         return false;
     }
 
-    private function getPasswordVerifyValidUpToDateIfVerified()
+    private function getPasswordVerifyValidUpToDateIfVerified(): ?Date
     {
         $sessionNamespace = $this->getLoginSession();
-        if (!empty($sessionNamespace->lastPasswordAuth) && !empty($sessionNamespace->redirectParams)) {
-            $lastAuthValidTo = Date::factory($sessionNamespace->lastPasswordAuth)->addPeriod(self::VERIFY_VALID_FOR_MINUTES, 'minute');
-            return $lastAuthValidTo;
+        if (
+            !empty($sessionNamespace->lastPasswordAuth)
+            && !empty($sessionNamespace->redirectParams)
+            // ensure the password was verified for the user currently performing the action.
+            && !empty($sessionNamespace->passwordVerifiedLogin)
+            && $sessionNamespace->passwordVerifiedLogin === Piwik::getCurrentUserLogin()
+        ) {
+            return Date::factory($sessionNamespace->lastPasswordAuth)->addPeriod(self::VERIFY_VALID_FOR_MINUTES, 'minute');
         }
+
+        return null;
     }
 
+    /**
+     * @return bool
+     */
     protected function hasBeenVerifiedAndHalfTimeValid()
     {
         $lastAuthValidTo = $this->getPasswordVerifyValidUpToDateIfVerified();
@@ -153,9 +191,8 @@ class PasswordVerifier
      * The password verify will be valid for at least another 15 minutes giving the user some time to perform an action.
      * See  {@link requirePasswordVerified}
      *
-     * @param $redirectParams
+     * @param array $redirectParams
      * @return null|true if password has been verified recently, will redirect if not
-     * @throws \Zend_Session_Exception
      */
     public function requirePasswordVerifiedRecently($redirectParams)
     {
@@ -164,6 +201,8 @@ class PasswordVerifier
         }
 
         $this->initiatePasswordVerifyRedirect($redirectParams);
+
+        return null;
     }
 
     /**
@@ -173,9 +212,8 @@ class PasswordVerifier
      * If you want to ensure the password will be still valid for eg 15 minutes before the user performs some action,
      * consider using {@link requirePasswordVerifiedRecently}.
      *
-     * @param $redirectParams
+     * @param array $redirectParams
      * @return null|true if password has been verified, will redirect if not
-     * @throws \Zend_Session_Exception
      */
     public function requirePasswordVerified($redirectParams)
     {
@@ -184,9 +222,14 @@ class PasswordVerifier
         }
 
         $this->initiatePasswordVerifyRedirect($redirectParams);
+
+        return null;
     }
 
-    private function initiatePasswordVerifyRedirect($redirectParams)
+    /**
+     * @param array $redirectParams
+     */
+    private function initiatePasswordVerifyRedirect($redirectParams): void
     {
         $sessionNamespace = $this->getLoginSession();
         $sessionNamespace->redirectParams = $redirectParams;

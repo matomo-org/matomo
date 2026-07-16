@@ -12,10 +12,12 @@ declare(strict_types=1);
 namespace Piwik\Plugins\BotTracking;
 
 use Piwik\Date;
+use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\BotTracking\Metrics as BotMetrics;
+use Piwik\Plugins\BotTracking\Reports\AIChatbotsRealTimeWidgets;
 use Piwik\Tracker\Request;
 
 /**
@@ -50,6 +52,7 @@ class BotTracking extends Plugin
             'Metrics.getDefaultMetricTranslations'              => 'addMetricTranslations',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Metrics.getDefaultMetricSemanticTypes'             => 'addMetricSemanticTypes',
+            'API.addGlossaryItems'                              => 'addGlossaryItems',
         ];
     }
 
@@ -121,6 +124,15 @@ class BotTracking extends Plugin
     public function addMetricTranslations(array &$translations): void
     {
         $translations = array_merge($translations, BotMetrics::getMetricTranslations());
+
+        // Register a default name for the generic 'requests' column used by the new content-URL
+        // reports. Without this the Glossary majority heuristic renders name = null for the
+        // 'requests' metric because three reports expose it under different per-report scoped
+        // documentation strings, leaving no single translation with a majority. Registering the
+        // default here mirrors the documentation registration in addMetricDocumentationTranslations.
+        if (!isset($translations[Metrics::COLUMN_REQUESTS])) {
+            $translations[Metrics::COLUMN_REQUESTS] = Piwik::translate('BotTracking_ColumnRequests');
+        }
     }
 
     /**
@@ -129,6 +141,16 @@ class BotTracking extends Plugin
     public function addMetricDocumentationTranslations(array &$translations): void
     {
         $translations = array_merge($translations, BotMetrics::getMetricDocumentation());
+
+        // Register a default documentation for the generic 'requests' column used by the
+        // new content-URL reports. Without this default the Glossary majority heuristic
+        // (array_sum - max < max) would not pick a winner because the three reports that
+        // expose 'requests' each use a different documentation string (generic, page-scoped,
+        // document-scoped), leaving no single value with a majority. Setting a default here
+        // ensures the metric always appears in the glossary with the generic tooltip.
+        if (!isset($translations[Metrics::COLUMN_REQUESTS])) {
+            $translations[Metrics::COLUMN_REQUESTS] = Piwik::translate('BotTracking_ColumnRequestsDocumentation');
+        }
     }
 
     /**
@@ -139,6 +161,27 @@ class BotTracking extends Plugin
         $types = array_merge($types, BotMetrics::getMetricSemanticTypes());
     }
 
+    /**
+     * @param array<string, array{title: string, entries: array<int, array<string, string>>}> $glossaryItems
+     */
+    public function addGlossaryItems(array &$glossaryItems): void
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        $category = Piwik::translate('General_AIAssistants');
+
+        foreach (AIChatbotsRealTimeWidgets::getAllWidgets() as $widget) {
+            $glossaryItems['reports']['entries'][] = [
+                'name'          => sprintf('%s (%s)', Piwik::translate($widget['name']), $category),
+                'documentation' => Piwik::translate($widget['documentation']),
+            ];
+        }
+    }
+
+    /**
+     * @param string[] $translationKeys
+     * @return void
+     */
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'BotTracking_DetectingYourSite';
@@ -158,6 +201,10 @@ class BotTracking extends Plugin
         $translationKeys[] = 'BotTracking_NoRecentAIBotRequests';
     }
 
+    /**
+     * @param string[] $stylesheets
+     * @return void
+     */
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/BotTracking/stylesheets/BotTracking.less";

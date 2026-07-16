@@ -17,5 +17,6 @@ class GetLastVisits extends Base
     public function buildReportMetadata()
     {
         // do not add this report as metadata
+        return null;
     }
 }

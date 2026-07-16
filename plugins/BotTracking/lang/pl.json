@@ -2,6 +2,8 @@
     "BotTracking": {
         "PageUrl": "Adres URL strony",
         "NoDataHttpTrackingApi": "API Śledzenia HTTP",
-        "SiteWithoutDataBackToMatomo": "Powrót do Matomo"
+        "SiteWithoutDataBackToMatomo": "Powrót do Matomo",
+        "AIChatbotsContentPagesTitle": "Strony",
+        "ContentUrl": "URL"
     }
 }

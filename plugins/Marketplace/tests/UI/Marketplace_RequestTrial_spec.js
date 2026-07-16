@@ -22,12 +22,22 @@ describe('Marketplace_RequestTrial', function () {
     testEnvironment.save();
   });
 
-  after(function(){
+  after(async function () {
     delete testEnvironment.consumer;
     delete testEnvironment.fakeIdentity;
     delete testEnvironment.idSitesViewAccess;
     delete testEnvironment.mockMarketplaceApiService;
+
+    // The success-notification test persists Marketplace.PluginTrialRequest.PaidPlugin1
+    // in the option table. With --persist-fixture-data the option survives into sibling
+    // specs sharing this fixture's DB and makes user-mode CTAs render "Trial Requested"
+    // instead of "Request Trial". Wipe it via optionsOverride.
+    testEnvironment.optionsOverride = testEnvironment.optionsOverride || {};
+    testEnvironment.optionsOverride['Marketplace.PluginTrialRequest.PaidPlugin1'] = '[]';
     testEnvironment.save();
+
+    // optionsOverride is applied during proxy bootstrap; trigger one request.
+    await page.goto('?module=API&method=API.getMatomoVersion&format=json');
   });
 
   it('should display a "request trial" button', async function () {

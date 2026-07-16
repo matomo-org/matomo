@@ -572,7 +572,6 @@ abstract class ViewDataTable implements ViewInterface
      * Display a meaningful error message when any invalid parameter is being set.
      *
      * @param $overrideParams
-     * @throws
      */
     public function throwWhenSettingNonOverridableParameter($overrideParams)
     {

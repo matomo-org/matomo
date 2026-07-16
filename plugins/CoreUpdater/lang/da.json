@@ -1,5 +1,6 @@
 {
     "CoreUpdater": {
+        "CheckingForPluginUpdates": "Check for nye plugin opdateringer",
         "CloudHosting": "Cloud hosting",
         "CriticalErrorDuringTheUpgradeProcess": "Kritisk fejl under opdateringen:",
         "DatabaseUpgradeRequired": "Database opdatering er nødvendig",

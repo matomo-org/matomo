@@ -64,6 +64,8 @@
         "SiteWithoutDataNotYetReady": "Pas encore prêt à configurer le suivi des chatbots IA ?",
         "SiteWithoutDataOtherInstallMethods": "Autres méthodes pour suivre les chatbots IA",
         "SiteWithoutDataOtherInstallMethodsIntro": "Nous proposons plusieurs options de suivi - sélectionnez celle qui correspond à votre configuration.",
-        "SiteWithoutDataRecommendationText": "Nous avons détecté que votre site web utilise %1$s, vous pouvez donc configurer le suivi des chatbots IA avec notre intégration officielle %1$s."
+        "SiteWithoutDataRecommendationText": "Nous avons détecté que votre site web utilise %1$s, vous pouvez donc configurer le suivi des chatbots IA avec notre intégration officielle %1$s.",
+        "AIChatbotsContentPagesTitle": "Pages",
+        "ContentUrl": "URL"
     }
 }

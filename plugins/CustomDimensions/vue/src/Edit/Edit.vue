@@ -26,7 +26,21 @@
               :maxlength="255"
               :required="true"
               :title="translate('General_Name')"
-              :inline-help="translate('CustomDimensions_NameAllowedCharacters')"
+              :placeholder="translate('CustomDimensions_NamePlaceholder')"
+              :inline-help="nameInlineHelpText"
+            >
+            </Field>
+          </div>
+          <div>
+            <Field
+              uicontrol="textarea"
+              name="description"
+              v-model="dimension.description"
+              :maxlength="1000"
+              :title="`${translate('General_Description')} ${translate('Goals_Optional')}`"
+              :placeholder="translate('CustomDimensions_DescriptionPlaceholder')"
+              :inline-help="translate('CustomDimensions_DescriptionHelpText')"
+              :ui-control-attributes="{ class: 'compact-textarea' }"
             >
             </Field>
           </div>
@@ -182,7 +196,7 @@ import {
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import CustomDimensionsStore from '../CustomDimensions.store';
-import { CustomDimension } from '../types';
+import type { CustomDimension } from '../types';
 import { ucfirst } from '../utilities';
 
 interface EditState {
@@ -257,6 +271,7 @@ export default defineComponent({
           this.dimension = {
             idsite: Matomo.idSite,
             name: '',
+            description: '',
             active: true,
             extractions: [],
             scope: this.dimensionScope,
@@ -320,6 +335,12 @@ export default defineComponent({
     },
     isUpdating() {
       return CustomDimensionsStore.isUpdating.value || this.isUpdatingDim;
+    },
+    nameInlineHelpText() {
+      return [
+        translate('CustomDimensions_NameHelpText'),
+        translate('CustomDimensions_NameAllowedCharacters'),
+      ].join(' ');
     },
     create() {
       return this.dimensionId === 0;

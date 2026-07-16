@@ -20,12 +20,11 @@ class Model
     public const CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME = 'log_visit_has_index_idsite_idvisitor_time';
 
     /**
-     * Write an visit action record to the database
+     * Write a visit action record to the database
      *
      * @param array $visitAction
      *
      * @return int
-     * @throws Db\DbException
      */
     public function createAction($visitAction)
     {
@@ -120,11 +119,10 @@ class Model
 
 
     /**
-     * Loads the Ecommerce items from the request and records them in the DB
+     * Returns the ecommerce items currently stored in the cart/order for the given visit.
      *
      * @param array $goal
      * @param int   $defaultIdOrder
-     * @throws Exception
      * @return array
      */
     public function getAllItemsCurrentlyInTheCart($goal, $defaultIdOrder)
@@ -462,6 +460,30 @@ class Model
         }
 
         return $wasInserted;
+    }
+
+    public function updateIdVisitorInLogTable(string $logTable, string $idVisitor, array $conditions): bool
+    {
+        if (empty($idVisitor) || empty($conditions)) {
+            return false;
+        }
+
+        $table = Common::prefixTable($logTable);
+
+        $sqlQuery = "UPDATE `$table` SET `idvisitor` = ? WHERE ";
+        $sqlConditions = [];
+        $sqlBind = [$idVisitor];
+
+        foreach ($conditions as $name => $value) {
+            $sqlConditions[] = $name . " = ?";
+            $sqlBind[] = $value;
+        }
+
+        $sqlQuery .= implode(' AND ', $sqlConditions);
+
+        $db = $this->getDb();
+        $result = $db->query($sqlQuery, $sqlBind);
+        return $db->rowCount($result) != 0;
     }
 
     /**

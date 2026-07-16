@@ -92,12 +92,11 @@ class Lock
 
     /**
      * Executes and returns the result of the provided callback if a lock with given id can be acquired
-     * The method will automatically retry to acquire the lock up to 5 minutes.
+     * The method will automatically retry to acquire the lock for up to 5 seconds.
      *
      * @param string $id
      * @param callable $callback
      * @return mixed
-     * @throws \Exception if lock couldn't be acquired within 5 minutes
      */
     public function execute($id, $callback)
     {

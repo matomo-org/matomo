@@ -22,6 +22,7 @@ class ThemeStyles
         'fontFamilyBase' => 'theme-fontFamily-base',
         'colorBrand' => 'theme-color-brand',
         'colorBrandContrast' => 'theme-color-brand-contrast',
+        'colorNewBrand' => 'theme-color-new-brand',
         'colorFocusRing' => 'theme-color-focus-ring',
         'colorFocusRingAlternative' => 'theme-color-focus-ring-alternative',
         'colorTextHighContrast' => 'theme-color-text-highContrast',
@@ -30,6 +31,7 @@ class ThemeStyles
         'colorTextLight' => 'theme-color-text-light',
         'colorTextLighter' => 'theme-color-text-lighter',
         'colorTextOnDisabled' => 'theme-color-text-on-disabled',
+        'colorTextPlaceholder' => 'theme-color-text-placeholder',
         'colorTextInvert' => 'theme-color-text-invert',
         'colorTextInvertContrast' => 'theme-color-text-invert-contrast',
         'colorTextInvertLight' => 'theme-color-text-invert-light',
@@ -53,8 +55,10 @@ class ThemeStyles
         'colorBackgroundHighContrast' => 'theme-color-background-highContrast',
         'colorBackgroundDisabled' => 'theme-color-background-disabled',
         'colorBorder' => 'theme-color-border',
+        'colorBorderAlternative' => 'theme-color-border-alternative',
         'colorBorderLight' => 'theme-color-border-light',
         'colorBoxShadow' => 'theme-color-boxShadow',
+        'shadowOverlay' => 'theme-shadow-overlay',
         'colorCode' => 'theme-color-code',
         'colorCodeBackground' => 'theme-color-code-background',
         'colorWidgetBackground' => 'theme-color-widget-background',
@@ -86,12 +90,17 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
+    public $colorNewBrand = '#00b4be';
+
+    /**
+     * @var string|array<string>
+     */
     public $colorFocusRing = '#0969da';
 
     /**
      * @var string|array<string>
      */
-    public $colorFocusRingAlternative;
+    public $colorFocusRingAlternative = '#00b4bE';
 
     /**
      * @var string|array<string>
@@ -122,6 +131,12 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorTextOnDisabled = ['#666666', '#999'];
+
+    /**
+     * @var string|array<string>
+     * @since Matomo 5.12.0
+     */
+    public $colorTextPlaceholder = ['#d1d1d1', '#565656'];
 
     /**
      * @var string|array<string>
@@ -245,13 +260,28 @@ class ThemeStyles
 
     /**
      * @var string|array<string>
+     * @deprecated Use $colorBorderAlternative instead. Retained only for legacy use and will be
+     *             phased out once everything has moved to the alternative.
      */
     public $colorBorder = ['#cccccc', '#555555'];
+
+    /**
+     * Use this as the new border color. $colorBorder only remains so that we don't need to update
+     * screenshots unless we really need to
+     *
+     * @var string|array<string>
+     */
+    public $colorBorderAlternative = ['#E0E0E0', '#555555'];
 
     /**
      * @var string|array<string>
      */
     public $colorBoxShadow = ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $shadowOverlay = ['0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D', '0 0 3px #00000080, 0 10px 40px #00000080'];
 
     /**
      * @var string|array<string>
@@ -281,7 +311,6 @@ class ThemeStyles
     public function __construct(string $themeMode)
     {
         $this->themeMode = $themeMode;
-        $this->colorFocusRingAlternative = $this->colorBrand;
         $this->colorMenuContrastText = $this->colorText;
         $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
         $this->colorMenuContrastBackground = $this->colorBackgroundContrast;

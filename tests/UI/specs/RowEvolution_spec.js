@@ -155,4 +155,51 @@ describe("RowEvolution", function () {
 
         await setThemeMode('light');
     });
+
+    it('refuses to steer the popover request to a different module/action', async function() {
+        const attackerJson = JSON.stringify({
+            module: 'CoreAdminHome',
+            action: 'setMailSettings',
+            mailHost: 'attacker.example',
+            force_api_session: 0,
+            format: 'json'
+        });
+        const popoverPayload = 'RowAction:RowEvolution:Actions.getPageUrls:'
+            + encodeURIComponent(attackerJson) + ':attacker-label';
+        const hashValue = encodeURIComponent(popoverPayload).replace(/%/g, '$');
+        const attackUrl = '?module=CoreHome&action=index&idSite=1&period=day&date=yesterday'
+            + '#?popover=' + hashValue;
+
+        const popoverRequests = [];
+        let listening = true;
+        const onRequest = (req) => {
+            if (!listening) {
+                return;
+            }
+            const url = req.url();
+            if (url.indexOf('apiMethod=Actions.getPageUrls') !== -1) {
+                popoverRequests.push(url);
+            }
+        };
+        page.on('request', onRequest);
+
+        try {
+            await page.goto('about:blank');
+            await page.goto(attackUrl);
+            await page.waitForNetworkIdle();
+        } finally {
+            listening = false;
+        }
+
+        expect(popoverRequests.length).to.be.above(0);
+        popoverRequests.forEach((url) => {
+            expect(url).to.contain('module=CoreHome');
+            expect(url).to.contain('action=getRowEvolutionPopover');
+            expect(url).to.not.contain('module=CoreAdminHome');
+            expect(url).to.not.contain('action=setMailSettings');
+            expect(url).to.not.contain('force_api_session=0');
+            expect(url).to.not.match(/[?&]format=json(&|$)/);
+            expect(url).to.not.contain('mailHost=');
+        });
+    });
 });

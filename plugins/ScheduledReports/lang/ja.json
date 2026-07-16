@@ -37,7 +37,6 @@
         "SegmentAppliedToReports": "セグメント '%s' はレポートに適用されました。",
         "SegmentDeleted": "セグメントが削除されました",
         "Segment_Deletion_Error": "このセグメントは、E メールレポート %s の作成に使用されるため、削除したり、他のユーザーに対し非表示にすることができません。このレポートからこのセグメントを削除した後、再度お試しください。",
-        "SendReportNow": "ただちにレポートを送信",
         "SendReportTo": "レポートの送信先",
         "SentFromX": "%s から送信されます。",
         "SentToMe": "自分宛に送信",

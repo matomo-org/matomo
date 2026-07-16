@@ -18,6 +18,12 @@ export interface Category extends Orderable {
   component?: typeof defineAsyncComponent;
 
   /**
+   * Reporting menu groups (top-level sections) this category belongs to. An empty/default group
+   * means the main Analytics reporting menu. Used to filter the reporting menu per active section.
+   */
+  groups?: readonly string[];
+
+  /**
    * @deprecated exists for BC, should be removed in Matomo 5
    */
   active?: boolean;

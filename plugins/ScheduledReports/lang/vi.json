@@ -34,7 +34,6 @@
         "ReportsIncluded": "Số liệu thống kê bao gồm",
         "SegmentAppliedToReports": "Phân đoạn '%s' được áp dụng cho các báo cáo.",
         "Segment_Deletion_Error": "Phân đoạn này không thể bị xóa hoặc làm ẩn đi đối với những người dùng khác bởi vì nó được sử dụng để tạo ra các %s báo cáo(s) email. Vui lòng thử lại sau khi gỡ bỏ phân đoạn này từ báo cáo(s) này.",
-        "SendReportNow": "Gửi báo cáo ngay",
         "SendReportTo": "Gửi báo cáo tới",
         "SentFromX": "Gửi đi từ %s.",
         "SentToMe": "Gửi tới tôi",

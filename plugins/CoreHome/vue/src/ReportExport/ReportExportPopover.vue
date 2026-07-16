@@ -51,7 +51,7 @@
             :name="'option_expanded'"
             :title="translate('CoreHome_ExpandSubtables')"
             v-model="optionExpandedModel"
-            v-show="hasSubtables && !isCsvOrTsv"
+            v-show="hasSubtables && canExpand"
           >
           </Field>
         </div>
@@ -254,7 +254,7 @@ export default defineComponent({
       reportFormat: this.initialReportFormat,
       optionShowDimensions: this.initialOptionShowDimensions,
       // Keep explicit preference separate from default behavior:
-      // default means TSV/CSV flat and non-TSV/CSV expanded.
+      // default means CSV/TSV/HTML flat and other formats expanded.
       subtablePreference: resolveInitialSubtablePreference(
         this.initialOptionFlat,
         this.initialOptionExpanded,
@@ -298,8 +298,8 @@ export default defineComponent({
         : '';
       return `${rowLimit} (${computedMetricMax})`;
     },
-    isCsvOrTsv() {
-      return isFormatWithoutExpanded(this.reportFormat);
+    canExpand() {
+      return !isFormatWithoutExpanded(this.reportFormat);
     },
     effectiveSubtableOptions() {
       return resolveEffectiveSubtableOptions(
@@ -314,7 +314,7 @@ export default defineComponent({
         return this.effectiveSubtableOptions.optionFlat;
       },
       set(newVal: boolean) {
-        if (!this.hasSubtables || !this.canExportFlat) {
+        if (!this.canExportFlat) {
           return;
         }
 

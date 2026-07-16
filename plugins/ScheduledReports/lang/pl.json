@@ -30,7 +30,6 @@
         "ReportsIncluded": "Zawarte statystyki",
         "SegmentAppliedToReports": "Grupa '%s' została nałożona na raport.",
         "Segment_Deletion_Error": "Tej grupy nie można usunąć lub ukryć przed innymi użytkownikam, ponieważ jest wykorzystywana do generowania raportów e-mail %s. Proszę ponów próbę po usunięciu tej grupy z raportu.",
-        "SendReportNow": "Wyślij raport teraz",
         "SendReportTo": "Wyślij raport do",
         "SentFromX": "Wysłane z %s.",
         "SentToMe": "Wyślij do mnie",

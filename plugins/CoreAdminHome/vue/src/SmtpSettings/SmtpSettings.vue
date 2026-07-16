@@ -96,8 +96,13 @@
       </div>
 
       <SaveButton
-        @confirm="save()"
+        @confirm="showPasswordConfirmation = true"
         :saving="isLoading"
+      />
+
+      <PasswordConfirmation
+        v-model="showPasswordConfirmation"
+        @confirmed="save($event)"
       />
     </div>
   </ContentBlock>
@@ -116,10 +121,12 @@ import {
   SaveButton,
   Form,
   Field,
+  PasswordConfirmation,
 } from 'CorePluginsAdmin';
 
 interface SmtpSettingsState {
   isLoading: boolean;
+  showPasswordConfirmation: boolean;
   enabled: boolean;
   mailHost: string;
   passwordChanged: boolean;
@@ -163,6 +170,7 @@ export default defineComponent({
     const mail = this.mail as MailProperty;
     return {
       isLoading: false,
+      showPasswordConfirmation: false,
       enabled: mail.transport === 'smtp',
       mailHost: mail.host,
       passwordChanged: false,
@@ -179,6 +187,7 @@ export default defineComponent({
     ContentBlock,
     Field,
     SaveButton,
+    PasswordConfirmation,
   },
   directives: {
     Form,
@@ -206,7 +215,7 @@ export default defineComponent({
       this.mailPassword = newValue;
       this.passwordChanged = true;
     },
-    save() {
+    save(password: string) {
       this.isLoading = true;
 
       const mailSettings: Record<string, unknown> = {
@@ -218,6 +227,7 @@ export default defineComponent({
         mailFromAddress: this.mailFromAddress,
         mailFromName: this.mailFromName,
         mailEncryption: this.mailEncryption,
+        passwordConfirmation: password,
       };
 
       if (this.passwordChanged) {

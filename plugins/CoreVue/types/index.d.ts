@@ -277,7 +277,9 @@ declare global {
     _pk_externalRawLink(url: string, values: (string|null)[]): string;
     require(p: string): any;
     initTopControls(): void;
+    initializeSparklines(): void;
     vueSanitize(content: string): string;
+    vueSanitizeUrl(url: string): string;
     showEmptyDashboardNotification(): void;
   }
 }
@@ -287,6 +289,7 @@ declare module '@vue/runtime-core' {
     translate: (translationStringId: string, ...values: string[]|string[][]) => string;
     translateOrDefault: (translationStringIdOrText: string, ...values: string[]|string[][]) => string;
     $sanitize: Window['vueSanitize'];
+    $sanitizeUrl: Window['vueSanitizeUrl'];
     externalLink: (url: string, ...values:string[]) => string;
     externalRawLink: (url: string, ...values:string[]) => string;
     formatNumber: (val: string|number, maxFractionDigits?: number, minFractionDigits?: number) => string;

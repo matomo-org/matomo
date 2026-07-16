@@ -16,7 +16,7 @@
         "NumberOfItems": "Nombre d'articles al carretó",
         "Order": "Comandes",
         "OrderId": "Identificador de comanda",
-        "OrderIdAnonymizationSettingRequirementNote": "Els ID de comanda han de ser anonimitzats",
+        "OrderIdAnonymizationSettingRequirementNote": "Els ID de comanda han de ser anonimitzats.",
         "OrderIdAnonymizationSettingTitle": "Anonimització de l'ID de la comanda",
         "OrderRevenue": "Ingressos de comandes",
         "OrderValue": "Valor de la comanda",

@@ -21,6 +21,8 @@ class Archiver extends \Piwik\Plugin\Archiver
     public const SITE_SEARCH_RECORD_NAME = 'Actions_sitesearch';
     public const SITE_SEARCH_CATEGORY_RECORD_NAME = 'Actions_SiteSearchCategories';
     public const PAGE_URLS_RECORD_NAME = 'Actions_actions_url';
+    public const PAGE_URLS_FLAT_RECORD_NAME = 'Actions_actions_url_flat';
+    public const PAGE_TITLES_FLAT_RECORD_NAME = 'Actions_actions_flat';
 
     public const METRIC_PAGEVIEWS_RECORD_NAME = 'Actions_nb_pageviews';
     public const METRIC_UNIQ_PAGEVIEWS_RECORD_NAME = 'Actions_nb_uniq_pageviews';

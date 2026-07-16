@@ -100,7 +100,7 @@ class PrivacyManager extends Plugin
      * - The data table for this report must either be empty or not have been fetched.
      * - The period of this report is not a multiple period.
      * - The date of this report must be older than the delete_reports_older_than config option.
-     * @param  DataTableInterface $dataTable
+     * @param  DataTableInterface|null $dataTable
      * @return bool
      */
     public static function hasReportBeenPurged($dataTable)
@@ -132,9 +132,9 @@ class PrivacyManager extends Plugin
     }
 
     /**
-     * @param DataTable $dataTable
+     * @param DataTable|null $dataTable
      * @param int|null $logsOlderThan If set, it is assumed that log deletion is enabled with the given amount of days
-     * @return bool|void
+     * @return bool
      */
     public static function haveLogsBeenPurged($dataTable, $logsOlderThan = null)
     {
@@ -510,7 +510,9 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'Ecommerce_UseAnonymizeOrderId';
         $translationKeys[] = 'PrivacyManager_UseAnonymizeTrackingData';
         $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichment';
+        $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentDesc';
         $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote';
+        $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentReadMore';
         $translationKeys[] = 'PrivacyManager_UseDeleteLog';
         $translationKeys[] = 'PrivacyManager_UseDeleteReports';
         $translationKeys[] = 'PrivacyManager_VisitsMatchedCriteria';
@@ -1069,12 +1071,16 @@ class PrivacyManager extends Plugin
             [
                 'key' => '1',
                 'value' => Piwik::translate('General_Yes'),
-                'description' => Piwik::translate('PrivacyManager_RecommendedForPrivacy'),
+                'description' => Piwik::translate(
+                    'PrivacyManager_UseAnonymizedIpForVisitEnrichmentYesDesc'
+                ),
             ],
             [
                 'key' => '0',
                 'value' => Piwik::translate('General_No'),
-                'description' => '',
+                'description' => Piwik::translate(
+                    'PrivacyManager_UseAnonymizedIpForVisitEnrichmentNoDesc'
+                ),
             ],
         ];
     }

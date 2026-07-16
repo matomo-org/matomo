@@ -14,6 +14,7 @@
         "DefaultDashboard": "Painel padrão - Usando seleção padrão widgets e layout de colunas",
         "DeleteWidgetConfirm": "Tem certeza que deseja excluir este widget do seu Painel?",
         "EmptyDashboard": "Painel vazio - Escolha os seus widgets favoritos",
+        "ExportThisDashboard": "Exportar painel",
         "LoadingWidget": "Carregando widget, aguarde…",
         "ManageDashboard": "Gerenciar painel",
         "Maximise": "Maximizar",
@@ -32,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "Tem a certeza que pretende definir a seleção widgets do atual e layout de painel como o modelo de painel padrão?",
         "SetAsDefaultWidgetsConfirmHelp": "Esta seleção widgets e layout de colunas do painel será usado quando qualquer usuário cria um novo painel, ou quando o recurso \"%s\" é usado.",
         "TopLinkTooltip": "Ver relatórios de Análise Web para %s.",
+        "TopMenuTitle": "Analíticos",
         "WidgetNotFound": "Widget não encontrado",
         "WidgetPreview": "Visualização do Widget"
     }

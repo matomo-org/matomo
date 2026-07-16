@@ -142,7 +142,7 @@ class LogDataPurger
 
     /**
      * get highest idVisit to delete rows from
-     * @return string
+     * @return string|false
      */
     private function getDeleteIdVisitOffset($deleteLogsOlderThan)
     {

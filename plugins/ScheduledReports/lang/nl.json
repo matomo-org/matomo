@@ -37,7 +37,6 @@
         "SegmentAppliedToReports": "Het segment '%s' is toegepast op de rapporten.",
         "SegmentDeleted": "Segment verwijderd",
         "Segment_Deletion_Error": "Dit segment kan niet worden verwijderd of onzichtbaar gemaakt voor andere gebruikers omdat het gebruikt wordt in email rapport(ages) %s. Koppel eerst het segment los van rapport(ages) voordat je deze opnieuw probeert te verwijderen.",
-        "SendReportNow": "verzend nu het rapport",
         "SendReportTo": "Zend rapport naar",
         "SentFromX": "Verzonden vanaf %s.",
         "SentToMe": "Zend naar mij",

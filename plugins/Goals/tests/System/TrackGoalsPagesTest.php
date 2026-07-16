@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\Goals\tests\System;
 
+use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\SomePageGoalVisitsWithConversions;
@@ -115,6 +117,68 @@ class TrackGoalsPagesTest extends SystemTestCase
             ['id' => 29, 'expected' => 1],
             ['id' => 33, 'expected' => 3],
         ];
+    }
+
+    /**
+     * Regression test for DEV-13925.
+     *
+     * Subtable page rows in Actions.getPageUrls report goal metrics, but the
+     * nb_conversions_page_rate column stays at 0 because the post-processing
+     * filter never recurses into subtables. flat=1 surfaces those subtable
+     * rows at the top level, which makes the bug user-visible.
+     */
+    public function testPageRateIsCalculatedForFlattenedSubtableRows()
+    {
+        /** @var DataTable $urls */
+        $urls = Request::processRequest('Actions.getPageUrls', [
+            'idSite'        => self::$fixture->idSite,
+            'period'        => 'week',
+            'date'          => self::$fixture->dateTime,
+            'idGoal'        => 1,
+            'flat'          => '1',
+            'filter_limit'  => -1,
+        ]);
+
+        $rowsByLabel = [];
+        foreach ($urls->getRows() as $row) {
+            $rowsByLabel[(string) $row->getColumn('label')] = $row;
+        }
+
+        // Goal 1 has 5 total conversions across the week (visits 1, 2, 4, 5, 6).
+        // /page_A/index.html: 5 unique => 5 / 5 = 1
+        // /page_A/Z:          2 unique => 2 / 5 = 0.4
+        // /page_A/X:          1 unique => 1 / 5 = 0.2
+        // Without the fix all three subtable rates are 0.
+        $expected = [
+            '/page_A/index.html' => ['uniq' => 5, 'rate' => 1.0],
+            '/page_A/Z'          => ['uniq' => 2, 'rate' => 0.4],
+            '/page_A/X'          => ['uniq' => 1, 'rate' => 0.2],
+        ];
+
+        foreach ($expected as $label => $expectedRow) {
+            $row = $rowsByLabel[$label] ?? null;
+            $this->assertNotNull(
+                $row,
+                "Row '$label' missing from flattened report. Got labels: " . implode(', ', array_keys($rowsByLabel))
+            );
+
+            $goals = $row->getColumn('goals');
+            $this->assertIsArray($goals, "'goals' column not an array on $label");
+            $this->assertArrayHasKey('idgoal=1', $goals, "Goal 1 data missing on $label");
+
+            $this->assertSame(
+                $expectedRow['uniq'],
+                (int) ($goals['idgoal=1']['nb_conversions_page_uniq'] ?? 0),
+                "Unexpected nb_conversions_page_uniq for $label"
+            );
+
+            $actualRate = round((float) ($goals['idgoal=1']['nb_conversions_page_rate'] ?? 0), 3);
+            $this->assertSame(
+                $expectedRow['rate'],
+                $actualRate,
+                "Expected nb_conversions_page_rate $expectedRow[rate] for $label but got $actualRate"
+            );
+        }
     }
 
     public static function getOutputPrefix()

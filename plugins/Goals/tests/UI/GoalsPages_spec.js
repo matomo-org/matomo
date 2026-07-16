@@ -11,6 +11,46 @@ describe("GoalsPages", function () {
   var generalParams = 'idSite=1&period=year&date=2012-08-09',
     urlBaseGeneric = 'module=CoreHome&action=index&',
     urlBase = urlBaseGeneric + generalParams;
+  const findSparkline = async function (text, childSelector = null) {
+    await page.waitForFunction((sparklineText, selector) => {
+      const sparkline = window.$('.sparkline').filter((index, element) => {
+        return window.$(element).text().toLowerCase().includes(sparklineText);
+      }).first();
+
+      if (!sparkline.length) {
+        return false;
+      }
+
+      return selector ? !!sparkline.find(selector).length : true;
+    }, {}, text, childSelector);
+
+    return page.evaluateHandle((sparklineText, selector) => {
+      const sparkline = window.$('.sparkline').filter((index, element) => {
+        return window.$(element).text().toLowerCase().includes(sparklineText);
+      }).first();
+
+      return selector ? sparkline.find(selector).get(0) : sparkline.get(0);
+    }, text, childSelector);
+  };
+
+  const trackRequests = async function (action) {
+    const requests = [];
+    const requestHandler = (request) => {
+      requests.push({
+        resourceType: request.resourceType(),
+        url: request.url(),
+      });
+    };
+
+    page.webpage.on('request', requestHandler);
+    try {
+      await action();
+    } finally {
+      page.webpage.removeListener('request', requestHandler);
+    }
+
+    return requests;
+  };
 
   // goals pages
   it('should load the goals > ecommerce page correctly', async function () {
@@ -24,7 +64,7 @@ describe("GoalsPages", function () {
     var monthParams = 'idSite=1&period=month&date=2012-01-09';
     await page.goto("?" + urlBase + "#?" + monthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
     await page.waitForNetworkIdle();
-    const element = await page.jQuery('#rightcolumn .sparkline:eq(1) .metricEvolution');
+    const element = await findSparkline('left in cart', '.metricEvolution:last');
     await element.hover();
     const tooltip = await page.waitForSelector('.ui-tooltip', { visible: true });
     expect(await tooltip.screenshot()).to.matchImage('revenue_incart_tooltip');
@@ -35,10 +75,9 @@ describe("GoalsPages", function () {
     await page.goto("?" + urlBaseGeneric + compareMonthParams + "#?" + compareMonthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
     await page.waitForNetworkIdle();
 
-    const element = await page.jQuery('#rightcolumn .sparkline:eq(1) .metricEvolution');
+    const element = await findSparkline('left in cart', '.metricEvolution:last');
     await element.hover();
     await page.waitForSelector('.ui-tooltip', { visible: true });
-
     const tooltipContent = await page.evaluate(() => $('.ui-tooltip:visible').text());
 
     expect(tooltipContent).to.contain('January 2012');
@@ -95,12 +134,50 @@ describe("GoalsPages", function () {
   });
 
   it('should update the evolution chart if a sparkline is clicked', async function () {
-    elem = await page.jQuery('.sparkline.linked:contains(conversion rate)');
+    const elem = await findSparkline('conversion rate');
     await elem.click();
     await page.waitForNetworkIdle();
     await page.mouse.move(-10, -10);
 
     expect(await page.screenshotSelector('.pageWrap')).to.matchImage('individual_goal_updated');
+  });
+
+  it('should include the abandoned cart goal in ecommerce abandoned cart sparkline links', async function () {
+    var monthParams = 'idSite=1&period=month&date=2012-01-09';
+    await page.goto("?" + urlBase + "#?" + monthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
+    await page.waitForNetworkIdle();
+
+    const sparklineImage = await findSparkline('left in cart', 'img');
+    const dataSrc = await page.evaluate((element) => element.getAttribute('data-src'), sparklineImage);
+
+    expect(dataSrc).to.contain('idGoal=ecommerceAbandonedCart');
+
+    await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
+    await page.waitForNetworkIdle();
+  });
+
+  it('should reload the main evolution graph with the abandoned cart goal when an abandoned cart sparkline is clicked', async function () {
+    var monthParams = 'idSite=1&period=month&date=2012-01-09';
+    await page.goto("?" + urlBase + "#?" + monthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
+    await page.waitForNetworkIdle();
+
+    const requests = await trackRequests(async () => {
+      const sparkline = await findSparkline('left in cart');
+      await sparkline.click();
+      await page.waitForNetworkIdle();
+    });
+
+    const evolutionGraphRequest = requests.find((request) => {
+      return request.resourceType === 'xhr'
+        && request.url.indexOf('module=Goals') !== -1
+        && request.url.indexOf('action=getEvolutionGraph') !== -1
+        && request.url.indexOf('idGoal=ecommerceAbandonedCart') !== -1;
+    });
+
+    expect(evolutionGraphRequest).to.be.ok;
+
+    await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
+    await page.waitForNetworkIdle();
   });
 
   // should load the row evolution [see #11526]

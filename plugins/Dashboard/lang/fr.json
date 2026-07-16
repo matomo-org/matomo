@@ -14,9 +14,9 @@
         "DefaultDashboard": "Tableau de bord par défaut - Utilisant la sélection de gadgets par défaut et la disposition des colonnes",
         "DeleteWidgetConfirm": "Êtes-vous sûr(e) de vouloir supprimer ce widget du tableau de bord ?",
         "EmptyDashboard": "Tableau de bord vide - Sélectionnez vos gadgets favoris",
-        "ExportThisDashboard": "Exporter ce tableau de bord",
+        "ExportThisDashboard": "Exporter le tableau de bord",
         "LoadingWidget": "Chargement du widget, patientez svp…",
-        "ManageDashboard": "Gérer ce tableau de bord",
+        "ManageDashboard": "Gérer le tableau de bord",
         "Maximise": "Maximiser",
         "Minimise": "Minimiser",
         "NotUndo": "Vous ne pourrez pas annuler cette action.",
@@ -33,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "Êtes-vous sûr(e) de vouloir définir la sélection de gadgets actuelle et la disposition actuelle du tableau de bord comme modèle par défaut ?",
         "SetAsDefaultWidgetsConfirmHelp": "Cette sélection de gadgets et cette disposition du tableau de bord seront utilisées à chaque création de tableau de bord par n'importe quel utilisateur ou quand la fonctionnalité \"%s\" est utilisée.",
         "TopLinkTooltip": "Afficher les rapport de statistiques web pour %s.",
+        "TopMenuTitle": "Statistiques",
         "WidgetNotFound": "Widget introuvable",
         "WidgetPreview": "Prévisualisation du Widget"
     }

@@ -31,9 +31,10 @@ describe("WidgetizedDashboard", function () {
     };
 
     var clickDashboardMenuItem = async function (item) {
+        await page.waitForSelector('.dashboard-manager .title', { visible: true });
         await page.click('.dashboard-manager .title');
-        await page.waitForTimeout(50);
-        await page.click('li[data-action="' + item + '"]');
+        await page.waitForSelector('button[data-action="' + item + '"]', { visible: true });
+        await page.click('button[data-action="' + item + '"]');
     }
 
     var setup = async function() {
@@ -134,22 +135,32 @@ describe("WidgetizedDashboard", function () {
     });
 
     it("should add a widget when a widget is selected in the dashboard manager", async function() {
+        const modalSelector = '.modal.open.add-widget-modal';
+
         await page.click('.dashboard-manager .title');
+        await page.waitForTimeout(50);
+        await page.click('.dashboard-manager .addWidget-button');
+        await page.waitForSelector(modalSelector);
+        await page.waitForSelector(modalSelector + ' .widgetpreview-categorylist>li button');
 
-        await page.waitForSelector('.widgetpreview-categorylist>li');
-
-        var live = await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)'); // have to mouse move twice... otherwise Live! will just be highlighted
-        await live.hover();
-        await live.click();
-
-        var behaviour = await page.jQuery('.widgetpreview-categorylist>li:contains(Behaviour):first');
+        var behaviour = await page.jQuery(modalSelector + ' .widgetpreview-categorylist>li button:contains(Behaviour):first');
         await behaviour.hover();
         await behaviour.click();
 
-        var pages = await page.jQuery('.widgetpreview-widgetlist>li:contains(Pages):first');
+        var pages = await page.jQuery(modalSelector + ' .widgetpreview-widgetlist>li button:contains(Pages):first');
         await pages.hover();
+        // Wait for the hover timer in WidgetsList.vue to fire and mark the row as the
+        // chosen widget — that's the signal the next click will select rather than just
+        // preview. Reading the rendered state avoids hard-coding the timer duration.
+        await page.waitForSelector(modalSelector + ' .widgetpreview-widgetlist>li.widgetpreview-choosen');
         await pages.click();
 
+        await page.waitForNetworkIdle();
+
+        // The modal now stays open after a widget is selected so the user can add more
+        // widgets in the same session; close it before screenshotting the dashboard.
+        await page.click(modalSelector + ' .btn-close');
+        await page.waitForFunction(() => !document.querySelector('.modal.open.add-widget-modal'));
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_add_widget');
@@ -332,6 +343,7 @@ describe("WidgetizedDashboard", function () {
     it("should load segmented dashboard", async function() {
         await removeAllExtraDashboards();
         await page.goto(url + '&segment=' + encodeURIComponent("browserCode==FF"));
+        await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('segmented');
     });

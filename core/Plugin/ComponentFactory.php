@@ -84,7 +84,7 @@ class ComponentFactory
      *
      * @param string $componentTypeClass The fully qualified class name of the component type, eg,
      *                                   `"Piwik\Plugin\Report"`.
-     * @param string $pluginName|false The name of the plugin the component is expected to belong to,
+     * @param string|false $pluginName The name of the plugin the component is expected to belong to,
      *                                 eg, `'DevicesDetection'`.
      * @param callable $predicate
      *

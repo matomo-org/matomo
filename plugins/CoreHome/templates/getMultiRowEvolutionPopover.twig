@@ -15,7 +15,7 @@
                     <td class="text">
                         {% import 'macros.twig' as piwik %}
                         {{ piwik.logoHtml(metric, "") }}
-                        <span class="evolution-graph-colors" data-name="series{{ (i % seriesColorCount) + 1 }}">
+                        <span class="evolution-graph-colors" data-name="series{{ i % seriesColorCount }}">
                             {{- metric.label|rawSafeDecoded -}}
                         </span>
                         <span class="details" title="{{ metric.minmax }}">{{ metric.details|raw }}</span>

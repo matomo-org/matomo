@@ -5,6 +5,7 @@
         "ClickToViewMoreAboutVisit": "Click for more info about this visit",
         "ClickToViewAllActions": "Click for all actions of this group in detail",
         "ConvertedNGoals": "Converted %s goals",
+        "ExportThisDatasetToXml": "Export this dataset to XML",
         "FirstVisit": "First visit",
         "GoalType": "Type",
         "HideMap": "hide map",

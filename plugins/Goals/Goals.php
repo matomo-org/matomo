@@ -271,11 +271,8 @@ class Goals extends \Piwik\Plugin
     }
 
     /**
-     * Returns the Metadata for the Goals plugin API.
-     * The API returns general Goal metrics: conv, conv rate and revenue globally
-     * and for each goal.
-     *
-     * Also, this will update metadata of all other reports that have Goal segmentation
+     * Adds Goal metrics (conversions, conversion rate, revenue) to the metadata of all
+     * other reports that support Goal segmentation.
      */
     public function getReportMetadataEnd(&$reports, $info)
     {
@@ -482,6 +479,10 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_ClickToViewThisGoal';
         $translationKeys[] = 'Goals_ManageGoals';
         $translationKeys[] = 'Goals_GoalName';
+        $translationKeys[] = 'Goals_GoalNameHelpText';
+        $translationKeys[] = 'Goals_GoalNamePlaceholder';
+        $translationKeys[] = 'Goals_GoalDescriptionHelpText';
+        $translationKeys[] = 'Goals_GoalDescriptionPlaceholder';
         $translationKeys[] = 'Goals_GoalIsTriggeredWhen';
         $translationKeys[] = 'Goals_ThereIsNoGoalToManage';
         $translationKeys[] = 'Goals_ManuallyTriggeredUsingJavascriptFunction';
@@ -521,6 +522,7 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_YouCanEnableEcommerceReports';
         $translationKeys[] = 'Goals_CategoryTextGeneral_Actions';
         $translationKeys[] = 'General_ForExampleShort';
+        $translationKeys[] = 'General_PleaseSpecifyValue';
         $translationKeys[] = 'General_Id';
         $translationKeys[] = 'General_Description';
         $translationKeys[] = 'General_ColumnRevenue';

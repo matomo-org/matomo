@@ -1,6 +1,8 @@
 {
     "BotTracking": {
         "PageUrl": "URL stranice",
-        "SiteWithoutDataBackToMatomo": "Nazad na Matomo"
+        "SiteWithoutDataBackToMatomo": "Nazad na Matomo",
+        "AIChatbotsContentPagesTitle": "Stranice",
+        "ContentUrl": "Veza"
     }
 }

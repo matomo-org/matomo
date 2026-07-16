@@ -114,6 +114,7 @@ class Mysql implements SchemaInterface
             'site'    => "CREATE TABLE {$prefixTables}site (
                           idsite INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                           name VARCHAR(90) NOT NULL,
+                          description VARCHAR(255) NOT NULL DEFAULT '',
                           main_url VARCHAR(255) NOT NULL,
                             ts_created TIMESTAMP NULL,
                             ecommerce TINYINT DEFAULT 0,
@@ -560,7 +561,7 @@ class Mysql implements SchemaInterface
     /**
      * Create database
      *
-     * @param string $dbName Name of the database to create
+     * @param string|null $dbName Name of the database to create
      */
     public function createDatabase($dbName = null)
     {

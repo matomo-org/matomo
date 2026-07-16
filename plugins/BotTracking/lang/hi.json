@@ -1,6 +1,8 @@
 {
     "BotTracking": {
         "PageUrl": "पृष्ठ का यू.आर.एल",
-        "SiteWithoutDataBackToMatomo": "वापस Matomo तक"
+        "SiteWithoutDataBackToMatomo": "वापस Matomo तक",
+        "AIChatbotsContentPagesTitle": "पृष्ठों",
+        "ContentUrl": "यूआरएल"
     }
 }

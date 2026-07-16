@@ -4,6 +4,74 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
 
+## Matomo 5.13.0
+
+### HTTP API
+* `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
+  the outer request. Within a browser session a nested request may change neither the session flag
+  (`force_api_session`) nor the acting user (`token_auth`); outside a session a nested request may still
+  authenticate with its own `token_auth`, but may not change the session flag. A nested request whose
+  parameters conflict with the outer request's authentication context aborts the whole bulk request.
+
+## Matomo 5.12.0
+
+### JavaScript Tracker
+
+#### New APIs
+* The methods `setIgnoreCampaignAttributionForSources` and `getIgnoreCampaignAttributionForSources` have been added to
+  the JavaScript tracker. They allow setting/getting sources whose campaign values in the current URL should be ignored 
+  for attribution. Matching campaign parameters are still kept in the tracked URL/request.
+
+### New APIs
+* `Record::setAggregatedRecordTransform()` lets a blob record register a callback that is applied to its aggregated
+  table during non-day archiving, after the day blobs are aggregated together and before the table is truncated and
+  stored. Use it together with `Record::setBlobColumnAggregationOps()` (marking a column `'skip'`) to recompute columns
+  that cannot be summed across child periods — for example a table-relative ratio, index or score — so they can also be
+  used as the sort column for truncation. It applies on both the standard blob path and the built-from-flat path
+  (`Record::setBuiltFromFlatRecord()`), where the flat base record and the hierarchy rebuilt from it are each
+  transformed on their own table. A matching optional `$postAggregationTransform` parameter was added to
+  `ArchiveProcessor::aggregateDataTableRecords()`.
+* The reporting menu can now be split into several top-level sections (in addition to the default
+  "Analytics" menu). A category declares which section(s) it belongs to via `Category::setGroups()`
+  (and the protected `$groups` property); `API.getReportPagesMetadata` now exposes a `groups` field per
+  category. Each non-default group automatically gets a top-menu entry that opens the regular reporting
+  single-page-app filtered to that group (the active section is carried in the URL hash), so reports stay
+  within the same SPA and quick search. The first such section, "AI Insights", surfaces the existing
+  AI Assistants reports.
+
+### New config.ini.php settings
+* `datatable_archiving_maximum_rows_actions_flat` caps the number of rows used when flat-archiving
+  page/title Actions reports before the hierarchy is rebuilt (set to `0` to keep the legacy
+  hierarchical-only Actions archiving). See `Record::setAggregatedRecordTransform()` above.
+* `datatable_archiving_maximum_rows_ai_chatbot_content` caps the number of content URLs
+  (pages/documents) listed in the AI Chatbots Content Requests reports.
+* `datatable_archiving_maximum_rows_ai_chatbot_favoured_pages` caps the number of page URLs listed in
+  the Human-Favoured / AI-Favoured Pages reports.
+* `live_ai_chatbots_maximum_rows` caps the number of AI chatbots listed in the real-time AI Chatbots
+  reports.
+* `live_ai_chatbots_top_page_urls_maximum_rows` caps the number of page URLs listed in the real-time
+  AI Chatbots top page URL reports.
+
+## Matomo 5.11.0
+
+### New APIs
+* `SitesManager.addSite` and `SitesManager.updateSite` now accept an optional `description` parameter (up to 255 characters). Site entities
+  returned by the SitesManager APIs now include a `description` field.
+* `CustomDimensions.configureNewCustomDimension` and `CustomDimensions.configureExistingCustomDimension` now accept an optional `description`
+  parameter (up to 1000 characters) to provide additional context for a custom dimension.
+* New ViewDataTable display properties were added: `Config::$report_supports_flatten`, `Config::$show_flatten_table_export` and
+  `Config::$export_parameters_to_modify` / `RequestConfig::$export_parameters_to_modify`, allowing reports to control flattening availability and
+  export link parameters independently of the UI.
+* New Vue components are exported from CoreHome for use by plugins: `MatomoModal`, `DraggableList` and `SearchInput`.
+* Themes can now customize the alternative border color using `@theme-color-border-alternative`.
+
+### HTTP API
+* `ScheduledReports.sendReport` now accepts `range` as `period` parameter.
+* CSV/TSV exports now replace carriage return characters in values with spaces (in addition to tabs).
+
+### Deprecations
+* The theme variable `@theme-color-border` (`ThemeStyles::$colorBorder`) is deprecated; use `@theme-color-border-alternative` instead.
+
 ## Matomo 5.10.0
 
 ### New APIs

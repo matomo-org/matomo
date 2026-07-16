@@ -223,6 +223,8 @@ describe('PeriodSelector hash sync', () => {
     expect(vm.appliedRangeStartDate).toBe(format(expectedStartDate));
     expect(vm.appliedRangeEndDate).toBe(format(expectedEndDate));
     expect(vm.calendarViewport).toBe('range');
+    expect(vm.uiSelection).toEqual({ type: 'preset', id: 'last7days' });
+    expect(vm.pendingPresetSelection).toBeNull();
 
     (MatomoUrl as any).url.value = originalUrl;
   });
@@ -263,8 +265,32 @@ describe('PeriodSelector hash sync', () => {
     expect(() => methods.updateSelectedValuesFromHash.call(vm)).not.toThrow();
     expect(vm.isRangeValid).toBeNull();
     expect(vm.calendarViewport).toBe('single');
+    expect(vm.uiSelection).toEqual({ type: 'preset', id: 'today' });
 
     (MatomoUrl as any).url.value = originalUrl;
+  });
+
+  it('does not preserve rolling ownership for explicit dates that match a preset', () => {
+    const vm: any = {
+      periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
+      uiSelection: { type: 'preset', id: 'thisMonth' },
+      selectedPeriod: 'month',
+      committedPeriod: 'month',
+      committedAnchorDate: new Date('2026-02-16'),
+      appliedRangeStartDate: '2026-02-01',
+      appliedRangeEndDate: '2026-02-16',
+      setUiSelection(selection: { type: string; id: string }, source: string|null) {
+        this.uiSelection = selection;
+        this.lastInteractionSource = source;
+      },
+      clearPresetSelection() {
+        this.pendingPresetSelection = null;
+      },
+    };
+
+    methods.applyUiSelectionFromHash.call(vm, 'month', '2026-02-16', null);
+
+    expect(vm.uiSelection).toEqual({ type: 'period', id: 'month' });
   });
 
   it('re-syncs staged preset when only report context changes', () => {
@@ -299,12 +325,12 @@ describe('PeriodSelector hash sync', () => {
     (wrapper.vm as any).pendingPresetSelection = {
       id: 'last7days',
       period: 'range',
-      date: 'last7',
+      date: '2026-02-12,2026-02-18',
+      urlDate: 'last7',
       startDate: new Date('2026-02-12'),
       endDate: new Date('2026-02-18'),
     };
-    (wrapper.vm as any).activePresetId = 'last7days';
-    (wrapper.vm as any).uiSelection = { type: 'preset', id: 'last7days' };
+    (wrapper.vm as any).uiSelection = { type: 'period', id: 'range' };
 
     setUrl(
       'https://matomo.test/index.php?module=CoreHome&action=index&period=day&date=today'
@@ -315,6 +341,7 @@ describe('PeriodSelector hash sync', () => {
     expect((wrapper.vm as any).pendingPresetSelection).toBeNull();
     expect((wrapper.vm as any).activePresetId).toBe('today');
     expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'today' });
+    expect((wrapper.vm as any).isApplyEnabled()).toBe(true);
     expect((wrapper.vm as any).lastKnownHashContextKey).toBe(
       createContextKey(createBaseContext({ category: 'General_Visitors', subcategory: 'General_Overview' })),
     );

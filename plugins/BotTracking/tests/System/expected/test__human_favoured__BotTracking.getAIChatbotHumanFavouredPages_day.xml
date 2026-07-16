@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>example.com/article-1</label>
+		<unique_human_pageviews>1</unique_human_pageviews>
+		<ai_chatbot_requests>0</ai_chatbot_requests>
+		<discrepancy_score>63.1</discrepancy_score>
+	</row>
+	<row>
+		<label>example.com/article/2</label>
+		<unique_human_pageviews>2</unique_human_pageviews>
+		<ai_chatbot_requests>3</ai_chatbot_requests>
+		<discrepancy_score>0</discrepancy_score>
+	</row>
+	<row>
+		<label>example.com/article/3</label>
+		<unique_human_pageviews>1</unique_human_pageviews>
+		<ai_chatbot_requests>1</ai_chatbot_requests>
+		<discrepancy_score>0</discrepancy_score>
+	</row>
+	<row>
+		<label>example.com/article/1/page/2</label>
+		<unique_human_pageviews>0</unique_human_pageviews>
+		<ai_chatbot_requests>2</ai_chatbot_requests>
+		<discrepancy_score>0</discrepancy_score>
+	</row>
+</result>

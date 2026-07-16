@@ -1,6 +1,8 @@
 {
     "BotTracking": {
         "PageUrl": "URL หน้า",
-        "SiteWithoutDataBackToMatomo": "กลับไปยัง Matomo"
+        "SiteWithoutDataBackToMatomo": "กลับไปยัง Matomo",
+        "AIChatbotsContentPagesTitle": "หน้า",
+        "ContentUrl": "URL"
     }
 }
