@@ -172,13 +172,13 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
 
         $row = $rows[$url];
         $sum = (int) $row['sum_time_spent'];
-        $hitsWithTime = (int) $row['nb_hits_with_time_spent'];
+        $nbHits = (int) $row['nb_hits'];
 
         $this->assertGreaterThan(0, $sum);
-        $this->assertGreaterThanOrEqual(count($legacyDays) + count($accurateDays), $hitsWithTime, 'Each day contributes at least one time-carrying observation');
+        $this->assertGreaterThanOrEqual(count($legacyDays) + count($accurateDays), $nbHits, 'Each day contributes at least one pageview');
 
-        $avg = $sum / $hitsWithTime;
-        $this->assertGreaterThanOrEqual(10, $avg, 'Avg per contribution stays plausible for a ~20s pageview gap');
+        $avg = $sum / $nbHits;
+        $this->assertGreaterThanOrEqual(10, $avg, 'Avg per pageview stays plausible for a ~20s pageview gap');
         $this->assertLessThanOrEqual(60, $avg, 'Avg must not inflate when legacy/accurate days are mixed');
     }
 
@@ -242,7 +242,6 @@ class ActionReportsAccurateArchiveTest extends IntegrationTestCase
             }
             $out[$label] = [
                 'sum_time_spent'          => (int) $row->getColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT),
-                'nb_hits_with_time_spent' => (int) $row->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT),
                 'nb_hits'                 => (int) $row->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS),
             ];
         }

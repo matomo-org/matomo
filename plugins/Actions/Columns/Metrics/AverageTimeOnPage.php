@@ -9,9 +9,7 @@
 
 namespace Piwik\Plugins\Actions\Columns\Metrics;
 
-use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Metrics as PiwikMetrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
@@ -29,29 +27,12 @@ class AverageTimeOnPage extends ProcessedMetric
         return Piwik::translate('General_ColumnAverageTimeOnPage');
     }
 
-    public function beforeCompute($report, DataTable $table)
-    {
-        $table->queueFilter('ColumnDelete', array(array(
-            PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT,
-            'nb_hits_with_time_spent',
-        )));
-        return true;
-    }
-
     public function compute(Row $row)
     {
         $sumTimeSpent = $this->getMetric($row, 'sum_time_spent');
-        $hitsWithTime = $row->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT);
+        $nbHits = $this->getMetric($row, 'nb_hits');
 
-        if ($hitsWithTime === false) {
-            $hitsWithTime = $row->getColumn('nb_hits_with_time_spent');
-        }
-
-        if ($hitsWithTime === false || $hitsWithTime <= 0) {
-            $hitsWithTime = $this->getMetric($row, 'nb_hits');
-        }
-
-        return Piwik::getQuotientSafe($sumTimeSpent, $hitsWithTime, $precision = 0);
+        return Piwik::getQuotientSafe($sumTimeSpent, $nbHits, $precision = 0);
     }
 
     public function format($value, Formatter $formatter)

@@ -754,7 +754,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
-            $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT, 'sum');
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($actionsTablesByType));
 
             $extraSelects = "log_action.type, log_action.name, count(*) as `" . PiwikMetrics::INDEX_PAGE_NB_HITS . "`,";
@@ -802,8 +801,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             END";
 
         $select = "log_page_view_time.%s as idaction, $extraSelects
-                SUM($timeSpentExpression) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`,
-                SUM(($timeSpentExpression) > 0) as `" . PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT . "`";
+                SUM($timeSpentExpression) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
 
         $where = $logAggregator->getWhereStatement('log_page_view_time', 'server_time');
         $where .= ' AND log_page_view_time.%s > 0';
@@ -846,7 +844,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
-            $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT, 'sum');
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($actionsTablesByType));
 
             $extraSelects = "log_action.type, log_action.name, count(*) as `" . PiwikMetrics::INDEX_PAGE_NB_HITS . "`,";
@@ -867,8 +864,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $pageViewTimeTable = Common::prefixTable('log_page_view_time');
 
         $select = "log_link_visit_action.%s as idaction, $extraSelects
-                sum(log_link_visit_action.time_spent_ref_action) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`,
-                sum(log_link_visit_action.time_spent_ref_action > 0) as `" . PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_SPENT . "`";
+                sum(log_link_visit_action.time_spent_ref_action) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
 
         $where = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
         $where .= " AND log_link_visit_action.time_spent_ref_action > 0
