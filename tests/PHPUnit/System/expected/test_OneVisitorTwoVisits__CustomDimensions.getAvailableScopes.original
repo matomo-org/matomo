@@ -1,0 +1,1 @@
+a:2:{i:0;a:6:{s:5:"value";s:5:"visit";s:4:"name";s:5:"Visit";s:17:"numSlotsAvailable";i:5;s:12:"numSlotsUsed";i:0;s:12:"numSlotsLeft";i:5;s:19:"supportsExtractions";b:0;}i:1;a:6:{s:5:"value";s:6:"action";s:4:"name";s:6:"Action";s:17:"numSlotsAvailable";i:5;s:12:"numSlotsUsed";i:0;s:12:"numSlotsLeft";i:5;s:19:"supportsExtractions";b:1;}}

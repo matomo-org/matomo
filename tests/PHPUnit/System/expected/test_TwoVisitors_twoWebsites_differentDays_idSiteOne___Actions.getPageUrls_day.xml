@@ -206,7 +206,7 @@
 			<avg_time_dom_completion>0.277</avg_time_dom_completion>
 			<avg_time_on_load>0.284</avg_time_on_load>
 			<avg_page_load_time>2.476</avg_page_load_time>
-			<avg_time_on_page>540</avg_time_on_page>
+			<avg_time_on_page>270</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<url>http://example.org/thankyou</url>
@@ -341,7 +341,7 @@
 			<avg_time_dom_completion>0.277</avg_time_dom_completion>
 			<avg_time_on_load>0.284</avg_time_on_load>
 			<avg_page_load_time>2.476</avg_page_load_time>
-			<avg_time_on_page>540</avg_time_on_page>
+			<avg_time_on_page>270</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<url>http://example.org/thankyou</url>
@@ -476,7 +476,7 @@
 			<avg_time_dom_completion>0.277</avg_time_dom_completion>
 			<avg_time_on_load>0.284</avg_time_on_load>
 			<avg_page_load_time>2.476</avg_page_load_time>
-			<avg_time_on_page>540</avg_time_on_page>
+			<avg_time_on_page>270</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<url>http://example.org/thankyou</url>
@@ -611,7 +611,7 @@
 			<avg_time_dom_completion>0.277</avg_time_dom_completion>
 			<avg_time_on_load>0.284</avg_time_on_load>
 			<avg_page_load_time>2.476</avg_page_load_time>
-			<avg_time_on_page>540</avg_time_on_page>
+			<avg_time_on_page>270</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<url>http://example.org/thankyou</url>
@@ -746,7 +746,7 @@
 			<avg_time_dom_completion>0.277</avg_time_dom_completion>
 			<avg_time_on_load>0.284</avg_time_on_load>
 			<avg_page_load_time>2.476</avg_page_load_time>
-			<avg_time_on_page>540</avg_time_on_page>
+			<avg_time_on_page>270</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<url>http://example.org/thankyou</url>

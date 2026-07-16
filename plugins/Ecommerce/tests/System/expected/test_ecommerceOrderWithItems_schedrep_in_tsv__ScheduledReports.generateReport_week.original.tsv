@@ -168,7 +168,7 @@ nb_total_overall_bandwidth	nb_total_pageview_bandwidth	nb_total_download_bandwid
 
 Page URLs
 label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate
-/index.htm	4	16	0%	00:06:00	100%
+/index.htm	4	16	0%	00:05:38	100%
 
 Entry pages
 label	entry_nb_visits	entry_bounce_count	bounce_rate

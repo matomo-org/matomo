@@ -64,7 +64,7 @@
 		<goal_ecommerceOrder_revenue>9333.33</goal_ecommerceOrder_revenue>
 		<goal_ecommerceOrder_avg_order_revenue>1555.56</goal_ecommerceOrder_avg_order_revenue>
 		<goal_ecommerceOrder_items>0</goal_ecommerceOrder_items>
-		<avg_time_on_page>390</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/index.htm</url>
 		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>

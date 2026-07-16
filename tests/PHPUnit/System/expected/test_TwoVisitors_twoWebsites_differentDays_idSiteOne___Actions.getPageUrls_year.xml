@@ -44,7 +44,7 @@
 			<avg_time_dom_completion>0.286</avg_time_dom_completion>
 			<avg_time_on_load>0.331</avg_time_on_load>
 			<avg_page_load_time>2.287</avg_page_load_time>
-			<avg_time_on_page>360</avg_time_on_page>
+			<avg_time_on_page>320</avg_time_on_page>
 			<bounce_rate>11%</bounce_rate>
 			<exit_rate>11%</exit_rate>
 			<url>http://example.org/index.htm</url>
@@ -130,7 +130,7 @@
 			<avg_time_dom_completion>0.277</avg_time_dom_completion>
 			<avg_time_on_load>0.284</avg_time_on_load>
 			<avg_page_load_time>2.476</avg_page_load_time>
-			<avg_time_on_page>540</avg_time_on_page>
+			<avg_time_on_page>270</avg_time_on_page>
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<url>http://example.org/thankyou</url>
