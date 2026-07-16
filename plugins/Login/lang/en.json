@@ -101,6 +101,8 @@
         "PasswordResetCancelConfirmDescription": "You've requested to cancel your password reset. Please confirm your choice to ensure your request is processed. If this was not your intention, you can safely close this page.",
         "PasswordResetCancelTokenIssue": "We noticed you tried to cancel your password reset request. Unfortunately, this link is no longer valid because it has either expired, is invalid or has been used already.",
         "PleaseNote": "Please note",
-        "PasswordResetEmailAppTokens": "Changing your password does not automatically revoke your app-specific tokens. If you suspect unauthorised access, please delete your existing tokens and generate new ones in the token management section."
+        "PasswordResetEmailAppTokens": "Changing your password does not automatically revoke your app-specific tokens. If you suspect unauthorised access, please delete your existing tokens and generate new ones in the token management section.",
+        "TokenAuthenticationFailed": "Unable to authenticate with the provided token. It is either invalid or expired.",
+        "TokenAuthenticationFailedInsecure": "Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter. If the token was created with the 'Only allow secure requests' option, it must be sent as a POST parameter."
     }
 }
