@@ -106,7 +106,6 @@ class ComputeJsAssetSize extends ConsoleCommand
             "DevicesDetection",
             "Goals",
             "Ecommerce",
-            "SEO",
             "Events",
             "UserCountry",
             "GeoIp2",
