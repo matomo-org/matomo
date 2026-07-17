@@ -449,7 +449,9 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
                     widgetName = piwikHelper.escape(piwikHelper.htmlEntities(widgetName));
 
-                    widgetList.append('<li class="' + widgetClass + '" uniqueid="' + widgetUniqueId + '">' + widgetName + '</li>');
+                    var $widget = $('<li></li>').addClass(widgetClass.trim()).attr('uniqueid', widgetUniqueId);
+                    $widget.append(widgetName);
+                    widgetList.append($widget);
                 }
 
                 // delay widget preview a few milliseconds
