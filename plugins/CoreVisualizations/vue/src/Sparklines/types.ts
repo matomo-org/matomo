@@ -15,6 +15,9 @@ export interface SparklineMetric {
   column?: string;
   // Clean column name (eg "Bounce Rate"), used as the card title; falls back to `description`.
   title?: string;
+  // Per-metric evolution, attached only in date-comparison mode (Sparklines.php nests it inside
+  // each compared period's metric). No-comparison mode carries evolution on SparklineEntry instead.
+  evolution?: SparklineEvolution;
 }
 
 /**
@@ -40,6 +43,9 @@ export interface SparklineEntry {
   url: string;
   tooltip?: string;
   metrics: Record<string, SparklineMetric[]>;
+  // Ordered `metrics` group keys = the date-comparison column order. Needed because JS re-sorts
+  // integer-like object keys (eg year "2025"/"2026"), so `Object.keys(metrics)` loses it.
+  metricsOrder?: string[];
   order: number;
   title: string | null;
   group: string;

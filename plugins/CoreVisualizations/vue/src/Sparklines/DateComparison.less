@@ -1,0 +1,43 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Date-comparison body: a metric-name title and two compared-date columns side by side (split by a
+// divider). The full-width sparkline below the columns is rendered by the shell (SparklineCard).
+
+// Card title = the metric name, matching MetricValue's title so both card bodies read the same.
+// Clamped to one line so a long metric name can't grow the card.
+.sparklineDateComparison__title {
+  color: @theme-color-text;
+  font-size: 18px;
+  line-height: 24px;
+  height: 24px;
+  margin-bottom: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// The two date columns share the width evenly; the gap spaces them and the separator element
+// between them draws the divider.
+.sparklineDateComparison__periods {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.sparklineDateComparison__date {
+  flex: auto;
+  min-width: 0;
+}
+
+// Divider between the two date columns. A real element (not a positional sibling selector) so the
+// separator's presence is decided in the template, one per gap between columns.
+.sparklineDateComparison__separator {
+  flex: none;
+  width: 1px;
+  background: @theme-color-border-alternative;
+}

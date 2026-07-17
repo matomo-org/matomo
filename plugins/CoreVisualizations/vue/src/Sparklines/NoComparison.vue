@@ -6,8 +6,9 @@
 -->
 
 <template>
-  <div class="noComparison">
+  <div class="sparklineNoComparison">
     <MetricValue
+      class="metricValue--fixedHeight"
       :title="title"
       :value="primaryValue"
       :secondary-value="secondaryValue"
@@ -26,33 +27,26 @@
         />
       </template>
     </MetricValue>
-    <div class="sparklineSlot">
-      <Sparkline :width="380" :height="40"
-        :params="sparkline.url"
-        :series-indices="sparkline.seriesIndices ?? undefined"
-      />
-    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
-import { Sparkline, NumberFormatter } from 'CoreHome';
 import MetricValue from '../MetricValue/MetricValue.vue';
 import EvolutionBadge from '../EvolutionBadge/EvolutionBadge.vue';
 import { SparklineEntry, SparklineMetric } from './types';
 
 /**
- * No-comparison body for a sparkline card. Composes the MetricValue + EvolutionBadge
- * atoms and the reused Sparkline. In no-comparison mode the metrics live under the ''
- * group key: the first is the primary value, an optional second is the "unique" line.
+ * No-comparison body for a sparkline card: the metric readout only (the shell renders the shared
+ * sparkline below it). Composes the MetricValue + EvolutionBadge atoms. In no-comparison mode the
+ * metrics live under the '' group key: the first is the primary value, an optional second is the
+ * "unique" line.
  */
 export default defineComponent({
   name: 'NoComparison',
   components: {
     MetricValue,
     EvolutionBadge,
-    Sparkline,
   },
   props: {
     sparkline: {
@@ -87,14 +81,10 @@ export default defineComponent({
       () => props.allMetricsDocumentation[primaryMetric.value?.column ?? ''] || undefined,
     );
 
-    // Format raw numbers (plain metrics) but leave already-formatted strings (eg "50%") untouched.
-    const formatValue = (
-      value?: string | number,
-    ): string | number | undefined => (
-      typeof value === 'number' ? NumberFormatter.formatNumber(value, 2) : value
-    );
-    const primaryValue = computed(() => formatValue(primaryMetric.value?.value) ?? '');
-    const secondaryValue = computed(() => formatValue(secondaryMetric.value?.value));
+    // Values are passed raw to MetricValue, which locale-formats numbers and renders
+    // already-formatted strings verbatim.
+    const primaryValue = computed(() => primaryMetric.value?.value ?? '');
+    const secondaryValue = computed(() => secondaryMetric.value?.value);
     const secondaryLabel = computed(() => secondaryMetric.value?.description);
 
     return {

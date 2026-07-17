@@ -8,15 +8,10 @@
 import { mount } from '@vue/test-utils';
 
 // CoreHome is a package-style cross-plugin import; the vitest config aliases it to its source
-// entry point, so mock it here. Sparkline becomes a stub that declares its props (so they can be
-// asserted), and Tooltips is the (no-op here) directive used by the real MetricValue this mounts.
+// entry point, so mock it here. Tooltips is the (no-op here) directive used by the real MetricValue
+// this component mounts. The sparkline itself is rendered by the shell, not this body.
 vi.mock('CoreHome', () => ({
   Tooltips: {},
-  Sparkline: {
-    name: 'Sparkline',
-    props: ['params', 'seriesIndices'],
-    template: '<img class="sparkline-stub" />',
-  },
 }));
 
 import NoComparison from './NoComparison.vue';
@@ -46,6 +41,15 @@ describe('CoreVisualizations/NoComparison', () => {
     const metricValue = wrapper.findComponent({ name: 'MetricValue' });
     expect(metricValue.props('title')).toBe('Visits');
     expect(metricValue.props('value')).toBe('10,558');
+  });
+
+  it('gives MetricValue the fixed-height modifier so no-comparison cards line up', () => {
+    // The fixed height + one-line title clamp live on MetricValue via this modifier (defined in
+    // MetricValue.less), not reached into from here, so the class must ride on the MetricValue root.
+    const wrapper = createWrapper(makeSparkline());
+
+    expect(wrapper.findComponent({ name: 'MetricValue' }).classes())
+      .toContain('metricValue--fixedHeight');
   });
 
   it('resolves the primary metric documentation by column and passes it to MetricValue', () => {
@@ -126,13 +130,5 @@ describe('CoreVisualizations/NoComparison', () => {
     }));
 
     expect(wrapper.findComponent({ name: 'EvolutionBadge' }).props('tooltip')).toBe('');
-  });
-
-  it('passes the sparkline url and series indices to the Sparkline', () => {
-    const wrapper = createWrapper(makeSparkline({ seriesIndices: [0, 1] }));
-
-    const sparkline = wrapper.findComponent({ name: 'Sparkline' });
-    expect(sparkline.props('params')).toBe('?module=API&action=get&columns=nb_visits');
-    expect(sparkline.props('seriesIndices')).toEqual([0, 1]);
   });
 });

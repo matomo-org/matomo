@@ -8,9 +8,13 @@
 import { mount } from '@vue/test-utils';
 
 // CoreHome is a package-style cross-plugin import; the vitest config aliases it to its source
-// entry point, so mock it here. Tooltips is used only as a (no-op here) directive.
+// entry point, so mock it here. Tooltips is a (no-op here) directive; NumberFormatter formats raw
+// numeric values (the mock echoes value + precision so tests can assert both).
 vi.mock('CoreHome', () => ({
   Tooltips: {},
+  NumberFormatter: {
+    formatNumber: (value: number, precision: number) => `${value}#${precision}`,
+  },
 }));
 
 import MetricValue from './MetricValue.vue';
@@ -26,6 +30,19 @@ describe('CoreVisualizations/MetricValue', () => {
 
     expect(wrapper.find('.metricValue__title').text()).toBe('Searches');
     expect(wrapper.find('.metricValue__number').text()).toBe('190');
+  });
+
+  it('locale-formats a raw numeric value (with precision 2) but leaves strings verbatim', () => {
+    const wrapper = mount(MetricValue as any, {
+      props: {
+        title: 'Visits',
+        value: 10558,
+        secondaryValue: 9527,
+      },
+    });
+
+    expect(wrapper.find('.metricValue__number').text()).toBe('10558#2');
+    expect(wrapper.find('.metricValue__secondaryValue').text()).toBe('9527#2');
   });
 
   it('renders the secondary value and label as separate elements', () => {
@@ -92,6 +109,17 @@ describe('CoreVisualizations/MetricValue', () => {
     const title = wrapper.find('.metricValue__title');
     expect(title.attributes('title')).toBe('Searches');
     expect(title.classes()).not.toContain('metricValue__title--documented');
+  });
+
+  it('omits the title element when no title is given (date-comparison value column)', () => {
+    const wrapper = mount(MetricValue as any, {
+      props: {
+        value: '10,558',
+      },
+    });
+
+    expect(wrapper.find('.metricValue__title').exists()).toBe(false);
+    expect(wrapper.find('.metricValue__number').text()).toBe('10,558');
   });
 
   it('renders content passed to the evolution slot next to the value', () => {

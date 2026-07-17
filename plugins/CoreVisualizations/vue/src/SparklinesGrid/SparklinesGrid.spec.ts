@@ -50,6 +50,23 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     };
   }
 
+  function comparisonEntry(order = 1) {
+    // Date-comparison entry: metrics grouped by pretty date label + a series index per date.
+    return {
+      url: '?module=API&action=get&compareDates[]=2026-05-03',
+      metrics: {
+        'Monday, May 4, 2026': [{ value: '1', description: 'Visits', title: 'Visits' }],
+        'Sunday, May 3, 2026': [{ value: '2', description: 'Visits', title: 'Visits' }],
+      },
+      metricsOrder: ['Monday, May 4, 2026', 'Sunday, May 3, 2026'],
+      order,
+      title: null,
+      group: '0',
+      seriesIndices: [0, 1],
+      graphParams: null,
+    };
+  }
+
   function placeholder(order: number) {
     // Mirrors Config::addPlaceholder(): empty url + no metrics, used only for legacy layout.
     return {
@@ -136,6 +153,27 @@ describe('CoreVisualizations/SparklinesGrid', () => {
 
     expect(col.classes()).toContain('s6');
     expect(col.classes()).not.toContain('xl3');
+  });
+
+  it('uses the wider comparison columns (s12 m12 l6 xl6) when comparing', () => {
+    const wrapper = createWrapper({ sparklines: { 0: [comparisonEntry()] }, isComparing: true });
+    const col = wrapper.find('.row.sparklinesGrid > div');
+
+    expect(col.classes()).toEqual(expect.arrayContaining(['col', 's12', 'm12', 'l6', 'xl6']));
+    // ...and the comparison body is what renders inside.
+    expect(wrapper.findComponent({ name: 'DateComparison' }).exists()).toBe(true);
+  });
+
+  it('collapses comparison cards to a single column in widget mode', () => {
+    const wrapper = createWrapper({
+      sparklines: { 0: [comparisonEntry()] },
+      isComparing: true,
+      isWidget: true,
+    });
+    const col = wrapper.find('.row.sparklinesGrid > div');
+
+    expect(col.classes()).toContain('s12');
+    expect(col.classes()).not.toContain('xl6');
   });
 
   it('re-runs the sparkline click-to-evolution wiring after mount', async () => {
