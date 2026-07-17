@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
-use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
@@ -372,11 +371,6 @@ class Updater
     {
         // Load classes that move to a different file path in the new version before any files are replaced.
         $this->preloadRelocatedClasses();
-
-        // Make sure the execute bit is set for this shell script
-        if (!Rules::isBrowserTriggerEnabled()) {
-            @chmod($extractedArchiveDirectory . '/misc/cron/archive.sh', 0755);
-        }
 
         $model = new Model();
 
