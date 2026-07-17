@@ -8,16 +8,15 @@
 import { mount } from '@vue/test-utils';
 
 // PeriodColumns mounts the real MetricValue (Tooltips directive) + DateAtom + EvolutionBadge chain.
-// CoreHome has no jest module mapping, so virtual-mock what that chain imports from it.
-jest.mock('CoreHome', () => ({
+// CoreHome is a cross-plugin import the vitest config aliases to its source, so mock what it pulls in.
+vi.mock('CoreHome', () => ({
   Tooltips: {},
   NumberFormatter: {
     formatNumber: (value: number) => String(value),
   },
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const PeriodColumns = require('./PeriodColumns.vue').default;
+import PeriodColumns from './PeriodColumns.vue';
 
 // A SparklineEntry as it reaches PeriodColumns: metric groups keyed by period label, ordered by
 // metricsOrder. PeriodColumns derives its columns (primary + optional secondary) from this.

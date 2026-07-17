@@ -6,9 +6,9 @@
  */
 
 // The helper derives data-graph-params from the sparkline url via CoreHome's MatomoUrl.parse;
-// CoreHome has no jest module mapping, so virtual-mock a query-string parser like the real one
-// (which receives the query string without its leading '?').
-jest.mock('CoreHome', () => ({
+// CoreHome is a cross-plugin import the vitest config aliases to its source, so mock a query-string
+// parser like the real one (which receives the query string without its leading '?').
+vi.mock('CoreHome', () => ({
   MatomoUrl: {
     parse: (search: string) => {
       const params: Record<string, string> = {};
@@ -18,10 +18,9 @@ jest.mock('CoreHome', () => ({
       return params;
     },
   },
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { sparklineGraphParamsAttr, sparklineSeriesIndicesAttr } = require('./sparklineDataAttrs');
+import { sparklineGraphParamsAttr, sparklineSeriesIndicesAttr } from './sparklineDataAttrs';
 
 function entry(overrides = {}) {
   return {

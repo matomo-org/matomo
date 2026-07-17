@@ -8,8 +8,8 @@
 import { mount } from '@vue/test-utils';
 
 // The row mounts the real MetricValue (Tooltips directive, NumberFormatter) and the reused
-// Sparkline. CoreHome has no jest module mapping, so mock it virtually.
-jest.mock('CoreHome', () => ({
+// Sparkline. CoreHome is a cross-plugin import the vitest config aliases to its source, so mock it here.
+vi.mock('CoreHome', () => ({
   Tooltips: {},
   Sparkline: {
     name: 'Sparkline',
@@ -19,10 +19,9 @@ jest.mock('CoreHome', () => ({
   NumberFormatter: {
     formatNumber: (value: number) => String(value),
   },
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const SegmentComparisonRow = require('./SegmentComparisonRow.vue').default;
+import SegmentComparisonRow from './SegmentComparisonRow.vue';
 
 function segment(overrides = {}) {
   return {

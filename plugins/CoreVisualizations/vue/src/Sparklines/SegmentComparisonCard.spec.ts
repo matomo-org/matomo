@@ -8,9 +8,9 @@
 import { mount } from '@vue/test-utils';
 
 // The card mounts the real SegmentComparisonRow -> MetricValue + Sparkline chain and derives its
-// data-graph-params via MatomoUrl.parse. CoreHome has no jest module mapping, so mock everything
-// that chain pulls from it.
-jest.mock('CoreHome', () => ({
+// data-graph-params via MatomoUrl.parse. CoreHome is a cross-plugin import the vitest config aliases
+// to its source, so mock everything that chain pulls from it.
+vi.mock('CoreHome', () => ({
   Tooltips: {},
   Sparkline: {
     name: 'Sparkline',
@@ -29,10 +29,9 @@ jest.mock('CoreHome', () => ({
   NumberFormatter: {
     formatNumber: (value: number) => String(value),
   },
-}), { virtual: true });
+}));
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const SegmentComparisonCard = require('./SegmentComparisonCard.vue').default;
+import SegmentComparisonCard from './SegmentComparisonCard.vue';
 
 function segment(title: string, seriesIndex: number, value: number) {
   return {
