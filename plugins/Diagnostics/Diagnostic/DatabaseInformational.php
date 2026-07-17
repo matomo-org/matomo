@@ -40,14 +40,16 @@ class DatabaseInformational implements Diagnostic
             $results[] = DiagnosticResult::informationalResult('DB Charset', $dbConfig['charset']);
             $results[] = DiagnosticResult::informationalResult('DB Collation', $dbConfig['collation']);
             $results[] = DiagnosticResult::informationalResult('DB Adapter', $dbConfig['adapter']);
-            $results[] = DiagnosticResult::informationalResult('MySQL Version', $this->getServerVersion());
+            $serverVersion = $this->getServerVersion();
+            $databaseType = stripos($serverVersion, 'mariadb') !== false ? 'MariaDB' : 'MySQL';
+            $results[] = DiagnosticResult::informationalResult($databaseType . ' Version', $serverVersion);
             $results[] = DiagnosticResult::informationalResult('Num Tables', $this->getNumMatomoTables());
         }
 
         return $results;
     }
 
-    private function getServerVErsion()
+    private function getServerVersion()
     {
         try {
             return Db::get()->getServerVersion();
