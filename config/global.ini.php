@@ -248,7 +248,7 @@ enabled_periods_API = "day,week,month,year,range"
 
 ; whether to enable segment archiving cache
 ; Note: if you use any plugins, this need to be compliant with Matomo and
-; * depending on the segment you create you may need a newer MySQL version (eg 5.7 or newer)
+; * depending on the segment you create you may need a newer MySQL version (eg 8.0 or newer)
 ; * use a reader database for archiving in case you have configured a database reader
 enable_segments_cache = 1
 

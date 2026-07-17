@@ -59,6 +59,51 @@ class Schema extends Singleton
     }
 
     /**
+     * Extracts a comparable semantic version (e.g. "10.6.19") from a raw database
+     * server version string.
+     *
+     * MariaDB reports its version with a leading "5.5.5-" compatibility prefix for
+     * old MySQL clients (e.g. "5.5.5-10.6.19-MariaDB"); that prefix is stripped so
+     * the actual server version is returned.
+     */
+    public static function getComparableVersion(string $databaseVersion): string
+    {
+        if (
+            stripos($databaseVersion, 'mariadb') !== false
+            && preg_match('/5\.5\.5-(\d+(?:\.\d+){0,2})-MariaDB/i', $databaseVersion, $matches)
+        ) {
+            return $matches[1];
+        }
+
+        if (preg_match('/\d+(?:\.\d+){0,2}/', $databaseVersion, $matches)) {
+            return $matches[0];
+        }
+
+        return $databaseVersion;
+    }
+
+    /**
+     * Returns the minimum supported server version to compare the given raw server
+     * version string against.
+     *
+     * When the server identifies itself as MariaDB the MariaDB minimum is used, even
+     * if the configured schema is MySQL. Running MariaDB with the MySQL schema is a
+     * supported setup, and without this the MariaDB server would incorrectly be held
+     * to the MySQL minimum.
+     */
+    public static function getMinimumSupportedVersionForServer(string $serverVersion): string
+    {
+        if (stripos($serverVersion, 'mariadb') !== false) {
+            $schemaClassName = self::getSchemaClassName('Mariadb');
+            /** @var SchemaInterface $schemaClass */
+            $schemaClass = new $schemaClassName();
+            return $schemaClass->getMinimumSupportedVersion();
+        }
+
+        return self::getInstance()->getMinimumSupportedVersion();
+    }
+
+    /**
      * Load schema
      */
     private function loadSchema(): void

@@ -40,6 +40,34 @@ class MysqlTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
+    public function testCheckServerVersionThrowsWhenMariaDbVersionTooLow(): void
+    {
+        // MySQL schema configured while running MariaDB: the MariaDB minimum must still apply
+        Schema::setSingletonInstance($this->createMockSchema('8.0.0'));
+        $adapter = $this->createMockAdapter('5.5.5-10.5.22-MariaDB-1:10.5.22+maria~ubu2004');
+
+        $this->expectException(Exception::class);
+        $adapter->checkServerVersion();
+    }
+
+    public function testCheckServerVersionAllowsSupportedMariaDbVersion(): void
+    {
+        Schema::setSingletonInstance($this->createMockSchema('8.0.0'));
+        $adapter = $this->createMockAdapter('10.6.19-MariaDB-1:10.6.19+maria~ubu2004');
+
+        $adapter->checkServerVersion();
+        $this->addToAssertionCount(1);
+    }
+
+    public function testCheckServerVersionAllowsSupportedMariaDbVersionWithLegacyPrefix(): void
+    {
+        Schema::setSingletonInstance($this->createMockSchema('8.0.0'));
+        $adapter = $this->createMockAdapter('5.5.5-10.6.19-MariaDB-1:10.6.19+maria~ubu2004');
+
+        $adapter->checkServerVersion();
+        $this->addToAssertionCount(1);
+    }
+
     /**
      * This will 'mock' the Schema class to return a specific minimum version.
      */

@@ -323,18 +323,7 @@ abstract class ControllerAdmin extends Controller
 
     private static function getComparableDatabaseVersion(string $databaseVersion): string
     {
-        if (
-            stripos($databaseVersion, 'mariadb') !== false
-            && preg_match('/5\.5\.5-(\d+(?:\.\d+){0,2})-MariaDB/i', $databaseVersion, $matches)
-        ) {
-            return $matches[1];
-        }
-
-        if (preg_match('/\d+(?:\.\d+){0,2}/', $databaseVersion, $matches)) {
-            return $matches[0];
-        }
-
-        return $databaseVersion;
+        return Schema::getComparableVersion($databaseVersion);
     }
 
     private static function notifyWhenDatabaseVersionIsNotCompatibleWithNextMajorPiwik(): void
