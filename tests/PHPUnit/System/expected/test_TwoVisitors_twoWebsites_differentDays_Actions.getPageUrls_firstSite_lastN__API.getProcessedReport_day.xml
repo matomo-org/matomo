@@ -120,7 +120,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
 				<bounce_rate>0%</bounce_rate>
-				<avg_time_on_page>00:04:30</avg_time_on_page>
+				<avg_time_on_page>00:07:30</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
 			<row>
@@ -146,7 +146,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
 				<bounce_rate>0%</bounce_rate>
-				<avg_time_on_page>00:04:30</avg_time_on_page>
+				<avg_time_on_page>00:07:30</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
 			<row>
@@ -172,7 +172,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
 				<bounce_rate>0%</bounce_rate>
-				<avg_time_on_page>00:04:30</avg_time_on_page>
+				<avg_time_on_page>00:07:30</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
 			<row>
@@ -198,7 +198,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
 				<bounce_rate>0%</bounce_rate>
-				<avg_time_on_page>00:04:30</avg_time_on_page>
+				<avg_time_on_page>00:07:30</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
 			<row>
@@ -224,7 +224,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
 				<bounce_rate>0%</bounce_rate>
-				<avg_time_on_page>00:04:30</avg_time_on_page>
+				<avg_time_on_page>00:07:30</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
 			<row>
@@ -329,7 +329,7 @@
 		<nb_visits>18</nb_visits>
 		<nb_uniq_visitors>18</nb_uniq_visitors>
 		<nb_hits>28</nb_hits>
-		<sum_time_spent>4500</sum_time_spent>
+		<sum_time_spent>6300</sum_time_spent>
 		<sum_time_network>0.398</sum_time_network>
 		<nb_hits_with_time_network>17</nb_hits_with_time_network>
 		<min_time_network>0.0000</min_time_network>

@@ -181,7 +181,7 @@ Page URLs
 label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate
 /index.htm	9	9	11%	00:05:20	11%
 Page URL not defined	9	17	0%	00:00:00	0%
-/thankyou	8	16	0%	00:04:30	100%
+/thankyou	8	16	0%	00:07:30	100%
 /products	1	1	100%	00:00:00	100%
 
 Entry pages
@@ -209,7 +209,7 @@ Page titles
 label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate
 Checkout / Purchasing...	8	8	0%	00:00:00	100%
 second visitor/two days later/a new visit	8	8	0%	00:06:00	0%
-second visitor/two days later/second page view😀💩😀💩	8	8	0%	00:09:00	0%
+second visitor/two days later/second page view😀💩😀💩	8	8	0%	00:15:00	0%
 first page view	2	2	100%	00:00:00	100%
 Page Name not defined	1	1	0%	00:00:00	0%
 

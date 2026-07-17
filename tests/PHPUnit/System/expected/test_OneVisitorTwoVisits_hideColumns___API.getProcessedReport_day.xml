@@ -92,7 +92,7 @@
 		</row>
 	</reportMetadata>
 	<reportTotal>
-		<sum_time_spent>1620</sum_time_spent>
+		<sum_time_spent>2340</sum_time_spent>
 		<sum_time_network>0.117</sum_time_network>
 		<nb_hits_with_time_network>4</nb_hits_with_time_network>
 		<min_time_network>0.0000</min_time_network>
