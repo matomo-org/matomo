@@ -7,7 +7,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-const pluginLoadingPromises: Record<string, Promise<unknown>> = {};
+const pluginLoadingPromises: Record<string, Promise<unknown> | undefined> = {};
 
 const PLUGIN_LOAD_TIMEOUT = 120;
 const POLL_INTERVAL = 50;

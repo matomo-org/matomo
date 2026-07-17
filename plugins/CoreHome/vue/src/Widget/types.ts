@@ -32,6 +32,9 @@ export interface Widget extends Orderable {
   layout?: string;
   isWide?: boolean;
   isFirstInPage?: boolean;
+
+  // Discriminant against GroupedWidgets (a plain widget is never a group).
+  group?: false;
 }
 
 // get around DeepReadonly<> not being able to handle recursive types by moving the
@@ -41,7 +44,9 @@ export interface WidgetContainer extends Widget {
 }
 
 export interface GroupedWidgets {
-  group: boolean;
+  group: true;
+  // No id of its own; declared so the shared list can be keyed by uniqueId in templates.
+  uniqueId?: undefined;
   left?: Widget[];
   right?: Widget[];
 }

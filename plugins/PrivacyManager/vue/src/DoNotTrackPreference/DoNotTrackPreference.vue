@@ -29,7 +29,7 @@ import { defineComponent } from 'vue';
 import { translate, AjaxHelper, NotificationsStore } from 'CoreHome';
 import { Form, Field, SaveButton } from 'CorePluginsAdmin';
 
-interface DoNotTrackPreferenceState {
+export interface DoNotTrackPreferenceState {
   isLoading: boolean;
   enabled: number|string|boolean;
 }

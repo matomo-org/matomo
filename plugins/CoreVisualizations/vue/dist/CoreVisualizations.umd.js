@@ -852,6 +852,7 @@ var __spreadValues = (a, b) => {
   const _hoisted_3 = ["title"];
   const _hoisted_4 = ["title"];
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a, _b, _c, _d, _e;
     const _component_Sparkline = vue.resolveComponent("Sparkline");
     return vue.openBlock(), vue.createElementBlock("div", {
       class: vue.normalizeClass(["singleMetricView", { "loading": _ctx.isLoading }]),
@@ -870,11 +871,11 @@ var __spreadValues = (a, b) => {
           class: "metricEvolution",
           title: _ctx.translate(
             "General_EvolutionSummaryGeneric",
-            _ctx.metricValue,
-            _ctx.currentPeriod,
-            _ctx.pastValue,
-            _ctx.pastPeriod,
-            _ctx.metricChangePercent
+            (_a = _ctx.metricValue) != null ? _a : "",
+            (_b = _ctx.currentPeriod) != null ? _b : "",
+            (_c = _ctx.pastValue) != null ? _c : "",
+            (_d = _ctx.pastPeriod) != null ? _d : "",
+            (_e = _ctx.metricChangePercent) != null ? _e : ""
           )
         }, [
           vue.createElementVNode("span", {
@@ -953,6 +954,7 @@ var __spreadValues = (a, b) => {
   const _hoisted_1$2 = { class: "noComparison" };
   const _hoisted_2$1 = { class: "sparklineSlot" };
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a;
     const _component_EvolutionBadge = vue.resolveComponent("EvolutionBadge");
     const _component_MetricValue = vue.resolveComponent("MetricValue");
     const _component_Sparkline = vue.resolveComponent("Sparkline");
@@ -982,7 +984,7 @@ var __spreadValues = (a, b) => {
           width: 380,
           height: 40,
           params: _ctx.sparkline.url,
-          "series-indices": _ctx.sparkline.seriesIndices
+          "series-indices": (_a = _ctx.sparkline.seriesIndices) != null ? _a : void 0
         }, null, 8, ["params", "series-indices"])
       ])
     ]);

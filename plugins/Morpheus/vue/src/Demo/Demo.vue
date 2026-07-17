@@ -32,13 +32,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+
+interface DemoSnippet {
+  id: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}
 import DemoCodePair from './DemoCodePair.vue';
 
 export default defineComponent({
   props: {
     demoSnippets: {
-      type: Array,
+      type: Array as PropType<DemoSnippet[]>,
       required: true,
     },
     icons: {

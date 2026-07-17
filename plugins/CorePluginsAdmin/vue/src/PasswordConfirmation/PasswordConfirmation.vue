@@ -24,7 +24,7 @@
         <Field
           v-model="passwordConfirmation"
           :uicontrol="'password'"
-          :disabled="!requiresPasswordConfirmation ? 'disabled' : undefined"
+          :disabled="!requiresPasswordConfirmation ? true : undefined"
           :name="'currentUserPassword'"
           :id="passwordFieldId"
           :autocomplete="'off'"
@@ -38,13 +38,13 @@
     <div class="modal-footer">
       <component
         v-if="!!alternativeIdentityConfirmationComponent"
-        :is="alternativeIdentityConfirmationComponent"
+        :is="asComponent(alternativeIdentityConfirmationComponent)"
         @confirmed="onConfirm"
       ></component>
       <a
         href=""
         class="modal-action modal-close btn confirm-password-btn"
-        :disabled="requiresPasswordConfirmation && !passwordConfirmation ? 'disabled' : undefined"
+        :disabled="requiresPasswordConfirmation && !passwordConfirmation ? true : undefined"
         @click="onClickConfirm($event)"
       >{{ translate('General_Confirm') }}</a>
       <a
@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, Component } from 'vue';
 import { Matomo, AutoClearPassword, useExternalPluginComponent } from 'CoreHome';
 import Field from '../Field/Field.vue';
 import KeyPressEvent = JQuery.KeyPressEvent;
@@ -69,7 +69,7 @@ interface PluginComponent {
   component: string,
 }
 
-interface PasswordConfirmationState {
+export interface PasswordConfirmationState {
   passwordConfirmation: string;
   slotHasContent: boolean;
   altIdConfirmComponent: PluginComponent;
@@ -107,6 +107,10 @@ export default defineComponent({
     this.$emit('update:modelValue', false);
   },
   methods: {
+    // Expose the plugin component to `<component :is>` as a plain Component.
+    asComponent(component: unknown): Component {
+      return component as Component;
+    },
     onClickConfirm(event: MouseEvent) {
       event.preventDefault();
       this.onConfirm(this.passwordConfirmation);

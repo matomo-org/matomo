@@ -25,7 +25,7 @@
               @click="removeOrCondition(condition, orCondition)"
             />
             <div class="segment-loading">
-              <MatomoLoader v-show="conditionValuesLoading[orCondition.id]" />
+              <MatomoLoader v-show="conditionValuesLoading[orCondition.id || '']" />
             </div>
             <div class="segment-row-inputs valign-wrapper">
               <div class="segment-input metricListBlock valign-wrapper">
@@ -70,7 +70,7 @@
                       :value="orCondition.value"
                       @update="orCondition.value = $event;
                       // deep watch doesn't catch this change
-                      this.computeSegmentDefinition();"
+                      computeSegmentDefinition();"
                     />
                   </div>
                 </div>
@@ -116,7 +116,7 @@ import SegmentGeneratorStore from './SegmentGenerator.store';
 import { SegmentAndCondition, SegmentMetadata, SegmentOrCondition } from '../types';
 import ValueInput from './ValueInput.vue';
 
-interface SegmentGeneratorState {
+export interface SegmentGeneratorState {
   conditions: SegmentAndCondition[];
   matches: Record<string, { key: string, value: string }[]>;
   queriedSegments: DeepReadonly<SegmentMetadata[]>;

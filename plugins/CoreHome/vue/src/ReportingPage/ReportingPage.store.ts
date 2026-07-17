@@ -55,7 +55,7 @@ function markWidgetsInFirstRowOfPage(widgets: (Widget|GroupedWidgets)[]) {
         right: markWidgetsInFirstRowOfPage(groupedWidgets.right || []),
       } as GroupedWidgets;
     } else {
-      newWidgets[0] = { ...newWidgets[0], isFirstInPage: true };
+      newWidgets[0] = { ...newWidgets[0], isFirstInPage: true } as Widget;
     }
 
     return newWidgets;
@@ -96,7 +96,10 @@ export class ReportingPageStore {
       return report.relatedReports;
     };
 
-    (page.widgets || []).forEach((widget) => {
+    // `page.widgets` comes from the (deeply readonly) reporting-pages state; the local pipeline
+    // below builds and sorts its own mutable widget list, so drop the readonly modifiers here.
+    const pageWidgets = (page.widgets || []) as unknown as Widget[];
+    pageWidgets.forEach((widget) => {
       if (isIgnoredReport(widget)) {
         return;
       }

@@ -69,7 +69,6 @@
           name="excludedQueryParametersGlobal"
           var-type="array"
           class="limited-height-scrolling-textarea"
-          v-model="localExcludedQueryParametersGlobal"
           :model-value="localExcludedQueryParametersGlobal.join('\n')"
           @input="onInputExcludedQueryParametersGlobal($event.target.value)"
           :title="translate('SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites')"
@@ -97,7 +96,7 @@ interface ExclusionTypeOption {
   key: 'common_session_parameters' | 'matomo_recommended_pii' | 'custom';
 }
 
-interface ExcludeQueryParameterSettingsState {
+export interface ExcludeQueryParameterSettingsState {
   localExclusionTypeForQueryParams: string;
   localExcludedQueryParametersGlobal: string[];
   exclusionTypeOptions: ExclusionTypeOption[];

@@ -376,7 +376,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       class: "btn btn-block purchaseable",
       href: "",
       onClick: _cache[6] || (_cache[6] = vue.withModifiers(($event) => {
-        this.$emit("requestTrial");
+        _ctx.$emit("requestTrial");
       }, ["prevent"])),
       title: _ctx.translate("Marketplace_RequestTrial")
     }, vue.toDisplayString(_ctx.translate("Marketplace_RequestTrial")), 9, _hoisted_18$3)) : (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 3 }, [
@@ -393,7 +393,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     props: {
       modelValue: {
         type: Object,
-        default: () => ({})
+        default: () => null
       }
     },
     emits: ["update:modelValue", "trialRequested"],
@@ -477,7 +477,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     props: {
       modelValue: {
         type: Object,
-        default: () => ({})
+        default: () => null
       },
       currentUserEmail: String,
       isValidConsumer: Boolean
@@ -797,7 +797,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     props: {
       modelValue: {
         type: Object,
-        default: () => ({})
+        default: () => null
       },
       activateNonce: {
         type: String,
@@ -927,7 +927,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         return this.isMatomoPlugin ? "Matomo" : this.plugin.owner;
       },
       showReviews() {
-        return this.pluginReviews && this.pluginReviews.embedUrl && this.pluginReviews.averageRating;
+        return !!(this.pluginReviews && this.pluginReviews.embedUrl && this.pluginReviews.averageRating);
       },
       showMissingLicenseDescription() {
         return this.hasSomeAdminAccess && this.plugin.isMissingLicense;
@@ -991,7 +991,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         setTimeout(() => {
           const root = this.$refs.root;
           const elements = $$1(selector, root);
-          if (elements.length && elements[0] && elements[0].scrollIntoView) {
+          if (elements.length && elements[0] && typeof elements[0].scrollIntoView === "function") {
             elements[0].scrollIntoView({ block: "nearest", behavior: "smooth" });
           }
         });
@@ -1239,7 +1239,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                 vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Version")), 1),
                 vue.createElementVNode("dd", null, vue.toDisplayString(_ctx.plugin.latestVersion), 1)
               ])) : vue.createCommentVNode("", true),
-              _ctx.plugin.numDownloads > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$5, [
+              (_ctx.plugin.numDownloads || 0) > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$5, [
                 vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("General_Downloads")), 1),
                 vue.createElementVNode("dd", null, vue.toDisplayString(_ctx.plugin.numDownloadsPretty), 1)
               ])) : vue.createCommentVNode("", true),
@@ -1353,8 +1353,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                   vue.createElementVNode("dt", null, vue.toDisplayString(_ctx.translate("CorePluginsAdmin_Activity")), 1),
                   vue.createElementVNode("dd", null, [
                     vue.createTextVNode(vue.toDisplayString(_ctx.plugin.activity.numCommits) + " commits ", 1),
-                    ((_a = _ctx.pluginActivity) == null ? void 0 : _a.numContributors) > 1 ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
-                      vue.createTextVNode(vue.toDisplayString(" " + _ctx.translate("Marketplace_ByXDevelopers", _ctx.pluginActivity.numContributors)), 1)
+                    Number((_a = _ctx.pluginActivity) == null ? void 0 : _a.numContributors) > 1 ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
+                      vue.createTextVNode(vue.toDisplayString(" " + _ctx.translate("Marketplace_ByXDevelopers", String(_ctx.pluginActivity.numContributors))), 1)
                     ], 64)) : vue.createCommentVNode("", true),
                     ((_b = _ctx.pluginActivity) == null ? void 0 : _b.lastCommitDate) ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
                       vue.createTextVNode(vue.toDisplayString(" " + _ctx.translate("Marketplace_LastCommitTime", _ctx.pluginActivity.lastCommitDate)), 1)
@@ -1381,13 +1381,13 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                       vue.createElementVNode("dt", {
                         innerHTML: _ctx.$sanitize(support.name)
                       }, null, 8, _hoisted_34),
-                      this.isValidHttpUrl(support.value) ? (vue.openBlock(), vue.createElementBlock("dd", _hoisted_35, [
+                      _ctx.isValidHttpUrl(support.value) ? (vue.openBlock(), vue.createElementBlock("dd", _hoisted_35, [
                         vue.createElementVNode("a", {
                           target: "_blank",
                           rel: "noreferrer noopener",
                           href: _ctx.externalRawLink(_ctx.$sanitize(support.value))
                         }, vue.toDisplayString(_ctx.$sanitize(support.value)), 9, _hoisted_36)
-                      ])) : this.isValidEmail(support.value) ? (vue.openBlock(), vue.createElementBlock("dd", _hoisted_37, [
+                      ])) : _ctx.isValidEmail(support.value) ? (vue.openBlock(), vue.createElementBlock("dd", _hoisted_37, [
                         vue.createElementVNode("a", {
                           href: `mailto:${encodeURIComponent(support.value)}`
                         }, vue.toDisplayString(_ctx.$sanitize(support.value)), 9, _hoisted_38)
@@ -1414,7 +1414,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                     width: "800",
                     alt: ""
                   }, null, 8, _hoisted_42),
-                  vue.createElementVNode("figcaption", null, vue.toDisplayString(this.getScreenshotBaseName(screenshot)), 1)
+                  vue.createElementVNode("figcaption", null, vue.toDisplayString(_ctx.getScreenshotBaseName(screenshot)), 1)
                 ]);
               }), 128))
             ])
@@ -1466,7 +1466,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                     value: variation.addToCartUrl,
                     title: `${_ctx.translate(
                       "Marketplace_PriceExclTax",
-                      variation.price,
+                      String(variation.price),
                       variation.currency
                     )} ${_ctx.translate("Marketplace_CurrentNumPiwikUsers", _ctx.numUsers)}`
                   }, vue.toDisplayString(variation.name) + " - " + vue.toDisplayString(variation.prettyPrice) + " / " + vue.toDisplayString(variation.period), 9, _hoisted_54);
@@ -1729,7 +1729,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       vue.createVNode(_component_RequestTrial, {
         modelValue: _ctx.showRequestTrialForPlugin,
         "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.showRequestTrialForPlugin = $event),
-        onTrialRequested: _cache[1] || (_cache[1] = ($event) => this.$emit("triggerUpdate"))
+        onTrialRequested: _cache[1] || (_cache[1] = ($event) => _ctx.$emit("triggerUpdate"))
       }, null, 8, ["modelValue"]),
       vue.createVNode(_component_StartFreeTrial, {
         "current-user-email": _ctx.currentUserEmail,
@@ -1737,13 +1737,13 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         modelValue: _ctx.showStartFreeTrialForPlugin,
         "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => _ctx.showStartFreeTrialForPlugin = $event),
         onTrialStarted: _cache[3] || (_cache[3] = ($event) => {
-          this.$emit("triggerUpdate");
+          _ctx.$emit("triggerUpdate");
         }),
         onStartTrialStart: _cache[4] || (_cache[4] = ($event) => {
-          this.$emit("startTrialStart");
+          _ctx.$emit("startTrialStart");
         }),
         onStartTrialStop: _cache[5] || (_cache[5] = ($event) => {
-          this.$emit("startTrialStop");
+          _ctx.$emit("startTrialStop");
         })
       }, null, 8, ["current-user-email", "is-valid-consumer", "modelValue"]),
       vue.createVNode(_component_PluginDetailsModal, {
@@ -1760,8 +1760,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         "install-nonce": _ctx.installNonce,
         "update-nonce": _ctx.updateNonce,
         "num-users": _ctx.numUsers,
-        onRequestTrial: _cache[7] || (_cache[7] = ($event) => this.requestTrial($event)),
-        onStartFreeTrial: _cache[8] || (_cache[8] = ($event) => this.startFreeTrial($event))
+        onRequestTrial: _cache[7] || (_cache[7] = ($event) => _ctx.requestTrial($event)),
+        onStartFreeTrial: _cache[8] || (_cache[8] = ($event) => _ctx.startFreeTrial($event))
       }, null, 8, ["modelValue", "is-super-user", "is-plugins-admin-enabled", "is-multi-server-environment", "is-valid-consumer", "is-auto-update-possible", "has-some-admin-access", "deactivate-nonce", "activate-nonce", "install-nonce", "update-nonce", "num-users"]),
       _ctx.pluginsToShow.length > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$8, [
         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.pluginsToShow, (plugin) => {
@@ -1770,7 +1770,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             key: plugin.name
           }, [
             vue.createElementVNode("div", {
-              class: vue.normalizeClass(`card-holder ${plugin.numDownloads > 0 ? "card-with-downloads" : ""}`),
+              class: vue.normalizeClass(`card-holder ${(plugin.numDownloads || 0) > 0 ? "card-with-downloads" : ""}`),
               onClick: ($event) => _ctx.clickCard($event, plugin)
             }, [
               vue.createElementVNode("div", _hoisted_3$8, [
@@ -1809,7 +1809,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                       vue.createElementVNode("div", _hoisted_12$1, vue.toDisplayString(plugin.description), 1)
                     ]),
                     vue.createElementVNode("div", _hoisted_13$1, [
-                      plugin.numDownloads > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_14$1, vue.toDisplayString(plugin.numDownloadsPretty) + " " + vue.toDisplayString(_ctx.translate("General_Downloads").toLowerCase()), 1)) : vue.createCommentVNode("", true),
+                      (plugin.numDownloads || 0) > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_14$1, vue.toDisplayString(plugin.numDownloadsPretty) + " " + vue.toDisplayString(_ctx.translate("General_Downloads").toLowerCase()), 1)) : vue.createCommentVNode("", true),
                       vue.createElementVNode("div", _hoisted_15$1, [
                         vue.createTextVNode(vue.toDisplayString(_ctx.translate("Marketplace_CreatedBy")) + " ", 1),
                         plugin.owner === "piwik" || plugin.owner === "matomo-org" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_16$1, " Matomo")) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_17$1, vue.toDisplayString(plugin.owner), 1))
@@ -1827,9 +1827,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
                           "update-nonce": _ctx.updateNonce,
                           plugin,
                           "in-modal": false,
-                          onOpenDetailsModal: ($event) => this.openDetailsModal(plugin),
-                          onRequestTrial: ($event) => this.requestTrial(plugin),
-                          onStartFreeTrial: ($event) => this.startFreeTrial(plugin)
+                          onOpenDetailsModal: ($event) => _ctx.openDetailsModal(plugin),
+                          onRequestTrial: ($event) => _ctx.requestTrial(plugin),
+                          onStartFreeTrial: ($event) => _ctx.startFreeTrial(plugin)
                         }, null, 8, ["is-super-user", "is-plugins-admin-enabled", "is-multi-server-environment", "is-valid-consumer", "is-auto-update-possible", "activate-nonce", "deactivate-nonce", "install-nonce", "update-nonce", "plugin", "onOpenDetailsModal", "onRequestTrial", "onStartFreeTrial"])
                       ]),
                       "piwik" == plugin.owner || "matomo-org" == plugin.owner ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_19$1)) : vue.createCommentVNode("", true)
@@ -2079,9 +2079,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         "install-nonce": _ctx.installNonce,
         "update-nonce": _ctx.updateNonce,
         "num-users": _ctx.numUsers,
-        onTriggerUpdate: _cache[0] || (_cache[0] = ($event) => this.updateMarketplace()),
-        onStartTrialStart: _cache[1] || (_cache[1] = ($event) => this.$emit("startTrialStart")),
-        onStartTrialStop: _cache[2] || (_cache[2] = ($event) => this.$emit("startTrialStop"))
+        onTriggerUpdate: _cache[0] || (_cache[0] = ($event) => _ctx.updateMarketplace()),
+        onStartTrialStart: _cache[1] || (_cache[1] = ($event) => _ctx.$emit("startTrialStart")),
+        onStartTrialStop: _cache[2] || (_cache[2] = ($event) => _ctx.$emit("startTrialStop"))
       }, null, 8, ["plugins-to-show", "current-user-email", "is-auto-update-possible", "is-super-user", "is-multi-server-environment", "has-some-admin-access", "is-plugins-admin-enabled", "is-valid-consumer", "deactivate-nonce", "activate-nonce", "install-nonce", "update-nonce", "num-users"])) : vue.createCommentVNode("", true),
       !_ctx.loading && _ctx.pluginsToShow.length == 0 ? (vue.openBlock(), vue.createBlock(_component_ContentBlock, { key: 1 }, {
         default: vue.withCtx(() => [
@@ -2653,9 +2653,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         "update-nonce": _ctx.updateNonce,
         "has-some-admin-access": _ctx.hasSomeAdminAccess,
         "num-users": _ctx.numUsers,
-        onTriggerUpdate: _cache[0] || (_cache[0] = ($event) => this.updateOverviewData()),
-        onStartTrialStart: _cache[1] || (_cache[1] = ($event) => this.disableInstallAllPlugins(true)),
-        onStartTrialStop: _cache[2] || (_cache[2] = ($event) => this.disableInstallAllPlugins(false))
+        onTriggerUpdate: _cache[0] || (_cache[0] = ($event) => _ctx.updateOverviewData()),
+        onStartTrialStart: _cache[1] || (_cache[1] = ($event) => _ctx.disableInstallAllPlugins(true)),
+        onStartTrialStop: _cache[2] || (_cache[2] = ($event) => _ctx.disableInstallAllPlugins(false))
       }, null, 8, ["plugin-type-options", "default-sort", "plugin-sort-options", "current-user-email", "is-auto-update-possible", "is-super-user", "is-multi-server-environment", "is-plugins-admin-enabled", "is-valid-consumer", "deactivate-nonce", "activate-nonce", "install-nonce", "update-nonce", "has-some-admin-access", "num-users"])
     ])), [
       [_directive_content_intro]
@@ -2792,14 +2792,15 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             ]),
             vue.createElementVNode("tbody", null, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.subscriptions || [], (subscription, index) => {
+                var _a, _b, _c, _d;
                 return vue.openBlock(), vue.createElementBlock("tr", { key: index }, [
                   vue.createElementVNode("td", _hoisted_4, [
-                    subscription.plugin.htmlUrl ? (vue.openBlock(), vue.createElementBlock("a", {
+                    ((_a = subscription.plugin) == null ? void 0 : _a.htmlUrl) ? (vue.openBlock(), vue.createElementBlock("a", {
                       key: 0,
-                      href: subscription.plugin.htmlUrl,
+                      href: (_b = subscription.plugin) == null ? void 0 : _b.htmlUrl,
                       rel: "noreferrer noopener",
                       target: "_blank"
-                    }, vue.toDisplayString(subscription.plugin.displayName), 9, _hoisted_5)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_6, vue.toDisplayString(subscription.plugin.displayName), 1))
+                    }, vue.toDisplayString((_c = subscription.plugin) == null ? void 0 : _c.displayName), 9, _hoisted_5)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_6, vue.toDisplayString((_d = subscription.plugin) == null ? void 0 : _d.displayName), 1))
                   ]),
                   vue.createElementVNode("td", _hoisted_7, vue.toDisplayString(subscription.productType), 1),
                   vue.createElementVNode("td", {

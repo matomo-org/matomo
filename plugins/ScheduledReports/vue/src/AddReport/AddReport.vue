@@ -133,7 +133,7 @@
             <div
               id="reportHourHelpText"
               class="inline-help-node"
-              v-if="timezoneOffset !== 0 && timezoneOffset !== '0'"
+              v-if="String(timezoneOffset) !== '0'"
             >
               <span v-text="reportHourUtcHelpText" />
             </div>
@@ -199,7 +199,7 @@
           <Field
             uicontrol="checkbox"
             name="report_evolution_graph"
-            :title="translate('ScheduledReports_EvolutionGraph', 5)"
+            :title="translate('ScheduledReports_EvolutionGraph', '5')"
             v-show="[2, '2', 3, '3'].indexOf(report.displayFormat) !== -1"
             :model-value="report.evolutionGraph"
             @update:model-value="$emit('change', { prop: 'evolutionGraph', value: $event })"
@@ -220,7 +220,7 @@
                 :checked="report.evolutionPeriodFor === 'each'"
                 @change="$emit(
                   'change',
-                  { prop: 'evolutionPeriodFor', value: $event.target.value },
+                  { prop: 'evolutionPeriodFor', value: ($event.target as HTMLInputElement).value },
                 )"
               />
               <span v-html="$sanitize(evolutionGraphsShowForEachInPeriod)"></span>
@@ -236,7 +236,7 @@
                 :checked="report.evolutionPeriodFor === 'prev'"
                 @change="$emit(
                   'change',
-                  { prop: 'evolutionPeriodFor', value: $event.target.value },
+                  { prop: 'evolutionPeriodFor', value: ($event.target as HTMLInputElement).value },
                 )"
               />
               <span>{{ translate(
@@ -288,7 +288,7 @@
                     :name="`${reportType}Reports`"
                     :type="allowMultipleReportsByReportType[reportType] ? 'checkbox' : 'radio'"
                     :id="`${reportType}${report.uniqueId}`"
-                    :checked="selectedReports[reportType]?.[report.uniqueId]"
+                    :checked="selectedReports?.[reportType]?.[report.uniqueId]"
                     @change="$emit('toggleSelectedReport', {
                       reportType,
                       uniqueId: report.uniqueId,
@@ -323,7 +323,7 @@
         >
           <template #default="{ item: reportItem }">
             <span class="icon-menu-hamburger drag-icon"></span>
-            <span>{{ decode(reportItem.name) }}</span>
+            <span>{{ decode((reportItem as ReportMetadata).name) }}</span>
           </template>
         </DraggableList>
       </div>
@@ -359,12 +359,12 @@ import {
 import { Field, Form, SaveButton } from 'CorePluginsAdmin';
 import { adjustHourToTimezone } from '../utilities';
 
-interface Option {
+export interface Option {
   key: string;
   value: string;
 }
 
-interface ReportMetadata {
+export interface ReportMetadata {
   uniqueId: string;
   name: string;
 }
@@ -373,7 +373,7 @@ interface ReportsByType {
   [reportType: string]: Record<string, ReportMetadata[]>;
 }
 
-interface ReportsLookupByType {
+export interface ReportsLookupByType {
   [reportType: string]: Record<string, ReportMetadata>;
 }
 

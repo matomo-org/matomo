@@ -187,9 +187,9 @@
                   id: `provider_input_${id}`,
                   disabled: provider.status !== 1,
                   checked: _ctx.selectedProvider === id,
-                  onChange: ($event) => _ctx.selectedProvider = id
+                  onChange: ($event) => _ctx.selectedProvider = String(id)
                 }, null, 40, _hoisted_6),
-                vue.createElementVNode("span", null, vue.toDisplayString(_ctx.translateOrDefault(provider.title)), 1)
+                vue.createElementVNode("span", null, vue.toDisplayString(_ctx.translateOrDefault(provider.title || "")), 1)
               ])
             ]),
             vue.createElementVNode("p", _hoisted_7, [
@@ -227,7 +227,7 @@
                 ]),
                 vue.createElementVNode("div", _hoisted_19, [
                   vue.createElementVNode("a", {
-                    onClick: vue.withModifiers(($event) => _ctx.refreshProviderInfo(id), ["prevent"])
+                    onClick: vue.withModifiers(($event) => _ctx.refreshProviderInfo(String(id)), ["prevent"])
                   }, vue.toDisplayString(_ctx.translate("General_Refresh")), 9, _hoisted_20)
                 ])
               ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_21, vue.toDisplayString(_ctx.translate("UserCountry_CannotLocalizeLocalIP", _ctx.thisIp)), 1))

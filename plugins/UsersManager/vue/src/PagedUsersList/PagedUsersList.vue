@@ -87,7 +87,7 @@
             <Field
                 :model-value="accessLevelFilter"
                 @update:model-value="accessLevelFilter = $event; changeSearch({
-                filter_access: accessLevelFilter,
+                filter_access: accessLevelFilter ?? undefined,
                 offset: 0,
               })"
                 name="access-level-filter"
@@ -103,7 +103,7 @@
             <Field
                 :model-value="statusLevelFilter"
                 @update:model-value="statusLevelFilter = $event; changeSearch({
-                filter_status: statusLevelFilter,
+                filter_status: statusLevelFilter ?? undefined,
                 offset: 0,
               })"
                 name="status-level-filter"
@@ -135,7 +135,7 @@
                 'General_Pagination',
                 paginationLowerBound,
                 paginationUpperBound,
-                totalEntries
+                totalEntries || 0
             ) }}
             </span>
             <ActivityIndicator
@@ -144,7 +144,7 @@
           </div>
           <a
               class="btn next"
-              :class="{ disabled: searchParams.offset + searchParams.limit >= totalEntries }"
+              :class="{ disabled: searchParams.offset + searchParams.limit >= (totalEntries || 0) }"
               @click.prevent="gotoNextPage()"
           >
             <span class="pointer">{{ translate('General_Next') }} &#xBB;</span>
@@ -178,7 +178,7 @@
                   <input
                       type="checkbox"
                       id="paged_users_select_all"
-                      checked="checked"
+                      checked
                       v-model="isAllCheckboxSelected"
                       @change="onAllCheckboxChange()"
                   />
@@ -225,7 +225,7 @@
         <tbody>
         <tr
             class="select-all-row"
-            v-if="isAllCheckboxSelected && users.length && users.length < totalEntries"
+            v-if="isAllCheckboxSelected && users.length && users.length < (totalEntries || 0)"
         >
           <td colspan="8">
             <div v-if="!areAllResultsSelected">
@@ -331,7 +331,7 @@
                     :title="user.invite_status === 'expired' ?
                             translate('UsersManager_ExpiredInviteAutomaticallyRemoved', '3') :
                             ''"
-              >{{ getInviteStatus(user.invite_status) }}</span>
+              >{{ getInviteStatus(user.invite_status ?? '') }}</span>
           </td>
           <td class="center actions-cell">
             <button
@@ -422,7 +422,7 @@
           <span v-html="$sanitize(translate(
               'UsersManager_AnonymousUserRoleChangeWarning',
               'anonymous',
-              getRoleDisplay(roleToChangeTo),
+              String(getRoleDisplay(roleToChangeTo)),
             ))">
             </span>
         </em>
@@ -431,7 +431,7 @@
         <em>{{ translate('General_Note') }}:
           <span v-html="$sanitize(translate(
               'UsersManager_AdminUserRoleChangeWarning',
-              getRoleDisplay(roleToChangeTo),
+              String(getRoleDisplay(roleToChangeTo)),
             ))">
             </span>
         </em>
@@ -481,7 +481,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import {
   DropdownMenu,
   ActivityIndicator,
@@ -498,13 +498,13 @@ import { Field, PasswordConfirmation } from 'CorePluginsAdmin';
 import User from '../User';
 import SearchParams from './SearchParams';
 
-interface AccessLevel {
+export interface AccessLevel {
   key: string;
   value: unknown;
   type: string
 }
 
-interface PagedUsersListState {
+export interface PagedUsersListState {
   areAllResultsSelected: boolean;
   selectedRows: Record<string, boolean>;
   isAllCheckboxSelected: boolean;
@@ -549,7 +549,7 @@ export default defineComponent({
     },
     totalEntries: Number,
     users: {
-      type: Array,
+      type: Array as PropType<User[]>,
       required: true,
     },
     searchParams: {

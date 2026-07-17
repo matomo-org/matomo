@@ -93,6 +93,11 @@ const { $ } = window;
 
 interface GlossaryItemEntry {
   letter: string;
+  id?: string;
+  name?: string;
+  subtitle?: string;
+  documentation?: string;
+  is_metric?: boolean;
 }
 
 export default defineComponent({

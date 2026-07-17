@@ -154,7 +154,7 @@
      tabindex="7"
      class="btn btn-block purchaseable"
      href=""
-     @click.prevent="this.$emit('requestTrial');"
+     @click.prevent="$emit('requestTrial');"
      :title="translate('Marketplace_RequestTrial')"
   >{{ translate('Marketplace_RequestTrial') }}</a>
 

@@ -16,12 +16,12 @@
       </div>
     </li>
     <template v-if="isJsTrackerInstallCheckAvailable">
-      <li><component :is="testComponent" :site="site"></component></li>
+      <li><component :is="asComponent(testComponent)" :site="site"></component></li>
     </template>
   </ol>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent , Component } from 'vue';
 import {
   SiteRef,
   CopyToClipboard,
@@ -66,6 +66,9 @@ export default defineComponent({
     }
   },
   methods: {
+    asComponent(component: unknown): Component {
+      return component as Component;
+    },
     updateTrackingCode(code:string) {
       this.trackingCode = code;
 

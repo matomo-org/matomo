@@ -932,7 +932,7 @@ var __async = (__this, __arguments, generator) => {
                         onClick: vue.withModifiers(($event) => {
                           _ctx.siteAccessToChange = null;
                           _ctx.accessChangeEvent = null;
-                          _ctx.roleToChangeTo = access.key;
+                          _ctx.roleToChangeTo = String(access.key);
                           _ctx.showChangeAccessConfirm();
                         }, ["prevent"])
                       }, vue.toDisplayString(access.value), 9, _hoisted_13$4)
@@ -994,7 +994,7 @@ var __async = (__this, __arguments, generator) => {
               }, null, 8, _hoisted_20$3)
             ]),
             vue.createElementVNode("a", {
-              class: vue.normalizeClass(["next", { disabled: _ctx.offset + _ctx.limit >= _ctx.totalEntries }])
+              class: vue.normalizeClass(["next", { disabled: _ctx.offset + _ctx.limit >= (_ctx.totalEntries || 0) }])
             }, [
               vue.createElementVNode("span", {
                 class: "pointer",
@@ -1076,7 +1076,7 @@ var __async = (__this, __arguments, generator) => {
           ])
         ]),
         vue.createElementVNode("tbody", null, [
-          _ctx.isAllCheckboxSelected && _ctx.siteAccess.length < _ctx.totalEntries ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_32$2, [
+          _ctx.isAllCheckboxSelected && _ctx.siteAccess.length < (_ctx.totalEntries || 0) ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_32$2, [
             vue.createElementVNode("td", _hoisted_33$2, [
               !_ctx.areAllResultsSelected ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_34$2, [
                 vue.createElementVNode("span", {
@@ -1255,7 +1255,7 @@ var __async = (__this, __arguments, generator) => {
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.translate(
                   "UsersManager_AdminUserRoleChangeWarning",
-                  _ctx.getRoleDisplay(_ctx.roleToChangeTo)
+                  String(_ctx.getRoleDisplay(_ctx.roleToChangeTo))
                 ))
               }, null, 8, _hoisted_61$1)
             ])
@@ -1279,7 +1279,7 @@ var __async = (__this, __arguments, generator) => {
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.translate(
                   "UsersManager_AdminUserRoleChangeWarning",
-                  _ctx.getRoleDisplay(_ctx.allWebsitesAccssLevelSet)
+                  String(_ctx.getRoleDisplay(_ctx.allWebsitesAccssLevelSet))
                 ))
               }, null, 8, _hoisted_64$1)
             ])
@@ -1697,7 +1697,7 @@ var __async = (__this, __arguments, generator) => {
                       key: 0,
                       value: _ctx.translate("UsersManager_SaveBasicInfo"),
                       saving: _ctx.isSavingUserInfo,
-                      onConfirm: _cache[8] || (_cache[8] = ($event) => this.isShowingPasswordConfirm = true)
+                      onConfirm: _cache[8] || (_cache[8] = ($event) => _ctx.isShowingPasswordConfirm = true)
                     }, null, 8, ["value", "saving"])) : vue.createCommentVNode("", true)
                   ])
                 ]),
@@ -2697,9 +2697,10 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
               vue.createVNode(_component_Field, {
                 "model-value": _ctx.accessLevelFilter,
                 "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => {
+                  var _a2;
                   _ctx.accessLevelFilter = $event;
                   _ctx.changeSearch({
-                    filter_access: _ctx.accessLevelFilter,
+                    filter_access: (_a2 = _ctx.accessLevelFilter) != null ? _a2 : void 0,
                     offset: 0
                   });
                 }),
@@ -2716,9 +2717,10 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
               vue.createVNode(_component_Field, {
                 "model-value": _ctx.statusLevelFilter,
                 "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => {
+                  var _a2;
                   _ctx.statusLevelFilter = $event;
                   _ctx.changeSearch({
-                    filter_status: _ctx.statusLevelFilter,
+                    filter_status: (_a2 = _ctx.statusLevelFilter) != null ? _a2 : void 0,
                     offset: 0
                   });
                 }),
@@ -2746,12 +2748,12 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
                 "General_Pagination",
                 _ctx.paginationLowerBound,
                 _ctx.paginationUpperBound,
-                _ctx.totalEntries
+                _ctx.totalEntries || 0
               )), 3),
               vue.createVNode(_component_ActivityIndicator, { loading: _ctx.isLoadingUsers }, null, 8, ["loading"])
             ]),
             vue.createElementVNode("a", {
-              class: vue.normalizeClass(["btn next", { disabled: _ctx.searchParams.offset + _ctx.searchParams.limit >= _ctx.totalEntries }]),
+              class: vue.normalizeClass(["btn next", { disabled: _ctx.searchParams.offset + _ctx.searchParams.limit >= (_ctx.totalEntries || 0) }]),
               onClick: _cache[6] || (_cache[6] = vue.withModifiers(($event) => _ctx.gotoNextPage(), ["prevent"]))
             }, [
               vue.createElementVNode("span", _hoisted_17$1, vue.toDisplayString(_ctx.translate("General_Next")) + " »", 1)
@@ -2787,7 +2789,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
                       vue.withDirectives(vue.createElementVNode("input", {
                         type: "checkbox",
                         id: "paged_users_select_all",
-                        checked: "checked",
+                        checked: "",
                         "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => _ctx.isAllCheckboxSelected = $event),
                         onChange: _cache[8] || (_cache[8] = ($event) => _ctx.onAllCheckboxChange())
                       }, null, 544), [
@@ -2834,7 +2836,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
               ])
             ]),
             vue.createElementVNode("tbody", null, [
-              _ctx.isAllCheckboxSelected && _ctx.users.length && _ctx.users.length < _ctx.totalEntries ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_29, [
+              _ctx.isAllCheckboxSelected && _ctx.users.length && _ctx.users.length < (_ctx.totalEntries || 0) ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_29, [
                 vue.createElementVNode("td", _hoisted_30, [
                   !_ctx.areAllResultsSelected ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_31, [
                     vue.createElementVNode("span", {
@@ -2875,6 +2877,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
                 ])
               ])) : vue.createCommentVNode("", true),
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.users, (user, index) => {
+                var _a2;
                 return vue.openBlock(), vue.createElementBlock("tr", {
                   id: `row${index}`,
                   key: user.login
@@ -2922,7 +2925,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
                     vue.createElementVNode("span", {
                       class: vue.normalizeClass(Number.isInteger(user.invite_status) ? "pending" : user.invite_status),
                       title: user.invite_status === "expired" ? _ctx.translate("UsersManager_ExpiredInviteAutomaticallyRemoved", "3") : ""
-                    }, vue.toDisplayString(_ctx.getInviteStatus(user.invite_status)), 11, _hoisted_49)
+                    }, vue.toDisplayString(_ctx.getInviteStatus((_a2 = user.invite_status) != null ? _a2 : "")), 11, _hoisted_49)
                   ]),
                   vue.createElementVNode("td", _hoisted_50, [
                     (_ctx.currentUserRole === "superuser" || _ctx.currentUserRole === "admin" && user.invited_by === _ctx.currentUserLogin) && user.invite_status !== "active" ? (vue.openBlock(), vue.createElementBlock("button", {
@@ -3022,7 +3025,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
                 innerHTML: _ctx.$sanitize(_ctx.translate(
                   "UsersManager_AnonymousUserRoleChangeWarning",
                   "anonymous",
-                  _ctx.getRoleDisplay(_ctx.roleToChangeTo)
+                  String(_ctx.getRoleDisplay(_ctx.roleToChangeTo))
                 ))
               }, null, 8, _hoisted_60)
             ])
@@ -3033,7 +3036,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
               vue.createElementVNode("span", {
                 innerHTML: _ctx.$sanitize(_ctx.translate(
                   "UsersManager_AdminUserRoleChangeWarning",
-                  _ctx.getRoleDisplay(_ctx.roleToChangeTo)
+                  String(_ctx.getRoleDisplay(_ctx.roleToChangeTo))
                 ))
               }, null, 8, _hoisted_62)
             ])
@@ -3387,6 +3390,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
   const _hoisted_10$2 = { class: "modal-content" };
   const _hoisted_11$2 = { class: "modal-footer" };
   function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a2;
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _component_PagedUsersList = vue.resolveComponent("PagedUsersList");
     const _component_UserEditForm = vue.resolveComponent("UserEditForm");
@@ -3444,7 +3448,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
             "filter-status-levels": _ctx.filterStatusLevels,
             "search-params": _ctx.searchParams,
             users: _ctx.users,
-            "total-entries": _ctx.totalEntries
+            "total-entries": (_a2 = _ctx.totalEntries) != null ? _a2 : void 0
           }, null, 8, ["initial-site-id", "initial-site-name", "is-loading-users", "current-user-role", "access-levels", "filter-access-levels", "filter-status-levels", "search-params", "users", "total-entries"])
         ])), [
           [_directive_content_intro]
@@ -3471,7 +3475,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
       _ctx.isEditing ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_8$2, [
         vue.createVNode(_component_UserEditForm, {
           onDone: _cache[11] || (_cache[11] = ($event) => _ctx.onDoneEditing($event.isUserModified)),
-          user: _ctx.userBeingEdited,
+          user: _ctx.userBeingEdited || void 0,
           "current-user-role": _ctx.currentUserRole,
           "access-levels": _ctx.accessLevels,
           "filter-access-levels": _ctx.filterAccessLevels,
@@ -4515,7 +4519,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
             ])) : vue.createCommentVNode("", true),
             !_ctx.isValidHost ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6, [
               vue.createElementVNode("div", _hoisted_7, [
-                vue.createTextVNode(vue.toDisplayString(_ctx.translate("UsersManager_InjectedHostCannotChangePwd", _ctx.invalidHost)) + " ", 1),
+                vue.createTextVNode(vue.toDisplayString(_ctx.translate("UsersManager_InjectedHostCannotChangePwd", _ctx.invalidHost || "")) + " ", 1),
                 !_ctx.isSuperUser ? (vue.openBlock(), vue.createElementBlock("span", {
                   key: 0,
                   innerHTML: _ctx.$sanitize(_ctx.emailYourAdminText)
@@ -4567,7 +4571,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
                     ]),
                     vue.createElementVNode("td", null, vue.toDisplayString(theToken.description), 1),
                     vue.createElementVNode("td", null, vue.toDisplayString(theToken.last_used ? theToken.last_used : _ctx.translate("General_Never")), 1),
-                    vue.createElementVNode("td", null, vue.toDisplayString(parseInt(theToken.secure_only, 10) === 1 ? _ctx.translate("General_Yes") : _ctx.translate("General_No")), 1),
+                    vue.createElementVNode("td", null, vue.toDisplayString(parseInt(`${theToken.secure_only}`, 10) === 1 ? _ctx.translate("General_Yes") : _ctx.translate("General_No")), 1),
                     vue.createElementVNode("td", null, vue.toDisplayString(theToken.date_expired ? theToken.date_expired : _ctx.translate("General_Never")), 1),
                     vue.createElementVNode("td", null, [
                       vue.createElementVNode("form", {

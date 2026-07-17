@@ -63,8 +63,8 @@
               style="font-size: 9pt;"
               v-if="segmentEditorActivated && report.idsegment"
             >
-              <span v-if="savedSegmentsById[report.idsegment]">
-                {{ savedSegmentsById[report.idsegment] }}
+              <span v-if="(savedSegmentsById || {})[report.idsegment]">
+                {{ (savedSegmentsById || {})[report.idsegment] }}
               </span>
               <span v-else>
                 {{ translate('ScheduledReports_SegmentDeleted') }}
@@ -86,7 +86,7 @@
               <br />
             </span>
             <span v-if="report.recipients.length !== 0
-              && !sendingReports.includes(report.idreport)"
+              && !(sendingReports || []).includes(report.idreport)"
               class="clickable" @click.prevent="$emit('sendnow', report.idreport)">
               <img
                 border="0"
@@ -102,7 +102,7 @@
               </a>
             </span>
 
-            <div v-if="sendingReports.includes(report.idreport)" class="loadingPiwik">
+            <div v-if="(sendingReports || []).includes(report.idreport)" class="loadingPiwik">
               <MatomoLoader />
               {{ translate('ScheduledReports_SendingReport') }}
             </div>
@@ -148,7 +148,7 @@
                 rel="noreferrer noopener"
                 name="linkDownloadReport"
                 class="link_but move-left"
-                :id="report.idreport"
+                :id="String(report.idreport)"
               >
               {{ translate('ScheduledReports_DownloadPreview') }}
               {{ translate('ScheduledReports_CurrentPeriod') }}

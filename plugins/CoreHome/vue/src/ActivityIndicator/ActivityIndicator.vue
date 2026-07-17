@@ -15,7 +15,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { translate } from '../translate';
-import MatomoLoader from '../MatomoLoader/MatomoLoader';
+import MatomoLoader from '../MatomoLoader/MatomoLoader.vue';
 
 export default defineComponent({
   components: { MatomoLoader },

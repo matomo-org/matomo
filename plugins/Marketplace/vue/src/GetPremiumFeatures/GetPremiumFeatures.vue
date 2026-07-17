@@ -51,14 +51,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+import { PluginDetails } from '../types';
 import { MatomoUrl, translate, externalRawLink } from 'CoreHome';
 import { PluginName } from 'CorePluginsAdmin';
 
 export default defineComponent({
   props: {
     plugins: {
-      type: Array,
+      type: Array as PropType<PluginDetails[]>,
       required: true,
     },
   },
@@ -75,9 +76,9 @@ export default defineComponent({
         '</a>',
       );
     },
-    pluginRows() {
+    pluginRows(): PluginDetails[][] {
       // divide plugins array into rows of 3
-      const result: unknown[][] = [];
+      const result: PluginDetails[][] = [];
       this.plugins.forEach((plugin, index) => {
         const row = Math.floor(index / 3);
         result[row] = result[row] || [];

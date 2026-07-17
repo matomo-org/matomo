@@ -12,7 +12,7 @@ import ReportExportPopover from './ReportExportPopover.vue';
 import Matomo from '../Matomo/Matomo';
 import createVueApp from '../createVueApp';
 
-interface ReportExportArgs {
+export interface ReportExportArgs {
   reportTitle: string;
   requestParams: QueryParameters;
   reportFormats: Record<string, unknown>;

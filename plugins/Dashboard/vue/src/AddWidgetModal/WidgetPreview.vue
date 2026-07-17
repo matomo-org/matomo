@@ -44,7 +44,7 @@ import {
   WidgetType,
 } from 'CoreHome';
 
-interface WidgetLoadedPayload {
+export interface WidgetLoadedPayload {
   parameters?: { uniqueId?: string } & Record<string, unknown>;
   element?: JQuery;
 }
@@ -114,10 +114,10 @@ export default defineComponent({
       // Without this, nested widgets render as non-widgetized and may show titles again.
       const containerId = widget.parameters?.containerId as string | undefined;
 
-      return widget.widgets!.map((child) => ({
+      return widget.widgets!.map((child: Record<string, unknown>) => ({
         ...child,
         parameters: {
-          ...child.parameters,
+          ...(child.parameters as Record<string, unknown>),
           widget: '1',
           ...(containerId ? { containerId } : {}),
         },

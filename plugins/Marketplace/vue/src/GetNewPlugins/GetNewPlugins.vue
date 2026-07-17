@@ -37,14 +37,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+import { PluginDetails } from '../types';
 import { MatomoUrl } from 'CoreHome';
 import { PluginName } from 'CorePluginsAdmin';
 
 export default defineComponent({
   props: {
     plugins: {
-      type: Array,
+      type: Array as PropType<PluginDetails[]>,
       required: true,
     },
   },

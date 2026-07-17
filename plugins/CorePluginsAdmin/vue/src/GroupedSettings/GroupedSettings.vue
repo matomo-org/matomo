@@ -13,14 +13,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import GroupedSetting from './GroupedSetting.vue';
+import Setting from '../PluginSettings/Setting';
 
 export default defineComponent({
   props: {
     groupName: String,
     settings: {
-      type: Array,
+      type: Array as PropType<Setting[]>,
       required: true,
     },
     allSettingValues: {

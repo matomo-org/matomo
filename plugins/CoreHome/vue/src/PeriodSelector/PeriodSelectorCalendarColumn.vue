@@ -11,8 +11,8 @@
       <DateRangePicker
         v-show="calendarViewport === 'range'"
         class="period-range"
-        :start-date="displayRangeStartDate"
-        :end-date="displayRangeEndDate"
+        :start-date="displayRangeStartDate ?? undefined"
+        :end-date="displayRangeEndDate ?? undefined"
         @range-change="$emit('range-change', $event)"
         @submit="$emit('apply-click')"
       />
@@ -24,7 +24,7 @@
       <PeriodDatePicker
         id="datepicker"
         :period="singleCalendarPeriod"
-        :date="singleCalendarSelectedDate"
+        :date="singleCalendarSelectedDate ?? undefined"
         @select="$emit('single-date-select', $event.date)"
       />
     </div>

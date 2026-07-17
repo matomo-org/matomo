@@ -16,7 +16,7 @@
       @click="showItems = !showItems"
       :title="tooltip"
     >
-      <span class="title-label" v-html="$sanitize(this.actualMenuTitle)" />
+      <span class="title-label" v-html="$sanitize(actualMenuTitle)" />
       <span class="icon-chevron-down reporting-menu-sub-icon" />
     </span>
     <div
@@ -31,7 +31,7 @@
           type="text"
           v-model="searchTerm"
           v-focus-if="{ focused: showItems }"
-          @keydown="onSearchTermKeydown($event)"
+          @keydown="onSearchTermKeydown()"
           :placeholder="translate('General_Search')"
         />
         <div

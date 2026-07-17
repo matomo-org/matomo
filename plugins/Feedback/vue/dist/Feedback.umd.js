@@ -172,7 +172,7 @@
     const _component_MatomoDialog = vue.resolveComponent("MatomoDialog");
     const _component_ReviewLinks = vue.resolveComponent("ReviewLinks");
     return vue.openBlock(), vue.createElementBlock("div", {
-      title: _ctx.translate("Feedback_RateFeatureTitle", _ctx.htmlEntities(_ctx.title)),
+      title: _ctx.translate("Feedback_RateFeatureTitle", _ctx.htmlEntities(_ctx.title || "")),
       class: "ratefeature"
     }, [
       vue.createElementVNode("div", {

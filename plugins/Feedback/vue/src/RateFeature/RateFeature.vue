@@ -7,7 +7,7 @@
 
 <template>
   <div
-    :title="translate('Feedback_RateFeatureTitle', htmlEntities(title))"
+    :title="translate('Feedback_RateFeatureTitle', htmlEntities(title || ''))"
     class="ratefeature"
   >
     <div

@@ -44,14 +44,14 @@
         <tr v-for="(subscription, index) in (subscriptions || [])" :key="index">
           <td class="subscriptionName">
             <a
-              v-if="subscription.plugin.htmlUrl"
-              :href="subscription.plugin.htmlUrl"
+              v-if="subscription.plugin?.htmlUrl"
+              :href="subscription.plugin?.htmlUrl"
               rel="noreferrer noopener"
               target="_blank"
             >
-              {{ subscription.plugin.displayName }}
+              {{ subscription.plugin?.displayName }}
             </a>
-            <span v-else>{{ subscription.plugin.displayName }}</span>
+            <span v-else>{{ subscription.plugin?.displayName }}</span>
           </td>
           <td class="subscriptionType">{{ subscription.productType }}</td>
           <td
@@ -103,7 +103,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import {
   ContentBlock,
   ContentTable,
@@ -111,9 +111,16 @@ import {
   translate,
 } from 'CoreHome';
 
-interface Subscription {
+export interface Subscription {
   isValid: boolean;
   isExpiredSoon: boolean;
+  isExceeded?: boolean;
+  productType?: string;
+  status?: string;
+  start?: string;
+  end?: string;
+  nextPayment?: string;
+  plugin?: { displayName?: string; htmlUrl?: string };
 }
 
 export default defineComponent({
@@ -128,7 +135,7 @@ export default defineComponent({
     },
     hasLicenseKey: Boolean,
     subscriptions: {
-      type: Array,
+      type: Array as PropType<Subscription[]>,
       required: true,
     },
   },

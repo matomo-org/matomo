@@ -8,7 +8,7 @@
 import { DirectiveBinding } from 'vue';
 import { translate } from '../translate';
 
-interface CopyToClipboardArgs {
+export interface CopyToClipboardArgs {
   // state
   transitionOpen?: boolean;
 

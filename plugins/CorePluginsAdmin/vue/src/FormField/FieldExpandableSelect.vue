@@ -11,7 +11,7 @@
       <svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
         <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
       </svg>
-      <input type="text" class="select-dropdown" readonly="readonly" :value="modelValueText"/>
+      <input type="text" class="select-dropdown" readonly :value="modelValueText"/>
     </div>
 
     <div v-show="showSelect" class="expandableList z-depth-2">
@@ -68,28 +68,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { Matomo, FocusAnywhereButHere, FocusIf } from 'CoreHome';
 import AbortableModifiers from './AbortableModifiers';
 
-interface SelectValueInfo {
+export interface SelectValueInfo {
   key: unknown;
 }
 
-interface AvailableOptions {
+export interface AvailableOptions {
   group: string;
   key: string|number;
   value: unknown;
   tooltip?: string;
 }
 
-interface Option {
+export interface Option {
   key: string|number;
   value: unknown;
   tooltip?: string;
 }
 
-interface OptionGroup {
+export interface OptionGroup {
   group: string;
   values: Option[];
 }
@@ -134,7 +134,7 @@ export default defineComponent({
   props: {
     modelValue: [Number, String],
     modelModifiers: Object,
-    availableOptions: Array,
+    availableOptions: Array as PropType<OptionGroup[]>,
     title: String,
     searchOnGroup: {
       type: Boolean,
@@ -199,7 +199,7 @@ export default defineComponent({
     onBlur() {
       this.showSelect = false;
     },
-    onCategoryClicked(options: AvailableOptions) {
+    onCategoryClicked(options: OptionGroup) {
       if (this.showCategory === options.group) {
         this.showCategory = '';
       } else {

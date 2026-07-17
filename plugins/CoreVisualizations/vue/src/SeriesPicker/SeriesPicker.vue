@@ -65,7 +65,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+
+export interface ColumnConfig {
+  column: string;
+  translation?: string;
+}
+
+export interface RowConfig {
+  matcher: string;
+  label?: string;
+}
 import { debounce } from 'CoreHome';
 
 interface SelectableColumnInfo {
@@ -122,11 +132,11 @@ export default defineComponent({
   props: {
     multiselect: Boolean,
     selectableColumns: {
-      type: Array,
+      type: Array as PropType<ColumnConfig[]>,
       default: () => [],
     },
     selectableRows: {
-      type: Array,
+      type: Array as PropType<RowConfig[]>,
       default: () => [],
     },
     selectedColumns: {

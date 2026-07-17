@@ -14,6 +14,7 @@ export interface Subcategory extends Orderable {
   icon?: string;
   tooltip?: string;
   help?: string;
+  subcategories?: Subcategory[];
 
   /**
    * @deprecated exists for BC, should be removed in Matomo 5

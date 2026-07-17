@@ -126,7 +126,7 @@
       </div>
     </div>
     <SaveButton
-      @confirm="this.showPasswordConfirmModal = true"
+      @confirm="showPasswordConfirmModal = true"
       :saving="isLoading"
     />
     <PasswordConfirmation
@@ -156,7 +156,7 @@ import ReportDeletionSettingsStore, {
   ReportDeletionSettings,
 } from '../ReportDeletionSettings/ReportDeletionSettings.store';
 
-interface DeleteOldReportsState {
+export interface DeleteOldReportsState {
   isLoading: boolean;
   enabled: boolean;
   deleteOlderThan: string;

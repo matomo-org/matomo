@@ -16,6 +16,7 @@ export interface Category extends Orderable {
   tooltip?: string;
   widget?: string;
   component?: typeof defineAsyncComponent;
+  subcategories?: Subcategory[];
 
   /**
    * Reporting menu groups (top-level sections) this category belongs to. An empty/default group

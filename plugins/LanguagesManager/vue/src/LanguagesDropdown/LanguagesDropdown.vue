@@ -44,8 +44,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick } from 'vue';
+import { defineComponent, nextTick, PropType } from 'vue';
 import { MenuItemsDropdown } from 'CoreHome';
+
+interface Language {
+  code: string;
+  name: string;
+  english: string;
+  english_name: string;
+}
 
 interface LanguagesDropdownState {
   selectedLanguage: string;
@@ -59,7 +66,7 @@ export default defineComponent({
       required: true,
     },
     languages: {
-      type: Array,
+      type: Array as PropType<Language[]>,
       required: true,
     },
     currentLanguageCode: {

@@ -77,7 +77,7 @@ interface Option {
   value: string;
 }
 
-interface Translation {
+export interface Translation {
   label: string;
   value: string;
 }
@@ -87,7 +87,7 @@ interface Language {
   name: string;
 }
 
-interface TranslationSearchState {
+export interface TranslationSearchState {
   compareTranslations: Record<string, string>|null;
   existingTranslations: Translation[];
   languages: Option[];

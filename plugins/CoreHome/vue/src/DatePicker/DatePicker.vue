@@ -12,6 +12,7 @@
 <script lang="ts">
 import {
   defineComponent,
+  PropType,
   ref,
   watch,
   onMounted,
@@ -25,13 +26,13 @@ const { $ } = window;
 
 export default defineComponent({
   props: {
-    selectedDateStart: Date,
-    selectedDateEnd: Date,
-    persistentHighlightedDateStart: Date,
-    persistentHighlightedDateEnd: Date,
-    highlightedDateStart: Date,
-    highlightedDateEnd: Date,
-    viewDate: [String, Date],
+    selectedDateStart: Date as PropType<Date | null>,
+    selectedDateEnd: Date as PropType<Date | null>,
+    persistentHighlightedDateStart: Date as PropType<Date | null>,
+    persistentHighlightedDateEnd: Date as PropType<Date | null>,
+    highlightedDateStart: Date as PropType<Date | null>,
+    highlightedDateEnd: Date as PropType<Date | null>,
+    viewDate: [String, Date] as PropType<string | Date | null>,
     stepMonths: Number,
     disableMonthDropdown: Boolean,
     disabled: Boolean,
@@ -295,12 +296,12 @@ export default defineComponent({
       let redraw = false;
 
       [
-        (x: typeof props): Date|undefined => x.selectedDateStart,
-        (x: typeof props): Date|undefined => x.selectedDateEnd,
-        (x: typeof props): Date|undefined => x.persistentHighlightedDateStart,
-        (x: typeof props): Date|undefined => x.persistentHighlightedDateEnd,
-        (x: typeof props): Date|undefined => x.highlightedDateStart,
-        (x: typeof props): Date|undefined => x.highlightedDateEnd,
+        (x: typeof props): Date|null|undefined => x.selectedDateStart,
+        (x: typeof props): Date|null|undefined => x.selectedDateEnd,
+        (x: typeof props): Date|null|undefined => x.persistentHighlightedDateStart,
+        (x: typeof props): Date|null|undefined => x.persistentHighlightedDateEnd,
+        (x: typeof props): Date|null|undefined => x.highlightedDateStart,
+        (x: typeof props): Date|null|undefined => x.highlightedDateEnd,
       ].forEach((selector) => {
         if (redraw) {
           return;

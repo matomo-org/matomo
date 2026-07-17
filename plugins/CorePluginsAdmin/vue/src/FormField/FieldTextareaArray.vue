@@ -19,7 +19,7 @@
       v-bind="uiControlAttributes"
       :value="concattedValue"
       @keydown="onKeydown($event)"
-      @change="onKeydown($event)"
+      @change="onKeydown($event as KeyboardEvent)"
       class="materialize-textarea"
     ></textarea>
   </div>

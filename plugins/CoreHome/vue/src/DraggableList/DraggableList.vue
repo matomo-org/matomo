@@ -52,7 +52,7 @@ interface OrderedItem {
   sourceIndex: number;
 }
 
-interface Props {
+export interface Props {
   items: unknown[];
   itemKey: ItemKeyGetter;
   disabled?: boolean;

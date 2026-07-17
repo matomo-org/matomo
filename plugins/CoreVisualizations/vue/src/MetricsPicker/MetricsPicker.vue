@@ -33,9 +33,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { ExpandOnClick } from 'CoreHome';
-import MetricsPickerOptions from './MetricsPickerOptions.vue';
+import MetricsPickerOptions, { ColumnConfig, RowConfig } from './MetricsPickerOptions.vue';
 
 interface SelectedOptions {
   columns: string[];
@@ -46,11 +46,11 @@ export default defineComponent({
   props: {
     multiselect: Boolean,
     selectableColumns: {
-      type: Array,
+      type: Array as PropType<ColumnConfig[]>,
       default: () => [],
     },
     selectableRows: {
-      type: Array,
+      type: Array as PropType<RowConfig[]>,
       default: () => [],
     },
     selectedColumns: {

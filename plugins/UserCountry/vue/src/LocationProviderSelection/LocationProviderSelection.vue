@@ -26,9 +26,9 @@
               :id="`provider_input_${id}`"
               :disabled="provider.status !== 1"
               :checked="selectedProvider === id"
-              @change="selectedProvider = id"
+              @change="selectedProvider = String(id)"
             />
-            <span>{{ translateOrDefault(provider.title) }}</span>
+            <span>{{ translateOrDefault(provider.title || '') }}</span>
           </label>
         </p>
         <p class="loc-provider-status">
@@ -70,7 +70,7 @@
             </div>
             <div class="text-right">
               <a
-                @click.prevent="refreshProviderInfo(id)"
+                @click.prevent="refreshProviderInfo(String(id))"
               >{{ translate('General_Refresh') }}</a>
             </div>
           </div>
@@ -116,7 +116,7 @@ import {
 } from 'CoreHome';
 import { SaveButton } from 'CorePluginsAdmin';
 
-interface ProviderInfo {
+export interface ProviderInfo {
   id: string;
   isVisible: boolean;
   description: string;
@@ -124,9 +124,11 @@ interface ProviderInfo {
   install_docs?: string;
   extra_message?: string;
   location?: string;
+  title?: string;
+  statusMessage?: string;
 }
 
-interface LocationProviderSelectionState {
+export interface LocationProviderSelectionState {
   isLoading: boolean;
   updateLoading: Record<string, boolean>;
   selectedProvider: string;

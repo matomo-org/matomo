@@ -134,7 +134,7 @@ import debounce from '../debounce';
 import SiteRef from './SiteRef';
 import Site from './Site';
 
-interface SiteSelectorState {
+export interface SiteSelectorState {
   searchTerm: string;
   showSitesList: boolean;
   activeSiteId: string;

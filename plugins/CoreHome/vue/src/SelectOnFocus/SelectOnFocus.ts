@@ -9,7 +9,7 @@ import { DirectiveBinding } from 'vue';
 
 const { $ } = window;
 
-interface SelectOnFocusArgs {
+export interface SelectOnFocusArgs {
   // state
   focusedElement?: HTMLElement;
   elementSupportsSelect?: boolean;

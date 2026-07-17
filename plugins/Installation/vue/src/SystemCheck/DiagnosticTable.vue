@@ -46,7 +46,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+
+export interface DiagnosticItem {
+  comment?: string;
+  status?: string;
+}
+
+export interface DiagnosticResult {
+  label?: string;
+  longErrorMessage?: string;
+  items?: DiagnosticItem[];
+}
 import { Passthrough } from 'CoreHome';
 
 export default defineComponent({
@@ -64,7 +75,7 @@ export default defineComponent({
       required: true,
     },
     results: {
-      type: Array,
+      type: Array as PropType<DiagnosticResult[]>,
       required: true,
     },
   },

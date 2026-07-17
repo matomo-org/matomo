@@ -98,7 +98,7 @@
           </Field>
         </div>
 
-        <div v-if="reportLimitAll === 'no' && maxFilterLimit <= 0" name="filter_limit">
+        <div v-if="reportLimitAll === 'no' && (maxFilterLimit ?? 0) <= 0" name="filter_limit">
           <Field
             :uicontrol="'number'"
             name="filter_limit"
@@ -109,7 +109,7 @@
           </Field>
         </div>
 
-        <div v-if="reportLimitAll === 'no' && maxFilterLimit > 0" name="filter_limit">
+        <div v-if="reportLimitAll === 'no' && (maxFilterLimit ?? 0) > 0" name="filter_limit">
           <Field
             :uicontrol="'number'"
             :name="'filter_limit'"

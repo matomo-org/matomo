@@ -73,13 +73,29 @@ ${ translate('PrivacyManager_Output', entry.output) }`"
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+
+export interface AnonymizationEntry {
+  requester?: string;
+  sites: string[];
+  date_start?: string;
+  date_end?: string;
+  anonymize_ip?: string | boolean;
+  anonymize_location?: string | boolean;
+  anonymize_userid?: string | boolean;
+  unset_visit_columns: string[];
+  unset_link_visit_action_columns: string[];
+  scheduled_date: string;
+  job_start_date: string;
+  job_finish_date: string;
+  output: string;
+}
 import { ContentTable } from 'CoreHome';
 
 export default defineComponent({
   props: {
     anonymizations: {
-      type: Array,
+      type: Array as PropType<AnonymizationEntry[]>,
       required: true,
     },
   },

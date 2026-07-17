@@ -57,7 +57,7 @@
         v-html="$sanitize(updateAvailableText)"
       ></span>
 
-      {{ translate('General_YouAreCurrentlyUsing', piwikVersion) }}
+      {{ translate('General_YouAreCurrentlyUsing', piwikVersion || '') }}
     </div>
   </div>
 </template>

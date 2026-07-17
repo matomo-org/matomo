@@ -9,6 +9,7 @@ interface Setting {
   name: string;
   value: any; // eslint-disable-line
   introduction?: string;
+  condition?: string;
 }
 
 export default Setting;

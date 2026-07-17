@@ -114,7 +114,7 @@
       <div class="form-help col s12 m6" v-if="!verificationData.verified">
         <div>
             {{ translate('MobileMessaging_Settings_VerificationCodeJustSent') }}
-            <a @click="resendVerificationCode(phoneNumber, index)">
+            <a @click="resendVerificationCode(phoneNumber)">
               {{ translate('MobileMessaging_Settings_ResendVerification') }}
             </a>
         </div>
@@ -152,9 +152,9 @@ import {
 } from 'CoreHome';
 import { Field, SaveButton } from 'CorePluginsAdmin';
 
-interface ManageMobilePhoneNumbersState {
+export interface ManageMobilePhoneNumbersState {
   isUpdatingPhoneNumbers: boolean;
-  phoneNumbers: Record<string, unknown>;
+  phoneNumbers: Record<string, { verified: boolean }>;
   countryCallingCode: string;
   newPhoneNumber: string;
   validationCode: Record<string, string>;

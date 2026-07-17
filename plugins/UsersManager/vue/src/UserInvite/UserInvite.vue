@@ -12,7 +12,7 @@
   >
     <div
       class="row"
-      v-form=""
+      v-form
     >
       <div class="col s12 m6 invite-notes">
         <div class="form-help">
