@@ -11,7 +11,7 @@ import {
   unregisterResponsiveContentTable,
 } from './contentTableUtils';
 
-interface ContentTableValue {
+export interface ContentTableValue {
   off?: boolean; // if set to true, does not apply style
 }
 

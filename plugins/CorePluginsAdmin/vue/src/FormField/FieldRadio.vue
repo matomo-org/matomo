@@ -39,13 +39,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import AbortableModifiers from './AbortableModifiers';
+
+export interface RadioOption {
+  key: string | number;
+  value: unknown;
+  description?: string;
+  disabled?: boolean;
+}
 
 export default defineComponent({
   props: {
     title: String,
-    availableOptions: Array,
+    availableOptions: Array as PropType<RadioOption[]>,
     name: String,
     id: String,
     disabled: Boolean,

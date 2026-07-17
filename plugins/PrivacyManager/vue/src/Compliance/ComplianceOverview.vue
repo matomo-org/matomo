@@ -33,11 +33,11 @@
           </div>
           <SaveButton
             :class="'site-' + idSite + '-' + complianceType +  '-save'"
-            @confirm="this.showPasswordConfirmation = true"
+            @confirm="showPasswordConfirmation = true"
             :value="translate('General_Save')"
           />
           <PasswordConfirmation
-            :model-value="this.showPasswordConfirmation"
+            :model-value="showPasswordConfirmation"
             :passwordFieldId="'password' + complianceType"
             @confirmed="saveSettings"
             @aborted="resetSave"

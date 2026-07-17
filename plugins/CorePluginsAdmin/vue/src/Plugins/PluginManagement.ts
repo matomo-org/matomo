@@ -11,7 +11,7 @@ import ClickEvent = JQuery.ClickEvent;
 
 const { $ } = window;
 
-interface PluginManagementState {
+export interface PluginManagementState {
   uninstallConfirmMessage?: string;
 }
 

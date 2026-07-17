@@ -84,7 +84,7 @@
                     @click.prevent="
                       siteAccessToChange = null;
                       accessChangeEvent = null;
-                      roleToChangeTo = access.key;
+                      roleToChangeTo = String(access.key);
                       showChangeAccessConfirm();"
                   >{{ access.value }}</a>
                 </li>
@@ -105,8 +105,8 @@
           <input
             type="text"
             :value="siteNameFilter"
-            @keydown="onChangeSiteFilter($event);"
-            @change="onChangeSiteFilter($event);"
+            @keydown="onChangeSiteFilter($event as KeyboardEvent);"
+            @change="onChangeSiteFilter($event as KeyboardEvent);"
             :placeholder="translate('UsersManager_FilterByWebsite')"
           />
         </div>
@@ -141,7 +141,7 @@
           </span>
           <a
             class="next"
-            :class="{ disabled: offset + limit >= totalEntries }"
+            :class="{ disabled: offset + limit >= (totalEntries || 0) }"
           >
             <span
               class="pointer"
@@ -224,7 +224,7 @@
       <tbody>
         <tr
           class="select-all-row"
-          v-if="isAllCheckboxSelected && siteAccess.length < totalEntries"
+          v-if="isAllCheckboxSelected && siteAccess.length < (totalEntries || 0)"
         >
           <td colspan="4">
             <div v-if="!areAllResultsSelected">
@@ -387,7 +387,7 @@
         <em>{{ translate('General_Note') }}:
           <span v-html="$sanitize(translate(
               'UsersManager_AdminUserRoleChangeWarning',
-              getRoleDisplay(roleToChangeTo),
+              String(getRoleDisplay(roleToChangeTo)),
             ))">
             </span>
         </em>
@@ -403,7 +403,7 @@
         <em>{{ translate('General_Note') }}:
           <span v-html="$sanitize(translate(
               'UsersManager_AdminUserRoleChangeWarning',
-              getRoleDisplay(allWebsitesAccssLevelSet),
+              String(getRoleDisplay(allWebsitesAccssLevelSet)),
             ))">
             </span>
         </em>
@@ -429,20 +429,20 @@ import { Field, AbortableEvent, PasswordConfirmation } from 'CorePluginsAdmin';
 import CapabilitiesEdit from '../CapabilitiesEdit/CapabilitiesEdit.vue';
 import Capability from '../CapabilitiesStore/Capability';
 
-interface SiteAccess {
+export interface SiteAccess {
   idsite: string|number;
   site_name: string;
   role: string;
   capabilities: Capability[];
 }
 
-interface AccessLevel {
+export interface AccessLevel {
   key: string|number;
   value: unknown;
   type: string;
 }
 
-interface UserPermissionsEditState {
+export interface UserPermissionsEditState {
   siteAccess: SiteAccess[];
   offset: number;
   totalEntries: number|null;

@@ -33,7 +33,7 @@
               <input
                 type="checkbox"
                 id="select-plugin-all"
-                @change="selectAll($event.target.checked)"
+                @change="selectAll(($event.target as HTMLInputElement).checked)"
               />
               <span></span>
             </label>

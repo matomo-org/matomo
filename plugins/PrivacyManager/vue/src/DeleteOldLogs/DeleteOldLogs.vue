@@ -53,7 +53,7 @@
       </div>
     </div>
     <SaveButton
-      @confirm="this.showPasswordConfirmModal = true"
+      @confirm="showPasswordConfirmModal = true"
       :saving="isLoading"
     />
     <PasswordConfirmation
@@ -83,7 +83,7 @@ import ReportDeletionSettingsStore, {
   ReportDeletionSettings,
 } from '../ReportDeletionSettings/ReportDeletionSettings.store';
 
-interface DeleteOldLogsState {
+export interface DeleteOldLogsState {
   isLoading: boolean;
   enabled: boolean;
   deleteOlderThan: string;

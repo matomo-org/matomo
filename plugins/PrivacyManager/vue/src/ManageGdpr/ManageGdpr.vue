@@ -171,7 +171,7 @@
             <td class="userId">
               <a
                 :title="translate('PrivacyManager_AddUserIdToSearch')"
-                @click="addFilter('userId', dataSubject.userId)"
+                @click="addFilter('userId', dataSubject.userId || '')"
               >{{ dataSubject.userId }}</a>
             </td>
             <td>

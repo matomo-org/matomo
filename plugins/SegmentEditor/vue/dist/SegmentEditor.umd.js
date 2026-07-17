@@ -538,7 +538,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                   }, null, 8, _hoisted_4$1),
                   vue.createElementVNode("div", _hoisted_5$1, [
                     vue.withDirectives(vue.createVNode(_component_MatomoLoader, null, null, 512), [
-                      [vue.vShow, _ctx.conditionValuesLoading[orCondition.id]]
+                      [vue.vShow, _ctx.conditionValuesLoading[orCondition.id || ""]]
                     ])
                   ]),
                   vue.createElementVNode("div", _hoisted_6$1, [
@@ -582,7 +582,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                             value: orCondition.value,
                             onUpdate: ($event) => {
                               orCondition.value = $event;
-                              this.computeSegmentDefinition();
+                              _ctx.computeSegmentDefinition();
                             }
                           }, null, 8, ["value", "onUpdate"])
                         ])
@@ -1194,7 +1194,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       class: "segmentAction starSegment",
       title: _ctx.segment.starTitle,
       "data-state": _ctx.segment.starState,
-      onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.toggleStar(_ctx.entry), ["stop", "prevent"]))
+      onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.toggleStar(), ["stop", "prevent"]))
     }, [
       vue.createVNode(_component_StarIcon, {
         filled: !!_ctx.segment.isStarred
@@ -1229,7 +1229,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       class: "segmentAction editSegment",
       title: _ctx.segment.editTitle,
       "data-state": _ctx.segment.editState,
-      onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.dispatchOpenEvent(_ctx.segment), ["stop", "prevent"]))
+      onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.dispatchOpenEvent(), ["stop", "prevent"]))
     }, null, 8, _hoisted_1$3)) : vue.createCommentVNode("", true);
   }
   const EditButton = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
@@ -1317,7 +1317,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => _ctx.dispatchToggleEvent(), ["stop", "prevent"]))
     }, [
       vue.createVNode(_component_CompareIcon, {
-        state: _ctx.segment.compareState
+        state: _ctx.segment.compareState || ""
       }, null, 8, ["state"])
     ], 10, _hoisted_1$1)) : vue.createCommentVNode("", true);
   }

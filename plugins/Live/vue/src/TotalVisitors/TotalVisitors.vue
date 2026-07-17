@@ -25,18 +25,18 @@
       </thead>
       <tbody>
       <tr class="">
-        <td class="label column">{{ translate('Live_LastHours', 24) }}</td>
-        <td class="column" :title="countErrorToday">
+        <td class="label column">{{ translate('Live_LastHours', '24') }}</td>
+        <td class="column" :title="countErrorToday?.toString()">
           {{ visitorsCountToday || 0 }}
         </td>
-        <td class="column" :title="countErrorToday">
+        <td class="column" :title="countErrorToday?.toString()">
           {{ pisToday || 0 }}
         </td>
       </tr>
       <tr class="">
-        <td class="label column">{{ translate('Live_LastMinutes', 30) }}</td>
-        <td class="column" :title="countErrorHalfHour">{{ visitorsCountHalfHour || 0 }}</td>
-        <td class="column" :title="countErrorHalfHour">{{ pisHalfhour || 0 }}</td>
+        <td class="label column">{{ translate('Live_LastMinutes', '30') }}</td>
+        <td class="column" :title="countErrorHalfHour?.toString()">{{ visitorsCountHalfHour || 0 }}</td>
+        <td class="column" :title="countErrorHalfHour?.toString()">{{ pisHalfhour || 0 }}</td>
       </tr>
       </tbody>
     </table>

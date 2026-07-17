@@ -129,7 +129,7 @@ import {
 } from 'CorePluginsAdmin';
 import ReportDeletionSettingsStore from '../ReportDeletionSettings/ReportDeletionSettings.store';
 
-interface ScheduleReportDeletionState {
+export interface ScheduleReportDeletionState {
   isLoading: boolean;
   loadingDataPurge: boolean;
   dataWasPurged: boolean;

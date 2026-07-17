@@ -256,6 +256,10 @@ declare global {
   }
 
   interface Window {
+    // Report-parameter registries keyed by report type, populated by report plugins.
+    resetReportParametersFunctions: Record<string, (report: any) => void>;
+    updateReportParametersFunctions: Record<string, (report: any) => void>;
+    getReportParametersFunctions: Record<string, (report: any) => unknown>;
     globalAjaxQueue: GlobalAjaxQueue;
     piwik: PiwikGlobal;
     piwikHelper: PiwikHelperGlobal;
@@ -278,7 +282,9 @@ declare global {
     require(p: string): any;
     initTopControls(): void;
     initializeSparklines(): void;
-    vueSanitize(content: string): string;
+    // Accepts unknown to match the runtime implementation (DOMPurify tolerates non-string input),
+    // so callers don't have to coerce possibly-undefined bindings before sanitizing.
+    vueSanitize(content?: unknown): string;
     vueSanitizeUrl(url: string): string;
     showEmptyDashboardNotification(): void;
   }
@@ -286,8 +292,16 @@ declare global {
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
-    translate: (translationStringId: string, ...values: string[]|string[][]) => string;
-    translateOrDefault: (translationStringIdOrText: string, ...values: string[]|string[][]) => string;
+    // Value types mirror the translate() implementation, which accepts numbers/booleans (not just
+    // strings), so callers don't have to String()-wrap numeric interpolation arguments.
+    translate: (
+      translationStringId: string,
+      ...values: (string|string[]|number|number[]|boolean|boolean[])[]
+    ) => string;
+    translateOrDefault: (
+      translationStringIdOrText: string,
+      ...values: (string|string[]|number|number[]|boolean|boolean[])[]
+    ) => string;
     $sanitize: Window['vueSanitize'];
     $sanitizeUrl: Window['vueSanitizeUrl'];
     externalLink: (url: string, ...values:string[]) => string;

@@ -23,7 +23,7 @@
       v-if="editUrl"
       class="title"
       :href="editUrl"
-      :title="translate('CoreHome_ClickToEditX', htmlEntities(actualFeatureName))"
+      :title="translate('CoreHome_ClickToEditX', htmlEntities(actualFeatureName || ''))"
     >
       <slot />
     </a>
@@ -47,7 +47,7 @@
         :title="translate(reportGenerated ? 'General_HelpReport' : 'General_Help')"
       ><span class="icon-info" /></a>
       <div class="ratingIcons" v-if="showRateFeature">
-        <component :title="actualFeatureName" :is="rateFeature"></component>
+        <component :title="actualFeatureName" :is="asComponent(rateFeature)"></component>
       </div>
     </span>
     <div
@@ -70,13 +70,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, Component } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
 import { translateOrDefault } from '../translate';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
-interface EnrichedHeadlineData {
+export interface EnrichedHeadlineData {
   showIcons: boolean;
   showInlineHelp: boolean;
   actualFeatureName?: string | null;
@@ -191,6 +191,10 @@ export default defineComponent({
     }
   },
   methods: {
+    // Expose the plugin component to `<component :is>` as a plain Component.
+    asComponent(component: unknown): Component {
+      return component as Component;
+    },
     htmlEntities(v: string) {
       return Matomo.helper.htmlEntities(v);
     },

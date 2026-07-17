@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import {
   AjaxHelper,
@@ -27,8 +27,8 @@ import { PluginDetails } from '../types';
 export default defineComponent({
   props: {
     modelValue: {
-      type: Object,
-      default: () => ({}),
+      type: Object as PropType<PluginDetails | null>,
+      default: () => null,
     },
   },
   emits: ['update:modelValue', 'trialRequested'],

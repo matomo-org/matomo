@@ -862,7 +862,7 @@ export default defineComponent({
         ? translate('Goals_TimeInMinutes')
         : translate('Goals_Pattern');
     },
-    goalMatchAttributeTranslations() {
+    goalMatchAttributeTranslations(): Record<string, string> {
       return {
         manually: translate('Goals_ManuallyTriggeredUsingJavascriptFunction'),
         file: translate('Goals_Download'),

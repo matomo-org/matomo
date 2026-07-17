@@ -507,7 +507,7 @@ var __async = (__this, __arguments, generator) => {
                 vue.createElementVNode("td", _hoisted_26$1, [
                   vue.createElementVNode("a", {
                     title: _ctx.translate("PrivacyManager_AddUserIdToSearch"),
-                    onClick: ($event) => _ctx.addFilter("userId", dataSubject.userId)
+                    onClick: ($event) => _ctx.addFilter("userId", dataSubject.userId || "")
                   }, vue.toDisplayString(dataSubject.userId), 9, _hoisted_27$1)
                 ]),
                 vue.createElementVNode("td", null, [
@@ -1498,7 +1498,7 @@ var __async = (__this, __arguments, generator) => {
         CoreHome.AjaxHelper.post({
           method: "PrivacyManager.anonymizeSomeRawData"
         }, params).then(() => {
-          window.location.reload(true);
+          window.location.reload();
         });
       },
       onKeydownStartDate(event) {
@@ -2036,7 +2036,7 @@ var __async = (__this, __arguments, generator) => {
         [vue.vShow, _ctx.enabled]
       ]),
       vue.createVNode(_component_SaveButton, {
-        onConfirm: _cache[2] || (_cache[2] = ($event) => this.showPasswordConfirmModal = true),
+        onConfirm: _cache[2] || (_cache[2] = ($event) => _ctx.showPasswordConfirmModal = true),
         saving: _ctx.isLoading
       }, null, 8, ["saving"]),
       vue.createVNode(_component_PasswordConfirmation, {
@@ -2295,7 +2295,7 @@ var __async = (__this, __arguments, generator) => {
         [vue.vShow, _ctx.enabled]
       ]),
       vue.createVNode(_component_SaveButton, {
-        onConfirm: _cache[9] || (_cache[9] = ($event) => this.showPasswordConfirmModal = true),
+        onConfirm: _cache[9] || (_cache[9] = ($event) => _ctx.showPasswordConfirmModal = true),
         saving: _ctx.isLoading
       }, null, 8, ["saving"]),
       vue.createVNode(_component_PasswordConfirmation, {
@@ -3633,11 +3633,11 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
               _ctx.state.saveComplianceError ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$1, vue.toDisplayString(_ctx.translate("General_ErrorTryAgain")) + " " + vue.toDisplayString(_ctx.translate("General_ExceptionContactSupportGeneric", ["", ""])), 1)) : vue.createCommentVNode("", true),
               vue.createVNode(_component_SaveButton, {
                 class: vue.normalizeClass("site-" + _ctx.idSite + "-" + _ctx.complianceType + "-save"),
-                onConfirm: _cache[1] || (_cache[1] = ($event) => this.showPasswordConfirmation = true),
+                onConfirm: _cache[1] || (_cache[1] = ($event) => _ctx.showPasswordConfirmation = true),
                 value: _ctx.translate("General_Save")
               }, null, 8, ["class", "value"]),
               vue.createVNode(_component_PasswordConfirmation, {
-                "model-value": this.showPasswordConfirmation,
+                "model-value": _ctx.showPasswordConfirmation,
                 passwordFieldId: "password" + _ctx.complianceType,
                 onConfirmed: _ctx.saveSettings,
                 onAborted: _ctx.resetSave
@@ -3770,9 +3770,9 @@ ${_ctx.translate("PrivacyManager_Output", entry.output)}`
           }), 128)),
           vue.createVNode(_component_OptOutCustomizer, {
             "matomo-url": _ctx.matomoUrl,
-            language: _ctx.language,
+            "current-language-code": _ctx.language,
             "language-options": _ctx.languageOptions
-          }, null, 8, ["matomo-url", "language", "language-options"])
+          }, null, 8, ["matomo-url", "current-language-code", "language-options"])
         ]),
         _: 1
       }, 8, ["content-title"]),

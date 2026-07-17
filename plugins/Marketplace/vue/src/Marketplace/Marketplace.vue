@@ -66,9 +66,9 @@
               :install-nonce="installNonce"
               :update-nonce="updateNonce"
               :num-users="numUsers"
-              @trigger-update="this.updateMarketplace()"
-              @start-trial-start="this.$emit('startTrialStart')"
-              @start-trial-stop="this.$emit('startTrialStop')"
+              @trigger-update="updateMarketplace()"
+              @start-trial-start="$emit('startTrialStart')"
+              @start-trial-stop="$emit('startTrialStop')"
   />
 
   <ContentBlock v-if="!loading && pluginsToShow.length == 0">
@@ -92,16 +92,17 @@ import {
   MatomoUrl,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
+import { PluginDetails } from '../types';
 import PluginList from '../PluginList/PluginList.vue';
 
-interface MarketplaceState {
+export interface MarketplaceState {
   loading: boolean;
   fetchRequest: Promise<void>|null;
   fetchRequestAbortController: AbortController|null;
   pluginSort: string;
   pluginTypeFilter: string;
   searchQuery: string;
-  pluginsToShow: Array<Record<string, unknown>>;
+  pluginsToShow: PluginDetails[];
 }
 
 const lcfirst = (s: string) => `${s[0].toLowerCase()}${s.substring(1)}`;

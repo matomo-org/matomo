@@ -48,13 +48,13 @@
         :hasNext="hasNext"
         :offset-start="offsetStart"
         :offset-end="offsetEnd"
-        :total-number-of-sites="totalNumberOfSites"
+        :total-number-of-sites="totalNumberOfSites ?? undefined"
         :is-loading="isLoading"
         :search-term="searchTerm"
         :is-searching="!!activeSearchTerm"
         @update:search-term="searchTerm = $event"
         @add="addNewEntity()"
-        @search="searchSites($event)"
+        @search="searchSites()"
         @prev="previousPage()"
         @next="nextPage()"
       />
@@ -108,7 +108,7 @@
           :utc-time="utcTime"
           :global-settings="globalSettings"
           :privacy-manager-enabled="privacyManagerEnabled"
-          @edit-site="this.isSiteBeingEdited = true"
+          @edit-site="isSiteBeingEdited = true"
           @cancel-edit-site="afterCancelEdit($event)"
           @cancel-edit-privacy="afterCancelEdit($event)"
           @delete="afterDelete($event)"
@@ -124,13 +124,13 @@
         :hasNext="hasNext"
         :offset-start="offsetStart"
         :offset-end="offsetEnd"
-        :total-number-of-sites="totalNumberOfSites"
+        :total-number-of-sites="totalNumberOfSites ?? undefined"
         :is-loading="isLoading"
         :search-term="searchTerm"
         :is-searching="!!activeSearchTerm"
         @update:search-term="searchTerm = $event"
         @add="addNewEntity()"
-        @search="searchSites($event)"
+        @search="searchSites()"
         @prev="previousPage()"
         @next="nextPage()"
       />
@@ -239,7 +239,7 @@ export default defineComponent({
   },
   computed: {
     sites() {
-      const emptyIdSiteRows = this.fetchedSites.filter((s) => !s.idsite).length;
+      const emptyIdSiteRows = this.fetchedSites.filter((s: Site) => !s.idsite).length;
       return this.fetchedSites.slice(0, this.pageSize + emptyIdSiteRows);
     },
     isLoading() {
@@ -291,13 +291,13 @@ export default defineComponent({
       return this.currentPage >= 1;
     },
     hasNext() {
-      return this.fetchedSites.filter((s) => !!s.idsite).length >= this.pageSize + 1;
+      return this.fetchedSites.filter((s: Site) => !!s.idsite).length >= this.pageSize + 1;
     },
     offsetStart() {
       return this.currentPage * this.pageSize + 1;
     },
     offsetEnd() {
-      return this.offsetStart + this.sites.filter((s) => !!s.idsite).length - 1;
+      return this.offsetStart + this.sites.filter((s: Site) => !!s.idsite).length - 1;
     },
   },
   methods: {
@@ -350,7 +350,7 @@ export default defineComponent({
       this.isSiteBeingEdited = false;
 
       if (!site.idsite) {
-        this.fetchedSites = this.fetchedSites.filter((s) => !!s.idsite);
+        this.fetchedSites = this.fetchedSites.filter((s: Site) => !!s.idsite);
         return;
       }
 
@@ -427,7 +427,7 @@ export default defineComponent({
       // change it. otherwise, if a user goes to another page, the invalid idSite may cause
       // a fatal error.
       if (MatomoUrl.urlParsed.value.idSite === `${site.idsite}`) {
-        const otherSite = this.sites.find((s) => s.idsite !== site.idsite);
+        const otherSite = this.sites.find((s: Site) => s.idsite !== site.idsite);
 
         if (otherSite) {
           redirectParams = { ...redirectParams, idSite: otherSite.idsite };

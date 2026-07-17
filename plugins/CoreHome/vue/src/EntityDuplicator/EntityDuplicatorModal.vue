@@ -95,7 +95,7 @@ import {
   DuplicateRequestResponse,
   ValidationResult,
 } from './EntityDuplicatorAdapter';
-import MatomoLoader from '../MatomoLoader/MatomoLoader';
+import MatomoLoader from '../MatomoLoader/MatomoLoader.vue';
 
 // async since we're referencing a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
@@ -158,7 +158,7 @@ export default defineComponent({
       }
 
       // Call adapter's beforeShowModal if defined
-      let beforeShowModal: void | Promise<void>;
+      let beforeShowModal: void | Promise<void> = undefined;
       if (this.modalStore.adapter.beforeShowModal) {
         beforeShowModal = this.modalStore.adapter.beforeShowModal();
       }

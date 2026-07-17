@@ -7,7 +7,7 @@
 
 import { DirectiveBinding } from 'vue';
 
-interface FocusAnywhereButHereArgs {
+export interface FocusAnywhereButHereArgs {
   // input (provided by user)
   blur: () => void,
 

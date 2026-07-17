@@ -45,7 +45,7 @@
             autocapitalize="none"
             autocomplete="one-time-code"
             tabindex="10"
-            autofocus="autofocus"
+            autofocus
           />
 
           <label for="form_authcode">

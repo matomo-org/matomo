@@ -16,11 +16,11 @@
 
       <span v-if="isMarketplaceEnabled" v-html="$sanitize(teaserExtendByThemeText)"></span>
 
-      <span v-if="otherUsersCount > 0">
+      <span v-if="(otherUsersCount || 0) > 0">
         <br/>
         {{ translate(
           'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell',
-          otherUsersCount,
+          otherUsersCount ?? 0,
           themeEnabled,
         ) }}
       </span>

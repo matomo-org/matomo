@@ -4,7 +4,7 @@
     class="segmentAction editSegment"
     :title="segment.editTitle"
     :data-state="segment.editState"
-    @click.stop.prevent="dispatchOpenEvent(segment)"
+    @click.stop.prevent="dispatchOpenEvent()"
   />
 </template>
 <script lang="ts">

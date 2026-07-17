@@ -35,7 +35,7 @@ import Alert from '../Alert/Alert.vue';
 import importPluginUmd from '../importPluginUmd';
 import { Widget as WidgetData } from './types';
 
-interface ClientWidgetRendererState {
+export interface ClientWidgetRendererState {
   componentToRender: Component|null;
   loading: boolean;
   loadingFailed: boolean;

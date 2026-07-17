@@ -87,7 +87,7 @@ import CapabilitiesStore from '../CapabilitiesStore/CapabilitiesStore';
 import Capability from '../CapabilitiesStore/Capability';
 import ModalOptions = M.ModalOptions;
 
-interface CapabilitiesEditState {
+export interface CapabilitiesEditState {
   isBusy: boolean;
   theCapabilities: string[];
   isAddingCapability: boolean;

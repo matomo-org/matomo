@@ -36,7 +36,7 @@
       <span
         @click="removeEntry(index)"
         class="icon-minus valign"
-        v-show="index + 1 !== modelValue.length"
+        v-show="index + 1 !== (modelValue || []).length"
         :title="translate('General_Remove')"
       />
     </div>
@@ -44,18 +44,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
 // async since this is a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
+export interface FieldArrayControl {
+  uiControl?: string;
+  availableValues?: unknown;
+  modelModifiers?: Record<string, boolean>;
+  title?: string;
+  templateFile?: string;
+  component?: unknown;
+}
+
 export default defineComponent({
   props: {
-    modelValue: Array,
+    modelValue: Array as PropType<unknown[]>,
     name: String,
     id: String,
-    field: Object,
+    field: {
+      type: Object as PropType<FieldArrayControl>,
+      required: true,
+    },
     rows: String,
   },
   components: {

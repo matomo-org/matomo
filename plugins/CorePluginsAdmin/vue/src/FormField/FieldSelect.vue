@@ -66,7 +66,7 @@
 import { defineComponent } from 'vue';
 import AbortableModifiers from './AbortableModifiers';
 
-interface OptionGroup {
+export interface OptionGroup {
   group?: string;
   key: string|number;
   value: unknown;

@@ -26,10 +26,10 @@
     />
     <div v-if="actualWidget.isContainer
       && actualWidget.layout !== 'ByDimension'
-      && !this.preventRecursion"
+      && !preventRecursion"
     >
       <div>
-        <WidgetContainer :container="actualWidget.widgets" />
+        <WidgetContainer :container="actualWidget.widgets || []" />
       </div>
     </div>
     <div v-if="actualWidget.isContainer && actualWidget.layout === 'ByDimension'">
@@ -147,7 +147,7 @@ export default defineComponent({
     allWidgets() {
       return WidgetsStoreInstance.widgets.value;
     },
-    actualWidget() {
+    actualWidget(): WidgetDataContainer | null {
       const widget = this.widget as WidgetData;
 
       if (widget) {
@@ -170,7 +170,8 @@ export default defineComponent({
       if (this.containerid) {
         const containerWidget = findContainer(this.allWidgets, this.containerid);
         if (containerWidget) {
-          const result = { ...containerWidget };
+          // findContainer returns deeply-readonly state data; this local copy is mutated below.
+          const result = { ...containerWidget } as WidgetData;
 
           if (this.widgetized) {
             result.isFirstInPage = true;
@@ -185,7 +186,7 @@ export default defineComponent({
                   widget: '1',
                   containerId: this.containerid!,
                 },
-              }));
+              })) as WidgetData[];
             }
           }
 

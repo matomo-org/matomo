@@ -7993,7 +7993,7 @@ var __async = (__this, __arguments, generator) => {
         vue.createElementVNode("input", {
           type: "text",
           class: "select-dropdown",
-          readonly: "readonly",
+          readonly: "",
           value: _ctx.modelValueText
         }, null, 8, _hoisted_2$l)
       ]),
@@ -8081,6 +8081,7 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$m = ["for", "innerHTML"];
   function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a2, _b;
     const _component_FieldArray = vue.resolveComponent("FieldArray");
     return vue.openBlock(), vue.createElementBlock("div", null, [
       vue.createElementVNode("label", {
@@ -8093,8 +8094,8 @@ var __async = (__this, __arguments, generator) => {
         "model-value": _ctx.modelValue,
         "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.onValueUpdate($event)),
         "model-modifiers": _ctx.modelModifiers,
-        field: _ctx.uiControlAttributes.field,
-        rows: _ctx.uiControlAttributes.rows
+        field: (_a2 = _ctx.uiControlAttributes) == null ? void 0 : _a2.field,
+        rows: (_b = _ctx.uiControlAttributes) == null ? void 0 : _b.rows
       }, null, 8, ["name", "id", "model-value", "model-modifiers", "field", "rows"])
     ]);
   }
@@ -8229,6 +8230,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$j = { class: "fieldMultiTuple" };
   const _hoisted_2$j = ["for", "innerHTML"];
   function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a2, _b, _c, _d, _e;
     const _component_MultiPairField = vue.resolveComponent("MultiPairField");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$j, [
       vue.createElementVNode("label", {
@@ -8241,11 +8243,11 @@ var __async = (__this, __arguments, generator) => {
         "model-value": _ctx.modelValue,
         "onUpdate:modelValue": _ctx.onUpdateValue,
         "model-modifiers": _ctx.modelModifiers,
-        field1: _ctx.uiControlAttributes.field1,
-        field2: _ctx.uiControlAttributes.field2,
-        field3: _ctx.uiControlAttributes.field3,
-        field4: _ctx.uiControlAttributes.field4,
-        rows: _ctx.uiControlAttributes.rows
+        field1: (_a2 = _ctx.uiControlAttributes) == null ? void 0 : _a2.field1,
+        field2: (_b = _ctx.uiControlAttributes) == null ? void 0 : _b.field2,
+        field3: (_c = _ctx.uiControlAttributes) == null ? void 0 : _c.field3,
+        field4: (_d = _ctx.uiControlAttributes) == null ? void 0 : _d.field4,
+        rows: (_e = _ctx.uiControlAttributes) == null ? void 0 : _e.rows
       }, null, 8, ["name", "id", "model-value", "onUpdate:modelValue", "model-modifiers", "field1", "field2", "field3", "field4", "rows"])
     ]);
   }
@@ -8708,6 +8710,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$f = ["for", "innerHTML"];
   const _hoisted_2$f = { class: "sites_autocomplete" };
   function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a2, _b, _c;
     const _component_SiteSelector = vue.resolveComponent("SiteSelector");
     return vue.openBlock(), vue.createElementBlock("div", null, [
       vue.createElementVNode("label", {
@@ -8720,11 +8723,11 @@ var __async = (__this, __arguments, generator) => {
           "model-value": _ctx.modelValue,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.onChange($event)),
           id: _ctx.id,
-          "show-all-sites-item": _ctx.uiControlAttributes.showAllSitesItem || false,
+          "show-all-sites-item": ((_a2 = _ctx.uiControlAttributes) == null ? void 0 : _a2.showAllSitesItem) || false,
           "switch-site-on-select": false,
           "show-selected-site": true,
-          "only-sites-with-admin-access": _ctx.uiControlAttributes.onlySitesWithAdminAccess || false,
-          "only-sites-with-at-least-write-access": _ctx.uiControlAttributes.onlySitesWithAtLeastWriteAccess || false
+          "only-sites-with-admin-access": ((_b = _ctx.uiControlAttributes) == null ? void 0 : _b.onlySitesWithAdminAccess) || false,
+          "only-sites-with-at-least-write-access": ((_c = _ctx.uiControlAttributes) == null ? void 0 : _c.onlySitesWithAtLeastWriteAccess) || false
         }, _ctx.uiControlAttributes), null, 16, ["model-value", "id", "show-all-sites-item", "only-sites-with-admin-access", "only-sites-with-at-least-write-access"])
       ])
     ]);
@@ -8797,7 +8800,7 @@ var __async = (__this, __arguments, generator) => {
         id: _ctx.id,
         name: _ctx.name,
         value: _ctx.modelValueText,
-        spellcheck: _ctx.uiControl === "password" ? false : null,
+        spellcheck: _ctx.uiControl === "password" ? false : void 0,
         onKeydown: _cache[0] || (_cache[0] = ($event) => _ctx.onKeydown($event)),
         onChange: _cache[1] || (_cache[1] = ($event) => _ctx.onKeydown($event))
       }, _ctx.uiControlAttributes), null, 16, _hoisted_1$e),
@@ -9734,6 +9737,10 @@ var __async = (__this, __arguments, generator) => {
       this.$emit("update:modelValue", false);
     },
     methods: {
+      // Expose the plugin component to `<component :is>` as a plain Component.
+      asComponent(component) {
+        return component;
+      },
       onClickConfirm(event) {
         event.preventDefault();
         this.onConfirm(this.passwordConfirmation);
@@ -9832,7 +9839,7 @@ var __async = (__this, __arguments, generator) => {
             modelValue: _ctx.passwordConfirmation,
             "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.passwordConfirmation = $event),
             uicontrol: "password",
-            disabled: !_ctx.requiresPasswordConfirmation ? "disabled" : void 0,
+            disabled: !_ctx.requiresPasswordConfirmation ? true : void 0,
             name: "currentUserPassword",
             id: _ctx.passwordFieldId,
             autocomplete: "off",
@@ -9846,14 +9853,14 @@ var __async = (__this, __arguments, generator) => {
         ])
       ]),
       vue.createElementVNode("div", _hoisted_9$3, [
-        !!_ctx.alternativeIdentityConfirmationComponent ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.alternativeIdentityConfirmationComponent), {
+        !!_ctx.alternativeIdentityConfirmationComponent ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.asComponent(_ctx.alternativeIdentityConfirmationComponent)), {
           key: 0,
           onConfirmed: _ctx.onConfirm
         }, null, 40, ["onConfirmed"])) : vue.createCommentVNode("", true),
         vue.createElementVNode("a", {
           href: "",
           class: "modal-action modal-close btn confirm-password-btn",
-          disabled: _ctx.requiresPasswordConfirmation && !_ctx.passwordConfirmation ? "disabled" : void 0,
+          disabled: _ctx.requiresPasswordConfirmation && !_ctx.passwordConfirmation ? true : void 0,
           onClick: _cache[1] || (_cache[1] = ($event) => _ctx.onClickConfirm($event))
         }, vue.toDisplayString(_ctx.translate("General_Confirm")), 9, _hoisted_10$2),
         vue.createElementVNode("a", {
@@ -10492,6 +10499,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_2$3 = { key: 1 };
   const _hoisted_3$3 = { key: 2 };
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a2;
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     const _directive_content_intro = vue.resolveDirective("content-intro");
     return vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", null, [
@@ -10509,11 +10517,11 @@ var __async = (__this, __arguments, generator) => {
           key: 0,
           innerHTML: _ctx.$sanitize(_ctx.teaserExtendByThemeText)
         }, null, 8, _hoisted_1$3)) : vue.createCommentVNode("", true),
-        _ctx.otherUsersCount > 0 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_2$3, [
+        (_ctx.otherUsersCount || 0) > 0 ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_2$3, [
           _cache[0] || (_cache[0] = vue.createElementVNode("br", null, null, -1)),
           vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(
             "CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell",
-            _ctx.otherUsersCount,
+            (_a2 = _ctx.otherUsersCount) != null ? _a2 : 0,
             _ctx.themeEnabled
           )), 1)
         ])) : vue.createCommentVNode("", true),
@@ -10912,7 +10920,7 @@ var __async = (__this, __arguments, generator) => {
           ]),
           vue.createElementVNode("tbody", _hoisted_19$1, [
             (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.pluginsToDisplay, (plugin, name2) => {
-              var _a2, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
+              var _a2, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
               return vue.openBlock(), vue.createElementBlock("tr", {
                 key: name2,
                 class: vue.normalizeClass(plugin.activated ? "active-plugin" : "inactive-plugin"),
@@ -10947,15 +10955,15 @@ var __async = (__this, __arguments, generator) => {
                     ])) : vue.createCommentVNode("", true)
                   ]),
                   vue.createElementVNode("div", _hoisted_31, [
-                    vue.createTextVNode(vue.toDisplayString(plugin.info.description.replaceAll("\n", "<br/>")) + " ", 1),
-                    ((_a2 = plugin.info) == null ? void 0 : _a2.homepage) && !_ctx.isMatomoUrl((_b = plugin.info) == null ? void 0 : _b.homepage) ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_32, [
+                    vue.createTextVNode(vue.toDisplayString((_a2 = plugin.info.description) == null ? void 0 : _a2.replaceAll("\n", "<br/>")) + " ", 1),
+                    ((_b = plugin.info) == null ? void 0 : _b.homepage) && !_ctx.isMatomoUrl((_c = plugin.info) == null ? void 0 : _c.homepage) ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_32, [
                       vue.createElementVNode("a", {
                         target: "_blank",
                         rel: "noreferrer noopener",
                         href: plugin.info.homepage
                       }, " (" + vue.toDisplayString(_ctx.translate("CorePluginsAdmin_PluginHomepage").replaceAll(" ", " ")) + ") ", 9, _hoisted_33)
                     ])) : vue.createCommentVNode("", true),
-                    ((_d = (_c = plugin.info) == null ? void 0 : _c.donate) == null ? void 0 : _d.length) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_34, [
+                    ((_e = (_d = plugin.info) == null ? void 0 : _d.donate) == null ? void 0 : _e.length) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_34, [
                       vue.createTextVNode(vue.toDisplayString(_ctx.translate("CorePluginsAdmin_LikeThisPlugin")) + " ", 1),
                       vue.createElementVNode("a", {
                         onClick: _cache[0] || (_cache[0] = vue.withModifiers(() => {
@@ -10976,7 +10984,7 @@ var __async = (__this, __arguments, generator) => {
                           ))
                         }, null, 8, _hoisted_37),
                         vue.createElementVNode("div", _hoisted_38, [
-                          ((_f = (_e = plugin.info) == null ? void 0 : _e.donate) == null ? void 0 : _f.paypal) ? (vue.openBlock(), vue.createElementBlock("a", {
+                          ((_g = (_f = plugin.info) == null ? void 0 : _f.donate) == null ? void 0 : _g.paypal) ? (vue.openBlock(), vue.createElementBlock("a", {
                             key: 0,
                             class: "donation-link paypal",
                             target: "_blank",
@@ -10988,7 +10996,7 @@ var __async = (__this, __arguments, generator) => {
                               height: "30"
                             }, null, -1)
                           ])], 8, _hoisted_39)) : vue.createCommentVNode("", true),
-                          ((_h = (_g = plugin.info) == null ? void 0 : _g.donate) == null ? void 0 : _h.bitcoin) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_40, [
+                          ((_i = (_h = plugin.info) == null ? void 0 : _h.donate) == null ? void 0 : _i.bitcoin) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_40, [
                             _cache[17] || (_cache[17] = vue.createElementVNode("span", null, "Donate Bitcoins to:", -1)),
                             vue.createElementVNode("a", {
                               href: `bitcoin:${encodeURIComponent(plugin.info.donate.bitcoin)}`
@@ -11003,8 +11011,8 @@ var __async = (__this, __arguments, generator) => {
                       ], 8, _hoisted_36)
                     ])) : vue.createCommentVNode("", true)
                   ]),
-                  ((_i = plugin.info) == null ? void 0 : _i.license) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_43, [
-                    ((_j = plugin.info) == null ? void 0 : _j.license_file) ? (vue.openBlock(), vue.createElementBlock("a", {
+                  ((_j = plugin.info) == null ? void 0 : _j.license) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_43, [
+                    ((_k = plugin.info) == null ? void 0 : _k.license_file) ? (vue.openBlock(), vue.createElementBlock("a", {
                       key: 0,
                       title: _ctx.translate("CorePluginsAdmin_LicenseHomepage"),
                       rel: "noreferrer noopener",
@@ -11012,7 +11020,7 @@ var __async = (__this, __arguments, generator) => {
                       href: `index.php?module=CorePluginsAdmin&action=showLicense&pluginName=${name2}`
                     }, vue.toDisplayString(plugin.info.license), 9, _hoisted_44)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_45, vue.toDisplayString(plugin.info.license), 1))
                   ])) : vue.createCommentVNode("", true),
-                  ((_k = plugin.info) == null ? void 0 : _k.authors) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_46, [
+                  ((_l = plugin.info) == null ? void 0 : _l.authors) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_46, [
                     _cache[18] || (_cache[18] = vue.createTextVNode(" By ", -1)),
                     (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(plugin.info.authors.filter((a) => a.name), (author, index) => {
                       return vue.openBlock(), vue.createElementBlock("span", { key: index }, [

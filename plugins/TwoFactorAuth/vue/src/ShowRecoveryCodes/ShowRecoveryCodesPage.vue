@@ -33,13 +33,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent , PropType } from 'vue';
 import { ContentBlock, translate, MatomoUrl } from 'CoreHome';
 import ShowRecoveryCodes from './ShowRecoveryCodes.vue';
 
 export default defineComponent({
   props: {
-    codes: Array,
+    codes: Array as PropType<string[]>,
     regenerateSuccess: Boolean,
     regenerateError: Boolean,
     regenerateNonce: {

@@ -650,7 +650,7 @@ var __async = (__this, __arguments, generator) => {
               options: _ctx.reportHours
             }, {
               "inline-help": vue.withCtx(() => [
-                _ctx.timezoneOffset !== 0 && _ctx.timezoneOffset !== "0" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$2, [
+                String(_ctx.timezoneOffset) !== "0" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$2, [
                   vue.createElementVNode("span", {
                     textContent: vue.toDisplayString(_ctx.reportHourUtcHelpText)
                   }, null, 8, _hoisted_6$2)
@@ -714,7 +714,7 @@ var __async = (__this, __arguments, generator) => {
               vue.withDirectives(vue.createVNode(_component_Field, {
                 uicontrol: "checkbox",
                 name: "report_evolution_graph",
-                title: _ctx.translate("ScheduledReports_EvolutionGraph", 5),
+                title: _ctx.translate("ScheduledReports_EvolutionGraph", "5"),
                 "model-value": _ctx.report.evolutionGraph,
                 "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => _ctx.$emit("change", { prop: "evolutionGraph", value: $event }))
               }, null, 8, ["title", "model-value"]), [
@@ -802,7 +802,7 @@ var __async = (__this, __arguments, generator) => {
                       vue.createElementVNode("h3", _hoisted_22$1, vue.toDisplayString(category), 1),
                       vue.createElementVNode("ul", _hoisted_23$1, [
                         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(reports, (report) => {
-                          var _a2;
+                          var _a2, _b;
                           return vue.openBlock(), vue.createElementBlock("li", {
                             key: report.uniqueId
                           }, [
@@ -811,7 +811,7 @@ var __async = (__this, __arguments, generator) => {
                                 name: `${reportType}Reports`,
                                 type: _ctx.allowMultipleReportsByReportType[reportType] ? "checkbox" : "radio",
                                 id: `${reportType}${report.uniqueId}`,
-                                checked: (_a2 = _ctx.selectedReports[reportType]) == null ? void 0 : _a2[report.uniqueId],
+                                checked: (_b = (_a2 = _ctx.selectedReports) == null ? void 0 : _a2[reportType]) == null ? void 0 : _b[report.uniqueId],
                                 onChange: ($event) => _ctx.$emit("toggleSelectedReport", {
                                   reportType,
                                   uniqueId: report.uniqueId
@@ -1059,7 +1059,7 @@ var __async = (__this, __arguments, generator) => {
                   vue.createElementVNode("td", _hoisted_10, [
                     vue.createTextVNode(vue.toDisplayString(report.description) + " ", 1),
                     _ctx.segmentEditorActivated && report.idsegment ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_11, [
-                      _ctx.savedSegmentsById[report.idsegment] ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_12, vue.toDisplayString(_ctx.savedSegmentsById[report.idsegment]), 1)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_13, vue.toDisplayString(_ctx.translate("ScheduledReports_SegmentDeleted")), 1))
+                      (_ctx.savedSegmentsById || {})[report.idsegment] ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_12, vue.toDisplayString((_ctx.savedSegmentsById || {})[report.idsegment]), 1)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_13, vue.toDisplayString(_ctx.translate("ScheduledReports_SegmentDeleted")), 1))
                     ])) : vue.createCommentVNode("", true)
                   ]),
                   vue.createElementVNode("td", null, vue.toDisplayString(_ctx.periods[report.period]), 1),
@@ -1074,7 +1074,7 @@ var __async = (__this, __arguments, generator) => {
                         _cache[10] || (_cache[10] = vue.createElementVNode("br", null, null, -1))
                       ]);
                     }), 128)),
-                    report.recipients.length !== 0 && !_ctx.sendingReports.includes(report.idreport) ? (vue.openBlock(), vue.createElementBlock("span", {
+                    report.recipients.length !== 0 && !(_ctx.sendingReports || []).includes(report.idreport) ? (vue.openBlock(), vue.createElementBlock("span", {
                       key: 1,
                       class: "clickable",
                       onClick: vue.withModifiers(($event) => _ctx.$emit("sendnow", report.idreport), ["prevent"])
@@ -1085,7 +1085,7 @@ var __async = (__this, __arguments, generator) => {
                       }, null, 8, _hoisted_17),
                       vue.createElementVNode("a", _hoisted_18, vue.toDisplayString(_ctx.translate("ScheduledReports_SendPreviewNow")) + " " + vue.toDisplayString(_ctx.translate("ScheduledReports_CurrentPeriod")), 1)
                     ], 8, _hoisted_16)) : vue.createCommentVNode("", true),
-                    _ctx.sendingReports.includes(report.idreport) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_19, [
+                    (_ctx.sendingReports || []).includes(report.idreport) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_19, [
                       vue.createVNode(_component_MatomoLoader),
                       vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate("ScheduledReports_SendingReport")), 1)
                     ])) : vue.createCommentVNode("", true)
@@ -1131,7 +1131,7 @@ var __async = (__this, __arguments, generator) => {
                         rel: "noreferrer noopener",
                         name: "linkDownloadReport",
                         class: "link_but move-left",
-                        id: report.idreport
+                        id: String(report.idreport)
                       }, vue.toDisplayString(_ctx.translate("ScheduledReports_DownloadPreview")) + " " + vue.toDisplayString(_ctx.translate("ScheduledReports_CurrentPeriod")), 9, _hoisted_24)
                     ], 8, _hoisted_22)
                   ]),
@@ -1550,7 +1550,7 @@ var __async = (__this, __arguments, generator) => {
         const reportParams = window.getReportParametersFunctions[this.report.type](this.report);
         reportParams.reportDescription = this.report.reportDescription || "";
         apiParameters.parameters = reportParams;
-        const isUpdate = this.report.idreport > 0;
+        const isUpdate = Number(this.report.idreport) > 0;
         CoreHome.AjaxHelper.post(
           {
             method: isUpdate ? "ScheduledReports.updateReport" : "ScheduledReports.addReport",

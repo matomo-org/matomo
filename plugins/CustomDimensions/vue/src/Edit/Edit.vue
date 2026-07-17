@@ -199,7 +199,7 @@ import CustomDimensionsStore from '../CustomDimensions.store';
 import type { CustomDimension } from '../types';
 import { ucfirst } from '../utilities';
 
-interface EditState {
+export interface EditState {
   dimension: CustomDimension;
   isUpdatingDim: boolean;
 }

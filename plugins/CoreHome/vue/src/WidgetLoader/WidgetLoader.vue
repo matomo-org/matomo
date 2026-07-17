@@ -43,7 +43,7 @@ import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import ComparisonsStoreInstance from '../Comparisons/Comparisons.store.instance';
 import SearchFiltersPersistenceStoreInstance from '../SearchFiltersPersistence/SearchFiltersPersistence.store';
 
-interface WidgetLoaderState {
+export interface WidgetLoaderState {
   loading: boolean;
   loadingFailed: boolean;
   loadingFailedRateLimit: boolean;

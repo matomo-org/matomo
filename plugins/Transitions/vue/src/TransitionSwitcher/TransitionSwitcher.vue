@@ -30,7 +30,7 @@
             uicontrol="select"
             name="actionName"
             v-model="actionName"
-            :title="translate('Transitions_TopX', 100)"
+            :title="translate('Transitions_TopX', '100')"
             :full-width="true"
             :disabled="!isEnabled"
             :options="actionNameOptions"
@@ -106,7 +106,7 @@ interface Option {
   url?: string;
 }
 
-interface TransitionSwitcherState {
+export interface TransitionSwitcherState {
   actionType: string;
   actionNameOptions: Option[];
   actionTypeOptions: Option[];
@@ -116,7 +116,7 @@ interface TransitionSwitcherState {
   noDataKey: string;
 }
 
-interface ActionReportRow {
+export interface ActionReportRow {
   label: string;
   nb_hits: string|number;
   segment: string;

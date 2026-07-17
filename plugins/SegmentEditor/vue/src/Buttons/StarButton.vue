@@ -4,7 +4,7 @@
     class="segmentAction starSegment"
     :title="segment.starTitle"
     :data-state="segment.starState"
-    @click.stop.prevent="toggleStar(entry)"
+    @click.stop.prevent="toggleStar()"
   >
     <StarIcon :filled="!!segment.isStarred" />
   </button>

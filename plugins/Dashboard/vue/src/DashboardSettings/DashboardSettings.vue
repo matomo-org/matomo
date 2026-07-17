@@ -38,7 +38,7 @@
             tabindex="4"
             @click="onClickAction($event, actionName)"
             class="generalAction"
-            :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
+            :disabled="isActionDisabled[actionName] ? true : undefined"
             :title="actionTooltips[actionName] || undefined"
             :data-action="actionName"
           >
@@ -64,7 +64,7 @@
             type="button"
             tabindex="4"
             @click="onClickAction($event, actionName)"
-            :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
+            :disabled="isActionDisabled[actionName] ? true : undefined"
             :title="actionTooltips[actionName] || undefined"
             :data-action="actionName"
           >

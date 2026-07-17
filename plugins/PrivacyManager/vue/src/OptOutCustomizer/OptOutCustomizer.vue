@@ -217,7 +217,7 @@ import {
   Field,
 } from 'CorePluginsAdmin';
 
-interface OptOutCustomizerState {
+export interface OptOutCustomizerState {
   fontSizeUnit: string;
   backgroundColor: string;
   fontColor: string;

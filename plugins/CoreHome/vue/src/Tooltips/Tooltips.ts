@@ -7,7 +7,7 @@
 
 import { DirectiveBinding } from 'vue';
 
-interface TooltipsArgs {
+export interface TooltipsArgs {
   content?: () => void;
   delay?: number;
   duration?: number;

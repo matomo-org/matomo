@@ -34,11 +34,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import AbortableModifiers from './AbortableModifiers';
 
-interface Option {
+export interface Option {
   key: unknown;
+}
+
+export interface CheckboxOption extends Option {
+  value?: unknown;
+  name?: string;
+  description?: string;
+  disabled?: boolean;
 }
 
 function getCheckboxStates(availableOptions?: Option[], modelValue?: unknown[]) {
@@ -52,7 +59,7 @@ export default defineComponent({
     name: String,
     title: String,
     id: String,
-    availableOptions: Array,
+    availableOptions: Array as PropType<CheckboxOption[]>,
     uiControlAttributes: Object,
     type: String,
   },

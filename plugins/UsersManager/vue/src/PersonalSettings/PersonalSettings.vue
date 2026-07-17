@@ -140,7 +140,7 @@ import {
   PasswordConfirmation,
 } from 'CorePluginsAdmin';
 
-interface PersonalSettingsState {
+export interface PersonalSettingsState {
   doesRequirePasswordConfirmation: boolean;
   username: string;
   email: string;

@@ -144,7 +144,7 @@ import { defineComponent } from 'vue';
 import { CopyToClipboard } from 'CoreHome';
 import { Field, SaveButton } from 'CorePluginsAdmin';
 
-interface CampaignBuilderState {
+export interface CampaignBuilderState {
   websiteUrl: string;
   campaignName: string;
   campaignKeyword: string;

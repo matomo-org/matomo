@@ -107,7 +107,12 @@ export default defineConfig({
       ? [dts({
         outDir: path.join(rootDir, '@types', pluginName),
         entryRoot: path.join(rootDir, pluginPath, 'vue', 'src'),
-        include: [path.join(rootDir, pluginPath, 'vue', 'src', '**', '*')],
+        // Include the ambient globals here too: this `include` overrides tsconfig's, and without
+        // them the declaration type-check reports Window/translate/$sanitize/etc. as missing.
+        include: [
+          path.join(rootDir, pluginPath, 'vue', 'src', '**', '*'),
+          path.join(rootDir, 'plugins', 'CoreVue', 'types', 'index.d.ts'),
+        ],
         tsconfigPath: path.join(rootDir, 'tsconfig.json'),
         // Resolve cross-plugin type imports (e.g. `from 'CoreHome'`) against previously generated
         // declarations in @types, exactly as the old ts-loader override did.
@@ -152,6 +157,15 @@ export default defineConfig({
     },
     rollupOptions: {
       external: isExternal,
+      // Third-party deps (e.g. mathjs) ship `/* #__PURE__ */` annotations in positions Rollup
+      // can't interpret; it harmlessly drops the comment but logs a warning per occurrence. We
+      // can't fix those files, so silence that specific node_modules noise and keep real warnings.
+      onwarn(warning, warn) {
+        if (warning.code === 'INVALID_ANNOTATION' && warning.message.includes('node_modules')) {
+          return;
+        }
+        warn(warning);
+      },
       output: {
         globals: externalGlobals,
         // Match the previous output: keep everything in a single UMD file (no shared chunks).

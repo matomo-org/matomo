@@ -7,7 +7,7 @@
 
 <template>
   <div
-    @click="this.onClick($event)"
+    @click="onClick($event)"
     class="custom_select_all"
   >
     <a

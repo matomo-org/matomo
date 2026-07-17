@@ -16,14 +16,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import FormField from '../FormField/FormField.vue';
 import expressions from '../expressions';
+import Setting from '../PluginSettings/Setting';
 
 export default defineComponent({
   props: {
     setting: {
-      type: Object,
+      type: Object as PropType<Setting>,
       required: true,
     },
     modelValue: null,
@@ -51,7 +52,7 @@ export default defineComponent({
       try {
         return expressions.evaluate(condition, this.conditionValues);
       } catch (e) {
-        console.log(`failed to parse setting condition '${condition}': ${e.message}`);
+        console.log(`failed to parse setting condition '${condition}': ${(e as Error).message}`);
         console.log(this.conditionValues);
         return false;
       }

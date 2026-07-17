@@ -30,7 +30,7 @@ import {
 } from 'vue';
 import { PasswordRule } from './PasswordStrength';
 
-interface PasswordStrengthState {
+export interface PasswordStrengthState {
   pwd: string;
   rules: PasswordRule[];
 }

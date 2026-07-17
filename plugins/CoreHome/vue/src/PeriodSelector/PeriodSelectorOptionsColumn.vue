@@ -35,6 +35,7 @@ import { defineComponent, PropType } from 'vue';
 import { translate } from '../translate';
 import PresetDateRanges from './PresetDateRanges.vue';
 import PeriodOptions from './PeriodOptions.vue';
+import { PresetDateRangeId } from './PresetDateRangeResolver';
 
 export default defineComponent({
   name: 'PeriodSelectorOptionsColumn',
@@ -56,7 +57,7 @@ export default defineComponent({
       required: true,
     },
     activePresetId: {
-      type: String as PropType<string|null>,
+      type: String as PropType<PresetDateRangeId|null>,
       default: null,
     },
     minAllowedDate: {

@@ -74,7 +74,7 @@ import ComparisonsStoreInstance from './Comparisons.store.instance';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
-import MatomoLoader from '../MatomoLoader/MatomoLoader';
+import MatomoLoader from '../MatomoLoader/MatomoLoader.vue';
 import { translate } from '../translate';
 import Tooltips from '../Tooltips/Tooltips';
 

@@ -9,7 +9,7 @@ import { DirectiveBinding } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import DirectiveUtilities from '../directiveUtilities';
 
-interface ExpandOnClickArgs {
+export interface ExpandOnClickArgs {
   // input (specified by user)
   expander: string | HTMLElement,
   onClosed?: (event: MouseEvent|KeyboardEvent) => void;

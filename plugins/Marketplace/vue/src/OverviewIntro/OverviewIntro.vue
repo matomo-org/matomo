@@ -46,9 +46,9 @@
       :update-nonce="updateNonce"
       :has-some-admin-access="hasSomeAdminAccess"
       :num-users="numUsers"
-      @triggerUpdate="this.updateOverviewData()"
-      @startTrialStart="this.disableInstallAllPlugins(true)"
-      @startTrialStop="this.disableInstallAllPlugins(false)"
+      @triggerUpdate="updateOverviewData()"
+      @startTrialStart="disableInstallAllPlugins(true)"
+      @startTrialStop="disableInstallAllPlugins(false)"
     />
   </div>
 </template>

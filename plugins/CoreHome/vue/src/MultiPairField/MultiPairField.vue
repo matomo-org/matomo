@@ -16,7 +16,7 @@
       <div
         class="fieldUiControl fieldUiControl1"
         v-if="field1"
-        :class="{ hasMultiFields: field1.type && field2.type }"
+        :class="{ hasMultiFields: field1.type && field2?.type }"
       >
         <Field
           :full-width="true"
@@ -97,7 +97,7 @@
       <span
         @click="removeEntry(index)"
         class="icon-minus valign"
-        v-show="index + 1 !== modelValue.length"
+        v-show="index + 1 !== (modelValue || []).length"
         :title="translate('General_Remove')"
       />
     </div>
@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
 // async since this is a recursive component
@@ -113,7 +113,7 @@ const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
 export default defineComponent({
   props: {
-    modelValue: Array,
+    modelValue: Array as PropType<Record<string, unknown>[]>,
     name: String,
     id: String,
     field1: Object,

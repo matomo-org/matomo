@@ -9,7 +9,7 @@ import { DirectiveBinding } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import DirectiveUtilities from '../directiveUtilities';
 
-interface ExpandOnHoverArgs {
+export interface ExpandOnHoverArgs {
   // input (provided by user)
   expander: string | HTMLElement,
 

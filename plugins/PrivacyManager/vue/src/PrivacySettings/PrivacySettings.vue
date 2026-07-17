@@ -97,7 +97,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import {
   ContentBlock,
   ContentIntro,
@@ -110,7 +110,7 @@ import DeleteOldLogs from '../DeleteOldLogs/DeleteOldLogs.vue';
 import DeleteOldReports from '../DeleteOldReports/DeleteOldReports.vue';
 import ScheduleReportDeletion from '../ScheduleReportDeletion/ScheduleReportDeletion.vue';
 import AnonymizeLogData from '../AnonymizeLogData/AnonymizeLogData.vue';
-import PreviousAnonymizations from '../AnonymizeLogData/PreviousAnonymizations.vue';
+import PreviousAnonymizations, { AnonymizationEntry } from '../AnonymizeLogData/PreviousAnonymizations.vue';
 
 export default defineComponent({
   props: {
@@ -154,7 +154,7 @@ export default defineComponent({
       required: true,
     },
     anonymizations: {
-      type: Array,
+      type: Array as PropType<AnonymizationEntry[]>,
       required: true,
     },
     isSuperUser: Boolean,

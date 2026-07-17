@@ -27,6 +27,9 @@ export interface DashboardMetrics {
 export interface DashboardSiteData extends DashboardMetrics, Site {
   isGroup?: number,
   label: string;
+  // server-provided dashboard rows carry dynamic metric and previous_* keys
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 }
 
 export interface KPICardBadge {

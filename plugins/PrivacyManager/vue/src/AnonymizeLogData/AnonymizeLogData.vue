@@ -202,7 +202,7 @@ interface Option {
   value: string;
 }
 
-interface AnonymizeLogDataState {
+export interface AnonymizeLogDataState {
   isLoading: boolean;
   isDeleting: boolean;
   anonymizeIp: boolean;
@@ -359,7 +359,7 @@ export default defineComponent({
       AjaxHelper.post({
         method: 'PrivacyManager.anonymizeSomeRawData',
       }, params).then(() => {
-        window.location.reload(true);
+        window.location.reload();
       });
     },
     onKeydownStartDate(event: Event) {

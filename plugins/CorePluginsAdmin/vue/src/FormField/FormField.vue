@@ -249,7 +249,7 @@ export default defineComponent({
 
       const inlineHelpRecord = formField.inlineHelp as unknown as Record<string, unknown>;
       if (inlineHelpRecord && typeof inlineHelpRecord.render === 'function') {
-        return formField.inlineHelp as Component;
+        return formField.inlineHelp as unknown as Component;
       }
       return undefined;
     },

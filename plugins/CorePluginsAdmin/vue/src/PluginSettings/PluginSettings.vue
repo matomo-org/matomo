@@ -59,7 +59,7 @@ import PasswordConfirmation from '../PasswordConfirmation/PasswordConfirmation.v
 
 const { $ } = window;
 
-interface PluginSettingsState {
+export interface PluginSettingsState {
   isLoading: boolean;
   isSaving: Record<string, boolean>;
   showPasswordConfirmModal: boolean;

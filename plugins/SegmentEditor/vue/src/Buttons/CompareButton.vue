@@ -6,7 +6,7 @@
     :data-state="segment.compareState"
     @click.stop.prevent="dispatchToggleEvent()"
   >
-    <CompareIcon :state="segment.compareState" />
+    <CompareIcon :state="segment.compareState || ''" />
   </button>
 </template>
 <script lang="ts">

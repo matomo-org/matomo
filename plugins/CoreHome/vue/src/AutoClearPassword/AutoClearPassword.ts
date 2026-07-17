@@ -7,11 +7,11 @@
 
 import { DirectiveBinding } from 'vue';
 
-interface AutoClearArgs {
+export interface AutoClearArgs {
   delay?: number,
 }
 
-interface HTMLInputElementWithAutoClear extends HTMLInputElement {
+export interface HTMLInputElementWithAutoClear extends HTMLInputElement {
   onUmounted?: {
     cleanup: () => void;
   };

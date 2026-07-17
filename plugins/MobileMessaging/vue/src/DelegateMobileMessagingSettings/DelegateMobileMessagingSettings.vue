@@ -35,7 +35,7 @@ import {
 } from 'CoreHome';
 import { Field, SaveButton } from 'CorePluginsAdmin';
 
-interface DelegateMobileMessagingSettingsState {
+export interface DelegateMobileMessagingSettingsState {
   isLoading: boolean;
   enabled: boolean|string|number;
 }

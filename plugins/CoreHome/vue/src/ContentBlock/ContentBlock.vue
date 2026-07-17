@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <div :class="{ card: true, 'card-with-image': !!this.imageUrl }" ref="root">
+  <div :class="{ card: true, 'card-with-image': !!imageUrl }" ref="root">
     <div class="card-content">
       <h2
         v-if="contentTitle && !actualFeature && !helpUrl && !actualHelpText && !editUrl"

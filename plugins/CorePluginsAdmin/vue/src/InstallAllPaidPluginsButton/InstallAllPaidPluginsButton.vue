@@ -55,7 +55,7 @@ import {
   Matomo, MatomoUrl, MatomoLoader, AjaxHelper,
 } from 'CoreHome';
 
-interface installAllPaidPluginsButton {
+export interface installAllPaidPluginsButton {
   paidPluginsToInstallAtOnce: Array<string>;
   installNonce: string;
   loading: boolean;

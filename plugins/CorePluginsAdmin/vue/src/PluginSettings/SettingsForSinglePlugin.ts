@@ -9,6 +9,7 @@ import Setting from './Setting';
 
 interface SettingsForSinglePlugin {
   pluginName: string;
+  title?: string;
   settings: Setting[];
 }
 

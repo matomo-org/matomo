@@ -10,7 +10,7 @@
 import { DirectiveBinding } from 'vue';
 import DirectiveUtilities from '../directiveUtilities';
 
-interface SideNavArgs {
+export interface SideNavArgs {
   activator: HTMLElement | string;
 
   // directive state

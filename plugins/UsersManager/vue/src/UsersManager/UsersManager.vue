@@ -62,7 +62,7 @@
           :filter-status-levels="filterStatusLevels"
           :search-params="searchParams"
           :users="users"
-          :total-entries="totalEntries"
+          :total-entries="totalEntries ?? undefined"
         />
       </div>
     </div>
@@ -86,7 +86,7 @@
     <div v-if="isEditing">
       <UserEditForm
         @done="onDoneEditing($event.isUserModified)"
-        :user="userBeingEdited"
+        :user="userBeingEdited || undefined"
         :current-user-role="currentUserRole"
         :access-levels="accessLevels"
         :filter-access-levels="filterAccessLevels"
@@ -110,13 +110,13 @@
       </div>
       <div class="modal-footer">
         <a
-          href
+          href=""
           class="modal-action modal-close btn"
           @click.prevent="addExistingUser()"
           style="margin-right:3.5px"
         >{{ translate('General_Add') }}</a>
         <a
-          href
+          href=""
           class="modal-action modal-close modal-no"
           @click.prevent="addNewUserLoginEmail = null"
         >{{ translate('General_Cancel') }}</a>
@@ -156,7 +156,7 @@ interface UsersManagerState {
   totalEntries: null | number;
   searchParams: SearchParams;
   isLoadingUsers: boolean;
-  addNewUserLoginEmail: string;
+  addNewUserLoginEmail: string | null;
   loading: boolean;
   triggerResendInviteForUser: User | null;
 }

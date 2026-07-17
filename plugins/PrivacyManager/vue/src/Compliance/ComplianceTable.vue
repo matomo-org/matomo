@@ -58,7 +58,7 @@ const statusTextMap: Record<string, string> = {
 export default defineComponent({
   props: {
     results: {
-      type: Array as PropType<ComplianceRequirement[]>,
+      type: Array as PropType<readonly ComplianceRequirement[]>,
       required: true,
     },
   },

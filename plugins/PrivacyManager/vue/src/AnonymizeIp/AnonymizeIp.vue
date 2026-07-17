@@ -162,7 +162,7 @@ import {
   SaveButton,
 } from 'CorePluginsAdmin';
 
-interface AnonymizeIpState {
+export interface AnonymizeIpState {
   isLoading: boolean;
   actualEnabled: boolean;
   actualUseSiteSpecificSettings: string;
