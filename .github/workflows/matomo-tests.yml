@@ -64,11 +64,11 @@ jobs:
           - php: '8.1'
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mysql'
-            mysql-version: '5.7'
+            mysql-version: '8.0'
           - php: '8.2'
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mariadb'
-            mysql-version: '11.4'
+            mysql-version: '10.6'
           - php: '8.5'
             adapter: 'MYSQLI'
             mysql-engine: 'Mysql'
@@ -400,6 +400,8 @@ jobs:
           ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
           php-version: '8.1'
+          mysql-engine: 'Mysql'
+          mysql-version: '8.0'
           node-version: '16'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
@@ -435,6 +437,8 @@ jobs:
             --test-group=${{ strategy.job-index }}
           test-type: 'UI'
           php-version: '8.1'
+          mysql-engine: 'Mysql'
+          mysql-version: '8.0'
           node-version: '16'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
