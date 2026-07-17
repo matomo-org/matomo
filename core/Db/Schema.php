@@ -83,24 +83,38 @@ class Schema extends Singleton
     }
 
     /**
+     * Detects the database server type ("MySQL", "MariaDB" or "TiDb") from a raw
+     * server version string, matching the values returned by getDatabaseType().
+     */
+    public static function getServerTypeFromVersion(string $serverVersion): string
+    {
+        if (stripos($serverVersion, 'mariadb') !== false) {
+            return 'MariaDB';
+        }
+
+        if (stripos($serverVersion, 'tidb') !== false) {
+            return 'TiDb';
+        }
+
+        return 'MySQL';
+    }
+
+    /**
      * Returns the minimum supported server version to compare the given raw server
      * version string against.
      *
-     * When the server identifies itself as MariaDB the MariaDB minimum is used, even
-     * if the configured schema is MySQL. Running MariaDB with the MySQL schema is a
-     * supported setup, and without this the MariaDB server would incorrectly be held
-     * to the MySQL minimum.
+     * The minimum is derived from the actual server type reported in the version
+     * string rather than from the configured schema, so a server is always held to
+     * the requirement matching what it really is: a MariaDB server is never checked
+     * against the MySQL minimum and vice versa, regardless of the schema configured
+     * in config.ini.php (running MariaDB with the MySQL schema is a supported setup).
      */
     public static function getMinimumSupportedVersionForServer(string $serverVersion): string
     {
-        if (stripos($serverVersion, 'mariadb') !== false) {
-            $schemaClassName = self::getSchemaClassName('Mariadb');
-            /** @var SchemaInterface $schemaClass */
-            $schemaClass = new $schemaClassName();
-            return $schemaClass->getMinimumSupportedVersion();
-        }
-
-        return self::getInstance()->getMinimumSupportedVersion();
+        $schemaClassName = self::getSchemaClassName(self::getServerTypeFromVersion($serverVersion));
+        /** @var SchemaInterface $schemaClass */
+        $schemaClass = new $schemaClassName();
+        return $schemaClass->getMinimumSupportedVersion();
     }
 
     /**

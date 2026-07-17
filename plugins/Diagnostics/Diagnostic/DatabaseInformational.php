@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Db\Schema;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
@@ -40,8 +41,8 @@ class DatabaseInformational implements Diagnostic
             $results[] = DiagnosticResult::informationalResult('DB Charset', $dbConfig['charset']);
             $results[] = DiagnosticResult::informationalResult('DB Collation', $dbConfig['collation']);
             $results[] = DiagnosticResult::informationalResult('DB Adapter', $dbConfig['adapter']);
-            $serverVersion = $this->getServerVersion();
-            $databaseType = stripos($serverVersion, 'mariadb') !== false ? 'MariaDB' : 'MySQL';
+            $serverVersion = (string) $this->getServerVersion();
+            $databaseType = Schema::getServerTypeFromVersion($serverVersion);
             $results[] = DiagnosticResult::informationalResult($databaseType . ' Version', $serverVersion);
             $results[] = DiagnosticResult::informationalResult('Num Tables', $this->getNumMatomoTables());
         }

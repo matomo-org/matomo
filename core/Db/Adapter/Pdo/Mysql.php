@@ -131,24 +131,25 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     }
 
     /**
-     * Check MySQL version
+     * Checks the database server version against the required minimum for the
+     * detected server type (MySQL, MariaDB or TiDB).
      *
      * @throws Exception
      */
     public function checkServerVersion()
     {
-        $serverVersion     = $this->getServerVersion();
+        $serverVersion     = (string) $this->getServerVersion();
         $requiredVersion   = Schema::getMinimumSupportedVersionForServer($serverVersion);
         $comparableVersion = Schema::getComparableVersion($serverVersion);
-        $databaseType      = stripos($serverVersion, 'mariadb') !== false ? 'MariaDB' : 'MySQL';
+        $databaseType      = Schema::getServerTypeFromVersion($serverVersion);
 
         if (version_compare($comparableVersion, $requiredVersion) === -1) {
-            throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', array($databaseType, $serverVersion, $requiredVersion)));
+            throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', array($databaseType, $comparableVersion, $requiredVersion)));
         }
     }
 
     /**
-     * Returns the MySQL server version
+     * Returns the raw database server version
      *
      * @return null|string
      */
