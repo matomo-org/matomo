@@ -14,14 +14,22 @@
 // under plugins/*/vue/src for the browsers in .browserslistrc, so the shared polyfill only ships
 // the polyfills that are actually needed instead of the whole of core-js/stable.
 
+import 'core-js/modules/es.array.concat.js';
+import 'core-js/modules/es.array.filter.js';
 import 'core-js/modules/es.array.flat.js';
 import 'core-js/modules/es.array.flat-map.js';
+import 'core-js/modules/es.array.from.js';
 import 'core-js/modules/es.array.includes.js';
+import 'core-js/modules/es.array.index-of.js';
 import 'core-js/modules/es.array.iterator.js';
+import 'core-js/modules/es.array.last-index-of.js';
+import 'core-js/modules/es.array.map.js';
 import 'core-js/modules/es.array.push.js';
 import 'core-js/modules/es.array.reduce.js';
 import 'core-js/modules/es.array.reverse.js';
+import 'core-js/modules/es.array.slice.js';
 import 'core-js/modules/es.array.sort.js';
+import 'core-js/modules/es.array.splice.js';
 import 'core-js/modules/es.array.unscopables.flat.js';
 import 'core-js/modules/es.array.unscopables.flat-map.js';
 import 'core-js/modules/es.array.unshift.js';
@@ -37,6 +45,7 @@ import 'core-js/modules/es.iterator.reduce.js';
 import 'core-js/modules/es.iterator.some.js';
 import 'core-js/modules/es.json.parse.js';
 import 'core-js/modules/es.json.stringify.js';
+import 'core-js/modules/es.map.js';
 import 'core-js/modules/es.map.get-or-insert.js';
 import 'core-js/modules/es.map.get-or-insert-computed.js';
 import 'core-js/modules/es.number.to-fixed.js';
@@ -55,6 +64,7 @@ import 'core-js/modules/es.regexp.dot-all.js';
 import 'core-js/modules/es.regexp.exec.js';
 import 'core-js/modules/es.regexp.test.js';
 import 'core-js/modules/es.regexp.to-string.js';
+import 'core-js/modules/es.set.js';
 import 'core-js/modules/es.set.difference.v2.js';
 import 'core-js/modules/es.set.intersection.v2.js';
 import 'core-js/modules/es.set.is-disjoint-from.v2.js';
@@ -75,6 +85,7 @@ import 'core-js/modules/es.symbol.description.js';
 import 'core-js/modules/es.weak-map.js';
 import 'core-js/modules/es.weak-map.get-or-insert.js';
 import 'core-js/modules/es.weak-map.get-or-insert-computed.js';
+import 'core-js/modules/es.weak-set.js';
 import 'core-js/modules/web.dom-collections.for-each.js';
 import 'core-js/modules/web.dom-collections.iterator.js';
 import 'core-js/modules/web.url.js';

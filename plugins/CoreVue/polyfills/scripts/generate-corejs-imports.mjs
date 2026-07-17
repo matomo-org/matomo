@@ -13,7 +13,7 @@
  * polyfills it actually used. The Vite build transpiles plugin sources with esbuild, which does
  * not inject any core-js, so the shared CoreVue polyfill has to provide them instead. Importing
  * the whole `core-js/stable` there shipped every stable polyfill our browserslist could ever
- * need (~250 KB) regardless of whether the code used it.
+ * need regardless of whether the code used it.
  *
  * This script restores usage-based trimming at the polyfill level: it runs every Vue source
  * under plugins/<Plugin>/vue/src through `@babel/preset-env` `useBuiltIns: 'usage'` (using the
@@ -35,38 +35,87 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const polyfillsDir = path.join(scriptDir, '..');
 const repoRoot = path.join(polyfillsDir, '..', '..', '..');
 const pluginsDir = path.join(repoRoot, 'plugins');
+const browserslistConfig = path.join(repoRoot, '.browserslistrc');
 const outFile = path.join(polyfillsDir, 'src', 'corejs-imports.generated.ts');
 
-// Keep this in sync with the corejs version declared in package.json / installed in node_modules.
+// Keep the corejs version in lockstep with the installed package so preset-env expands usage
+// against the real module set.
 const corejsVersion = JSON.parse(
   fs.readFileSync(path.join(repoRoot, 'node_modules', 'core-js', 'package.json'), 'utf8'),
 ).version;
 
 /**
- * Collects every `plugins/<Plugin>/vue/src/**\/*.{ts,js,vue}` file. `.vue` files are handled by
- * extracting their `<script>` blocks, which is where any polyfillable JS lives.
+ * Returns the names of plugins that are git submodules, parsed from .gitmodules. Used only to warn
+ * when a submodule is not initialized, since git itself is not reliably usable here (the build also
+ * runs inside a container where this checkout may be a git worktree).
  */
-function collectSourceFiles() {
+function submodulePluginNames() {
+  const gitmodules = path.join(repoRoot, '.gitmodules');
+  if (!fs.existsSync(gitmodules)) {
+    return new Set();
+  }
+
+  const names = new Set();
+  for (const match of fs.readFileSync(gitmodules, 'utf8').matchAll(/^\s*path\s*=\s*plugins\/([^/\s]+)/gm)) {
+    names.add(match[1]);
+  }
+
+  return names;
+}
+
+/**
+ * Recursively collects `*.{ts,js,vue}` source files under a directory, excluding `*.spec.*` test
+ * files (they never ship). Plain recursion is used rather than `readdirSync({ recursive: true })`
+ * so the scan does not depend on a recent Node version silently.
+ */
+function collectSourceFiles(dir) {
   const files = [];
-  for (const plugin of fs.readdirSync(pluginsDir, { withFileTypes: true })) {
-    if (!plugin.isDirectory()) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...collectSourceFiles(full));
+    } else if (/\.(ts|js|vue)$/.test(entry.name) && !/\.spec\.(ts|js)$/.test(entry.name)) {
+      files.push(full);
+    }
+  }
+
+  return files;
+}
+
+/**
+ * Returns the source files to scan across all plugins' `vue/src` directories. An uninitialized
+ * submodule (empty directory) is reported rather than silently skipped so its Vue sources are not
+ * missed; the canonical list is regenerated in CI with all submodules checked out.
+ */
+function collectAllSourceFiles() {
+  const submodules = submodulePluginNames();
+  const uninitializedSubmodules = [];
+  const files = [];
+
+  for (const entry of fs.readdirSync(pluginsDir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) {
       continue;
     }
 
-    const srcDir = path.join(pluginsDir, plugin.name, 'vue', 'src');
-    if (!fs.existsSync(srcDir)) {
+    const pluginDir = path.join(pluginsDir, entry.name);
+    if (submodules.has(entry.name) && fs.readdirSync(pluginDir).length === 0) {
+      uninitializedSubmodules.push(entry.name);
       continue;
     }
 
-    for (const entry of fs.readdirSync(srcDir, { recursive: true, withFileTypes: true })) {
-      if (!entry.isFile()) {
-        continue;
-      }
-
-      if (/\.(ts|js|vue)$/.test(entry.name)) {
-        files.push(path.join(entry.parentPath ?? entry.path, entry.name));
-      }
+    const srcDir = path.join(pluginDir, 'vue', 'src');
+    if (fs.existsSync(srcDir)) {
+      files.push(...collectSourceFiles(srcDir));
     }
+  }
+
+  if (uninitializedSubmodules.length) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `[polyfill] WARNING: skipping uninitialized submodule(s): ${uninitializedSubmodules.join(', ')}. `
+      + 'Run `git submodule update --init` so their Vue sources are included; the CI drift check '
+      + 'regenerates the canonical list with all submodules present.',
+    );
   }
 
   return files.sort();
@@ -100,16 +149,16 @@ function collectCoreJsModules(files) {
       continue;
     }
 
-    // Let preset-env read the targets from .browserslistrc (repoRoot is the cwd during the build);
-    // `useBuiltIns: 'usage'` then rewrites the code to `import 'core-js/modules/...'` for exactly
-    // the features this file uses that the target browsers lack. We only need the injected imports,
-    // so the transformed code itself is discarded.
+    // `useBuiltIns: 'usage'` rewrites the code to `import 'core-js/modules/...'` for exactly the
+    // features this file uses that the target browsers lack. We only need the injected imports, so
+    // the transformed code itself is discarded. `browserslistConfigFile` points at the repo's
+    // .browserslistrc explicitly so the target set never depends on the process working directory.
     const result = transformSync(code, {
       // preset-typescript keys off the extension, so present .vue scripts as .ts.
       filename: file.replace(/\.vue$/, '.ts'),
       configFile: false,
       babelrc: false,
-      browserslistConfigFile: true,
+      browserslistConfigFile: browserslistConfig,
       presets: [
         ['@babel/preset-env', {
           useBuiltIns: 'usage',
@@ -153,7 +202,7 @@ ${imports}
 `;
 }
 
-const files = collectSourceFiles();
+const files = collectAllSourceFiles();
 const modules = collectCoreJsModules(files);
 fs.writeFileSync(outFile, render(modules));
 
