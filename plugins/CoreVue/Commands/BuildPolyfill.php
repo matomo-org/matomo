@@ -36,6 +36,14 @@ class BuildPolyfill extends ConsoleCommand
 
         $configFile = PIWIK_INCLUDE_PATH . '/plugins/CoreVue/polyfills/vite.config.ts';
 
+        // Regenerate the list of core-js polyfills the bundle needs, based on actual usage across
+        // plugins/*/vue/src and the browsers in .browserslistrc, before building.
+        $generator = PIWIK_INCLUDE_PATH . '/plugins/CoreVue/polyfills/scripts/generate-corejs-imports.mjs';
+        passthru('cd ' . PIWIK_INCLUDE_PATH . ' && FORCE_COLOR=1 node ' . $generator, $generatorResult);
+        if ($generatorResult !== 0) {
+            return self::FAILURE;
+        }
+
         // Two passes: unminified MatomoPolyfills.js, then minified MatomoPolyfills.min.js. The phase
         // is communicated to the Vite config through MATOMO_VUE_PHASE.
         foreach (['dev', 'min'] as $phase) {

@@ -10,9 +10,12 @@
 // this is a dummy file used to compile core-js polyfills so we don't have to include them in any
 // other file.
 
-// Pull in the full set of stable polyfills. The previous webpack/babel toolchain injected these
-// implicitly; with the esbuild based Vite build they have to be imported explicitly.
-import 'core-js/stable';
+// Pull in the core-js polyfills the plugin sources actually use. The previous webpack/babel
+// toolchain injected these per plugin; with the esbuild based Vite build they have to be imported
+// explicitly here. The import list is generated from usage across plugins/*/vue/src by
+// scripts/generate-corejs-imports.mjs (run during vue:build-polyfill), so we ship only the needed
+// polyfills instead of the whole of core-js/stable.
+import './corejs-imports.generated';
 
 import DOMPurify from 'dompurify';
 import * as tslib from 'tslib';
