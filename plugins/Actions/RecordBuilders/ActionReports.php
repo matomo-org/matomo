@@ -863,12 +863,18 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                 sum(log_link_visit_action.time_spent_ref_action) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
 
         $where = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
+        // Anti-join by (idvisit, server_time) rather than idpageview: the writer stores idpageview
+        // as NULL when the tracker didn't send pv_id (older tracker / server-side SDK / log import),
+        // while log_link_visit_action stores it as '' (via IdPageview::onNewAction), so an idpageview
+        // equality can never match those rows — the legacy path would then keep counting pageviews
+        // the accurate path already covered. server_time is written from the same request timestamp
+        // on both tables and identifies the pageview uniquely within the visit.
         $where .= " AND log_link_visit_action.time_spent_ref_action > 0
                  AND log_link_visit_action.%s > 0
                  AND NOT EXISTS (
                         SELECT 1 FROM `$pageViewTimeTable` AS pvt
                          WHERE pvt.idvisit = log_link_visit_action.idvisit
-                           AND pvt.idpageview COLLATE utf8mb4_bin = log_link_visit_action.idpageview
+                           AND pvt.server_time = log_link_visit_action.server_time
                      )"
             . $this->getWhereClauseActionIsNotEvent();
 

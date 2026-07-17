@@ -1010,8 +1010,9 @@ cookie_domain =
 record_statistics = 1
 
 ; Set to 0 to skip recording accurate per-pageview time-spent rows into the log_page_view_time table.
-; This is a temporary safety control (introduced in 5.13.0) — disabling it falls back to the legacy
-; time_spent_ref_action metric. To be removed in Matomo 6.0 once the new metric has been validated in production.
+; This is a temporary safety control (introduced in 6.0.0) — disabling it falls back to the legacy
+; time_spent_ref_action metric. Scheduled for removal in a future major version once the new metric
+; has been validated in production.
 record_accurate_page_view_time = 1
 
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
