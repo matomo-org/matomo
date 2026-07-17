@@ -18,7 +18,7 @@ var __spreadValues = (a, b) => {
   return a;
 };
 
-  const _sfc_main$b = vue.defineComponent({
+  const _sfc_main$e = vue.defineComponent({
     name: "EvolutionTrendIcon",
     props: {
       direction: {
@@ -35,30 +35,30 @@ var __spreadValues = (a, b) => {
     }
     return target;
   };
-  const _hoisted_1$b = {
+  const _hoisted_1$e = {
     key: 0,
     viewBox: "0 0 16 16"
   };
-  const _hoisted_2$8 = {
+  const _hoisted_2$b = {
     key: 1,
     viewBox: "0 0 16 16"
   };
-  const _hoisted_3$7 = {
+  const _hoisted_3$8 = {
     key: 2,
     viewBox: "0 0 16 16"
   };
-  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
-    return _ctx.direction === "up" ? (vue.openBlock(), vue.createElementBlock("svg", _hoisted_1$b, [..._cache[0] || (_cache[0] = [
+  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+    return _ctx.direction === "up" ? (vue.openBlock(), vue.createElementBlock("svg", _hoisted_1$e, [..._cache[0] || (_cache[0] = [
       vue.createElementVNode("path", {
         d: "M3.77344 11L8.27344 5L12.7734 11H3.77344Z",
         fill: "currentColor"
       }, null, -1)
-    ])])) : _ctx.direction === "down" ? (vue.openBlock(), vue.createElementBlock("svg", _hoisted_2$8, [..._cache[1] || (_cache[1] = [
+    ])])) : _ctx.direction === "down" ? (vue.openBlock(), vue.createElementBlock("svg", _hoisted_2$b, [..._cache[1] || (_cache[1] = [
       vue.createElementVNode("path", {
         d: "M3.77344 6L8.27344 12L12.7734 6H3.77344Z",
         fill: "currentColor"
       }, null, -1)
-    ])])) : (vue.openBlock(), vue.createElementBlock("svg", _hoisted_3$7, [..._cache[2] || (_cache[2] = [
+    ])])) : (vue.openBlock(), vue.createElementBlock("svg", _hoisted_3$8, [..._cache[2] || (_cache[2] = [
       vue.createElementVNode("rect", {
         x: "3",
         y: "7",
@@ -68,8 +68,8 @@ var __spreadValues = (a, b) => {
       }, null, -1)
     ])]));
   }
-  const EvolutionTrendIcon = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b]]);
-  const _sfc_main$a = vue.defineComponent({
+  const EvolutionTrendIcon = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e]]);
+  const _sfc_main$d = vue.defineComponent({
     name: "EvolutionBadge",
     components: {
       EvolutionTrendIcon
@@ -139,29 +139,29 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$a = ["title"];
-  const _hoisted_2$7 = {
+  const _hoisted_1$d = ["title"];
+  const _hoisted_2$a = {
     class: "evolutionBadge__icon",
     "aria-hidden": "true"
   };
-  const _hoisted_3$6 = { class: "evolutionBadge__value" };
-  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  const _hoisted_3$7 = { class: "evolutionBadge__value" };
+  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EvolutionTrendIcon = vue.resolveComponent("EvolutionTrendIcon");
     return vue.openBlock(), vue.createElementBlock("span", {
       class: vue.normalizeClass(["evolutionBadge", _ctx.directionClass]),
       title: _ctx.tooltip || void 0
     }, [
-      vue.createElementVNode("span", _hoisted_2$7, [
+      vue.createElementVNode("span", _hoisted_2$a, [
         vue.createVNode(_component_EvolutionTrendIcon, {
           class: "evolutionTrendIcon",
           direction: _ctx.direction
         }, null, 8, ["direction"])
       ]),
-      vue.createElementVNode("span", _hoisted_3$6, vue.toDisplayString(_ctx.formattedPercent), 1)
-    ], 10, _hoisted_1$a);
+      vue.createElementVNode("span", _hoisted_3$7, vue.toDisplayString(_ctx.formattedPercent), 1)
+    ], 10, _hoisted_1$d);
   }
-  const EvolutionBadge = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a]]);
-  const _sfc_main$9 = vue.defineComponent({
+  const EvolutionBadge = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
+  const _sfc_main$c = vue.defineComponent({
     name: "MetricValue",
     directives: {
       Tooltips: CoreHome.Tooltips
@@ -206,11 +206,11 @@ var __spreadValues = (a, b) => {
       }
     }
   });
-  const _hoisted_1$9 = { class: "metricValue" };
-  const _hoisted_2$6 = ["title"];
-  const _hoisted_3$5 = { class: "metricValue__primary" };
-  const _hoisted_4$5 = { class: "metricValue__number" };
-  const _hoisted_5$3 = {
+  const _hoisted_1$c = { class: "metricValue" };
+  const _hoisted_2$9 = ["title"];
+  const _hoisted_3$6 = { class: "metricValue__primary" };
+  const _hoisted_4$4 = { class: "metricValue__number" };
+  const _hoisted_5$2 = {
     key: 1,
     class: "metricValue__secondary"
   };
@@ -219,29 +219,29 @@ var __spreadValues = (a, b) => {
     key: 0,
     class: "metricValue__secondaryLabel"
   };
-  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_tooltips = vue.resolveDirective("tooltips");
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$9, [
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$c, [
       _ctx.title ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", {
         key: 0,
         class: vue.normalizeClass(["metricValue__title", { "metricValue__title--documented": !!_ctx.documentation }]),
         title: _ctx.documentation || _ctx.title
       }, [
         vue.createTextVNode(vue.toDisplayString(_ctx.title), 1)
-      ], 10, _hoisted_2$6)), [
+      ], 10, _hoisted_2$9)), [
         [_directive_tooltips, { duration: 200, delay: 200 }]
       ]) : vue.createCommentVNode("", true),
-      vue.createElementVNode("div", _hoisted_3$5, [
-        vue.createElementVNode("span", _hoisted_4$5, vue.toDisplayString(_ctx.displayValue), 1),
+      vue.createElementVNode("div", _hoisted_3$6, [
+        vue.createElementVNode("span", _hoisted_4$4, vue.toDisplayString(_ctx.displayValue), 1),
         vue.renderSlot(_ctx.$slots, "evolution")
       ]),
-      _ctx.hasSecondary ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$3, [
+      _ctx.hasSecondary ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$2, [
         vue.createElementVNode("span", _hoisted_6$2, vue.toDisplayString(_ctx.displaySecondaryValue), 1),
         _ctx.secondaryLabel ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_7$1, vue.toDisplayString(_ctx.secondaryLabel), 1)) : vue.createCommentVNode("", true)
       ])) : vue.createCommentVNode("", true)
     ]);
   }
-  const MetricValue = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9]]);
+  const MetricValue = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c]]);
   function getInitialOptionStates$1(allOptions, selectedOptions) {
     const states = {};
     allOptions.forEach((columnConfig) => {
@@ -267,7 +267,7 @@ var __spreadValues = (a, b) => {
   function getSelected(optionStates) {
     return Object.keys(optionStates).filter((optionName) => !!optionStates[optionName]);
   }
-  const _sfc_main$8 = vue.defineComponent({
+  const _sfc_main$b = vue.defineComponent({
     props: {
       multiselect: Boolean,
       selectableColumns: {
@@ -337,20 +337,20 @@ var __spreadValues = (a, b) => {
       }
     }
   });
-  const _hoisted_1$8 = {
+  const _hoisted_1$b = {
     key: 0,
     class: "jqplot-seriespicker-popover"
   };
-  const _hoisted_2$5 = { class: "headline" };
-  const _hoisted_3$4 = ["onClick"];
-  const _hoisted_4$4 = ["type", "checked"];
-  const _hoisted_5$2 = {
+  const _hoisted_2$8 = { class: "headline" };
+  const _hoisted_3$5 = ["onClick"];
+  const _hoisted_4$3 = ["type", "checked"];
+  const _hoisted_5$1 = {
     key: 0,
     class: "headline recordsToPlot"
   };
   const _hoisted_6$1 = ["onClick"];
   const _hoisted_7 = ["type", "checked"];
-  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", {
       class: vue.normalizeClass(["jqplot-seriespicker", { open: _ctx.isPopupVisible }]),
       onMouseenter: _cache[1] || (_cache[1] = ($event) => _ctx.isPopupVisible = true),
@@ -361,8 +361,8 @@ var __spreadValues = (a, b) => {
         onClick: _cache[0] || (_cache[0] = vue.withModifiers(() => {
         }, ["prevent", "stop"]))
       }, " + "),
-      _ctx.isPopupVisible ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$8, [
-        vue.createElementVNode("p", _hoisted_2$5, vue.toDisplayString(_ctx.translate(_ctx.multiselect ? "General_MetricsToPlot" : "General_MetricToPlot")), 1),
+      _ctx.isPopupVisible ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$b, [
+        vue.createElementVNode("p", _hoisted_2$8, vue.toDisplayString(_ctx.translate(_ctx.multiselect ? "General_MetricsToPlot" : "General_MetricToPlot")), 1),
         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.selectableColumns, (columnConfig) => {
           return vue.openBlock(), vue.createElementBlock("p", {
             class: "pickColumn",
@@ -374,12 +374,12 @@ var __spreadValues = (a, b) => {
                 class: "select",
                 type: _ctx.multiselect ? "checkbox" : "radio",
                 checked: !!_ctx.columnStates[columnConfig.column]
-              }, null, 8, _hoisted_4$4),
+              }, null, 8, _hoisted_4$3),
               vue.createElementVNode("span", null, vue.toDisplayString(columnConfig.translation), 1)
             ])
-          ], 8, _hoisted_3$4);
+          ], 8, _hoisted_3$5);
         }), 128)),
-        _ctx.selectableRows.length ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_5$2, vue.toDisplayString(_ctx.translate("General_RecordsToPlot")), 1)) : vue.createCommentVNode("", true),
+        _ctx.selectableRows.length ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_5$1, vue.toDisplayString(_ctx.translate("General_RecordsToPlot")), 1)) : vue.createCommentVNode("", true),
         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.selectableRows, (rowConfig) => {
           return vue.openBlock(), vue.createElementBlock("p", {
             class: "pickRow",
@@ -399,7 +399,7 @@ var __spreadValues = (a, b) => {
       ])) : vue.createCommentVNode("", true)
     ], 34);
   }
-  const SeriesPicker = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);
+  const SeriesPicker = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b]]);
   function getInitialOptionStates(allOptions, selectedOptions) {
     const states = {};
     allOptions.forEach((columnConfig) => {
@@ -411,7 +411,7 @@ var __spreadValues = (a, b) => {
     });
     return states;
   }
-  const _sfc_main$7 = vue.defineComponent({
+  const _sfc_main$a = vue.defineComponent({
     props: {
       multiselect: Boolean,
       selectableColumns: {
@@ -466,16 +466,16 @@ var __spreadValues = (a, b) => {
       }
     }
   });
-  const _hoisted_1$7 = ["role", "aria-label"];
-  const _hoisted_2$4 = ["type", "checked", "onChange", "onKeydown"];
-  const _hoisted_3$3 = { class: "metrics-picker__title" };
-  const _hoisted_4$3 = {
+  const _hoisted_1$a = ["role", "aria-label"];
+  const _hoisted_2$7 = ["type", "checked", "onChange", "onKeydown"];
+  const _hoisted_3$4 = { class: "metrics-picker__title" };
+  const _hoisted_4$2 = {
     key: 0,
     class: "metrics-picker__headline"
   };
-  const _hoisted_5$1 = ["type", "checked", "onChange", "onKeydown"];
+  const _hoisted_5 = ["type", "checked", "onChange", "onKeydown"];
   const _hoisted_6 = { class: "metrics-picker__title" };
-  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", {
       class: "metrics-picker__options",
       role: _ctx.multiselect ? "group" : "radiogroup",
@@ -492,12 +492,12 @@ var __spreadValues = (a, b) => {
             checked: !!_ctx.columnStates[columnConfig.column],
             onChange: ($event) => _ctx.optionSelected(columnConfig.column, _ctx.columnStates),
             onKeydown: vue.withKeys(vue.withModifiers(($event) => _ctx.optionSelected(columnConfig.column, _ctx.columnStates), ["prevent"]), ["enter"])
-          }, null, 40, _hoisted_2$4),
+          }, null, 40, _hoisted_2$7),
           _cache[0] || (_cache[0] = vue.createElementVNode("span", { "aria-hidden": "true" }, null, -1)),
-          vue.createElementVNode("span", _hoisted_3$3, vue.toDisplayString(columnConfig.translation), 1)
+          vue.createElementVNode("span", _hoisted_3$4, vue.toDisplayString(columnConfig.translation), 1)
         ]);
       }), 128)),
-      _ctx.selectableRows.length ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_4$3, vue.toDisplayString(_ctx.translate("General_RecordsToPlot")), 1)) : vue.createCommentVNode("", true),
+      _ctx.selectableRows.length ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_4$2, vue.toDisplayString(_ctx.translate("General_RecordsToPlot")), 1)) : vue.createCommentVNode("", true),
       (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.selectableRows, (rowConfig) => {
         return vue.openBlock(), vue.createElementBlock("label", {
           class: "metrics-picker__row metrics-picker__label",
@@ -509,15 +509,15 @@ var __spreadValues = (a, b) => {
             checked: !!_ctx.rowStates[rowConfig.matcher],
             onChange: ($event) => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates),
             onKeydown: vue.withKeys(vue.withModifiers(($event) => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates), ["prevent"]), ["enter"])
-          }, null, 40, _hoisted_5$1),
+          }, null, 40, _hoisted_5),
           _cache[1] || (_cache[1] = vue.createElementVNode("span", { "aria-hidden": "true" }, null, -1)),
           vue.createElementVNode("span", _hoisted_6, vue.toDisplayString(rowConfig.label), 1)
         ]);
       }), 128))
-    ], 8, _hoisted_1$7);
+    ], 8, _hoisted_1$a);
   }
-  const MetricsPickerOptions = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
-  const _sfc_main$6 = vue.defineComponent({
+  const MetricsPickerOptions = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a]]);
+  const _sfc_main$9 = vue.defineComponent({
     props: {
       multiselect: Boolean,
       selectableColumns: {
@@ -551,26 +551,26 @@ var __spreadValues = (a, b) => {
       }
     }
   });
-  const _hoisted_1$6 = {
+  const _hoisted_1$9 = {
     ref: "root",
     class: "metrics-picker"
   };
-  const _hoisted_2$3 = {
+  const _hoisted_2$6 = {
     ref: "expander",
     type: "button",
     class: "metrics-picker__toggle"
   };
-  const _hoisted_3$2 = { class: "metrics-picker__toggle-label" };
-  const _hoisted_4$2 = { class: "metrics-picker__dropdown" };
-  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  const _hoisted_3$3 = { class: "metrics-picker__toggle-label" };
+  const _hoisted_4$1 = { class: "metrics-picker__dropdown" };
+  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_MetricsPickerOptions = vue.resolveComponent("MetricsPickerOptions");
     const _directive_expand_on_click = vue.resolveDirective("expand-on-click");
-    return vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_1$6, [
-      vue.createElementVNode("button", _hoisted_2$3, [
-        vue.createElementVNode("span", _hoisted_3$2, vue.toDisplayString(_ctx.translate("General_ChooseMetrics")), 1),
+    return vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_1$9, [
+      vue.createElementVNode("button", _hoisted_2$6, [
+        vue.createElementVNode("span", _hoisted_3$3, vue.toDisplayString(_ctx.translate("General_ChooseMetrics")), 1),
         _cache[1] || (_cache[1] = vue.createElementVNode("span", { class: "icon-chevron-down metrics-picker__chevron" }, null, -1))
       ], 512),
-      vue.createElementVNode("div", _hoisted_4$2, [
+      vue.createElementVNode("div", _hoisted_4$1, [
         vue.createVNode(_component_MetricsPickerOptions, {
           multiselect: _ctx.multiselect,
           "selectable-columns": _ctx.selectableColumns,
@@ -584,14 +584,14 @@ var __spreadValues = (a, b) => {
       [_directive_expand_on_click, { expander: "expander" }]
     ]);
   }
-  const MetricsPicker = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
+  const MetricsPicker = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9]]);
   function getPastPeriodStr() {
     const { startDate } = CoreHome.Range.getLastNRange(CoreHome.Matomo.period, 2, CoreHome.Matomo.currentDateString);
     const dateRange = CoreHome.Periods.get(CoreHome.Matomo.period).parse(startDate).getDateRange();
     return `${CoreHome.format(dateRange[0])},${CoreHome.format(dateRange[1])}`;
   }
   const { $ } = window;
-  const _sfc_main$5 = vue.defineComponent({
+  const _sfc_main$8 = vue.defineComponent({
     props: {
       metric: {
         type: String,
@@ -863,25 +863,25 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$5 = { class: "metric-sparkline" };
-  const _hoisted_2$2 = { class: "metric-value" };
-  const _hoisted_3$1 = ["title"];
-  const _hoisted_4$1 = ["title"];
-  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  const _hoisted_1$8 = { class: "metric-sparkline" };
+  const _hoisted_2$5 = { class: "metric-value" };
+  const _hoisted_3$2 = ["title"];
+  const _hoisted_4 = ["title"];
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     var _a, _b, _c, _d, _e;
     const _component_Sparkline = vue.resolveComponent("Sparkline");
     return vue.openBlock(), vue.createElementBlock("div", {
       class: vue.normalizeClass(["singleMetricView", { "loading": _ctx.isLoading }]),
       ref: "root"
     }, [
-      vue.createElementVNode("div", _hoisted_1$5, [
+      vue.createElementVNode("div", _hoisted_1$8, [
         vue.createVNode(_component_Sparkline, { params: _ctx.sparklineParams }, null, 8, ["params"])
       ]),
-      vue.createElementVNode("div", _hoisted_2$2, [
+      vue.createElementVNode("div", _hoisted_2$5, [
         vue.createElementVNode("span", { title: _ctx.metricDocumentation }, [
           vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.metricValue), 1),
           vue.createTextVNode(" " + vue.toDisplayString((_ctx.metricTranslation || "").toLowerCase()), 1)
-        ], 8, _hoisted_3$1),
+        ], 8, _hoisted_3$2),
         _ctx.pastValue !== null ? (vue.openBlock(), vue.createElementBlock("span", {
           key: 0,
           class: "metricEvolution",
@@ -897,12 +897,12 @@ var __spreadValues = (a, b) => {
           vue.createElementVNode("span", {
             class: vue.normalizeClass(_ctx.evolutionClass)
           }, vue.toDisplayString(_ctx.metricChangePercent), 3)
-        ], 8, _hoisted_4$1)) : vue.createCommentVNode("", true)
+        ], 8, _hoisted_4)) : vue.createCommentVNode("", true)
       ])
     ], 2);
   }
-  const SingleMetricView = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
-  const _sfc_main$4 = vue.defineComponent({
+  const SingleMetricView = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);
+  const _sfc_main$7 = vue.defineComponent({
     name: "NoComparison",
     components: {
       MetricValue,
@@ -965,11 +965,11 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$4 = { class: "sparklineNoComparison" };
-  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  const _hoisted_1$7 = { class: "sparklineNoComparison" };
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EvolutionBadge = vue.resolveComponent("EvolutionBadge");
     const _component_MetricValue = vue.resolveComponent("MetricValue");
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$4, [
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$7, [
       vue.createVNode(_component_MetricValue, {
         class: "metricValue--fixedHeight",
         title: _ctx.title,
@@ -993,8 +993,8 @@ var __spreadValues = (a, b) => {
       ]), 1032, ["title", "value", "secondary-value", "secondary-label", "documentation"])
     ]);
   }
-  const NoComparison = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
-  const _sfc_main$3 = vue.defineComponent({
+  const NoComparison = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
+  const _sfc_main$6 = vue.defineComponent({
     name: "DateAtom",
     props: {
       label: {
@@ -1003,20 +1003,102 @@ var __spreadValues = (a, b) => {
       }
     }
   });
-  const _hoisted_1$3 = ["title"];
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  const _hoisted_1$6 = ["title"];
+  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", {
       class: "dateAtom",
       title: _ctx.label
-    }, vue.toDisplayString(_ctx.label), 9, _hoisted_1$3);
+    }, vue.toDisplayString(_ctx.label), 9, _hoisted_1$6);
   }
-  const DateAtom = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
-  const _sfc_main$2 = vue.defineComponent({
-    name: "DateComparison",
+  const DateAtom = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
+  const _sfc_main$5 = vue.defineComponent({
+    name: "PeriodColumns",
     components: {
       DateAtom,
       MetricValue,
       EvolutionBadge
+    },
+    props: {
+      entry: {
+        type: Object,
+        required: true
+      }
+    },
+    setup(props) {
+      const periods = vue.computed(() => {
+        const metrics = props.entry.metrics || {};
+        const order = props.entry.metricsOrder || [];
+        return order.map((label) => {
+          var _a;
+          const groupMetrics = metrics[label] || [];
+          const primary = groupMetrics[0];
+          const secondary = groupMetrics[1];
+          return {
+            label,
+            primaryValue: (_a = primary == null ? void 0 : primary.value) != null ? _a : "",
+            evolution: primary == null ? void 0 : primary.evolution,
+            secondaryValue: secondary == null ? void 0 : secondary.value,
+            secondaryLabel: secondary == null ? void 0 : secondary.description
+          };
+        });
+      });
+      const showLabels = vue.computed(() => periods.value.length > 1);
+      return {
+        periods,
+        showLabels
+      };
+    }
+  });
+  const _hoisted_1$5 = { class: "periodColumns" };
+  const _hoisted_2$4 = {
+    key: 0,
+    class: "periodColumns__separator"
+  };
+  const _hoisted_3$1 = { class: "periodColumns__column" };
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_DateAtom = vue.resolveComponent("DateAtom");
+    const _component_EvolutionBadge = vue.resolveComponent("EvolutionBadge");
+    const _component_MetricValue = vue.resolveComponent("MetricValue");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$5, [
+      (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.periods, (period, index) => {
+        return vue.openBlock(), vue.createElementBlock(vue.Fragment, {
+          key: period.label
+        }, [
+          index > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$4)) : vue.createCommentVNode("", true),
+          vue.createElementVNode("div", _hoisted_3$1, [
+            _ctx.showLabels ? (vue.openBlock(), vue.createBlock(_component_DateAtom, {
+              key: 0,
+              label: period.label
+            }, null, 8, ["label"])) : vue.createCommentVNode("", true),
+            vue.createVNode(_component_MetricValue, {
+              class: "metricValue--noTitle",
+              value: period.primaryValue,
+              "secondary-value": period.secondaryValue,
+              "secondary-label": period.secondaryLabel
+            }, vue.createSlots({ _: 2 }, [
+              period.evolution ? {
+                name: "evolution",
+                fn: vue.withCtx(() => [
+                  vue.createVNode(_component_EvolutionBadge, {
+                    percent: period.evolution.percent,
+                    trend: period.evolution.trend,
+                    "is-lower-value-better": period.evolution.isLowerValueBetter,
+                    tooltip: period.evolution.tooltip || ""
+                  }, null, 8, ["percent", "trend", "is-lower-value-better", "tooltip"])
+                ]),
+                key: "0"
+              } : void 0
+            ]), 1032, ["value", "secondary-value", "secondary-label"])
+          ])
+        ], 64);
+      }), 128))
+    ]);
+  }
+  const PeriodColumns = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
+  const _sfc_main$4 = vue.defineComponent({
+    name: "DateComparison",
+    components: {
+      PeriodColumns
     },
     props: {
       sparkline: {
@@ -1032,83 +1114,54 @@ var __spreadValues = (a, b) => {
         const primary = firstLabel !== void 0 ? (_b = metrics[firstLabel]) == null ? void 0 : _b[0] : void 0;
         return (primary == null ? void 0 : primary.title) || (primary == null ? void 0 : primary.description) || "";
       });
-      const periods = vue.computed(() => {
-        const metrics = props.sparkline.metrics || {};
-        const order = props.sparkline.metricsOrder || [];
-        return order.map((label) => {
-          var _a;
-          const groupMetrics = metrics[label] || [];
-          const primary = groupMetrics[0];
-          const secondary = groupMetrics[1];
-          return {
-            label,
-            primaryValue: (_a = primary == null ? void 0 : primary.value) != null ? _a : "",
-            evolution: primary == null ? void 0 : primary.evolution,
-            secondaryValue: secondary == null ? void 0 : secondary.value,
-            secondaryLabel: secondary == null ? void 0 : secondary.description
-          };
-        });
-      });
       return {
-        metricTitle,
-        periods
+        metricTitle
       };
     }
   });
-  const _hoisted_1$2 = { class: "sparklineDateComparison" };
-  const _hoisted_2$1 = ["title"];
-  const _hoisted_3 = { class: "sparklineDateComparison__periods" };
-  const _hoisted_4 = {
-    key: 0,
-    class: "sparklineDateComparison__separator"
-  };
-  const _hoisted_5 = { class: "sparklineDateComparison__date" };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_DateAtom = vue.resolveComponent("DateAtom");
-    const _component_EvolutionBadge = vue.resolveComponent("EvolutionBadge");
-    const _component_MetricValue = vue.resolveComponent("MetricValue");
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [
+  const _hoisted_1$4 = { class: "sparklineDateComparison" };
+  const _hoisted_2$3 = ["title"];
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_PeriodColumns = vue.resolveComponent("PeriodColumns");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$4, [
       vue.createElementVNode("div", {
         class: "sparklineDateComparison__title",
         title: _ctx.metricTitle
-      }, vue.toDisplayString(_ctx.metricTitle), 9, _hoisted_2$1),
-      vue.createElementVNode("div", _hoisted_3, [
-        (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.periods, (period, index) => {
-          return vue.openBlock(), vue.createElementBlock(vue.Fragment, {
-            key: period.label
-          }, [
-            index > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4)) : vue.createCommentVNode("", true),
-            vue.createElementVNode("div", _hoisted_5, [
-              vue.createVNode(_component_DateAtom, {
-                label: period.label
-              }, null, 8, ["label"]),
-              vue.createVNode(_component_MetricValue, {
-                class: "metricValue--noTitle",
-                value: period.primaryValue,
-                "secondary-value": period.secondaryValue,
-                "secondary-label": period.secondaryLabel
-              }, vue.createSlots({ _: 2 }, [
-                period.evolution ? {
-                  name: "evolution",
-                  fn: vue.withCtx(() => [
-                    vue.createVNode(_component_EvolutionBadge, {
-                      percent: period.evolution.percent,
-                      trend: period.evolution.trend,
-                      "is-lower-value-better": period.evolution.isLowerValueBetter,
-                      tooltip: period.evolution.tooltip || ""
-                    }, null, 8, ["percent", "trend", "is-lower-value-better", "tooltip"])
-                  ]),
-                  key: "0"
-                } : void 0
-              ]), 1032, ["value", "secondary-value", "secondary-label"])
-            ])
-          ], 64);
-        }), 128))
-      ])
+      }, vue.toDisplayString(_ctx.metricTitle), 9, _hoisted_2$3),
+      vue.createVNode(_component_PeriodColumns, { entry: _ctx.sparkline }, null, 8, ["entry"])
     ]);
   }
-  const DateComparison = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
-  const _sfc_main$1 = vue.defineComponent({
+  const DateComparison = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
+  /*!
+   * Matomo - free/libre analytics platform
+   *
+   * @link    https://matomo.org
+   * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+   */
+  function sparklineGraphParamsAttr(entry) {
+    const { graphParams, url } = entry;
+    if (graphParams && Object.keys(graphParams).length) {
+      return JSON.stringify(graphParams);
+    }
+    if (url) {
+      const parsed = CoreHome.MatomoUrl.parse(url.substring(url.indexOf("?") + 1));
+      const derived = {};
+      ["columns", "rows", "idGoal"].forEach((key) => {
+        if (parsed[key]) {
+          derived[key] = parsed[key];
+        }
+      });
+      if (Object.keys(derived).length) {
+        return JSON.stringify(derived);
+      }
+    }
+    return null;
+  }
+  function sparklineSeriesIndicesAttr(entry) {
+    const { seriesIndices } = entry;
+    return seriesIndices && seriesIndices.length ? JSON.stringify(seriesIndices) : null;
+  }
+  const _sfc_main$3 = vue.defineComponent({
     name: "SparklineCard",
     components: {
       NoComparison,
@@ -1135,29 +1188,8 @@ var __spreadValues = (a, b) => {
         var _a;
         return !!((_a = props.sparkline.seriesIndices) == null ? void 0 : _a.length);
       });
-      const graphParamsAttr = vue.computed(() => {
-        const { graphParams, url } = props.sparkline;
-        if (graphParams && Object.keys(graphParams).length) {
-          return JSON.stringify(graphParams);
-        }
-        if (url) {
-          const parsed = CoreHome.MatomoUrl.parse(url.substring(url.indexOf("?") + 1));
-          const derived = {};
-          ["columns", "rows", "idGoal"].forEach((key) => {
-            if (parsed[key]) {
-              derived[key] = parsed[key];
-            }
-          });
-          if (Object.keys(derived).length) {
-            return JSON.stringify(derived);
-          }
-        }
-        return null;
-      });
-      const seriesIndicesAttr = vue.computed(() => {
-        const { seriesIndices } = props.sparkline;
-        return seriesIndices && seriesIndices.length ? JSON.stringify(seriesIndices) : null;
-      });
+      const graphParamsAttr = vue.computed(() => sparklineGraphParamsAttr(props.sparkline));
+      const seriesIndicesAttr = vue.computed(() => sparklineSeriesIndicesAttr(props.sparkline));
       const sparklineWidth = vue.computed(() => isComparison.value ? 760 : 380);
       return {
         isComparison,
@@ -1167,12 +1199,12 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$1 = ["data-graph-params", "data-series-indices"];
-  const _hoisted_2 = {
+  const _hoisted_1$3 = ["data-graph-params", "data-series-indices"];
+  const _hoisted_2$2 = {
     key: 0,
     class: "sparklineCard__title"
   };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     var _a;
     const _component_DateComparison = vue.resolveComponent("DateComparison");
     const _component_NoComparison = vue.resolveComponent("NoComparison");
@@ -1182,7 +1214,7 @@ var __spreadValues = (a, b) => {
       "data-graph-params": _ctx.graphParamsAttr,
       "data-series-indices": _ctx.seriesIndicesAttr
     }, [
-      _ctx.sparkline.title ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2, vue.toDisplayString(_ctx.sparkline.title), 1)) : vue.createCommentVNode("", true),
+      _ctx.sparkline.title ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$2, vue.toDisplayString(_ctx.sparkline.title), 1)) : vue.createCommentVNode("", true),
       _ctx.isComparison ? (vue.openBlock(), vue.createBlock(_component_DateComparison, {
         key: 1,
         sparkline: _ctx.sparkline
@@ -1201,13 +1233,152 @@ var __spreadValues = (a, b) => {
           "series-indices": (_a = _ctx.sparkline.seriesIndices) != null ? _a : void 0
         }, null, 8, ["width", "params", "series-indices"])
       ], 2)
+    ], 10, _hoisted_1$3);
+  }
+  const SparklineCard = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
+  const _sfc_main$2 = vue.defineComponent({
+    name: "SegmentComparisonRow",
+    components: {
+      PeriodColumns,
+      Sparkline: CoreHome.Sparkline
+    },
+    props: {
+      segment: {
+        type: Object,
+        required: true
+      }
+    },
+    setup(props) {
+      const segmentLabel = vue.computed(() => props.segment.title || "");
+      const isMultiPeriod = vue.computed(() => (props.segment.metricsOrder || []).length > 1);
+      const sparklineWidth = vue.computed(() => isMultiPeriod.value ? 760 : 380);
+      return {
+        segmentLabel,
+        isMultiPeriod,
+        sparklineWidth
+      };
+    }
+  });
+  const _hoisted_1$2 = { class: "sparklineSegmentComparisonRow" };
+  const _hoisted_2$1 = ["title"];
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a;
+    const _component_PeriodColumns = vue.resolveComponent("PeriodColumns");
+    const _component_Sparkline = vue.resolveComponent("Sparkline");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [
+      vue.createElementVNode("span", {
+        class: "sparklineSegmentComparisonRow__chip",
+        title: _ctx.segmentLabel
+      }, vue.toDisplayString(_ctx.segmentLabel), 9, _hoisted_2$1),
+      vue.createVNode(_component_PeriodColumns, { entry: _ctx.segment }, null, 8, ["entry"]),
+      vue.createElementVNode("div", {
+        class: vue.normalizeClass(["sparklineSegmentComparisonRow__sparkline", { "sparklineSegmentComparisonRow__sparkline--wide": _ctx.isMultiPeriod }])
+      }, [
+        vue.createVNode(_component_Sparkline, {
+          width: _ctx.sparklineWidth,
+          height: 40,
+          params: _ctx.segment.url,
+          "series-indices": (_a = _ctx.segment.seriesIndices) != null ? _a : void 0
+        }, null, 8, ["width", "params", "series-indices"])
+      ], 2)
+    ]);
+  }
+  const SegmentComparisonRow = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
+  const _sfc_main$1 = vue.defineComponent({
+    name: "SegmentComparisonCard",
+    directives: {
+      Tooltips: CoreHome.Tooltips
+    },
+    components: {
+      SegmentComparisonRow
+    },
+    props: {
+      // One entry per compared segment for this metric (same metric, different segment).
+      segments: {
+        type: Array,
+        required: true
+      },
+      areSparklinesLinkable: {
+        type: Boolean,
+        default: true
+      },
+      // Backend map of metric column -> documentation string, for the card-title tooltip.
+      allMetricsDocumentation: {
+        type: Object,
+        default: () => ({})
+      }
+    },
+    setup(props) {
+      const primaryMetric = vue.computed(() => {
+        var _a, _b;
+        const first = props.segments[0];
+        const metrics = (first == null ? void 0 : first.metrics) || {};
+        const label = (_a = ((first == null ? void 0 : first.metricsOrder) || [])[0]) != null ? _a : Object.keys(metrics)[0];
+        return label !== void 0 ? (_b = metrics[label]) == null ? void 0 : _b[0] : void 0;
+      });
+      const metricTitle = vue.computed(
+        () => {
+          var _a, _b;
+          return ((_a = primaryMetric.value) == null ? void 0 : _a.title) || ((_b = primaryMetric.value) == null ? void 0 : _b.description) || "";
+        }
+      );
+      const documentation = vue.computed(
+        () => {
+          var _a, _b;
+          return props.allMetricsDocumentation[(_b = (_a = primaryMetric.value) == null ? void 0 : _a.column) != null ? _b : ""] || void 0;
+        }
+      );
+      const graphParamsAttr = vue.computed(() => {
+        const first = props.segments[0];
+        return first ? sparklineGraphParamsAttr(first) : null;
+      });
+      const seriesIndicesAttr = vue.computed(() => {
+        const indices = props.segments.flatMap((segment) => segment.seriesIndices || []);
+        return indices.length ? JSON.stringify(indices) : null;
+      });
+      return {
+        metricTitle,
+        documentation,
+        graphParamsAttr,
+        seriesIndicesAttr
+      };
+    }
+  });
+  const _hoisted_1$1 = ["data-graph-params", "data-series-indices"];
+  const _hoisted_2 = ["title"];
+  const _hoisted_3 = { class: "sparklineSegmentComparisonCard__rows" };
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_SegmentComparisonRow = vue.resolveComponent("SegmentComparisonRow");
+    const _directive_tooltips = vue.resolveDirective("tooltips");
+    return vue.openBlock(), vue.createElementBlock("div", {
+      class: vue.normalizeClass(["sparkline sparklineSegmentComparisonCard", { notLinkable: !_ctx.areSparklinesLinkable }]),
+      "data-graph-params": _ctx.graphParamsAttr,
+      "data-series-indices": _ctx.seriesIndicesAttr
+    }, [
+      vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", {
+        class: vue.normalizeClass(["sparklineSegmentComparisonCard__title", { "sparklineSegmentComparisonCard__title--documented": !!_ctx.documentation }]),
+        title: _ctx.documentation || _ctx.metricTitle
+      }, [
+        vue.createTextVNode(vue.toDisplayString(_ctx.metricTitle), 1)
+      ], 10, _hoisted_2)), [
+        [_directive_tooltips, { duration: 200, delay: 200 }]
+      ]),
+      vue.createElementVNode("div", _hoisted_3, [
+        (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.segments, (segment, index) => {
+          return vue.openBlock(), vue.createBlock(_component_SegmentComparisonRow, {
+            key: index,
+            segment
+          }, null, 8, ["segment"]);
+        }), 128))
+      ])
     ], 10, _hoisted_1$1);
   }
-  const SparklineCard = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+  const SegmentComparisonCard = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
   const _sfc_main = vue.defineComponent({
     name: "SparklinesGrid",
     components: {
-      SparklineCard
+      SparklineCard,
+      SegmentComparisonCard
     },
     props: {
       sparklines: {
@@ -1228,19 +1399,26 @@ var __spreadValues = (a, b) => {
         type: Boolean,
         default: false
       },
-      // True for date comparison (the only comparison mode the grid handles). Comparison cards are
-      // wider — two value columns + a full-width sparkline — so they use a lower-density column tier.
-      isComparing: {
-        type: Boolean,
-        default: false
+      // Comparison layout from the backend: 'none', 'date', 'segment' or 'segmentDate'. Date and
+      // segment+date cards are wider (value columns + a full-width sparkline) so use a lower density;
+      // segment / segment+date group a metric's per-segment entries into one taller card.
+      comparisonMode: {
+        type: String,
+        default: "none"
       }
     },
     setup(props) {
+      const isSegmentMode = vue.computed(
+        () => props.comparisonMode === "segment" || props.comparisonMode === "segmentDate"
+      );
       const flatSparklines = vue.computed(
         () => [].concat(...Object.values(props.sparklines || {})).filter((sparkline) => !!sparkline.url).sort((a, b) => a.order - b.order)
       );
+      const segmentGroups = vue.computed(
+        () => Object.values(props.sparklines || {}).map((group) => group.filter((sparkline) => !!sparkline.url)).filter((group) => group.length > 0).sort((a, b) => Math.min(...a.map((s) => s.order)) - Math.min(...b.map((s) => s.order)))
+      );
       const columnClasses = vue.computed(() => {
-        if (props.isComparing) {
+        if (props.comparisonMode === "date" || props.comparisonMode === "segmentDate") {
           return props.isWidget ? "col s12" : "col s12 m12 l6 xl6";
         }
         return props.isWidget ? "col s6" : "col s6 m6 l4 xl3";
@@ -1251,16 +1429,30 @@ var __spreadValues = (a, b) => {
         });
       });
       return {
+        isSegmentMode,
         flatSparklines,
+        segmentGroups,
         columnClasses
       };
     }
   });
   const _hoisted_1 = { class: "row sparklinesGrid" };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_SegmentComparisonCard = vue.resolveComponent("SegmentComparisonCard");
     const _component_SparklineCard = vue.resolveComponent("SparklineCard");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
-      (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.flatSparklines, (sparkline, index) => {
+      _ctx.isSegmentMode ? (vue.openBlock(true), vue.createElementBlock(vue.Fragment, { key: 0 }, vue.renderList(_ctx.segmentGroups, (segments, index) => {
+        return vue.openBlock(), vue.createElementBlock("div", {
+          key: index,
+          class: vue.normalizeClass(_ctx.columnClasses)
+        }, [
+          vue.createVNode(_component_SegmentComparisonCard, {
+            segments,
+            "are-sparklines-linkable": _ctx.areSparklinesLinkable,
+            "all-metrics-documentation": _ctx.allMetricsDocumentation
+          }, null, 8, ["segments", "are-sparklines-linkable", "all-metrics-documentation"])
+        ], 2);
+      }), 128)) : (vue.openBlock(true), vue.createElementBlock(vue.Fragment, { key: 1 }, vue.renderList(_ctx.flatSparklines, (sparkline, index) => {
         return vue.openBlock(), vue.createElementBlock("div", {
           key: index,
           class: vue.normalizeClass(_ctx.columnClasses)

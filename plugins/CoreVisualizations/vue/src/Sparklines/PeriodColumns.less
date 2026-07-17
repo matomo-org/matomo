@@ -1,0 +1,27 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+// Shared compared-period columns (date comparison and segment + date): the columns share the width
+// evenly, the gap spaces them, and the separator element between them draws the divider. Margin-free
+// — the host component owns the spacing to its neighbours (title above, sparkline below).
+.periodColumns {
+  display: flex;
+  gap: 16px;
+}
+
+.periodColumns__column {
+  flex: auto;
+  min-width: 0;
+}
+
+// Divider between adjacent columns. A real element (not a positional sibling selector) so its
+// presence is decided in the template, one per gap between columns.
+.periodColumns__separator {
+  flex: none;
+  width: 1px;
+  background: @theme-color-border-alternative;
+}
