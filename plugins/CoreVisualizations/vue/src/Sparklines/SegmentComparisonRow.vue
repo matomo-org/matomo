@@ -20,7 +20,7 @@
         :width="sparklineWidth"
         :height="40"
         :params="segment.url"
-        :series-indices="segment.seriesIndices"
+        :series-indices="segment.seriesIndices ?? undefined"
       />
     </div>
   </div>
