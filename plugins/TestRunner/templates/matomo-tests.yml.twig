@@ -197,7 +197,7 @@ jobs:
           matomo-test-branch: ${{ '{{' }} matrix.target {{ '}}' }}
 {% endif %}
           test-type: 'Client'
-          node-version: '16'
+          node-version: '24'
           mysql-service: false
 {% if dependentPlugins %}
           dependent-plugins: '{{ dependentPlugins|join(',') }}'
