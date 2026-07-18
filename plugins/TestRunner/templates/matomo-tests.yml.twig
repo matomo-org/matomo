@@ -49,7 +49,7 @@ concurrency:
 jobs:
 {% if not plugin %}
   PHP:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -86,12 +86,15 @@ jobs:
 {% endif %}
 {% elseif hasPluginTests %}
   PluginTests:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         php: [ '{{ phpVersions|join("', '") }}' ]
         target: [{% if plugin != 'TagManager' %}'minimum_required_matomo', {% endif %}'maximum_supported_matomo']
+        database:
+          - { engine: 'Mysql', version: '8.0' }
+          - { engine: 'Mariadb', version: '10.6' }
     steps:
       - uses: actions/checkout@v3
         with:
@@ -106,8 +109,8 @@ jobs:
           plugin-name: '{{ plugin }}'
           php-version: ${{ '{{' }} matrix.php {{ '}}' }}
           test-type: 'PluginTests'
-          mysql-engine: 'Mysql'
-          mysql-version: '8.0'
+          mysql-engine: ${{ '{{' }} matrix.database.engine {{ '}}' }}
+          mysql-version: ${{ '{{' }} matrix.database.version {{ '}}' }}
           matomo-test-branch: ${{ '{{' }} matrix.target {{ '}}' }}
 {% if setupScript %}
           setup-script: '{{ setupScript }}'
@@ -128,7 +131,7 @@ jobs:
 
 {%- if not plugin or hasJavaScriptTests %}
   Javascript:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 {% if plugin %}
     strategy:
@@ -167,7 +170,7 @@ jobs:
 
 {%- if not plugin or hasClientTests %}
   Client:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 {% if plugin %}
     strategy:
@@ -204,7 +207,7 @@ jobs:
 
 {%- if not plugin or hasUITests %}
   UI:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 {% if not plugin %}
     strategy:
       fail-fast: false
