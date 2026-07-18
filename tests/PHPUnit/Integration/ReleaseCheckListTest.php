@@ -1068,6 +1068,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '*vite.config.ts',
             '*vitest.config.ts',
             '*vite-runner.mjs',
+            '*generate-corejs-imports.mjs',
             '*.npmignore',
             '*.ncurc.json',
             '*.prettierrc',
