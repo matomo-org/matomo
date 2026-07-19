@@ -15,9 +15,9 @@
       <h3
         class="reportHeader__title widgetName"
         :class="{ 'reportHeader__title--clickable': titleClickable }"
-        :role="titleClickable ? 'button' : null"
-        :tabindex="titleClickable ? 0 : null"
-        :title="titleClickable ? titleClickHint : null"
+        :role="titleClickable ? 'button' : undefined"
+        :tabindex="titleClickable ? 0 : undefined"
+        :title="titleClickable ? titleClickHint : undefined"
         @click="onTitleClick"
         @keydown.enter.prevent="onTitleClick"
         @keydown.space.prevent="onTitleClick"
@@ -48,7 +48,7 @@
 
     <!-- Reserved anchor for report actions (visualisation switcher, export, ...).
          Populated by a later story; intentionally empty here. -->
-    <div class="reportHeader__actions"></div>
+    <div class="reportHeader__actions" />
   </div>
 </template>
 
@@ -57,7 +57,7 @@ import { defineComponent } from 'vue';
 import WidgetControls from '../WidgetControls/WidgetControls.vue';
 import { translate } from '../translate';
 
-interface ControlVisibility {
+export interface ControlVisibility {
   minimise: boolean;
   maximise: boolean;
   refresh: boolean;
@@ -93,9 +93,15 @@ export default defineComponent({
       type: String,
       default: 'dashboard',
     },
-    title: String,
+    title: {
+      type: String,
+      default: '',
+    },
     titleClickable: Boolean,
-    titleClickHint: String,
+    titleClickHint: {
+      type: String,
+      default: '',
+    },
   },
   components: {
     WidgetControls,

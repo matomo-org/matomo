@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5f035bd975 (Update vue build)
 (function(global, factory) {
   typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require("vue")) : typeof define === "function" && define.amd ? define(["exports", "vue"], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, factory(global.CoreHome = {}, global.Vue));
 })(this, (function(exports2, vue) {
@@ -18,6 +21,7 @@ var __spreadValues = (a, b) => {
     for (var prop of __getOwnPropSymbols(b)) {
       if (__propIsEnum.call(b, prop))
         __defNormalProp(a, prop, b[prop]);
+<<<<<<< HEAD
 =======
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -349,6 +353,8 @@ class Periods {
     if (this.periods[name]) {
       throw new Error(`The "${name}" period already exists! It cannot be overridden.`);
 >>>>>>> 5eb7b67532 (Remove 3-dots dropdown menu)
+=======
+>>>>>>> 5f035bd975 (Update vue build)
     }
   return a;
 };
@@ -3525,6 +3531,7 @@ var __async = (__this, __arguments, generator) => {
       }
     },
     mounted() {
+<<<<<<< HEAD
       var _a2, _b;
       const root = this.$refs.root;
       if (!this.actualInlineHelp) {
@@ -3542,6 +3549,25 @@ var __async = (__this, __arguments, generator) => {
       (_b = root.parentElement) == null ? void 0 : _b.addEventListener("piwik:reportChanged", this.onReportChanged);
       if (!this.actualFeatureName) {
         this.actualFeatureName = this.readReportFeatureName();
+=======
+      var _a2, _b, _c;
+      const root = this.$refs.root;
+      if (!this.actualInlineHelp) {
+        let helpNode = root.querySelector(".title .inlineHelp");
+        if (!helpNode && ((_a2 = root.parentElement) == null ? void 0 : _a2.nextElementSibling)) {
+          helpNode = root.parentElement.nextElementSibling.querySelector(".reportDocumentation");
+        }
+        if (helpNode) {
+          const helpDocs = (_b = helpNode.getAttribute("data-content")) == null ? void 0 : _b.trim();
+          if (helpDocs && helpDocs.length) {
+            this.actualInlineHelp = `<p>${helpDocs}</p>`;
+            setTimeout(() => helpNode.remove(), 0);
+          }
+        }
+      }
+      if (!this.actualFeatureName) {
+        this.actualFeatureName = (_c = root.querySelector(".title")) == null ? void 0 : _c.textContent;
+>>>>>>> 5f035bd975 (Update vue build)
       }
       if (Matomo.period && Matomo.currentDateString) {
         const currentPeriod = Periods$1.parse(
@@ -3559,11 +3585,14 @@ var __async = (__this, __arguments, generator) => {
         }
       }
     },
+<<<<<<< HEAD
     beforeUnmount() {
       var _a2;
       const root = this.$refs.root;
       (_a2 = root == null ? void 0 : root.parentElement) == null ? void 0 : _a2.removeEventListener("piwik:reportChanged", this.onReportChanged);
     },
+=======
+>>>>>>> 5f035bd975 (Update vue build)
     methods: {
       // Expose the plugin component to `<component :is>` as a plain Component.
       asComponent(component) {
@@ -3571,6 +3600,7 @@ var __async = (__this, __arguments, generator) => {
       },
       htmlEntities(v) {
         return Matomo.helper.htmlEntities(v);
+<<<<<<< HEAD
       },
       onReportChanged() {
         this.actualInlineHelp = this.readReportDocumentation();
@@ -3592,6 +3622,8 @@ var __async = (__this, __arguments, generator) => {
         const root = this.$refs.root;
         const helpDocs = (_d = (_c = (_b = (_a2 = root == null ? void 0 : root.parentElement) == null ? void 0 : _a2.nextElementSibling) == null ? void 0 : _b.querySelector(".reportDocumentation")) == null ? void 0 : _c.getAttribute("data-content")) == null ? void 0 : _d.trim();
         return helpDocs && helpDocs.length ? `<p>${helpDocs}</p>` : "";
+=======
+>>>>>>> 5f035bd975 (Update vue build)
       }
     },
     computed: {
@@ -3612,6 +3644,7 @@ var __async = (__this, __arguments, generator) => {
     tabindex: "6"
   };
   const _hoisted_2$u = ["href", "title"];
+<<<<<<< HEAD
   const _hoisted_3$r = { class: "iconsBar" };
   const _hoisted_4$m = ["href", "title"];
   const _hoisted_5$k = ["title"];
@@ -3620,6 +3653,16 @@ var __async = (__this, __arguments, generator) => {
     class: "ratingIcons"
   };
   const _hoisted_7$c = { class: "inlineHelp" };
+=======
+  const _hoisted_3$q = { class: "iconsBar" };
+  const _hoisted_4$l = ["href", "title"];
+  const _hoisted_5$k = ["title"];
+  const _hoisted_6$g = {
+    key: 2,
+    class: "ratingIcons"
+  };
+  const _hoisted_7$b = { class: "inlineHelp" };
+>>>>>>> 5f035bd975 (Update vue build)
   const _hoisted_8$a = ["innerHTML"];
   const _hoisted_9$8 = ["innerHTML"];
   const _hoisted_10$6 = ["href"];
@@ -3641,7 +3684,11 @@ var __async = (__this, __arguments, generator) => {
       }, [
         vue.renderSlot(_ctx.$slots, "default")
       ], 8, _hoisted_2$u)) : vue.createCommentVNode("", true),
+<<<<<<< HEAD
       vue.withDirectives(vue.createElementVNode("span", _hoisted_3$r, [
+=======
+      vue.withDirectives(vue.createElementVNode("span", _hoisted_3$q, [
+>>>>>>> 5f035bd975 (Update vue build)
         _ctx.helpUrl && !_ctx.actualInlineHelp ? (vue.openBlock(), vue.createElementBlock("a", {
           key: 0,
           rel: "noreferrer noopener",
@@ -3651,7 +3698,11 @@ var __async = (__this, __arguments, generator) => {
           title: _ctx.translate("CoreHome_ExternalHelp")
         }, [..._cache[3] || (_cache[3] = [
           vue.createElementVNode("span", { class: "icon-help" }, null, -1)
+<<<<<<< HEAD
         ])], 8, _hoisted_4$m)) : vue.createCommentVNode("", true),
+=======
+        ])], 8, _hoisted_4$l)) : vue.createCommentVNode("", true),
+>>>>>>> 5f035bd975 (Update vue build)
         _ctx.actualInlineHelp ? (vue.openBlock(), vue.createElementBlock("a", {
           key: 1,
           onClick: _cache[0] || (_cache[0] = ($event) => _ctx.showInlineHelp = !_ctx.showInlineHelp),
@@ -3660,13 +3711,21 @@ var __async = (__this, __arguments, generator) => {
         }, [..._cache[4] || (_cache[4] = [
           vue.createElementVNode("span", { class: "icon-info" }, null, -1)
         ])], 10, _hoisted_5$k)) : vue.createCommentVNode("", true),
+<<<<<<< HEAD
         _ctx.showRateFeature ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$h, [
+=======
+        _ctx.showRateFeature ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$g, [
+>>>>>>> 5f035bd975 (Update vue build)
           (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.asComponent(_ctx.rateFeature)), { title: _ctx.actualFeatureName }, null, 8, ["title"]))
         ])) : vue.createCommentVNode("", true)
       ], 512), [
         [vue.vShow, _ctx.showIcons || _ctx.showInlineHelp]
       ]),
+<<<<<<< HEAD
       vue.withDirectives(vue.createElementVNode("div", _hoisted_7$c, [
+=======
+      vue.withDirectives(vue.createElementVNode("div", _hoisted_7$b, [
+>>>>>>> 5f035bd975 (Update vue build)
         vue.createElementVNode("div", {
           innerHTML: _ctx.$sanitize(_ctx.actualInlineHelp)
         }, null, 8, _hoisted_8$a),
@@ -3763,16 +3822,28 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "card-title"
   };
+<<<<<<< HEAD
   const _hoisted_3$q = {
     key: 1,
     class: "card-title"
   };
   const _hoisted_4$l = { ref: "content" };
+=======
+  const _hoisted_3$p = {
+    key: 1,
+    class: "card-title"
+  };
+  const _hoisted_4$k = { ref: "content" };
+>>>>>>> 5f035bd975 (Update vue build)
   const _hoisted_5$j = {
     key: 0,
     class: "card-image hide-on-med-and-down"
   };
+<<<<<<< HEAD
   const _hoisted_6$g = ["src", "alt"];
+=======
+  const _hoisted_6$f = ["src", "alt"];
+>>>>>>> 5f035bd975 (Update vue build)
   function _sfc_render$E(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_EnrichedHeadline = vue.resolveComponent("EnrichedHeadline");
     return vue.openBlock(), vue.createElementBlock("div", {
@@ -3781,7 +3852,11 @@ var __async = (__this, __arguments, generator) => {
     }, [
       vue.createElementVNode("div", _hoisted_1$A, [
         _ctx.contentTitle && !_ctx.actualFeature && !_ctx.helpUrl && !_ctx.actualHelpText && !_ctx.editUrl ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_2$t, vue.toDisplayString(_ctx.decode(_ctx.contentTitle)), 1)) : vue.createCommentVNode("", true),
+<<<<<<< HEAD
         _ctx.contentTitle && (_ctx.actualFeature || _ctx.helpUrl || _ctx.actualHelpText || _ctx.editUrl) ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_3$q, [
+=======
+        _ctx.contentTitle && (_ctx.actualFeature || _ctx.helpUrl || _ctx.actualHelpText || _ctx.editUrl) ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_3$p, [
+>>>>>>> 5f035bd975 (Update vue build)
           vue.createVNode(_component_EnrichedHeadline, {
             "feature-name": _ctx.actualFeature,
             "help-url": _ctx.helpUrl,
@@ -3794,7 +3869,11 @@ var __async = (__this, __arguments, generator) => {
             _: 1
           }, 8, ["feature-name", "help-url", "edit-url", "inline-help"])
         ])) : vue.createCommentVNode("", true),
+<<<<<<< HEAD
         vue.createElementVNode("div", _hoisted_4$l, [
+=======
+        vue.createElementVNode("div", _hoisted_4$k, [
+>>>>>>> 5f035bd975 (Update vue build)
           vue.renderSlot(_ctx.$slots, "default")
         ], 512)
       ]),
@@ -3802,7 +3881,11 @@ var __async = (__this, __arguments, generator) => {
         vue.createElementVNode("img", {
           src: _ctx.imageUrl,
           alt: _ctx.actualImageAltText
+<<<<<<< HEAD
         }, null, 8, _hoisted_6$g)
+=======
+        }, null, 8, _hoisted_6$f)
+>>>>>>> 5f035bd975 (Update vue build)
       ])) : vue.createCommentVNode("", true)
     ], 2);
   }
@@ -4273,11 +4356,19 @@ var __async = (__this, __arguments, generator) => {
     class: "matomo-comparisons"
   };
   const _hoisted_2$s = { class: "comparison-type" };
+<<<<<<< HEAD
   const _hoisted_3$p = ["title"];
   const _hoisted_4$k = ["href"];
   const _hoisted_5$i = ["title"];
   const _hoisted_6$f = { class: "comparison-period-label" };
   const _hoisted_7$b = ["onClick"];
+=======
+  const _hoisted_3$o = ["title"];
+  const _hoisted_4$j = ["href"];
+  const _hoisted_5$i = ["title"];
+  const _hoisted_6$e = { class: "comparison-period-label" };
+  const _hoisted_7$a = ["onClick"];
+>>>>>>> 5f035bd975 (Update vue build)
   const _hoisted_8$9 = ["title"];
   const _hoisted_9$7 = {
     class: "loadingPiwik",
@@ -4301,8 +4392,13 @@ var __async = (__this, __arguments, generator) => {
             vue.createElementVNode("a", {
               target: "_blank",
               href: _ctx.getUrlToSegment(comparison.params.segment)
+<<<<<<< HEAD
             }, vue.toDisplayString(comparison.title), 9, _hoisted_4$k)
           ], 8, _hoisted_3$p),
+=======
+            }, vue.toDisplayString(comparison.title), 9, _hoisted_4$j)
+          ], 8, _hoisted_3$o),
+>>>>>>> 5f035bd975 (Update vue build)
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.periodComparisons, (periodComparison) => {
             return vue.openBlock(), vue.createElementBlock("div", {
               class: "comparison-period",
@@ -4315,7 +4411,11 @@ var __async = (__this, __arguments, generator) => {
                   "background-color": _ctx.getSeriesColor(comparison, periodComparison)
                 })
               }, null, 4),
+<<<<<<< HEAD
               vue.createElementVNode("span", _hoisted_6$f, vue.toDisplayString(periodComparison.title) + " (" + vue.toDisplayString(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)
+=======
+              vue.createElementVNode("span", _hoisted_6$e, vue.toDisplayString(periodComparison.title) + " (" + vue.toDisplayString(_ctx.getComparisonPeriodType(periodComparison)) + ") ", 1)
+>>>>>>> 5f035bd975 (Update vue build)
             ], 8, _hoisted_5$i);
           }), 128)),
           _ctx.segmentComparisons.length > 1 ? (vue.openBlock(), vue.createElementBlock("a", {
@@ -4327,7 +4427,11 @@ var __async = (__this, __arguments, generator) => {
               class: "icon icon-close",
               title: _ctx.translate("General_ClickToRemoveComp")
             }, null, 8, _hoisted_8$9)
+<<<<<<< HEAD
           ], 8, _hoisted_7$b)) : vue.createCommentVNode("", true)
+=======
+          ], 8, _hoisted_7$a)) : vue.createCommentVNode("", true)
+>>>>>>> 5f035bd975 (Update vue build)
         ]);
       }), 128)),
       vue.createElementVNode("div", _hoisted_9$7, [
@@ -4404,14 +4508,24 @@ var __async = (__this, __arguments, generator) => {
     class: "menuDropdown"
   };
   const _hoisted_2$r = ["title"];
+<<<<<<< HEAD
   const _hoisted_3$o = ["innerHTML"];
   const _hoisted_4$j = { class: "items" };
+=======
+  const _hoisted_3$n = ["innerHTML"];
+  const _hoisted_4$i = { class: "items" };
+>>>>>>> 5f035bd975 (Update vue build)
   const _hoisted_5$h = {
     key: 0,
     class: "search"
   };
+<<<<<<< HEAD
   const _hoisted_6$e = ["placeholder"];
   const _hoisted_7$a = ["title"];
+=======
+  const _hoisted_6$d = ["placeholder"];
+  const _hoisted_7$9 = ["title"];
+>>>>>>> 5f035bd975 (Update vue build)
   const _hoisted_8$8 = ["title"];
   function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_focus_if = vue.resolveDirective("focus-if");
@@ -4425,24 +4539,39 @@ var __async = (__this, __arguments, generator) => {
         vue.createElementVNode("span", {
           class: "title-label",
           innerHTML: _ctx.$sanitize(_ctx.actualMenuTitle)
+<<<<<<< HEAD
         }, null, 8, _hoisted_3$o),
         _cache[5] || (_cache[5] = vue.createElementVNode("span", { class: "icon-chevron-down reporting-menu-sub-icon" }, null, -1))
       ], 8, _hoisted_2$r),
       vue.withDirectives(vue.createElementVNode("div", _hoisted_4$j, [
+=======
+        }, null, 8, _hoisted_3$n),
+        _cache[5] || (_cache[5] = vue.createElementVNode("span", { class: "icon-chevron-down reporting-menu-sub-icon" }, null, -1))
+      ], 8, _hoisted_2$r),
+      vue.withDirectives(vue.createElementVNode("div", _hoisted_4$i, [
+>>>>>>> 5f035bd975 (Update vue build)
         _ctx.showSearch && _ctx.showItems ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$h, [
           vue.withDirectives(vue.createElementVNode("input", {
             type: "text",
             "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.searchTerm = $event),
             onKeydown: _cache[2] || (_cache[2] = ($event) => _ctx.onSearchTermKeydown()),
             placeholder: _ctx.translate("General_Search")
+<<<<<<< HEAD
           }, null, 40, _hoisted_6$e), [
+=======
+          }, null, 40, _hoisted_6$d), [
+>>>>>>> 5f035bd975 (Update vue build)
             [vue.vModelText, _ctx.searchTerm],
             [_directive_focus_if, { focused: _ctx.showItems }]
           ]),
           vue.withDirectives(vue.createElementVNode("div", {
             class: "search_ico icon-search",
             title: _ctx.translate("General_Search")
+<<<<<<< HEAD
           }, null, 8, _hoisted_7$a), [
+=======
+          }, null, 8, _hoisted_7$9), [
+>>>>>>> 5f035bd975 (Update vue build)
             [vue.vShow, !_ctx.searchTerm]
           ]),
           vue.withDirectives(vue.createElementVNode("div", {
@@ -4877,16 +5006,28 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$w = { class: "dateRangePicker" };
   const _hoisted_2$q = { id: "calendarRangeFrom" };
+<<<<<<< HEAD
   const _hoisted_3$n = { class: "dateRangePicker-label" };
   const _hoisted_4$i = ["disabled"];
   const _hoisted_5$g = { id: "calendarRangeTo" };
   const _hoisted_6$d = { class: "dateRangePicker-label" };
   const _hoisted_7$9 = ["disabled"];
+=======
+  const _hoisted_3$m = { class: "dateRangePicker-label" };
+  const _hoisted_4$h = ["disabled"];
+  const _hoisted_5$g = { id: "calendarRangeTo" };
+  const _hoisted_6$c = { class: "dateRangePicker-label" };
+  const _hoisted_7$8 = ["disabled"];
+>>>>>>> 5f035bd975 (Update vue build)
   function _sfc_render$A(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_DatePicker = vue.resolveComponent("DatePicker");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$w, [
       vue.createElementVNode("div", _hoisted_2$q, [
+<<<<<<< HEAD
         vue.createElementVNode("h6", _hoisted_3$n, [
+=======
+        vue.createElementVNode("h6", _hoisted_3$m, [
+>>>>>>> 5f035bd975 (Update vue build)
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_DateRangeFrom")) + " ", 1),
           vue.withDirectives(vue.createElementVNode("input", {
             type: "text",
@@ -4897,7 +5038,11 @@ var __async = (__this, __arguments, generator) => {
             "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.startDateText = $event),
             onKeydown: _cache[1] || (_cache[1] = ($event) => _ctx.onRangeInputChanged("from", $event)),
             onKeyup: _cache[2] || (_cache[2] = ($event) => _ctx.handleEnterPress($event))
+<<<<<<< HEAD
           }, null, 40, _hoisted_4$i), [
+=======
+          }, null, 40, _hoisted_4$h), [
+>>>>>>> 5f035bd975 (Update vue build)
             [vue.vModelText, _ctx.startDateText]
           ])
         ]),
@@ -4915,7 +5060,11 @@ var __async = (__this, __arguments, generator) => {
         }, null, 8, ["view-date", "selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end", "disabled"])
       ]),
       vue.createElementVNode("div", _hoisted_5$g, [
+<<<<<<< HEAD
         vue.createElementVNode("h6", _hoisted_6$d, [
+=======
+        vue.createElementVNode("h6", _hoisted_6$c, [
+>>>>>>> 5f035bd975 (Update vue build)
           vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_DateRangeTo")) + " ", 1),
           vue.withDirectives(vue.createElementVNode("input", {
             type: "text",
@@ -4926,7 +5075,11 @@ var __async = (__this, __arguments, generator) => {
             "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => _ctx.endDateText = $event),
             onKeydown: _cache[7] || (_cache[7] = ($event) => _ctx.onRangeInputChanged("to", $event)),
             onKeyup: _cache[8] || (_cache[8] = ($event) => _ctx.handleEnterPress($event))
+<<<<<<< HEAD
           }, null, 40, _hoisted_7$9), [
+=======
+          }, null, 40, _hoisted_7$8), [
+>>>>>>> 5f035bd975 (Update vue build)
             [vue.vModelText, _ctx.endDateText]
           ])
         ]),
@@ -5184,10 +5337,17 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$v = { key: 0 };
   const _hoisted_2$p = ["data-notification-instance-id"];
+<<<<<<< HEAD
   const _hoisted_3$m = { key: 1 };
   const _hoisted_4$h = { class: "notification-body" };
   const _hoisted_5$f = ["innerHTML"];
   const _hoisted_6$c = { key: 1 };
+=======
+  const _hoisted_3$l = { key: 1 };
+  const _hoisted_4$g = { class: "notification-body" };
+  const _hoisted_5$f = ["innerHTML"];
+  const _hoisted_6$b = { key: 1 };
+>>>>>>> 5f035bd975 (Update vue build)
   function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createBlock(vue.Transition, {
       name: _ctx.type === "toast" ? "slow-fade-out" : void 0,
@@ -5219,13 +5379,22 @@ var __async = (__this, __arguments, generator) => {
                         "data-dismiss": "alert",
                         onClick: _cache[0] || (_cache[0] = ($event) => _ctx.closeNotification($event))
                       }, " × ")) : vue.createCommentVNode("", true),
+<<<<<<< HEAD
                       _ctx.title ? (vue.openBlock(), vue.createElementBlock("strong", _hoisted_3$m, vue.toDisplayString(_ctx.title), 1)) : vue.createCommentVNode("", true),
                       vue.createElementVNode("div", _hoisted_4$h, [
+=======
+                      _ctx.title ? (vue.openBlock(), vue.createElementBlock("strong", _hoisted_3$l, vue.toDisplayString(_ctx.title), 1)) : vue.createCommentVNode("", true),
+                      vue.createElementVNode("div", _hoisted_4$g, [
+>>>>>>> 5f035bd975 (Update vue build)
                         _ctx.message ? (vue.openBlock(), vue.createElementBlock("div", {
                           key: 0,
                           innerHTML: _ctx.$sanitize(_ctx.message)
                         }, null, 8, _hoisted_5$f)) : vue.createCommentVNode("", true),
+<<<<<<< HEAD
                         !_ctx.message ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$c, [
+=======
+                        !_ctx.message ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$b, [
+>>>>>>> 5f035bd975 (Update vue build)
                           vue.renderSlot(_ctx.$slots, "default")
                         ])) : vue.createCommentVNode("", true)
                       ])
@@ -5974,14 +6143,24 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$s = ["value", "name"];
   const _hoisted_2$n = ["title"];
+<<<<<<< HEAD
   const _hoisted_3$l = ["textContent"];
   const _hoisted_4$g = {
+=======
+  const _hoisted_3$k = ["textContent"];
+  const _hoisted_4$f = {
+>>>>>>> 5f035bd975 (Update vue build)
     key: 1,
     class: "placeholder"
   };
   const _hoisted_5$e = { class: "dropdown" };
+<<<<<<< HEAD
   const _hoisted_6$b = { class: "custom_select_search" };
   const _hoisted_7$8 = ["placeholder"];
+=======
+  const _hoisted_6$a = { class: "custom_select_search" };
+  const _hoisted_7$7 = ["placeholder"];
+>>>>>>> 5f035bd975 (Update vue build)
   const _hoisted_8$7 = { key: 0 };
   const _hoisted_9$6 = { class: "custom_select_container" };
   const _hoisted_10$5 = ["onClick"];
@@ -6017,8 +6196,13 @@ var __async = (__this, __arguments, generator) => {
           ((_b = _ctx.displayedModelValue) == null ? void 0 : _b.name) || !_ctx.placeholder ? (vue.openBlock(), vue.createElementBlock("span", {
             key: 0,
             textContent: vue.toDisplayString(((_c = _ctx.displayedModelValue) == null ? void 0 : _c.name) || _ctx.firstSiteName)
+<<<<<<< HEAD
           }, null, 8, _hoisted_3$l)) : vue.createCommentVNode("", true),
           !((_d = _ctx.displayedModelValue) == null ? void 0 : _d.name) && _ctx.placeholder ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$g, vue.toDisplayString(_ctx.placeholder), 1)) : vue.createCommentVNode("", true)
+=======
+          }, null, 8, _hoisted_3$k)) : vue.createCommentVNode("", true),
+          !((_d = _ctx.displayedModelValue) == null ? void 0 : _d.name) && _ctx.placeholder ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$f, vue.toDisplayString(_ctx.placeholder), 1)) : vue.createCommentVNode("", true)
+>>>>>>> 5f035bd975 (Update vue build)
         ]),
         vue.createElementVNode("span", {
           class: vue.normalizeClass(["icon icon-chevron-down", { "iconHidden": _ctx.isLoading, "collapsed": !_ctx.showSitesList }])
@@ -6027,7 +6211,11 @@ var __async = (__this, __arguments, generator) => {
         [_directive_tooltips]
       ]),
       vue.withDirectives(vue.createElementVNode("div", _hoisted_5$e, [
+<<<<<<< HEAD
         vue.withDirectives(vue.createElementVNode("div", _hoisted_6$b, [
+=======
+        vue.withDirectives(vue.createElementVNode("div", _hoisted_6$a, [
+>>>>>>> 5f035bd975 (Update vue build)
           vue.withDirectives(vue.createElementVNode("input", {
             type: "text",
             onClick: _cache[2] || (_cache[2] = ($event) => {
@@ -6038,7 +6226,11 @@ var __async = (__this, __arguments, generator) => {
             tabindex: "4",
             class: "websiteSearch inp browser-default",
             placeholder: _ctx.translate("General_Search")
+<<<<<<< HEAD
           }, null, 8, _hoisted_7$8), [
+=======
+          }, null, 8, _hoisted_7$7), [
+>>>>>>> 5f035bd975 (Update vue build)
             [vue.vModelText, _ctx.searchTerm],
             [_directive_focus_if, { focused: _ctx.shouldFocusOnSearch }]
           ]),
@@ -6738,11 +6930,19 @@ var __async = (__this, __arguments, generator) => {
     class: "quickAccessInside"
   };
   const _hoisted_2$m = ["title", "placeholder"];
+<<<<<<< HEAD
   const _hoisted_3$k = { class: "dropdown quickAccessDropdown" };
   const _hoisted_4$f = { class: "no-result" };
   const _hoisted_5$d = ["onClick"];
   const _hoisted_6$a = ["onMouseenter", "onClick"];
   const _hoisted_7$7 = { class: "quickAccessMatomoSearch" };
+=======
+  const _hoisted_3$j = { class: "dropdown quickAccessDropdown" };
+  const _hoisted_4$e = { class: "no-result" };
+  const _hoisted_5$d = ["onClick"];
+  const _hoisted_6$9 = ["onMouseenter", "onClick"];
+  const _hoisted_7$6 = { class: "quickAccessMatomoSearch" };
+>>>>>>> 5f035bd975 (Update vue build)
   const _hoisted_8$6 = ["onMouseenter", "onClick"];
   const _hoisted_9$5 = ["textContent"];
   const _hoisted_10$4 = { class: "quick-access-category helpCategory" };
@@ -6771,9 +6971,15 @@ var __async = (__this, __arguments, generator) => {
         [_directive_focus_if, { focused: _ctx.searchActive }],
         [_directive_tooltips]
       ]),
+<<<<<<< HEAD
       vue.withDirectives(vue.createElementVNode("div", _hoisted_3$k, [
         vue.withDirectives(vue.createElementVNode("ul", null, [
           vue.createElementVNode("li", _hoisted_4$f, vue.toDisplayString(_ctx.translate("General_SearchNoResults")), 1)
+=======
+      vue.withDirectives(vue.createElementVNode("div", _hoisted_3$j, [
+        vue.withDirectives(vue.createElementVNode("ul", null, [
+          vue.createElementVNode("li", _hoisted_4$e, vue.toDisplayString(_ctx.translate("General_SearchNoResults")), 1)
+>>>>>>> 5f035bd975 (Update vue build)
         ], 512), [
           [vue.vShow, !(_ctx.numMenuItems > 0 || _ctx.sites.length)]
         ]),
@@ -6799,11 +7005,19 @@ var __async = (__this, __arguments, generator) => {
                 key: submenuEntry.index
               }, [
                 vue.createElementVNode("a", null, vue.toDisplayString(submenuEntry.name.trim()), 1)
+<<<<<<< HEAD
               ], 42, _hoisted_6$a);
             }), 128))
           ]);
         }), 128)),
         vue.createElementVNode("ul", _hoisted_7$7, [
+=======
+              ], 42, _hoisted_6$9);
+            }), 128))
+          ]);
+        }), 128)),
+        vue.createElementVNode("ul", _hoisted_7$6, [
+>>>>>>> 5f035bd975 (Update vue build)
           vue.withDirectives(vue.createElementVNode("li", { class: "quick-access-category websiteCategory" }, vue.toDisplayString(_ctx.translate("SitesManager_Sites")), 513), [
             [vue.vShow, _ctx.hasSitesSelector && _ctx.sites.length || _ctx.isLoading]
           ]),
@@ -6948,7 +7162,11 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "fieldUiControl"
   };
+<<<<<<< HEAD
   const _hoisted_3$j = ["onClick", "title"];
+=======
+  const _hoisted_3$i = ["onClick", "title"];
+>>>>>>> 5f035bd975 (Update vue build)
   function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Field = vue.resolveComponent("Field");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$p, [
@@ -6977,7 +7195,11 @@ var __async = (__this, __arguments, generator) => {
             onClick: ($event) => _ctx.removeEntry(index),
             class: "icon-minus valign",
             title: _ctx.translate("General_Remove")
+<<<<<<< HEAD
           }, null, 8, _hoisted_3$j), [
+=======
+          }, null, 8, _hoisted_3$i), [
+>>>>>>> 5f035bd975 (Update vue build)
             [vue.vShow, index + 1 !== (_ctx.modelValue || []).length]
           ])
         ], 2);
@@ -7087,11 +7309,19 @@ var __async = (__this, __arguments, generator) => {
     key: 1,
     class: "fieldUiControl fieldUiControl2"
   };
+<<<<<<< HEAD
   const _hoisted_3$i = {
     key: 2,
     class: "fieldUiControl fieldUiControl3"
   };
   const _hoisted_4$e = {
+=======
+  const _hoisted_3$h = {
+    key: 2,
+    class: "fieldUiControl fieldUiControl3"
+  };
+  const _hoisted_4$d = {
+>>>>>>> 5f035bd975 (Update vue build)
     key: 3,
     class: "fieldUiControl fieldUiControl4"
   };
@@ -7140,7 +7370,11 @@ var __async = (__this, __arguments, generator) => {
               component: _ctx.field2.component
             }, null, 8, ["options", "onUpdate:modelValue", "model-value", "model-modifiers", "uicontrol", "name", "id", "title", "template-file", "component"])
           ])) : vue.createCommentVNode("", true),
+<<<<<<< HEAD
           _ctx.field3 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$i, [
+=======
+          _ctx.field3 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$h, [
+>>>>>>> 5f035bd975 (Update vue build)
             vue.createVNode(_component_Field, {
               "full-width": true,
               options: _ctx.field3.availableValues,
@@ -7156,7 +7390,11 @@ var __async = (__this, __arguments, generator) => {
               component: _ctx.field3.component
             }, null, 8, ["options", "onUpdate:modelValue", "model-value", "model-modifiers", "uicontrol", "name", "id", "title", "template-file", "component"])
           ])) : vue.createCommentVNode("", true),
+<<<<<<< HEAD
           _ctx.field4 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$e, [
+=======
+          _ctx.field4 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$d, [
+>>>>>>> 5f035bd975 (Update vue build)
             vue.createVNode(_component_Field, {
               "full-width": true,
               options: _ctx.field4.availableValues,
@@ -7640,8 +7878,13 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "preset-date-range-group-separator"
   };
+<<<<<<< HEAD
   const _hoisted_3$h = ["title", "onDblclick"];
   const _hoisted_4$d = ["name", "id", "checked", "onClick", "onChange"];
+=======
+  const _hoisted_3$g = ["title", "onDblclick"];
+  const _hoisted_4$c = ["name", "id", "checked", "onClick", "onChange"];
+>>>>>>> 5f035bd975 (Update vue build)
   const _hoisted_5$b = { class: "preset-option-text" };
   function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$n, [
@@ -7668,9 +7911,15 @@ var __async = (__this, __arguments, generator) => {
                   checked: _ctx.checkedPresetId === preset.id,
                   onClick: ($event) => _ctx.handlePresetClick(preset.id),
                   onChange: ($event) => _ctx.handlePresetSelected(preset.id)
+<<<<<<< HEAD
                 }, null, 40, _hoisted_4$d),
                 vue.createElementVNode("span", _hoisted_5$b, vue.toDisplayString(_ctx.translate(preset.labelKey)), 1)
               ], 42, _hoisted_3$h)
+=======
+                }, null, 40, _hoisted_4$c),
+                vue.createElementVNode("span", _hoisted_5$b, vue.toDisplayString(_ctx.translate(preset.labelKey)), 1)
+              ], 42, _hoisted_3$g)
+>>>>>>> 5f035bd975 (Update vue build)
             ]);
           }), 128))
         ]);
@@ -7737,8 +7986,13 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$m = ["aria-label"];
   const _hoisted_2$h = ["title", "onDblclick"];
+<<<<<<< HEAD
   const _hoisted_3$g = ["name", "id", "checked", "onChange", "onKeydown"];
   const _hoisted_4$c = { class: "period-option-text" };
+=======
+  const _hoisted_3$f = ["name", "id", "checked", "onChange", "onKeydown"];
+  const _hoisted_4$b = { class: "period-option-text" };
+>>>>>>> 5f035bd975 (Update vue build)
   function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", {
       class: "periodOptions",
@@ -7760,8 +8014,13 @@ var __async = (__this, __arguments, generator) => {
               checked: _ctx.checkedPeriodId === period,
               onChange: ($event) => _ctx.handlePeriodSelected(period),
               onKeydown: vue.withKeys(vue.withModifiers(($event) => _ctx.handlePeriodEnter(period), ["prevent"]), ["enter"])
+<<<<<<< HEAD
             }, null, 40, _hoisted_3$g),
             vue.createElementVNode("span", _hoisted_4$c, vue.toDisplayString(_ctx.getPeriodDisplayText(period)), 1)
+=======
+            }, null, 40, _hoisted_3$f),
+            vue.createElementVNode("span", _hoisted_4$b, vue.toDisplayString(_ctx.getPeriodDisplayText(period)), 1)
+>>>>>>> 5f035bd975 (Update vue build)
           ], 42, _hoisted_2$h)
         ]);
       }), 128))
@@ -7896,6 +8155,7 @@ var __async = (__this, __arguments, generator) => {
     class: "compare-checkbox"
   };
   const _hoisted_2$f = { class: "compare-checkbox-label" };
+<<<<<<< HEAD
   const _hoisted_3$f = ["checked"];
   const _hoisted_4$b = { class: "compare-checkbox-text" };
   const _hoisted_5$a = { id: "comparePeriodToDropdown" };
@@ -7904,6 +8164,16 @@ var __async = (__this, __arguments, generator) => {
     class: "compare-date-range"
   };
   const _hoisted_7$6 = { id: "comparePeriodStartDate" };
+=======
+  const _hoisted_3$e = ["checked"];
+  const _hoisted_4$a = { class: "compare-checkbox-text" };
+  const _hoisted_5$a = { id: "comparePeriodToDropdown" };
+  const _hoisted_6$8 = {
+    key: 1,
+    class: "compare-date-range"
+  };
+  const _hoisted_7$5 = { id: "comparePeriodStartDate" };
+>>>>>>> 5f035bd975 (Update vue build)
   const _hoisted_8$5 = { id: "comparePeriodEndDate" };
   const _hoisted_9$4 = {
     key: 0,
@@ -7920,8 +8190,13 @@ var __async = (__this, __arguments, generator) => {
             type: "checkbox",
             checked: !!_ctx.isComparing,
             onChange: _cache[0] || (_cache[0] = ($event) => _ctx.onCompareToggle($event))
+<<<<<<< HEAD
           }, null, 40, _hoisted_3$f),
           vue.createElementVNode("span", _hoisted_4$b, vue.toDisplayString(_ctx.translate("General_CompareTo")), 1)
+=======
+          }, null, 40, _hoisted_3$e),
+          vue.createElementVNode("span", _hoisted_4$a, vue.toDisplayString(_ctx.translate("General_CompareTo")), 1)
+>>>>>>> 5f035bd975 (Update vue build)
         ]),
         vue.createElementVNode("div", _hoisted_5$a, [
           vue.createVNode(_component_Field, {
@@ -7936,9 +8211,15 @@ var __async = (__this, __arguments, generator) => {
           }, null, 8, ["model-value", "style", "options", "disabled"])
         ])
       ])) : vue.createCommentVNode("", true),
+<<<<<<< HEAD
       _ctx.isComparing && _ctx.comparePeriodType === "custom" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$9, [
         vue.createElementVNode("div", null, [
           vue.createElementVNode("div", _hoisted_7$6, [
+=======
+      _ctx.isComparing && _ctx.comparePeriodType === "custom" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$8, [
+        vue.createElementVNode("div", null, [
+          vue.createElementVNode("div", _hoisted_7$5, [
+>>>>>>> 5f035bd975 (Update vue build)
             vue.createElementVNode("div", null, [
               vue.createVNode(_component_Field, {
                 "model-value": _ctx.compareStartDate,
@@ -8057,7 +8338,11 @@ var __async = (__this, __arguments, generator) => {
   });
   const _hoisted_1$j = { class: "period-selector-calendar-column" };
   const _hoisted_2$e = { class: "period-date" };
+<<<<<<< HEAD
   const _hoisted_3$e = ["disabled", "value"];
+=======
+  const _hoisted_3$d = ["disabled", "value"];
+>>>>>>> 5f035bd975 (Update vue build)
   function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
     var _a2, _b, _c;
     const _component_DateRangePicker = vue.resolveComponent("DateRangePicker");
@@ -8109,7 +8394,11 @@ var __async = (__this, __arguments, generator) => {
           onClick: _cache[7] || (_cache[7] = ($event) => _ctx.$emit("apply-click")),
           disabled: !_ctx.isApplyEnabled,
           value: _ctx.translate("General_Apply")
+<<<<<<< HEAD
         }, null, 8, _hoisted_3$e)
+=======
+        }, null, 8, _hoisted_3$d)
+>>>>>>> 5f035bd975 (Update vue build)
       ], 32)
     ]);
   }
@@ -8671,6 +8960,7 @@ var __async = (__this, __arguments, generator) => {
           this.pendingPresetSelection = null;
           return;
         }
+<<<<<<< HEAD
 <<<<<<< HEAD
         this.setUiSelection({ type: "period", id: period }, null);
         this.clearPresetSelection();
@@ -9920,6 +10210,10 @@ function ClientWidgetRenderervue_type_template_id_d4ca1a74_render(_ctx, _cache, 
       handler() {
         this.loadComponent();
 >>>>>>> a9dc5eca3f (Move the dropdown to the reportHeader component)
+=======
+        this.setUiSelection({ type: "period", id: period }, null);
+        this.clearPresetSelection();
+>>>>>>> 5f035bd975 (Update vue build)
       },
       getCurrentRollingDateParamIfOwnedByPreset() {
         if (this.uiSelection.type !== "preset") {
@@ -10125,13 +10419,22 @@ function ClientWidgetRenderervue_type_template_id_d4ca1a74_render(_ctx, _cache, 
   });
   const _hoisted_1$i = ["disabled"];
   const _hoisted_2$d = ["title"];
+<<<<<<< HEAD
   const _hoisted_3$d = { class: "flex" };
   const _hoisted_4$a = {
+=======
+  const _hoisted_3$c = { class: "flex" };
+  const _hoisted_4$9 = {
+>>>>>>> 5f035bd975 (Update vue build)
     key: 0,
     id: "ajaxLoadingCalendar"
   };
   const _hoisted_5$9 = { class: "loadingSegment" };
+<<<<<<< HEAD
   const _hoisted_6$8 = ["disabled"];
+=======
+  const _hoisted_6$7 = ["disabled"];
+>>>>>>> 5f035bd975 (Update vue build)
   function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_PeriodSelectorOptionsColumn = vue.resolveComponent("PeriodSelectorOptionsColumn");
     const _component_PeriodSelectorCalendarColumn = vue.resolveComponent("PeriodSelectorCalendarColumn");
@@ -10166,7 +10469,11 @@ function ClientWidgetRenderervue_type_template_id_d4ca1a74_render(_ctx, _cache, 
         id: "periodMore",
         class: vue.normalizeClass(["dropdown", _ctx.selectedPeriod === "range" ? "dual-calendar" : "single-calendar"])
       }, [
+<<<<<<< HEAD
         vue.createElementVNode("div", _hoisted_3$d, [
+=======
+        vue.createElementVNode("div", _hoisted_3$c, [
+>>>>>>> 5f035bd975 (Update vue build)
           vue.createVNode(_component_PeriodSelectorOptionsColumn, {
             "ui-selected-period": _ctx.selectedPeriod,
             "periods-filtered": _ctx.periodsFiltered,
@@ -10205,7 +10512,11 @@ function ClientWidgetRenderervue_type_template_id_d4ca1a74_render(_ctx, _cache, 
             "onUpdate:compareEndDate": _cache[13] || (_cache[13] = ($event) => _ctx.onCompareEndDateUpdated($event))
           }, null, 8, ["ui-selection", "calendar-viewport", "display-range-start-date", "display-range-end-date", "single-calendar-period", "single-calendar-selected-date", "is-comparison-enabled", "is-comparing", "compare-period-type", "compare-start-date", "compare-end-date", "compare-period-dropdown-options", "show-invalid-comparison-message", "is-apply-enabled"])
         ]),
+<<<<<<< HEAD
         _ctx.isLoadingNewPage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$a, [
+=======
+        _ctx.isLoadingNewPage ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$9, [
+>>>>>>> 5f035bd975 (Update vue build)
           vue.createVNode(_component_ActivityIndicator, { loading: true }),
           vue.createElementVNode("div", _hoisted_5$9, vue.toDisplayString(_ctx.translate("SegmentEditor_LoadingSegmentedDataMayTakeSomeTime")), 1)
         ])) : vue.createCommentVNode("", true)
@@ -10217,7 +10528,11 @@ function ClientWidgetRenderervue_type_template_id_d4ca1a74_render(_ctx, _cache, 
         disabled: _ctx.isPeriodMoveDisabled(1)
       }, [..._cache[17] || (_cache[17] = [
         vue.createElementVNode("span", { class: "icon-chevron-right" }, null, -1)
+<<<<<<< HEAD
       ])], 8, _hoisted_6$8)) : vue.createCommentVNode("", true)
+=======
+      ])], 8, _hoisted_6$7)) : vue.createCommentVNode("", true)
+>>>>>>> 5f035bd975 (Update vue build)
     ], 2)), [
       [_directive_expand_on_click, {
         expander: "title",
@@ -10285,6 +10600,7 @@ function ClientWidgetRenderervue_type_template_id_d4ca1a74_render(_ctx, _cache, 
   const _sfc_main$j = vue.defineComponent({
     components: {
       MenuItemsDropdown
+<<<<<<< HEAD
     },
     directives: {
       SideNav
@@ -11117,6 +11433,1149 @@ function ClientWidgetRenderervue_type_template_id_d4ca1a74_render(_ctx, _cache, 
             let $title = $content.find("> .card-content .card-title");
             if (!$title.length) {
               $title = $content.find("> h2");
+=======
+    },
+    directives: {
+      SideNav
+    },
+    props: {},
+    data() {
+      return {
+        showSubcategoryHelpOnLoad: null,
+        initialLoad: true,
+        helpShownCategory: null
+      };
+    },
+    computed: {
+      sideNavActivator() {
+        return document.querySelector("nav .activateLeftMenu");
+      },
+      menu() {
+        const categories = ReportingMenuStoreInstance.menu.value;
+        categories.forEach((category) => {
+          if (category.widget && category.widget.indexOf(".") > 0) {
+            const [widgetPlugin, widgetComponent] = category.widget.split(".");
+            category.component = useExternalPluginComponent(widgetPlugin, widgetComponent);
+          }
+        });
+        return categories;
+      },
+      activeCategory() {
+        return ReportingMenuStoreInstance.activeCategory.value;
+      },
+      activeSubcategory() {
+        return ReportingMenuStoreInstance.activeSubcategory.value;
+      },
+      activeSubsubcategory() {
+        return ReportingMenuStoreInstance.activeSubsubcategory.value;
+      },
+      displayedCategory() {
+        return instance$1.parsed.value.category;
+      },
+      displayedSubcategory() {
+        return instance$1.parsed.value.subcategory;
+      }
+    },
+    created() {
+      ReportingMenuStoreInstance.fetchMenuItems().then(() => {
+        if (!instance$1.parsed.value.subcategory) {
+          this.loadFirstPageOfActiveSection();
+        }
+      });
+      this.updateTopMenuActiveState();
+      vue.watch(() => instance$1.parsed.value, (query) => {
+        if (!query.subcategory) {
+          this.loadFirstPageOfActiveSection();
+          this.updateTopMenuActiveState();
+          return;
+        }
+        const found = ReportingMenuStoreInstance.findSubcategory(
+          query.category,
+          query.subcategory
+        );
+        ReportingMenuStoreInstance.enterSubcategory(
+          found.category,
+          found.subcategory,
+          found.subsubcategory
+        );
+        this.updateTopMenuActiveState();
+      });
+      Matomo.on("matomoPageChange", () => {
+        if (!this.initialLoad) {
+          window.globalAjaxQueue.abort();
+        }
+        this.helpShownCategory = null;
+        if (this.showSubcategoryHelpOnLoad) {
+          this.showHelp(
+            this.showSubcategoryHelpOnLoad.category,
+            this.showSubcategoryHelpOnLoad.subcategory
+          );
+          this.showSubcategoryHelpOnLoad = null;
+        }
+        window.$("#loadingError,#loadingRateLimitError").hide();
+        this.initialLoad = false;
+      });
+      Matomo.on("updateReportingMenu", () => {
+        ReportingMenuStoreInstance.reloadMenuItems().then(() => {
+          const category = instance$1.parsed.value.category;
+          const subcategory = instance$1.parsed.value.subcategory;
+          if (category && subcategory) {
+            const found = ReportingMenuStoreInstance.findSubcategory(category, subcategory);
+            if (found.category) {
+              ReportingMenuStoreInstance.enterSubcategory(
+                found.category,
+                found.subcategory,
+                found.subsubcategory
+              );
+            }
+          }
+        });
+        WidgetsStoreInstance.reloadAvailableWidgets();
+      });
+    },
+    methods: {
+      // Expose the plugin component to `<component :is>` as a plain Component.
+      asComponent(component) {
+        return component;
+      },
+      loadFirstPageOfActiveSection() {
+        const menu = ReportingMenuStoreInstance.menu.value;
+        const categoryToLoad = menu[0];
+        if (!categoryToLoad) {
+          return;
+        }
+        const subcategoryToLoad = categoryToLoad.subcategories[0];
+        if (!subcategoryToLoad) {
+          return;
+        }
+        ReportingMenuStoreInstance.enterSubcategory(categoryToLoad, subcategoryToLoad);
+        this.propagateUrlChange(categoryToLoad, subcategoryToLoad);
+      },
+      updateTopMenuActiveState() {
+        const activeGroup = instance$1.parsed.value.group || "";
+        document.querySelectorAll("[data-reporting-group]").forEach((link) => {
+          const listItem = link.closest("li");
+          if (!listItem) {
+            return;
+          }
+          const group = link.getAttribute("data-reporting-group") || "";
+          listItem.classList.toggle("active", group === activeGroup);
+        });
+      },
+      propagateUrlChange(category, subcategory) {
+        const queryParams = instance$1.parsed.value;
+        if (queryParams.category === category.id && queryParams.subcategory === subcategory.id) {
+          this.loadSubcategory(category, subcategory);
+        } else {
+          instance$1.updateHash(__spreadProps(__spreadValues({}, instance$1.hashParsed.value), {
+            category: category.id,
+            subcategory: subcategory.id
+          }));
+        }
+      },
+      loadCategory(category) {
+        instance.remove(REPORTING_HELP_NOTIFICATION_ID);
+        const isActive = ReportingMenuStoreInstance.toggleCategory(category);
+        const { subcategories } = category;
+        const categoryCanLoad = subcategories && subcategories.length === 1 || category.widget && subcategories && subcategories.length;
+        if (isActive && categoryCanLoad) {
+          this.helpShownCategory = null;
+          const subcategory = category.subcategories[0];
+          this.propagateUrlChange(category, subcategory);
+        }
+      },
+      loadSubcategory(category, subcategory, event) {
+        if (event && (event.shiftKey || event.ctrlKey || event.metaKey)) {
+          return;
+        }
+        instance.remove(REPORTING_HELP_NOTIFICATION_ID);
+        if (subcategory && subcategory.id === instance$1.parsed.value.subcategory && category.id === instance$1.parsed.value.category) {
+          this.helpShownCategory = null;
+          setTimeout(() => {
+            Matomo.postEvent("loadPage", category.id, subcategory.id);
+          });
+        }
+      },
+      makeUrl(category, subcategory) {
+        const {
+          idSite,
+          period,
+          date,
+          segment,
+          comparePeriods,
+          compareDates,
+          compareSegments,
+          group
+        } = instance$1.parsed.value;
+        const params = {
+          idSite,
+          period,
+          date,
+          segment,
+          comparePeriods,
+          compareDates,
+          compareSegments,
+          category: category.id,
+          subcategory: subcategory.id
+        };
+        if (group) {
+          params.group = group;
+        }
+        return instance$1.stringify(params);
+      },
+      htmlEntities(v) {
+        return Matomo.helper.htmlEntities(v);
+      },
+      showHelp(category, subcategory, event) {
+        const parsedUrl = instance$1.parsed.value;
+        const currentCategory = parsedUrl.category;
+        const currentSubcategory = parsedUrl.subcategory;
+        if ((currentCategory !== category.id || currentSubcategory !== subcategory.id) && event) {
+          this.showSubcategoryHelpOnLoad = { category, subcategory };
+          instance$1.updateHash(__spreadProps(__spreadValues({}, instance$1.hashParsed.value), {
+            category: category.id,
+            subcategory: subcategory.id
+          }));
+          return;
+        }
+        if (this.helpShownCategory && category.id === this.helpShownCategory.category && subcategory.id === this.helpShownCategory.subcategory) {
+          instance.remove(REPORTING_HELP_NOTIFICATION_ID);
+          this.helpShownCategory = null;
+          return;
+        }
+        const prefixText = translate(
+          "CoreHome_ReportingCategoryHelpPrefix",
+          category.name,
+          subcategory.name
+        );
+        const prefix = `<strong>${prefixText}</strong><br/>`;
+        instance.show({
+          context: "info",
+          id: REPORTING_HELP_NOTIFICATION_ID,
+          type: "help",
+          noclear: true,
+          class: "help-notification",
+          message: prefix + subcategory.help,
+          placeat: "#notificationContainer",
+          prepend: true
+        });
+        this.helpShownCategory = {
+          category: category.id,
+          subcategory: subcategory.id
+        };
+      }
+    }
+  });
+  const _hoisted_1$h = { class: "reportingMenu" };
+  const _hoisted_2$c = ["aria-label"];
+  const _hoisted_3$b = ["data-category-id"];
+  const _hoisted_4$8 = ["onClick"];
+  const _hoisted_5$8 = { class: "hidden" };
+  const _hoisted_6$6 = {
+    key: 2,
+    role: "menu"
+  };
+  const _hoisted_7$4 = ["href", "onClick", "title"];
+  const _hoisted_8$4 = ["href", "onClick"];
+  const _hoisted_9$3 = ["onClick"];
+  const _hoisted_10$3 = {
+    id: "mobile-left-menu",
+    class: "sidenav sidenav--reporting-menu-mobile hide-on-large-only"
+  };
+  const _hoisted_11$3 = ["data-category-id"];
+  const _hoisted_12$3 = {
+    key: 1,
+    class: "collapsible collapsible-accordion"
+  };
+  const _hoisted_13$3 = { class: "collapsible-header" };
+  const _hoisted_14$2 = { class: "collapsible-body" };
+  const _hoisted_15$2 = ["onClick", "href"];
+  const _hoisted_16$2 = ["onClick", "href"];
+  function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_MenuItemsDropdown = vue.resolveComponent("MenuItemsDropdown");
+    const _directive_side_nav = vue.resolveDirective("side-nav");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$h, [
+      vue.createElementVNode("ul", {
+        class: "navbar hide-on-med-and-down collapsible",
+        role: "menu",
+        "aria-label": _ctx.translate("CoreHome_MainNavigation")
+      }, [
+        (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.menu, (category) => {
+          return vue.openBlock(), vue.createElementBlock("li", {
+            class: vue.normalizeClass(["menuTab", { "active": category.id === _ctx.activeCategory }]),
+            role: "menuitem",
+            key: category.id,
+            "data-category-id": category.id
+          }, [
+            category.component ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.asComponent(category.component)), {
+              key: 0,
+              onAction: ($event) => _ctx.loadCategory(category)
+            }, null, 40, ["onAction"])) : vue.createCommentVNode("", true),
+            !category.component ? (vue.openBlock(), vue.createElementBlock("a", {
+              key: 1,
+              class: "item",
+              tabindex: "5",
+              href: "",
+              onClick: vue.withModifiers(($event) => _ctx.loadCategory(category), ["prevent"])
+            }, [
+              vue.createElementVNode("span", {
+                class: vue.normalizeClass(`menu-icon ${category.icon ? category.icon : category.subcategories && category.id === _ctx.activeCategory ? "icon-chevron-down" : "icon-chevron-right"}`)
+              }, null, 2),
+              vue.createTextVNode(vue.toDisplayString(category.name) + " ", 1),
+              vue.createElementVNode("span", _hoisted_5$8, vue.toDisplayString(_ctx.translate("CoreHome_Menu")), 1)
+            ], 8, _hoisted_4$8)) : vue.createCommentVNode("", true),
+            !category.component ? (vue.openBlock(), vue.createElementBlock("ul", _hoisted_6$6, [
+              (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(category.subcategories, (subcategory) => {
+                return vue.openBlock(), vue.createElementBlock("li", {
+                  role: "menuitem",
+                  class: vue.normalizeClass({
+                    "active": (subcategory.id === _ctx.displayedSubcategory || subcategory.isGroup && _ctx.activeSubsubcategory === _ctx.displayedSubcategory) && category.id === _ctx.displayedCategory
+                  }),
+                  key: subcategory.id
+                }, [
+                  subcategory.isGroup ? (vue.openBlock(), vue.createBlock(_component_MenuItemsDropdown, {
+                    key: 0,
+                    "show-search": true,
+                    "menu-title": _ctx.htmlEntities(subcategory.name)
+                  }, {
+                    default: vue.withCtx(() => [
+                      (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(subcategory.subcategories, (subcat) => {
+                        return vue.openBlock(), vue.createElementBlock("a", {
+                          class: vue.normalizeClass(["item", {
+                            active: subcat.id === _ctx.activeSubsubcategory && subcategory.id === _ctx.displayedSubcategory && category.id === _ctx.displayedCategory
+                          }]),
+                          tabindex: "5",
+                          href: `#?${_ctx.makeUrl(category, subcat)}`,
+                          onClick: ($event) => _ctx.loadSubcategory(category, subcat, $event),
+                          title: subcat.tooltip,
+                          key: subcat.id
+                        }, vue.toDisplayString(subcat.name), 11, _hoisted_7$4);
+                      }), 128))
+                    ]),
+                    _: 2
+                  }, 1032, ["menu-title"])) : vue.createCommentVNode("", true),
+                  !subcategory.isGroup ? (vue.openBlock(), vue.createElementBlock("a", {
+                    key: 1,
+                    href: `#?${_ctx.makeUrl(category, subcategory)}`,
+                    class: "item",
+                    onClick: ($event) => _ctx.loadSubcategory(category, subcategory, $event),
+                    tabindex: "5"
+                  }, vue.toDisplayString(subcategory.name), 9, _hoisted_8$4)) : vue.createCommentVNode("", true),
+                  subcategory.help ? (vue.openBlock(), vue.createElementBlock("a", {
+                    key: 2,
+                    class: vue.normalizeClass(["item-help-icon", { active: _ctx.helpShownCategory && _ctx.helpShownCategory.subcategory === subcategory.id && _ctx.helpShownCategory.category === category.id && subcategory.help }]),
+                    tabindex: "5",
+                    href: "javascript:",
+                    onClick: ($event) => _ctx.showHelp(category, subcategory, $event)
+                  }, [..._cache[0] || (_cache[0] = [
+                    vue.createElementVNode("span", { class: "icon-help" }, null, -1)
+                  ])], 10, _hoisted_9$3)) : vue.createCommentVNode("", true)
+                ], 2);
+              }), 128))
+            ])) : vue.createCommentVNode("", true)
+          ], 10, _hoisted_3$b);
+        }), 128))
+      ], 8, _hoisted_2$c),
+      vue.createElementVNode("ul", _hoisted_10$3, [
+        (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.menu, (category) => {
+          return vue.openBlock(), vue.createElementBlock("li", {
+            class: "no-padding",
+            key: category.id,
+            "data-category-id": category.id
+          }, [
+            category.component ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.asComponent(category.component)), {
+              key: 0,
+              onAction: ($event) => _ctx.loadCategory(category)
+            }, null, 40, ["onAction"])) : vue.createCommentVNode("", true),
+            !category.component ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("ul", _hoisted_12$3, [
+              vue.createElementVNode("li", null, [
+                vue.createElementVNode("a", _hoisted_13$3, [
+                  vue.createElementVNode("i", {
+                    class: vue.normalizeClass(category.icon ? category.icon : "icon-chevron-down")
+                  }, null, 2),
+                  vue.createTextVNode(vue.toDisplayString(category.name), 1)
+                ]),
+                vue.createElementVNode("div", _hoisted_14$2, [
+                  vue.createElementVNode("ul", null, [
+                    (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(category.subcategories, (subcategory) => {
+                      return vue.openBlock(), vue.createElementBlock("li", {
+                        key: subcategory.id
+                      }, [
+                        subcategory.isGroup ? (vue.openBlock(true), vue.createElementBlock(vue.Fragment, { key: 0 }, vue.renderList(subcategory.subcategories, (subcat) => {
+                          return vue.openBlock(), vue.createElementBlock("a", {
+                            onClick: ($event) => _ctx.loadSubcategory(category, subcat),
+                            href: `#?${_ctx.makeUrl(category, subcat)}`,
+                            key: subcat.id
+                          }, vue.toDisplayString(subcat.name), 9, _hoisted_15$2);
+                        }), 128)) : vue.createCommentVNode("", true),
+                        !subcategory.isGroup ? (vue.openBlock(), vue.createElementBlock("a", {
+                          key: 1,
+                          onClick: ($event) => _ctx.loadSubcategory(category, subcategory),
+                          href: `#?${_ctx.makeUrl(category, subcategory)}`
+                        }, vue.toDisplayString(subcategory.name), 9, _hoisted_16$2)) : vue.createCommentVNode("", true)
+                      ]);
+                    }), 128))
+                  ])
+                ])
+              ])
+            ])), [
+              [_directive_side_nav, { activator: _ctx.sideNavActivator }]
+            ]) : vue.createCommentVNode("", true)
+          ], 8, _hoisted_11$3);
+        }), 128))
+      ])
+    ]);
+  }
+  const ReportingMenu = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j]]);
+  /*!
+   * Matomo - free/libre analytics platform
+   *
+   * @link    https://matomo.org
+   * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+   */
+  class ReportMetadataStore {
+    constructor() {
+      __publicField(this, "privateState", vue.reactive({
+        reports: []
+      }));
+      __publicField(this, "state", vue.readonly(this.privateState));
+      __publicField(this, "reports", vue.computed(() => this.state.reports));
+      __publicField(this, "reportsPromise");
+    }
+    // TODO: it used to return an empty array when nothing was found, will that be an issue?
+    findReport(reportModule, reportAction) {
+      return this.reports.value.find((r) => r.module === reportModule && r.action === reportAction);
+    }
+    fetchReportMetadata() {
+      if (!this.reportsPromise) {
+        this.reportsPromise = AjaxHelper.fetch({
+          method: "API.getReportMetadata",
+          filter_limit: "-1",
+          idSite: Matomo.idSite || instance$1.parsed.value.idSite
+        }).then((response) => {
+          this.privateState.reports = response;
+          return response;
+        });
+      }
+      return this.reportsPromise.then(() => this.reports.value);
+    }
+  }
+  const ReportMetadataStoreInstance = new ReportMetadataStore();
+  const _sfc_main$i = vue.defineComponent({
+    props: {
+      canMinimise: Boolean,
+      canMaximise: Boolean,
+      canRefresh: Boolean,
+      canClose: Boolean
+    },
+    emits: ["minimise", "maximise", "refresh", "close"],
+    computed: {
+      visibleControls() {
+        const controls = [
+          {
+            id: "refresh",
+            icon: "icon-reload",
+            label: translate("General_Refresh"),
+            visible: this.canRefresh
+          },
+          {
+            id: "minimise",
+            icon: "icon-minimise",
+            label: translate("Dashboard_Minimise"),
+            visible: this.canMinimise
+          },
+          {
+            id: "maximise",
+            icon: "icon-fullscreen",
+            label: translate("Dashboard_Maximise"),
+            visible: this.canMaximise
+          },
+          {
+            id: "close",
+            icon: "icon-close",
+            label: translate("General_Close"),
+            visible: this.canClose
+          }
+        ];
+        return controls.filter((control) => control.visible);
+      }
+    }
+  });
+  const _hoisted_1$g = { class: "widgetControls" };
+  const _hoisted_2$b = ["title", "aria-label", "onClick"];
+  function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$g, [
+      (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.visibleControls, (control) => {
+        return vue.openBlock(), vue.createElementBlock("button", {
+          key: control.id,
+          type: "button",
+          class: vue.normalizeClass(["widgetControls__action", `widgetControl-${control.id}`]),
+          title: control.label,
+          "aria-label": control.label,
+          onClick: ($event) => _ctx.$emit(control.id)
+        }, [
+          vue.createElementVNode("span", {
+            class: vue.normalizeClass(["widgetControls__icon", control.icon])
+          }, null, 2)
+        ], 10, _hoisted_2$b);
+      }), 128))
+    ]);
+  }
+  const WidgetControls = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i]]);
+  const CONTROLS_BY_CONTEXT = {
+    dashboard: {
+      minimise: true,
+      maximise: true,
+      refresh: true,
+      close: true
+    },
+    maximised: {
+      minimise: true,
+      maximise: false,
+      refresh: true,
+      close: false
+    },
+    collapsed: {
+      minimise: false,
+      maximise: true,
+      refresh: false,
+      close: true
+    },
+    widgetized: {
+      minimise: false,
+      maximise: false,
+      refresh: false,
+      close: false
+    },
+    preview: {
+      minimise: false,
+      maximise: false,
+      refresh: false,
+      close: false
+    }
+  };
+  const _sfc_main$h = vue.defineComponent({
+    props: {
+      context: {
+        type: String,
+        default: "dashboard"
+      },
+      title: {
+        type: String,
+        default: ""
+      },
+      titleClickable: Boolean,
+      titleClickHint: {
+        type: String,
+        default: ""
+      }
+    },
+    components: {
+      WidgetControls
+    },
+    emits: ["minimise", "maximise", "refresh", "close", "titleClick"],
+    computed: {
+      controls() {
+        return CONTROLS_BY_CONTEXT[this.context] || CONTROLS_BY_CONTEXT.widgetized;
+      },
+      hasControls() {
+        const c = this.controls;
+        return c.minimise || c.maximise || c.refresh || c.close;
+      }
+    },
+    methods: {
+      translate,
+      onTitleClick() {
+        if (this.titleClickable) {
+          this.$emit("titleClick");
+        }
+      },
+      onControl(intent) {
+        this.$emit(intent);
+        this.$el.dispatchEvent(new CustomEvent(`widgetcontrol:${intent}`, { bubbles: true }));
+      }
+    }
+  });
+  const _hoisted_1$f = { class: "reportHeader" };
+  const _hoisted_2$a = { class: "reportHeader__main" };
+  const _hoisted_3$a = ["role", "tabindex", "title"];
+  const _hoisted_4$7 = { class: "u-visuallyHidden" };
+  const _hoisted_5$7 = { class: "reportHeader__widgetControls" };
+  function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_WidgetControls = vue.resolveComponent("WidgetControls");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$f, [
+      vue.createElementVNode("div", _hoisted_2$a, [
+        vue.createElementVNode("h3", {
+          class: vue.normalizeClass(["reportHeader__title widgetName", { "reportHeader__title--clickable": _ctx.titleClickable }]),
+          role: _ctx.titleClickable ? "button" : void 0,
+          tabindex: _ctx.titleClickable ? 0 : void 0,
+          title: _ctx.titleClickable ? _ctx.titleClickHint : void 0,
+          onClick: _cache[0] || (_cache[0] = (...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args)),
+          onKeydown: [
+            _cache[1] || (_cache[1] = vue.withKeys(vue.withModifiers((...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args), ["prevent"]), ["enter"])),
+            _cache[2] || (_cache[2] = vue.withKeys(vue.withModifiers((...args) => _ctx.onTitleClick && _ctx.onTitleClick(...args), ["prevent"]), ["space"]))
+          ]
+        }, [
+          vue.createElementVNode("span", null, vue.toDisplayString(_ctx.title), 1)
+        ], 42, _hoisted_3$a),
+        vue.createElementVNode("span", _hoisted_4$7, vue.toDisplayString(_ctx.translate("General_Widget")), 1)
+      ]),
+      vue.createElementVNode("div", _hoisted_5$7, [
+        _ctx.hasControls ? (vue.openBlock(), vue.createBlock(_component_WidgetControls, {
+          key: 0,
+          "can-minimise": _ctx.controls.minimise,
+          "can-maximise": _ctx.controls.maximise,
+          "can-refresh": _ctx.controls.refresh,
+          "can-close": _ctx.controls.close,
+          onMinimise: _cache[3] || (_cache[3] = ($event) => _ctx.onControl("minimise")),
+          onMaximise: _cache[4] || (_cache[4] = ($event) => _ctx.onControl("maximise")),
+          onRefresh: _cache[5] || (_cache[5] = ($event) => _ctx.onControl("refresh")),
+          onClose: _cache[6] || (_cache[6] = ($event) => _ctx.onControl("close"))
+        }, null, 8, ["can-minimise", "can-maximise", "can-refresh", "can-close"])) : vue.createCommentVNode("", true)
+      ]),
+      _cache[7] || (_cache[7] = vue.createElementVNode("div", { class: "reportHeader__actions" }, null, -1))
+    ]);
+  }
+  const ReportHeader = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h]]);
+  /*!
+   * Matomo - free/libre analytics platform
+   *
+   * @link    https://matomo.org
+   * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+   */
+  class SearchFiltersPersistenceStore {
+    constructor() {
+      __publicField(this, "privateState", vue.reactive({
+        module: "",
+        action: "",
+        category: "",
+        subcategory: "",
+        idSite: "",
+        widgetSearchFilters: {}
+      }));
+      __publicField(this, "state", vue.computed(() => vue.readonly(this.privateState)));
+      Matomo.on("matomoPageChange", () => {
+        if (!this.isCurrentPage()) {
+          this.resetSearchFilters();
+        }
+        this.updateCurrentRoutingFromUrl();
+      });
+    }
+    resetSearchFilters() {
+      this.privateState.widgetSearchFilters = {};
+    }
+    getSearchFilters(widgetId) {
+      return this.state.value.widgetSearchFilters[widgetId] || {};
+    }
+    setSearchFilters(widgetId, filters) {
+      if (widgetId) {
+        this.privateState.widgetSearchFilters[widgetId] = filters;
+      }
+    }
+    updateCurrentRoutingFromUrl() {
+      const url = instance$1.parsed.value;
+      this.privateState.module = url.module;
+      this.privateState.action = url.action;
+      this.privateState.category = url.category;
+      this.privateState.subcategory = url.subcategory;
+      this.privateState.idSite = url.idSite;
+    }
+    isCurrentPage() {
+      const url = instance$1.parsed.value;
+      return this.state.value.module === url.module && this.state.value.action === url.action && this.state.value.category === url.category && this.state.value.subcategory === url.subcategory && this.state.value.idSite === url.idSite;
+    }
+  }
+  const SearchFiltersPersistenceStoreInstance = new SearchFiltersPersistenceStore();
+  const _sfc_main$g = vue.defineComponent({
+    props: {
+      widgetParams: Object,
+      widgetName: String,
+      loadingMessage: String,
+      suppressNotifications: Boolean
+    },
+    components: {
+      ActivityIndicator
+    },
+    data() {
+      return {
+        loading: false,
+        loadingFailed: false,
+        loadingFailedRateLimit: false,
+        changeCounter: 0,
+        lastWidgetAbortController: null
+      };
+    },
+    watch: {
+      widgetParams(parameters) {
+        if (parameters) {
+          this.loadWidgetUrl(parameters, this.changeCounter += 1);
+        }
+      }
+    },
+    computed: {
+      finalLoadingMessage() {
+        if (this.loadingMessage) {
+          return this.loadingMessage;
+        }
+        if (!this.widgetName) {
+          return translate("General_LoadingData");
+        }
+        return translate("General_LoadingPopover", this.widgetName);
+      },
+      hasErrorFaqLink() {
+        const isGeneralSettingsAdminEnabled = Matomo.config.enable_general_settings_admin;
+        const isPluginsAdminEnabled = Matomo.config.enable_plugins_admin;
+        return Matomo.hasSuperUserAccess && (isGeneralSettingsAdminEnabled || isPluginsAdminEnabled);
+      }
+    },
+    mounted() {
+      if (this.widgetParams) {
+        this.loadWidgetUrl(this.widgetParams, this.changeCounter += 1);
+      }
+    },
+    beforeUnmount() {
+      this.cleanupLastWidgetContent();
+    },
+    methods: {
+      abortHttpRequestIfNeeded() {
+        if (this.lastWidgetAbortController) {
+          this.lastWidgetAbortController.abort();
+          this.lastWidgetAbortController = null;
+        }
+      },
+      cleanupLastWidgetContent() {
+        const widgetContent = this.$refs.widgetContent;
+        Matomo.helper.destroyVueComponent(widgetContent);
+        if (widgetContent) {
+          widgetContent.innerHTML = "";
+        }
+      },
+      getWidgetUrl(parameters) {
+        const urlParams = instance$1.parsed.value;
+        let fullParameters = __spreadValues({}, parameters || {});
+        const paramsToForward = Object.keys(__spreadProps(__spreadValues({}, instance$1.hashParsed.value), {
+          idSite: "",
+          period: "",
+          date: "",
+          segment: "",
+          widget: ""
+        }));
+        paramsToForward.forEach((key) => {
+          if (key === "category" || key === "subcategory") {
+            return;
+          }
+          if (!(key in fullParameters)) {
+            fullParameters[key] = urlParams[key];
+          }
+        });
+        if (ComparisonsStoreInstance.isComparisonEnabled()) {
+          fullParameters = __spreadProps(__spreadValues({}, fullParameters), {
+            comparePeriods: urlParams.comparePeriods,
+            compareDates: urlParams.compareDates,
+            compareSegments: urlParams.compareSegments
+          });
+        }
+        if (!parameters || !("showtitle" in parameters)) {
+          fullParameters.showtitle = "1";
+        }
+        if (Matomo.shouldPropagateTokenAuth && urlParams.token_auth) {
+          if (!Matomo.broadcast.isWidgetizeRequestWithoutSession()) {
+            fullParameters.force_api_session = "1";
+          }
+          fullParameters.token_auth = urlParams.token_auth;
+        }
+        fullParameters.random = Math.floor(Math.random() * 1e4);
+        return fullParameters;
+      },
+      loadWidgetUrl(parameters, thisChangeId) {
+        this.loading = true;
+        this.abortHttpRequestIfNeeded();
+        this.cleanupLastWidgetContent();
+        this.lastWidgetAbortController = new AbortController();
+        let searchFilters = {};
+        if (parameters.uniqueId) {
+          searchFilters = SearchFiltersPersistenceStoreInstance.getSearchFilters(parameters.uniqueId);
+        }
+        AjaxHelper.fetch(this.getWidgetUrl(Object.assign(parameters, searchFilters)), {
+          format: "html",
+          abortController: this.lastWidgetAbortController
+        }).then((response) => {
+          if (thisChangeId !== this.changeCounter || typeof response !== "string") {
+            return;
+          }
+          this.lastWidgetAbortController = null;
+          this.loading = false;
+          this.loadingFailed = false;
+          const widgetContent = this.$refs.widgetContent;
+          window.$(widgetContent).html(response);
+          const $content = window.$(widgetContent).children();
+          if (this.widgetName) {
+            let $title = $content.find("> .card-content .card-title");
+            if (!$title.length) {
+              $title = $content.find("> h2");
+            }
+            if ($title.length) {
+              $title.html(Matomo.helper.htmlEntities(this.widgetName));
+            }
+          }
+          Matomo.helper.compileVueEntryComponents($content);
+          if (!this.suppressNotifications) {
+            instance.parseNotificationDivs();
+          }
+          setTimeout(() => {
+            Matomo.postEvent("widget:loaded", {
+              parameters,
+              element: $content
+            });
+          });
+        }).catch((response) => {
+          if (thisChangeId !== this.changeCounter) {
+            return;
+          }
+          this.lastWidgetAbortController = null;
+          this.cleanupLastWidgetContent();
+          this.loading = false;
+          if (response.xhrStatus === "abort") {
+            return;
+          }
+          if (response.status === 429) {
+            this.loadingFailedRateLimit = true;
+          }
+          this.loadingFailed = true;
+        });
+      }
+    }
+  });
+  const _hoisted_1$e = { class: "widgetLoader" };
+  const _hoisted_2$9 = { key: 0 };
+  const _hoisted_3$9 = {
+    key: 1,
+    class: "notification system notification-error"
+  };
+  const _hoisted_4$6 = ["href"];
+  const _hoisted_5$6 = {
+    key: 2,
+    class: "notification system notification-error"
+  };
+  const _hoisted_6$5 = {
+    class: "theWidgetContent",
+    ref: "widgetContent"
+  };
+  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$e, [
+      vue.createVNode(_component_ActivityIndicator, {
+        "loading-message": _ctx.finalLoadingMessage,
+        loading: _ctx.loading
+      }, null, 8, ["loading-message", "loading"]),
+      vue.withDirectives(vue.createElementVNode("div", null, [
+        _ctx.widgetName ? (vue.openBlock(), vue.createElementBlock("h2", _hoisted_2$9, vue.toDisplayString(_ctx.widgetName), 1)) : vue.createCommentVNode("", true),
+        !_ctx.loadingFailedRateLimit ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$9, [
+          vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ErrorRequest", "", "")) + " ", 1),
+          _ctx.hasErrorFaqLink ? (vue.openBlock(), vue.createElementBlock("a", {
+            key: 0,
+            rel: "noreferrer noopener",
+            target: "_blank",
+            href: _ctx.externalRawLink("https://matomo.org/faq/troubleshooting/faq_19489/")
+          }, vue.toDisplayString(_ctx.translate("General_ErrorRequestFaqLink")), 9, _hoisted_4$6)) : vue.createCommentVNode("", true)
+        ])) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$6, vue.toDisplayString(_ctx.translate("General_ErrorRateLimit")), 1))
+      ], 512), [
+        [vue.vShow, _ctx.loadingFailed]
+      ]),
+      vue.createElementVNode("div", _hoisted_6$5, null, 512)
+    ]);
+  }
+  const WidgetLoader = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g]]);
+  const _sfc_main$f = vue.defineComponent({
+    props: {
+      widget: {
+        type: Object,
+        required: true
+      },
+      widgetized: Boolean
+    },
+    components: {
+      ActivityIndicator,
+      Alert
+    },
+    data() {
+      return {
+        componentToRender: null,
+        loading: false,
+        loadingFailed: false
+      };
+    },
+    watch: {
+      widget: {
+        handler() {
+          this.loadComponent();
+        },
+        immediate: true
+      }
+    },
+    computed: {
+      componentProps() {
+        var _a2;
+        const widget = this.widget;
+        return __spreadProps(__spreadValues({}, ((_a2 = widget.clientComponent) == null ? void 0 : _a2.props) || {}), {
+          uniqueId: widget.uniqueId,
+          widgetName: widget.name,
+          widgetized: this.widgetized,
+          isWidget: this.widgetized,
+          isWide: widget.isWide
+        });
+      }
+    },
+    methods: {
+      loadComponent() {
+        return __async(this, null, function* () {
+          const widget = this.widget;
+          const { clientComponent } = widget;
+          this.loading = true;
+          this.loadingFailed = false;
+          this.componentToRender = null;
+          try {
+            if (!clientComponent) {
+              throw new Error("Missing client-rendered widget metadata");
+            }
+            const pluginModule = yield importPluginUmd(
+              clientComponent.plugin
+            );
+            const component = pluginModule == null ? void 0 : pluginModule[clientComponent.name];
+            if (!component) {
+              throw new Error(
+                `Unknown widget component ${clientComponent.plugin}.${clientComponent.name}`
+              );
+            }
+            this.componentToRender = vue.markRaw(component);
+          } catch (e) {
+            console.error(e);
+            this.loadingFailed = true;
+          } finally {
+            this.loading = false;
+          }
+        });
+      }
+    }
+  });
+  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_ActivityIndicator = vue.resolveComponent("ActivityIndicator");
+    const _component_Alert = vue.resolveComponent("Alert");
+    return _ctx.loading ? (vue.openBlock(), vue.createBlock(_component_ActivityIndicator, {
+      key: 0,
+      loading: true,
+      "loading-message": _ctx.translate("General_LoadingData")
+    }, null, 8, ["loading-message"])) : _ctx.loadingFailed ? (vue.openBlock(), vue.createBlock(_component_Alert, {
+      key: 1,
+      severity: "danger"
+    }, {
+      default: vue.withCtx(() => [
+        vue.createTextVNode(vue.toDisplayString(_ctx.translate("General_ErrorRequest", "", "")), 1)
+      ]),
+      _: 1
+    })) : _ctx.componentToRender ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.componentToRender), vue.normalizeProps(vue.mergeProps({ key: 2 }, _ctx.componentProps)), null, 16)) : vue.createCommentVNode("", true);
+  }
+  const ClientWidgetRenderer = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f]]);
+  const Widget$1 = useExternalPluginComponent("CoreHome", "Widget");
+  const _sfc_main$e = vue.defineComponent({
+    props: {
+      container: {
+        type: Array,
+        required: true
+      }
+    },
+    components: {
+      Widget: Widget$1
+    },
+    computed: {
+      actualContainer() {
+        var _a2, _b, _c;
+        const container = this.container;
+        if (!((_a2 = container == null ? void 0 : container[0]) == null ? void 0 : _a2.parameters)) {
+          return container;
+        }
+        const [widget] = container;
+        const isWidgetized = ((_b = widget.parameters) == null ? void 0 : _b.widget) === "1" || ((_c = widget.parameters) == null ? void 0 : _c.widget) === 1;
+        const isGraphEvolution = isWidgetized && widget.viewDataTable === "graphEvolution";
+        const firstWidget = isGraphEvolution ? __spreadProps(__spreadValues({}, widget), { parameters: __spreadProps(__spreadValues({}, widget.parameters), { showtitle: "0" }) }) : widget;
+        return [
+          firstWidget,
+          ...container.slice(1)
+        ];
+      }
+    }
+  });
+  const _hoisted_1$d = { class: "widget-container" };
+  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_Widget = vue.resolveComponent("Widget");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$d, [
+      (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.actualContainer, (widget, index) => {
+        return vue.openBlock(), vue.createElementBlock("div", { key: index }, [
+          vue.createElementVNode("div", null, [
+            vue.createVNode(_component_Widget, {
+              widget,
+              "prevent-recursion": true
+            }, null, 8, ["widget"])
+          ])
+        ]);
+      }), 128))
+    ]);
+  }
+  const WidgetContainer = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e]]);
+  const _sfc_main$d = vue.defineComponent({
+    props: {
+      widgets: Array
+    },
+    components: {
+      WidgetLoader
+    },
+    data() {
+      return {
+        selectedWidget: null
+      };
+    },
+    created() {
+      [this.selectedWidget] = this.widgetsSorted;
+    },
+    computed: {
+      widgetsSorted() {
+        return sortOrderables(this.widgets);
+      },
+      widgetsByCategory() {
+        const byCategory = {};
+        this.widgetsSorted.forEach((widget) => {
+          var _a2;
+          const category = (_a2 = widget.subcategory) == null ? void 0 : _a2.name;
+          if (!category) {
+            return;
+          }
+          if (!byCategory[category]) {
+            byCategory[category] = { name: category, order: widget.order, widgets: [] };
+          }
+          byCategory[category].widgets.push(widget);
+        });
+        return sortOrderables(Object.values(byCategory));
+      }
+    },
+    methods: {
+      selectWidget(widget) {
+        this.selectedWidget = __spreadValues({}, widget);
+      }
+    }
+  });
+  const _hoisted_1$c = { class: "reportsByDimensionView" };
+  const _hoisted_2$8 = { class: "entityList" };
+  const _hoisted_3$8 = { class: "listCircle" };
+  const _hoisted_4$5 = ["onClick"];
+  const _hoisted_5$5 = { class: "dimension" };
+  const _hoisted_6$4 = { class: "reportContainer" };
+  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a2;
+    const _component_WidgetLoader = vue.resolveComponent("WidgetLoader");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$c, [
+      vue.createElementVNode("div", _hoisted_2$8, [
+        (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.widgetsByCategory, (category) => {
+          return vue.openBlock(), vue.createElementBlock("div", {
+            class: "dimensionCategory",
+            key: category.name
+          }, [
+            vue.createTextVNode(vue.toDisplayString(category.name) + " ", 1),
+            vue.createElementVNode("ul", _hoisted_3$8, [
+              (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(category.widgets, (widget) => {
+                var _a3;
+                return vue.openBlock(), vue.createElementBlock("li", {
+                  class: vue.normalizeClass(["reportDimension", { activeDimension: ((_a3 = _ctx.selectedWidget) == null ? void 0 : _a3.uniqueId) === widget.uniqueId }]),
+                  key: widget.uniqueId,
+                  onClick: ($event) => _ctx.selectWidget(widget)
+                }, [
+                  vue.createElementVNode("span", _hoisted_5$5, vue.toDisplayString(widget.name), 1)
+                ], 10, _hoisted_4$5);
+              }), 128))
+            ])
+          ]);
+        }), 128))
+      ]),
+      vue.createElementVNode("div", _hoisted_6$4, [
+        ((_a2 = _ctx.selectedWidget) == null ? void 0 : _a2.parameters) ? (vue.openBlock(), vue.createBlock(_component_WidgetLoader, {
+          key: 0,
+          "widget-params": _ctx.selectedWidget.parameters,
+          class: "dimensionReport"
+        }, null, 8, ["widget-params"])) : vue.createCommentVNode("", true)
+      ]),
+      _cache[0] || (_cache[0] = vue.createElementVNode("div", { class: "clear" }, null, -1))
+    ]);
+  }
+  const WidgetByDimensionContainer = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
+  function findContainer(widgetsByCategory, containerId) {
+    let widget = void 0;
+    Object.values(widgetsByCategory || {}).some((widgets) => {
+      widget = widgets.find((w) => {
+        var _a2;
+        return w && w.isContainer && ((_a2 = w.parameters) == null ? void 0 : _a2.containerId) === containerId;
+      });
+      return widget;
+    });
+    return widget;
+  }
+  const _sfc_main$c = vue.defineComponent({
+    props: {
+      widget: Object,
+      widgetized: Boolean,
+      containerid: String,
+      preventRecursion: Boolean,
+      suppressNotifications: Boolean
+    },
+    components: {
+      WidgetLoader,
+      WidgetContainer,
+      WidgetByDimensionContainer,
+      ClientWidgetRenderer
+    },
+    directives: {
+      Tooltips
+    },
+    data() {
+      return {
+        showWidget: false
+      };
+    },
+    setup() {
+      function tooltipContent() {
+        const $this = window.$(this);
+        if ($this.hasClass("matomo-form-field")) {
+          return "";
+        }
+        const title = window.$(this).attr("title") || "";
+        return window.vueSanitize(title.replace(/\n/g, "<br />"));
+      }
+      return {
+        tooltipContent
+      };
+    },
+    created() {
+      const { actualWidget } = this;
+      if (actualWidget && actualWidget.middlewareParameters) {
+        const params = actualWidget.middlewareParameters;
+        AjaxHelper.fetch(params).then((response) => {
+          this.showWidget = !!response;
+        });
+      } else {
+        this.showWidget = true;
+      }
+    },
+    computed: {
+      allWidgets() {
+        return WidgetsStoreInstance.widgets.value;
+      },
+      actualWidget() {
+        const widget = this.widget;
+        if (widget) {
+          const result = __spreadValues({}, widget);
+          if (widget && widget.isReport && !widget.documentation) {
+            const report = ReportMetadataStoreInstance.findReport(widget.module, widget.action);
+            if (report && report.documentation) {
+              result.documentation = report.documentation;
+>>>>>>> 5f035bd975 (Update vue build)
             }
             if ($title.length) {
               $title.html(Matomo.helper.htmlEntities(this.widgetName));
@@ -11480,6 +12939,9 @@ function ClientWidgetRenderervue_type_template_id_d4ca1a74_render(_ctx, _cache, 
             if (report && report.documentation) {
               result.documentation = report.documentation;
             }
+          }
+          if (widget.uniqueId) {
+            result.parameters = __spreadProps(__spreadValues({}, result.parameters), { uniqueId: widget.uniqueId });
           }
           if (widget.uniqueId) {
             result.parameters = __spreadProps(__spreadValues({}, result.parameters), { uniqueId: widget.uniqueId });
@@ -14601,7 +16063,11 @@ function ClientWidgetRenderervue_type_template_id_d4ca1a74_render(_ctx, _cache, 
   exports2.Widget = Widget;
   exports2.WidgetByDimensionContainer = WidgetByDimensionContainer;
   exports2.WidgetContainer = WidgetContainer;
+<<<<<<< HEAD
   exports2.WidgetControlsDropdown = WidgetControlsDropdown;
+=======
+  exports2.WidgetControls = WidgetControls;
+>>>>>>> 5f035bd975 (Update vue build)
   exports2.WidgetLoader = WidgetLoader;
   exports2.WidgetsStore = WidgetsStoreInstance;
   exports2.Year = YearPeriod;

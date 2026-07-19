@@ -22,7 +22,7 @@
       :aria-label="control.label"
       @click="$emit(control.id)"
     >
-      <span class="widgetControls__icon" :class="control.icon"></span>
+      <span class="widgetControls__icon" :class="control.icon" />
     </button>
   </div>
 </template>
@@ -31,8 +31,8 @@
 import { defineComponent } from 'vue';
 import { translate } from '../translate';
 
-interface WidgetControl {
-  id: string;
+export interface WidgetControl {
+  id: 'minimise' | 'maximise' | 'refresh' | 'close';
   icon: string;
   label: string;
   visible: boolean;
