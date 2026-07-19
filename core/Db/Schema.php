@@ -83,17 +83,13 @@ class Schema extends Singleton
     }
 
     /**
-     * Detects the database server type ("MySQL", "MariaDB" or "TiDb") from a raw
-     * server version string, matching the values returned by getDatabaseType().
+     * Detects the database server type ("MySQL" or "MariaDB") from a raw server
+     * version string, matching the values returned by getDatabaseType().
      */
     public static function getServerTypeFromVersion(string $serverVersion): string
     {
         if (stripos($serverVersion, 'mariadb') !== false) {
             return 'MariaDB';
-        }
-
-        if (stripos($serverVersion, 'tidb') !== false) {
-            return 'TiDb';
         }
 
         return 'MySQL';

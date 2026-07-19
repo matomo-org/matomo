@@ -132,7 +132,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
 
     /**
      * Checks the database server version against the required minimum for the
-     * detected server type (MySQL, MariaDB or TiDB).
+     * detected server type (MySQL or MariaDB).
      *
      * @throws Exception
      */

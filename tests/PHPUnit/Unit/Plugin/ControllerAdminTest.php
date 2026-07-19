@@ -63,7 +63,7 @@ class ControllerAdminTest extends TestCase
         yield 'MariaDB above Matomo 6 requirement' => ['MariaDB', '11.4.0-MariaDB', true];
         yield 'MariaDB detected through MySQL schema version' => ['MySQL', '10.5.22-MariaDB', false];
         yield 'MariaDB detected with compatibility prefix' => ['MySQL', '5.5.5-10.6.12-MariaDB', true];
-        yield 'Unknown database type is treated as compatible' => ['Tidb', '7.5.0', true];
+        yield 'Unknown database type is treated as compatible' => ['PostgreSQL', '15.2', true];
     }
 
     /**
@@ -88,7 +88,7 @@ class ControllerAdminTest extends TestCase
         yield 'MySQL' => ['MySQL', '5.7.44', '8.0'];
         yield 'MariaDB' => ['MariaDB', '10.5.22-MariaDB', '10.6'];
         yield 'MariaDB detected through version' => ['MySQL', '10.5.22-MariaDB', '10.6'];
-        yield 'Unknown database type' => ['Tidb', '7.5.0', null];
+        yield 'Unknown database type' => ['PostgreSQL', '15.2', null];
     }
 
     private function invokeControllerAdminMethod(string $methodName, array $arguments)

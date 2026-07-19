@@ -15,9 +15,4 @@ class DatabaseConfig extends SectionConfig
     {
         return 'database';
     }
-
-    public static function isTiDb(): bool
-    {
-        return self::getConfigValue('schema') === 'Tidb';
-    }
 }

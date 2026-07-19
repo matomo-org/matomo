@@ -91,7 +91,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
 
     /**
      * Checks the database server version against the required minimum for the
-     * detected server type (MySQL, MariaDB or TiDB).
+     * detected server type (MySQL or MariaDB).
      *
      * @throws Exception
      */

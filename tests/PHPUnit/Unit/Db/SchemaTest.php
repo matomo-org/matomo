@@ -29,7 +29,6 @@ class SchemaTest extends TestCase
         yield 'percona' => ['8.0.36-28', '8.0.36'];
         yield 'mariadb modern string' => ['10.6.19-MariaDB-1:10.6.19+maria~ubu2004', '10.6.19'];
         yield 'mariadb legacy compatibility prefix' => ['5.5.5-10.6.19-MariaDB-1:10.6.19', '10.6.19'];
-        yield 'tidb' => ['8.0.11-TiDB-v7.5.0', '8.0.11'];
         yield 'no digits returns input unchanged' => ['unknown', 'unknown'];
         yield 'empty string returns input unchanged' => ['', ''];
     }
@@ -47,7 +46,6 @@ class SchemaTest extends TestCase
         yield 'mysql' => ['8.0.32', 'MySQL'];
         yield 'mariadb' => ['10.6.19-MariaDB', 'MariaDB'];
         yield 'mariadb legacy compatibility prefix' => ['5.5.5-10.6.19-MariaDB', 'MariaDB'];
-        yield 'tidb' => ['8.0.11-TiDB-v7.5.0', 'TiDb'];
         yield 'unrecognised string defaults to mysql' => ['', 'MySQL'];
     }
 
@@ -64,6 +62,5 @@ class SchemaTest extends TestCase
         yield 'mysql uses the mysql minimum' => ['8.0.32', '8.0'];
         yield 'mariadb uses the mariadb minimum' => ['10.6.19-MariaDB', '10.6'];
         yield 'mariadb with legacy prefix uses the mariadb minimum' => ['5.5.5-10.6.19-MariaDB', '10.6'];
-        yield 'tidb inherits the mysql minimum' => ['8.0.11-TiDB-v7.5.0', '8.0'];
     }
 }
