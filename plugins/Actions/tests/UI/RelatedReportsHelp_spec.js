@@ -25,6 +25,15 @@ describe("RelatedReportsHelp", function () {
         });
     }
 
+    // The rate-feature widget's tooltip embeds the report name, so it reflects the feature
+    // name that would be submitted as feedback (RateFeature sends its `title` as featureName).
+    async function rateFeatureTitle() {
+        return page.evaluate(function () {
+            const el = document.querySelector('.enrichedHeadline .ratefeature');
+            return el ? el.getAttribute('title') : '';
+        });
+    }
+
     async function openInlineHelp() {
         // the icons bar is only shown on hover, so reveal it before clicking the info icon
         await page.hover('.enrichedHeadline');
@@ -41,6 +50,9 @@ describe("RelatedReportsHelp", function () {
         const entryPagesHelp = await inlineHelpText();
         expect(entryPagesHelp).to.contain('entry pages that were used');
 
+        const entryPagesFeatureName = await rateFeatureTitle();
+        expect(entryPagesFeatureName).to.contain('Entry pages');
+
         // switch to the related "Entry page titles" report
         await (await page.jQuery('.datatableRelatedReports span:contains(Entry page titles)')).click();
         await page.waitForNetworkIdle();
@@ -54,5 +66,10 @@ describe("RelatedReportsHelp", function () {
         const entryPageTitlesHelp = await inlineHelpText();
         expect(entryPageTitlesHelp).to.not.equal(entryPagesHelp);
         expect(entryPageTitlesHelp).to.contain('titles of entry pages');
+
+        // the rate-feature name must follow the report switch, not stay on the previous report
+        const entryPageTitlesFeatureName = await rateFeatureTitle();
+        expect(entryPageTitlesFeatureName).to.not.equal(entryPagesFeatureName);
+        expect(entryPageTitlesFeatureName).to.contain('Entry page titles');
     });
 });

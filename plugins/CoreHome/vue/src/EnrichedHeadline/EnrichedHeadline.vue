@@ -172,7 +172,7 @@ export default defineComponent({
     root.parentElement?.addEventListener('piwik:reportChanged', this.onReportChanged);
 
     if (!this.actualFeatureName) {
-      this.actualFeatureName = root.querySelector('.title')?.textContent;
+      this.actualFeatureName = this.readReportFeatureName();
     }
 
     if (Matomo.period && Matomo.currentDateString) {
@@ -211,11 +211,22 @@ export default defineComponent({
       // into the adjacent DataTable in place.
       this.actualInlineHelp = this.readReportDocumentation();
 
+      // Also re-read the feature name, otherwise the rate-feature widget would submit
+      // feedback under the previous report's name.
+      const featureName = this.readReportFeatureName();
+      if (featureName) {
+        this.actualFeatureName = featureName;
+      }
+
       // The new report may have no documentation; close the popup instead of leaving it
       // open and blank (the info icon that would reopen it is hidden when there is no help).
       if (!this.actualInlineHelp) {
         this.showInlineHelp = false;
       }
+    },
+    readReportFeatureName(): string {
+      const root = this.$refs.root as HTMLElement;
+      return root?.querySelector('.title')?.textContent?.trim() || '';
     },
     readReportDocumentation(): string {
       const root = this.$refs.root as HTMLElement;

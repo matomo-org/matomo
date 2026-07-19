@@ -3193,7 +3193,7 @@ var __async = (__this, __arguments, generator) => {
       }
     },
     mounted() {
-      var _a2, _b, _c;
+      var _a2, _b;
       const root = this.$refs.root;
       if (!this.actualInlineHelp) {
         const inlineHelpNode = root.querySelector(".title .inlineHelp");
@@ -3209,7 +3209,7 @@ var __async = (__this, __arguments, generator) => {
       }
       (_b = root.parentElement) == null ? void 0 : _b.addEventListener("piwik:reportChanged", this.onReportChanged);
       if (!this.actualFeatureName) {
-        this.actualFeatureName = (_c = root.querySelector(".title")) == null ? void 0 : _c.textContent;
+        this.actualFeatureName = this.readReportFeatureName();
       }
       if (Matomo.period && Matomo.currentDateString) {
         const currentPeriod = Periods$1.parse(
@@ -3242,9 +3242,18 @@ var __async = (__this, __arguments, generator) => {
       },
       onReportChanged() {
         this.actualInlineHelp = this.readReportDocumentation();
+        const featureName = this.readReportFeatureName();
+        if (featureName) {
+          this.actualFeatureName = featureName;
+        }
         if (!this.actualInlineHelp) {
           this.showInlineHelp = false;
         }
+      },
+      readReportFeatureName() {
+        var _a2, _b;
+        const root = this.$refs.root;
+        return ((_b = (_a2 = root == null ? void 0 : root.querySelector(".title")) == null ? void 0 : _a2.textContent) == null ? void 0 : _b.trim()) || "";
       },
       readReportDocumentation() {
         var _a2, _b, _c, _d;

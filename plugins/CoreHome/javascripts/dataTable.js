@@ -1727,11 +1727,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             if ($title.length) {
                 $title.text(relatedReportName);
 
-                // The report title is a Vue EnrichedHeadline component rendered outside the
-                // reloaded datatable, so it is not re-mounted here. Notify it with a native
-                // event (so it can listen via addEventListener, without jQuery) to re-read
-                // the freshly loaded report's documentation instead of keeping the previous
-                // report's help text.
+                // The EnrichedHeadline Vue component is rendered outside the reloaded
+                // datatable and is not re-mounted, so notify it (native event, no jQuery)
+                // to re-read the new report's title and documentation from the updated DOM.
                 if ($headline.length) {
                     $headline[0].dispatchEvent(new CustomEvent('piwik:reportChanged'));
                 }
