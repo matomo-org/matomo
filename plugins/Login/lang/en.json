@@ -101,7 +101,7 @@
         "SuspiciousLoginAttemptsInLastHourEmailSubject": "Some suspicious login attempts were made using your username…",
         "TimeOfLogin": "Time of login",
         "TokenAuthenticationFailed": "Unable to authenticate with the provided token. It is either invalid or expired.",
-        "TokenAuthenticationFailedInsecure": "Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter. If the token was created with the 'Only allow secure requests' option, it must be sent as a POST parameter.",
+        "TokenAuthenticationFailedInsecure": "Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter or in the HTTP Authorization header. If the token was created with the 'Only allow secure requests' option, it must be sent as a POST parameter or in the HTTP Authorization header.",
         "UnblockAllIPs": "Unblock all blocked IPs",
         "WrongPasswordEntered": "Please enter your password."
     }
