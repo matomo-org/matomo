@@ -286,10 +286,12 @@
 
                 // Render the shared ReportHeader (title + widget-controls row) into the widget
                 // chrome. The controls emit bubbling `widgetcontrol:*` events which are bridged
-                // to the widget behaviour just below.
+                // to the widget behaviour just below. Initialise the context to match the
+                // widget's persisted state so a widget restored collapsed shows the collapsed
+                // controls (maximise/close) rather than the full set.
                 piwikHelper.compileVueEntryComponents($('.widgetTop', widgetElement), {
                     title: titleText,
-                    context: 'dashboard'
+                    context: self.options.isHidden ? 'collapsed' : 'dashboard'
                 });
 
                 widgetElement

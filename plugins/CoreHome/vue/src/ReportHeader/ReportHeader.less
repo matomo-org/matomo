@@ -34,7 +34,7 @@
   .reportHeader__widgetControls {
     flex: none;
     display: flex;
-    align-items: center;
+    align-items: safe center;
     // Visible by default. Hover-reveal is opt-in per host via the `__reportHeader-onHover`
     // hook (rules below); where the hook is absent the controls stay visible (e.g. a
     // maximised widget). Uses opacity (not display) so they stay keyboard-focusable.
@@ -49,7 +49,7 @@
   .reportHeader__actions {
     flex: none;
     display: flex;
-    align-items: center;
+    align-items: safe center;
 
     &:empty {
       display: none;
