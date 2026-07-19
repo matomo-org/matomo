@@ -127,7 +127,7 @@ var SegmentedVisitorLog = function() {
 
             Piwik_Popover.setTitle(defaultTitle);
 
-            setPopoverTitle(apiMethod, segment, 0, extraParams.additionalSegment);
+            setPopoverTitle(apiMethod, segment, 0, extraParams.intersectSegment);
         };
 
         // prepare loading the popover contents

@@ -96,7 +96,7 @@
 
         if (currentSegment) {
             segment = decodeURIComponent(currentSegment);
-            extraParams.additionalSegment = clickedSegment;
+            extraParams.intersectSegment = clickedSegment;
         } else {
             segment = clickedSegment;
         }
@@ -109,7 +109,7 @@
             }
 
             if (!currentSegment) {
-                extraParams.additionalSegment = clickedSegment;
+                extraParams.intersectSegment = clickedSegment;
             }
         }
 

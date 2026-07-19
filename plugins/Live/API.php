@@ -203,12 +203,12 @@ class API extends \Piwik\Plugin\API
 
         $filterSortOrder = \Piwik\Request::fromRequest()->getStringParameter('filter_sort_order', '');
         // Internal context used by the segmented visitor log row action.
-        $additionalSegment = \Piwik\Request::fromRequest()->getStringParameter('additionalSegment', '');
-        if ($additionalSegment === '') {
-            $additionalSegment = false;
+        $intersectSegment = \Piwik\Request::fromRequest()->getStringParameter('intersectSegment', '');
+        if ($intersectSegment === '') {
+            $intersectSegment = false;
         }
 
-        $dataTable = $this->loadLastVisitsDetailsFromDatabase($idSites, $period, $date, $segment, $filterOffset, $filterLimit, $minTimestamp, $filterSortOrder, $visitorId = false, $additionalSegment);
+        $dataTable = $this->loadLastVisitsDetailsFromDatabase($idSites, $period, $date, $segment, $filterOffset, $filterLimit, $minTimestamp, $filterSortOrder, $visitorId = false, $intersectSegment);
         $this->addFilterToCleanVisitors($dataTable, $flat, $doNotFetchActions);
 
         $filterSortColumn = \Piwik\Request::fromRequest()->getStringParameter('filter_sort_column', '');
@@ -455,11 +455,12 @@ class API extends \Piwik\Plugin\API
      * @param int|false $minTimestamp
      * @param string|false $filterSortOrder
      * @param string|false $visitorId
+     * @param string|false $intersectSegment Extra segment intersected at the visit level; see Model::queryLogVisits().
      */
-    private function loadLastVisitsDetailsFromDatabase($idSite, $period, $date, $segment = false, $offset = 0, $limit = 100, $minTimestamp = false, $filterSortOrder = false, $visitorId = false, $additionalSegment = false): DataTable
+    private function loadLastVisitsDetailsFromDatabase($idSite, $period, $date, $segment = false, $offset = 0, $limit = 100, $minTimestamp = false, $filterSortOrder = false, $visitorId = false, $intersectSegment = false): DataTable
     {
         $model = new Model();
-        [$data, $hasMoreVisits] = $model->queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, true, $additionalSegment);
+        [$data, $hasMoreVisits] = $model->queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, true, $intersectSegment);
         return $this->makeVisitorTableFromArray($data, $hasMoreVisits);
     }
 

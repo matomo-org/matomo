@@ -70,7 +70,7 @@ describe('Live/SegmentVisitorLog row action', () => {
       expect.objectContaining({
         date: '2012-08-09',
         period: 'day',
-        additionalSegment: CATEGORY_ROW_SEGMENT,
+        intersectSegment: CATEGORY_ROW_SEGMENT,
       }),
     );
   });
@@ -99,7 +99,7 @@ describe('Live/SegmentVisitorLog row action', () => {
       expect.objectContaining({
         date: '2012-08-09',
         period: 'day',
-        additionalSegment: CATEGORY_ROW_SEGMENT,
+        intersectSegment: CATEGORY_ROW_SEGMENT,
       }),
     );
   });
