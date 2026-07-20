@@ -87,26 +87,6 @@ class Advertising
     }
 
     /**
-     * @deprecated
-     * Generates campaign URL parameters that can be used with promoting Professional Support service.
-     *
-     * @param string $campaignName
-     * @param string $campaignMedium
-     * @param string $campaignContent Optional
-     * @return string URL parameters without a leading ? or &
-     */
-    private function getCampaignParametersForPromoUrl($campaignName, $campaignMedium, $campaignContent = '')
-    {
-        $campaignName = sprintf('pk_campaign=%s&pk_medium=%s&pk_source=Matomo_App', $campaignName, $campaignMedium);
-
-        if (!empty($campaignContent)) {
-            $campaignName .= '&pk_content=' . $campaignContent;
-        }
-
-        return $campaignName;
-    }
-
-    /**
      * @param $configGeneralSection
      * @return bool
      */
