@@ -28,6 +28,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated archiving script `./misc/cron/archive.sh` has been removed. Use the console command `core:archive` instead.
 * The `SEO` plugin has been removed, along with its `SEO` widget and the `SEO.getRank` API method.
 * One Click Update now always downloads the update archive over HTTPS. The insecure "retry over HTTP" fallback screen and the `https` request parameter of the `CoreUpdater.oneClickUpdate` action have been removed, and the `$https` parameter of `Piwik\Plugins\CoreUpdater\Updater::updatePiwik()` and `Piwik\Plugins\CoreUpdater\Updater::getArchiveUrl()` has been removed. HTTP is only used when the `force_matomo_http_request` config option is enabled.
+* Several core controller actions that return JSON now declare a native `string` return type as part of adopting the new `#[Piwik\Http\JsonResponse]` attribute. A plugin that extends one of these controllers and overrides such an action must declare a compatible `string` return type.
+
+### New APIs
+* A new `#[Piwik\Http\JsonResponse]` attribute can be applied to a plugin controller action to declare that it returns a JSON response. When present, Matomo (re-)sends the `Content-Type: application/json` header after the action has returned, so it can no longer be overwritten by output produced while the action builds its response (for example a rendered `Piwik\View`, which sends `text/html`). An action using the attribute should return the JSON string and must not send the header itself or call `exit`/`die`.
 
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
