@@ -4405,12 +4405,6 @@ parameters:
 			path: plugins/UsersManager/Controller.php
 
 		-
-			message: '#^Method Piwik\\Plugins\\UsersManager\\Controller\:\:noAdminAccessToWebsite\(\) is unused\.$#'
-			identifier: method.unused
-			count: 1
-			path: plugins/UsersManager/Controller.php
-
-		-
 			message: '#^Parameter \#2 \$value of static method Piwik\\Option\:\:set\(\) expects string, int given\.$#'
 			identifier: argument.type
 			count: 1
