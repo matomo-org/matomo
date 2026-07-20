@@ -49,10 +49,10 @@ describe('WidgetControls', () => {
     });
 
     expect(wrapper.findAll('.widgetControls__action').length).toBe(2);
-    expect(wrapper.find('.widgetControl-minimise').exists()).toBe(true);
-    expect(wrapper.find('.widgetControl-refresh').exists()).toBe(true);
-    expect(wrapper.find('.widgetControl-maximise').exists()).toBe(false);
-    expect(wrapper.find('.widgetControl-close').exists()).toBe(false);
+    expect(wrapper.find('.widgetControls__action--minimise').exists()).toBe(true);
+    expect(wrapper.find('.widgetControls__action--refresh').exists()).toBe(true);
+    expect(wrapper.find('.widgetControls__action--maximise').exists()).toBe(false);
+    expect(wrapper.find('.widgetControls__action--close').exists()).toBe(false);
   });
 
   it('should render no controls when all flags are false', () => {
@@ -69,7 +69,7 @@ describe('WidgetControls', () => {
   it('should emit the matching intent when a control is clicked', async () => {
     const wrapper = mountComponent();
 
-    await wrapper.find('.widgetControl-close').trigger('click');
+    await wrapper.find('.widgetControls__action--close').trigger('click');
 
     expect(wrapper.emitted('close')).toBeTruthy();
     expect(wrapper.emitted('minimise')).toBeFalsy();

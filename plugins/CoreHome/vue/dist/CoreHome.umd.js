@@ -11909,7 +11909,7 @@ function ClientWidgetRenderervue_type_template_id_d4ca1a74_render(_ctx, _cache, 
         return vue.openBlock(), vue.createElementBlock("button", {
           key: control.id,
           type: "button",
-          class: vue.normalizeClass(["widgetControls__action", `widgetControl-${control.id}`]),
+          class: vue.normalizeClass(["widgetControls__action", `widgetControls__action--${control.id}`]),
           title: control.label,
           "aria-label": control.label,
           onClick: ($event) => _ctx.$emit(control.id)

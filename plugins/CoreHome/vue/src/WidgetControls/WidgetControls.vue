@@ -17,7 +17,7 @@
       :key="control.id"
       type="button"
       class="widgetControls__action"
-      :class="`widgetControl-${control.id}`"
+      :class="`widgetControls__action--${control.id}`"
       :title="control.label"
       :aria-label="control.label"
       @click="$emit(control.id)"

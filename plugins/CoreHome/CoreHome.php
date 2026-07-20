@@ -431,6 +431,12 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_CopyXDescription';
         $translationKeys[] = 'CoreHome_WebAnalyticsReports';
         $translationKeys[] = 'General_Widget';
+        // Widget-control actions rendered by the shared CoreHome.WidgetControls component. Registered
+        // here (not in Dashboard) so the component works wherever CoreHome is loaded.
+        $translationKeys[] = 'General_Refresh';
+        $translationKeys[] = 'Dashboard_Minimise';
+        $translationKeys[] = 'Dashboard_Maximise';
+        $translationKeys[] = 'General_Close';
 
         // add admin menu translations
         if (

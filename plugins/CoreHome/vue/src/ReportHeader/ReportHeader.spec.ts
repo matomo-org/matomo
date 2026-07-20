@@ -54,19 +54,19 @@ describe('ReportHeader', () => {
   it('should show only minimise and refresh in the maximised context', () => {
     const wrapper = mountComponent({ context: 'maximised' });
 
-    expect(wrapper.find('.widgetControl-minimise').exists()).toBe(true);
-    expect(wrapper.find('.widgetControl-refresh').exists()).toBe(true);
-    expect(wrapper.find('.widgetControl-maximise').exists()).toBe(false);
-    expect(wrapper.find('.widgetControl-close').exists()).toBe(false);
+    expect(wrapper.find('.widgetControls__action--minimise').exists()).toBe(true);
+    expect(wrapper.find('.widgetControls__action--refresh').exists()).toBe(true);
+    expect(wrapper.find('.widgetControls__action--maximise').exists()).toBe(false);
+    expect(wrapper.find('.widgetControls__action--close').exists()).toBe(false);
   });
 
   it('should show only maximise and close in the collapsed context', () => {
     const wrapper = mountComponent({ context: 'collapsed' });
 
-    expect(wrapper.find('.widgetControl-maximise').exists()).toBe(true);
-    expect(wrapper.find('.widgetControl-close').exists()).toBe(true);
-    expect(wrapper.find('.widgetControl-minimise').exists()).toBe(false);
-    expect(wrapper.find('.widgetControl-refresh').exists()).toBe(false);
+    expect(wrapper.find('.widgetControls__action--maximise').exists()).toBe(true);
+    expect(wrapper.find('.widgetControls__action--close').exists()).toBe(true);
+    expect(wrapper.find('.widgetControls__action--minimise').exists()).toBe(false);
+    expect(wrapper.find('.widgetControls__action--refresh').exists()).toBe(false);
   });
 
   it('should render no controls in the preview and widgetized contexts', () => {
@@ -77,7 +77,7 @@ describe('ReportHeader', () => {
   it('should re-emit control intents from the row', async () => {
     const wrapper = mountComponent({ context: 'dashboard' });
 
-    await wrapper.find('.widgetControl-refresh').trigger('click');
+    await wrapper.find('.widgetControls__action--refresh').trigger('click');
 
     expect(wrapper.emitted('refresh')).toBeTruthy();
   });
@@ -87,7 +87,7 @@ describe('ReportHeader', () => {
     const received: string[] = [];
     wrapper.element.addEventListener('widgetcontrol:maximise', () => received.push('maximise'));
 
-    await wrapper.find('.widgetControl-maximise').trigger('click');
+    await wrapper.find('.widgetControls__action--maximise').trigger('click');
 
     expect(received).toEqual(['maximise']);
   });
