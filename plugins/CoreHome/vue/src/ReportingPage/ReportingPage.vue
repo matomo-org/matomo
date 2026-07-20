@@ -7,6 +7,12 @@
 
 <template>
   <div class="reporting-page">
+    <SiteWithoutData
+      v-if="showEmptySiteScreen"
+      :embedded-in-reporting="true"
+      @dismissed="onNoDataDismissed"
+    />
+    <template v-else>
     <ActivityIndicator
       :loading="loading"
     />
@@ -42,6 +48,7 @@
         />
       </div>
     </div>
+    </template>
   </div>
 </template>
 
@@ -56,7 +63,15 @@ import { NotificationsStore } from '../Notification';
 import { translate } from '../translate';
 import Matomo from '../Matomo/Matomo';
 import ReportingPagesStoreInstance from '../ReportingPages/ReportingPages.store';
+import { DEFAULT_GROUP } from '../ReportingMenu/ReportingMenu.store';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
+import useExternalPluginComponent from '../useExternalPluginComponent';
+
+const SiteWithoutData = useExternalPluginComponent('SitesManager', 'SiteWithoutData');
+
+// Reuse the standalone page's id so its styling (SitesManager.less) and detection
+// (broadcast.isNoDataPage, UI tests) also apply to the in-SPA gate.
+const SITE_WITHOUT_DATA_BODY_ID = 'site-without-data';
 
 function showOnlyRawDataNotification() {
   const params = 'category=General_Visitors&subcategory=Live_VisitorLog';
@@ -86,6 +101,8 @@ interface ReportingPageState {
   hasNoVisits: boolean;
   dateLastChecked: Date|null;
   hasNoPage: boolean;
+  siteHasNoData: boolean;
+  noDataDismissed: boolean;
 }
 
 interface LoadPageArgs {
@@ -98,6 +115,11 @@ export default defineComponent({
   components: {
     ActivityIndicator,
     Widget,
+    SiteWithoutData,
+  },
+  props: {
+    // groups the empty-site gate is skipped for (e.g. AI Insights), resolved server-side
+    groupsWithoutTrackingRequirement: { type: Array, default: () => [] },
   },
   data(): ReportingPageState {
     return {
@@ -106,6 +128,8 @@ export default defineComponent({
       hasNoVisits: false,
       dateLastChecked: null,
       hasNoPage: false,
+      siteHasNoData: false,
+      noDataDismissed: false,
     };
   },
   created() {
@@ -113,6 +137,15 @@ export default defineComponent({
 
     this.loading = true; // we only set loading on initial load
     this.renderInitialPage();
+
+    // Fetched in parallel (not awaited) so the common has-data case isn't delayed by a round-trip.
+    // A no-data site therefore starts rendering the report first; the gate replaces it once this
+    // resolves. The discarded fetch is cheap (a no-data site has nothing to archive).
+    this.fetchSiteEmptyState();
+
+    watch(() => this.showEmptySiteScreen, (active) => {
+      this.updateSiteWithoutDataBodyId(active);
+    });
 
     watch(() => MatomoUrl.parsed.value, (newValue, oldValue) => {
       if (newValue.category === oldValue.category
@@ -156,15 +189,58 @@ export default defineComponent({
       );
     });
   },
+  unmounted() {
+    this.updateSiteWithoutDataBodyId(false);
+  },
   computed: {
     widgets() {
       return ReportingPageStoreInstance.widgets.value;
     },
+    showEmptySiteScreen() {
+      if (!this.siteHasNoData || this.noDataDismissed) {
+        return false;
+      }
+
+      const activeGroup = (MatomoUrl.parsed.value.group as string) || DEFAULT_GROUP;
+      return !this.groupsWithoutTrackingRequirement.includes(activeGroup);
+    },
   },
   methods: {
+    fetchSiteEmptyState() {
+      AjaxHelper.fetch(
+        { module: 'SitesManager', action: 'getSiteEmptyState', idSite: Matomo.idSite },
+        { createErrorNotification: false },
+      ).then((response) => {
+        this.siteHasNoData = response === true;
+      }).catch(() => {
+        // ignore errors - don't block the dashboard on the empty-site check
+        this.siteHasNoData = false;
+      });
+    },
+    onNoDataDismissed() {
+      // stay on the current page and load it now that the screen is gone
+      this.noDataDismissed = true;
+      this.renderInitialPage();
+    },
+    updateSiteWithoutDataBodyId(active: boolean) {
+      if (active) {
+        document.body.id = SITE_WITHOUT_DATA_BODY_ID;
+      } else if (document.body.id === SITE_WITHOUT_DATA_BODY_ID) {
+        document.body.id = '';
+      }
+    },
     renderPage(
       category: string, subcategory: string, period: string, date: string, segment: string,
     ) {
+      // No report to render while the gate is shown; rendering would emit matomoPageChange and
+      // abort the requests the just-mounted SiteWithoutData component fired. Still clear transient
+      // notifications from the page we navigated away from (e.g. an archiving notice).
+      if (this.showEmptySiteScreen) {
+        NotificationsStore.clearTransientNotifications();
+        this.loading = false;
+        return;
+      }
+
       if (!category || !subcategory) {
         ReportingPageStoreInstance.resetPage();
         this.loading = false;

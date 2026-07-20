@@ -120,6 +120,7 @@
         "Expired": "Invitation expirée",
         "ExpiredInviteAutomaticallyRemoved": "Les invitations expirées seront automatiquement supprimées après %1$s jours.",
         "ExpiredTokensDeleteAutomatically": "Les jetons avec une date d'expiration seront automatiquement supprimés.",
+        "ExpiryInDays": "Expiration en jours",
         "FilterByAccess": "Filtrer par accès",
         "FilterByStatus": "Filtrer par statut",
         "FilterByWebsite": "Filtrer par site web",

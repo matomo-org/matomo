@@ -33,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "An bhfuil tú cinnte gur mian leat rogha na ngiuirléidí reatha agus leagan amach an deais a shocrú mar an teimpléad deais réamhshocraithe?",
         "SetAsDefaultWidgetsConfirmHelp": "Úsáidfear an rogha giuirléidí seo agus leagan amach na gcolún ar an deais nuair a chruthaíonn aon úsáideoir deais nua, nó nuair a úsáidtear an ghné \"%s\".",
         "TopLinkTooltip": "Féach ar thuairiscí Web Analytics le haghaidh %s.",
+        "TopMenuTitle": "Anailísíocht",
         "WidgetNotFound": "Giuirléid gan aimsiú",
         "WidgetPreview": "Réamhamharc giuirléid"
     }

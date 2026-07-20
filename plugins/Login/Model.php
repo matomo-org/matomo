@@ -22,7 +22,7 @@ class Model
     public const LAST_LOGIN_COUNTRY_OPTION_PREFIX = 'LoginFromDifferentCountry.lastCountry.';
 
     /**
-     * @var
+     * @var string
      */
     private $tablePrefixed;
 

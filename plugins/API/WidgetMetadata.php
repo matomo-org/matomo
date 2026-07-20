@@ -189,7 +189,7 @@ class WidgetMetadata
 
     /**
      * @param Category|null $category
-     * @return array
+     * @return array|null
      */
     private function buildCategoryMetadata($category)
     {
@@ -204,12 +204,13 @@ class WidgetMetadata
             'icon'   => $category->getIcon(),
             'help'   => Piwik::translate($category->getHelp()),
             'widget' => $category->getWidget() ?: null,
+            'groups' => $category->getGroups(),
         );
     }
 
     /**
      * @param Subcategory|null $subcategory
-     * @return array
+     * @return array|null
      */
     private function buildSubcategoryMetadata($subcategory)
     {

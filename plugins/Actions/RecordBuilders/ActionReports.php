@@ -42,6 +42,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
+        ArchivingHelper::reloadConfig();
+
         $pageUrlsRecord = Record::make(Record::TYPE_BLOB, Archiver::PAGE_URLS_RECORD_NAME)
             ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation());
         $pageTitlesRecord = Record::make(Record::TYPE_BLOB, Archiver::PAGE_TITLES_RECORD_NAME)
@@ -334,8 +336,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     private function isFlatArchivingEnabled(): bool
     {
-        ArchivingHelper::reloadConfig();
-        return ArchivingHelper::$maximumRowsInDataTableFlat > 0;
+        return ArchivingHelper::isFlatArchivingEnabled();
     }
 
     private function setHierarchyBuiltFromFlatRecord(
@@ -365,12 +366,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     private function getDefaultHierarchyRowColumns(): array
     {
-        return [
-            PiwikMetrics::INDEX_NB_VISITS => 0,
-            PiwikMetrics::INDEX_NB_UNIQ_VISITORS => 0,
-            PiwikMetrics::INDEX_PAGE_NB_HITS => 0,
-            PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT => 0,
-        ];
+        return array_fill_keys(ArchivingHelper::getHierarchyRowColumnOrder(), 0);
     }
 
     private function aggregateLegacyHierarchical(ArchiveProcessor $archiveProcessor): array

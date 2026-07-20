@@ -302,9 +302,8 @@ class VisitorDetails extends VisitorDetailsAbstract
     }
 
     /**
-     * @param $idVisit
+     * @param array $idVisits
      * @return array
-     * @throws \Exception
      */
     protected function queryActionsForVisits($idVisits)
     {

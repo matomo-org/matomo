@@ -210,7 +210,7 @@ abstract class LocationProvider
     }
 
     /**
-     * Get all lo that are defined by the given plugin.
+     * Get all location providers that are defined by the given plugin.
      *
      * @return LocationProvider[]
      */
@@ -260,8 +260,8 @@ abstract class LocationProvider
      * array(
      *     'geoip2php' => array('id' => 'geoip2php',
      *                          'title' => '...',
-     *                          'desc' => '...',
-     *                          'status' => GeoIp2::BROKEN,
+     *                          'description' => '...',
+     *                          'status' => self::BROKEN,
      *                          'statusMessage' => '...',
      *                          'location' => '...')
      *     'geoip_serverbased' => array(...)
@@ -543,7 +543,7 @@ abstract class LocationProvider
      * will return an IPv4 address or IPv6 address.
      *
      * @param  array $info Must have 'ip' key.
-     * @return string|null
+     * @return string
      */
     protected function getIpFromInfo($info)
     {

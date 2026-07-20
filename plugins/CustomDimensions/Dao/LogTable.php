@@ -45,7 +45,7 @@ class LogTable
     }
 
     /**
-     * @see getHighestCustomDimensionIndex()
+     * @see getInstalledIndexes()
      * @return int
      */
     public function getNumInstalledIndexes()

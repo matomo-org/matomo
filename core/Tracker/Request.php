@@ -56,7 +56,7 @@ class Request
      * whatever they want in this array, and other RequestProcessors can modify these
      * values to change tracker behavior.
      *
-     * @var string[][]
+     * @var array<string, array<string, mixed>> Keyed by plugin name, then metadata key.
      */
     private $requestMetadata = array();
 
@@ -576,7 +576,7 @@ class Request
     }
 
     /**
-     * Returns true if the timestamp is valid ie. timestamp is sometime in the last 10 years and is not in the future.
+     * Returns true if the timestamp is valid ie. timestamp is sometime in the last 20 years and is not in the future.
      *
      * @param $time int Timestamp to test
      * @param $now int Current timestamp

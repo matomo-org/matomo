@@ -80,6 +80,21 @@ describe("Menus", function () {
         expect(await element.screenshot()).to.matchImage('mainmenu_lower_clicked');
     });
 
+    // AI Insights section
+    it('should switch to the AI Insights section when its top menu entry is clicked', async function() {
+        await page.webpage.setViewport({ width: 1500, height: 750 });
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview");
+        await page.waitForSelector('#secondNavBar', { visible: true });
+
+        // the "AI Insights" top menu entry is tagged with its reporting group
+        await page.click('.nav-wrapper .right a[data-reporting-group="CoreHome_AIInsights"]');
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(500);
+
+        const element = await page.jQuery('#secondNavBar');
+        expect(await element.screenshot()).to.matchImage('ai_insights_menu');
+    });
+
     // admin menu tests
     it('should load the admin reporting menu correctly', async function() {
         await page.webpage.setViewport({width: 1500, height: 750 });

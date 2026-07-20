@@ -172,7 +172,7 @@ class RowEvolution
     /**
      * Render the popover
      * @param \Piwik\Plugins\CoreHome\Controller $controller
-     * @param \Piwik\View (the popover_rowevolution template)
+     * @param \Piwik\View $view the popover_rowevolution template
      * @return string
      */
     public function renderPopover($controller, $view)

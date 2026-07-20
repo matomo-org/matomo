@@ -1,5 +1,6 @@
 {
     "CoreHome": {
+        "AIInsights": "Aperçus IA",
         "AdblockIsMaybeUsed": "Dans le cas où vous utiliseriez un bloqueur de publicités, veuillez le désactiver pour ce site afin de vous assurer que Matomo fonctionne correctement.",
         "AddTotalsRowDataTable": "Le rapport n'affiche pas la ligne des totaux %s Afficher la ligne des totaux",
         "CategoryNoData": "Aucune donnée pour cette catégorie. Essayez \"d'inclure toute la population\".",

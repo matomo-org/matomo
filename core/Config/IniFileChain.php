@@ -135,7 +135,7 @@ class IniFileChain
      * all default setting files), it is not written to the user settings file.
      *
      * @param string $header The header of the INI output.
-     * @return string The dumped INI contents.
+     * @return string|null The dumped INI contents, or null if there are no changes to write.
      */
     public function dumpChanges($header = '')
     {
@@ -362,7 +362,7 @@ class IniFileChain
      *
      * @param mixed $elem1
      * @param mixed $elem2
-     * @return int;
+     * @return int
      */
     public static function compareElements($elem1, $elem2)
     {

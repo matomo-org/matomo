@@ -60,13 +60,13 @@ abstract class Renderer extends BaseFactory
 
     /**
      * API metadata for the current report
-     * @var array
+     * @var array|false|null
      */
     private $apiMetaData = null;
 
     /**
      * The current idSite
-     * @var int
+     * @var int|string
      */
     public $idSite = 'all';
 
@@ -111,7 +111,7 @@ abstract class Renderer extends BaseFactory
     /**
      * Computes the dataTable output and returns the string/binary
      *
-     * @return mixed
+     * @return string
      */
     abstract public function render();
 
@@ -126,8 +126,7 @@ abstract class Renderer extends BaseFactory
     /**
      * Set the DataTable to be rendered
      *
-     * @param DataTableInterface $table table to be rendered
-     * @throws Exception
+     * @param DataTableInterface|array $table table to be rendered
      */
     public function setTable($table)
     {
@@ -279,7 +278,7 @@ abstract class Renderer extends BaseFactory
     }
 
     /**
-     * @return array|null
+     * @return array|false
      */
     protected function getApiMetaData()
     {
@@ -423,8 +422,9 @@ abstract class Renderer extends BaseFactory
      *            'col2_name' => value2,
      *            'metadata1_name' => value_metadata )
      *
-     * @param null|DataTable|DataTable\Map|Simple $dataTable
-     * @return array  Php array representing the 'flat' version of the datatable
+     * @param null|array|DataTable\DataTableInterface $dataTable
+     * @return mixed  Php array representing the 'flat' version of the datatable, or a scalar value
+     *                when the table is a Simple table with a single column.
      */
     protected function convertDataTableToArray($dataTable = null)
     {

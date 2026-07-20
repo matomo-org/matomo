@@ -17,8 +17,8 @@ use Exception;
 class Factory
 {
     /**
-     * Returns the Tracker_Visit object.
-     * This method can be overwritten to use a different Tracker_Visit object
+     * Returns the Visit object.
+     * This method can be overwritten to use a different Visit object
      *
      * @throws Exception
      * @return \Piwik\Tracker\Visit

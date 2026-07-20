@@ -53,7 +53,6 @@ class RolesProvider
     }
 
     /**
-     * @param $roleId
      * @throws Exception
      */
     public function checkValidRole(string $roleId): void

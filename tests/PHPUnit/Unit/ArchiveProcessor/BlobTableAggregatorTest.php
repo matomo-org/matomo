@@ -55,6 +55,7 @@ class BlobTableAggregatorTest extends TestCase
             $this->makeTableWithSubtable('parent', 'child', 5)
         );
         $rows[] = [
+            'idsite' => 1,
             'name' => 'Test_record_999',
             'date1' => '2020-01-02',
             'date2' => '2020-01-02',
@@ -69,17 +70,63 @@ class BlobTableAggregatorTest extends TestCase
             function (DataTable $table): void {
             },
             null,
-            function (string $period, int $tableId) use (&$missingParents): void {
-                $missingParents[] = [$period, $tableId];
+            function (string $sitePeriod, int $tableId) use (&$missingParents): void {
+                $missingParents[] = [$sitePeriod, $tableId];
             }
         );
 
         $this->assertTrue($hasRows);
-        $this->assertContains(['2020-01-02,2020-01-02', 999], $missingParents);
+        $this->assertContains(['1|2020-01-02,2020-01-02', 999], $missingParents);
         $this->assertGreaterThan(0, $result->getRowsCount());
         $rows = $result->getRows();
         $row = reset($rows);
         $this->assertInstanceOf(Row::class, $row);
+    }
+
+    public function testAggregateBlobRowsKeepsSubtableIdSpacesOfMultipleSitesSeparate(): void
+    {
+        // both sites use the same period and overlapping subtable IDs, but for different parent rows
+        $siteOneRows = $this->makeArchiveDataRowsForPeriod(
+            'Test_record',
+            '2020-01-01',
+            $this->makeTableWithSubtable('shop', 'shoes', 3),
+            $idSite = 1
+        );
+        $siteTwoRows = $this->makeArchiveDataRowsForPeriod(
+            'Test_record',
+            '2020-01-01',
+            $this->makeTableWithSubtable('blog', 'article', 7),
+            $idSite = 2
+        );
+
+        // order the rows by subtable ID first, like the SQL used to fetch blob rows would when not
+        // ordering by site: both root records first, then the subtable blobs of both sites
+        $rows = [$siteOneRows[0], $siteTwoRows[0], $siteOneRows[1], $siteTwoRows[1]];
+
+        [$result, $hasRows] = BlobTableAggregator::aggregateBlobRows(
+            $rows,
+            'Test_record',
+            null,
+            function (DataTable $table): void {
+            }
+        );
+
+        $this->assertTrue($hasRows);
+        $this->assertSame(2, $result->getRowsCount());
+
+        $shopRow = $result->getRowFromLabel('shop');
+        $this->assertInstanceOf(Row::class, $shopRow);
+        $shopSubtable = $shopRow->getSubtable();
+        $this->assertInstanceOf(DataTable::class, $shopSubtable);
+        $this->assertInstanceOf(Row::class, $shopSubtable->getRowFromLabel('shoes'));
+        $this->assertFalse($shopSubtable->getRowFromLabel('article'));
+
+        $blogRow = $result->getRowFromLabel('blog');
+        $this->assertInstanceOf(Row::class, $blogRow);
+        $blogSubtable = $blogRow->getSubtable();
+        $this->assertInstanceOf(DataTable::class, $blogSubtable);
+        $this->assertInstanceOf(Row::class, $blogSubtable->getRowFromLabel('article'));
+        $this->assertFalse($blogSubtable->getRowFromLabel('shoes'));
     }
 
     private function makeSimpleTable(string $label, int $nbVisits): DataTable
@@ -103,17 +150,22 @@ class BlobTableAggregatorTest extends TestCase
     }
 
     /**
-     * @return array<int, array{name: string, date1: string, date2: string, value: string}>
+     * Returns one archive data row per serialized blob, starting with the root record (stored
+     * at key 0) followed by the subtable blobs ordered by their subtable ID, like the SQL used
+     * to fetch blob rows would return them for a single site.
+     *
+     * @return array<int, array{idsite: int, name: string, date1: string, date2: string, value: string}>
      */
-    private function makeArchiveDataRowsForPeriod(string $recordName, string $date, DataTable $table): array
+    private function makeArchiveDataRowsForPeriod(string $recordName, string $date, DataTable $table, int $idSite = 1): array
     {
         $rows = [];
         $serialized = $table->getSerialized();
-        $rootKey = array_key_first($serialized);
+        ksort($serialized);
 
         foreach ($serialized as $key => $value) {
-            $name = $key === $rootKey ? $recordName : $recordName . '_' . $key;
+            $name = $key === 0 ? $recordName : $recordName . '_' . $key;
             $rows[] = [
+                'idsite' => $idSite,
                 'name' => $name,
                 'date1' => $date,
                 'date2' => $date,

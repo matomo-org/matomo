@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>ChatGPT</label>
+		<requests>2</requests>
+		<BotTracking_AIChatbotsUniquePageUrls>2</BotTracking_AIChatbotsUniquePageUrls>
+		<BotTracking_AIChatbotsNotFoundRequests>1</BotTracking_AIChatbotsNotFoundRequests>
+		<BotTracking_AIChatbotsServerErrorRequests>0</BotTracking_AIChatbotsServerErrorRequests>
+		<url>chatgpt.com</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/chatgpt.com.png</logo>
+	</row>
+	<row>
+		<label>Claude</label>
+		<requests>1</requests>
+		<BotTracking_AIChatbotsUniquePageUrls>0</BotTracking_AIChatbotsUniquePageUrls>
+		<BotTracking_AIChatbotsNotFoundRequests>0</BotTracking_AIChatbotsNotFoundRequests>
+		<BotTracking_AIChatbotsServerErrorRequests>1</BotTracking_AIChatbotsServerErrorRequests>
+		<url>claude.ai</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/claude.ai.png</logo>
+	</row>
+</result>

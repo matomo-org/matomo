@@ -14,11 +14,7 @@
 
 {% block content %}
     {% set ctaEventContent %}
-        <a rel="noreferrer noopener" target="_blank" href="{{ inviteUserLink }}">
-            <span class="icon-user-add"></span>
-            {{ 'UsersManager_InviteTeamMember'|translate }}
-        </a>
-        {{ postEvent('Template.siteWithoutData.additionalCta') }}
+        {% include "@SitesManager/_siteWithoutDataCta.twig" %}
     {% endset %}
 
     <div

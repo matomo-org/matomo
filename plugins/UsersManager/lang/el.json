@@ -120,6 +120,7 @@
         "Expired": "Η πρόσκληση έληξε",
         "ExpiredInviteAutomaticallyRemoved": "Οι προσκλήσεις που έληξαν θα διαγράφονται αυτόματα μετά από %1$s ημέρες.",
         "ExpiredTokensDeleteAutomatically": "Τα τεκμήρια αυθεντικοποίησης με ημερομηνία λήξης θα διαγράφονται αυτόματα.",
+        "ExpiryInDays": "Λήξη σε ημέρες",
         "FilterByAccess": "Φίλτρο με πρόσβαση",
         "FilterByStatus": "Φίλτρο με κατάσταση",
         "FilterByWebsite": "Φίλτρο ανά ιστοτόπο",

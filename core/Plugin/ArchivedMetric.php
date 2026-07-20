@@ -32,7 +32,7 @@ class ArchivedMetric extends Metric
     public const AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX = 'nb_with_';
 
     /**
-     * @var string
+     * @var string|false
      */
     private $aggregation;
 

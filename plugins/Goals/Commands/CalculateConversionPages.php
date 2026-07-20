@@ -127,7 +127,7 @@ class CalculateConversionPages extends ConsoleCommand
     /**
      * Validate dates parameter
      *
-     * @return Date[]
+     * @return string[]
      */
     private function getDateRangeToCalculate(string $dates): ?array
     {

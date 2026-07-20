@@ -120,6 +120,7 @@
         "Expired": "Cuireadh in éag",
         "ExpiredInviteAutomaticallyRemoved": "Scriosfar cuireadh atá imithe in éag go huathoibríoch tar éis %1$s days.",
         "ExpiredTokensDeleteAutomatically": "Scriosfar comharthaí le dáta éaga go huathoibríoch.",
+        "ExpiryInDays": "Dáta éaga i laethanta",
         "FilterByAccess": "Scag de réir rochtana",
         "FilterByStatus": "Scag de réir stádais",
         "FilterByWebsite": "Scag de réir láithreáin ghréasáin",

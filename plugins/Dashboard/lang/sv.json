@@ -33,6 +33,7 @@
         "SetAsDefaultWidgetsConfirm": "Är du säker på att du vill använda nuvarande val av widgets och layout som standardval för instrumentpaneler?",
         "SetAsDefaultWidgetsConfirmHelp": "Det här valet av widgets och kolumnlayout kommer att användas när användare skapar en ny instrumentpanel, eller när \"%s\" används.",
         "TopLinkTooltip": "Visa webbanalysrapport för %s.",
+        "TopMenuTitle": "Analys",
         "WidgetNotFound": "Widgeten hittades inte",
         "WidgetPreview": "Widget förhandsgranskning"
     }

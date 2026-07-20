@@ -21,13 +21,37 @@ use Piwik\Piwik;
 class Category
 {
     /**
+     * Identifier of the default reporting menu group (the main "Analytics" reporting menu). Categories
+     * that do not declare an explicit group belong to this group and are shown in the main reporting menu.
+     */
+    public const DEFAULT_GROUP = '';
+
+    /**
      * The id of the category as specified eg in {@link Piwik\Widget\WidgetConfig::setCategoryId()`} or
-     * {@link Piwik\Report\getCategoryId()}. The id is used as the name in the menu and will be visible in the
+     * {@link Piwik\Plugin\Report::getCategoryId()}. The id is used as the name in the menu and will be visible in the
      * URL.
      *
-     * @var string Should be a translation key, eg 'General_Vists'
+     * @var string Should be a translation key, eg 'General_Visits'
      */
     protected $id = '';
+
+    /**
+     * The reporting menu groups (top-level menu sections) this category is shown in. An empty list means
+     * the category is shown in the default Analytics reporting menu only. A category may belong to more
+     * than one group, e.g. to be shown both in Analytics and in a dedicated section such as "AI Insights"
+     * during a transition. Group ids should be translation keys so they can be used as the section label.
+     *
+     * @var string[]
+     */
+    protected $groups = array();
+
+    /**
+     * Subset of {@link $groups} for which this category does not require tracked data, i.e. that should
+     * not trigger the "site has no data" tracker-setup screen.
+     *
+     * @var string[]
+     */
+    protected $groupsWithoutTrackingRequirement = array();
 
     /**
      * @var Subcategory[]
@@ -77,6 +101,51 @@ class Category
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Sets the reporting menu groups this category should be shown in.
+     *
+     * @param string[] $groups
+     * @return static
+     */
+    public function setGroups(array $groups)
+    {
+        $this->groups = array_values(array_unique(array_map('strval', $groups)));
+        return $this;
+    }
+
+    /**
+     * Returns the reporting menu groups this category is shown in. Falls back to the default Analytics
+     * group when no explicit group was set, so every category always belongs to at least one group.
+     *
+     * @return string[]
+     */
+    public function getGroups(): array
+    {
+        return $this->groups ?: array(self::DEFAULT_GROUP);
+    }
+
+    /**
+     * Sets the reporting menu groups for which this category does not require tracked data.
+     *
+     * @param string[] $groups
+     * @return static
+     */
+    public function setGroupsWithoutTrackingRequirement(array $groups)
+    {
+        $this->groupsWithoutTrackingRequirement = array_values(array_unique(array_map('strval', $groups)));
+        return $this;
+    }
+
+    /**
+     * Returns the reporting menu groups for which this category does not require tracked data.
+     *
+     * @return string[]
+     */
+    public function getGroupsWithoutTrackingRequirement(): array
+    {
+        return $this->groupsWithoutTrackingRequirement;
     }
 
     public function getDisplayName()

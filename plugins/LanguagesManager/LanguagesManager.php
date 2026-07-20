@@ -78,9 +78,7 @@ class LanguagesManager extends \Piwik\Plugin
     }
 
     /**
-     * Adds the languages drop-down list to topbars other than the main one rendered
-     * in CoreHome/templates/top_bar.twig. The 'other' topbars are on the Installation
-     * and CoreUpdater screens.
+     * Adds the current user's language name as a JavaScript global variable (piwik.languageName).
      */
     public function jsGlobalVariables(&$str)
     {
@@ -174,7 +172,7 @@ class LanguagesManager extends \Piwik\Plugin
     }
 
     /**
-     * @return string Full english language string, eg. "French"
+     * @return string|false Full english language string, eg. "French"
      */
     public static function getLanguageNameForCurrentUser()
     {

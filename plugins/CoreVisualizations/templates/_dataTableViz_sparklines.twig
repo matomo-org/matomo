@@ -6,6 +6,13 @@
     {% if title is not empty %}<h2 class="card-title"
                                     {% if titleAttributes is not empty %}{% for attribute, value in titleAttributes %}{{ attribute }}="{{ value }}"{% endfor %}{% endif %}
                                 >{{ title }}</h2>{% endif %}
+    {% if useNewSparklinesGrid %}
+    <div vue-entry="CoreVisualizations.SparklinesGrid"
+         sparklines="{{ sparklines|json_encode|e('html_attr') }}"
+         all-metrics-documentation="{{ allMetricsDocumentation|json_encode|e('html_attr') }}"
+         are-sparklines-linkable="{{ areSparklinesLinkable|json_encode|e('html_attr') }}"
+         is-widget="{{ isWidget|json_encode|e('html_attr') }}"></div>
+    {% else %}
     {% if not isWidget %}
     <div class="row">
         <div class="col m6">
@@ -57,6 +64,7 @@
     {% if not isWidget %}
         </div>
     </div>
+    {% endif %}
     {% endif %}
 
     {%  if areSparklinesLinkable %}

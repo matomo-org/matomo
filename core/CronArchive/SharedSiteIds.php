@@ -170,7 +170,7 @@ class SharedSiteIds
     /**
      * Get the next site id that needs to be processed or null if all site ids where processed.
      *
-     * @return int|null
+     * @return int|string|null
      */
     public function getNextSiteId()
     {

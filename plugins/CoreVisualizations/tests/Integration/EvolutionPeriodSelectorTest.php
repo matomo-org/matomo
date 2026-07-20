@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreVisualizations\tests\Integration;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Plugins\CoreVisualizations\Visualizations\EvolutionPeriodSelector;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionGraph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -46,6 +47,9 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
         unset($_GET['period']);
         unset($_GET['idSite']);
         unset($_GET['date']);
+        unset($_GET['compareSegments']);
+        unset($_GET['comparePeriods']);
+        unset($_GET['compareDates']);
         parent::tearDown();
     }
 
@@ -252,6 +256,45 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
             'period' => 'week','date' => $year->getRangeString(),
             'comparePeriods' => ['week', 'week'], 'compareDates' => [$largeRangePrevious->getRangeString(), $mediumRangePrevious->getRangeString()],
         ], $year, [$largeRangePrevious, $mediumRangePrevious]);
+    }
+
+    public function testEvolutionGraphKeepsLastPeriodsWhenOnlyComparingSegments()
+    {
+        $_GET['period'] = 'day';
+        $_GET['date'] = '2022-05-02';
+        $_GET['idSite'] = 1;
+        $_GET['compareSegments'] = ['countryCode==nz'];
+
+        $view = new EvolutionGraph('VisitsSummary.getEvolutionGraph', 'VisitsSummary.get');
+        $view->beforeLoadDataTable();
+
+        $this->assertSame(
+            '2022-04-03,2022-05-02',
+            $view->requestConfig->request_parameters_to_modify['date']
+        );
+    }
+
+    public function testEvolutionGraphKeepsSelectedRangeWhenComparingDates()
+    {
+        $_GET['period'] = 'day';
+        $_GET['date'] = '2022-05-02';
+        $_GET['idSite'] = 1;
+        $_GET['compareDates'] = ['2022-05-01'];
+        $_GET['comparePeriods'] = ['day'];
+
+        $view = new EvolutionGraph('VisitsSummary.getEvolutionGraph', 'VisitsSummary.get');
+        $view->beforeLoadDataTable();
+
+        $this->assertSame('day', $view->requestConfig->request_parameters_to_modify['period']);
+        $this->assertSame(
+            '2022-05-02,2022-05-02',
+            $view->requestConfig->request_parameters_to_modify['date']
+        );
+        $this->assertSame(['day'], $view->requestConfig->request_parameters_to_modify['comparePeriods']);
+        $this->assertSame(
+            ['2022-05-01,2022-05-01'],
+            $view->requestConfig->request_parameters_to_modify['compareDates']
+        );
     }
 
     private function assertHighestPeriodInCommon($expected, $originalPeriod, $comparePeriods)

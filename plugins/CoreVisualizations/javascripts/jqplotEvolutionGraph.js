@@ -40,13 +40,11 @@
             };
 
             if (this.props.show_line_graph) {
-                const plotLinesTweaksEnabled = isPlotLinesTweaksEnabled();
-
                 defaultParams.seriesDefaults = {
-                    lineWidth: plotLinesTweaksEnabled ? 2 : 1,
-                    shadow: !plotLinesTweaksEnabled,
+                    lineWidth: 2,
+                    shadow: false,
                     markerOptions: {
-                        show: !plotLinesTweaksEnabled,
+                        show: false,
                         style: "filledCircle",
                         size: 6,
                         shadow: false
