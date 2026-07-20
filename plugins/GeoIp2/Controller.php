@@ -3,8 +3,8 @@
 namespace Piwik\Plugins\GeoIp2;
 
 use Piwik\Common;
-use Piwik\DataTable\Renderer\Json;
 use Piwik\Http;
+use Piwik\Http\JsonResponse;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
@@ -31,17 +31,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *   'expected_file_size' - The expected finished file size as returned by the HTTP server.
      *   'next_screen' - When the download finishes, this is the next screen that should be shown.
      *   'error' - When an error occurs, the message is returned in this property.
-     *
-     * @return string
      */
-    public function downloadFreeDBIPLiteDB()
+    #[JsonResponse]
+    public function downloadFreeDBIPLiteDB(): string
     {
         $this->dieIfGeolocationAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
-            Json::sendHeaderJSON();
             $outputPath = GeoIP2AutoUpdater::getTemporaryFolder('DBIP-City.mmdb.gz', true);
             try {
                 $result = Http::downloadChunk(
@@ -75,7 +73,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        return '';
+        return (string) json_encode(['error' => 'Invalid HTTP method.']);
     }
 
     /**
@@ -90,15 +88,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Output (json):
      *   'error' - if an error occurs its message is set as the resulting JSON object's
      *             'error' property.
-     *
-     * @return string
      */
-    public function updateGeoIPLinks()
+    #[JsonResponse]
+    public function updateGeoIPLinks(): string
     {
         $this->dieIfGeolocationAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            Json::sendHeaderJSON();
             try {
                 $this->checkTokenInUrl();
 
@@ -121,7 +117,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        return '';
+        return (string) json_encode(['error' => 'Invalid HTTP method.']);
     }
 
     /**
@@ -140,10 +136,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *                         downloading.
      *   'current_size' - Size of the current file on disk.
      *   'expected_file_size' - Size of the completely downloaded file.
-     *
-     * @return string
      */
-    public function downloadMissingGeoIpDb()
+    #[JsonResponse]
+    public function downloadMissingGeoIpDb(): string
     {
         $this->dieIfGeolocationAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
@@ -151,8 +146,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 $this->checkTokenInUrl();
-
-                Json::sendHeaderJSON();
 
                 // based on the database type (provided by the 'key' query param) determine the
                 // url & output file name
@@ -193,7 +186,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        return '';
+        return (string) json_encode(['error' => 'Invalid HTTP method.']);
     }
 
     private function trackOrValidateConfiguredDownloadUrl(string $key, string $configuredUrl, int $isContinuation): void

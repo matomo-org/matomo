@@ -10,7 +10,7 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Common;
-use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\IP;
 use Piwik\Piwik;
@@ -135,7 +135,8 @@ class Controller extends ControllerAdmin
         $this->setBasicVariablesView($view);
     }
 
-    public function getCredentialFields()
+    #[JsonResponse]
+    public function getCredentialFields(): string
     {
         $provider = Common::getRequestVar('provider', '');
 
@@ -148,7 +149,6 @@ class Controller extends ControllerAdmin
             }
         }
 
-        Json::sendHeaderJSON();
         return json_encode($credentialFields);
     }
 }

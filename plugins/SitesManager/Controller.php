@@ -14,6 +14,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable\Renderer\Json;
+use Piwik\Http\JsonResponse;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\SiteContentDetection\Matomo;
@@ -161,15 +162,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Ajax endpoint for the reporting UI gate: returns a JSON boolean (true = show the tracker-setup
      * screen). Requires view access. See SitesManager::shouldShowEmptySiteMessage().
      */
-    public function getSiteEmptyState()
+    #[JsonResponse]
+    public function getSiteEmptyState(): string
     {
         $this->checkSitePermission();
 
-        Json::sendHeaderJSON();
         return json_encode(SitesManager::shouldShowEmptySiteMessage((int) $this->idSite));
     }
 
-    public function getTrackingMethodsForSite()
+    #[JsonResponse]
+    public function getTrackingMethodsForSite(): string
     {
         $this->checkSitePermission();
 
@@ -304,7 +306,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             unset($trackingMethods[$matomoIndex]);
         }
 
-        Json::sendHeaderJSON();
         return json_encode([
             'trackingMethods' => $trackingMethods,
             'recommendedMethod' => $recommendedMethod,
