@@ -210,7 +210,7 @@ var __spreadValues = (a, b) => {
   const _hoisted_2$9 = ["title"];
   const _hoisted_3$6 = { class: "metricValue__primary" };
   const _hoisted_4$4 = { class: "metricValue__number" };
-  const _hoisted_5$2 = {
+  const _hoisted_5$3 = {
     key: 1,
     class: "metricValue__secondary"
   };
@@ -235,7 +235,7 @@ var __spreadValues = (a, b) => {
         vue.createElementVNode("span", _hoisted_4$4, vue.toDisplayString(_ctx.displayValue), 1),
         vue.renderSlot(_ctx.$slots, "evolution")
       ]),
-      _ctx.hasSecondary ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$2, [
+      _ctx.hasSecondary ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$3, [
         vue.createElementVNode("span", _hoisted_6$2, vue.toDisplayString(_ctx.displaySecondaryValue), 1),
         _ctx.secondaryLabel ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_7$1, vue.toDisplayString(_ctx.secondaryLabel), 1)) : vue.createCommentVNode("", true)
       ])) : vue.createCommentVNode("", true)
@@ -344,7 +344,7 @@ var __spreadValues = (a, b) => {
   const _hoisted_2$8 = { class: "headline" };
   const _hoisted_3$5 = ["onClick"];
   const _hoisted_4$3 = ["type", "checked"];
-  const _hoisted_5$1 = {
+  const _hoisted_5$2 = {
     key: 0,
     class: "headline recordsToPlot"
   };
@@ -379,7 +379,7 @@ var __spreadValues = (a, b) => {
             ])
           ], 8, _hoisted_3$5);
         }), 128)),
-        _ctx.selectableRows.length ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_5$1, vue.toDisplayString(_ctx.translate("General_RecordsToPlot")), 1)) : vue.createCommentVNode("", true),
+        _ctx.selectableRows.length ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_5$2, vue.toDisplayString(_ctx.translate("General_RecordsToPlot")), 1)) : vue.createCommentVNode("", true),
         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.selectableRows, (rowConfig) => {
           return vue.openBlock(), vue.createElementBlock("p", {
             class: "pickRow",
@@ -473,7 +473,7 @@ var __spreadValues = (a, b) => {
     key: 0,
     class: "metrics-picker__headline"
   };
-  const _hoisted_5 = ["type", "checked", "onChange", "onKeydown"];
+  const _hoisted_5$1 = ["type", "checked", "onChange", "onKeydown"];
   const _hoisted_6 = { class: "metrics-picker__title" };
   function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", {
@@ -509,7 +509,7 @@ var __spreadValues = (a, b) => {
             checked: !!_ctx.rowStates[rowConfig.matcher],
             onChange: ($event) => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates),
             onKeydown: vue.withKeys(vue.withModifiers(($event) => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates), ["prevent"]), ["enter"])
-          }, null, 40, _hoisted_5),
+          }, null, 40, _hoisted_5$1),
           _cache[1] || (_cache[1] = vue.createElementVNode("span", { "aria-hidden": "true" }, null, -1)),
           vue.createElementVNode("span", _hoisted_6, vue.toDisplayString(rowConfig.label), 1)
         ]);
@@ -597,6 +597,7 @@ var __spreadValues = (a, b) => {
         type: String,
         required: true
       },
+      metricName: String,
       idGoal: [String, Number],
       metricTranslations: {
         type: Object,
@@ -701,6 +702,14 @@ var __spreadValues = (a, b) => {
       function isIdGoalSet() {
         return actualIdGoal.value || actualIdGoal.value === 0;
       }
+      const isMetricUnavailable = vue.computed(() => {
+        var _a, _b;
+        return (
+          // A non-goal metric missing from the period-aware metadata isn't archived for this
+          // period (e.g. unique visitors on year/range), so it's unavailable, not a real zero.
+          !!((_a = responses.value) == null ? void 0 : _a[0]) && !isIdGoalSet() && !((_b = props.metricTranslations) == null ? void 0 : _b[actualMetric.value])
+        );
+      });
       const sparklineParams = vue.computed(() => {
         const params = {
           module: "API",
@@ -739,7 +748,10 @@ var __spreadValues = (a, b) => {
       });
       function setWidgetTitle() {
         var _a;
-        let title = metricTranslation.value;
+        let title = metricTranslation.value || props.metricName || "";
+        if (!title) {
+          return;
+        }
         if (isIdGoalSet()) {
           const goalName = ((_a = props.goals[actualIdGoal.value]) == null ? void 0 : _a.name) || CoreHome.translate("General_Unknown");
           title = `${goalName} - ${title}`;
@@ -846,6 +858,7 @@ var __spreadValues = (a, b) => {
       return {
         root,
         metricValue,
+        isMetricUnavailable,
         isLoading,
         selectedColumns,
         responses,
@@ -863,10 +876,14 @@ var __spreadValues = (a, b) => {
       };
     }
   });
-  const _hoisted_1$8 = { class: "metric-sparkline" };
-  const _hoisted_2$5 = { class: "metric-value" };
-  const _hoisted_3$2 = ["title"];
+  const _hoisted_1$8 = {
+    key: 0,
+    class: "metric-unavailable"
+  };
+  const _hoisted_2$5 = { class: "metric-sparkline" };
+  const _hoisted_3$2 = { class: "metric-value" };
   const _hoisted_4 = ["title"];
+  const _hoisted_5 = ["title"];
   function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     var _a, _b, _c, _d, _e;
     const _component_Sparkline = vue.resolveComponent("Sparkline");
@@ -874,31 +891,33 @@ var __spreadValues = (a, b) => {
       class: vue.normalizeClass(["singleMetricView", { "loading": _ctx.isLoading }]),
       ref: "root"
     }, [
-      vue.createElementVNode("div", _hoisted_1$8, [
-        vue.createVNode(_component_Sparkline, { params: _ctx.sparklineParams }, null, 8, ["params"])
-      ]),
-      vue.createElementVNode("div", _hoisted_2$5, [
-        vue.createElementVNode("span", { title: _ctx.metricDocumentation }, [
-          vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.metricValue), 1),
-          vue.createTextVNode(" " + vue.toDisplayString((_ctx.metricTranslation || "").toLowerCase()), 1)
-        ], 8, _hoisted_3$2),
-        _ctx.pastValue !== null ? (vue.openBlock(), vue.createElementBlock("span", {
-          key: 0,
-          class: "metricEvolution",
-          title: _ctx.translate(
-            "General_EvolutionSummaryGeneric",
-            (_a = _ctx.metricValue) != null ? _a : "",
-            (_b = _ctx.currentPeriod) != null ? _b : "",
-            (_c = _ctx.pastValue) != null ? _c : "",
-            (_d = _ctx.pastPeriod) != null ? _d : "",
-            (_e = _ctx.metricChangePercent) != null ? _e : ""
-          )
-        }, [
-          vue.createElementVNode("span", {
-            class: vue.normalizeClass(_ctx.evolutionClass)
-          }, vue.toDisplayString(_ctx.metricChangePercent), 3)
-        ], 8, _hoisted_4)) : vue.createCommentVNode("", true)
-      ])
+      _ctx.isMetricUnavailable ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$8, vue.toDisplayString(_ctx.translate("General_MetricNotAvailableForThisPeriod")), 1)) : (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
+        vue.createElementVNode("div", _hoisted_2$5, [
+          vue.createVNode(_component_Sparkline, { params: _ctx.sparklineParams }, null, 8, ["params"])
+        ]),
+        vue.createElementVNode("div", _hoisted_3$2, [
+          vue.createElementVNode("span", { title: _ctx.metricDocumentation }, [
+            vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.metricValue), 1),
+            vue.createTextVNode(" " + vue.toDisplayString((_ctx.metricTranslation || "").toLowerCase()), 1)
+          ], 8, _hoisted_4),
+          _ctx.pastValue !== null ? (vue.openBlock(), vue.createElementBlock("span", {
+            key: 0,
+            class: "metricEvolution",
+            title: _ctx.translate(
+              "General_EvolutionSummaryGeneric",
+              (_a = _ctx.metricValue) != null ? _a : "",
+              (_b = _ctx.currentPeriod) != null ? _b : "",
+              (_c = _ctx.pastValue) != null ? _c : "",
+              (_d = _ctx.pastPeriod) != null ? _d : "",
+              (_e = _ctx.metricChangePercent) != null ? _e : ""
+            )
+          }, [
+            vue.createElementVNode("span", {
+              class: vue.normalizeClass(_ctx.evolutionClass)
+            }, vue.toDisplayString(_ctx.metricChangePercent), 3)
+          ], 8, _hoisted_5)) : vue.createCommentVNode("", true)
+        ])
+      ], 64))
     ], 2);
   }
   const SingleMetricView = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);

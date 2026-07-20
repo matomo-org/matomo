@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\API\tests\Integration;
 
 use Piwik\API\Request;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
 use Piwik\Plugins\API\API;
@@ -85,6 +86,109 @@ class ProcessedReportMetadataTest extends IntegrationTestCase
             self::assertIsInt($metadataValue);
             self::assertGreaterThanOrEqual(0, $metadataValue);
         }
+    }
+
+    public function testGetMetadataKeepsUniqueVisitorsOnPeriodsWhereItIsProcessed(): void
+    {
+        // day + week/month enable unique visitors by default, so the labels must be advertised
+        foreach (['day', 'week', 'month'] as $period) {
+            $metrics = $this->getApiGetMetrics($period, '2015-01-02');
+            self::assertArrayHasKey('nb_uniq_visitors', $metrics, "period=$period");
+            self::assertArrayHasKey('nb_users', $metrics, "period=$period");
+        }
+    }
+
+    public function testGetMetadataStripsUniqueVisitorsOnPeriodsWhereItIsNotProcessed(): void
+    {
+        // year/range disable unique visitors by default, so the metrics must not be advertised
+        $year = $this->getApiGetMetrics('year', '2015-01-02');
+        self::assertArrayNotHasKey('nb_uniq_visitors', $year);
+        self::assertArrayNotHasKey('nb_users', $year);
+
+        $range = $this->getApiGetMetrics('range', '2015-01-01,2015-01-03');
+        self::assertArrayNotHasKey('nb_uniq_visitors', $range);
+        self::assertArrayNotHasKey('nb_users', $range);
+    }
+
+    public function testGetMetadataAppliesSameUniqueVisitorsRuleToVisitsSummaryGetAsApiGet(): void
+    {
+        // VisitsSummary.get is a pure aggregate (no dimension), so it follows the same rule as
+        // API.get: the metrics are advertised where they are processed (day + week/month by default)
+        // and dropped where they are not (year off by default).
+        foreach (['day', 'week', 'month'] as $period) {
+            $metrics = $this->getMetricsFor('VisitsSummary', 'get', $period, '2015-01-02');
+            self::assertArrayHasKey('nb_uniq_visitors', $metrics, "period=$period");
+            self::assertArrayHasKey('nb_users', $metrics, "period=$period");
+        }
+
+        $year = $this->getMetricsFor('VisitsSummary', 'get', 'year', '2015-01-02');
+        self::assertArrayNotHasKey('nb_uniq_visitors', $year);
+        self::assertArrayNotHasKey('nb_users', $year);
+    }
+
+    public function testGetMetadataStripsUniqueVisitorsFromPerDimensionReportsOnNonDayPeriods(): void
+    {
+        // Per-dimension reports (here: UserCountry.getCountry) can't have unique visitors / users
+        // summed across days, so those columns are deleted at aggregation time. They exist per row
+        // on the day period, but must not be advertised on non-day periods (otherwise they would
+        // show up as meaningless 0 values in exports, scheduled reports, Row Evolution, ...).
+        $day = $this->getMetricsFor('UserCountry', 'getCountry', 'day', '2015-01-02');
+        self::assertArrayHasKey('nb_uniq_visitors', $day);
+        self::assertArrayHasKey('nb_users', $day);
+
+        foreach (['week', 'month'] as $period) {
+            $metrics = $this->getMetricsFor('UserCountry', 'getCountry', $period, '2015-01-02');
+            self::assertArrayNotHasKey('nb_uniq_visitors', $metrics, "period=$period");
+            self::assertArrayNotHasKey('nb_users', $metrics, "period=$period");
+        }
+    }
+
+    public function testGetMetadataStripsUniqueVisitorsForMultiSiteNonDayRequests(): void
+    {
+        // unique visitors are not computed across sites on non-day periods unless
+        // enable_processing_unique_visitors_multiple_sites is enabled (off by default)
+        $idSite2 = Fixture::createWebsite('2015-01-01 00:00:00');
+        Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] = 0;
+
+        $metrics = $this->getApiGetMetrics('week', '2015-01-02', $this->idSite . ',' . $idSite2);
+        self::assertArrayNotHasKey('nb_uniq_visitors', $metrics);
+        self::assertArrayNotHasKey('nb_users', $metrics);
+    }
+
+    /**
+     * @param int|string|null $idSite
+     * @return array<string, string>
+     */
+    private function getApiGetMetrics(string $period, string $date, $idSite = null): array
+    {
+        return $this->getMetricsFor('API', 'get', $period, $date, $idSite);
+    }
+
+    /**
+     * @param int|string|null $idSite
+     * @return array<string, string>
+     */
+    private function getMetricsFor(
+        string $apiModule,
+        string $apiAction,
+        string $period,
+        string $date,
+        $idSite = null
+    ): array {
+        $metadata = API::getInstance()->getMetadata(
+            $idSite ?? $this->idSite,
+            $apiModule,
+            $apiAction,
+            [],
+            false,
+            $period,
+            $date
+        );
+
+        self::assertIsArray($metadata);
+        self::assertArrayHasKey(0, $metadata);
+        self::assertIsArray($metadata[0]['metrics']);
+        return $metadata[0]['metrics'];
     }
 
     /**

@@ -329,6 +329,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "For medium to high traffic websites, we recommend to process reports for today at most every half hour (%1$s seconds) or every hour (%2$s seconds).",
         "Metadata": "Metadata",
         "Metric": "Metric",
+        "MetricNotAvailableForThisPeriod": "This metric isn't available for this period.",
         "MetricToPlot": "Metric to plot",
         "Metrics": "Metrics",
         "MetricsToPlot": "Metrics to plot",
