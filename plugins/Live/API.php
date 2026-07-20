@@ -163,9 +163,17 @@ class API extends \Piwik\Plugin\API
      * @param bool $flat Whether to flatten action details into the visit rows.
      * @param bool $doNotFetchActions Whether to skip fetching action details for better performance.
      * @param bool $enhanced Whether plugins should enrich the returned visit details.
+     * @param string|false $intersectSegment Optional extra segment intersected with the result at the
+     *                                        visit level rather than combined with $segment. Unlike
+     *                                        $segment (whose conditions are ANDed and may all match on a
+     *                                        single action row), a visit is kept only when it also
+     *                                        matches this segment on its own. Used by the segmented
+     *                                        visitor log row action so a clicked row further restricts
+     *                                        the visits without collapsing same-dimension conditions.
+     *                                        See Model::queryLogVisits().
      * @return DataTable Recent visit details.
      */
-    public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false, $enhanced = false): DataTable
+    public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false, $enhanced = false, $intersectSegment = false): DataTable
     {
         Piwik::checkUserHasViewAccess($idSite);
         $idSites = Site::getIdSitesFromIdSitesString($idSite, false, true);
@@ -202,8 +210,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $filterSortOrder = \Piwik\Request::fromRequest()->getStringParameter('filter_sort_order', '');
-        // Internal context used by the segmented visitor log row action.
-        $intersectSegment = \Piwik\Request::fromRequest()->getStringParameter('intersectSegment', '');
+        // Normalize an empty value (e.g. an empty request parameter) to the documented false default.
         if ($intersectSegment === '') {
             $intersectSegment = false;
         }
