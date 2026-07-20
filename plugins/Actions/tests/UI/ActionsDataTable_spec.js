@@ -147,4 +147,30 @@ describe("ActionsDataTable", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('auto_expand');
     });
+
+    it("should generate a readable title when opening the visitor log while a segment is applied", async function() {
+        // Regression for the "better popup title": when a segment is already applied, the clicked row
+        // is intersected at the visit level (see Model::queryLogVisits $intersectSegment) and the popup
+        // title must describe that clicked row in a readable way (dimension + value) rather than dumping
+        // the raw combined segment string, which previously leaked the current segment and the raw
+        // "pageUrl==" operator into the title.
+        await page.goto(url + '&segment=' + encodeURIComponent('visitCount>=1'));
+        await page.waitForNetworkIdle();
+
+        const row = 'tr:contains("index.htm") ';
+        const first = await page.jQuery(row + 'td.column:first');
+        await first.hover();
+        await page.evaluate(function () {
+            $('tr:contains("index.htm") td.label .actionSegmentVisitorLog').click();
+        });
+        await page.mouse.move(-10, -10);
+        await page.waitForSelector('.ui-dialog');
+        await page.waitForNetworkIdle();
+
+        const title = await page.$eval('.ui-dialog .ui-dialog-title', (el) => el.textContent.trim());
+        // The title describes the clicked row in the readable "<Dimension> is <value>" form. Before the
+        // fix it dumped the raw combined segment instead, e.g. 'Segment is "visitCount>=1 and
+        // pageUrl==http://example.org/index.htm"', leaking the applied segment and the raw operator.
+        expect(title).to.equal('Visits log showing visits where Page URL is "http://example.org/index.htm"');
+    });
 });
