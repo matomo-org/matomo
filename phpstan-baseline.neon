@@ -475,12 +475,6 @@ parameters:
 			path: core/CronArchive.php
 
 		-
-			message: '#^Method Piwik\\CronArchive\\ArchiveFilter\:\:getPeriodsToProcess\(\) is unused\.$#'
-			identifier: method.unused
-			count: 1
-			path: core/CronArchive/ArchiveFilter.php
-
-		-
 			message: '#^Negated boolean expression is always false\.$#'
 			identifier: booleanNot.alwaysFalse
 			count: 1
@@ -489,12 +483,6 @@ parameters:
 		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
-			count: 1
-			path: core/CronArchive/QueueConsumer.php
-
-		-
-			message: '#^Method Piwik\\CronArchive\\QueueConsumer\:\:isArchiveNonSegmentAndInProgressArchiveSegment\(\) is unused\.$#'
-			identifier: method.unused
 			count: 1
 			path: core/CronArchive/QueueConsumer.php
 
@@ -1253,12 +1241,6 @@ parameters:
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: core/Policy/PolicyManager.php
-
-		-
-			message: '#^Method Piwik\\ProfessionalServices\\Advertising\:\:getCampaignParametersForPromoUrl\(\) is unused\.$#'
-			identifier: method.unused
-			count: 1
-			path: core/ProfessionalServices/Advertising.php
 
 		-
 			message: '#^Property Piwik\\ProfessionalServices\\Advertising\:\:\$pluginManager is never read, only written\.$#'
@@ -3163,12 +3145,6 @@ parameters:
 			path: plugins/CustomDimensions/Dimension/Extraction.php
 
 		-
-			message: '#^Method Piwik\\Plugins\\CustomDimensions\\Dimension\\Index\:\:getConfiguration\(\) is unused\.$#'
-			identifier: method.unused
-			count: 1
-			path: plugins/CustomDimensions/Dimension/Index.php
-
-		-
 			message: '#^Call to Piwik\\Plugin\\Report\:\:init\(\) on a separate line has no effect\.$#'
 			identifier: staticMethod.resultUnused
 			count: 1
@@ -4383,18 +4359,6 @@ parameters:
 		-
 			message: '#^Loose comparison using \!\= between 9 and 9 will always evaluate to false\.$#'
 			identifier: notEqual.alwaysFalse
-			count: 1
-			path: plugins/UsersManager/Controller.php
-
-		-
-			message: '#^Method Piwik\\Plugins\\UsersManager\\Controller\:\:getIgnoreCookieSalt\(\) is unused\.$#'
-			identifier: method.unused
-			count: 1
-			path: plugins/UsersManager/Controller.php
-
-		-
-			message: '#^Method Piwik\\Plugins\\UsersManager\\Controller\:\:noAdminAccessToWebsite\(\) is unused\.$#'
-			identifier: method.unused
 			count: 1
 			path: plugins/UsersManager/Controller.php
 

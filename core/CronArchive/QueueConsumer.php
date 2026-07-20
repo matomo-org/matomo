@@ -459,20 +459,6 @@ class QueueConsumer
         return false;
     }
 
-    private function isArchiveNonSegmentAndInProgressArchiveSegment(array $archiveToProcess, array $archiveBeingProcessed): bool
-    {
-        // archive is for different site/period
-        if (
-            $archiveToProcess['idsite'] != $archiveBeingProcessed['idsite']
-            || $archiveToProcess['periodObj']->getId() != $archiveBeingProcessed['periodObj']->getId()
-            || $archiveToProcess['periodObj']->getDateStart()->toString() != $archiveBeingProcessed['periodObj']->getDateStart()->toString()
-        ) {
-            return false;
-        }
-
-        return empty($archiveToProcess['segment']) && !empty($archiveBeingProcessed['segment']);
-    }
-
     private function detectPluginForArchive(&$archive): void
     {
         $archive['plugin'] = $this->getPluginNameForArchiveIfAny($archive);

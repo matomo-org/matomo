@@ -251,14 +251,6 @@ class ArchiveFilter
     /**
      * @return array
      */
-    private function getPeriodsToProcess()
-    {
-        return $this->restrictToPeriods;
-    }
-
-    /**
-     * @return array
-     */
     private function getDefaultPeriodsToProcess()
     {
         return array('day', 'week', 'month', 'year', 'range');

@@ -257,10 +257,13 @@ var broadcast = {
         if (valFromUrl != '' || urlStr.indexOf(paramName + '=') !== -1) {
             // replacing current param=value to newParamValue;
             valFromUrl = getQuotedRegex(valFromUrl);
-            var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
+            // the parameter name is also embedded into the regular expression, so escape it as well to make sure
+            // it is always matched literally
+            var quotedParamName = getQuotedRegex(paramName);
+            var regToBeReplace = new RegExp(quotedParamName + '=' + valFromUrl, 'ig');
             if (newParamValue == '') {
                 // if new value is empty remove leading &, as well
-                regToBeReplace = new RegExp('[\&]?(' + paramName + '|' + encodeURIComponent(paramName) + ')=' + valFromUrl, 'ig');
+                regToBeReplace = new RegExp('[\&]?(' + quotedParamName + '|' + getQuotedRegex(encodeURIComponent(paramName)) + ')=' + valFromUrl, 'ig');
             }
             urlStr = urlStr.replace(regToBeReplace, newParamValue);
         } else if (newParamValue != '') {

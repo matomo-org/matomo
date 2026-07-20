@@ -737,18 +737,6 @@ class Controller extends ControllerAdmin
         $this->redirectToIndex('UsersManager', 'userSecurity');
     }
 
-    private function noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $message)
-    {
-        $view = new View('@UsersManager/noWebsiteAdminAccess');
-
-        $view->idSiteSelected = $idSiteSelected;
-        $view->defaultReportSiteName = $defaultReportSiteName;
-        $view->message = $message;
-        $this->setBasicVariablesView($view);
-
-        return $view->render();
-    }
-
     private function processEmailChange($userLogin)
     {
         if (!UsersManager::isUsersAdminEnabled()) {
@@ -816,13 +804,5 @@ class Controller extends ControllerAdmin
         $auth->setLogin($userLogin);
         $auth->setPassword($newPassword);
         $sessionInitializer->initSession($auth);
-    }
-
-    /**
-     * @return string
-     */
-    private function getIgnoreCookieSalt()
-    {
-        return md5(SettingsPiwik::getSalt());
     }
 }
