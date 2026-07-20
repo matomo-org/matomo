@@ -176,6 +176,7 @@ class APITest extends IntegrationTestCase
     public function tearDown(): void
     {
         Config::getInstance()->General['enable_update_users_email'] = 1;
+        Config::getInstance()->General['enable_users_admin'] = 1;
 
         parent::tearDown();
     }
@@ -1473,6 +1474,16 @@ class APITest extends IntegrationTestCase
         $this->api->addCapabilities('foobar', [TestCap2::ID], [1]);
     }
 
+    public function testAddCapabilitiesFailsWhenUsersAdminIsDisabled()
+    {
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('has been disabled');
+
+        $this->api->addCapabilities($this->login, [TestCap2::ID], [1]);
+    }
+
     public function testAddCapabilitiesDoesNotAddSameCapabilityTwice()
     {
         $addAccess = [TestCap2::ID, View::ID, TestCap3::ID];
@@ -1570,6 +1581,16 @@ class APITest extends IntegrationTestCase
         $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
 
         $this->api->removeCapabilities('foobar', [TestCap2::ID], [1]);
+    }
+
+    public function testRemoveCapabilitiesFailsWhenUsersAdminIsDisabled()
+    {
+        Config::getInstance()->General['enable_users_admin'] = 0;
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('has been disabled');
+
+        $this->api->removeCapabilities($this->login, [TestCap2::ID], [1]);
     }
 
     public function testRemoveCapabilities()
