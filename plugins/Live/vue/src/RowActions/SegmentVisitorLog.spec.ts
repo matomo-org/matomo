@@ -5,6 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import type { Mock, MockInstance } from 'vitest';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
@@ -14,8 +15,8 @@ const CATEGORY_ROW_SEGMENT = 'pageUrl=^https%253A%252F%252Fexample.org%252Fcateg
 const SUFFIX_SEGMENT = 'visitEcommerceStatus==ordered';
 
 describe('Live/SegmentVisitorLog row action', () => {
-  let rowActionInstance: { trigger: (tr: JQuery<HTMLElement>, event: Event) => void; openPopover: jest.Mock };
-  let openPopoverSpy: jest.SpyInstance;
+  let rowActionInstance: { trigger: (tr: JQuery<HTMLElement>, event: Event) => void; openPopover: Mock };
+  let openPopoverSpy: MockInstance;
 
   beforeAll(async () => {
     window.eval(readFileSync(resolve(__dirname, '../../../../CoreHome/javascripts/dataTable_rowactions.js'), 'utf8'));
@@ -49,7 +50,7 @@ describe('Live/SegmentVisitorLog row action', () => {
       props: {},
     });
 
-    openPopoverSpy = jest.spyOn(rowActionInstance, 'openPopover').mockImplementation(() => undefined);
+    openPopoverSpy = vi.spyOn(rowActionInstance, 'openPopover').mockImplementation(() => undefined);
   });
 
   afterEach(() => {
@@ -89,7 +90,7 @@ describe('Live/SegmentVisitorLog row action', () => {
         segmented_visitor_log_segment_suffix: SUFFIX_SEGMENT,
       },
     });
-    openPopoverSpy = jest.spyOn(rowActionInstance, 'openPopover').mockImplementation(() => undefined);
+    openPopoverSpy = vi.spyOn(rowActionInstance, 'openPopover').mockImplementation(() => undefined);
 
     rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
 
@@ -118,7 +119,7 @@ describe('Live/SegmentVisitorLog row action', () => {
         segmented_visitor_log_segment_suffix: SUFFIX_SEGMENT,
       },
     });
-    openPopoverSpy = jest.spyOn(rowActionInstance, 'openPopover').mockImplementation(() => undefined);
+    openPopoverSpy = vi.spyOn(rowActionInstance, 'openPopover').mockImplementation(() => undefined);
 
     rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
 
