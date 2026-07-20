@@ -4405,12 +4405,6 @@ parameters:
 			path: plugins/UsersManager/Controller.php
 
 		-
-			message: '#^Method Piwik\\Plugins\\UsersManager\\Controller\:\:getIgnoreCookieSalt\(\) is unused\.$#'
-			identifier: method.unused
-			count: 1
-			path: plugins/UsersManager/Controller.php
-
-		-
 			message: '#^Method Piwik\\Plugins\\UsersManager\\Controller\:\:noAdminAccessToWebsite\(\) is unused\.$#'
 			identifier: method.unused
 			count: 1

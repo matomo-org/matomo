@@ -817,12 +817,4 @@ class Controller extends ControllerAdmin
         $auth->setPassword($newPassword);
         $sessionInitializer->initSession($auth);
     }
-
-    /**
-     * @return string
-     */
-    private function getIgnoreCookieSalt()
-    {
-        return md5(SettingsPiwik::getSalt());
-    }
 }
