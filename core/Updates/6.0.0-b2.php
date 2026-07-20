@@ -40,7 +40,8 @@ class Updates_6_0_0_b2 extends PiwikUpdates
                 'idsite'         => 'INTEGER(10) UNSIGNED NOT NULL',
                 'idvisit'        => 'BIGINT(10) UNSIGNED NOT NULL',
                 'idvisitor'      => 'BINARY(8) NOT NULL',
-                'idpageview'     => 'CHAR(6) NULL DEFAULT NULL',
+                'idlink_va'      => 'BIGINT(10) UNSIGNED NOT NULL',
+                'idpageview'     => 'CHAR(6) CHARACTER SET ascii COLLATE ascii_bin NULL DEFAULT NULL',
                 'idaction_url'   => 'INTEGER(10) UNSIGNED NULL DEFAULT NULL',
                 'idaction_name'  => 'INTEGER(10) UNSIGNED NULL DEFAULT NULL',
                 'server_time'    => 'DATETIME NOT NULL',
@@ -51,14 +52,20 @@ class Updates_6_0_0_b2 extends PiwikUpdates
 
         $migrations[] = $this->migration->db->addUniqueKey(
             'log_page_view_time',
-            ['idvisit', 'idpageview'],
-            'unique_idvisit_idpageview'
+            ['idvisit', 'idlink_va'],
+            'unique_idvisit_idlink_va'
         );
 
         $migrations[] = $this->migration->db->addIndex(
             'log_page_view_time',
-            ['idvisit', 'idaction_url'],
-            'index_idvisit_idaction_url'
+            ['idvisit', 'idpageview'],
+            'index_idvisit_idpageview'
+        );
+
+        $migrations[] = $this->migration->db->addIndex(
+            'log_page_view_time',
+            ['idvisit', 'server_time'],
+            'index_idvisit_server_time'
         );
 
         $migrations[] = $this->migration->db->addIndex(

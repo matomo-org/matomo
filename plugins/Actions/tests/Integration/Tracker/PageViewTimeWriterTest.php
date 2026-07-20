@@ -205,7 +205,8 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         // suppresses the auto-generated pv_id while leaving everything else intact. Without a pv_id
         // we cannot safely attribute time to a specific tab (an event's idaction_url is a TYPE_EVENT
         // row, not the page's TYPE_PAGE_URL row), so the writer skips the update. The row from the
-        // initial PV stays at time_spent = 0; the archive-time CASE WHEN backfill applies later.
+        // initial PV stays at time_spent = 0; the legacy archive path still credits this pageview
+        // via `time_spent_ref_action` on the following action.
         $tracker = $this->getTracker($this->baseTime);
         $tracker->setPageviewId('');
         $tracker->setUrl('https://example.org/no-pvid');
@@ -220,6 +221,30 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertCount(1, $rows);
         $this->assertNull($rows[0]['idpageview']);
         $this->assertSame(0, (int) $rows[0]['time_spent'], 'Without pv_id we cannot safely attribute; row stays untouched');
+    }
+
+    public function testSiteSearchAfterPageviewInsertsSeparateRowAndClosesPreviousPage()
+    {
+        // A site-search hit shares pv_id with the parent page (the JS tracker does not rotate
+        // pv_id between them) but produces its own log_link_visit_action row. The writer
+        // records it like a page-view so the idlink_va-keyed anti-join on the archive side has
+        // an exact per-action match and cannot double-count.
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('shared');
+        $tracker->setUrl('https://example.org/results');
+        Fixture::checkResponse($tracker->doTrackPageView('Results page'));
+
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 12));
+        Fixture::checkResponse($tracker->doTrackSiteSearch('shoes', 'catalog', 3));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(2, $rows, 'Site search gets its own row alongside the page-view');
+
+        // Rows are ordered by idpageviewtime ASC.
+        $this->assertSame('shared', $rows[0]['idpageview']);
+        $this->assertSame('shared', $rows[1]['idpageview']);
+        $this->assertSame(12, (int) $rows[0]['time_spent'], 'Search hit closes the parent page');
+        $this->assertSame(0, (int) $rows[1]['time_spent']);
     }
 
     public function testKillSwitchDisablesAllWrites()
@@ -254,7 +279,7 @@ class PageViewTimeWriterTest extends IntegrationTestCase
     private function fetchPageViewTimeRows(): array
     {
         return Db::fetchAll(
-            'SELECT idpageviewtime, idpageview, idaction_url, idaction_name, server_time, time_spent
+            'SELECT idpageviewtime, idpageview, idlink_va, idaction_url, idaction_name, server_time, time_spent
              FROM ' . Common::prefixTable('log_page_view_time') . '
              ORDER BY idpageviewtime ASC'
         );

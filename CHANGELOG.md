@@ -35,12 +35,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   for removal in a future major version.
 
 ### Schema
-* New log table `log_page_view_time` (one row per `(idvisit, idpageview)`) records the accurate time each pageview was
-  visible, populated by the tracker on every hit. It participates in raw-log purging via the
-  `Piwik\Plugins\Actions\Tracker\LogTable\PageViewTime` `LogTable`. The archiver reads from it via
-  `Piwik\Plugins\Actions\RecordBuilders\ActionReports` and falls back to the legacy `log_link_visit_action`-based
-  `time_spent_ref_action` query when the new table has no rows for the archive period. A temporary `[Tracker]
-  record_accurate_page_view_time` config key (default `1`) is available as a kill-switch.
+* New log table `log_page_view_time` (one row per `(idvisit, idlink_va)`) records the accurate time each pageview /
+  site-search hit was visible, populated by the tracker on every recordable hit. It participates in raw-log purging
+  via the `Piwik\Plugins\Actions\Tracker\LogTable\PageViewTime` `LogTable`. The archiver in
+  `Piwik\Plugins\Actions\RecordBuilders\ActionReports` runs two queries per period: an accurate query summing
+  `log_page_view_time.time_spent`, and the legacy `log_link_visit_action.time_spent_ref_action` query anti-joined
+  against `log_page_view_time` so legacy contributions to a page are dropped whenever the writer has already
+  recorded that page for the visit. Hits recorded before the new table existed are still counted via the legacy
+  path. A temporary `[Tracker] record_accurate_page_view_time` config key (default `1`) is available as a
+  kill-switch.
 
 ## Matomo 5.12.0
 

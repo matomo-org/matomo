@@ -55,11 +55,14 @@ class VisitorDetails extends VisitorDetailsAbstract
                 continue; // skip to next page view
             }
 
-            // DEV-20451: prefer the accurate per-pageview time recorded in `log_page_view_time`
-            // when available. It already represents the full time on this page (including events,
+            // Prefer the accurate per-pageview time recorded in `log_page_view_time` when
+            // available. It already represents the full time on this page (including events,
             // content impressions and heartbeats), so we use it directly and skip the legacy
-            // walk-forward summation which would otherwise double-count.
-            if (isset($action['pageTimeSpent'])) {
+            // walk-forward summation which would otherwise double-count. A value of `0` means
+            // the row was inserted but never closed (last hit of an in-progress visit, or a
+            // visit that pre-dates the writer), so we fall through to the legacy walk-forward
+            // rather than displaying a spurious 0s.
+            if (isset($action['pageTimeSpent']) && (int) $action['pageTimeSpent'] > 0) {
                 $action['timeSpent']       = (int) $action['pageTimeSpent'];
                 $action['timeSpentPretty'] = $formatter->getPrettyTimeFromSeconds($action['timeSpent'], true);
                 $nextActionId              = $idx + 1;
@@ -339,10 +342,12 @@ class VisitorDetails extends VisitorDetailsAbstract
         // time. The legacy `timeSpentRef` column (`log_link_visit_action.time_spent_ref_action`)
         // is left unchanged so `provideActionsForVisit()`'s walk-forward aggregation continues to
         // behave for pre-upgrade visits. The new accurate value is exposed in `pageTimeSpent`,
-        // populated only on pageview/site-search rows; `provideActionsForVisit()` then prefers it
-        // over the walk-forward when present.
-        $pageUrlType    = (int) Action::TYPE_PAGE_URL;
-        $siteSearchType = (int) Action::TYPE_SITE_SEARCH;
+        // populated only on rows the tracker writer recorded; `provideActionsForVisit()` prefers
+        // it over the walk-forward when it is > 0.
+        //
+        // Join on idlink_va — a globally unique BIGINT column present on both tables — rather
+        // than idpageview, which on utf8mb3 installs would need a runtime `COLLATE utf8mb4_bin`
+        // (fatal MySQL error 1253 on installs that never upgraded to utf8mb4).
         $sql           = "
 				SELECT
 					log_link_visit_action.idvisit,
@@ -355,11 +360,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					log_link_visit_action.idlink_va,
 					log_link_visit_action.server_time as serverTimePretty,
 					log_link_visit_action.time_spent_ref_action AS timeSpentRef,
-					CASE
-						WHEN log_action.type IN ($pageUrlType, $siteSearchType)
-							THEN log_page_view_time.time_spent
-						ELSE NULL
-					END AS pageTimeSpent,
+					log_page_view_time.time_spent AS pageTimeSpent,
 					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.custom_float,
 					$pagePerformanceSelect
@@ -374,7 +375,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
 					LEFT JOIN `" . Common::prefixTable('log_page_view_time') . "` AS log_page_view_time
 					ON  log_page_view_time.idvisit = log_link_visit_action.idvisit
-					AND log_page_view_time.idpageview COLLATE utf8mb4_bin = log_link_visit_action.idpageview
+					AND log_page_view_time.idlink_va = log_link_visit_action.idlink_va
 					" . implode(" ", $customJoins) . "
 				WHERE log_link_visit_action.idvisit IN ('" . implode("','", $idVisits) . "')
 				ORDER BY log_link_visit_action.idvisit, log_link_visit_action.server_time, log_link_visit_action.idlink_va

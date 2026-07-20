@@ -15,6 +15,13 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Columns\Dimension;
 
+/**
+ * The average amount of time spent on a page. Calculated as:
+ *
+ *     sum_time_spent / nb_hits
+ *
+ * sum_time_spent and nb_hits are calculated by Archiver classes.
+ */
 class AverageTimeOnPage extends ProcessedMetric
 {
     public function getName()
