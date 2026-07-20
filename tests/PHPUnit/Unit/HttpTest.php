@@ -53,6 +53,85 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testSendHttpRequestByWithEgressValidationRejectsNonCurlTransport()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('SSRF-safe HTTP requests require the curl transport.');
+
+        $this->sendEgressValidatedRequest('socket', 'http://example.com/');
+    }
+
+    public function testSendHttpRequestByWithEgressValidationRejectsNonHttpScheme()
+    {
+        $originalProtocols = Config::getInstance()->General['allowed_outgoing_protocols'] ?? 'http,https';
+        // allow ftp through the generic protocol check so the SSRF-safe scheme guard is what rejects it
+        Config::getInstance()->General['allowed_outgoing_protocols'] = 'http,https,ftp';
+
+        try {
+            $this->sendEgressValidatedRequest('curl', 'ftp://example.com/');
+            $this->fail('Expected an exception for a non-http scheme');
+        } catch (\Exception $e) {
+            $this->assertSame('SSRF-safe HTTP requests only support the http and https schemes.', $e->getMessage());
+        } finally {
+            Config::getInstance()->General['allowed_outgoing_protocols'] = $originalProtocols;
+        }
+    }
+
+    public function testSendHttpRequestByWithEgressValidationRejectsConfiguredProxy()
+    {
+        $originalProxy = Config::getInstance()->proxy;
+        Config::getInstance()->proxy['host'] = 'proxy.example';
+        Config::getInstance()->proxy['port'] = '8080';
+        Config::getInstance()->proxy['username'] = '';
+        Config::getInstance()->proxy['password'] = '';
+        Config::getInstance()->proxy['exclude'] = '';
+
+        try {
+            $this->sendEgressValidatedRequest('curl', 'http://example.com/');
+            $this->fail('Expected an exception for a configured proxy');
+        } catch (\Exception $e) {
+            $this->assertSame('SSRF-safe HTTP requests cannot be routed through a configured proxy.', $e->getMessage());
+        } finally {
+            Config::getInstance()->proxy = $originalProxy;
+        }
+    }
+
+    public function testSendHttpRequestByWithEgressValidationRejectsPrivateIpTarget()
+    {
+        // other tests in this class leave a proxy configured, which would trip the proxy guard first
+        Config::getInstance()->proxy['host'] = '';
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Refusing to fetch: host resolves to a private or reserved address.');
+
+        $this->sendEgressValidatedRequest('curl', 'http://10.0.0.1/');
+    }
+
+    private function sendEgressValidatedRequest($transport, $url)
+    {
+        return Http::sendHttpRequestBy(
+            $transport,
+            $url,
+            5,
+            null,
+            null,
+            null,
+            0,
+            false,
+            false,
+            false,
+            false,
+            'GET',
+            null,
+            null,
+            null,
+            array(),
+            null,
+            false, // $checkHostIsAllowed: skip the container-based blocklist in a unit test
+            true // $validateEgressIp
+        );
+    }
+
     /**
      * @dataProvider getResolveRedirectUrlTestData
      */
