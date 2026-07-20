@@ -305,19 +305,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         Json::sendHeaderJSON();
-        echo json_encode([
+        return json_encode([
             'trackingMethods' => $trackingMethods,
             'recommendedMethod' => $recommendedMethod,
             // The standalone page gets this as a template variable; the SPA gate has to fetch it.
             'ctaContent' => $this->renderSiteWithoutDataCta(),
         ]);
-        exit;
     }
 
     private function renderSiteWithoutDataCta(): string
     {
         $view = new View('@SitesManager/_siteWithoutDataCta');
         $view->inviteUserLink = $this->getInviteUserLink();
+        $view->sendHeadersWhenRendering = false;
         return $view->render();
     }
 
