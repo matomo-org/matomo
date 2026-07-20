@@ -1,0 +1,23 @@
+# Custom PHPStan rules enforcing the #[Piwik\Http\JsonResponse] controller-action convention.
+# Included from the root phpstan.neon. The rule classes live next to this file.
+services:
+    -
+        class: Piwik\Tests\PHPStan\Rules\MissingJsonResponseAttributeRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Piwik\Tests\PHPStan\Rules\RedundantJsonHeaderCallRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Piwik\Tests\PHPStan\Rules\JsonResponseAttributePlacementRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Piwik\Tests\PHPStan\Rules\JsonResponseReturnTypeRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Piwik\Tests\PHPStan\Rules\JsonResponseMustNotExitRule
+        tags:
+            - phpstan.rules.rule
