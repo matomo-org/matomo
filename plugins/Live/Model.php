@@ -724,6 +724,12 @@ class Model
         // The extra segment must be intersected at the visit level. Appending it to the main segment
         // string would let both same-dimension conditions be satisfied by a single action row; keeping
         // it as a separate subquery on idvisit ensures the visit matches this segment on its own.
+        //
+        // The outer $where (idsite + date range) is intentionally reused inside the subquery. It is
+        // redundant for correctness — idvisit is unique, so the outer WHERE already constrains the
+        // result once the IN-intersection is applied — but MySQL does not push the outer predicates
+        // into this non-correlated subquery, and the date bound comes only from $where. Reusing it
+        // keeps the subquery scanning the same site/date window instead of the whole history.
         $intersectSegment = new Segment($intersectSegment, $idSite, $startDate, $endDate);
         $intersectSegmentQuery = $intersectSegment->getSelectQuery(
             'log_visit.idvisit',

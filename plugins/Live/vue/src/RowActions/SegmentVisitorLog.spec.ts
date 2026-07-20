@@ -103,4 +103,35 @@ describe('Live/SegmentVisitorLog row action', () => {
       }),
     );
   });
+
+  it('should use only the suffix as the main segment and keep the clicked row at the visit level when there is no current segment', () => {
+    rowActionInstance = (window as any).DataTable_RowActions_Registry.getActionByName('SegmentVisitorLog').createInstance({
+      param: {
+        module: 'Actions',
+        action: 'getPageUrls',
+        segment: '',
+        date: '2012-08-09',
+        period: 'day',
+        idSite: 1,
+      },
+      props: {
+        segmented_visitor_log_segment_suffix: SUFFIX_SEGMENT,
+      },
+    });
+    openPopoverSpy = jest.spyOn(rowActionInstance, 'openPopover').mockImplementation(() => undefined);
+
+    rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+    // The clicked row must NOT also be appended to the main segment: it is intersected at the visit
+    // level only, consistent with the current-segment cases above.
+    expect(openPopoverSpy).toHaveBeenCalledWith(
+      'Actions.getPageUrls',
+      SUFFIX_SEGMENT,
+      expect.objectContaining({
+        date: '2012-08-09',
+        period: 'day',
+        intersectSegment: CATEGORY_ROW_SEGMENT,
+      }),
+    );
+  });
 });

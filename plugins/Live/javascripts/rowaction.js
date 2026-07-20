@@ -91,26 +91,29 @@
     DataTable_RowActions_SegmentVisitorLog.prototype.trigger = function (tr, e, subTableLabel) {
         var clickedSegment = getRawSegmentValueFromRow(tr);
         var currentSegment = this.dataTable.param.segment || '';
-        var segment = '';
+        var suffix = this.dataTable.props.segmented_visitor_log_segment_suffix || '';
         var extraParams = {};
 
+        // The main segment is the report's own context: its current segment (if any) plus any
+        // report-defined suffix, ANDed together at the action level. The clicked row's segment is
+        // always intersected at the visit level instead (see Model::queryLogVisits $intersectSegment),
+        // so a same-dimension condition — e.g. current pageUrl==X with clicked pageUrl==Y — is not
+        // collapsed onto a single action row, which would match nothing.
+        var parts = [];
         if (currentSegment) {
-            segment = decodeURIComponent(currentSegment);
+            parts.push(decodeURIComponent(currentSegment));
+        }
+        if (suffix) {
+            parts.push(suffix);
+        }
+        var segment = parts.join(';');
+
+        if (segment) {
             extraParams.intersectSegment = clickedSegment;
         } else {
+            // No report context at all: the clicked segment is the whole segment. Evaluating it at
+            // the action level is fine here because there is no other condition to collide with.
             segment = clickedSegment;
-        }
-
-        if (this.dataTable.props.segmented_visitor_log_segment_suffix) {
-            if (segment) {
-                segment = segment + ';' + this.dataTable.props.segmented_visitor_log_segment_suffix;
-            } else {
-                segment = this.dataTable.props.segmented_visitor_log_segment_suffix;
-            }
-
-            if (!currentSegment) {
-                extraParams.intersectSegment = clickedSegment;
-            }
         }
 
         this.performAction(segment, tr, e, null, extraParams);
