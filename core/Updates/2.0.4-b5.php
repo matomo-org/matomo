@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Log;
 use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Updater;
 use Piwik\UpdaterErrorException;
@@ -86,7 +87,9 @@ class Updates_2_0_4_b5 extends Updates
                     'superuser_access' => 1,
                 ));
         } catch (\Exception $e) {
-            echo "There was an issue, but we proceed: " . $e->getMessage();
+            // best effort insert - if it fails we proceed anyway and only log the details server side
+            // instead of writing them to the update output
+            Log::warning('Could not insert super user during 2.0.4-b5 update, proceeding anyway: %s', $e->getMessage());
         }
 
         if (array_key_exists('salt', $superUser)) {
