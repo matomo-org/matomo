@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\API\Proxy;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tests\Framework\Fixture;
@@ -51,6 +52,17 @@ class PivotByDimensionTest extends IntegrationTestCase
         \Piwik\Cache::flushAll();
 
         $this->segmentTableCount = 0;
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        // provideContainerConfig() replaces the Proxy singleton with a mock; that mock can otherwise
+        // outlive this test's environment and be picked up by a later test in the same process that
+        // reads Proxy::getInstance() without rebuilding the container (e.g. DocumentationGeneratorTest).
+        // Restore a real Proxy so the override can't leak.
+        StaticContainer::getContainer()->set(Proxy::class, new Proxy());
     }
 
     public function testConstructionShouldFailWhenReportHasNoSubtableAndSegmentFetchingIsDisabled()
