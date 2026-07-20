@@ -475,6 +475,62 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    public function testSendHttpRequestByWithEgressValidationFollowsRedirects()
+    {
+        $result = Http::sendHttpRequestBy(
+            'curl',
+            'http://matomo.org/',
+            30,
+            null,
+            null,
+            null,
+            0,
+            false,
+            false,
+            false,
+            true,
+            'GET',
+            null,
+            null,
+            null,
+            array(),
+            null,
+            true,
+            true // $validateEgressIp
+        );
+
+        $this->assertEquals(200, $result['status']);
+        $this->assertNotEmpty($result['data']);
+    }
+
+    public function testSendHttpRequestWithEgressValidationRejectsRedirectWhenDownloadingToFile()
+    {
+        $destinationPath = PIWIK_DOCUMENT_ROOT . '/tmp/latest/egress-redirect-test';
+
+        try {
+            $this->expectException(\Exception::class);
+            $this->expectExceptionMessage('SSRF-safe HTTP requests cannot follow redirects when downloading to a file.');
+
+            Http::sendHttpRequest(
+                'http://matomo.org/',
+                30,
+                null,
+                $destinationPath,
+                0,
+                false,
+                false,
+                false,
+                'GET',
+                null,
+                null,
+                true,
+                true // $validateEgressIp
+            );
+        } finally {
+            @unlink($destinationPath);
+        }
+    }
+
     /**
      * @dataProvider getBlockedHostUrls
      */
@@ -511,4 +567,5 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             ['https://de.piwik.org', true],
         ];
     }
+
 }
