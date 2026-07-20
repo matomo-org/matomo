@@ -251,7 +251,7 @@ class Flattener extends DataTableManipulator
     }
 
     /**
-     * Remove the flat & filter_pattern parameters from the subtable request
+     * Remove the flat parameter from the subtable request
      *
      * @param array $request
      * @return array
@@ -259,12 +259,6 @@ class Flattener extends DataTableManipulator
     protected function manipulateSubtableRequest($request)
     {
         unset($request['flat']);
-
-        // don't apply the search pattern while subtables are loaded, otherwise rows are filtered on
-        // their child label before the parent label parts are combined into the final flattened label.
-        // that would drop rows whose match only appears in a parent label. instead we let the pattern
-        // run once on the flattened table (via the generic filters applied after flattening).
-        unset($request['filter_pattern']);
 
         return $request;
     }
