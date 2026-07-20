@@ -155,5 +155,10 @@ describe('SingleMetricView', function () {
 
         var message = await page.$('.singleMetricView .metric-unavailable');
         expect(message).to.not.equal(null);
+
+        // the element being present isn't enough: assert the actual message text is rendered,
+        // otherwise an empty container would silently pass and hide a regression
+        var messageText = await (await message.getProperty('textContent')).jsonValue();
+        expect(messageText).to.contain("This metric isn't available for this period.");
     });
 });

@@ -1,1425 +1,1496 @@
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("CoreHome"), require("vue"));
-	else if(typeof define === 'function' && define.amd)
-		define(["CoreHome", ], factory);
-	else if(typeof exports === 'object')
-		exports["CoreVisualizations"] = factory(require("CoreHome"), require("vue"));
-	else
-		root["CoreVisualizations"] = factory(root["CoreHome"], root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__) {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "plugins/CoreVisualizations/vue/dist/";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
-/******/ })
-/************************************************************************/
-/******/ ({
-
-/***/ "19dc":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
-
-/***/ }),
-
-/***/ "8bbf":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
-
-/***/ }),
-
-/***/ "fae3":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "EvolutionBadge", function() { return /* reexport */ EvolutionBadge; });
-__webpack_require__.d(__webpack_exports__, "MetricValue", function() { return /* reexport */ MetricValue; });
-__webpack_require__.d(__webpack_exports__, "SeriesPicker", function() { return /* reexport */ SeriesPicker; });
-__webpack_require__.d(__webpack_exports__, "MetricsPicker", function() { return /* reexport */ MetricsPicker; });
-__webpack_require__.d(__webpack_exports__, "SingleMetricView", function() { return /* reexport */ SingleMetricView; });
-__webpack_require__.d(__webpack_exports__, "SparklinesGrid", function() { return /* reexport */ SparklinesGrid; });
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
-
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
-
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
-
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
-
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue?vue&type=template&id=94a77dd2
-
-const _hoisted_1 = ["title"];
-const _hoisted_2 = {
-  class: "evolutionBadge__icon",
-  "aria-hidden": "true"
-};
-const _hoisted_3 = {
-  class: "evolutionBadge__value"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_EvolutionTrendIcon = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EvolutionTrendIcon");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["evolutionBadge", _ctx.directionClass]),
-    title: _ctx.tooltip || undefined
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EvolutionTrendIcon, {
-    class: "evolutionTrendIcon",
-    direction: _ctx.direction
-  }, null, 8, ["direction"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.formattedPercent), 1)], 10, _hoisted_1);
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue?vue&type=template&id=94a77dd2
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=template&id=14185072
-
-const EvolutionTrendIconvue_type_template_id_14185072_hoisted_1 = {
-  key: 0,
-  viewBox: "0 0 16 16"
-};
-const EvolutionTrendIconvue_type_template_id_14185072_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("path", {
-  d: "M3.77344 11L8.27344 5L12.7734 11H3.77344Z",
-  fill: "currentColor"
-}, null, -1);
-const EvolutionTrendIconvue_type_template_id_14185072_hoisted_3 = [EvolutionTrendIconvue_type_template_id_14185072_hoisted_2];
-const _hoisted_4 = {
-  key: 1,
-  viewBox: "0 0 16 16"
-};
-const _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("path", {
-  d: "M3.77344 6L8.27344 12L12.7734 6H3.77344Z",
-  fill: "currentColor"
-}, null, -1);
-const _hoisted_6 = [_hoisted_5];
-const _hoisted_7 = {
-  key: 2,
-  viewBox: "0 0 16 16"
-};
-const _hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("rect", {
-  x: "3",
-  y: "7",
-  width: "10",
-  height: "2",
-  fill: "currentColor"
-}, null, -1);
-const _hoisted_9 = [_hoisted_8];
-function EvolutionTrendIconvue_type_template_id_14185072_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return _ctx.direction === 'up' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", EvolutionTrendIconvue_type_template_id_14185072_hoisted_1, EvolutionTrendIconvue_type_template_id_14185072_hoisted_3)) : _ctx.direction === 'down' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", _hoisted_4, _hoisted_6)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("svg", _hoisted_7, _hoisted_9));
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=template&id=14185072
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=script&lang=ts
-
-/* harmony default export */ var EvolutionTrendIconvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  name: 'EvolutionTrendIcon',
-  props: {
-    direction: {
-      type: String,
-      required: true,
-      validator: value => ['up', 'down', 'neutral'].indexOf(value) !== -1
+(function(global, factory) {
+  typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require("vue"), require("CoreHome")) : typeof define === "function" && define.amd ? define(["exports", "vue", "CoreHome"], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, factory(global.CoreVisualizations = {}, global.Vue, global.CoreHome));
+})(this, (function(exports2, vue, CoreHome) {
+  "use strict";var __defProp = Object.defineProperty;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
     }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionTrendIcon.vue
+  return a;
+};
 
-
-
-EvolutionTrendIconvue_type_script_lang_ts.render = EvolutionTrendIconvue_type_template_id_14185072_render
-
-/* harmony default export */ var EvolutionTrendIcon = (EvolutionTrendIconvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue?vue&type=script&lang=ts
-
-
-/* harmony default export */ var EvolutionBadgevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  name: 'EvolutionBadge',
-  components: {
-    EvolutionTrendIcon: EvolutionTrendIcon
-  },
-  props: {
-    // the change to display, either a number (eg 4, -4) or a pre-formatted
-    // string as emitted by Sparklines/Config.php (eg "4%", "-4%")
-    percent: {
-      type: [Number, String],
-      required: true
-    },
-    // when true the colour is inverted, so a decrease reads as positive (eg bounce rate)
-    isLowerValueBetter: {
-      type: Boolean,
-      default: false
-    },
-    // raw value difference (currentValue - pastValue); the authoritative source of the
-    // arrow direction when available, falling back to the sign of percent otherwise
-    trend: {
-      type: Number,
-      default: undefined
-    },
-    tooltip: {
-      type: String,
-      default: ''
+  const _sfc_main$e = vue.defineComponent({
+    name: "EvolutionTrendIcon",
+    props: {
+      direction: {
+        type: String,
+        required: true,
+        validator: (value) => ["up", "down", "neutral"].indexOf(value) !== -1
+      }
     }
-  },
-  setup(props) {
-    const changeValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      if (typeof props.trend === 'number' && !Number.isNaN(props.trend)) {
-        return props.trend;
-      }
-      // only the sign matters here. Fold the localised minus (U+2212, eg fi/sv)
-      // to ASCII so a coarse parse of the formatted percent gets the sign right.
-      const numeric = parseFloat(String(props.percent).replace('\u2212', '-').replace(',', '.').replace(/[^0-9.+-]/g, ''));
-      return Number.isNaN(numeric) ? 0 : numeric;
-    });
-    const direction = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      if (changeValue.value > 0) {
-        return 'up';
-      }
-      if (changeValue.value < 0) {
-        return 'down';
-      }
-      return 'neutral';
-    });
-    // the arrow direction always reflects the actual value change, while the colour
-    // (positive/negative) reflects whether that change is good or bad for the metric
-    const directionClass = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      if (direction.value === 'neutral') {
-        return 'evolutionBadge--neutral';
-      }
-      const increased = direction.value === 'up';
-      const isPositive = props.isLowerValueBetter ? !increased : increased;
-      return isPositive ? 'evolutionBadge--positive' : 'evolutionBadge--negative';
-    });
-    const formattedPercent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      const label = typeof props.percent === 'number' ? `${props.percent}%` : String(props.percent).trim();
-      const sign = label.charAt(0);
-      if (changeValue.value > 0 && sign !== '+' && sign !== '-') {
-        return `+${label}`;
-      }
-      return label;
-    });
-    return {
-      direction,
-      directionClass,
-      formattedPercent
-    };
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/EvolutionBadge/EvolutionBadge.vue
-
-
-
-EvolutionBadgevue_type_script_lang_ts.render = render
-
-/* harmony default export */ var EvolutionBadge = (EvolutionBadgevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=template&id=20798b0f
-
-const MetricValuevue_type_template_id_20798b0f_hoisted_1 = {
-  class: "metricValue"
-};
-const MetricValuevue_type_template_id_20798b0f_hoisted_2 = ["title"];
-const MetricValuevue_type_template_id_20798b0f_hoisted_3 = {
-  class: "metricValue__primary"
-};
-const MetricValuevue_type_template_id_20798b0f_hoisted_4 = {
-  class: "metricValue__number"
-};
-const MetricValuevue_type_template_id_20798b0f_hoisted_5 = {
-  key: 0,
-  class: "metricValue__secondary"
-};
-const MetricValuevue_type_template_id_20798b0f_hoisted_6 = {
-  class: "metricValue__secondaryValue"
-};
-const MetricValuevue_type_template_id_20798b0f_hoisted_7 = {
-  key: 0,
-  class: "metricValue__secondaryLabel"
-};
-function MetricValuevue_type_template_id_20798b0f_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricValuevue_type_template_id_20798b0f_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["metricValue__title", {
-      'metricValue__title--documented': !!_ctx.documentation
-    }]),
-    title: _ctx.documentation || _ctx.title
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)], 10, MetricValuevue_type_template_id_20798b0f_hoisted_2)), [[_directive_tooltips, {
-    duration: 200,
-    delay: 200
-  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MetricValuevue_type_template_id_20798b0f_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricValuevue_type_template_id_20798b0f_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.value), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "evolution")]), _ctx.hasSecondary ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricValuevue_type_template_id_20798b0f_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricValuevue_type_template_id_20798b0f_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.secondaryValue), 1), _ctx.secondaryLabel ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", MetricValuevue_type_template_id_20798b0f_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.secondaryLabel), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=template&id=20798b0f
-
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=script&lang=ts
-
-
-/* harmony default export */ var MetricValuevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  name: 'MetricValue',
-  directives: {
-    Tooltips: external_CoreHome_["Tooltips"]
-  },
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-    // Pre-formatted value (e.g. "9,527" or "4min 22s"); rendered verbatim, no formatting here.
-    value: {
-      type: [String, Number],
-      required: true
-    },
-    // Optional secondary line. Value and label are kept separate so they can be
-    // styled independently (e.g. "9,527" darker, "unique visitors" grey). Matomo
-    // hands these out separately as metric.value + metric.description.
-    secondaryValue: [String, Number],
-    secondaryLabel: String,
-    // Optional metric documentation; when set it is shown as the title tooltip (otherwise the
-    // tooltip falls back to the full title so a clipped title stays recoverable on hover).
-    documentation: String
-  },
-  computed: {
-    hasSecondary() {
-      return this.secondaryValue !== undefined && this.secondaryValue !== null && this.secondaryValue !== '';
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricValue/MetricValue.vue
-
-
-
-MetricValuevue_type_script_lang_ts.render = MetricValuevue_type_template_id_20798b0f_render
-
-/* harmony default export */ var MetricValue = (MetricValuevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7c1adaf7
-
-const SeriesPickervue_type_template_id_7c1adaf7_hoisted_1 = {
-  key: 0,
-  class: "jqplot-seriespicker-popover"
-};
-const SeriesPickervue_type_template_id_7c1adaf7_hoisted_2 = {
-  class: "headline"
-};
-const SeriesPickervue_type_template_id_7c1adaf7_hoisted_3 = ["onClick"];
-const SeriesPickervue_type_template_id_7c1adaf7_hoisted_4 = ["type", "checked"];
-const SeriesPickervue_type_template_id_7c1adaf7_hoisted_5 = {
-  key: 0,
-  class: "headline recordsToPlot"
-};
-const SeriesPickervue_type_template_id_7c1adaf7_hoisted_6 = ["onClick"];
-const SeriesPickervue_type_template_id_7c1adaf7_hoisted_7 = ["type", "checked"];
-function SeriesPickervue_type_template_id_7c1adaf7_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["jqplot-seriespicker", {
-      open: _ctx.isPopupVisible
-    }]),
-    onMouseenter: _cache[1] || (_cache[1] = $event => _ctx.isPopupVisible = true),
-    onMouseleave: _cache[2] || (_cache[2] = $event => _ctx.onLeavePopup())
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    href: "#",
-    onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(() => {}, ["prevent", "stop"]))
-  }, " + "), _ctx.isPopupVisible ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SeriesPickervue_type_template_id_7c1adaf7_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", SeriesPickervue_type_template_id_7c1adaf7_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(_ctx.multiselect ? 'General_MetricsToPlot' : 'General_MetricToPlot')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableColumns, columnConfig => {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
-      class: "pickColumn",
-      onClick: $event => _ctx.optionSelected(columnConfig.column, _ctx.columnStates),
-      key: columnConfig.column
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      class: "select",
-      type: _ctx.multiselect ? 'checkbox' : 'radio',
-      checked: !!_ctx.columnStates[columnConfig.column]
-    }, null, 8, SeriesPickervue_type_template_id_7c1adaf7_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(columnConfig.translation), 1)])], 8, SeriesPickervue_type_template_id_7c1adaf7_hoisted_3);
-  }), 128)), _ctx.selectableRows.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", SeriesPickervue_type_template_id_7c1adaf7_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_RecordsToPlot')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableRows, rowConfig => {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
-      class: "pickRow",
-      onClick: $event => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates),
-      key: rowConfig.matcher
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      class: "select",
-      type: _ctx.multiselect ? 'checkbox' : 'radio',
-      checked: !!_ctx.rowStates[rowConfig.matcher]
-    }, null, 8, SeriesPickervue_type_template_id_7c1adaf7_hoisted_7), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rowConfig.label), 1)])], 8, SeriesPickervue_type_template_id_7c1adaf7_hoisted_6);
-  }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 34);
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=template&id=7c1adaf7
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts
-
-
-function getInitialOptionStates(allOptions, selectedOptions) {
-  const states = {};
-  allOptions.forEach(columnConfig => {
-    const name = columnConfig.column || columnConfig.matcher;
-    states[name] = false;
   });
-  selectedOptions.forEach(column => {
-    states[column] = true;
-  });
-  return states;
-}
-function arrayEqual(lhs, rhs) {
-  if (lhs.length !== rhs.length) {
-    return false;
-  }
-  return lhs.filter(element => rhs.indexOf(element) === -1).length === 0;
-}
-function unselectOptions(optionStates) {
-  Object.keys(optionStates).forEach(optionName => {
-    optionStates[optionName] = false;
-  });
-}
-function getSelected(optionStates) {
-  return Object.keys(optionStates).filter(optionName => !!optionStates[optionName]);
-}
-/* harmony default export */ var SeriesPickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    multiselect: Boolean,
-    selectableColumns: {
-      type: Array,
-      default: () => []
-    },
-    selectableRows: {
-      type: Array,
-      default: () => []
-    },
-    selectedColumns: {
-      type: Array,
-      default: () => []
-    },
-    selectedRows: {
-      type: Array,
-      default: () => []
+  const _export_sfc = (sfc, props) => {
+    const target = sfc.__vccOpts || sfc;
+    for (const [key, val] of props) {
+      target[key] = val;
     }
-  },
-  data() {
-    return {
-      isPopupVisible: false,
-      columnStates: getInitialOptionStates(this.selectableColumns, this.selectedColumns),
-      rowStates: getInitialOptionStates(this.selectableRows, this.selectedRows)
-    };
-  },
-  emits: ['select'],
-  created() {
-    this.optionSelected = Object(external_CoreHome_["debounce"])(this.optionSelected, 0);
-  },
-  methods: {
-    optionSelected(optionValue, optionStates) {
-      if (!this.multiselect) {
-        unselectOptions(this.columnStates);
-        unselectOptions(this.rowStates);
-      }
-      optionStates[optionValue] = !optionStates[optionValue];
-      this.triggerOnSelectAndClose();
-    },
-    onLeavePopup() {
-      this.isPopupVisible = false;
-      if (this.optionsChanged()) {
-        this.triggerOnSelectAndClose();
-      }
-    },
-    triggerOnSelectAndClose() {
-      this.isPopupVisible = false;
-      this.$emit('select', {
-        columns: getSelected(this.columnStates),
-        rows: getSelected(this.rowStates)
-      });
-    },
-    optionsChanged() {
-      return !arrayEqual(getSelected(this.columnStates), this.selectedColumns) || !arrayEqual(getSelected(this.rowStates), this.selectedRows);
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue
-
-
-
-SeriesPickervue_type_script_lang_ts.render = SeriesPickervue_type_template_id_7c1adaf7_render
-
-/* harmony default export */ var SeriesPicker = (SeriesPickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=template&id=5b298d15
-
-const MetricsPickervue_type_template_id_5b298d15_hoisted_1 = {
-  ref: "root",
-  class: "metrics-picker"
-};
-const MetricsPickervue_type_template_id_5b298d15_hoisted_2 = {
-  ref: "expander",
-  type: "button",
-  class: "metrics-picker__toggle"
-};
-const MetricsPickervue_type_template_id_5b298d15_hoisted_3 = {
-  class: "metrics-picker__toggle-label"
-};
-const MetricsPickervue_type_template_id_5b298d15_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-chevron-down metrics-picker__chevron"
-}, null, -1);
-const MetricsPickervue_type_template_id_5b298d15_hoisted_5 = {
-  class: "metrics-picker__dropdown"
-};
-function MetricsPickervue_type_template_id_5b298d15_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_MetricsPickerOptions = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MetricsPickerOptions");
-  const _directive_expand_on_click = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("expand-on-click");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MetricsPickervue_type_template_id_5b298d15_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", MetricsPickervue_type_template_id_5b298d15_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricsPickervue_type_template_id_5b298d15_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ChooseMetrics')), 1), MetricsPickervue_type_template_id_5b298d15_hoisted_4], 512), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MetricsPickervue_type_template_id_5b298d15_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MetricsPickerOptions, {
-    multiselect: _ctx.multiselect,
-    "selectable-columns": _ctx.selectableColumns,
-    "selectable-rows": _ctx.selectableRows,
-    "selected-columns": _ctx.selectedColumns,
-    "selected-rows": _ctx.selectedRows,
-    onSelect: _cache[0] || (_cache[0] = $event => _ctx.onSelect($event))
-  }, null, 8, ["multiselect", "selectable-columns", "selectable-rows", "selected-columns", "selected-rows"])])])), [[_directive_expand_on_click, {
-    expander: 'expander'
-  }]]);
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=template&id=5b298d15
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPickerOptions.vue?vue&type=template&id=0bdfb6f4
-
-const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_1 = ["role", "aria-label"];
-const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_2 = ["type", "checked", "onChange", "onKeydown"];
-const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  "aria-hidden": "true"
-}, null, -1);
-const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_4 = {
-  class: "metrics-picker__title"
-};
-const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_5 = {
-  key: 0,
-  class: "metrics-picker__headline"
-};
-const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_6 = ["type", "checked", "onChange", "onKeydown"];
-const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  "aria-hidden": "true"
-}, null, -1);
-const MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_8 = {
-  class: "metrics-picker__title"
-};
-function MetricsPickerOptionsvue_type_template_id_0bdfb6f4_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: "metrics-picker__options",
-    role: _ctx.multiselect ? 'group' : 'radiogroup',
-    "aria-label": _ctx.translate('General_ChooseMetrics')
-  }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableColumns, columnConfig => {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("label", {
-      class: "metrics-picker__column metrics-picker__label",
-      key: columnConfig.column
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      class: "filled-in",
-      type: _ctx.multiselect ? 'checkbox' : 'radio',
-      checked: !!_ctx.columnStates[columnConfig.column],
-      onChange: $event => _ctx.optionSelected(columnConfig.column, _ctx.columnStates),
-      onKeydown: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.optionSelected(columnConfig.column, _ctx.columnStates), ["prevent"]), ["enter"])
-    }, null, 40, MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_2), MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(columnConfig.translation), 1)]);
-  }), 128)), _ctx.selectableRows.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_RecordsToPlot')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.selectableRows, rowConfig => {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("label", {
-      class: "metrics-picker__row metrics-picker__label",
-      key: rowConfig.matcher
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      class: "filled-in",
-      type: _ctx.multiselect ? 'checkbox' : 'radio',
-      checked: !!_ctx.rowStates[rowConfig.matcher],
-      onChange: $event => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates),
-      onKeydown: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates), ["prevent"]), ["enter"])
-    }, null, 40, MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_6), MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rowConfig.label), 1)]);
-  }), 128))], 8, MetricsPickerOptionsvue_type_template_id_0bdfb6f4_hoisted_1);
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPickerOptions.vue?vue&type=template&id=0bdfb6f4
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPickerOptions.vue?vue&type=script&lang=ts
-
-// Declared outside the component because it is needed inside data(), before the
-// component's methods are available.
-function MetricsPickerOptionsvue_type_script_lang_ts_getInitialOptionStates(allOptions, selectedOptions) {
-  const states = {};
-  allOptions.forEach(columnConfig => {
-    const name = columnConfig.column || columnConfig.matcher;
-    states[name] = false;
-  });
-  selectedOptions.forEach(column => {
-    states[column] = true;
-  });
-  return states;
-}
-/* harmony default export */ var MetricsPickerOptionsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    multiselect: Boolean,
-    selectableColumns: {
-      type: Array,
-      default: () => []
-    },
-    selectableRows: {
-      type: Array,
-      default: () => []
-    },
-    selectedColumns: {
-      type: Array,
-      default: () => []
-    },
-    selectedRows: {
-      type: Array,
-      default: () => []
-    }
-  },
-  data() {
-    return {
-      columnStates: MetricsPickerOptionsvue_type_script_lang_ts_getInitialOptionStates(this.selectableColumns, this.selectedColumns),
-      rowStates: MetricsPickerOptionsvue_type_script_lang_ts_getInitialOptionStates(this.selectableRows, this.selectedRows)
-    };
-  },
-  emits: ['select'],
-  methods: {
-    unselectOptions(optionStates) {
-      Object.keys(optionStates).forEach(optionName => {
-        optionStates[optionName] = false;
-      });
-    },
-    getSelected(optionStates) {
-      return Object.keys(optionStates).filter(optionName => !!optionStates[optionName]);
-    },
-    optionSelected(optionValue, optionStates) {
-      if (!this.multiselect) {
-        this.unselectOptions(this.columnStates);
-        this.unselectOptions(this.rowStates);
-      }
-      optionStates[optionValue] = !optionStates[optionValue];
-      this.$emit('select', {
-        columns: this.getSelected(this.columnStates),
-        rows: this.getSelected(this.rowStates)
-      });
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPickerOptions.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPickerOptions.vue
-
-
-
-MetricsPickerOptionsvue_type_script_lang_ts.render = MetricsPickerOptionsvue_type_template_id_0bdfb6f4_render
-
-/* harmony default export */ var MetricsPickerOptions = (MetricsPickerOptionsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=script&lang=ts
-
-
-
-/* harmony default export */ var MetricsPickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    multiselect: Boolean,
-    selectableColumns: {
-      type: Array,
-      default: () => []
-    },
-    selectableRows: {
-      type: Array,
-      default: () => []
-    },
-    selectedColumns: {
-      type: Array,
-      default: () => []
-    },
-    selectedRows: {
-      type: Array,
-      default: () => []
-    }
-  },
-  components: {
-    MetricsPickerOptions: MetricsPickerOptions
-  },
-  directives: {
-    ExpandOnClick: external_CoreHome_["ExpandOnClick"]
-  },
-  emits: ['select'],
-  methods: {
-    onSelect(selected) {
-      this.$emit('select', selected);
-      // selecting a metric applies the change and closes the dropdown
-      this.$refs.root.classList.remove('expanded');
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/MetricsPicker/MetricsPicker.vue
-
-
-
-MetricsPickervue_type_script_lang_ts.render = MetricsPickervue_type_template_id_5b298d15_render
-
-/* harmony default export */ var MetricsPicker = (MetricsPickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=609ec804
-
-const SingleMetricViewvue_type_template_id_609ec804_hoisted_1 = {
-  key: 0,
-  class: "metric-unavailable"
-};
-const SingleMetricViewvue_type_template_id_609ec804_hoisted_2 = {
-  class: "metric-sparkline"
-};
-const SingleMetricViewvue_type_template_id_609ec804_hoisted_3 = {
-  class: "metric-value"
-};
-const SingleMetricViewvue_type_template_id_609ec804_hoisted_4 = ["title"];
-const SingleMetricViewvue_type_template_id_609ec804_hoisted_5 = ["title"];
-function SingleMetricViewvue_type_template_id_609ec804_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["singleMetricView", {
-      'loading': _ctx.isLoading
-    }]),
-    ref: "root"
-  }, [_ctx.isMetricUnavailable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SingleMetricViewvue_type_template_id_609ec804_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_MetricNotAvailableForThisPeriod')), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
-    key: 1
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_609ec804_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
-    params: _ctx.sparklineParams
-  }, null, 8, ["params"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SingleMetricViewvue_type_template_id_609ec804_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    title: _ctx.metricDocumentation
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("strong", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricValue), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])((_ctx.metricTranslation || '').toLowerCase()), 1)], 8, SingleMetricViewvue_type_template_id_609ec804_hoisted_4), _ctx.pastValue !== null ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+    return target;
+  };
+  const _hoisted_1$e = {
     key: 0,
-    class: "metricEvolution",
-    title: _ctx.translate('General_EvolutionSummaryGeneric', _ctx.metricValue, _ctx.currentPeriod, _ctx.pastValue, _ctx.pastPeriod, _ctx.metricChangePercent)
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.evolutionClass)
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.metricChangePercent), 3)], 8, SingleMetricViewvue_type_template_id_609ec804_hoisted_5)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])], 64))], 2);
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=template&id=609ec804
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts
-
-
-
-function getPastPeriodStr() {
-  const {
-    startDate
-  } = external_CoreHome_["Range"].getLastNRange(external_CoreHome_["Matomo"].period, 2, external_CoreHome_["Matomo"].currentDateString);
-  const dateRange = external_CoreHome_["Periods"].get(external_CoreHome_["Matomo"].period).parse(startDate).getDateRange();
-  return `${Object(external_CoreHome_["format"])(dateRange[0])},${Object(external_CoreHome_["format"])(dateRange[1])}`;
-}
-const {
-  $
-} = window;
-/* harmony default export */ var SingleMetricViewvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    metric: {
-      type: String,
-      required: true
+    viewBox: "0 0 16 16"
+  };
+  const _hoisted_2$b = {
+    key: 1,
+    viewBox: "0 0 16 16"
+  };
+  const _hoisted_3$8 = {
+    key: 2,
+    viewBox: "0 0 16 16"
+  };
+  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+    return _ctx.direction === "up" ? (vue.openBlock(), vue.createElementBlock("svg", _hoisted_1$e, [..._cache[0] || (_cache[0] = [
+      vue.createElementVNode("path", {
+        d: "M3.77344 11L8.27344 5L12.7734 11H3.77344Z",
+        fill: "currentColor"
+      }, null, -1)
+    ])])) : _ctx.direction === "down" ? (vue.openBlock(), vue.createElementBlock("svg", _hoisted_2$b, [..._cache[1] || (_cache[1] = [
+      vue.createElementVNode("path", {
+        d: "M3.77344 6L8.27344 12L12.7734 6H3.77344Z",
+        fill: "currentColor"
+      }, null, -1)
+    ])])) : (vue.openBlock(), vue.createElementBlock("svg", _hoisted_3$8, [..._cache[2] || (_cache[2] = [
+      vue.createElementVNode("rect", {
+        x: "3",
+        y: "7",
+        width: "10",
+        height: "2",
+        fill: "currentColor"
+      }, null, -1)
+    ])]));
+  }
+  const EvolutionTrendIcon = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e]]);
+  const _sfc_main$d = vue.defineComponent({
+    name: "EvolutionBadge",
+    components: {
+      EvolutionTrendIcon
     },
-    metricName: String,
-    idGoal: [String, Number],
-    metricTranslations: {
-      type: Object,
-      required: true
+    props: {
+      // the change to display, either a number (eg 4, -4) or a pre-formatted
+      // string as emitted by Sparklines/Config.php (eg "4%", "-4%")
+      percent: {
+        type: [Number, String],
+        required: true
+      },
+      // when true the colour is inverted, so a decrease reads as positive (eg bounce rate)
+      isLowerValueBetter: {
+        type: Boolean,
+        default: false
+      },
+      // raw value difference (currentValue - pastValue); the authoritative source of the
+      // arrow direction when available, falling back to the sign of percent otherwise
+      trend: {
+        type: Number,
+        default: void 0
+      },
+      tooltip: {
+        type: String,
+        default: ""
+      }
     },
-    metricDocumentations: Object,
-    goals: {
-      type: Object,
-      required: true
-    },
-    goalMetrics: Array,
-    lowerIsBetterMetrics: {
-      type: Array,
-      default: () => []
-    }
-  },
-  components: {
-    Sparkline: external_CoreHome_["Sparkline"]
-  },
-  setup(props) {
-    const root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-    const isLoading = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
-    const responses = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-    const actualMetric = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.metric);
-    const actualIdGoal = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.idGoal);
-    const selectedColumns = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => [actualIdGoal.value ? `goal${actualIdGoal.value}_${actualMetric.value}` : actualMetric.value]);
-    const metricValueUnformatted = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _responses$value;
-      if (!((_responses$value = responses.value) !== null && _responses$value !== void 0 && _responses$value[1])) {
-        return null;
-      }
-      // a metric that is missing for the current period is treated as 0, just like
-      // the past value below, so an evolution down to zero is still calculated
-      return responses.value[1][actualMetric.value] || 0;
-    });
-    const pastValueUnformatted = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _responses$value2;
-      if (!((_responses$value2 = responses.value) !== null && _responses$value2 !== void 0 && _responses$value2[2])) {
-        return null;
-      }
-      return responses.value[2][actualMetric.value] || 0;
-    });
-    const isLowerValueBetter = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.lowerIsBetterMetrics.indexOf(actualMetric.value) !== -1);
-    const evolutionClass = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      if (metricValueUnformatted.value === null || pastValueUnformatted.value === null || metricValueUnformatted.value === pastValueUnformatted.value) {
-        return [];
-      }
-      // arrow direction always reflects the actual value change, while the colour
-      // (positive/negative) reflects whether that change is good or bad for the metric
-      const increased = metricValueUnformatted.value > pastValueUnformatted.value;
-      const isPositive = isLowerValueBetter.value ? !increased : increased;
-      return [increased ? 'evolution-up' : 'evolution-down', isPositive ? 'positive-evolution' : 'negative-evolution'];
-    });
-    const metricChangePercent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      if (metricValueUnformatted.value === null || metricValueUnformatted.value === undefined || pastValueUnformatted.value === null || pastValueUnformatted.value === undefined) {
-        return null;
-      }
-      const currentValue = typeof metricValueUnformatted.value === 'string' ? parseFloat(metricValueUnformatted.value) : metricValueUnformatted.value;
-      const pastValue = typeof pastValueUnformatted.value === 'string' ? parseFloat(pastValueUnformatted.value) : pastValueUnformatted.value;
-      const evolution = external_CoreHome_["Matomo"].helper.calculateEvolution(currentValue, pastValue);
-      return `${(evolution * 100).toFixed(2)} %`;
-    });
-    const pastValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _responses$value3;
-      if (!((_responses$value3 = responses.value) !== null && _responses$value3 !== void 0 && _responses$value3[3])) {
-        return null;
-      }
-      const pastDataFormatted = responses.value[3];
-      return pastDataFormatted[actualMetric.value] || 0;
-    });
-    const metricValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _responses$value4;
-      if (!((_responses$value4 = responses.value) !== null && _responses$value4 !== void 0 && _responses$value4[0])) {
-        return null;
-      }
-      const currentData = responses.value[0];
-      return currentData[actualMetric.value] || 0;
-    });
-    const metricTranslation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _props$metricTranslat;
-      if (!((_props$metricTranslat = props.metricTranslations) !== null && _props$metricTranslat !== void 0 && _props$metricTranslat[actualMetric.value])) {
-        return '';
-      }
-      return props.metricTranslations[actualMetric.value];
-    });
-    const metricDocumentation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _props$metricDocument;
-      if (!((_props$metricDocument = props.metricDocumentations) !== null && _props$metricDocument !== void 0 && _props$metricDocument[actualMetric.value])) {
-        return '';
-      }
-      return props.metricDocumentations[actualMetric.value];
-    });
-    const currentPeriod = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      if (external_CoreHome_["Matomo"].startDateString === external_CoreHome_["Matomo"].endDateString) {
-        return external_CoreHome_["Matomo"].endDateString;
-      }
-      return `${external_CoreHome_["Matomo"].startDateString}, ${external_CoreHome_["Matomo"].endDateString}`;
-    });
-    function isIdGoalSet() {
-      return actualIdGoal.value || actualIdGoal.value === 0;
-    }
-    const isMetricUnavailable = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _responses$value5, _props$metricTranslat2;
-      return (
-        // A non-goal metric missing from the period-aware metadata isn't archived for this
-        // period (e.g. unique visitors on year/range), so it's unavailable, not a real zero.
-        !!((_responses$value5 = responses.value) !== null && _responses$value5 !== void 0 && _responses$value5[0]) && !isIdGoalSet() && !((_props$metricTranslat2 = props.metricTranslations) !== null && _props$metricTranslat2 !== void 0 && _props$metricTranslat2[actualMetric.value])
-      );
-    });
-    const sparklineParams = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      const params = {
-        module: 'API',
-        action: 'get',
-        columns: actualMetric.value
-      };
-      if (isIdGoalSet()) {
-        params.idGoal = actualIdGoal.value;
-        params.module = 'Goals';
-      }
-      return params;
-    });
-    const pastPeriod = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      if (external_CoreHome_["Matomo"].period === 'range') {
-        return undefined;
-      }
-      return getPastPeriodStr();
-    });
-    const selectableColumns = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      const result = [];
-      Object.keys(props.metricTranslations).forEach(column => {
-        result.push({
-          column,
-          translation: props.metricTranslations[column]
-        });
+    setup(props) {
+      const changeValue = vue.computed(() => {
+        if (typeof props.trend === "number" && !Number.isNaN(props.trend)) {
+          return props.trend;
+        }
+        const numeric = parseFloat(
+          String(props.percent).replace("−", "-").replace(",", ".").replace(/[^0-9.+-]/g, "")
+        );
+        return Number.isNaN(numeric) ? 0 : numeric;
       });
-      Object.values(props.goals || {}).forEach(goal => {
-        props.goalMetrics.forEach(column => {
+      const direction = vue.computed(() => {
+        if (changeValue.value > 0) {
+          return "up";
+        }
+        if (changeValue.value < 0) {
+          return "down";
+        }
+        return "neutral";
+      });
+      const directionClass = vue.computed(() => {
+        if (direction.value === "neutral") {
+          return "evolutionBadge--neutral";
+        }
+        const increased = direction.value === "up";
+        const isPositive = props.isLowerValueBetter ? !increased : increased;
+        return isPositive ? "evolutionBadge--positive" : "evolutionBadge--negative";
+      });
+      const formattedPercent = vue.computed(() => {
+        const label = typeof props.percent === "number" ? `${props.percent}%` : String(props.percent).trim();
+        const sign = label.charAt(0);
+        if (changeValue.value > 0 && sign !== "+" && sign !== "-") {
+          return `+${label}`;
+        }
+        return label;
+      });
+      return {
+        direction,
+        directionClass,
+        formattedPercent
+      };
+    }
+  });
+  const _hoisted_1$d = ["title"];
+  const _hoisted_2$a = {
+    class: "evolutionBadge__icon",
+    "aria-hidden": "true"
+  };
+  const _hoisted_3$7 = { class: "evolutionBadge__value" };
+  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_EvolutionTrendIcon = vue.resolveComponent("EvolutionTrendIcon");
+    return vue.openBlock(), vue.createElementBlock("span", {
+      class: vue.normalizeClass(["evolutionBadge", _ctx.directionClass]),
+      title: _ctx.tooltip || void 0
+    }, [
+      vue.createElementVNode("span", _hoisted_2$a, [
+        vue.createVNode(_component_EvolutionTrendIcon, {
+          class: "evolutionTrendIcon",
+          direction: _ctx.direction
+        }, null, 8, ["direction"])
+      ]),
+      vue.createElementVNode("span", _hoisted_3$7, vue.toDisplayString(_ctx.formattedPercent), 1)
+    ], 10, _hoisted_1$d);
+  }
+  const EvolutionBadge = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
+  const _sfc_main$c = vue.defineComponent({
+    name: "MetricValue",
+    directives: {
+      Tooltips: CoreHome.Tooltips
+    },
+    props: {
+      // Optional: the date-comparison card reuses MetricValue for a value column with no title
+      // (the date label is rendered separately by DateAtom). The title div is skipped when empty.
+      title: {
+        type: String,
+        default: ""
+      },
+      // Metric value: a raw number is locale-formatted here; an already-formatted string
+      // (e.g. "50%" or "4min 22s") is rendered as-is.
+      value: {
+        type: [String, Number],
+        required: true
+      },
+      // Optional secondary line, formatted the same way as `value`. Value and label are kept
+      // separate so they can be styled independently (e.g. "9,527" darker, "unique visitors" grey).
+      // Matomo hands these out separately as metric.value + metric.description.
+      secondaryValue: [String, Number],
+      secondaryLabel: String,
+      // Optional metric documentation; when set it is shown as the title tooltip (otherwise the
+      // tooltip falls back to the full title so a clipped title stays recoverable on hover).
+      documentation: String
+    },
+    computed: {
+      displayValue() {
+        return this.formatValue(this.value);
+      },
+      displaySecondaryValue() {
+        return this.formatValue(this.secondaryValue);
+      },
+      hasSecondary() {
+        return this.secondaryValue !== void 0 && this.secondaryValue !== null && this.secondaryValue !== "";
+      }
+    },
+    methods: {
+      // Locale-format raw numbers (plain metrics); leave already-formatted strings untouched.
+      formatValue(value) {
+        return typeof value === "number" ? CoreHome.NumberFormatter.formatNumber(value, 2) : value;
+      }
+    }
+  });
+  const _hoisted_1$c = { class: "metricValue" };
+  const _hoisted_2$9 = ["title"];
+  const _hoisted_3$6 = { class: "metricValue__primary" };
+  const _hoisted_4$4 = { class: "metricValue__number" };
+  const _hoisted_5$3 = {
+    key: 1,
+    class: "metricValue__secondary"
+  };
+  const _hoisted_6$2 = { class: "metricValue__secondaryValue" };
+  const _hoisted_7$1 = {
+    key: 0,
+    class: "metricValue__secondaryLabel"
+  };
+  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+    const _directive_tooltips = vue.resolveDirective("tooltips");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$c, [
+      _ctx.title ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", {
+        key: 0,
+        class: vue.normalizeClass(["metricValue__title", { "metricValue__title--documented": !!_ctx.documentation }]),
+        title: _ctx.documentation || _ctx.title
+      }, [
+        vue.createTextVNode(vue.toDisplayString(_ctx.title), 1)
+      ], 10, _hoisted_2$9)), [
+        [_directive_tooltips, { duration: 200, delay: 200 }]
+      ]) : vue.createCommentVNode("", true),
+      vue.createElementVNode("div", _hoisted_3$6, [
+        vue.createElementVNode("span", _hoisted_4$4, vue.toDisplayString(_ctx.displayValue), 1),
+        vue.renderSlot(_ctx.$slots, "evolution")
+      ]),
+      _ctx.hasSecondary ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$3, [
+        vue.createElementVNode("span", _hoisted_6$2, vue.toDisplayString(_ctx.displaySecondaryValue), 1),
+        _ctx.secondaryLabel ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_7$1, vue.toDisplayString(_ctx.secondaryLabel), 1)) : vue.createCommentVNode("", true)
+      ])) : vue.createCommentVNode("", true)
+    ]);
+  }
+  const MetricValue = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c]]);
+  function getInitialOptionStates$1(allOptions, selectedOptions) {
+    const states = {};
+    allOptions.forEach((columnConfig) => {
+      const name = columnConfig.column || columnConfig.matcher;
+      states[name] = false;
+    });
+    selectedOptions.forEach((column) => {
+      states[column] = true;
+    });
+    return states;
+  }
+  function arrayEqual(lhs, rhs) {
+    if (lhs.length !== rhs.length) {
+      return false;
+    }
+    return lhs.filter((element) => rhs.indexOf(element) === -1).length === 0;
+  }
+  function unselectOptions(optionStates) {
+    Object.keys(optionStates).forEach((optionName) => {
+      optionStates[optionName] = false;
+    });
+  }
+  function getSelected(optionStates) {
+    return Object.keys(optionStates).filter((optionName) => !!optionStates[optionName]);
+  }
+  const _sfc_main$b = vue.defineComponent({
+    props: {
+      multiselect: Boolean,
+      selectableColumns: {
+        type: Array,
+        default: () => []
+      },
+      selectableRows: {
+        type: Array,
+        default: () => []
+      },
+      selectedColumns: {
+        type: Array,
+        default: () => []
+      },
+      selectedRows: {
+        type: Array,
+        default: () => []
+      }
+    },
+    data() {
+      return {
+        isPopupVisible: false,
+        columnStates: getInitialOptionStates$1(
+          this.selectableColumns,
+          this.selectedColumns
+        ),
+        rowStates: getInitialOptionStates$1(
+          this.selectableRows,
+          this.selectedRows
+        )
+      };
+    },
+    emits: ["select"],
+    created() {
+      this.optionSelected = CoreHome.debounce(this.optionSelected, 0);
+    },
+    methods: {
+      optionSelected(optionValue, optionStates) {
+        if (!this.multiselect) {
+          unselectOptions(this.columnStates);
+          unselectOptions(this.rowStates);
+        }
+        optionStates[optionValue] = !optionStates[optionValue];
+        this.triggerOnSelectAndClose();
+      },
+      onLeavePopup() {
+        this.isPopupVisible = false;
+        if (this.optionsChanged()) {
+          this.triggerOnSelectAndClose();
+        }
+      },
+      triggerOnSelectAndClose() {
+        this.isPopupVisible = false;
+        this.$emit("select", {
+          columns: getSelected(this.columnStates),
+          rows: getSelected(this.rowStates)
+        });
+      },
+      optionsChanged() {
+        return !arrayEqual(
+          getSelected(this.columnStates),
+          this.selectedColumns
+        ) || !arrayEqual(
+          getSelected(this.rowStates),
+          this.selectedRows
+        );
+      }
+    }
+  });
+  const _hoisted_1$b = {
+    key: 0,
+    class: "jqplot-seriespicker-popover"
+  };
+  const _hoisted_2$8 = { class: "headline" };
+  const _hoisted_3$5 = ["onClick"];
+  const _hoisted_4$3 = ["type", "checked"];
+  const _hoisted_5$2 = {
+    key: 0,
+    class: "headline recordsToPlot"
+  };
+  const _hoisted_6$1 = ["onClick"];
+  const _hoisted_7 = ["type", "checked"];
+  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("div", {
+      class: vue.normalizeClass(["jqplot-seriespicker", { open: _ctx.isPopupVisible }]),
+      onMouseenter: _cache[1] || (_cache[1] = ($event) => _ctx.isPopupVisible = true),
+      onMouseleave: _cache[2] || (_cache[2] = ($event) => _ctx.onLeavePopup())
+    }, [
+      vue.createElementVNode("a", {
+        href: "#",
+        onClick: _cache[0] || (_cache[0] = vue.withModifiers(() => {
+        }, ["prevent", "stop"]))
+      }, " + "),
+      _ctx.isPopupVisible ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$b, [
+        vue.createElementVNode("p", _hoisted_2$8, vue.toDisplayString(_ctx.translate(_ctx.multiselect ? "General_MetricsToPlot" : "General_MetricToPlot")), 1),
+        (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.selectableColumns, (columnConfig) => {
+          return vue.openBlock(), vue.createElementBlock("p", {
+            class: "pickColumn",
+            onClick: ($event) => _ctx.optionSelected(columnConfig.column, _ctx.columnStates),
+            key: columnConfig.column
+          }, [
+            vue.createElementVNode("label", null, [
+              vue.createElementVNode("input", {
+                class: "select",
+                type: _ctx.multiselect ? "checkbox" : "radio",
+                checked: !!_ctx.columnStates[columnConfig.column]
+              }, null, 8, _hoisted_4$3),
+              vue.createElementVNode("span", null, vue.toDisplayString(columnConfig.translation), 1)
+            ])
+          ], 8, _hoisted_3$5);
+        }), 128)),
+        _ctx.selectableRows.length ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_5$2, vue.toDisplayString(_ctx.translate("General_RecordsToPlot")), 1)) : vue.createCommentVNode("", true),
+        (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.selectableRows, (rowConfig) => {
+          return vue.openBlock(), vue.createElementBlock("p", {
+            class: "pickRow",
+            onClick: ($event) => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates),
+            key: rowConfig.matcher
+          }, [
+            vue.createElementVNode("label", null, [
+              vue.createElementVNode("input", {
+                class: "select",
+                type: _ctx.multiselect ? "checkbox" : "radio",
+                checked: !!_ctx.rowStates[rowConfig.matcher]
+              }, null, 8, _hoisted_7),
+              vue.createElementVNode("span", null, vue.toDisplayString(rowConfig.label), 1)
+            ])
+          ], 8, _hoisted_6$1);
+        }), 128))
+      ])) : vue.createCommentVNode("", true)
+    ], 34);
+  }
+  const SeriesPicker = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b]]);
+  function getInitialOptionStates(allOptions, selectedOptions) {
+    const states = {};
+    allOptions.forEach((columnConfig) => {
+      const name = columnConfig.column || columnConfig.matcher;
+      states[name] = false;
+    });
+    selectedOptions.forEach((column) => {
+      states[column] = true;
+    });
+    return states;
+  }
+  const _sfc_main$a = vue.defineComponent({
+    props: {
+      multiselect: Boolean,
+      selectableColumns: {
+        type: Array,
+        default: () => []
+      },
+      selectableRows: {
+        type: Array,
+        default: () => []
+      },
+      selectedColumns: {
+        type: Array,
+        default: () => []
+      },
+      selectedRows: {
+        type: Array,
+        default: () => []
+      }
+    },
+    data() {
+      return {
+        columnStates: getInitialOptionStates(
+          this.selectableColumns,
+          this.selectedColumns
+        ),
+        rowStates: getInitialOptionStates(
+          this.selectableRows,
+          this.selectedRows
+        )
+      };
+    },
+    emits: ["select"],
+    methods: {
+      unselectOptions(optionStates) {
+        Object.keys(optionStates).forEach((optionName) => {
+          optionStates[optionName] = false;
+        });
+      },
+      getSelected(optionStates) {
+        return Object.keys(optionStates).filter((optionName) => !!optionStates[optionName]);
+      },
+      optionSelected(optionValue, optionStates) {
+        if (!this.multiselect) {
+          this.unselectOptions(this.columnStates);
+          this.unselectOptions(this.rowStates);
+        }
+        optionStates[optionValue] = !optionStates[optionValue];
+        this.$emit("select", {
+          columns: this.getSelected(this.columnStates),
+          rows: this.getSelected(this.rowStates)
+        });
+      }
+    }
+  });
+  const _hoisted_1$a = ["role", "aria-label"];
+  const _hoisted_2$7 = ["type", "checked", "onChange", "onKeydown"];
+  const _hoisted_3$4 = { class: "metrics-picker__title" };
+  const _hoisted_4$2 = {
+    key: 0,
+    class: "metrics-picker__headline"
+  };
+  const _hoisted_5$1 = ["type", "checked", "onChange", "onKeydown"];
+  const _hoisted_6 = { class: "metrics-picker__title" };
+  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("div", {
+      class: "metrics-picker__options",
+      role: _ctx.multiselect ? "group" : "radiogroup",
+      "aria-label": _ctx.translate("General_ChooseMetrics")
+    }, [
+      (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.selectableColumns, (columnConfig) => {
+        return vue.openBlock(), vue.createElementBlock("label", {
+          class: "metrics-picker__column metrics-picker__label",
+          key: columnConfig.column
+        }, [
+          vue.createElementVNode("input", {
+            class: "filled-in",
+            type: _ctx.multiselect ? "checkbox" : "radio",
+            checked: !!_ctx.columnStates[columnConfig.column],
+            onChange: ($event) => _ctx.optionSelected(columnConfig.column, _ctx.columnStates),
+            onKeydown: vue.withKeys(vue.withModifiers(($event) => _ctx.optionSelected(columnConfig.column, _ctx.columnStates), ["prevent"]), ["enter"])
+          }, null, 40, _hoisted_2$7),
+          _cache[0] || (_cache[0] = vue.createElementVNode("span", { "aria-hidden": "true" }, null, -1)),
+          vue.createElementVNode("span", _hoisted_3$4, vue.toDisplayString(columnConfig.translation), 1)
+        ]);
+      }), 128)),
+      _ctx.selectableRows.length ? (vue.openBlock(), vue.createElementBlock("p", _hoisted_4$2, vue.toDisplayString(_ctx.translate("General_RecordsToPlot")), 1)) : vue.createCommentVNode("", true),
+      (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.selectableRows, (rowConfig) => {
+        return vue.openBlock(), vue.createElementBlock("label", {
+          class: "metrics-picker__row metrics-picker__label",
+          key: rowConfig.matcher
+        }, [
+          vue.createElementVNode("input", {
+            class: "filled-in",
+            type: _ctx.multiselect ? "checkbox" : "radio",
+            checked: !!_ctx.rowStates[rowConfig.matcher],
+            onChange: ($event) => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates),
+            onKeydown: vue.withKeys(vue.withModifiers(($event) => _ctx.optionSelected(rowConfig.matcher, _ctx.rowStates), ["prevent"]), ["enter"])
+          }, null, 40, _hoisted_5$1),
+          _cache[1] || (_cache[1] = vue.createElementVNode("span", { "aria-hidden": "true" }, null, -1)),
+          vue.createElementVNode("span", _hoisted_6, vue.toDisplayString(rowConfig.label), 1)
+        ]);
+      }), 128))
+    ], 8, _hoisted_1$a);
+  }
+  const MetricsPickerOptions = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a]]);
+  const _sfc_main$9 = vue.defineComponent({
+    props: {
+      multiselect: Boolean,
+      selectableColumns: {
+        type: Array,
+        default: () => []
+      },
+      selectableRows: {
+        type: Array,
+        default: () => []
+      },
+      selectedColumns: {
+        type: Array,
+        default: () => []
+      },
+      selectedRows: {
+        type: Array,
+        default: () => []
+      }
+    },
+    components: {
+      MetricsPickerOptions
+    },
+    directives: {
+      ExpandOnClick: CoreHome.ExpandOnClick
+    },
+    emits: ["select"],
+    methods: {
+      onSelect(selected) {
+        this.$emit("select", selected);
+        this.$refs.root.classList.remove("expanded");
+      }
+    }
+  });
+  const _hoisted_1$9 = {
+    ref: "root",
+    class: "metrics-picker"
+  };
+  const _hoisted_2$6 = {
+    ref: "expander",
+    type: "button",
+    class: "metrics-picker__toggle"
+  };
+  const _hoisted_3$3 = { class: "metrics-picker__toggle-label" };
+  const _hoisted_4$1 = { class: "metrics-picker__dropdown" };
+  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_MetricsPickerOptions = vue.resolveComponent("MetricsPickerOptions");
+    const _directive_expand_on_click = vue.resolveDirective("expand-on-click");
+    return vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_1$9, [
+      vue.createElementVNode("button", _hoisted_2$6, [
+        vue.createElementVNode("span", _hoisted_3$3, vue.toDisplayString(_ctx.translate("General_ChooseMetrics")), 1),
+        _cache[1] || (_cache[1] = vue.createElementVNode("span", { class: "icon-chevron-down metrics-picker__chevron" }, null, -1))
+      ], 512),
+      vue.createElementVNode("div", _hoisted_4$1, [
+        vue.createVNode(_component_MetricsPickerOptions, {
+          multiselect: _ctx.multiselect,
+          "selectable-columns": _ctx.selectableColumns,
+          "selectable-rows": _ctx.selectableRows,
+          "selected-columns": _ctx.selectedColumns,
+          "selected-rows": _ctx.selectedRows,
+          onSelect: _cache[0] || (_cache[0] = ($event) => _ctx.onSelect($event))
+        }, null, 8, ["multiselect", "selectable-columns", "selectable-rows", "selected-columns", "selected-rows"])
+      ])
+    ])), [
+      [_directive_expand_on_click, { expander: "expander" }]
+    ]);
+  }
+  const MetricsPicker = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9]]);
+  function getPastPeriodStr() {
+    const { startDate } = CoreHome.Range.getLastNRange(CoreHome.Matomo.period, 2, CoreHome.Matomo.currentDateString);
+    const dateRange = CoreHome.Periods.get(CoreHome.Matomo.period).parse(startDate).getDateRange();
+    return `${CoreHome.format(dateRange[0])},${CoreHome.format(dateRange[1])}`;
+  }
+  const { $ } = window;
+  const _sfc_main$8 = vue.defineComponent({
+    props: {
+      metric: {
+        type: String,
+        required: true
+      },
+      metricName: String,
+      idGoal: [String, Number],
+      metricTranslations: {
+        type: Object,
+        required: true
+      },
+      metricDocumentations: Object,
+      goals: {
+        type: Object,
+        required: true
+      },
+      goalMetrics: Array,
+      lowerIsBetterMetrics: {
+        type: Array,
+        default: () => []
+      }
+    },
+    components: {
+      Sparkline: CoreHome.Sparkline
+    },
+    setup(props) {
+      const root = vue.ref(null);
+      const isLoading = vue.ref(false);
+      const responses = vue.ref(null);
+      const actualMetric = vue.ref(props.metric);
+      const actualIdGoal = vue.ref(props.idGoal);
+      const selectedColumns = vue.computed(() => [
+        actualIdGoal.value ? `goal${actualIdGoal.value}_${actualMetric.value}` : actualMetric.value
+      ]);
+      const metricValueUnformatted = vue.computed(() => {
+        var _a;
+        if (!((_a = responses.value) == null ? void 0 : _a[1])) {
+          return null;
+        }
+        return responses.value[1][actualMetric.value] || 0;
+      });
+      const pastValueUnformatted = vue.computed(() => {
+        var _a;
+        if (!((_a = responses.value) == null ? void 0 : _a[2])) {
+          return null;
+        }
+        return responses.value[2][actualMetric.value] || 0;
+      });
+      const isLowerValueBetter = vue.computed(
+        () => props.lowerIsBetterMetrics.indexOf(actualMetric.value) !== -1
+      );
+      const evolutionClass = vue.computed(() => {
+        if (metricValueUnformatted.value === null || pastValueUnformatted.value === null || metricValueUnformatted.value === pastValueUnformatted.value) {
+          return [];
+        }
+        const increased = metricValueUnformatted.value > pastValueUnformatted.value;
+        const isPositive = isLowerValueBetter.value ? !increased : increased;
+        return [
+          increased ? "evolution-up" : "evolution-down",
+          isPositive ? "positive-evolution" : "negative-evolution"
+        ];
+      });
+      const metricChangePercent = vue.computed(() => {
+        if (metricValueUnformatted.value === null || metricValueUnformatted.value === void 0 || pastValueUnformatted.value === null || pastValueUnformatted.value === void 0) {
+          return null;
+        }
+        const currentValue = typeof metricValueUnformatted.value === "string" ? parseFloat(metricValueUnformatted.value) : metricValueUnformatted.value;
+        const pastValue2 = typeof pastValueUnformatted.value === "string" ? parseFloat(pastValueUnformatted.value) : pastValueUnformatted.value;
+        const evolution = CoreHome.Matomo.helper.calculateEvolution(currentValue, pastValue2);
+        return `${(evolution * 100).toFixed(2)} %`;
+      });
+      const pastValue = vue.computed(() => {
+        var _a;
+        if (!((_a = responses.value) == null ? void 0 : _a[3])) {
+          return null;
+        }
+        const pastDataFormatted = responses.value[3];
+        return pastDataFormatted[actualMetric.value] || 0;
+      });
+      const metricValue = vue.computed(() => {
+        var _a;
+        if (!((_a = responses.value) == null ? void 0 : _a[0])) {
+          return null;
+        }
+        const currentData = responses.value[0];
+        return currentData[actualMetric.value] || 0;
+      });
+      const metricTranslation = vue.computed(() => {
+        var _a;
+        if (!((_a = props.metricTranslations) == null ? void 0 : _a[actualMetric.value])) {
+          return "";
+        }
+        return props.metricTranslations[actualMetric.value];
+      });
+      const metricDocumentation = vue.computed(() => {
+        var _a;
+        if (!((_a = props.metricDocumentations) == null ? void 0 : _a[actualMetric.value])) {
+          return "";
+        }
+        return props.metricDocumentations[actualMetric.value];
+      });
+      const currentPeriod = vue.computed(() => {
+        if (CoreHome.Matomo.startDateString === CoreHome.Matomo.endDateString) {
+          return CoreHome.Matomo.endDateString;
+        }
+        return `${CoreHome.Matomo.startDateString}, ${CoreHome.Matomo.endDateString}`;
+      });
+      function isIdGoalSet() {
+        return actualIdGoal.value || actualIdGoal.value === 0;
+      }
+      const isMetricUnavailable = vue.computed(() => {
+        var _a, _b;
+        return (
+          // A non-goal metric missing from the period-aware metadata isn't archived for this
+          // period (e.g. unique visitors on year/range), so it's unavailable, not a real zero.
+          !!((_a = responses.value) == null ? void 0 : _a[0]) && !isIdGoalSet() && !((_b = props.metricTranslations) == null ? void 0 : _b[actualMetric.value])
+        );
+      });
+      const sparklineParams = vue.computed(() => {
+        const params = {
+          module: "API",
+          action: "get",
+          columns: actualMetric.value
+        };
+        if (isIdGoalSet()) {
+          params.idGoal = actualIdGoal.value;
+          params.module = "Goals";
+        }
+        return params;
+      });
+      const pastPeriod = vue.computed(() => {
+        if (CoreHome.Matomo.period === "range") {
+          return void 0;
+        }
+        return getPastPeriodStr();
+      });
+      const selectableColumns = vue.computed(() => {
+        const result = [];
+        Object.keys(props.metricTranslations).forEach((column) => {
           result.push({
-            column: `goal${goal.idgoal}_${column}`,
-            translation: `${goal.name} - ${props.metricTranslations[column]}`
+            column,
+            translation: props.metricTranslations[column]
           });
         });
-      });
-      return result;
-    });
-    function setWidgetTitle() {
-      // fall back to the backend-supplied metric name so the title stays correct even when the
-      // metric is not advertised in the period-aware metadata (see isMetricUnavailable)
-      let title = metricTranslation.value || props.metricName || '';
-      // never blank out the widget title (the default "KPI Metric" name is kept instead)
-      if (!title) {
-        return;
-      }
-      if (isIdGoalSet()) {
-        var _props$goals$actualId;
-        const goalName = ((_props$goals$actualId = props.goals[actualIdGoal.value]) === null || _props$goals$actualId === void 0 ? void 0 : _props$goals$actualId.name) || Object(external_CoreHome_["translate"])('General_Unknown');
-        title = `${goalName} - ${title}`;
-      }
-      $(root.value).closest('div.widget').find('.widgetTop > .widgetName > span').text(title);
-    }
-    function getLastPeriodDate() {
-      const range = external_CoreHome_["Range"].getLastNRange(external_CoreHome_["Matomo"].period, 2, external_CoreHome_["Matomo"].currentDateString);
-      return Object(external_CoreHome_["format"])(range.startDate);
-    }
-    function fetchData() {
-      isLoading.value = true;
-      const promises = [];
-      let apiModule = 'API';
-      let apiAction = 'get';
-      const extraParams = {};
-      if (isIdGoalSet()) {
-        // the conversion rate added by the AddColumnsProcessedMetrics filter conflicts w/
-        // the goals one, so don't run it
-        extraParams.idGoal = actualIdGoal.value;
-        extraParams.filter_add_columns_when_show_all_columns = 0;
-        apiModule = 'Goals';
-        apiAction = 'get';
-      }
-      const method = `${apiModule}.${apiAction}`;
-      // first request for formatted data
-      promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
-        method,
-        format_metrics: 'all'
-      }, extraParams)));
-      if (external_CoreHome_["Matomo"].period !== 'range') {
-        // second request for unformatted data so we can calculate evolution
-        promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
-          method,
-          format_metrics: '0'
-        }, extraParams)));
-        // third request for past data (unformatted)
-        promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
-          method,
-          date: getLastPeriodDate(),
-          format_metrics: '0'
-        }, extraParams)));
-        // fourth request for past data (formatted for tooltip display)
-        promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
-          method,
-          date: getLastPeriodDate(),
-          format_metrics: 'all'
-        }, extraParams)));
-      }
-      return Promise.all(promises).then(r => {
-        responses.value = r;
-        isLoading.value = false;
-      });
-    }
-    function onMetricChanged(newMetric) {
-      actualMetric.value = newMetric;
-      fetchData().then(setWidgetTitle); // notify widget of parameter change so it is replaced
-      $(root.value).closest('[widgetId]').trigger('setParameters', {
-        column: actualMetric.value,
-        idGoal: actualIdGoal.value
-      });
-    }
-    function setMetric(newColumn) {
-      let idGoal = undefined;
-      let actualColumn = newColumn;
-      const m = newColumn.match(/^goal([0-9]+)_(.*)/);
-      if (m) {
-        idGoal = +m[1];
-        [,, actualColumn] = m;
-      }
-      if (actualMetric.value !== actualColumn || idGoal !== actualIdGoal.value) {
-        actualMetric.value = actualColumn;
-        actualIdGoal.value = idGoal;
-        onMetricChanged(actualColumn);
-      }
-    }
-    function createSeriesPicker() {
-      const element = $(root.value);
-      const $widgetName = element.closest('div.widget').find('.widgetTop > .widgetName');
-      const $seriesPickerElem = $('<div class="single-metric-view-picker"><div></div></div>');
-      const app = Object(external_CoreHome_["createVueApp"])({
-        render: () => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(SeriesPicker, {
-          multiselect: false,
-          selectableColumns: selectableColumns.value,
-          selectableRows: [],
-          selectedColumns: selectedColumns.value,
-          selectedRows: [],
-          onSelect: ({
-            columns
-          }) => {
-            setMetric(columns[0]);
-          }
-        })
-      });
-      $widgetName.append($seriesPickerElem);
-      app.mount($seriesPickerElem.children()[0]);
-      return app;
-    }
-    let seriesPickerApp;
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(() => {
-      seriesPickerApp = createSeriesPicker();
-    });
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onBeforeUnmount"])(() => {
-      $(root.value).closest('.widgetContent').off('widget:destroy').off('widget:reload');
-      $(root.value).closest('div.widget').find('.single-metric-view-picker').remove();
-      seriesPickerApp.unmount();
-    });
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => props.metric, () => {
-      onMetricChanged(props.metric);
-    });
-    onMetricChanged(props.metric);
-    return {
-      root,
-      metricValue,
-      isMetricUnavailable,
-      isLoading,
-      selectedColumns,
-      responses,
-      metricValueUnformatted,
-      pastValueUnformatted,
-      evolutionClass,
-      metricChangePercent,
-      pastValue,
-      metricTranslation,
-      metricDocumentation,
-      sparklineParams,
-      pastPeriod,
-      selectableColumns,
-      currentPeriod
-    };
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue
-
-
-
-SingleMetricViewvue_type_script_lang_ts.render = SingleMetricViewvue_type_template_id_609ec804_render
-
-/* harmony default export */ var SingleMetricView = (SingleMetricViewvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=708ec4a6
-
-const SparklinesGridvue_type_template_id_708ec4a6_hoisted_1 = {
-  class: "row sparklinesGrid"
-};
-function SparklinesGridvue_type_template_id_708ec4a6_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_SparklineCard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SparklineCard");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklinesGridvue_type_template_id_708ec4a6_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.flatSparklines, (sparkline, index) => {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-      key: index,
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.columnClasses)
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SparklineCard, {
-      sparkline: sparkline,
-      "are-sparklines-linkable": _ctx.areSparklinesLinkable,
-      "all-metrics-documentation": _ctx.allMetricsDocumentation
-    }, null, 8, ["sparkline", "are-sparklines-linkable", "all-metrics-documentation"])], 2);
-  }), 128))]);
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=template&id=708ec4a6
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=4bca8c84
-
-const SparklineCardvue_type_template_id_4bca8c84_hoisted_1 = ["data-graph-params", "data-series-indices"];
-const SparklineCardvue_type_template_id_4bca8c84_hoisted_2 = {
-  key: 0,
-  class: "sparklineCard__title"
-};
-function SparklineCardvue_type_template_id_4bca8c84_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_NoComparison = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("NoComparison");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["sparkline sparklineCard", {
-      notLinkable: !_ctx.areSparklinesLinkable
-    }]),
-    "data-graph-params": _ctx.graphParamsAttr,
-    "data-series-indices": _ctx.seriesIndicesAttr
-  }, [_ctx.sparkline.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SparklineCardvue_type_template_id_4bca8c84_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.sparkline.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_NoComparison, {
-    sparkline: _ctx.sparkline,
-    "all-metrics-documentation": _ctx.allMetricsDocumentation
-  }, null, 8, ["sparkline", "all-metrics-documentation"])], 10, SparklineCardvue_type_template_id_4bca8c84_hoisted_1);
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=template&id=4bca8c84
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=240ad3ea
-
-const NoComparisonvue_type_template_id_240ad3ea_hoisted_1 = {
-  class: "noComparison"
-};
-const NoComparisonvue_type_template_id_240ad3ea_hoisted_2 = {
-  class: "sparklineSlot"
-};
-function NoComparisonvue_type_template_id_240ad3ea_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_EvolutionBadge = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EvolutionBadge");
-  const _component_MetricValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MetricValue");
-  const _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NoComparisonvue_type_template_id_240ad3ea_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MetricValue, {
-    title: _ctx.title,
-    value: _ctx.primaryValue,
-    "secondary-value": _ctx.secondaryValue,
-    "secondary-label": _ctx.secondaryLabel,
-    documentation: _ctx.documentation
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createSlots"])({
-    _: 2
-  }, [_ctx.sparkline.evolution ? {
-    name: "evolution",
-    fn: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EvolutionBadge, {
-      percent: _ctx.sparkline.evolution.percent,
-      trend: _ctx.sparkline.evolution.trend,
-      "is-lower-value-better": _ctx.sparkline.evolution.isLowerValueBetter,
-      tooltip: _ctx.sparkline.evolution.tooltip || ''
-    }, null, 8, ["percent", "trend", "is-lower-value-better", "tooltip"])]),
-    key: "0"
-  } : undefined]), 1032, ["title", "value", "secondary-value", "secondary-label", "documentation"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", NoComparisonvue_type_template_id_240ad3ea_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {
-    width: 380,
-    height: 40,
-    params: _ctx.sparkline.url,
-    "series-indices": _ctx.sparkline.seriesIndices
-  }, null, 8, ["params", "series-indices"])])]);
-}
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=template&id=240ad3ea
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=script&lang=ts
-
-
-
-
-/**
- * No-comparison body for a sparkline card. Composes the MetricValue + EvolutionBadge
- * atoms and the reused Sparkline. In no-comparison mode the metrics live under the ''
- * group key: the first is the primary value, an optional second is the "unique" line.
- */
-/* harmony default export */ var NoComparisonvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  name: 'NoComparison',
-  components: {
-    MetricValue: MetricValue,
-    EvolutionBadge: EvolutionBadge,
-    Sparkline: external_CoreHome_["Sparkline"]
-  },
-  props: {
-    sparkline: {
-      type: Object,
-      required: true
-    },
-    // Backend map of metric column -> documentation string (from Sparklines.php).
-    allMetricsDocumentation: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  setup(props) {
-    const primaryMetric = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _props$sparkline$metr;
-      return (_props$sparkline$metr = props.sparkline.metrics) === null || _props$sparkline$metr === void 0 || (_props$sparkline$metr = _props$sparkline$metr['']) === null || _props$sparkline$metr === void 0 ? void 0 : _props$sparkline$metr[0];
-    });
-    // Optional secondary metric (eg "9,527 unique"), shown only when the report adds a
-    // second metric to the same sparkline. MetricValue hides the line when it is absent.
-    const secondaryMetric = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _props$sparkline$metr2;
-      return (_props$sparkline$metr2 = props.sparkline.metrics) === null || _props$sparkline$metr2 === void 0 || (_props$sparkline$metr2 = _props$sparkline$metr2['']) === null || _props$sparkline$metr2 === void 0 ? void 0 : _props$sparkline$metr2[1];
-    });
-    // Prefer the metric's column name (eg "Bounce Rate"), falling back to the label.
-    const title = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _primaryMetric$value, _primaryMetric$value2;
-      return ((_primaryMetric$value = primaryMetric.value) === null || _primaryMetric$value === void 0 ? void 0 : _primaryMetric$value.title) || ((_primaryMetric$value2 = primaryMetric.value) === null || _primaryMetric$value2 === void 0 ? void 0 : _primaryMetric$value2.description) || '';
-    });
-    // Documentation for the primary metric, looked up by its column. Empty for sparklines added
-    // without a column (column === '') or metrics with no registered documentation.
-    const documentation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _primaryMetric$value$, _primaryMetric$value3;
-      return props.allMetricsDocumentation[(_primaryMetric$value$ = (_primaryMetric$value3 = primaryMetric.value) === null || _primaryMetric$value3 === void 0 ? void 0 : _primaryMetric$value3.column) !== null && _primaryMetric$value$ !== void 0 ? _primaryMetric$value$ : ''] || undefined;
-    });
-    // Format raw numbers (plain metrics) but leave already-formatted strings (eg "50%") untouched.
-    const formatValue = value => typeof value === 'number' ? external_CoreHome_["NumberFormatter"].formatNumber(value, 2) : value;
-    const primaryValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _formatValue, _primaryMetric$value4;
-      return (_formatValue = formatValue((_primaryMetric$value4 = primaryMetric.value) === null || _primaryMetric$value4 === void 0 ? void 0 : _primaryMetric$value4.value)) !== null && _formatValue !== void 0 ? _formatValue : '';
-    });
-    const secondaryValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _secondaryMetric$valu;
-      return formatValue((_secondaryMetric$valu = secondaryMetric.value) === null || _secondaryMetric$valu === void 0 ? void 0 : _secondaryMetric$valu.value);
-    });
-    const secondaryLabel = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      var _secondaryMetric$valu2;
-      return (_secondaryMetric$valu2 = secondaryMetric.value) === null || _secondaryMetric$valu2 === void 0 ? void 0 : _secondaryMetric$valu2.description;
-    });
-    return {
-      title,
-      documentation,
-      primaryValue,
-      secondaryValue,
-      secondaryLabel
-    };
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/NoComparison.vue
-
-
-
-NoComparisonvue_type_script_lang_ts.render = NoComparisonvue_type_template_id_240ad3ea_render
-
-/* harmony default export */ var NoComparison = (NoComparisonvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=script&lang=ts
-
-
-
-/**
- * Card shell: the frame around a sparkline body. Owns the legacy `.sparkline` wrapper and
- * its evolution-graph data attributes; delegates the content to a body component. Only the
- * no-comparison body exists today; Phase 3 adds the comparison body behind the same shell.
- */
-/* harmony default export */ var SparklineCardvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  name: 'SparklineCard',
-  components: {
-    NoComparison: NoComparison
-  },
-  props: {
-    sparkline: {
-      type: Object,
-      required: true
-    },
-    areSparklinesLinkable: {
-      type: Boolean,
-      default: true
-    },
-    // Backend map of metric column -> documentation string, forwarded to the body component.
-    allMetricsDocumentation: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  setup(props) {
-    // The legacy click-to-evolution wiring (window.initializeSparklines) reads these
-    // attributes off the .sparkline wrapper, so only emit them when populated.
-    const graphParamsAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      const {
-        graphParams,
-        url
-      } = props.sparkline;
-      // Prefer explicit backend graphParams (set for comparison/segment sparklines).
-      if (graphParams && Object.keys(graphParams).length) {
-        return JSON.stringify(graphParams);
-      }
-      // Otherwise derive the evolution-graph reload params from the sparkline url. The reused
-      // CoreHome Sparkline renders the image with `src` (no `data-src`), so the click handler's
-      // own url fallback (sparkline.js) can't read the columns off the img — we supply them here
-      // so data-graph-params is always populated. Mirrors the columns/rows/idGoal the legacy
-      // fallback would have parsed.
-      if (url) {
-        const parsed = external_CoreHome_["MatomoUrl"].parse(url.substring(url.indexOf('?') + 1));
-        const derived = {};
-        ['columns', 'rows', 'idGoal'].forEach(key => {
-          if (parsed[key]) {
-            derived[key] = parsed[key];
-          }
+        Object.values(props.goals || {}).forEach((goal) => {
+          props.goalMetrics.forEach((column) => {
+            result.push({
+              column: `goal${goal.idgoal}_${column}`,
+              translation: `${goal.name} - ${props.metricTranslations[column]}`
+            });
+          });
         });
-        if (Object.keys(derived).length) {
-          return JSON.stringify(derived);
+        return result;
+      });
+      function setWidgetTitle() {
+        var _a;
+        let title = metricTranslation.value || props.metricName || "";
+        if (!title) {
+          return;
+        }
+        if (isIdGoalSet()) {
+          const goalName = ((_a = props.goals[actualIdGoal.value]) == null ? void 0 : _a.name) || CoreHome.translate("General_Unknown");
+          title = `${goalName} - ${title}`;
+        }
+        $(root.value).closest("div.widget").find(".widgetTop > .widgetName > span").text(title);
+      }
+      function getLastPeriodDate() {
+        const range = CoreHome.Range.getLastNRange(CoreHome.Matomo.period, 2, CoreHome.Matomo.currentDateString);
+        return CoreHome.format(range.startDate);
+      }
+      function fetchData() {
+        isLoading.value = true;
+        const promises = [];
+        let apiModule = "API";
+        let apiAction = "get";
+        const extraParams = {};
+        if (isIdGoalSet()) {
+          extraParams.idGoal = actualIdGoal.value;
+          extraParams.filter_add_columns_when_show_all_columns = 0;
+          apiModule = "Goals";
+          apiAction = "get";
+        }
+        const method = `${apiModule}.${apiAction}`;
+        promises.push(CoreHome.AjaxHelper.fetch(__spreadValues({
+          method,
+          format_metrics: "all"
+        }, extraParams)));
+        if (CoreHome.Matomo.period !== "range") {
+          promises.push(CoreHome.AjaxHelper.fetch(__spreadValues({
+            method,
+            format_metrics: "0"
+          }, extraParams)));
+          promises.push(CoreHome.AjaxHelper.fetch(__spreadValues({
+            method,
+            date: getLastPeriodDate(),
+            format_metrics: "0"
+          }, extraParams)));
+          promises.push(CoreHome.AjaxHelper.fetch(__spreadValues({
+            method,
+            date: getLastPeriodDate(),
+            format_metrics: "all"
+          }, extraParams)));
+        }
+        return Promise.all(promises).then((r) => {
+          responses.value = r;
+          isLoading.value = false;
+        });
+      }
+      function onMetricChanged(newMetric) {
+        actualMetric.value = newMetric;
+        fetchData().then(setWidgetTitle);
+        $(root.value).closest("[widgetId]").trigger("setParameters", {
+          column: actualMetric.value,
+          idGoal: actualIdGoal.value
+        });
+      }
+      function setMetric(newColumn) {
+        let idGoal = void 0;
+        let actualColumn = newColumn;
+        const m = newColumn.match(/^goal([0-9]+)_(.*)/);
+        if (m) {
+          idGoal = +m[1];
+          [, , actualColumn] = m;
+        }
+        if (actualMetric.value !== actualColumn || idGoal !== actualIdGoal.value) {
+          actualMetric.value = actualColumn;
+          actualIdGoal.value = idGoal;
+          onMetricChanged(actualColumn);
         }
       }
-      return null;
-    });
-    const seriesIndicesAttr = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => {
-      const {
-        seriesIndices
-      } = props.sparkline;
-      return seriesIndices && seriesIndices.length ? JSON.stringify(seriesIndices) : null;
-    });
-    return {
-      graphParamsAttr,
-      seriesIndicesAttr
-    };
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/Sparklines/SparklineCard.vue
-
-
-
-SparklineCardvue_type_script_lang_ts.render = SparklineCardvue_type_template_id_4bca8c84_render
-
-/* harmony default export */ var SparklineCard = (SparklineCardvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=script&lang=ts
-
-
-/* harmony default export */ var SparklinesGridvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  name: 'SparklinesGrid',
-  components: {
-    SparklineCard: SparklineCard
-  },
-  props: {
-    sparklines: {
-      type: Object,
-      required: true
-    },
-    areSparklinesLinkable: {
-      type: Boolean,
-      default: true
-    },
-    // Backend map of metric column -> documentation string, forwarded to each card for the
-    // metric-title tooltip.
-    allMetricsDocumentation: {
-      type: Object,
-      default: () => ({})
-    },
-    isWidget: {
-      type: Boolean,
-      default: false
-    }
-  },
-  setup(props) {
-    // `order` is the backend's source of truth for display order: a total order across
-    // all cards (even comparison metrics/segments). Flatten every group and sort by it.
-    // Drop placeholders (Config::addPlaceholder()): no url, they only padded the legacy
-    // 2-column layout and would render as empty cards here.
-    const flatSparklines = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => [].concat(...Object.values(props.sparklines || {})).filter(sparkline => !!sparkline.url).sort((a, b) => a.order - b.order));
-    // Widgets show two columns; reporting pages use a responsive grid (2/3/4/5 cols).
-    // Keep xl3 so SparklinesGrid.less can widen it to 5 cols above 1920px.
-    const columnClasses = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => props.isWidget ? 'col s6' : 'col s6 m6 l4 xl3');
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(() => {
-      // Re-wire each sparkline to its evolution graph once the cards are in the DOM.
-      // Safe to re-run (it unbinds first); CoreHome ships sparkline.js in the global JS bundle.
-      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(() => {
-        window.initializeSparklines();
+      function createSeriesPicker() {
+        const element = $(root.value);
+        const $widgetName = element.closest("div.widget").find(".widgetTop > .widgetName");
+        const $seriesPickerElem = $('<div class="single-metric-view-picker"><div></div></div>');
+        const app = CoreHome.createVueApp({
+          render: () => vue.createVNode(SeriesPicker, {
+            multiselect: false,
+            selectableColumns: selectableColumns.value,
+            selectableRows: [],
+            selectedColumns: selectedColumns.value,
+            selectedRows: [],
+            onSelect: ({ columns }) => {
+              setMetric(columns[0]);
+            }
+          })
+        });
+        $widgetName.append($seriesPickerElem);
+        app.mount($seriesPickerElem.children()[0]);
+        return app;
+      }
+      let seriesPickerApp;
+      vue.onMounted(() => {
+        seriesPickerApp = createSeriesPicker();
       });
-    });
-    return {
-      flatSparklines,
-      columnClasses
-    };
+      vue.onBeforeUnmount(() => {
+        $(root.value).closest(".widgetContent").off("widget:destroy").off("widget:reload");
+        $(root.value).closest("div.widget").find(".single-metric-view-picker").remove();
+        seriesPickerApp.unmount();
+      });
+      vue.watch(() => props.metric, () => {
+        onMetricChanged(props.metric);
+      });
+      onMetricChanged(props.metric);
+      return {
+        root,
+        metricValue,
+        isMetricUnavailable,
+        isLoading,
+        selectedColumns,
+        responses,
+        metricValueUnformatted,
+        pastValueUnformatted,
+        evolutionClass,
+        metricChangePercent,
+        pastValue,
+        metricTranslation,
+        metricDocumentation,
+        sparklineParams,
+        pastPeriod,
+        selectableColumns,
+        currentPeriod
+      };
+    }
+  });
+  const _hoisted_1$8 = {
+    key: 0,
+    class: "metric-unavailable"
+  };
+  const _hoisted_2$5 = { class: "metric-sparkline" };
+  const _hoisted_3$2 = { class: "metric-value" };
+  const _hoisted_4 = ["title"];
+  const _hoisted_5 = ["title"];
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a, _b, _c, _d, _e;
+    const _component_Sparkline = vue.resolveComponent("Sparkline");
+    return vue.openBlock(), vue.createElementBlock("div", {
+      class: vue.normalizeClass(["singleMetricView", { "loading": _ctx.isLoading }]),
+      ref: "root"
+    }, [
+      _ctx.isMetricUnavailable ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$8, vue.toDisplayString(_ctx.translate("General_MetricNotAvailableForThisPeriod")), 1)) : (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
+        vue.createElementVNode("div", _hoisted_2$5, [
+          vue.createVNode(_component_Sparkline, { params: _ctx.sparklineParams }, null, 8, ["params"])
+        ]),
+        vue.createElementVNode("div", _hoisted_3$2, [
+          vue.createElementVNode("span", { title: _ctx.metricDocumentation }, [
+            vue.createElementVNode("strong", null, vue.toDisplayString(_ctx.metricValue), 1),
+            vue.createTextVNode(" " + vue.toDisplayString((_ctx.metricTranslation || "").toLowerCase()), 1)
+          ], 8, _hoisted_4),
+          _ctx.pastValue !== null ? (vue.openBlock(), vue.createElementBlock("span", {
+            key: 0,
+            class: "metricEvolution",
+            title: _ctx.translate(
+              "General_EvolutionSummaryGeneric",
+              (_a = _ctx.metricValue) != null ? _a : "",
+              (_b = _ctx.currentPeriod) != null ? _b : "",
+              (_c = _ctx.pastValue) != null ? _c : "",
+              (_d = _ctx.pastPeriod) != null ? _d : "",
+              (_e = _ctx.metricChangePercent) != null ? _e : ""
+            )
+          }, [
+            vue.createElementVNode("span", {
+              class: vue.normalizeClass(_ctx.evolutionClass)
+            }, vue.toDisplayString(_ctx.metricChangePercent), 3)
+          ], 8, _hoisted_5)) : vue.createCommentVNode("", true)
+        ])
+      ], 64))
+    ], 2);
   }
+  const SingleMetricView = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);
+  const _sfc_main$7 = vue.defineComponent({
+    name: "NoComparison",
+    components: {
+      MetricValue,
+      EvolutionBadge
+    },
+    props: {
+      sparkline: {
+        type: Object,
+        required: true
+      },
+      // Backend map of metric column -> documentation string (from Sparklines.php).
+      allMetricsDocumentation: {
+        type: Object,
+        default: () => ({})
+      }
+    },
+    setup(props) {
+      const primaryMetric = vue.computed(
+        () => {
+          var _a, _b;
+          return (_b = (_a = props.sparkline.metrics) == null ? void 0 : _a[""]) == null ? void 0 : _b[0];
+        }
+      );
+      const secondaryMetric = vue.computed(
+        () => {
+          var _a, _b;
+          return (_b = (_a = props.sparkline.metrics) == null ? void 0 : _a[""]) == null ? void 0 : _b[1];
+        }
+      );
+      const title = vue.computed(
+        () => {
+          var _a, _b;
+          return ((_a = primaryMetric.value) == null ? void 0 : _a.title) || ((_b = primaryMetric.value) == null ? void 0 : _b.description) || "";
+        }
+      );
+      const documentation = vue.computed(
+        () => {
+          var _a, _b;
+          return props.allMetricsDocumentation[(_b = (_a = primaryMetric.value) == null ? void 0 : _a.column) != null ? _b : ""] || void 0;
+        }
+      );
+      const primaryValue = vue.computed(() => {
+        var _a, _b;
+        return (_b = (_a = primaryMetric.value) == null ? void 0 : _a.value) != null ? _b : "";
+      });
+      const secondaryValue = vue.computed(() => {
+        var _a;
+        return (_a = secondaryMetric.value) == null ? void 0 : _a.value;
+      });
+      const secondaryLabel = vue.computed(() => {
+        var _a;
+        return (_a = secondaryMetric.value) == null ? void 0 : _a.description;
+      });
+      return {
+        title,
+        documentation,
+        primaryValue,
+        secondaryValue,
+        secondaryLabel
+      };
+    }
+  });
+  const _hoisted_1$7 = { class: "sparklineNoComparison" };
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_EvolutionBadge = vue.resolveComponent("EvolutionBadge");
+    const _component_MetricValue = vue.resolveComponent("MetricValue");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$7, [
+      vue.createVNode(_component_MetricValue, {
+        class: "metricValue--fixedHeight",
+        title: _ctx.title,
+        value: _ctx.primaryValue,
+        "secondary-value": _ctx.secondaryValue,
+        "secondary-label": _ctx.secondaryLabel,
+        documentation: _ctx.documentation
+      }, vue.createSlots({ _: 2 }, [
+        _ctx.sparkline.evolution ? {
+          name: "evolution",
+          fn: vue.withCtx(() => [
+            vue.createVNode(_component_EvolutionBadge, {
+              percent: _ctx.sparkline.evolution.percent,
+              trend: _ctx.sparkline.evolution.trend,
+              "is-lower-value-better": _ctx.sparkline.evolution.isLowerValueBetter,
+              tooltip: _ctx.sparkline.evolution.tooltip || ""
+            }, null, 8, ["percent", "trend", "is-lower-value-better", "tooltip"])
+          ]),
+          key: "0"
+        } : void 0
+      ]), 1032, ["title", "value", "secondary-value", "secondary-label", "documentation"])
+    ]);
+  }
+  const NoComparison = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
+  const _sfc_main$6 = vue.defineComponent({
+    name: "DateAtom",
+    props: {
+      label: {
+        type: String,
+        required: true
+      }
+    }
+  });
+  const _hoisted_1$6 = ["title"];
+  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("div", {
+      class: "dateAtom",
+      title: _ctx.label
+    }, vue.toDisplayString(_ctx.label), 9, _hoisted_1$6);
+  }
+  const DateAtom = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
+  const _sfc_main$5 = vue.defineComponent({
+    name: "PeriodColumns",
+    components: {
+      DateAtom,
+      MetricValue,
+      EvolutionBadge
+    },
+    props: {
+      entry: {
+        type: Object,
+        required: true
+      }
+    },
+    setup(props) {
+      const periods = vue.computed(() => {
+        const metrics = props.entry.metrics || {};
+        const order = props.entry.metricsOrder || [];
+        return order.map((label) => {
+          var _a;
+          const groupMetrics = metrics[label] || [];
+          const primary = groupMetrics[0];
+          const secondary = groupMetrics[1];
+          return {
+            label,
+            primaryValue: (_a = primary == null ? void 0 : primary.value) != null ? _a : "",
+            evolution: primary == null ? void 0 : primary.evolution,
+            secondaryValue: secondary == null ? void 0 : secondary.value,
+            secondaryLabel: secondary == null ? void 0 : secondary.description
+          };
+        });
+      });
+      const showLabels = vue.computed(() => periods.value.length > 1);
+      return {
+        periods,
+        showLabels
+      };
+    }
+  });
+  const _hoisted_1$5 = { class: "periodColumns" };
+  const _hoisted_2$4 = {
+    key: 0,
+    class: "periodColumns__separator"
+  };
+  const _hoisted_3$1 = { class: "periodColumns__column" };
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_DateAtom = vue.resolveComponent("DateAtom");
+    const _component_EvolutionBadge = vue.resolveComponent("EvolutionBadge");
+    const _component_MetricValue = vue.resolveComponent("MetricValue");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$5, [
+      (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.periods, (period, index) => {
+        return vue.openBlock(), vue.createElementBlock(vue.Fragment, {
+          key: period.label
+        }, [
+          index > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$4)) : vue.createCommentVNode("", true),
+          vue.createElementVNode("div", _hoisted_3$1, [
+            _ctx.showLabels ? (vue.openBlock(), vue.createBlock(_component_DateAtom, {
+              key: 0,
+              label: period.label
+            }, null, 8, ["label"])) : vue.createCommentVNode("", true),
+            vue.createVNode(_component_MetricValue, {
+              class: "metricValue--noTitle",
+              value: period.primaryValue,
+              "secondary-value": period.secondaryValue,
+              "secondary-label": period.secondaryLabel
+            }, vue.createSlots({ _: 2 }, [
+              period.evolution ? {
+                name: "evolution",
+                fn: vue.withCtx(() => [
+                  vue.createVNode(_component_EvolutionBadge, {
+                    percent: period.evolution.percent,
+                    trend: period.evolution.trend,
+                    "is-lower-value-better": period.evolution.isLowerValueBetter,
+                    tooltip: period.evolution.tooltip || ""
+                  }, null, 8, ["percent", "trend", "is-lower-value-better", "tooltip"])
+                ]),
+                key: "0"
+              } : void 0
+            ]), 1032, ["value", "secondary-value", "secondary-label"])
+          ])
+        ], 64);
+      }), 128))
+    ]);
+  }
+  const PeriodColumns = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
+  const _sfc_main$4 = vue.defineComponent({
+    name: "DateComparison",
+    components: {
+      PeriodColumns
+    },
+    props: {
+      sparkline: {
+        type: Object,
+        required: true
+      }
+    },
+    setup(props) {
+      const metricTitle = vue.computed(() => {
+        var _a, _b;
+        const metrics = props.sparkline.metrics || {};
+        const firstLabel = (_a = (props.sparkline.metricsOrder || [])[0]) != null ? _a : Object.keys(metrics)[0];
+        const primary = firstLabel !== void 0 ? (_b = metrics[firstLabel]) == null ? void 0 : _b[0] : void 0;
+        return (primary == null ? void 0 : primary.title) || (primary == null ? void 0 : primary.description) || "";
+      });
+      return {
+        metricTitle
+      };
+    }
+  });
+  const _hoisted_1$4 = { class: "sparklineDateComparison" };
+  const _hoisted_2$3 = ["title"];
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_PeriodColumns = vue.resolveComponent("PeriodColumns");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$4, [
+      vue.createElementVNode("div", {
+        class: "sparklineDateComparison__title",
+        title: _ctx.metricTitle
+      }, vue.toDisplayString(_ctx.metricTitle), 9, _hoisted_2$3),
+      vue.createVNode(_component_PeriodColumns, { entry: _ctx.sparkline }, null, 8, ["entry"])
+    ]);
+  }
+  const DateComparison = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
+  /*!
+   * Matomo - free/libre analytics platform
+   *
+   * @link    https://matomo.org
+   * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+   */
+  function sparklineGraphParamsAttr(entry) {
+    const { graphParams, url } = entry;
+    if (graphParams && Object.keys(graphParams).length) {
+      return JSON.stringify(graphParams);
+    }
+    if (url) {
+      const parsed = CoreHome.MatomoUrl.parse(url.substring(url.indexOf("?") + 1));
+      const derived = {};
+      ["columns", "rows", "idGoal"].forEach((key) => {
+        if (parsed[key]) {
+          derived[key] = parsed[key];
+        }
+      });
+      if (Object.keys(derived).length) {
+        return JSON.stringify(derived);
+      }
+    }
+    return null;
+  }
+  function sparklineSeriesIndicesAttr(entry) {
+    const { seriesIndices } = entry;
+    return seriesIndices && seriesIndices.length ? JSON.stringify(seriesIndices) : null;
+  }
+  const _sfc_main$3 = vue.defineComponent({
+    name: "SparklineCard",
+    components: {
+      NoComparison,
+      DateComparison,
+      Sparkline: CoreHome.Sparkline
+    },
+    props: {
+      sparkline: {
+        type: Object,
+        required: true
+      },
+      areSparklinesLinkable: {
+        type: Boolean,
+        default: true
+      },
+      // Backend map of metric column -> documentation string, forwarded to the body component.
+      allMetricsDocumentation: {
+        type: Object,
+        default: () => ({})
+      }
+    },
+    setup(props) {
+      const isComparison = vue.computed(() => {
+        var _a;
+        return !!((_a = props.sparkline.seriesIndices) == null ? void 0 : _a.length);
+      });
+      const graphParamsAttr = vue.computed(() => sparklineGraphParamsAttr(props.sparkline));
+      const seriesIndicesAttr = vue.computed(() => sparklineSeriesIndicesAttr(props.sparkline));
+      const sparklineWidth = vue.computed(() => isComparison.value ? 760 : 380);
+      return {
+        isComparison,
+        graphParamsAttr,
+        seriesIndicesAttr,
+        sparklineWidth
+      };
+    }
+  });
+  const _hoisted_1$3 = ["data-graph-params", "data-series-indices"];
+  const _hoisted_2$2 = {
+    key: 0,
+    class: "sparklineCard__title"
+  };
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a;
+    const _component_DateComparison = vue.resolveComponent("DateComparison");
+    const _component_NoComparison = vue.resolveComponent("NoComparison");
+    const _component_Sparkline = vue.resolveComponent("Sparkline");
+    return vue.openBlock(), vue.createElementBlock("div", {
+      class: vue.normalizeClass(["sparkline sparklineCard", { notLinkable: !_ctx.areSparklinesLinkable }]),
+      "data-graph-params": _ctx.graphParamsAttr,
+      "data-series-indices": _ctx.seriesIndicesAttr
+    }, [
+      _ctx.sparkline.title ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$2, vue.toDisplayString(_ctx.sparkline.title), 1)) : vue.createCommentVNode("", true),
+      _ctx.isComparison ? (vue.openBlock(), vue.createBlock(_component_DateComparison, {
+        key: 1,
+        sparkline: _ctx.sparkline
+      }, null, 8, ["sparkline"])) : (vue.openBlock(), vue.createBlock(_component_NoComparison, {
+        key: 2,
+        sparkline: _ctx.sparkline,
+        "all-metrics-documentation": _ctx.allMetricsDocumentation
+      }, null, 8, ["sparkline", "all-metrics-documentation"])),
+      vue.createElementVNode("div", {
+        class: vue.normalizeClass(["sparklineCard__sparkline", { "sparklineCard__sparkline--wide": _ctx.isComparison }])
+      }, [
+        vue.createVNode(_component_Sparkline, {
+          width: _ctx.sparklineWidth,
+          height: 40,
+          params: _ctx.sparkline.url,
+          "series-indices": (_a = _ctx.sparkline.seriesIndices) != null ? _a : void 0
+        }, null, 8, ["width", "params", "series-indices"])
+      ], 2)
+    ], 10, _hoisted_1$3);
+  }
+  const SparklineCard = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
+  const _sfc_main$2 = vue.defineComponent({
+    name: "SegmentComparisonRow",
+    components: {
+      PeriodColumns,
+      Sparkline: CoreHome.Sparkline
+    },
+    props: {
+      segment: {
+        type: Object,
+        required: true
+      }
+    },
+    setup(props) {
+      const segmentLabel = vue.computed(() => props.segment.title || "");
+      const isMultiPeriod = vue.computed(() => (props.segment.metricsOrder || []).length > 1);
+      const sparklineWidth = vue.computed(() => isMultiPeriod.value ? 760 : 380);
+      return {
+        segmentLabel,
+        isMultiPeriod,
+        sparklineWidth
+      };
+    }
+  });
+  const _hoisted_1$2 = { class: "sparklineSegmentComparisonRow" };
+  const _hoisted_2$1 = ["title"];
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a;
+    const _component_PeriodColumns = vue.resolveComponent("PeriodColumns");
+    const _component_Sparkline = vue.resolveComponent("Sparkline");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [
+      vue.createElementVNode("span", {
+        class: "sparklineSegmentComparisonRow__chip",
+        title: _ctx.segmentLabel
+      }, vue.toDisplayString(_ctx.segmentLabel), 9, _hoisted_2$1),
+      vue.createVNode(_component_PeriodColumns, { entry: _ctx.segment }, null, 8, ["entry"]),
+      vue.createElementVNode("div", {
+        class: vue.normalizeClass(["sparklineSegmentComparisonRow__sparkline", { "sparklineSegmentComparisonRow__sparkline--wide": _ctx.isMultiPeriod }])
+      }, [
+        vue.createVNode(_component_Sparkline, {
+          width: _ctx.sparklineWidth,
+          height: 40,
+          params: _ctx.segment.url,
+          "series-indices": (_a = _ctx.segment.seriesIndices) != null ? _a : void 0
+        }, null, 8, ["width", "params", "series-indices"])
+      ], 2)
+    ]);
+  }
+  const SegmentComparisonRow = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
+  const _sfc_main$1 = vue.defineComponent({
+    name: "SegmentComparisonCard",
+    directives: {
+      Tooltips: CoreHome.Tooltips
+    },
+    components: {
+      SegmentComparisonRow
+    },
+    props: {
+      // One entry per compared segment for this metric (same metric, different segment).
+      segments: {
+        type: Array,
+        required: true
+      },
+      areSparklinesLinkable: {
+        type: Boolean,
+        default: true
+      },
+      // Backend map of metric column -> documentation string, for the card-title tooltip.
+      allMetricsDocumentation: {
+        type: Object,
+        default: () => ({})
+      }
+    },
+    setup(props) {
+      const primaryMetric = vue.computed(() => {
+        var _a, _b;
+        const first = props.segments[0];
+        const metrics = (first == null ? void 0 : first.metrics) || {};
+        const label = (_a = ((first == null ? void 0 : first.metricsOrder) || [])[0]) != null ? _a : Object.keys(metrics)[0];
+        return label !== void 0 ? (_b = metrics[label]) == null ? void 0 : _b[0] : void 0;
+      });
+      const metricTitle = vue.computed(
+        () => {
+          var _a, _b;
+          return ((_a = primaryMetric.value) == null ? void 0 : _a.title) || ((_b = primaryMetric.value) == null ? void 0 : _b.description) || "";
+        }
+      );
+      const documentation = vue.computed(
+        () => {
+          var _a, _b;
+          return props.allMetricsDocumentation[(_b = (_a = primaryMetric.value) == null ? void 0 : _a.column) != null ? _b : ""] || void 0;
+        }
+      );
+      const graphParamsAttr = vue.computed(() => {
+        const first = props.segments[0];
+        return first ? sparklineGraphParamsAttr(first) : null;
+      });
+      const seriesIndicesAttr = vue.computed(() => {
+        const indices = props.segments.flatMap((segment) => segment.seriesIndices || []);
+        return indices.length ? JSON.stringify(indices) : null;
+      });
+      return {
+        metricTitle,
+        documentation,
+        graphParamsAttr,
+        seriesIndicesAttr
+      };
+    }
+  });
+  const _hoisted_1$1 = ["data-graph-params", "data-series-indices"];
+  const _hoisted_2 = ["title"];
+  const _hoisted_3 = { class: "sparklineSegmentComparisonCard__rows" };
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_SegmentComparisonRow = vue.resolveComponent("SegmentComparisonRow");
+    const _directive_tooltips = vue.resolveDirective("tooltips");
+    return vue.openBlock(), vue.createElementBlock("div", {
+      class: vue.normalizeClass(["sparkline sparklineSegmentComparisonCard", { notLinkable: !_ctx.areSparklinesLinkable }]),
+      "data-graph-params": _ctx.graphParamsAttr,
+      "data-series-indices": _ctx.seriesIndicesAttr
+    }, [
+      vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", {
+        class: vue.normalizeClass(["sparklineSegmentComparisonCard__title", { "sparklineSegmentComparisonCard__title--documented": !!_ctx.documentation }]),
+        title: _ctx.documentation || _ctx.metricTitle
+      }, [
+        vue.createTextVNode(vue.toDisplayString(_ctx.metricTitle), 1)
+      ], 10, _hoisted_2)), [
+        [_directive_tooltips, { duration: 200, delay: 200 }]
+      ]),
+      vue.createElementVNode("div", _hoisted_3, [
+        (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.segments, (segment, index) => {
+          return vue.openBlock(), vue.createBlock(_component_SegmentComparisonRow, {
+            key: index,
+            segment
+          }, null, 8, ["segment"]);
+        }), 128))
+      ])
+    ], 10, _hoisted_1$1);
+  }
+  const SegmentComparisonCard = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+  const _sfc_main = vue.defineComponent({
+    name: "SparklinesGrid",
+    components: {
+      SparklineCard,
+      SegmentComparisonCard
+    },
+    props: {
+      sparklines: {
+        type: Object,
+        required: true
+      },
+      areSparklinesLinkable: {
+        type: Boolean,
+        default: true
+      },
+      // Backend map of metric column -> documentation string, forwarded to each card for the
+      // metric-title tooltip.
+      allMetricsDocumentation: {
+        type: Object,
+        default: () => ({})
+      },
+      isWidget: {
+        type: Boolean,
+        default: false
+      },
+      // Comparison layout from the backend: 'none', 'date', 'segment' or 'segmentDate'. Date and
+      // segment+date cards are wider (value columns + a full-width sparkline) so use a lower density;
+      // segment / segment+date group a metric's per-segment entries into one taller card.
+      comparisonMode: {
+        type: String,
+        default: "none"
+      }
+    },
+    setup(props) {
+      const isSegmentMode = vue.computed(
+        () => props.comparisonMode === "segment" || props.comparisonMode === "segmentDate"
+      );
+      const flatSparklines = vue.computed(
+        () => [].concat(...Object.values(props.sparklines || {})).filter((sparkline) => !!sparkline.url).sort((a, b) => a.order - b.order)
+      );
+      const segmentGroups = vue.computed(
+        () => Object.values(props.sparklines || {}).map((group) => group.filter((sparkline) => !!sparkline.url)).filter((group) => group.length > 0).sort((a, b) => Math.min(...a.map((s) => s.order)) - Math.min(...b.map((s) => s.order)))
+      );
+      const columnClasses = vue.computed(() => {
+        if (props.comparisonMode === "date" || props.comparisonMode === "segmentDate") {
+          return props.isWidget ? "col s12" : "col s12 m12 l6 xl6";
+        }
+        return props.isWidget ? "col s6" : "col s6 m6 l4 xl3";
+      });
+      vue.onMounted(() => {
+        vue.nextTick(() => {
+          window.initializeSparklines();
+        });
+      });
+      return {
+        isSegmentMode,
+        flatSparklines,
+        segmentGroups,
+        columnClasses
+      };
+    }
+  });
+  const _hoisted_1 = { class: "row sparklinesGrid" };
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_SegmentComparisonCard = vue.resolveComponent("SegmentComparisonCard");
+    const _component_SparklineCard = vue.resolveComponent("SparklineCard");
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
+      _ctx.isSegmentMode ? (vue.openBlock(true), vue.createElementBlock(vue.Fragment, { key: 0 }, vue.renderList(_ctx.segmentGroups, (segments, index) => {
+        return vue.openBlock(), vue.createElementBlock("div", {
+          key: index,
+          class: vue.normalizeClass(_ctx.columnClasses)
+        }, [
+          vue.createVNode(_component_SegmentComparisonCard, {
+            segments,
+            "are-sparklines-linkable": _ctx.areSparklinesLinkable,
+            "all-metrics-documentation": _ctx.allMetricsDocumentation
+          }, null, 8, ["segments", "are-sparklines-linkable", "all-metrics-documentation"])
+        ], 2);
+      }), 128)) : (vue.openBlock(true), vue.createElementBlock(vue.Fragment, { key: 1 }, vue.renderList(_ctx.flatSparklines, (sparkline, index) => {
+        return vue.openBlock(), vue.createElementBlock("div", {
+          key: index,
+          class: vue.normalizeClass(_ctx.columnClasses)
+        }, [
+          vue.createVNode(_component_SparklineCard, {
+            sparkline,
+            "are-sparklines-linkable": _ctx.areSparklinesLinkable,
+            "all-metrics-documentation": _ctx.allMetricsDocumentation
+          }, null, 8, ["sparkline", "are-sparklines-linkable", "all-metrics-documentation"])
+        ], 2);
+      }), 128))
+    ]);
+  }
+  const SparklinesGrid = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+  exports2.EvolutionBadge = EvolutionBadge;
+  exports2.MetricValue = MetricValue;
+  exports2.MetricsPicker = MetricsPicker;
+  exports2.SeriesPicker = SeriesPicker;
+  exports2.SingleMetricView = SingleMetricView;
+  exports2.SparklinesGrid = SparklinesGrid;
+  Object.defineProperty(exports2, Symbol.toStringTag, { value: "Module" });
 }));
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/SparklinesGrid/SparklinesGrid.vue
-
-
-
-SparklinesGridvue_type_script_lang_ts.render = SparklinesGridvue_type_template_id_708ec4a6_render
-
-/* harmony default export */ var SparklinesGrid = (SparklinesGridvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreVisualizations/vue/src/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link    https://matomo.org
- * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
-
-
-
-
-/***/ })
-
-/******/ });
-});
-//# sourceMappingURL=CoreVisualizations.umd.js.map
