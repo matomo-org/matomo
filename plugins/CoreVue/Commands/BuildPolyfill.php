@@ -49,7 +49,10 @@ class BuildPolyfill extends ConsoleCommand
         foreach (['dev', 'min'] as $phase) {
             $command = 'cd ' . PIWIK_INCLUDE_PATH . " && FORCE_COLOR=1 MATOMO_VUE_PHASE=$phase "
                 . 'node ' . Build::getViteBin() . " build --config $configFile";
-            passthru($command);
+            passthru($command, $buildResult);
+            if ($buildResult !== 0) {
+                return self::FAILURE;
+            }
         }
 
         return self::SUCCESS;
