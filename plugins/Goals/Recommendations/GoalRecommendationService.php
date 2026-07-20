@@ -52,19 +52,18 @@ class GoalRecommendationService
      * @var AiRecommender|null
      */
     private $aiRecommender = null;
-
     public function __construct(
-        ?HomepageAnalyzer $homepageAnalyzer = null,
-        ?DeterministicRecommender $deterministicRecommender = null,
-        ?AiRecommender $aiRecommender = null,
-        ?ManualSuggestionRecommender $manualRecommender = null,
-        ?RecommendationStore $store = null
+        HomepageAnalyzer $homepageAnalyzer,
+        DeterministicRecommender $deterministicRecommender,
+        ManualSuggestionRecommender $manualRecommender,
+        RecommendationStore $store,
+        ?AiRecommender $aiRecommender = null
     ) {
-        $this->homepageAnalyzer = $homepageAnalyzer ?? new HomepageAnalyzer();
-        $this->deterministicRecommender = $deterministicRecommender ?? new DeterministicRecommender();
+        $this->homepageAnalyzer = $homepageAnalyzer;
+        $this->deterministicRecommender = $deterministicRecommender;
+        $this->manualRecommender = $manualRecommender;
+        $this->store = $store;
         $this->aiRecommender = $aiRecommender;
-        $this->manualRecommender = $manualRecommender ?? new ManualSuggestionRecommender();
-        $this->store = $store ?? new RecommendationStore();
     }
 
     /**
@@ -107,13 +106,14 @@ class GoalRecommendationService
         } elseif ($useAi) {
             if ($this->isAiAvailable()) {
                 $this->recordAiConsent();
-                $this->store->recordAiScan($idSite);
                 $aiRecommender = $this->getAiRecommender();
                 try {
                     $aiGoals = $this->filterExistingGoals(
                         $aiRecommender->recommend($analysis, $idSite, $existingGoalSummaries, $deterministic),
                         $existingGoalSummaries
                     );
+                    // Only count scans where the provider actually responded, so failures don't burn quota
+                    $this->store->recordAiScan($idSite);
                     if (!empty($aiGoals)) {
                         $goals = $aiGoals;
                         $mode = 'ai';

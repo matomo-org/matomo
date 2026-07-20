@@ -15,6 +15,7 @@ use Piwik\Archive;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DbHelper;
 use Piwik\Metrics;
@@ -246,7 +247,7 @@ class API extends \Piwik\Plugin\API
 
     private function getRecommendationService(): GoalRecommendationService
     {
-        return new GoalRecommendationService();
+        return StaticContainer::get(GoalRecommendationService::class);
     }
 
     /**

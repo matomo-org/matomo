@@ -224,7 +224,7 @@ class GoalRecommendationsTest extends IntegrationTestCase
         $manual = $this->createMock(ManualSuggestionRecommender::class);
         $manual->method('recommend')->willReturn([]);
 
-        return new GoalRecommendationService($analyzer, $deterministic, $aiRecommender, $manual);
+        return new GoalRecommendationService($analyzer, $deterministic, $manual, new RecommendationStore(), $aiRecommender);
     }
 
     /**

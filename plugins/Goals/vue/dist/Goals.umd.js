@@ -936,7 +936,7 @@ const RecommendGoalsvue_type_script_setup_true_lang_ts_hoisted_28 = ["aria-expan
     const props = __props;
     /* eslint-disable func-call-spacing, no-spaced-func */
     /* eslint-enable func-call-spacing, no-spaced-func */
-    const useAi = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(true);
+    const useAi = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
     const lastRunUsedAi = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
     const isLoading = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
     const isLoadingSaved = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
