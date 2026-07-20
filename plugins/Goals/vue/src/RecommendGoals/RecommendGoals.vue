@@ -169,7 +169,7 @@ const emit = defineEmits<{
 }>();
 /* eslint-enable func-call-spacing, no-spaced-func */
 
-const useAi = ref(true);
+const useAi = ref(false);
 const lastRunUsedAi = ref(false);
 const isLoading = ref(false);
 const isLoadingSaved = ref(false);
