@@ -58,6 +58,30 @@
 
     DataTable_RowActions_SegmentVisitorLog.prototype = new DataTable_RowAction();
 
+    DataTable_RowActions_SegmentVisitorLog.allowedExtraParamKeys = [
+        'date',
+        'period',
+        'segment',
+    ];
+
+    // Filter a parsed extraParams object against the allowlist. Returns a new
+    // object containing only keys in `allowedExtraParamKeys`. The visitor log
+    // request only consumes these keys; everything else (idGoal, idDimension,
+    // idSite, compare*, ...) is inert and is dropped so a crafted popover URL
+    // cannot smuggle parameters into the Live.indexVisitorLog request.
+    DataTable_RowActions_SegmentVisitorLog.filterAllowedExtraParams = function (parsed) {
+        var allowed = DataTable_RowActions_SegmentVisitorLog.allowedExtraParamKeys;
+        var result = {};
+
+        Object.keys(parsed).forEach(function (key) {
+            if (allowed.indexOf(key) !== -1) {
+                result[key] = parsed[key];
+            }
+        });
+
+        return result;
+    };
+
     DataTable_RowActions_SegmentVisitorLog.prototype.openPopover = function (apiMethod, segment, extraParams) {
         var urlParam = apiMethod + ':' + encodeURIComponent(segment) + ':' + encodeURIComponent(JSON.stringify(extraParams));
 
@@ -92,14 +116,7 @@
         if (typeof paramOverride !== 'object') {
             paramOverride = {};
         }
-        $.extend(extraParams, paramOverride);
-
-        $.each(this.dataTable.param, function (index, value) {
-            // we automatically add fields like idDimension, idGoal etc.
-            if (index !== 'idSite' && index.indexOf('id') === 0 && $.isNumeric(value)) {
-                extraParams[index] = value;
-            }
-        });
+        $.extend(extraParams, DataTable_RowActions_SegmentVisitorLog.filterAllowedExtraParams(paramOverride));
 
         this.openPopover(apiMethod, segment, extraParams);
     };
@@ -110,13 +127,15 @@
         var apiMethod = urlParamParts.shift();
         var segment = decodeURIComponent(urlParamParts.shift());
 
-        var extraParamsString = urlParamParts.shift(),
-            extraParams = {}; // 0/1 or "0"/"1"
+        var extraParamsString = urlParamParts.shift();
+        var extraParams = {};
 
         try {
-            extraParams = JSON.parse(decodeURIComponent(extraParamsString));
+            extraParams = DataTable_RowActions_SegmentVisitorLog.filterAllowedExtraParams(
+                JSON.parse(decodeURIComponent(extraParamsString))
+            );
         } catch (e) {
-            // assume the parameter is an int/string describing whether to use multi row evolution
+            // Malformed payload: ignore and let defaults drive the popover.
         }
 
         SegmentedVisitorLog.show(apiMethod, segment, extraParams);

@@ -121,14 +121,14 @@ export default defineComponent({
     },
     evolutionIconSrc() {
       if (this.evolutionTrend === 1) {
-        return 'plugins/MultiSites/images/arrow_up.png';
+        return 'plugins/MultiSites/images/arrow_up.svg';
       }
 
       if (this.evolutionTrend === -1) {
-        return 'plugins/MultiSites/images/arrow_down.png';
+        return 'plugins/MultiSites/images/arrow_down.svg';
       }
 
-      return 'plugins/MultiSites/images/stop.png';
+      return 'plugins/MultiSites/images/stop.svg';
     },
     evolutionSparklineSrc() {
       let sparklineDate = Matomo.currentDateString as string;
@@ -143,6 +143,12 @@ export default defineComponent({
         sparklineDate = `${format(startDate)},${format(endDate)}`;
       }
 
+      // The redesign lets sparklines be rendered server-side at a custom size; without it we keep
+      // the legacy behaviour where the server uses its default render size. The render size is
+      // twice the display size (the img is shown at 100x25) so the PNG renders at 2x pixel density.
+      const redesignEnabled = document.body.classList.contains('sparklines-redesign-enabled');
+      const sizeParams = redesignEnabled ? { width: 200, height: 50 } : {};
+
       const sparklineParams = MatomoUrl.stringify({
         module: 'MultiSites',
         action: 'getEvolutionGraph',
@@ -153,6 +159,7 @@ export default defineComponent({
         evolutionBy: this.sparklineMetric,
         colors: JSON.stringify(Matomo.getSparklineColors()),
         viewDataTable: 'sparkline',
+        ...sizeParams,
       });
 
       return `?${sparklineParams}${this.tokenParam}`;

@@ -36,11 +36,10 @@ class API extends \Piwik\Plugin\API
      * nonce isn't found, return false. This also returns the main URL for the specified site so that we can auto-
      * populate an input with it.
      *
+     * @param int $idSite The numeric ID of the website to query.
      * @param string $nonce Optional nonce string. If provided, it validates whether the success response matches the
      * provided nonce. If omitted, it simply returns the most recent result for the provided site.
-     * @return array Indicates whether the check was successful and provides the main URL for the specified site.
-     * E.g. ['isSuccess' => true, 'mainUrl' => 'https://some-test-site.com']
-     * @throws \Exception If the user doesn't have the right permissions
+     * @return array{isSuccess:bool, mainUrl:string} Indicates whether the check was successful and provides the site's main URL.
      */
     public function wasJsTrackerInstallTestSuccessful(int $idSite, string $nonce = ''): array
     {
@@ -60,11 +59,9 @@ class API extends \Piwik\Plugin\API
      * Initiate a test whether the JS tracking code has been successfully installed for a site. It generates a nonce and
      * stores it in the option table so that it can be accessed later during the Tracker.isExcludedVisit event.
      *
-     * @param string $url Optional URL to append the nonce to. If not provided, it uses the main URL of the site
-     * @return array containing the URL constructed using the main URL for the site and the newly created nonce as a
-     * query parameter.
-     * E.g. ['url' => 'https://some-site.com?tracker_install_check=c3dfa1abbbab6381baca0793b8dd5d', 'nonce' => 'c3dfa1abbbab6381baca0793b8dd5d']
-     * @throws \Exception If the user doesn't have the right permissions
+     * @param int $idSite The numeric ID of the website to test.
+     * @param string $url Optional URL to append the nonce to. If not provided, the site's main URL is used.
+     * @return array{url:string, nonce:string} The test URL and generated nonce.
      */
     public function initiateJsTrackerInstallTest(int $idSite, string $url = ''): array
     {

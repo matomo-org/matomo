@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+## Description: Mount local plugin directories into Matomo via a generated DDEV compose override
+## Usage: matomo:plugins:mount [<path-or-regex> ...]
+## Example: ddev matomo:plugins:mount ../plugin-FormAnalytics ../plugin-HeatmapSessionRecording
+
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${script_dir}/matomo_plugins_lib.sh"
+
+managed_mounts=()
+declare -a literal_roots=()
+declare -a original_args=("$@")
+
+matomo_plugins::load_mounts managed_mounts
+
+if [[ ${#original_args[@]} -eq 0 ]]; then
+  echo "Scanning default root ../ for plugin candidates ..."
+  matomo_plugins::scan_explicit_dir managed_mounts "$(matomo_plugins::app_root)/.."
+else
+  for arg in "${original_args[@]}"; do
+    if normalized_root="$(matomo_plugins::normalize_path "${arg}")"; then
+      literal_roots+=("${normalized_root}")
+    fi
+  done
+
+  for arg in "${original_args[@]}"; do
+    if normalized_root="$(matomo_plugins::normalize_path "${arg}")"; then
+      echo "Scanning ${normalized_root} for plugin candidates ..."
+      matomo_plugins::scan_explicit_dir managed_mounts "${normalized_root}"
+      continue
+    fi
+
+    if [[ ${#literal_roots[@]} -eq 0 ]]; then
+      literal_roots=("$(matomo_plugins::normalize_path "$(matomo_plugins::app_root)/..")")
+    fi
+
+    echo "Scanning regex ${arg} within ${literal_roots[*]} ..."
+    matomo_plugins::scan_regex managed_mounts "${arg}" "${literal_roots[@]}"
+  done
+fi
+
+matomo_plugins::apply_mounts managed_mounts "Mount command"
+matomo_plugins::restart_ddev_if_needed

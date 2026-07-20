@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>20</nb_visits>
+		<nb_actions>20</nb_actions>
+		<sum_daily_nb_uniq_visitors>20</sum_daily_nb_uniq_visitors>
+		<nb_pages_per_search>10</nb_pages_per_search>
+		<segment>siteSearchCategory==CAT</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<nb_pages_per_search>10</nb_pages_per_search>
+		<segment>siteSearchCategory==mysearchcat</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<nb_pages_per_search>10</nb_pages_per_search>
+		<segment>siteSearchCategory==Bad+No+Result+Category+%3A%28</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<nb_pages_per_search>10</nb_pages_per_search>
+		<segment>siteSearchCategory==Category</segment>
+	</row>
+</result>

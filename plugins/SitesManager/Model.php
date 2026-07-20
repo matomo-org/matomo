@@ -194,7 +194,7 @@ class Model
      * Returns the list of websites from the ID array in parameters.
      *
      * @param array $idSites list of website ID
-     * @param bool $limit
+     * @param int|null|false $limit
      * @param string[] $siteTypesToExclude Optional list of site types to exclude. E.g. intranet or rollup.
      * @return array
      */
@@ -302,10 +302,9 @@ class Model
     }
 
     /**
-     * Returns the list of alias URLs registered for the given idSite.
-     * The website ID must be valid when calling this method!
+     * Returns all known URLs (main and alias) for all sites, each row containing idsite and url.
      *
-     * @return array list of alias URLs
+     * @return array list of URLs
      */
     public function getAllKnownUrlsForAllSites()
     {
@@ -344,8 +343,8 @@ class Model
     /**
      * Updates the field ts_created for the specified websites.
      *
-     * @param $idSites int[] Id Site to update ts_created
-     * @param string Date to set as creation date.
+     * @param int[] $idSites Site IDs whose ts_created may be updated.
+     * @param string $minDateSql The minimum creation date; sites with a later ts_created are lowered to this value.
      *
      * @ignore
      */
@@ -397,7 +396,7 @@ class Model
      *
      * @param int[] $ids
      * @param string $pattern
-     * @param int $limit
+     * @param int|null $limit
      * @param string[] $siteTypesToExclude Optional list of site types to exclude. E.g. intranet or rollup.
      * @return array
      */

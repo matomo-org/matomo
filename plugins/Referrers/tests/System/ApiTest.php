@@ -368,6 +368,44 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
+    public function testCampaignReportFlatSearchMatchesTermFoundOnlyInCampaignNameLabel()
+    {
+        // Regression test for a flattened Campaign report (Campaign name + Keyword). When searching
+        // a flattened report, the search term must be matched against the combined "campaign - keyword"
+        // label, not against the keyword subtable before the campaign name is prepended. Otherwise a
+        // term that only appears in the campaign name portion returns no results even though it is
+        // clearly visible in the table.
+        $dateTime = '2015-01-11';
+        $idSite = self::$fixture->idSite;
+
+        $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
+
+        // campaign whose NAME contains "barbagianni" but whose keyword does not
+        $t->setUrl('http://piwik.net/?pk_campaign=pixelfed-barbagianni&pk_keyword=link-homepage');
+        $t->doTrackPageView('Homepage');
+
+        // an unrelated campaign, so the search actually has to filter a row out
+        $t->setForceNewVisit(true);
+        $t->setUrl('http://piwik.net/?pk_campaign=romatoday-camposecco&pk_keyword=escursione-camposecco');
+        $t->doTrackPageView('Homepage');
+
+        /** @var DataTable $report */
+        $report = Request::processRequest('Referrers.getCampaigns', [
+            'idSite'         => $idSite,
+            'period'         => 'day',
+            'date'           => $dateTime,
+            'flat'           => 1,
+            'filter_pattern' => 'barbagianni',
+        ]);
+
+        $this->assertCount(1, $report->getRows());
+
+        $label = $report->getFirstRow()->getColumn('label');
+        $this->assertStringContainsString('barbagianni', $label);
+        $this->assertStringContainsString('link-homepage', $label);
+        $this->assertEquals(1, $report->getFirstRow()->getColumn('nb_visits'));
+    }
+
     public static function getOutputPrefix()
     {
         return '';

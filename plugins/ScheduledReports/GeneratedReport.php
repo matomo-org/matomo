@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\ScheduledReports;
 
+use Piwik\Common;
 use Piwik\Piwik;
 
 class GeneratedReport
@@ -101,5 +102,11 @@ class GeneratedReport
     public function getReportDescription()
     {
         return Piwik::translate('General_Report') . ' ' . $this->reportTitle . " - " . $this->prettyDate;
+    }
+
+    public function getDisplayDescription(): string
+    {
+        // The persisted report `description` field now stores the report name.
+        return str_replace(["\r", "\n"], ' ', Common::unsanitizeInputValue((string) ($this->reportDetails['description'] ?? '')));
     }
 }

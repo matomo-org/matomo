@@ -103,7 +103,7 @@ class ChunksTest extends IntegrationTestCase
 
     private function getAllRowsFromArchiveBlobTable()
     {
-        $table = ArchiveTableCreator::getBlobTable(Date::factory($this->date));
+        $table = ArchiveTableCreator::getBlobTable(Date::factory($this->date), true);
         $rows  = Db::fetchAll("SELECT * FROM " . $table);
 
         return $rows;

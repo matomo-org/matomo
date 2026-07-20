@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreHome\tests\Unit;
 
+use Piwik\Plugin\ThemeStyles;
 use Piwik\Plugins\CoreHome\CoreHome;
 
 /**
@@ -71,6 +72,16 @@ foo("bar");
         $this->coreHome->filterMergedJavaScripts($content);
 
         $this->assertSame($expected, $content);
+    }
+
+    public function testAddStylesheetsPrependsModeAgnosticThemeStyles()
+    {
+        $originalContent = '.existing { color: red; }';
+        $content = $originalContent;
+
+        $this->coreHome->addStylesheets($content);
+
+        $this->assertSame(ThemeStyles::get()->toLessCode() . "\n" . $originalContent, $content);
     }
 
     public function getJavaScriptsContainingNoSourceMapDefinition()

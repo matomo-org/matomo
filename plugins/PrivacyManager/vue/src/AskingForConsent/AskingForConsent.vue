@@ -9,7 +9,6 @@
   <div>
     <div v-content-intro>
       <h2>{{ translate('PrivacyManager_AskingForConsent') }}</h2>
-      <p>{{ translate('PrivacyManager_ConsentExplanation') }}</p>
     </div>
 
     <ContentBlock
@@ -24,26 +23,68 @@
     </ContentBlock>
 
     <ContentBlock
-      :content-title="translate('PrivacyManager_WhenDoINeedConsent')"
+      :content-title="translate('PrivacyManager_ConsentRequirements')"
       class="privacyAskingForConsent"
     >
-      <p>
-        <span v-html="$sanitize(whenConsentIsNeeded1)"></span>
-        <br /><br />
-        <span v-html="$sanitize(whenConsentIsNeeded2)"></span>
-        <br /><br />
-        <span v-html="$sanitize(whenConsentIsNeeded3)"></span>
-      </p>
+      <p>{{ translate('PrivacyManager_ConsentRequirementsIntro') }}</p>
+      <ol>
+        <li>{{ translate('PrivacyManager_ConsentRequirementsReasonPersonalData') }}</li>
+        <li>{{ translate('PrivacyManager_ConsentRequirementsReasonStorage') }}</li>
+      </ol>
     </ContentBlock>
 
     <ContentBlock
-      :content-title="translate('PrivacyManager_HowDoIAskForConsent')"
+      :content-title="translate('PrivacyManager_WhenDoINeedConsent')"
       class="privacyAskingForConsent"
     >
-      <p>{{ translate('PrivacyManager_HowDoIAskForConsentIntro') }}</p>
+      <p>{{ translate('PrivacyManager_DetermineConsentNeedIntro') }}</p>
+      <ul>
+        <li>{{ translate('PrivacyManager_DetermineConsentNeedAction1') }}</li>
+        <li>{{ translate('PrivacyManager_DetermineConsentNeedAction2') }}</li>
+      </ul>
+      <br />
+      <p>{{ translate('PrivacyManager_ConsentNotRequiredIntro') }}</p>
+      <ul>
+        <li>{{ translate('PrivacyManager_ConsentNotRequiredCondition1') }}</li>
+        <li>{{ translate('PrivacyManager_ConsentNotRequiredCondition2') }}</li>
+        <li>{{ translate('PrivacyManager_ConsentNotRequiredCondition3') }}</li>
+        <li>{{ translate('PrivacyManager_ConsentNotRequiredCondition4') }}</li>
+      </ul>
+    </ContentBlock>
+
+    <ContentBlock
+      :content-title="translate('PrivacyManager_HandlingPreviouslyCollectedData')"
+      class="privacyAskingForConsent"
+    >
+      <p>{{ translate('PrivacyManager_HandlingPreviouslyCollectedDataIntro') }}</p>
+      <p>{{ translate('PrivacyManager_HandlingPreviouslyCollectedDataDetails') }}</p>
+    </ContentBlock>
+
+    <ContentBlock
+      :content-title="translate('PrivacyManager_HowToObtainValidConsent')"
+      class="privacyAskingForConsent"
+    >
+      <ol>
+        <li>{{ translate('PrivacyManager_ValidConsentRequirement1') }}</li>
+        <li>{{ translate('PrivacyManager_ValidConsentRequirement2') }}</li>
+        <li>{{ translate('PrivacyManager_ValidConsentRequirement3') }}</li>
+        <li>{{ translate('PrivacyManager_ValidConsentRequirement4') }}</li>
+        <li>{{ translate('PrivacyManager_ValidConsentRequirement5') }}</li>
+        <li>{{ translate('PrivacyManager_ValidConsentRequirement6') }}</li>
+        <li>{{ translate('PrivacyManager_ValidConsentRequirement7') }}</li>
+        <li>{{ translate('PrivacyManager_ValidConsentRequirement8') }}</li>
+        <li>{{ translate('PrivacyManager_ValidConsentRequirement9') }}</li>
+        <li>{{ translate('PrivacyManager_ValidConsentRequirement10') }}</li>
+      </ol>
+    </ContentBlock>
+
+    <ContentBlock
+      :content-title="translate('PrivacyManager_ConsentManagementPlatforms')"
+      class="privacyAskingForConsent"
+    >
+      <p>{{ translate('PrivacyManager_ConsentManagementPlatformsIntro') }}</p>
       <ul v-html="$sanitize(consentManagersList)"></ul>
-      <p></p>
-      <p v-html="$sanitize(howDoIAskForConsentOthers)"></p>
+      <p v-html="$sanitize(consentManagementPlatformsOutro)"></p>
     </ContentBlock>
   </div>
 </template>
@@ -84,31 +125,9 @@ export default defineComponent({
     ContentIntro,
   },
   computed: {
-    whenConsentIsNeeded1() {
+    consentManagementPlatformsOutro() {
       return translate(
-        'PrivacyManager_WhenConsentIsNeededPart1',
-        externalLink('https://matomo.org/faq/new-to-piwik/what-is-gdpr/'),
-        '</a>',
-      );
-    },
-    whenConsentIsNeeded2() {
-      const blogLink = 'https://matomo.org/blog/2018/04/lawful-basis-for-processing-personal-data-under-gdpr-with-matomo/';
-      return translate(
-        'PrivacyManager_WhenConsentIsNeededPart2',
-        externalLink(blogLink),
-        '</a>',
-      );
-    },
-    whenConsentIsNeeded3() {
-      return translate(
-        'PrivacyManager_WhenConsentIsNeededPart3',
-        externalLink('https://matomo.org/faq/how-to/faq_35661/'),
-        '</a>',
-      );
-    },
-    howDoIAskForConsentOthers() {
-      return translate(
-        'PrivacyManager_HowDoIAskForConsentOutro',
+        'PrivacyManager_ConsentManagementPlatformsOutro',
         externalLink('https://developer.matomo.org/guides/tracking-consent'),
         '</a>',
       );

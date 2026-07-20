@@ -2,7 +2,7 @@
     "AIAgents": {
         "AIAgentName": "Nom de l'agent IA",
         "AIAgentVisits": "Visites de l'agent IA",
-        "AIAgentVisitsDocumentation": "Aperçu des visites des agents IA.",
+        "AIAgentVisitsDocumentation": "Voici une vue d'ensemble des visites d'agents IA. Le trafic des agents IA n'inclut que les visites où une IA ouvre votre site dans un navigateur réel et se comporte comme un visiteur humain. Il n'inclut pas les requêtes en arrière-plan de ChatGPT ou d'autres outils d'IA qui récupèrent vos pages sans utiliser un navigateur.",
         "ColumnAIAgentActions": "Actions des visites des agents IA",
         "ColumnAIAgentAverageVisitDuration": "Durée moyenne d'une visite d'agent IA (en secondes)",
         "ColumnAIAgentAvgActionsPerVisit": "Nombre moyen d'actions par visite d'agent IA",
@@ -32,6 +32,7 @@
         "SparklineHumanVisits": "visites humaines",
         "WidgetGraphAIAgents": "Agents IA dans le temps",
         "WidgetOverviewAIAgents": "Vue d'ensemble des agents IA",
-        "AIAgentsOverview": "Récapitulatif des agents IA"
+        "AIAgentsOverview": "Récapitulatif des agents IA",
+        "AIAgentsOverviewSubcategoryDescription": "Visualisez en un coup d'œil comment les agents IA et les visiteurs humains interagissent avec votre site. Cette vue d'ensemble présente des métriques et tendances combinées afin que vous puissiez rapidement repérer les changements avant d'explorer les rapports détaillés."
     }
 }

@@ -17,7 +17,7 @@ class ManageGoalsSubcategory extends Subcategory
 {
     protected $categoryId = 'Goals_Goals';
     protected $id = 'Goals_ManageGoals';
-    protected $order = 9999;
+    protected $order = 800;
 
     public function getHelp()
     {

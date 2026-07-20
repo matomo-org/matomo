@@ -1,0 +1,9 @@
+[
+  {
+    "title": "New: Dark Mode is here",
+    "description": "Switch between Light and Dark themes from your Personal Settings to suit your workspace. Your preference is saved to your profile and follows you across devices for a more comfortable, accessible Matomo experience.",
+    "link_name": "Switch to Dark Mode",
+    "link": "index.php?module=UsersManager&action=userSettings&idSite=1",
+    "version": "5.9.0"
+  }
+]

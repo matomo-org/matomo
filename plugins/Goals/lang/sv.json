@@ -1,6 +1,6 @@
 {
     "Goals": {
-        "AbandonedCart": "Övergivna varukorgar",
+        "AbandonedCart": "Övergiven varukorg",
         "AddGoal": "Lägg till Mål",
         "AddNewGoal": "Lägg till ett nytt Mål",
         "AddNewGoalOrEditExistingGoal": "%1$sLägg till ett nytt Mål%2$s eller %3$sRedigera%4$s befintliga Mål",

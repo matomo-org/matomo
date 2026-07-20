@@ -1,6 +1,7 @@
 {
     "BotTracking": {
         "PageUrl": "כתובת העמוד",
-        "SiteWithoutDataBackToMatomo": "חזרה ל Matomo"
+        "SiteWithoutDataBackToMatomo": "חזרה ל Matomo",
+        "AIChatbotsContentPagesTitle": "עמודים"
     }
 }

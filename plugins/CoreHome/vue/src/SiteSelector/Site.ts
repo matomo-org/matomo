@@ -8,6 +8,7 @@
 interface Site {
   idsite: string|number;
   name: string;
+  description?: string;
   type: string;
   group?: string;
   timezone: string;

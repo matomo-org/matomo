@@ -240,6 +240,7 @@ Piwik_Transitions.prototype.reset = function (actionType, actionName, overridePa
 Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
     var self = this;
     this.showEmbeddedInReport = showEmbeddedInReport;
+    Piwik_Transitions.currentInstance = this;
 
     $('#transitions_report .popoverContainer').hide();
 
@@ -253,26 +254,13 @@ Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
     }
 
     var bothLoaded = function () {
-        if (!showEmbeddedInReport) {
-            Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
-        } else {
-          $('#transitions_inline_loading').hide();
-            $('#transitions_report .popoverContainer').html(Piwik_Transitions.popoverHtml);
-            $('#transitions_report .popoverContainer').show();
+        if (showEmbeddedInReport) {
+            $('#transitions_inline_loading').hide();
         }
-        self.preparePopover();
+
+        self.restorePopoverContent();
         self.model.htmlLoaded();
-
-        if (self.model.searchEnginesNbTransitions > 0 && self.model.websitesNbTransitions > 0 && self.model.socialNetworksNbTransitions > 0
-            && self.model.aiAssistantsNbTransitions > 0 && self.model.campaignsNbTransitions > 0) {
-            self.canvas.narrowMode();
-        }
-
-        // truncate already placed elements, so height can be calculated correctly.
-        self.canvas.truncateVisibleBoxTexts();
-        self.render();
-        // truncate elements added during render()
-        self.canvas.truncateVisibleBoxTexts();
+        self.renderPopover();
     };
 
     // load the popover HTML (only done once)
@@ -398,6 +386,38 @@ Piwik_Transitions.prototype.render = function () {
     this.renderLoops();
 
     window.CoreHome.Matomo.postEvent('Transitions.dataChanged', {'actionType': this.actionType, 'actionName': this.actionName});
+};
+
+Piwik_Transitions.prototype.restorePopoverContent = function () {
+    if (this.showEmbeddedInReport) {
+        this.popover.find('.popoverContainer').html(Piwik_Transitions.popoverHtml).show();
+    } else {
+        Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
+    }
+};
+
+Piwik_Transitions.prototype.renderPopover = function () {
+    this.preparePopover();
+
+    if (this.model.searchEnginesNbTransitions > 0 && this.model.websitesNbTransitions > 0 && this.model.socialNetworksNbTransitions > 0
+        && this.model.aiAssistantsNbTransitions > 0 && this.model.campaignsNbTransitions > 0) {
+        this.canvas.narrowMode();
+    }
+
+    this.canvas.truncateVisibleBoxTexts();
+    this.render();
+    this.canvas.truncateVisibleBoxTexts();
+};
+
+Piwik_Transitions.prototype.refreshTheme = function () {
+    if (!this.popover || !this.popover.length
+        || !$.contains(document.documentElement, this.popover[0])
+        || typeof Piwik_Transitions.popoverHtml == 'undefined') {
+        return;
+    }
+
+    this.restorePopoverContent();
+    this.renderPopover();
 };
 
 /** Render left side: referrer groups & direct entries */
@@ -920,6 +940,12 @@ Piwik_Transitions_Canvas.prototype.narrowMode = function () {
     this.boxSpacing = 4;
     this.narrowMode = true;
 };
+
+window.addEventListener('themeModeChange', function () {
+    if (Piwik_Transitions.currentInstance) {
+        Piwik_Transitions.currentInstance.refreshTheme();
+    }
+});
 
 Piwik_Transitions_Canvas.prototype.isNarrowMode = function () {
     return typeof this.narrowMode != 'undefined';

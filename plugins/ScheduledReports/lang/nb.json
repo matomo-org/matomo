@@ -37,7 +37,6 @@
         "SegmentAppliedToReports": "Segmentet «%s» er applisert til rapportene.",
         "SegmentDeleted": "Segment slettet",
         "Segment_Deletion_Error": "Dette segmentet kan ikke slettes eller gjøres usynlig for andre brukere fordi det brukes for å generere e-postrapporten(e) %s. Vennligst prøv igjen etter å ha fjernet segmentet fra denne (disse) rapportene.",
-        "SendReportNow": "Send rapport nå",
         "SendReportTo": "Send rapport til",
         "SentFromX": "Sendt fra %s.",
         "SentToMe": "Send til meg",

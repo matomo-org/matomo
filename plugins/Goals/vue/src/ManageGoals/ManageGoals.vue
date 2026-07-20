@@ -32,8 +32,12 @@
               <tr>
                 <th class="first">{{ translate('General_Id') }}</th>
                 <th>{{ translate('Goals_GoalName') }}</th>
-                <th>{{ translate('General_Description') }}</th>
-                <th>{{ translate('Goals_GoalIsTriggeredWhen') }}</th>
+                <th class="manageGoals-descriptionColumn">
+                  {{ translate('General_Description') }}
+                </th>
+                <th class="manageGoals-triggerColumn">
+                  {{ translate('Goals_GoalIsTriggeredWhen') }}
+                </th>
                 <th>{{ translate('General_ColumnRevenue') }}</th>
 
                 <component
@@ -41,7 +45,9 @@
                   :is="beforeGoalListActionsHeadComponent"
                 ></component>
 
-                <th v-if="userCanEditGoals">{{ translate('General_Actions') }}</th>
+                <th v-if="userCanEditGoals" class="manageGoals-actionsColumn">
+                  {{ translate('General_Actions') }}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -55,8 +61,8 @@
               <tr v-for="goal in goals || []" :id="goal.idgoal" :key="goal.idgoal">
                 <td class="first">{{ goal.idgoal }}</td>
                 <td>{{ goal.name }}</td>
-                <td>{{ goal.description }}</td>
-                <td>
+                <td class="manageGoals-descriptionColumn">{{ goal.description }}</td>
+                <td class="manageGoals-triggerColumn">
                   <span class='matchAttribute'>
                     {{ goalMatchAttributeTranslations[goal.match_attribute]
                       || goal.match_attribute }}
@@ -83,15 +89,22 @@
                   :is="beforeGoalListActionsBodyComponent[goal.idgoal]"
                 ></component>
 
-                <td v-if="userCanEditGoals" style="padding-top:2px">
+                <td
+                  v-if="userCanEditGoals"
+                  class="entityTable_ActionCell entityTable_ActionCell-3 manageGoals-actionsColumn"
+                >
+                  <a
+                    class="table-action icon-show"
+                    :href="getGoalReportUrl(goal.idgoal)"
+                    :title="translate('Goals_ViewGoalReport')"
+                    :aria-label="translate('Goals_ViewGoalReport')"
+                  ></a>
                   <button
-                    v-if="userCanEditGoals"
                     @click="editGoal(goal.idgoal)"
                     class="table-action icon-edit"
                     :title="translate('General_Edit')"
                   ></button>
                   <button
-                    v-if="userCanEditGoals"
                     @click="deleteGoal(goal.idgoal)"
                     class="table-action icon-delete"
                     :title="translate('General_Delete')"
@@ -133,18 +146,25 @@
                 name="goal_name"
                 v-model="goal.name"
                 :maxlength="50"
+                autocomplete="off"
                 :title="translate('Goals_GoalName')"
+                :placeholder="translate('Goals_GoalNamePlaceholder')"
+                :inline-help="translate('Goals_GoalNameHelpText')"
                 @change="goalNameChanged">
               </Field>
             </div>
 
             <div>
               <Field
-                uicontrol="text"
+                uicontrol="textarea"
                 name="goal_description"
                 v-model="goal.description"
                 :maxlength="255"
-                :title="translate('General_Description')"
+                autocomplete="off"
+                :title="`${translate('General_Description')} ${translate('Goals_Optional')}`"
+                :placeholder="translate('Goals_GoalDescriptionPlaceholder')"
+                :inline-help="translate('Goals_GoalDescriptionHelpText')"
+                :ui-control-attributes="{ class: 'compact-textarea' }"
               />
             </div>
 
@@ -247,8 +267,12 @@
                     uicontrol="text" name="pattern"
                     v-model="goal.pattern"
                     :maxlength="255"
+                    autocomplete="off"
                     :title="patternFieldLabel"
                     :full-width="true"
+                    :error-message="patternMissing
+                      ? translate('General_PleaseSpecifyValue', 'pattern')
+                      : ''"
                   />
               </div>
             </div>
@@ -413,6 +437,7 @@ interface ManageGoalsState {
   submitText: string;
   goalToDelete: Goal|null;
   addEditTableComponent: boolean;
+  patternMissing: boolean;
 }
 
 function ambiguousBoolToInt(n: string|number|boolean): 1|0 {
@@ -454,6 +479,7 @@ export default defineComponent({
       submitText: '',
       goalToDelete: null,
       addEditTableComponent: false,
+      patternMissing: false,
     };
   },
   components: {
@@ -463,6 +489,14 @@ export default defineComponent({
     Field,
     Alert,
     VueEntryContainer,
+  },
+  watch: {
+    'goal.pattern': function goalPatternChanged(pattern: string) {
+      // Clear the inline "please specify a value" error as soon as the user provides one.
+      if (this.patternMissing && pattern !== undefined && pattern !== null && `${pattern}` !== '') {
+        this.patternMissing = false;
+      }
+    },
   },
   directives: {
     ContentTable,
@@ -510,6 +544,7 @@ export default defineComponent({
       Matomo.postEvent('Goals.beforeInitGoalForm', goalMethodAPI, goalId, goalName);
 
       this.apiMethod = goalMethodAPI;
+      this.patternMissing = false;
 
       this.goal = {} as unknown as Goal;
       this.goal.name = goalName;
@@ -657,6 +692,23 @@ export default defineComponent({
         return;
       }
 
+      // Validate the required condition value client-side before submitting so the user gets
+      // inline feedback instead of a round-trip error. Mirrors the server guard in
+      // Goals\API::checkPattern(), which rejects an empty pattern for any non-manual goal.
+      // Run this after the beforeAddGoal/beforeUpdateGoal events and the cancelRequest check
+      // so extensions can still set or cancel the pattern before it is validated.
+      if (
+        parameters.matchAttribute !== 'manually'
+        && (parameters.pattern === undefined
+          || parameters.pattern === null
+          || `${parameters.pattern}` === '')
+      ) {
+        this.patternMissing = true;
+        this.scrollToTop();
+        return;
+      }
+      this.patternMissing = false;
+
       this.isLoading = true;
 
       AjaxHelper.fetch(parameters, options).then(async (response) => {
@@ -709,7 +761,7 @@ export default defineComponent({
       }
       return null;
     },
-    showNotificationMessage(goalId:string|number, isCreate:boolean) {
+    getGoalReportUrl(goalId:string|number) {
       const link = MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
         module: 'CoreHome',
@@ -718,10 +770,13 @@ export default defineComponent({
       const hash = MatomoUrl.stringify({
         ...MatomoUrl.hashParsed.value,
         category: 'Goals_Goals',
-        subcategory: encodeURIComponent(goalId),
+        subcategory: goalId,
       });
+      return `?${link}#?${hash}`;
+    },
+    showNotificationMessage(goalId:string|number, isCreate:boolean) {
       let successMessage = translate(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
-      const reportLink = `<a href="?${link}#${hash}">[${translate('Goals_ViewGoalReport')}]</a>`;
+      const reportLink = `<a href="${this.getGoalReportUrl(goalId)}">[${translate('Goals_ViewGoalReport')}]</a>`;
       successMessage = `${successMessage} ${reportLink}`;
 
       NotificationsStore.show({

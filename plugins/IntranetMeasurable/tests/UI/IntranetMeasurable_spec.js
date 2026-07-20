@@ -45,7 +45,7 @@ describe("IntranetMeasurable", function () {
     });
 
     it("should load intranet specific fields", async function () {
-        await page.type('.editingSite [placeholder="Name"]', 'My intranet');
+        await page.type('.editingSite input[type="text"][maxlength="90"]', 'My intranet');
         await page.type('.editingSite [name="urls"]', 'https://www.example.com');
         await page.waitForTimeout(250);
         await page.click('.editingSiteFooter input.btn');

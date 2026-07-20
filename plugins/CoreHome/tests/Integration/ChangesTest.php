@@ -45,7 +45,7 @@ class ChangesTest extends IntegrationTestCase
 
     public function testCoreHomeChangesShouldAllowChangeItemAddWithoutLink()
     {
-        $json = '{"idchange":3,"plugin_name":"CoreHome","version":"4.5.0","title":"New feature y added","description":"Now you can do c with d like this","link_name":null,"link":null}';
+        $json = '{"idchange":3,"plugin_name":"CustomAlerts","version":"4.5.0","title":"New feature y added","description":"Now you can do c with d like this","link_name":null,"link":null}';
         $changesModel = new ChangesModel();
         $changes = $changesModel->getChangeItems();
         $r = $changes[1];

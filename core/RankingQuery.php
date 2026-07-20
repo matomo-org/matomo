@@ -68,13 +68,13 @@ class RankingQuery
 
     /**
      * The name of the columns that marks rows to be excluded from the limit
-     * @var string
+     * @var string|false
      */
     private $columnToMarkExcludedRows = false;
 
     /**
      * The column that is used to partition the result
-     * @var bool|string
+     * @var string|false
      */
     private $partitionColumn = false;
 
@@ -169,7 +169,7 @@ class RankingQuery
      * into another array. Both the result and the array of excluded rows are returned
      * by {@link execute()}.
      *
-     * @param $column string Name of the column.
+     * @param string $column Name of the column.
      * @throws Exception if method is used more than once.
      */
     public function setColumnToMarkExcludedRows($column)
@@ -196,8 +196,8 @@ class RankingQuery
      * where `log_action.type = TYPE_OUTLINK`, for rows where `log_action.type = TYPE_ACTION_URL` and for
      * rows `log_action.type = TYPE_DOWNLOAD`.
      *
-     * @param $partitionColumn string The column name to partition by.
-     * @param $possibleValues Array of possible column values.
+     * @param string $partitionColumn The column name to partition by.
+     * @param array $possibleValues Array of possible column values.
      * @throws Exception if method is used more than once.
      */
     public function partitionResultIntoMultipleGroups($partitionColumn, $possibleValues)
@@ -215,10 +215,10 @@ class RankingQuery
      * Executes the query.
      * The object has to be configured first using the other methods.
      *
-     * @param $innerQuery string  The "payload" query that does the actual data aggregation. The ordering
+     * @param string $innerQuery The "payload" query that does the actual data aggregation. The ordering
      *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
-     * @param $bind array         Bindings for the inner query.
+     * @param array $bind Bindings for the inner query.
      * @param int $timeLimit      Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimit > 0
      *                            for more details see {@link DbHelper::addMaxExecutionTimeHintToQuery}
      * @return array              The format depends on which methods have been used
@@ -277,10 +277,10 @@ class RankingQuery
      * If you want to get the result, use execute() instead. If you want to run the query
      * yourself, use this method.
      *
-     * @param $innerQuery string  The "payload" query that does the actual data aggregation. The ordering
+     * @param string $innerQuery The "payload" query that does the actual data aggregation. The ordering
      *                            has to be specified in this query. {@link RankingQuery} cannot apply ordering
      *                            itself.
-     * @param $withRollup bool    A flag which determines whether to generate the SQL query using ROLLUP
+     * @param bool $withRollup A flag which determines whether to generate the SQL query using ROLLUP
      * @return string             The entire ranking query SQL.
      */
     public function generateRankingQuery($innerQuery, bool $withRollup = false)

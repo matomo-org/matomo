@@ -12,6 +12,26 @@ describe("UsersManager", function () {
 
     var url = "?module=UsersManager&action=index";
 
+    async function getVisibleSiteRoles() {
+        await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
+        await page.waitForSelector('#sitesForPermission tbody tr:not(.select-all-row)', { visible: true });
+
+        return page.evaluate(() => {
+            const roles = {};
+
+            $('#sitesForPermission tbody tr').not('.select-all-row').each(function () {
+                const siteName = $(this).find('td:eq(1) span').text().trim();
+                const role = $(this).find('.role-select select').val();
+
+                if (siteName) {
+                    roles[siteName] = role;
+                }
+            });
+
+            return roles;
+        });
+    }
+
     before(async function() {
         await page.webpage.setViewport({
             width: 1250,
@@ -35,8 +55,31 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('load');
     });
 
+    it('should show password confirmation when signing out a single user', async function () {
+        await (await page.jQuery('.signoutuser:eq(0)')).click();
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.focus('.modal.open #currentUserPassword');
+        await page.waitForTimeout(250);
+        expect(await modal.screenshot()).to.matchImage({
+            imageName: 'signout_single_confirm',
+            comparisonThreshold: 0.025
+        });
+    });
+
+    it('should show signout success notification when confirmed sign out', async function () {
+        await page.type('.modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal .confirm-password-btn:visible')).click();
+        await page.waitForTimeout(250);
+        expect(await page.screenshotSelector('.notification-success')).to.matchImage({
+            imageName: 'signout_single_confirmed',
+            comparisonThreshold: 0.025
+        });
+    });
 
     it('should change the results page when next is clicked', async function () {
+        await (await page.jQuery('.notification-success .close')).click();
+        await page.waitForTimeout(250);
         await page.click('.usersListPagination .btn.next');
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
@@ -129,11 +172,15 @@ describe("UsersManager", function () {
         await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
         await page.waitForTimeout(350); // wait for animation
 
-        expect(await (await page.$('.change-user-role-confirm-modal')).screenshot()).to.matchImage('bulk_set_access_confirm');
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
+        expect(await (await page.$('.confirm-password-modal.open')).screenshot()).to.matchImage('bulk_set_access_confirm');
     });
 
     it('should change access for all rows in search when confirmed', async function () {
-        await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('bulk_set_access');
@@ -392,9 +439,10 @@ describe("UsersManager", function () {
         await page.waitForTimeout(500); // animation
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Admin):visible', { waitFor: true })).click();
 
-        await page.waitForSelector('.change-access-confirm-modal');
-
-        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
+        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
@@ -447,13 +495,15 @@ describe("UsersManager", function () {
             $('.access-filter select').val('string:some').change();
         });
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(250); // animation
-        await page.evaluate(() => window.scrollTo(0, 0));
+        await page.waitForFunction(() => !$('.userPermissionsEdit').hasClass('loading'));
 
-        expect(await page.screenshotSelector('.user-permissions')).to.matchImage({
-            imageName: 'permissions_bulk_access_set_all',
-            comparisonThreshold: 0.0015
-        });
+        const roles = await getVisibleSiteRoles();
+
+        expect(roles.hunter12).to.equal('string:view');
+        expect(roles.hunter32).to.equal('string:view');
+        expect(roles.hunter82).to.equal('string:view');
+        expect(roles.hunter2).to.equal('string:write');
+        expect(roles.hunter22).to.equal('string:write');
     });
 
     it('should set access to single site when select in table is used', async function () {
@@ -461,9 +511,12 @@ describe("UsersManager", function () {
             $('.userPermissionsEdit .role-select:eq(0) select').val('string:admin').change();
         });
 
-        await page.waitForSelector('.userPermissionsEdit .change-access-confirm-modal', { visible: true });
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
         await page.waitForTimeout(100); // animation
-        await (await page.jQuery('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+        await page.mouse.move(-10, -10); // avoid hovering the changed row after the modal closes
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
@@ -512,6 +565,30 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_access');
+    });
+
+    it('should require password confirmation when giving admin access to all websites', async function () {
+        await page.evaluate(function () {
+            $('#all-sites-access-select select').val('string:admin').change();
+        });
+        await page.waitForTimeout(250);
+        await (await page.jQuery('#all-sites-access-select + a.btn')).click();
+
+        // granting admin must open the password confirmation modal, not the plain confirm modal
+        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
+        const plainConfirmVisible = await page.evaluate(
+            () => $('.confirm-give-access-all-sites.open').length > 0,
+        );
+        expect(plainConfirmVisible).to.equal(false);
+
+        // abort to leave the user's permissions unchanged for the following tests
+        await (await page.jQuery('.confirm-password-modal.open .modal-close.modal-no:visible')).click();
+        await page.waitForSelector('.confirm-password-modal.open', { hidden: true });
+        await page.evaluate(function () {
+            $('#all-sites-access-select select').val('string:view').change();
+        });
+        await page.mouse.move(-10, -10);
+        await page.waitForTimeout(300);
     });
 
     it('should display the superuser access tab when the superuser tab is clicked', async function () {

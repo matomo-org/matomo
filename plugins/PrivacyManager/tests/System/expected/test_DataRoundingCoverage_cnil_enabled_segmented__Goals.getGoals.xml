@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row key="1">
+		<idsite>1</idsite>
+		<idgoal>1</idgoal>
+		<name>&lt;script&gt;_x(1)&lt;/script&gt;</name>
+		<description>&lt;script&gt;_x(2)&lt;/script&gt;</description>
+		<match_attribute>url</match_attribute>
+		<pattern>http</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>1</allow_multiple>
+		<revenue>5</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+	</row>
+	<row key="2">
+		<idsite>1</idsite>
+		<idgoal>2</idgoal>
+		<name>{{_Vue.h.constructor`_x(4)`()}}</name>
+		<description>{{_Vue.h.constructor`_x(5)`()}}</description>
+		<match_attribute>url</match_attribute>
+		<pattern>http</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>5</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+	</row>
+	<row key="3">
+		<idsite>1</idsite>
+		<idgoal>3</idgoal>
+		<name>click event</name>
+		<description />
+		<match_attribute>event_action</match_attribute>
+		<pattern>click</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>0</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+	</row>
+	<row key="4">
+		<idsite>1</idsite>
+		<idgoal>4</idgoal>
+		<name>category event</name>
+		<description>categorydesc</description>
+		<match_attribute>event_category</match_attribute>
+		<pattern>The_Category</pattern>
+		<pattern_type>exact</pattern_type>
+		<case_sensitive>1</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>0</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+	</row>
+	<row key="5">
+		<idsite>1</idsite>
+		<idgoal>5</idgoal>
+		<name>name event</name>
+		<description>eventdesc</description>
+		<match_attribute>event_name</match_attribute>
+		<pattern>&lt;the_'&quot;name&gt;</pattern>
+		<pattern_type>exact</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>0</allow_multiple>
+		<revenue>0</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+	</row>
+</result>

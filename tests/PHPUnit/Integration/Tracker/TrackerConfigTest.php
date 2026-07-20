@@ -21,14 +21,15 @@ class TrackerConfigTest extends IntegrationTestCase
 {
     public function testGetConfigValueWithUseThirdPartyIdCookieReturnsResult(): void
     {
-        Config::getInstance()->FeatureFlags['PrivacyCompliance_feature'] = 'enabled';
-
         $this->assertEquals(false, TrackerConfig::getConfigValue('use_third_party_id_cookie'));
     }
-    public function testGetConfigValueWithUseThirdPartyIdCookieReturnsResultWithFeatureFlagDisabled(): void
-    {
-        Config::getInstance()->FeatureFlags['PrivacyCompliance_feature'] = 'disabled';
 
-        $this->assertEquals(false, TrackerConfig::getConfigValue('use_third_party_id_cookie'));
+    public function testGetBooleanConfigValueWithUseThirdPartyIdCookieReturnsResult(): void
+    {
+        Config::getInstance()->Tracker = ['use_third_party_id_cookie' => true];
+        Config::getInstance()->Tracker_10 = ['use_third_party_id_cookie' => false];
+
+        $this->assertTrue(TrackerConfig::getBoolConfigValue('use_third_party_id_cookie'));
+        $this->assertFalse(TrackerConfig::getBoolConfigValue('use_third_party_id_cookie', null, 10));
     }
 }

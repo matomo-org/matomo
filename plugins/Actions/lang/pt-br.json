@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "Tipo de Ação",
+        "ActionTypeSegmentHelp": "Um tipo de ação, como: %s",
         "ActionTypes": "Tipo de Ação",
         "ActionsInVisit": "Ações em Visita",
         "AvgGenerationTimeTooltip": "Média baseada em %1$s visita(s) %2$s entre %3$s e %4$s",
@@ -66,13 +67,14 @@
         "PagesSubcategoryHelp3": "Use os ícones de mais e menos à esquerda para navegar.",
         "PluginDescription": "Relatórios sobre visualizações de páginas e títulos de página. Permite que você mensure o sistema de busca interno do seu website. Registra automaticamente cliques em links externos e baixa de arquivos.",
         "RevisitedPages": "Páginas visualizadas mais de uma vez",
+        "SearchesSegmentHelp": "Para selecionar todas as visitas que utilizaram a Pesquisa interna do Site, use: %s",
         "SiteSearchCategories": "Categorias (Pesquisa no Site)",
         "SiteSearchCategories1": "Este relatório lista as categorias que os visitantes selecionaram, quando eles fizeram uma pesquisa em seu site.",
         "SiteSearchCategories2": "Por exemplo: os sites de comércio eletrônico têm tipicamente uma \"Categoria\" seletora de modo que os visitantes podem restringir suas pesquisas a todos os produtos de uma categoria específica.",
         "SiteSearchCategory": "Categoria (Pesquisa no Site)",
         "SiteSearchFollowingPagesDoc": "Quando os visitantes pesquisam em seu site, eles estão à procura de uma determinada página, conteúdo, produto ou serviço. Este relatório lista as páginas que foram mais clicadas depois de uma procura interna. Em outras palavras, a lista de páginas mais procuradas pelos visitantes já no seu site.",
         "SiteSearchIntro": "Acompanhamento de pesquisas que os visitantes fazem em seu site é uma forma muito eficaz de aprender mais sobre o que o seu público está procurando, ele pode ajudar a encontrar idéias de novos conteúdos, novos produtos de comércio eletrônico que potenciais clientes podem estar procurando, e em geral, melhorar as visitas ' experiência em seu site.",
-        "SiteSearchKeyword": "Palavra-Chave (Pesquisa no SIte)",
+        "SiteSearchKeyword": "Palavra-chave (pesquisa no site)",
         "SiteSearchKeywordCount": "Contagem de palavra-chave (Procurar Site)",
         "SiteSearchKeywordCounts": "Contagem de palavras-chave (Procurar Site)",
         "SiteSearchKeywords": "Palavras-chave (Pesquisa no site)",

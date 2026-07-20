@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<label>category</label>
-		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_events>2</nb_events>
 		<nb_events_with_value>0</nb_events_with_value>
@@ -14,7 +14,7 @@
 		<subtable>
 			<row>
 				<label>action</label>
-				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
 				<nb_events>2</nb_events>
 				<nb_events_with_value>0</nb_events_with_value>

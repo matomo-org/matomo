@@ -50,6 +50,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'icon' => '',
                 'help' => '',
                 'widget' => null,
+                'groups' => array(''),
             ),
             'subcategory' => array(
                 'id' => 'SubcategoryId',
@@ -92,6 +93,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
             'icon' => '',
             'help' => '',
             'widget' => null,
+            'groups' => array(''),
         ), $metadata['category']);
         $this->assertNull($metadata['subcategory']);
     }
@@ -112,6 +114,20 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
         $metadata = $this->metadata->buildWidgetMetadata($config);
 
         $this->assertSame(array('module' => 'Goals', 'action' => 'hasAnyConversions'), $metadata['middlewareParameters']);
+    }
+
+    public function testBuildWidgetMetadataShouldAddOptionalClientComponent()
+    {
+        $config = $this->createWidgetConfig('Test', 'CategoryId', 'SubcategoryId');
+        $config->setClientSideComponent('Transitions', 'TransitionsPage');
+        $config->setClientSideProps(array('foo' => 'bar'));
+        $metadata = $this->metadata->buildWidgetMetadata($config);
+
+        $this->assertSame(array(
+            'plugin' => 'Transitions',
+            'name' => 'TransitionsPage',
+            'props' => array('foo' => 'bar'),
+        ), $metadata['clientComponent']);
     }
 
     public function testBuildWidgetMetadataShouldAddReportInformtionIfReportWidgetConfigGiven()
@@ -147,6 +163,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'icon' => '',
                 'help' => '',
                 'widget' => null,
+                'groups' => array(''),
             ),
             'subcategory' => array (
                 'id' => 'NestedSubcategory1',
@@ -173,6 +190,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'icon' => '',
                 'help' => '',
                 'widget' => null,
+                'groups' => array(''),
             ),
             'subcategory' => array (
                 'id' => 'NestedSubcategory2',
@@ -215,6 +233,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'icon' => '',
                 'help' => '',
                 'widget' => null,
+                'groups' => [''],
             ],
             'subcategory' => [
                 'id' => 'Subcategory2',
@@ -258,6 +277,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'icon' => '',
                 'help' => '',
                 'widget' => null,
+                'groups' => array(''),
             ),
             'subcategory' => array (
                 'id' => 'NestedSubcategory1',

@@ -20,6 +20,7 @@ class MultiDeviceGoalConversions extends Fixture
 {
     public $dateTime = '2009-01-04 00:11:42';
     public $idSite   = 1;
+    public $idSite2  = 2;
     public $idGoal   = 1;
 
     public function setUp(): void
@@ -28,6 +29,7 @@ class MultiDeviceGoalConversions extends Fixture
         $this->trackSmartphoneVisits();
         $this->trackTabletVisits();
         $this->trackOtherVisits();
+        $this->trackAdditionalSiteVisits();
     }
 
     public function tearDown(): void
@@ -39,6 +41,10 @@ class MultiDeviceGoalConversions extends Fixture
     {
         if (!self::siteCreated($idSite = 1)) {
             self::createWebsite($this->dateTime, $ecommerce = 1);
+        }
+
+        if (!self::siteCreated($idSite = 2)) {
+            self::createWebsite($this->dateTime, $ecommerce = 0);
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
@@ -193,6 +199,16 @@ class MultiDeviceGoalConversions extends Fixture
 
         $t->setUrl('http://example.org/index.htm');
         self::checkResponse($t->doTrackPageView('0'));
+    }
+
+    private function trackAdditionalSiteVisits()
+    {
+        $t = self::getTracker($this->idSite2, $this->getAdjustedDateTime(2), $defaultInit = true);
+
+        $t->setUserAgent('Mozilla/5.0 (Linux; Android 4.4.2; SM-G900F Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Mobile Safari/537.36');
+
+        $t->setUrl('http://example-two.org/index.htm');
+        self::checkResponse($t->doTrackPageView('site-two'));
     }
 
 

@@ -73,7 +73,7 @@ class Chart
      * Set the series values
      *
      * @param            $values
-     * @param null       $seriesMetadata
+     * @param array|null $seriesMetadata
      * @param array|null $seriesUnits     If the series units array is passed then the values will be formatted
      */
     public function setAxisYValues(&$values, $seriesMetadata = null, ?array $seriesUnits = null)

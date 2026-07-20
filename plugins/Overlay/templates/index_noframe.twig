@@ -6,12 +6,26 @@
 <div id="overlayNoFrame">
 
     <script type="text/javascript">
+        // The startOverlaySession URL is matched by piwik.js::isOverlaySession(). Only the
+        // canonical handshake parameters (module, action, idSite, period, date, segment) belong here.
         var newLocation = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ date }}&segment={{ segment }}';
-        if (piwik.shouldPropagateTokenAuth) {
-            if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
-                newLocation += '&force_api_session=1';
-            }
-            newLocation += '&token_auth=' + piwik.token_auth;
+
+        function submitPostNavigation(action, params) {
+            var form = document.createElement('form');
+            form.method = 'post';
+            form.action = action;
+            form.style.display = 'none';
+
+            Object.keys(params).forEach(function (key) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = params[key];
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
         }
 
         var locationParts = window.location.href.split('#');
@@ -20,7 +34,18 @@
             url = Overlay_Helper.decodeFrameUrl(url);
             newLocation += '#' + url;
         }
-        window.location.href = newLocation;
+
+        if (piwik.shouldPropagateTokenAuth) {
+            var postParams = {
+                token_auth: piwik.token_auth
+            };
+            if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
+                postParams.force_api_session = '1';
+            }
+            submitPostNavigation(newLocation, postParams);
+        } else {
+            window.location.href = newLocation;
+        }
     </script>
 
 </div>

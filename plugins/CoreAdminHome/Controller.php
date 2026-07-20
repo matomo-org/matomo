@@ -25,16 +25,19 @@ use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Request;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Url;
+use Piwik\UrlHelper;
 use Piwik\View;
 use Piwik\Widget\WidgetsList;
 use Piwik\SettingsPiwik;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Plugins\UsersManager\UserPreferences;
 
 class Controller extends ControllerAdmin
 {
@@ -46,10 +49,14 @@ class Controller extends ControllerAdmin
     /** @var OptOutManager */
     private $optOutManager;
 
-    public function __construct(Translator $translator, OptOutManager $optOutManager)
+    /** @var PasswordVerifier */
+    private $passwordVerify;
+
+    public function __construct(Translator $translator, OptOutManager $optOutManager, PasswordVerifier $passwordVerify)
     {
         $this->translator = $translator;
         $this->optOutManager = $optOutManager;
+        $this->passwordVerify = $passwordVerify;
 
         parent::__construct();
     }
@@ -152,12 +159,29 @@ class Controller extends ControllerAdmin
             return '';
         }
 
+        if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+            throw new Exception('Invalid HTTP method.');
+        }
+
         $response = new ResponseBuilder('json');
         try {
             $this->checkTokenInUrl();
 
+            $request = Request::fromPost();
+
+            // require password re-authentication before applying any changes
+            $login = Piwik::getCurrentUserLogin();
+            if (Piwik::doesUserRequirePasswordConfirmation($login)) {
+                $passwordConfirmation = $request->getStringParameter('passwordConfirmation', '');
+                if (
+                    $passwordConfirmation === ''
+                    || !$this->passwordVerify->isPasswordCorrect($login, $passwordConfirmation)
+                ) {
+                    throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
+                }
+            }
+
             // Update email settings
-            $request = Request::fromRequest();
             $mail = [];
             $mail['transport'] = $request->getBoolParameter('mailUseSmtp') ? 'smtp' : '';
             $mail['port'] = $request->getStringParameter('mailPort', '');
@@ -166,7 +190,7 @@ class Controller extends ControllerAdmin
             $mail['username'] = $request->getStringParameter('mailUsername', '');
             $mail['password'] = $request->getStringParameter('mailPassword', '');
 
-            if (!array_key_exists('mailPassword', $_POST) && Config::getInstance()->mail['host'] === $mail['host']) {
+            if (!array_key_exists('mailPassword', $request->getParameters()) && Config::getInstance()->mail['host'] === $mail['host']) {
                 // use old password if it wasn't set in request (and the host wasn't changed)
                 $mail['password'] = Config::getInstance()->mail['password'];
             }
@@ -176,14 +200,11 @@ class Controller extends ControllerAdmin
             Config::getInstance()->mail = $mail;
 
             $general = Config::getInstance()->General;
-            $fromName = Common::getRequestVar('mailFromName', '');
-            $general['noreply_email_name'] = Common::unsanitizeInputValue($fromName);
+            $general['noreply_email_name'] = $request->getStringParameter('mailFromName', '');
 
-            $mailFrom = Common::getRequestVar('mailFromAddress', '');
+            $mailFrom = $request->getStringParameter('mailFromAddress', '');
             if (empty($mailFrom)) {
                 $mailFrom = 'noreply@{DOMAIN}';
-            } else {
-                $mailFrom = Common::unsanitizeInputValue($mailFrom);
             }
             if (!Piwik::isValidEmailString($mailFrom) && !Common::stringEndsWith($mailFrom, '@{DOMAIN}')) {
                 throw new Exception(Piwik::translate('CoreAdminHome_ErrorEmailFromAddressNotValid'));
@@ -202,7 +223,7 @@ class Controller extends ControllerAdmin
     }
 
     /**
-     * Renders and echo's an admin page that lets users generate custom JavaScript
+     * Renders and returns an admin page that lets users generate custom JavaScript
      * tracking code and custom image tracker links.
      */
     public function trackingCodeGenerator()
@@ -355,10 +376,117 @@ class Controller extends ControllerAdmin
         $user = $model->getUser(Piwik::getCurrentUserLogin());
         if (!empty($user)) {
             $userChanges = new UserChanges($user);
-            $changes = $userChanges->getChanges();
+            $changes = $this->enrichChangesForWhatIsNew($userChanges->getChanges());
             return $this->renderTemplate('whatIsNew', ['changes' => $changes]);
         } else {
             throw new \Exception('Unable to getUser() when attempting to show whatIsNew');
         }
+    }
+
+    /**
+     * Adds metadata used for rendering entries in the What's New popup.
+     */
+    private function enrichChangesForWhatIsNew(array $changes): array
+    {
+        $pluginManager = Plugin\Manager::getInstance();
+
+        foreach ($changes as &$change) {
+            $pluginName = $change['plugin_name'] ?? '';
+            $change['showPluginPrefix'] = !empty($pluginName)
+                && !$pluginManager->isPluginBundledWithCore($pluginName);
+
+            if (!empty($change['link'])) {
+                $defaultIdSite = $this->getDefaultIdSiteForWhatIsNewLinks();
+                if (!empty($defaultIdSite)) {
+                    $change['link'] = $this->normalizeWhatIsNewLink($change['link'], $defaultIdSite);
+                }
+            }
+        }
+        unset($change);
+
+        return $changes;
+    }
+
+    private function getDefaultIdSiteForWhatIsNewLinks(): ?int
+    {
+        $userPreferences = new UserPreferences();
+        $defaultReport = $userPreferences->getDefaultReport();
+
+        if (is_numeric($defaultReport)) {
+            return (int) $defaultReport;
+        }
+
+        $defaultWebsiteId = $userPreferences->getDefaultWebsiteId();
+        if (is_numeric($defaultWebsiteId)) {
+            return (int) $defaultWebsiteId;
+        }
+
+        return null;
+    }
+
+    private function normalizeWhatIsNewLink(string $link, int $defaultIdSite): string
+    {
+        if (!$this->isInternalWhatIsNewLink($link)) {
+            return $link;
+        }
+
+        // Use a path relative to the current Matomo install so subdirectory installs
+        // don't resolve internal "What's New" links against the web root.
+        if (strpos($link, '/index.php') === 0) {
+            $link = substr($link, 1);
+        }
+
+        $parsedLink = @parse_url($link);
+        if (!is_array($parsedLink)) {
+            return $link;
+        }
+
+        $query = $parsedLink['query'] ?? '';
+        $parsedLink['query'] = $this->replaceIdSiteInQueryString($query, $defaultIdSite);
+
+        $fragment = $parsedLink['fragment'] ?? '';
+        $parsedLink['fragment'] = $this->replaceIdSiteInFragment($fragment, $defaultIdSite);
+
+        if ($query === $parsedLink['query'] && $fragment === $parsedLink['fragment']) {
+            return $link;
+        }
+
+        return UrlHelper::getParseUrlReverse($parsedLink) ?: $link;
+    }
+
+    private function replaceIdSiteInFragment(string $fragment, int $idSite): string
+    {
+        $fragmentPrefix = '';
+        $fragmentQuery = '';
+        if (strpos($fragment, '/?') === 0) {
+            $fragmentPrefix = '/?';
+            $fragmentQuery = substr($fragment, 2);
+        } elseif (strpos($fragment, '?') === 0) {
+            $fragmentPrefix = '?';
+            $fragmentQuery = substr($fragment, 1);
+        }
+
+        if (empty($fragmentPrefix)) {
+            return $fragment;
+        }
+
+        return $fragmentPrefix . $this->replaceIdSiteInQueryString($fragmentQuery, $idSite);
+    }
+
+    private function replaceIdSiteInQueryString(string $queryStr, int $idSite): string
+    {
+        $queryParams = UrlHelper::getArrayFromQueryString($queryStr);
+
+        if (!array_key_exists('idSite', $queryParams)) {
+            return $queryStr;
+        }
+
+        $queryParams['idSite'] = $idSite;
+        return Url::getQueryStringFromParameters($queryParams);
+    }
+
+    private function isInternalWhatIsNewLink(string $link): bool
+    {
+        return strpos($link, 'index.php') === 0 || strpos($link, '/index.php') === 0;
     }
 }

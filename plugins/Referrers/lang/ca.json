@@ -85,7 +85,7 @@
         "URLCampaignBuilder": "Generador d'URL de campanya",
         "URLCampaignBuilderIntro": "L'eina %1$sURL Builder%2$s us permet generar URL preparades per utilitzar-les per fer el seguiment de campanyes a Matomo. Consulteu la documentació sobre %3$sSeguiment de campanyes%4$s per obtenir més informació.",
         "URLCampaignBuilderResult": "URL generat que podeu copiar i enganxar a les vostres campanyes, butlletí de correu electrònic, anuncis de Facebook o tuits:",
-        "UsingNDistinctUrls": "(utilitzant %s URL diferents)",
+        "UsingNDistinctUrls": "(utilitzant %s url diferents)",
         "ViewAllReferrers": "Veure tots els referents",
         "ViewReferrersBy": "Veure referents per %s",
         "VisitorsFromAIAssistants": "Visitants d'assistents d'IA",

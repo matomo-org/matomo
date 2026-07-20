@@ -14,18 +14,18 @@ use Piwik\Piwik;
 use Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException;
 
 /**
- * API for plugin CustomJsTracker
+ * Provides API methods for custom JavaScript tracker configuration.
  *
  * @method static \Piwik\Plugins\CustomJsTracker\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Detects whether plugin trackers will be automatically added to piwik.js or not. If not, the plugin tracker files
-     * need to be loaded manually.
-     * @return bool
+     * Returns whether plugin tracker files will be included automatically in `matomo.js`.
+     *
+     * @return bool Whether plugin tracker files are included automatically.
      */
-    public function doesIncludePluginTrackersAutomatically()
+    public function doesIncludePluginTrackersAutomatically(): bool
     {
         Piwik::checkUserHasSomeAdminAccess();
 

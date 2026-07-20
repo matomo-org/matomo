@@ -227,21 +227,23 @@ window.piwikHelper = {
         var useExternalPluginComponent = CoreHome.useExternalPluginComponent;
         var createVueApp = CoreHome.createVueApp;
         var component;
+        let pluginName = parts[0];
+        let componentName = parts[1];
 
-        var shouldLoadOnDemand = (piwik.pluginsToLoadOnDemand || []).indexOf(parts[0]) !== -1;
+        var shouldLoadOnDemand = (piwik.pluginsToLoadOnDemand || []).indexOf(pluginName) !== -1;
         if (!shouldLoadOnDemand) {
-          var plugin = window[parts[0]];
+          var plugin = window[pluginName];
           if (!plugin) {
             // plugin may not be activated
             return;
           }
 
-          component = plugin[parts[1]];
+          component = plugin[componentName];
           if (!component) {
             throw new Error('Unknown component in vue-entry: ' + entry);
           }
         } else {
-          component = useExternalPluginComponent(parts[0], parts[1]);
+          component = useExternalPluginComponent(pluginName, componentName);
         }
 
         var paramsStr = '';
@@ -279,7 +281,8 @@ window.piwikHelper = {
         // template that references the root component and wraps the vue-entry component's html.
         // this allows using slots in twig.
         var app = createVueApp({
-          template: '<root ' + paramsStr + '>' + this.innerHTML.replace('{{', '{&lbrace;') + '</root>',
+          name: entry,
+          template: '<root ' + paramsStr + '>' + this.innerHTML.replaceAll('{{', '{&lbrace;') + '</root>',
           data: function () {
             return componentParams;
           },
@@ -502,6 +505,11 @@ window.piwikHelper = {
             // if given, the modal will be shown larger than usual and almost consume the full width.
             $content.addClass('modal-extra-wide');
             delete options.extraWide;
+        }
+
+        // add custom css classes to dialog
+        if (options && options.classes) {
+          $content.addClass(options.classes);
         }
 
         if (options && !options.onOpenEnd) {

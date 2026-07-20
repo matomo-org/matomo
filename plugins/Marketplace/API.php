@@ -76,8 +76,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @throws Service\Exception If the marketplace request failed
-     *
      * @internal
      */
     public function createAccount(string $email): bool
@@ -110,6 +108,7 @@ class API extends \Piwik\Plugin\API
         $allowedDomainsValidator->validate($email);
 
         try {
+            /** @var array $result */
             $result = $this->marketplaceService->fetch(
                 'createAccount',
                 [],
@@ -156,9 +155,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Deletes an existing license key if one is set.
      *
-     * @return bool
+     * @return bool `true` after the stored license key has been removed.
      */
-    public function deleteLicenseKey()
+    public function deleteLicenseKey(): bool
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -194,8 +193,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @throws Service\Exception If the marketplace request failed
-     *
      * @internal
      */
     public function startFreeTrial(string $pluginName): bool
@@ -210,6 +207,7 @@ class API extends \Piwik\Plugin\API
 
         $this->marketplaceService->authenticate($licenseKey);
 
+        /** @var array $result */
         $result = $this->marketplaceService->fetch(
             'plugins/' . $pluginName . '/freeTrial',
             [
@@ -240,13 +238,10 @@ class API extends \Piwik\Plugin\API
      * Saves the given license key in case the key is actually valid (exists on the Matomo Marketplace and is not
      * yet expired).
      *
-     * @param string $licenseKey
-     * @return bool
-     *
-     * @throws Exception In case of an invalid license key
-     * @throws Service\Exception In case of any network problems
+     * @param string $licenseKey Marketplace license key to validate and store.
+     * @return bool `true` after the license key has been validated and saved.
      */
-    public function saveLicenseKey($licenseKey)
+    public function saveLicenseKey(string $licenseKey): bool
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -256,13 +251,14 @@ class API extends \Piwik\Plugin\API
         $this->marketplaceService->authenticate($licenseKey);
 
         try {
+            /** @var array $consumer */
             $consumer = $this->marketplaceService->fetch('consumer/validate', array());
         } catch (Api\Service\Exception $e) {
             if ($e->getCode() === Api\Service\Exception::HTTP_ERROR) {
                 throw $e;
             }
 
-            $consumer = array();
+            $consumer = [];
         }
 
         if (empty($consumer['isValid'])) {
@@ -274,7 +270,7 @@ class API extends \Piwik\Plugin\API
         return true;
     }
 
-    private function setLicenseKey($licenseKey)
+    private function setLicenseKey(?string $licenseKey): void
     {
         $key = new LicenseKey();
         $key->set($licenseKey);

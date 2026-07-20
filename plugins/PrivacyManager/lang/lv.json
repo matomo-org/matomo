@@ -46,7 +46,7 @@
         "BuildYourOwn": "Izveidojiet savu",
         "ClickHereSettings": "Klikšķiniet šeit lai piekļūtu %s iestatījumiem.",
         "ComplianceTableSettingStatus": "Statuss",
-        "ConsentExplanation": "Piekrišana nozīmē iespēju privātpersonām izvēlēties un kontrolēt, kā tiek apstrādāti viņu personas dati.",
+        "ConsentManagementPlatformsOutro": "Ja neizmantojat kādu no iepriekš minētajiem piekrišanas pārvaldniekiem, varat implementēt %1$ssekošanu ar piekrišanu, izmantojot Matomo JavaScript API%2$s.",
         "ConsentManager": "Piekrīšanas pārvaldnieks",
         "ConsentManagerConnected": "Šķiet, ka %1$s jau ir konfigurēts darbam ar Matomo.",
         "ConsentManagerDetected": "Jūsu vietnē tika konstatēts %1$s piekrišanas pārvaldnieks. Lai uzzinātu, kā konfigurēt Matomo, lai tas strādātu ar %1$s, lūdzu, izlasiet %2$sšo rokasgrāmatu%3$s",
@@ -116,9 +116,6 @@
         "GdprToolsPageIntroEraseRight": "tiesības dzēst daļu vai visus savus datus (un tiesības uz labojumu).",
         "GeolocationAnonymizeIpNote": "Piezīme: ģeolokācija dos aptuveni tādus pašus rezultātus ar 1 anonimizētu baitu. Ar 2 baitiem vai vairāk, ģeolokācija būs neprecīza.",
         "GetPurgeEstimate": "Iegūt tīrīšanas apjoma novērtējumu",
-        "HowDoIAskForConsent": "Kā varu lūgt lietotāju piekrišanu?",
-        "HowDoIAskForConsentIntro": "Matomo ir pieejamas rokasgrāmatas piekrišanas izsekošanas iestatīšanai pie šādiem populāriem piekrišanas pārvaldītājiem:",
-        "HowDoIAskForConsentOutro": "Ja neizmantojat kādu no iepriekš minētajiem piekrišanas pārvaldniekiem, varat implementēt %1$ssekošanu ar piekrišanu, izmantojot Matomo JavaScript API%2$s.",
         "IPAddress": "IP adrese",
         "Imprint": "Autortiesības",
         "ImprintUrl": "Autortiesību lapas URL",
@@ -177,7 +174,6 @@
         "PurgingData": "Dzēš datus…",
         "RawDataNeverRemoved": "apmeklējumu un darbību neapstrādātie dati <strong>nekad</strong> netiek dzēsti.",
         "RawDataRemovedAfter": "visu apmeklējumu un darbību neapstrādāti dati tiek dzēsti pēc %1$s.",
-        "RecommendedForPrivacy": "Ieteicams privātumam",
         "ReportsDataSavedEstimate": "Datubāzes izmērs",
         "ReportsNeverRemoved": "apkopotie ziņojumi <strong>nekad</strong> netiek dzēsti.",
         "ReportsRemovedAfter": "visi apkopotie ziņojumi tiek izdzēsti pēc %1$s.",
@@ -221,9 +217,6 @@
         "VisitsMatchedCriteria": "Šie apmeklējumi atbilst izvēlētajiem kritērijiem.",
         "VisitsSuccessfullyDeleted": "Apmeklējumi tika veiksmīgi dzēsti",
         "VisitsSuccessfullyExported": "Apmeklējumi tika veiksmīgi eksportēti",
-        "WhenConsentIsNeededPart1": "%1$s GDPR konfidencialitātes noteikumi %2$s pieprasa lietotāju piekrišanu, apstrādājot personas datus dažos gadījumos. Lai noteiktu, vai ir jālūdz piekrišana, ir jāidentificē jūsu likumīgais pamats personas datu apstrādei. Tā var būt vai nu “piekrišana”, vai “likumīgas intereses”, vai arī jūs varat izvairīties no personas datu apkopošanas pavisam.",
-        "WhenConsentIsNeededPart2": "Ieteicams uzzināt vairāk par likumīgo pamatu personīgo datu apstrādei saskaņā ar GDPR. Plašāku informāciju par šo tēmu varat atrast mūsu %1$sblogā%2$s.",
-        "WhenConsentIsNeededPart3": "Ņemiet vērā, ka, ja jums ir nepieciešama jūsu lietotāju piekrišana un jūs nevarat pierādīt, ka iepriekš esat saņēmis viņu piekrišanu, mēs iesakām anonimizēt jūsu iepriekš izsekotos lietotāju neapstrādātos datus. Iepriekš izsekoto lietotāju neapstrādāto datu anonimizēšanu var veikt, izmantojot konfidencialitātes pārvaldnieku pakalpojumā Matomo %1$suzzināt vairāk%2$s.",
         "WhenDoINeedConsent": "Kad man jālūdz lietotāja piekrišana?"
     }
 }

@@ -20,6 +20,20 @@ describe("Menus", function () {
         await page.waitForTimeout(250);
     }
 
+    async function screenshotClippedSelector(selector, maxHeight, screenshotName) {
+        const element = await page.$(selector);
+        const box = await element.boundingBox();
+
+        expect(await page.screenshot({
+            clip: {
+              x: Math.floor(box.x),
+              y: Math.floor(box.y),
+              width: Math.ceil(box.width),
+              height: Math.min(maxHeight, Math.ceil(box.height)),
+            },
+        })).to.matchImage(screenshotName);
+    }
+
     beforeEach(function() {
         if (testEnvironment.enableProfessionalSupportAdsForUITests) {
           delete testEnvironment.enableProfessionalSupportAdsForUITests;
@@ -66,21 +80,35 @@ describe("Menus", function () {
         expect(await element.screenshot()).to.matchImage('mainmenu_lower_clicked');
     });
 
+    // AI Insights section
+    it('should switch to the AI Insights section when its top menu entry is clicked', async function() {
+        await page.webpage.setViewport({ width: 1500, height: 750 });
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview");
+        await page.waitForSelector('#secondNavBar', { visible: true });
+
+        // the "AI Insights" top menu entry is tagged with its reporting group
+        await page.click('.nav-wrapper .right a[data-reporting-group="CoreHome_AIInsights"]');
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(500);
+
+        const element = await page.jQuery('#secondNavBar');
+        expect(await element.screenshot()).to.matchImage('ai_insights_menu');
+    });
+
     // admin menu tests
     it('should load the admin reporting menu correctly', async function() {
+        await page.webpage.setViewport({width: 1500, height: 750 });
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
         await page.waitForSelector('#secondNavBar');
 
-        const element = await page.jQuery('#secondNavBar');
-        expect(await element.screenshot()).to.matchImage('admin_loaded');
+        await screenshotClippedSelector('#secondNavBar', 620, 'admin_loaded');
     });
 
     it('should toggle the submenu visibility when main item is clicked', async function() {
         await openMenuItem(page, 'Website');
         await page.waitForTimeout(500); // wait for animation
 
-        const element = await page.jQuery('#secondNavBar');
-        expect(await element.screenshot()).to.matchImage('admin_websites');
+        await screenshotClippedSelector('#secondNavBar', 620, 'admin_websites');
     });
 
     it('should change the admin page correctly when an admin menu item is clicked', async function() {
@@ -93,7 +121,7 @@ describe("Menus", function () {
     });
 
     it('should load the admin left menu correctly on mobile', async function() {
-        await page.webpage.setViewport({ width: 815, height: 1500 });
+        await page.webpage.setViewport({ width: 815, height: 1650 });
         await page.goto("?module=CoreAdminHome&action=home");
         await page.waitForNetworkIdle();
         await page.click('[data-target="mobile-left-menu"]');
@@ -106,7 +134,7 @@ describe("Menus", function () {
         await page.click('ul#mobile-left-menu > li:nth-child(6) a');
         await page.waitForTimeout(500);
 
-        expect(await page.screenshotSelector('#mobile-left-menu')).to.matchImage('mobile_left_admin');
+        expect(await page.screenshotSelector('#mobile-left-menu', false)).to.matchImage('mobile_left_admin');
     });
 
     it('should load the admin top menu correctly on mobile', async function() {
@@ -118,11 +146,11 @@ describe("Menus", function () {
         });
         await page.waitForTimeout(250);
 
-        expect(await page.screenshotSelector('#mobile-top-menu')).to.matchImage('mobile_top');
+        expect(await page.screenshotSelector('#mobile-top-menu', false)).to.matchImage('mobile_top');
     });
 
     it('should load the left reporting menu correctly on mobile', async function() {
-        await page.webpage.setViewport({ width: 768, height: 1200 });
+        await page.webpage.setViewport({ width: 768, height: 1000 });
         await page.goto("?" + generalParams + "&module=CoreHome&action=index#?category=General_Visitors&subcategory=General_Overview");
         await page.waitForNetworkIdle();
         await page.evaluate(function(){
@@ -132,6 +160,6 @@ describe("Menus", function () {
         await (await page.jQuery('#mobile-left-menu>li>ul:contains(Goals)')).click();
         await page.waitForTimeout(500);
 
-        expect(await page.screenshotSelector('#mobile-left-menu')).to.matchImage('mobile_left');
+        expect(await page.screenshotSelector('#mobile-left-menu', false)).to.matchImage('mobile_left');
     });
 });

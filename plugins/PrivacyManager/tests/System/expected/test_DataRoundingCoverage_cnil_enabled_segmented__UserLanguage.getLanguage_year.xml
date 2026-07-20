@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>260</nb_visits>
+		<nb_actions>600</nb_actions>
+		<max_actions>18</max_actions>
+		<sum_visit_length>83848</sum_visit_length>
+		<bounce_count>140</bounce_count>
+		<nb_visits_converted>140</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>100</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>30</sum_daily_nb_users>
+		<segment>languageCode==fr,languageCode=@fr-</segment>
+	</row>
+	<row>
+		
+		<nb_visits>160</nb_visits>
+		<nb_actions>310</nb_actions>
+		<max_actions>20</max_actions>
+		<sum_visit_length>32176</sum_visit_length>
+		<bounce_count>110</bounce_count>
+		<nb_visits_converted>160</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>90</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>languageCode==xx</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>6</max_actions>
+		<sum_visit_length>6126</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>languageCode==pl,languageCode=@pl-</segment>
+	</row>
+</result>

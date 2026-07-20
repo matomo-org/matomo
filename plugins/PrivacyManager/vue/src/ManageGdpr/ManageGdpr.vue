@@ -15,10 +15,10 @@
           {{ translate('PrivacyManager_GdprToolsPageIntro2') }}
           <br />
         </p>
-        <ol>
+        <ul>
           <li>{{ translate('PrivacyManager_GdprToolsPageIntroAccessRight') }}</li>
           <li>{{ translate('PrivacyManager_GdprToolsPageIntroEraseRight') }}</li>
-        </ol>
+        </ul>
         <p>
           <br />
           <span

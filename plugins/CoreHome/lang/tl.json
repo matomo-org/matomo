@@ -24,6 +24,8 @@
         "NoPrivilegesAskPiwikAdmin": "Ikaw ay naka-log-in bilang '%1$s' ngunit mukhang wala kang anumang pahintulot na naka-set sa Matomo. %2$s Tanungin ang iyong Matomo administrator (i-click upang i-email) %3$s upang bigyan ka ng 'view' access sa website.",
         "PeriodRange": "Pagitan",
         "PivotBySubtable": "Ang ulat na ito ay hindi umiikot %1$s Paikutin ng %2$s",
+        "PresetDateToday": "Ngayong araw",
+        "PresetDateYesterday": "Kahapon",
         "ReportGeneratedOn": "Ang ulat ay ginawa sa %s",
         "ReportGeneratedXAgo": "Ang ulat ay ginawa %s na ang nakalilipas",
         "SharePiwikShort": "Matomo! Libreng web analytics. Maging may-ari ng iyong data",

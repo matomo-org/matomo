@@ -10,15 +10,15 @@
 
 <a name="reportTop"></a>
 
-<table style="width:100%; background-color: &#x23;3450A3; color: &#x23;fff; padding:10px 0; margin: 0 0 25px 0; height:64px;">
+<table style="width:100%; background-color: &#x23;fff; color: &#x23;646464; padding:10px 0; margin: 0 0 25px 0; height:64px;">
     <tr>
         <td>
-            <a style="color:#212121;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, 'Helvetica Neue', sans-serif;; font-size:16px;padding:0 15px;padding-bottom: 8px;color: &#x23;fff;height: 22px;display: inline-block;vertical-align: inherit;" rel="noreferrer noopener" target="_blank" href="http://example.com/piwik/tests/PHPUnit/proxy/">
+            <a style="color:#212121;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, 'Helvetica Neue', sans-serif;; font-size:16px;padding:0 15px;padding-bottom: 8px;color: &#x23;646464;height: 22px;display: inline-block;vertical-align: inherit;" rel="noreferrer noopener" target="_blank" href="http://example.com/piwik/tests/PHPUnit/proxy/">
                                     <img src="http://example.com/piwik/tests/PHPUnit/proxy//plugins/Morpheus/images/logo-email.png" height="30px" width="auto" alt="Matomo,&#x20;free&#x2F;libre&#x20;analytics&#x20;platform" />
                             </a>
         </td>
         <td align="right">
-                        <a style="color:#212121;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, 'Helvetica Neue', sans-serif;; font-size:16px; padding:0 15px; color: &#x23;fff" title="View Web Analytics reports for A very long name for a very tiny test site, that also reaches the 90 character limit fully." target="_blank" href="http://example.com/piwik/tests/PHPUnit/proxy/index.php?module=CoreHome&action=redirectToCoreHomeIndex&idSite=1&period=day&date=today-date-removed-in-tests">
+                        <a style="color:#212121;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, 'Helvetica Neue', sans-serif;; font-size:16px; padding:0 15px; color: &#x23;646464" title="View Web Analytics reports for A very long name for a very tiny test site, that also reaches the 90 character limit fully." target="_blank" href="http://example.com/piwik/tests/PHPUnit/proxy/index.php?module=CoreHome&action=redirectToCoreHomeIndex&idSite=1&period=day&date=today-date-removed-in-tests">
                 Dashboard
             </a>
                     </td>
@@ -439,6 +439,31 @@
                     </a>
                 </li>
                             <li style="font-size:15px;line-height:24px;">
+                    <a href="#BotTracking_getAIChatbotContentPages" style="text-decoration:none; color: #0d0d0d;">
+                        Pages
+                    </a>
+                </li>
+                            <li style="font-size:15px;line-height:24px;">
+                    <a href="#BotTracking_getAIChatbotContentDocuments" style="text-decoration:none; color: #0d0d0d;">
+                        Documents
+                    </a>
+                </li>
+                            <li style="font-size:15px;line-height:24px;">
+                    <a href="#BotTracking_getAIChatbotBrokenContent" style="text-decoration:none; color: #0d0d0d;">
+                        Broken Pages and Documents
+                    </a>
+                </li>
+                            <li style="font-size:15px;line-height:24px;">
+                    <a href="#BotTracking_getAIChatbotHumanFavouredPages" style="text-decoration:none; color: #0d0d0d;">
+                        Human-Favoured Pages
+                    </a>
+                </li>
+                            <li style="font-size:15px;line-height:24px;">
+                    <a href="#BotTracking_getAIChatbotAIFavouredPages" style="text-decoration:none; color: #0d0d0d;">
+                        AI-Favoured Pages
+                    </a>
+                </li>
+                            <li style="font-size:15px;line-height:24px;">
                     <a href="#AIAgents_get" style="text-decoration:none; color: #0d0d0d;">
                         AI Agent Visits
                     </a>
@@ -837,7 +862,7 @@
 </h2>
 
             <img alt=""
-                                    src="data:image/png;base64,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"
+                                    src="data:image/png;base64,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"
                                 height="200"
                 width="700"
                 margin="0 auto"/>
@@ -998,7 +1023,7 @@
 </h2>
 
             <img alt=""
-                                    src="data:image/png;base64,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"
+                                    src="data:image/png;base64,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"
                                 height="200"
                 width="700"
                 margin="0 auto"/>
@@ -7921,6 +7946,36 @@
 
 <h2 id="BotTracking_getAIChatbotRequests" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
     AI Chatbots
+</h2>
+
+    There is no data for this report.
+
+<h2 id="BotTracking_getAIChatbotContentPages" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
+    Pages
+</h2>
+
+    There is no data for this report.
+
+<h2 id="BotTracking_getAIChatbotContentDocuments" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
+    Documents
+</h2>
+
+    There is no data for this report.
+
+<h2 id="BotTracking_getAIChatbotBrokenContent" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
+    Broken Pages and Documents
+</h2>
+
+    There is no data for this report.
+
+<h2 id="BotTracking_getAIChatbotHumanFavouredPages" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
+    Human-Favoured Pages
+</h2>
+
+    There is no data for this report.
+
+<h2 id="BotTracking_getAIChatbotAIFavouredPages" style=" color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, Roboto, Oxygen-Sans, Cantarell, &#039;Helvetica Neue&#039;, sans-serif; font-size: 24pt; font-weight:normal; margin:45px 0 30px 0;">
+    AI-Favoured Pages
 </h2>
 
     There is no data for this report.

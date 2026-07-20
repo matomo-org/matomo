@@ -11,9 +11,94 @@ describe("EvolutionGraph", function () {
     const url = "?module=Widgetize&action=iframe&idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30"
               + "&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&viewDataTable=graphEvolution"
               + "&isFooterExpandedInDashboard=1";
+    const multiMetricColumns = "nb_visits,nb_actions,avg_time_on_site,bounce_rate";
+    const multiMetricUrl = url + "&columns=" + multiMetricColumns + "&filter_add_columns_when_show_all_columns=0";
+    const setThemeMode = async function (themeMode) {
+        await page.evaluate((mode) => {
+            window.piwik.setThemeMode(mode);
+        }, themeMode);
+        await page.waitForFunction((mode) => window.piwik.getThemeMode() === mode, {}, themeMode);
+    };
+    const getResolvedBackgroundColor = async function (selector) {
+        return page.evaluate(function (targetSelector) {
+            var target = document.querySelector(targetSelector);
+            var dataTable = target && target.closest('.dataTable');
+            var uiControlObject = dataTable ? $(dataTable).data('uiControlObject') : null;
+            var configuredColor = (uiControlObject
+                && uiControlObject.jqplotParams
+                && uiControlObject.jqplotParams.grid
+                && uiControlObject.jqplotParams.grid.background)
+                || '#ffffff';
+            var colorProbe = document.createElement('div');
+
+            colorProbe.style.display = 'none';
+            colorProbe.style.color = configuredColor;
+            document.body.appendChild(colorProbe);
+
+            var resolvedColor = window.getComputedStyle(colorProbe).color;
+            colorProbe.remove();
+
+            return resolvedColor || 'rgb(255, 255, 255)';
+        }, selector);
+    };
+    const getImagePixelColor = async function (selector, offset) {
+        return page.evaluate(async function (targetSelector, pixelOffset) {
+            const exportImage = document.querySelector(targetSelector);
+            const image = new Image();
+            image.src = exportImage.src;
+
+            await new Promise((resolve, reject) => {
+                image.onload = resolve;
+                image.onerror = reject;
+            });
+
+            const canvas = document.createElement('canvas');
+            canvas.width = image.width;
+            canvas.height = image.height;
+
+            const context = canvas.getContext('2d');
+            context.drawImage(image, 0, 0);
+
+            const pixel = context.getImageData(
+                image.width - pixelOffset,
+                image.height - pixelOffset,
+                1,
+                1
+            ).data;
+
+            return 'rgb(' + pixel[0] + ', ' + pixel[1] + ', ' + pixel[2] + ')';
+        }, selector, offset);
+    };
+    const getFooterLegendState = async function () {
+        return page.evaluate(function () {
+            const footer = document.querySelector('.jqplot-legend-footer.has-legend');
+            const items = footer ? footer.querySelectorAll('.jqplot-legend-item') : [];
+            const hiddenItems = footer ? footer.querySelectorAll('.jqplot-legend-item-hidden') : [];
+            const overflowItem = footer ? footer.querySelector('.jqplot-legend-item-overflow .jqplot-legend-label') : null;
+            const labels = footer
+                ? Array.prototype.map.call(
+                    footer.querySelectorAll('.jqplot-legend-item .jqplot-legend-label'),
+                    function (label) { return label.textContent.trim(); }
+                )
+                : [];
+
+            return {
+                hasLegend: !!footer,
+                itemCount: items.length,
+                hiddenItemCount: hiddenItems.length,
+                visibleItemCount: footer ? footer.querySelectorAll('.jqplot-legend-item:not(.jqplot-legend-item-hidden)').length : 0,
+                overflowLabel: overflowItem ? overflowItem.textContent.trim() : null,
+                labels: labels,
+            };
+        });
+    };
 
     before(function () {
         return testEnvironment.callApi("Annotations.deleteAll", {idSite: 3});
+    });
+
+    afterEach(async function () {
+        await setThemeMode('light');
     });
 
     it("should load correctly", async function () {
@@ -36,15 +121,17 @@ describe("EvolutionGraph", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('one_series');
     });
 
-    it("should display the metric picker on hover of metric picker icon", async function () {
-        await page.hover('.jqplot-seriespicker');
+    it("should display the metric picker when the metric picker button is clicked", async function () {
+        await page.click('.metrics-picker__toggle');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
+        await page.keyboard.press('Escape');
     });
 
     it("should show multiple metrics when another metric picked", async function () {
-        await page.waitForSelector('.jqplot-seriespicker-popover input');
-        const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first');
+        await page.click('.metrics-picker__toggle');
+        await page.waitForSelector('.metrics-picker__options input');
+        const element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
         await element.click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
@@ -212,5 +299,104 @@ describe("EvolutionGraph", function () {
         // check that add annotation link is not shown
         const element = await page.$('.add-annotation');
         expect(element).to.be.not.ok;
+    });
+
+    describe("footer legend", function () {
+        before(function () {
+            delete testEnvironment.idSitesViewAccess;
+            testEnvironment.testUseMockAuth = 1;
+            testEnvironment.save();
+        });
+
+        it("should render the evolution graph footer legend with all selected metrics", async function () {
+            await page.webpage.setViewport({ width: 1350, height: 768 });
+            await page.goto(multiMetricUrl);
+            await page.waitForNetworkIdle();
+
+            const legendState = await getFooterLegendState();
+            expect(legendState.hasLegend).to.equal(true);
+
+            // getCountry plots every row (country) for each selected metric, so the legend
+            // labels look like "United States (Visits)". Assert that every selected metric is
+            // represented, regardless of how many rows the fixture happens to contain.
+            const selectedMetricLabels = ['Visits', 'Actions', 'Avg. Time on Website', 'Bounce Rate'];
+            selectedMetricLabels.forEach(function (metricLabel) {
+                const isPresent = legendState.labels.some(function (label) {
+                    return label.indexOf('(' + metricLabel + ')') !== -1;
+                });
+                expect(isPresent, 'legend should include a "' + metricLabel + '" series').to.equal(true);
+            });
+        });
+
+        it("should export the graph image using the active dark theme background", async function () {
+            await page.goto(multiMetricUrl);
+            await page.waitForNetworkIdle();
+            await setThemeMode('dark');
+            await page.waitForTimeout(250);
+            await page.click('#dataTableFooterExportAsImageIcon');
+            await page.waitForSelector('.ui-dialog img');
+
+            expect(await getImagePixelColor('.ui-dialog img', 5))
+                .to.equal(await getResolvedBackgroundColor('.jqplot-target'));
+        });
+
+        it("should overflow footer legend labels cleanly in a narrow viewport", async function () {
+            await page.webpage.setViewport({ width: 320, height: 480 });
+            await page.goto(multiMetricUrl);
+            await page.waitForNetworkIdle();
+
+            const legendState = await getFooterLegendState();
+            expect(legendState.hasLegend).to.equal(true);
+            expect(legendState.itemCount).to.be.above(legendState.visibleItemCount);
+            expect(legendState.visibleItemCount).to.be.at.least(1);
+            expect(legendState.hiddenItemCount).to.be.above(0);
+            expect(legendState.overflowLabel).to.equal('…');
+        });
+
+        it("should use the active dark theme background for the graph loading overlay", async function () {
+            await page.webpage.setViewport({ width: 1350, height: 768 });
+            await page.goto(multiMetricUrl);
+            await page.waitForNetworkIdle();
+            await setThemeMode('dark');
+            await page.waitForTimeout(250);
+
+            await page.evaluate(function () {
+                var dataTable = $('.dataTable').data('uiControlObject');
+                var originalReloadAjaxDataTable = dataTable.reloadAjaxDataTable.bind(dataTable);
+
+                dataTable.reloadAjaxDataTable = function () {
+                    return null;
+                };
+
+                dataTable.__restoreReloadAjaxDataTable = function () {
+                    dataTable.reloadAjaxDataTable = originalReloadAjaxDataTable;
+                };
+            });
+
+            await page.click('.metrics-picker__toggle');
+            await page.waitForSelector('.metrics-picker__options input');
+            const element = await page.jQuery('.metrics-picker__options input:not(:checked):first');
+            await element.click();
+            await page.waitForSelector('.jqplot-loading');
+
+            expect(await page.evaluate(function () {
+                return window.getComputedStyle(document.querySelector('.jqplot-loading')).backgroundColor;
+            })).to.equal(await getResolvedBackgroundColor('.jqplot-loading'));
+            expect(await page.evaluate(function () {
+                return !!document.querySelector('.jqplot-loading .matomo-loader');
+            })).to.equal(true);
+            expect(await page.evaluate(function () {
+                return window.getComputedStyle(document.querySelector('.jqplot-loading')).opacity;
+            })).to.equal('0.7');
+
+            await page.evaluate(function () {
+                var dataTable = $('.dataTable').data('uiControlObject');
+                if (dataTable && dataTable.__restoreReloadAjaxDataTable) {
+                    dataTable.__restoreReloadAjaxDataTable();
+                    delete dataTable.__restoreReloadAjaxDataTable;
+                }
+                $('.jqplot-loading').remove();
+            });
+        });
     });
 });

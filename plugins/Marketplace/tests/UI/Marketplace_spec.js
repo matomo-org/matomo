@@ -65,12 +65,18 @@ describe("Marketplace", function () {
 
     async function captureWithPluginDetails(screenshotName)
     {
-        const selector = '#pluginDetailsModal .modal-content';
+        const selector = '#pluginDetailsModal';
 
         // screenshotting the Materialize modal consistently
         // clips wrong and captures nothing,
         // unless the screenshot is attempted twice
         await page.screenshotSelector(selector);
+
+        //Move modal to the top, so that there is no space when capturing screenshot
+        await page.evaluate((modalSelector) => {
+          const modal = document.querySelector(modalSelector);
+          modal.style.top = '0';
+        }, selector);
 
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
     }

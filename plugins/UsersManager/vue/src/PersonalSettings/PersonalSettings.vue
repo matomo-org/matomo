@@ -61,6 +61,19 @@
       <div>
         <Field
           uicontrol="radio"
+          name="themeMode"
+          v-model="theThemeMode"
+          @update:model-value="theThemeMode = $event;"
+          inlineHelp="#themeModeHelp"
+          :title="''"
+          :introduction="translate('CorePluginsAdmin_Theme')"
+          :options="themeModeOptions"
+        />
+      </div>
+
+      <div>
+        <Field
+          uicontrol="radio"
           name="defaultReport"
           v-model="theDefaultReport"
           :introduction="translate('UsersManager_ReportToLoadByDefault')"
@@ -100,6 +113,13 @@
       />
     </form>
   </ContentBlock>
+  <div id="themeModeHelp" class="inline-help-node">
+    <strong>{{translate('UsersManager_ThemeModeHelp1')}}</strong><br/>
+    <span v-html="$sanitize(translate('UsersManager_ThemeModeHelp2',
+      `<em>${translate('UsersManager_ThemeModeMatchBrowser')}</em>`))"/>
+    <br/><br/>
+    {{translate('UsersManager_ThemeModeHelp3')}}
+  </div>
 </template>
 
 <script lang="ts">
@@ -126,6 +146,7 @@ interface PersonalSettingsState {
   email: string;
   language: string;
   timeformat: number;
+  theThemeMode: string;
   theDefaultReport: string|number;
   site: SiteRef;
   theDefaultDate: string;
@@ -134,6 +155,7 @@ interface PersonalSettingsState {
 }
 
 export default defineComponent({
+  name: 'PersonalSettings',
   props: {
     isUsersAdminEnabled: {
       type: Boolean,
@@ -164,6 +186,14 @@ export default defineComponent({
       required: true,
     },
     timeFormats: {
+      type: Object,
+      required: true,
+    },
+    themeMode: {
+      type: String,
+      required: true,
+    },
+    themeModeOptions: {
       type: Object,
       required: true,
     },
@@ -209,6 +239,7 @@ export default defineComponent({
       email: this.userEmail,
       language: this.currentLanguageCode,
       timeformat: this.currentTimeformat,
+      theThemeMode: this.themeMode,
       theDefaultReport: this.defaultReport,
       site: {
         id: this.defaultReportIdSite,
@@ -231,6 +262,7 @@ export default defineComponent({
     doSave(password?: string) {
       const postParams: QueryParameters = {
         email: this.email,
+        themeMode: this.theThemeMode,
         defaultReport: this.theDefaultReport === 'MultiSites'
           ? this.theDefaultReport
           : this.site.id,
@@ -256,6 +288,7 @@ export default defineComponent({
           withTokenInUrl: true,
         },
       ).then(() => {
+        Matomo.setThemeMode(this.theThemeMode);
         const id = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
           id: 'PersonalSettingsSuccess',

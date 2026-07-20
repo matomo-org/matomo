@@ -84,6 +84,7 @@ class ApiTest extends IntegrationTestCase
             'idcustomdimension' => '1',
             'idsite' => '1',
             'name' => 'Valid Name äöü',
+            'description' => '',
             'index' => '1',
             'scope' => 'action',
             'active' => true,
@@ -161,6 +162,32 @@ class ApiTest extends IntegrationTestCase
         // verify after update still false
         $dimensions = $this->api->getConfiguredCustomDimensions(1);
         $this->assertFalse($dimensions[0]['case_sensitive']);
+    }
+
+    public function testConfigureExistingCustomDimensionShouldNotChangeDescriptionIfNoValuePassed()
+    {
+        $id = $this->api->configureNewCustomDimension(
+            $idSite = 1,
+            'Valid Name',
+            CustomDimensions::SCOPE_ACTION,
+            '1',
+            array(),
+            '0',
+            'Existing description'
+        );
+
+        $return = $this->api->configureExistingCustomDimension(
+            $id,
+            $idSite,
+            'Updated Valid Name',
+            '0',
+            array()
+        );
+
+        $this->assertNull($return);
+
+        $dimensions = $this->api->getConfiguredCustomDimensions(1);
+        $this->assertSame('Existing description', $dimensions[0]['description']);
     }
 
     public function testConfigureExistingCustomDimensionShouldThrowExceptionWhenTryingToSetExtractionsForNonActionScope()

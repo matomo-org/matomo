@@ -34,6 +34,7 @@ export default defineComponent({
   props: {
     modelValue: null,
     modelModifiers: Object,
+    errorMessage: String,
     uicontrol: String,
     name: String,
     id: {
@@ -45,6 +46,7 @@ export default defineComponent({
     description: String,
     introduction: String,
     title: String,
+    searchOnGroup: Boolean,
     inlineHelp: [String, Object],
     inlineHelpBind: Object,
     disabled: Boolean,
@@ -102,7 +104,9 @@ export default defineComponent({
         introduction: this.introduction,
         inlineHelp: this.inlineHelp,
         inlineHelpBind: this.inlineHelpBind,
+        errorMessage: this.errorMessage,
         title: this.title,
+        searchOnGroup: this.searchOnGroup,
         component: this.component,
         uiControlAttributes: {
           ...this.uiControlAttributes,

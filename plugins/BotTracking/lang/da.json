@@ -2,6 +2,8 @@
     "BotTracking": {
         "PageUrl": "Side URL",
         "NoDataHttpTrackingApi": "HTTP-sporings-API",
-        "SiteWithoutDataBackToMatomo": "Tilbage til Matomo"
+        "SiteWithoutDataBackToMatomo": "Tilbage til Matomo",
+        "AIChatbotsContentPagesTitle": "Sider",
+        "ContentUrl": "Netadresse"
     }
 }

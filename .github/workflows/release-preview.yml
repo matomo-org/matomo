@@ -1,5 +1,10 @@
 # Matomo release action for automated PREVIEW releases
 #
+# Slack notifications on failure and automatic retries live in the
+# separate preview-retry-handler.yml workflow, which reacts to this
+# workflow's completion. Attempts 1 and 2 get rerun automatically;
+# only the third failure pings Slack.
+#
 # Required GitHub secrets:
 #
 # GPG_CERTIFICATE  |  ASCII armored or Base64 encoded GPG certificate that is used to create the signatures for the archives
@@ -23,8 +28,6 @@ permissions:
 on:
   # TODO: remove manual dispatch after testing and enable cron
   workflow_dispatch:
-    branches:
-      - 5.x-dev
     inputs:
       password:
         description: 'Release password'
@@ -42,38 +45,27 @@ jobs:
     steps:
       - name: "Check release password"
         if: ${{ github.event_name != 'schedule' && github.event.inputs.password != env.RELEASE_PASSWORD }}
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
-        if: ${{ github.event_name != 'schedule' && github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
-        uses: actions/github-script@v8
+        if: ${{ github.event_name != 'schedule' && github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'caddoo' && github.actor != 'nathangavin' && github.actor != 'chippison' && github.actor != 'tzi'}}
+        uses: actions/github-script@v9
         with:
           script: |
             core.setFailed('User is not allowed to release.')
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           fetch-tags: true
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Prepare git config
         run: |
-          cat <<- EOF > $HOME/.netrc
-            machine github.com
-            login $GITHUB_ACTOR
-            password $GITHUB_TOKEN
-            machine api.github.com
-            login $GITHUB_ACTOR
-            password $GITHUB_TOKEN
-          EOF
-          chmod 600 $HOME/.netrc
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config --global user.name "$GITHUB_ACTOR"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check if there are any changes to create a preview release for
         id: changes
@@ -83,7 +75,7 @@ jobs:
           DIFF=""
           if [ -n "$LATEST_PREVIEW" ]; then
             # using || true to always exit either with a diff or a success exit code to not fail the whole workflow
-            DIFF=$(git diff $LATEST_PREVIEW..5.x-dev --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
+            DIFF=$(git diff "$LATEST_PREVIEW..5.x-dev" --unified=0 | grep -vE "^\+\+\+|---" | grep "^[+-]" | grep -v "public const VERSION = '.*';" || true)
           fi
           
           if [ -z "$DIFF" ]; then
@@ -93,7 +85,7 @@ jobs:
             DO_RELEASE=1
           fi
           
-          echo "do_release=$DO_RELEASE" >> $GITHUB_OUTPUT
+          echo "do_release=$DO_RELEASE" >> "$GITHUB_OUTPUT"
 
       - name: Determine new preview version number
         id: version
@@ -108,11 +100,11 @@ jobs:
             HAS_NEW_VERSION=1
           fi
           
-          echo "OLD_VERSION=$OLD_VERSION" >> $GITHUB_ENV
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-          
-          echo "has_new_version=$HAS_NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "OLD_VERSION=$OLD_VERSION" >> "$GITHUB_ENV"
+          echo "NEW_VERSION=$NEW_VERSION" >> "$GITHUB_ENV"
+
+          echo "has_new_version=$HAS_NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Skip preview releases during RC phase
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
@@ -152,7 +144,9 @@ jobs:
       - name: Push changes to 5.x-preview
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
         run: |
-          git push -f origin 5.x-preview
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" 5.x-preview
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   run_matomo_tests:
     needs: [prepare_preview_version]
@@ -169,7 +163,7 @@ jobs:
       ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
 
   release_preview_version:
-    needs: [run_matomo_tests]
+    needs: [prepare_preview_version, run_matomo_tests]
     uses: ./.github/workflows/release.yml
     if: |
       always() && 
@@ -184,34 +178,3 @@ jobs:
       RELEASE_PASSWORD: ${{ secrets.RELEASE_PASSWORD }}
       GPG_CERTIFICATE: ${{ secrets.GPG_CERTIFICATE }}
       GPG_CERTIFICATE_PASS: ${{ secrets.GPG_CERTIFICATE_PASS }}
-
-  notify_slack_on_failure:
-    runs-on: ubuntu-24.04
-    needs: [prepare_preview_version, run_matomo_tests, release_preview_version]
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CORE_ALERT_WEBHOOK_URL }}
-    if: |
-      always() &&
-      github.event_name == 'schedule' &&
-      (
-        needs.prepare_preview_version.result == 'failure' ||
-        needs.run_matomo_tests.result == 'failure' ||
-        needs.release_preview_version.result == 'failure'
-      )
-    steps:
-      - name: Notify Slack on failure
-        if: ${{ env.SLACK_WEBHOOK_URL != '' }}
-        env:
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          PAYLOAD=$(cat <<EOF
-          {"text":"*Preview build has failed for today!*\n<${RUN_URL}|The automated preview build> failed to run.\n*Impact:* Cloud might not get the latest build in the next deployment cycle, so customers may not receive the newest fixes.\nPlease investigate and re-run the build if this was flaky until it passes."}
-          EOF
-          )
-
-          curl --fail-with-body -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "$SLACK_WEBHOOK_URL"
-
-      - name: Skip Slack notification when webhook is missing
-        if: ${{ env.SLACK_WEBHOOK_URL == '' }}
-        run: |
-          echo "Info: SLACK_CORE_ALERT_WEBHOOK_URL is not configured. Skipping failure notification."

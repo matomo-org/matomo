@@ -389,11 +389,12 @@
          * @return {jQuery} the detached widget
          */
         detachWidget: function () {
-            this.element.before('<div id="' + this.uniqueId + '-placeholder" class="widgetPlaceholder widget"> </div>');
-            var placeholder = $('[id="' + self.uniqueId + '-placeholder"]');
+            var placeholder = $('<div class="widgetPlaceholder widget"> </div>')
+                .attr('id', this.uniqueId + '-placeholder');
+            this.element.before(placeholder);
 
-            $('#' + this.uniqueId + '-placeholder').height(this.element.height());
-            $('#' + this.uniqueId + '-placeholder').width(this.element.width() - 16);
+            placeholder.height(this.element.height());
+            placeholder.width(this.element.width() - 16);
 
             return this.element.detach();
         }

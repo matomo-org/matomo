@@ -50,6 +50,8 @@
         "OnlyForSuperUserAccess": "이 위젯은 슈퍼 유저 접근 권한이 있는 유저의 기본 대시보드에만 나타납니다.",
         "PeriodRange": "기간",
         "PivotBySubtable": "이 보고서는 %1$s Pivot이 %2$s에 의해 결정되지 않았습니다.",
+        "PresetDateToday": "오늘",
+        "PresetDateYesterday": "어제",
         "QuickAccessTitle": "%s 검색. 검색 결과를 확인할 때 방향키를 사용하세요. 단축키: 'f'는 검색",
         "ReportGeneratedOn": "%s에 생성된 보고서",
         "ReportGeneratedXAgo": "%s 전에 생성된 보고서",

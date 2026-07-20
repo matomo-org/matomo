@@ -1,0 +1,95 @@
+{
+    "name": "MediaAnalytics",
+    "displayName": "Media Analytics",
+    "owner": "matomo-org",
+    "description": "Grow your business with advanced video & audio analytics. Get powerful insights into how your audience watches your videos and listens to your audio.",
+    "homepage": "https://matomo.org",
+    "createdDateTime": "2016-10-25 21:07:56",
+    "donate": [],
+    "support": [],
+    "isTheme": false,
+    "keywords": [
+        "Marketing",
+        "conversion",
+        "video",
+        "audio",
+        "media",
+        "youtube",
+        "vimeo",
+        "html5",
+        "analytics",
+        "cro"
+    ],
+    "basePrice": 176,
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
+        }
+    ],
+    "repositoryUrl": null,
+    "lastUpdated": "2026-04-27 06:46:35",
+    "latestVersion": "5.0.14",
+    "numDownloads": 0,
+    "screenshots": [],
+    "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+    "previews": [],
+    "activity": {
+        "numCommits": null,
+        "numContributors": null,
+        "lastCommitDate": null
+    },
+    "featured": false,
+    "isFree": false,
+    "isPaid": true,
+    "isBundle": false,
+    "isCustomPlugin": false,
+    "shop": {
+        "url": "https://plugins.matomo.org/MediaAnalytics",
+        "variations": [],
+        "reviews": {
+            "embedUrl": "",
+            "height": 200,
+            "averageRating": "0",
+            "ratingCount": 0,
+            "reviewCount": 0
+        }
+    },
+    "bundle": {
+        "plugins": []
+    },
+    "specialOffer": "",
+    "category": "uncategorised",
+    "versions": [
+        {
+            "name": "5.0.14",
+            "release": "2026-04-27 06:46:35",
+            "requires": {
+                "matomo": ">=5.0.0-rc1,<6.0.0-b1"
+            },
+            "wordPressCompatible": true,
+            "onPremiseCompatible": true,
+            "numDownloads": 0,
+            "license": {
+                "name": "InnoCraft EULA",
+                "url": "https://plugins.matomo.org/MediaAnalytics/5.0.14/license"
+            },
+            "repositoryChangelogUrl": null,
+            "readmeHtml": {
+                "description": "",
+                "faq": "",
+                "changelog": "",
+                "documentation": ""
+            },
+            "download": null
+        }
+    ],
+    "isDownloadable": false,
+    "changelog": {
+        "url": ""
+    },
+    "consumer": {
+        "license": null
+    }
+}

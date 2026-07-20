@@ -41,6 +41,8 @@
         "OnlyForSuperUserAccess": "Ovaj vidžet se prikazuje na podrazumevanoj konzoli samo superkorisnicima.",
         "PeriodRange": "Period",
         "PivotBySubtable": "Ovaj izveštaj nije pivotiran %1$s Pivotiraj sa %2$s",
+        "PresetDateToday": "Данас",
+        "PresetDateYesterday": "Јуче",
         "QuickAccessTitle": "Pretraga za %s. Koristite tastere sa strelicama kako biste se kretali kroz rezultate pretrage. Prečica: pritisnite 'f' za pretragu.",
         "ReportGeneratedOn": "Izveštaj generisan %s",
         "ReportGeneratedXAgo": "Izveštaj generisan pre %s",

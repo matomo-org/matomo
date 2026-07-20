@@ -14,7 +14,9 @@ describe("PeriodSelector", function () {
     const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
 
     const selector = '#periodString,#periodString .dropdown';
-
+    const waitForPeriodChecked = async function (periodId) {
+        await page.waitForFunction((id) => window.$(id).is(':checked'), {}, periodId);
+    };
     it("should load correctly", async function() {
         await page.goto(url);
 
@@ -65,7 +67,7 @@ describe("PeriodSelector", function () {
 
     it("should change the date when a date is clicked in week-period mode", async function() {
         await page.click('#period_id_week');
-        await page.waitForTimeout(250); // wait for animation
+        await waitForPeriodChecked('#period_id_week');
 
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(13)');
         await element.click();
@@ -76,38 +78,38 @@ describe("PeriodSelector", function () {
     it('should activate a period option via Enter key', async function () {
         await page.focus('#period_id_week');
         await page.keyboard.press('Enter');
-        await page.waitForTimeout(150);
+        await waitForPeriodChecked('#period_id_week');
 
         const selectedState = await page.evaluate(function () {
             return {
-                weekPressed: $('#period_id_week').attr('aria-pressed'),
-                dayPressed: $('#period_id_day').attr('aria-pressed'),
+                weekChecked: $('#period_id_week').is(':checked'),
+                dayChecked: $('#period_id_day').is(':checked'),
             };
         });
 
-        expect(selectedState.weekPressed).to.equal('true');
-        expect(selectedState.dayPressed).to.equal('false');
+        expect(selectedState.weekChecked).to.equal(true);
+        expect(selectedState.dayChecked).to.equal(false);
     });
 
     it('should activate a period option via Space key', async function () {
         await page.focus('#period_id_month');
         await page.keyboard.press('Space');
-        await page.waitForTimeout(150);
+        await waitForPeriodChecked('#period_id_month');
 
         const selectedState = await page.evaluate(function () {
             return {
-                monthPressed: $('#period_id_month').attr('aria-pressed'),
-                dayPressed: $('#period_id_day').attr('aria-pressed'),
+                monthChecked: $('#period_id_month').is(':checked'),
+                dayChecked: $('#period_id_day').is(':checked'),
             };
         });
 
-        expect(selectedState.monthPressed).to.equal('true');
-        expect(selectedState.dayPressed).to.equal('false');
+        expect(selectedState.monthChecked).to.equal(true);
+        expect(selectedState.dayChecked).to.equal(false);
     });
 
     it("should change the date when a date is clicked in month-period mode", async function() {
         await page.click('#period_id_month');
-        await page.waitForTimeout(250); // wait for animation
+        await waitForPeriodChecked('#period_id_month');
 
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(14)');
         await element.click();
@@ -117,7 +119,7 @@ describe("PeriodSelector", function () {
 
     it("should change the date when a date is clicked in year-period mode", async function() {
         await page.click('#period_id_year');
-        await page.waitForTimeout(250); // wait for animation
+        await waitForPeriodChecked('#period_id_year');
 
         const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(15)');
         await element.click();
@@ -127,7 +129,8 @@ describe("PeriodSelector", function () {
 
     it("should display the range picker when the range radio button is clicked", async function() {
         await page.click('#period_id_range');
-        await page.waitForTimeout(250); // wait for animation
+        await waitForPeriodChecked('#period_id_range');
+        await page.waitForSelector('#calendarFrom .ui-datepicker-calendar');
 
         expect(await page.screenshotSelector(selector)).to.matchImage('range_picker_displayed');
     });
@@ -140,14 +143,14 @@ describe("PeriodSelector", function () {
         await element.click();
 
         await page.hover('#calendarApply');
-        await page.waitForTimeout(250);
+        await page.waitForFunction(() => !!document.querySelector('#calendarApply:hover'));
 
         expect(await page.screenshotSelector(selector)).to.matchImage('date_range_selected');
     });
 
     it("should enable the comparison dropdown when 'compare' is checked", async function () {
         await page.click('#comparePeriodTo + span');
-        await page.waitForTimeout(250); // wait for animation
+        await page.waitForFunction(() => window.$('#comparePeriodTo').is(':checked'));
 
         expect(await page.screenshotSelector(selector)).to.matchImage('comparison_checked');
     });
@@ -156,7 +159,9 @@ describe("PeriodSelector", function () {
         await page.evaluate(function () {
             $('#comparePeriodToDropdown select').val('string:custom').trigger('change');
         });
-        await page.waitForTimeout(250); // wait for animation
+        await page.waitForFunction(
+            () => window.$('#comparePeriodToDropdown select').val() === 'string:custom',
+        );
 
         expect(await page.screenshotSelector(selector)).to.matchImage('custom_comparison');
     });
@@ -179,7 +184,7 @@ describe("PeriodSelector", function () {
         const initialUrl = await page.url();
 
         await page.click('#period_id_week');
-        await page.waitForTimeout(150);
+        await waitForPeriodChecked('#period_id_week');
 
         const stateAfterPeriodClick = await page.evaluate(function () {
             return {
@@ -196,11 +201,74 @@ describe("PeriodSelector", function () {
 
         const dateCell = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(13)');
         await dateCell.click();
-        await page.waitForTimeout(250);
+        await page.waitForFunction((initial) => window.location.href !== initial, {}, initialUrl);
 
         const appliedUrl = await page.url();
         expect(appliedUrl).to.contain('period=week');
         expect(appliedUrl).to.not.equal(initialUrl);
+    });
+
+    it('should keep the calendar interactive after selecting a preset', async function () {
+        await page.goto('about:blank');
+        await page.evaluateOnNewDocument(() => {
+            Date.now = () => new Date('2012-01-09T12:00:00Z').getTime();
+        });
+
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+
+        await page.click('#preset_date_yesterday');
+        await waitForPeriodChecked('#period_id_day');
+        await page.waitForFunction(() => window.$('#preset_date_yesterday').is(':checked'));
+
+        const dayToSelect = await page.evaluate(function () {
+            const selectedDay = $('.period-date td.ui-datepicker-current-period')
+                .find('a, span')
+                .first()
+                .text()
+                .trim();
+
+            const clickableDays = $('.period-date .ui-datepicker-calendar a')
+                .map(function () {
+                    return $(this).text().trim();
+                })
+                .get();
+
+            return clickableDays.find((dayText) => dayText !== selectedDay) || null;
+        });
+
+        expect(dayToSelect).to.not.equal(null);
+
+        const initialUrl = await page.url();
+
+        await page.evaluate(function (dayText) {
+            const link = $('.period-date .ui-datepicker-calendar a').filter(function () {
+                return $(this).text().trim() === String(dayText);
+            }).get(0);
+
+            if (!link) {
+                throw new Error(`Could not find clickable calendar day "${dayText}"`);
+            }
+
+            link.click();
+        }, dayToSelect);
+
+        await page.waitForFunction((initial) => window.location.href !== initial, {}, initialUrl);
+
+        const stateAfterCalendarClick = await page.evaluate(function () {
+            return {
+                dayChecked: $('#period_id_day').is(':checked'),
+                presetChecked: $('#preset_date_yesterday').is(':checked'),
+            };
+        });
+
+        expect(stateAfterCalendarClick.dayChecked).to.equal(true);
+        expect(stateAfterCalendarClick.presetChecked).to.equal(false);
     });
 
     it('should keep range selection pending until apply', async function () {
@@ -215,12 +283,12 @@ describe("PeriodSelector", function () {
         const initialUrl = await page.url();
 
         await page.click('#period_id_range');
-        await page.waitForTimeout(150);
+        await waitForPeriodChecked('#period_id_range');
         expect(await page.url()).to.equal(initialUrl);
 
         await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
         await page.click('#calendarApply');
-        await page.waitForTimeout(250);
+        await page.waitForFunction((initial) => window.location.href !== initial, {}, initialUrl);
 
         const appliedUrl = await page.url();
         expect(appliedUrl).to.contain('period=range');
@@ -237,7 +305,7 @@ describe("PeriodSelector", function () {
         });
 
         await page.click('#period_id_month', { clickCount: 2 });
-        await page.waitForTimeout(250);
+        await page.waitForFunction(() => window.location.href.includes('period=month'));
 
         const currentUrl = await page.url();
         expect(currentUrl).to.contain('period=month');
@@ -347,8 +415,35 @@ describe("PeriodSelector", function () {
     it('should show an error when invalid date/period combination is given', async function () {
         await page.goto('about:blank');
         await page.goto(url.replace(/date=[^&#]+&/, 'date=2020-08-08,2020-08-09&'));
-        await page.waitForTimeout(250);
+        await page.waitForFunction(
+            () => window.$('.periodSelector .title').text().trim().length > 0,
+        );
 
         expect(await page.screenshotSelector(selector + ',#notificationContainer')).to.matchImage('invalid');
+    });
+
+    it('should rediscover the last week preset for explicit week dates after navigation', async function () {
+        await page.goto('about:blank');
+        await page.evaluateOnNewDocument(() => {
+            Date.now = () => new Date('2012-01-09T12:00:00Z').getTime();
+        });
+
+        const explicitWeekUrl = '?module=CoreHome&action=index&idSite=1&period=week&date=2012-01-03'
+            + '#?idSite=1&period=week&date=2012-01-03&category=General_Actions&subcategory=General_Pages';
+
+        await page.goto(explicitWeekUrl);
+        await page.click('.periodSelector .title');
+        await waitForPeriodChecked('#period_id_week');
+        await page.waitForFunction(() => window.$('#preset_date_lastWeekMonSun').is(':checked'));
+
+        const selectedState = await page.evaluate(function () {
+            return {
+                weekChecked: $('#period_id_week').is(':checked'),
+                lastWeekChecked: $('#preset_date_lastWeekMonSun').is(':checked'),
+            };
+        });
+
+        expect(selectedState.weekChecked).to.equal(true);
+        expect(selectedState.lastWeekChecked).to.equal(true);
     });
 });

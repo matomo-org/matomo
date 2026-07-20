@@ -52,6 +52,7 @@
           @delete-user="onDeleteUser($event.users, $event.password)"
           @search-change="searchParams = $event.params; fetchUsers()"
           @resend-invite="triggerResendInviteForUser = $event.user"
+          @sign-out-user="onSignOutUser($event.userLogin, $event.password)"
           :initial-site-id="initialSiteId"
           :initial-site-name="initialSiteName"
           :is-loading-users="isLoadingUsers"
@@ -414,6 +415,23 @@ export default defineComponent({
         () => this.fetchUsers(),
       ).catch(() => {
         this.isLoadingUsers = false;
+      });
+    },
+    onSignOutUser(userLogin: string, password: string) {
+      AjaxHelper.post({
+        method: 'UsersManager.logoutUser',
+        userLogin,
+      }, {
+        passwordConfirmation: password,
+      }, {
+        createErrorNotification: true,
+      }).then(() => {
+        NotificationsStore.scrollToNotification(NotificationsStore.show({
+          id: 'signOutUserSuccess',
+          message: translate('UsersManager_SignOutUserSuccess', userLogin),
+          context: 'success',
+          type: 'toast',
+        }));
       });
     },
     onAddNewUser() {

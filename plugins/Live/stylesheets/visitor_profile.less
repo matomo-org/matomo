@@ -32,7 +32,7 @@
   }
 
   a {
-    color: #255792;
+    color: @theme-color-link;
   }
 
   h1 {
@@ -60,6 +60,10 @@
     margin: 8px 20px 20px 0 !important;
     font-size: 13px;
   }
+}
+
+.ui-widget-content .visitor-profile a {
+  color: @theme-color-link;
 }
 
 .visitor-profile-options {
@@ -337,6 +341,7 @@
 
 .visitor-profile-map {
   padding: 10px 21px 13px 2px;
+  filter: @theme-filter-on-illustration;
 }
 
 .visitor-profile-visit-title {
@@ -346,7 +351,7 @@
   border: none;
   color: @theme-color-text;
   cursor: pointer;
-  background-color: @color-silver-l95;
+  background-color: @theme-color-background-tinyContrast;
   margin-right: 1px;
 
   &:hover {
@@ -370,7 +375,7 @@
   padding: 10px 15px;
   font-size: 13px;
   line-height: 1.5em;
-  background-color: @color-silver-l95;
+  background-color: @theme-color-background-tinyContrast;
 
   .visitor-log-datetime {
     display: none;

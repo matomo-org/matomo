@@ -18,6 +18,7 @@ export interface CustomDimension {
   idsite: string|number;
   index: string|number;
   name: string;
+  description: string;
   scope: string;
 }
 

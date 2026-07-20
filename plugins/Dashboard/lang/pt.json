@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirm": "Tem a certeza que pretende definir a seleção de widgets e a disposição do painel atual como o modelo de painel predefinido?",
         "SetAsDefaultWidgetsConfirmHelp": "Esta seleção de widgets e disposição colunas do painel será utilizada quando qualquer utilizador criar um novo painel ou quando a funcionalidade \"%s\" for utilizada.",
         "TopLinkTooltip": "Ver relatórios de Web Analytics para %s.",
+        "TopMenuTitle": "Análise",
         "WidgetNotFound": "Widget não encontrado",
         "WidgetPreview": "Pré-visualização do widget"
     }

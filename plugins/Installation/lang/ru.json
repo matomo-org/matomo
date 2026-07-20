@@ -102,7 +102,7 @@
         "SystemCheckDatabaseSSLNotWorking": "%s установлено на \"1\", но SSL-соединение не работает",
         "SystemCheckDatabaseSSLOn": "Ваша база данных не использует SSL-соединения, но поддерживает их. Проверьте настройки SSL вашей базы данных в конфигурационном файле Matomo",
         "SystemCheckDebugBacktraceHelp": "View::factory не может сгенерировать просмотры для вызвавшего модуля.",
-        "SystemCheckError": "Возникла ошибка, которая должна быть исправлена перед продолжением",
+        "SystemCheckError": "Произошла ошибка, которую необходимо исправить перед продолжением",
         "SystemCheckEvalHelp": "Необходимо для HTML QuickForm и шаблонизатора Twig.",
         "SystemCheckExtensions": "Другие необходимые расширения",
         "SystemCheckFileIntegrity": "Целостность файлов",

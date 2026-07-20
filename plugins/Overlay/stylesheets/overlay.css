@@ -177,7 +177,7 @@ body .ui-tooltip.overlayTooltip {
 }
 
 .top_controls {
-    display: none;
+    display: none !important;
 }
 
 .overlay-sidebar-container {

@@ -5,7 +5,7 @@
         "Domain": "Domini",
         "ErrorNoSiteUrls": "ATENCIÓ: aquest lloc web no té cap URL de lloc definit a Matomo. Això pot provocar que la superposició i altres funcions es trenquin o es comportin de manera estranya. Per solucionar-ho, afegiu un URL a la configuració d'aquest lloc web a la secció Administració de Matomo.",
         "ErrorNotLoading": "La sessió de superposició de pàgina encara no s'ha pogut iniciar.",
-        "ErrorNotLoadingDetails": "Potser la pàgina carregada a la dreta no te el codi de rastreig de Matomo. En aquest cas, proveu de llençar el Overlay d'un altra pàgina del informe de pàgines.",
+        "ErrorNotLoadingDetails": "Potser la pàgina carregada a la dreta no te el codi de rastreig de Matomo. En aquest cas, proveu de llançar el Overlay d'un altra pàgina del informe de pàgines.",
         "ErrorNotLoadingDetailsSSL": "Com esteu fent servir Matomo a través de https, es possible que el vostre lloc web no suporti el SSL. Proveu utilitzant el Matomo sobre http.",
         "ErrorNotLoadingLink": "Feu clic aquí per obtenir més consells per resoldre problemes",
         "Link": "Enllaç",

@@ -358,7 +358,7 @@ li.pageviewActions > ol.actionList {
 }
 
 .simple-realtime-visitor-counter {
-    background-color: #F1F0EB;
+    background-color: @theme-color-background-tinyContrast;
     border-radius: 10px;
     display: inline-block;
     margin: 2em 0 1em 0;
@@ -367,17 +367,17 @@ li.pageviewActions > ol.actionList {
 
 .simple-realtime-visitor-counter > div {
     font-size: 4.0em;
-    color: @theme-color-text-light;
+    color: @theme-color-text-highContrast;
 }
 
 .simple-realtime-metric {
     font-weight: bold;
-    color: #333;
+    color: @theme-color-text-highContrast;
 }
 
 .simple-realtime-elaboration {
     margin: 1em 2em 1em 2em;
-    color: @theme-color-text-lighter;
+    color: @theme-color-text;
     display: inline-block;
 }
 
@@ -531,6 +531,10 @@ a.visitor-log-visitor-profile-link {
     height: 16px;
 }
 
+.visitorLogIconWithDetails:last-child img {
+  filter: @theme-filter-on-illustration;
+}
+
 .visitorLogIconWithDetails.flag {
     display: none;
 }
@@ -636,6 +640,11 @@ a.visitor-log-visitor-profile-link {
     display: none;
 }
 
+.live-widget-loading {
+    padding: 20px 0;
+    text-align: center;
+}
+
 @media only screen and (min-width: 800px) {
     .card #visitsLive .visitorLogIcons:before {
         content: none;
@@ -668,3 +677,15 @@ a.visitor-log-visitor-profile-link {
     }
 }
 
+@keyframes liveWidgetFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.live-widget-fade-in {
+    animation: liveWidgetFadeIn 0.6s ease-out;
+}

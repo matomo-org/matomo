@@ -2,97 +2,112 @@
 // transitions colors
 //
 
-// colors for entries gradients
-.transition-entries[data-name=light] {
-    color: #fff;
-}
-
-.transition-entries[data-name=dark] {
-    color: #BACFE8;
-}
-
-.transition-entries[data-name=light-highlighted] {
-    color: #fff;
-}
-
-.transition-entries[data-name=dark-highlighted] {
-    color: #FAD293;
-}
-
-// colors for exits gradients
-.transition-exits[data-name=light] {
-    color: #fff;
-}
-
-.transition-exits[data-name=dark] {
-    color: #BACFE8;
-}
-
-.transition-exits[data-name=light-highlighted] {
-    color: #fff;
-}
-
-.transition-exits[data-name=dark-highlighted] {
-    color: #FAD293;
-}
-
-// background gradients colors
+// colors for entries/exits/background gradients
+.transition-entries[data-name=light],
+.transition-exits[data-name=light],
 .transition-background[data-name=light] {
     color: #fff;
+
+    .inDarkMode({
+        color: #202329;
+    });
 }
 
+.transition-entries[data-name=dark],
+.transition-exits[data-name=dark],
 .transition-background[data-name=dark] {
     color: #BACFE8;
+
+    .inDarkMode({
+        color: #5d7194;
+    });
 }
 
+.transition-entries[data-name=light-highlighted],
+.transition-exits[data-name=light-highlighted],
 .transition-background[data-name=light-highlighted] {
     color: #fff;
+
+    .inDarkMode({
+        color: #352f24;
+    });
 }
 
+.transition-entries[data-name=dark-highlighted],
+.transition-exits[data-name=dark-highlighted],
 .transition-background[data-name=dark-highlighted] {
     color: #FAD293;
+
+    .inDarkMode({
+        color: #8a7345;
+    });
 }
 
 // closed group gradient colors
 .transition-closed-group[data-name=light] {
     color: #DDE4ED;
+
+    .inDarkMode({
+        color: #2a2f36;
+    });
 }
 
 .transition-closed-group[data-name=dark] {
     color: #9BBADE;
+
+    .inDarkMode({
+        color: #53667f;
+    });
 }
 
 .transition-closed-group[data-name=light-highlighted] {
     color: #FAE2C0;
+
+    .inDarkMode({
+        color: #3a3125;
+    });
 }
 
 .transition-closed-group[data-name=dark-highlighted] {
     color: #FAD293;
+
+    .inDarkMode({
+        color: #8a7345;
+    });
 }
 
 // items gradient colors
 .transition-items[data-name=light] {
     color: #E3DFD1;
+
+    .inDarkMode({
+        color: #2f2c26;
+    });
 }
 
 .transition-items[data-name=dark] {
     color: #E8E4D5;
+
+    .inDarkMode({
+        color: #696353;
+    });
 }
 
-// 'others' gradients colors
-.transition-others[data-name=light] {
-    color: #F5F3EB;
-}
-
-.transition-others[data-name=dark] {
-    color: #E8E4D5;
-}
-
-// loop gradient colors
+// 'others' and loop gradients colors
+.transition-others[data-name=light],
 .transition-loops[data-name=light] {
     color: #F5F3EB;
+
+    .inDarkMode({
+        color: #25231f;
+    });
 }
 
+.transition-others[data-name=dark],
 .transition-loops[data-name=dark] {
     color: #E8E4D5;
+
+    .inDarkMode({
+        color: #5d584d;
+    });
 }

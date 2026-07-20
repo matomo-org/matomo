@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\FeatureFlags;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Log\Logger;
 use Piwik\Log\LoggerInterface;
 
 class FeatureFlagManager
@@ -21,7 +20,7 @@ class FeatureFlagManager
     private $storages;
 
     /**
-     * @var Logger
+     * @var LoggerInterface
      */
     private $logger;
 
@@ -40,6 +39,10 @@ class FeatureFlagManager
 
         if ($featureFlagObj === null) {
             return false;
+        }
+
+        if ($featureFlagObj instanceof ForcedFeatureFlagStateInterface) {
+            return $featureFlagObj->getForcedFeatureFlagState();
         }
 
         $featureActive = false;

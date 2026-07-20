@@ -37,7 +37,6 @@
         "SegmentAppliedToReports": "Ziņojumiem tiek lietots \"%s\" segments.",
         "SegmentDeleted": "Segments izdzēsts",
         "Segment_Deletion_Error": "Šo segmentu nevar izdzēst vai padarīt neredzamu citiem lietotājiem, jo to izmanto, lai ģenerētu e-pasta ziņojumu(-s) %s. Lūdzu, mēģiniet vēlreiz pēc segmenta noņemšanas no ziņojuma(-iem).",
-        "SendReportNow": "Tūlīt nosūtīt ziņojumu",
         "SendReportTo": "Nosūtīt ziņojumu uz",
         "SentFromX": "Nosūtīts no %s.",
         "SentToMe": "Sūtīt man",

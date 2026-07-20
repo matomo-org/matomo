@@ -869,7 +869,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
     private function insertArchive(array $archive)
     {
-        $table = ArchiveTableCreator::getNumericTable(Date::now());
+        $table = ArchiveTableCreator::getNumericTable(Date::now(), true);
 
         $bind = [
             $archive['idarchive'],
@@ -912,7 +912,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
 
-        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'), true);
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
             1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived,
         ]);
@@ -950,7 +950,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
 
-        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'), true);
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
             1, 1,2, '2020-03-30', '2020-04-05', 'done' . $segmentHash . '.ExamplePlugin', ArchiveWriter::DONE_PARTIAL, $tsArchived,
         ]);
@@ -989,7 +989,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
 
-        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'), true);
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
             1, 1, 2, '2020-03-30', '2020-04-05', 'done' . $segmentHash . '.ExamplePlugin', ArchiveWriter::DONE_PARTIAL, $tsArchived,
         ]);
@@ -1031,7 +1031,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
 
-        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'), true);
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
             1, 1, 2, '2020-03-30', '2020-04-05', 'done' . $segmentHash . '.ExamplePlugin', ArchiveWriter::DONE_PARTIAL, $tsArchived,
         ]);
@@ -1071,7 +1071,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
 
-        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'), true);
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
             1, 1, 2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived,
         ]);

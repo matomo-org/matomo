@@ -113,13 +113,13 @@
             position: relative;
             margin-top: 8px;
             height: 550px;
-            border: 1px solid #ccc;
+            border: 1px solid @theme-color-border;
             border-radius: 4px;
             overflow: visible;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px @theme-color-boxShadow;
             transition: box-shadow 0.3s ease;
             text-decoration: none;
-            color: #000;
+            color: @theme-color-text-highContrast;
 
             @media (max-width: 480px) {
                 height: 380px; // as there's no image
@@ -356,7 +356,7 @@
     }
 
     .modal {
-        background-color: #fff;
+        background-color: @theme-color-background-contrast;
     }
 }
 

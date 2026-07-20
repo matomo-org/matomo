@@ -10,9 +10,11 @@
 namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\Archive;
+use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\VisitsSummary\Reports\Get;
 use Piwik\SettingsPiwik;
 use Piwik\Url;
 
@@ -24,122 +26,292 @@ use Piwik\Url;
  */
 class API extends \Piwik\Plugin\API
 {
-    public function get($idSite, $period, $date, $segment = false, $columns = false)
+    /**
+     * Returns the VisitsSummary overview report for the requested period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param string|string[]|false $columns Specific metrics to include, or `false` to return the default set.
+     * @return DataTable|DataTable\Map VisitsSummary metrics for the requested period.
+     */
+    public function get($idSite, string $period, string $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
 
         $requestedColumns = Piwik::getArrayFromApiParameter($columns);
 
-        $report = ReportsProvider::factory("VisitsSummary", "get");
+        /** @var Get $report */
+        $report = ReportsProvider::factory('VisitsSummary', 'get');
         $columns = $report->getMetricsRequiredForReport($this->getCoreColumns($period), $requestedColumns);
 
         $dataTable = $archive->getDataTableFromNumeric($columns);
 
         if (!empty($requestedColumns)) {
-            $columnsToShow = $requestedColumns ?: $report->getAllMetrics();
-            $dataTable->queueFilter('ColumnDelete', array($columnsToRemove = array(), $columnsToShow));
+            $dataTable->queueFilter('ColumnDelete', [$columnsToRemove = [], $requestedColumns]);
         }
 
         return $dataTable;
     }
 
-    protected function getCoreColumns($period)
+    /**
+     * @return string[]
+     */
+    protected function getCoreColumns(string $period): array
     {
-        $columns = array(
+        $columns = [
             'nb_visits',
             'nb_actions',
             'nb_visits_converted',
             'bounce_count',
             'sum_visit_length',
             'max_actions',
-        );
+        ];
         if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
-            $columns = array_merge(array('nb_uniq_visitors', 'nb_users'), $columns);
+            $columns = array_merge(['nb_uniq_visitors', 'nb_users'], $columns);
         }
         $columns = array_values($columns);
         return $columns;
     }
 
-    protected function getNumeric($idSite, $period, $date, $segment, $toFetch)
+    /**
+     * @param int|string|int[] $idSite
+     * @param string|false|null $segment
+     * @param string|string[] $toFetch
+     * @return DataTable|DataTable\Map
+     */
+    protected function getNumeric($idSite, string $period, string $date, $segment, $toFetch)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
-        $dataTable = $archive->getDataTableFromNumeric($toFetch);
-        return $dataTable;
+        return $archive->getDataTableFromNumeric($toFetch);
     }
 
-    public function getVisits($idSite, $period, $date, $segment = false)
+    /**
+     * Returns the number of visits in the requested period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Numeric archive result containing the number of visits.
+     */
+    public function getVisits($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'nb_visits');
     }
 
-    public function getUniqueVisitors($idSite, $period, $date, $segment = false)
+    /**
+     * Returns the number of unique visitors in the requested period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Numeric archive result containing the number of unique visitors.
+     */
+    public function getUniqueVisitors($idSite, string $period, string $date, $segment = false)
     {
         $metric = 'nb_uniq_visitors';
         $this->checkUniqueIsEnabledOrFail($period, $metric);
         return $this->getNumeric($idSite, $period, $date, $segment, $metric);
     }
 
-    public function getUsers($idSite, $period, $date, $segment = false)
+    /**
+     * Returns the number of users in the requested period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Numeric archive result containing the number of users.
+     */
+    public function getUsers($idSite, string $period, string $date, $segment = false)
     {
         $metric = 'nb_users';
         $this->checkUniqueIsEnabledOrFail($period, $metric);
         return $this->getNumeric($idSite, $period, $date, $segment, $metric);
     }
 
-    public function getActions($idSite, $period, $date, $segment = false)
+    /**
+     * Returns the number of actions in the requested period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Numeric archive result containing the number of actions.
+     */
+    public function getActions($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'nb_actions');
     }
 
-    public function getMaxActions($idSite, $period, $date, $segment = false)
+    /**
+     * Returns the maximum number of actions in a single visit for the requested period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Numeric archive result containing the maximum actions value.
+     */
+    public function getMaxActions($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'max_actions');
     }
 
-    public function getBounceCount($idSite, $period, $date, $segment = false)
+    /**
+     * Returns the number of bounces in the requested period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Numeric archive result containing the bounce count.
+     */
+    public function getBounceCount($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'bounce_count');
     }
 
-    public function getVisitsConverted($idSite, $period, $date, $segment = false)
+    /**
+     * Returns the number of converted visits in the requested period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Numeric archive result containing converted visits.
+     */
+    public function getVisitsConverted($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'nb_visits_converted');
     }
 
-    public function getSumVisitsLength($idSite, $period, $date, $segment = false)
+    /**
+     * Returns the total visit duration in seconds for the requested period.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Numeric archive result containing total visit duration.
+     */
+    public function getSumVisitsLength($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'sum_visit_length');
     }
 
-    public function getSumVisitsLengthPretty($idSite, $period, $date, $segment = false)
+    /**
+     * Returns the total visit duration formatted as human-readable text.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false|null $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Numeric archive result containing Human-readable visit duration values.
+     */
+    public function getSumVisitsLengthPretty($idSite, string $period, string $date, $segment = false)
     {
         $formatter = new Formatter();
 
         $table = $this->getSumVisitsLength($idSite, $period, $date, $segment);
-        if (is_object($table)) {
-            $table->filter(
-                'ColumnCallbackReplace',
-                array('sum_visit_length', array($formatter, 'getPrettyTimeFromSeconds'), array(true))
-            );
-        } else {
-            $table = $formatter->getPrettyTimeFromSeconds($table, true);
-        }
+        $table->filter(
+            'ColumnCallbackReplace',
+            ['sum_visit_length', [$formatter, 'getPrettyTimeFromSeconds'], [true]]
+        );
         return $table;
     }
 
-    /**
-     * @param $period
-     * @param $metric
-     * @throws \Exception
-     */
-    private function checkUniqueIsEnabledOrFail($period, $metric)
+    private function checkUniqueIsEnabledOrFail(string $period, string $metric): void
     {
         if (!SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             throw new \Exception(
-                "The metric " . $metric . " is not enabled for the requested period. " .
-                "Please see this FAQ: " . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_113/')
+                'The metric ' . $metric . ' is not enabled for the requested period. ' .
+                'Please see this FAQ: ' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_113/')
             );
         }
     }

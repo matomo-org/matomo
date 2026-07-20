@@ -111,10 +111,9 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
      * stores it in the option table so that it can be accessed later during the Tracker.isExcludedVisit event.
      *
      * @param string $url Optional URL to append the nonce to. If not provided, it uses the main URL of the site
-     * @return array containing the URL constructed using the main URL for the site and the newly created nonce as a
+     * @return array{url:string, nonce:string} containing the URL constructed using the main URL for the site and the newly created nonce as a
      * query parameter.
      * E.g ['url' => 'https://some-site.com?tracker_install_check=c3dfa1abbbab6381baca0793b8dd5d', 'nonce' => 'c3dfa1abbbab6381baca0793b8dd5d']
-     * @throws \Exception
      */
     public function initiateJsTrackerInstallTest(int $idSite, string $url = ''): array
     {

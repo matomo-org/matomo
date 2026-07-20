@@ -1,6 +1,6 @@
 {
     "VisitsSummary": {
-        "AverageGenerationTime": "genomsnittlig tid för skapandet",
+        "AverageGenerationTime": "genomsnittlig genereringstid",
         "AverageVisitDuration": "genomsnittlig besökslängd",
         "GenerateQueries": "%s utförda förfrågningar",
         "GenerateTime": "%s sekunder för att generera sidan",

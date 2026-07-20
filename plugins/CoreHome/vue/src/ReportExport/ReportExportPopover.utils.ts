@@ -5,7 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-export const FORMATS_WITHOUT_EXPANDED = ['CSV', 'TSV'];
+export const FORMATS_WITHOUT_EXPANDED = ['CSV', 'TSV', 'HTML'];
 
 export type SubtableMode = 'flat' | 'expanded' | null;
 
@@ -65,7 +65,7 @@ export function resolveEffectiveSubtableOptions(
 ): EffectiveSubtableOptions {
   const { hasUserPreference, preferredMode } = subtablePreference;
 
-  if (!hasSubtables) {
+  if (!hasSubtables && !canExportFlat) {
     return {
       optionFlat: false,
       optionExpanded: false,
@@ -84,6 +84,12 @@ export function resolveEffectiveSubtableOptions(
       optionFlat: !hasUserPreference || preferredMode === 'flat',
       optionExpanded: false,
     };
+  }
+
+  if (!hasSubtables) {
+    return canExportFlat
+      ? { optionFlat: preferredMode === 'flat', optionExpanded: false }
+      : { optionFlat: false, optionExpanded: false };
   }
 
   if (!hasUserPreference) {

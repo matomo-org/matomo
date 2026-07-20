@@ -131,8 +131,6 @@ var SegmentedVisitorLog = function() {
 
         // prepare loading the popover contents
         var requestParams = {
-            module: 'Live',
-            action: 'indexVisitorLog',
             segment: encodeURIComponent(segment),
             disableLink: 1,
             small: 1,
@@ -140,6 +138,10 @@ var SegmentedVisitorLog = function() {
         };
 
         $.extend(requestParams, extraParams);
+
+        // Pin routing after the merge so it cannot be overridden.
+        requestParams.module = 'Live';
+        requestParams.action = 'indexVisitorLog';
 
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.addParams(requestParams, 'get');

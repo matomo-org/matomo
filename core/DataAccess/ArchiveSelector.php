@@ -49,15 +49,18 @@ class ArchiveSelector
     }
 
     /**
-     * @param bool $minDatetimeArchiveProcessedUTC deprecated. Will be removed in Matomo 4.
-     * @return array An array with four values:
-     *               - the latest archive ID or false if none
+     * @param false|int|string|Date|null $minDatetimeArchiveProcessedUTC The minimum ts_archived an archive must have to be considered usable, or false to accept any.
+     * @param bool|null $includeInvalidated true to include archives that are DONE_INVALIDATED, false if only DONE_OK,
+     *                                      null to determine automatically based on $params.
+     * @return array An array with the following values:
+     *               - the latest archive ID(s) or false if none
      *               - the latest visits value for the latest archive, regardless of whether the archive is invalidated or not
      *               - the latest visits converted value for the latest archive, regardless of whether the archive is invalidated or not
      *               - whether there is an archive that exists or not. if this is true and the latest archive is false, it means
      *                 the archive found was not usable (for example, it was invalidated and we are not looking for invalidated archives)
      *               - the ts_archived for the latest usable archive
-     * @throws Exception
+     *               - the doneFlag value for the latest archive
+     *               - existing records contained in partial archives, if applicable
      */
     public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = null)
     {
@@ -67,7 +70,18 @@ class ArchiveSelector
         $dateStartIso = $dateStart->toString('Y-m-d');
         $dateEndIso   = $params->getPeriod()->getDateEnd()->toString('Y-m-d');
 
-        $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
+        $numericTable = ArchiveTableCreator::getNumericTable($dateStart, false);
+        if (empty($numericTable)) {
+            return self::archiveInfoBcResult([
+                'idArchives' => false,
+                'visits' => false,
+                'visitsConverted' => false,
+                'archiveExists' => false,
+                'tsArchived' => false,
+                'doneFlagValue' => false,
+                'existingRecords' => null,
+            ]);
+        }
 
         $requestedPlugin = $params->getRequestedPlugin();
         $requestedReport = $params->getArchiveOnlyReport();
@@ -193,7 +207,6 @@ class ArchiveSelector
      *                       '2010-01-01' => array(1,2,3)
      *                   )
      *               )
-     * @throws
      */
     public static function getArchiveIds(
         $siteIds,
@@ -243,7 +256,6 @@ class ArchiveSelector
      *                       )
      *                   )
      *               )
-     * @throws
      */
     public static function getArchiveIdsAndStates(
         $siteIds,
@@ -285,7 +297,10 @@ class ArchiveSelector
             if ($period->getDateStart()->isLater(Date::now()->addDay(2))) {
                 continue; // avoid creating any archive tables in the future
             }
-            $table = ArchiveTableCreator::getNumericTable($period->getDateStart());
+            $table = ArchiveTableCreator::getNumericTable($period->getDateStart(), false);
+            if (empty($table)) {
+                continue;
+            }
             $monthToPeriods[$table][] = $period;
         }
 
@@ -397,9 +412,13 @@ class ArchiveSelector
 
             $isNumeric = $archiveDataType === 'numeric';
             if ($isNumeric) {
-                $table = ArchiveTableCreator::getNumericTable($date);
+                $table = ArchiveTableCreator::getNumericTable($date, false);
             } else {
-                $table = ArchiveTableCreator::getBlobTable($date);
+                $table = ArchiveTableCreator::getBlobTable($date, false);
+            }
+
+            if (empty($table)) {
+                continue;
             }
 
             $ids      = array_map('intval', $ids);
@@ -492,8 +511,9 @@ class ArchiveSelector
      * - the ts_archived for the latest idarchive
      * - the doneFlag value for the latest archive
      *
-     * @param $results
-     * @param $doneFlags
+     * @param array $results
+     * @param array $requestedPluginDoneFlags
+     * @param string $allPluginsDoneFlag
      * @return array
      */
     private static function findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $allPluginsDoneFlag)
@@ -598,13 +618,16 @@ class ArchiveSelector
 
         $archiveIdsPerMonth = self::getArchiveIdsByYearMonth($archiveIds);
 
-        $periodsSeen = [];
+        $sitePeriodsSeen = [];
 
         // $yearMonth = "2022-11",
         foreach ($archiveIdsPerMonth as $yearMonth => $ids) {
             $date = Date::factory($yearMonth . '-01');
 
-            $table = ArchiveTableCreator::getBlobTable($date);
+            $table = ArchiveTableCreator::getBlobTable($date, false);
+            if (empty($table)) {
+                continue;
+            }
 
             $ids      = array_map('intval', $ids);
             $sql      = sprintf($getValuesSql, $table, implode(',', $ids));
@@ -626,12 +649,12 @@ class ArchiveSelector
                     continue;
                 }
 
-                // only use the first period/blob name combination seen (since we order by ts_archived descending)
-                if (!empty($periodsSeen[$period][$recordName])) {
+                // only use the first site/period/blob name combination seen (since we order by ts_archived descending)
+                if (!empty($sitePeriodsSeen[$row['idsite']][$period][$recordName])) {
                     continue;
                 }
 
-                $periodsSeen[$period][$recordName] = true;
+                $sitePeriodsSeen[$row['idsite']][$period][$recordName] = true;
 
                 $row['value'] = ArchiveSelector::uncompress($row['value']);
                 if ($chunk->isRecordNameAChunk($row['name'])) {
@@ -639,6 +662,7 @@ class ArchiveSelector
                     $blobs = Common::safe_unserialize($row['value']);
                     if (!is_array($blobs)) {
                         yield $row;
+                        continue;
                     }
 
                     ksort($blobs);
@@ -665,8 +689,8 @@ class ArchiveSelector
      *
      * @param array $recordNames The list of records to look for.
      * @param string|int $idSubtable The idSubtable to look for or 'all' to load all of them.
-     * @param boolean $orderBySubtableId If true, orders the result set by start date ascending, subtable ID
-     *                                   ascending and ts_archived descending. Only applied if loading all
+     * @param boolean $orderBySubtableId If true, orders the result set by start date ascending, site ID ascending,
+     *                                   subtable ID ascending and ts_archived descending. Only applied if loading all
      *                                   subtables for a single record.
      *
      *                                   This parameter is used when aggregating blob data for a single record
@@ -701,6 +725,7 @@ class ArchiveSelector
                 $idSubtableAsInt = self::getExtractIdSubtableFromBlobNameSql($chunk, $name);
 
                 $orderBy = "ORDER BY date1 ASC, " . // ordering by date just so column order in tests will be predictable
+                    " idsite ASC, " . // an archive query can span multiple sites for the same period, so keep each site's rows together
                     " $idSubtableAsInt ASC,
                   ts_archived DESC"; // ascending order so we use the latest data found
             }

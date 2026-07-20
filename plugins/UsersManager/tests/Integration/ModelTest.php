@@ -17,6 +17,7 @@ use Piwik\Db;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Session\SessionFingerprint;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -364,6 +365,53 @@ class ModelTest extends IntegrationTestCase
         $this->model->setTokenAuthWasUsed('tokenFooBar', '2025-01-02 03:04:05');
     }
 
+    public function testDeleteUserSessionsDeletesMatchingSessionsOnly()
+    {
+        $this->insertSessionRowForLogin('login2character', '');
+        $this->insertSessionRowForLogin('login22character', '');
+        $this->insertSessionRowForLogin('login222character', '');
+        $this->insertSessionRowForLogin('login2222character', '');
+
+        $variations = ['login1character', 'login11character', 'login111character', 'login1111character', '用户'];
+
+        foreach ($variations as $variation) {
+            $sessionTable = Common::prefixTable('session');
+
+            // randomise position of username in the session string
+            $this->insertSessionRowForLogin($variation, '');
+            $this->insertSessionRowForLogin($variation, '1');
+            $this->insertSessionRowForLogin($variation, '11');
+            $this->insertSessionRowForLogin($variation, '111');
+
+            $countBefore = (int) Db::fetchOne('SELECT COUNT(*) FROM `' . $sessionTable . '`');
+            $this->assertSame(8, $countBefore);
+
+            $this->model->deleteUserSessions($variation);
+
+            $countAfter = (int) Db::fetchOne('SELECT COUNT(*) FROM `' . $sessionTable . '`');
+            $this->assertSame(4, $countAfter, $variation . ' test failed');
+
+            // check won't delete not matching username
+            $this->model->deleteUserSessions('notExistingUsername');
+            $this->assertSame(4, $countAfter, $variation . ' test failed when nothing should be deleted');
+        }
+    }
+
+    public function testDeleteUserSessionsHandlesLoginContainingUnderscore()
+    {
+        $sessionTable = Common::prefixTable('session');
+        $underscoreLogin = 'user_name_1';
+        $this->api->addUser($underscoreLogin, 'password3', 'username1@password.de');
+
+        $this->insertSessionRowForLogin($underscoreLogin, 'bar');
+        $this->insertSessionRowForLogin($this->login2, 'foo');
+
+        $this->model->deleteUserSessions($underscoreLogin);
+
+        $remainingRows = (int) Db::fetchOne('SELECT COUNT(*) FROM `' . $sessionTable . '`');
+        $this->assertSame(1, $remainingRows);
+    }
+
     public function testDeleteExpiredTokens()
     {
         $date = Date::factory('now')->addMonth(1)->getDatetime();
@@ -389,5 +437,21 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($id4, $tokens[0]['idusertokenauth']);
         $this->assertEquals($id5, $tokens[1]['idusertokenauth']);
         $this->assertCount(2, $tokens);
+    }
+
+    private function insertSessionRowForLogin(string $login, $prependstring): void
+    {
+        $_SESSION = ['randomstring' => $prependstring]; // to move position of user.name to different positions
+        $fingerprint = new SessionFingerprint();
+        $fingerprint->initialize($login, 'foo');
+        $sessionTable = Common::prefixTable('session');
+
+        $data = serialize(\Zend_Session::buildSessionData($_SESSION));
+        $_SESSION = [];
+
+        Db::query(
+            'INSERT INTO `' . $sessionTable . '` (`id`, `modified`, `lifetime`, `data`) VALUES (?, ?, ?, ?)',
+            [hash('sha512', uniqid($login, true)), time(), 7200, $data]
+        );
     }
 }

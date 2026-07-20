@@ -842,7 +842,7 @@ class CronArchiveTest extends IntegrationTestCase
 
         $params = new Parameters(new Site(1), $period, new Segment('', [1]));
 
-        $archiveTable = ArchiveTableCreator::getNumericTable($period->getDateStart());
+        $archiveTable = ArchiveTableCreator::getNumericTable($period->getDateStart(), true);
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
             1, 1, $period::PERIOD_ID, $period->getDateStart()->toString(), $period->getDateEnd()->toString(), 'done', $archiveStatus, $tsArchived,
         ]);
@@ -1474,7 +1474,7 @@ LOG;
         $logger = new FakeLogger();
 
         // prevent race condition in sequence creation during test
-        $sequence = new Sequence(ArchiveTableCreator::getNumericTable(Date::factory('2019-12-10')));
+        $sequence = new Sequence(ArchiveTableCreator::getNumericTable(Date::factory('2019-12-10'), true));
         $sequence->create();
 
         $archiver = new CronArchive($logger);

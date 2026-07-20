@@ -32,7 +32,7 @@
 }
 
 .Transitions_Text {
-    color: black;
+    color: @theme-color-text;
     font-size: 11px;
     line-height: 14px;
     position: absolute;
@@ -47,12 +47,12 @@
     margin: 27px 0 0 345px;
     width: 208px;
     min-height: 373px;
-    background: #f7f7f7;
-    border: 1px solid #a9a399;
+    background: @theme-color-background-contrast;
+    border: 1px solid @theme-color-border;
     border-radius: 10px;
-    -webkit-box-shadow: 0 0 9px 0 #999;
-    -moz-box-shadow: 0 0 9px 0 #999;
-    box-shadow: 0 0 9px 0 #999;
+    -webkit-box-shadow: 0 0 9px 0 @theme-color-boxShadow;
+    -moz-box-shadow: 0 0 9px 0 @theme-color-boxShadow;
+    box-shadow: 0 0 9px 0 @theme-color-boxShadow;
     z-index: 1507;
 }
 
@@ -60,10 +60,10 @@
     font-size: 12px;
     line-height: 16px;
     padding: 10px;
-    border-bottom: 1px dotted #a9a399;
+    border-bottom: 1px dotted @theme-color-border;
     font-weight: bold;
     overflow: hidden;
-    color: #255792;
+    color: @theme-color-link;
     margin: 0;
 
     a {
@@ -99,7 +99,7 @@
     font-size: 12px;
     margin: 15px 0 7px 0;
     padding: 0;
-    color: #7E7363;
+    color: @theme-color-text-light;
 }
 
 #Transitions_Loops {
@@ -182,7 +182,7 @@ span.Transitions_Metric {
 
 .Transitions_CurveTextLeft,
 .Transitions_CurveTextRight {
-    color: #255792;
+    color: @theme-color-link;
     font-weight: bold;
     width: 34px;
     text-align: center;
@@ -192,7 +192,9 @@ span.Transitions_Metric {
 body .ui-tooltip.Transitions_Tooltip_Small {
     font-size: 11px;
     padding: 3px 5px 3px 6px;
-    background: white;
+    background: @theme-color-background-contrast;
+    color: @theme-color-text;
+    border: 1px solid @theme-color-border;
 }
 
 .Transitions_SingleLine {

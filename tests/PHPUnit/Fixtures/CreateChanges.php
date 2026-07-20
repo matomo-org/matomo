@@ -48,11 +48,13 @@ class CreateChanges extends Fixture
              'description' => 'Now you can do a with b like this',
              'link_name' => 'For more information go here',
              'link' => 'https://www.matomo.org',
+             'plugin' => 'CoreHome',
             ],
             [
              'version' => '4.5.0',
              'title' => 'New feature y added',
              'description' => 'Now you can do c with d like this',
+             'plugin' => 'CustomAlerts',
             ],
             [
              'version' => '4.4.0',
@@ -60,13 +62,14 @@ class CreateChanges extends Fixture
              'description' => 'Now you can do e with f like this',
              'link_name' => 'For more information go here',
              'link' => 'https://www.matomo.org',
+             'plugin' => 'CustomDimensions',
             ],
         ];
 
         $changes = array_reverse($changes);
         $changesModel = new ChangesModel(); // Intentionally not using the FakeChangesModel, we want these changes added
         foreach ($changes as $change) {
-            $changesModel->addChange('CoreHome', $change);
+            $changesModel->addChange($change['plugin'], $change);
         }
     }
 

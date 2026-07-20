@@ -15,7 +15,7 @@ use Piwik\Access;
  * This class offers methods to filter a list of users, logins, or anything that is related to users/logins.
  *
  * * By default a super user is allowed to see all users.
- * * A user having admin access is allowed to see all other users that have view or admin access to the same access.
+ * * A user having admin access is allowed to see all other users that have view, write or admin access to the same site.
  * * A user not having any admin access is only allowed to see the own user.
  *
  * The methods in this class make sure to only return the data for logins / users the current user actually has
@@ -37,7 +37,7 @@ class UserAccessFilter
     private $access;
 
     /**
-     * Holds a list of all idSites the current user has view access to. Only used for caching.
+     * Holds a list of all idSites the current user has admin access to. Only used for caching.
      * @var array
      */
     private $idSitesWithAdmin;
@@ -116,7 +116,7 @@ class UserAccessFilter
     /**
      * Returns the given user only if the current user has permission to see the given user
      * @param array $user An array containing a key 'login'
-     * @return array|null
+     * @return array
      */
     public function filterUser($user)
     {
@@ -126,6 +126,8 @@ class UserAccessFilter
         ) {
             return $user;
         }
+
+        return [];
     }
 
     /**

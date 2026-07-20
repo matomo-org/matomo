@@ -32,6 +32,7 @@ class TestsRunUI extends ConsoleCommand
         $this->addNoValueOption('assume-artifacts', null, "Assume the diffviewer and processed screenshots will be stored on the builds artifacts server. For use with CI build.");
         $this->addRequiredValueOption('plugin', null, "Execute all tests for a plugin.");
         $this->addNoValueOption('core', null, "Execute only tests for Piwik core & core plugins.");
+        $this->addNoValueOption('core-tests-only', null, 'Execute only tests from tests/UI and skip plugin UI specs.');
         $this->addNoValueOption('skip-delete-assets', null, "Skip deleting of merged assets (will speed up a test run, but not by a lot).");
         $this->addNoValueOption('skip-screenshots', null, 'Run UI tests without image diff assertions (local functional debugging).');
         $this->addNoValueOption('screenshot-repo', null, "For tests");
@@ -55,6 +56,7 @@ class TestsRunUI extends ConsoleCommand
         $plugin = $input->getOption('plugin');
         $skipDeleteAssets = $input->getOption('skip-delete-assets');
         $core = $input->getOption('core');
+        $coreTestsOnly = $input->getOption('core-tests-only');
         $extraOptions = $input->getOption('extra-options');
         $storeInUiTestsRepo = $input->getOption('store-in-ui-tests-repo');
         $screenshotRepo = $input->getOption('screenshot-repo');
@@ -101,8 +103,12 @@ class TestsRunUI extends ConsoleCommand
             $options[] = "--plugin=" . $plugin;
         }
 
-        if ($core) {
+        if ($core && !$plugin) {
             $options[] = "--core";
+        }
+
+        if ($coreTestsOnly) {
+            $options[] = '--core-tests-only';
         }
 
         if ($storeInUiTestsRepo) {

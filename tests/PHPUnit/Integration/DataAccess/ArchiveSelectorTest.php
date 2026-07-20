@@ -11,8 +11,10 @@ namespace Piwik\Tests\Integration\DataAccess;
 
 use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period\Factory;
@@ -35,6 +37,45 @@ class ArchiveSelectorTest extends IntegrationTestCase
     {
         parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
+    }
+
+    public function testGetArchiveIdsDoesNotCreateMissingArchiveTables()
+    {
+        Fixture::createWebsite('2010-02-02 00:00:00');
+
+        $tablesBefore = ArchiveTableCreator::getTablesArchivesInstalled(null, true);
+
+        [$archiveIds, $archiveStates] = ArchiveSelector::getArchiveIdsAndStates(
+            [1],
+            [Factory::build('day', '2020-04-01')],
+            new Segment('', [1]),
+            []
+        );
+
+        $this->assertSame([], $archiveIds);
+        $this->assertSame([], $archiveStates);
+        $this->assertSame($tablesBefore, ArchiveTableCreator::getTablesArchivesInstalled(null, true));
+        $this->assertNull(ArchiveTableCreator::getNumericTable(Date::factory('2020-04-01'), false));
+        $this->assertNull(ArchiveTableCreator::getBlobTable(Date::factory('2020-04-01'), false));
+    }
+
+    public function testGetNumericTableRefreshesInstalledTablesOnLookupOnlyCacheMiss()
+    {
+        $date = Date::factory('2037-04-01');
+        $tableName = 'archive_numeric_2037_04';
+        $prefixedTableName = Common::prefixTable($tableName);
+
+        Db::query("DROP TABLE IF EXISTS `$prefixedTableName`");
+
+        ArchiveTableCreator::getTablesArchivesInstalled(null, true);
+        ArchiveTableCreator::$tablesAlreadyInstalled = array_values(array_diff(ArchiveTableCreator::$tablesAlreadyInstalled, [$prefixedTableName]));
+
+        $this->assertNull(ArchiveTableCreator::getNumericTable($date, false));
+
+        (new Model())->createArchiveTable($prefixedTableName, 'archive_numeric');
+        ArchiveTableCreator::$tablesAlreadyInstalled = array_values(array_diff(ArchiveTableCreator::$tablesAlreadyInstalled, [$prefixedTableName]));
+
+        $this->assertSame($prefixedTableName, ArchiveTableCreator::getNumericTable($date, false));
     }
 
     public function testGetArchiveIdsHandlesCutOffGroupConcat()
@@ -269,7 +310,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
             }
 
             $d = Date::factory($row['date1']);
-            $table = !empty($row['is_blob_data']) ? ArchiveTableCreator::getBlobTable($d) : ArchiveTableCreator::getNumericTable($d);
+            $table = !empty($row['is_blob_data']) ? ArchiveTableCreator::getBlobTable($d, true) : ArchiveTableCreator::getNumericTable($d, true);
             $tsArchived = isset($row['ts_archived']) ? $row['ts_archived'] : Date::now()->getDatetime();
             Db::query(
                 "INSERT INTO `$table` (idarchive, idsite, period, date1, date2, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -994,7 +1035,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
         $this->insertArchiveData($archiveRows);
 
         $sql = 'SELECT ' . ArchiveSelector::getExtractIdSubtableFromBlobNameSql(new Chunk(), $blobName) . ' AS idsubtable, name'
-            . ' FROM ' . ArchiveTableCreator::getBlobTable(Date::factory($archiveRows[0]['date1']))
+            . ' FROM ' . ArchiveTableCreator::getBlobTable(Date::factory($archiveRows[0]['date1']), false)
             . ' WHERE name = ? OR name LIKE ? ORDER BY idsubtable ASC';
         $rows = Db::fetchAll($sql, [$blobName, $blobName . '%']);
 

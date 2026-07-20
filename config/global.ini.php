@@ -624,6 +624,9 @@ datatable_archiving_maximum_rows_subtable_custom_dimensions = 1000
 
 ; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
 datatable_archiving_maximum_rows_actions = 500
+; maximum number of rows used when archiving flat page/title actions before rebuilding hierarchy
+; if set to 0, legacy hierarchical-only Actions archiving is used
+datatable_archiving_maximum_rows_actions_flat = 0
 ; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
 ; note: should not exceed the display limit in Piwik\Actions\Controller::ACTIONS_REPORT_ROWS_DISPLAY
 ; because each subdirectory doesn't have paging at the bottom, so all data should be displayed if possible.
@@ -643,6 +646,11 @@ datatable_archiving_maximum_rows_products = 10000
 datatable_archiving_maximum_rows_bots = 250
 ; maximum number of page/document rows listed per AI Assistant in Bot Tracking reports
 datatable_archiving_maximum_rows_subtable_bots = 250
+; maximum number of content URLs (pages/documents) listed in the AI Chatbots Content Requests reports
+datatable_archiving_maximum_rows_ai_chatbot_content = 50000
+; maximum number of page URLs listed in the Human-Favoured / AI-Favoured Pages reports
+; (these span the full human page-URL set, matching the content reports cap)
+datatable_archiving_maximum_rows_ai_chatbot_favoured_pages = 50000
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
@@ -667,6 +675,11 @@ live_widget_visitor_count_last_minutes = 3
 ; by default visitor profile will show aggregated information for the last up to 100 visits of a visitor
 ; this limit can be adjusted by changing this value
 live_visitor_profile_max_visits_to_aggregate = 100
+
+; maximum number of AI chatbots listed in the real-time AI Chatbots reports
+live_ai_chatbots_maximum_rows = 100 
+; maximum number of page URLs listed in the real-time AI Chatbots top page URL reports
+live_ai_chatbots_top_page_urls_maximum_rows = 100
 
 ; If configured, will abort a MySQL query after the configured amount of seconds and show an error in the UI to for
 ; example lower the date range or tweak the segment (if one is applied). Set it to -1 if the query time should not be

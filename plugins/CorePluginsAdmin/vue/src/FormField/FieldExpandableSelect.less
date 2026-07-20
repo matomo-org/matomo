@@ -30,7 +30,7 @@
 
     li {
       &:hover {
-        background: #f2f2f2 !important;
+        background: @theme-color-background-tinyContrast !important;
       }
 
       &.collection-item {
@@ -56,7 +56,7 @@
         min-width: 200px;
 
         &:hover {
-          background: #f2f2f2 !important;
+          background: @theme-color-background-tinyContrast !important;
         }
       }
     }
@@ -64,18 +64,19 @@
 
   .searchContainer {
     padding: 5px;
-    border-left: 1px solid #e0e0e0;
-    border-right: 1px solid #e0e0e0;
-    border-top: 1px solid #e0e0e0;
+    background: @theme-color-background-contrast;
+    border-left: 1px solid @theme-color-border;
+    border-right: 1px solid @theme-color-border;
+    border-top: 1px solid @theme-color-border;
   }
 
   .expandableSearch {
     vertical-align: top;
     padding: 7px 6px !important;
-    border: 1px solid #d0d0d0 !important;
-    background: #fff !important;
+    border: 1px solid @theme-color-border !important;
+    background: @theme-color-background-contrast !important;
     font-size: 11px !important;
-    color: #454545 !important;
+    color: @theme-color-text !important;
     width: 100% !important;
   }
 
@@ -83,6 +84,18 @@
     position: absolute;
     z-index: 9999;
     margin-top: -48px;
-    background: #fff;
+    background: @theme-color-background-contrast;
+    color: @theme-color-text;
+
+    .collection {
+      background: @theme-color-background-contrast;
+      border-color: @theme-color-border;
+    }
+
+    .collection .collection-item {
+      background: @theme-color-background-contrast;
+      border-color: @theme-color-border;
+      color: @theme-color-text;
+    }
   }
 }

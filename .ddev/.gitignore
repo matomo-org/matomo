@@ -11,6 +11,7 @@
 /config.local.y*ml
 /config.*.local.y*ml
 /db_snapshots
+/docker-compose.local-plugins.yaml
 /mutagen/mutagen.yml
 /mutagen/.start-synced
 /nginx_full/nginx-site.conf

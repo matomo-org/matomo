@@ -3,6 +3,7 @@
 	<row>
 		<idsite>1</idsite>
 		<name>SiteTest1</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>
@@ -26,6 +27,7 @@
 	<row>
 		<idsite>10</idsite>
 		<name>SiteTest10</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>
@@ -49,6 +51,7 @@
 	<row>
 		<idsite>11</idsite>
 		<name>SiteTest11</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>
@@ -72,6 +75,7 @@
 	<row>
 		<idsite>12</idsite>
 		<name>SiteTest12</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>
@@ -95,6 +99,7 @@
 	<row>
 		<idsite>13</idsite>
 		<name>SiteTest13</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>
@@ -118,6 +123,7 @@
 	<row>
 		<idsite>14</idsite>
 		<name>SiteTest14</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>
@@ -141,6 +147,7 @@
 	<row>
 		<idsite>15</idsite>
 		<name>SiteTest15</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>
@@ -164,6 +171,7 @@
 	<row>
 		<idsite>16</idsite>
 		<name>SiteTest16</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>
@@ -187,6 +195,7 @@
 	<row>
 		<idsite>17</idsite>
 		<name>SiteTest17</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>
@@ -210,6 +219,7 @@
 	<row>
 		<idsite>18</idsite>
 		<name>SiteTest18</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>
@@ -233,6 +243,7 @@
 	<row>
 		<idsite>19</idsite>
 		<name>SiteTest19</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>

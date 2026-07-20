@@ -29,6 +29,8 @@ class GetOsVersions extends Base
 
     public function configureView(ViewDataTable $view)
     {
+        $view->config->show_flatten_table = false;
+        $view->config->show_flatten_table_export = false;
         $view->config->title = $this->name;
         $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;

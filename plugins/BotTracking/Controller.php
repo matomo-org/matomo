@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking;
 
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Plugins\BotTracking\BotTrackingMethod\BotTrackingMethodAbstract;
@@ -153,35 +154,6 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->renderView($view);
     }
 
-    public function noRecentRequestsMessage(): string
-    {
-        $this->checkSitePermission();
-
-        $request = Request::fromRequest();
-        $period  = $request->getStringParameter('period', '');
-        $date    = $request->getStringParameter('date', '');
-
-        $noDataParams = [
-            'module' => 'BotTracking',
-            'action' => 'siteWithoutData',
-            'idSite' => $this->idSite,
-        ];
-
-        if ($period !== '') {
-            $noDataParams['period'] = $period;
-        }
-
-        if ($date !== '') {
-            $noDataParams['date'] = $date;
-        }
-
-        $noDataUrl = 'index.php?' . Url::getQueryStringFromParameters($noDataParams);
-
-        return $this->renderTemplate('noRecentRequestsMessage', [
-            'noDataUrl' => $noDataUrl,
-        ]);
-    }
-
     public function showNoRecentRequestsMessage(): string
     {
         $this->checkSitePermission();
@@ -210,7 +182,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     protected function buildSiteContentDetector(): SiteContentDetector
     {
-        return new SiteContentDetector();
+        return StaticContainer::get(SiteContentDetector::class);
     }
 
     protected function buildAIBotsOverviewUrl(string $period, string $date): string

@@ -712,7 +712,7 @@ class Zend_Session extends Zend_Session_Abstract
 
         if (isset($_SESSION)) {
             $sessionBkp = $_SESSION;
-            $_SESSION = array('data' => base64_encode(serialize($_SESSION)));
+            $_SESSION = self::buildSessionData($_SESSION);
         }
 
         session_write_close();
@@ -721,6 +721,11 @@ class Zend_Session extends Zend_Session_Abstract
         if (isset($sessionBkp)) {
             $_SESSION = $sessionBkp;
         }
+    }
+
+    public static function buildSessionData(array $data): array
+    {
+        return ['data' => base64_encode(serialize($data))];
     }
 
 

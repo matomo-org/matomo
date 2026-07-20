@@ -48,6 +48,7 @@ describe("Goals", function () {
 
       await page.waitForSelector('.ui-dialog');
       await page.waitForNetworkIdle();
+      await page.waitForTimeout(250);
 
       const dialog = await page.$('.ui-dialog');
       expect(await dialog.screenshot()).to.matchImage('goals_by_pages_row_evolution');
@@ -139,7 +140,13 @@ describe("Goals", function () {
         await page.waitForSelector('.ui-dialog');
         await page.waitForNetworkIdle();
 
-        const series = await page.waitForSelector('[data-name="series3"]');
+        // Select the metric whose label contains an XSS payload (the goal name),
+        // so this screenshot keeps guarding against XSS regressions in row evolution.
+        // Selecting by label (not by color-slot index like series3) is stable even
+        // when metric/series colors are reordered.
+        const series = await page.waitForXPath(
+            '//span[contains(@class, "evolution-graph-colors") and contains(., "_Vue.h.constructor")]'
+        );
         await series.click();
 
         await page.waitForTimeout(250); // rendering
@@ -154,5 +161,28 @@ describe("Goals", function () {
 
           var report = await page.$('.reporting-page');
           expect(await report.screenshot()).to.matchImage('individual_xss');
+      });
+
+      it('should show the revenue sparkline on the goals overview for a non-ecommerce site with goal revenue', async function() {
+          await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=General_Overview");
+          await page.waitForNetworkIdle();
+          await page.waitForSelector('.dataTableVizGoals');
+          await page.waitForSelector('.sparkline');
+
+          const hasRevenueSparkline = await page.evaluate(() =>
+              $('.sparkline').text().toLowerCase().includes('revenue')
+          );
+          expect(hasRevenueSparkline).to.equal(true);
+      });
+
+      it('should show the revenue sparkline on a single goal page for a non-ecommerce site with goal revenue', async function() {
+          await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=1");
+          await page.waitForNetworkIdle();
+          await page.waitForSelector('.sparkline');
+
+          const hasRevenueSparkline = await page.evaluate(() =>
+              $('.sparkline').text().toLowerCase().includes('revenue')
+          );
+          expect(hasRevenueSparkline).to.equal(true);
       });
 });

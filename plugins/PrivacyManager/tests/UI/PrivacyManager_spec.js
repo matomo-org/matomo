@@ -13,9 +13,43 @@ describe("PrivacyManager", function () {
     var generalParams = 'idSite=1&period=day&date=2017-01-02',
         urlBase = '?module=PrivacyManager&' + generalParams + '&action=';
 
-    before(function () {
+    async function resetPrivacySettings()
+    {
+        await testEnvironment.callApi('PrivacyManager.setAnonymizeIpSettings', {
+            anonymizeIPEnable: false,
+            ipAddressMaskLength: 0,
+            useAnonymizedIpForVisitEnrichment: false,
+            anonymizeUserId: false,
+            anonymizeOrderId: false,
+            anonymizeReferrer: '',
+            forceCookielessTracking: false,
+            randomizeConfigId: false,
+        });
+
+        for (const idSiteSpecific of [1, 2]) {
+            await testEnvironment.callApi('PrivacyManager.setAnonymizeIpSettings', {
+                anonymizeIPEnable: false,
+                ipAddressMaskLength: 0,
+                useAnonymizedIpForVisitEnrichment: false,
+                anonymizeUserId: false,
+                anonymizeOrderId: false,
+                anonymizeReferrer: '',
+                forceCookielessTracking: false,
+                randomizeConfigId: false,
+                idSiteSpecific,
+                useSiteSpecificSettings: false,
+            });
+        }
+    }
+
+    before(async function () {
         testEnvironment.pluginsToLoad = ['PrivacyManager'];
-        testEnvironment.save();
+        await testEnvironment.save();
+        await resetPrivacySettings();
+    });
+
+    after(async function () {
+        await resetPrivacySettings();
     });
 
     async function setAnonymizeStartEndDate()
@@ -190,6 +224,21 @@ describe("PrivacyManager", function () {
         await loadActionPage('gdprOverview');
 
         await capturePage('gdpr_overview_no_retention');
+    });
+
+
+    it('should load ePrivacy Laws page', async function() {
+        await loadActionPage('ePrivacyLaws');
+        await page.waitForSelector('.eprivacyLaws');
+
+        await capturePage('eprivacy_laws');
+    });
+
+    it('should load understanding your legal obligations page', async function() {
+        await loadActionPage('understandingYourLegalObligations');
+
+        await capturePage('understanding_your_legal_obligations');
+
     });
 
     it('should load privacy settings page', async function() {
@@ -400,12 +449,7 @@ describe("PrivacyManager", function () {
         expect(await page.screenshotSelector('.manageGdpr')).to.matchImage('gdpr_tools_userid');
     });
 
-    it('should load compliance page when feature flag enabled', async function() {
-        testEnvironment.overrideConfig('FeatureFlags', {
-          PrivacyCompliance_feature: 'enabled',
-        });
-        testEnvironment.save();
-
+    it('should load compliance page', async function() {
         await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
         await page.waitForNetworkIdle();
 
@@ -427,37 +471,7 @@ describe("PrivacyManager", function () {
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
     });
 
-    it('should not be able to navigate to compliance page with feature flag disabled', async function() {
-      testEnvironment.overrideConfig('FeatureFlags', {
-        PrivacyCompliance_feature: 'disabled',
-      });
-      testEnvironment.save();
-
-      await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
-      await page.waitForNetworkIdle();
-
-      await (await page.jQuery('li.menuTab:contains(Privacy) > a')).click();
-
-      // Not in menu
-      const complianceMenuItem = await page.$('li.menuTab.active li a[href*="compliance"]');
-      expect(complianceMenuItem).to.be.null;
-
-      // Not accessible directly - empty body
-      await loadActionPage('compliance');
-      const isBodyEmpty = await page.evaluate(() => {
-        const body = document.body;
-        return body && body.children.length === 0 && body.innerText.trim() === '';
-      });
-
-      expect(isBodyEmpty).to.be.true;
-    });
-
     it('should show compliance is enforced when checkbox is selected', async function() {
-      testEnvironment.overrideConfig('FeatureFlags', {
-        PrivacyCompliance_feature: 'enabled',
-      });
-      testEnvironment.save();
-
       await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
       await page.waitForNetworkIdle();
 
@@ -472,8 +486,6 @@ describe("PrivacyManager", function () {
     });
 
     it('should load a new compliance page when site selector is changed', async function() {
-      // feature flag enabled from previous test
-
       await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
       await page.waitForNetworkIdle();
       await (await page.jQuery('#complianceSite a')).click();
@@ -485,8 +497,6 @@ describe("PrivacyManager", function () {
     });
 
     it('should select All Websites when idSite is not provided', async function() {
-      // feature flag enabled from previous test
-
       await page.goto('?module=PrivacyManager&action=compliance');
       await page.waitForNetworkIdle();
 
@@ -498,8 +508,6 @@ describe("PrivacyManager", function () {
     });
 
     it('should select All Websites when idSite equals all', async function() {
-      // feature flag enabled from previous test
-
       await page.goto('?module=PrivacyManager&action=compliance&idSite=all');
       await page.waitForNetworkIdle();
 
@@ -513,9 +521,6 @@ describe("PrivacyManager", function () {
     it('should hide the policy controls when policy is enabled via config', async function() {
       testEnvironment.overrideConfig('CnilPolicy', {
         cnil_v1_policy_enabled: '1',
-      });
-      testEnvironment.overrideConfig('FeatureFlags', {
-        PrivacyCompliance_feature: 'enabled',
       });
       testEnvironment.save();
 

@@ -12,6 +12,7 @@ import '../Periods/Year';
 import '../Periods/Range';
 import ComparisonsStore from './Comparisons.store';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import Matomo from '../Matomo/Matomo';
 
 describe('CoreHome/Comparisons.store', () => {
   const DISABLED_PAGES = [
@@ -149,6 +150,55 @@ describe('CoreHome/Comparisons.store', () => {
       await setHash('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
 
       expect(piwikComparisonsService.getComparisons()).toEqual([]);
+    });
+  });
+
+  describe('piwikComparisonsChanged event', () => {
+    it('should not be emitted when only the popover hash parameter changes', async () => {
+      await setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+
+      const postEventSpy = jest.spyOn(Matomo, 'postEvent');
+
+      try {
+        MatomoUrl.updateHash({
+          ...MatomoUrl.hashParsed.value,
+          popover: 'RowAction$3ASegmentVisitorLog$3AActions.getPageUrls',
+        });
+        await wait();
+        await wait();
+
+        expect(postEventSpy).not.toHaveBeenCalledWith('piwikComparisonsChanged');
+      } finally {
+        postEventSpy.mockRestore();
+      }
+    });
+
+    it('should be emitted when comparison parameters change', async () => {
+      await setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+
+      const postEventSpy = jest.spyOn(Matomo, 'postEvent');
+
+      try {
+        await setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=anothersegment');
+
+        expect(postEventSpy).toHaveBeenCalledWith('piwikComparisonsChanged');
+      } finally {
+        postEventSpy.mockRestore();
+      }
+    });
+
+    it('should be emitted when other URL parameters change', async () => {
+      await setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&idGoal=1');
+
+      const postEventSpy = jest.spyOn(Matomo, 'postEvent');
+
+      try {
+        await setHash('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&idGoal=2');
+
+        expect(postEventSpy).toHaveBeenCalledWith('piwikComparisonsChanged');
+      } finally {
+        postEventSpy.mockRestore();
+      }
     });
   });
 

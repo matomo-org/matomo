@@ -86,6 +86,7 @@ class RawLogDao
      * as possible w/o dramatically increasing code complexity.
      *
      * @param string $logTable The log table name. Unprefixed, eg, `log_visit`.
+     * @param string[] $fields The columns to select.
      * @param array[] $conditions An array describing the conditions logs must match in the query. Translates to
      *                            the WHERE part of a SELECT statement. Each element must contain three elements:
      *
@@ -105,7 +106,7 @@ class RawLogDao
      *                            ```
      * @param int $iterationStep The number of rows to query at a time.
      * @param callable $callback The callback that processes each chunk of rows.
-     * @param string $willDelete Set to true if you will make sure to delete all rows that were fetched. If you are in
+     * @param bool $willDelete Set to true if you will make sure to delete all rows that were fetched. If you are in
      *                           doubt and not sure if to set true or false, use "false". Setting it to true will
      *                           enable an internal performance improvement but it can result in an endless loop if not
      *                           used properly.
@@ -199,11 +200,12 @@ class RawLogDao
     }
 
     /**
-     * Returns the list of the website IDs that received some visits between the specified timestamp. The
-     * start date and the end date is included in the time frame.
+     * Returns true if the given site received some visits between the specified timeframe. The
+     * start date and the end date are included in the time frame.
      *
      * @param string $fromDateTime
      * @param string $toDateTime
+     * @param int $idSite
      * @return bool true if there are visits for this site between the given timeframe, false if not
      */
     public function hasSiteVisitsBetweenTimeframe($fromDateTime, $toDateTime, $idSite)

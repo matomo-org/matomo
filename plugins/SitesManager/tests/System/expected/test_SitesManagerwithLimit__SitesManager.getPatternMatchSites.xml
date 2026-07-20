@@ -3,6 +3,7 @@
 	<row>
 		<idsite>1</idsite>
 		<name>SiteTest1</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>
@@ -26,6 +27,7 @@
 	<row>
 		<idsite>10</idsite>
 		<name>SiteTest10</name>
+		<description />
 		<main_url>http://piwik.net</main_url>
 		<ts_created>2010-01-02 11:22:33</ts_created>
 		<ecommerce>0</ecommerce>

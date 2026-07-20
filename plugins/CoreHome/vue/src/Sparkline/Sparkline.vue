@@ -25,6 +25,7 @@ import RangePeriod from '../Periods/Range';
 import { format } from '../Periods';
 
 export default defineComponent({
+  name: 'Sparkline',
   props: {
     seriesIndices: Array,
     params: [Object, String],
@@ -34,14 +35,19 @@ export default defineComponent({
   data() {
     return {
       isWidget: false,
+      themeMode: Matomo.getThemeMode(),
     };
   },
   mounted() {
     this.isWidget = !!this.$el.closest('[widgetId]');
+    window.addEventListener('themeModeChange', this.onThemeModeChange);
+  },
+  beforeUnmount() {
+    window.removeEventListener('themeModeChange', this.onThemeModeChange);
   },
   computed: {
     sparklineUrl() {
-      const { seriesIndices, params } = this;
+      const { seriesIndices, params, themeMode } = this;
 
       const sparklineColors = Matomo.getSparklineColors();
 
@@ -53,6 +59,16 @@ export default defineComponent({
 
       const colors = JSON.stringify(sparklineColors);
 
+      // The redesign lets sparklines be rendered server-side at a custom size; without it the
+      // width/height props only control the displayed size and the server uses its defaults.
+      // The width/height props are the displayed size; the PNG is rendered at twice that so it
+      // stays crisp on hi-DPI screens (matching the legacy 200x50-render / 100x25-display ratio).
+      const redesignEnabled = document.body.classList.contains('sparklines-redesign-enabled');
+      const sizeParams = redesignEnabled ? {
+        ...(typeof this.width === 'number' ? { width: this.width * 2 } : {}),
+        ...(typeof this.height === 'number' ? { height: this.height * 2 } : {}),
+      } : {};
+
       const defaultParams = {
         forceView: '1',
         viewDataTable: 'sparkline',
@@ -61,6 +77,7 @@ export default defineComponent({
         colors,
         random: Date.now(),
         date: this.defaultDate,
+        ...sizeParams,
         // mixinDefaultGetParams() will use the raw, encoded value from the URL (legacy behavior),
         // which means MatomoUrl.stringify() will end up double encoding it if we don't set it
         // ourselves here.
@@ -80,6 +97,7 @@ export default defineComponent({
         urlParams.token_auth = token_auth;
       }
 
+      urlParams.themeMode = themeMode;
       return `?${MatomoUrl.stringify(urlParams)}`;
     },
     defaultDate() {
@@ -102,6 +120,11 @@ export default defineComponent({
       const endDateStr = format(dateRange[1]);
 
       return `${startDateStr},${endDateStr}`;
+    },
+  },
+  methods: {
+    onThemeModeChange() {
+      this.themeMode = Matomo.getThemeMode();
     },
   },
 });

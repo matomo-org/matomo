@@ -202,7 +202,7 @@
 		<referrerType>search</referrerType>
 		<referrerTypeName>Moteurs de recherche</referrerTypeName>
 		<referrerName>Google</referrerName>
-		<referrerKeyword>Mot clef indéfini</referrerKeyword>
+		<referrerKeyword>Mot-clé indéfini</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
 		<referrerUrl>http://www.google.com/url?rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;url=http%3A%2F%2Fpiwik.org%2F</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>

@@ -20,45 +20,44 @@
     {% include "@CoreHome/_warningInvalidHost.twig" %}
     {% include "@CoreHome/_topScreen.twig" %}
 
-    <div class="top_controls">
-        {% if hideQuickAccess is not defined or not hideQuickAccess %}
-            <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl borderedControl"></div>
-        {% endif %}
+    {% set hasSidebar = showMenu is defined and showMenu %}
 
-        {% block topcontrols %}
-        {% endblock %}
-    </div>
-
-    <div class="ui-confirm" id="alert">
-        <h2></h2>
-        <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
-    </div>
-
-    {{ postEvent("Template.beforeContent", "dashboard", currentModule, currentAction) }}
-
-    <div class="page">
-
-        {% if showMenu is defined and showMenu %}
-            <div id="secondNavBar" class="Menu--dashboard z-depth-1">
+    <div class="layoutWithSidebar{% if hasSidebar %} layoutWithSidebar--hasSidebar{% endif %}">
+        {% if hasSidebar %}
+            <div id="secondNavBar" class="sideBar Menu--dashboard z-depth-1">
+                <div vue-entry="CoreHome.QuickAccess"></div>
                 <div vue-entry="CoreHome.ReportingMenu"></div>
             </div>
         {% endif %}
+        <div class="layoutWithSidebarContent">
+            <div class="top_controls">
+                {% block topcontrols %}
+                {% endblock %}
+            </div>
 
-        <div class="pageWrap">
+            <div class="page">
+                <div class="pageWrap">
+                    <div class="ui-confirm" id="alert">
+                        <h2></h2>
+                        <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+                    </div>
 
-            <a name="main"></a>
-            {% block notification %}
-                {% include "@CoreHome/_notifications.twig" %}
-            {% endblock %}
+                    {{ postEvent("Template.beforeContent", "dashboard", currentModule, currentAction) }}
 
-            <div vue-entry="CoreHome.Comparisons"></div>
+                    <a name="main"></a>
+                    {% block notification %}
+                        {% include "@CoreHome/_notifications.twig" %}
+                    {% endblock %}
 
-            {% block content %}
-            {% endblock %}
+                    <div vue-entry="CoreHome.Comparisons"></div>
 
-            <div class="clear"></div>
+                    {% block content %}
+                    {% endblock %}
+
+                    <div class="clear"></div>
+                </div>
+            </div>
         </div>
-
     </div>
 
 {% if whatisnewShow is defined and whatisnewShow %}

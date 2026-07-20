@@ -16,7 +16,7 @@
             var headerComponentParent = $(COMPONENT_SELECTOR).parent();
 
             // when 'check for updates...' link is clicked, force a check & display the result
-            headerComponentParent.one('click', '#updateCheckLinkContainer', function (e) {
+            headerComponentParent.one('click', '#header_message a.title:not([href])', function (e) {
                 var headerComponent = $(this)
                   .closest(COMPONENT_SELECTOR);
                 var headerMessage = headerComponent.find('#header_message');

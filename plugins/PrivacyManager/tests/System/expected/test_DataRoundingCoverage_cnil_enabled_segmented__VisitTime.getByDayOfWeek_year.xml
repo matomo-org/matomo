@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>170</nb_visits>
+		<nb_uniq_visitors>50</nb_uniq_visitors>
+		<nb_actions>250</nb_actions>
+		<nb_users>30</nb_users>
+		<sum_visit_length>20163</sum_visit_length>
+		<bounce_count>100</bounce_count>
+		<nb_visits_converted>70</nb_visits_converted>
+		<day_of_week>1</day_of_week>
+	</row>
+	<row>
+		
+		<nb_visits>60</nb_visits>
+		<nb_uniq_visitors>30</nb_uniq_visitors>
+		<nb_actions>150</nb_actions>
+		<nb_users>10</nb_users>
+		<sum_visit_length>24269</sum_visit_length>
+		<bounce_count>40</bounce_count>
+		<nb_visits_converted>60</nb_visits_converted>
+		<day_of_week>2</day_of_week>
+	</row>
+	<row>
+		
+		<nb_visits>40</nb_visits>
+		<nb_uniq_visitors>20</nb_uniq_visitors>
+		<nb_actions>130</nb_actions>
+		<nb_users>10</nb_users>
+		<sum_visit_length>28327</sum_visit_length>
+		<bounce_count>30</bounce_count>
+		<nb_visits_converted>40</nb_visits_converted>
+		<day_of_week>3</day_of_week>
+	</row>
+	<row>
+		
+		<nb_visits>40</nb_visits>
+		<nb_uniq_visitors>20</nb_uniq_visitors>
+		<nb_actions>90</nb_actions>
+		<nb_users>0</nb_users>
+		<sum_visit_length>9269</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>40</nb_visits_converted>
+		<day_of_week>4</day_of_week>
+	</row>
+	<row>
+		
+		<nb_visits>30</nb_visits>
+		<nb_uniq_visitors>20</nb_uniq_visitors>
+		<nb_actions>60</nb_actions>
+		<nb_users>10</nb_users>
+		<sum_visit_length>6719</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>30</nb_visits_converted>
+		<day_of_week>5</day_of_week>
+	</row>
+	<row>
+		
+		<nb_visits>40</nb_visits>
+		<nb_uniq_visitors>20</nb_uniq_visitors>
+		<nb_actions>100</nb_actions>
+		<nb_users>10</nb_users>
+		<sum_visit_length>13511</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>40</nb_visits_converted>
+		<day_of_week>6</day_of_week>
+	</row>
+	<row>
+		
+		<nb_visits>40</nb_visits>
+		<nb_uniq_visitors>20</nb_uniq_visitors>
+		<nb_actions>150</nb_actions>
+		<nb_users>0</nb_users>
+		<sum_visit_length>19892</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>40</nb_visits_converted>
+		<day_of_week>7</day_of_week>
+	</row>
+</result>

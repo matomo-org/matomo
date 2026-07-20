@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>10</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentName==ImageAd</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>10</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentName==Text+Ad</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>10</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentName==content+name+20</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+		<segment>contentName==content+name+21</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>10</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentName==content+name+22</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+		<segment>contentName==content+name+23</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>10</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentName==content+name+24</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+		<segment>contentName==Video+Ad</segment>
+	</row>
+</result>

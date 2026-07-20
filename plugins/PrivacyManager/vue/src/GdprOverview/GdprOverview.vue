@@ -9,14 +9,33 @@
   <div class="gdprOverview">
     <div v-content-intro>
       <h2>{{ translate('PrivacyManager_GdprOverview') }}</h2>
-      <p>
-        {{ translate('PrivacyManager_GdprOverviewIntro1') }}
-        <br /><br />
-        {{ translate('PrivacyManager_GdprOverviewIntro2') }}
-      </p>
+      <p>{{ translate('PrivacyManager_GdprOverviewIntro1') }}</p>
+      <ul>
+        <li>{{ translate('PrivacyManager_GdprOverviewKeyPoint1') }}</li>
+        <li>{{ translate('PrivacyManager_GdprOverviewIntro3') }}</li>
+        <li>{{ translate('PrivacyManager_GdprOverviewIntro4') }}</li>
+      </ul>
+      <p>{{ translate('PrivacyManager_GdprOverviewMatomoPersonalData') }}</p>
+      <p>{{ translate('PrivacyManager_GdprOverviewApplicabilityIntro') }}</p>
+      <ul>
+        <li>{{ translate('PrivacyManager_GdprOverviewApplicabilityCondition1') }}</li>
+        <li>
+          {{ translate('PrivacyManager_GdprOverviewApplicabilityCondition2') }}
+          <ul>
+            <li>{{ translate('PrivacyManager_GdprOverviewApplicabilityCondition2Detail1') }}</li>
+            <li>{{ translate('PrivacyManager_GdprOverviewApplicabilityCondition2Detail2') }}</li>
+          </ul>
+        </li>
+      </ul>
+      <p>{{ translate('PrivacyManager_GdprOverviewIntro2') }}</p>
     </div>
 
     <VueEntryContainer :html="afterGDPROverviewIntroContent"/>
+
+    <ContentBlock :content-title="translate('PrivacyManager_DataProcessingAgreement')">
+      <p><span v-html="$sanitize(dataProcessingAgreementIntro1)"></span></p>
+      <p>{{ translate('PrivacyManager_DataProcessingAgreementIntro2') }}</p>
+    </ContentBlock>
 
     <ContentBlock :content-title="translate('PrivacyManager_GdprChecklists')">
       <p>
@@ -25,6 +44,7 @@
         <span v-html="$sanitize(gdprChecklistDesc2)"></span>
       </p>
     </ContentBlock>
+
     <ContentBlock :content-title="translate('PrivacyManager_IndividualsRights')">
       <p>{{ translate('PrivacyManager_IndividualsRightsIntro') }}</p>
       <ol>
@@ -47,6 +67,7 @@
         <li v-html="$sanitize(awarenessDocumentationDesc4)"></li>
       </ol>
     </ContentBlock>
+
     <ContentBlock :content-title="translate('PrivacyManager_SecurityProcedures')">
       <p>{{ translate('PrivacyManager_SecurityProceduresIntro') }}</p>
       <ol>
@@ -58,9 +79,7 @@
     </ContentBlock>
 
     <ContentBlock :content-title="translate('PrivacyManager_DataRetention')">
-      <p>
-        {{ translate('PrivacyManager_DataRetentionInMatomo') }}
-      </p>
+      <p>{{ translate('PrivacyManager_DataRetentionInMatomo') }}</p>
       <ul>
         <li
           v-if="deleteLogsEnable"
@@ -90,7 +109,6 @@
         {{ translate('PrivacyManager_DataRetentionOverall') }}
       </p>
     </ContentBlock>
-
   </div>
 </template>
 
@@ -100,9 +118,9 @@ import {
   ContentBlock,
   VueEntryContainer,
   ContentIntro,
-  translate,
-  MatomoUrl,
   externalLink,
+  MatomoUrl,
+  translate,
 } from 'CoreHome';
 
 function externalLinkTranslate(tokenSuffix: string, url: string) {
@@ -128,23 +146,19 @@ export default defineComponent({
   directives: {
     ContentIntro,
   },
-  methods: {
-    rightsLinkText(tokenSuffix: string, action = 'gdprTools') {
-      const link = `?${MatomoUrl.stringify({
-        module: 'PrivacyManager',
-        action,
-      })}`;
-
+  computed: {
+    dataProcessingAgreementIntro1() {
       return translate(
-        `PrivacyManager_${tokenSuffix}`,
-        `<a target="_blank" rel="noreferrer noopener" href="${link}">`,
+        'PrivacyManager_DataProcessingAgreementIntro1Linked',
+        externalLink('https://matomo.org/matomo-cloud-dpa/'),
         '</a>',
       );
     },
-  },
-  computed: {
     gdprChecklistDesc2() {
-      return externalLinkTranslate('GdprChecklistDesc2', 'https://matomo.org/docs/gdpr');
+      return externalLinkTranslate(
+        'GdprChecklistDesc2',
+        'https://matomo.org/guide/manage-matomo/privacy/',
+      );
     },
     awarenessDocumentationDesc3() {
       return externalLinkTranslate(
@@ -167,19 +181,33 @@ export default defineComponent({
     securityProceduresDesc2() {
       return externalLinkTranslate(
         'SecurityProceduresDesc2',
-        'https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/international-transfers/',
+        'https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/international-transfers/a-guide-to-international-transfers/',
       );
     },
     securityProceduresDesc3() {
       return externalLinkTranslate(
         'SecurityProceduresDesc3',
-        'https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/personal-data-breaches/',
+        'https://ico.org.uk/for-organisations/report-a-breach/personal-data-breach/personal-data-breaches-a-guide/',
       );
     },
     securityProceduresDesc4() {
       return externalLinkTranslate(
         'SecurityProceduresDesc4',
         'https://www.cnil.fr/en/guidelines-dpia',
+      );
+    },
+  },
+  methods: {
+    rightsLinkText(tokenSuffix: string, action = 'gdprTools') {
+      const link = `?${MatomoUrl.stringify({
+        module: 'PrivacyManager',
+        action,
+      })}`;
+
+      return translate(
+        `PrivacyManager_${tokenSuffix}`,
+        `<a target="_blank" rel="noreferrer noopener" href="${link}">`,
+        '</a>',
       );
     },
   },

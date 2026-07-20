@@ -246,7 +246,7 @@ class ArchiveCronSubPeriodTest extends IntegrationTestCase
 
     private static function assertDoneFlagExists(Period $period, int $expectedValue): void
     {
-        $table = ArchiveTableCreator::getNumericTable($period->getDateStart());
+        $table = ArchiveTableCreator::getNumericTable($period->getDateStart(), true);
 
         $value = Db::get()->fetchOne(
             'SELECT value FROM ' . $table . ' WHERE date1 = ? AND date2 = ? AND period = ? AND name = ?',
@@ -263,7 +263,7 @@ class ArchiveCronSubPeriodTest extends IntegrationTestCase
 
     private static function assertDoneFlagNotExists(Period $period): void
     {
-        $table = ArchiveTableCreator::getNumericTable($period->getDateStart());
+        $table = ArchiveTableCreator::getNumericTable($period->getDateStart(), true);
 
         $value = Db::get()->fetchOne(
             'SELECT value FROM ' . $table . ' WHERE date1 = ? AND date2 = ? AND period = ? AND name = ?',
@@ -280,7 +280,7 @@ class ArchiveCronSubPeriodTest extends IntegrationTestCase
 
     private static function removeDoneFlag(Period $period): void
     {
-        $table = ArchiveTableCreator::getNumericTable($period->getDateStart());
+        $table = ArchiveTableCreator::getNumericTable($period->getDateStart(), true);
 
         Db::get()->query(
             'DELETE FROM ' . $table . ' WHERE date1 = ? AND date2 = ? AND period = ? AND name = ?',

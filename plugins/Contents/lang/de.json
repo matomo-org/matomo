@@ -2,6 +2,7 @@
     "Contents": {
         "ContentImpression": "Inhaltsimpression",
         "ContentInteraction": "Inhaltsinteraktion",
+        "ContentInteractionSegmentHelp": "Der Typ der Interaktion mit dem Inhalt. Zum Beispiel \"Klick\" oder \"Absenden\".",
         "ContentInteractions": "Inhaltsinteraktionen",
         "ContentName": "Inhaltsname",
         "ContentNameReportDocumentation": "Dieser Bericht zeigt die Namen der Inhalte, welche Ihren Besuchern gezeigt wurden und mit denen sie interagiert haben.",

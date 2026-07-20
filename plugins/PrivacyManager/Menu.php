@@ -9,11 +9,8 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -25,17 +22,21 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addItem($category, null, [], 3);
 
             if (Piwik::hasUserSuperUserAccess()) {
-                $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-                if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-                    $menu->addItem($category, 'PrivacyManager_Compliance', $this->urlForAction('compliance'), 0);
-                }
+                $menu->addItem($category, 'PrivacyManager_Compliance', $this->urlForAction('compliance'), 0);
                 $menu->addItem($category, 'PrivacyManager_AnonymizeData', $this->urlForAction('privacySettings'), 5);
             }
 
             $menu->addItem($category, 'PrivacyManager_UsersOptOut', $this->urlForAction('usersOptOut'), 10);
             $menu->addItem($category, 'PrivacyManager_AskingForConsent', $this->urlForAction('consent'), 15);
             $menu->addItem($category, 'PrivacyManager_GdprOverview', $this->urlForAction('gdprOverview'), 20);
-            $menu->addItem($category, 'PrivacyManager_GdprTools', $this->urlForAction('gdprTools'), 25);
+            $menu->addItem(
+                $category,
+                'PrivacyManager_UnderstandingYourLegalObligations',
+                $this->urlForAction('understandingYourLegalObligations'),
+                25
+            );
+            $menu->addItem($category, 'PrivacyManager_EPrivacyLaws', $this->urlForAction('ePrivacyLaws'), 30);
+            $menu->addItem($category, 'PrivacyManager_GdprTools', $this->urlForAction('gdprTools'), 35);
         }
     }
 }

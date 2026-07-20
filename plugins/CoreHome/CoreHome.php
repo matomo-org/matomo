@@ -22,8 +22,8 @@ use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ThemeStyles;
+use Piwik\Plugins\CoreHome\FeatureFlags\ReportHeaderRedesign;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 use Piwik\SettingsPiwik;
@@ -55,7 +55,20 @@ class CoreHome extends \Piwik\Plugin
             'Request.dispatchCoreAndPluginUpdatesScreen' => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
             'Tracker.setTrackerCacheGeneral'             => 'setTrackerCacheGeneral',
             'Segment.filterSegments'                     => 'filterSegments',
+            'Template.bodyClass'                         => 'addBodyClass',
         );
+    }
+
+    public function addBodyClass(&$out, $type)
+    {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+
+        // The report header redesign moves widget controls and report actions to a shared
+        // top-right header. It is gated app-wide by this flag so later tickets can scope
+        // CSS/JS with `body.report-header-redesign-enabled` across every report surface.
+        if ($featureFlagManager->isFeatureActive(ReportHeaderRedesign::class)) {
+            $out .= ' report-header-redesign-enabled';
+        }
     }
 
     public function isTrackerPlugin()
@@ -148,6 +161,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/EnrichedHeadline/EnrichedHeadline.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Notification/Notification.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/QuickAccess/QuickAccess.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/SearchInput/SearchInput.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/selector.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/ReportingPage/ReportingPage.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/ReportExport/ReportExport.less";
@@ -157,6 +171,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/MultiPairField/MultiPairField.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/DropdownMenu/DropdownMenu.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/DraggableList/DraggableList.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Sparkline/Sparkline.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/FieldArray/FieldArray.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";
@@ -189,6 +204,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/top_controls.js";
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/themes.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/listingFormatter.js";
@@ -403,6 +419,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_TechDeprecationWarning';
         $translationKeys[] = 'CoreHome_StartDate';
         $translationKeys[] = 'CoreHome_EndDate';
+        $translationKeys[] = 'CoreHome_InvalidComparisonDateRange';
         $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
         $translationKeys[] = 'CoreHome_ChangeVisualization';
         $translationKeys[] = 'CoreHome_ReportConfigure';
@@ -454,31 +471,28 @@ class CoreHome extends \Piwik\Plugin
 
     public function filterSegments(SegmentsList &$list, array $idSites)
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $limitSegmentsSettingEnabled = false;
-            if (empty($idSites)) {
-                $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
-            } else {
-                foreach ($idSites as $idsite) {
-                    $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
-                }
+        $limitSegmentsSettingEnabled = false;
+        if (empty($idSites)) {
+            $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
+        } else {
+            foreach ($idSites as $idsite) {
+                $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
             }
-            if ($limitSegmentsSettingEnabled) {
-                $list->remove('General_Visitors', 'userId');
-                $list->remove('General_Visitors', 'visitIp');
-                $list->remove('General_Visitors', 'visitId');
-                $list->remove('General_Visitors', 'visitorId');
-                $list->remove('General_Visitors', 'fingerprint');
-                $list->remove('Referrers_Referrers', 'campaignId');
-                $list->remove('General_Actions', 'actionServerHour');
-                $list->remove('General_Actions', 'actionServerMinute');
-                $list->remove('General_Visitors', 'visitServerHour');
-                $list->remove('General_Visitors', 'visitEndServerMinute');
-                $list->remove('General_Visitors', 'visitEndServerSecond');
-                $list->remove('General_Visitors', 'visitStartServerHour');
-                $list->remove('General_Visitors', 'visitStartServerMinute');
-            }
+        }
+        if ($limitSegmentsSettingEnabled) {
+            $list->remove('General_Visitors', 'userId');
+            $list->remove('General_Visitors', 'visitIp');
+            $list->remove('General_Visitors', 'visitId');
+            $list->remove('General_Visitors', 'visitorId');
+            $list->remove('General_Visitors', 'fingerprint');
+            $list->remove('Referrers_Referrers', 'campaignId');
+            $list->remove('General_Actions', 'actionServerHour');
+            $list->remove('General_Actions', 'actionServerMinute');
+            $list->remove('General_Visitors', 'visitServerHour');
+            $list->remove('General_Visitors', 'visitEndServerMinute');
+            $list->remove('General_Visitors', 'visitEndServerSecond');
+            $list->remove('General_Visitors', 'visitStartServerHour');
+            $list->remove('General_Visitors', 'visitStartServerMinute');
         }
     }
 }

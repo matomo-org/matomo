@@ -114,9 +114,18 @@ describe("UserSettings", function () {
         expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_no_tokens');
     });
 
-    it('should show user settings page', async function () {
+    it('should show user settings page with all theme mode options', async function () {
         await page.goto(userSettingsUrl);
-        expect(await page.screenshotSelector('.admin')).to.matchImage('load');
+        await page.waitForSelector('input[name="themeMode"][value="auto"]');
+
+        const themeModes = await page.evaluate(() => $('input[name="themeMode"]').map(function () {
+            return $(this).val();
+        }).get());
+        expect(themeModes).to.include.members(['light', 'dark', 'auto']);
+
+        const themeModeHelp = await page.evaluate(() => $('#themeModeHelp').text());
+        expect(themeModeHelp).to.contain('Match browser');
+        expect(themeModeHelp).to.contain('Custom theme');
     });
 
     it('should allow user to subscribe to newsletter', async function () {

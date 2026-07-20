@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirm": "Ziur zaude uneko widget hautapena eta panelaren diseinua panel-txantiloi lehenetsi bezala ezarri nahi dituzula?",
         "SetAsDefaultWidgetsConfirmHelp": "Widget hautapen eta panelaren zutabe-diseinu hau erabiliko da edozein erabiltzailek panel berri bat sortzen duenean edo \"%s\" ezaugarria erabiltzen denean.",
         "TopLinkTooltip": "Ikusi %s(r)en web analitika txostenak.",
+        "TopMenuTitle": "Analitikak",
         "WidgetNotFound": "Ez da widget-a aurkitu",
         "WidgetPreview": "Widget-aren aurrebista"
     }

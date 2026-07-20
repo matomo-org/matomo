@@ -44,17 +44,22 @@ use Piwik\Piwik;
  * You may also omit `&flat=1` in which case, to get top Event actions for one Event category,
  * use `method=Events.getActionFromCategoryId` passing it the `&idSubtable=` of this Event category.
  *
- * @package Events
  * @method static \Piwik\Plugins\Events\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @var array<string, string>
+     */
     protected $defaultMappingApiToSecondaryDimension = array(
         'getCategory' => 'eventAction',
         'getAction'   => 'eventName',
         'getName'     => 'eventAction',
     );
 
+    /**
+     * @var array<string, string|array<string, string>>
+     */
     protected $mappingApiToRecord = array(
         'getCategory'             =>
             array(
@@ -81,6 +86,9 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @ignore
+     * @param string $apiMethod
+     * @param string|false $secondaryDimension
+     * @return string|false
      */
     public function getActionToLoadSubtables($apiMethod, $secondaryDimension = false)
     {
@@ -91,6 +99,8 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @ignore
+     * @param string $apiMethod
+     * @return string|false
      */
     public function getDefaultSecondaryDimension($apiMethod)
     {
@@ -100,6 +110,11 @@ class API extends \Piwik\Plugin\API
         return false;
     }
 
+    /**
+     * @param string $apiMethod
+     * @param string|false $secondaryDimension
+     * @return string
+     */
     protected function getRecordNameForAction($apiMethod, $secondaryDimension = false)
     {
         if (empty($secondaryDimension)) {
@@ -118,8 +133,8 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @ignore
-     * @param $apiMethod
-     * @return array
+     * @param string $apiMethod
+     * @return string[]|false
      */
     public function getSecondaryDimensions($apiMethod)
     {
@@ -130,7 +145,10 @@ class API extends \Piwik\Plugin\API
         return array_keys($records);
     }
 
-    protected function checkSecondaryDimension($apiMethod, $secondaryDimension)
+    /**
+     * @param string|false $secondaryDimension
+     */
+    protected function checkSecondaryDimension(string $apiMethod, $secondaryDimension): void
     {
         if (empty($secondaryDimension)) {
             return;
@@ -143,18 +161,26 @@ class API extends \Piwik\Plugin\API
         if (!$isSecondaryDimensionValid) {
             throw new \Exception(
                 "Secondary dimension '$secondaryDimension' is not valid for the API $apiMethod. " .
-                "Use one of: " . implode(", ", $this->getSecondaryDimensions($apiMethod))
+                "Use one of: " . implode(", ", $this->getSecondaryDimensions($apiMethod) ?: [])
             );
         }
     }
 
-    protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null, $secondaryDimension = false, $flat = false)
+    /**
+     * @param int|string|int[] $idSite
+     * @param 'day'|'week'|'month'|'year'|'range' $period
+     * @param string|null|false $segment
+     * @param int|null|false $idSubtable
+     * @param string|false $secondaryDimension
+     * @return DataTable|DataTable\Map
+     */
+    protected function getDataTable(string $name, $idSite, string $period, string $date, $segment, bool $expanded = false, $idSubtable = null, $secondaryDimension = false, bool $flat = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $this->checkSecondaryDimension($name, $secondaryDimension);
         $recordName = $this->getRecordNameForAction($name, $secondaryDimension);
 
-        $dataTable = Archive::createDataTableFromArchive($recordName, $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
+        $dataTable = Archive::createDataTableFromArchive($recordName, $idSite, $period, $date, $segment ?: '', $expanded, $flat, $idSubtable);
 
         $dataTable->filter(function ($dataTable) {
             $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, [
@@ -180,48 +206,216 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getCategory($idSite, $period, $date, $segment = false, $expanded = false, $secondaryDimension = false, $flat = false)
+    /**
+     * Returns event metrics grouped by event category.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether subtables should be expanded in the response.
+     * @param 'eventAction'|'eventName'|false $secondaryDimension Optional secondary dimension for subtable rows.
+     * @param bool $flat Whether subtable rows should be flattened into a single table.
+     * @return DataTable|DataTable\Map Event category metrics.
+     */
+    public function getCategory($idSite, string $period, string $date, $segment = false, bool $expanded = false, $secondaryDimension = false, bool $flat = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded, $idSubtable = false, $secondaryDimension, $flat);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded, false, $secondaryDimension, $flat);
     }
 
-    public function getAction($idSite, $period, $date, $segment = false, $expanded = false, $secondaryDimension = false, $flat = false)
+    /**
+     * Returns event metrics grouped by event action.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether subtables should be expanded in the response.
+     * @param 'eventName'|'eventCategory'|false $secondaryDimension Optional secondary dimension for subtable rows.
+     * @param bool $flat Whether subtable rows should be flattened into a single table.
+     * @return DataTable|DataTable\Map Event action metrics.
+     */
+    public function getAction($idSite, string $period, string $date, $segment = false, bool $expanded = false, $secondaryDimension = false, bool $flat = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded, $idSubtable = false, $secondaryDimension, $flat);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded, false, $secondaryDimension, $flat);
     }
 
-    public function getName($idSite, $period, $date, $segment = false, $expanded = false, $secondaryDimension = false, $flat = false)
+    /**
+     * Returns event metrics grouped by event name.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @param bool $expanded Whether subtables should be expanded in the response.
+     * @param 'eventAction'|'eventCategory'|false $secondaryDimension Optional secondary dimension for subtable rows.
+     * @param bool $flat Whether subtable rows should be flattened into a single table.
+     * @return DataTable|DataTable\Map Event name metrics.
+     */
+    public function getName($idSite, string $period, string $date, $segment = false, bool $expanded = false, $secondaryDimension = false, bool $flat = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded, $idSubtable = false, $secondaryDimension, $flat);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded, false, $secondaryDimension, $flat);
     }
 
-    public function getActionFromCategoryId($idSite, $period, $date, $idSubtable, $segment = false)
+    /**
+     * Returns event actions for one event category row.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param int $idSubtable Subtable ID for the event category row to expand.
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Event action metrics for the selected category.
+     */
+    public function getActionFromCategoryId($idSite, string $period, string $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
     }
 
-    public function getNameFromCategoryId($idSite, $period, $date, $idSubtable, $segment = false)
+    /**
+     * Returns event names for one event category row.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param int $idSubtable Subtable ID for the event category row to expand.
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Event name metrics for the selected category.
+     */
+    public function getNameFromCategoryId($idSite, string $period, string $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
     }
 
-    public function getCategoryFromActionId($idSite, $period, $date, $idSubtable, $segment = false)
+    /**
+     * Returns event categories for one event action row.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param int $idSubtable Subtable ID for the event action row to expand.
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Event category metrics for the selected action.
+     */
+    public function getCategoryFromActionId($idSite, string $period, string $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
     }
 
-    public function getNameFromActionId($idSite, $period, $date, $idSubtable, $segment = false)
+    /**
+     * Returns event names for one event action row.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param int $idSubtable Subtable ID for the event action row to expand.
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Event name metrics for the selected action.
+     */
+    public function getNameFromActionId($idSite, string $period, string $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
     }
 
-    public function getActionFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
+    /**
+     * Returns event actions for one event name row.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param int $idSubtable Subtable ID for the event name row to expand.
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Event action metrics for the selected name.
+     */
+    public function getActionFromNameId($idSite, string $period, string $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
     }
 
-    public function getCategoryFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
+    /**
+     * Returns event categories for one event name row.
+     *
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param int $idSubtable Subtable ID for the event name row to expand.
+     * @param string|null|false $segment Custom segment to filter the report.
+     *                                   Example: "referrerName==example.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     * @return DataTable|DataTable\Map Event category metrics for the selected name.
+     */
+    public function getCategoryFromNameId($idSite, string $period, string $date, $idSubtable, $segment = false)
     {
-        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
     }
 }

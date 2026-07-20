@@ -99,7 +99,14 @@ class ComparisonRowGenerator
         }
 
         foreach ($table->getRows() as $row) {
-            $label = $row->getColumn('label');
+            // when a flattened report is shown with each dimension in a separate column, the visualization
+            // replaces the 'label' column with the first dimension's value and keeps the original combined
+            // label in 'combinedLabel' metadata. The comparison tables are still keyed by the combined label,
+            // so we must match on it - otherwise no row matches and every comparison metric defaults to 0.
+            $label = $row->getMetadata('combinedLabel');
+            if ($label === false) {
+                $label = $row->getColumn('label');
+            }
 
             $compareRow = null;
             if ($compareTable instanceof Simple) {

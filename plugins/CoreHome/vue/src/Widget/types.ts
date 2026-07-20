@@ -6,18 +6,28 @@
  */
 
 import { Orderable } from '../Orderable';
+import { Category } from '../ReportingMenu/Category';
 import { Subcategory } from '../ReportingMenu/Subcategory';
+
+export interface ClientComponent {
+  plugin: string;
+  name: string;
+  props?: Record<string, unknown>;
+}
 
 export interface Widget extends Orderable {
   uniqueId?: string;
+  name?: string;
   module?: string;
   action?: string;
   viewDataTable?: string;
   parameters?: Record<string, unknown>;
+  category?: Category;
   subcategory?: Subcategory;
   isContainer?: boolean;
   isReport?: boolean;
   middlewareParameters?: Record<string, unknown>;
+  clientComponent?: ClientComponent;
   documentation?: string;
   layout?: string;
   isWide?: boolean;

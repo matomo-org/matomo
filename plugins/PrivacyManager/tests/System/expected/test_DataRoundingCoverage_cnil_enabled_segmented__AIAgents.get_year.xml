@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_visits_ai_agent>0</nb_visits_ai_agent>
+	<nb_actions_ai_agent>0</nb_actions_ai_agent>
+	<nb_visits_converted_ai_agent>0</nb_visits_converted_ai_agent>
+	<bounce_count_ai_agent>0</bounce_count_ai_agent>
+	<sum_visit_length_ai_agent>0</sum_visit_length_ai_agent>
+	<max_actions_ai_agent>0</max_actions_ai_agent>
+	<bounce_rate_ai_agent>0%</bounce_rate_ai_agent>
+	<nb_actions_per_visit_ai_agent>0</nb_actions_per_visit_ai_agent>
+	<avg_time_on_site_ai_agent>0</avg_time_on_site_ai_agent>
+	<nb_visits_human>420</nb_visits_human>
+	<nb_actions_human>920</nb_actions_human>
+	<nb_visits_converted_human>310</nb_visits_converted_human>
+	<bounce_count_human>250</bounce_count_human>
+	<sum_visit_length_human>122150</sum_visit_length_human>
+	<max_actions_human>20</max_actions_human>
+	<bounce_rate_human>0%</bounce_rate_human>
+	<nb_actions_per_visit_human>10</nb_actions_per_visit_human>
+	<avg_time_on_site_human>290</avg_time_on_site_human>
+</result>

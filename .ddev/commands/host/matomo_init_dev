@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 ## Description: Initialize Matomo environment for development
 ## Usage: matomo:init:dev [--with-sourcemaps]
 ## Example: ddev matomo:init:dev --with-sourcemaps

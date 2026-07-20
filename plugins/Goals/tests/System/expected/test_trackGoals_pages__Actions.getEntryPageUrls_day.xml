@@ -77,7 +77,7 @@
 						<revenue>30</revenue>
 						<nb_conv_pages_before>4</nb_conv_pages_before>
 						<nb_conversions_attrib>1.0833</nb_conversions_attrib>
-						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_rate>1</nb_conversions_page_rate>
 						<nb_conversions_page_uniq>3</nb_conversions_page_uniq>
 						<revenue_attrib>10.83</revenue_attrib>
 						<revenue_entry>30</revenue_entry>
@@ -90,7 +90,7 @@
 						<revenue>20</revenue>
 						<nb_conv_pages_before>5</nb_conv_pages_before>
 						<nb_conversions_attrib>0.4</nb_conversions_attrib>
-						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_rate>1</nb_conversions_page_rate>
 						<nb_conversions_page_uniq>2</nb_conversions_page_uniq>
 						<revenue_attrib>4</revenue_attrib>
 						<revenue_entry>10</revenue_entry>

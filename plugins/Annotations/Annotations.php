@@ -66,7 +66,7 @@ class Annotations extends \Piwik\Plugin
      *                         Ignored if period == range.
      * @param int|null $idSite the id of the current site, used to get timezone
      *
-     * @return Date[]|bool[]   array of Date objects or array(false, false)
+     * @return array{0: Date, 1: Date}|array{0: false, 1: false}
      */
     public static function getDateRangeForPeriod($date, $period, $lastN = false, ?int $idSite = null): array
     {
@@ -94,6 +94,18 @@ class Annotations extends \Piwik\Plugin
             $startDate = Date::factory($startDate);
             $endDate = Date::factory($endDate);
         }
+
+        // Limit the end date to the maximum allowed range end to prevent generating huge date ranges.
+        // Date::factory() already rejects dates before the first website timestamp, so only the (future)
+        // end of the range needs to be clamped here.
+        $maxAllowedEndDate = Date::factory(Period\Range::getMaxAllowedEndTimestamp());
+        if ($endDate->isLater($maxAllowedEndDate)) {
+            $endDate = $maxAllowedEndDate;
+        }
+        if ($startDate->isLater($endDate)) {
+            $startDate = $endDate;
+        }
+
         return [$startDate, $endDate];
     }
 

@@ -1,6 +1,7 @@
 {
     "BotTracking": {
         "PageUrl": "URL ng Pahina",
-        "SiteWithoutDataBackToMatomo": "Bumalik sa Matomo"
+        "SiteWithoutDataBackToMatomo": "Bumalik sa Matomo",
+        "AIChatbotsContentPagesTitle": "pahina"
     }
 }

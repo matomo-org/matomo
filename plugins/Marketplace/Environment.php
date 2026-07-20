@@ -11,12 +11,15 @@ namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel;
 use Piwik\Version;
 
 class Environment
 {
+    public const OPTION_MARKETPLACE_UNIQUE_ID = 'Marketplace.unique_id';
+
     /**
      * @var ReleaseChannel
      */
@@ -83,6 +86,26 @@ class Environment
         if (!empty($this->releaseChannel)) {
             return $this->releaseChannel->getId();
         }
+    }
+
+    /**
+     * Returns a unique, stable and anonymous identifier for this Matomo installation.
+     *
+     * @return string
+     */
+    public function getUniqueId()
+    {
+        $uniqueId = (string) Option::get(self::OPTION_MARKETPLACE_UNIQUE_ID);
+
+        if (empty($uniqueId)) {
+            $uniqueId = hash(
+                'sha256',
+                Common::generateUniqId() . Common::getRandomString(40)
+            );
+            Option::set(Environment::OPTION_MARKETPLACE_UNIQUE_ID, $uniqueId);
+        }
+
+        return $uniqueId;
     }
 
     public function getMySQLVersion()

@@ -4,7 +4,7 @@
         "ActionTypeSegmentHelp": "Bir işlem türü. Şunun gibi: %s",
         "ActionTypes": "İşlem türleri",
         "ActionsInVisit": "Ziyaret sırasındaki işlemler",
-        "AvgGenerationTimeTooltip": "Ortalama %1$s %2$s ortalama tıklamaya göre %3$s ile %4$s arasında",
+        "AvgGenerationTimeTooltip": "Ortalama %1$s %2$s ortalama erişilmeye göre %3$s ile %4$s arasında",
         "Behaviour": "Davranış",
         "ColumnActionURL": "İşlem adresi",
         "ColumnClickedURL": "Tıklanmış dış bağlantı",

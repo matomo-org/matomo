@@ -448,7 +448,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             var widthOfAllColumns = 0;
             columnsInFirstRow.each(function (index, column) {
-                widthOfAllColumns += $(column).outerWidth();
+                // Round each measurement so the sum is a stable integer; raw sub-pixel widths
+                // made the label width (and where labels get truncated) jitter between runs.
+                widthOfAllColumns += Math.round($(column).outerWidth());
             });
 
             if (tableWidth - widthOfAllColumns >= minLabelWidth) {
@@ -1034,12 +1036,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var $next = $('.dataTableNext', domElem);
 
         // Display the next link if the total Rows is greater than the current end row
+        // and filter_limit is a positive number (not "show all")
         $next.each(function () {
             var offsetEnd = Number(self.param.filter_offset)
                 + Number(self.param.filter_limit);
             var totalRows = Number(self.param.totalRows);
             if (self.param.keep_summary_row == 1) --totalRows;
-            if (offsetEnd < totalRows) {
+            if (offsetEnd < totalRows && Number(self.param.filter_limit) > 0) {
                 $(this).css('visibility', 'visible');
             }
         });
@@ -1102,8 +1105,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     piwik.annotations.placeEvolutionIcons(annotations, domElem);
 
-                    // add new section under axis
-                    annotations.insertBefore($('.dataTableFooterNavigation', domElem));
+                    piwik.annotations.placeEvolutionAnnotations(annotations, domElem);
 
                     // reposition annotation icons every time the graph is resized
                     $('.piwik-graph', domElem).on('resizeGraph', function () {
@@ -1831,7 +1833,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var defaultLabel = labelSpan.text();
 
             $(this).hover(function() {
-                    labelSpan.html(defaultLabel + details);
+                    labelSpan.html(piwikHelper.htmlEntities(defaultLabel) + details);
                 },
                 function() {
                     labelSpan.text(defaultLabel);

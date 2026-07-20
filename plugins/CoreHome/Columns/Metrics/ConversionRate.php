@@ -41,6 +41,13 @@ class ConversionRate extends ProcessedMetric
 
     public function format($value, Formatter $formatter)
     {
+        // Defensive: API.get merges pre-formatted child-report columns (Goals.get's inner getMetrics runs the
+        // post-processor and already formats conversion_rate to "x%"). When this metric is registered on the
+        // parent report (Goals.get), the outer formatMetrics pass would otherwise multiply "x%" by 100 and
+        // emit a PHP 8.x "non well formed numeric" warning. Treat non-numeric input as already-formatted.
+        if (!is_numeric($value)) {
+            return $value;
+        }
         return $formatter->getPrettyPercentFromQuotient($value);
     }
 

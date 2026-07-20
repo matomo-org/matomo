@@ -5,13 +5,13 @@
     {% set compareValue = evolution.trend is defined ? evolution.trend : evolution.percent %}
     {% if compareValue < 0 %}
         {% set evolutionClass = isLowerValueBetter ? 'positive-evolution' : 'negative-evolution' %}
-        {% set evolutionIcon  = isLowerValueBetter ? 'arrow_down_green.png' : 'arrow_down.png' %}
+        {% set evolutionIcon  = isLowerValueBetter ? 'arrow_down_green.svg' : 'arrow_down.svg' %}
     {% elseif compareValue == 0 or compareValue == '0%' %}
         {% set evolutionClass = 'neutral-evolution' %}
-        {% set evolutionIcon  = 'stop.png' %}
+        {% set evolutionIcon  = 'stop.svg' %}
     {% else %}
         {% set evolutionClass = isLowerValueBetter ? 'negative-evolution' : 'positive-evolution' %}
-        {% set evolutionIcon  = isLowerValueBetter ? 'arrow_up_red.png' : 'arrow_up.png' %}
+        {% set evolutionIcon  = isLowerValueBetter ? 'arrow_up_red.svg' : 'arrow_up.svg' %}
         {% set evolutionPretty = '+' ~ evolution.percent %}
     {% endif %}
 

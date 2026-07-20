@@ -16,6 +16,7 @@ describe('VersionInfoHeaderMessage', function() {
   const selectorMessageTitle = '#header_message .title';
   const selectorMessageDropdown = '#header_message .dropdown';
   const selectorUpdateLink = '#updateCheckLinkContainer';
+  const selectorUpdateButtonIcon = '#header_message .title .icon-reload';
 
   const urlAdminHome = '?idSite=1&period=year&date=2012-08-09&module=CoreAdminHome&action=home';
   const urlHome = '?idSite=1&period=year&date=2012-08-09&module=CoreHome&action=index';
@@ -111,6 +112,30 @@ describe('VersionInfoHeaderMessage', function() {
 
       it('should tell if no new version is available', async function() {
         await page.click(selectorUpdateLink);
+        await page.waitForNetworkIdle();
+
+        expect(await getMessageTitleText()).to.match(/latest version of Matomo/);
+      });
+
+      it('should check for a new version when clicking the full title anchor', async function() {
+        await page.goto(urlAdminHome);
+        await page.waitForNetworkIdle();
+
+        expect(await getUpdateLinkText()).to.match(/Check for updates/);
+
+        await page.click(selectorMessageTitle);
+        await page.waitForNetworkIdle();
+
+        expect(await getMessageTitleText()).to.match(/latest version of Matomo/);
+      });
+
+      it('should check for a new version when clicking the icon inside the title anchor', async function() {
+        await page.goto(urlAdminHome);
+        await page.waitForNetworkIdle();
+
+        expect(await getUpdateLinkText()).to.match(/Check for updates/);
+
+        await page.click(selectorUpdateButtonIcon);
         await page.waitForNetworkIdle();
 
         expect(await getMessageTitleText()).to.match(/latest version of Matomo/);

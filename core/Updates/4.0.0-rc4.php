@@ -46,10 +46,15 @@ class Updates_4_0_0_rc4 extends PiwikUpdates
             $dates = ['2020-01-01', '2020-11-01', '2020-10-01'];
             foreach ($dates as $date) {
                 $date = Date::factory($date);
-                $numericTable = ArchiveTableCreator::getBlobTable($date);
-                $blobTable = ArchiveTableCreator::getNumericTable($date);
+                $numericTable = ArchiveTableCreator::getBlobTable($date, false);
+                $blobTable = ArchiveTableCreator::getNumericTable($date, false);
 
-                if (DbHelper::tableExists($blobTable) && DbHelper::tableExists($numericTable)) {
+                if (
+                    $blobTable !== null
+                    && $numericTable !== null
+                    && DbHelper::tableExists($blobTable)
+                    && DbHelper::tableExists($numericTable)
+                ) {
                     $migrations[] = $this->migration->db->sql(
                         "DELETE FROM `$blobTable` WHERE idarchive NOT IN (SELECT idarchive FROM `$numericTable`)",
                         []

@@ -86,6 +86,26 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator = new ArchiveInvalidator(new Model(), new NullLogger());
     }
 
+    public function testMarkArchivesAsInvalidatedQueuesInvalidationWithoutCreatingMissingMonthTable()
+    {
+        $date = '2024-04-03';
+
+        $this->assertNull(ArchiveTableCreator::getNumericTable(Date::factory($date), false));
+        $countBefore = (int) $this->getNumInvalidations();
+
+        $this->invalidator->markArchivesAsInvalidated([1], [$date], 'day');
+
+        $this->assertNull(ArchiveTableCreator::getNumericTable(Date::factory($date), false));
+        $this->assertSame($countBefore + 4, (int) $this->getNumInvalidations());
+
+        $invalidations = array_values(array_filter($this->getInvalidatedArchiveTableEntries(), function ($entry) use ($date) {
+            return $entry['idsite'] == 1 && $entry['date1'] === $date;
+        }));
+
+        $this->assertCount(1, $invalidations);
+        $this->assertSame('done', $invalidations[0]['name']);
+    }
+
     public function testMarkArchivesAsInvalidatedSkipsParentArchivesIfTheyAreDisabled()
     {
         $this->insertArchiveRow(1, '2020-03-13', 'day', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
@@ -2477,7 +2497,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $dateStart = $periodObject->getDateStart();
         $dateEnd = $periodObject->getDateEnd();
 
-        $table = ArchiveTableCreator::getNumericTable($dateStart);
+        $table = ArchiveTableCreator::getNumericTable($dateStart, true);
 
         $model = new Model();
         $idArchive = $model->allocateNewArchiveId($table);

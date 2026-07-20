@@ -30,7 +30,6 @@
         "ReportsIncluded": "Zawarte statystyki",
         "SegmentAppliedToReports": "Grupa '%s' została nałożona na raport.",
         "Segment_Deletion_Error": "Tej grupy nie można usunąć lub ukryć przed innymi użytkownikam, ponieważ jest wykorzystywana do generowania raportów e-mail %s. Proszę ponów próbę po usunięciu tej grupy z raportu.",
-        "SendReportNow": "Wyślij raport teraz",
         "SendReportTo": "Wyślij raport do",
         "SentFromX": "Wysłane z %s.",
         "SentToMe": "Wyślij do mnie",
@@ -38,6 +37,7 @@
         "ThereIsNoReportToManage": "Brak raportu dla strony %s",
         "TopLinkTooltip": "Skonfiguruj Raport E-mail aby statystyki Matomo'a były dostarczane automatycznie do Twojej skrzynki odbiorczej lub skrzynki Twojego Klienta!",
         "TopOfReport": "Powrót na górę strony",
+        "Unsubscribe": "Zrezygnuj z subskrypcji",
         "UpdateReport": "Aktualizuj raport",
         "WeeklyScheduleHelp": "Harmonogram tygodniowy: raport będzie wysyłany w każdy pierwszy poniedziałek każdego tygodnia."
     }

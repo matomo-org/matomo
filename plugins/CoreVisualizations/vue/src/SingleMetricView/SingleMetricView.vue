@@ -26,12 +26,7 @@
           'General_EvolutionSummaryGeneric', metricValue, currentPeriod, pastValue,
           pastPeriod, metricChangePercent)"
       >
-        <span
-          :class="{
-            'positive-evolution': metricValueUnformatted > pastValueUnformatted,
-            'negative-evolution': metricValueUnformatted < pastValueUnformatted,
-          }"
-        >
+        <span :class="evolutionClass">
           {{ metricChangePercent }}
         </span>
       </span>
@@ -97,6 +92,10 @@ export default defineComponent({
       required: true,
     },
     goalMetrics: Array,
+    lowerIsBetterMetrics: {
+      type: Array,
+      default: () => [],
+    },
   },
   components: {
     Sparkline,
@@ -118,7 +117,9 @@ export default defineComponent({
         return null;
       }
 
-      return responses.value[1][actualMetric.value];
+      // a metric that is missing for the current period is treated as 0, just like
+      // the past value below, so an evolution down to zero is still calculated
+      return responses.value[1][actualMetric.value] || 0;
     });
 
     const pastValueUnformatted = computed(() => {
@@ -129,17 +130,46 @@ export default defineComponent({
       return responses.value[2][actualMetric.value] || 0;
     });
 
+    const isLowerValueBetter = computed(
+      () => (props.lowerIsBetterMetrics as string[]).indexOf(actualMetric.value) !== -1,
+    );
+
+    const evolutionClass = computed(() => {
+      if (
+        metricValueUnformatted.value === null
+        || pastValueUnformatted.value === null
+        || metricValueUnformatted.value === pastValueUnformatted.value
+      ) {
+        return [];
+      }
+
+      // arrow direction always reflects the actual value change, while the colour
+      // (positive/negative) reflects whether that change is good or bad for the metric
+      const increased = metricValueUnformatted.value > pastValueUnformatted.value;
+      const isPositive = isLowerValueBetter.value ? !increased : increased;
+
+      return [
+        increased ? 'evolution-up' : 'evolution-down',
+        isPositive ? 'positive-evolution' : 'negative-evolution',
+      ];
+    });
+
     const metricChangePercent = computed(() => {
-      if (!metricValueUnformatted.value) {
+      if (
+        metricValueUnformatted.value === null
+        || metricValueUnformatted.value === undefined
+        || pastValueUnformatted.value === null
+        || pastValueUnformatted.value === undefined
+      ) {
         return null;
       }
 
       const currentValue: number = typeof metricValueUnformatted.value === 'string'
-        ? parseInt(metricValueUnformatted.value, 10)
+        ? parseFloat(metricValueUnformatted.value)
         : metricValueUnformatted.value as number;
 
       const pastValue: number = typeof pastValueUnformatted.value === 'string'
-        ? parseInt(pastValueUnformatted.value, 10)
+        ? parseFloat(pastValueUnformatted.value)
         : pastValueUnformatted.value as number;
 
       const evolution = Matomo.helper.calculateEvolution(currentValue, pastValue);
@@ -397,6 +427,7 @@ export default defineComponent({
       responses,
       metricValueUnformatted,
       pastValueUnformatted,
+      evolutionClass,
       metricChangePercent,
       pastValue,
       metricTranslation,

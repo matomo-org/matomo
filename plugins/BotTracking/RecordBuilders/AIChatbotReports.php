@@ -50,9 +50,8 @@ class AIChatbotReports extends RecordBuilder
     {
         parent::__construct();
 
-        $this->columnToSortByBeforeTruncation = Metrics::COLUMN_REQUESTS;
-        $this->maxRowsInTable                 = (int)GeneralConfig::getConfigValue('datatable_archiving_maximum_rows_bots');
-        $this->maxRowsInSubtable              = (int)GeneralConfig::getConfigValue('datatable_archiving_maximum_rows_subtable_bots');
+        $this->maxRowsInTable                 = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_bots', 0);
+        $this->maxRowsInSubtable              = GeneralConfig::getIntegerConfigValue('datatable_archiving_maximum_rows_subtable_bots', 0);
         $this->rankingQueryLimit              = $this->getRankingQueryLimit();
         $this->columnAggregationOps           = [
             Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS     => 'skip',
@@ -63,8 +62,10 @@ class AIChatbotReports extends RecordBuilder
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         return [
-            Record::make(Record::TYPE_BLOB, Archiver::AI_CHATBOTS_PAGES_RECORD),
-            Record::make(Record::TYPE_BLOB, Archiver::AI_CHATBOTS_DOCUMENTS_RECORD),
+            Record::make(Record::TYPE_BLOB, Archiver::AI_CHATBOTS_PAGES_RECORD)
+                ->setColumnToSortByBeforeTruncation(Metrics::COLUMN_REQUESTS),
+            Record::make(Record::TYPE_BLOB, Archiver::AI_CHATBOTS_DOCUMENTS_RECORD)
+                ->setColumnToSortByBeforeTruncation(Metrics::COLUMN_REQUESTS),
             Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_CHATBOTS_UNIQUE_CHATBOTS)
                 ->setIsCountOfBlobRecordRows(Archiver::AI_CHATBOTS_PAGES_RECORD),
             Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_CHATBOTS_REQUESTS),
@@ -247,7 +248,7 @@ class AIChatbotReports extends RecordBuilder
         $maxRowsInTable    = (int)$this->maxRowsInTable;
         $maxRowsInSubtable = (int)$this->maxRowsInSubtable;
 
-        $configLimit = (int)GeneralConfig::getConfigValue('archiving_ranking_query_row_limit');
+        $configLimit = GeneralConfig::getIntegerConfigValue('archiving_ranking_query_row_limit', 0);
         $configLimit = max($configLimit, 10 * $maxRowsInTable);
 
         if ($configLimit === 0) {

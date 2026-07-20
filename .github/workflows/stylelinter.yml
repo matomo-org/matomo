@@ -19,11 +19,11 @@ jobs:
     name: stylelinter
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
       - name: stylelint
         run: |
-          npm install
+          npm install --ignore-scripts
           npx stylelint "**/*.{css,less}" -f github

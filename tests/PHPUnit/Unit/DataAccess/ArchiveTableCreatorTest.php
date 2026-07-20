@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Unit\DataAccess;
 
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Date;
 
 /**
  * @group Core
@@ -120,5 +121,41 @@ class ArchiveTableCreatorTest extends \PHPUnit\Framework\TestCase
             ['', 'archive_blob_2015_05'],
             [null, 'archive_blob_2015_05'],
         ];
+    }
+
+    public function testGetBlobTableReturnsExistingTableWhenCreateIfMissingIsFalse()
+    {
+        ArchiveTableCreator::$tablesAlreadyInstalled = $this->tables;
+
+        $table = ArchiveTableCreator::getBlobTable(Date::factory('2015-05-01'), false);
+
+        $this->assertSame('archive_blob_2015_05', $table);
+    }
+
+    public function testGetNumericTableWithoutCreateIfMissingTriggersDeprecationAndKeepsLegacyBehavior()
+    {
+        ArchiveTableCreator::$tablesAlreadyInstalled = $this->tables;
+
+        $deprecationMessage = null;
+        set_error_handler(function ($severity, $message) use (&$deprecationMessage) {
+            if ($severity === E_USER_DEPRECATED) {
+                $deprecationMessage = $message;
+                return true;
+            }
+
+            return false;
+        });
+
+        try {
+            $table = ArchiveTableCreator::getNumericTable(Date::factory('2015-02-01'));
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame('archive_numeric_2015_02', $table);
+        $this->assertStringStartsWith(
+            "Omitting \$createIfMissing in ArchiveTableCreator::getNumericTable() is deprecated.",
+            $deprecationMessage
+        );
     }
 }

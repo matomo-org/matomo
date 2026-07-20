@@ -10,14 +10,15 @@
     class="compare-checkbox"
     v-if="isComparisonEnabled"
   >
-    <label>
+    <label class="compare-checkbox-label">
       <input
+        class="compare-checkbox-input"
         id="comparePeriodTo"
         type="checkbox"
         :checked="!!isComparing"
         @change="onCompareToggle($event)"
       />
-      <span>{{ translate('General_CompareTo') }}</span>
+      <span class="compare-checkbox-text">{{ translate('General_CompareTo') }}</span>
     </label>
     <div id="comparePeriodToDropdown">
       <Field
@@ -65,6 +66,12 @@
         </div>
       </div>
     </div>
+    <p
+      v-if="showInvalidComparisonMessage"
+      class="compare-validation-message"
+    >
+      {{ translate('CoreHome_InvalidComparisonDateRange') }}
+    </p>
   </div>
 </template>
 
@@ -81,6 +88,7 @@ interface ComparePeriodOption {
 }
 
 export default defineComponent({
+  name: 'PeriodSelectorCompareControls',
   components: {
     Field,
   },
@@ -108,6 +116,10 @@ export default defineComponent({
     comparePeriodDropdownOptions: {
       type: Array as PropType<ComparePeriodOption[]>,
       required: true,
+    },
+    showInvalidComparisonMessage: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: [

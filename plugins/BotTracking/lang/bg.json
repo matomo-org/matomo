@@ -2,6 +2,8 @@
     "BotTracking": {
         "PageUrl": "Страница URL",
         "NoDataHttpTrackingApi": "API за проследяване на HTTP",
-        "SiteWithoutDataBackToMatomo": "Върнете се в Matomo"
+        "SiteWithoutDataBackToMatomo": "Върнете се в Matomo",
+        "AIChatbotsContentPagesTitle": "Страници",
+        "ContentUrl": "URL"
     }
 }

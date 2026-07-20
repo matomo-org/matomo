@@ -347,7 +347,7 @@ class SiteContentDetector
         }
 
         // If internet features are disabled, we don't try to fetch any site content
-        if (0 === (int) GeneralConfig::getConfigValue('enable_internet_features')) {
+        if (0 === GeneralConfig::getIntegerConfigValue('enable_internet_features', 0)) {
             return [];
         }
 

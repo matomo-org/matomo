@@ -7,7 +7,7 @@
         "ColumnAverageTimeDomProcessing": "Temps moyen de traitement du DOM",
         "ColumnAverageTimeDomProcessingDocumentation": "Temps moyen (en secondes) que le navigateur passe à charger la page après que la réponse ait été intégralement reçue et avant que l'utilisateur puisse commencer à interagir avec.",
         "ColumnAverageTimeNetwork": "Temps moyen de connexion",
-        "ColumnAverageTimeNetworkDocumentation": "Temps moyen (en secondes) pour se connecter au serveur. Ceci inclus le temps nécessaire pour procéder à une requête DNS et établir une connexion TCP. Cette valeur peut être égale à 0 après la première requête car le navigateur peut garder la connexion en cache",
+        "ColumnAverageTimeNetworkDocumentation": "Temps moyen (en secondes) pour se connecter au serveur. Ceci inclus le temps nécessaire pour procéder à une requête DNS et établir une connexion TCP. Cette valeur peut être égale à 0 après la première requête car le navigateur peut garder la connexion en cache.",
         "ColumnAverageTimeOnLoad": "Moy. au temps de chargement",
         "ColumnAverageTimeOnLoadDocumentation": "Temps moyen (en secondes) nécessaire au navigateur pour exécuter le code Javascript en attendant l'événement window.load. Cet événement est déclenché une fois que le DOM est complètement rendu.",
         "ColumnAverageTimeServer": "Moy. heure du serveur",

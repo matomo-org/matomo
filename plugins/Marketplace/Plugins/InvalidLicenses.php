@@ -42,7 +42,7 @@ class InvalidLicenses
     /**
      * @var array
      */
-    private $activatedPluginNames = array();
+    private $activatedPluginNames = [];
 
     private $plugins;
 

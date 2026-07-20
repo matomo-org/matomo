@@ -36,7 +36,6 @@
         "ReportsIncluded": "Statikker inkluderet",
         "SegmentAppliedToReports": "Segmentet '%s' anvendes til rapporterne.",
         "Segment_Deletion_Error": "Dette segment kan ikke slettes eller gøres usynligt for andre, da det bruges til at generere e-mailrapporter %s. Fjern evt. dette segment fra disse rapporter og prøv igen.",
-        "SendReportNow": "Send rapport nu",
         "SendReportTo": "Send rapport til",
         "SentFromX": "Sendt fra %s.",
         "SentToMe": "Send til mig",

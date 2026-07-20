@@ -20,7 +20,7 @@ class API extends \Piwik\Plugins\CoreAdminHome\API
         $segment = false,
         $cascadeDown = false,
         $_forceInvalidateNonexistent = false
-    ) {
+    ): array {
         $this->invalidatedReports[] = func_get_args();
 
         return [];

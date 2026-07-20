@@ -93,6 +93,23 @@ class PivotByDimensionTest extends IntegrationTestCase
         new PivotByDimension(new DataTable(), "ExampleReport.GetExampleReport", "ExampleTracker.InvalidDimension", 'nb_visits');
     }
 
+    public function testConstructionShouldSanitizeInvalidDimensionNameInExceptionMessage(): void
+    {
+        $this->loadPlugins('ExampleReport', 'ExampleTracker');
+
+        $payload = "{{0}}{{alert('xss')}}<img src=x>";
+
+        try {
+            new PivotByDimension(new DataTable(), "ExampleReport.GetExampleReport", $payload, 'nb_visits');
+            $this->fail('Expected exception was not thrown.');
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $this->assertStringNotContainsString($payload, $message);
+            $this->assertStringNotContainsString('<img', $message);
+            $this->assertStringContainsString('&lt;img', $message);
+        }
+    }
+
     public function testConstructionShouldFailWhenThereIsNoReportForADimension()
     {
         $this->expectException(\Exception::class);

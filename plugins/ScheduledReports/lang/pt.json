@@ -37,7 +37,6 @@
         "SegmentAppliedToReports": "O segmento '%s' é aplicado aos relatórios.",
         "SegmentDeleted": "Segmento apagado",
         "Segment_Deletion_Error": "Este segmento não pode ser eliminado ou ocultado para outros utilizadores porque é utilizado para gerar relatório(s) por e-mail %s. Por favor, tente novamente depois de remover este segmento do(s) relatório(s).",
-        "SendReportNow": "Enviar relatório agora",
         "SendReportTo": "Enviar relatório para",
         "SentFromX": "Enviar de %s.",
         "SentToMe": "Enviar para mim",

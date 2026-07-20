@@ -14,6 +14,7 @@
         "AllWebsites": "All websites",
         "LastUsed": "Last used",
         "ExpireDate": "Expire date",
+        "ExpiryInDays": "Expiry in days",
         "TokenExpireDate": "Token expire date",
         "AuthTokens": "Auth tokens",
         "AuthTokenPurpose": "What are you using this token for?",
@@ -42,6 +43,8 @@
         "EmailYourAdministrator": "%1$sE-mail your administrator about this problem%2$s.",
         "EnterUsernameOrEmail": "Enter a username or email address",
         "ExceptionAccessValues": "The parameter access must have one of the following values: [ %1$s ], '%2$s' given.",
+        "ExceptionCreateTokenAuthForOtherUser": "You can only create an authentication token for your own account.",
+        "ExceptionCreateTokenAuthWithinNestedRequest": "This method cannot be called from within another API request.",
         "ExceptionNoRoleSet": "No role is set but one of these needs to be set: %s",
         "ExceptionMultipleRoleSet": "Only one role can be set but multiple have been set. Use only one of: %s",
         "ExceptionAnonymousNoCapabilities": "You cannot grant any capability to the 'anonymous' user.",
@@ -182,6 +185,12 @@
         "Username": "Username",
         "RoleFor": "Role for",
         "TheDisplayedUsersAreSelected": "The %1$s displayed users are selected.",
+        "ThemeModeDark": "Dark",
+        "ThemeModeHelp1": "Choose Light, Dark, or Match browser theme to suit your workspace.",
+        "ThemeModeHelp2": "%1$s automatically follows your browser theme.",
+        "ThemeModeHelp3": "Note: If a Custom theme is currently enabled, this setting will not take effect.",
+        "ThemeModeLightDefault": "Light (default)",
+        "ThemeModeMatchBrowser": "Match browser",
         "AllUsersAreSelected": "All %1$s users are selected.",
         "ClickToSelectDisplayedUsers": "Click to select the %1$s displayed users.",
         "RemoveAllAccessToThisSite": "Remove all access to this website",
@@ -191,6 +200,7 @@
         "DeleteUserPermConfirmMultiple": "Are you sure you want to change the %1$s selected users' role to %2$s for %3$s?",
         "AreYouSureChangeDetails": "Are you sure you want to change the user information for %s?",
         "AnonymousUserRoleChangeWarning": "Giving the %1$s user the %2$s role will make this website's data public and available to everyone, even if they do not have a Matomo login.",
+        "AdminUserRoleChangeWarning": "Giving a user the %1$s role grants them full administrative control over the affected websites, including the ability to manage other users' access.",
         "GiveAccessToAll": "Give this user access to All Websites",
         "OrManageIndividually": "Or manage this user's access to each website individually",
         "ChangePermToAllSitesConfirm": "Are you sure you want to give the %1$s user %2$s access to every website you currently have admin access to?",
@@ -281,6 +291,9 @@
         "CannotRevokeOwnSuperuserAccess": "You cannot revoke your own superuser access.",
         "TokenDescription": "Token description",
         "TokenExpirationDate": "Token expiration date",
-        "TokenCreationDate": "Token creation date"
+        "TokenCreationDate": "Token creation date",
+        "SignOutUser": "Sign out of all sessions",
+        "SignOutUserConfirm": "Are you sure you want to sign %1$s out of all active sessions?",
+        "SignOutUserSuccess": "%1$s has been signed out of all active sessions."
     }
 }

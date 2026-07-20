@@ -40,6 +40,10 @@
         padding-top: 25px;
         overflow: auto;
     }
+
+    svg path {
+      filter: @theme-filter-on-illustration;
+    }
 }
 .tableIcon.inactiveIcon {
     color: #99a;
@@ -64,7 +68,8 @@
 .UserCountryMap-tooltip .content {
     padding: 5px;
     border-radius: 3px;
-    background: rgba(255, 255, 255, 0.9);
+    color: @theme-color-text;
+    background: @theme-color-background-contrast;
 }
 
 .UserCountryMap-tooltip .content.unlocated-stats {
@@ -74,6 +79,10 @@
 .UserCountryMap-title {
     top: 5px;
     left: 5px;
+}
+
+.UserCountryMap-title .map-stats {
+    color: @theme-color-text-lighter;
 }
 
 .UserCountryMap-legend {
@@ -252,6 +261,7 @@
     margin-bottom: 5px;
     max-width: 10em;
     font-size: 10px;
+    background-color: transparent;
 }
 
 .ui-tooltip.qtip {

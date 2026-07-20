@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<description>Keep it up superUserLogin. You’re well on your way to becoming a Matomo expert.</description>
+		<currentLevel>2</currentLevel>
+		<currentLevelName>Matomo intermediate</currentLevelName>
+		<nextLevelName>Matomo Talent</nextLevelName>
+		<numLevelsTotal>5</numLevelsTotal>
+		<challengesNeededForNextLevel>4</challengesNeededForNextLevel>
+	</row>
+</result>

@@ -599,6 +599,14 @@ class Report
     }
 
     /**
+     * @ignore
+     */
+    public function hasConstantRowsCount(): bool
+    {
+        return $this->constantRowsCount;
+    }
+
+    /**
      * If the report is enabled the report metadata for this report will be built and added to the list of available
      * reports. Overwrite this method and leave it empty in case you do not want your report to be added to the report
      * metadata. In this case your report won't be visible for instance in the mobile app and scheduled reports

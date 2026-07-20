@@ -70,15 +70,20 @@
         $(function () {
             Piwik_Overlay.siteUrls = {{ siteUrls|json_encode|raw }};
 
+            // The startOverlaySession URL is matched by piwik.js::isOverlaySession(). Only the
+            // canonical handshake parameters (module, action, idSite, period, date, segment) belong here.
             var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idSite={{ idSite }}&period={{ period }}&date={{ rawDate }}&segment={{ segment }}';
+            var iframePostParams = null;
             if (piwik.shouldPropagateTokenAuth) {
+                iframePostParams = {
+                    token_auth: piwik.token_auth
+                };
                 if (!piwik.broadcast.isWidgetizeRequestWithoutSession()) {
-                    iframeSrc += '&force_api_session=1';
+                    iframePostParams.force_api_session = '1';
                 }
-                iframeSrc += '&token_auth=' + piwik.token_auth;
             }
 
-            Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}', '{{ segment }}');
+            Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ rawDate }}', '{{ segment }}', iframePostParams);
 
             window.Piwik_Overlay_Translations = {
                 domain: "{{ 'Overlay_Domain'|translate }}"

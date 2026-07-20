@@ -5,6 +5,10 @@
 
 .sparkline-colors[data-name=lineColor] {
     color: #162C4A;
+
+    .inDarkMode({
+        color: @theme-color-link;
+    });
 }
 
 .sparkline-colors[data-name=minPointColor] {
@@ -21,4 +25,22 @@
 
 .sparkline-colors[data-name=fillColor] {
     color: white;
+}
+
+body.sparklines-redesign-enabled {
+  .sparkline-colors[data-name=lineColor] {
+    color: @graph-sparkline-line-color;
+  }
+
+  .sparkline-colors[data-name=minPointColor] {
+    color: @graph-sparkline-minDot-color;
+  }
+
+  .sparkline-colors[data-name=maxPointColor] {
+    color: @graph-sparkline-maxDot-color;
+  }
+
+  .sparkline-colors[data-name=lastPointColor] {
+    color: @graph-sparkline-lastDot-color;
+  }
 }

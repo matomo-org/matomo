@@ -369,4 +369,134 @@ describe('CoreHome/AjaxHelper', () => {
 
     expect(requestedUrl).toContain('segment=urlSegmentValue');
   });
+
+  it('escapes query-string characters in an unencoded segment value', async () => {
+    let requestedUrl = '';
+
+    installUrlCapturingAjaxMock((url) => {
+      requestedUrl = url;
+    });
+
+    const helper = new AjaxHelper();
+    helper.addParams({
+      module: 'API',
+      method: 'SomeReport.get',
+      // a not pre-encoded segment value containing characters with query-string meaning
+      segment: 'x&method=Other.method&foo=bar?baz#',
+    }, 'get');
+
+    await helper.send();
+
+    // the whole value stays inside the segment parameter (query-string characters escaped)
+    expect(requestedUrl).toContain('segment=x%26method=Other.method%26foo=bar%3Fbaz%23');
+    // so it does not turn into separate query parameters
+    expect(requestedUrl).not.toContain('&method=Other.method');
+    expect(requestedUrl).not.toContain('#');
+    // and the other request parameters are still present
+    expect(requestedUrl).toContain('&method=SomeReport.get');
+  });
+
+  it('keeps segment operators and inner separators intact while escaping query-string characters', async () => {
+    let requestedUrl = '';
+
+    installUrlCapturingAjaxMock((url) => {
+      requestedUrl = url;
+    });
+
+    const helper = new AjaxHelper();
+    helper.addParams({
+      module: 'API',
+      method: 'SomeReport.get',
+      // a realistic, not pre-encoded segment matching on a URL that itself carries a query string
+      segment: 'pageUrl==http://example.com/?a=1&b=2',
+    }, 'get');
+
+    await helper.send();
+
+    // '==' and the inner '=' must survive untouched, only '?' and '&' are escaped
+    expect(requestedUrl).toContain('segment=pageUrl==http://example.com/%3Fa=1%26b=2');
+    // the URL query string of the matched page must not leak out as a separate parameter
+    expect(requestedUrl).not.toContain('&b=2');
+  });
+
+  it('does not double-encode an already encoded segment value', async () => {
+    let requestedUrl = '';
+
+    installUrlCapturingAjaxMock((url) => {
+      requestedUrl = url;
+    });
+
+    const helper = new AjaxHelper();
+    helper.addParams({
+      module: 'API',
+      method: 'SomeReport.get',
+      segment: 'pageUrl%3D%3Dhttps%253A%252F%252Fexample.com',
+    }, 'get');
+
+    await helper.send();
+
+    expect(requestedUrl).toContain('segment=pageUrl%3D%3Dhttps%253A%252F%252Fexample.com');
+  });
+
+  describe('date/period validation', () => {
+    const validCases: Array<[string, QueryParameters]> = [
+      ['day + ISO date', { period: 'day', date: '2024-01-15' }],
+      ['day + today', { period: 'day', date: 'today' }],
+      ['day + yesterday', { period: 'day', date: 'yesterday' }],
+      ['week + ISO date', { period: 'week', date: '2024-01-15' }],
+      ['month + ISO date', { period: 'month', date: '2024-01-15' }],
+      ['year + ISO date', { period: 'year', date: '2024-01-15' }],
+      ['range + explicit range', { period: 'range', date: '2024-01-01,2024-01-31' }],
+      ['range + last7', { period: 'range', date: 'last7' }],
+      ['range + previous30', { period: 'range', date: 'previous30' }],
+      // multiple-period requests with a non-range period are valid on the backend
+      ['day + lastN', { period: 'day', date: 'last30' }],
+      ['day + comma range', { period: 'day', date: '2024-01-01,2024-01-31' }],
+      ['month + comma range', { period: 'month', date: '2024-01-01,2024-03-31' }],
+      ['week + previousN', { period: 'week', date: 'previous4' }],
+      // keyword preset dates emitted by PresetDateRangeResolver must not be mistaken for ranges
+      ['week + lastweek', { period: 'week', date: 'lastweek' }],
+      ['month + lastmonth', { period: 'month', date: 'lastmonth' }],
+      ['year + lastyear', { period: 'year', date: 'lastyear' }],
+      // unrecognized periods are left to the backend to validate
+      ['unrecognized period', { period: 'bogusperiod', date: '2024-01-01' }],
+      // the character-set guard still allows dates with no period present
+      ['no period + ISO date', { date: '2024-01-15' }],
+      ['no period + range', { date: '2024-01-01,2024-01-31' }],
+    ];
+
+    const invalidCases: Array<[string, QueryParameters]> = [
+      ['day + string', { period: 'day', date: 'not-a-date' }],
+      ['day + comma range with invalid part', { period: 'day', date: '2024-01-01,gibberish' }],
+      // the character-set guard catches odd characters even without a recognized period
+      ['no period + slash date', { date: '2024/01/15' }],
+      ['unrecognized period + illegal chars', { period: 'bogusperiod', date: '<script>' }],
+    ];
+
+    it.each(validCases)('does not throw for a valid date/period (%s)', async (_label, params) => {
+      installUrlCapturingAjaxMock(() => { /* url not asserted in validation tests */ });
+
+      await expect(AjaxHelper.fetch({ method: 'X.get', ...params })).resolves.toBeDefined();
+    });
+
+    it.each(invalidCases)('throws for an invalid date/period (%s)', async (_label, params) => {
+      installUrlCapturingAjaxMock(() => { /* url not asserted in validation tests */ });
+
+      await expect(AjaxHelper.fetch({ method: 'X.get', ...params }))
+        .rejects.toThrow(/Invalid date/);
+    });
+
+    it('rejects (rather than throwing synchronously) when a chunked bulk request is invalid', async () => {
+      const chunkSizes: number[] = [];
+      installAjaxMock('success', chunkSizes);
+
+      const helper = new AjaxHelper();
+      helper.setBulkRequests(...makeBulkRequests(5));
+      helper.addParams({ period: 'day', date: 'not-a-date' }, 'get');
+
+      await expect(helper.send()).rejects.toThrow(/Invalid date/);
+      // the request must reject before any chunk is sent, so no queue slot is consumed
+      expect(chunkSizes).toEqual([]);
+    });
+  });
 });

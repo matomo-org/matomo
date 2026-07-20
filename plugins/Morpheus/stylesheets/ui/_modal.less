@@ -1,3 +1,9 @@
+// A soft blue-grey shadow in light mode; a real (black) shadow in dark mode so
+// the popup reads as elevated rather than glowing. Mirrors the selector dropdown
+// shadows in plugins/CoreHome/stylesheets/selector.less.
+@_modal_box-shadow: ~"0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D";
+@_modal_box-shadow-dark: ~"0 0 3px #00000080, 0 10px 40px #00000080";
+
 .modal {
     background: @theme-color-background-tinyContrast;
     color: @theme-color-text;
@@ -8,6 +14,22 @@
     flex-direction: column;
 }
 
+// Materialize.js sets `top` and `z-index` inline when animating Materialize
+// modals in. Vue-driven `MatomoModal`s don't run that code, so we provide
+// static fallbacks (matching Materialize's defaults: `endingTop: 10%`, and a
+// z-index above the `.modal-overlay` baseline of 999). Scoped to
+// `.matomo-modal` so third-party plugin modals that style `.modal.open`
+// themselves are not affected.
+.matomo-modal.open {
+    top: 10%;
+    z-index: 1003;
+    box-shadow: @_modal_box-shadow;
+
+    .inDarkMode({
+        box-shadow: @_modal_box-shadow-dark;
+    });
+}
+
 .modal .modal-content {
     flex: auto;
     overflow-y: auto;
@@ -15,7 +37,20 @@
     .vertical-scroll-shadows(@theme-color-background-tinyContrast);
 }
 
+.matomo-modal .matomo-modal-content {
+    overscroll-behavior: contain;
+}
+
 .modal .modal-footer {
     flex: none;
     background: @theme-color-background-tinyContrast;
+}
+
+// Vue-driven `MatomoModal`s toggle `.open` on their overlay rather than
+// relying on Materialize.js to set inline display/opacity. Scoped to
+// `.matomo-modal-overlay` so Materialize-driven overlays (and any third-party
+// `.modal-overlay` callers) keep their existing behavior.
+.matomo-modal-overlay.open {
+    display: block;
+    opacity: 0.7;
 }

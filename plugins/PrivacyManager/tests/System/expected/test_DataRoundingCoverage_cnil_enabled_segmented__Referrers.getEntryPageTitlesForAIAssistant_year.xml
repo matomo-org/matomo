@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>12</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerName==;referrerType==ai;entryPageTitle==not+an+incredible+title</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>8</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerName==;referrerType==ai;entryPageTitle==not+an+incredible+title</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>4</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerName==;referrerType==ai;entryPageTitle==not+an+incredible+title</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>4</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerName==;referrerType==ai;entryPageTitle==not+an+incredible+title</segment>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>3</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerName==;referrerType==ai;entryPageTitle==not+an+incredible+title</segment>
+	</row>
+</result>

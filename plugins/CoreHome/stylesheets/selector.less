@@ -1,22 +1,52 @@
-.piwikSelector {
-  display: inline-block;
-  line-height: 0;
+@_selector-button_padding: 8px 16px;
+@_selector-button_inner-half-gap: 8px;
+@_selector-button_color-background: @theme-color-background-contrast;
+@_selector-button_color-background-hover: @theme-color-background-contrast;
+@_selector-button_border: 1px solid @theme-color-border;
+@_selector-button_border-active: 1px solid @theme-color-link;
+@_selector-button_border-radius: 8px;
+@_selector-button_box-shadow: none;
+
+@_selector-dropdown_color-background: @theme-color-background-contrast;
+@_selector-dropdown_border: 1px solid @theme-color-border;
+@_selector-dropdown_border-radius: 8px;
+@_selector-dropdown_padding: 16px;
+@_selector-dropdown_box-shadow: ~"0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D";
+@_selector-dropdown_box-shadow-dark: ~"0 0 3px #00000080, 0 10px 40px #00000080";
+@_selector-dropdown_margin-top: 8px;
+
+.piwikSelector:not(.quick-access) {
+  position: relative;
+  display: inline-flex;
+  border: @_selector-button_border;
+  border-radius: @_selector-button_border-radius;
+  box-shadow: @_selector-button_box-shadow;
 
   span.title,
   a.title,
   button.title {
-    .font-default(11px, 12px);
-    display: inline-block;
-    width: 100%;
-    padding: 10px 15px 11px 13px;
-    background-color: transparent;
-    border: none;
+    flex: auto;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: @_selector-button_padding;
+    background-color: @_selector-button_color-background;
+    border: none;
+    border-radius: @_selector-button_border-radius;
+
+    .font-default(14px, 20px);
     white-space: nowrap;
     cursor: pointer;
-    text-transform: uppercase;
     text-decoration: none;
+    text-align: center;
     color: @theme-color-text;
+    font-variant: tabular-nums;
+
+    &:focus {
+      outline: none;
+    }
 
     &.activityIndicator {
       background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat 9px 9px;
@@ -28,10 +58,8 @@
 
     .icon {
       // remove relative: [class^="icon-"], [class*=" icon-"]{line-height:1em}
-      .font-default(11px, 12px);
-      padding-left: 6px;
-      display: inline-block;
-      vertical-align: top;
+      font-size: inherit;
+      line-height: inherit;
 
       &.iconHidden {
         visibility: hidden;
@@ -40,35 +68,124 @@
 
     .icon:not(.icon-fixed) {
       float: right;
-      &:after {
-        clear:left;
+
+      &::after {
+        clear: left;
         content: ' ';
       }
     }
+  }
 
-    &:hover, &:focus {
+  &.expanded,
+  &.editing,
+  &:hover:not(.periodSelector-withPrevNext),
+  &:focus:not(.periodSelector-withPrevNext),
+  &:focus-within:not(.periodSelector-withPrevNext) {
+    border: @_selector-button_border-active;
+
+    span.title,
+    a.title,
+    button.title {
       text-decoration: none;
+      background: @_selector-button_color-background-hover;
     }
   }
 
+  /* Period selector specific: left & right arrows */
+
+  .move-period {
+    position: relative;
+    padding: @_selector-button_padding;
+    background-color: @_selector-button_color-background;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border: 1px solid transparent;
+
+      pointer-events: none;
+    }
+
+    &:hover::before,
+    &:focus-visible::before {
+      border-color: @theme-color-focus-ring;
+    }
+  }
+
+  .move-period-prev {
+    padding-right: @_selector-button_inner-half-gap;
+    border-radius: @_selector-button_border-radius 0 0 @_selector-button_border-radius;
+
+    &::before {
+      border-radius: @_selector-button_border-radius 0 0 @_selector-button_border-radius;
+    }
+  }
+
+  .move-period-next {
+    padding-left: @_selector-button_inner-half-gap;
+    border-radius: 0 @_selector-button_border-radius @_selector-button_border-radius 0;
+
+    &::before {
+      border-radius: 0 @_selector-button_border-radius @_selector-button_border-radius 0;
+    }
+  }
+
+  &.periodSelector-withPrevNext .title {
+    border-radius: 0;
+    padding-left: @_selector-button_inner-half-gap;
+    padding-right: @_selector-button_inner-half-gap;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border: 1px solid transparent;
+      border-radius: @_selector-button_border-radius;
+
+      pointer-events: none;
+    }
+
+    &:hover::before,
+    &:focus-visible::before {
+      border-color: @theme-color-focus-ring;
+    }
+  }
+}
+
+/* Dropdown */
+.piwikSelector {
   .dropdown {
-    .font-default(11px, 15px);
+    .font-default(14px, 20px);
     display: none;
-    padding: 5px 19px 11px 19px;
   }
 
   &.expanded {
     .dropdown {
-      display: block;
-      margin-top: 2px;
-      margin-left: -1px;
+      display: block; /* to revert display: none */
+
       position: absolute;
       z-index: 999;
-      border: 1px solid @theme-color-background-base;
-      border-radius: 2px;
-      box-shadow: 4px 7px 25px rgba(0,0,0,0.3);
-      padding: 16px;
-      background-color: @theme-color-background-contrast;
+      top: 100%;
+      margin-top: @_selector-dropdown_margin-top;
+      left: -1px;
+
+      border: @_selector-dropdown_border;
+      border-radius: @_selector-dropdown_border-radius;
+      padding: @_selector-dropdown_padding;
+      box-shadow: @_selector-dropdown_box-shadow;
+
+      overflow: hidden;
+
+      .inDarkMode({
+        box-shadow: @_selector-dropdown_box-shadow-dark;
+      });
     }
+  }
+
+  &.expanded .dropdown,
+  &:hover .dropdown,
+  &.active .dropdown {
+    background-color: @_selector-dropdown_color-background;
   }
 }

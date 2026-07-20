@@ -32,41 +32,67 @@ class CalculateConversionPageRate extends BaseFilter
      */
     public function filter($table)
     {
-
-        // Find all goal ids used in the table and store in an array
+        // Collect goal ids from the whole table tree so we can look up totals once,
+        // even when this filter is invoked on a parent table whose goal data lives
+        // in subtable rows (e.g. Actions.getPageUrls page subpages, or flat=1).
         $goals = [];
-        foreach ($table->getRowsWithoutSummaryRow() as $row) {
-            if (isset($row[Metrics::INDEX_GOALS])) {
-                foreach ($row[Metrics::INDEX_GOALS] as $goalIdString => $metrics) {
-                    $goals[$goalIdString] = $goalIdString;
-                }
-            }
-        }
+        $this->collectGoalIds($table, $goals);
 
-        // Get the total top-level conversions for the goals in the table
         $goalTotals = $this->getGoalTotalConversions($table, $goals);
         if (count($goalTotals) === 0) {
             return;
         }
 
-        // Walk the rows and populate the nb_conversions_page_rate with nb_conversions_page_uniq / $goalTotals[goal id]
-        foreach ($table->getRowsWithoutSummaryRow() as &$row) {
-            if (isset($row[Metrics::INDEX_GOALS])) {
-                foreach ($row[Metrics::INDEX_GOALS] as $goalIdString => $metrics) {
-                    if (isset($row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ])) {
+        $this->populateRates($table, $goalTotals);
+    }
+
+    private function collectGoalIds(DataTable $table, array &$goals): void
+    {
+        foreach ($table->getRowsWithoutSummaryRow() as $row) {
+            $goalsCol = $row->getColumn(Metrics::INDEX_GOALS);
+            if (is_array($goalsCol)) {
+                foreach ($goalsCol as $goalIdString => $metrics) {
+                    $goals[$goalIdString] = $goalIdString;
+                }
+            }
+
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $this->collectGoalIds($subTable, $goals);
+            }
+        }
+    }
+
+    private function populateRates(DataTable $table, array $goalTotals): void
+    {
+        foreach ($table->getRowsWithoutSummaryRow() as $row) {
+            $goalsCol = $row->getColumn(Metrics::INDEX_GOALS);
+            if (is_array($goalsCol)) {
+                foreach ($goalsCol as $goalIdString => $metrics) {
+                    if (
+                        isset($goalsCol[$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ])
+                        && isset($goalTotals[$goalIdString])
+                    ) {
                         $rate = Piwik::getQuotientSafe(
-                            $row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ],
+                            $goalsCol[$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ],
                             $goalTotals[$goalIdString],
                             3
                         );
-                        // Prevent page rates over 100% which can happen when there are subpages
+                        // Prevent page rates over 100% which can happen when subpage
+                        // unique counts add up to more than the parent's total.
                         if ($rate > 1) {
                             $rate = 1;
                         }
 
-                        $row[Metrics::INDEX_GOALS][$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE] = $rate;
+                        $goalsCol[$goalIdString][Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE] = $rate;
                     }
                 }
+                $row->setColumn((string) Metrics::INDEX_GOALS, $goalsCol);
+            }
+
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $this->populateRates($subTable, $goalTotals);
             }
         }
     }

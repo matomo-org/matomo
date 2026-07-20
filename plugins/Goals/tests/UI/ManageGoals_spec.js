@@ -11,6 +11,8 @@ describe("ManageGoals", function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\SomePageGoalVisitsWithConversions';
 
     const manageGoalsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=Goals_ManageGoals";
+    const defaultViewport = { width: 1350, height: 768 };
+    const smallerViewport = { width: 800, height: 900 };
 
     async function fillField(selector, value) {
         await page.$eval(selector, (el) => {
@@ -21,22 +23,31 @@ describe("ManageGoals", function () {
         await page.type(selector, value);
     }
 
-    it("should show correct notification when creating a new goal", async function () {
-        await page.goto(manageGoalsUrl);
-        await page.waitForNetworkIdle();
-
+    async function createGoal({ goalName, goalDescription, goalPattern }) {
         await page.waitForSelector('#add-goal');
         await page.click('#add-goal');
         await page.waitForSelector('.addEditGoal', { visible: true });
 
-        const goalName = 'My name';
         await fillField('#goal_name', goalName);
-        await fillField('#pattern', '/thank-you');
+        await fillField('#goal_description', goalDescription);
+        await fillField('#pattern', goalPattern);
 
         const saveButton = await page.waitForSelector('.addEditGoal .matomo-save-button .btn');
         await saveButton.click();
-
         await page.waitForNetworkIdle();
+    }
+
+    it("should show correct notification when creating a new goal", async function () {
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+
+        const goalName = 'My name';
+        const goalDescription = 'https://longurlwithlotsofthings.example.com/path/to/a/page?with=query&that=keeps_going';
+        await createGoal({
+          goalName,
+          goalDescription,
+          goalPattern: '/thank-you',
+        });
 
         // We check that the created goal id is in the View Goal Report url
         const createdGoalId = await page.$eval(
@@ -55,6 +66,92 @@ describe("ManageGoals", function () {
         expect(notificationText).to.equal(expectedNotificationText);
         expect(viewGoalLinkHref).to.include(`subcategory=${createdGoalId}`);
     });
+
+    it("should block submission with an inline error when a required pattern is empty", async function () {
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+
+        await page.waitForSelector('#add-goal');
+        await page.click('#add-goal');
+        await page.waitForSelector('.addEditGoal', { visible: true });
+
+        // Provide a name but deliberately leave the required pattern field empty.
+        await fillField('#goal_name', 'Goal without a pattern');
+
+        const saveButton = await page.waitForSelector('.addEditGoal .matomo-save-button .btn');
+        await saveButton.click();
+
+        // The client-side guard shows an inline error and does not submit, so the edit form
+        // stays open and no success notification appears.
+        await page.waitForFunction(() => {
+          const field = document.querySelector('#pattern');
+          const wrapper = field && field.closest('.matomo-form-field');
+          return !!(wrapper && wrapper.querySelector('.form-group__error-message'));
+        });
+        const errorText = await page.evaluate(() => document.querySelector('#pattern')
+          .closest('.matomo-form-field')
+          .querySelector('.form-group__error-message')
+          .textContent.trim());
+        expect(errorText).to.equal("Please specify a value for 'pattern'.");
+
+        const successNotifications = await page.$$('.notification.notification-success');
+        expect(successNotifications.length).to.equal(0);
+
+        // Once a value is provided the inline error clears.
+        await fillField('#pattern', '/thank-you');
+        await page.waitForFunction(() => {
+          const field = document.querySelector('#pattern');
+          const wrapper = field && field.closest('.matomo-form-field');
+          return !!wrapper && !wrapper.querySelector('.form-group__error-message');
+        });
+    });
+
+    it("should wrap a long description when creating a new goal", async function () {
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+
+        await page.waitForSelector('#add-goal');
+        await page.click('#add-goal');
+        await page.waitForSelector('.addEditGoal', { visible: true });
+
+        await fillField('#goal_name', 'My long description goal');
+        await fillField(
+          '#goal_description',
+          'This is a deliberately long goal description that should wrap onto a new line when the textarea content becomes wider than the available field width.'
+        );
+
+        await page.$eval('#goal_description', (el) => {
+            const formField = el.closest('.matomo-form-field');
+            if (formField) {
+                formField.setAttribute('data-test-goal-description', '1');
+            }
+        });
+
+        expect(await page.screenshotSelector('[data-test-goal-description="1"]')).to.matchImage('description_wraps');
+
+        await page.click('.entityCancelLink');
+        await page.waitForNetworkIdle();
+    });
+  
+    it("description and trigger with long words should wrap", async function () {
+      await page.webpage.setViewport(smallerViewport);
+
+      try {
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+        await createGoal({
+          goalName: 'Goal with wrapped trigger',
+          goalDescription: 'https://longurlwithlotsofthings.example.com/path/to/a/page?with=query&that=keeps_going',
+          goalPattern: '/asdasd/asdas/asdasd/asdas/asdasd/asdas/asdasd/asdas',
+        });
+        await page.waitForSelector('div.manageGoals #entityEditContainer .card-content');
+        expect(await page.screenshotSelector('div.manageGoals #entityEditContainer .card-content'))
+          .to.matchImage('manage_goals_mobile_table_contained');
+      } finally {
+        await page.webpage.setViewport(defaultViewport);
+      }
+    });
+
     it("should show the correct notification when editing the goal", async function () {
       const goalEditButtonSelector = 'table.entityTable tbody tr:nth-last-child(1) button.icon-edit';
       await page.click(goalEditButtonSelector);

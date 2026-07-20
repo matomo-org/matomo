@@ -1,5 +1,6 @@
 {
     "CorePluginsAdmin": {
+        "ActionUninstall": "Quraşdırmanı sil",
         "Websites": "Veb saytlar"
     }
 }

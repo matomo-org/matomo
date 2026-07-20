@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="7" viewBox="0 0 8 7">
+  <defs>
+    <path id="arrow-up-red-shape" d="M4 0L8 4H6V7H2V4H0Z"/>
+    <clipPath id="arrow-up-red-clip">
+      <use href="#arrow-up-red-shape"/>
+    </clipPath>
+  </defs>
+  <use href="#arrow-up-red-shape" fill="#E32D3E" stroke="#000" stroke-opacity="0.5" stroke-width="1" clip-path="url(#arrow-up-red-clip)"/>
+</svg>

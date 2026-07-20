@@ -45,7 +45,7 @@ class RangeCheck extends BaseFilter
     }
 
     /**
-     * Executes the filter an adjusts all columns to fit the defined range
+     * Executes the filter and adjusts the configured column to fit the defined range
      *
      * @param DataTable $table
      */

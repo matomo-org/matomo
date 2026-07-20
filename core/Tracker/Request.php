@@ -26,8 +26,6 @@ use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tracker\Cache as TrackerCache;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 
 /**
@@ -58,7 +56,7 @@ class Request
      * whatever they want in this array, and other RequestProcessors can modify these
      * values to change tracker behavior.
      *
-     * @var string[][]
+     * @var array<string, array<string, mixed>> Keyed by plugin name, then metadata key.
      */
     private $requestMetadata = array();
 
@@ -102,8 +100,9 @@ class Request
         // check for 4byte utf8 characters in all tracking params and replace them with � if not support by database
         $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
 
-        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = (int) TrackerConfig::getConfigValue(
+        $this->customTimestampDoesNotRequireTokenauthWhenNewerThan = TrackerConfig::getIntegerConfigValue(
             'tracking_requests_require_authentication_when_custom_timestamp_newer_than',
+            0,
             $this->getIdSiteIfExists()
         );
     }
@@ -577,7 +576,7 @@ class Request
     }
 
     /**
-     * Returns true if the timestamp is valid ie. timestamp is sometime in the last 10 years and is not in the future.
+     * Returns true if the timestamp is valid ie. timestamp is sometime in the last 20 years and is not in the future.
      *
      * @param $time int Timestamp to test
      * @param $now int Current timestamp
@@ -859,22 +858,25 @@ class Request
 
     public function getForcedUserId()
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $idSite = $this->getIdSite();
-            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            $cacheKey = UserIdDisabled::class;
-            if (($cache[$cacheKey] ?? false) === true) {
-                return false;
-            }
-        }
-
         $userId = $this->getParam('uid');
-        if (strlen($userId) > 0) {
-            return $userId;
+        if (strlen($userId) === 0) {
+            return false;
         }
 
-        return false;
+        try {
+            $idSite = $this->getIdSite();
+            if (!empty($idSite) && $idSite > 0) {
+                $cache    = TrackerCache::getCacheWebsiteAttributes($idSite);
+                $cacheKey = UserIdDisabled::class;
+                if (($cache[$cacheKey] ?? false) === true) {
+                    return false;
+                }
+            }
+        } catch (\Exception $e) {
+            // Might fail for e.g. not existing sites, but we do not want to throw an exception at this stage
+        }
+
+        return $userId;
     }
 
     public function getForcedVisitorId()

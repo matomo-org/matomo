@@ -9,9 +9,10 @@
 
 namespace Piwik\Plugins\DevicesDetection\tests\System;
 
-use Piwik\Config;
+use Exception;
+use Piwik\API\Request;
+use Piwik\DataTable;
 use Piwik\Plugins\DevicesDetection\tests\Fixtures\MultiDeviceGoalConversions;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -34,17 +35,41 @@ class GoalReportForDevicesTest extends SystemTestCase
         return dirname(__FILE__);
     }
 
-    private function setComplianceFeatureFlag(bool $enableFlag): void
+    private function setSiteCompliancePolicy(int $idSite, bool $isActive): void
     {
-        $config = Config::getInstance();
-        $featureFlag = new PrivacyCompliance();
-        $featureFlagConfig = $featureFlag->getName() . '_feature';
+        CnilPolicy::setActiveStatus($idSite, $isActive);
+    }
 
-        if ($enableFlag) {
-            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
-        } else {
-            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
-        }
+    /**
+     * @return list<string>
+     */
+    private function getModelLabelsForSiteRequest(string $idSite): array
+    {
+        /** @var DataTable|DataTable\Map $report */
+        $report = Request::processRequest('DevicesDetection.getModel', [
+            'idSite' => $idSite,
+            'period' => 'day',
+            'date' => self::$fixture->dateTime,
+            'flat' => '1',
+        ]);
+
+        return array_values($report->getColumn('label'));
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function getAvailableReportsForSiteRequest(string $idSite): array
+    {
+        $reports = Request::processRequest('API.getReportMetadata', [
+            'idSite' => $idSite,
+            'period' => 'day',
+            'date' => self::$fixture->dateTime,
+        ]);
+
+        return array_map(static function (array $report): string {
+            return $report['module'] . '.' . $report['action'];
+        }, $reports);
     }
 
     public function getApiForTesting()
@@ -70,7 +95,6 @@ class GoalReportForDevicesTest extends SystemTestCase
 
     public function testGetModelDoesNotReturnDataWhenPolicyEnforced(): void
     {
-        $this->setComplianceFeatureFlag(true);
         CnilPolicy::setActiveStatus(null, true);
 
         $this->runApiTests('DevicesDetection.getModel', [
@@ -80,7 +104,93 @@ class GoalReportForDevicesTest extends SystemTestCase
         ]);
 
         CnilPolicy::setActiveStatus(null, false);
-        $this->setComplianceFeatureFlag(false);
+    }
+
+    public function testGetModelReportMetadataHidesOnlyRelevantReportWhenPolicyEnabledGlobally(): void
+    {
+        CnilPolicy::setActiveStatus(null, true);
+
+        try {
+            $availableReports = $this->getAvailableReportsForSiteRequest((string) self::$fixture->idSite);
+
+            $this->assertContains('DevicesDetection.getType', $availableReports);
+            $this->assertContains('DevicesDetection.getBrand', $availableReports);
+            $this->assertContains('DevicesDetection.getOsVersions', $availableReports);
+            $this->assertNotContains('DevicesDetection.getModel', $availableReports);
+        } finally {
+            CnilPolicy::setActiveStatus(null, false);
+        }
+    }
+
+    public function testGetModelReturnsOnlyAllowedSitesForSpecificSiteList(): void
+    {
+        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+
+        try {
+            $this->assertSame(
+                ['Samsung - Galaxy S5'],
+                $this->getModelLabelsForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2)
+            );
+        } finally {
+            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+        }
+    }
+
+    public function testGetModelReturnsOnlyAllowedSitesForAll(): void
+    {
+        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+
+        try {
+            $this->assertSame(['Samsung - Galaxy S5'], $this->getModelLabelsForSiteRequest('all'));
+        } finally {
+            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+        }
+    }
+
+    public function testGetModelReturnsErrorWhenSingleRequestedSiteIsDisallowed(): void
+    {
+        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+
+        try {
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage('Device model report is disabled by compliance policy.');
+
+            $this->getModelLabelsForSiteRequest((string) self::$fixture->idSite);
+        } finally {
+            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+        }
+    }
+
+    public function testGetModelReturnsErrorWhenAllRequestedSitesAreDisallowedForSpecificSiteList(): void
+    {
+        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+        $this->setSiteCompliancePolicy(self::$fixture->idSite2, true);
+
+        try {
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage('Device model report is disabled by compliance policy.');
+
+            $this->getModelLabelsForSiteRequest(self::$fixture->idSite . ',' . self::$fixture->idSite2);
+        } finally {
+            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+            $this->setSiteCompliancePolicy(self::$fixture->idSite2, false);
+        }
+    }
+
+    public function testGetModelReturnsErrorWhenAllRequestedSitesAreDisallowedForAll(): void
+    {
+        $this->setSiteCompliancePolicy(self::$fixture->idSite, true);
+        $this->setSiteCompliancePolicy(self::$fixture->idSite2, true);
+
+        try {
+            $this->expectException(Exception::class);
+            $this->expectExceptionMessage('Device model report is disabled by compliance policy.');
+
+            $this->getModelLabelsForSiteRequest('all');
+        } finally {
+            $this->setSiteCompliancePolicy(self::$fixture->idSite, false);
+            $this->setSiteCompliancePolicy(self::$fixture->idSite2, false);
+        }
     }
 }
 

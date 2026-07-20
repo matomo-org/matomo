@@ -68,6 +68,7 @@ export default defineComponent({
     widgetParams: Object,
     widgetName: String,
     loadingMessage: String,
+    suppressNotifications: Boolean,
   },
   components: {
     ActivityIndicator,
@@ -226,7 +227,9 @@ export default defineComponent({
 
         Matomo.helper.compileVueEntryComponents($content);
 
-        NotificationsStore.parseNotificationDivs();
+        if (!this.suppressNotifications) {
+          NotificationsStore.parseNotificationDivs();
+        }
 
         setTimeout(() => {
           Matomo.postEvent('widget:loaded', {

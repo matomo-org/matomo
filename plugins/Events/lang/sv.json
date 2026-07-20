@@ -31,7 +31,7 @@
         "MaxValueDocumentation": "Det maximala värdet för denna händelse",
         "MinValue": "Minsta händelse värde",
         "MinValueDocumentation": "Det lägsta värdet för denna händelse",
-        "PluginDescription": "Spåra händelser och få rapporter om besökarnas aktiviteter.",
+        "PluginDescription": "Spåra händelser och få rapporter om dina besökares aktiviteter.",
         "TopEvents": "Topphändelser",
         "TotalEvents": "Totala händelser",
         "TotalEventsDocumentation": "Totala antalet händelser",

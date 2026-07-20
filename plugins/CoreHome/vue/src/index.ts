@@ -29,7 +29,8 @@ export { default as MatomoLoader } from './MatomoLoader/MatomoLoader.vue';
 export * from './translate';
 export * from './externalLink';
 export { default as Alert } from './Alert/Alert.vue';
-export { default as AjaxHelper, AjaxOptions } from './AjaxHelper/AjaxHelper';
+export { default as AjaxHelper } from './AjaxHelper/AjaxHelper';
+export type { AjaxOptions } from './AjaxHelper/AjaxHelper';
 export { setCookie, getCookie, deleteCookie } from './CookieHelper/CookieHelper';
 export { default as MatomoUrl } from './MatomoUrl/MatomoUrl';
 export { Matomo };
@@ -40,10 +41,12 @@ export { default as FocusAnywhereButHere } from './FocusAnywhereButHere/FocusAny
 export { default as FocusIf } from './FocusIf/FocusIf';
 export { default as Tooltips } from './Tooltips/Tooltips';
 export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
+export { default as MatomoModal } from './MatomoModal/MatomoModal.vue';
 export { default as ExpandOnClick } from './ExpandOnClick/ExpandOnClick';
 export { default as ExpandOnHover } from './ExpandOnHover/ExpandOnHover';
 export { default as ShowSensitiveData } from './ShowSensitiveData/ShowSensitiveData';
 export { default as DropdownButton } from './DropdownButton/DropdownButton';
+export { default as DraggableList } from './DraggableList/DraggableList.vue';
 export { default as SelectOnFocus } from './SelectOnFocus/SelectOnFocus';
 export { default as CopyToClipboard } from './CopyToClipboard/CopyToClipboard';
 export { default as SideNav } from './SideNav/SideNav';
@@ -59,10 +62,11 @@ export { default as PeriodDatePicker } from './PeriodDatePicker/PeriodDatePicker
 export * from './Notification';
 export { default as ShowHelpLink } from './ShowHelpLink/ShowHelpLink.vue';
 export { default as SitesStore } from './SiteSelector/SitesStore';
-export { default as Site } from './SiteSelector/Site';
+export type { default as Site } from './SiteSelector/Site';
 export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';
 export { default as SiteRef } from './SiteSelector/SiteRef';
 export { default as QuickAccess } from './QuickAccess/QuickAccess.vue';
+export { default as SearchInput } from './SearchInput/SearchInput.vue';
 export { default as FieldArray } from './FieldArray/FieldArray.vue';
 export { default as MultiPairField } from './MultiPairField/MultiPairField.vue';
 export { default as PeriodSelector } from './PeriodSelector/PeriodSelector.vue';
@@ -72,6 +76,7 @@ export { default as ReportingPagesStore } from './ReportingPages/ReportingPages.
 export { default as ReportMetadataStore } from './ReportMetadata/ReportMetadata.store';
 export { default as WidgetsStore } from './Widget/Widgets.store';
 export { default as WidgetLoader } from './WidgetLoader/WidgetLoader.vue';
+export { default as ClientWidgetRenderer } from './Widget/ClientWidgetRenderer.vue';
 export { default as WidgetContainer } from './WidgetContainer/WidgetContainer.vue';
 export {
   default as WidgetByDimensionContainer,

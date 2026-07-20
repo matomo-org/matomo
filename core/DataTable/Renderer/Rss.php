@@ -36,8 +36,7 @@ class Rss extends Renderer
     /**
      * Computes the output for the given data table
      *
-     * @param DataTable|DataTable\Map $table
-     * @throws Exception
+     * @param DataTable\Map $table Must be keyed by 'date'.
      */
     protected function renderTable($table): string
     {
@@ -70,7 +69,7 @@ class Rss extends Renderer
             $dateInSiteTimezone = $dateInSiteTimezone->toString('Y-m-d');
             $thisPiwikUrl = Common::sanitizeInputValue($piwikUrl . "&date=$dateInSiteTimezone");
             $siteName = $site ? $site->getName() : '';
-            $title = $siteName . " on " . $date;
+            $title = self::formatValueXml($siteName . " on " . $date);
 
             $out .= "\t<item>
 		<pubDate>$pudDate</pubDate>
@@ -161,7 +160,7 @@ class Rss extends Renderer
                 if ($this->translateColumnNames) {
                     $name = $this->translateColumnName($name);
                 }
-                $html .= "\n\t<td><strong>$name</strong></td>";
+                $html .= "\n\t<td><strong>" . self::formatValueXml($name) . "</strong></td>";
             }
         }
         $html .= "\n</tr>";
@@ -172,7 +171,7 @@ class Rss extends Renderer
                 if ($toDisplay !== false) {
                     $value = "-";
                     if (isset($row[$columnName])) {
-                        $value = urldecode($row[$columnName]);
+                        $value = self::formatValueXml(urldecode($row[$columnName]));
                     }
 
                     $html .= "\n\t<td>$value</td>";

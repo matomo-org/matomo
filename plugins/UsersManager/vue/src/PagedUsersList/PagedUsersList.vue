@@ -355,6 +355,15 @@
               <span class="icon-edit"/>
             </button>
             <button
+                class="signoutuser table-action"
+                :title="translate('UsersManager_SignOutUser')"
+                @click="userToChange = user; showSignOutConfirm()"
+                v-if="currentUserRole === 'superuser' && user.login !== 'anonymous'
+                  && user.invite_status === 'active'"
+            >
+              <span class="icon-sign-out"/>
+            </button>
+            <button
                 class="deleteuser table-action"
                 title="Delete"
                 @click="userToChange = user; showDeleteConfirm()"
@@ -396,7 +405,7 @@
     </PasswordConfirmation>
 
     <PasswordConfirmation
-      v-model="showPasswordConfirmationForAnonymousAccess"
+      v-model="showPasswordConfirmationForAccessChange"
       @confirmed="changeUserRole"
       @aborted="resetUserAndRoleToChange"
     >
@@ -408,7 +417,7 @@
         v-if="!userToChange"
         v-html="$sanitize(deleteUserPermConfirmMultipleText)"
       ></h3>
-      <h3>
+      <h3 v-if="changeAffectsAnonymous && roleToChangeTo === 'view'">
         <em>{{ translate('General_Note') }}:
           <span v-html="$sanitize(translate(
               'UsersManager_AnonymousUserRoleChangeWarning',
@@ -418,6 +427,29 @@
             </span>
         </em>
       </h3>
+      <h3 v-if="roleToChangeTo === 'admin'">
+        <em>{{ translate('General_Note') }}:
+          <span v-html="$sanitize(translate(
+              'UsersManager_AdminUserRoleChangeWarning',
+              getRoleDisplay(roleToChangeTo),
+            ))">
+            </span>
+        </em>
+      </h3>
+    </PasswordConfirmation>
+
+    <PasswordConfirmation
+      v-model="showPasswordConfirmationForUserSignOut"
+      @confirmed="signOutRequestedUser"
+      @aborted="resetUserAndRoleToChange"
+    >
+      <h3
+        v-if="userToChange"
+        v-html="$sanitize(translate(
+            'UsersManager_SignOutUserConfirm',
+            `<strong>${userToChange.login}</strong>`,
+          ))"
+      ></h3>
     </PasswordConfirmation>
 
     <div class="change-user-role-confirm-modal modal" ref="changeUserRoleConfirmModal">
@@ -485,7 +517,8 @@ interface PagedUsersListState {
   userTextFilter: string;
   permissionsForSite: SiteRef;
   showPasswordConfirmationForUserRemoval: boolean;
-  showPasswordConfirmationForAnonymousAccess: boolean;
+  showPasswordConfirmationForAccessChange: boolean;
+  showPasswordConfirmationForUserSignOut: boolean;
 }
 
 const { $ } = window;
@@ -552,10 +585,11 @@ export default defineComponent({
         name: this.initialSiteName,
       },
       showPasswordConfirmationForUserRemoval: false,
-      showPasswordConfirmationForAnonymousAccess: false,
+      showPasswordConfirmationForAccessChange: false,
+      showPasswordConfirmationForUserSignOut: false,
     };
   },
-  emits: ['editUser', 'changeUserRole', 'deleteUser', 'searchChange', 'resendInvite'],
+  emits: ['editUser', 'changeUserRole', 'deleteUser', 'searchChange', 'resendInvite', 'signOutUser'],
   created() {
     this.onUserTextFilterChange = debounce(this.onUserTextFilterChange, 300);
   },
@@ -599,7 +633,7 @@ export default defineComponent({
         this.isBulkActionsDisabled = false;
       }
     },
-    changeUserRole(password: string) {
+    changeUserRole(password = '') {
       this.$emit('changeUserRole', {
         users: this.userOperationSubject,
         role: this.roleToChangeTo,
@@ -625,15 +659,22 @@ export default defineComponent({
     showDeleteConfirm() {
       this.showPasswordConfirmationForUserRemoval = true;
     },
+    showSignOutConfirm() {
+      this.showPasswordConfirmationForUserSignOut = true;
+    },
+    signOutRequestedUser(password: string) {
+      this.$emit('signOutUser', {
+        userLogin: this.userToChange?.login || null,
+        password,
+      });
+    },
 
     showAccessChangeConfirm() {
-      const containsAnonymous = this.userOperationSubject === 'all' || (
-        Array.isArray(this.userOperationSubject)
-        && this.userOperationSubject.filter((user) => user.login === 'anonymous').length
-      );
+      const grantsAnonymousView = this.changeAffectsAnonymous && this.roleToChangeTo === 'view';
+      const grantsAdminRole = this.roleToChangeTo === 'admin';
 
-      if (containsAnonymous && this.roleToChangeTo === 'view') {
-        this.showPasswordConfirmationForAnonymousAccess = true;
+      if (grantsAnonymousView || grantsAdminRole) {
+        this.showPasswordConfirmationForAccessChange = true;
       } else {
         $(this.$refs.changeUserRoleConfirmModal as HTMLElement)
           .modal({
@@ -643,7 +684,7 @@ export default defineComponent({
       }
     },
     getRoleDisplay(role: string | null) {
-      let result = null;
+      let result: unknown = role;
       (this.accessLevels as AccessLevel[]).forEach((entry) => {
         if (entry.key === role) {
           result = entry.value;
@@ -704,6 +745,12 @@ export default defineComponent({
       }
 
       return this.selectedUsers;
+    },
+    changeAffectsAnonymous() {
+      return this.userOperationSubject === 'all' || (
+        Array.isArray(this.userOperationSubject)
+        && this.userOperationSubject.some((user) => user.login === 'anonymous')
+      );
     },
     selectedUsers() {
       const users = this.users as User[];

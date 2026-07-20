@@ -1,6 +1,8 @@
 {
     "BotTracking": {
         "PageUrl": "Weblap URL-je",
-        "SiteWithoutDataBackToMatomo": "Vissza a Matomohoz"
+        "SiteWithoutDataBackToMatomo": "Vissza a Matomohoz",
+        "AIChatbotsContentPagesTitle": "weblap",
+        "ContentUrl": "URL"
     }
 }

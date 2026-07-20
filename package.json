@@ -64,7 +64,7 @@
     "@vue/compiler-sfc": "^3.2.6",
     "@vue/eslint-config-airbnb": "^5.3.0",
     "@vue/eslint-config-typescript": "^7.0.0",
-    "@vue/test-utils": "^2.4.6",
+    "@vue/test-utils": "2.4.6",
     "abortcontroller-polyfill": "^1.7.3",
     "babel-loader": "^8.2.2",
     "dompurify": "^3.3.2",

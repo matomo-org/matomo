@@ -18,10 +18,8 @@ use Piwik\Metrics\Formatter;
 use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\SiteContentDetector;
@@ -197,6 +195,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $this->renderTemplate('gdprTools');
     }
 
+    public function ePrivacyLaws()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        return $this->renderTemplate('ePrivacyLaws');
+    }
+
+    public function understandingYourLegalObligations()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        return $this->renderTemplate('understandingYourLegalObligations');
+    }
+
     /**
      * Echo's an HTML chunk describing the current database size, and the estimated space
      * savings after the scheduled data purge is run.
@@ -216,10 +228,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function compliance(): string
     {
         Piwik::checkUserHasSuperUserAccess();
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if (!$featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            return '';
-        }
 
         $view = new View('@PrivacyManager/compliance');
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();

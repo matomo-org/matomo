@@ -16,6 +16,8 @@
       :language-options="languageOptions"
       :current-timeformat="currentTimeformat"
       :time-formats="timeFormats"
+      :theme-mode="themeMode"
+      :theme-mode-options="themeModeOptions"
       :default-report="defaultReport"
       :default-report-options="defaultReportOptions"
       :default-report-id-site="defaultReportIdSite"
@@ -79,6 +81,14 @@ export default defineComponent({
       required: true,
     },
     timeFormats: {
+      type: Object,
+      required: true,
+    },
+    themeMode: {
+      type: String,
+      required: true,
+    },
+    themeModeOptions: {
       type: Object,
       required: true,
     },

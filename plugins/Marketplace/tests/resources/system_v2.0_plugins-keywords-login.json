@@ -1,0 +1,164 @@
+{
+    "plugins": [
+        {
+            "name": "LoginHttpAuth",
+            "displayName": "Login Http Auth",
+            "owner": "matomo-org",
+            "description": "Sign in Matomo using HTTP Auth protocol instead of the standard Login mechanism.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2014-02-10 02:48:04",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "login",
+                "authentication",
+                "httpAuth"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2018-06-18 11:16:03",
+            "latestVersion": "3.0.1",
+            "numDownloads": 18511,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "3.0.1",
+                    "release": "2018-06-18 11:16:03",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/LoginHttpAuth/download/3.0.1"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        },
+        {
+            "name": "LoginLdap",
+            "displayName": "Login Ldap",
+            "owner": "matomo-org",
+            "description": "LDAP authentication and synchronization for Matomo.",
+            "homepage": "https://matomo.org",
+            "createdDateTime": "2013-12-26 19:24:04",
+            "donate": [],
+            "support": [],
+            "isTheme": false,
+            "keywords": [
+                "ldap",
+                "login",
+                "authentication",
+                "active",
+                "directory",
+                "kerberos",
+                "sso"
+            ],
+            "basePrice": 0,
+            "authors": [
+                {
+                    "name": "Matomo",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org"
+                }
+            ],
+            "repositoryUrl": null,
+            "lastUpdated": "2026-05-11 04:52:04",
+            "latestVersion": "5.1.11",
+            "numDownloads": 336611,
+            "screenshots": [],
+            "coverImage": "https://plugins.matomo.org/img/categories/web.png",
+            "previews": [],
+            "activity": {
+                "numCommits": null,
+                "numContributors": null,
+                "lastCommitDate": null
+            },
+            "featured": false,
+            "isFree": true,
+            "isPaid": false,
+            "isBundle": false,
+            "isCustomPlugin": false,
+            "shop": null,
+            "bundle": {
+                "plugins": []
+            },
+            "specialOffer": "",
+            "category": "uncategorised",
+            "versions": [
+                {
+                    "name": "5.1.11",
+                    "release": "2026-05-11 04:52:04",
+                    "requires": {
+                        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+                    },
+                    "wordPressCompatible": true,
+                    "onPremiseCompatible": true,
+                    "numDownloads": 0,
+                    "license": {
+                        "name": "GPL v3+",
+                        "url": ""
+                    },
+                    "repositoryChangelogUrl": null,
+                    "readmeHtml": {
+                        "description": "",
+                        "faq": "",
+                        "changelog": "",
+                        "documentation": ""
+                    },
+                    "download": "/api/2.0/plugins/LoginLdap/download/5.1.11"
+                }
+            ],
+            "isDownloadable": true,
+            "changelog": {
+                "url": ""
+            },
+            "consumer": {
+                "license": null
+            }
+        }
+    ]
+}

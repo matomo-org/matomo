@@ -13,6 +13,11 @@ use Piwik\Piwik;
 use Piwik\Plugins\ProfessionalServices\Widgets\DismissibleWidget;
 use Piwik\Request;
 
+/**
+ * Provides API methods for Professional Services widgets and prompts.
+ *
+ * @method static \Piwik\Plugins\ProfessionalServices\API getInstance()
+ */
 class API extends \Piwik\Plugin\API
 {
     /**
@@ -26,11 +31,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Dismisses a promo widget to no longer be shown in the menu
+     * Dismisses a Professional Services promo widget for the current user.
      *
      * @internal
-     *
-     * @throws \Piwik\NoAccessException
+     * @return bool Returns `true` when the widget dismissal was recorded.
      */
     public function dismissWidget(): bool
     {

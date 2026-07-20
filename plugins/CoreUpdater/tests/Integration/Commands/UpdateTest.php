@@ -101,7 +101,7 @@ class UpdateTest extends ConsoleCommandTestCase
     public function testUpdateCommandReturnsCorrectExitCodeWhenErrorOccurs()
     {
         // create a blob table, then drop it manually so update 2.10.0-b10 will fail
-        $tableName = ArchiveTableCreator::getBlobTable(Date::factory('2015-01-01'));
+        $tableName = ArchiveTableCreator::getBlobTable(Date::factory('2015-01-01'), true);
         Db::exec("DROP TABLE $tableName");
 
         $result = $this->applicationTester->run(array(

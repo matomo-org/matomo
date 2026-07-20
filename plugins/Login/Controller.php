@@ -74,7 +74,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     protected $systemSettings;
 
-    /*
+    /**
      * @var PasswordVerifier
      */
     protected $passwordVerify;
@@ -154,7 +154,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * Login form
      *
      * @param string $messageNoAccess Access error message
-     * @param bool $infoMessage
+     * @param string|false $infoMessage
      * @return string
      * @internal param string $currentUrl Current URL
      */
@@ -229,17 +229,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $messageNoAccess = '';
 
         if (!empty($_POST)) {
-            $nonce = Common::getRequestVar('nonce', null, 'string', $_POST);
-            $password = Common::getRequestVar('password', null, 'string', $_POST);
-            if ($password) {
-                $password = Common::unsanitizeInputValue($password);
-            }
+            $nonce    = Request::fromPost()->getStringParameter('nonce');
+            $password = Request::fromPost()->getStringParameter('password');
             $errorMessage = Nonce::verifyNonceWithErrorMessage($nonceKey, $nonce);
-            if ($errorMessage !== "") {
+            if ($errorMessage !== '') {
                 $messageNoAccess = $errorMessage;
             } elseif ($this->passwordVerify->isPasswordCorrect(Piwik::getCurrentUserLogin(), $password)) {
-                $this->passwordVerify->setPasswordVerifiedCorrectly();
-                return;
+                $this->passwordVerify->setPasswordVerifiedCorrectly(Piwik::getCurrentUserLogin());
+                return '';
             } else {
                 $messageNoAccess = Piwik::translate('Login_WrongPasswordEntered');
             }
@@ -346,7 +343,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * @param string $login user name
      * @param string $password plain-text or hashed password
-     * @param string $urlToRedirect URL to redirect to, if successfully authenticated
+     * @param string|false $urlToRedirect URL to redirect to, if successfully authenticated
      * @param bool $passwordHashed indicates if $password is hashed
      */
     protected function authenticateAndRedirect(
@@ -407,7 +404,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 if (
                     !empty($host) && !empty($currentHost) && $host == $currentHost && Url::isValidHost($host)
                 ) {
-                    $urlToRedirect = $redirect;
+                    // rebuild the url from its parsed parts, consistent with the handling of the url parameter above
+                    $urlToRedirect = (strpos($redirect, '//') === 0 ? '//' : '') . UrlHelper::getParseUrlReverse(parse_url($redirect));
                 }
             }
         }
@@ -578,8 +576,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $errorMessage = null;
         $passwordHash = null;
 
-        $login = Common::getRequestVar('login');
-        $resetToken = Common::getRequestVar('resetToken');
+        $request    = Request::fromRequest();
+        $login      = $request->getStringParameter('login');
+        $resetToken = $request->getStringParameter('resetToken');
 
         try {
             $passwordHash = $this->passwordResetter->checkValidConfirmPasswordToken($login, $resetToken);
@@ -681,7 +680,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $request = Request::fromRequest();
 
         $token = $request->getStringParameter('token');
-        $form = $request->getStringParameter('invitation_form', '');
+        // the invitation form is only processed when submitted via POST
+        $form = Request::fromPost()->getStringParameter('invitation_form', '');
 
         $settings = new SystemSettings();
         $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
@@ -701,9 +701,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // if form was sent
         if (!empty($form)) {
             $error = null;
-            $password = $request->getStringParameter('password', '');
-            $passwordConfirmation = $request->getStringParameter('passwordConfirmation', '');
-            $conditionCheck = $request->getBoolParameter('conditionCheck', false);
+            $postRequest = Request::fromPost();
+            $password = $postRequest->getStringParameter('password', '');
+            $passwordConfirmation = $postRequest->getStringParameter('passwordConfirmation', '');
+            $conditionCheck = $postRequest->getBoolParameter('conditionCheck', false);
 
             if (empty($password)) {
                 $error = Piwik::translate('Login_PasswordRequired');

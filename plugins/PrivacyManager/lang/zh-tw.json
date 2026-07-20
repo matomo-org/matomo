@@ -46,7 +46,7 @@
         "BuildYourOwn": "建立您自己的",
         "ClickHereSettings": "點擊這裡查看 %s 設定。",
         "ComplianceTableSettingStatus": "狀態",
-        "ConsentExplanation": "「要求同意」意謂提供每個人關於他們的個人資料將會如何處理和控制的選項。",
+        "ConsentManagementPlatformsOutro": "如果您沒有使用這些同意管理工具，您也可以自行%1$s利用 Matomo JavaScript API 同意追蹤%2$s完成實作。",
         "ConsentManager": "同意管理工具",
         "ConsentManagerConnected": "%1$s似乎已經配置好配合 Matomo 使用。",
         "ConsentManagerDetected": "%1$s在您的網站上偵測到同意管理工具。要瞭解如何配置 Matomo 以與其配合使用%1$s，請查閱%2$s這份指南%3$s",
@@ -116,9 +116,6 @@
         "GdprToolsPageIntroEraseRight": "刪除他們的某些或所有資料的權利（以及更正的權利）。",
         "GeolocationAnonymizeIpNote": "注意：選擇 1 字節時地理位置將會顯示與實際位置大略相同的結果。選擇 2 字節或以上，地理位置可能會不準確。",
         "GetPurgeEstimate": "取得清理估計",
-        "HowDoIAskForConsent": "我該如何要求使用者同意？",
-        "HowDoIAskForConsentIntro": "Matomo 提供了一些在這些流行的同意管理工具中設定同意追蹤的指南：",
-        "HowDoIAskForConsentOutro": "如果您沒有使用這些同意管理工具，您也可以自行%1$s利用 Matomo JavaScript API 同意追蹤%2$s完成實作。",
         "IPAddress": "IP 位址",
         "Imprint": "說明",
         "ImprintUrl": "說明 URL",
@@ -177,7 +174,6 @@
         "PurgingData": "清除資料中…",
         "RawDataNeverRemoved": "訪問和動作的原始數據<strong>永遠不會</strong>被刪除。",
         "RawDataRemovedAfter": "所有訪問和動作的原始數據在 %1$s 後被刪除。",
-        "RecommendedForPrivacy": "保護隱私時推薦",
         "ReportsDataSavedEstimate": "資料庫大小",
         "ReportsNeverRemoved": "匯總報表<strong>永遠不會</strong>被刪除。",
         "ReportsRemovedAfter": "所有匯總報告在%1$s後被刪除。",
@@ -221,9 +217,6 @@
         "VisitsMatchedCriteria": "這些來訪記錄符合所選的條件。",
         "VisitsSuccessfullyDeleted": "訪問已成功刪除",
         "VisitsSuccessfullyExported": "訪問已成功匯出",
-        "WhenConsentIsNeededPart1": "%1$s一般資料保護規則（GDPR）隱私條例%2$s規定，在某些情況下處理個人資料時必須徵得使用者的同意。爲了確定您是否需要徵得同意，您需要確定您處理個人資料的法律依據是甚麼。這可以是「徵得同意」或「合理利益」，又或是您可以完全避免收集個人資料。",
-        "WhenConsentIsNeededPart2": "建議您瞭解更多基於 GDPR 處理個人資料的法律依據。您可以在%1$s我們的部落格%2$s中找到更多資訊。",
-        "WhenConsentIsNeededPart3": "請注意，如果您需要徵得使用者同意但未能證明過去曾徵得過他們的「同意」，我們建議您將過往被追蹤的使用者原始資料作匿名化。%1$s瞭解更多%2$s如何在 Matomo 隱私管理中將過往追蹤使用者的原始數據作匿名化。",
         "WhenDoINeedConsent": "我該何時要求使用者同意？"
     }
 }

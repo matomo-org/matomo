@@ -50,7 +50,7 @@
             :title="translate('PrivacyManager_UseAnonymizedIpForVisitEnrichment')"
             v-model="actualUseAnonymizedIpForVisitEnrichment"
             :options="useAnonymizedIpForVisitEnrichmentOptions"
-            :inline-help="translate('PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote')"
+            :inline-help="useAnonymizedIpForVisitEnrichmentHelpText"
             :extra-metadata="getExtraMetadataForField('useAnonymizedIpForVisitEnrichment')"
           >
           </Field>
@@ -153,6 +153,7 @@ import {
   AjaxHelper,
   MatomoUrl,
   NotificationsStore,
+  externalLink,
 } from 'CoreHome';
 import {
   Form,
@@ -363,6 +364,15 @@ export default defineComponent({
         '</a>',
         translate('PrivacyManager_UseSiteSpecificSettings'),
       );
+    },
+    useAnonymizedIpForVisitEnrichmentHelpText(): string {
+      const description = translate('PrivacyManager_UseAnonymizedIpForVisitEnrichmentDesc');
+      const readMore = translate(
+        'PrivacyManager_UseAnonymizedIpForVisitEnrichmentReadMore',
+        externalLink('https://matomo.org/faq/how-to/setting-up-accurate-visitors-geolocation'),
+        '</a>',
+      );
+      return `${description}<br/><br/>${readMore}`;
     },
     showSettings(): boolean {
       return !this.idSiteSpecific || this.isSiteSpecificSettingsEnabled;

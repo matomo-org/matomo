@@ -22,7 +22,7 @@ class LanguageInfo extends TranslationBase
 
     protected function doExecute(): int
     {
-        $languages = API::getInstance()->getAvailableLanguagesInfo(true, $this->getInput()->getOption('all'));
+        $languages = API::getInstance()->getAvailableLanguagesInfo(true, (bool)$this->getInput()->getOption('all'));
 
         foreach ($languages as $languageInfo) {
             $this->getOutput()->writeln($languageInfo['code'] . '|' . $languageInfo['english_name'] . '|' . $languageInfo['percentage_complete']);

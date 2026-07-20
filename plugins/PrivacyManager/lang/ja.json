@@ -46,7 +46,7 @@
         "BuildYourOwn": "自分で構築する",
         "ClickHereSettings": "%s設定にアクセスするには、ここをクリックしてください。",
         "ComplianceTableSettingStatus": "ステータス",
-        "ConsentExplanation": "同意とは、個人データの処理方法に関する選択と制御を個人に提供することを意味します。",
+        "ConsentManagementPlatformsOutro": "上記の同意マネージャを使用しない場合、Matomo JavaScript API%2$s を使用して、同意による %1$s ストラッキングを実装することができます。",
         "ConsentManager": "同意マネージャー",
         "ConsentManagerConnected": "%1$s は既に Matomoで動作するように構成されているようです。",
         "ConsentManagerDetected": "Web サイトで %1$s 同意マネージャーが検出されました。 Matomo を %1$s で動作するように設定する方法については、%2$sこのガイド%3$sをお読みください",
@@ -116,9 +116,6 @@
         "GdprToolsPageIntroEraseRight": "データの一部またはすべてを消去する権利（および修正する権利）。",
         "GeolocationAnonymizeIpNote": "注）位置情報探索機能は、匿名化された 1 byte の場合とほぼ同じ結果になります。2 byte 以上を使用すると、位置情報探索機能が不正確になります。",
         "GetPurgeEstimate": "パージ推定値を取得",
-        "HowDoIAskForConsent": "ユーザーに同意を求めるにはどうすればよいですか？",
-        "HowDoIAskForConsentIntro": "Piwik には、次の一般的な同意マネージャーを使用して同意追跡を設定するためのガイドが用意されています。",
-        "HowDoIAskForConsentOutro": "上記の同意マネージャを使用しない場合、Matomo JavaScript API%2$s を使用して、同意による %1$s ストラッキングを実装することができます。",
         "IPAddress": "IPアドレス",
         "Imprint": "インプリント",
         "ImprintUrl": "インプリントURL",
@@ -177,7 +174,6 @@
         "PurgingData": "データを削除しています…",
         "RawDataNeverRemoved": "ビジットとアクションの生データは<strong>決して</strong>削除されません。",
         "RawDataRemovedAfter": "すべてのビジットとアクションの生データは%1$s後に削除されます。",
-        "RecommendedForPrivacy": "プライバシー推奨",
         "ReportsDataSavedEstimate": "データベースサイズ",
         "ReportsNeverRemoved": "集約されたレポートは<strong>削除されません</strong>。",
         "ReportsRemovedAfter": "集約されたすべてのレポートは、%1$sの後に削除されます。",
@@ -221,9 +217,6 @@
         "VisitsMatchedCriteria": "これらのビジットは、選択した基準に一致します。",
         "VisitsSuccessfullyDeleted": "ビジットは正常に削除されました",
         "VisitsSuccessfullyExported": "ビジットが正常にエクスポートされました",
-        "WhenConsentIsNeededPart1": "%1$sGDPRプライバシー規則%2$sでは、個人データを処理する際にユーザーの同意を求める必要がある場合があります。同意を求める必要があるかどうかを判断するには、個人データ処理の合法的根拠を特定する必要があります。これは「同意」または「正当な利益」のいずれかであり、個人データの収集を完全に回避できる場合もあります。",
-        "WhenConsentIsNeededPart2": "GDPR に基づく個人データの処理の法的根拠について詳しく学ぶことをお勧めします。 このトピックの詳細については、%1$sour ブログ%2$s をご覧ください。",
-        "WhenConsentIsNeededPart3": "ユーザーの同意が必要であり、過去に「同意」を得たことを証明できない場合は、過去に追跡したユーザーの生データを匿名化することをお勧めします。過去に追跡されたユーザーの生データを匿名化するには、Matomo %1$slearn more%2$s のプライバシーマネージャを使用します。",
         "WhenDoINeedConsent": "いつユーザーの同意を求める必要がありますか？"
     }
 }

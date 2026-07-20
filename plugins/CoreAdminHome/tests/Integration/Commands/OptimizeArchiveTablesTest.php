@@ -22,9 +22,9 @@ class OptimizeArchiveTablesTest extends ConsoleCommandTestCase
     {
         parent::setUpBeforeClass();
 
-        ArchiveTableCreator::getNumericTable(Date::factory('2015-01-01'));
-        ArchiveTableCreator::getNumericTable(Date::factory('2015-02-02'));
-        ArchiveTableCreator::getNumericTable(Date::factory('2015-03-03'));
+        ArchiveTableCreator::getNumericTable(Date::factory('2015-01-01'), true);
+        ArchiveTableCreator::getNumericTable(Date::factory('2015-02-02'), true);
+        ArchiveTableCreator::getNumericTable(Date::factory('2015-03-03'), true);
     }
 
     /**

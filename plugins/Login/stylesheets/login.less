@@ -1,7 +1,9 @@
 /* LOGO
 ***********************/
 #loginPage {
-
+    nav {
+        background-color: @theme-color-header-background;
+    }
     #logo {
         padding-top: 6px;
 
@@ -12,6 +14,9 @@
         img {
             max-height: 32px;
         }
+    }
+    #logo:not(.center) {
+        padding-left: 16px;
     }
 
     .message_container {
@@ -39,7 +44,11 @@
         > .col {
             max-width: 750px;
         }
-
+        > .col:not(.invite-form-section-div):not(.onboardingImage){
+            float: none;
+            margin-left: auto;
+            margin-right: auto;
+        }
         .icon.prefix {
             font-size: 1.5rem;
             width: 2.5rem;
@@ -125,6 +134,10 @@
     .hints{
         font-size: 14px;
         color: gray;
+    }
+
+    .card > .system.notification:last-child {
+      margin-bottom: 0;
     }
 }
 

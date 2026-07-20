@@ -303,7 +303,7 @@ class ArchiveWriterTest extends IntegrationTestCase
 
     private function getAllNumericRows($date)
     {
-        $archiveTableName = ArchiveTableCreator::getNumericTable(Date::factory($date));
+        $archiveTableName = ArchiveTableCreator::getNumericTable(Date::factory($date), true);
         $sql = 'SELECT value FROM ' . $archiveTableName;
 
         return Db::fetchAll($sql);
@@ -311,9 +311,9 @@ class ArchiveWriterTest extends IntegrationTestCase
     private function getRowFromArchive($periodId, $date, $name, $numeric = true)
     {
         if ($numeric) {
-            $archiveTableName = ArchiveTableCreator::getNumericTable(Date::factory($date));
+            $archiveTableName = ArchiveTableCreator::getNumericTable(Date::factory($date), true);
         } else {
-            $archiveTableName = ArchiveTableCreator::getBlobTable(Date::factory($date));
+            $archiveTableName = ArchiveTableCreator::getBlobTable(Date::factory($date), true);
         }
         $sql = 'SELECT value FROM ' . $archiveTableName . ' WHERE name="' . $name
             . '" AND idsite=' . $this->idSite
@@ -338,7 +338,7 @@ class ArchiveWriterTest extends IntegrationTestCase
 
         foreach ($archiveRows as $row) {
             $d = Date::factory($row['date1']);
-            $table = ArchiveTableCreator::getNumericTable($d);
+            $table = ArchiveTableCreator::getNumericTable($d, true);
             $tsArchived = isset($row['ts_archived']) ? $row['ts_archived'] : Date::now()->getDatetime();
 
             Db::query(
@@ -350,7 +350,7 @@ class ArchiveWriterTest extends IntegrationTestCase
 
     private function getAllColsOfAllNumericRows(string $date)
     {
-        $archiveTableName = ArchiveTableCreator::getNumericTable(Date::factory($date));
+        $archiveTableName = ArchiveTableCreator::getNumericTable(Date::factory($date), true);
         $sql = 'SELECT idarchive, idsite, date1, date2, period, name, value, ts_archived FROM ' . $archiveTableName;
 
         return Db::fetchAll($sql);

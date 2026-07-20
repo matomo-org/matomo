@@ -76,7 +76,7 @@ class PageUrl
      */
     public static function getQueryParametersToExclude($idSite)
     {
-        $campaignTrackingParameters = Common::getCampaignParameters(intval($idSite), $skipCompliancePolicyCheck = true);
+        $campaignTrackingParameters = Common::getCampaignParameters();
 
         $campaignTrackingParameters = array_merge(
             $campaignTrackingParameters[0], // campaign name parameters
@@ -166,8 +166,8 @@ class PageUrl
     }
 
     /**
-     * Will cleanup the hostname (some browser do not strolower the hostname),
-     * and deal ith the hash tag on incoming URLs based on website setting.
+     * Will cleanup the hostname (some browsers do not strtolower the hostname),
+     * and deal with the hash tag on incoming URLs based on website setting.
      *
      * @param $parsedUrl
      * @param $idSite int|bool  The site ID of the current visit. This parameter is

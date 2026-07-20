@@ -1,0 +1,79 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+// Card frame. .sparklineCard is a new class, so it's safe to style directly; the element keeps
+// the legacy .sparkline class only for initializeSparklines() click-to-evolution wiring.
+.widget .widgetContent .sparkline.sparklineCard,
+.sparkline.sparklineCard {
+  // Override legacy `div.sparkline { display: flex }` (Morpheus main.less) so the card stacks in
+  // block flow. As a flex item its min-width:auto would size to the nowrap title, so long titles
+  // would overflow instead of truncating.
+  display: block;
+  box-sizing: border-box;
+  padding: 16px;
+  background: @theme-color-widget-background;
+  border: 1px solid @theme-color-border-alternative;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  // Clickable cards (initializeSparklines adds .linked): pointer cursor + hover border so they
+  // read as interactive. Theme tokens keep it correct in light and dark mode.
+  &.linked {
+    cursor: pointer;
+    border-bottom-color: @theme-color-border-alternative;
+
+    &:hover,
+    &:focus {
+      border-color: @theme-color-focus-ring-alternative;
+      border-bottom: 1px solid @theme-color-focus-ring-alternative;
+    }
+  }
+}
+
+// No-comparison body: metric value stacked over a full-width sparkline.
+.noComparison {
+  // Sparkline dimensions. The height is the fixed slot height; the width is the base size the
+  // image scales from, and must match the <Sparkline :width> passed in NoComparison.vue.
+  @_sparkline-height: 40px;
+  @_sparkline-width: 380px;
+
+  // Fixed height (title 24 + primary 36 + secondary 24) so cards line up whether or not the
+  // optional secondary line is present.
+  .metricValue {
+    height: 84px;
+    margin-bottom: 12px;
+  }
+
+  // Clamp the title to one line so it can't grow the card; the full title shows on hover.
+  .metricValue__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 24px;
+  }
+
+  // Fixed-height slot keeps the card height constant regardless of the image. Centering the image
+  // sits it mid-slot once it becomes shorter than the slot; align-items also stops flex's default
+  // `stretch` from forcing the image back to full height.
+  .sparklineSlot {
+    height: @_sparkline-height;
+    display: flex;
+    align-items: center;
+  }
+
+  // Fluid width with height derived from the 380x40 aspect ratio (via the img's width/height
+  // attributes) so the sparkline scales without distortion, becoming shorter than the slot on
+  // narrow cards. Capping the width at the base stops it rendering taller than the fixed slot on
+  // very wide monitors. The 2x (760x80) source stays crisp as it scales.
+  .sparklineImg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: @_sparkline-width;
+  }
+}

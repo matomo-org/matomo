@@ -448,7 +448,7 @@ if (!class_exists('Piwik\Plugin')) {
         /**
          * Detect whether there are any missing dependencies.
          *
-         * @param null $piwikVersion Defaults to the current Piwik version
+         * @param string|null $piwikVersion Defaults to the current Piwik version
          * @return bool
          */
         public function hasMissingDependencies($piwikVersion = null)

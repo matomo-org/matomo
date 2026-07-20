@@ -56,7 +56,7 @@ class Storage
             return false;
         }
 
-        $expirationTime = (int) GeneralConfig::getConfigValue('plugin_trial_request_expiration_in_days');
+        $expirationTime = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0);
 
         if ($this->storage['requestTime'] < (time() - $expirationTime * 24 * 3600)) {
             $this->clearStorage(); // remove outdated request

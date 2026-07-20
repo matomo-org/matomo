@@ -46,7 +46,7 @@
         "BuildYourOwn": "Eraiki zurea",
         "ClickHereSettings": "Egin klik hemen %s ezarpenetara sartzeko.",
         "ComplianceTableSettingStatus": "Egoera",
-        "ConsentExplanation": "Baimenak esan nahi du norbanakoei beren datu pertsonalak prozesatzearen gaineko aukera eta kontrola ematea.",
+        "ConsentManagementPlatformsOutro": "Ez baduzu goiko onarpen-kudeatzaileetako bat erabiltzen, %1$sMatomoren JavaScript APIa erabiliz inplementatu dezakezu onarpenaren jarraipena%2$s.",
         "ConsentManager": "Baimen-kudeatzailea",
         "ConsentManagerConnected": "Dirudienez %1$s dagoeneko konfiguratuta dago Matomorekin lan egiteko.",
         "ConsentManagerDetected": "%1$s baimen-kudeatzailea detektatu da zure webgunean. Matomo %1$s(r)ekin funtzionatzeko konfiguratzeari buruz ikasteko %2$sirakurri gida hau%3$s",
@@ -116,9 +116,6 @@
         "GdprToolsPageIntroEraseRight": "haien datu guztiak edo zati bat ezabatzeko eskubidea (eta zuzentzeko eskubidea).",
         "GeolocationAnonymizeIpNote": "Oharra: Geolokalizazioak antzeko emaitzak izango ditu 1 byte anonimizatuta. 2 byte edo gehiagorekin geolokalizazioa ez da zehatza izango.",
         "GetPurgeEstimate": "Lortu purgaren estimazioa",
-        "HowDoIAskForConsent": "Nola eskatu dezaket erabiltzaileen onarpena?",
-        "HowDoIAskForConsentIntro": "Matomok gidak eskuragarri ditu onarpen-kudeatzaile ezagunenetan onarpenaren jarraipena konfiguratzeko:",
-        "HowDoIAskForConsentOutro": "Ez baduzu goiko onarpen-kudeatzaileetako bat erabiltzen, %1$sMatomoren JavaScript APIa erabiliz inplementatu dezakezu onarpenaren jarraipena%2$s.",
         "IPAddress": "IP helbidea",
         "Imprint": "Lege-oharra",
         "ImprintUrl": "Lege-oharraren URLa",
@@ -177,7 +174,6 @@
         "PurgingData": "Datuak purgatzen…",
         "RawDataNeverRemoved": "bisiten eta ekintzen datu gordinak ez dira ezabatzen <strong>inoiz</strong>.",
         "RawDataRemovedAfter": "bisiten eta ekintzen datu gordinak denbora hau igarotzean ezabatzen dira: %1$s.",
-        "RecommendedForPrivacy": "Pribatutasunerako gomendatua",
         "ReportsDataSavedEstimate": "Datu-basearen tamaina",
         "ReportsNeverRemoved": "agregatutako txostenak ez dira ezabatzen <strong>inoiz</strong>.",
         "ReportsRemovedAfter": "agregatutako txostenak denbora hau igarotzean ezabatzen dira: %1$s.",
@@ -221,9 +217,6 @@
         "VisitsMatchedCriteria": "Bisita hauek bat datoz hautatutako irizpideekin.",
         "VisitsSuccessfullyDeleted": "Bisitak behar bezala ezabatu dira",
         "VisitsSuccessfullyExported": "Bisitak behar bezala esportatu dira",
-        "WhenConsentIsNeededPart1": "%1$sGDPR pribatutasun erregulazioan%2$s kasu batzuetan beharrezkoa da erabiltzaileei baimena eskatzera datu pertsonalak prozesatzeko. Baimena eskatu behar duzun ala ez erabakitzeko, datu pertsonalak prozesatzeko zure legezko oinarria identifikatu behar duzu. Hau \"Baimena\" edo \"Interes legitimoa\" izan daiteke, edo datu pertsonalak biltzea saihestu dezakezu.",
-        "WhenConsentIsNeededPart2": "GDPR pean datu pertsonalak prozesatzearen legezko oinarriari buruz gehiago ikastea gomendatzen da. Gaiari buruzko informazio gehiago aurkitu dezakezu %1$sgure blogean%2$s.",
-        "WhenConsentIsNeededPart3": "Zure erabiltzaileei baimena eskatzen badiezu, eta ezin baduzu frogatu iraganean haien \"Onarpena\" lortu zenuela, aurrez erabiltzaileei egindako jarraipenaren datu gordinak anonimizatzea gomendatzen dizugu. Aurrez erabiltzaileei egindako jarraipenaren datu gordinak Matomoren Pribatutasun kudeatzailean anonimizatu daitezke. %1$sIkasi gehiago%2$s.",
         "WhenDoINeedConsent": "Noiz eskatu behar diet baimena erabiltzaileei?"
     }
 }

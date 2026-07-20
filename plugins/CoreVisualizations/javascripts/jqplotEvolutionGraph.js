@@ -41,8 +41,10 @@
 
             if (this.props.show_line_graph) {
                 defaultParams.seriesDefaults = {
-                    lineWidth: 1,
+                    lineWidth: 2,
+                    shadow: false,
                     markerOptions: {
+                        show: false,
                         style: "filledCircle",
                         size: 6,
                         shadow: false

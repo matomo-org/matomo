@@ -1,0 +1,840 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>230</nb_visits>
+		<nb_actions>530</nb_actions>
+		<max_actions>20</max_actions>
+		<sum_visit_length>84087</sum_visit_length>
+		<bounce_count>150</bounce_count>
+		<nb_visits_converted>210</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>7630.33</revenue>
+				<items>10</items>
+			</row>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>13507.85</revenue>
+				<revenue_subtotal>2800</revenue_subtotal>
+				<revenue_tax>542</revenue_tax>
+				<revenue_shipping>120.11</revenue_shipping>
+				<revenue_discount>686</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>330</nb_conversions>
+				<nb_visits_converted>210</nb_visits_converted>
+				<revenue>3421.26</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>210</nb_conversions>
+				<nb_visits_converted>210</nb_visits_converted>
+				<revenue>1040</revenue>
+			</row>
+			<row idgoal='3'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>42.26</revenue>
+			</row>
+			<row idgoal='4'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+			<row idgoal='5'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>550</nb_conversions>
+		<revenue>18011.37</revenue>
+		<sum_daily_nb_uniq_visitors>120</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<city_name>Unknown</city_name>
+		<city>xx</city>
+		<region>xx</region>
+		<country>xx</country>
+		<country_name>Unknown</country_name>
+		<region_name>Unknown</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>40</nb_visits>
+		<nb_actions>40</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>28</sum_visit_length>
+		<bounce_count>30</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>50</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>50</revenue>
+			</row>
+		</goals>
+		<nb_conversions>20</nb_conversions>
+		<revenue>100</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>city==Toronto;regionCode==ON;countryCode==ca</segment>
+		<city_name>Toronto</city_name>
+		<region>ON</region>
+		<country>ca</country>
+		<country_name>Canada</country_name>
+		<region_name>Ontario</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>30</nb_visits>
+		<nb_actions>40</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>24</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>50</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>city==Melbourne;regionCode==VIC;countryCode==au</segment>
+		<city_name>Melbourne</city_name>
+		<region>VIC</region>
+		<country>au</country>
+		<country_name>Australia</country_name>
+		<region_name>Victoria</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/au.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>30</nb_visits>
+		<nb_actions>40</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>19</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>50</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>city==Nice;regionCode==PAC;countryCode==fr</segment>
+		<city_name>Nice</city_name>
+		<region>PAC</region>
+		<country>fr</country>
+		<country_name>France</country_name>
+		<region_name>Provence-Alpes-Côte-d’Azur</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>30</nb_visits>
+		<nb_actions>40</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>14</sum_visit_length>
+		<bounce_count>20</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>50</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<segment>city==Yokohama;regionCode==14;countryCode==jp</segment>
+		<city_name>Yokohama</city_name>
+		<region>14</region>
+		<country>jp</country>
+		<country_name>Japan</country_name>
+		<region_name>Kanagawa</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/jp.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>50</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>8115</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>222.22</revenue>
+				<revenue_subtotal>200</revenue_subtotal>
+				<revenue_tax>22</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>50</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>50</revenue>
+			</row>
+		</goals>
+		<nb_conversions>20</nb_conversions>
+		<revenue>322.22</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<lat>49.25</lat>
+		<long>-123.13</long>
+		<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
+		<city_name>Vancouver</city_name>
+		<region>BC</region>
+		<country>ca</country>
+		<country_name>Canada</country_name>
+		<region_name>British Columbia</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>30</nb_actions>
+		<max_actions>12</max_actions>
+		<sum_visit_length>2801</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>45</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>45</revenue>
+			</row>
+		</goals>
+		<nb_conversions>20</nb_conversions>
+		<revenue>90</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<lat>40.89</lat>
+		<long>-73.95</long>
+		<segment>city==Englewood+Cliffs;regionCode==NJ;countryCode==us</segment>
+		<city_name>Englewood Cliffs</city_name>
+		<region>NJ</region>
+		<country>us</country>
+		<country_name>United States</country_name>
+		<region_name>New Jersey</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>30</nb_actions>
+		<max_actions>6</max_actions>
+		<sum_visit_length>6486</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>40</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>40</revenue>
+			</row>
+		</goals>
+		<nb_conversions>20</nb_conversions>
+		<revenue>80</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<lat>123.46</lat>
+		<long>21.32</long>
+		<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
+		<city_name>Stratford-upon-Avon</city_name>
+		<region>WAR</region>
+		<country>gb</country>
+		<country_name>United Kingdom</country_name>
+		<region_name>Warwickshire</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>10</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>25</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>50</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<lat>39.04</lat>
+		<long>-77.49</long>
+		<segment>city==Ashburn;regionCode==VA;countryCode==us</segment>
+		<city_name>Ashburn</city_name>
+		<region>VA</region>
+		<country>us</country>
+		<country_name>United States</country_name>
+		<region_name>Virginia</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>20</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>3247</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>111.11</revenue>
+				<revenue_subtotal>100</revenue_subtotal>
+				<revenue_tax>11</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>151.11</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<lat>29.65</lat>
+		<long>91.1</long>
+		<segment>city==Lhasa;regionCode==XZ;countryCode==cn</segment>
+		<city_name>Lhasa</city_name>
+		<region>XZ</region>
+		<country>cn</country>
+		<country_name>China</country_name>
+		<region_name>Xizang Zizhiqu</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>20</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>3245</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>40</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==London;regionCode==LND;countryCode==gb</segment>
+		<city_name>London</city_name>
+		<region>LND</region>
+		<country>gb</country>
+		<country_name>United Kingdom</country_name>
+		<region_name>London, City of</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>20</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>3249</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>222.22</revenue>
+				<revenue_subtotal>200</revenue_subtotal>
+				<revenue_tax>22</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>262.22</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==Nuneaton+and+Bedworth;regionCode==WAR;countryCode==gb</segment>
+		<city_name>Nuneaton and Bedworth</city_name>
+		<region>WAR</region>
+		<country>gb</country>
+		<country_name>United Kingdom</country_name>
+		<region_name>Warwickshire</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>6</max_actions>
+		<sum_visit_length>3243</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>40</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==Stratford-upon-Avon;regionCode==KEN;countryCode==gb</segment>
+		<city_name>Stratford-upon-Avon</city_name>
+		<region>KEN</region>
+		<country>gb</country>
+		<country_name>United Kingdom</country_name>
+		<region_name>Kent</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>6</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>30</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<lat>1.37</lat>
+		<long>103.8</long>
+		<segment>city==Singapore;regionCode==;countryCode==sg</segment>
+		<city_name>Singapore</city_name>
+		<region>xx</region>
+		<country>sg</country>
+		<country_name>Singapore</country_name>
+		<region_name>Unknown</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/sg.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<lat>40.89</lat>
+		<long>-73.95</long>
+		<segment>city==%26lt%3Bscript%26gt%3B_x%2815%29%26lt%3B%2Fscript%26gt%3B;regionCode==%26lt;countryCode==%26lt</segment>
+		<city_name>&lt;script&gt;_x(15)&lt;/script&gt;</city_name>
+		<region>&amp;lt</region>
+		<country>&amp;lt</country>
+		<country_name>Unknown</country_name>
+		<region_name>Unknown</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>6</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<lat>47.25</lat>
+		<long>6.02</long>
+		<segment>city==Besan%C3%A7on;regionCode==BFC;countryCode==fr</segment>
+		<city_name>Besançon</city_name>
+		<region>BFC</region>
+		<country>fr</country>
+		<country_name>France</country_name>
+		<region_name>Bourgogne-Franche-Comté</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>6</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==Hlubok%C3%A1+nad+Vltavou;regionCode==SPE;countryCode==ru</segment>
+		<city_name>Hluboká nad Vltavou</city_name>
+		<region>SPE</region>
+		<country>ru</country>
+		<country_name>Russia</country_name>
+		<region_name>Sankt-Peterburg</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<lat>1</lat>
+		<long>2</long>
+		<segment>city==not+a+city;regionCode==CA;countryCode==us</segment>
+		<city_name>not a city</city_name>
+		<region>CA</region>
+		<country>us</country>
+		<country_name>United States</country_name>
+		<region_name>California</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>1625</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>111.11</revenue>
+				<revenue_subtotal>100</revenue_subtotal>
+				<revenue_tax>11</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>131.11</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==Stratford-upon-Avon;regionCode==18;countryCode==mk</segment>
+		<city_name>Stratford-upon-Avon</city_name>
+		<region>18</region>
+		<country>mk</country>
+		<country_name>North Macedonia</country_name>
+		<region_name>Gevgelija</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>11</max_actions>
+		<sum_visit_length>1623</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>city==Stratford-upon-Avon;regionCode==SPE;countryCode==ru</segment>
+		<city_name>Stratford-upon-Avon</city_name>
+		<region>SPE</region>
+		<country>ru</country>
+		<country_name>Russia</country_name>
+		<region_name>Sankt-Peterburg</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>1</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>20</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<lat>40.89</lat>
+		<long>-73.95</long>
+		<segment>city==%7B%7B_Vue.h.constructor%60_x%2827%29%60%28%29%7D%7D;regionCode==%7B%7B_;countryCode==%7B%7B_</segment>
+		<city_name>{{_Vue.h.constructor`_x(27)`()}}</city_name>
+		<region>{{_</region>
+		<country>{{_</country>
+		<country_name>Unknown</country_name>
+		<region_name>Unknown</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>1081</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>10000000000</revenue>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>10</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>10</sum_daily_nb_users>
+		<lat>41.22</lat>
+		<long>-111.97</long>
+		<segment>city==Ogden;regionCode==UT;countryCode==us</segment>
+		<city_name>Ogden</city_name>
+		<region>UT</region>
+		<country>us</country>
+		<country_name>United States</country_name>
+		<region_name>Utah</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>2</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>10</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<lat>37.6</lat>
+		<long>126.98</long>
+		<segment>city==Seoul;regionCode==11;countryCode==kr</segment>
+		<city_name>Seoul</city_name>
+		<region>11</region>
+		<country>kr</country>
+		<country_name>South Korea</country_name>
+		<region_name>Seoul-teukbyeolsi</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/kr.png</logo>
+	</row>
+</result>

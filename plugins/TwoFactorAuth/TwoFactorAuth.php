@@ -9,12 +9,15 @@
 
 namespace Piwik\Plugins\TwoFactorAuth;
 
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
+use Piwik\IP;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\Controller as LoginController;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\UsersManager\Model;
@@ -149,13 +152,13 @@ class TwoFactorAuth extends \Piwik\Plugin
             $authCode = Common::getRequestVar('authCode', '', 'string');
             $twoFa = $this->getTwoFa();
 
-            if (
-                $authCode
-                && TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)
-                && $twoFa->validateAuthCode($login, $authCode)
-            ) {
-                $sessionFingerprint = new SessionFingerprint();
-                $sessionFingerprint->setTwoFactorAuthenticationVerified();
+            if ($authCode && TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)) {
+                if ($twoFa->validateAuthCode($login, $authCode)) {
+                    $sessionFingerprint = new SessionFingerprint();
+                    $sessionFingerprint->setTwoFactorAuthenticationVerified($login);
+                } else {
+                    $this->recordFailedTwoFactorAttempt($login);
+                }
             }
         }
     }
@@ -175,7 +178,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         $tokenAuth
     ) {
         $model = new Model();
-        $user = $model->getUserByTokenAuth($tokenAuth);
+        $user = $model->getUserByTokenAuth($tokenAuth, true);
         return !empty($user);
     }
 
@@ -194,9 +197,11 @@ class TwoFactorAuth extends \Piwik\Plugin
                 // we only return an error when the login/password combo was correct. otherwise you could brute force
                 // auth tokens
                 if (!$authCode) {
+                    $this->recordFailedTwoFactorAttempt($login);
                     throw new NoPrivilegesException(Piwik::translate('TwoFactorAuth_MissingAuthCodeAPI'));
                 }
                 if (!$twoFa->validateAuthCode($login, $authCode)) {
+                    $this->recordFailedTwoFactorAttempt($login);
                     throw new NoPrivilegesException(Piwik::translate('TwoFactorAuth_InvalidAuthCode'));
                 }
             } elseif (
@@ -205,6 +210,21 @@ class TwoFactorAuth extends \Piwik\Plugin
             ) {
                 throw new Exception(Piwik::translate('TwoFactorAuth_RequiredAuthCodeNotConfiguredAPI'));
             }
+        }
+    }
+
+    /**
+     * Records a failed login attempt so the existing brute-force protection can engage.
+     */
+    private function recordFailedTwoFactorAttempt(string $login): void
+    {
+        try {
+            $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
+            if ($bruteForce->isEnabled()) {
+                $bruteForce->addFailedAttempt(IP::getIpFromHeader(), $login);
+            }
+        } catch (Exception $e) {
+            // ignore error eg if login plugin is disabled
         }
     }
 
@@ -220,6 +240,18 @@ class TwoFactorAuth extends \Piwik\Plugin
         }
 
         if (!$this->requiresAuth($module, $action, $parameters)) {
+            return;
+        }
+
+        if (
+            $validator->hasPendingSessionTwoFactorAuthentication()
+            && !$validator->isCurrentUserMatchingSessionUser()
+        ) {
+            if (!Request::isRootRequestApiRequest()) {
+                $this->resetPendingTwoFactorSessionAndRequireFreshLogin($module, $action);
+            } elseif (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+                throw new Exception(Piwik::translate('General_YourSessionHasExpired'));
+            }
             return;
         }
 
@@ -241,6 +273,15 @@ class TwoFactorAuth extends \Piwik\Plugin
             $module = 'TwoFactorAuth';
             $action = 'onLoginSetupTwoFactorAuth';
         }
+    }
+
+    private function resetPendingTwoFactorSessionAndRequireFreshLogin(&$module, &$action)
+    {
+        LoginController::clearSession();
+        Access::getInstance()->setSessionExpired(true);
+
+        $module = Piwik::getLoginPluginName();
+        $action = 'login';
     }
 
     private function requiresAuth($module, $action, $parameters)

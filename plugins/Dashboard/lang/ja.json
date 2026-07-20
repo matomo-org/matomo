@@ -32,6 +32,7 @@
         "SetAsDefaultWidgetsConfirm": "現在のウィジェットとダッシュボードのレイアウトをデフォルトのテンプレートとして設定しますか？",
         "SetAsDefaultWidgetsConfirmHelp": "これらのウィジェットとダッシュボードのレイアウトは、新規ダッシュボードの作成時か、あるいは %s 機能の使用時に使用されます。",
         "TopLinkTooltip": "%s のウェブ解析レポートを表示します。",
+        "TopMenuTitle": "アナリティクス",
         "WidgetNotFound": "ウィジェットが見つかりませんでした",
         "WidgetPreview": "ウィジェットのプレビュー"
     }

@@ -134,7 +134,7 @@
         "ProductSKU": "Referència del producte",
         "ProductSKUs": "SKU del producte",
         "Products": "Productes",
-        "ReturningVisitorsConversionRateIs": "EL rati de conversió dels visitants que retornen és %s",
+        "ReturningVisitorsConversionRateIs": "La taxa de conversió dels visitants recurrents és de %s",
         "SendEvent": "Envia un esdeveniment",
         "SingleGoalOverviewDocumentation": "Això es una visió global de les conversions d'un únic objectiu. %s Els minigràfics es poden ampliar fent clic sobre ells.",
         "ThereIsNoGoalToManage": "No hi ha cap objectiu per gestionar per al lloc web %s",

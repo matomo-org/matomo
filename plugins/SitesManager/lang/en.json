@@ -2,6 +2,10 @@
     "SitesManager": {
         "AddSite": "Add a new website",
         "AddMeasurable": "Add a new measurable",
+        "MeasurableNameHelpText": "Enter a unique name to clearly identify this measurable.",
+        "MeasurableNamePlaceholder": "Company website",
+        "MeasurableDescriptionHelpText": "Enter a description to provide additional context, such as the purpose or usage.",
+        "MeasurableDescriptionPlaceholder": "Tracking visitor activity for main website",
         "AdvancedTimezoneSupportNotFound": "Advanced timezones support was not found in your PHP (supported in PHP&gt;=5.2). You can still choose a manual UTC offset.",
         "AliasUrlHelp": "It is recommended, but not required, to specify the various URLs, one per line, that your visitors use to access this website. Alias URLs for a website will not appear in the Referrers → Websites report. Note that it is not necessary to specify the URLs with and without 'www' as Matomo automatically considers both.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Changing your time zone will only affect data going forward, and will not be applied retroactively.",
@@ -21,6 +25,7 @@
         "ExceptionInvalidIPFormat": "The IP to exclude \"%1$s\" does not have a valid IP format (eg. %2$s).",
         "ExceptionInvalidTimezone": "The timezone \"%s\" is not valid. Please enter a valid timezone.",
         "ExceptionInvalidUrl": "The url '%s' is not a valid URL.",
+        "ExceptionInvalidWebsiteDescription": "The description is too long, max 255 characters are allowed.",
         "ExceptionNoUrl": "You must specify at least one URL for the website.",
         "ExcludedIps": "Excluded IPs",
         "ExcludedParameters": "Excluded Parameters",

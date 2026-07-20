@@ -174,4 +174,50 @@ class TrackerTest extends IntegrationTestCase
         $sql       = "SELECT COUNT(*) FROM `{$tableName}`";
         self::assertEquals(1, Db::fetchOne($sql));
     }
+
+    public function testVisitsAndBotsShareActionsWhenQueryParametersAreExcluded(): void
+    {
+        $idSite = Fixture::createWebsite(
+            '2014-02-04',
+            $ecommerce = 0,
+            $siteName = false,
+            $siteUrl = false,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $timezone = null,
+            $type = null,
+            $excludeUnknownUrls = 0,
+            $excludedParameters = 'excluded'
+        );
+
+        $url = 'https://matomo.org/faq/123?keep=1&excluded=secret';
+
+        // track a normal visit with the excluded parameter
+        $t = Fixture::getTracker($idSite, '2025-02-02 12:00:00');
+        $t->setUrl($url);
+        Fixture::checkResponse($t->doTrackPageView(''));
+
+        // track a bot request with the same URL
+        $t = Fixture::getTracker($idSite, '2025-02-02 12:00:00');
+        $t->setUserAgent('Gemini-Deep-Research/1.0');
+        $t->setUrl($url);
+        $t->setCustomTrackingParameter('recMode', '1');
+        Fixture::checkResponse($t->doTrackPageView(''));
+
+        // the bot request must store the same cleaned URL the normal visit stored,
+        // so both resolve to a single shared action
+        $tableName = BotRequestsDao::getPrefixedTableName();
+        $idActionUrl = Db::fetchOne("SELECT idaction_url FROM `{$tableName}` WHERE idsite = ?", [$idSite]);
+
+        $actionTable = Common::prefixTable('log_action');
+        $name = Db::fetchOne("SELECT name FROM `{$actionTable}` WHERE idaction = ?", [$idActionUrl]);
+        self::assertEquals('matomo.org/faq/123?keep=1', $name);
+
+        $count = Db::fetchOne("SELECT COUNT(*) FROM `{$actionTable}` WHERE name = ? AND type = ?", [
+            'matomo.org/faq/123?keep=1',
+            \Piwik\Tracker\Action::TYPE_PAGE_URL,
+        ]);
+        self::assertEquals(1, $count);
+    }
 }

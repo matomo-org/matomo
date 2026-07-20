@@ -56,6 +56,8 @@ describe("SearchFilterPersistenceTest", function () {
         await page.click('.segmentationContainer');
         await(await page.jQuery('li[data-idsegment=3] .segname', { waitFor: true })).click();
         await page.waitForNetworkIdle();
+        await page.evaluate(() => document.activeElement.blur());
+        await page.mouse.move(-10, -10);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('persisted_segment');
     });

@@ -78,9 +78,7 @@ class LanguagesManager extends \Piwik\Plugin
     }
 
     /**
-     * Adds the languages drop-down list to topbars other than the main one rendered
-     * in CoreHome/templates/top_bar.twig. The 'other' topbars are on the Installation
-     * and CoreUpdater screens.
+     * Adds the current user's language name as a JavaScript global variable (piwik.languageName).
      */
     public function jsGlobalVariables(&$str)
     {
@@ -111,7 +109,7 @@ class LanguagesManager extends \Piwik\Plugin
         $language = Common::getRequestVar('language', '', 'string');
         if (empty($language)) {
             $userLanguage = self::getLanguageCodeForCurrentUser();
-            if (API::getInstance()->isLanguageAvailable($userLanguage)) {
+            if (is_string($userLanguage) && API::getInstance()->isLanguageAvailable($userLanguage)) {
                 $language = $userLanguage;
             }
         }
@@ -164,17 +162,17 @@ class LanguagesManager extends \Piwik\Plugin
     public static function getLanguageCodeForCurrentUser()
     {
         $languageCode = self::getLanguageFromPreferences();
-        if (!API::getInstance()->isLanguageAvailable($languageCode)) {
+        if (!is_string($languageCode) || !API::getInstance()->isLanguageAvailable($languageCode)) {
             $languageCode = Common::extractLanguageAndRegionCodeFromBrowserLanguage(Common::getBrowserLanguage(), API::getInstance()->getAvailableLanguages());
         }
-        if (!API::getInstance()->isLanguageAvailable($languageCode)) {
+        if (!is_string($languageCode) || !API::getInstance()->isLanguageAvailable($languageCode)) {
             $languageCode = StaticContainer::get('Piwik\Translation\Translator')->getDefaultLanguage();
         }
         return $languageCode;
     }
 
     /**
-     * @return string Full english language string, eg. "French"
+     * @return string|false Full english language string, eg. "French"
      */
     public static function getLanguageNameForCurrentUser()
     {
@@ -228,7 +226,7 @@ class LanguagesManager extends \Piwik\Plugin
      */
     public static function setLanguageForSession($languageCode)
     {
-        if (!API::getInstance()->isLanguageAvailable($languageCode)) {
+        if (!is_string($languageCode) || !API::getInstance()->isLanguageAvailable($languageCode)) {
             return false;
         }
 

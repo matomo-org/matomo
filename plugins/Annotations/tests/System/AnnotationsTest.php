@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Annotations\tests\System;
 
 use Piwik\API\Request;
 use Piwik\Date;
+use Piwik\Plugins\Annotations\Annotations;
 use Piwik\Plugins\Annotations\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -126,6 +127,31 @@ class AnnotationsTest extends SystemTestCase
     public function testApi($api, $params)
     {
         $this->runApiTests($api, $params);
+    }
+
+    /**
+     * @dataProvider getDateRangeForPeriodEndDateLimitData
+     */
+    public function testGetDateRangeForPeriodLimitsUnrestrictedEndDate(
+        string $date,
+        string $period,
+        string $expectedStartDate,
+        string $expectedEndDate
+    ) {
+        // Date::$now is fixed to 2012-03-03 in setUp(), so the max allowed end date is end of 2022.
+        [$startDate, $endDate] = Annotations::getDateRangeForPeriod($date, $period);
+
+        $this->assertSame($expectedStartDate, $startDate->toString());
+        $this->assertSame($expectedEndDate, $endDate->toString());
+    }
+
+    public function getDateRangeForPeriodEndDateLimitData(): iterable
+    {
+        // an unrestricted date range far in the future is clamped to the max allowed end date
+        yield 'unrestricted future range' => ['1992-01-30,9999-04-30', 'day', '1992-01-30', '2022-12-31'];
+
+        // a regular multiple period range within the allowed window is left untouched
+        yield 'regular range' => ['2012-01-26,2012-03-01', 'week', '2012-01-26', '2012-03-01'];
     }
 
     /**

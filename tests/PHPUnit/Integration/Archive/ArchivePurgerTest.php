@@ -102,6 +102,19 @@ class ArchivePurgerTest extends IntegrationTestCase
         $this->checkNoDuplicateArchives();
     }
 
+    public function testPurgeOutdatedArchivesDoesNotCreateMissingMonthTable()
+    {
+        $date = Date::factory('2015-03-01');
+
+        $this->assertNull(ArchiveTableCreator::getNumericTable($date, false));
+
+        $deletedRowCount = $this->archivePurger->purgeOutdatedArchives($date);
+
+        $this->assertSame(0, $deletedRowCount);
+        $this->assertNull(ArchiveTableCreator::getNumericTable($date, false));
+        $this->assertNull(ArchiveTableCreator::getBlobTable($date, false));
+    }
+
     public function testPurgeOutdatedArchivesPurgesCorrectTemporaryArchivesWhileKeepingNewerTemporaryArchivesWithBrowserTriggeringDisabled()
     {
         $this->disableBrowserTriggeredArchiving();
@@ -219,7 +232,7 @@ class ArchivePurgerTest extends IntegrationTestCase
     private function checkNoDuplicateArchives()
     {
         $duplicateRows = Db::fetchAll("SELECT idsite, date1, date2, period, name, COUNT(*) AS count FROM "
-            . ArchiveTableCreator::getNumericTable(Date::factory($this->february))
+            . ArchiveTableCreator::getNumericTable(Date::factory($this->february), true)
             . " WHERE name LIKE 'done%'
              GROUP BY idarchive, idsite, date1, date2, period, name
              HAVING count > 1");

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>example.com/article-1</label>
+		<unique_human_pageviews>1</unique_human_pageviews>
+		<ai_chatbot_requests>0</ai_chatbot_requests>
+		<discrepancy_score>63.1</discrepancy_score>
+	</row>
+</result>

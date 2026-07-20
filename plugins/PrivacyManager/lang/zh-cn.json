@@ -46,7 +46,7 @@
         "BuildYourOwn": "建立你自己的",
         "ClickHereSettings": "点这里查看 %s 设置。",
         "ComplianceTableSettingStatus": "状态",
-        "ConsentExplanation": "同意意味着向个人提供选择和控制其个人数据处理方式的控制权。",
+        "ConsentManagementPlatformsOutro": "如果您不使用上述同意管理器之一，则可以使用 Matomo JavaScript API%2$s 在同意的情况下实施 %1$stracking。",
         "ConsentManager": "同意管理器",
         "ConsentManagerConnected": "%1$s 似乎已配置为与 Matomo 一起使用。",
         "ConsentManagerDetected": "在您的网站上检测到 %1$s 同意管理器。要了解如何配置 Matomo 以与 %1$s 一起使用，请阅读 %2$s 本指南%3$s",
@@ -116,9 +116,6 @@
         "GdprToolsPageIntroEraseRight": "删除其部分或全部数据的权利（以及更正的权利）。",
         "GeolocationAnonymizeIpNote": "提示: 屏蔽1个字节，地理位置基本一样。屏蔽2个或更多字节，地理位置将不准确。",
         "GetPurgeEstimate": "获得清除预计",
-        "HowDoIAskForConsent": "如何请求用户同意？",
-        "HowDoIAskForConsentIntro": "Matomo 提供了使用以下流行同意管理器设置同意跟踪的指南：",
-        "HowDoIAskForConsentOutro": "如果您不使用上述同意管理器之一，则可以使用 Matomo JavaScript API%2$s 在同意的情况下实施 %1$stracking。",
         "IPAddress": "IP地址",
         "Imprint": "版本说明",
         "ImprintUrl": "印记网址",
@@ -177,7 +174,6 @@
         "PurgingData": "清理数据…",
         "RawDataNeverRemoved": "访问和操作原始数据永远<strong>不会</strong>删除。",
         "RawDataRemovedAfter": "所有访问和操作原始数据都会在%1$s之后删除。",
-        "RecommendedForPrivacy": "推荐用于隐私",
         "ReportsDataSavedEstimate": "数据库大小",
         "ReportsNeverRemoved": "汇总报告永远<strong>不会</strong>删除。",
         "ReportsRemovedAfter": "所有汇总的报告将在%1$s后删除。",
@@ -221,9 +217,6 @@
         "VisitsMatchedCriteria": "这些访问符合所选条件。",
         "VisitsSuccessfullyDeleted": "访问已成功删除",
         "VisitsSuccessfullyExported": "访问量已成功导出",
-        "WhenConsentIsNeededPart1": "%1$sGDPR 隐私法规%2$s 要求您在某些情况下处理个人数据时征求用户的同意。为了确定是否需要征求同意，您需要确定处理个人数据的合法依据。这可以是“同意”或“合法利益”，或者您可以完全避免收集个人数据。",
-        "WhenConsentIsNeededPart2": "建议详细了解 GDPR 下处理个人数据的法律依据。您可以在%1$sour 博客%2$s 上找到有关此主题的更多信息。",
-        "WhenConsentIsNeededPart3": "请注意，如果您需要用户的同意，并且您无法证明您过去曾获得过他们的“同意”，我们建议您对之前跟踪的用户的原始数据进行匿名化处理。可以通过 Matomo %1$slearn more%2$s 中的隐私管理器对之前跟踪的用户的原始数据进行匿名化。",
         "WhenDoINeedConsent": "我什么时候需要征得用户同意？"
     }
 }

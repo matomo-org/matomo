@@ -33,49 +33,50 @@
 {% block root %}
     {% include "@CoreHome/_topScreen.twig" %}
 
-    <div class="top_controls">
-        <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl borderedControl"></div>
+    {% set hasSidebar = showMenu is not defined or showMenu %}
 
-        {% block topcontrols %}
-        {% endblock %}
-
-        {% include "@CoreHome/_headerMessage.twig" %}
-    </div>
-
-    {% import 'ajaxMacros.twig' as ajax %}
-    {{ ajax.requestErrorDiv(contactEmail|default(''), areAdsForProfessionalServicesEnabled, currentModule, showMoreFaqInfo) }}
-    {{ postEvent("Template.beforeContent", "admin", currentModule, currentAction) }}
-
-    <div class="page">
-
-        {% if showMenu is not defined or showMenu %}
+    <div class="layoutWithSidebar{% if hasSidebar %} layoutWithSidebar--hasSidebar{% endif %}">
+        {% if hasSidebar %}
             {% import '@CoreHome/_menu.twig' as menu %}
             {% set collapsibleMenu = hasSomeAdminAccess %}
-            {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction, collapsibleMenu, isSuperUser) }}
+            {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction, collapsibleMenu, isSuperUser, true) }}
         {% endif %}
 
-
-        <div class="pageWrap">
-            <a name="main"></a>
-            {% block notification %}
-                {% include "@CoreHome/_notifications.twig" %}
-            {% endblock %}
-            {% include "@CoreHome/_warningInvalidHost.twig" %}
-
-            <div class="admin" id="content">
-
-                <div class="ui-confirm" id="alert">
-                    <h2></h2>
-                    <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
-                </div>
-
-                {% block content %}
+        <div class="layoutWithSidebarContent">
+            <div class="top_controls">
+                {% block topcontrols %}
                 {% endblock %}
 
+                {% include "@CoreHome/_headerMessage.twig" %}
+            </div>
 
+            <div class="page">
+                <div class="pageWrap">
+                    {% import 'ajaxMacros.twig' as ajax %}
+                    {{ ajax.requestErrorDiv(contactEmail|default(''), areAdsForProfessionalServicesEnabled, currentModule, showMoreFaqInfo) }}
+                    {{ postEvent("Template.beforeContent", "admin", currentModule, currentAction) }}
+
+                    <a name="main"></a>
+                    {% block notification %}
+                        {% include "@CoreHome/_notifications.twig" %}
+                    {% endblock %}
+                    {% include "@CoreHome/_warningInvalidHost.twig" %}
+
+                    <div class="admin" id="content">
+
+                        <div class="ui-confirm" id="alert">
+                            <h2></h2>
+                            <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
+                        </div>
+
+                        {% block content %}
+                        {% endblock %}
+
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 
 {% endblock %}

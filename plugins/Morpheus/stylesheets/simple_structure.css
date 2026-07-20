@@ -13,7 +13,7 @@ body#simple {
   color: #888;
   text-align: center;
   font-size: 6px;
-  background-color: #3450a3 !important;
+  background-color: var(--theme-color-header-background, #fff) !important;
   padding: 15px 0;
 }
 

@@ -28,6 +28,7 @@ const PAGE_METHODS_TO_PROXY = [
     'cookies',
     'coverage',
     'deleteCookie',
+    'emulateMediaFeatures',
     'evaluate',
     'evaluateHandle',
     'evaluateOnNewDocument',
@@ -62,6 +63,7 @@ const PAGE_METHODS_TO_PROXY = [
     'waitForSelector',
     'waitForTimeout',
     'waitForXPath',
+    'screenshotNoResize',
 ];
 
 const PAGE_PROPERTIES_TO_PROXY = [
@@ -113,6 +115,15 @@ PageRenderer.prototype.createPage = async function () {
       // unset active request count, to ensure unresolved requests from previous suites don't cause any issues
       this.activeRequestCount = 0;
     }
+
+    // Present the test browser as a regular Chrome rather than headless Chrome. Puppeteer reports a
+    // "HeadlessChrome" user agent and Sec-CH-UA brand, which the TrackingSpamPrevention plugin blocks
+    // by default (block_headless). Without this, any tracking that originates from the test browser -
+    // the JS tracker, and server-side requests that inherit the browser user agent - is treated as a
+    // headless bot and excluded, so those tests record no visits/data.
+    const defaultUserAgent = await this.browser.userAgent();
+    const chromeUserAgent = defaultUserAgent.replace('HeadlessChrome', 'Chrome');
+    await this.webpage.setUserAgent(chromeUserAgent);
 
     PAGE_PROPERTIES_TO_PROXY.forEach((propertyName) => {
       Object.defineProperty(this, propertyName, {
@@ -184,8 +195,23 @@ PageRenderer.prototype.jQuery = async function (selector, options = {}) {
     return await this.webpage.$('.' + selectorMarkerClass);
 };
 
-PageRenderer.prototype.screenshotSelector = async function (selector) {
+PageRenderer.prototype.resizeViewportToFullPage = async function () {
+    await this.webpage.waitForFunction(() => !! document.documentElement);
+
+    const dims = await this.webpage.evaluate(() => JSON.stringify({
+        width: document.documentElement.scrollWidth,
+        height: document.documentElement.scrollHeight,
+    }));
+
+    await this.webpage.setViewport(JSON.parse(dims));
+};
+
+PageRenderer.prototype.screenshotSelector = async function (selector, shouldResizeViewport = true) {
     await this.waitForFunction(() => !! window.$, { timeout: 60000 });
+
+    if (shouldResizeViewport) {
+        await this.resizeViewportToFullPage();
+    }
 
     const result = await this.webpage.evaluate(function (selector) {
         window.jQuery('html').addClass('uiTest');
@@ -260,7 +286,7 @@ PageRenderer.prototype.screenshotSelector = async function (selector) {
         return;
     }
 
-    return await this.screenshot({
+    return await this.screenshotNoResize({
         clip: {
             x: result.left,
             y: result.top,
@@ -293,17 +319,13 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
         let result;
         if (methodName === 'screenshot') {
             // change viewport to entire page before screenshot
-            result = this.webpage.waitForFunction(() => !! document.documentElement)
-                .then(() => {
-                    return this.webpage.evaluate(() => JSON.stringify({
-                        width: document.documentElement.scrollWidth,
-                        height: document.documentElement.scrollHeight,
-                    }));
-                }).then((dims) => {
-                    return this.webpage.setViewport(JSON.parse(dims));
-                }).then(() => {
-                    return this.webpage[methodName](...args);
-                });
+            result = this.resizeViewportToFullPage()
+              .then(() => {
+                return this.webpage[methodName](...args);
+              });
+        } else if (methodName === 'screenshotNoResize') {
+            // we do not need to resize the viewport since we did it on top anyway
+            return this.webpage.screenshot(...args);
         } else {
             result = this.webpage[methodName](...args);
         }

@@ -191,24 +191,25 @@ body#standalone {
 .dashboardSettings ul.submenu {
   display: none;
   float: left;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .dashboardSettings.expanded ul.submenu {
   display: block;
-  list-style: square outside none;
+  list-style: none;
   z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
 }
 
 .dashboardSettings.expanded .dropdown {
-  min-width: 800px;
-  background-color: @theme-color-background-contrast;
-  display: grid;
-  grid-template-columns: auto 1fr;
+  min-width: 240px;
+  padding: 8px;
 }
 
 .dashboardSettings ul.submenu > li {
-  padding: 5px 0;
   clear: both;
+  list-style: none;
 }
 
 #changeDashboardLayout h2 {
@@ -285,10 +286,6 @@ body#standalone {
   clear: both;
 }
 
-.addWidget, .manageDashboard {
-  cursor: default;
-}
-
 ul.widgetpreview-widgetlist,
 ul.widgetpreview-categorylist {
   color: @theme-color-text-light;
@@ -300,7 +297,7 @@ ul.widgetpreview-categorylist {
 }
 
 ul.widgetpreview-categorylist {
-  cursor: default;
+  cursor: pointer;
 }
 
 ul.widgetpreview-categorylist li,
@@ -310,18 +307,12 @@ ul.widgetpreview-widgetlist li {
   border-radius: 2px;
 }
 
-.widgetpreview-base li.widgetpreview-choosen {
-  background: #e4e2d7 url(plugins/Morpheus/images/arr_r.png) no-repeat right 6px;
-  color: #255792;
-  font-weight: bold;
-}
-
 .widgetpreview-categorylist li.widgetpreview-choosen {
-  color: #000;
+  color: @theme-color-text-contrast;
 }
 
 .widgetpreview-base li.widgetpreview-unavailable {
-  color: #D3D3D3;
+  color: @theme-color-text-disabled;
   cursor: default;
 }
 
@@ -336,68 +327,52 @@ div.widgetpreview-preview {
   float: left;
 }
 
-.dashboardSettings .submenu {
-  font-weight: bold;
-  color: #255792;
-}
-
-.dashboardSettings .submenu ul {
-  float: none;
-  font-weight: normal;
-  padding-top: 10px;
-  margin-left: 10px;
-  color: @theme-color-text-light;
-  list-style: none;
-  font-size: 11px;
-  line-height: 20px;
-  margin-right: 20px;
-}
-
-.dashboardSettings .submenu ul li {
-  line-height: 20px;
-  padding: 0 25px 0 5px;
-  color: @theme-color-text-light;
-  width: 210px;
-}
-
-.dashboardSettings ul.submenu > li.generalAction:hover {
-  color: @theme-color-link;
-  cursor:pointer;
-}
-
-.dashboardSettings .submenu ul li:not([disabled]):hover {
-  background: @theme-color-background-base;
-  border-radius: 2px;
-  cursor:pointer;
-}
-
-.dashboardSettings .submenu li[disabled],
-.dashboardSettings .submenu li[disabled]:hover {
-  color: #d3d3d3;
-}
-
-.dashboardSettings .widgetpreview-widgetlist {
-  width: 228px;
-  font-weight: normal;
-}
-
-.dashboardSettings .widgetTop {
-  cursor: pointer;
-}
-
-.dashboardSettings .widgetpreview-widgetlist,
-.dashboardSettings .widgetpreview-preview {
-  display: none;
-}
-
-.dashboardSettings.expanded .widgetpreview-widgetlist,
-.dashboardSettings.expanded .widgetpreview-preview {
+.dashboardSettings .submenu button {
   display: block;
-  z-index: 333999;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: normal;
+  color: @theme-color-text-lighter;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+  appearance: none;
+  white-space: nowrap;
 }
 
-.dashboardSettings.expanded .widgetpreview-preview {
-  margin-top: 10px;
+.dashboardSettings .submenu button:focus {
+  outline: none;
+}
+
+.dashboardSettings .submenu button:focus-visible {
+  outline: 2px solid @theme-color-focus-ring;
+  outline-offset: -2px;
+}
+
+.dashboardSettings .submenu button:not([disabled]):hover,
+.dashboardSettings .submenu button:not([disabled]):focus-visible {
+  background: @theme-color-background-base;
+  color: @theme-color-text;
+}
+
+.dashboardSettings .submenu button[disabled],
+.dashboardSettings .submenu button[disabled]:hover {
+  color: @theme-color-text-disabled;
+  cursor: default;
+}
+
+.dashboardSettings .submenu .addWidget-button .icon {
+  margin-right: 8px;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .widgetPlaceholder {
@@ -474,5 +449,6 @@ div.widgetpreview-preview {
 }
 
 [vue-entry="Dashboard.DashboardSettings"] {
-  display: inline;
+  // Display its children (.piwikSelector) as direct children of .top_controls
+  display: contents;
 }

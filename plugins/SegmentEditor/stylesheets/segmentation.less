@@ -1,7 +1,15 @@
+@_segmentselector-default-space: 8px;
+@_segmentselector-dropdown_padding: @_segmentselector-default-space;
+@_segmentselector-action-size: 18px;
+@_segmentselector-button-height: 36px;
+@_segmentselector-full-width-button-width: ~'calc(100% - 16px)';
+
 /* ADDITIONAL STYLES */
 .youMustBeLoggedIn {
-    font-size: 8pt;
-    font-style: italic;
+    display: block;
+    font-size: 12px;
+    padding: @_segmentselector-dropdown_padding;
+    line-height: 14px;
 
 }
 
@@ -69,15 +77,20 @@ div.scrollable {
 }
 
 .segment-element {
-    border: 1px solid #a9a399;
-    background-color: #f1f0eb;
-    padding: 6px 4px;
-    border-radius: 3px;
     position: absolute;
-    left: -1px;
-    top: 37px;
     z-index: 999;
+    top: 100%;
+    left: -1px;
+    margin-top: 8px;
+
     width: 940px;
+    padding: 6px 4px;
+    border-radius: 8px;
+    border: 1px solid @theme-color-border;
+    background-color: @theme-color-background-contrast;
+    box-shadow: @theme-shadow-overlay;
+
+    color: @theme-color-text;
 
     @media screen and (max-width: 940px) {
         width: 95vw;
@@ -96,7 +109,7 @@ div.scrollable {
 
 .segment-element .custom_select_search input[type="text"] {
     font-size: 11px !important;
-    color: #454545 !important;
+    color: @theme-color-text !important;
     width: 125px;
     padding: 0 0 3px 7px !important;
     border: none !important;
@@ -121,9 +134,9 @@ div.scrollable {
 .segment-element .segment-content h3 {
     font-size: 16px;
     font-weight: bold;
-    color: #505050;
+    color: @theme-color-text;
     margin: 0 0 0 0;
-    text-shadow: 0 1px 0 #fff;
+    text-shadow: 0 1px 0 @theme-color-background-contrast;
 }
 
 .segment-element .segment-content h3 a {
@@ -138,7 +151,7 @@ div.scrollable {
 
 .segment-element .segment-top {
     font-size: 11px;
-    color: #505050;
+    color: @theme-color-text-light;
     text-align: left;
     padding: 3px 7px 0 0;
     margin-left: 6px;
@@ -175,8 +188,7 @@ div.scrollable {
 }
 
 .segment-element .segment-footer {
-    background: #eae8e3;
-    border-top: 1px solid @theme-color-background-tinyContrast;
+    border-top: 1px solid @theme-color-border-light;
     text-align: right;
     padding: 7px 10px;
     margin: 0 -4px -6px -4px;
@@ -197,30 +209,13 @@ div.scrollable {
     margin: 0 0 0 15px;
 }
 
-.segmentEditorPanel {
-    display: inline-block;
-    position: relative;
-    background: #f7f7f7;
-    border: 1px solid #e4e5e4;
-    margin-right: 10px;
-    border-radius: 4px;
-
-    .segmentListContainer {
-        line-height: 14px;
-    }
-
-    #root &.editing {
-        background: #fff;
-    }
+.segmentEditorPanel .segmentListContainer {
+    flex: auto;
+    line-height: 14px;
 }
 
 .top_controls .segmentEditorPanel {
     position: absolute;
-}
-
-.segmentEditorPanel:hover {
-    background: #f1f0eb;
-    border-color: #a9a399;
 }
 
 .segmentationContainer > span > strong {
@@ -228,7 +223,7 @@ div.scrollable {
 }
 
 .segmentationContainer .submenu {
-    font-size: 13px;
+    font-size: 14px;
     min-width: 206px;
 }
 
@@ -239,21 +234,37 @@ div.scrollable {
 .segmentationContainer .submenu ul {
     display: flex;
     flex-direction: column;
-    color: @theme-color-text-light;
+    color: @theme-color-text-lighter;
     float: none;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: normal;
     line-height: 20px;
     list-style: none outside none;
     margin-right: 0;
-    padding-top: 10px;
+    padding-top: 8px;
+}
+.segment-visits-label {
+  height: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+.segment-visits-label,
+.segmentsSharedWithMeBySuperUser,
+.segmentsVisibleToSuperUser {
+  padding: 0 @_segmentselector-dropdown_padding;
+  font-size: 14px;
+  font-weight: bold;
+  color: @theme-color-text;
 }
 
 .segmentationContainer .submenu ul li {
-    padding: 2px 0 2px 0;
+    padding: 2px @_segmentselector-dropdown_padding;
     margin: 3px 0 0 0;
     cursor: pointer;
     order: 2;
+    height: 32px;
+    border-radius: @_selector-dropdown_border-radius;
 }
 
 .segmentationContainer .submenu ul li[data-idsegment=""] {
@@ -270,7 +281,7 @@ div.scrollable {
 
 .segmentationContainer .submenu ul li:hover {
     color: #255792;
-    background: @color-silver-l95;
+    background: @theme-color-background-tinyContrast;
     outline: none;
 
     > * {
@@ -321,11 +332,16 @@ div.scrollable {
   100% { stroke: black; fill: transparent; }
 }
 
+.segmentAction--placeholder {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .segmentAction {
   flex: none;
   display: flex;
-  width: 16px;
-  height: 16px;
+  width: @_segmentselector-action-size;
+  height: @_segmentselector-action-size;
 
   // Button reset
   padding: 0;
@@ -336,6 +352,7 @@ div.scrollable {
   font-weight: normal;
   text-align: center;
   opacity: 0.5;
+  filter: @theme-filter-on-illustration;
 
   &:hover {
     opacity: 1;
@@ -359,6 +376,12 @@ div.scrollable {
 
 .starSegment {
     order: 2;
+    color: @theme-color-text-lighter;
+}
+
+.starSegment + .compareSegment,
+.compareSegment + .editSegment {
+    margin-left: 8px;
 }
 
 .segmentStarAnimation .starSegment {
@@ -395,19 +418,27 @@ div.scrollable {
 }
 
 .segmentStarred .starSegment path {
+    fill: currentColor;
+}
+
+.entityTable .segmentStarred .entityTable_StarCell .starSegment path {
     fill: black;
 }
 
 .compareSegment {
-    background: url(plugins/Morpheus/images/compare.svg) no-repeat;
-    background-size: cover;
     order: 2;
+    color: @theme-color-text-lighter;
+    align-items: center;
+    justify-content: center;
 
-    &.allVisitsCompareSegment {
-        margin-left: 20px;
+    svg {
+      display: block;
+      width: @_segmentselector-action-size;
+      height: @_segmentselector-action-size;
     }
-    &.allVisitsCompareSegment--write {
-      margin-right: 20px;
+
+    &.isAnonymous {
+        margin-left: 22px;
     }
 }
 
@@ -420,7 +451,8 @@ div.scrollable {
     border-bottom-right-radius: 0;
 
     .dropdown-body {
-        min-width: 280px;
+        min-width: 337px;
+        padding: @_segmentselector-dropdown_padding;
     }
 
     @media screen and (max-width: 600px) {
@@ -434,33 +466,18 @@ div.scrollable {
     display: inline-block;
     list-style: none;
     width: 100%;
+    padding: 0;
 }
 
 .segmentFilterContainer {
-    margin-bottom: 10px;
-    display: inline-block;
+    margin-bottom: 4px;
+    display: block;
+    position: relative;
     width: 100%;
+    padding: @_segmentselector-dropdown_padding;
 }
 
-.segmentEditorPanel.expanded .segmentFilterContainer > input[type="text"] {
-    font-size: 11px;
-    width: 100%;
-    border: 1px solid #d0d0d0;
-    border-width: 1px;
-    color: #999;
-    padding: 7px 10px 7px 10px;
-}
-
-.segmentEditorPanel.expanded .segmentFilterContainer > span {
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    right: 23px;
-    top: 24px;
-    cursor: pointer;
-}
-
-.segmentEditorPanel.expanded .segmentFilterContainer:hover > span {
+.segmentEditorPanel.expanded .segmentFilterContainer:hover .searchInputClear {
     background: url(plugins/SegmentEditor/images/reset_search.png);
 }
 
@@ -468,18 +485,36 @@ div.scrollable {
     font-style: italic;
 }
 
-.segmentEditorPanel.expanded .add_new_segment {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.segmentEditorPanel.expanded {
+    .add_new_segment, .sign_in_segment_btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-    width: 100%;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    margin: 1rem 0 0.5rem 0;
-    height: auto;
-    min-height: 36px;
-    line-height: 1.5;
+        width: @_segmentselector-full-width-button-width;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+
+        min-height: @_segmentselector-button-height;
+        line-height: @_segmentselector-button-height;
+        box-shadow: none;
+    }
+    .add_new_segment {
+        margin: @_segmentselector-dropdown_padding;
+        margin-top: 16px;
+    }
+    .sign_in_segment_btn {
+        margin: @_segmentselector-dropdown_padding;
+    }
+}
+
+
+.segmentEditorPanel.expanded .manage_segment_btn {
+    width: @_segmentselector-full-width-button-width;
+    margin: @_segmentselector-dropdown_padding;
+    margin-top: 0;
+    box-shadow: none;
+    line-height: @_segmentselector-button-height;
 }
 
 .segmentationContainer > ul.submenu > li {
@@ -490,7 +525,6 @@ div.scrollable {
 
 .segmentList {
     max-height: 300px;
-    margin-top: 5px;
     overflow-x: hidden;
     overflow-y: auto;
 
@@ -584,23 +618,6 @@ a.metric_category {
     }
 }
 
-.dropdown-body {
-    border-top-width: 0;
-    display: none;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-}
-
-.segmentEditorPanel.expanded .dropdown-body {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
-.segmentEditorPanel.expanded {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
 .segment-element.anchorRight {
     right: -1px;
     left: auto;
@@ -623,6 +640,8 @@ a.metric_category {
 
 .segname {
     flex: auto;
+    font-size: 14px;
+    line-height: 20px;
     padding-right: 10px;
     order: 1;
 }
@@ -644,10 +663,6 @@ a.metric_category {
     font-weight: bold;
 }
 
-.segmentEditorPanel.expanded a.title {
-    padding-bottom: 10px;
-}
-
 .segment-element .segment-top a.dropdown {
     padding: 0;
     margin-right: 0.5em;
@@ -663,14 +678,6 @@ a.metric_category {
     margin-left: 0.5em;
     margin-bottom: 0.25em;
     vertical-align: middle;
-}
-
-.segmentsVisibleToSuperUser, .segmentsSharedWithMeBySuperUser {
-    font-style: italic;
-
-    li {
-        font-style: normal;
-    }
 }
 
 .enable_all_users, .visible_to_website, .auto_archive {

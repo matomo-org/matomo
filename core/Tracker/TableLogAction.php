@@ -168,8 +168,7 @@ class TableLogAction
      * @param string $sqlField
      * @param string $matchType
      * @param string $segmentName
-     * @throws \Exception
-     * @return array|int|string
+     * @return array|int|string|null
      */
     public static function getIdActionFromSegment($valueToMatch, $sqlField, $matchType, $segmentName)
     {

@@ -64,7 +64,7 @@ describe('ReportExportPopover', function () {
     expect(href).to.not.contain(substring);
   }
 
-  it('should hide expanded option when CSV or TSV format is selected and show it for everything else', async function () {
+  it('should hide expanded option when CSV, TSV or HTML format is selected and show it for everything else', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
     await page.waitForSelector('#widgetActionsgetPageUrls', { visible: true });
@@ -80,7 +80,7 @@ describe('ReportExportPopover', function () {
     });
     await page.waitForSelector('#reportExport', { visible: true });
     const formatsToCheck = ['CSV', 'JSON', 'TSV', 'HTML', 'RSS', 'XML'];
-    const formatsToHideExpanded = ['CSV', 'TSV'];
+    const formatsToHideExpanded = ['CSV', 'TSV', 'HTML'];
 
     for (const format of formatsToCheck) {
       await clickFormat(format);
@@ -268,7 +268,7 @@ describe('ReportExportPopover', function () {
     await expectExportLinkNotContains('flat=1');
   });
 
-  it('should hide subtable controls when there are truly no subtables', async function () {
+  it('should keep flat export available but hide expanded export when a flattenable report has no current subtables', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
     await page.waitForSelector('#widgetActionsgetPageUrls', { visible: true });
@@ -299,24 +299,65 @@ describe('ReportExportPopover', function () {
     });
     await page.waitForSelector('#reportExport', { visible: true });
 
-    expect(await isOptionVisible('option_flat')).to.equal(false);
+    expect(await isOptionVisible('option_flat')).to.equal(true);
     expect(await isOptionVisible('option_show_dimensions')).to.equal(false);
     expect(await isOptionExpandSubtableVisible()).to.equal(false);
-    await expectExportLinkNotContains('flat=1');
+    await expectExportLinkContains('flat=1');
     await expectExportLinkNotContains('expanded=1');
 
     await clickFormat('CSV');
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="CSV"]')?.checked === true
     ));
-    await expectExportLinkNotContains('flat=1');
+    await expectExportLinkContains('flat=1');
     await expectExportLinkNotContains('expanded=1');
 
     await clickFormat('TSV');
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="TSV"]')?.checked === true
     ));
-    await expectExportLinkNotContains('flat=1');
+    await expectExportLinkContains('flat=1');
+    await expectExportLinkNotContains('expanded=1');
+  });
+
+  it('should keep flat export available even when the table flatten action was hidden after initialization', async function () {
+    await page.goto(url);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('#widgetActionsgetPageUrls', { visible: true });
+    await page.waitForSelector('#widgetActionsgetPageUrls .dataTable', { visible: true });
+    await page.waitForFunction(() => (
+      !!document.querySelector('#widgetActionsgetPageUrls .dataTableAction.activateExportSelection')
+    ));
+    await page.evaluate(() => {
+      const reportElement = document.querySelector('#widgetActionsgetPageUrls [data-report]');
+      const actionsElement = document.querySelector('#widgetActionsgetPageUrls [vue-entry="CoreHome.DataTableActions"]');
+      if (!reportElement || !actionsElement) {
+        return;
+      }
+
+      const $reportElement = window.$(reportElement);
+      const $actionsElement = window.$(actionsElement);
+      const uiControlObject = $reportElement.data('uiControlObject');
+      const actionsApp = $actionsElement.data('vueAppInstance');
+      if (!uiControlObject || !uiControlObject.param || !actionsApp) {
+        return;
+      }
+
+      uiControlObject.numberOfSubtables = 0;
+      uiControlObject.param.flat = 0;
+      $reportElement.data('uiControlObject', uiControlObject);
+      actionsApp.showFlattenTable_ = false;
+
+      const button = document.querySelector('#widgetActionsgetPageUrls .dataTableAction.activateExportSelection');
+      if (button) {
+        button.click();
+      }
+    });
+    await page.waitForSelector('#reportExport', { visible: true });
+
+    expect(await isOptionVisible('option_flat')).to.equal(true);
+    expect(await isOptionExpandSubtableVisible()).to.equal(false);
+    await expectExportLinkContains('flat=1');
     await expectExportLinkNotContains('expanded=1');
   });
 

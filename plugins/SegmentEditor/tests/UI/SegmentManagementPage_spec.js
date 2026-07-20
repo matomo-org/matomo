@@ -10,6 +10,8 @@
 describe("SegmentManagementPageTest", function () {
   this.fixture = 'Piwik\\Plugins\\SegmentEditor\\tests\\Fixtures\\SegmentManagementPageFixture';
 
+  const defaultViewport = { width: 1350, height: 768 };
+  const mobileViewport = { width: 480, height: 900 };
   var generalParams = 'idSite=1&period=range&date=2010-03-06,2010-03-08';
   var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Visitors&subcategory=CoreHome_Segments';
   const globalSegment = {
@@ -49,6 +51,21 @@ describe("SegmentManagementPageTest", function () {
     await page.waitForNetworkIdle();
 
     expect(await page.screenshot({ fullPage: true })).to.matchImage('initial');
+  });
+
+  it("should keep the segments table contained on mobile", async function() {
+    await page.webpage.setViewport(mobileViewport);
+
+    try {
+      await page.goto(url);
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.pageWrap');
+
+      expect(await page.screenshotSelector('.pageWrap'))
+        .to.matchImage('initial_mobile_table_contained');
+    } finally {
+      await page.webpage.setViewport(defaultViewport);
+    }
   });
 
   it("should expose the expected segment panel public API contract", async function() {
@@ -504,6 +521,35 @@ describe("SegmentManagementPageTest", function () {
 
     const alertCount = await page.evaluate(() => window.__segmentXssAlertCount || 0);
     expect(alertCount).to.equal(0);
+  });
+
+  it("should keep the manage segments search term when pressing Enter", async function() {
+    await openPage();
+
+    await page.type('#manageSegmentSearch', 'site');
+    await page.waitForTimeout(600);
+
+    const urlBeforeEnter = await page.url();
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(300);
+
+    const searchState = await page.evaluate(() => {
+      const input = document.querySelector('#manageSegmentSearch');
+      const visibleRows = Array.from(document.querySelectorAll('tr[data-segment-name]')).filter((row) => {
+        return $(row).is(':visible');
+      });
+
+      return {
+        value: input ? input.value : '',
+        visibleRowNames: visibleRows.map((row) => row.getAttribute('data-segment-name') || ''),
+        url: window.location.href,
+      };
+    });
+
+    expect(searchState.url).to.equal(urlBeforeEnter);
+    expect(searchState.value).to.equal('site');
+    expect(searchState.visibleRowNames).to.include(siteSegment.name);
+    expect(searchState.visibleRowNames).to.not.include(globalSegment.name);
   });
 
   function assignSegmentIdsFromApiResponse(response) {

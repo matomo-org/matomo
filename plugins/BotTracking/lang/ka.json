@@ -1,6 +1,8 @@
 {
     "BotTracking": {
         "PageUrl": "გვერდის URL",
-        "SiteWithoutDataBackToMatomo": "Matomo–ზე დაბრუნება"
+        "SiteWithoutDataBackToMatomo": "Matomo–ზე დაბრუნება",
+        "AIChatbotsContentPagesTitle": "გვერდები",
+        "ContentUrl": "URL"
     }
 }

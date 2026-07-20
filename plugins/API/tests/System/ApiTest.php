@@ -10,8 +10,6 @@
 namespace Piwik\Plugins\API\tests\System;
 
 use Piwik\Cache;
-use Piwik\Config;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\tests\Fixtures\ManySites;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
@@ -34,37 +32,19 @@ class ApiTest extends SystemTestCase
         parent::setUp();
     }
 
-    private function setComplianceFeatureFlag(bool $enableFlag): void
+    public function testGetSegmentsMetadataWithComplianceAvailable(): void
     {
-        $config = Config::getInstance();
-        $featureFlag = new PrivacyCompliance();
-        $featureFlagConfig = $featureFlag->getName() . '_feature';
-
-        if ($enableFlag) {
-            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
-        } else {
-            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
-        }
-    }
-
-    public function testGetSegmentsMetadataIfFeatureFlagEnabled(): void
-    {
-        $this->setComplianceFeatureFlag(true);
-
         $this->runApiTests('API.getSegmentsMetadata', [
             'testSuffix' => '_compliancePolicyFeatureFlagEnabled',
             'otherRequestParameters' => [
                 'idSite' => '1',
             ],
         ]);
-
-        $this->setComplianceFeatureFlag(false);
     }
 
-    public function testGetSegmentsMetadataIfFeatureFlagEnabledAndPolicyEnforced(): void
+    public function testGetSegmentsMetadataWhenPolicyEnforced(): void
     {
         Cache::getTransientCache()->flushAll();
-        $this->setComplianceFeatureFlag(true);
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true);
 
         $this->runApiTests('API.getSegmentsMetadata', [
@@ -74,7 +54,7 @@ class ApiTest extends SystemTestCase
             ],
         ]);
 
-        $this->setComplianceFeatureFlag(false);
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false);
     }
 
     public static function getPathToTestDirectory()

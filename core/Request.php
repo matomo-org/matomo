@@ -156,17 +156,9 @@ class Request
     public function getFloatParameter(string $name, ?float $default = null): float
     {
         $parameter = $this->getParameter($name, $default);
-
-        if (is_float($parameter) || is_int($parameter)) {
-            return (float)$parameter;
-        }
-
-        // Regex for all supported float notations in PHP (see https://www.php.net/manual/en/language.types.float.php)
-        $floatRegex = "/^[-+]?((([0-9]+(_[0-9]+)*)|(([0-9]+(_[0-9]+)*)?\.([0-9]+(_[0-9]+)*))|(([0-9]+(_[0-9]+)*)\.([0-9]+(_[0-9]+)*)?))([eE][+-]?([0-9]+(_[0-9]+)*))?)$/";
-
-        if (is_string($parameter) && preg_match($floatRegex, $parameter)) {
-            // underscores would break numbers if not removed before
-            return (float) str_replace('_', '', $parameter);
+        $parsedFloat = Common::parseFloat($parameter);
+        if ($parsedFloat !== null) {
+            return $parsedFloat;
         }
 
         if (null !== $default) {

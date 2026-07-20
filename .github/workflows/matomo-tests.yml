@@ -1,7 +1,4 @@
 # Action for running tests
-# This file has been automatically created.
-# To recreate it you can run this command
-# ./console generate:test-action --php-versions="7.2,8.2"
 
 name: Matomo Tests
 
@@ -58,12 +55,12 @@ concurrency:
 
 jobs:
   PHP:
+    name: PHP (UnitTests, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
-        type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        environment:
+        environment: &php-environments
           - php: '7.2'
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mysql'
@@ -77,7 +74,38 @@ jobs:
             mysql-engine: 'Mysql'
             mysql-version: '8.0'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          test-type: 'UnitTests'
+          mysql-driver: ${{ matrix.environment.adapter }}
+          mysql-engine: ${{ matrix.environment.mysql-engine }}
+          mysql-version: ${{ matrix.environment.mysql-version }}
+          php-version: ${{ matrix.environment.php }}
+          redis-service: true
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+          testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+  PHP-extra:
+    name: PHP (${{ matrix.type }}, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: ${{ inputs.is_preview == true }}
+      matrix:
+        # IntegrationTestsCore, IntegrationTestsPlugins and SystemTestsPlugins are split
+        # into 10-bucket jobs below; only SystemTestsCore remains in this single-shard matrix.
+        type: [ 'SystemTestsCore' ]
+        environment: *php-environments
+    steps:
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -97,11 +125,186 @@ jobs:
           upload-artifacts: ${{ matrix.environment.php == '7.2' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
           testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+  PHP-integration-core:
+    name: PHP (IntegrationTestsCore, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: ${{ inputs.is_preview == true }}
+      max-parallel: ${{ fromJson(vars.MATOMO_INTEGRATION_CORE_MAX_PARALLEL || '10') }}
+      matrix:
+        bucket: &php-buckets [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+        environment: *php-environments
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Generate bucket phpunit config
+        working-directory: matomo
+        shell: bash
+        run: |
+          php .github/scripts/list-bucket-tests.php \
+            IntegrationTestsCore \
+            $(( ${{ matrix.bucket }} - 1 )) \
+            10 \
+            --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          test-type: 'IntegrationTestsCore'
+          phpunit-test-options: >-
+            --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+            --testsuite Bucket
+          mysql-driver: ${{ matrix.environment.adapter }}
+          mysql-engine: ${{ matrix.environment.mysql-engine }}
+          mysql-version: ${{ matrix.environment.mysql-version }}
+          php-version: ${{ matrix.environment.php }}
+          redis-service: true
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+          testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+  PHP-integration-plugins:
+    name: PHP (IntegrationTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: ${{ inputs.is_preview == true }}
+      max-parallel: ${{ fromJson(vars.MATOMO_INTEGRATION_PLUGINS_MAX_PARALLEL || '10') }}
+      matrix:
+        bucket: *php-buckets
+        environment: *php-environments
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Generate bucket phpunit config
+        working-directory: matomo
+        shell: bash
+        run: |
+          php .github/scripts/list-bucket-tests.php \
+            IntegrationTestsPlugins \
+            $(( ${{ matrix.bucket }} - 1 )) \
+            10 \
+            --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          test-type: 'IntegrationTestsPlugins'
+          phpunit-test-options: >-
+            --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+            --testsuite Bucket
+          mysql-driver: ${{ matrix.environment.adapter }}
+          mysql-engine: ${{ matrix.environment.mysql-engine }}
+          mysql-version: ${{ matrix.environment.mysql-version }}
+          php-version: ${{ matrix.environment.php }}
+          redis-service: true
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+          testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+  PHP-system-plugins:
+    name: PHP (SystemTestsPlugins, bucket ${{ matrix.bucket }}/10, ${{ matrix.environment.php }}, ${{ matrix.environment.adapter }}, ${{ matrix.environment.mysql-engine }}, ${{ matrix.environment.mysql-version }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: ${{ inputs.is_preview == true }}
+      max-parallel: ${{ fromJson(vars.MATOMO_SYSTEM_PLUGINS_MAX_PARALLEL || '10') }}
+      matrix:
+        bucket: *php-buckets
+        environment: *php-environments
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Generate bucket phpunit config
+        working-directory: matomo
+        shell: bash
+        run: |
+          php .github/scripts/list-bucket-tests.php \
+            SystemTestsPlugins \
+            $(( ${{ matrix.bucket }} - 1 )) \
+            10 \
+            --write-xml=tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          test-type: 'SystemTestsPlugins'
+          phpunit-test-options: >-
+            --configuration tests/PHPUnit/phpunit-bucket-${{ matrix.bucket }}.xml
+            --testsuite Bucket
+          mysql-driver: ${{ matrix.environment.adapter }}
+          mysql-engine: ${{ matrix.environment.mysql-engine }}
+          mysql-version: ${{ matrix.environment.mysql-version }}
+          php-version: ${{ matrix.environment.php }}
+          redis-service: true
+          # Per-bucket POSTs to the artifacts server collide on the same
+          # filename and the server overwrites — the canonical merged archive
+          # is produced by the PHP-system-plugins-collect job from these
+          # GHA-native intermediate artifacts instead.
+          upload-artifacts: false
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+          testomatio-force-report: ${{ contains('schedule,push', github.event_name) && github.run_attempt < 2 }}
+      - name: Upload bucket processed-files for aggregation
+        if: ${{ always() && matrix.environment.php == '7.2' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: system-plugin-bucket-${{ matrix.bucket }}
+          path: matomo/plugins/*/tests/System/processed/
+          retention-days: 1
+          if-no-files-found: warn
+  PHP-system-plugins-collect:
+    name: PHP (SystemTestsPlugins, collect)
+    runs-on: ubuntu-24.04
+    needs: [ PHP-system-plugins ]
+    env:
+      ARTIFACTS_PASS: ${{ secrets.ARTIFACTS_PASS }}
+    # Run even if some buckets failed — partial processed/ trees are still
+    # useful (each bucket uploads if: always()). Skip only when the matrix was
+    # cancelled outright.
+    if: ${{ always() && needs.PHP-system-plugins.result != 'cancelled' }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: false
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Download per-bucket processed files
+        uses: actions/download-artifact@v8
+        with:
+          pattern: system-plugin-bucket-*
+          merge-multiple: true
+          path: bucket-files
+      - name: Skip artifact-server upload without credentials
+        if: ${{ env.ARTIFACTS_PASS == '' }}
+        shell: bash
+        run: echo "ARTIFACTS_PASS is unavailable; skipping system.plugin artifact-server upload."
+      - name: Merge and upload as artifact_name=system.plugin
+        if: ${{ env.ARTIFACTS_PASS != '' }}
+        shell: bash
+        env:
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_BRANCH: ${{ github.head_ref || github.ref_name }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          BUCKET_FILES_DIR: bucket-files
+        run: bash matomo/.github/scripts/aggregate-bucket-artifacts.sh
   Javascript:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -118,7 +321,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
           persist-credentials: false
@@ -131,28 +334,142 @@ jobs:
           test-type: 'Client'
           node-version: '16'
           mysql-service: false
-  UI:
+  generate-plugin-ui-matrices:
     runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: ${{ inputs.is_preview == true }}
-      matrix:
-        parts: [ 0,1,2,3 ]
+    outputs:
+      plugin_matrix: ${{ steps.generate.outputs.plugin_matrix }}
+      plugin_count: ${{ steps.generate.outputs.plugin_count }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
-          lfs: true
+          lfs: false
           persist-credentials: false
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+      - name: Generate Plugin UI Matrices
+        id: generate
+        shell: bash
+        run: |
+          cd matomo
+
+          plugins=$(find plugins -mindepth 2 -path '*/tests/UI/*_spec.js' \
+            ! -path '*/node_modules/*' ! -path '*/vendor/*' \
+            | awk -F/ '{print $2}' | sort -u)
+
+          matrix=$(printf '%s\n' "$plugins" \
+            | jq -Rsc 'split("\n") | map(select(length>0) | {plugin: .}) | {include: .}')
+
+          {
+            echo "plugin_matrix=$matrix"
+            echo "plugin_count=$(printf '%s\n' "$plugins" | grep -c . || echo 0)"
+          } >> "$GITHUB_OUTPUT"
+  UI-plugins:
+    needs: generate-plugin-ui-matrices
+    if: ${{ needs.generate-plugin-ui-matrices.outputs.plugin_count != '0' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: ${{ inputs.is_preview == true }}
+      max-parallel: &ui-max-parallel ${{ fromJson(vars.MATOMO_UI_MAX_PARALLEL || '10') }}
+      matrix: ${{ fromJson(needs.generate-plugin-ui-matrices.outputs.plugin_matrix) }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Limit LFS fetch to this plugin's screenshots
+        working-directory: matomo
+        env:
+          PLUGIN: ${{ matrix.plugin }}
+        run: |
+          # Persisted so github-action-tests' own `git lfs pull --exclude=` stays scoped too
+          git config lfs.fetchinclude "plugins/$PLUGIN/tests/UI/expected-screenshots/*"
+          git lfs pull --include "plugins/$PLUGIN/tests/UI/expected-screenshots/*" --exclude=
+
+          # Submodule plugins store expected screenshots in their own repo's LFS.
+          if [ -e "plugins/$PLUGIN/.git" ]; then
+            git -C "plugins/$PLUGIN" lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
+          fi
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
-          ui-test-options: '--num-test-groups=4 --test-group=${{ matrix.parts }}'
+          ui-test-options: '--plugin=${{ matrix.plugin }}'
           test-type: 'UI'
           php-version: '7.2'
           node-version: '16'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
-          testomatio: ${{ secrets.TESTOMATIO }}
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+  UI-core:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: ${{ inputs.is_preview == true }}
+      max-parallel: *ui-max-parallel
+      matrix:
+        part: [ 0, 1, 2, 3, 4, 5 ]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Limit LFS fetch to core screenshots
+        working-directory: matomo
+        run: |
+          # Persisted so github-action-tests' own `git lfs pull --exclude=` stays scoped too
+          git config lfs.fetchinclude "tests/UI/expected-screenshots/*"
+          git lfs pull --include "tests/UI/expected-screenshots/*" --exclude=
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          ui-test-options: >-
+            --core-tests-only --num-test-groups=${{ strategy.job-total }}
+            --test-group=${{ strategy.job-index }}
+          test-type: 'UI'
+          php-version: '7.2'
+          node-version: '16'
+          redis-service: true
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: true
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
+  ci-required:
+    name: All required tests passed
+    if: ${{ always() }}
+    needs: [ PHP, PHP-integration-core, PHP-integration-plugins, PHP-system-plugins, PHP-system-plugins-collect, Javascript, Client, generate-plugin-ui-matrices, UI-plugins, UI-core ]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Verify required jobs succeeded
+        uses: actions/github-script@v9
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        with:
+          script: |
+            const needs = JSON.parse(process.env.NEEDS_JSON);
+            const pluginCount = needs['generate-plugin-ui-matrices'].outputs.plugin_count || '0';
+
+            for (const [jobName, jobData] of Object.entries(needs)) {
+              const result = jobData.result;
+              if (result === 'failure' || result === 'cancelled') {
+                core.setFailed(`${jobName} did not succeed: ${result}`);
+                return;
+              }
+
+              if (result === 'skipped') {
+                if (jobName === 'UI-plugins' && pluginCount === '0') {
+                  continue;
+                }
+
+                core.setFailed(`${jobName} did not succeed: ${result}`);
+                return;
+              }
+            }
+
+            core.info('All required jobs passed.');

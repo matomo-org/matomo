@@ -9,18 +9,21 @@
   <div
     ref="root"
     class="dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings"
-    v-expand-on-click="{expander: 'expander', onClosed: onClose}"
+    v-expand-on-click="{expander: 'expander', onExpand: onExpand, onClosed: onClosed}"
     @click="onOpen()"
+    @focusout="onFocusOut"
   >
-    <a
+    <button
+      type="button"
       class="title"
       v-tooltips
       :title="translate('Dashboard_ManageDashboard')"
       tabindex="4"
       ref="expander"
     >
-      <span class="icon icon-dashboard-customize"></span>{{ translate('Dashboard_Dashboard') }}
-    </a>
+      <span class="icon icon-dashboard-customize"></span>
+      {{ translate('Dashboard_ManageDashboard') }}
+    </button>
     <div
       class="dropdown positionInViewport"
       v-tooltips="{show: false}"
@@ -29,47 +32,60 @@
         <li
           v-for="(title, actionName) of generalActions"
           :key="actionName"
-          @click="onClickAction($event, actionName)"
-          class="generalAction"
-          :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
-          :title="actionTooltips[actionName] || undefined"
-          :data-action="actionName"
         >
-          {{ translate(title) }}
+          <button
+            type="button"
+            tabindex="4"
+            @click="onClickAction($event, actionName)"
+            class="generalAction"
+            :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
+            :title="actionTooltips[actionName] || undefined"
+            :data-action="actionName"
+          >
+            {{ translate(title) }}
+          </button>
         </li>
         <li>
-          <div class="manageDashboard">{{ translate('Dashboard_ManageDashboard') }}</div>
-
-          <ul>
-            <li
-              class="exportDashboard"
-              data-action="exportDashboard"
-              @click="onClickExportDashboard()"
-            >
-              {{ translate('Dashboard_ExportThisDashboard') }}
-            </li>
-            <li
-              v-for="(title, actionName) of dashboardActions"
-              :key="actionName"
-              @click="onClickAction($event, actionName)"
-              :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
-              :title="actionTooltips[actionName] || undefined"
-              :data-action="actionName"
-            >
-              {{ translate(title) }}
-            </li>
-          </ul>
+          <button
+            type="button"
+            tabindex="4"
+            class="exportDashboard"
+            data-action="exportDashboard"
+            @click="onClickExportDashboard()"
+          >
+            {{ translate('Dashboard_ExportThisDashboard') }}
+          </button>
         </li>
-        <li class="addWidgetsSubmenu">
-          <div class="addWidget">{{ translate('Dashboard_AddAWidget') }}</div>
-          <ul class="widgetpreview-categorylist"></ul>
+        <li
+          v-for="(title, actionName) of dashboardActions"
+          :key="actionName"
+        >
+          <button
+            type="button"
+            tabindex="4"
+            @click="onClickAction($event, actionName)"
+            :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
+            :title="actionTooltips[actionName] || undefined"
+            :data-action="actionName"
+          >
+            {{ translate(title) }}
+          </button>
+        </li>
+        <li class="addWidget">
+          <button
+            type="button"
+            tabindex="4"
+            class="addWidget-button"
+            @click="openAddWidget()"
+          >
+            <span class="icon icon-add1"></span>{{ translate('Dashboard_AddAWidget') }}
+          </button>
         </li>
       </ul>
-      <div>
-        <ul class="widgetpreview-widgetlist"></ul>
-        <div class="widgetpreview-preview"></div>
-      </div>
     </div>
+    <AddWidgetModal
+      @select="onWidgetSelected"
+    />
   </div>
 </template>
 
@@ -83,6 +99,7 @@ import {
   WidgetType,
   MatomoUrl,
 } from 'CoreHome';
+import AddWidgetModal from '../AddWidgetModal/AddWidgetModal.vue';
 
 declare global {
   interface Window {
@@ -104,24 +121,11 @@ interface DashboardSettingsState {
 const { $ } = window;
 const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
 
-function isWidgetAvailable(widgetUniqueId: string) {
-  return !$('#dashboardWidgetsArea').find(`[widgetId="${widgetUniqueId}"]`).length;
-}
-
-function widgetSelected(widget: WidgetType) {
-  // for UI tests (see DashboardManager_spec.js)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if ((window as any).MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP) {
-    return;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ($('#dashboardWidgetsArea') as any)
-    .dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
-}
-
 export default defineComponent({
   name: 'DashboardSettings',
+  components: {
+    AddWidgetModal,
+  },
   directives: {
     ExpandOnClick,
     Tooltips,
@@ -133,44 +137,15 @@ export default defineComponent({
     };
   },
   setup() {
-    // $.widgetMenu will modify the jquery object it's given, so we have to save it and reuse
-    // it to call functions.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const rootJQuery = ref<any>(null);
-
     const root = ref<HTMLElement|null>(null);
-
-    const createWidgetPreview = () => {
-      rootJQuery.value.widgetPreview({
-        isWidgetAvailable,
-        onSelect: (widgetUniqueId: string) => {
-          window.widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, (widget) => {
-            (root.value as HTMLElement).click(); // close selector
-
-            widgetSelected(widget as WidgetType);
-          });
-        },
-        resetOnSelect: true,
-      });
-    };
 
     onMounted(() => {
       Matomo.postEvent('Dashboard.DashboardSettings.mounted', root.value);
-
-      rootJQuery.value = $(root.value!);
-      createWidgetPreview();
-
-      // When the available widgets list is reloaded, re-create the widget preview to include update
-      Matomo.on('WidgetsStore.reloaded', () => {
-        createWidgetPreview();
-      });
-
-      rootJQuery.value.hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)
+      $(root.value!).hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)
     });
 
     return {
       root,
-      rootJQuery,
     };
   },
   computed: {
@@ -232,8 +207,50 @@ export default defineComponent({
         this.actionTooltips.removeDashboard = undefined;
       }
     },
-    onClose() {
-      this.rootJQuery.widgetPreview('reset');
+    onExpand(event: MouseEvent|KeyboardEvent) {
+      // Clicks triggered via keyboard (Enter/Space on the button) have detail === 0,
+      // mouse clicks have detail >= 1. Only shift focus into the menu for keyboard opens.
+      if ((event as MouseEvent).detail !== 0) {
+        return;
+      }
+      this.$nextTick(() => {
+        const firstAction = (this.$refs.root as HTMLElement)
+          .querySelector<HTMLButtonElement>('.submenu button:not([disabled])');
+        if (firstAction) {
+          firstAction.focus();
+        }
+      });
+    },
+    onFocusOut(event: FocusEvent) {
+      const root = this.$refs.root as HTMLElement;
+      const newTarget = event.relatedTarget as Node | null;
+      if (newTarget && root.contains(newTarget)) {
+        return;
+      }
+      root.classList.remove('expanded');
+    },
+    onClosed(event: MouseEvent|KeyboardEvent) {
+      // Return focus to the trigger when the dropdown was dismissed via the Escape
+      // key, so keyboard users keep their place. Enter/Space activation of buttons
+      // produces a MouseEvent (synthetic click) and is handled by the browser
+      // leaving focus on the activated element.
+      if (!(event instanceof KeyboardEvent)) {
+        return;
+      }
+      const expander = this.$refs.expander as HTMLElement | undefined;
+      if (expander) {
+        expander.focus();
+      }
+    },
+    openAddWidget() {
+      // close the dashboard-manager dropdown when opening the modal
+      (this.$refs.root as HTMLElement).classList.remove('expanded');
+      Matomo.postEvent('Dashboard.AddWidget.open');
+    },
+    onWidgetSelected(widget: WidgetType) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ($('#dashboardWidgetsArea') as any)
+        .dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
     },
     redirectToCreateScheduledReports() {
       const query = {

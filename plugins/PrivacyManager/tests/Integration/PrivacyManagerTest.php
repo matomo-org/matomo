@@ -9,8 +9,6 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
-use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
@@ -24,8 +22,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class PrivacyManagerTest extends IntegrationTestCase
 {
-    public const DELETE_LOGS_OLDER_THAN = 270;
-    public const DELETE_LOGS_OLDER_THAN_CNIL = 180;
+    public const DELETE_LOGS_OLDER_THAN = 1000;
+    public const DELETE_LOGS_OLDER_THAN_CNIL = 759;
 
     /**
      * @var PrivacyManager
@@ -75,9 +73,6 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     public function testGetPurgeDataSettingsCnilPolicyDisabled()
     {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
         $this->setUIEnabled(true);
 
         API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = false);
@@ -93,9 +88,6 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     public function testGetPurgeDataSettingsCnilPolicyEnabled()
     {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
         $this->setUIEnabled(true);
 
         API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);

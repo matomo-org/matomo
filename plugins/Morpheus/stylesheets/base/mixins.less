@@ -83,3 +83,18 @@ strong {
 .opacity(@opacity) {
   opacity: @opacity;
 }
+
+.inAlternativeThemeMode(@themeMode, @rules) {
+  [data-theme-mode="@{themeMode}"]:root & {
+    @rules();
+  }
+}
+
+.inDarkMode(@rules) {
+  .inAlternativeThemeMode("dark", @rules);
+  .inAlternativeThemeMode("auto", {
+    @media (prefers-color-scheme: dark) {
+      @rules();
+    }
+  });
+}

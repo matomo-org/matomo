@@ -13,17 +13,29 @@ use Piwik\Piwik;
 
 class ThemeStyles
 {
+    public const AUTO_MODE = 'auto';
+    public const LIGHT_MODE = 'light';
+    public const DARK_MODE = 'dark';
+
     // to maintain BC w/ old names that were defined in LESS
     private static $propertyNamesToLessVariableNames = [
         'fontFamilyBase' => 'theme-fontFamily-base',
         'colorBrand' => 'theme-color-brand',
         'colorBrandContrast' => 'theme-color-brand-contrast',
+        'colorNewBrand' => 'theme-color-new-brand',
         'colorFocusRing' => 'theme-color-focus-ring',
         'colorFocusRingAlternative' => 'theme-color-focus-ring-alternative',
+        'colorTextHighContrast' => 'theme-color-text-highContrast',
         'colorText' => 'theme-color-text',
+        'colorTextContrast' => 'theme-color-text-contrast',
         'colorTextLight' => 'theme-color-text-light',
         'colorTextLighter' => 'theme-color-text-lighter',
-        'colorTextContrast' => 'theme-color-text-contrast',
+        'colorTextOnDisabled' => 'theme-color-text-on-disabled',
+        'colorTextPlaceholder' => 'theme-color-text-placeholder',
+        'colorTextInvert' => 'theme-color-text-invert',
+        'colorTextInvertContrast' => 'theme-color-text-invert-contrast',
+        'colorTextInvertLight' => 'theme-color-text-invert-light',
+        'colorTextDisabled' => 'theme-color-text-disabled',
         'colorLink' => 'theme-color-link',
         'colorBaseSeries' => 'theme-color-base-series',
         'colorHeadlineAlternative' => 'theme-color-headline-alternative',
@@ -41,171 +53,264 @@ class ThemeStyles
         'colorBackgroundLowContrast' => 'theme-color-background-lowContrast',
         'colorBackgroundContrast' => 'theme-color-background-contrast',
         'colorBackgroundHighContrast' => 'theme-color-background-highContrast',
+        'colorBackgroundDisabled' => 'theme-color-background-disabled',
         'colorBorder' => 'theme-color-border',
+        'colorBorderAlternative' => 'theme-color-border-alternative',
+        'colorBorderLight' => 'theme-color-border-light',
+        'colorBoxShadow' => 'theme-color-boxShadow',
+        'shadowOverlay' => 'theme-shadow-overlay',
         'colorCode' => 'theme-color-code',
         'colorCodeBackground' => 'theme-color-code-background',
         'colorWidgetBackground' => 'theme-color-widget-background',
         'colorWidgetBorder' => 'theme-color-widget-border',
+        'filterOnIllustration' => 'theme-filter-on-illustration',
+        'colorMenuContrastBackgroundHover' => 'theme-color-menu-contrast-backgroundHover',
     ];
 
     /**
      * @var string
      */
+    protected $themeMode = self::AUTO_MODE;
+
+    /**
+     * @var string|array<string>
+     */
     public $fontFamilyBase = '-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Oxygen-Sans, Cantarell, \'Helvetica Neue\', sans-serif';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBrand = '#43a047';
+    public $colorBrand = ['#43a047', '#778fd4'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBrandContrast = '#fff';
+    public $colorBrandContrast = ['#fff', '#ffffff'];
 
     /**
-     * @var string
+     * @var string|array<string>
+     */
+    public $colorNewBrand = '#00b4be';
+
+    /**
+     * @var string|array<string>
      */
     public $colorFocusRing = '#0969da';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorFocusRingAlternative;
+    public $colorFocusRingAlternative = '#00b4bE';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorText = '#212121';
+    public $colorTextHighContrast = ['#000', '#d9d9d9'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorTextLight = '#444';
+    public $colorText = ['#212121', '#ccc'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorTextLighter = '#666666';
+    public $colorTextContrast = ['#37474f', '#bbb'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorTextContrast = '#37474f';
+    public $colorTextLight = ['#444', '#aaa'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorLink = '#1976D2';
+    public $colorTextLighter = ['#646464', '#999'];
 
     /**
-     * @var string
+     * @var string|array<string>
+     */
+    public $colorTextOnDisabled = ['#666666', '#999'];
+
+    /**
+     * @var string|array<string>
+     * @since Matomo 5.12.0
+     */
+    public $colorTextPlaceholder = ['#d1d1d1', '#565656'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorTextInvert = ['#ccc', '#555'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorTextInvertContrast = ['#fff', '#000'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorTextInvertLight = ['#b9b9b9', '#666'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorTextDisabled = ['#aaa', '#666'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorLink = ['#1976D2', '#778fd4'];
+
+    /**
+     * @var string|array<string>
      */
     public $colorBaseSeries = '#ee3024';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorHeadlineAlternative = '#4E4E4E';
+    public $colorHeadlineAlternative = ['#4E4E4E', '#aaa'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorHeaderBackground = '#3450A3';
+    public $colorHeaderBackground;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorHeaderText =  '#fff';
+    public $colorHeaderText;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorMenuContrastText;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorMenuContrastTextSelected;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorMenuContrastTextActive = '#3450A3';
+    public $colorMenuContrastTextActive = ['#1976D2', '#fff'];
 
     /**
-     * @var string
+     * @var string|array<string>
+     */
+    public $colorMenuContrastBackgroundHover = ['#eff0f1', '#151819'];
+
+    /**
+     * @var string|array<string>
      */
     public $colorMenuContrastBackground;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorWidgetExportedBackgroundBase;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorWidgetTitleText;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorWidgetTitleBackground;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBackgroundBase = '#eff0f1';
+    public $colorBackgroundBase = ['#f5f5f5', '#151819'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBackgroundTinyContrast = '#f2f2f2';
+    public $colorBackgroundTinyContrast = ['#f2f2f2', '#182c32'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBackgroundLowContrast = '#d9d9d9';
+    public $colorBackgroundLowContrast = ['#d9d9d9', '#192d33'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBackgroundContrast = '#fff';
+    public $colorBackgroundContrast = ['#fff', '#202329'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBackgroundHighContrast = '#202020';
+    public $colorBackgroundHighContrast = ['#202020', '#404349'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBorder = '#cccccc';
+    public $colorBackgroundDisabled = ['#d9d9d9', '#303339'];
 
     /**
-     * @var string
+     * @var string|array<string>
+     */
+    public $colorBorderLight = ['#a9a399', '#645e54'];
+
+    /**
+     * @var string|array<string>
+     * @deprecated Use $colorBorderAlternative instead. Retained only for legacy use and will be
+     *             phased out once everything has moved to the alternative.
+     */
+    public $colorBorder = ['#cccccc', '#555555'];
+
+    /**
+     * Use this as the new border color. $colorBorder only remains so that we don't need to update
+     * screenshots unless we really need to
+     *
+     * @var string|array<string>
+     */
+    public $colorBorderAlternative = ['#E0E0E0', '#555555'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorBoxShadow = ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $shadowOverlay = ['0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D', '0 0 3px #00000080, 0 10px 40px #00000080'];
+
+    /**
+     * @var string|array<string>
      */
     public $colorCode = '#f3f3f3';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorCodeBackground = '#4d4d4d';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorWidgetBackground;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorWidgetBorder;
 
-    public function __construct()
+    /**
+     * @var string|array<string>
+     */
+    public $filterOnIllustration = ['none', 'brightness(89%) invert(100%) hue-rotate(180deg)'];
+
+    public function __construct(string $themeMode)
     {
-        $this->colorFocusRingAlternative = $this->colorBrand;
+        $this->themeMode = $themeMode;
         $this->colorMenuContrastText = $this->colorText;
         $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
         $this->colorMenuContrastBackground = $this->colorBackgroundContrast;
@@ -214,14 +319,16 @@ class ThemeStyles
         $this->colorWidgetTitleBackground = $this->colorBackgroundContrast;
         $this->colorWidgetBackground = $this->colorBackgroundContrast;
         $this->colorWidgetBorder = $this->colorBackgroundTinyContrast;
+        $this->colorHeaderBackground = $this->colorBackgroundContrast;
+        $this->colorHeaderText = $this->colorTextLighter;
     }
 
     /**
      * @return ThemeStyles
      */
-    public static function get()
+    public static function get(string $mode = self::AUTO_MODE)
     {
-        $result = new self();
+        $result = new self($mode);
 
         /**
          * @ignore
@@ -231,12 +338,56 @@ class ThemeStyles
         return $result;
     }
 
+    public function getIsLightMode(): bool
+    {
+        return $this->themeMode === self::LIGHT_MODE;
+    }
+
+    public function getIsDarkMode(): bool
+    {
+        return $this->themeMode === self::DARK_MODE;
+    }
+
+    public function getThemeMode(): string
+    {
+        return $this->themeMode;
+    }
+
+    public function getPropertyValue(string $name): string
+    {
+        if (!property_exists($this, $name)) {
+            return '';
+        }
+
+        return $this->resolvePropertyValue($this->$name, $this->getIsDarkMode() ? 1 : 0);
+    }
+
     public function toLessCode()
     {
-        $result = '';
+        $rootCssVars = [];
+        $darkCssVars = [];
+
         foreach (get_object_vars($this) as $name => $value) {
             $varName = isset(self::$propertyNamesToLessVariableNames[$name]) ? self::$propertyNamesToLessVariableNames[$name] : $this->getGenericThemeVarName($name);
-            $result .= "@$varName: $value;\n";
+            if (is_array($value)) {
+                $rootCssVars[] = "    --$varName: " . $this->resolvePropertyValue($value, 0) . ";\n";
+                $darkCssVars[] = "    --$varName: " . $this->resolvePropertyValue($value, 1) . ";\n";
+            } else {
+                $rootCssVars[] = "    --$varName: " . $this->resolvePropertyValue($value, 0) . ";\n";
+            }
+        }
+
+        $result = ":root {\n    color-scheme: light;\n" . implode('', $rootCssVars) . "}\n\n";
+        if (!empty($darkCssVars)) {
+            $result .= "[data-theme-mode=\"dark\"] {\n    color-scheme: dark;\n" . implode('', $darkCssVars) . "}\n\n";
+            $result .= "@media (prefers-color-scheme: dark) {\n";
+            $result .= "    [data-theme-mode=\"auto\"] {\n        color-scheme: dark;\n" . implode('', $darkCssVars) . "    }\n";
+            $result .= "}\n\n";
+        }
+
+        foreach (get_object_vars($this) as $name => $_) {
+            $varName = isset(self::$propertyNamesToLessVariableNames[$name]) ? self::$propertyNamesToLessVariableNames[$name] : $this->getGenericThemeVarName($name);
+            $result .= "@$varName: ~\"var(--$varName)\";\n";
         }
         return $result;
     }
@@ -244,5 +395,27 @@ class ThemeStyles
     private function getGenericThemeVarName($propertyName)
     {
         return 'theme-' . $propertyName;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private function resolvePropertyValue($value, int $preferredIndex): string
+    {
+        if (!is_array($value)) {
+            return is_string($value) ? $value : '';
+        }
+
+        $fallbackIndex = $preferredIndex === 1 ? 0 : 1;
+
+        if (isset($value[$preferredIndex]) && is_string($value[$preferredIndex])) {
+            return $value[$preferredIndex];
+        }
+
+        if (isset($value[$fallbackIndex]) && is_string($value[$fallbackIndex])) {
+            return $value[$fallbackIndex];
+        }
+
+        return '';
     }
 }

@@ -48,7 +48,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         try {
             $compiled = $this->lessCompiler->compile($concatenatedAssets);
         } catch (\Exception $e) {
-            // save the concated less files so we can debug the issue
+            // save the concatenated less files so we can debug the issue
             $this->saveConcatenatedAssets($concatenatedAssets);
 
             throw new StylesheetLessCompileException($e->getMessage());

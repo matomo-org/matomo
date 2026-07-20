@@ -188,6 +188,8 @@ declare global {
     getBaseDatePickerOptions(defaultDate?: Date|null): {[key: string]: any};
     getSparklineColors(): SparklineColors;
     getBaseDatePickerOptions(defaultDate: Date|null): any;
+    getThemeMode(): string;
+    setThemeMode(preferredThemeMode: string): void;
 
     on(eventName: string, listener: WrappedEventListener): void;
     off(eventName: string, listener: WrappedEventListener): void;
@@ -226,6 +228,13 @@ declare global {
     show(apiMethod: string, segment: string, extraParams: Record<string|number, unknown>): void;
   }
 
+  interface VisibilityGlobal {
+    isSupported: () => boolean;
+    hidden: () => boolean;
+    change: (callback: (event?: Event, state?: unknown) => void) => number | null;
+    unbind: (id: number) => void;
+  }
+
   interface RowAction {
     name: string;
     dataTableIcon: string;
@@ -261,13 +270,16 @@ declare global {
     Piwik_Transitions: TransitionsGlobal;
     SegmentedVisitorLog: SegmentedVisitorLogService;
     DataTable_RowActions_Registry: DataTableRowActionsRegisteryService;
-    Cloud: any
+    Visibility?: VisibilityGlobal;
+    Cloud: any;
 
     _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
     _pk_externalRawLink(url: string, values: (string|null)[]): string;
     require(p: string): any;
     initTopControls(): void;
+    initializeSparklines(): void;
     vueSanitize(content: string): string;
+    vueSanitizeUrl(url: string): string;
     showEmptyDashboardNotification(): void;
   }
 }
@@ -277,6 +289,7 @@ declare module '@vue/runtime-core' {
     translate: (translationStringId: string, ...values: string[]|string[][]) => string;
     translateOrDefault: (translationStringIdOrText: string, ...values: string[]|string[][]) => string;
     $sanitize: Window['vueSanitize'];
+    $sanitizeUrl: Window['vueSanitizeUrl'];
     externalLink: (url: string, ...values:string[]) => string;
     externalRawLink: (url: string, ...values:string[]) => string;
     formatNumber: (val: string|number, maxFractionDigits?: number, minFractionDigits?: number) => string;

@@ -8,26 +8,32 @@
 <template>
   <div
     class="periodOptions"
-    role="group"
+    role="radiogroup"
     :aria-label="translate('General_ChoosePeriod')"
   >
     <p
       v-for="period in displayPeriods"
       :key="period"
     >
-      <button
-        type="button"
-        :id="`period_id_${period}`"
-        :aria-pressed="checkedPeriodId === period ? 'true' : 'false'"
+      <label
+        class="period-option-label"
         :class="{ 'selected-period-label': checkedPeriodId === period }"
         :title="period === activeDatePeriod
           ? ''
           : translate('General_DoubleClickToChangePeriod')"
-        @click="handlePeriodSelected(period)"
         @dblclick="handlePeriodDoubleClick(period)"
       >
-        <span>{{ getPeriodDisplayText(period) }}</span>
-      </button>
+        <input
+          class="period-option-input"
+          type="radio"
+          :name="periodInputName"
+          :id="`period_id_${period}`"
+          :checked="checkedPeriodId === period"
+          @change="handlePeriodSelected(period)"
+          @keydown.enter.prevent="handlePeriodEnter(period)"
+        />
+        <span class="period-option-text">{{ getPeriodDisplayText(period) }}</span>
+      </label>
     </p>
   </div>
 </template>
@@ -41,7 +47,10 @@ interface PeriodSelectionPayload {
   period: string;
 }
 
+let nextPeriodOptionsGroupId = 0;
+
 export default defineComponent({
+  name: 'PeriodOptions',
   props: {
     modelValue: {
       type: String as PropType<string|null>,
@@ -59,6 +68,14 @@ export default defineComponent({
       type: String,
       required: true,
     },
+  },
+  data() {
+    const periodInputName = `period-${nextPeriodOptionsGroupId}`;
+    nextPeriodOptionsGroupId += 1;
+
+    return {
+      periodInputName,
+    };
   },
   emits: ['update:modelValue', 'select', 'dblclick'],
   computed: {
@@ -83,6 +100,9 @@ export default defineComponent({
       const payload: PeriodSelectionPayload = { period };
       this.$emit('update:modelValue', period);
       this.$emit('select', payload);
+    },
+    handlePeriodEnter(period: string) {
+      this.handlePeriodSelected(period);
     },
     handlePeriodDoubleClick(period: string) {
       const payload: PeriodSelectionPayload = { period };

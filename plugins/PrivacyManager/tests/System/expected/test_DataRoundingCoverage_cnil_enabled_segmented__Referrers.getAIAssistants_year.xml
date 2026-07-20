@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>12</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>60</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>60</revenue>
+			</row>
+		</goals>
+		<nb_conversions>20</nb_conversions>
+		<revenue>120</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<url>chatgpt.com</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/chatgpt.com.png</logo>
+		<segment>referrerType==ai;referrerName==ChatGPT</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>4</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>4</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>4</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>8</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>40</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>40</revenue>
+			</row>
+		</goals>
+		<nb_conversions>20</nb_conversions>
+		<revenue>80</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<url>perplexity.ai</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/perplexity.ai.png</logo>
+		<segment>referrerType==ai;referrerName==Perplexity</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>4</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>4</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>4</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>40</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<url>claude.ai</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/claude.ai.png</logo>
+		<segment>referrerType==ai;referrerName==Claude</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>4</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>4</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>40</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<url>gemini.google.com</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/gemini.google.com.png</logo>
+		<segment>referrerType==ai;referrerName==Gemini</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>4</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>3</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>30</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<url>chat.mistral.ai</url>
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/chat.mistral.ai.png</logo>
+		<segment>referrerType==ai;referrerName==Le+Chat</segment>
+		<subtable>
+			<row>
+				
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>3</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>10</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+</result>

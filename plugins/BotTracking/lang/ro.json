@@ -1,6 +1,8 @@
 {
     "BotTracking": {
         "PageUrl": "URL-ul Paginii",
-        "SiteWithoutDataBackToMatomo": "Înapoi la Matomo"
+        "SiteWithoutDataBackToMatomo": "Înapoi la Matomo",
+        "AIChatbotsContentPagesTitle": "Pagini",
+        "ContentUrl": "URL"
     }
 }

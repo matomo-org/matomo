@@ -334,7 +334,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             if ($plugin['isEligibleForFreeTrial']) {
                 $plugin['isTrialRequested'] = StaticContainer::get(PluginTrialService::class)->wasRequested($plugin['name']);
-                $plugin['canTrialBeRequested'] = (int) GeneralConfig::getConfigValue('plugin_trial_request_expiration_in_days') !== -1;
+                $plugin['canTrialBeRequested'] = GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0) !== -1;
             }
         }
 
