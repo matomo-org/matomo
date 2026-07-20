@@ -15,7 +15,11 @@ const CATEGORY_ROW_SEGMENT = 'pageUrl=^https%253A%252F%252Fexample.org%252Fcateg
 const SUFFIX_SEGMENT = 'visitEcommerceStatus==ordered';
 
 describe('Live/SegmentVisitorLog row action', () => {
-  let rowActionInstance: { trigger: (tr: JQuery<HTMLElement>, event: Event) => void; openPopover: Mock };
+  let rowActionInstance: {
+    trigger: (tr: JQuery<HTMLElement>, event: Event) => void;
+    openPopover: Mock;
+    doOpenPopover: (urlParam: string) => void;
+  };
   let openPopoverSpy: MockInstance;
 
   beforeAll(async () => {
@@ -134,5 +138,55 @@ describe('Live/SegmentVisitorLog row action', () => {
         intersectSegment: CATEGORY_ROW_SEGMENT,
       }),
     );
+  });
+
+  it('should preserve intersectSegment through the popover URL round-trip and pass it to the visitor log', () => {
+    // The cases above stop at openPopover, before doOpenPopover() re-parses the serialized payload
+    // and runs it through the allowlist filter. This drives the full round-trip to prove
+    // intersectSegment is on the allowlist and actually reaches SegmentedVisitorLog.show(); if it
+    // were dropped, only the report segment would survive and the visit-level fix would be defeated.
+    const showSpy = vi.fn();
+    (window as any).SegmentedVisitorLog = { show: showSpy };
+    const propagateSpy = vi.fn();
+    (window as any).broadcast = { propagateNewPopoverParameter: propagateSpy };
+
+    // Use the real openPopover so the extraParams are serialized exactly as in production.
+    openPopoverSpy.mockRestore();
+
+    rowActionInstance.trigger(window.$('#segment-row'), new window.MouseEvent('click'));
+
+    // broadcast receives 'SegmentVisitorLog:' + urlParam; doOpenPopover() expects the urlParam alone.
+    const [popoverName, popoverParam] = propagateSpy.mock.calls[0];
+    expect(popoverName).toBe('RowAction');
+    const urlParam = (popoverParam as string).replace(/^SegmentVisitorLog:/, '');
+
+    rowActionInstance.doOpenPopover(urlParam);
+
+    expect(showSpy).toHaveBeenCalledWith(
+      'Actions.getPageUrls',
+      DECODED_CURRENT_PAGE_SEGMENT,
+      expect.objectContaining({
+        date: '2012-08-09',
+        period: 'day',
+        intersectSegment: CATEGORY_ROW_SEGMENT,
+      }),
+    );
+  });
+
+  it('should drop keys that are not on the allowlist during the popover URL round-trip', () => {
+    const showSpy = vi.fn();
+    (window as any).SegmentedVisitorLog = { show: showSpy };
+
+    openPopoverSpy.mockRestore();
+
+    // A crafted payload carrying both the legitimate intersectSegment and a smuggled key.
+    const extraParams = { intersectSegment: CATEGORY_ROW_SEGMENT, idGoal: '1' };
+    const urlParam = `Actions.getPageUrls:${encodeURIComponent(DECODED_CURRENT_PAGE_SEGMENT)}:${encodeURIComponent(JSON.stringify(extraParams))}`;
+
+    rowActionInstance.doOpenPopover(urlParam);
+
+    const passedExtraParams = showSpy.mock.calls[0][2];
+    expect(passedExtraParams.intersectSegment).toBe(CATEGORY_ROW_SEGMENT);
+    expect(passedExtraParams.idGoal).toBeUndefined();
   });
 });

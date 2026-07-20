@@ -62,6 +62,10 @@
         'date',
         'period',
         'segment',
+        // Extra segment intersected at the visit level by Live\Model (see Model::queryLogVisits
+        // $intersectSegment). Like `segment` it is a segment definition validated server-side by
+        // the Segment class, so it grants no capability beyond the already-allowed `segment` key.
+        'intersectSegment',
     ];
 
     // Filter a parsed extraParams object against the allowlist. Returns a new
