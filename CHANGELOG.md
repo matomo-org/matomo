@@ -17,6 +17,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Following the upgrade to psr/log 3, `Piwik\Log\LoggerInterface` (which extends `Psr\Log\LoggerInterface`) now requires the PSR-3 `void` return type on its logging methods (`log()`, `debug()`, `info()`, `notice()`,
   `warning()`, `error()`, `critical()`, `alert()`, `emergency()`). Plugins that implement this interface directly must add the `: void` return type to these methods. Plugins that obtain the logger through
   dependency injection or extend `Piwik\Log\Logger` are not affected.
+* The deprecated archiving script `./misc/cron/archive.sh` has been removed. Use the console command `core:archive` instead.
+* The `SEO` plugin has been removed, along with its `SEO` widget and the `SEO.getRank` API method.
 
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against

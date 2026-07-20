@@ -162,6 +162,50 @@ class ManagerTest extends IntegrationTestCase
         $this->assertNotEmpty(ViewDataTableManager::getViewDataTableParameters('mylogin3', 'API.get5'));
     }
 
+    public function testSaveViewDataTableParametersWithContainerIdMergesWithExistingContainerParameters()
+    {
+        $login       = 'mylogin';
+        $method      = 'VisitsSummary.get';
+        $containerId = 'VisitOverviewWithGraph';
+
+        // widgets within a container persist their settings as partial updates, one request at a time
+        ViewDataTableManager::saveViewDataTableParameters($login, $method, array('columns' => array('nb_visits', 'nb_uniq_visitors')), $containerId);
+        ViewDataTableManager::saveViewDataTableParameters($login, $method, array('flat' => '1'), $containerId);
+
+        // the earlier container setting must not be lost by the later save
+        $storedParams = ViewDataTableManager::getViewDataTableParameters($login, $method, $containerId);
+        $this->assertEquals(array('columns' => array('nb_visits', 'nb_uniq_visitors'), 'flat' => '1'), $storedParams);
+    }
+
+    public function testSaveViewDataTableParametersWithContainerIdDoesNotOverwriteNonContainerParameters()
+    {
+        $login       = 'mylogin';
+        $method      = 'VisitsSummary.get';
+        $containerId = 'VisitOverviewWithGraph';
+
+        // the same report can be shown both standalone and inside a container
+        ViewDataTableManager::saveViewDataTableParameters($login, $method, array('columns' => array('nb_visits')));
+        ViewDataTableManager::saveViewDataTableParameters($login, $method, array('columns' => array('nb_uniq_visitors')), $containerId);
+
+        // container settings are stored separately and neither side clobbers the other
+        $this->assertEquals(array('columns' => array('nb_visits')), ViewDataTableManager::getViewDataTableParameters($login, $method));
+        $this->assertEquals(array('columns' => array('nb_uniq_visitors')), ViewDataTableManager::getViewDataTableParameters($login, $method, $containerId));
+    }
+
+    public function testSaveViewDataTableParametersWithContainerIdDoesNotSeedFromNonContainerParameters()
+    {
+        $login       = 'mylogin';
+        $method      = 'VisitsSummary.get';
+        $containerId = 'VisitOverviewWithGraph';
+
+        // pre-existing standalone report settings must not leak into a fresh container save
+        ViewDataTableManager::saveViewDataTableParameters($login, $method, array('flat' => '1'));
+        ViewDataTableManager::saveViewDataTableParameters($login, $method, array('columns' => array('nb_visits')), $containerId);
+
+        $storedParams = ViewDataTableManager::getViewDataTableParameters($login, $method, $containerId);
+        $this->assertEquals(array('columns' => array('nb_visits')), $storedParams);
+    }
+
     private function addParameters()
     {
         $login  = 'mylogin';

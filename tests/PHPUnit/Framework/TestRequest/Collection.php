@@ -34,7 +34,6 @@ class Collection
         'ExampleUI',
         'Overlay',
         'Live',
-        'SEO',
         'ExampleAPI',
         'ScheduledReports',
         'MobileMessaging',
