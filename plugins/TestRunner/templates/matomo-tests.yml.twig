@@ -119,7 +119,7 @@ jobs:
           redis-service: true
 {% endif %}
           artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
-          upload-artifacts: ${{ '{{' }} matrix.php == '{{ phpVersions|first }}' && matrix.target == 'maximum_supported_matomo' {{ '}}' }}
+          upload-artifacts: ${{ '{{' }} matrix.php == '{{ phpVersions|first }}' && matrix.target == 'maximum_supported_matomo' && matrix.database.engine == 'Mysql' {{ '}}' }}
 {% if protectArtifacts %}
           artifacts-protected: true
 {% endif %}
