@@ -10,4 +10,7 @@ declare module 'CoreHome' {
     isComparisonEnabled(): boolean | null;
   };
   export function translate(translationStringId: string, values?: unknown[]): string;
+  export const MatomoUrl: {
+    parse(search: string): Record<string, string>;
+  };
 }

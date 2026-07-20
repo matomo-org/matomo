@@ -53,3 +53,16 @@ export interface SparklineEntry {
   graphParams: Record<string, unknown> | null;
   evolution?: SparklineEvolution;
 }
+
+/**
+ * One compared-period column in a comparison card, derived from a SparklineEntry's per-period metric
+ * group. Consumed by the shared PeriodColumns component (rendered by DateComparison and
+ * SegmentComparisonRow).
+ */
+export interface PeriodColumn {
+  label: string;
+  primaryValue: string | number;
+  evolution?: SparklineEvolution;
+  secondaryValue?: string | number;
+  secondaryLabel?: string;
+}
