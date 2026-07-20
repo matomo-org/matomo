@@ -79,4 +79,18 @@ class JsonResponseController extends Controller
         echo json_encode([]);
         exit;
     }
+
+    // exit / sendHeaderJSON() inside a nested closure run in a separate frame and must NOT be
+    // flagged: this method returns JSON normally, so the attribute handling still applies.
+    #[JsonResponse]
+    public function nestedScopesAreIgnored(): string
+    {
+        $shutdown = function () {
+            Json::sendHeaderJSON();
+            exit;
+        };
+        unset($shutdown);
+
+        return json_encode([]);
+    }
 }

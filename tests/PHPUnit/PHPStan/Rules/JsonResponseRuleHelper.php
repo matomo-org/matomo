@@ -12,8 +12,10 @@ namespace Piwik\Tests\PHPStan\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Exit_;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
@@ -127,6 +129,13 @@ final class JsonResponseRuleHelper
                 continue;
             }
 
+            // Do not descend into nested scopes (closures, arrow functions, nested functions,
+            // anonymous classes): their code runs in a separate frame and does not affect whether
+            // the dispatched action itself returns without exiting.
+            if (self::isNestedScopeBoundary($node)) {
+                continue;
+            }
+
             if ($node instanceof Exit_) {
                 $exits[] = $node;
             }
@@ -154,6 +163,10 @@ final class JsonResponseRuleHelper
                 continue;
             }
 
+            if (self::isNestedScopeBoundary($node)) {
+                continue;
+            }
+
             if ($node instanceof StaticCall && self::isJsonHeaderCall($node, $scope)) {
                 $calls[] = $node;
             }
@@ -166,6 +179,15 @@ final class JsonResponseRuleHelper
         }
 
         return $calls;
+    }
+
+    /**
+     * Whether the node opens a nested scope (closure, arrow function, nested function or class-like)
+     * whose body executes in a separate frame and must not be treated as the method's own flow.
+     */
+    private static function isNestedScopeBoundary(Node $node): bool
+    {
+        return $node instanceof FunctionLike || $node instanceof ClassLike;
     }
 
     private static function isJsonHeaderCall(StaticCall $call, Scope $scope): bool
