@@ -390,7 +390,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       const vm = wrapper.vm as any;
       const onClickExportDashboardSpy = vi.spyOn(vm, 'onClickExportDashboard');
 
-      await wrapper.find('.exportDashboard').trigger('click');
+      await wrapper.find('[data-action="exportDashboard"]').trigger('click');
 
       expect(onClickExportDashboardSpy).toHaveBeenCalledTimes(1);
     });

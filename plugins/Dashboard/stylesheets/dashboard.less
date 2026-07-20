@@ -188,30 +188,6 @@ body#standalone {
   display: block;
 }
 
-.dashboardSettings ul.submenu {
-  display: none;
-  float: left;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.dashboardSettings.expanded ul.submenu {
-  display: block;
-  list-style: none;
-  z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
-}
-
-.dashboardSettings.expanded .dropdown {
-  min-width: 240px;
-  padding: 8px;
-}
-
-.dashboardSettings ul.submenu > li {
-  clear: both;
-  list-style: none;
-}
-
 #changeDashboardLayout h2 {
   margin-bottom: 20px;
 }
@@ -327,53 +303,9 @@ div.widgetpreview-preview {
   float: left;
 }
 
-.dashboardSettings .submenu button {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 8px;
-  margin: 0;
-  background: transparent;
-  border: 0;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: normal;
-  color: @theme-color-text-lighter;
-  text-align: left;
-  cursor: pointer;
-  text-decoration: none;
-  appearance: none;
-  white-space: nowrap;
-}
-
-.dashboardSettings .submenu button:focus {
-  outline: none;
-}
-
-.dashboardSettings .submenu button:focus-visible {
-  outline: 2px solid @theme-color-focus-ring;
-  outline-offset: -2px;
-}
-
-.dashboardSettings .submenu button:not([disabled]):hover,
-.dashboardSettings .submenu button:not([disabled]):focus-visible {
-  background: @theme-color-background-base;
-  color: @theme-color-text;
-}
-
-.dashboardSettings .submenu button[disabled],
-.dashboardSettings .submenu button[disabled]:hover {
-  color: @theme-color-text-disabled;
-  cursor: default;
-}
-
-.dashboardSettings .submenu .addWidget-button .icon {
-  margin-right: 8px;
-  font-size: inherit;
-  line-height: inherit;
-}
+// The dropdown menu button styling is provided by the generic .mtm-dropdownPanel
+// component (Morpheus/stylesheets/ui/_dropdown-panel.less), applied via the BEM
+// classes in DashboardSettings.vue.
 
 .widgetPlaceholder {
   border: 1px dashed #bbb6ad;

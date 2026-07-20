@@ -189,3 +189,19 @@
     background-color: @_selector-dropdown_color-background;
   }
 }
+
+/* Positioning wrapper for a dropdown panel (e.g. .mtm-dropdownPanel).
+   Owns placement + show/hide only; appearance belongs to the panel it wraps. */
+.piwikSelector__dropdown {
+  display: none;
+
+  position: absolute;
+  z-index: 999;
+  top: 100%;
+  margin-top: @_selector-dropdown_margin-top;
+  left: -1px;
+}
+
+.piwikSelector.expanded .piwikSelector__dropdown {
+  display: block;
+}
