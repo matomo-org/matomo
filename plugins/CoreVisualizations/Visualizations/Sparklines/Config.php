@@ -296,6 +296,9 @@ class Config extends \Piwik\ViewDataTable\Config
             'url' => $this->getUrlSparkline($requestParamsForSparkline),
             'tooltip' => $tooltip,
             'metrics' => $groupedMetrics,
+            // Ordered `metrics` group keys = the Vue grid's column order. Sent as an array because JS
+            // re-sorts integer-like object keys (eg year "2025"/"2026"), losing the backend order.
+            'metricsOrder' => array_map('strval', array_keys($groupedMetrics)),
             'order' => $this->getSparklineOrder($order),
             'title' => $title,
             'group' => $group,
