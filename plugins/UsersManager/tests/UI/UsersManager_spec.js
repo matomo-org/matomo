@@ -513,6 +513,17 @@ describe("UsersManager", function () {
         await page.waitForTimeout(250); // animation
 
         await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
+
+        // Applying the access change requires a confirmed password. The confirmation is cached for a
+        // short window, so the password modal only appears once the cache has expired - which happens
+        // on the slower CI but usually not locally. Enter the password whenever the modal is shown so
+        // the change is applied in both cases.
+        await page.waitForTimeout(500);
+        if (await page.evaluate(() => $('.confirm-password-modal.open:visible').length > 0)) {
+            await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+            await page.waitForTimeout(250);
+            await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+        }
         await page.waitForNetworkIdle();
 
         await page.evaluate(function () { // remove filter
