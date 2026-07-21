@@ -756,7 +756,7 @@ var __spreadValues = (a, b) => {
           const goalName = ((_a = props.goals[actualIdGoal.value]) == null ? void 0 : _a.name) || CoreHome.translate("General_Unknown");
           title = `${goalName} - ${title}`;
         }
-        $(root.value).closest("div.widget").find(".widgetTop > .widgetName > span").text(title);
+        $(root.value).closest("div.widget").find(".widgetName > span").text(title);
       }
       function getLastPeriodDate() {
         const range = CoreHome.Range.getLastNRange(CoreHome.Matomo.period, 2, CoreHome.Matomo.currentDateString);
@@ -824,7 +824,7 @@ var __spreadValues = (a, b) => {
       }
       function createSeriesPicker() {
         const element = $(root.value);
-        const $widgetName = element.closest("div.widget").find(".widgetTop > .widgetName");
+        const $widgetName = element.closest("div.widget").find(".widgetName");
         const $seriesPickerElem = $('<div class="single-metric-view-picker"><div></div></div>');
         const app = CoreHome.createVueApp({
           render: () => vue.createVNode(SeriesPicker, {

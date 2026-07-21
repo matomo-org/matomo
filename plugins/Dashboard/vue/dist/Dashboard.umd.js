@@ -364,8 +364,8 @@ var __async = (__this, __arguments, generator) => {
   };
   const _hoisted_2$3 = ["uniqueid"];
   const _hoisted_3$3 = ["onMouseenter", "onMouseleave", "onFocus", "onBlur", "onClick", "onKeydown"];
-  const _hoisted_4$3 = { class: "widgetpreview-widgetname" };
-  const _hoisted_5$3 = {
+  const _hoisted_4$2 = { class: "widgetpreview-widgetname" };
+  const _hoisted_5$2 = {
     class: "widgetpreview-add-hint",
     "aria-hidden": "true"
   };
@@ -401,8 +401,8 @@ var __async = (__this, __arguments, generator) => {
               vue.withKeys(vue.withModifiers(($event) => _ctx.onActivate(widget), ["prevent"]), ["space"])
             ]
           }, [
-            vue.createElementVNode("span", _hoisted_4$3, vue.toDisplayString(widget.name), 1),
-            vue.createElementVNode("span", _hoisted_5$3, [
+            vue.createElementVNode("span", _hoisted_4$2, vue.toDisplayString(widget.name), 1),
+            vue.createElementVNode("span", _hoisted_5$2, [
               _ctx.isJustAdded(widget) ? (vue.openBlock(), vue.createElementBlock("i", _hoisted_6$2)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_7, "+")),
               vue.createTextVNode(" " + vue.toDisplayString(_ctx.translate(_ctx.isJustAdded(widget) ? "General_Added" : "General_Add")), 1)
             ])
@@ -415,6 +415,7 @@ var __async = (__this, __arguments, generator) => {
   const _sfc_main$2 = vue.defineComponent({
     name: "WidgetPreview",
     components: {
+      ReportHeader: CoreHome.ReportHeader,
       Widget: CoreHome.Widget
     },
     props: {
@@ -495,27 +496,20 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "widget"
   };
-  const _hoisted_3$2 = ["title"];
-  const _hoisted_4$2 = { class: "widgetName" };
-  const _hoisted_5$2 = { class: "widgetContent" };
+  const _hoisted_3$2 = { class: "widgetContent" };
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_ReportHeader = vue.resolveComponent("ReportHeader");
     const _component_Widget = vue.resolveComponent("Widget");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [
       _ctx.previewWidget ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$2, [
-        vue.createElementVNode("div", {
-          class: "widgetTop",
-          title: _ctx.translate("Dashboard_AddPreviewedWidget"),
-          role: "button",
-          tabindex: "0",
-          onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("select", _ctx.previewWidget.uniqueId)),
-          onKeydown: [
-            _cache[1] || (_cache[1] = vue.withKeys(vue.withModifiers(($event) => _ctx.$emit("select", _ctx.previewWidget.uniqueId), ["prevent"]), ["enter"])),
-            _cache[2] || (_cache[2] = vue.withKeys(vue.withModifiers(($event) => _ctx.$emit("select", _ctx.previewWidget.uniqueId), ["prevent"]), ["space"]))
-          ]
-        }, [
-          vue.createElementVNode("h3", _hoisted_4$2, vue.toDisplayString(_ctx.translate("Dashboard_WidgetPreview")), 1)
-        ], 40, _hoisted_3$2),
-        vue.createElementVNode("div", _hoisted_5$2, [
+        vue.createVNode(_component_ReportHeader, {
+          context: "preview",
+          title: _ctx.translate("Dashboard_WidgetPreview"),
+          "title-clickable": "",
+          "title-click-hint": _ctx.translate("Dashboard_AddPreviewedWidget"),
+          onTitleClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("select", _ctx.previewWidget.uniqueId))
+        }, null, 8, ["title", "title-click-hint"]),
+        vue.createElementVNode("div", _hoisted_3$2, [
           (vue.openBlock(), vue.createBlock(_component_Widget, {
             key: _ctx.previewWidget.uniqueId,
             widget: _ctx.previewWidget,
