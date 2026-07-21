@@ -304,16 +304,6 @@ class Url
 
     /**
      * @param string|string[] $host
-     * @return bool
-     * @deprecated no longer in use, will be removed with Matomo 6
-     */
-    public static function saveCORSHostnameInConfig($host)
-    {
-        return self::saveHostsnameInConfig($host, 'General', 'cors_domains');
-    }
-
-    /**
-     * @param string|string[] $host
      * @param string $domain
      * @param string $key
      * @return bool
