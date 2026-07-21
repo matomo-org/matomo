@@ -394,7 +394,7 @@ class Evolution extends JqplotDataGenerator
      * @param array<int, mixed> $rowsToDisplay
      * @param array<int, string> $columnsToDisplay
      * @param array<int, string> $seriesLabels
-     * @return array<string, array<int, float|int>>
+     * @return array<array-key, array<int, mixed>>
      */
     private function collectComparisonSeriesData(
         array $rowsToDisplay,
@@ -441,7 +441,7 @@ class Evolution extends JqplotDataGenerator
     }
 
     /**
-     * @param array<string, array<int, float|int>> $allSeriesData
+     * @param array<array-key, array<int, mixed>> $allSeriesData
      * @param array<int, string> $seriesLabels
      */
     private function setComparisonSeriesData(
