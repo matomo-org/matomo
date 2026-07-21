@@ -168,7 +168,7 @@ nb_total_overall_bandwidth	nb_total_pageview_bandwidth	nb_total_download_bandwid
 
 Page URLs
 label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate
-/index.htm	4	16	0%	00:16:08	100%
+/index.htm	4	16	0%	00:05:38	100%
 
 Entry pages
 label	entry_nb_visits	entry_bounce_count	bounce_rate
@@ -191,13 +191,13 @@ Another Product page with multiple categories	1	1	100%
 
 Page titles
 label	nb_visits	nb_hits	bounce_rate	avg_time_on_page	exit_rate
-View product left in cart	3	9	0%	00:12:00	100%
-Another Product page	1	1	0%	00:30:00	0%
+View product left in cart	3	9	0%	00:04:00	100%
+Another Product page	1	1	0%	00:06:00	0%
 Another Product page with multiple categories	1	1	0%	00:00:00	100%
 Another Product page with no category	1	1	0%	00:00:01	0%
-incredible title!	1	1	0%	00:30:00	0%
-Looking at Electronics & Cameras page again	1	1	0%	00:30:00	0%
-Looking at Electronics & Cameras page with a page level custom variable	1	1	0%	00:30:00	0%
+incredible title!	1	1	0%	00:06:00	0%
+Looking at Electronics & Cameras page again	1	1	0%	00:06:00	0%
+Looking at Electronics & Cameras page with a page level custom variable	1	1	0%	00:06:00	0%
 Looking at product page	1	1	0%	00:30:00	0%
 
 Site Search Keywords

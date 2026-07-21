@@ -148,7 +148,7 @@
 				<label>/index.htm</label>
 				<nb_visits>6</nb_visits>
 				<nb_hits>6</nb_hits>
-				<sum_time_spent>10800</sum_time_spent>
+				<sum_time_spent>2160</sum_time_spent>
 				<nb_hits_with_time_network>6</nb_hits_with_time_network>
 				<min_time_network>0.0270</min_time_network>
 				<max_time_network>0.0270</max_time_network>
@@ -185,7 +185,7 @@
 				<avg_time_dom_completion>0.296</avg_time_dom_completion>
 				<avg_time_on_load>0.335</avg_time_on_load>
 				<avg_page_load_time>2.307</avg_page_load_time>
-				<avg_time_on_page>1800</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://example.org/index.htm</url>
@@ -195,7 +195,7 @@
 				<label>/thankyou</label>
 				<nb_visits>6</nb_visits>
 				<nb_hits>12</nb_hits>
-				<sum_time_spent>10800</sum_time_spent>
+				<sum_time_spent>5400</sum_time_spent>
 				<nb_hits_with_time_network>12</nb_hits_with_time_network>
 				<min_time_network>0.0000</min_time_network>
 				<max_time_network>0.0330</max_time_network>
@@ -229,7 +229,7 @@
 				<avg_time_dom_completion>0.277</avg_time_dom_completion>
 				<avg_time_on_load>0.284</avg_time_on_load>
 				<avg_page_load_time>2.476</avg_page_load_time>
-				<avg_time_on_page>900</avg_time_on_page>
+				<avg_time_on_page>450</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://example.org/thankyou</url>
@@ -241,7 +241,7 @@
 				<label>/index.htm</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>3600</sum_time_spent>
+				<sum_time_spent>720</sum_time_spent>
 				<nb_hits_with_time_network>2</nb_hits_with_time_network>
 				<min_time_network>0.0270</min_time_network>
 				<max_time_network>0.0270</max_time_network>
@@ -278,7 +278,7 @@
 				<avg_time_dom_completion>0.296</avg_time_dom_completion>
 				<avg_time_on_load>0.335</avg_time_on_load>
 				<avg_page_load_time>2.307</avg_page_load_time>
-				<avg_time_on_page>1800</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://example.org/index.htm</url>
@@ -288,7 +288,7 @@
 				<label>/thankyou</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>4</nb_hits>
-				<sum_time_spent>3600</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>4</nb_hits_with_time_network>
 				<min_time_network>0.0000</min_time_network>
 				<max_time_network>0.0330</max_time_network>
@@ -322,7 +322,7 @@
 				<avg_time_dom_completion>0.277</avg_time_dom_completion>
 				<avg_time_on_load>0.284</avg_time_on_load>
 				<avg_page_load_time>2.476</avg_page_load_time>
-				<avg_time_on_page>900</avg_time_on_page>
+				<avg_time_on_page>450</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://example.org/thankyou</url>

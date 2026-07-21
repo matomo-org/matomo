@@ -16,8 +16,8 @@
 				
 				<pageId>70</pageId>
 				<bandwidth />
-				<timeSpent>1800</timeSpent>
-				<timeSpentPretty>30 min 0s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
@@ -59,8 +59,8 @@
 				
 				<pageId>74</pageId>
 				<bandwidth />
-				<timeSpent>1800</timeSpent>
-				<timeSpentPretty>30 min 0s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>5</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
@@ -84,8 +84,8 @@
 				
 				<pageId>78</pageId>
 				<bandwidth />
-				<timeSpent>1800</timeSpent>
-				<timeSpentPretty>30 min 0s</timeSpentPretty>
+				<timeSpent>52</timeSpent>
+				<timeSpentPretty>52s</timeSpentPretty>
 				<pageviewPosition>9</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
@@ -109,8 +109,8 @@
 				
 				<pageId>71</pageId>
 				<bandwidth />
-				<timeSpent>1800</timeSpent>
-				<timeSpentPretty>30 min 0s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
@@ -134,8 +134,8 @@
 				
 				<pageId>75</pageId>
 				<bandwidth />
-				<timeSpent>1800</timeSpent>
-				<timeSpentPretty>30 min 0s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>6</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
@@ -184,8 +184,8 @@
 				
 				<pageId>72</pageId>
 				<bandwidth />
-				<timeSpent>1800</timeSpent>
-				<timeSpentPretty>30 min 0s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/community/</subtitle>

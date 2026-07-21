@@ -238,8 +238,8 @@
 				<productViewName>PRODUCT TWO LEFT in cart</productViewName>
 				<productViewSku>SKU IN ABANDONED CART TWO</productViewSku>
 				<bandwidth />
-				<timeSpent>1800</timeSpent>
-				<timeSpentPretty>30 min 0s</timeSpentPretty>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>

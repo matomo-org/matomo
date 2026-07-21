@@ -4,7 +4,7 @@
 		<label> Page A - index.html</label>
 		<nb_visits>7</nb_visits>
 		<nb_hits>9</nb_hits>
-		<sum_time_spent>16200</sum_time_spent>
+		<sum_time_spent>3240</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -47,7 +47,7 @@
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>1800</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>14%</exit_rate>
 		<segment>pageTitle==Page%2BA%2B-%2Bindex.html</segment>
@@ -56,7 +56,7 @@
 		<label> Page B</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
-		<sum_time_spent>7200</sum_time_spent>
+		<sum_time_spent>1440</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -84,7 +84,7 @@
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>1800</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<segment>pageTitle==Page%2BB</segment>
@@ -93,7 +93,7 @@
 		<label> Page C</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>6</nb_hits>
-		<sum_time_spent>10800</sum_time_spent>
+		<sum_time_spent>2880</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -123,7 +123,7 @@
 		<sum_daily_exit_nb_uniq_visitors>4</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>1800</avg_time_on_page>
+		<avg_time_on_page>480</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<segment>pageTitle==Page%2BC</segment>
@@ -132,7 +132,7 @@
 		<label> Page A - Z</label>
 		<nb_visits>3</nb_visits>
 		<nb_hits>3</nb_hits>
-		<sum_time_spent>5400</sum_time_spent>
+		<sum_time_spent>1080</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -162,7 +162,7 @@
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>1800</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<segment>pageTitle==Page%2BA%2B-%2BZ</segment>
@@ -171,7 +171,7 @@
 		<label> Page A - X</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
-		<sum_time_spent>1800</sum_time_spent>
+		<sum_time_spent>360</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -190,7 +190,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>1800</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<segment>pageTitle==Page%2BA%2B-%2BX</segment>
@@ -199,7 +199,7 @@
 		<label> Page A - Y</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
-		<sum_time_spent>1800</sum_time_spent>
+		<sum_time_spent>360</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -227,7 +227,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>1800</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<segment>pageTitle==Page%2BA%2B-%2BY</segment>

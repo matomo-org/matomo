@@ -7,7 +7,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<bounce_rate>100%</bounce_rate>
-				<avg_time_on_page>1800</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
@@ -16,7 +16,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<bounce_rate>100%</bounce_rate>
-				<avg_time_on_page>1800</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
@@ -25,7 +25,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<bounce_rate>100%</bounce_rate>
-				<avg_time_on_page>1800</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
@@ -34,7 +34,7 @@
 				<nb_visits>3</nb_visits>
 				<nb_hits>3</nb_hits>
 				<bounce_rate>100%</bounce_rate>
-				<avg_time_on_page>1800</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
@@ -43,7 +43,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<bounce_rate>100%</bounce_rate>
-				<avg_time_on_page>1800</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
@@ -64,8 +64,8 @@
 			</nb_visits>
 			<avg_time_on_page>
 				<name>Avg. time on page</name>
-				<min>1800</min>
-				<max>1800</max>
+				<min>360</min>
+				<max>360</max>
 				<change>+0%</change>
 			</avg_time_on_page>
 			<bounce_rate>

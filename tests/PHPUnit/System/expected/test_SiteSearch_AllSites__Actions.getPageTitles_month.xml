@@ -6,7 +6,7 @@
 				<label> Im just a page</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>1800</sum_time_spent>
+				<sum_time_spent>36</sum_time_spent>
 				<nb_hits_following_search>1</nb_hits_following_search>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
@@ -15,7 +15,7 @@
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_page_load_time>0</avg_page_load_time>
-				<avg_time_on_page>1800</avg_time_on_page>
+				<avg_time_on_page>36</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==Im%2Bjust%2Ba%2Bpage</segment>
@@ -43,7 +43,7 @@
 				<label> This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>1980</sum_time_spent>
+				<sum_time_spent>648</sum_time_spent>
 				<nb_hits_following_search>1</nb_hits_following_search>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
@@ -52,7 +52,7 @@
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_page_load_time>0</avg_page_load_time>
-				<avg_time_on_page>990</avg_time_on_page>
+				<avg_time_on_page>324</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==This%2Bis%2Ba%2Bpageview%252C%2Bnot%2Ba%2BSearch%2B-%2BIS_FOLLOWING_SEARCH%2BONCE</segment>
@@ -71,7 +71,7 @@
 				<label> IsPageView</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>1800</sum_time_spent>
+				<sum_time_spent>540</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -84,7 +84,7 @@
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_page_load_time>0</avg_page_load_time>
-				<avg_time_on_page>1800</avg_time_on_page>
+				<avg_time_on_page>540</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==IsPageView</segment>
@@ -93,7 +93,7 @@
 				<label> This is a pageview, not a Search</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>180</sum_time_spent>
+				<sum_time_spent>720</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -101,7 +101,7 @@
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_page_load_time>0</avg_page_load_time>
-				<avg_time_on_page>180</avg_time_on_page>
+				<avg_time_on_page>720</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==This%2Bis%2Ba%2Bpageview%252C%2Bnot%2Ba%2BSearch</segment>
@@ -120,7 +120,7 @@
 				<label> IsPageView</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>1800</sum_time_spent>
+				<sum_time_spent>540</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -133,7 +133,7 @@
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_page_load_time>0</avg_page_load_time>
-				<avg_time_on_page>1800</avg_time_on_page>
+				<avg_time_on_page>540</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==IsPageView</segment>

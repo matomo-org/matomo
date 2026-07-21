@@ -4,7 +4,7 @@
 		<label>page_A</label>
 		<nb_visits>6</nb_visits>
 		<nb_hits>7</nb_hits>
-		<sum_time_spent>12600</sum_time_spent>
+		<sum_time_spent>2520</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -52,7 +52,7 @@
 		<goal_1_nb_conversions>5</goal_1_nb_conversions>
 		<goal_1_revenue_per_visit>8.33</goal_1_revenue_per_visit>
 		<goal_1_revenue>50</goal_1_revenue>
-		<avg_time_on_page>1800</avg_time_on_page>
+		<avg_time_on_page>360</avg_time_on_page>
 		<exit_rate>0%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fpage_A</segment>
 		<subtable>
@@ -61,7 +61,7 @@
 				<nb_visits>4</nb_visits>
 				<nb_uniq_visitors>4</nb_uniq_visitors>
 				<nb_hits>5</nb_hits>
-				<sum_time_spent>9000</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -99,7 +99,7 @@
 						<nb_conversions_entry>1</nb_conversions_entry>
 					</row>
 				</goals>
-				<avg_time_on_page>1800</avg_time_on_page>
+				<avg_time_on_page>360</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://example.org/page_A/index.html</url>

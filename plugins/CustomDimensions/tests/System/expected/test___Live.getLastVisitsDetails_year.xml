@@ -460,8 +460,8 @@
 				
 				<pageId>1</pageId>
 				<bandwidth />
-				<timeSpent>1800</timeSpent>
-				<timeSpentPretty>30 min 0s</timeSpentPretty>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Viewing homepage</title>
 				<subtitle>http://example.com/</subtitle>
@@ -481,8 +481,8 @@
 				
 				<pageId>2</pageId>
 				<bandwidth />
-				<timeSpent>1800</timeSpent>
-				<timeSpentPretty>30 min 0s</timeSpentPretty>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Second page view</title>
 				<subtitle>http://example.com/sub_en/page?test=%22%3E%3Cimg+src%3Dx+onerror%3D%22document.write%28%27test%27%29%22%3E&amp;param=23</subtitle>
@@ -522,8 +522,8 @@
 				
 				<pageId>3</pageId>
 				<bandwidth />
-				<timeSpent>1800</timeSpent>
-				<timeSpentPretty>30 min 0s</timeSpentPretty>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Third page view</title>
 				<subtitle>http://example.com/sub_en/page?param=en_US</subtitle>
