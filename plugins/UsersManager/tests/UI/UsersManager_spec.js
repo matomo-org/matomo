@@ -190,16 +190,12 @@ describe("UsersManager", function () {
     });
 
     it('should remove access to the currently selected site when the bulk remove access option is clicked', async function () {
-        // The previous test changed access for all rows in search, which triggers an async reload of
-        // the user list. The list's `users` watcher clears the row selection on every reload, so a
-        // selection made before that reload settles would be wiped and the bulk-actions menu would
-        // stay disabled. Wait for the list to finish loading before selecting.
+        // The prior test's async list reload clears the row selection, so wait for it to settle first.
         await page.waitForNetworkIdle();
         await page.waitForSelector('.pagedUsersList:not(.loading)');
 
         await page.click('th.select-cell input + span'); // select displayed rows
-        // The bulk-actions trigger only opens its menu once a selection exists (it carries a
-        // `disabled` class otherwise); wait for it to become enabled before clicking.
+        // The trigger only opens its menu once rows are selected; wait for it to be enabled.
         await page.waitForSelector('.bulk-actions.btn:not(.disabled)', { visible: true });
 
         await page.click('.bulk-actions.btn');
@@ -514,10 +510,8 @@ describe("UsersManager", function () {
 
         await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
 
-        // Applying the access change requires a confirmed password. The confirmation is cached for a
-        // short window, so the password modal only appears once the cache has expired - which happens
-        // on the slower CI but usually not locally. Enter the password whenever the modal is shown so
-        // the change is applied in both cases.
+        // Setting access needs a confirmed password; the modal only appears once the confirmation
+        // cache expires (as on the slower CI), so fill it whenever it is shown.
         await page.waitForTimeout(500);
         if (await page.evaluate(() => $('.confirm-password-modal.open:visible').length > 0)) {
             await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);

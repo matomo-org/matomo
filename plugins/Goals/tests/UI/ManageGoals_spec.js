@@ -14,9 +14,7 @@ describe("ManageGoals", function () {
     const defaultViewport = { width: 1350, height: 768 };
     const smallerViewport = { width: 800, height: 900 };
 
-    // Navigating to a URL that differs only in the #hash does not reload the page under
-    // Chrome 149, so the manage-goals page would keep the previous test's open edit form
-    // and success notifications. Navigate away first to force a full reload and isolate tests.
+    // A hash-only goto does not reload under Chrome 149; navigate away first to isolate tests.
     async function goToManageGoals() {
         await page.goto('about:blank');
         await page.goto(manageGoalsUrl);
