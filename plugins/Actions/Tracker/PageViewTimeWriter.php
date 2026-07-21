@@ -148,8 +148,14 @@ class PageViewTimeWriter
         //
         // GREATEST() ensures out-of-order heartbeats can only grow time_spent; LEAST() caps it
         // at visit_standard_length so a stalled tab can't inflate one page.
+        //
+        // The cap is interpolated as a numeric literal (not a `?` bind param) because PDO_MYSQL
+        // emulated prepares (the tracker default) sends bound integers as quoted strings, and
+        // `LEAST('1800', 25)` triggers MySQL's string comparison rule ('1800' < '25' lexically)
+        // so the cap wins even when the diff is well below it. `$cap` is a validated int from
+        // Tracker config, safe to inline.
         $sql = "UPDATE `$table`
-                   SET time_spent = LEAST(?, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
+                   SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
                  WHERE idpageviewtime = (
                         SELECT idpageviewtime FROM (
                             SELECT idpageviewtime FROM `$table`
@@ -160,7 +166,7 @@ class PageViewTimeWriter
                              LIMIT 1
                         ) t
                        )";
-        $db->query($sql, [$cap, $serverTimeSql, $idVisit, $newIdLinkVa, $serverTimeSql]);
+        $db->query($sql, [$serverTimeSql, $idVisit, $newIdLinkVa, $serverTimeSql]);
     }
 
     private function insertPageView(
@@ -212,9 +218,10 @@ class PageViewTimeWriter
         // most-recent one — that is the currently-active row for this tab.
         //
         // The derived-table form avoids the statement-based-binlog warning that
-        // `UPDATE ... ORDER BY ... LIMIT 1` triggers.
+        // `UPDATE ... ORDER BY ... LIMIT 1` triggers. `$cap` is inlined for the same reason as
+        // in closePreviousPageView(): PDO emulated prepares would send it as a quoted string.
         $sql = "UPDATE `$table`
-                   SET time_spent = LEAST(?, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
+                   SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
                  WHERE idpageviewtime = (
                         SELECT idpageviewtime FROM (
                             SELECT idpageviewtime FROM `$table`
@@ -223,6 +230,6 @@ class PageViewTimeWriter
                              LIMIT 1
                         ) t
                        )";
-        $db->query($sql, [$cap, $serverTimeSql, $idVisit, $pvId]);
+        $db->query($sql, [$serverTimeSql, $idVisit, $pvId]);
     }
 }
