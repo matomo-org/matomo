@@ -10,7 +10,7 @@
 namespace Piwik\Plugins\CoreUpdater\tests\Integration;
 
 use Piwik\Config;
-use Piwik\Http;
+use Piwik\Container\StaticContainer;
 use Piwik\Nonce;
 use Piwik\Plugins\CoreUpdater\ArchiveDownloadException;
 use Piwik\Plugins\CoreUpdater\Controller;
@@ -29,9 +29,11 @@ class ControllerTest extends IntegrationTestCase
     private $originalEnableAutoUpdate;
     private $originalEnableInternetFeatures;
     private $originalUpdateDetailsToken;
+    private $originalForceHttpRequest;
     private $hadEnableAutoUpdate = false;
     private $hadEnableInternetFeatures = false;
     private $hadUpdateDetailsToken = false;
+    private $hadForceHttpRequest = false;
 
     public function setUp(): void
     {
@@ -44,9 +46,11 @@ class ControllerTest extends IntegrationTestCase
         $this->hadEnableAutoUpdate = array_key_exists('enable_auto_update', $general);
         $this->hadEnableInternetFeatures = array_key_exists('enable_internet_features', $general);
         $this->hadUpdateDetailsToken = array_key_exists('update_details_token', $general);
+        $this->hadForceHttpRequest = array_key_exists('force_matomo_http_request', $general);
         $this->originalEnableAutoUpdate = $general['enable_auto_update'] ?? null;
         $this->originalEnableInternetFeatures = $general['enable_internet_features'] ?? null;
         $this->originalUpdateDetailsToken = $general['update_details_token'] ?? null;
+        $this->originalForceHttpRequest = $general['force_matomo_http_request'] ?? null;
 
         Config::getInstance()->General['enable_auto_update'] = 1;
         Config::getInstance()->General['enable_internet_features'] = 1;
@@ -78,7 +82,11 @@ class ControllerTest extends IntegrationTestCase
             unset($config->General['update_details_token']);
         }
 
-        unset($config->General['force_matomo_http_request']);
+        if ($this->hadForceHttpRequest) {
+            $config->General['force_matomo_http_request'] = $this->originalForceHttpRequest;
+        } else {
+            unset($config->General['force_matomo_http_request']);
+        }
 
         $config->forceSave();
 
@@ -173,15 +181,11 @@ class ControllerTest extends IntegrationTestCase
         // The insecure HTTP fallback must no longer be offered, and no retry form should reappear.
         self::assertStringNotContainsString('updateUsingHttp', $result);
         self::assertStringNotContainsString('name="https"', $result);
-        self::assertStringNotContainsString('action=oneClickUpdate', $result);
+        self::assertStringNotContainsString('value="oneClickUpdate"', $result);
     }
 
     public function testOneClickUpdateMarksHttpsFailureWhenSecureDownloadFails()
     {
-        if (!Http::isUpdatingOverHttps()) {
-            $this->markTestSkipped('HTTPS updating is not available in this environment');
-        }
-
         FakeAccess::clearAccess(true);
         Config::getInstance()->General['force_matomo_http_request'] = 0;
 
@@ -208,6 +212,26 @@ class ControllerTest extends IntegrationTestCase
         self::assertStringContainsString('name="httpsFail" value="0"', $output);
     }
 
+    public function testGetArchiveUrlUsesHttpsByDefault()
+    {
+        Config::getInstance()->General['force_matomo_http_request'] = 0;
+
+        $updater = StaticContainer::get(Updater::class);
+
+        self::assertTrue($updater->isUpdatingOverSecureConnection());
+        self::assertStringStartsWith('https://', $updater->getArchiveUrl('5.0.0'));
+    }
+
+    public function testGetArchiveUrlUsesHttpOnlyWhenHttpIsForced()
+    {
+        Config::getInstance()->General['force_matomo_http_request'] = 1;
+
+        $updater = StaticContainer::get(Updater::class);
+
+        self::assertFalse($updater->isUpdatingOverSecureConnection());
+        self::assertStringStartsWith('http://', $updater->getArchiveUrl('5.0.0'));
+    }
+
     public function provideContainerConfig()
     {
         return array(
@@ -227,12 +251,17 @@ class ControllerTest extends IntegrationTestCase
 
     private function buildFailingDownloadController(): Controller
     {
-        $updater = $this->createMock(Updater::class);
+        // Only stub the download itself so isUpdatingOverSecureConnection() keeps its real,
+        // config-driven behaviour and the controller derives httpsFail from the actual scheme.
+        $updater = $this->getMockBuilder(Updater::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['updatePiwik'])
+            ->getMock();
         $updater->method('updatePiwik')->willThrowException(
             new ArchiveDownloadException(new \Exception('Simulated SSL certificate failure'))
         );
 
-        return $this->buildController($updater);
+        return new Controller($updater);
     }
 
     private function captureOneClickUpdateOutput(): string

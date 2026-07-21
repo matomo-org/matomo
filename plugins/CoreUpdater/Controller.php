@@ -13,14 +13,12 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Config\GeneralConfig;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DbHelper;
 use Piwik\Development;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
-use Piwik\Http;
 use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -173,12 +171,10 @@ class Controller extends \Piwik\Plugin\Controller
             $messages = $this->updater->updatePiwik();
             $this->refreshUpdateDetailsToken();
         } catch (ArchiveDownloadException $e) {
-            // The update archive is always fetched over HTTPS unless the admin explicitly opted into
-            // plain HTTP via the force_matomo_http_request config option (or HTTPS is not available on
-            // this environment at all). Only in the secure HTTPS case do we show the HTTPS-specific
-            // error screen; a failed HTTP download falls back to the generic update error screen.
-            $view->httpsFail = Http::isUpdatingOverHttps()
-                && GeneralConfig::getConfigValue('force_matomo_http_request') == 0;
+            // Only show the HTTPS-specific error screen when the download was actually attempted over
+            // HTTPS. A failed plain-HTTP download (force_matomo_http_request enabled) falls back to the
+            // generic update error screen.
+            $view->httpsFail = $this->updater->isUpdatingOverSecureConnection();
             $view->error = $e->getMessage();
             $messages = $e->getUpdateLogMessages();
         } catch (UpdaterException $e) {

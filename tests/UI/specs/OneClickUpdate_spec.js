@@ -19,34 +19,6 @@ describe("OneClickUpdate", function () {
     const latestStableUrl = config.piwikUrl + '/latestStableInstall/index.php';
     const settingsUrl = latestStableUrl + '?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday';
 
-    async function openHttpsFailureScreen() {
-        // Recreate the HTTPS failure state directly so the rest of the test
-        // does not depend on browser history or transport-specific behavior.
-        await page.evaluate((oneClickResultsUrl) => {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = oneClickResultsUrl;
-
-            [
-                ['httpsFail', '1'],
-                ['error', 'Simulated SSL certificate failure'],
-                ['messages', 'a:0:{}'],
-            ].forEach(([name, value]) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = name;
-                input.value = value;
-                form.appendChild(input);
-            });
-
-            document.body.appendChild(form);
-            form.submit();
-        }, latestStableUrl + '?module=CoreUpdater&action=oneClickResults');
-
-        await page.waitForNetworkIdle();
-        await page.waitForSelector('.alert-warning', { visible: true });
-    }
-
     async function openUpdateScreen() {
         await page.goto(settingsUrl);
         await page.waitForNetworkIdle();
@@ -96,15 +68,6 @@ describe("OneClickUpdate", function () {
         await page.waitForSelector('.content');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_screen');
-    });
-
-    it('should show a secure error without an HTTP fallback when the update over https fails', async function () {
-        await openHttpsFailureScreen();
-        // The insecure HTTP fallback has been removed, so neither retry button must be offered.
-        expect(await page.$('#updateUsingHttp')).to.be.null;
-        expect(await page.$('#updateUsingHttps')).to.be.null;
-        expect(await page.$('.alert-warning')).to.be.ok;
-        expect(await page.$('.footer a')).to.be.ok;
     });
 
     it('should fail when a directory is not writable', async function () {

@@ -19,6 +19,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   dependency injection or extend `Piwik\Log\Logger` are not affected.
 * The deprecated archiving script `./misc/cron/archive.sh` has been removed. Use the console command `core:archive` instead.
 * The `SEO` plugin has been removed, along with its `SEO` widget and the `SEO.getRank` API method.
+* One Click Update now always downloads the update archive over HTTPS. The insecure "retry over HTTP" fallback screen and the `https` request parameter of the `CoreUpdater.oneClickUpdate` action have been removed, and the `$https` parameter of `Piwik\Plugins\CoreUpdater\Updater::updatePiwik()` and `Piwik\Plugins\CoreUpdater\Updater::getArchiveUrl()` has been removed. HTTP is only used when the `force_matomo_http_request` config option is enabled.
 
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against
