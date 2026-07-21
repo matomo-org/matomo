@@ -95,6 +95,19 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $validator->resolveTarget($host));
     }
 
+    public function testResolveTargetAcceptsAdditionalAllowedIps()
+    {
+        $resolver = static function (): array {
+            return array('127.0.0.1');
+        };
+
+        $validator = new EgressHostValidator($resolver, array('127.0.0.1'));
+        $this->assertSame(array('local.test', '127.0.0.1'), $validator->resolveTarget('local.test'));
+
+        $this->expectException(Exception::class);
+        (new EgressHostValidator($resolver))->resolveTarget('local.test');
+    }
+
     public function getResolveTargetTestData()
     {
         return array(

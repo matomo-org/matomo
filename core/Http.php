@@ -320,7 +320,9 @@ class Http
 
             $effectivePort = isset($parsedUrl['port']) ? (int) $parsedUrl['port'] : ($scheme === 'https' ? 443 : 80);
 
-            [$canonicalHost, $pinnedIp] = (new EgressHostValidator())->resolveTarget((string) ($parsedUrl['host'] ?? ''));
+            // Resolved via DI so tests can substitute a validator that accepts the local fixture server.
+            [$canonicalHost, $pinnedIp] = StaticContainer::get(EgressHostValidator::class)
+                ->resolveTarget((string) ($parsedUrl['host'] ?? ''));
 
             // Rewrite the URL to the canonical host when it differs (IDN folding, casing, a trailing dot)
             if ($canonicalHost !== trim((string) ($parsedUrl['host'] ?? ''), '[]')) {
