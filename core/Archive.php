@@ -1050,15 +1050,6 @@ class Archive implements ArchiveQuery
     }
 
     /**
-     * Only kept for BC
-     * @return void
-     * @deprecated Remove with Matomo 6
-     */
-    public static function clearStaticCache()
-    {
-    }
-
-    /**
      * @return void
      */
     public function forceFetchingWithoutLaunchingArchiving()
