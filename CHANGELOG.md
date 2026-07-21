@@ -7,6 +7,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.0.0
 
 ### Breaking Changes
+* The deprecated method `Piwik\Archive::getBlob()` has been removed. Use one of the `Piwik\Archive::getDataTable*()` methods instead.
 * The deprecated method `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()` has been removed. Use the `SitesManager.getExcludedQueryParameters` API method instead.
 * The deprecated method `Piwik\Db::optimizeTables()` has been removed. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
 * The deprecated method `Piwik\Db::isOptimizeInnoDBSupported()` has been removed. Use `Piwik\Db\Schema::getInstance()->isOptimizeInnoDBSupported()` instead.
