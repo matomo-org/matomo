@@ -13,12 +13,14 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DbHelper;
 use Piwik\Development;
 use Piwik\Filechecks;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
+use Piwik\Http;
 use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -167,13 +169,16 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
 
-        $useHttps = Common::getRequestVar('https', 1, 'int');
-
         try {
-            $messages = $this->updater->updatePiwik($useHttps);
+            $messages = $this->updater->updatePiwik();
             $this->refreshUpdateDetailsToken();
         } catch (ArchiveDownloadException $e) {
-            $view->httpsFail = $useHttps;
+            // The update archive is always fetched over HTTPS unless the admin explicitly opted into
+            // plain HTTP via the force_matomo_http_request config option (or HTTPS is not available on
+            // this environment at all). Only in the secure HTTPS case do we show the HTTPS-specific
+            // error screen; a failed HTTP download falls back to the generic update error screen.
+            $view->httpsFail = Http::isUpdatingOverHttps()
+                && GeneralConfig::getConfigValue('force_matomo_http_request') == 0;
             $view->error = $e->getMessage();
             $messages = $e->getUpdateLogMessages();
         } catch (UpdaterException $e) {
@@ -239,7 +244,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($httpsFail) {
             $view = new View('@CoreUpdater/updateHttpsError');
-            $view->nonce = Nonce::getNonce('oneClickUpdate');
             $view->error = $error;
         } elseif ($error) {
             $view = new View('@CoreUpdater/updateHttpError');
