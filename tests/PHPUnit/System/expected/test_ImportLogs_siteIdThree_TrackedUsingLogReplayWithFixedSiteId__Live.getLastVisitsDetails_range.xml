@@ -155,8 +155,8 @@
 				
 				<pageId>60</pageId>
 				<bandwidth>43</bandwidth>
-				<timeSpent>79</timeSpent>
-				<timeSpentPretty>1 min 19s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Changelog Archive - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/changelog/</subtitle>
@@ -449,8 +449,8 @@
 				
 				<pageId>64</pageId>
 				<bandwidth>43</bandwidth>
-				<timeSpent>32</timeSpent>
-				<timeSpentPretty>32s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>
@@ -1322,8 +1322,8 @@
 				
 				<pageId>55</pageId>
 				<bandwidth>43</bandwidth>
-				<timeSpent>2</timeSpent>
-				<timeSpentPretty>2s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>

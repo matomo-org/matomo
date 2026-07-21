@@ -120,7 +120,7 @@
 	<reportTotal>
 		<nb_visits>8</nb_visits>
 		<nb_hits>13</nb_hits>
-		<sum_time_spent>702</sum_time_spent>
+		<sum_time_spent>14724</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<nb_pages_per_search>9</nb_pages_per_search>

@@ -6,14 +6,14 @@
 				<label>No Result Keyword!</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>288</sum_time_spent>
+				<sum_time_spent>3600</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
 				<nb_pages_per_search>1</nb_pages_per_search>
 				<avg_bandwidth>0</avg_bandwidth>
-				<avg_time_on_page>144</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
@@ -22,14 +22,14 @@
 				<label>Search 1</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>6</nb_hits>
-				<sum_time_spent>288</sum_time_spent>
+				<sum_time_spent>5724</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
 				<nb_pages_per_search>3</nb_pages_per_search>
 				<avg_bandwidth>0</avg_bandwidth>
-				<avg_time_on_page>48</avg_time_on_page>
+				<avg_time_on_page>954</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>siteSearchKeyword==Search+1</segment>
@@ -38,7 +38,7 @@
 				<label>Search 2</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>72</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
@@ -46,7 +46,7 @@
 				<exit_nb_visits>1</exit_nb_visits>
 				<nb_pages_per_search>1</nb_pages_per_search>
 				<avg_bandwidth>0</avg_bandwidth>
-				<avg_time_on_page>36</avg_time_on_page>
+				<avg_time_on_page>900</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>50%</exit_rate>
 				<segment>siteSearchKeyword==Search+2</segment>
@@ -72,14 +72,14 @@
 				<label>Keyword - Tracking API</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>54</sum_time_spent>
+				<sum_time_spent>3600</sum_time_spent>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
 				<nb_pages_per_search>2</nb_pages_per_search>
 				<avg_bandwidth>0</avg_bandwidth>
-				<avg_time_on_page>27</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>siteSearchKeyword==Keyword+-+Tracking+API</segment>

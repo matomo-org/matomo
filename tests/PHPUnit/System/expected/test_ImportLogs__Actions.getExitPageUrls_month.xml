@@ -1213,7 +1213,7 @@
 		<label>Citrix</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
-		<sum_time_spent>240</sum_time_spent>
+		<sum_time_spent>1800</sum_time_spent>
 		<nb_hits_with_time_server>0</nb_hits_with_time_server>
 		<min_time_server />
 		<max_time_server />
@@ -1244,7 +1244,7 @@
 		<avg_bandwidth>2982</avg_bandwidth>
 		<avg_time_server>0</avg_time_server>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>120</avg_time_on_page>
+		<avg_time_on_page>900</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>50%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FCitrix</segment>
@@ -1253,7 +1253,7 @@
 				<label>XenApp</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>240</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_server>0</nb_hits_with_time_server>
 				<min_time_server />
 				<max_time_server />
@@ -1281,7 +1281,7 @@
 					</row>
 				</goals>
 				<exit_nb_visits>1</exit_nb_visits>
-				<avg_time_on_page>120</avg_time_on_page>
+				<avg_time_on_page>900</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>50%</exit_rate>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FCitrix%252FXenApp</segment>
@@ -1290,7 +1290,7 @@
 						<label>Wan</label>
 						<nb_visits>2</nb_visits>
 						<nb_hits>2</nb_hits>
-						<sum_time_spent>240</sum_time_spent>
+						<sum_time_spent>1800</sum_time_spent>
 						<nb_hits_with_time_server>0</nb_hits_with_time_server>
 						<min_time_server />
 						<max_time_server />
@@ -1318,7 +1318,7 @@
 							</row>
 						</goals>
 						<exit_nb_visits>1</exit_nb_visits>
-						<avg_time_on_page>120</avg_time_on_page>
+						<avg_time_on_page>900</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
 						<exit_rate>50%</exit_rate>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FCitrix%252FXenApp%252FWan</segment>
@@ -1327,7 +1327,7 @@
 								<label>auth</label>
 								<nb_visits>2</nb_visits>
 								<nb_hits>2</nb_hits>
-								<sum_time_spent>240</sum_time_spent>
+								<sum_time_spent>1800</sum_time_spent>
 								<nb_hits_with_time_server>0</nb_hits_with_time_server>
 								<min_time_server />
 								<max_time_server />
@@ -1355,7 +1355,7 @@
 									</row>
 								</goals>
 								<exit_nb_visits>1</exit_nb_visits>
-								<avg_time_on_page>120</avg_time_on_page>
+								<avg_time_on_page>900</avg_time_on_page>
 								<bounce_rate>0%</bounce_rate>
 								<exit_rate>50%</exit_rate>
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FCitrix%252FXenApp%252FWan%252Fauth</segment>

@@ -62,8 +62,8 @@
 				<productViewName>PRODUCT TWO LEFT in cart</productViewName>
 				<productViewSku>SKU IN ABANDONED CART TWO</productViewSku>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -254,8 +254,8 @@
 				
 				<pageId>5</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -276,8 +276,8 @@
 				
 				<pageId>6</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Looking at Electronics &amp; Cameras page again</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -455,8 +455,8 @@
 				<productViewName>PRODUCT TWO LEFT in cart</productViewName>
 				<productViewSku>SKU IN ABANDONED CART TWO</productViewSku>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>6</pageviewPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -650,8 +650,8 @@
 				<productViewName>PRODUCT name</productViewName>
 				<productViewSku>SKU2</productViewSku>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -693,8 +693,8 @@
 				<productViewName>PRODUCT name</productViewName>
 				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Another Product page</title>
 				<subtitle>http://example.org/index.htm</subtitle>

@@ -16,8 +16,8 @@
 				
 				<pageId>1</pageId>
 				<bandwidth />
-				<timeSpent>720</timeSpent>
-				<timeSpentPretty>12 min 0s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>entry page</title>
 				<subtitle>https://piwik.net/home/page</subtitle>
@@ -80,8 +80,8 @@
 				<productViewName>special plugin</productViewName>
 				<productViewSku>ABCSKU123</productViewSku>
 				<bandwidth />
-				<timeSpent>72</timeSpent>
-				<timeSpentPretty>1 min 12s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>product page</title>
 				<subtitle>http://piwik.net/product</subtitle>
@@ -134,8 +134,8 @@
 				
 				<pageId>7</pageId>
 				<bandwidth />
-				<timeSpent>1008</timeSpent>
-				<timeSpentPretty>16 min 48s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title>order page</title>
 				<subtitle>http://piwik.net/order</subtitle>

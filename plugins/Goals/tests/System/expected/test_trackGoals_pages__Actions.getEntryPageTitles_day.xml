@@ -5,7 +5,7 @@
 		<nb_visits>4</nb_visits>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
 		<nb_hits>5</nb_hits>
-		<sum_time_spent>1800</sum_time_spent>
+		<sum_time_spent>9000</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -54,7 +54,7 @@
 		<goal_1_nb_conversions>3</goal_1_nb_conversions>
 		<goal_1_revenue_per_visit>7.5</goal_1_revenue_per_visit>
 		<goal_1_revenue>30</goal_1_revenue>
-		<avg_time_on_page>360</avg_time_on_page>
+		<avg_time_on_page>1800</avg_time_on_page>
 		<exit_rate>0%</exit_rate>
 		<segment>entryPageTitle==Page%2BA%2B-%2Bindex.html</segment>
 	</row>

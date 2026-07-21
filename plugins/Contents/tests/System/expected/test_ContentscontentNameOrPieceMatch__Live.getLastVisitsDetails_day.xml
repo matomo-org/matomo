@@ -17,8 +17,8 @@
 				<pageId>14</pageId>
 				<pageLoadTime>1.15s</pageLoadTime>
 				<bandwidth />
-				<timeSpent>270</timeSpent>
-				<timeSpentPretty>4 min 30s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1152</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Ads</title>
@@ -386,8 +386,8 @@
 				<pageId>1</pageId>
 				<pageLoadTime>1.15s</pageLoadTime>
 				<bandwidth />
-				<timeSpent>270</timeSpent>
-				<timeSpentPretty>4 min 30s</timeSpentPretty>
+				<timeSpent>1800</timeSpent>
+				<timeSpentPretty>30 min 0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>1152</pageLoadTimeMilliseconds>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Ads</title>

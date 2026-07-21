@@ -119,7 +119,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
 				<min_time_network>0.0270</min_time_network>
 				<max_time_network>0.0270</max_time_network>
@@ -155,7 +155,7 @@
 				<avg_time_dom_completion>0.296</avg_time_dom_completion>
 				<avg_time_on_load>0.335</avg_time_on_load>
 				<avg_page_load_time>2.307</avg_page_load_time>
-				<avg_time_on_page>360</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fa%2Bnew%2Bvisit</segment>
@@ -165,7 +165,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>900</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
 				<min_time_network>0.0000</min_time_network>
 				<max_time_network>0.0000</max_time_network>
@@ -196,7 +196,7 @@
 				<avg_time_dom_completion>0.198</avg_time_dom_completion>
 				<avg_time_on_load>0.299</avg_time_on_load>
 				<avg_page_load_time>1.983</avg_page_load_time>
-				<avg_time_on_page>900</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fsecond%2Bpage%2Bview%25F0%259F%2598%2580%25F0%259F%2592%25A9%25F0%259F%2598%2580%25F0%259F%2592%25A9</segment>
@@ -251,7 +251,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
 				<min_time_network>0.0270</min_time_network>
 				<max_time_network>0.0270</max_time_network>
@@ -287,7 +287,7 @@
 				<avg_time_dom_completion>0.296</avg_time_dom_completion>
 				<avg_time_on_load>0.335</avg_time_on_load>
 				<avg_page_load_time>2.307</avg_page_load_time>
-				<avg_time_on_page>360</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fa%2Bnew%2Bvisit</segment>
@@ -297,7 +297,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>900</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
 				<min_time_network>0.0000</min_time_network>
 				<max_time_network>0.0000</max_time_network>
@@ -328,7 +328,7 @@
 				<avg_time_dom_completion>0.198</avg_time_dom_completion>
 				<avg_time_on_load>0.299</avg_time_on_load>
 				<avg_page_load_time>1.983</avg_page_load_time>
-				<avg_time_on_page>900</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fsecond%2Bpage%2Bview%25F0%259F%2598%2580%25F0%259F%2592%25A9%25F0%259F%2598%2580%25F0%259F%2592%25A9</segment>
@@ -383,7 +383,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
 				<min_time_network>0.0270</min_time_network>
 				<max_time_network>0.0270</max_time_network>
@@ -419,7 +419,7 @@
 				<avg_time_dom_completion>0.296</avg_time_dom_completion>
 				<avg_time_on_load>0.335</avg_time_on_load>
 				<avg_page_load_time>2.307</avg_page_load_time>
-				<avg_time_on_page>360</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fa%2Bnew%2Bvisit</segment>
@@ -429,7 +429,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>900</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
 				<min_time_network>0.0000</min_time_network>
 				<max_time_network>0.0000</max_time_network>
@@ -460,7 +460,7 @@
 				<avg_time_dom_completion>0.198</avg_time_dom_completion>
 				<avg_time_on_load>0.299</avg_time_on_load>
 				<avg_page_load_time>1.983</avg_page_load_time>
-				<avg_time_on_page>900</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fsecond%2Bpage%2Bview%25F0%259F%2598%2580%25F0%259F%2592%25A9%25F0%259F%2598%2580%25F0%259F%2592%25A9</segment>
@@ -515,7 +515,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
 				<min_time_network>0.0270</min_time_network>
 				<max_time_network>0.0270</max_time_network>
@@ -551,7 +551,7 @@
 				<avg_time_dom_completion>0.296</avg_time_dom_completion>
 				<avg_time_on_load>0.335</avg_time_on_load>
 				<avg_page_load_time>2.307</avg_page_load_time>
-				<avg_time_on_page>360</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fa%2Bnew%2Bvisit</segment>
@@ -561,7 +561,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>900</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
 				<min_time_network>0.0000</min_time_network>
 				<max_time_network>0.0000</max_time_network>
@@ -592,7 +592,7 @@
 				<avg_time_dom_completion>0.198</avg_time_dom_completion>
 				<avg_time_on_load>0.299</avg_time_on_load>
 				<avg_page_load_time>1.983</avg_page_load_time>
-				<avg_time_on_page>900</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fsecond%2Bpage%2Bview%25F0%259F%2598%2580%25F0%259F%2592%25A9%25F0%259F%2598%2580%25F0%259F%2592%25A9</segment>
@@ -647,7 +647,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
 				<min_time_network>0.0270</min_time_network>
 				<max_time_network>0.0270</max_time_network>
@@ -683,7 +683,7 @@
 				<avg_time_dom_completion>0.296</avg_time_dom_completion>
 				<avg_time_on_load>0.335</avg_time_on_load>
 				<avg_page_load_time>2.307</avg_page_load_time>
-				<avg_time_on_page>360</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fa%2Bnew%2Bvisit</segment>
@@ -693,7 +693,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>900</sum_time_spent>
+				<sum_time_spent>1800</sum_time_spent>
 				<nb_hits_with_time_network>1</nb_hits_with_time_network>
 				<min_time_network>0.0000</min_time_network>
 				<max_time_network>0.0000</max_time_network>
@@ -724,7 +724,7 @@
 				<avg_time_dom_completion>0.198</avg_time_dom_completion>
 				<avg_time_on_load>0.299</avg_time_on_load>
 				<avg_page_load_time>1.983</avg_page_load_time>
-				<avg_time_on_page>900</avg_time_on_page>
+				<avg_time_on_page>1800</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<segment>pageTitle==second%2Bvisitor%252Ftwo%2Bdays%2Blater%252Fsecond%2Bpage%2Bview%25F0%259F%2598%2580%25F0%259F%2592%25A9%25F0%259F%2598%2580%25F0%259F%2592%25A9</segment>
