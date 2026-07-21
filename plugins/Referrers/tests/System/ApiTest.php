@@ -57,6 +57,21 @@ class ApiTest extends SystemTestCase
             ],
         ];
 
+        // Referrers.getAll assembles its table from a getReferrerType subrequest with
+        // disable_queued_filters=1, which used to leave the reportTotal keyed by raw
+        // Metrics::INDEX_* integers instead of metric names. Guard that the totals are named
+        // (and correctly aggregated) like every other report's reportTotal.
+        $apiToTest[] = [$api,
+            [
+                'idSite'     => 1,
+                'apiModule'  => 'Referrers',
+                'apiAction'  => 'getAll',
+                'date'       => '2010-01-01',
+                'periods'    => ['year'],
+                'testSuffix' => 'Referrers_getAll',
+            ],
+        ];
+
         $apiToTest[] = [
             'Referrers.getReferrerType',
             [
