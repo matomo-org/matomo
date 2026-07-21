@@ -190,7 +190,17 @@ describe("UsersManager", function () {
     });
 
     it('should remove access to the currently selected site when the bulk remove access option is clicked', async function () {
+        // The previous test changed access for all rows in search, which triggers an async reload of
+        // the user list. The list's `users` watcher clears the row selection on every reload, so a
+        // selection made before that reload settles would be wiped and the bulk-actions menu would
+        // stay disabled. Wait for the list to finish loading before selecting.
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.pagedUsersList:not(.loading)');
+
         await page.click('th.select-cell input + span'); // select displayed rows
+        // The bulk-actions trigger only opens its menu once a selection exists (it carries a
+        // `disabled` class otherwise); wait for it to become enabled before clicking.
+        await page.waitForSelector('.bulk-actions.btn:not(.disabled)', { visible: true });
 
         await page.click('.bulk-actions.btn');
         await page.waitForSelector('#user-list-bulk-actions', { visible: true });
