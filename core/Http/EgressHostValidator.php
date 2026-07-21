@@ -50,12 +50,18 @@ class EgressHostValidator
     /** @var callable(string): string[] */
     private $resolver;
 
+    /** @var string[] */
+    private $additionalAllowedIps;
+
     /**
      * @param callable|null $resolver Host-to-IPs resolver, defaults to DNS. Injectable for tests.
+     * @param string[] $additionalAllowedIps IPs accepted although not public, e.g. loopback for tests
+     *                                       targeting a local fixture server.
      */
-    public function __construct(?callable $resolver = null)
+    public function __construct(?callable $resolver = null, array $additionalAllowedIps = [])
     {
         $this->resolver = $resolver ?? [self::class, 'resolveHostIpsViaDns'];
+        $this->additionalAllowedIps = $additionalAllowedIps;
     }
 
     /**
@@ -91,7 +97,7 @@ class EgressHostValidator
 
         // An IP literal connects directly (no DNS, no rebinding window): validate it, skip pinning.
         if (filter_var($host, FILTER_VALIDATE_IP)) {
-            if (!self::isPublicIp($host)) {
+            if (!$this->isAllowedIp($host)) {
                 throw new Exception('Refusing to fetch: host resolves to a private or reserved address.');
             }
             return [$host, $host];
@@ -112,13 +118,18 @@ class EgressHostValidator
             throw new Exception('Refusing to fetch: host could not be resolved.');
         }
         foreach ($ips as $ip) {
-            if (!self::isPublicIp($ip)) {
+            if (!$this->isAllowedIp($ip)) {
                 throw new Exception('Refusing to fetch: host resolves to a private or reserved address.');
             }
         }
 
         // Pin the first address so the connection cannot be rebound between validation and connect.
         return [$host, $ips[0]];
+    }
+
+    private function isAllowedIp(string $ip): bool
+    {
+        return in_array($ip, $this->additionalAllowedIps, true) || self::isPublicIp($ip);
     }
 
     public static function isPublicIp(string $ip): bool

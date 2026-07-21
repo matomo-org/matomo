@@ -12,7 +12,9 @@ namespace Piwik\Tests\Integration;
 use Piwik\Container\StaticContainer;
 use Piwik\EventDispatcher;
 use Piwik\Http;
+use Piwik\Http\EgressHostValidator;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Version;
 
@@ -22,6 +24,18 @@ use Piwik\Version;
  */
 class HttpTest extends \PHPUnit\Framework\TestCase
 {
+    protected function tearDown(): void
+    {
+        // Some tests register Http.sendHttpRequest observers to mock responses. Observers
+        // cannot be removed, so replace the dispatcher to keep them from leaking into later tests.
+        StaticContainer::getContainer()->set(
+            EventDispatcher::class,
+            new EventDispatcher(Manager::getInstance())
+        );
+
+        parent::tearDown();
+    }
+
     /**
      * Dataprovider for testFetchRemoteFile
      */
@@ -477,9 +491,11 @@ class HttpTest extends \PHPUnit\Framework\TestCase
 
     public function testSendHttpRequestByWithEgressValidationFollowsRedirects()
     {
+        $this->allowEgressValidationForTestHost();
+
         $result = Http::sendHttpRequestBy(
             'curl',
-            'http://matomo.org/',
+            Fixture::getRootUrl() . 'tests/resources/redirector.php?redirects=2',
             30,
             null,
             null,
@@ -500,11 +516,13 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertEquals(200, $result['status']);
-        $this->assertNotEmpty($result['data']);
+        self::assertStringContainsString('redirects=0', $result['data']);
     }
 
     public function testSendHttpRequestWithEgressValidationRejectsRedirectWhenDownloadingToFile()
     {
+        $this->allowEgressValidationForTestHost();
+
         $destinationPath = PIWIK_DOCUMENT_ROOT . '/tmp/latest/egress-redirect-test';
 
         try {
@@ -512,7 +530,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             $this->expectExceptionMessage('SSRF-safe HTTP requests cannot follow redirects when downloading to a file.');
 
             Http::sendHttpRequest(
-                'http://matomo.org/',
+                Fixture::getRootUrl() . 'tests/resources/redirector.php?redirects=1',
                 30,
                 null,
                 $destinationPath,
@@ -529,6 +547,28 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         } finally {
             @unlink($destinationPath);
         }
+    }
+
+    /**
+     * Lets the SSRF-safe path accept the local test host, which resolves to loopback
+     * and would otherwise be rejected as non-public. Keeps the real curl transport,
+     * pinning and redirect re-validation in place.
+     */
+    private function allowEgressValidationForTestHost(): void
+    {
+        $host = (string) parse_url(Fixture::getRootUrl(), PHP_URL_HOST);
+
+        $allowedIps = ['127.0.0.1', '::1'];
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            $allowedIps[] = $host;
+        } else {
+            $allowedIps = array_merge($allowedIps, gethostbynamel($host) ?: []);
+        }
+
+        StaticContainer::getContainer()->set(
+            EgressHostValidator::class,
+            new EgressHostValidator(null, array_unique($allowedIps))
+        );
     }
 
     /**
@@ -567,5 +607,4 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             ['https://de.piwik.org', true],
         ];
     }
-
 }
