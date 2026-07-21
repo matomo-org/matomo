@@ -48268,4 +48268,459 @@ return array (
       'current' => true,
     ),
   ),
+  'HK' =>
+  array (
+    'HCW' =>
+    array (
+      'name' => 'Central and Western',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'HEA' =>
+    array (
+      'name' => 'Eastern District',
+      'altNames' =>
+      array (
+        0 => 'Eastern',
+      ),
+      'current' => false,
+    ),
+    'NST' =>
+    array (
+      'name' => 'Sha Tin',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'KWT' =>
+    array (
+      'name' => 'Wong Tai Sin District',
+      'altNames' =>
+      array (
+        0 => 'Wong Tai Sin',
+      ),
+      'current' => false,
+    ),
+    'KKC' =>
+    array (
+      'name' => 'Kowloon City',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'NIS' =>
+    array (
+      'name' => 'Islands',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'NSK' =>
+    array (
+      'name' => 'Sai Kung District',
+      'altNames' =>
+      array (
+        0 => 'Sai Kung',
+      ),
+      'current' => false,
+    ),
+    'NKT' =>
+    array (
+      'name' => 'Kwai Tsing District',
+      'altNames' =>
+      array (
+        0 => 'Kwai Tsing',
+      ),
+      'current' => false,
+    ),
+    'NTP' =>
+    array (
+      'name' => 'Tai Po',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'KKT' =>
+    array (
+      'name' => 'Kwun Tong District',
+      'altNames' =>
+      array (
+        0 => 'Kwun Tong',
+      ),
+      'current' => false,
+    ),
+    'HSO' =>
+    array (
+      'name' => 'Southern District',
+      'altNames' =>
+      array (
+        0 => 'Southern',
+      ),
+      'current' => false,
+    ),
+    'KSS' =>
+    array (
+      'name' => 'Sham Shui Po District',
+      'altNames' =>
+      array (
+        0 => 'Sham Shui Po',
+      ),
+      'current' => false,
+    ),
+    'KYT' =>
+    array (
+      'name' => 'Yau Tsim Mong District',
+      'altNames' =>
+      array (
+        0 => 'Yau Tsim Mong',
+      ),
+      'current' => false,
+    ),
+    'NNO' =>
+    array (
+      'name' => 'North District',
+      'altNames' =>
+      array (
+        0 => 'North',
+      ),
+      'current' => false,
+    ),
+    'NYL' =>
+    array (
+      'name' => 'Yuen Long',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'NTM' =>
+    array (
+      'name' => 'Tuen Mun',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'NTW' =>
+    array (
+      'name' => 'Tsuen Wan',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'HWC' =>
+    array (
+      'name' => 'Wan Chai',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+  ),
+  'VI' =>
+  array (
+    'J' =>
+    array (
+      'name' => 'Saint John Island',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'T' =>
+    array (
+      'name' => 'Saint Thomas Island',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'C' =>
+    array (
+      'name' => 'Saint Croix Island',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+  ),
+  'PM' =>
+  array (
+    'P' =>
+    array (
+      'name' => 'Saint-Pierre',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'M' =>
+    array (
+      'name' => 'Miquelon-Langlade',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+  ),
+  'TK' =>
+  array (
+    'A' =>
+    array (
+      'name' => 'Atafu',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'F' =>
+    array (
+      'name' => 'Fakaofo',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'N' =>
+    array (
+      'name' => 'Nukunonu',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+  ),
+  'NC' =>
+  array (
+    'S' =>
+    array (
+      'name' => 'South Province',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'N' =>
+    array (
+      'name' => 'North Province',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'L' =>
+    array (
+      'name' => 'Loyalty Islands',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+  ),
+  'PF' =>
+  array (
+    'V' =>
+    array (
+      'name' => 'Îles du Vent',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'T' =>
+    array (
+      'name' => 'Tuamotu-Gambier Islands',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'S' =>
+    array (
+      'name' => 'Leeward Islands',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'I' =>
+    array (
+      'name' => 'Austral Islands',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'M' =>
+    array (
+      'name' => 'Marquesas Islands',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+  ),
+  'BM' =>
+  array (
+    'HC' =>
+    array (
+      'name' => 'Hamilton city',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'HA' =>
+    array (
+      'name' => 'Hamilton',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'GC' =>
+    array (
+      'name' => 'Saint George',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'SH' =>
+    array (
+      'name' => 'Southampton',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'SG' =>
+    array (
+      'name' => 'Saint Georgeʼs',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'WA' =>
+    array (
+      'name' => 'Warwick',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'PB' =>
+    array (
+      'name' => 'Pembroke',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'PG' =>
+    array (
+      'name' => 'Paget',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'SM' =>
+    array (
+      'name' => 'Smithʼs',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'DS' =>
+    array (
+      'name' => 'Devonshire',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'SA' =>
+    array (
+      'name' => 'Sandys',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+  ),
+  'MP' =>
+  array (
+    'S' =>
+    array (
+      'name' => 'Saipan',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'R' =>
+    array (
+      'name' => 'Rota',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+  ),
+  'AS' =>
+  array (
+    'E' =>
+    array (
+      'name' => 'Eastern District',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'M' =>
+    array (
+      'name' => 'Manu\'a District',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'S' =>
+    array (
+      'name' => 'Swains Island',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+    'W' =>
+    array (
+      'name' => 'Western District',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+  ),
+  'SJ' =>
+  array (
+    21 =>
+    array (
+      'name' => 'Svalbard',
+      'altNames' =>
+      array (
+      ),
+      'current' => false,
+    ),
+  ),
 );

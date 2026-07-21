@@ -147,6 +147,7 @@ class UpdateRegionCodes extends ConsoleCommand
 return
 CONTENT;
 
+        ksort($newRegions); // keep countries sorted after DB-IP enrichment appends new ones
         $content .= ' ' . var_export($newRegions, true) . ';' . "\n";
         // strip trailing whitespace so the regenerated file matches the coding style
         $content = preg_replace('/[ \t]+$/m', '', $content);
@@ -199,7 +200,7 @@ CONTENT;
             }
 
             if (!array_key_exists($countryCode, $regions)) {
-                continue;
+                $regions[$countryCode] = [];
             }
 
             if (!array_key_exists($regionCode, $regions[$countryCode])) {
