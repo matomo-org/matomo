@@ -433,7 +433,7 @@ class Updater
      */
     public function isUpdatingOverSecureConnection()
     {
-        return GeneralConfig::getConfigValue('force_matomo_http_request') != 1;
+        return !GeneralConfig::getBoolConfigValue('force_matomo_http_request', false);
     }
 
     private function getIncompatiblePlugins($piwikVersion)
