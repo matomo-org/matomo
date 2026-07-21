@@ -17,6 +17,12 @@
   width: 100%;
   margin-top: 0;
   margin-bottom: 0;
+
+  // Query container for the metric readout: MetricValue's number + heights scale with this width via
+  // cqi units. Standalone readouts have no nearer container, so they size to the card; comparison
+  // columns set their own container and override it. inline-size contains only the inline axis, so
+  // the card's height still grows with its content.
+  container-type: inline-size;
 }
 
 // Clickable-card treatment, shared by SparklineCard and SegmentComparisonCard. A mixin (parens keep

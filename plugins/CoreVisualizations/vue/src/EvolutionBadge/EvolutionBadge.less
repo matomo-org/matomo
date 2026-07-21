@@ -5,21 +5,24 @@
 
   display: inline-flex;
   align-items: center;
-  padding-left: 2px;
-  padding-right: 6px;
+  // Fluid pill: font-size scales with the card/column width via cqi, like the metric readout (see
+  // MetricValue.less); icon/height/line-height/padding are em ratios of it so the whole pill scales as
+  // one unit. ~"" escaped so less.php emits the clamp()/cqi verbatim.
+  font-size: ~"clamp(10px, 7.5px + 1.25cqi, 12px)";
+  padding-left: 0.1667em; // 2px
+  padding-right: 0.5em; // 6px
   border-radius: 40px;
-  font-size: 12px;
   font-variant: tabular-nums;
-  line-height: 20px;
+  line-height: 1.6667; // 20px
   white-space: nowrap;
   vertical-align: middle;
-  height: 20px;
+  height: 1.6667em; // 20px
 
   .evolutionBadge__icon {
     display: inline-flex;
     flex: none;
-    width: 16px;
-    height: 16px;
+    width: 1.3333em; // 16px
+    height: 1.3333em;
 
     svg {
       display: block;
