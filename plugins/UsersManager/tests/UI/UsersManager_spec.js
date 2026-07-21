@@ -193,8 +193,9 @@ describe("UsersManager", function () {
         await page.click('th.select-cell input + span'); // select displayed rows
 
         await page.click('.bulk-actions.btn');
-        await (await page.jQuery('#user-list-bulk-actions a:contains(Remove Permissions)')).click();
-        await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.waitForSelector('#user-list-bulk-actions', { visible: true });
+        await (await page.jQuery('#user-list-bulk-actions a:contains(Remove Permissions):visible', { waitFor: true })).click();
+        await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no):visible', { waitFor: true })).click();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 

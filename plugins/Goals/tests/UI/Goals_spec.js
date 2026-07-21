@@ -144,8 +144,8 @@ describe("Goals", function () {
         // so this screenshot keeps guarding against XSS regressions in row evolution.
         // Selecting by label (not by color-slot index like series3) is stable even
         // when metric/series colors are reordered.
-        const series = await page.waitForXPath(
-            '//span[contains(@class, "evolution-graph-colors") and contains(., "_Vue.h.constructor")]'
+        const series = await page.waitForSelector(
+            'xpath///span[contains(@class, "evolution-graph-colors") and contains(., "_Vue.h.constructor")]'
         );
         await series.click();
 

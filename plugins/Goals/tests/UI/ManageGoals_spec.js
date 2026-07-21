@@ -14,6 +14,15 @@ describe("ManageGoals", function () {
     const defaultViewport = { width: 1350, height: 768 };
     const smallerViewport = { width: 800, height: 900 };
 
+    // Navigating to a URL that differs only in the #hash does not reload the page under
+    // Chrome 149, so the manage-goals page would keep the previous test's open edit form
+    // and success notifications. Navigate away first to force a full reload and isolate tests.
+    async function goToManageGoals() {
+        await page.goto('about:blank');
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+    }
+
     async function fillField(selector, value) {
         await page.$eval(selector, (el) => {
             el.value = '';
@@ -38,8 +47,7 @@ describe("ManageGoals", function () {
     }
 
     it("should show correct notification when creating a new goal", async function () {
-        await page.goto(manageGoalsUrl);
-        await page.waitForNetworkIdle();
+        await goToManageGoals();
 
         const goalName = 'My name';
         const goalDescription = 'https://longurlwithlotsofthings.example.com/path/to/a/page?with=query&that=keeps_going';
@@ -68,8 +76,7 @@ describe("ManageGoals", function () {
     });
 
     it("should block submission with an inline error when a required pattern is empty", async function () {
-        await page.goto(manageGoalsUrl);
-        await page.waitForNetworkIdle();
+        await goToManageGoals();
 
         await page.waitForSelector('#add-goal');
         await page.click('#add-goal');
@@ -107,8 +114,7 @@ describe("ManageGoals", function () {
     });
 
     it("should wrap a long description when creating a new goal", async function () {
-        await page.goto(manageGoalsUrl);
-        await page.waitForNetworkIdle();
+        await goToManageGoals();
 
         await page.waitForSelector('#add-goal');
         await page.click('#add-goal');
@@ -137,8 +143,7 @@ describe("ManageGoals", function () {
       await page.webpage.setViewport(smallerViewport);
 
       try {
-        await page.goto(manageGoalsUrl);
-        await page.waitForNetworkIdle();
+        await goToManageGoals();
         await createGoal({
           goalName: 'Goal with wrapped trigger',
           goalDescription: 'https://longurlwithlotsofthings.example.com/path/to/a/page?with=query&that=keeps_going',
@@ -153,7 +158,10 @@ describe("ManageGoals", function () {
     });
 
     it("should show the correct notification when editing the goal", async function () {
+      await goToManageGoals();
+
       const goalEditButtonSelector = 'table.entityTable tbody tr:nth-last-child(1) button.icon-edit';
+      await page.waitForSelector(goalEditButtonSelector, { visible: true });
       await page.click(goalEditButtonSelector);
 
       const updatedGoalName = 'My edited name';
