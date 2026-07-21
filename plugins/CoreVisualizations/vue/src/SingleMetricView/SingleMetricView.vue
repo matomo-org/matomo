@@ -11,25 +11,34 @@
     :class="{'loading': isLoading}"
     ref="root"
   >
-    <div class="metric-sparkline">
-      <Sparkline :params="sparklineParams">
-      </Sparkline>
+    <div
+      v-if="isMetricUnavailable"
+      class="metric-unavailable"
+    >
+      {{ translate('General_MetricNotAvailableForThisPeriod') }}
     </div>
-    <div class="metric-value">
-      <span :title="metricDocumentation">
-        <strong>{{ metricValue }}</strong> {{ (metricTranslation || '').toLowerCase() }}
-      </span>
-      <span
-        class="metricEvolution"
-        v-if="pastValue !== null"
-        :title="translate(
-          'General_EvolutionSummaryGeneric', metricValue ?? '', currentPeriod ?? '', pastValue ?? '', pastPeriod ?? '', metricChangePercent ?? '')"
-      >
-        <span :class="evolutionClass">
-          {{ metricChangePercent }}
+    <template v-else>
+      <div class="metric-sparkline">
+        <Sparkline :params="sparklineParams">
+        </Sparkline>
+      </div>
+      <div class="metric-value">
+        <span :title="metricDocumentation">
+          <strong>{{ metricValue }}</strong> {{ (metricTranslation || '').toLowerCase() }}
         </span>
-      </span>
-    </div>
+        <span
+          class="metricEvolution"
+          v-if="pastValue !== null"
+          :title="translate(
+            'General_EvolutionSummaryGeneric', metricValue ?? '', currentPeriod ?? '',
+            pastValue ?? '', pastPeriod ?? '', metricChangePercent ?? '')"
+        >
+          <span :class="evolutionClass">
+            {{ metricChangePercent }}
+          </span>
+        </span>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -80,6 +89,7 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    metricName: String,
     idGoal: [String, Number],
     metricTranslations: {
       type: Object,
@@ -221,6 +231,14 @@ export default defineComponent({
       return actualIdGoal.value || actualIdGoal.value === 0;
     }
 
+    const isMetricUnavailable = computed(() => (
+      // A non-goal metric missing from the period-aware metadata isn't archived for this
+      // period (e.g. unique visitors on year/range), so it's unavailable, not a real zero.
+      !!responses.value?.[0]
+      && !isIdGoalSet()
+      && !props.metricTranslations?.[actualMetric.value]
+    ));
+
     const sparklineParams = computed<QueryParameters>(() => {
       const params: QueryParameters = {
         module: 'API',
@@ -267,7 +285,14 @@ export default defineComponent({
     });
 
     function setWidgetTitle() {
-      let title = metricTranslation.value;
+      // fall back to the backend-supplied metric name so the title stays correct even when the
+      // metric is not advertised in the period-aware metadata (see isMetricUnavailable)
+      let title = metricTranslation.value || props.metricName || '';
+
+      // never blank out the widget title (the default "KPI Metric" name is kept instead)
+      if (!title) {
+        return;
+      }
 
       if (isIdGoalSet()) {
         const goalName = props.goals[actualIdGoal.value!]?.name || translate('General_Unknown');
@@ -421,6 +446,7 @@ export default defineComponent({
     return {
       root,
       metricValue,
+      isMetricUnavailable,
       isLoading,
       selectedColumns,
       responses,

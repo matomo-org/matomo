@@ -32,7 +32,6 @@ class MariadbTest extends IntegrationTestCase
             array("10.1.1-MariaDB-1~trusty", true),
             array("10.2.0-MariaDB-1~trusty", true),
             array("10.6.19-0ubuntu0.14.04.1", true), // we expect true, as the version is high enough
-            array("8.0.11-TiDB-v8.1.0", false),
             array("", false),
             array("0", false),
             array("slkdf(@*#lkesjfMariaDB", false),

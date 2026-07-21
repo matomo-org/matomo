@@ -59,6 +59,61 @@ class Schema extends Singleton
     }
 
     /**
+     * Extracts a comparable semantic version (e.g. "10.6.19") from a raw database
+     * server version string.
+     *
+     * MariaDB reports its version with a leading "5.5.5-" compatibility prefix for
+     * old MySQL clients (e.g. "5.5.5-10.6.19-MariaDB"); that prefix is stripped so
+     * the actual server version is returned.
+     */
+    public static function getComparableVersion(string $databaseVersion): string
+    {
+        if (
+            stripos($databaseVersion, 'mariadb') !== false
+            && preg_match('/5\.5\.5-(\d+(?:\.\d+){0,2})-MariaDB/i', $databaseVersion, $matches)
+        ) {
+            return $matches[1];
+        }
+
+        if (preg_match('/\d+(?:\.\d+){0,2}/', $databaseVersion, $matches)) {
+            return $matches[0];
+        }
+
+        return $databaseVersion;
+    }
+
+    /**
+     * Detects the database server type ("MySQL" or "MariaDB") from a raw server
+     * version string, matching the values returned by getDatabaseType().
+     */
+    public static function getServerTypeFromVersion(string $serverVersion): string
+    {
+        if (stripos($serverVersion, 'mariadb') !== false) {
+            return 'MariaDB';
+        }
+
+        return 'MySQL';
+    }
+
+    /**
+     * Returns the minimum supported server version to compare the given raw server
+     * version string against.
+     *
+     * The minimum is derived from the actual server type reported in the version
+     * string rather than from the configured schema, so a server is always held to
+     * the requirement matching what it really is: a MariaDB server is never checked
+     * against the MySQL minimum and vice versa, regardless of the schema configured
+     * in config.ini.php (running MariaDB with the MySQL schema is a supported setup).
+     */
+    public static function getMinimumSupportedVersionForServer(string $serverVersion): string
+    {
+        $schemaClassName = self::getSchemaClassName(self::getServerTypeFromVersion($serverVersion));
+        /** @var SchemaInterface $schemaClass */
+        $schemaClass = new $schemaClassName();
+        return $schemaClass->getMinimumSupportedVersion();
+    }
+
+    /**
      * Load schema
      */
     private function loadSchema(): void

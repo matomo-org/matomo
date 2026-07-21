@@ -49,7 +49,7 @@ concurrency:
 jobs:
 {% if not plugin %}
   PHP:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -75,6 +75,8 @@ jobs:
         with:
           test-type: ${{ '{{' }} matrix.type {{ '}}' }}
           mysql-driver: ${{ '{{' }} matrix.adapter {{ '}}' }}
+          mysql-engine: 'Mysql'
+          mysql-version: '8.0'
           php-version: ${{ '{{' }} matrix.php {{ '}}' }}
           redis-service: true
           artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
@@ -84,12 +86,15 @@ jobs:
 {% endif %}
 {% elseif hasPluginTests %}
   PluginTests:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         php: [ '{{ phpVersions|join("', '") }}' ]
         target: [{% if plugin != 'TagManager' %}'minimum_required_matomo', {% endif %}'maximum_supported_matomo']
+        database:
+          - { engine: 'Mysql', version: '8.0' }
+          - { engine: 'Mariadb', version: '10.6' }
     steps:
       - uses: actions/checkout@v3
         with:
@@ -104,6 +109,8 @@ jobs:
           plugin-name: '{{ plugin }}'
           php-version: ${{ '{{' }} matrix.php {{ '}}' }}
           test-type: 'PluginTests'
+          mysql-engine: ${{ '{{' }} matrix.database.engine {{ '}}' }}
+          mysql-version: ${{ '{{' }} matrix.database.version {{ '}}' }}
           matomo-test-branch: ${{ '{{' }} matrix.target {{ '}}' }}
 {% if setupScript %}
           setup-script: '{{ setupScript }}'
@@ -112,7 +119,7 @@ jobs:
           redis-service: true
 {% endif %}
           artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
-          upload-artifacts: ${{ '{{' }} matrix.php == '{{ phpVersions|first }}' && matrix.target == 'maximum_supported_matomo' {{ '}}' }}
+          upload-artifacts: ${{ '{{' }} matrix.php == '{{ phpVersions|first }}' && matrix.target == 'maximum_supported_matomo' && matrix.database.engine == 'Mysql' {{ '}}' }}
 {% if protectArtifacts %}
           artifacts-protected: true
 {% endif %}
@@ -124,7 +131,7 @@ jobs:
 
 {%- if not plugin or hasJavaScriptTests %}
   Javascript:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 {% if plugin %}
     strategy:
@@ -153,6 +160,8 @@ jobs:
           test-type: 'JS'
           php-version: '{{ phpVersions|first }}'
           node-version: '12'
+          mysql-engine: 'Mysql'
+          mysql-version: '8.0'
 {% if dependentPlugins %}
           dependent-plugins: '{{ dependentPlugins|join(',') }}'
           github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
@@ -161,7 +170,7 @@ jobs:
 
 {%- if not plugin or hasClientTests %}
   Client:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 {% if plugin %}
     strategy:
@@ -188,7 +197,7 @@ jobs:
           matomo-test-branch: ${{ '{{' }} matrix.target {{ '}}' }}
 {% endif %}
           test-type: 'Client'
-          node-version: '16'
+          node-version: '24'
           mysql-service: false
 {% if dependentPlugins %}
           dependent-plugins: '{{ dependentPlugins|join(',') }}'
@@ -198,7 +207,7 @@ jobs:
 
 {%- if not plugin or hasUITests %}
   UI:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 {% if not plugin %}
     strategy:
       fail-fast: false
@@ -232,6 +241,8 @@ jobs:
           test-type: 'UI'
           php-version: '{{ phpVersions|first }}'
           node-version: '16'
+          mysql-engine: 'Mysql'
+          mysql-version: '8.0'
 {% if enableRedis %}
           redis-service: true
 {% endif %}

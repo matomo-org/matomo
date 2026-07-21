@@ -82,8 +82,8 @@ class Updates590b2Test extends TestCase
         ];
 
         yield 'unsupported database type' => [
-            'TiDB',
-            '8.0.11-TiDB-v8.1.0',
+            'PostgreSQL',
+            '15.2',
             [
                 './console plugin:activate "BotTracking"',
             ],

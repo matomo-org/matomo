@@ -1306,6 +1306,8 @@ class API extends \Piwik\Plugin\API
      */
     public function addCapabilities(string $userLogin, $capabilities, $idSites): void
     {
+        UsersManager::dieIfUsersAdminIsDisabled();
+
         $userLogin = $this->getCanonicalLogin($userLogin);
 
         $this->executeConcurrencySafe($userLogin, function () use ($userLogin, $capabilities, $idSites) {
@@ -1408,6 +1410,8 @@ class API extends \Piwik\Plugin\API
      */
     public function removeCapabilities(string $userLogin, $capabilities, $idSites): void
     {
+        UsersManager::dieIfUsersAdminIsDisabled();
+
         $this->executeConcurrencySafe($userLogin, function () use ($userLogin, $capabilities, $idSites) {
             $idSites = $this->getIdSitesCheckAdminAccess($idSites);
 

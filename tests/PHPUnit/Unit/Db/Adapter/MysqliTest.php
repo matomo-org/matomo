@@ -12,53 +12,49 @@ namespace Piwik\Tests\Unit\Db\Adapter;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Piwik\Db\Adapter\Mysqli;
-use Piwik\Db\Schema;
 
 class MysqliTest extends TestCase
 {
-    protected function tearDown(): void
+    public function testCheckServerVersionThrowsWhenMysqlVersionTooLow(): void
     {
-        Schema::unsetInstance();
-        parent::tearDown();
-    }
-
-    public function testCheckServerVersionThrowsWhenServerVersionTooLow(): void
-    {
-        Schema::setSingletonInstance($this->createMockSchema('8.0.0'));
-        $adapter = $this->createMockAdapter('5.7.0');
+        $adapter = $this->createMockAdapter('5.7.44');
 
         $this->expectException(Exception::class);
         $adapter->checkServerVersion();
     }
 
-    public function testCheckServerVersionAllowsSupportedVersion(): void
+    public function testCheckServerVersionAllowsSupportedMysqlVersion(): void
     {
-        Schema::setSingletonInstance($this->createMockSchema('5.7.0'));
         $adapter = $this->createMockAdapter('8.0.32');
 
         $adapter->checkServerVersion();
         $this->addToAssertionCount(1);
     }
 
-    /**
-     * This will 'mock' the Schema class to return a specific minimum version.
-     */
-    private function createMockSchema(string $minimumVersion): Schema
+    public function testCheckServerVersionThrowsWhenMariaDbVersionTooLow(): void
     {
-        return new class ($minimumVersion) extends Schema {
-            private $minimumVersion;
+        // 10.5.22 clears the MySQL minimum (8.0) but is below the MariaDB minimum (10.6);
+        // this can only throw if the server is correctly detected as MariaDB.
+        $adapter = $this->createMockAdapter('5.5.5-10.5.22-MariaDB-1:10.5.22+maria~ubu2004');
 
-            public function __construct(string $minimumVersion)
-            {
-                parent::__construct();
-                $this->minimumVersion = $minimumVersion;
-            }
+        $this->expectException(Exception::class);
+        $adapter->checkServerVersion();
+    }
 
-            public function getMinimumSupportedVersion(): string
-            {
-                return $this->minimumVersion;
-            }
-        };
+    public function testCheckServerVersionAllowsSupportedMariaDbVersion(): void
+    {
+        $adapter = $this->createMockAdapter('10.6.19-MariaDB-1:10.6.19+maria~ubu2004');
+
+        $adapter->checkServerVersion();
+        $this->addToAssertionCount(1);
+    }
+
+    public function testCheckServerVersionAllowsSupportedMariaDbVersionWithLegacyPrefix(): void
+    {
+        $adapter = $this->createMockAdapter('5.5.5-10.6.19-MariaDB-1:10.6.19+maria~ubu2004');
+
+        $adapter->checkServerVersion();
+        $this->addToAssertionCount(1);
     }
 
     private function createMockAdapter(string $serverVersion): Mysqli

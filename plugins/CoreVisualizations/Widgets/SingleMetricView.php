@@ -73,8 +73,15 @@ class SingleMetricView extends \Piwik\Widget\Widget
             }
         }
 
+        // Provide a display name for the selected metric even when the period-aware metadata no longer
+        // advertises it (e.g. unique visitors on a year/range period). This lets the widget keep a
+        // correct title while the Vue component shows the "not available for this period" message.
+        $metricDisplayName = $metricTranslations[$column]
+            ?? (Metrics::getDefaultMetricTranslations()[$column] ?? $column);
+
         return '<div vue-entry="CoreVisualizations.SingleMetricView"
             metric="' . $this->getVueEntryValue($column) . '"
+            metric-name="' . $this->getVueEntryValue($metricDisplayName) . '"
             id-goal="' . $this->getVueEntryValue($idGoal === false ? null : $idGoal) . '"
             goal-metrics="' . $this->getVueEntryValue($goalMetrics) . '"
             goals="' . $this->getVueEntryValue($goals) . '"
