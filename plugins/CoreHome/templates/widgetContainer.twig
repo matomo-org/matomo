@@ -1,7 +1,7 @@
 <div>
     <div
         vue-entry="CoreHome.Widget"
-        containerid="{{ containerId|json_encode }}"
+        containerid="{{ containerId|e('html_attr') }}"
         widgetized="{% if isWidgetized %}true{% else %}false{% endif %}"
     ></div>
 
