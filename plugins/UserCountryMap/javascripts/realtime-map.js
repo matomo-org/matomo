@@ -90,7 +90,7 @@
                 colorManager = piwik.ColorManager,
                 colors = colorManager.getColors('realtime-map', ['white-bg', 'white-fill', 'black-bg', 'black-fill', 'visit-stroke',
                                                                  'website-referrer-color', 'direct-referrer-color', 'search-referrer-color',
-                                                                 'live-widget-highlight', 'live-widget-unhighlight', 'symbol-animate-fill', 'region-stroke-color']),
+                                                                 'live-widget-highlight', 'live-widget-unhighlight', 'symbol-animate-fill', 'region-stroke-color', 'inset-stroke-color']),
                 currentTheme = 'white',
                 colorTheme = {
                     white: {
@@ -547,17 +547,7 @@
                             stroke: colors['region-stroke-color']
                         }
                     });
-                    // frame the boxes for far-away regions drawn as insets
-                    try {
-                        if (map.svgSrc && $(map.svgSrc).find('#insets').length) {
-                            map.addLayer('insets', {
-                                name: 'insets',
-                                styles: { stroke: '#999999', 'stroke-width': 0.7, fill: 'none' }
-                            });
-                        }
-                    } catch (e) {
-                        console.warn('UserCountryMap: could not add insets layer', e);
-                    }
+                    UserCountryMap.addInsetsLayer(map, colors['inset-stroke-color']);
                 }
                 refreshVisits(true);
             }
