@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\CoreUpdater\tests\Integration;
 
 use Piwik\Config;
+use Piwik\Http;
 use Piwik\Nonce;
+use Piwik\Plugins\CoreUpdater\ArchiveDownloadException;
 use Piwik\Plugins\CoreUpdater\Controller;
 use Piwik\Plugins\CoreUpdater\Updater;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -75,6 +77,8 @@ class ControllerTest extends IntegrationTestCase
         } else {
             unset($config->General['update_details_token']);
         }
+
+        unset($config->General['force_matomo_http_request']);
 
         $config->forceSave();
 
@@ -153,6 +157,57 @@ class ControllerTest extends IntegrationTestCase
         self::assertSame(1, preg_match('/^[a-f0-9]{32}$/', $rotatedToken));
     }
 
+    public function testOneClickResultsHttpsFailScreenDoesNotOfferHttpFallback()
+    {
+        FakeAccess::clearAccess(true);
+
+        $_GET = [];
+        $_POST = [
+            'httpsFail' => '1',
+            'error' => 'Simulated SSL certificate failure',
+        ];
+
+        $result = $this->buildController()->oneClickResults();
+
+        self::assertStringContainsString('Simulated SSL certificate failure', $result);
+        // The insecure HTTP fallback must no longer be offered, and no retry form should reappear.
+        self::assertStringNotContainsString('updateUsingHttp', $result);
+        self::assertStringNotContainsString('name="https"', $result);
+        self::assertStringNotContainsString('action=oneClickUpdate', $result);
+    }
+
+    public function testOneClickUpdateMarksHttpsFailureWhenSecureDownloadFails()
+    {
+        if (!Http::isUpdatingOverHttps()) {
+            $this->markTestSkipped('HTTPS updating is not available in this environment');
+        }
+
+        FakeAccess::clearAccess(true);
+        Config::getInstance()->General['force_matomo_http_request'] = 0;
+
+        $_GET = [];
+        $_POST = [];
+        $_GET['nonce'] = Nonce::getNonce('oneClickUpdate');
+
+        $output = $this->captureOneClickUpdateOutput();
+
+        self::assertStringContainsString('name="httpsFail" value="1"', $output);
+    }
+
+    public function testOneClickUpdateDoesNotMarkHttpsFailureWhenHttpIsForced()
+    {
+        FakeAccess::clearAccess(true);
+        Config::getInstance()->General['force_matomo_http_request'] = 1;
+
+        $_GET = [];
+        $_POST = [];
+        $_GET['nonce'] = Nonce::getNonce('oneClickUpdate');
+
+        $output = $this->captureOneClickUpdateOutput();
+
+        self::assertStringContainsString('name="httpsFail" value="0"', $output);
+    }
+
     public function provideContainerConfig()
     {
         return array(
@@ -160,11 +215,35 @@ class ControllerTest extends IntegrationTestCase
         );
     }
 
-    private function buildController(): Controller
+    private function buildController(?Updater $updater = null): Controller
     {
-        $updater = $this->createMock(Updater::class);
-        $updater->method('updatePiwik')->willReturn(array());
+        if ($updater === null) {
+            $updater = $this->createMock(Updater::class);
+            $updater->method('updatePiwik')->willReturn(array());
+        }
 
         return new Controller($updater);
+    }
+
+    private function buildFailingDownloadController(): Controller
+    {
+        $updater = $this->createMock(Updater::class);
+        $updater->method('updatePiwik')->willThrowException(
+            new ArchiveDownloadException(new \Exception('Simulated SSL certificate failure'))
+        );
+
+        return $this->buildController($updater);
+    }
+
+    private function captureOneClickUpdateOutput(): string
+    {
+        ob_start();
+        try {
+            $this->buildFailingDownloadController()->oneClickUpdate();
+            return ob_get_clean();
+        } catch (\Throwable $e) {
+            ob_end_clean();
+            throw $e;
+        }
     }
 }

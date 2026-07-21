@@ -44,7 +44,17 @@ describe("OneClickUpdate", function () {
         }, latestStableUrl + '?module=CoreUpdater&action=oneClickResults');
 
         await page.waitForNetworkIdle();
-        await page.waitForSelector('#updateUsingHttp', { visible: true });
+        await page.waitForSelector('.alert-warning', { visible: true });
+    }
+
+    async function openUpdateScreen() {
+        await page.goto(settingsUrl);
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('#header_message', { visible: true });
+
+        await page.click('#header_message');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('#updateAutomatically', { visible: true });
     }
 
     before(async function () {
@@ -88,18 +98,21 @@ describe("OneClickUpdate", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_screen');
     });
 
-    it('should fail to automatically update when trying to update over https fails', async function () {
+    it('should show a secure error without an HTTP fallback when the update over https fails', async function () {
         await openHttpsFailureScreen();
-        expect(await page.$('#updateUsingHttp')).to.be.ok;
-        expect(await page.$('#updateUsingHttps')).to.be.ok;
+        // The insecure HTTP fallback has been removed, so neither retry button must be offered.
+        expect(await page.$('#updateUsingHttp')).to.be.null;
+        expect(await page.$('#updateUsingHttps')).to.be.null;
         expect(await page.$('.alert-warning')).to.be.ok;
+        expect(await page.$('.footer a')).to.be.ok;
     });
 
     it('should fail when a directory is not writable', async function () {
-        await openHttpsFailureScreen();
-        // Force the updater to hit the writable-directory error path.
+        // Force the updater to hit the writable-directory error path. force_matomo_http_request is
+        // enabled for the test install, so the update is fetched over HTTP without a fallback screen.
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
-        await page.click('#updateUsingHttp');
+        await openUpdateScreen();
+        await page.click('#updateAutomatically');
         await page.waitForSelector('.alert-danger', { visible: true });
         const heading = await page.$eval('.header h1', node => node.textContent);
         expect(heading).to.match(/update error/i);
@@ -108,10 +121,10 @@ describe("OneClickUpdate", function () {
     });
 
     it('should update successfully and show the finished update screen', async function () {
-        await openHttpsFailureScreen();
         // Restore permissions so the same flow can complete successfully.
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
-        await page.click('#updateUsingHttp');
+        await openUpdateScreen();
+        await page.click('#updateAutomatically');
         await page.waitForSelector('.footer a', { visible: true });
         const heading = await page.$eval('.header h1', node => node.textContent);
         expect(heading).to.match(/successfully updated/i);
