@@ -358,7 +358,7 @@ class ForecastSubPeriodFetcher
         $plottedColumns = array_values(array_unique(array_filter(
             $seriesState->getAllSeriesColumns(),
             static function ($column): bool {
-                return is_string($column) && '' !== $column;
+                return '' !== $column;
             }
         )));
 
@@ -849,7 +849,7 @@ class ForecastSubPeriodFetcher
      * so the inner API request can be skipped when the displayed range alone covers the
      * analog window.
      *
-     * @param array<DataTable> $subTables
+     * @param array<DataTable|DataTable\Map> $subTables
      * @return array<string, array<string, float>>
      */
     private function extractSamplesFromTables(
@@ -944,7 +944,7 @@ class ForecastSubPeriodFetcher
      * value on an in-progress tick cannot leak into a later same-DoW tick's analog walk
      * via the running daily map.
      *
-     * @param array<DataTable> $dataTables
+     * @param array<DataTable|DataTable\Map> $dataTables
      * @return array<string, array<string, float>>
      */
     private function extractDisplayedDailyMap(array $dataTables, ForecastSeriesState $seriesState): array

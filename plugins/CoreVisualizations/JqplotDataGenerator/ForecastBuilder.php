@@ -1496,7 +1496,7 @@ class ForecastBuilder
             return $this->removeLeadingZeroSamples($samples);
         }
 
-        return array_values($samples);
+        return $samples;
     }
 
     /**
@@ -1637,7 +1637,7 @@ class ForecastBuilder
             ++$trim;
         }
 
-        return array_values(array_slice($samples, $trim));
+        return array_slice($samples, $trim);
     }
 
     private function shouldRenderForecastValue(
