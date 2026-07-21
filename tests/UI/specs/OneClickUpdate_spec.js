@@ -71,10 +71,12 @@ describe("OneClickUpdate", function () {
     });
 
     it('should fail when a directory is not writable', async function () {
-        // Force the updater to hit the writable-directory error path. force_matomo_http_request is
-        // enabled for the test install, so the update is fetched over HTTP without a fallback screen.
-        fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
+        // Open the update screen while everything is still writable, so canAutoUpdate() shows the
+        // automatic-update button, then make core read-only so the update fails while installing the
+        // new files. force_matomo_http_request is enabled for the test install, so the archive is
+        // fetched over HTTP without the removed fallback screen.
         await openUpdateScreen();
+        fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
         await page.click('#updateAutomatically');
         await page.waitForSelector('.alert-danger', { visible: true });
         const heading = await page.$eval('.header h1', node => node.textContent);

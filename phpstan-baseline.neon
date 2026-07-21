@@ -2929,18 +2929,6 @@ parameters:
 			path: plugins/CorePluginsAdmin/SettingsMetadata.php
 
 		-
-			message: '#^Parameter \#1 \$https of method Piwik\\Plugins\\CoreUpdater\\Updater\:\:updatePiwik\(\) expects bool, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/CoreUpdater/Controller.php
-
-		-
-			message: '#^Property Piwik\\View\\OneClickDone\:\:\$httpsFail \(bool\) does not accept int\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: plugins/CoreUpdater/Controller.php
-
-		-
 			message: '#^Right side of && is always true\.$#'
 			identifier: booleanAnd.rightAlwaysTrue
 			count: 1
