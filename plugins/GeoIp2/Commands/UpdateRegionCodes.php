@@ -124,6 +124,11 @@ class UpdateRegionCodes extends ConsoleCommand
             $this->enrichWithDbIpRegions($dbIpCsvFile, $newRegions);
         }
 
+        // re-sort after DB-IP enrichment, which appends any newly discovered
+        // countries at the end; sorting here (before the up-to-date check) keeps
+        // the generated file stable so an unchanged run produces no diff
+        ksort($newRegions);
+
         if (json_encode($newRegions) === json_encode($currentRegions)) {
             $output->writeln('');
             $output->writeln('Everything already up to date <fg=green>✓</>');
@@ -147,7 +152,6 @@ class UpdateRegionCodes extends ConsoleCommand
 return
 CONTENT;
 
-        ksort($newRegions); // keep countries sorted after DB-IP enrichment appends new ones
         $content .= ' ' . var_export($newRegions, true) . ';' . "\n";
         // strip trailing whitespace so the regenerated file matches the coding style
         $content = preg_replace('/[ \t]+$/m', '', $content);
