@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Piwik test</website>
+	<prettyDate>2010</prettyDate>
+	<metadata>
+		<category>Acquisition</category>
+		<subcategory>All Channels</subcategory>
+		<name>All Channels</name>
+		<module>Referrers</module>
+		<action>getAll</action>
+		<dimension>Referrer</dimension>
+		<documentation>This report shows all your Referrers in one unified report, listing all Websites, Search keywords and Campaigns used by your visitors to find your website.</documentation>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_actions>Actions</nb_actions>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
+			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a conversion. The conversion rate is calculated using the number of visits that converted at least one goal. Visits converting multiple goals are only counted once in the conversion rate.</conversion_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getAll&amp;period=year&amp;date=2010-01-01</imageGraphUrl>
+		<uniqueId>Referrers_getAll</uniqueId>
+	</metadata>
+	<columns>
+		<label>Referrer</label>
+		<nb_visits>Visits</nb_visits>
+		<nb_actions>Actions</nb_actions>
+		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+		<bounce_rate>Bounce Rate</bounce_rate>
+		<conversion_rate>Conversion Rate</conversion_rate>
+	</columns>
+	<reportData>
+		<row>
+			<label>ChatGPT</label>
+			<nb_visits>12</nb_visits>
+			<nb_actions>12</nb_actions>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>free &gt; proprietary</label>
+			<nb_visits>11</nb_visits>
+			<nb_actions>11</nb_actions>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>justice )(&amp;^#%$ not '&quot; corruption!</label>
+			<nb_visits>10</nb_visits>
+			<nb_actions>10</nb_actions>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>peace &quot;,&quot; not war</label>
+			<nb_visits>10</nb_visits>
+			<nb_actions>10</nb_actions>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>Perplexity</label>
+			<nb_visits>8</nb_visits>
+			<nb_actions>8</nb_actions>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>www.referrer0.com</label>
+			<nb_visits>7</nb_visits>
+			<nb_actions>7</nb_actions>
+			<conversion_rate>100%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:06:05</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>www.referrer1.com</label>
+			<nb_visits>6</nb_visits>
+			<nb_actions>6</nb_actions>
+			<conversion_rate>100%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:06:05</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>www.referrer2.com</label>
+			<nb_visits>6</nb_visits>
+			<nb_actions>6</nb_actions>
+			<conversion_rate>100%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:06:05</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>www.referrer3.com</label>
+			<nb_visits>6</nb_visits>
+			<nb_actions>6</nb_actions>
+			<conversion_rate>100%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:06:05</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>www.referrer4.com</label>
+			<nb_visits>6</nb_visits>
+			<nb_actions>6</nb_actions>
+			<conversion_rate>100%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:06:05</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>Claude</label>
+			<nb_visits>4</nb_visits>
+			<nb_actions>4</nb_actions>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>Gemini</label>
+			<nb_visits>4</nb_visits>
+			<nb_actions>4</nb_actions>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+		<row>
+			<label>Le Chat</label>
+			<nb_visits>3</nb_visits>
+			<nb_actions>3</nb_actions>
+			<conversion_rate>0%</conversion_rate>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+		</row>
+	</reportData>
+	<reportMetadata>
+		<row>
+			<url>chatgpt.com</url>
+			<logo>plugins/Morpheus/icons/dist/aiAssistants/chatgpt.com.png</logo>
+			<segment>referrerType==ai;referrerName==ChatGPT</segment>
+			<referer_type>8</referer_type>
+		</row>
+		<row>
+			<segment>referrerType==search;referrerKeyword==free+%3E+proprietary</segment>
+			<referer_type>2</referer_type>
+		</row>
+		<row>
+			<segment>referrerType==search;referrerKeyword==justice+%29%28%26%5E%23%25%24+not+%27%22+corruption%21</segment>
+			<referer_type>2</referer_type>
+		</row>
+		<row>
+			<segment>referrerType==search;referrerKeyword==peace+%22%2C%22+not+war</segment>
+			<referer_type>2</referer_type>
+		</row>
+		<row>
+			<url>perplexity.ai</url>
+			<logo>plugins/Morpheus/icons/dist/aiAssistants/perplexity.ai.png</logo>
+			<segment>referrerType==ai;referrerName==Perplexity</segment>
+			<referer_type>8</referer_type>
+		</row>
+		<row>
+			<segment>referrerName==www.referrer0.com</segment>
+			<referer_type>3</referer_type>
+		</row>
+		<row>
+			<segment>referrerName==www.referrer1.com</segment>
+			<referer_type>3</referer_type>
+		</row>
+		<row>
+			<segment>referrerName==www.referrer2.com</segment>
+			<referer_type>3</referer_type>
+		</row>
+		<row>
+			<segment>referrerName==www.referrer3.com</segment>
+			<referer_type>3</referer_type>
+		</row>
+		<row>
+			<segment>referrerName==www.referrer4.com</segment>
+			<referer_type>3</referer_type>
+		</row>
+		<row>
+			<url>claude.ai</url>
+			<logo>plugins/Morpheus/icons/dist/aiAssistants/claude.ai.png</logo>
+			<segment>referrerType==ai;referrerName==Claude</segment>
+			<referer_type>8</referer_type>
+		</row>
+		<row>
+			<url>gemini.google.com</url>
+			<logo>plugins/Morpheus/icons/dist/aiAssistants/gemini.google.com.png</logo>
+			<segment>referrerType==ai;referrerName==Gemini</segment>
+			<referer_type>8</referer_type>
+		</row>
+		<row>
+			<url>chat.mistral.ai</url>
+			<logo>plugins/Morpheus/icons/dist/aiAssistants/chat.mistral.ai.png</logo>
+			<segment>referrerType==ai;referrerName==Le+Chat</segment>
+			<referer_type>8</referer_type>
+		</row>
+	</reportMetadata>
+	<reportTotal>
+		<nb_visits>93</nb_visits>
+		<nb_actions>93</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>11315</sum_visit_length>
+		<bounce_count>93</bounce_count>
+		<nb_visits_converted>31</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>93</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<goals>
+			<row idgoal="1">
+				<nb_conversions>31</nb_conversions>
+				<nb_visits_converted>31</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+			<row idgoal="2">
+				<nb_conversions>62</nb_conversions>
+				<nb_visits_converted>31</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>93</nb_conversions>
+		<revenue>0</revenue>
+		<nb_actions_per_visit>1</nb_actions_per_visit>
+	</reportTotal>
+</result>
