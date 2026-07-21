@@ -428,10 +428,8 @@ class Updater
      * The update is always fetched over HTTPS. Plain HTTP is used only when an administrator
      * explicitly enables it via the force_matomo_http_request config option, e.g. for environments
      * where HTTPS to matomo.org cannot be used.
-     *
-     * @return bool
      */
-    public function isUpdatingOverSecureConnection()
+    public function isUpdatingOverSecureConnection(): bool
     {
         return !GeneralConfig::getBoolConfigValue('force_matomo_http_request', false);
     }
