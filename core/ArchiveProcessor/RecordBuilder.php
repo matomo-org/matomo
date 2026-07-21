@@ -350,18 +350,18 @@ abstract class RecordBuilder
         $flatColumnToSortByBeforeTruncation = $flatRecord->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
         $flatMaxRowsInTable = $flatRecord->getMaxRowsInTable() ?? $this->maxRowsInTable;
 
-        [$flatTable, $hasFlatSourceData, $periodsWithFlatRecord] = $this->aggregateRootDataTableFromBlobs(
+        [$flatTable, $hasFlatSourceData, $sitePeriodsWithFlatRecord] = $this->aggregateRootDataTableFromBlobs(
             $archiveProcessor,
             $flatRecordName,
             $flatColumnAggregationOps,
             $flatColumnToRenameAfterAggregation
         );
         $allSubperiodKeys = $this->getAllSubperiodKeys($archiveProcessor);
-        $periodsWithoutFlatRecord = array_diff_key($allSubperiodKeys, $periodsWithFlatRecord);
+        $sitePeriodsWithoutFlatRecord = array_diff_key($allSubperiodKeys, $sitePeriodsWithFlatRecord);
 
         $hasLegacyFallbackData = false;
         $legacyReducerCallback = $hierarchicalRecord->getLegacyHierarchyToFlatReducerCallback();
-        if (!empty($periodsWithoutFlatRecord) && is_callable($legacyReducerCallback)) {
+        if (!empty($sitePeriodsWithoutFlatRecord) && is_callable($legacyReducerCallback)) {
             $hasLegacyFallbackData = $this->aggregateLegacyHierarchyPeriodsIntoFlatTable(
                 $archiveProcessor,
                 $hierarchicalRecord->getName(),
@@ -370,7 +370,7 @@ abstract class RecordBuilder
                 $hierarchicalRecord,
                 $columnAggregationOps,
                 $columnToRenameAfterAggregation,
-                $periodsWithoutFlatRecord
+                $sitePeriodsWithoutFlatRecord
             );
         }
 
@@ -430,21 +430,21 @@ abstract class RecordBuilder
         Record $hierarchicalRecord,
         ?array $columnsAggregationOperation,
         ?array $columnsToRenameAfterAggregation,
-        ?array $periodsToInclude
+        ?array $sitePeriodsToInclude
     ): bool {
-        $currentPeriod = null;
-        $currentPeriodRows = [];
+        $currentSitePeriod = null;
+        $currentSitePeriodRows = [];
         $hasRows = false;
 
         foreach ($this->querySingleBlobRows($archiveProcessor, $recordName) as $archiveDataRow) {
-            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
-            if ($periodsToInclude !== null && !isset($periodsToInclude[$period])) {
+            $sitePeriod = BlobTableAggregator::getSitePeriodKey($archiveDataRow);
+            if ($sitePeriodsToInclude !== null && !isset($sitePeriodsToInclude[$sitePeriod])) {
                 continue;
             }
 
-            if ($currentPeriod !== null && $period !== $currentPeriod) {
+            if ($currentSitePeriod !== null && $sitePeriod !== $currentSitePeriod) {
                 $hasRows = $this->reduceLegacyHierarchyPeriodRowsIntoFlatTable(
-                    $currentPeriodRows,
+                    $currentSitePeriodRows,
                     $recordName,
                     $flatTable,
                     $legacyReducerCallback,
@@ -453,16 +453,16 @@ abstract class RecordBuilder
                     $columnsAggregationOperation,
                     $columnsToRenameAfterAggregation
                 ) || $hasRows;
-                $currentPeriodRows = [];
+                $currentSitePeriodRows = [];
             }
 
-            $currentPeriod = $period;
-            $currentPeriodRows[] = $archiveDataRow;
+            $currentSitePeriod = $sitePeriod;
+            $currentSitePeriodRows[] = $archiveDataRow;
         }
 
-        if (!empty($currentPeriodRows)) {
+        if (!empty($currentSitePeriodRows)) {
             $hasRows = $this->reduceLegacyHierarchyPeriodRowsIntoFlatTable(
-                $currentPeriodRows,
+                $currentSitePeriodRows,
                 $recordName,
                 $flatTable,
                 $legacyReducerCallback,
@@ -477,7 +477,7 @@ abstract class RecordBuilder
     }
 
     protected function reduceLegacyHierarchyPeriodRowsIntoFlatTable(
-        array $periodRows,
+        array $sitePeriodRows,
         string $recordName,
         DataTable $flatTable,
         callable $legacyReducerCallback,
@@ -487,7 +487,7 @@ abstract class RecordBuilder
         ?array $columnsToRenameAfterAggregation
     ): bool {
         [$legacyHierarchicalTable, $hasRows] = BlobTableAggregator::aggregateBlobRows(
-            $periodRows,
+            $sitePeriodRows,
             $recordName,
             $columnsAggregationOperation,
             function (DataTable $table) use ($archiveProcessor, $columnsToRenameAfterAggregation): void {
@@ -645,7 +645,9 @@ abstract class RecordBuilder
     }
 
     /**
-     * Aggregates a root blob record while discovering periods that contain the root record in a single pass.
+     * Aggregates a root blob record while discovering the site and period combinations that contain the
+     * root record in a single pass. The combinations are keyed in the same way as
+     * {@link BlobTableAggregator::getSitePeriodKey()}.
      *
      * @return array{0: DataTable, 1: bool, 2: array<string, bool>}
      */
@@ -655,7 +657,7 @@ abstract class RecordBuilder
         ?array $columnsAggregationOperation,
         ?array $columnsToRenameAfterAggregation
     ): array {
-        $periodsWithRootRecord = [];
+        $sitePeriodsWithRootRecord = [];
 
         [$result, $hasRows] = BlobTableAggregator::aggregateBlobRows(
             $this->querySingleBlobRows($archiveProcessor, $recordName),
@@ -664,26 +666,29 @@ abstract class RecordBuilder
             function (DataTable $table) use ($archiveProcessor, $columnsToRenameAfterAggregation): void {
                 $archiveProcessor->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
             },
-            function (array $archiveDataRow) use (&$periodsWithRootRecord, $recordName): bool {
-                $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            function (array $archiveDataRow) use (&$sitePeriodsWithRootRecord, $recordName): bool {
+                $sitePeriod = BlobTableAggregator::getSitePeriodKey($archiveDataRow);
                 if ($archiveDataRow['name'] === $recordName) {
-                    $periodsWithRootRecord[$period] = true;
+                    $sitePeriodsWithRootRecord[$sitePeriod] = true;
                     return true;
                 }
 
-                return isset($periodsWithRootRecord[$period]);
+                return isset($sitePeriodsWithRootRecord[$sitePeriod]);
             }
         );
 
-        return [$result, $hasRows, $periodsWithRootRecord];
+        return [$result, $hasRows, $sitePeriodsWithRootRecord];
     }
 
     protected function querySingleBlobRows(ArchiveProcessor $archiveProcessor, string $recordName): iterable
     {
+        // use the same parameters as ArchiveProcessor::getArchive(): a day period has no subperiods, so the
+        // period itself must be queried, and an archive can aggregate the archives of multiple sites for the
+        // same period (eg for roll-up day archives)
         $archive = Archive::factory(
             $archiveProcessor->getParams()->getSegment(),
-            $archiveProcessor->getParams()->getPeriod()->getSubperiods(),
-            [$archiveProcessor->getParams()->getSite()->getId()]
+            $archiveProcessor->getParams()->getSubPeriods(),
+            $archiveProcessor->getParams()->getIdSites()
         );
         if (!method_exists($archive, 'querySingleBlob')) {
             return [];
@@ -692,11 +697,24 @@ abstract class RecordBuilder
         return $archive->querySingleBlob($recordName);
     }
 
+    /**
+     * Returns one entry per site and subperiod combination the archive being built aggregates over,
+     * keyed in the same way as {@link BlobTableAggregator::getSitePeriodKey()}.
+     *
+     * @return array<string, bool>
+     */
     protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
     {
         $result = [];
-        foreach ($archiveProcessor->getParams()->getPeriod()->getSubperiods() as $period) {
-            $result[$period->getDateStart()->toString() . ',' . $period->getDateEnd()->toString()] = true;
+        foreach ($archiveProcessor->getParams()->getIdSites() as $idSite) {
+            foreach ($archiveProcessor->getParams()->getSubPeriods() as $period) {
+                $key = BlobTableAggregator::getSitePeriodKey([
+                    'idsite' => $idSite,
+                    'date1' => $period->getDateStart()->toString(),
+                    'date2' => $period->getDateEnd()->toString(),
+                ]);
+                $result[$key] = true;
+            }
         }
 
         return $result;

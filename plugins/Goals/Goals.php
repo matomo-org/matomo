@@ -525,6 +525,7 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_YouCanEnableEcommerceReports';
         $translationKeys[] = 'Goals_CategoryTextGeneral_Actions';
         $translationKeys[] = 'General_ForExampleShort';
+        $translationKeys[] = 'General_PleaseSpecifyValue';
         $translationKeys[] = 'General_Id';
         $translationKeys[] = 'General_Description';
         $translationKeys[] = 'General_ColumnRevenue';

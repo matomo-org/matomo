@@ -67,6 +67,45 @@ describe("ManageGoals", function () {
         expect(viewGoalLinkHref).to.include(`subcategory=${createdGoalId}`);
     });
 
+    it("should block submission with an inline error when a required pattern is empty", async function () {
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+
+        await page.waitForSelector('#add-goal');
+        await page.click('#add-goal');
+        await page.waitForSelector('.addEditGoal', { visible: true });
+
+        // Provide a name but deliberately leave the required pattern field empty.
+        await fillField('#goal_name', 'Goal without a pattern');
+
+        const saveButton = await page.waitForSelector('.addEditGoal .matomo-save-button .btn');
+        await saveButton.click();
+
+        // The client-side guard shows an inline error and does not submit, so the edit form
+        // stays open and no success notification appears.
+        await page.waitForFunction(() => {
+          const field = document.querySelector('#pattern');
+          const wrapper = field && field.closest('.matomo-form-field');
+          return !!(wrapper && wrapper.querySelector('.form-group__error-message'));
+        });
+        const errorText = await page.evaluate(() => document.querySelector('#pattern')
+          .closest('.matomo-form-field')
+          .querySelector('.form-group__error-message')
+          .textContent.trim());
+        expect(errorText).to.equal("Please specify a value for 'pattern'.");
+
+        const successNotifications = await page.$$('.notification.notification-success');
+        expect(successNotifications.length).to.equal(0);
+
+        // Once a value is provided the inline error clears.
+        await fillField('#pattern', '/thank-you');
+        await page.waitForFunction(() => {
+          const field = document.querySelector('#pattern');
+          const wrapper = field && field.closest('.matomo-form-field');
+          return !!wrapper && !wrapper.querySelector('.form-group__error-message');
+        });
+    });
+
     it("should wrap a long description when creating a new goal", async function () {
         await page.goto(manageGoalsUrl);
         await page.waitForNetworkIdle();

@@ -287,6 +287,9 @@
                     autocomplete="off"
                     :title="patternFieldLabel"
                     :full-width="true"
+                    :error-message="patternMissing
+                      ? translate('General_PleaseSpecifyValue', 'pattern')
+                      : ''"
                   />
               </div>
             </div>
@@ -454,6 +457,7 @@ interface ManageGoalsState {
   submitText: string;
   goalToDelete: Goal|null;
   addEditTableComponent: boolean;
+  patternMissing: boolean;
 }
 
 function ambiguousBoolToInt(n: string|number|boolean): 1|0 {
@@ -500,6 +504,7 @@ export default defineComponent({
       submitText: '',
       goalToDelete: null,
       addEditTableComponent: false,
+      patternMissing: false,
     };
   },
   components: {
@@ -510,6 +515,14 @@ export default defineComponent({
     Alert,
     VueEntryContainer,
     RecommendGoals,
+  },
+  watch: {
+    'goal.pattern': function goalPatternChanged(pattern: string) {
+      // Clear the inline "please specify a value" error as soon as the user provides one.
+      if (this.patternMissing && pattern !== undefined && pattern !== null && `${pattern}` !== '') {
+        this.patternMissing = false;
+      }
+    },
   },
   directives: {
     ContentTable,
@@ -557,6 +570,7 @@ export default defineComponent({
       Matomo.postEvent('Goals.beforeInitGoalForm', goalMethodAPI, goalId, goalName);
 
       this.apiMethod = goalMethodAPI;
+      this.patternMissing = false;
 
       this.goal = {} as unknown as Goal;
       this.goal.name = goalName;
@@ -703,6 +717,23 @@ export default defineComponent({
       if (parameters?.cancelRequest) {
         return;
       }
+
+      // Validate the required condition value client-side before submitting so the user gets
+      // inline feedback instead of a round-trip error. Mirrors the server guard in
+      // Goals\API::checkPattern(), which rejects an empty pattern for any non-manual goal.
+      // Run this after the beforeAddGoal/beforeUpdateGoal events and the cancelRequest check
+      // so extensions can still set or cancel the pattern before it is validated.
+      if (
+        parameters.matchAttribute !== 'manually'
+        && (parameters.pattern === undefined
+          || parameters.pattern === null
+          || `${parameters.pattern}` === '')
+      ) {
+        this.patternMissing = true;
+        this.scrollToTop();
+        return;
+      }
+      this.patternMissing = false;
 
       this.isLoading = true;
 

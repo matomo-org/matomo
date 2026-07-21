@@ -420,12 +420,12 @@ class ArchiveProcessor
                 }
             },
             null,
-            function (string $period, int $tableId): void {
+            function (string $sitePeriod, int $tableId): void {
                 StaticContainer::get(LoggerInterface::class)->info(
-                    'Unexpected state when aggregating DataTable, unknown period/table ID combination encountered: {period} - {tableId}.'
+                    'Unexpected state when aggregating DataTable, unknown site/period/table ID combination encountered: {sitePeriod} - {tableId}.'
                     . ' This either means the SQL to order blobs is behaving incorrectly or the blob data is corrupt in some way.',
                     [
-                        'period' => $period,
+                        'sitePeriod' => $sitePeriod,
                         'tableId' => $tableId,
                     ]
                 );
