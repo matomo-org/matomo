@@ -547,6 +547,17 @@
                             stroke: colors['region-stroke-color']
                         }
                     });
+                    // frame the boxes for far-away regions drawn as insets
+                    try {
+                        if (map.svgSrc && $(map.svgSrc).find('#insets').length) {
+                            map.addLayer('insets', {
+                                name: 'insets',
+                                styles: { stroke: '#999999', 'stroke-width': 0.7, fill: 'none' }
+                            });
+                        }
+                    } catch (e) {
+                        console.warn('UserCountryMap: could not add insets layer', e);
+                    }
                 }
                 refreshVisits(true);
             }
@@ -652,6 +663,7 @@
          */
         resize: function () {
             var ratio, w, h, map = this.map;
+            // adaptive: the widget takes each loaded map's own aspect ratio
             ratio = map.viewAB.width / map.viewAB.height;
             w = map.container.width();
             h = Math.min(w / ratio, $(window).height() - 30);
