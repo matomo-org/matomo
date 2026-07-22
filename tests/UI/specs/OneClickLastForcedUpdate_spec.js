@@ -57,15 +57,10 @@ describe("OneClickLastForcedUpdate", function () {
       expect(await page.screenshot({ fullPage: true })).to.matchImage('update_screen');
     });
 
-    it('should fail to automatically update when trying to update over https fails', async function () {
-        await page.click('#updateAutomatically');
-        await page.waitForNetworkIdle();
-        await page.waitForSelector('.content');
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('update_fail');
-    });
-
     it('should update successfully and show the finished update screen', async function () {
-        await page.click('#updateUsingHttp');
+        // force_matomo_http_request is enabled for the test install, so the archive is fetched over
+        // HTTP directly and the update completes without the removed HTTP fallback screen.
+        await page.click('#updateAutomatically');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.content');
 
