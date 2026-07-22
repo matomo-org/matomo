@@ -12,6 +12,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated method `Piwik\ArchiveProcessor\Parameters::setIsPartialArchive()` has been removed. Use `Piwik\ArchiveProcessor\Parameters::setArchiveOnlyReport()` instead.
 * The deprecated method `Piwik\Db\Adapter::getDefaultPortForAdapter()` has been removed. Use `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
 * The deprecated method `Piwik\Url::saveCORSHostnameInConfig()` has been removed. It was no longer in use.
+* The deprecated method `Piwik\Plugin\Report::getThirdLeveltableDimension()` has been removed. Use `Piwik\Plugin\Report::getNthLevelTableDimension(2)` instead.
 * The deprecated method `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()` has been removed. Use the `SitesManager.getExcludedQueryParameters` API method instead.
 * The deprecated method `Piwik\Db::optimizeTables()` has been removed. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
 * The deprecated method `Piwik\Db::isOptimizeInnoDBSupported()` has been removed. Use `Piwik\Db\Schema::getInstance()->isOptimizeInnoDBSupported()` instead.
