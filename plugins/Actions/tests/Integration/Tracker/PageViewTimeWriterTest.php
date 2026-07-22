@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Actions\tests\Integration\Tracker;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Plugins\Actions\Tracker\PageViewTimeWriter;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
@@ -265,6 +266,110 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertSame('shared', $rows[1]['idpageview']);
         $this->assertSame(12, (int) $rows[0]['time_spent'], 'Search hit closes the parent page');
         $this->assertSame(0, (int) $rows[1]['time_spent']);
+    }
+
+    public function testClientPvTimeOverridesServerSideCalculation()
+    {
+        // The tracker JS counts focused time itself and ships the seconds via &pv_time. The
+        // writer should trust that number instead of computing (now − server_time). Useful for
+        // privacy browsers that drop unload pings, and for trackers that want to send a smaller
+        // focused-only number rather than total tab-open time.
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('cltime');
+        $tracker->setUrl('https://example.org/client-time');
+        Fixture::checkResponse($tracker->doTrackPageView('Client time'));
+
+        // Server clock advances 60s but the client says it was only on the page for 12s
+        // (e.g. focused-only). The writer must trust the client value, not (60 − 0).
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 60));
+        $tracker->setDebugStringAppend('&ping=1&' . PageViewTimeWriter::PARAM_PV_TIME . '=12');
+        Fixture::checkResponse($tracker->doTrackPageView('Client time'));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(1, $rows);
+        $this->assertSame(12, (int) $rows[0]['time_spent']);
+    }
+
+    public function testClientPvTimeNeverShrinksAnEarlierLargerObservation()
+    {
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('grow12');
+        $tracker->setUrl('https://example.org/client-time');
+        Fixture::checkResponse($tracker->doTrackPageView('Client time'));
+
+        // First ping: server clock at +30s, client claims 25s (focused only).
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 30));
+        $tracker->setDebugStringAppend('&ping=1&' . PageViewTimeWriter::PARAM_PV_TIME . '=25');
+        Fixture::checkResponse($tracker->doTrackPageView('Client time'));
+
+        // Second ping arrives later but with a *smaller* client value (e.g. browser tab idle
+        // throttled the counter). GREATEST() must keep the earlier 25s, not regress to 10s.
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 60));
+        $tracker->setDebugStringAppend('&ping=1&' . PageViewTimeWriter::PARAM_PV_TIME . '=10');
+        Fixture::checkResponse($tracker->doTrackPageView('Client time'));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(1, $rows);
+        $this->assertSame(25, (int) $rows[0]['time_spent']);
+    }
+
+    public function testClientPvTimeAboveCapIsClampedToVisitStandardLength()
+    {
+        // A misbehaving or malicious client sending an absurd pv_time must never push
+        // time_spent past the visit_standard_length cap. Same cap the server-side path
+        // enforces via LEAST() in SQL, applied earlier here for defence-in-depth.
+        $cap = (int) (Config::getInstance()->Tracker['visit_standard_length'] ?? 1800);
+
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('bigpvt');
+        $tracker->setUrl('https://example.org/client-time');
+        Fixture::checkResponse($tracker->doTrackPageView('Client time'));
+
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 30));
+        $tracker->setDebugStringAppend('&ping=1&' . PageViewTimeWriter::PARAM_PV_TIME . '=99999999');
+        Fixture::checkResponse($tracker->doTrackPageView('Client time'));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(1, $rows);
+        $this->assertSame($cap, (int) $rows[0]['time_spent']);
+    }
+
+    public function testClientPvTimeZeroFallsBackToServerCalculation()
+    {
+        // pv_time=0 is treated as "no client override", not "the user spent 0s here": a stored
+        // time_spent of 0 is already reserved as the archiver's "not measured yet" sentinel
+        // (see ActionReports::archiveDayActionsTime()). Trusting a client 0 would make the
+        // visitor log and Actions report disagree on the last page of a visit. So we fall
+        // back to the server-side (now − server_time) calculation.
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('zero01');
+        $tracker->setUrl('https://example.org/pv-zero');
+        Fixture::checkResponse($tracker->doTrackPageView('Zero'));
+
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 20));
+        $tracker->setDebugStringAppend('&ping=1&' . PageViewTimeWriter::PARAM_PV_TIME . '=0');
+        Fixture::checkResponse($tracker->doTrackPageView('Zero'));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(1, $rows);
+        $this->assertSame(20, (int) $rows[0]['time_spent']);
+    }
+
+    public function testClientPvTimeMissingFallsBackToServerCalculation()
+    {
+        // When pv_time isn't sent, the writer continues to use the server-side
+        // (now − server_time) calculation. Same as before this feature existed.
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('fbk12a');
+        $tracker->setUrl('https://example.org/no-pvtime');
+        Fixture::checkResponse($tracker->doTrackPageView('No pv_time'));
+
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 40));
+        Fixture::checkResponse($tracker->doTrackEvent('Engagement', 'click'));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(1, $rows);
+        $this->assertSame(40, (int) $rows[0]['time_spent']);
     }
 
     public function testKillSwitchDisablesAllWrites()

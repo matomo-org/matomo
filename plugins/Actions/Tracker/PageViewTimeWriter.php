@@ -60,6 +60,7 @@ class PageViewTimeWriter
 {
     public const TABLE = 'log_page_view_time';
     public const CONFIG_KEY = 'record_accurate_page_view_time';
+    public const PARAM_PV_TIME = 'pv_time';
     public const DEFAULT_VISIT_STANDARD_LENGTH = 1800;
 
     /**
@@ -102,6 +103,7 @@ class PageViewTimeWriter
 
         $serverTimeSql = date('Y-m-d H:i:s', (int) $request->getCurrentTimestamp());
         $cap = self::getVisitStandardLength();
+        $clientTimeOnPage = $this->extractClientTimeOnPage($request, $cap);
 
         if ($action !== null && $this->isRecordableAction($action)) {
             $idLinkVa = (int) $action->getIdLinkVisitAction();
@@ -136,7 +138,42 @@ class PageViewTimeWriter
             return;
         }
 
-        $this->updateTimeSpent($idVisit, $pvId, $serverTimeSql, $cap);
+        $this->updateTimeSpent($idVisit, $pvId, $serverTimeSql, $cap, $clientTimeOnPage);
+    }
+
+    /**
+     * Read the optional client-provided time-on-page value from `pv_time` (seconds).
+     *
+     * When the tracker JS counts focused time itself (e.g. a custom in-page counter) it can send
+     * the number directly with each follow-up tracker request (heartbeat / event / etc. — hits
+     * that carry the same `pv_id` as the pageview). {@see updateTimeSpent()} then trusts it as
+     * the authoritative value for that hit and skips the server-side `now − server_time`
+     * calculation. Multiple hits with `pv_time` settle via the same `GREATEST()` rule everything
+     * else uses, so a later hit can only grow the recorded time.
+     *
+     * On a brand-new pageview request the value is ignored — pageview rows are inserted at
+     * `time_spent = 0` and only later same-tab hits update them.
+     *
+     * Returns null when the param is missing OR non-positive. Zero is treated as "no client
+     * override" (not "the user spent 0s here"): a stored `time_spent = 0` is already reserved
+     * by the archiver — see ActionReports::archiveDayActionsTime() — as the "not measured yet"
+     * sentinel that triggers the last-page fallback to `visit_last_action_time − server_time`.
+     * Trusting a client `0` would create a visitor-log vs Actions-report divergence on the last
+     * page of a visit. Values above `Tracker.visit_standard_length` are clamped rather than
+     * nulled — a client saying "3600s" gets recorded as `visit_standard_length`.
+     */
+    private function extractClientTimeOnPage(Request $request, int $cap): ?int
+    {
+        // `pv_time` is registered as an int with default -1 in Request::getParam(), so the
+        // value we get back is guaranteed to be int. See `core/Tracker/Request.php`.
+        $seconds = $request->getParam(self::PARAM_PV_TIME);
+        if ($seconds <= 0) {
+            return null;
+        }
+        if ($seconds > $cap) {
+            $seconds = $cap;
+        }
+        return $seconds;
     }
 
     private function isRecordableAction(Action $action): bool
@@ -223,10 +260,36 @@ class PageViewTimeWriter
         int $idVisit,
         string $pvId,
         string $serverTimeSql,
-        int $cap
+        int $cap,
+        ?int $clientTimeOnPage
     ): void {
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
+
+        // When the client supplied its own time-on-page measurement, trust it as the source of
+        // truth for this hit — useful for trackers that measure focused-only time, which the
+        // server cannot infer from request timestamps. We still GREATEST() so out-of-order or
+        // smaller client values can't shrink an earlier larger observation.
+        //
+        // The bind param is wrapped in CAST(? AS UNSIGNED) because PDO_MYSQL emulated prepares
+        // (the tracker default) send bound integers as quoted strings. Without the cast, any
+        // string operand forces LEAST()/GREATEST() into lexicographic comparison — LEAST('1800',
+        // '25') then returns '1800' and silently pins time_spent at the cap. The cast forces
+        // integer comparison regardless of how PDO transmits the value.
+        if ($clientTimeOnPage !== null) {
+            $sql = "UPDATE `$table`
+                       SET time_spent = LEAST($cap, GREATEST(time_spent, CAST(? AS UNSIGNED)))
+                     WHERE idpageviewtime = (
+                            SELECT idpageviewtime FROM (
+                                SELECT idpageviewtime FROM `$table`
+                                 WHERE idvisit = ? AND idpageview = ?
+                              ORDER BY server_time DESC, idpageviewtime DESC
+                                 LIMIT 1
+                            ) t
+                           )";
+            $db->query($sql, [$clientTimeOnPage, $idVisit, $pvId]);
+            return;
+        }
 
         // A page-view and its site-search hit share the same pv_id (the JS tracker does not
         // rotate pv_id between them), so (idvisit, pv_id) can match multiple rows. Update the
