@@ -49,6 +49,25 @@ describe("UsersManager", function () {
         await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
     }
 
+    // The "give access to all websites" Materialize select can reflow to a slightly taller height
+    // after render, shifting the site table below it and flaking permissions captures. Wait for that
+    // header's height to stop changing before capturing.
+    async function waitForAccessHeaderSettled() {
+        await page.evaluate(() => { window.__accHdrHeight = -1; });
+        await page.waitForFunction(() => {
+            const el = document.querySelector('.userPermissionsEdit .to-all-websites');
+            if (!el) {
+                return false;
+            }
+            const h = Math.round(el.getBoundingClientRect().height);
+            if (window.__accHdrHeight === h) {
+                return true;
+            }
+            window.__accHdrHeight = h;
+            return false;
+        }, { polling: 200 });
+    }
+
     before(async function() {
         await page.webpage.setViewport({
             width: 1250,
@@ -443,6 +462,7 @@ describe("UsersManager", function () {
     it('should go to the next results page when the next button is clicked', async function () {
         await page.click('.sites-for-permission-pagination a.next');
         await page.waitForNetworkIdle();
+        await waitForAccessHeaderSettled();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_next',
@@ -566,6 +586,7 @@ describe("UsersManager", function () {
         await confirmOpenPasswordModal();
         await page.mouse.move(-10, -10); // avoid hovering the changed row after the modal closes
         await page.waitForNetworkIdle();
+        await waitForAccessHeaderSettled();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_single_site_access',
