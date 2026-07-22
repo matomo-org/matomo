@@ -23,6 +23,7 @@ jest.mock('CoreHome', () => ({
   WidgetType: {},
   MatomoModal: { template: '<div><slot /></div>' },
   Widget: { template: '<div />' },
+  ReportHeader: { template: '<div />' },
 }), { virtual: true });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
