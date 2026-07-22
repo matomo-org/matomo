@@ -32,6 +32,23 @@ describe("UsersManager", function () {
         });
     }
 
+    // Fill and confirm the open password-confirmation modal. #currentUserPassword is duplicated across
+    // modals and page.type of the special-char password is unreliable on CI, so set the value on the
+    // visible field and dispatch input/change so the Vue model updates.
+    async function confirmOpenPasswordModal() {
+        await page.evaluate((pw) => {
+            const fields = Array.from(document.querySelectorAll('.confirm-password-modal.open #currentUserPassword'));
+            const field = fields.find((f) => f.offsetParent !== null) || fields[0];
+            if (field) {
+                field.value = pw;
+                field.dispatchEvent(new Event('input', { bubbles: true }));
+                field.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }, superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+    }
+
     before(async function() {
         await page.webpage.setViewport({
             width: 1250,
@@ -180,14 +197,7 @@ describe("UsersManager", function () {
     });
 
     it('should change access for all rows in search when confirmed', async function () {
-        // Several confirm-password modals share the #currentUserPassword id and the field can retain a
-        // value, so clear it first - otherwise page.type appends and submits a wrong password.
-        await page.evaluate(() => {
-            document.querySelectorAll('.confirm-password-modal #currentUserPassword').forEach((f) => { f.value = ''; });
-        });
-        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
-        await page.waitForTimeout(250);
-        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+        await confirmOpenPasswordModal();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
@@ -465,14 +475,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Admin):visible', { waitFor: true })).click();
 
         await page.waitForSelector('.confirm-password-modal.open', { visible: true });
-        // Several confirm-password modals share the #currentUserPassword id and the field can retain a
-        // value, so clear it first - otherwise page.type appends and submits a wrong password.
-        await page.evaluate(() => {
-            document.querySelectorAll('.confirm-password-modal #currentUserPassword').forEach((f) => { f.value = ''; });
-        });
-        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
-        await page.waitForTimeout(250);
-        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+        await confirmOpenPasswordModal();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
@@ -520,22 +523,10 @@ describe("UsersManager", function () {
 
         await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
 
-        // The password-confirmation modal only appears in some environments; fill it when shown
-        // (clear first so page.type does not append to a pre-filled field).
+        // The password-confirmation modal only appears when re-authentication is required (e.g. on CI); fill it when shown.
         await page.waitForTimeout(500);
         if (await page.evaluate(() => $('.confirm-password-modal.open:visible').length > 0)) {
-            await page.evaluate(() => {
-                const f = document.querySelector('.confirm-password-modal.open #currentUserPassword');
-                if (f) { f.value = ''; }
-            });
-            // Several confirm-password modals share the #currentUserPassword id and the field can retain a
-        // value, so clear it first - otherwise page.type appends and submits a wrong password.
-        await page.evaluate(() => {
-            document.querySelectorAll('.confirm-password-modal #currentUserPassword').forEach((f) => { f.value = ''; });
-        });
-        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
-            await page.waitForTimeout(250);
-            await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+            await confirmOpenPasswordModal();
         }
         await page.waitForNetworkIdle();
 
@@ -561,14 +552,7 @@ describe("UsersManager", function () {
 
         await page.waitForSelector('.confirm-password-modal.open', { visible: true });
         await page.waitForTimeout(100); // animation
-        // Several confirm-password modals share the #currentUserPassword id and the field can retain a
-        // value, so clear it first - otherwise page.type appends and submits a wrong password.
-        await page.evaluate(() => {
-            document.querySelectorAll('.confirm-password-modal #currentUserPassword').forEach((f) => { f.value = ''; });
-        });
-        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
-        await page.waitForTimeout(250);
-        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+        await confirmOpenPasswordModal();
         await page.mouse.move(-10, -10); // avoid hovering the changed row after the modal closes
         await page.waitForNetworkIdle();
 
@@ -673,10 +657,9 @@ describe("UsersManager", function () {
 
     it('should give the user superuser access when the superuser modal is confirmed', async function () {
         await page.click('.userEditForm #superuser_access+span');
-        await page.waitForSelector('.modal.open #currentUserPassword', {visible: true});
+        await page.waitForSelector('.confirm-password-modal.open #currentUserPassword', { visible: true });
 
-        await page.type('.modal.open #currentUserPassword', superUserPassword);
-        await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
+        await confirmOpenPasswordModal();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
 
