@@ -93,4 +93,10 @@ class JsonResponseController extends Controller
 
         return json_encode([]);
     }
+
+    public function rawJsonContentTypeHeader(): string
+    {
+        \Piwik\Common::sendHeader('Content-Type: application/json; charset=utf-8');
+        return json_encode([]);
+    }
 }

@@ -21,3 +21,7 @@ services:
         class: Piwik\Tests\PHPStan\Rules\JsonResponseMustNotExitRule
         tags:
             - phpstan.rules.rule
+    -
+        class: Piwik\Tests\PHPStan\Rules\NoRawJsonHeaderInControllerRule
+        tags:
+            - phpstan.rules.rule

@@ -15,6 +15,7 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
@@ -30,6 +31,8 @@ final class JsonResponseRuleHelper
 
     private const JSON_RENDERER_CLASS = 'Piwik\\DataTable\\Renderer\\Json';
     private const JSON_HEADER_METHOD = 'sendheaderjson';
+    private const COMMON_CLASS = 'Piwik\\Common';
+    private const SEND_HEADER_METHOD = 'sendheader';
 
     /**
      * Whether the analysed method lives in a Piwik\Plugin\Controller subclass.
@@ -88,7 +91,21 @@ final class JsonResponseRuleHelper
      */
     public static function findAllJsonHeaderCalls(ClassMethod $method, Scope $scope): array
     {
-        return self::collectJsonHeaderCalls($method->stmts ?? [], $scope);
+        return self::collect($method->stmts ?? [], static function (Node $node) use ($scope): bool {
+            return $node instanceof StaticCall && self::isJsonHeaderCall($node, $scope);
+        });
+    }
+
+    /**
+     * All Common::sendHeader('Content-Type: ...json...') calls anywhere within the method body.
+     *
+     * @return StaticCall[]
+     */
+    public static function findRawJsonContentTypeCalls(ClassMethod $method, Scope $scope): array
+    {
+        return self::collect($method->stmts ?? [], static function (Node $node) use ($scope): bool {
+            return $node instanceof StaticCall && self::isRawJsonContentTypeCall($node, $scope);
+        });
     }
 
     /**
@@ -113,50 +130,23 @@ final class JsonResponseRuleHelper
      */
     public static function findExits(ClassMethod $method): array
     {
-        return self::collectExits($method->stmts ?? []);
+        return self::collect($method->stmts ?? [], static function (Node $node): bool {
+            return $node instanceof Exit_;
+        });
     }
 
     /**
+     * Recursively collects the nodes matching $matcher, without descending into nested scopes
+     * (closures, arrow functions, nested functions, anonymous classes): their code runs in a
+     * separate frame and is not part of the analysed method's own control flow.
+     *
      * @param Node[] $nodes
-     * @return Exit_[]
+     * @param callable(Node): bool $matcher
+     * @return Node[]
      */
-    private static function collectExits(array $nodes): array
+    private static function collect(array $nodes, callable $matcher): array
     {
-        $exits = [];
-
-        foreach ($nodes as $node) {
-            if (!$node instanceof Node) {
-                continue;
-            }
-
-            // Do not descend into nested scopes (closures, arrow functions, nested functions,
-            // anonymous classes): their code runs in a separate frame and does not affect whether
-            // the dispatched action itself returns without exiting.
-            if (self::isNestedScopeBoundary($node)) {
-                continue;
-            }
-
-            if ($node instanceof Exit_) {
-                $exits[] = $node;
-            }
-
-            foreach ($node->getSubNodeNames() as $subNodeName) {
-                $subNode = $node->{$subNodeName};
-                $children = is_array($subNode) ? $subNode : [$subNode];
-                $exits = array_merge($exits, self::collectExits($children));
-            }
-        }
-
-        return $exits;
-    }
-
-    /**
-     * @param Node[] $nodes
-     * @return StaticCall[]
-     */
-    private static function collectJsonHeaderCalls(array $nodes, Scope $scope): array
-    {
-        $calls = [];
+        $found = [];
 
         foreach ($nodes as $node) {
             if (!$node instanceof Node) {
@@ -167,18 +157,18 @@ final class JsonResponseRuleHelper
                 continue;
             }
 
-            if ($node instanceof StaticCall && self::isJsonHeaderCall($node, $scope)) {
-                $calls[] = $node;
+            if ($matcher($node)) {
+                $found[] = $node;
             }
 
             foreach ($node->getSubNodeNames() as $subNodeName) {
                 $subNode = $node->{$subNodeName};
                 $children = is_array($subNode) ? $subNode : [$subNode];
-                $calls = array_merge($calls, self::collectJsonHeaderCalls($children, $scope));
+                $found = array_merge($found, self::collect($children, $matcher));
             }
         }
 
-        return $calls;
+        return $found;
     }
 
     /**
@@ -201,5 +191,28 @@ final class JsonResponseRuleHelper
         }
 
         return $scope->resolveName($call->class) === self::JSON_RENDERER_CLASS;
+    }
+
+    private static function isRawJsonContentTypeCall(StaticCall $call, Scope $scope): bool
+    {
+        if (!$call->class instanceof Name || !$call->name instanceof Identifier) {
+            return false;
+        }
+
+        if (strtolower($call->name->toString()) !== self::SEND_HEADER_METHOD) {
+            return false;
+        }
+
+        if ($scope->resolveName($call->class) !== self::COMMON_CLASS) {
+            return false;
+        }
+
+        $args = $call->getArgs();
+
+        if (!isset($args[0]) || !$args[0]->value instanceof String_) {
+            return false;
+        }
+
+        return (bool) preg_match('#content-type\s*:.*json#i', $args[0]->value->value);
     }
 }
