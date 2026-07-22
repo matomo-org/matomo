@@ -51,9 +51,6 @@ parameters:
         -
             identifier: requireOnce.fileNotFound
             path: core/bootstrap.php
-        -
-            identifier: notEqual.alwaysFalse
-            path: plugins/Diagnostics/Diagnostic/ConfigInformational.php
     universalObjectCratesClasses:
         - Piwik\Config
         - Piwik\View

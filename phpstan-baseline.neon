@@ -1543,18 +1543,6 @@ parameters:
 			path: core/Segment/SegmentExpression.php
 
 		-
-			message: '#^Result of && is always false\.$#'
-			identifier: booleanAnd.alwaysFalse
-			count: 1
-			path: core/Segment/SegmentExpression.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between mixed and \*NEVER\* will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
-			count: 1
-			path: core/Segment/SegmentExpression.php
-
-		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
 			identifier: deadCode.unreachable
 			count: 1
@@ -3199,12 +3187,6 @@ parameters:
 			path: plugins/Diagnostics/Commands/ArchivingMetrics.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Console\\Output\\OutputInterface\:\:fetch\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: plugins/Diagnostics/Commands/ArchivingStatus.php
-
-		-
 			message: '#^Negated boolean expression is always true\.$#'
 			identifier: booleanNot.alwaysTrue
 			count: 1
@@ -3215,18 +3197,6 @@ parameters:
 			identifier: property.onlyWritten
 			count: 1
 			path: plugins/Diagnostics/Diagnostic/ArchiveInvalidationsInformational.php
-
-		-
-			message: '#^Parameter \#2 \$comment of static method Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult\:\:informationalResult\(\) expects string, bool given\.$#'
-			identifier: argument.type
-			count: 4
-			path: plugins/Diagnostics/Diagnostic/ConfigInformational.php
-
-		-
-			message: '#^Parameter \#2 \$comment of static method Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult\:\:informationalResult\(\) expects string, false given\.$#'
-			identifier: argument.type
-			count: 2
-			path: plugins/Diagnostics/Diagnostic/ConfigInformational.php
 
 		-
 			message: '#^Property Piwik\\Plugins\\Diagnostics\\Diagnostic\\ConfigInformational\:\:\$translator is never read, only written\.$#'
@@ -3253,37 +3223,13 @@ parameters:
 			path: plugins/Diagnostics/Diagnostic/DatabaseInformational.php
 
 		-
-			message: '#^Strict comparison using \=\=\= between string and false will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
-			count: 1
-			path: plugins/Diagnostics/Diagnostic/DiagnosticResult.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between string and true will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
-			count: 1
-			path: plugins/Diagnostics/Diagnostic/DiagnosticResult.php
-
-		-
-			message: '#^Parameter \#2 \$comment of static method Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult\:\:informationalResult\(\) expects string, bool given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/Diagnostics/Diagnostic/MatomoInformational.php
-
-		-
 			message: '#^Property Piwik\\Plugins\\Diagnostics\\Diagnostic\\MatomoInformational\:\:\$translator is never read, only written\.$#'
 			identifier: property.onlyWritten
 			count: 1
 			path: plugins/Diagnostics/Diagnostic/MatomoInformational.php
 
 		-
-			message: '#^Parameter \#2 \$comment of static method Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult\:\:informationalResult\(\) expects string, bool given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/Diagnostics/Diagnostic/PhpInformational.php
-
-		-
-			message: '#^Parameter \#2 \$comment of static method Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult\:\:informationalResult\(\) expects string, int\<1, max\> given\.$#'
+			message: '#^Parameter \#2 \$comment of static method Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult\:\:informationalResult\(\) expects bool\|string, int\<1, max\> given\.$#'
 			identifier: argument.type
 			count: 1
 			path: plugins/Diagnostics/Diagnostic/PhpInformational.php
@@ -4013,12 +3959,6 @@ parameters:
 			identifier: binaryOp.invalid
 			count: 1
 			path: plugins/PrivacyManager/Controller.php
-
-		-
-			message: '#^Parameter \#2 \$comment of static method Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult\:\:informationalResult\(\) expects string, bool given\.$#'
-			identifier: argument.type
-			count: 1
-			path: plugins/PrivacyManager/Diagnostic/PrivacyInformational.php
 
 		-
 			message: '#^Property Piwik\\Plugins\\PrivacyManager\\Diagnostic\\PrivacyInformational\:\:\$translator is never read, only written\.$#'
