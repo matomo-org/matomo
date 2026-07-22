@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <div class="row sparklinesGrid">
+  <div :class="gridClasses">
     <!-- Segment and segment + date comparison: one card per metric, each stacking its per-segment
          rows (each row shows one value in 'segment' mode, or its compared-date columns in
          'segmentDate' mode). -->
@@ -14,7 +14,7 @@
       <div
         v-for="(segments, index) in segmentGroups"
         :key="index"
-        :class="columnClasses"
+        class="sparklinesGrid__item"
       >
         <SegmentComparisonCard
           :segments="segments"
@@ -28,7 +28,7 @@
       <div
         v-for="(sparkline, index) in flatSparklines"
         :key="index"
-        :class="columnClasses"
+        class="sparklinesGrid__item"
       >
         <SparklineCard
           :sparkline="sparkline"
@@ -87,7 +87,7 @@ export default defineComponent({
   },
   setup(props) {
     // Both segment modes render one SegmentComparisonCard per metric group (a row per segment);
-    // they differ only in how many date columns each row shows and in card width (columnClasses).
+    // they differ only in how many date columns each row shows and in card width (isWideLayout).
     const isSegmentMode = computed(
       () => props.comparisonMode === 'segment' || props.comparisonMode === 'segmentDate',
     );
@@ -113,16 +113,22 @@ export default defineComponent({
         .sort((a, b) => Math.min(...a.map((s) => s.order)) - Math.min(...b.map((s) => s.order))),
     );
 
-    // Per-card column density: date and segment+date cards are wider (compared-date columns + a
-    // full-width sparkline, so fewer per row); no-comparison and segment-only cards share the
-    // standard width; widget mode uses one/two columns. See the .less for the per-tier widths
-    // (xl3/xl6 widened above 1600/1920px).
-    const columnClasses = computed(() => {
-      if (props.comparisonMode === 'date' || props.comparisonMode === 'segmentDate') {
-        return props.isWidget ? 'col s12' : 'col s12 m12 l6 xl6';
-      }
-      return props.isWidget ? 'col s6' : 'col s6 m6 l4 xl3';
-    });
+    // date / segment+date cards are wider (value columns + a full-width sparkline), so the grid
+    // gives them a lower density. (isSegmentMode = segment || segmentDate is a different split.)
+    const isWideLayout = computed(
+      () => props.comparisonMode === 'date' || props.comparisonMode === 'segmentDate',
+    );
+
+    // Container classes drive the CSS grid (see the .less). Reporting pages reflow fluidly via
+    // auto-fill; a dashboard widget is too narrow to reflow, so it gets a compact frame and a
+    // fixed column count. Each modifier is a single class, never chained.
+    const gridClasses = computed(() => ({
+      sparklinesGrid: true,
+      'sparklinesGrid--wide': !props.isWidget && isWideLayout.value,
+      'sparklinesGrid--framed': props.isWidget,
+      'sparklinesGrid--twoColumns': props.isWidget && !isWideLayout.value,
+      'sparklinesGrid--oneColumn': props.isWidget && isWideLayout.value,
+    }));
 
     onMounted(() => {
       // Wire each sparkline to its evolution graph once the cards are in the DOM (per-segment row
@@ -137,7 +143,7 @@ export default defineComponent({
       isSegmentMode,
       flatSparklines,
       segmentGroups,
-      columnClasses,
+      gridClasses,
     };
   },
 });
