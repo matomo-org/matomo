@@ -10,7 +10,9 @@
 namespace Piwik\Tests\PHPStan\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\Cast\String_ as StringCast;
 use PhpParser\Node\Expr\Exit_;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Identifier;
@@ -19,6 +21,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
+use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 
 /**
@@ -106,6 +109,68 @@ final class JsonResponseRuleHelper
         return self::collect($method->stmts ?? [], static function (Node $node) use ($scope): bool {
             return $node instanceof StaticCall && self::isRawJsonContentTypeCall($node, $scope);
         });
+    }
+
+    /**
+     * Whether the method contains any JSON header call (Json::sendHeaderJSON() or a raw
+     * Common::sendHeader('Content-Type: ...json...')), anywhere in its body.
+     */
+    public static function sendsJsonHeaderAnywhere(ClassMethod $method, Scope $scope): bool
+    {
+        return self::findAllJsonHeaderCalls($method, $scope) !== []
+            || self::findRawJsonContentTypeCalls($method, $scope) !== [];
+    }
+
+    /**
+     * Return statements that are unconditional top-level statements of the method body and whose
+     * value looks like a JSON response (a json_encode() call, a (string) json_encode() cast, or a
+     * JSON-ish string literal). The empty-string "no result" fallback is intentionally not matched.
+     *
+     * @return Return_[]
+     */
+    public static function findTopLevelJsonReturns(ClassMethod $method): array
+    {
+        $returns = [];
+
+        foreach ($method->stmts ?? [] as $stmt) {
+            if ($stmt instanceof Return_ && self::looksLikeJsonExpr($stmt->expr)) {
+                $returns[] = $stmt;
+            }
+        }
+
+        return $returns;
+    }
+
+    private static function looksLikeJsonExpr(?Node\Expr $expr): bool
+    {
+        if ($expr === null) {
+            return false;
+        }
+
+        // unwrap a (string) cast, e.g. `return (string) json_encode(...)`
+        if ($expr instanceof StringCast) {
+            $expr = $expr->expr;
+        }
+
+        if (
+            $expr instanceof FuncCall
+            && $expr->name instanceof Name
+            && strtolower($expr->name->toString()) === 'json_encode'
+        ) {
+            return true;
+        }
+
+        if ($expr instanceof String_) {
+            $value = ltrim($expr->value);
+
+            if ($value === '') {
+                return false;
+            }
+
+            return (bool) preg_match('/^(\[|\{|"|true|false|null)/i', $value);
+        }
+
+        return false;
     }
 
     /**

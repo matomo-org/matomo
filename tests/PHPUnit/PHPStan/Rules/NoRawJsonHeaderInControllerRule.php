@@ -43,9 +43,10 @@ class NoRawJsonHeaderInControllerRule implements Rule
 
         foreach (JsonResponseRuleHelper::findRawJsonContentTypeCalls($node, $scope) as $call) {
             $errors[] = RuleErrorBuilder::message(sprintf(
-                'Controller action %s() sets a JSON Content-Type via Common::sendHeader(); use'
-                . ' Json::sendHeaderJSON() (or the #[\\Piwik\\Http\\JsonResponse] attribute for an'
-                . ' always-JSON action) instead, so the JSON response convention and its checks apply.',
+                'Controller action %s() sets a JSON Content-Type via Common::sendHeader(). Mark the'
+                . ' action with the #[\\Piwik\\Http\\JsonResponse] attribute instead of setting the'
+                . ' header directly (use Json::sendHeaderJSON() only for a conditional JSON branch that'
+                . ' cannot use the attribute).',
                 $node->name->toString()
             ))
                 ->identifier('matomo.jsonResponse.rawHeader')

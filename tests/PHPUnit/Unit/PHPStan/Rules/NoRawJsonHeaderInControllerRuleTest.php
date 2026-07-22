@@ -29,9 +29,9 @@ class NoRawJsonHeaderInControllerRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/JsonResponseController.php'], [
             [
                 'Controller action rawJsonContentTypeHeader() sets a JSON Content-Type via'
-                . ' Common::sendHeader(); use Json::sendHeaderJSON() (or the #[\Piwik\Http\JsonResponse]'
-                . ' attribute for an always-JSON action) instead, so the JSON response convention and'
-                . ' its checks apply.',
+                . ' Common::sendHeader(). Mark the action with the #[\Piwik\Http\JsonResponse] attribute'
+                . ' instead of setting the header directly (use Json::sendHeaderJSON() only for a'
+                . ' conditional JSON branch that cannot use the attribute).',
                 99,
             ],
         ]);

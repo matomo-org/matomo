@@ -99,4 +99,30 @@ class JsonResponseController extends Controller
         \Piwik\Common::sendHeader('Content-Type: application/json; charset=utf-8');
         return json_encode([]);
     }
+
+    // unconditional JSON returns without the attribute must be flagged (JsonReturnRequiresAttribute)
+    public function undeclaredJsonEncodeReturn()
+    {
+        return json_encode(['ok' => true]);
+    }
+
+    public function undeclaredJsonEncodeCastReturn()
+    {
+        return (string) json_encode(['ok' => true]);
+    }
+
+    public function undeclaredJsonLiteralReturn()
+    {
+        return '{"ok":true}';
+    }
+
+    // conditional JSON return (HTML on the other path) is NOT top-level, so it must NOT be flagged
+    public function conditionalJsonReturnIsIgnored(): string
+    {
+        if (self::class !== '') {
+            return json_encode(['ok' => true]);
+        }
+
+        return '<div>not json</div>';
+    }
 }
