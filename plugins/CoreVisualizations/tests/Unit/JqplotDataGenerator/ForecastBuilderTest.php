@@ -1572,6 +1572,52 @@ class ForecastBuilderTest extends TestCase
         self::assertSame([[null, null, null, 15.0]], $forecastData);
     }
 
+    public function testBuildMaxSeriesClampsRunawayPriorToHistoricalRange(): void
+    {
+        $site = $this->createSiteMock();
+
+        // A running-max series reaches the same damped linear-trend prior-only fallback as an
+        // additive count, so a spike in the same-DoW history extrapolates into a runaway just as
+        // it would for MONOTONICITY_UP. max_actions is a user-selectable metric on the Visits
+        // Overview evolution graph, so this path is one click away on a common page. The envelope
+        // clamp must therefore engage for MAX exactly as it does for UP: four prior Sundays at
+        // [100, 105, 95, 400] fit a steep trend whose damped projection is 353, which the
+        // historical-range envelope (median 102.5, MAD-sized) reins to its upper bound 124.739,
+        // rounded to 125. Without the MAX arm on the clamp gate the chart renders the unclamped
+        // 353 instead.
+        $dataTables = [
+            $this->createDataTableForDay('2026-04-30', $site),
+            $this->createDataTableForDay('2026-05-01', $site),
+            $this->createDataTableForDay('2026-05-02', $site),
+            $this->createDataTableForDay('2026-05-03', $site, '2026-05-03 12:00:00'),
+        ];
+
+        $dailySamples = [
+            '2026-04-05' => 100.0,
+            '2026-04-12' => 105.0,
+            '2026-04-19' => 95.0,
+            '2026-04-26' => 400.0,
+        ];
+
+        $forecastData = $this->buildForecast(
+            ['Max actions' => [10.0, 20.0, 30.0, 15.0]],
+            $dataTables,
+            [
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::COMPLETE,
+                ArchiveState::INCOMPLETE,
+            ],
+            ['Max actions' => false],
+            [],
+            ['Max actions' => ForecastMetricClassifier::MONOTONICITY_MAX],
+            ['Max actions' => 0],
+            ['Max actions' => $dailySamples]
+        );
+
+        self::assertSame([[null, null, null, 125.0]], $forecastData);
+    }
+
     public function testBuildMonotonicDownSeriesSkipsLinearExtrapolationOfPartialValue(): void
     {
         $site = $this->createSiteMock();
