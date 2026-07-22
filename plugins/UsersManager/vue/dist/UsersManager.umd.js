@@ -4095,7 +4095,7 @@ ${CoreHome.translate("UsersManager_CopyDeniedHints", [`<br><span class="invite-l
         return this.forceSecureOnly;
       },
       secureOnlyHelp() {
-        return this.forceSecureOnly ? CoreHome.translate("UsersManager_AuthTokenSecureOnlyHelpForced") : CoreHome.translate("UsersManager_AuthTokenSecureOnlyHelp");
+        return this.forceSecureOnly ? CoreHome.translate("UsersManager_AuthTokenSecureOnlyHelpForced") : CoreHome.translate("UsersManager_AuthTokenSecureOnlyHelp2");
       },
       tokenExpireDateHelpText() {
         return CoreHome.translate(

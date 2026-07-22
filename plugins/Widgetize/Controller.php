@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\Widgetize;
 
-use Piwik\API\Request;
+use Piwik\API\Request as ApiRequest;
 use Piwik\Config\GeneralConfig;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
@@ -17,6 +17,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\API\WidgetMetadata;
+use Piwik\Request;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\Widget\WidgetConfig;
@@ -36,7 +37,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         // also called by FrontController, we call it explicitly as a safety measure in case something changes in the future
         if (StaticContainer::get(AuthenticationToken::class)->getAuthToken()) {
-            Request::checkTokenAuthIsNotLimited('Widgetize', 'iframe');
+            ApiRequest::checkTokenAuthIsNotLimited('Widgetize', 'iframe');
         }
 
         $this->assertUrlTokenAuthDidNotFail();
@@ -116,8 +117,11 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private function assertUrlTokenAuthDidNotFail(): void
     {
-        $tokenAuth = Common::getRequestVar('token_auth', '', 'string');
-        if ($tokenAuth === '' || !Piwik::isUserIsAnonymous()) {
+        $tokenAuth = Request::fromGet()->getStringParameter('token_auth', '');
+
+        // 'anonymous' is a valid token that intentionally authenticates as the anonymous user,
+        // so an anonymous result is not a failure for it.
+        if ($tokenAuth === '' || $tokenAuth === 'anonymous' || !Piwik::isUserIsAnonymous()) {
             return;
         }
 

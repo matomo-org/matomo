@@ -195,6 +195,19 @@ class ControllerTest extends IntegrationTestCase
         }
     }
 
+    public function testIframeDoesNotThrowTargetedErrorForAnonymousToken(): void
+    {
+        // token_auth=anonymous intentionally authenticates as the anonymous user, so ending up
+        // anonymous is the expected outcome and must not trigger the targeted error.
+        $_GET['token_auth'] = 'anonymous';
+        $_REQUEST = $_GET;
+
+        FakeAccess::clearAccess(false, [], [], 'anonymous');
+
+        $this->expectNotToPerformAssertions();
+        $this->invokeAssertUrlTokenAuthDidNotFail();
+    }
+
     public function testIframeDoesNotThrowTargetedErrorWhenNoTokenAuthInUrl(): void
     {
         // no token_auth in URL, anonymous user — the targeted "URL token failed" error must not fire.
