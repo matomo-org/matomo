@@ -55,6 +55,7 @@ export default defineComponent({
     overviewLink() {
       return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
+        idSite: MatomoUrl.parsed.value.idSite,
         module: 'Marketplace',
         action: 'overview',
       })}`;
