@@ -229,8 +229,8 @@
 				<serverTimePretty>Mar 6, 2010 16:28:33</serverTimePretty>
 				<pageId>9</pageId>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
+				<timeSpent>721</timeSpent>
+				<timeSpentPretty>12 min 1s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>second pageview - by this user id</title>
 				<subtitle>http://example.org/home</subtitle>

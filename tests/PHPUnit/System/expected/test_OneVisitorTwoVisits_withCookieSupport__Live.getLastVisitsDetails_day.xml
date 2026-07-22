@@ -181,8 +181,8 @@
 				<pageId>2</pageId>
 				<pageLoadTime>2.45s</pageLoadTime>
 				<bandwidth />
-				<timeSpent>1440</timeSpent>
-				<timeSpentPretty>24 min 0s</timeSpentPretty>
+				<timeSpent>1332</timeSpent>
+				<timeSpentPretty>22 min 12s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>2446</pageLoadTimeMilliseconds>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Second page view - should be registered as URL</title>

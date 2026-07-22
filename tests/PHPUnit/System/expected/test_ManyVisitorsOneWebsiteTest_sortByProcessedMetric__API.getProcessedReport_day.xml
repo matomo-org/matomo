@@ -83,7 +83,7 @@
 			<nb_visits>4</nb_visits>
 			<nb_hits>4</nb_hits>
 			<bounce_rate>0%</bounce_rate>
-			<avg_time_on_page>00:33:00</avg_time_on_page>
+			<avg_time_on_page>00:06:00</avg_time_on_page>
 			<exit_rate>0%</exit_rate>
 		</row>
 		<row>
@@ -110,7 +110,7 @@
 	<reportTotal>
 		<nb_visits>8</nb_visits>
 		<nb_hits>8</nb_hits>
-		<sum_time_spent>7920</sum_time_spent>
+		<sum_time_spent>1440</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<entry_nb_visits>8</entry_nb_visits>
