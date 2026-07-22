@@ -200,6 +200,14 @@ describe("UsersManager", function () {
         await confirmOpenPasswordModal();
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
+        // Wait for the bulk change to apply and the list to refresh (selection cleared) before
+        // capturing, otherwise the pre-change state is captured under the new headless Chrome.
+        await page.waitForFunction(() => {
+            const list = document.querySelector('.pagedUsersList');
+            return list && !list.classList.contains('loading')
+                && document.querySelectorAll('.pagedUsersList td.select-cell input:checked').length === 0;
+        });
+        await page.waitForTimeout(250);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('bulk_set_access');
     });
@@ -306,8 +314,11 @@ describe("UsersManager", function () {
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('#user-list-bulk-actions a:contains(Delete Users)')).click();
         const modal = await page.waitForSelector('.modal.open', { visible: true });
-        await page.focus('.modal.open #currentUserPassword');
-        await page.waitForTimeout(250);
+        await page.waitForTimeout(250); // wait for the open animation before focusing
+        // Focus the field right before capturing so it shows the focused (green) state; page.focus
+        // alone was intermittently lost by capture time under the new headless Chrome.
+        await page.evaluate(() => document.querySelector('.modal.open #currentUserPassword').focus());
+        await page.waitForTimeout(100);
         expect(await modal.screenshot()).to.matchImage({
           imageName: 'delete_bulk_confirm',
           comparisonThreshold: 0.025
