@@ -119,14 +119,15 @@ export default defineComponent({
       () => props.comparisonMode === 'date' || props.comparisonMode === 'segmentDate',
     );
 
-    // Container classes drive the CSS grid (see the .less). Reporting pages reflow fluidly via
-    // auto-fill; a dashboard widget is too narrow to reflow, so it gets a compact frame and a
-    // fixed column count. Each modifier is a single class, never chained.
+    // Container classes drive the CSS grid (see the .less). Both reporting pages and no-comparison
+    // widgets reflow fluidly via auto-fill — a widget just uses a denser minimum (--compact) so a
+    // narrow widget collapses to one column. --framed adds the widget frame and is layered on top of
+    // the column modifier; the wide comparison layouts stay a single column (--oneColumn) in a widget.
     const gridClasses = computed(() => ({
       sparklinesGrid: true,
       'sparklinesGrid--wide': !props.isWidget && isWideLayout.value,
       'sparklinesGrid--framed': props.isWidget,
-      'sparklinesGrid--twoColumns': props.isWidget && !isWideLayout.value,
+      'sparklinesGrid--compact': props.isWidget && !isWideLayout.value,
       'sparklinesGrid--oneColumn': props.isWidget && isWideLayout.value,
     }));
 

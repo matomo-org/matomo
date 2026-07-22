@@ -43,9 +43,15 @@
   padding: 20px;
 }
 
-// The narrow widget tile can't reflow usefully, so its column count is fixed rather than auto-fill.
-.sparklinesGrid--twoColumns {
-  grid-template-columns: repeat(2, 1fr);
+// Dashboard widgets reflow like reporting pages but with a denser minimum, so a narrow widget
+// (a 3- or 4-column dashboard) drops to one column instead of cramming two in. Same escaped
+// auto-fill technique as the base grid; @_widget-card-min-width is PROVISIONAL — it sets the
+// one-to-two column breakpoint at widget width ~ 2*min + gap(8) + 2*frame-padding(20) (~448px
+// at 200px). Tune during QA.
+.sparklinesGrid--compact {
+  @_widget-card-min-width: 200px;
+
+  grid-template-columns: ~"repeat(auto-fill, minmax(min(@{_widget-card-min-width}, 100%), 1fr))";
 }
 
 .sparklinesGrid--oneColumn {

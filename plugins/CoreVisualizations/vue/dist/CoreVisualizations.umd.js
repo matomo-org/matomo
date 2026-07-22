@@ -1451,7 +1451,7 @@ var __spreadValues = (a, b) => {
         sparklinesGrid: true,
         "sparklinesGrid--wide": !props.isWidget && isWideLayout.value,
         "sparklinesGrid--framed": props.isWidget,
-        "sparklinesGrid--twoColumns": props.isWidget && !isWideLayout.value,
+        "sparklinesGrid--compact": props.isWidget && !isWideLayout.value,
         "sparklinesGrid--oneColumn": props.isWidget && isWideLayout.value
       }));
       vue.onMounted(() => {

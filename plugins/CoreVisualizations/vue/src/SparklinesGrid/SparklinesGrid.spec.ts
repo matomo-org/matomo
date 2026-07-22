@@ -203,12 +203,12 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(titles).toEqual(['First', 'Second', 'Third']);
   });
 
-  it('uses a framed, two-column grid in widget mode', () => {
+  it('uses a framed, fluid grid in widget mode', () => {
     const wrapper = createWrapper({ isWidget: true });
     const grid = wrapper.find('.sparklinesGrid');
 
     expect(grid.classes()).toContain('sparklinesGrid--framed');
-    expect(grid.classes()).toContain('sparklinesGrid--twoColumns');
+    expect(grid.classes()).toContain('sparklinesGrid--compact');
     expect(grid.classes()).not.toContain('sparklinesGrid--wide');
   });
 
