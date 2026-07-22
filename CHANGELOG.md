@@ -7,6 +7,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ## Matomo 6.0.0
 
 ### Breaking Changes
+* The deprecated method `Piwik\Archive::getBlob()` has been removed. Use one of the `Piwik\Archive::getDataTable*()` methods instead.
+* The deprecated method `Piwik\Archive::clearStaticCache()` has been removed. It was a no-op kept only for backwards compatibility.
+* The deprecated method `Piwik\ArchiveProcessor\Parameters::setIsPartialArchive()` has been removed. Use `Piwik\ArchiveProcessor\Parameters::setArchiveOnlyReport()` instead.
+* The deprecated method `Piwik\Db\Adapter::getDefaultPortForAdapter()` has been removed. Use `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
+* The deprecated method `Piwik\Url::saveCORSHostnameInConfig()` has been removed. It was no longer in use.
 * The deprecated method `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()` has been removed. Use the `SitesManager.getExcludedQueryParameters` API method instead.
 * The deprecated method `Piwik\Db::optimizeTables()` has been removed. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
 * The deprecated method `Piwik\Db::isOptimizeInnoDBSupported()` has been removed. Use `Piwik\Db\Schema::getInstance()->isOptimizeInnoDBSupported()` instead.
@@ -19,6 +24,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   dependency injection or extend `Piwik\Log\Logger` are not affected.
 * The deprecated archiving script `./misc/cron/archive.sh` has been removed. Use the console command `core:archive` instead.
 * The `SEO` plugin has been removed, along with its `SEO` widget and the `SEO.getRank` API method.
+* One Click Update now always downloads the update archive over HTTPS. The insecure "retry over HTTP" fallback screen and the `https` request parameter of the `CoreUpdater.oneClickUpdate` action have been removed, and the `$https` parameter of `Piwik\Plugins\CoreUpdater\Updater::updatePiwik()` and `Piwik\Plugins\CoreUpdater\Updater::getArchiveUrl()` has been removed. HTTP is only used when the `force_matomo_http_request` config option is enabled.
 
 ### HTTP API
 * `API.getBulkRequest` now validates the authentication parameters of each nested request URL against

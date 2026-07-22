@@ -1,25 +1,12 @@
-<div id="widgetTemplate" style="display:none;">
-    <div class="widget">
+<div id="widgetTemplate" style="display:none;" vue-entry-ignore>
+    {# `__reportHeader-onHover` is the ReportHeader context hook: it marks this widget as the
+       hover scope, so hovering anywhere on it reveals the header controls (see ReportHeader.less). #}
+    <div class="widget __reportHeader-onHover">
+        {# .widgetTop stays as the drag handle (see dashboardObject.js sortable `handle`).
+           Its title + controls are rendered by the shared ReportHeader Vue component,
+           hydrated per-widget in dashboardWidget.js with the widget name + context. #}
         <div class="widgetTop">
-            <div class="buttons">
-                <div class="button" id="close">
-                    <span class="icon-close" title="{{ 'General_Close'|translate }}"></span>
-                </div>
-                <div class="button" id="maximise">
-                    <span class="icon-fullscreen" title="{{ 'Dashboard_Maximise'|translate }}"></span>
-                </div>
-                <div class="button" id="minimise">
-                    <span class="icon-minimise" title="{{ 'Dashboard_Minimise'|translate }}"></span>
-                </div>
-                <div class="button" id="refresh">
-                    <span class="icon-reload" title="{{ 'General_Refresh'|translate }}"></span>
-                </div>
-            </div>
-            <h3 class="widgetName">{% if widgetName is defined %}{{ widgetName }}{% endif %}
-                <div class="widgetNameOffScreen">
-                    {{ 'General_Widget'|translate }}
-                </div>
-            </h3>
+            <div vue-entry="CoreHome.ReportHeader" context="dashboard"></div>
         </div>
         <div class="widgetContent">
             <div class="widgetLoading">{{ 'Dashboard_LoadingWidget'|translate }}</div>

@@ -15,31 +15,7 @@
 
         <p>{{ 'CoreUpdater_UpdateUsingHttpsFailedHelp'|translate }}</p>
 
-        <p>{{ 'CoreUpdater_UpdateUsingHttpsFailedHelpWhatToDo'|translate }}</p>
-
-        <form action="index.php">
-            <input type="hidden" name="module" value="CoreUpdater"/>
-            <input type="hidden" name="action" value="oneClickUpdate"/>
-            <input type="hidden" name="https" value="1"/>
-            <input type="hidden" name="nonce" value="{{ nonce|e('html_attr') }}"/>
-            <input id="updateUsingHttps" class="btn" type="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
-            {{ 'CoreUpdater_UsingHttps'|translate }}
-        </form>
-        <br/>
-
-        <form action="index.php">
-            <input type="hidden" name="module" value="CoreUpdater"/>
-            <input type="hidden" name="action" value="oneClickUpdate"/>
-            <input type="hidden" name="https" value="0"/>
-            <input type="hidden" name="nonce" value="{{ nonce|e('html_attr') }}"/>
-            <input id="updateUsingHttp" class="btn" type="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
-            {{ 'CoreUpdater_UsingHttp'|translate }}
-        </form>
-        <br/>
-
-        <form action="index.php">
-            <input type="submit" class="btn" value="{{ 'General_ContinueToPiwik'|translate }}"/>
-        </form>
+        <p>{{ 'CoreUpdater_UpdateUsingHttpsFailedForceHttpInfo'|translate(externallink("https://matomo.org/faq/faq-how-to-disable-https-for-matomo-org-and-api-matomo-org-requests"), "</a>")|raw }}</p>
 
     </div>
 

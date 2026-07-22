@@ -15,7 +15,11 @@
       v-tooltips="{ duration: 200, delay: 200 }"
     >{{ title }}</div>
     <div class="metricValue__primary">
-      <span class="metricValue__number">{{ displayValue }}</span>
+      <span
+        class="metricValue__number"
+        :title="displayValue?.toString()"
+        v-tooltips="{ duration: 200, delay: 200 }"
+      >{{ displayValue }}</span>
       <slot name="evolution" />
     </div>
     <div

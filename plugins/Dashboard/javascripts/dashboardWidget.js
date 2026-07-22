@@ -73,6 +73,11 @@
             if (this.isMaximised) {
                 $('[widgetId="' + this.uniqueId + '"]').dialog('destroy');
             }
+            // Unmount the ReportHeader Vue app mounted into the widget chrome (.widgetTop).
+            // widget:destroy below only tears down .widgetContent, so without this the header's
+            // Vue instance (and any listeners it registers) leaks on every widget removal /
+            // dashboard switch.
+            piwikHelper.destroyVueComponent($('.widgetTop', this.element));
             $('*', this.element).off('.dashboardWidget'); // unbind all events
             $('.widgetContent', this.element).trigger('widget:destroy');
             require('piwik/UI').UIControl.cleanupUnusedControls();
@@ -96,6 +101,7 @@
          */
         maximise: function () {
             this.isMaximised = true;
+            this._setHeaderContext('maximised');
 
             if (this.options.onMaximise) {
                 this.options.onMaximise(this.element);
@@ -248,6 +254,14 @@
                 }
 
                 var title = self.options.title === null ? $('<span/>').text(widgetName) : self.options.title;
+                // Plain-text title for the ReportHeader `title` prop (options.title may be a string
+                // or a jQuery element for custom widget titles).
+                var titleText = widgetName;
+                if (self.options.title !== null) {
+                    titleText = (typeof self.options.title === 'string')
+                        ? self.options.title
+                        : $(self.options.title).text();
+                }
                 var emptyWidgetContent = require('piwik/UI/Dashboard').WidgetFactory.make(uniqueId, title);
                 self.element.html(emptyWidgetContent);
 
@@ -270,8 +284,18 @@
                     $('.widgetContent', widgetElement).toggleClass('hidden').closest('.widget').toggleClass('hiddenContent');
                 }
 
-                $('.button#close', widgetElement)
-                    .on('click.dashboardWidget', function (ev) {
+                // Render the shared ReportHeader (title + widget-controls row) into the widget
+                // chrome. The controls emit bubbling `widgetcontrol:*` events which are bridged
+                // to the widget behaviour just below. Initialise the context to match the
+                // widget's persisted state so a widget restored collapsed shows the collapsed
+                // controls (maximise/close) rather than the full set.
+                piwikHelper.compileVueEntryComponents($('.widgetTop', widgetElement), {
+                    title: titleText,
+                    context: self.options.isHidden ? 'collapsed' : 'dashboard'
+                });
+
+                widgetElement
+                    .on('widgetcontrol:close.dashboardWidget', function () {
                         piwikHelper.modalConfirm('#confirm', {yes: function () {
                             if (self.options.onRemove) {
                                 self.options.onRemove(self.element);
@@ -280,36 +304,26 @@
                                 self.options.onChange();
                             }
                         }});
-                    });
-
-                $('.button#maximise', widgetElement)
-                    .on('click.dashboardWidget', function (ev) {
+                    })
+                    .on('widgetcontrol:maximise.dashboardWidget', function () {
                         if (self.options.onMaximise) {
                             self.options.onMaximise(self.element);
+                        } else if ($('.widgetContent', self.element).hasClass('hidden')) {
+                            self.showContent();
                         } else {
-                            if ($('.widgetContent', $(this).parents('.widget')).hasClass('hidden')) {
-                                self.showContent();
-                            } else {
-                                self.maximise();
-                            }
+                            self.maximise();
                         }
-                    });
-
-                $('.button#minimise', widgetElement)
-                    .on('click.dashboardWidget', function (ev) {
+                    })
+                    .on('widgetcontrol:minimise.dashboardWidget', function () {
                         if (self.options.onMinimise) {
                             self.options.onMinimise(self.element);
+                        } else if (!self.isMaximised) {
+                            self.hideContent();
                         } else {
-                            if (!self.isMaximised) {
-                                self.hideContent();
-                            } else {
-                                self.element.dialog("close");
-                            }
+                            self.element.dialog("close");
                         }
-                    });
-
-                $('.button#refresh', widgetElement)
-                    .on('click.dashboardWidget', function (ev) {
+                    })
+                    .on('widgetcontrol:refresh.dashboardWidget', function () {
                         if (self.options.onRefresh) {
                             self.options.onRefresh(self.element);
                         } else {
@@ -325,6 +339,7 @@
         hideContent: function () {
             $('.widgetContent', this.element.find('.widget').addClass('hiddenContent')).addClass('hidden');
             this.options.isHidden = true;
+            this._setHeaderContext('collapsed');
             this.options.onChange();
         },
 
@@ -336,8 +351,26 @@
             this.options.isHidden = false;
             this.element.find('.widget').removeClass('hiddenContent').find('.widgetContent').removeClass('hidden');
             this.element.find('.widget').find('div.piwik-graph').trigger('resizeGraph');
+            this._setHeaderContext('dashboard');
             this.options.onChange();
             $('.widgetContent', this.element).trigger('widget:minimise');
+        },
+
+        /**
+         * Sync the ReportHeader (mounted into .widgetTop) to the widget's current state: it
+         * decides which controls to show (via the `context` prop) and whether controls are
+         * hover-revealed. Maximised keeps them always visible (no `__reportHeader-onHover`
+         * hook); every other state hover-reveals them.
+         *
+         * @param {String} context  one of 'dashboard' | 'maximised' | 'collapsed'
+         */
+        _setHeaderContext: function (context) {
+            var app = this.element.find('.widgetTop [vue-entry]').data('vueAppInstance');
+            if (app) {
+                app.context_ = context;
+            }
+            this.element.find('.widget').toggleClass('__reportHeader-onHover', context !== 'maximised');
+            return this;
         },
 
         /**
@@ -359,6 +392,7 @@
                 autoOpen: true,
                 close: function (event, ui) {
                     self.isMaximised = false;
+                    self._setHeaderContext('dashboard');
                     $('body').off('.dashboardWidget');
                     $(this).dialog("destroy");
                     $('[id="' + self.uniqueId + '-placeholder"]').replaceWith(this);
