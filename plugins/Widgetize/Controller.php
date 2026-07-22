@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Widgetize;
 
 use Piwik\API\Request;
+use Piwik\Config\GeneralConfig;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -26,6 +27,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $view = new View('@Widgetize/index');
+        $view->onlyAllowSecureAuthTokens = GeneralConfig::getBoolConfigValue('only_allow_secure_auth_tokens', false);
         $this->setGeneralVariablesView($view);
         return $view->render();
     }
@@ -36,6 +38,8 @@ class Controller extends \Piwik\Plugin\Controller
         if (StaticContainer::get(AuthenticationToken::class)->getAuthToken()) {
             Request::checkTokenAuthIsNotLimited('Widgetize', 'iframe');
         }
+
+        $this->assertUrlTokenAuthDidNotFail();
 
         $this->init();
 
@@ -102,6 +106,44 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         return $view->render();
+    }
+
+    /**
+     * When a widget URL includes a token_auth query parameter but the request ends up anonymous,
+     * the generic "You must be logged in" message hides the real cause (usually a token created
+     * with "Only allow secure requests" enabled, which cannot authenticate a GET request). Replace
+     * that message with a targeted one that explains the URL token requirement.
+     */
+    private function assertUrlTokenAuthDidNotFail(): void
+    {
+        $tokenAuth = Common::getRequestVar('token_auth', '', 'string');
+        if ($tokenAuth === '' || !Piwik::isUserIsAnonymous()) {
+            return;
+        }
+
+        if (GeneralConfig::getBoolConfigValue('only_allow_secure_auth_tokens', false)) {
+            $message = Piwik::translate(
+                'Widgetize_ErrorTokenAuthFailedDisabledByPolicy',
+                [
+                    '<a href="index.php?module=UsersManager" rel="noreferrer noopener" target="_blank">',
+                    '</a>',
+                ]
+            );
+        } else {
+            $message = Piwik::translate(
+                'Widgetize_ErrorTokenAuthFailed',
+                [
+                    '<a href="index.php?module=UsersManager&action=userSecurity" rel="noreferrer noopener" target="_blank">',
+                    '</a>',
+                    '<a href="index.php?module=UsersManager" rel="noreferrer noopener" target="_blank">',
+                    '</a>',
+                ]
+            );
+        }
+
+        $ex = new \Piwik\Exception\Exception($message);
+        $ex->setIsHtmlMessage();
+        throw $ex;
     }
 
     private function assertDispatchedContentIsEmbeddable(string $module, string $action): void
