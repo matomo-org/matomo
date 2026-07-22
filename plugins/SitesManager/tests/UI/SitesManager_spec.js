@@ -128,6 +128,8 @@ describe("SitesManager", function () {
 
         it('can add recommended parameters to custom list', async function () {
             await page.click('.siteManagerGlobalExcludedUrlParameters input[type=button]');
+            await page.waitForNetworkIdle();
+            await page.waitForTimeout(500); // let the added parameters render so the block height settles
             await assertExcludedParametersScreenshot('global_url_param_exclusion_add_common');
         });
 
