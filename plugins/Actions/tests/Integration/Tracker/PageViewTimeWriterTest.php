@@ -184,7 +184,7 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $this->assertLessThanOrEqual(60, (int) $rows[0]['time_spent']);
     }
 
-    public function testPageViewWithoutPvIdInsertsNullPvIdRow()
+    public function testPageViewWithoutExplicitPvIdStillInsertsRow()
     {
         $tracker = $this->getTracker($this->baseTime);
         $tracker->setUrl('https://example.org/no-pvid');
@@ -192,9 +192,8 @@ class PageViewTimeWriterTest extends IntegrationTestCase
 
         $rows = $this->fetchPageViewTimeRows();
         $this->assertCount(1, $rows);
-        // MatomoTracker auto-generates idPageview client-side; we ignore that by overriding the URL
-        // through setDebugStringAppend to strip pv_id altogether? Without overriding, we still
-        // assert *only* that exactly one row exists and the time_spent baseline is correct.
+        // MatomoTracker auto-generates a pv_id client-side when none is set explicitly, so we only
+        // assert that exactly one row exists and the time_spent baseline is correct.
         $this->assertSame(0, (int) $rows[0]['time_spent']);
         $this->assertNotNull($rows[0]['idaction_url']);
     }
