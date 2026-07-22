@@ -510,14 +510,17 @@ describe("UsersManager", function () {
 
         await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
 
-        // Setting access needs a confirmed password; the modal only appears once the confirmation
-        // cache expires (as on the slower CI), so fill it whenever it is shown.
-        await page.waitForTimeout(500);
-        if (await page.evaluate(() => $('.confirm-password-modal.open:visible').length > 0)) {
-            await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
-            await page.waitForTimeout(250);
-            await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
-        }
+        // The page reuses the #currentUserPassword id across several password modals, so target the
+        // visible field in the open modal and set its value directly (page.type by that id can hit the
+        // wrong field or append to a pre-filled one), then confirm.
+        const pwField = await page.jQuery('.confirm-password-modal.open input[type=password]:visible', { waitFor: true });
+        await pwField.evaluate((el, pwd) => {
+            el.value = pwd;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+        }, superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
         await page.waitForNetworkIdle();
 
         await page.evaluate(function () { // remove filter
