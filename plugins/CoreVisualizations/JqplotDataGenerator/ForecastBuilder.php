@@ -495,9 +495,9 @@ class ForecastBuilder
      *   running mins + analog projections (min-as-min semantics).
      *
      * Falls back to a prior-only same-period projection on $pastValues (with envelope clamp
-     * for UP only — the trend-extrapolation runaway it guards against is a UP concern) when
-     * sub-period samples are absent. Final fallback is $previousForecastValue from the prior
-     * tick in this series.
+     * for UP and MAX — both run the damped linear-trend prior, so both carry the
+     * trend-extrapolation runaway the clamp guards against) when sub-period samples are absent.
+     * Final fallback is $previousForecastValue from the prior tick in this series.
      *
      * @param array<int, float> $pastValues
      */
@@ -529,7 +529,10 @@ class ForecastBuilder
         if ([] !== $pastValues) {
             $prior = $this->computeHistoricalPrior($pastValues);
             if (
-                ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity
+                (
+                    ForecastMetricClassifier::MONOTONICITY_UP === $monotonicity
+                    || ForecastMetricClassifier::MONOTONICITY_MAX === $monotonicity
+                )
                 && count($pastValues) >= self::MIN_SAMPLES_FOR_BOUNDED_RANGE
             ) {
                 $prior = $this->clampForecastToHistoricalRange($prior, $pastValues);
