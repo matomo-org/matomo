@@ -10,9 +10,12 @@
 namespace Piwik\Tests\PHPStan\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\Cast\String_ as StringCast;
+use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\Exit_;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\Print_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Identifier;
@@ -20,6 +23,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Echo_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
@@ -36,6 +40,7 @@ final class JsonResponseRuleHelper
     private const JSON_HEADER_METHOD = 'sendheaderjson';
     private const COMMON_CLASS = 'Piwik\\Common';
     private const SEND_HEADER_METHOD = 'sendheader';
+    private const OUTPUT_FUNCTIONS = ['flush', 'ob_flush', 'ob_end_flush'];
 
     /**
      * Whether the analysed method lives in a Piwik\Plugin\Controller subclass.
@@ -50,6 +55,16 @@ final class JsonResponseRuleHelper
 
         return $classReflection !== null
             && in_array(self::CONTROLLER_CLASS, $classReflection->getParentClassesNames(), true);
+    }
+
+    /**
+     * Whether the method is a dispatchable controller action, i.e. a public method of a
+     * Piwik\Plugin\Controller subclass. Only such methods can carry (and be dispatched with) the
+     * attribute, so the "you must declare the action" rules only apply to them.
+     */
+    public static function isPublicControllerAction(ClassMethod $method, Scope $scope): bool
+    {
+        return $method->isPublic() && self::isControllerScope($scope);
     }
 
     public static function hasJsonResponseAttribute(ClassMethod $method, Scope $scope): bool
@@ -96,7 +111,7 @@ final class JsonResponseRuleHelper
     {
         return self::collect($method->stmts ?? [], static function (Node $node) use ($scope): bool {
             return $node instanceof StaticCall && self::isJsonHeaderCall($node, $scope);
-        });
+        }, $enterIife = true);
     }
 
     /**
@@ -108,37 +123,102 @@ final class JsonResponseRuleHelper
     {
         return self::collect($method->stmts ?? [], static function (Node $node) use ($scope): bool {
             return $node instanceof StaticCall && self::isRawJsonContentTypeCall($node, $scope);
-        });
+        }, $enterIife = true);
     }
 
     /**
-     * Whether the method contains any JSON header call (Json::sendHeaderJSON() or a raw
-     * Common::sendHeader('Content-Type: ...json...')), anywhere in its body.
+     * Whether a JSON header call in this method is guaranteed to be reported by one of the
+     * header-focused rules: a top-level Json::sendHeaderJSON() (MissingJsonResponseAttributeRule) or
+     * any raw Common::sendHeader('...json...') (NoRawJsonHeaderInControllerRule). Used to avoid
+     * double-reporting the same method; a merely conditional Json::sendHeaderJSON() is NOT covered
+     * (neither rule fires on it), so it is intentionally excluded here.
      */
-    public static function sendsJsonHeaderAnywhere(ClassMethod $method, Scope $scope): bool
+    public static function jsonHeaderIsReportedByHeaderRules(ClassMethod $method, Scope $scope): bool
     {
-        return self::findAllJsonHeaderCalls($method, $scope) !== []
+        return self::findTopLevelJsonHeaderCalls($method, $scope) !== []
             || self::findRawJsonContentTypeCalls($method, $scope) !== [];
     }
 
     /**
-     * Return statements that are unconditional top-level statements of the method body and whose
-     * value looks like a JSON response (a json_encode() call, a (string) json_encode() cast, or a
-     * JSON-ish string literal). The empty-string "no result" fallback is intentionally not matched.
-     *
-     * @return Return_[]
+     * The final return statement of a method that unconditionally returns JSON, or null. A method
+     * qualifies only when its last top-level statement is a JSON-ish return AND no return anywhere in
+     * its own flow returns a non-JSON value. This deliberately does not match actions that also
+     * return HTML or redirect on some path (they cannot use the always-on attribute).
      */
-    public static function findTopLevelJsonReturns(ClassMethod $method): array
+    public static function unconditionalJsonReturn(ClassMethod $method): ?Return_
     {
-        $returns = [];
+        $stmts = $method->stmts ?? [];
 
-        foreach ($method->stmts ?? [] as $stmt) {
-            if ($stmt instanceof Return_ && self::looksLikeJsonExpr($stmt->expr)) {
-                $returns[] = $stmt;
+        if ($stmts === []) {
+            return null;
+        }
+
+        $last = end($stmts);
+
+        if (!$last instanceof Return_ || !self::looksLikeJsonExpr($last->expr)) {
+            return null;
+        }
+
+        // every return reachable in the method's own flow (not inside nested closures) must be JSON
+        $returns = self::collect($stmts, static function (Node $node): bool {
+            return $node instanceof Return_;
+        }, $enterIife = false);
+
+        foreach ($returns as $return) {
+            /** @var Return_ $return */
+            if (!self::looksLikeJsonExpr($return->expr)) {
+                return null;
             }
         }
 
-        return $returns;
+        return $last;
+    }
+
+    /**
+     * Whether the method has a top-level exit/die statement. Such methods emit and flush their own
+     * response, so the Content-Type they set can no longer be overwritten by later output.
+     */
+    public static function hasTopLevelExit(ClassMethod $method): bool
+    {
+        foreach ($method->stmts ?? [] as $stmt) {
+            if ($stmt instanceof Expression && $stmt->expr instanceof Exit_) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * All exit/die statements in the method's own flow (including immediately-invoked closures).
+     *
+     * @return Exit_[]
+     */
+    public static function findExits(ClassMethod $method): array
+    {
+        return self::collect($method->stmts ?? [], static function (Node $node): bool {
+            return $node instanceof Exit_;
+        }, $enterIife = true);
+    }
+
+    /**
+     * Output-producing statements (echo, print, and flush()/ob_flush()/ob_end_flush()) in the
+     * method's own flow. Emitting output before the action returns commits the response headers, so
+     * the JSON Content-Type could no longer be applied.
+     *
+     * @return Node[]
+     */
+    public static function findOutputStatements(ClassMethod $method): array
+    {
+        return self::collect($method->stmts ?? [], static function (Node $node): bool {
+            if ($node instanceof Echo_ || $node instanceof Print_) {
+                return true;
+            }
+
+            return $node instanceof FuncCall
+                && $node->name instanceof Name
+                && in_array(strtolower($node->name->toString()), self::OUTPUT_FUNCTIONS, true);
+        }, $enterIife = true);
     }
 
     private static function looksLikeJsonExpr(?Node\Expr $expr): bool
@@ -161,60 +241,63 @@ final class JsonResponseRuleHelper
         }
 
         if ($expr instanceof String_) {
-            $value = ltrim($expr->value);
-
-            if ($value === '') {
-                return false;
-            }
-
-            return (bool) preg_match('/^(\[|\{|"|true|false|null)/i', $value);
+            return self::looksLikeJsonLiteral($expr->value);
         }
 
         return false;
     }
 
-    /**
-     * Whether the method has a top-level exit/die statement. Such methods emit and flush their own
-     * response, so the Content-Type they set can no longer be overwritten by later output.
-     */
-    public static function hasTopLevelExit(ClassMethod $method): bool
+    private static function looksLikeJsonLiteral(string $value): bool
     {
-        foreach ($method->stmts ?? [] as $stmt) {
-            if ($stmt instanceof Expression && $stmt->expr instanceof Exit_) {
-                return true;
-            }
+        $value = trim($value);
+
+        if ($value === '') {
+            return false;
         }
 
-        return false;
+        // structural JSON (object/array/string): validate by decoding to avoid matching plain text
+        // such as '[Deprecated] ...' or a stray '{'.
+        if (preg_match('/^[\[{"]/', $value)) {
+            json_decode($value);
+
+            return json_last_error() === JSON_ERROR_NONE;
+        }
+
+        // bare JSON keyword literals only (numbers are intentionally not matched: a plain '0'/'1' is
+        // more often a flag than a JSON response).
+        return in_array(strtolower($value), ['true', 'false', 'null'], true);
     }
 
     /**
-     * All exit/die statements anywhere within the method body.
-     *
-     * @return Exit_[]
-     */
-    public static function findExits(ClassMethod $method): array
-    {
-        return self::collect($method->stmts ?? [], static function (Node $node): bool {
-            return $node instanceof Exit_;
-        });
-    }
-
-    /**
-     * Recursively collects the nodes matching $matcher, without descending into nested scopes
-     * (closures, arrow functions, nested functions, anonymous classes): their code runs in a
-     * separate frame and is not part of the analysed method's own control flow.
+     * Recursively collects the nodes matching $matcher. Nested scopes (stored closures, arrow
+     * functions, nested functions, anonymous classes) are not traversed, since their code runs in a
+     * separate frame. Immediately-invoked closures/arrow functions ARE traversed when $enterIife is
+     * true, because they execute inline as part of the method's own flow (relevant for exits and
+     * output, but not for return statements, which return from the closure rather than the method).
      *
      * @param Node[] $nodes
      * @param callable(Node): bool $matcher
      * @return Node[]
      */
-    private static function collect(array $nodes, callable $matcher): array
+    private static function collect(array $nodes, callable $matcher, bool $enterIife): array
     {
         $found = [];
 
         foreach ($nodes as $node) {
             if (!$node instanceof Node) {
+                continue;
+            }
+
+            if ($enterIife && self::isImmediatelyInvokedClosure($node)) {
+                /** @var FuncCall $node */
+                $iife = $node->name;
+                $body = $iife instanceof ArrowFunction ? [$iife->expr] : $iife->stmts;
+                $found = array_merge($found, self::collect($body, $matcher, $enterIife));
+
+                foreach ($node->getArgs() as $arg) {
+                    $found = array_merge($found, self::collect([$arg->value], $matcher, $enterIife));
+                }
+
                 continue;
             }
 
@@ -229,11 +312,17 @@ final class JsonResponseRuleHelper
             foreach ($node->getSubNodeNames() as $subNodeName) {
                 $subNode = $node->{$subNodeName};
                 $children = is_array($subNode) ? $subNode : [$subNode];
-                $found = array_merge($found, self::collect($children, $matcher));
+                $found = array_merge($found, self::collect($children, $matcher, $enterIife));
             }
         }
 
         return $found;
+    }
+
+    private static function isImmediatelyInvokedClosure(Node $node): bool
+    {
+        return $node instanceof FuncCall
+            && ($node->name instanceof Closure || $node->name instanceof ArrowFunction);
     }
 
     /**
@@ -278,6 +367,7 @@ final class JsonResponseRuleHelper
             return false;
         }
 
-        return (bool) preg_match('#content-type\s*:.*json#i', $args[0]->value->value);
+        // anchored to a real Content-Type header start so X-Content-Type etc. do not match
+        return (bool) preg_match('#^\s*content-type\s*:.*json#i', $args[0]->value->value);
     }
 }

@@ -35,7 +35,7 @@ class MissingJsonResponseAttributeRule implements Rule
             return [];
         }
 
-        if (!JsonResponseRuleHelper::isControllerScope($scope)) {
+        if (!JsonResponseRuleHelper::isPublicControllerAction($node, $scope)) {
             return [];
         }
 

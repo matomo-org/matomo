@@ -34,6 +34,7 @@ class JsonReturnRequiresAttributeRuleTest extends RuleTestCase
             [sprintf($message, 'undeclaredJsonEncodeReturn'), 106],
             [sprintf($message, 'undeclaredJsonEncodeCastReturn'), 111],
             [sprintf($message, 'undeclaredJsonLiteralReturn'), 116],
+            [sprintf($message, 'conditionalHeaderUnconditionalJson'), 136],
         ]);
     }
 }

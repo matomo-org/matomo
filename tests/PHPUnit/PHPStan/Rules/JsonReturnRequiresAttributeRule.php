@@ -40,7 +40,7 @@ class JsonReturnRequiresAttributeRule implements Rule
             return [];
         }
 
-        if (!JsonResponseRuleHelper::isControllerScope($scope)) {
+        if (!JsonResponseRuleHelper::isPublicControllerAction($node, $scope)) {
             return [];
         }
 
@@ -48,15 +48,16 @@ class JsonReturnRequiresAttributeRule implements Rule
             return [];
         }
 
-        // Actions that do set a JSON header are covered by the header-focused rules; this rule
-        // targets the remaining gap: returning JSON without declaring it at all.
-        if (JsonResponseRuleHelper::sendsJsonHeaderAnywhere($node, $scope)) {
+        // Actions whose JSON header is already reported by a header-focused rule are skipped to
+        // avoid double-reporting; a merely conditional header is not covered there, so this rule
+        // still catches "returns JSON unconditionally but only sets the header conditionally".
+        if (JsonResponseRuleHelper::jsonHeaderIsReportedByHeaderRules($node, $scope)) {
             return [];
         }
 
-        $returns = JsonResponseRuleHelper::findTopLevelJsonReturns($node);
+        $return = JsonResponseRuleHelper::unconditionalJsonReturn($node);
 
-        if ($returns === []) {
+        if ($return === null) {
             return [];
         }
 
@@ -68,7 +69,7 @@ class JsonReturnRequiresAttributeRule implements Rule
                 $node->name->toString()
             ))
                 ->identifier('matomo.jsonResponse.undeclaredJsonReturn')
-                ->line($returns[0]->getStartLine())
+                ->line($return->getStartLine())
                 ->build(),
         ];
     }

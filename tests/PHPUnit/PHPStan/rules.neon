@@ -29,3 +29,7 @@ services:
         class: Piwik\Tests\PHPStan\Rules\JsonReturnRequiresAttributeRule
         tags:
             - phpstan.rules.rule
+    -
+        class: Piwik\Tests\PHPStan\Rules\JsonResponseMustNotEmitOutputRule
+        tags:
+            - phpstan.rules.rule

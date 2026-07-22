@@ -34,6 +34,11 @@ class NoRawJsonHeaderInControllerRuleTest extends RuleTestCase
                 . ' conditional JSON branch that cannot use the attribute).',
                 99,
             ],
+            [
+                'Controller action attributedRawHeader() is marked #[\Piwik\Http\JsonResponse], which'
+                . ' already sends the JSON header; remove this redundant Common::sendHeader() call.',
+                178,
+            ],
         ]);
     }
 }

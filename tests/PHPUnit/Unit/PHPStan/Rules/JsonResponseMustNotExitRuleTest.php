@@ -26,14 +26,14 @@ class JsonResponseMustNotExitRuleTest extends RuleTestCase
 
     public function testRule(): void
     {
+        $message = 'Controller action %s() is marked #[\Piwik\Http\JsonResponse] but calls exit/die;'
+            . ' this bypasses the JSON header handling in FrontController, so the attribute has no'
+            . ' effect. Return the JSON string instead, or drop the attribute and send the header'
+            . ' manually.';
+
         $this->analyse([__DIR__ . '/data/JsonResponseController.php'], [
-            [
-                'Controller action exitsEarly() is marked #[\Piwik\Http\JsonResponse] but calls exit/die;'
-                . ' this bypasses the JSON header handling in FrontController, so the attribute has no'
-                . ' effect. Return the JSON string instead, or drop the attribute and send the header'
-                . ' manually.',
-                80,
-            ],
+            [sprintf($message, 'exitsEarly'), 80],
+            [sprintf($message, 'iifeExit'), 187],
         ]);
     }
 }

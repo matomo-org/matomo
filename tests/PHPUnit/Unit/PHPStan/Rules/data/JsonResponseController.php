@@ -125,4 +125,78 @@ class JsonResponseController extends Controller
 
         return '<div>not json</div>';
     }
+
+    // E4: returns JSON unconditionally but only sets the header conditionally -> must be flagged
+    public function conditionalHeaderUnconditionalJson(): string
+    {
+        if (self::class !== '') {
+            Json::sendHeaderJSON();
+        }
+
+        return json_encode(['ok' => true]);
+    }
+
+    // C1: mixed HTML/JSON (HTML on one path) -> must NOT be flagged
+    public function mixedHtmlThenJsonIsIgnored(): string
+    {
+        if (self::class !== '') {
+            return '<p>html</p>';
+        }
+
+        return json_encode(['ok' => true]);
+    }
+
+    // C3: a non-JSON literal that merely starts with a JSON keyword -> must NOT be flagged
+    public function nonJsonLiteralIsIgnored(): string
+    {
+        return 'true story, not json';
+    }
+
+    // isPublic gate: non-public helpers are not dispatchable actions -> must NOT be flagged
+    private function privateJsonHelper(): string
+    {
+        return json_encode(['ok' => true]);
+    }
+
+    protected function protectedSendsHeader(): string
+    {
+        Json::sendHeaderJSON();
+        return json_encode(['ok' => true]);
+    }
+
+    // E1: a non-Content-Type header that merely contains "json" -> must NOT be flagged
+    public function nonJsonContentTypeHeaderIsIgnored(): string
+    {
+        \Piwik\Common::sendHeader('X-Content-Type: application/json');
+        return 'plain text';
+    }
+
+    // E3: attribute already present + raw header -> flagged with the "redundant" message
+    #[JsonResponse]
+    public function attributedRawHeader(): string
+    {
+        \Piwik\Common::sendHeader('Content-Type: application/json; charset=utf-8');
+        return json_encode([]);
+    }
+
+    // F: exit inside an immediately-invoked closure runs in the method flow -> must be flagged
+    #[JsonResponse]
+    public function iifeExit(): string
+    {
+        (function (): void {
+            exit;
+        })();
+
+        return '{}';
+    }
+
+    // D: emitting output before returning -> must be flagged (echo and flush)
+    #[JsonResponse]
+    public function emitsOutput(): string
+    {
+        echo 'partial';
+        flush();
+
+        return json_encode([]);
+    }
 }

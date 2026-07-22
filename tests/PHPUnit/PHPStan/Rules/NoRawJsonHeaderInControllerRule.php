@@ -35,20 +35,37 @@ class NoRawJsonHeaderInControllerRule implements Rule
             return [];
         }
 
-        if (!JsonResponseRuleHelper::isControllerScope($scope)) {
+        if (!JsonResponseRuleHelper::isPublicControllerAction($node, $scope)) {
             return [];
         }
 
+        $rawCalls = JsonResponseRuleHelper::findRawJsonContentTypeCalls($node, $scope);
+
+        if ($rawCalls === []) {
+            return [];
+        }
+
+        $hasAttribute = JsonResponseRuleHelper::hasJsonResponseAttribute($node, $scope);
+        $methodName = $node->name->toString();
+
         $errors = [];
 
-        foreach (JsonResponseRuleHelper::findRawJsonContentTypeCalls($node, $scope) as $call) {
-            $errors[] = RuleErrorBuilder::message(sprintf(
-                'Controller action %s() sets a JSON Content-Type via Common::sendHeader(). Mark the'
-                . ' action with the #[\\Piwik\\Http\\JsonResponse] attribute instead of setting the'
-                . ' header directly (use Json::sendHeaderJSON() only for a conditional JSON branch that'
-                . ' cannot use the attribute).',
-                $node->name->toString()
-            ))
+        foreach ($rawCalls as $call) {
+            $message = $hasAttribute
+                ? sprintf(
+                    'Controller action %s() is marked #[\\Piwik\\Http\\JsonResponse], which already'
+                    . ' sends the JSON header; remove this redundant Common::sendHeader() call.',
+                    $methodName
+                )
+                : sprintf(
+                    'Controller action %s() sets a JSON Content-Type via Common::sendHeader(). Mark the'
+                    . ' action with the #[\\Piwik\\Http\\JsonResponse] attribute instead of setting the'
+                    . ' header directly (use Json::sendHeaderJSON() only for a conditional JSON branch'
+                    . ' that cannot use the attribute).',
+                    $methodName
+                );
+
+            $errors[] = RuleErrorBuilder::message($message)
                 ->identifier('matomo.jsonResponse.rawHeader')
                 ->line($call->getStartLine())
                 ->build();
