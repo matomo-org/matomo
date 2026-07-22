@@ -376,6 +376,9 @@ describe("Comparison", function () {
     it('should load a widgetized sparklines visualization correctly when comparing large ranges', async () => {
         await page.goto(visitOverviewWidgetCompareLargeRange);
         await page.waitForNetworkIdle();
+        // The widget's evolution graph renders after the initial load, so wait for it before capturing.
+        await page.waitForSelector('.piwik-graph', { visible: true });
+        await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_largerange');
     });
 
