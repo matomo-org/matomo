@@ -622,6 +622,106 @@ class ForecastSubPeriodFetcherTest extends TestCase
         self::assertSame(['daily' => [], 'monthly' => [], 'earliestDataDate' => null], $result);
     }
 
+    public function testApiGetFanOutBailsToSingleApiGetCallForUnmappedColumn(): void
+    {
+        // The fan-out only splits when every plotted column maps to exactly one owning Module.get.
+        // An unmapped column (0 owners) -- a typo'd, removed, or not-yet-registered metric -- must
+        // regress the whole graph to a single API.get fetch rather than fanning out a partial set,
+        // and must log a debug line so the silent slow-path regression stays investigable.
+        $metadata = [
+            ['module' => 'VisitsSummary', 'action' => 'get', 'metrics' => ['nb_visits' => 'Visits']],
+        ];
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::once())
+            ->method('debug')
+            ->with(
+                self::stringContains('fan-out disabled'),
+                self::callback(static function (array $context): bool {
+                    return 'made_up_metric' === ($context['column'] ?? null)
+                        && 0 === ($context['ownerCount'] ?? null);
+                })
+            );
+
+        $captured = [];
+        $fetcher = $this->createApiGetFetcher(
+            $metadata,
+            function (string $apiMethod) use (&$captured) {
+                $captured[] = $apiMethod;
+                return $this->createSampleResultMap(['2026-04-01' => ['nb_visits' => 70.0]]);
+            },
+            $logger
+        );
+
+        $fetcher->collect(
+            $this->buildDailyDisplayRange('2026-04-05', 6, [5]),
+            $this->createSeriesState(
+                ['Visits' => 'nb_visits', 'Made up' => 'made_up_metric'],
+                [],
+                [
+                    'Visits'  => ForecastMetricClassifier::MONOTONICITY_UP,
+                    'Made up' => ForecastMetricClassifier::MONOTONICITY_UP,
+                ]
+            ),
+            'API.get',
+            1,
+            ''
+        );
+
+        // A single API.get fetch fired (the fallback group), never a per-module Module.get fan-out.
+        self::assertNotEmpty($captured);
+        self::assertSame(['API.get'], array_values(array_unique($captured)));
+    }
+
+    public function testApiGetFanOutBailsToSingleApiGetCallForMultiOwnerColumn(): void
+    {
+        // A column exposed by more than one Module.get report -- e.g. a new plugin registering a
+        // metric name that collides with an existing one -- cannot be resolved to a single owner
+        // without reproducing API.get's merge precedence, so the fan-out bails to a single API.get
+        // fetch and logs the collision. This is the concerning silent-regression case: a common
+        // graph flips onto the slow path with no other signal.
+        $metadata = [
+            ['module' => 'VisitsSummary', 'action' => 'get', 'metrics' => ['nb_visits' => 'Visits']],
+            ['module' => 'Actions', 'action' => 'get', 'metrics' => ['nb_visits' => 'Visits (collision)']],
+        ];
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::once())
+            ->method('debug')
+            ->with(
+                self::stringContains('fan-out disabled'),
+                self::callback(static function (array $context): bool {
+                    return 'nb_visits' === ($context['column'] ?? null)
+                        && 2 === ($context['ownerCount'] ?? null);
+                })
+            );
+
+        $captured = [];
+        $fetcher = $this->createApiGetFetcher(
+            $metadata,
+            function (string $apiMethod) use (&$captured) {
+                $captured[] = $apiMethod;
+                return $this->createSampleResultMap(['2026-04-01' => ['nb_visits' => 70.0]]);
+            },
+            $logger
+        );
+
+        $fetcher->collect(
+            $this->buildDailyDisplayRange('2026-04-05', 6, [5]),
+            $this->createSeriesState(
+                ['Visits' => 'nb_visits'],
+                [],
+                ['Visits' => ForecastMetricClassifier::MONOTONICITY_UP]
+            ),
+            'API.get',
+            1,
+            ''
+        );
+
+        self::assertNotEmpty($captured);
+        self::assertSame(['API.get'], array_values(array_unique($captured)));
+    }
+
     public function testExtractSamplesLooksUpRawColumnAndStoresUnderSeriesLabel(): void
     {
         // Sub-period API result rows are keyed by the raw archive column name (after
@@ -948,6 +1048,37 @@ class ForecastSubPeriodFetcherTest extends TestCase
                 return null;
             }
         );
+    }
+
+    /**
+     * Fetcher whose report-metadata catalog is stubbed so the API.get column->module resolution
+     * (and its bail-to-fallback paths) can be exercised without a live report catalog. Overrides
+     * the {@see ForecastSubPeriodFetcher::fetchReportMetadataCatalog()} seam.
+     *
+     * @param array<int, array<string, mixed>> $reportMetadata
+     */
+    private function createApiGetFetcher(
+        array $reportMetadata,
+        callable $apiRequestProcessor,
+        LoggerInterface $logger
+    ): ForecastSubPeriodFetcher {
+        return new class ($reportMetadata, $apiRequestProcessor, $logger) extends ForecastSubPeriodFetcher {
+            /** @var array<int, array<string, mixed>> */
+            private $reportMetadata;
+
+            public function __construct(array $reportMetadata, callable $apiRequestProcessor, LoggerInterface $logger)
+            {
+                parent::__construct($apiRequestProcessor, $logger, static function (): ?string {
+                    return null;
+                });
+                $this->reportMetadata = $reportMetadata;
+            }
+
+            protected function fetchReportMetadataCatalog(int $idSite, string $period, string $date): array
+            {
+                return $this->reportMetadata;
+            }
+        };
     }
 
     private function createDayDataTable(string $date): DataTable
