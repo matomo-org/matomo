@@ -180,6 +180,11 @@ describe("UsersManager", function () {
     });
 
     it('should change access for all rows in search when confirmed', async function () {
+        // Several confirm-password modals share the #currentUserPassword id and the field can retain a
+        // value, so clear it first - otherwise page.type appends and submits a wrong password.
+        await page.evaluate(() => {
+            document.querySelectorAll('.confirm-password-modal #currentUserPassword').forEach((f) => { f.value = ''; });
+        });
         await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
         await page.waitForTimeout(250);
         await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
@@ -460,6 +465,11 @@ describe("UsersManager", function () {
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Admin):visible', { waitFor: true })).click();
 
         await page.waitForSelector('.confirm-password-modal.open', { visible: true });
+        // Several confirm-password modals share the #currentUserPassword id and the field can retain a
+        // value, so clear it first - otherwise page.type appends and submits a wrong password.
+        await page.evaluate(() => {
+            document.querySelectorAll('.confirm-password-modal #currentUserPassword').forEach((f) => { f.value = ''; });
+        });
         await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
         await page.waitForTimeout(250);
         await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
@@ -518,7 +528,12 @@ describe("UsersManager", function () {
                 const f = document.querySelector('.confirm-password-modal.open #currentUserPassword');
                 if (f) { f.value = ''; }
             });
-            await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+            // Several confirm-password modals share the #currentUserPassword id and the field can retain a
+        // value, so clear it first - otherwise page.type appends and submits a wrong password.
+        await page.evaluate(() => {
+            document.querySelectorAll('.confirm-password-modal #currentUserPassword').forEach((f) => { f.value = ''; });
+        });
+        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
             await page.waitForTimeout(250);
             await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
         }
@@ -546,6 +561,11 @@ describe("UsersManager", function () {
 
         await page.waitForSelector('.confirm-password-modal.open', { visible: true });
         await page.waitForTimeout(100); // animation
+        // Several confirm-password modals share the #currentUserPassword id and the field can retain a
+        // value, so clear it first - otherwise page.type appends and submits a wrong password.
+        await page.evaluate(() => {
+            document.querySelectorAll('.confirm-password-modal #currentUserPassword').forEach((f) => { f.value = ''; });
+        });
         await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
         await page.waitForTimeout(250);
         await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
