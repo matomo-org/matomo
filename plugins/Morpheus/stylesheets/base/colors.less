@@ -27,6 +27,8 @@
 @color-black-matomo:               #0d0d0d;
 @color-blue-matomo:                #4183C4;
 @color-red-matomo:                 #d2312d;
+// @deprecated Use the semantic @theme-color-success token for "all is fine / success / positive"
+// states. Kept for backwards compatibility only.
 @color-green-matomo:               #43a047;
 
 // @todo remove those bc colors in Matomo 6
@@ -99,7 +101,7 @@
 // matches the line.
 @graph-sparkline-line-color:    #3B82F6;
 @graph-sparkline-minDot-color:  @color-red-matomo;           // #d2312d — lowest value (negative)
-@graph-sparkline-maxDot-color:  @color-green-matomo;         // #43a047 — highest value (positive)
+@graph-sparkline-maxDot-color:  @theme-color-success;        // success green — highest value (positive)
 @graph-sparkline-lastDot-color: @graph-sparkline-line-color; // last value — same as the line
 
 @default-box-shade: 0 2px 3px 0 rgba(0,0,0,0.16), 0 0px 3px 0 rgba(0,0,0,0.12);
