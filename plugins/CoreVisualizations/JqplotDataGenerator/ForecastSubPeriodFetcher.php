@@ -649,7 +649,7 @@ class ForecastSubPeriodFetcher
         try {
             $period = Common::getRequestVar('period', 'day', 'string');
             $date   = Common::getRequestVar('date', 'today', 'string');
-            $meta   = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
+            $meta   = $this->fetchReportMetadataCatalog($idSite, $period, $date);
         } catch (\Throwable $e) {
             return $fallback;
         }
@@ -662,11 +662,12 @@ class ForecastSubPeriodFetcher
                 ($reportMeta['action'] ?? null) !== 'get'
                 || isset($reportMeta['parameters'])
                 || ($reportMeta['module'] ?? 'API') === 'API'
+                || empty($reportMeta['metrics'])
             ) {
                 continue;
             }
             $module  = $reportMeta['module'];
-            $metrics = array_merge($reportMeta['metrics'] ?? [], $reportMeta['processedMetrics'] ?? []);
+            $metrics = array_merge($reportMeta['metrics'], $reportMeta['processedMetrics'] ?? []);
             foreach ($metrics as $column => $translation) {
                 $modulesByColumn[$column][$module] = true;
             }
@@ -679,6 +680,19 @@ class ForecastSubPeriodFetcher
         foreach ($plottedColumns as $column) {
             $owners = $modulesByColumn[$column] ?? [];
             if (count($owners) !== 1) {
+                // Unmapped (0 owners) or shared (>1) column: the whole graph regresses to a single
+                // API.get fetch. This is correct but slow, and it would otherwise flip silently if a
+                // plugin later registered a colliding metric name -- log the offending column and its
+                // owner count so the regression is investigable rather than invisible.
+                $this->logger->debug(
+                    'Evolution forecast module fan-out disabled: column {column} maps to {ownerCount} '
+                    . 'modules (idSite={idSite}), falling back to API.get',
+                    [
+                        'column'     => $column,
+                        'ownerCount' => count($owners),
+                        'idSite'     => $idSite,
+                    ]
+                );
                 return $fallback;
             }
             $columnsByModule[(string) key($owners)][] = $column;
@@ -690,6 +704,24 @@ class ForecastSubPeriodFetcher
         }
 
         return $groups;
+    }
+
+    /**
+     * Report-metadata catalog used to resolve each plotted column to its owning `Module.get`
+     * report, read exactly as {@see \Piwik\Plugins\API\API::get()} reads it.
+     *
+     * This is a soft optimization: it reuses getReportMetadata's transient cache only when the
+     * outer request already built the catalog under the same (idSite, period, date) key -- the
+     * common evolution-graph path does. A caller reaching here without that priming (e.g. an
+     * unusual widget path) pays one full catalog build itself, which is still the cost the fan-out
+     * then avoids on every sub-period. Kept as an overridable seam so the column->module
+     * resolution and its fallbacks can be unit-tested without a live report catalog.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected function fetchReportMetadataCatalog(int $idSite, string $period, string $date): array
+    {
+        return \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
     }
 
     /**
