@@ -103,7 +103,6 @@ class PageViewTimeWriter
 
         $serverTimeSql = date('Y-m-d H:i:s', (int) $request->getCurrentTimestamp());
         $cap = self::getVisitStandardLength();
-        $clientTimeOnPage = $this->extractClientTimeOnPage($request, $cap);
 
         if ($action !== null && $this->isRecordableAction($action)) {
             $idLinkVa = (int) $action->getIdLinkVisitAction();
@@ -138,6 +137,7 @@ class PageViewTimeWriter
             return;
         }
 
+        $clientTimeOnPage = $this->extractClientTimeOnPage($request, $cap);
         $this->updateTimeSpent($idVisit, $pvId, $serverTimeSql, $cap, $clientTimeOnPage);
     }
 
@@ -153,6 +153,15 @@ class PageViewTimeWriter
      *
      * On a brand-new pageview request the value is ignored — pageview rows are inserted at
      * `time_spent = 0` and only later same-tab hits update them.
+     *
+     * Because everything settles through `GREATEST()`, a client value can only ever *raise*
+     * `time_spent` — it is not an end-to-end override. When the visitor navigates on,
+     * {@see closePreviousPageView()} applies the server-side wall-clock difference to the row,
+     * which wins whenever it exceeds the client's (necessarily smaller) focused-only count. The
+     * same happens on any later same-`pv_id` hit sent without `pv_time`. A smaller focused-only
+     * value therefore only survives on rows the server never re-measures: the last page of a
+     * visit, single-page visits, and abandoned tabs — exactly the rows where the server-side
+     * calculation was historically least accurate.
      *
      * Returns null when the param is missing OR non-positive. Zero is treated as "no client
      * override" (not "the user spent 0s here"): a stored `time_spent = 0` is already reserved
@@ -266,29 +275,24 @@ class PageViewTimeWriter
         $table = Common::prefixTable(self::TABLE);
         $db = Tracker::getDatabase();
 
-        // When the client supplied its own time-on-page measurement, trust it as the source of
-        // truth for this hit — useful for trackers that measure focused-only time, which the
-        // server cannot infer from request timestamps. We still GREATEST() so out-of-order or
-        // smaller client values can't shrink an earlier larger observation.
+        // When the client supplied its own time-on-page measurement, use it as this hit's
+        // measurement instead of the server-side TIMESTAMPDIFF — useful for trackers that
+        // measure focused-only time, which the server cannot infer from request timestamps.
+        // Both operands settle through the same LEAST()/GREATEST() rule, so out-of-order or
+        // smaller values can't shrink an earlier larger observation.
         //
-        // The bind param is wrapped in CAST(? AS UNSIGNED) because PDO_MYSQL emulated prepares
-        // (the tracker default) send bound integers as quoted strings. Without the cast, any
-        // string operand forces LEAST()/GREATEST() into lexicographic comparison — LEAST('1800',
-        // '25') then returns '1800' and silently pins time_spent at the cap. The cast forces
-        // integer comparison regardless of how PDO transmits the value.
+        // The client bind param is wrapped in CAST(? AS UNSIGNED) because PDO_MYSQL emulated
+        // prepares (the tracker default) send bound integers as quoted strings. Without the
+        // cast, any string operand forces LEAST()/GREATEST() into lexicographic comparison —
+        // LEAST('1800', '25') then returns '1800' and silently pins time_spent at the cap.
+        // `$cap` is inlined as a numeric literal for the same reason; it is a validated int
+        // from Tracker config, safe to inline.
         if ($clientTimeOnPage !== null) {
-            $sql = "UPDATE `$table`
-                       SET time_spent = LEAST($cap, GREATEST(time_spent, CAST(? AS UNSIGNED)))
-                     WHERE idpageviewtime = (
-                            SELECT idpageviewtime FROM (
-                                SELECT idpageviewtime FROM `$table`
-                                 WHERE idvisit = ? AND idpageview = ?
-                              ORDER BY server_time DESC, idpageviewtime DESC
-                                 LIMIT 1
-                            ) t
-                           )";
-            $db->query($sql, [$clientTimeOnPage, $idVisit, $pvId]);
-            return;
+            $newTimeSpentExpr = 'CAST(? AS UNSIGNED)';
+            $newTimeSpentBind = $clientTimeOnPage;
+        } else {
+            $newTimeSpentExpr = 'TIMESTAMPDIFF(SECOND, server_time, ?)';
+            $newTimeSpentBind = $serverTimeSql;
         }
 
         // A page-view and its site-search hit share the same pv_id (the JS tracker does not
@@ -296,10 +300,9 @@ class PageViewTimeWriter
         // most-recent one — that is the currently-active row for this tab.
         //
         // The derived-table form avoids the statement-based-binlog warning that
-        // `UPDATE ... ORDER BY ... LIMIT 1` triggers. `$cap` is inlined for the same reason as
-        // in closePreviousPageView(): PDO emulated prepares would send it as a quoted string.
+        // `UPDATE ... ORDER BY ... LIMIT 1` triggers.
         $sql = "UPDATE `$table`
-                   SET time_spent = LEAST($cap, GREATEST(time_spent, TIMESTAMPDIFF(SECOND, server_time, ?)))
+                   SET time_spent = LEAST($cap, GREATEST(time_spent, $newTimeSpentExpr))
                  WHERE idpageviewtime = (
                         SELECT idpageviewtime FROM (
                             SELECT idpageviewtime FROM `$table`
@@ -308,6 +311,6 @@ class PageViewTimeWriter
                              LIMIT 1
                         ) t
                        )";
-        $db->query($sql, [$serverTimeSql, $idVisit, $pvId]);
+        $db->query($sql, [$newTimeSpentBind, $idVisit, $pvId]);
     }
 }

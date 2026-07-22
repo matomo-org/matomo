@@ -64,12 +64,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   archive is not invalidated), matching how visit metrics already behave for such visits under that setting.
 
 ### Tracker HTTP API
-* New optional tracker request parameter `pv_time` (integer, seconds). When a tracker measures focused-only time
-  itself and sends `&pv_time=N`, `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter` trusts that value as the
-  authoritative `time_spent` for the hit — overriding the server-side `now − server_time` calculation. Multiple
-  hits with `pv_time` settle through the same `GREATEST()` rule the rest of the writer uses, so a later smaller
-  value can never shrink an earlier larger observation. Values above `Tracker.visit_standard_length` are capped;
-  negative values / missing param fall back to the server-side calculation.
+* New optional tracker request parameter `pv_time` (integer, seconds). When a tracker measures time-on-page
+  itself (e.g. a focused-only counter) and sends `&pv_time=N` on a follow-up hit carrying the pageview's
+  `pv_id`, `Piwik\Plugins\Actions\Tracker\PageViewTimeWriter` records that value as the hit's measurement
+  instead of the server-side `now − server_time` calculation. All measurements settle through the writer's
+  `GREATEST()` rule, so `pv_time` can only ever raise `time_spent`: when a later pageview closes the row, the
+  server-side wall-clock difference still applies, meaning a smaller focused-only count survives only on rows
+  the server never re-measures — the last page of a visit, single-page visits, and abandoned tabs (exactly
+  where server-side measurement was least accurate). Values above `Tracker.visit_standard_length` are capped;
+  zero, negative, and missing values fall back to the server-side calculation.
 
 ## Matomo 5.12.0
 

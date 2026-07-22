@@ -31,6 +31,9 @@ use Piwik\Tracker\Cache;
  *  - time_spent is capped at visit_standard_length
  *  - Kill-switch (record_accurate_page_view_time = 0) disables all writes
  *  - Kill-switch can be applied per site via a [Tracker_N] config section
+ *  - Client-supplied pv_time is used as the hit's measurement (override, no-shrink, cap,
+ *    zero/missing fallback, ignored on the initial pageview, superseded by the wall-clock
+ *    close when the visitor navigates on)
  *
  * @group Actions
  * @group PageViewTime
@@ -353,6 +356,53 @@ class PageViewTimeWriterTest extends IntegrationTestCase
         $rows = $this->fetchPageViewTimeRows();
         $this->assertCount(1, $rows);
         $this->assertSame(20, (int) $rows[0]['time_spent']);
+    }
+
+    public function testClientPvTimeOnInitialPageviewRequestIsIgnored()
+    {
+        // Pageview rows are always inserted at time_spent = 0; pv_time only applies to
+        // follow-up hits that carry the same pv_id. A pv_time sent with the pageview request
+        // itself is ignored — there is nothing measured yet for a page that just opened.
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('ins001');
+        $tracker->setUrl('https://example.org/first');
+        $tracker->setDebugStringAppend('&' . PageViewTimeWriter::PARAM_PV_TIME . '=50');
+        Fixture::checkResponse($tracker->doTrackPageView('First'));
+
+        $rows = $this->fetchPageViewTimeRows();
+        $this->assertCount(1, $rows);
+        $this->assertSame(0, (int) $rows[0]['time_spent']);
+    }
+
+    public function testClientPvTimeIsSupersededByWallClockWhenNextPageviewClosesTheRow()
+    {
+        // pv_time can only ever *raise* time_spent: every measurement settles through
+        // GREATEST(). When the visitor navigates on, closePreviousPageView() applies the
+        // server-side wall-clock difference to the previous row, which wins over a smaller
+        // focused-only client count. A smaller pv_time therefore only survives on rows the
+        // server never re-measures — the last page of a visit / abandoned tabs. This test
+        // pins that contract so a change to it is a conscious decision.
+        $tracker = $this->getTracker($this->baseTime);
+        $tracker->setPageviewId('mid001');
+        $tracker->setUrl('https://example.org/page-a');
+        Fixture::checkResponse($tracker->doTrackPageView('Page A'));
+
+        // Client reports 5s of focused time at +10s wall clock.
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 10));
+        $tracker->setDebugStringAppend('&ping=1&' . PageViewTimeWriter::PARAM_PV_TIME . '=5');
+        Fixture::checkResponse($tracker->doTrackPageView('Page A'));
+
+        // Next pageview at +60s closes the first row with the wall-clock difference (60s),
+        // which GREATEST() prefers over the client's smaller 5s.
+        $tracker->setDebugStringAppend('');
+        $tracker->setForceVisitDateTime($this->offset($this->baseTime, 60));
+        $tracker->setPageviewId('mid002');
+        $tracker->setUrl('https://example.org/page-b');
+        Fixture::checkResponse($tracker->doTrackPageView('Page B'));
+
+        $rows = $this->fetchRowsByPvId();
+        $this->assertSame(60, (int) $rows['mid001']['time_spent']);
+        $this->assertSame(0, (int) $rows['mid002']['time_spent']);
     }
 
     public function testClientPvTimeMissingFallsBackToServerCalculation()
