@@ -227,6 +227,86 @@ var Piwik_Overlay = (function () {
         }, 0);
     }
 
+    /**
+     * Builds the parameters for an allow-listed Page Overlay API request from the request
+     * url supplied by the framed page and the trusted parent-window context.
+     *
+     * The request sent to the API is assembled from a fixed, known set of values: the method
+     * must be one of the allow-listed values and idSite/period/date/segment always come from
+     * the parent window, rather than forwarding the parsed parameter object as-is.
+     *
+     * @param {string} requestUrl  the url received from the framed page
+     * @param {object} context     trusted parent-window values (idSite, period, date, segment)
+     * @return {object} either { params: {...} } for a valid request or { error: '...' }
+     */
+    function buildApiRequestParams(requestUrl, context) {
+        var hashless = requestUrl.split('#')[0];
+        var queryStart = hashless.indexOf('?');
+        var queryString = queryStart === -1 ? '' : hashless.slice(queryStart + 1);
+        var pairs = queryString.split('&');
+        var requested = {};
+
+        for (var i = 0; i < pairs.length; i++) {
+            if (pairs[i] === '') {
+                continue;
+            }
+
+            var separator = pairs[i].indexOf('=');
+            var rawName = separator === -1 ? pairs[i] : pairs[i].slice(0, separator);
+            var rawValue = separator === -1 ? '' : pairs[i].slice(separator + 1);
+
+            var name;
+            var value;
+            try {
+                name = decodeURIComponent(rawName);
+                value = decodeURIComponent(rawValue);
+            } catch (e) {
+                return { error: 'Malformed parameter in Overlay API request.' };
+            }
+
+            // Only accept canonical parameter names. Names with surrounding whitespace (or its
+            // percent-encoding) are ambiguous, so reject the request rather than guessing.
+            if (name !== name.trim() || rawName !== rawName.trim()) {
+                return { error: 'Invalid parameter name in Overlay API request.' };
+            }
+
+            if (Object.prototype.hasOwnProperty.call(requested, name)) {
+                return { error: 'Duplicate parameter in Overlay API request.' };
+            }
+
+            requested[name] = value;
+        }
+
+        if (ALLOWED_API_REQUEST_WHITELIST.indexOf(requested.method) === -1) {
+            return { error: "'" + requested.method + "' method is not allowed." };
+        }
+
+        // Assemble the outgoing request from a fixed set of trusted values. Only the
+        // parameters explicitly set below are sent to the API.
+        var params = {
+            module: 'API',
+            action: 'index',
+            format: 'JSON',
+            method: requested.method,
+            idSite: context.idSite,
+            period: context.period,
+            date: context.date,
+            filter_limit: -1,
+        };
+
+        if (context.segment) {
+            params.segment = context.segment;
+        }
+
+        // url is the only framed-page value consumed by an allow-listed method
+        // (Overlay.getFollowingPages).
+        if (typeof requested.url !== 'undefined') {
+            params.url = requested.url;
+        }
+
+        return { params: params };
+    }
+
     function handleApiRequests() {
         window.addEventListener("message", function (event) {
             if (event.origin !== iframeOrigin || !iframeOrigin) {
@@ -245,37 +325,26 @@ var Piwik_Overlay = (function () {
             var requestId = strData[1];
             var url = decodeURIComponent(strData[2]);
 
-            var params = broadcast.getValuesFromUrl(url);
-            Object.keys(params).forEach(function (name) {
-                params[name] = decodeURIComponent(params[name]);
+            var segmentValue = segment ? decodeURIComponent(segment) : null;
+
+            var built = buildApiRequestParams(url, {
+                idSite: idSite,
+                period: period,
+                date: date,
+                segment: segmentValue,
             });
-            params.module = 'API';
-            params.action = 'index';
 
-            // these should be sent as post parameters
-            delete params.token_auth;
-            delete params.force_api_session;
-
-            if (ALLOWED_API_REQUEST_WHITELIST.indexOf(params.method) === -1) {
+            if (built.error) {
                 sendResponse({
                     result: 'error',
-                    message: "'" + params.method + "' method is not allowed.",
+                    message: built.error,
                 });
                 return;
             }
 
-            params.idSite = idSite;
-            params.period = period;
-            params.date = date;
-            if (segment) {
-                params.segment = decodeURIComponent(segment);
-            } else {
-                delete params.segment;
-            }
-
             var AjaxHelper = window.CoreHome.AjaxHelper;
             AjaxHelper
-              .fetch(params, { withTokenInUrl: true })
+              .fetch(built.params, { withTokenInUrl: true })
               .then(function (response) {
                   sendResponse(response);
               }).catch(function (err) {
@@ -293,6 +362,14 @@ var Piwik_Overlay = (function () {
     }
 
     return {
+
+        /**
+         * Builds the parameters for an allow-listed Page Overlay API request.
+         * Exposed for unit testing; see the internal buildApiRequestParams().
+         */
+        buildApiRequestParams: function (requestUrl, context) {
+            return buildApiRequestParams(requestUrl, context);
+        },
 
         /** This method is called when Overlay loads  */
         init: function (iframeSrc, pIdSite, pPeriod, pDate, pSegment, pIframePostParams) {
