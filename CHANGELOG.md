@@ -13,7 +13,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated method `Piwik\Db\Adapter::getDefaultPortForAdapter()` has been removed. Use `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
 * The deprecated method `Piwik\Url::saveCORSHostnameInConfig()` has been removed. It was no longer in use.
 * The deprecated method `Piwik\Plugin\Report::getThirdLeveltableDimension()` has been removed. Use `Piwik\Plugin\Report::getNthLevelTableDimension(2)` instead.
-* The deprecated `API.getSettings` API method has been removed, along with the `[APISettings]` section in `config.ini.php` that it exposed. There is no replacement; integrations that fetched key/value pairs from that section over the REST API must migrate to another mechanism.
+* The deprecated `API.getSettings` API method has been removed, along with the default `[APISettings]` section shipped in `config/global.ini.php` that it exposed. There is no replacement; integrations that fetched key/value pairs from that section over the REST API must migrate to another mechanism. Any `[APISettings]` entries in a local `config.ini.php` simply become inert.
 * The deprecated static method `getDefaultPort()` has been removed from `Piwik\Db\AdapterInterface` and its implementations (`Piwik\Db\Adapter\Mysqli`, `Piwik\Db\Adapter\Pdo\Mysql`). Use `Piwik\Db\Schema::getDefaultPortForSchema()` instead.
 * The deprecated method `Piwik\Plugins\Overlay\API::getExcludedQueryParameters()` has been removed. Use the `SitesManager.getExcludedQueryParameters` API method instead.
 * The deprecated method `Piwik\Db::optimizeTables()` has been removed. Use `Piwik\Db\Schema::getInstance()->optimizeTables()` instead.
