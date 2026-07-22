@@ -58,7 +58,7 @@ var SegmentedVisitorLog = function() {
         return getLabelFromTr($tr, apiMethod);
     }
 
-    function setPopoverTitle(apiMethod, segment, index) {
+    function setPopoverTitle(apiMethod, segment, index, rowSegment) {
         var dataTable = getDataTableFromApiMethod(apiMethod);
 
         if (!dataTable) {
@@ -66,18 +66,19 @@ var SegmentedVisitorLog = function() {
                 // this is needed when the popover is opened before the dataTable is there which can often
                 // happen when opening the popover directly via URL (broadcast.popoverHandler)
                 setTimeout(function () {
-                    setPopoverTitle(apiMethod, segment, index + 1);
+                    setPopoverTitle(apiMethod, segment, index + 1, rowSegment);
                 }, 150);
             }
             return;
         }
 
         var segmentName = getDimensionFromApiMethod(apiMethod);
-        var segmentValue = findTitleOfRowHavingRawSegmentValue(apiMethod, segment);
+        var displayedSegment = rowSegment || segment;
+        var segmentValue = findTitleOfRowHavingRawSegmentValue(apiMethod, displayedSegment);
 
-        if (!segmentName || (segment && segment.indexOf(';') > 0)) {
+        if (!segmentName || (displayedSegment && displayedSegment.indexOf(';') > 0)) {
             segmentName = _pk_translate('General_Segment');
-            var segmentParts = segment.split(';');
+            var segmentParts = displayedSegment.split(';');
             segmentValue = segmentParts.join(' ' + _pk_translate('General_And') + ' ');
         }
 
@@ -126,7 +127,7 @@ var SegmentedVisitorLog = function() {
 
             Piwik_Popover.setTitle(defaultTitle);
 
-            setPopoverTitle(apiMethod, segment, 0);
+            setPopoverTitle(apiMethod, segment, 0, extraParams.intersectSegment);
         };
 
         // prepare loading the popover contents
@@ -155,4 +156,3 @@ var SegmentedVisitorLog = function() {
         show: show
     }
 }();
-
