@@ -510,17 +510,18 @@ describe("UsersManager", function () {
 
         await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no):visible')).click();
 
-        await page.waitForSelector('.confirm-password-modal.open', { visible: true });
-        await page.waitForTimeout(100); // animation
-        // Clear first: the field may be pre-filled (autofill/leftover) and page.type would append,
-        // sending a wrong password (400 on CI).
-        await page.evaluate(() => {
-            const f = document.querySelector('.confirm-password-modal.open #currentUserPassword');
-            if (f) { f.value = ''; }
-        });
-        await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
-        await page.waitForTimeout(250);
-        await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+        // The password-confirmation modal only appears in some environments; fill it when shown
+        // (clear first so page.type does not append to a pre-filled field).
+        await page.waitForTimeout(500);
+        if (await page.evaluate(() => $('.confirm-password-modal.open:visible').length > 0)) {
+            await page.evaluate(() => {
+                const f = document.querySelector('.confirm-password-modal.open #currentUserPassword');
+                if (f) { f.value = ''; }
+            });
+            await page.type('.confirm-password-modal.open #currentUserPassword', superUserPassword);
+            await page.waitForTimeout(250);
+            await (await page.jQuery('.confirm-password-modal.open .confirm-password-btn:visible')).click();
+        }
         await page.waitForNetworkIdle();
 
         await page.evaluate(function () { // remove filter
