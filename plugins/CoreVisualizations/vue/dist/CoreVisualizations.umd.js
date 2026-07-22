@@ -209,7 +209,7 @@ var __spreadValues = (a, b) => {
   const _hoisted_1$c = { class: "metricValue" };
   const _hoisted_2$9 = ["title"];
   const _hoisted_3$6 = { class: "metricValue__primary" };
-  const _hoisted_4$4 = { class: "metricValue__number" };
+  const _hoisted_4$4 = ["title"];
   const _hoisted_5$3 = {
     key: 1,
     class: "metricValue__secondary"
@@ -220,6 +220,7 @@ var __spreadValues = (a, b) => {
     class: "metricValue__secondaryLabel"
   };
   function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+    var _a;
     const _directive_tooltips = vue.resolveDirective("tooltips");
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$c, [
       _ctx.title ? vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", {
@@ -232,7 +233,14 @@ var __spreadValues = (a, b) => {
         [_directive_tooltips, { duration: 200, delay: 200 }]
       ]) : vue.createCommentVNode("", true),
       vue.createElementVNode("div", _hoisted_3$6, [
-        vue.createElementVNode("span", _hoisted_4$4, vue.toDisplayString(_ctx.displayValue), 1),
+        vue.withDirectives((vue.openBlock(), vue.createElementBlock("span", {
+          class: "metricValue__number",
+          title: (_a = _ctx.displayValue) == null ? void 0 : _a.toString()
+        }, [
+          vue.createTextVNode(vue.toDisplayString(_ctx.displayValue), 1)
+        ], 8, _hoisted_4$4)), [
+          [_directive_tooltips, { duration: 200, delay: 200 }]
+        ]),
         vue.renderSlot(_ctx.$slots, "evolution")
       ]),
       _ctx.hasSecondary ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$3, [
