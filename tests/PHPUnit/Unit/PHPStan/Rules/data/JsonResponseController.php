@@ -116,8 +116,8 @@ class JsonResponseController extends Controller
         return '{"ok":true}';
     }
 
-    // conditional JSON return (HTML on the other path) is NOT top-level, so it must NOT be flagged
-    public function conditionalJsonReturnIsIgnored(): string
+    // returns JSON on one path and HTML on another: mixing is forbidden, so it must be flagged
+    public function conditionalJsonReturn(): string
     {
         if (self::class !== '') {
             return json_encode(['ok' => true]);
@@ -136,8 +136,8 @@ class JsonResponseController extends Controller
         return json_encode(['ok' => true]);
     }
 
-    // C1: mixed HTML/JSON (HTML on one path) -> must NOT be flagged
-    public function mixedHtmlThenJsonIsIgnored(): string
+    // HTML on one path, JSON on another: mixing is forbidden, so it must be flagged
+    public function mixedHtmlAndJsonReturn(): string
     {
         if (self::class !== '') {
             return '<p>html</p>';

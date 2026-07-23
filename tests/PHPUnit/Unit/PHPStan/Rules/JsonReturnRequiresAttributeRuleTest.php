@@ -31,10 +31,13 @@ class JsonReturnRequiresAttributeRuleTest extends RuleTestCase
             . ' Content-Type after the action; do not send the header manually.';
 
         $this->analyse([__DIR__ . '/data/JsonResponseController.php'], [
+            [sprintf($message, 'conditionalManualCall'), 32],
             [sprintf($message, 'undeclaredJsonEncodeReturn'), 106],
             [sprintf($message, 'undeclaredJsonEncodeCastReturn'), 111],
             [sprintf($message, 'undeclaredJsonLiteralReturn'), 116],
+            [sprintf($message, 'conditionalJsonReturn'), 123],
             [sprintf($message, 'conditionalHeaderUnconditionalJson'), 136],
+            [sprintf($message, 'mixedHtmlAndJsonReturn'), 146],
         ]);
     }
 }

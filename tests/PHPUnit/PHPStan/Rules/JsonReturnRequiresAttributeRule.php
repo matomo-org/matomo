@@ -16,14 +16,15 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
- * A controller action that unconditionally returns a JSON response must declare the #[JsonResponse]
- * attribute rather than serving JSON without it. The attribute is the single supported way to serve
- * JSON from a controller: it lets Matomo apply the JSON Content-Type after the action runs, so it
- * cannot be overwritten by later output. Setting the header directly is discouraged.
+ * A controller action that returns a JSON response on any path must declare the #[JsonResponse]
+ * attribute. The attribute is the single supported way to serve JSON from a controller: it lets
+ * Matomo apply the JSON Content-Type after the action runs, so it cannot be overwritten by later
+ * output, and setting the header directly is discouraged.
  *
- * Actions that only return JSON conditionally (returning HTML or redirecting on other paths) cannot
- * use the always-on attribute; their JSON return is nested rather than top-level, so it is not
- * matched here and they keep sending the header manually in that branch.
+ * Because the attribute forces the JSON Content-Type on every path, an action may not mix a JSON
+ * return with an HTML or redirect one; a method that needs both must be split into separate actions.
+ * Actions that already set the header via a rule-reported call are skipped here to avoid
+ * double-reporting.
  *
  * @implements Rule<ClassMethod>
  */
@@ -50,12 +51,12 @@ class JsonReturnRequiresAttributeRule implements Rule
 
         // Actions whose JSON header is already reported by a header-focused rule are skipped to
         // avoid double-reporting; a merely conditional header is not covered there, so this rule
-        // still catches "returns JSON unconditionally but only sets the header conditionally".
+        // still catches "returns JSON but only sets the header conditionally, if at all".
         if (JsonResponseRuleHelper::jsonHeaderIsReportedByHeaderRules($node, $scope)) {
             return [];
         }
 
-        $return = JsonResponseRuleHelper::unconditionalJsonReturn($node);
+        $return = JsonResponseRuleHelper::firstJsonReturn($node);
 
         if ($return === null) {
             return [];

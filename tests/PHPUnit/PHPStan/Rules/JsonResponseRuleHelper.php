@@ -181,38 +181,28 @@ final class JsonResponseRuleHelper
     }
 
     /**
-     * The final return statement of a method that unconditionally returns JSON, or null. A method
-     * qualifies only when its last top-level statement is a JSON-ish return AND no return anywhere in
-     * its own flow returns a non-JSON value. This deliberately does not match actions that also
-     * return HTML or redirect on some path (they cannot use the always-on attribute).
+     * The first return statement in the method's own flow whose value is JSON (a json_encode() call,
+     * a (string) json_encode() cast, or a JSON literal), or null if there is none. Returns inside
+     * nested closures are excluded (they return from the closure, not the method).
+     *
+     * A controller action may not mix a JSON return with a non-JSON one: an action that returns JSON
+     * on any path must be an always-JSON action carrying #[JsonResponse]. If it also needs to return
+     * HTML or redirect on another path, it must be split into separate actions.
      */
-    public static function unconditionalJsonReturn(ClassMethod $method): ?Return_
+    public static function firstJsonReturn(ClassMethod $method): ?Return_
     {
-        $stmts = $method->stmts ?? [];
-
-        if ($stmts === []) {
-            return null;
-        }
-
-        $last = end($stmts);
-
-        if (!$last instanceof Return_ || !self::looksLikeJsonExpr($last->expr)) {
-            return null;
-        }
-
-        // every return reachable in the method's own flow (not inside nested closures) must be JSON
-        $returns = self::collect($stmts, static function (Node $node): bool {
+        $returns = self::collect($method->stmts ?? [], static function (Node $node): bool {
             return $node instanceof Return_;
         }, $enterIife = false);
 
         foreach ($returns as $return) {
             /** @var Return_ $return */
-            if (!self::looksLikeJsonExpr($return->expr)) {
-                return null;
+            if (self::looksLikeJsonExpr($return->expr)) {
+                return $return;
             }
         }
 
-        return $last;
+        return null;
     }
 
     /**
