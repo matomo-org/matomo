@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Unit\Http;
 
 use Exception;
+use Piwik\Config;
 use Piwik\Http\EgressHostValidator;
 
 /**
@@ -84,7 +85,7 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
     {
         $validator = new EgressHostValidator(static function (string $host) use ($stubbedIps): array {
             return $stubbedIps[$host] ?? array();
-        });
+        }, array());
 
         if ($expected === false) {
             $this->expectException(Exception::class);
@@ -95,17 +96,59 @@ class EgressHostValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $validator->resolveTarget($host));
     }
 
-    public function testResolveTargetAcceptsAdditionalAllowedIps()
+    /**
+     * @dataProvider getAllowedPrivateRangesTestData
+     */
+    public function testResolveTargetHonoursAllowedPrivateRanges($resolvedIp, $allowedRanges, $expectAllowed)
     {
-        $resolver = static function (): array {
-            return array('127.0.0.1');
+        $resolver = static function () use ($resolvedIp): array {
+            return array($resolvedIp);
         };
 
-        $validator = new EgressHostValidator($resolver, array('127.0.0.1'));
-        $this->assertSame(array('local.test', '127.0.0.1'), $validator->resolveTarget('local.test'));
+        $validator = new EgressHostValidator($resolver, $allowedRanges);
 
-        $this->expectException(Exception::class);
-        (new EgressHostValidator($resolver))->resolveTarget('local.test');
+        if (!$expectAllowed) {
+            $this->expectException(Exception::class);
+        }
+
+        $this->assertSame(array('local.test', $resolvedIp), $validator->resolveTarget('local.test'));
+    }
+
+    public function getAllowedPrivateRangesTestData()
+    {
+        return array(
+            'single ip allowed' => array('127.0.0.1', array('127.0.0.1'), true),
+            'cidr range allowed' => array('10.1.2.3', array('10.0.0.0/8'), true),
+            'wildcard range allowed' => array('192.168.1.9', array('192.168.1.*'), true),
+            'ipv6 range allowed' => array('fd00::5', array('fd00::/8'), true),
+            'private ip outside ranges rejected' => array('10.1.2.3', array('192.168.0.0/16'), false),
+            'empty allowlist rejects private ip' => array('10.1.2.3', array(), false),
+            // an IPv4-mapped IPv6 answer must not match an allowlisted IPv4 range
+            'mapped ipv6 not matched by ipv4 range' => array('::ffff:10.1.2.3', array('10.0.0.0/8'), false),
+            // the allowlist widens private access but public addresses stay allowed regardless
+            'public ip unaffected by allowlist' => array('93.184.216.34', array('10.0.0.0/8'), true),
+        );
+    }
+
+    public function testResolveTargetAcceptsAllowlistedPrivateIpLiteral()
+    {
+        $validator = new EgressHostValidator(null, array('192.168.1.0/24'));
+        $this->assertSame(array('192.168.1.5', '192.168.1.5'), $validator->resolveTarget('192.168.1.5'));
+    }
+
+    public function testConstructorReadsAllowedPrivateRangesFromConfig()
+    {
+        $general = Config::getInstance()->General;
+        $general['allowed_private_egress_ranges'] = array('10.0.0.0/8');
+        Config::getInstance()->General = $general;
+
+        try {
+            $validator = new EgressHostValidator();
+            $this->assertSame(array('10.1.2.3', '10.1.2.3'), $validator->resolveTarget('10.1.2.3'));
+        } finally {
+            unset($general['allowed_private_egress_ranges']);
+            Config::getInstance()->General = $general;
+        }
     }
 
     public function getResolveTargetTestData()

@@ -12,17 +12,23 @@ declare(strict_types=1);
 namespace Piwik\Http;
 
 use Exception;
+use Matomo\Network\IP;
+use Piwik\Config\GeneralConfig;
 
 /**
  * Validates that an outgoing request target is a public host, for the SSRF-safe fetch
  * path in {@see \Piwik\Http}. Canonicalises the host to what the transport will connect
- * to, rejects encoded/numeric hosts, and confirms that every resolved address is public.
+ * to, rejects encoded/numeric hosts, and confirms that every resolved address is public
+ * or covered by the `[General] allowed_private_egress_ranges` config allowlist.
  */
 class EgressHostValidator
 {
-    // IPv4 ranges filter_var does not flag but an SSRF-safe fetch must not reach:
-    // CGNAT, IETF protocol, TEST-NET-1/2/3, 6to4 relay anycast, benchmarking, multicast.
-    private const EXTRA_BLOCKED_CIDRS = [
+    // Ranges filter_var does not flag but an SSRF-safe fetch must not reach.
+    // IPv4: CGNAT, IETF protocol, TEST-NET-1/2/3, 6to4 relay anycast, benchmarking, multicast.
+    // IPv6: deprecated IPv4-compatible space (::/96), transition ranges that can smuggle a
+    // private IPv4 destination (6to4, Teredo, NAT64), documentation, discard, reserved
+    // space (fe00::/8), and multicast.
+    private const EXTRA_BLOCKED_RANGES = [
         '100.64.0.0/10',
         '192.0.0.0/24',
         '192.0.2.0/24',
@@ -31,12 +37,6 @@ class EgressHostValidator
         '198.51.100.0/24',
         '203.0.113.0/24',
         '224.0.0.0/4',
-    ];
-
-    // IPv6 ranges filter_var does not flag: deprecated IPv4-compatible space (::/96), transition
-    // ranges that can smuggle a private IPv4 destination (6to4, Teredo, NAT64), documentation,
-    // discard, reserved space (fe00::/8), and multicast.
-    private const EXTRA_BLOCKED_IPV6_CIDRS = [
         '::/96',
         '2002::/16',
         '2001::/32',
@@ -51,17 +51,19 @@ class EgressHostValidator
     private $resolver;
 
     /** @var string[] */
-    private $additionalAllowedIps;
+    private $allowedPrivateRanges;
 
     /**
      * @param callable|null $resolver Host-to-IPs resolver, defaults to DNS. Injectable for tests.
-     * @param string[] $additionalAllowedIps IPs accepted although not public, e.g. loopback for tests
-     *                                       targeting a local fixture server.
+     * @param string[]|null $allowedPrivateRanges Non-public addresses to accept anyway (single IPs, CIDR
+     *                                            or wildcard ranges), e.g. for intranet sites. Defaults
+     *                                            to `[General] allowed_private_egress_ranges`.
      */
-    public function __construct(?callable $resolver = null, array $additionalAllowedIps = [])
+    public function __construct(?callable $resolver = null, ?array $allowedPrivateRanges = null)
     {
         $this->resolver = $resolver ?? [self::class, 'resolveHostIpsViaDns'];
-        $this->additionalAllowedIps = $additionalAllowedIps;
+        $this->allowedPrivateRanges = $allowedPrivateRanges
+            ?? GeneralConfig::getArrayConfigValue('allowed_private_egress_ranges', []);
     }
 
     /**
@@ -129,7 +131,13 @@ class EgressHostValidator
 
     private function isAllowedIp(string $ip): bool
     {
-        return in_array($ip, $this->additionalAllowedIps, true) || self::isPublicIp($ip);
+        if (self::isPublicIp($ip)) {
+            return true;
+        }
+
+        // matched per address family, so an IPv4-mapped IPv6 address cannot match an IPv4 range
+        return !empty($this->allowedPrivateRanges)
+            && IP::fromStringIP($ip)->isInRanges($this->allowedPrivateRanges);
     }
 
     public static function isPublicIp(string $ip): bool
@@ -149,46 +157,7 @@ class EgressHostValidator
             return false;
         }
 
-        foreach (self::EXTRA_BLOCKED_CIDRS as $cidr) {
-            if (self::ipv4InCidr($ip, $cidr)) {
-                return false;
-            }
-        }
-
-        foreach (self::EXTRA_BLOCKED_IPV6_CIDRS as $cidr) {
-            if (self::ipv6InCidr($ip, $cidr)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static function ipv4InCidr(string $ip, string $cidr): bool
-    {
-        $ipLong = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) ? ip2long($ip) : false;
-        if ($ipLong === false) {
-            return false; // not IPv4; the extra list is IPv4-only
-        }
-
-        [$subnet, $bits] = explode('/', $cidr);
-        $mask = -1 << (32 - (int) $bits);
-
-        return ($ipLong & $mask) === (ip2long($subnet) & $mask);
-    }
-
-    private static function ipv6InCidr(string $ip, string $cidr): bool
-    {
-        $ipBin = @inet_pton($ip);
-        if ($ipBin === false || strlen($ipBin) !== 16) {
-            return false; // not IPv6; the extra list is IPv6-only
-        }
-
-        // EXTRA_BLOCKED_IPV6_CIDRS uses byte-aligned prefixes only, so a prefix-byte compare suffices.
-        [$subnet, $bits] = explode('/', $cidr);
-        $subnetBin = @inet_pton($subnet);
-
-        return $subnetBin !== false && strncmp($ipBin, $subnetBin, intdiv((int) $bits, 8)) === 0;
+        return !IP::fromStringIP($ip)->isInRanges(self::EXTRA_BLOCKED_RANGES);
     }
 
     /**

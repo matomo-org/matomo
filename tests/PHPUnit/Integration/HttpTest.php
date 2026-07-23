@@ -558,16 +558,16 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     {
         $host = (string) parse_url(Fixture::getRootUrl(), PHP_URL_HOST);
 
-        $allowedIps = ['127.0.0.1', '::1'];
+        $allowedRanges = ['127.0.0.1', '::1'];
         if (filter_var($host, FILTER_VALIDATE_IP)) {
-            $allowedIps[] = $host;
+            $allowedRanges[] = $host;
         } else {
-            $allowedIps = array_merge($allowedIps, gethostbynamel($host) ?: []);
+            $allowedRanges = array_merge($allowedRanges, gethostbynamel($host) ?: []);
         }
 
         StaticContainer::getContainer()->set(
             EgressHostValidator::class,
-            new EgressHostValidator(null, array_unique($allowedIps))
+            new EgressHostValidator(null, array_unique($allowedRanges))
         );
     }
 
