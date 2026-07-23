@@ -74,8 +74,8 @@ class RawLogDaoTest extends SystemTestCase
             'log_conversion' => 'idvisit',
             'log_conversion_item' => 'idvisit',
             'log_link_visit_action' => 'idlink_va',
-            'log_visit' => 'idvisit',
             'log_page_view_time' => 'idpageviewtime',
+            'log_visit' => 'idvisit',
         );
         $this->assertSame($expected, $this->dao->getTableIdColumns());
     }
