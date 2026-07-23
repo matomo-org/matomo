@@ -30,8 +30,9 @@ use Attribute;
  *    the response headers first, and `Common::sendHeader()` cannot change a header once
  *    `headers_sent()` is true, so the JSON `Content-Type` would be lost.
  *
- * The attribute is honoured only on the action declared directly on the dispatched controller and is
- * not inherited: a subclass that overrides a JSON action must re-declare `#[JsonResponse]`.
+ * The attribute is not inherited by an overriding method: a subclass that overrides a JSON action
+ * must re-declare `#[JsonResponse]`. (An inherited action the subclass does not override still
+ * resolves to the parent's attributed declaration and keeps working.)
  *
  * These requirements are enforced by dedicated PHPStan rules.
  *

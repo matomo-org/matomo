@@ -25,9 +25,9 @@ class JsonResponseController extends Controller
         return json_encode([]);
     }
 
-    public function conditionalManualCall()
+    public function conditionalManualCall(bool $flag = false)
     {
-        if (self::class !== '') {
+        if ($flag) {
             Json::sendHeaderJSON();
             return json_encode([]);
         }
@@ -117,9 +117,9 @@ class JsonResponseController extends Controller
     }
 
     // returns JSON on one path and HTML on another: mixing is forbidden, so it must be flagged
-    public function conditionalJsonReturn(): string
+    public function conditionalJsonReturn(bool $flag = false): string
     {
-        if (self::class !== '') {
+        if ($flag) {
             return json_encode(['ok' => true]);
         }
 
@@ -127,9 +127,9 @@ class JsonResponseController extends Controller
     }
 
     // E4: returns JSON unconditionally but only sets the header conditionally -> must be flagged
-    public function conditionalHeaderUnconditionalJson(): string
+    public function conditionalHeaderUnconditionalJson(bool $flag = false): string
     {
-        if (self::class !== '') {
+        if ($flag) {
             Json::sendHeaderJSON();
         }
 
@@ -137,9 +137,9 @@ class JsonResponseController extends Controller
     }
 
     // HTML on one path, JSON on another: mixing is forbidden, so it must be flagged
-    public function mixedHtmlAndJsonReturn(): string
+    public function mixedHtmlAndJsonReturn(bool $flag = false): string
     {
-        if (self::class !== '') {
+        if ($flag) {
             return '<p>html</p>';
         }
 
@@ -196,9 +196,9 @@ class JsonResponseController extends Controller
         return json_encode(['ok' => true]) ?: '[]';
     }
 
-    public function ternaryJsonReturn(): string
+    public function ternaryJsonReturn(bool $flag = false): string
     {
-        return self::class !== '' ? json_encode(['ok' => true]) : json_encode(['no' => true]);
+        return $flag ? json_encode(['ok' => true]) : json_encode(['no' => true]);
     }
 
     // a non-JSON media type header must NOT be treated as a raw JSON header
@@ -206,5 +206,16 @@ class JsonResponseController extends Controller
     {
         \Piwik\Common::sendHeader('Content-Type: application/notjson');
         return 'plain';
+    }
+
+    // an attributed action returning a non-JSON literal on a branch -> must be flagged (mixing)
+    #[JsonResponse]
+    public function attributedMixedReturn(bool $flag = false): string
+    {
+        if ($flag) {
+            return '<p>html</p>';
+        }
+
+        return json_encode([]);
     }
 }

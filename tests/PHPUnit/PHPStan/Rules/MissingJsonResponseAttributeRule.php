@@ -39,7 +39,8 @@ class MissingJsonResponseAttributeRule implements Rule
             return [];
         }
 
-        // Methods that echo and exit commit their headers themselves; nothing can overwrite them.
+        // Methods that exit at top level flush their own response, so nothing can overwrite the
+        // header they set; such an echo+exit action manages its own Content-Type.
         if (JsonResponseRuleHelper::hasTopLevelExit($node)) {
             return [];
         }

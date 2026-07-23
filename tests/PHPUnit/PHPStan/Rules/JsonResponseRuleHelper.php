@@ -123,8 +123,10 @@ final class JsonResponseRuleHelper
             return false;
         }
 
-        // only the class that actually declares the method here should count its attributes
-        return $native->getDeclaringClass()->getName() === $parent->getName()
+        // only a public method that this class actually declares is an overridable JSON action
+        // (a private parent method is not inherited, so a same-named child method is not an override)
+        return $native->isPublic()
+            && $native->getDeclaringClass()->getName() === $parent->getName()
             && count($native->getAttributes(self::ATTRIBUTE_CLASS)) > 0;
     }
 
@@ -211,6 +213,27 @@ final class JsonResponseRuleHelper
         }
 
         return null;
+    }
+
+    /**
+     * Return statements in the method's own flow whose value is a string literal that is not valid
+     * JSON (e.g. HTML or plain text). A #[JsonResponse] action must not return these on any path.
+     * Only literals are considered "definitely non-JSON"; indirect returns ($var, method calls) are
+     * left alone, since they may build JSON elsewhere.
+     *
+     * @return Node[] the matched Return_ nodes
+     */
+    public static function findNonJsonStringLiteralReturns(ClassMethod $method): array
+    {
+        return self::collect($method->stmts ?? [], static function (Node $node): bool {
+            if (!$node instanceof Return_ || !$node->expr instanceof String_) {
+                return false;
+            }
+
+            json_decode($node->expr->value);
+
+            return json_last_error() !== JSON_ERROR_NONE;
+        });
     }
 
     /**
@@ -314,9 +337,9 @@ final class JsonResponseRuleHelper
             return json_last_error() === JSON_ERROR_NONE;
         }
 
-        // bare JSON keyword literals only (numbers are intentionally not matched: a plain '0'/'1' is
-        // more often a flag than a JSON response).
-        return in_array(strtolower($value), ['true', 'false', 'null'], true);
+        // bare JSON keyword literals only, case-sensitively (uppercase TRUE/FALSE/NULL are not valid
+        // JSON; numbers are intentionally not matched, as a plain '0'/'1' is more often a flag).
+        return in_array($value, ['true', 'false', 'null'], true);
     }
 
     /**

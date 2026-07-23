@@ -73,7 +73,6 @@ class FrontControllerJsonResponseTest extends TestCase
     private function invokeApplyResponseHeaders($controller): void
     {
         $method = new \ReflectionMethod(FrontController::class, 'applyResponseHeadersFromAttributes');
-        $method->setAccessible(true);
         $method->invoke(FrontController::getInstance(), $controller);
     }
 }

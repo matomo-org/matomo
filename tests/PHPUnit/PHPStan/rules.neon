@@ -37,3 +37,7 @@ services:
         class: Piwik\Tests\PHPStan\Rules\JsonResponseOverrideMustRedeclareRule
         tags:
             - phpstan.rules.rule
+    -
+        class: Piwik\Tests\PHPStan\Rules\JsonResponseMustReturnJsonRule
+        tags:
+            - phpstan.rules.rule

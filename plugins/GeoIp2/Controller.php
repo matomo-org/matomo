@@ -14,6 +14,7 @@ use Piwik\View;
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     private const DOWNLOAD_URL_OPTION_PREFIX = 'geoip2.download_url.';
+    private const INVALID_HTTP_METHOD_ERROR = 'Invalid HTTP method.';
 
     /**
      * Starts or continues download of DBIP-City.mmdb.
@@ -73,7 +74,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        return (string) json_encode(['error' => 'Invalid HTTP method.']);
+        return (string) json_encode(['error' => self::INVALID_HTTP_METHOD_ERROR]);
     }
 
     /**
@@ -117,7 +118,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        return (string) json_encode(['error' => 'Invalid HTTP method.']);
+        return (string) json_encode(['error' => self::INVALID_HTTP_METHOD_ERROR]);
     }
 
     /**
@@ -186,7 +187,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        return (string) json_encode(['error' => 'Invalid HTTP method.']);
+        return (string) json_encode(['error' => self::INVALID_HTTP_METHOD_ERROR]);
     }
 
     private function trackOrValidateConfiguredDownloadUrl(string $key, string $configuredUrl, int $isContinuation): void
