@@ -80,8 +80,9 @@ class Http
      * @param bool $checkHostIsAllowed whether we should check if the target host is allowed or not. This should only
      *                                 be set to false when using a hardcoded URL.
      * @param bool $validateEgressIp when true, serves the request over the SSRF-safe path: the resolved host must be a
-     *                               public IP, every redirect hop is re-validated and the connection pinned to it. Use
-     *                               this whenever the URL comes from untrusted input (e.g. a site's own configured URL).
+     *                               public IP (or covered by `[General] allowed_private_egress_ranges`), every redirect
+     *                               hop is re-validated and the connection pinned to it. Use this whenever the URL comes
+     *                               from untrusted input (e.g. a site's own configured URL).
      *                               Requires curl, bypasses any configured or environment proxy, retains the method and
      *                               body across hops, drops credentials and caller headers on an origin change, and does
      *                               not follow redirects when downloading to a file.
@@ -331,9 +332,8 @@ class Http
 
             // For a DNS host, pin the name to the validated IP so curl cannot re-resolve to
             // a different address. An IP literal (canonicalHost === pinnedIp) needs no pin.
-            // @todo PHP 8.1 min: strpos($pinnedIp, ':') !== false can become str_contains().
             if ($canonicalHost !== $pinnedIp) {
-                $pinnedAddress = strpos($pinnedIp, ':') !== false ? '[' . $pinnedIp . ']' : $pinnedIp;
+                $pinnedAddress = str_contains($pinnedIp, ':') ? '[' . $pinnedIp . ']' : $pinnedIp;
                 $pinnedResolveEntry = $canonicalHost . ':' . $effectivePort . ':' . $pinnedAddress;
             }
         }
@@ -1265,7 +1265,6 @@ class Http
      */
     private static function resolveRedirectUrl(string $baseUrl, string $location): string
     {
-        // @todo when PHP 8.1: the strpos(...) === 0 prefix checks below can become str_starts_with().
         if (preg_match('~^[a-z][a-z0-9+.-]*://~i', $location)) {
             return $location;
         }
@@ -1275,14 +1274,14 @@ class Http
             throw new Exception('Cannot resolve redirect target from base URL: ' . $baseUrl);
         }
 
-        if (strpos($location, '//') === 0) {
+        if (str_starts_with($location, '//')) {
             return $base['scheme'] . ':' . $location;
         }
 
         $authority = $base['scheme'] . '://' . $base['host']
             . (isset($base['port']) ? ':' . $base['port'] : '');
 
-        if (strpos($location, '/') === 0) {
+        if (str_starts_with($location, '/')) {
             return $authority . $location;
         }
 
@@ -1301,12 +1300,11 @@ class Http
      */
     private static function replaceUrlHost(array $parts, string $newHost): string
     {
-        // @todo PHP 8.1 min (Matomo 6): strpos($newHost, ':') !== false can become str_contains().
         $scheme = isset($parts['scheme']) ? $parts['scheme'] . '://' : '';
         $user = (string) ($parts['user'] ?? '');
         $pass = isset($parts['pass']) ? ':' . $parts['pass'] : '';
         $auth = $user !== '' ? $user . $pass . '@' : '';
-        $hostPart = strpos($newHost, ':') !== false ? '[' . $newHost . ']' : $newHost;
+        $hostPart = str_contains($newHost, ':') ? '[' . $newHost . ']' : $newHost;
         $port = isset($parts['port']) ? ':' . $parts['port'] : '';
         $path = (string) ($parts['path'] ?? '');
         $query = isset($parts['query']) ? '?' . $parts['query'] : '';

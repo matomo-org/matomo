@@ -355,27 +355,15 @@ class SiteContentDetector
         $siteData = [];
 
         try {
-            // @todo PHP 8.1 min (Matomo 6): use named arguments to drop the positional null/false filler.
             $siteData = Http::sendHttpRequestBy(
                 'curl',
                 $url,
                 $timeOut,
-                null,
-                null,
-                null,
-                0,
-                false,
-                true, // $acceptInvalidSslCertificate: detected sites may use self-signed certs
-                false,
-                true, // $getExtendedInfo
-                'GET',
-                null,
-                null,
-                null,
-                [],
-                null,
-                true, // $checkHostIsAllowed
-                true // $validateEgressIp: SSRF-safe fetch of the site's own (user-set) URL
+                // detected sites may use self-signed certs
+                acceptInvalidSslCertificate: true,
+                getExtendedInfo: true,
+                // SSRF-safe fetch of the site's own (user-set) URL
+                validateEgressIp: true
             );
         } catch (\Exception $e) {
             // intentionally fail closed, but leave a diagnostic trail
