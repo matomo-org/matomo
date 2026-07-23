@@ -6,12 +6,15 @@
  */
 
 import { mount } from '@vue/test-utils';
+import ucfirst from '../../../../CoreHome/vue/src/ucfirst';
 
 // The card mounts the real SegmentComparisonRow -> MetricValue + Sparkline chain and derives its
 // data-graph-params via MatomoUrl.parse. CoreHome is a cross-plugin import the vitest config aliases
-// to its source, so mock everything that chain pulls from it.
+// to its source, so mock everything that chain pulls from it. ucfirst is a dependency-free helper,
+// so hand the real implementation to the mock (Vitest hoists an import referenced in the factory).
 vi.mock('CoreHome', () => ({
   Tooltips: {},
+  ucfirst,
   Sparkline: {
     name: 'Sparkline',
     props: ['params', 'seriesIndices', 'width', 'height'],
@@ -72,6 +75,29 @@ describe('CoreVisualizations/SegmentComparisonCard', () => {
     expect(wrapper.find('.sparklineSegmentComparisonCard__title').text()).toBe('Visits');
     // The rows use MetricValue with no title, so the metric name is not repeated.
     expect(wrapper.findAll('.metricValue__title').length).toBe(0);
+  });
+
+  it('capitalizes the first letter of the metric title', () => {
+    const wrapper = createWrapper({
+      segments: [{
+        url: '?module=API&action=get&columns=nb_plays',
+        metrics: {
+          'Jan 12 - 17, 2012': [
+            {
+              value: 1234, description: 'plays', title: 'plays', column: 'nb_plays',
+            },
+          ],
+        },
+        metricsOrder: ['Jan 12 - 17, 2012'],
+        order: 0,
+        title: 'All visits',
+        group: '0',
+        seriesIndices: [0],
+        graphParams: null,
+      }],
+    });
+
+    expect(wrapper.find('.sparklineSegmentComparisonCard__title').text()).toBe('Plays');
   });
 
   it('is the single .sparkline click-to-evolution link, carrying the metric graph params', () => {

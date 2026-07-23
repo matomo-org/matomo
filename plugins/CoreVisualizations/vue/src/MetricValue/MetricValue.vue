@@ -8,12 +8,12 @@
 <template>
   <div class="metricValue">
     <div
-      v-if="title"
+      v-if="displayTitle"
       class="metricValue__title"
       :class="{ 'metricValue__title--documented': !!documentation }"
-      :title="documentation || title"
+      :title="documentation || displayTitle"
       v-tooltips="{ duration: 200, delay: 200 }"
-    >{{ title }}</div>
+    >{{ displayTitle }}</div>
     <div class="metricValue__primary">
       <span
         class="metricValue__number"
@@ -28,16 +28,16 @@
     >
       <span class="metricValue__secondaryValue">{{ displaySecondaryValue }}</span>
       <span
-        v-if="secondaryLabel"
+        v-if="displaySecondaryLabel"
         class="metricValue__secondaryLabel"
-      >{{ secondaryLabel }}</span>
+      >{{ displaySecondaryLabel }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { NumberFormatter, Tooltips } from 'CoreHome';
+import { NumberFormatter, Tooltips, ucfirst } from 'CoreHome';
 
 export default defineComponent({
   name: 'MetricValue',
@@ -67,11 +67,17 @@ export default defineComponent({
     documentation: String,
   },
   computed: {
+    displayTitle(): string {
+      return ucfirst(this.title);
+    },
     displayValue(): string | number | undefined {
       return this.formatValue(this.value);
     },
     displaySecondaryValue(): string | number | undefined {
       return this.formatValue(this.secondaryValue);
+    },
+    displaySecondaryLabel(): string {
+      return this.stripValuePlaceholder(this.secondaryLabel);
     },
     hasSecondary(): boolean {
       return this.secondaryValue !== undefined
@@ -83,6 +89,16 @@ export default defineComponent({
     // Locale-format raw numbers (plain metrics); leave already-formatted strings untouched.
     formatValue(value?: string | number): string | number | undefined {
       return typeof value === 'number' ? NumberFormatter.formatNumber(value, 2) : value;
+    },
+    // Remove any printf `%s` value placeholder and tidy whitespace. Some sparkline secondary labels
+    // embed `%s` (e.g. "%s of visits", "by %s unique visitors") — a legacy sprintf convention. The
+    // redesigned card renders the value separately, so the placeholder is dropped, not filled.
+    stripValuePlaceholder(label?: string): string {
+      if (!label) {
+        return '';
+      }
+
+      return label.replace(/%s/g, '').replace(/\s+/g, ' ').trim();
     },
   },
 });

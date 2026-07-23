@@ -6,11 +6,14 @@
  */
 
 import { mount } from '@vue/test-utils';
+import ucfirst from '../../../../CoreHome/vue/src/ucfirst';
 
 // The row mounts the real MetricValue (Tooltips directive, NumberFormatter) and the reused
 // Sparkline. CoreHome is a cross-plugin import the vitest config aliases to its source, so mock it here.
 vi.mock('CoreHome', () => ({
   Tooltips: {},
+  // ucfirst is a dependency-free helper MetricValue uses; hand the mock its real implementation.
+  ucfirst,
   Sparkline: {
     name: 'Sparkline',
     props: ['params', 'seriesIndices', 'width', 'height'],

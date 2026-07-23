@@ -6,12 +6,16 @@
  */
 
 import { mount } from '@vue/test-utils';
+import ucfirst from '../../../../CoreHome/vue/src/ucfirst';
 
 // CoreHome is a package-style cross-plugin import; the vitest config aliases it to its source
 // entry point, so mock it here. Tooltips is the directive the real MetricValue registers, and
 // NumberFormatter formats numbers. The sparkline itself is rendered by the shell, not this body.
+// ucfirst is a dependency-free helper, so hand the real implementation to the mock (Vitest hoists
+// an import referenced in the factory).
 vi.mock('CoreHome', () => ({
   Tooltips: {},
+  ucfirst,
   NumberFormatter: {
     formatNumber: (value: number) => String(value),
   },
@@ -57,6 +61,18 @@ describe('CoreVisualizations/DateComparison', () => {
     const wrapper = createWrapper();
 
     expect(wrapper.find('.sparklineDateComparison__title').text()).toBe('Visits');
+  });
+
+  it('capitalizes the first letter of the metric title', () => {
+    const wrapper = createWrapper({
+      metrics: {
+        'Monday, May 4, 2026': [{ value: '1,234', description: 'plays', title: 'plays' }],
+      },
+      metricsOrder: ['Monday, May 4, 2026'],
+      seriesIndices: [0],
+    });
+
+    expect(wrapper.find('.sparklineDateComparison__title').text()).toBe('Plays');
   });
 
   it('exposes the full title as a title attribute so a clipped metric name stays recoverable', () => {

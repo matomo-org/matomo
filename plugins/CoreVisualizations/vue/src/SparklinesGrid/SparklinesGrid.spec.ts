@@ -7,13 +7,17 @@
 
 import { flushPromises, mount } from '@vue/test-utils';
 import type { Mock } from 'vitest';
+import ucfirst from '../../../../CoreHome/vue/src/ucfirst';
 
 // The grid mounts the real SparklineCard -> NoComparison -> MetricValue chain, so the mock
 // provides everything that chain pulls from CoreHome: the Tooltips directive (MetricValue),
+// ucfirst (the title helper MetricValue/DateComparison/SegmentComparisonCard use),
 // MatomoUrl (SparklineCard derives graph-params from the url) and NumberFormatter
 // (NoComparison formats raw numeric metric values). CoreHome is aliased to its source by config.
 vi.mock('CoreHome', () => ({
   Tooltips: {},
+  // ucfirst is dependency-free, so hand the mock its real implementation.
+  ucfirst,
   Sparkline: { template: '<img class="sparkline-stub" />' },
   // SparklineCard calls MatomoUrl.parse to derive data-graph-params, but no test here
   // asserts on it and the fixture urls carry no columns/rows/idGoal, so an empty object

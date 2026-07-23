@@ -6,11 +6,14 @@
  */
 
 import { mount } from '@vue/test-utils';
+import ucfirst from '../../../../CoreHome/vue/src/ucfirst';
 
 // The shell renders the real NoComparison body, which mounts the real MetricValue (Tooltips
 // directive) and the Sparkline. CoreHome is aliased to its source by the vitest config, so mock it.
 vi.mock('CoreHome', () => ({
   Tooltips: {},
+  // ucfirst is a dependency-free helper MetricValue/DateComparison use; hand over the real one.
+  ucfirst,
   Sparkline: {
     name: 'Sparkline',
     props: ['params', 'seriesIndices', 'width', 'height'],

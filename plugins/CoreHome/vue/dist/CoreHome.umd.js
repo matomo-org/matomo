@@ -2129,6 +2129,15 @@ var __async = (__this, __arguments, generator) => {
     }
     return JSON.parse(JSON.stringify(p));
   }
+  /*!
+   * Matomo - free/libre analytics platform
+   *
+   * @link    https://matomo.org
+   * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+   */
+  function ucfirst(text) {
+    return text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
+  }
   const _sfc_main$M = vue.defineComponent({
     props: {
       html: String
@@ -12996,6 +13005,7 @@ var __async = (__this, __arguments, generator) => {
   exports2.todayIsInRange = todayIsInRange;
   exports2.translate = translate;
   exports2.translateOrDefault = translateOrDefault;
+  exports2.ucfirst = ucfirst;
   exports2.useExternalPluginComponent = useExternalPluginComponent;
   Object.defineProperty(exports2, Symbol.toStringTag, { value: "Module" });
 }));

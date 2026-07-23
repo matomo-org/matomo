@@ -6,12 +6,15 @@
  */
 
 import { mount } from '@vue/test-utils';
+import ucfirst from '../../../../CoreHome/vue/src/ucfirst';
 
 // CoreHome is a package-style cross-plugin import; the vitest config aliases it to its source
 // entry point, so mock it here. Tooltips is the (no-op here) directive used by the real MetricValue
 // this component mounts. The sparkline itself is rendered by the shell, not this body.
 vi.mock('CoreHome', () => ({
   Tooltips: {},
+  // ucfirst is a dependency-free helper; hand the mock its real implementation.
+  ucfirst,
 }));
 
 import NoComparison from './NoComparison.vue';

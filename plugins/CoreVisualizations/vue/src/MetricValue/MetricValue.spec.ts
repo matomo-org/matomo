@@ -6,12 +6,16 @@
  */
 
 import { mount } from '@vue/test-utils';
+import ucfirst from '../../../../CoreHome/vue/src/ucfirst';
 
 // CoreHome is a package-style cross-plugin import; the vitest config aliases it to its source
 // entry point, so mock it here. Tooltips is a (no-op here) directive; NumberFormatter formats raw
-// numeric values (the mock echoes value + precision so tests can assert both).
+// numeric values (the mock echoes value + precision so tests can assert both). ucfirst is a
+// dependency-free helper, so hand the real implementation to the mock rather than reimplement it
+// (Vitest hoists an import referenced inside the factory).
 vi.mock('CoreHome', () => ({
   Tooltips: {},
+  ucfirst,
   NumberFormatter: {
     formatNumber: (value: number, precision: number) => `${value}#${precision}`,
   },
@@ -133,6 +137,54 @@ describe('CoreVisualizations/MetricValue', () => {
 
     expect(wrapper.find('.metricValue__title').exists()).toBe(false);
     expect(wrapper.find('.metricValue__number').text()).toBe('10,558');
+  });
+
+  it('capitalizes the first letter of a lowercase title', () => {
+    const wrapper = mount(MetricValue as any, {
+      props: {
+        title: 'plays',
+        value: '1,234',
+      },
+    });
+
+    expect(wrapper.find('.metricValue__title').text()).toBe('Plays');
+  });
+
+  it('strips the %s value placeholder from the secondary label', () => {
+    const wrapper = mount(MetricValue as any, {
+      props: {
+        title: 'Direct Entry',
+        value: '4,242',
+        secondaryValue: '12%',
+        secondaryLabel: '%s of visits',
+      },
+    });
+
+    expect(wrapper.find('.metricValue__secondaryLabel').text()).toBe('of visits');
+  });
+
+  it('strips a mid-string %s placeholder and collapses the surrounding whitespace', () => {
+    const wrapper = mount(MetricValue as any, {
+      props: {
+        title: 'Plays',
+        value: '1,234',
+        secondaryValue: '567',
+        secondaryLabel: 'by %s unique visitors',
+      },
+    });
+
+    expect(wrapper.find('.metricValue__secondaryLabel').text()).toBe('by unique visitors');
+  });
+
+  it('leaves a placeholder-free title unchanged', () => {
+    const wrapper = mount(MetricValue as any, {
+      props: {
+        title: 'Conversions',
+        value: '190',
+      },
+    });
+
+    expect(wrapper.find('.metricValue__title').text()).toBe('Conversions');
   });
 
   it('renders content passed to the evolution slot next to the value', () => {

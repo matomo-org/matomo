@@ -6,11 +6,14 @@
  */
 
 import { mount } from '@vue/test-utils';
+import ucfirst from '../../../../CoreHome/vue/src/ucfirst';
 
 // PeriodColumns mounts the real MetricValue (Tooltips directive) + DateAtom + EvolutionBadge chain.
 // CoreHome is a cross-plugin import the vitest config aliases to its source, so mock what it pulls in.
 vi.mock('CoreHome', () => ({
   Tooltips: {},
+  // ucfirst is a dependency-free helper MetricValue uses; hand the mock its real implementation.
+  ucfirst,
   NumberFormatter: {
     formatNumber: (value: number) => String(value),
   },

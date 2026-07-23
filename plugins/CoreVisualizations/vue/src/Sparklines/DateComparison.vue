@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
+import { ucfirst } from 'CoreHome';
 import PeriodColumns from './PeriodColumns.vue';
 import { SparklineEntry } from './types';
 
@@ -45,7 +46,7 @@ export default defineComponent({
       const metrics = props.sparkline.metrics || {};
       const firstLabel = (props.sparkline.metricsOrder || [])[0] ?? Object.keys(metrics)[0];
       const primary = firstLabel !== undefined ? metrics[firstLabel]?.[0] : undefined;
-      return primary?.title || primary?.description || '';
+      return ucfirst(primary?.title || primary?.description);
     });
 
     return {

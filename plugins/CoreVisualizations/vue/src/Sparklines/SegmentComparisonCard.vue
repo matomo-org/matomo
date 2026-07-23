@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
-import { Tooltips } from 'CoreHome';
+import { Tooltips, ucfirst } from 'CoreHome';
 import SegmentComparisonRow from './SegmentComparisonRow.vue';
 import { sparklineGraphParamsAttr } from './sparklineDataAttrs';
 import { SparklineEntry, SparklineMetric } from './types';
@@ -77,9 +77,10 @@ export default defineComponent({
       const label = (first?.metricsOrder || [])[0] ?? Object.keys(metrics)[0];
       return label !== undefined ? metrics[label]?.[0] : undefined;
     });
-    const metricTitle = computed(
-      () => primaryMetric.value?.title || primaryMetric.value?.description || '',
-    );
+    const metricTitle = computed(() => {
+      const label = primaryMetric.value?.title || primaryMetric.value?.description;
+      return ucfirst(label);
+    });
     const documentation = computed(
       () => props.allMetricsDocumentation[primaryMetric.value?.column ?? ''] || undefined,
     );
