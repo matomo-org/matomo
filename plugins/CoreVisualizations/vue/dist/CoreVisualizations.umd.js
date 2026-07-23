@@ -1449,10 +1449,9 @@ var __spreadValues = (a, b) => {
       );
       const gridClasses = vue.computed(() => ({
         sparklinesGrid: true,
-        "sparklinesGrid--wide": !props.isWidget && isWideLayout.value,
+        "sparklinesGrid--wide": isWideLayout.value,
         "sparklinesGrid--framed": props.isWidget,
-        "sparklinesGrid--compact": props.isWidget && !isWideLayout.value,
-        "sparklinesGrid--oneColumn": props.isWidget && isWideLayout.value
+        "sparklinesGrid--compact": props.isWidget && !isWideLayout.value
       }));
       vue.onMounted(() => {
         vue.nextTick(() => {

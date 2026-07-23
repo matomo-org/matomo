@@ -221,7 +221,7 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     expect(wrapper.findComponent({ name: 'DateComparison' }).exists()).toBe(true);
   });
 
-  it('uses a framed, single-column grid for date comparison in widget mode', () => {
+  it('uses a framed, wider fluid grid for date comparison in widget mode', () => {
     const wrapper = createWrapper({
       sparklines: { 0: [comparisonEntry()] },
       comparisonMode: 'date',
@@ -230,7 +230,8 @@ describe('CoreVisualizations/SparklinesGrid', () => {
     const grid = wrapper.find('.sparklinesGrid');
 
     expect(grid.classes()).toContain('sparklinesGrid--framed');
-    expect(grid.classes()).toContain('sparklinesGrid--oneColumn');
+    expect(grid.classes()).toContain('sparklinesGrid--wide');
+    expect(grid.classes()).not.toContain('sparklinesGrid--compact');
   });
 
   it('renders one SegmentComparisonCard per metric group in segment mode', () => {

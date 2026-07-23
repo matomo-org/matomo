@@ -119,16 +119,15 @@ export default defineComponent({
       () => props.comparisonMode === 'date' || props.comparisonMode === 'segmentDate',
     );
 
-    // Container classes drive the CSS grid (see the .less). Both reporting pages and no-comparison
-    // widgets reflow fluidly via auto-fill — a widget just uses a denser minimum (--compact) so a
-    // narrow widget collapses to one column. --framed adds the widget frame and is layered on top of
-    // the column modifier; the wide comparison layouts stay a single column (--oneColumn) in a widget.
+    // Container classes drive the CSS grid (see the .less). Every layout reflows via auto-fill.
+    // Standard cards use --compact (a denser 200px minimum) in a widget; the wide comparison
+    // layouts (date / segment+date) use --wide (350px) on reporting pages and widgets alike.
+    // --framed layers the widget frame (tighter gutter, even padding) over the column modifier.
     const gridClasses = computed(() => ({
       sparklinesGrid: true,
-      'sparklinesGrid--wide': !props.isWidget && isWideLayout.value,
+      'sparklinesGrid--wide': isWideLayout.value,
       'sparklinesGrid--framed': props.isWidget,
       'sparklinesGrid--compact': props.isWidget && !isWideLayout.value,
-      'sparklinesGrid--oneColumn': props.isWidget && isWideLayout.value,
     }));
 
     onMounted(() => {

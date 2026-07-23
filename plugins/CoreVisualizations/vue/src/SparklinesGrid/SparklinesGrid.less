@@ -30,8 +30,10 @@
 }
 
 // Date / segment+date cards are wider (value columns + full-width sparkline), so fewer per row.
+// Used on reporting pages and — combined with --framed — in dashboard widgets; a narrow widget
+// still collapses to one column via the min(350px, 100%) floor.
 .sparklinesGrid--wide {
-  @_card-min-width-wide: 400px; // date / segment+date cards — wider than the 320px standard card
+  @_card-min-width-wide: 350px; // date / segment+date cards — wider than the 320px standard card
 
   grid-template-columns: ~"repeat(auto-fill, minmax(min(@{_card-min-width-wide}, 100%), 1fr))";
 }
@@ -52,10 +54,6 @@
   @_widget-card-min-width: 200px;
 
   grid-template-columns: ~"repeat(auto-fill, minmax(min(@{_widget-card-min-width}, 100%), 1fr))";
-}
-
-.sparklinesGrid--oneColumn {
-  grid-template-columns: 1fr;
 }
 
 // override: the reused card carries the legacy `.sparkline` class (a JS contract for
