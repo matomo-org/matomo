@@ -24,6 +24,25 @@ class JsonResponseOverrideMustRedeclareRuleTest extends RuleTestCase
         return new JsonResponseOverrideMustRedeclareRule();
     }
 
+    public function testOnlyNearestAncestorDeclarationDecides(): void
+    {
+        // Grandparent has the attribute; Intermediate overrides without it (converts to HTML), so
+        // Intermediate must re-declare, but Grandchild's nearest ancestor (Intermediate) is not JSON,
+        // so Grandchild must NOT be flagged.
+        $this->analyse([
+            __DIR__ . '/data/JsonResponseGrandparentController.php',
+            __DIR__ . '/data/JsonResponseIntermediateController.php',
+            __DIR__ . '/data/JsonResponseGrandchildController.php',
+        ], [
+            [
+                'Controller action foo() overrides an action marked #[\Piwik\Http\JsonResponse] but'
+                . ' does not re-declare the attribute. PHP does not inherit method attributes, so'
+                . ' the override must repeat #[\Piwik\Http\JsonResponse] to keep serving JSON.',
+                15,
+            ],
+        ]);
+    }
+
     public function testRule(): void
     {
         $this->analyse([

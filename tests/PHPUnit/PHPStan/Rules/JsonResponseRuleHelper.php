@@ -27,7 +27,6 @@ use PhpParser\Node\Stmt\Echo_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\ClassReflection;
 
 /**
  * Shared helpers for the #[JsonResponse] PHPStan rules.
@@ -89,6 +88,11 @@ final class JsonResponseRuleHelper
      * inherit method attributes and FrontController only honours the attribute declared directly on
      * the dispatched method, so an override of a JSON action must re-declare the attribute; this lets
      * a rule flag an override that forgot to.
+     *
+     * The decision uses the nearest ancestor declaration only: getNativeMethod() resolves the parent's
+     * view of the method, so an intermediate ancestor that deliberately dropped the attribute (a JSON
+     * action re-converted to HTML down the chain) correctly wins over a further-up attributed one. A
+     * private parent method is not inherited, so only a public ancestor declaration counts.
      */
     public static function overridesAttributedAction(ClassMethod $method, Scope $scope): bool
     {
@@ -101,33 +105,23 @@ final class JsonResponseRuleHelper
         $methodName = $method->name->toString();
         $parent = $classReflection->getParentClass();
 
-        while ($parent !== null) {
-            if ($parent->hasNativeMethod($methodName) && self::parentDeclaresAttribute($parent, $methodName)) {
-                return true;
-            }
-
-            $parent = $parent->getParentClass();
-        }
-
-        return false;
-    }
-
-    private static function parentDeclaresAttribute(ClassReflection $parent, string $methodName): bool
-    {
-        // Native reflection is used deliberately: PHPStan 2.x exposes no API to read a method's PHP
-        // attributes, and it analyses one class at a time so the parent's AST is not available here.
-        // Any failure (e.g. a parent whose load-time dependencies error) degrades to "no attribute".
-        try {
-            $native = $parent->getNativeReflection()->getMethod($methodName);
-        } catch (\Throwable $e) {
+        if ($parent === null || !$parent->hasNativeMethod($methodName)) {
             return false;
         }
 
-        // only a public method that this class actually declares is an overridable JSON action
-        // (a private parent method is not inherited, so a same-named child method is not an override)
-        return $native->isPublic()
-            && $native->getDeclaringClass()->getName() === $parent->getName()
-            && count($native->getAttributes(self::ATTRIBUTE_CLASS)) > 0;
+        $parentMethod = $parent->getNativeMethod($methodName);
+
+        if (!$parentMethod->isPublic()) {
+            return false;
+        }
+
+        foreach ($parentMethod->getAttributes() as $attribute) {
+            if ($attribute->getName() === self::ATTRIBUTE_CLASS) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
