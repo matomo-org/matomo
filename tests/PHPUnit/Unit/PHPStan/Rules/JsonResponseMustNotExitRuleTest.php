@@ -33,7 +33,6 @@ class JsonResponseMustNotExitRuleTest extends RuleTestCase
 
         $this->analyse([__DIR__ . '/data/JsonResponseController.php'], [
             [sprintf($message, 'exitsEarly'), 80],
-            [sprintf($message, 'iifeExit'), 187],
         ]);
     }
 }

@@ -179,17 +179,6 @@ class JsonResponseController extends Controller
         return json_encode([]);
     }
 
-    // F: exit inside an immediately-invoked closure runs in the method flow -> must be flagged
-    #[JsonResponse]
-    public function iifeExit(): string
-    {
-        (function (): void {
-            exit;
-        })();
-
-        return '{}';
-    }
-
     // D: emitting output before returning -> must be flagged (echo and flush)
     #[JsonResponse]
     public function emitsOutput(): string

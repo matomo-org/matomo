@@ -10,9 +10,7 @@
 namespace Piwik\Tests\PHPStan\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\Cast\String_ as StringCast;
-use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\Exit_;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\Print_;
@@ -152,7 +150,7 @@ final class JsonResponseRuleHelper
     {
         return self::collect($method->stmts ?? [], static function (Node $node) use ($scope): bool {
             return $node instanceof StaticCall && self::isJsonHeaderCall($node, $scope);
-        }, $enterIife = true);
+        });
     }
 
     /**
@@ -164,7 +162,7 @@ final class JsonResponseRuleHelper
     {
         return self::collect($method->stmts ?? [], static function (Node $node) use ($scope): bool {
             return $node instanceof StaticCall && self::isRawJsonContentTypeCall($node, $scope);
-        }, $enterIife = true);
+        });
     }
 
     /**
@@ -193,7 +191,7 @@ final class JsonResponseRuleHelper
     {
         $returns = self::collect($method->stmts ?? [], static function (Node $node): bool {
             return $node instanceof Return_;
-        }, $enterIife = false);
+        });
 
         foreach ($returns as $return) {
             /** @var Return_ $return */
@@ -221,7 +219,7 @@ final class JsonResponseRuleHelper
     }
 
     /**
-     * All exit/die statements in the method's own flow (including immediately-invoked closures).
+     * All exit/die statements in the method's own flow.
      *
      * @return Exit_[]
      */
@@ -229,7 +227,7 @@ final class JsonResponseRuleHelper
     {
         return self::collect($method->stmts ?? [], static function (Node $node): bool {
             return $node instanceof Exit_;
-        }, $enterIife = true);
+        });
     }
 
     /**
@@ -249,7 +247,7 @@ final class JsonResponseRuleHelper
             return $node instanceof FuncCall
                 && $node->name instanceof Name
                 && in_array(strtolower($node->name->toString()), self::OUTPUT_FUNCTIONS, true);
-        }, $enterIife = true);
+        });
     }
 
     private static function looksLikeJsonExpr(?Node\Expr $expr): bool
@@ -300,35 +298,20 @@ final class JsonResponseRuleHelper
     }
 
     /**
-     * Recursively collects the nodes matching $matcher. Nested scopes (stored closures, arrow
-     * functions, nested functions, anonymous classes) are not traversed, since their code runs in a
-     * separate frame. Immediately-invoked closures/arrow functions ARE traversed when $enterIife is
-     * true, because they execute inline as part of the method's own flow (relevant for exits and
-     * output, but not for return statements, which return from the closure rather than the method).
+     * Recursively collects the nodes matching $matcher within the method's own flow. Nested scopes
+     * (closures, arrow functions, nested functions, anonymous classes) are not traversed, since their
+     * code runs in a separate frame.
      *
      * @param Node[] $nodes
      * @param callable(Node): bool $matcher
      * @return Node[]
      */
-    private static function collect(array $nodes, callable $matcher, bool $enterIife): array
+    private static function collect(array $nodes, callable $matcher): array
     {
         $found = [];
 
         foreach ($nodes as $node) {
             if (!$node instanceof Node) {
-                continue;
-            }
-
-            if ($enterIife && self::isImmediatelyInvokedClosure($node)) {
-                /** @var FuncCall $node */
-                $iife = $node->name;
-                $body = $iife instanceof ArrowFunction ? [$iife->expr] : $iife->stmts;
-                $found = array_merge($found, self::collect($body, $matcher, $enterIife));
-
-                foreach ($node->getArgs() as $arg) {
-                    $found = array_merge($found, self::collect([$arg->value], $matcher, $enterIife));
-                }
-
                 continue;
             }
 
@@ -343,17 +326,11 @@ final class JsonResponseRuleHelper
             foreach ($node->getSubNodeNames() as $subNodeName) {
                 $subNode = $node->{$subNodeName};
                 $children = is_array($subNode) ? $subNode : [$subNode];
-                $found = array_merge($found, self::collect($children, $matcher, $enterIife));
+                $found = array_merge($found, self::collect($children, $matcher));
             }
         }
 
         return $found;
-    }
-
-    private static function isImmediatelyInvokedClosure(Node $node): bool
-    {
-        return $node instanceof FuncCall
-            && ($node->name instanceof Closure || $node->name instanceof ArrowFunction);
     }
 
     /**

@@ -35,8 +35,8 @@ class JsonResponseMustNotEmitOutputRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/JsonResponseController.php'], [
             [sprintf($message, 'wrongReturnType'), 67],
             [sprintf($message, 'exitsEarly'), 79],
-            [sprintf($message, 'emitsOutput'), 197],
-            [sprintf($message, 'emitsOutput'), 198],
+            [sprintf($message, 'emitsOutput'), 186],
+            [sprintf($message, 'emitsOutput'), 187],
         ]);
     }
 }
