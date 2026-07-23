@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Widgetize\tests\Integration;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Plugins\Widgetize\Controller;
+use Piwik\Plugins\Widgetize\UrlTokenAuthFailedException;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -170,7 +171,9 @@ class ControllerTest extends IntegrationTestCase
         // simulate the state after FrontController failed to reload auth from token_auth: anonymous user
         FakeAccess::clearAccess(false, [], [], 'anonymous');
 
-        $this->expectException(\Exception::class);
+        // must be a 4xx HttpCodeException so the response is a client error, not a logged HTTP 500
+        $this->expectException(UrlTokenAuthFailedException::class);
+        $this->expectExceptionCode(401);
         $this->expectExceptionMessage('Widgetize_ErrorTokenAuthFailed');
 
         $this->invokeAssertUrlTokenAuthDidNotFail();
@@ -186,7 +189,8 @@ class ControllerTest extends IntegrationTestCase
         Config::getInstance()->General['only_allow_secure_auth_tokens'] = 1;
 
         try {
-            $this->expectException(\Exception::class);
+            $this->expectException(UrlTokenAuthFailedException::class);
+            $this->expectExceptionCode(401);
             $this->expectExceptionMessage('Widgetize_ErrorTokenAuthFailedDisabledByPolicy');
 
             $this->invokeAssertUrlTokenAuthDidNotFail();

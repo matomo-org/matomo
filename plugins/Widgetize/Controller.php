@@ -145,7 +145,7 @@ class Controller extends \Piwik\Plugin\Controller
             );
         }
 
-        $ex = new \Piwik\Exception\Exception($message);
+        $ex = new UrlTokenAuthFailedException($message);
         $ex->setIsHtmlMessage();
         throw $ex;
     }
