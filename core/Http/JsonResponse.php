@@ -20,16 +20,25 @@ use Attribute;
  * defaults to `text/html`) silently overwrites it again.
  *
  * Applying this attribute to an action tells the {@see \Piwik\FrontController} to (re-)send the JSON
- * header once the action has fully returned, immediately before the output is written. Because that
- * happens after anything the action itself does, the JSON `Content-Type` is guaranteed to win.
+ * header once the action has fully returned, immediately before the output is written, so it wins
+ * over anything the action did while building its response (such as a rendered `Piwik\View`).
  *
- * Actions carrying this attribute must therefore always return JSON (typically a `json_encode(...)`
- * string) and must not send the header themselves.
+ * For this to hold, an action carrying the attribute must:
+ *  - always return its JSON body as a string (typically `json_encode(...)`);
+ *  - not send the `Content-Type` header itself;
+ *  - not emit output (`echo`, `print`, `flush`) or `exit`/`die` before returning — doing so commits
+ *    the response headers first, and `Common::sendHeader()` cannot change a header once
+ *    `headers_sent()` is true, so the JSON `Content-Type` would be lost.
+ *
+ * The attribute is honoured only on the action declared directly on the dispatched controller and is
+ * not inherited: a subclass that overrides a JSON action must re-declare `#[JsonResponse]`.
+ *
+ * These requirements are enforced by dedicated PHPStan rules.
  *
  * Example:
  *
  *     #[JsonResponse]
- *     public function getData()
+ *     public function getData(): string
  *     {
  *         return json_encode($this->buildData());
  *     }
